@@ -52,4 +52,43 @@ add_action( 'wp_enqueue_scripts', 'abt_enqueue_styles');
 require('inc/shortcodes.php');
 
 
+// TEST
+
+
+// function reference_parser_meta_box() {
+
+// 	$screens = array( 'post', 'page' );
+
+// 	foreach ( $screens as $screen ) {
+
+// 		add_meta_box(
+// 			'reference_parser_meta_box_sectionid',
+// 			__( 'Formatted Reference Generator', 'myplugin_textdomain' ),
+// 			'myplugin_meta_box_callback',
+// 			$screen, 'normal', 'high'
+// 		);
+// 	}
+// }
+// add_action( 'add_meta_boxes', 'reference_parser_meta_box' );
+
+// function myplugin_meta_box_callback( $post ) {
+
+	
+// 	 * Use get_post_meta() to retrieve an existing value
+// 	 * from the database and use the value for the form.
+	 
+	
+
+// 	echo '
+// 	<form method="post" name="ref_id_form" action="">
+// 		<input type="hidden" name="ref_id_form_submitted" value="Y">
+// 		<label for="ref_id">Insert DOI/PMID/PMCID</label>
+// 		<input name="ref_id" id="ref_id" type="text" value="" class="regular-text" />
+// 		<input class="button-primary" type="submit" name="ref_id_submit" value="Submit">
+// 	</form>';
+// 	echo '<p>' . $abt_ref_id . '</p>';
+
+// }
+
+
 ?>

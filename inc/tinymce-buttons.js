@@ -12,9 +12,11 @@
 //     });
 // })();
 
+// In-text citation button function
+
 (function() {
-    tinymce.PluginManager.add('custom_mce_button', function(editor, url) {
-        editor.addButton('custom_mce_button', {
+    tinymce.PluginManager.add('abt_inline_citation_mce_button', function(editor, url) {
+        editor.addButton('abt_inline_citation_mce_button', {
             image: url+'/quotation_icon.png',
             title: 'Add Inline Citation',
             onclick: function() {
