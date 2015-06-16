@@ -50,3 +50,36 @@
         });
     });
 })();
+
+
+// Reference ID Parser Button Function
+
+(function() {
+    tinymce.PluginManager.add('abt_ref_id_parser_mce_button', function(editor, url) {
+        editor.addButton('abt_ref_id_parser_mce_button', {
+            image: url+'/book.png',
+            title: 'Insert Formatted Reference',
+            onclick: function() {
+                editor.windowManager.open({
+                    title: 'Insert Formatted Reference',
+                    body: [{
+                        type: 'textbox',
+                        name: 'ref_id_number',
+                        label: 'PMID/PMCID/DOI',
+                        value: ''
+                    }, {
+                        type: 'label',
+                        text: 'Note: DOI method rarely works. Use PMID/PMCID whenever possible.',
+
+                    }, ],
+                    onsubmit: function(e) {
+                        
+                        editor.insertContent(
+                            '[ref id=&quot;' + e.data.ref_id_number + '&quot;]'
+                            );
+                    }
+                });
+            }
+        });
+    });
+})();

@@ -35,40 +35,79 @@ function ref_id_parser ( $atts ) {
 			'style' => '',
 		), $atts);
 	
+	// Prepare URL to convert input ID to PMID
 	$abt_get_url = 'http://www.ncbi.nlm.nih.gov/pmc/utils/idconv/v1.0/?tool=my_tool&email=my_email%40example.com&ids=' . esc_attr($a['id']) . '&format=json';	
 
+	// Call API and obtain PMID
 	$response = wp_remote_get( $abt_get_url );
 	$tidy_json = json_decode( $response['body'] );
-	$ref_ids = ['pmcid', 'pmid', 'doi'];
-	// $inputs = array();
+	$pmid = $tidy_json->{'records'}[0]->{'pmid'};
 
-	// for ($i=0; $i < 3; $i++) { 
-	// 	array_push($inputs, $tidy_json->{'records'}[0]->{$ref_ids[$i]})
-	// }
-
-	// return $inputs;
-
-	if ( esc_attr($a['id']) == $tidy_json->{'records'}[0]->{$ref_ids[0]} ) {
+	if ( $pmid == '' ) {
 	
-		print ('pmcid');
+		return '<strong style="color: red; font-size: 0.8em;">Unable to locate identifier for this reference. To avoid this error, please try again with the PMID.</strong>';
 	
 	}
+	
+	// Use PMID collected from previous step in an API GET call to Pubmed E-utils
+	$abt_get_url = 'http://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi?db=pubmed&id=' . $pmid . '&version=2.0&retmode=json';
+	$response = wp_remote_get( $abt_get_url );
+	$tidy_json = json_decode( $response['body'] );
 
-	if ( esc_attr($a['id']) == $tidy_json->{'records'}[0]->{$ref_ids[1]} ) {
+	// Prepare empty variables
+
+	$abt_authors = '';
+	$abt_title = $tidy_json->{'result'}->{$pmid}->{'title'};
+	$abt_journal_name = $tidy_json->{'result'}->{$pmid}->{'source'};
+	$abt_pub_year = substr($tidy_json->{'result'}->{$pmid}->{'pubdate'}, 0, 4);
+	$abt_volume = $tidy_json->{'result'}->{$pmid}->{'volume'};
+	$abt_issue = $tidy_json->{'result'}->{$pmid}->{'issue'};
+	$abt_pages = $tidy_json->{'result'}->{$pmid}->{'pages'};
+
+	// Take formatted JSON and parse it into formatted citations
+
+	// American Medical Association (AMA) Format
+
+	if ( count($tidy_json->{'result'}->{$pmid}->{'authors'}) == 1 ) {
 	
-		print ('pmid');
+		$abt_authors = $tidy_json->{'result'}->{$pmid}->{'authors'}[0]->{'name'};
 	
+	} elseif ( count($tidy_json->{'result'}->{$pmid}->{'authors'}) > 1 && count($tidy_json->{'result'}->{$pmid}->{'authors'}) < 7 ) {
+		
+		for ( $i=0; $i < count($tidy_json->{'result'}->{$pmid}->{'authors'}) - 1; $i++ ) { 
+			
+			$abt_authors = $abt_authors . $tidy_json->{'result'}->{$pmid}->{'authors'}[$i]->{'name'} . ', ';
+
+		}
+
+		$abt_authors = $abt_authors . end($tidy_json->{'result'}->{$pmid}->{'authors'})->{'name'} . '.';
+
+	} else {
+
+		for ( $i=0; $i < 3; $i++ ) { 
+			
+			$abt_authors = $abt_authors . $tidy_json->{'result'}->{$pmid}->{'authors'}[$i]->{'name'} . ', ';
+
+		}
+
+		$abt_authors = $abt_authors . 'et al.';
+
 	}
 
-	if ( esc_attr($a['id']) == $tidy_json->{'records'}[0]->{$ref_ids[2]} ) {
+	if ( $abt_volume == "" ) {
 	
-		print ('doi');
+		return( $abt_authors . ' ' . $abt_title . ' <em>' . $abt_journal_name . '.</em> ' . $abt_pub_year . '.' );
 	
-	}
+	} elseif ( $abt_issue == '' || is_null($abt_issue) ) {
+	
+		return( $abt_authors . ' ' . $abt_title . ' <em>' . $abt_journal_name . '.</em> ' . $abt_pub_year . '; ' . $abt_volume . ': ' . $abt_pages . '.' );
+	
+	} else {
 
-	// return $tidy_json->{'records'}[0]->{'doi'};
-	// return $tidy_json->{'records'}[0]->{'doi'};
-	// return '<p>' . $tidy_json->$records[0].pmcid . ' aaa</p>';
+		return( $abt_authors . ' ' . $abt_title . ' <em>' . $abt_journal_name . '.</em> ' . $abt_pub_year . '; ' . $abt_volume . '(' . $abt_issue . '): ' . $abt_pages . '.' );
+
+	}
+	
 }
 add_shortcode( 'ref', 'ref_id_parser' );
 
@@ -83,7 +122,7 @@ add_shortcode( 'ref', 'ref_id_parser' );
 */
 
 // Filter Functions with Hooks
-function abt_inline_citation_mce_button() {
+function abt_custom_mce_buttons() {
   // Check if user have permission
   if ( !current_user_can( 'edit_posts' ) && !current_user_can( 'edit_pages' ) ) {
     return;
@@ -94,16 +133,18 @@ function abt_inline_citation_mce_button() {
     add_filter( 'mce_buttons', 'register_mce_button' );
   }
 }
-add_action('admin_head', 'abt_inline_citation_mce_button');
+add_action( 'admin_head', 'abt_custom_mce_buttons' );
 
 // Function for new button
 function custom_tinymce_plugin( $plugin_array ) {
   $plugin_array['abt_inline_citation_mce_button'] = plugins_url('academic-bloggers-toolkit/inc/tinymce-buttons.js');
+  $plugin_array['abt_ref_id_parser_mce_button'] = plugins_url('academic-bloggers-toolkit/inc/tinymce-buttons.js');
   return $plugin_array;
 }
 
 // Register new button in the editor
 function register_mce_button( $buttons ) {
   array_push( $buttons, 'abt_inline_citation_mce_button' );
+  array_push( $buttons, 'abt_ref_id_parser_mce_button');
   return $buttons;
 }
