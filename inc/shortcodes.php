@@ -68,83 +68,45 @@ function ref_id_parser ( $atts ) {
 
 	// American Medical Association (AMA) Format
 
-	if ( count($tidy_json->{'result'}->{$pmid}->{'authors'}) == 1 ) {
-	
-		$abt_authors = $tidy_json->{'result'}->{$pmid}->{'authors'}[0]->{'name'};
-	
-	} elseif ( count($tidy_json->{'result'}->{$pmid}->{'authors'}) > 1 && count($tidy_json->{'result'}->{$pmid}->{'authors'}) < 7 ) {
+		if ( count($tidy_json->{'result'}->{$pmid}->{'authors'}) == 1 ) {
 		
-		for ( $i=0; $i < count($tidy_json->{'result'}->{$pmid}->{'authors'}) - 1; $i++ ) { 
+			$abt_authors = $tidy_json->{'result'}->{$pmid}->{'authors'}[0]->{'name'};
+		
+		} elseif ( count($tidy_json->{'result'}->{$pmid}->{'authors'}) > 1 && count($tidy_json->{'result'}->{$pmid}->{'authors'}) < 7 ) {
 			
-			$abt_authors = $abt_authors . $tidy_json->{'result'}->{$pmid}->{'authors'}[$i]->{'name'} . ', ';
+			for ( $i=0; $i < count($tidy_json->{'result'}->{$pmid}->{'authors'}) - 1; $i++ ) { 
+				
+				$abt_authors = $abt_authors . $tidy_json->{'result'}->{$pmid}->{'authors'}[$i]->{'name'} . ', ';
+
+			}
+
+			$abt_authors = $abt_authors . end($tidy_json->{'result'}->{$pmid}->{'authors'})->{'name'} . '.';
+
+		} else {
+
+			for ( $i=0; $i < 3; $i++ ) { 
+				
+				$abt_authors = $abt_authors . $tidy_json->{'result'}->{$pmid}->{'authors'}[$i]->{'name'} . ', ';
+
+			}
+
+			$abt_authors = $abt_authors . 'et al.';
 
 		}
 
-		$abt_authors = $abt_authors . end($tidy_json->{'result'}->{$pmid}->{'authors'})->{'name'} . '.';
+		if ( $abt_volume == "" ) {
+		
+			return( $abt_authors . ' ' . $abt_title . ' <em>' . $abt_journal_name . '.</em> ' . $abt_pub_year . '.' );
+		
+		} elseif ( $abt_issue == '' || is_null($abt_issue) ) {
+		
+			return( $abt_authors . ' ' . $abt_title . ' <em>' . $abt_journal_name . '.</em> ' . $abt_pub_year . '; ' . $abt_volume . ': ' . $abt_pages . '.' );
+		
+		} else {
 
-	} else {
-
-		for ( $i=0; $i < 3; $i++ ) { 
-			
-			$abt_authors = $abt_authors . $tidy_json->{'result'}->{$pmid}->{'authors'}[$i]->{'name'} . ', ';
+			return( $abt_authors . ' ' . $abt_title . ' <em>' . $abt_journal_name . '.</em> ' . $abt_pub_year . '; ' . $abt_volume . '(' . $abt_issue . '): ' . $abt_pages . '.' );
 
 		}
-
-		$abt_authors = $abt_authors . 'et al.';
-
-	}
-
-	if ( $abt_volume == "" ) {
-	
-		return( $abt_authors . ' ' . $abt_title . ' <em>' . $abt_journal_name . '.</em> ' . $abt_pub_year . '.' );
-	
-	} elseif ( $abt_issue == '' || is_null($abt_issue) ) {
-	
-		return( $abt_authors . ' ' . $abt_title . ' <em>' . $abt_journal_name . '.</em> ' . $abt_pub_year . '; ' . $abt_volume . ': ' . $abt_pages . '.' );
-	
-	} else {
-
-		return( $abt_authors . ' ' . $abt_title . ' <em>' . $abt_journal_name . '.</em> ' . $abt_pub_year . '; ' . $abt_volume . '(' . $abt_issue . '): ' . $abt_pages . '.' );
-
-	}
 	
 }
 add_shortcode( 'ref', 'ref_id_parser' );
-
-
-// TODO:
-
-
-/*
- * * * * * * * * * * * * * * *
- *	Custom TinyMCE Buttons * *
- * * * * * * * * * * * * * * *
-*/
-
-// Filter Functions with Hooks
-function abt_custom_mce_buttons() {
-  // Check if user have permission
-  if ( !current_user_can( 'edit_posts' ) && !current_user_can( 'edit_pages' ) ) {
-    return;
-  }
-  // Check if WYSIWYG is enabled
-  if ( 'true' == get_user_option( 'rich_editing' ) ) {
-    add_filter( 'mce_external_plugins', 'custom_tinymce_plugin' );
-    add_filter( 'mce_buttons', 'register_mce_button' );
-  }
-}
-add_action( 'admin_head', 'abt_custom_mce_buttons' );
-
-// Function for new button
-function custom_tinymce_plugin( $plugin_array ) {
-  $plugin_array['abt_inline_citation_mce_button'] = plugins_url('academic-bloggers-toolkit/inc/tinymce-buttons.js');
-  $plugin_array['abt_ref_id_parser_mce_button'] = plugins_url('academic-bloggers-toolkit/inc/tinymce-buttons.js');
-  return $plugin_array;
-}
-
-// Register new button in the editor
-function register_mce_button( $buttons ) {
-  array_push( $buttons, 'abt_inline_citation_mce_button' );
-  array_push( $buttons, 'abt_ref_id_parser_mce_button');
-  return $buttons;
-}

@@ -15,29 +15,19 @@
 
 /*
  *
- *	TODO:
- *	- Citations Shortcode with TinyMCE Integration
- *	- Pubmed PMID/DOI/PMCID Shortcode that converts to formatted citation
- *	- And much more.....
- *
+ *	WORKING ON:
+ *	- Custom fields in editor for Peer Reviews
+ *	TODO: 
+ *	- Multiple authors
 */
 
 
-/*
- *
- * Assign Global Variables
- *
-*/
+// Assign Global Variables
 
 $plugin_url = WP_PLUGIN_URL . '/academic-bloggers-toolkit';
 
 
-/*
- *
- *	Enqueue Styles
- *
-*/
-
+// Enqueue Stylesheets
 
 function abt_enqueue_styles() {
 
@@ -47,48 +37,18 @@ function abt_enqueue_styles() {
 add_action( 'wp_enqueue_scripts', 'abt_enqueue_styles');
 
 
-// Register Custom Shortcodes with wordpress
+// Tidy Requires
 
 require('inc/shortcodes.php');
+require('inc/tinymce-init.php');
+require('inc/peer-review.php');
 
-
-// TEST
-
-
-// function reference_parser_meta_box() {
-
-// 	$screens = array( 'post', 'page' );
-
-// 	foreach ( $screens as $screen ) {
-
-// 		add_meta_box(
-// 			'reference_parser_meta_box_sectionid',
-// 			__( 'Formatted Reference Generator', 'myplugin_textdomain' ),
-// 			'myplugin_meta_box_callback',
-// 			$screen, 'normal', 'high'
-// 		);
-// 	}
-// }
-// add_action( 'add_meta_boxes', 'reference_parser_meta_box' );
-
-// function myplugin_meta_box_callback( $post ) {
-
-	
-// 	 * Use get_post_meta() to retrieve an existing value
-// 	 * from the database and use the value for the form.
-	 
-	
-
-// 	echo '
-// 	<form method="post" name="ref_id_form" action="">
-// 		<input type="hidden" name="ref_id_form_submitted" value="Y">
-// 		<label for="ref_id">Insert DOI/PMID/PMCID</label>
-// 		<input name="ref_id" id="ref_id" type="text" value="" class="regular-text" />
-// 		<input class="button-primary" type="submit" name="ref_id_submit" value="Submit">
-// 	</form>';
-// 	echo '<p>' . $abt_ref_id . '</p>';
-
-// }
-
+// Initialize the metabox class
+add_action( 'init', 'be_initialize_cmb_meta_boxes', 9999 );
+function be_initialize_cmb_meta_boxes() {
+    if ( !class_exists( 'cmb_Meta_Box' ) ) {
+        require_once( 'inc/peer-review.php' );
+    }
+}
 
 ?>
