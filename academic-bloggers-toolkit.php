@@ -18,7 +18,11 @@
  *	WORKING ON:
  *	- Custom fields in editor for Peer Reviews
  *	TODO: 
+ *	- PMID hyperlink after Bibliography
  *	- Multiple authors
+ *	- Hand-typed reference fields
+ *	- DOI system?
+ *	- email metrics
 */
 
 
