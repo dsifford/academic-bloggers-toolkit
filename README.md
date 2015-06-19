@@ -14,6 +14,8 @@ Wordpress plugin providing an all-in-one solution for effective academic bloggin
     + **Bug:** Upload photo script for third reviewer set works intermittantly.
 - Integrate CrossRef / CSL Citations API
     + **Note:** It appears that in order to do this, I'd have to include a huge javascript library in the build (citeproc.js)
+- Options menu
+    + Include css override area
 
 ##Future
 - Multiple Authors
