@@ -1,3 +1,6 @@
+
+/* =====Inline Citation Style===== */
+
 .cite {
 	text-decoration : none;
 }
@@ -8,7 +11,34 @@
 	text-decoration : none;
 }
 
-.PR_info {
+
+/* =====Peer Review Box Style===== */
+
+
+#abt_PR_boxes h3 {
+  cursor: pointer;
+  border-bottom: 4px solid;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  background: #f5f5f5;
+  padding: 15px;
+  text-align: center;
+  margin-bottom: 10px;
+  margin-top: 10px;
+
+}
+
+#abt_PR_boxes h3:hover {
+  background: #f1f1f1;
+}
+
+#abt_PR_boxes h3:active {
+  border-bottom: 1px solid;
+  padding-top: 18px;
+}
+
+.abt_PR_info {
   display: inline-block;
   float:left;
   width: 30%;
@@ -17,21 +47,21 @@
   text-align: center;
   font-size: 10px;
   margin-bottom: 10px;
-  line-height: 14px;
+  /*line-height: 14px;*/
   margin-right: 5px;
 }
 
-.PR_info strong {
+.abt_PR_info strong {
   font-size: 14px;
 }
 
-.PR_headshot {
+.abt_PR_headshot {
   display: block;
   margin-left:auto;
   margin-right:auto;
 }
 
-.chat_bubble {
+.abt_chat_bubble {
   display: inline-block;
   position: relative;
   width: 64%;
@@ -50,7 +80,7 @@
   box-shadow: 1px 1px 1px #C7C7C7;
 }
 
-.chat_bubble:after {
+.abt_chat_bubble:after {
   content: '';
   position: absolute;
   background-color: #F6F6F6;
@@ -66,19 +96,18 @@
   border-left: 1px solid #c7c7c7;
   border-bottom: 1px solid #c7c7c7;
 }
- 
 
 @media only screen and (max-width: 620px) {
-    .PR_info {
+    .abt_PR_info {
         display:block;
         width: 100%;
         padding-top: 10px;
         padding-bottom: 20px;
     }
-    .chat_bubble {
+    .abt_chat_bubble {
       width: 100%;
     }
-    .PR_info:before {
+    .abt_PR_info:before {
       content: '';
       width: 20px;
       height: 20px;
@@ -93,29 +122,6 @@
       z-index: 1;
       
     }
-    .chat_bubble:after {
+    .abt_chat_bubble:after {
       display: none;
     }
-
-.refbox_title {
-	background: #f5f5f5; 
-	display: inline-block; 
-	padding: 10px; 
-	margin-bottom: -1px; 
-	border-top-left-radius: 5px; 
-	border-top-right-radius: 5px; 
-	border: solid #D0D0D0 1px; 
-	border-bottom: none;
-}
-
-.refbox {
-	background: #f5f5f5;
-	padding-top: 10px;
-	padding-bottom: 10px;
-	padding-right: 10px;
-	margin-bottom: 5px;
-	border: solid #D0D0D0 1px;
-	border-top-right-radius: 3px;
-	border-bottom-right-radius: 3px;
-	border-bottom-left-radius: 3px;
-}
