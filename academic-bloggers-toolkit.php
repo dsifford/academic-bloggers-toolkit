@@ -11,21 +11,6 @@
  *	License URI: https://www.gnu.org/licenses/gpl-3.0.html
 */
 
-
-
-/*
- *
- *	WORKING ON:
- *	- Custom fields in editor for Peer Reviews
- *	TODO: 
- *	- PMID hyperlink after Bibliography
- *	- Multiple authors
- *	- Hand-typed reference fields
- *	- DOI system?
- *	- email metrics
-*/
-
-
 // Assign Global Variables
 
 $plugin_url = WP_PLUGIN_URL . '/academic-bloggers-toolkit';
