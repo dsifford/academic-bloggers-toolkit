@@ -3,10 +3,12 @@
  */
 jQuery(document).ready(function($){
     
-
+    // Show/hide nodes based on selector option
     $('#reviewer_selector').bind('change', function (e) { 
         if( $('#reviewer_selector').val() == '0') {
-            $('.form-table').hide('slow');
+            $('#tabs-1').hide('slow');
+            $('#tabs-2').hide('slow');
+            $('#tabs-3').hide('slow');
         }
         else if( $('#reviewer_selector').val() == '1') {
             $('#tabs-1').show('slow');
@@ -24,29 +26,35 @@ jQuery(document).ready(function($){
         }
       }).trigger('change');
 
+// TODO: Combine the following three functions into a single function
+
+    // Show hide author response based on button toggle
     $('#author_response_button_1').on('click', function(event) {
         event.preventDefault();
         /* Act on the event */
-        $('#author_response_1').toggle('slow');
+        $('#author_response_1').toggle(500);
     });
 
     $('#author_response_button_2').on('click', function(event) {
         event.preventDefault();
         /* Act on the event */
-        $('#author_response_2').toggle('slow');
+        $('#author_response_2').toggle(500);
     });
 
     $('#author_response_button_3').on('click', function(event) {
         event.preventDefault();
         /* Act on the event */
-        $('#author_response_3').toggle('slow');
+        $('#author_response_3').toggle(500);
     });
+
 
 
     // Instantiates the variable that holds the media library frame.
     var meta_image_frame;
  
-    // Function for First Reviewer
+// TODO: Combine the following 6 functions into a single function
+
+    // Image selector function for First Reviewer
     $('#reviewer_headshot_image_button_1').click(function(e){
 
         e.preventDefault();
@@ -78,8 +86,8 @@ jQuery(document).ready(function($){
         meta_image_frame.open();
     });
 
-    
-    // Function for Second Reviewer
+
+    // Image selector function for Second Reviewer
     $('#reviewer_headshot_image_button_2').click(function(e){
 
         e.preventDefault();
@@ -112,7 +120,7 @@ jQuery(document).ready(function($){
     });
 
     
-    // Function for Third Reviewer
+    // Image selector function for Third Reviewer
     $('#reviewer_headshot_image_button_3').click(function(e){
 
         e.preventDefault();
@@ -145,9 +153,7 @@ jQuery(document).ready(function($){
     });
 
 
-
-
-
+    // Image selector function for First Author Reponse
     $('#author_headshot_image_button_1').click(function(e){
 
         e.preventDefault();
@@ -179,6 +185,8 @@ jQuery(document).ready(function($){
         meta_image_frame.open();
     });
 
+
+    // Image selector function for Second Author Response
     $('#author_headshot_image_button_2').click(function(e){
 
         e.preventDefault();
@@ -210,6 +218,8 @@ jQuery(document).ready(function($){
         meta_image_frame.open();
     });
 
+
+    // Image selector function for Third Author Response
     $('#author_headshot_image_button_3').click(function(e){
 
         e.preventDefault();

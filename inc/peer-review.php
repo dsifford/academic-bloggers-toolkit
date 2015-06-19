@@ -336,15 +336,16 @@ add_action( 'save_post', 'abt_meta_save' );
 
 
 function insert_the_meta( $text ) {
+	
 	if ( is_single() || is_page() ) {
 		
 		global $post;
 		
 		// Gather Variables
 		$meta_master = get_post_meta( get_the_id() );
-		
+
 		// Set Reviewer Name Variables		
-		for ($i=0; $i < 4; $i++) { 
+		for ( $i = 1; $i < 4; $i++ ) { 
 			
 			${'reviewer_name_' . $i} = $meta_master['reviewer_name_' . $i][0];
 			${'reviewer_background_' . $i} = $meta_master['reviewer_background_' . $i][0];
@@ -353,83 +354,63 @@ function insert_the_meta( $text ) {
 
 		}
 
+		// Set Author Resonse Name Variables
+		for ( $i = 1; $i < 4; $i++ ) { 
+			
+			${'author_name_' . $i} = $meta_master['author_name_' . $i][0];
+			${'author_background_' . $i} = $meta_master['author_background_' . $i][0];
+			${'author_content_' . $i} = $meta_master['author_content_' . $i][0];
+			${'author_headshot_image_' . $i} = $meta_master['author_headshot_image_' . $i][0];
+		
+		}
+
+		// Loop through and create peer review 'blocks'
 		if ( $post->post_type == 'post' && $meta_master != '' ) { 
 			
-			if ( $reviewer_name_1 != '' && $reviewer_name_2 == '' && $reviewer_name_3 == '') {
-			
-				$text .= 
-						'<div id="abt_PR_boxes">' .
+			for ( $i = 1; $i < 4; $i++ ) { 
+
+				if ( ${'author_name_' . $i} != '' ) {
+				
+					${'author_block_' . $i} =
+						'<div class="abt_chat_bubble">' . ${'author_content_' . $i} . '</div>' .
+						'<div class="abt_PR_info"><img src="' . ${'author_headshot_image_' . $i} . '" width="100px" class="abt_PR_headshot">' .
+							'<strong>' . ${'author_name_' . $i} . '</strong><br />' . 
+							${'author_background_' . $i} . 
+						'</div>';
+				
+				}
+				
+				if ( ${'reviewer_name_' . $i} != '' ) {
+				
+					${'reviewer_block_' . $i} =
 						'<h3>Click Here</h3>' .
 							'<div>' .
-								'<div class="abt_chat_bubble">' . $peer_review_content_1 . '</div>' .
-								'<div class="abt_PR_info"><img src="' . $reviewer_headshot_image_1 . '" width="100px" class="abt_PR_headshot">' .
-									'<strong>' . $reviewer_name_1 . '</strong><br />' . 
-									$reviewer_background_1 . 
+								'<div class="abt_chat_bubble">' . ${'peer_review_content_' . $i} . '</div>' .
+								'<div class="abt_PR_info"><img src="' . ${'reviewer_headshot_image_' . $i} . '" width="100px" class="abt_PR_headshot">' .
+									'<strong>' . ${'reviewer_name_' . $i} . '</strong><br />' . 
+									${'reviewer_background_' . $i} . 
 								'</div>' .
-							'</div>' .
-						'</div>';
+								( isset(${'author_block_' . $i}) ? ${'author_block_' . $i} : '' ) .
+							'</div>';
+				
+				}
 			}
 
-			if ( $reviewer_name_1 != '' && $reviewer_name_2 != '' && $reviewer_name_3 == '' ) {
+			// Final logic check to make sure there is at least one peer review block available
+			if ( $reviewer_block_1 != '' ) {
 			
 				$text .= 
 						'<div id="abt_PR_boxes">' .
-						'<h3>Click Here</h3>' .
-							'<div>' .
-								'<div class="abt_chat_bubble">' . $peer_review_content_1 . '</div>' .
-								'<div class="abt_PR_info"><img src="' . $reviewer_headshot_image_1 . '" width="100px" class="abt_PR_headshot">' .
-									'<strong>' . $reviewer_name_1 . '</strong><br />' . 
-									$reviewer_background_1 . 
-								'</div>' .
-							'</div>' . 
-						'<h3>Click Here</h3>' .
-							'<div>' .
-								'<div class="abt_chat_bubble">' . $peer_review_content_2 . '</div>' .
-								'<div class="abt_PR_info"><img src="' . $reviewer_headshot_image_2 . '" width="100px" class="abt_PR_headshot">' .
-									'<strong>' . $reviewer_name_2 . '</strong><br />' . 
-									$reviewer_background_2 . 
-								'</div>' .
-							'</div>' .
-						'</div>';
-			
-			}
-
-			if ( $reviewer_name_1 != '' && $reviewer_name_2 != '' && $reviewer_name_3 != '' ) {
-			
-				$text .= 
-						'<div id="abt_PR_boxes">' .
-						'<h3>Click Here</h3>' .
-							'<div>' .
-								'<div class="abt_chat_bubble">' . $peer_review_content_1 . '</div>' .
-								'<div class="abt_PR_info"><img src="' . $reviewer_headshot_image_1 . '" width="100px" class="abt_PR_headshot">' .
-									'<strong>' . $reviewer_name_1 . '</strong><br />' . 
-									$reviewer_background_1 . 
-								'</div>' .
-							'</div>' . 
-						'<h3>Click Here</h3>' .
-							'<div>' .
-								'<div class="abt_chat_bubble">' . $peer_review_content_2 . '</div>' .
-								'<div class="abt_PR_info"><img src="' . $reviewer_headshot_image_2 . '" width="100px" class="abt_PR_headshot">' .
-									'<strong>' . $reviewer_name_2 . '</strong><br />' . 
-									$reviewer_background_2 . 
-								'</div>' .
-							'</div>' .
-						'<h3>Click Here</h3>' .
-							'<div>' .
-								'<div class="abt_chat_bubble">' . $peer_review_content_3 . '</div>' .
-								'<div class="abt_PR_info"><img src="' . $reviewer_headshot_image_3 . '" width="100px" class="abt_PR_headshot">' .
-									'<strong>' . $reviewer_name_3 . '</strong><br />' . 
-									$reviewer_background_3 . 
-								'</div>' .
-							'</div>' .
+							$reviewer_block_1 . 
+							( ( $reviewer_block_2 != '' ) ? $reviewer_block_2 : '' ) .
+							( ( $reviewer_block_3 != '' ) ? $reviewer_block_3 : '' ) .
 						'</div>';
 			
 			}
 
 			return $text;
+
 		}
-		
-	
 	}
 }
 add_filter( 'the_content', 'insert_the_meta');
