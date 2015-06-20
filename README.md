@@ -21,7 +21,7 @@ Wordpress plugin providing an all-in-one solution for effective academic bloggin
 - Multiple Authors
 - DOI System?
 
-#Additional Notes
+##Additional Notes
 - Hand-typed reference fields
     + Extensive coding would be required for this. Typing manually into fields vs manually in the editor doesn't save much time. Not going to add this feature unless requested.
 - Integrate CrossRef / CSL Citations API
