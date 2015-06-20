@@ -15,6 +15,11 @@ function abt_peer_review_callback( $post ) {
 	// Value for Select Box
 		$selected = isset( $values['reviewer_selector'] ) ? esc_attr( $values['reviewer_selector'][0] ) : '';
 	
+	// Values for Peer Review Box Heading
+		$peer_review_box_heading_1 = isset( $values['peer_review_box_heading_1'] ) ? esc_attr( $values['peer_review_box_heading_1'][0] ) : '';
+		$peer_review_box_heading_2 = isset( $values['peer_review_box_heading_2'] ) ? esc_attr( $values['peer_review_box_heading_2'][0] ) : '';
+		$peer_review_box_heading_3 = isset( $values['peer_review_box_heading_3'] ) ? esc_attr( $values['peer_review_box_heading_3'][0] ) : '';
+
 	// Values for First Reviewer
 		$reviewer_name_1 = isset( $values['reviewer_name_1'] ) ? esc_attr( $values['reviewer_name_1'][0] ) : '';
 		$reviewer_background_1 = isset( $values['reviewer_background_1'] ) ? esc_attr( $values['reviewer_background_1'][0] ) : '';
@@ -52,7 +57,7 @@ function abt_peer_review_callback( $post ) {
 		$author_image_3 = isset( $values['author_headshot_image_3'] ) ? esc_attr( $values['author_headshot_image_3'][0] ) : '';
 	
 	?>
-
+	<div id="peer_review_metabox_wrapper">
 	<select name="reviewer_selector" id="reviewer_selector">
 		<option value="0" <?php selected( $selected, '0' ); ?>>Select Number of Reviewers</option>
 		<option value="1" <?php selected( $selected, '1' ); ?>>One Reviewer</option>
@@ -62,6 +67,10 @@ function abt_peer_review_callback( $post ) {
 
 	<div id="tabs-1">
 		<table class="form-table" style="border-top: solid 2px #dedede;">
+			<tr valign="top" class="alternate">
+				<td width="20%"><label for="peer_review_box_heading_1" class="abt-row-title" width="20%"><?php esc_attr_e( 'Heading for Peer Review', 'abt-textdomain' ) ?></label></td>
+				<td><input type="text" class="large-text" name="peer_review_box_heading_1" id="peer_review_box_heading_1" value="<?php echo $peer_review_box_heading_1; ?>" /></td>
+			</tr>
 			<tr valign="top">
 				<td width="20%"><label for="reviewer_name_1" class="abt-row-title" width="20%"><?php esc_attr_e( 'Peer Reviewer Name', 'abt-textdomain' ) ?></label></td>
 				<td><input type="text" class="large-text" name="reviewer_name_1" id="reviewer_name_1" value="<?php echo $reviewer_name_1; ?>" /></td>
@@ -111,18 +120,22 @@ function abt_peer_review_callback( $post ) {
 	<div id="tabs-2">
 		<table class="form-table">
 			<tr valign="top" class="alternate" style="border-top: solid 2px #dedede;">
+				<td width="20%"><label for="peer_review_box_heading_2" class="abt-row-title" width="20%"><?php esc_attr_e( 'Heading for Peer Review', 'abt-textdomain' ) ?></label></td>
+				<td><input type="text" class="large-text" name="peer_review_box_heading_2" id="peer_review_box_heading_2" value="<?php echo $peer_review_box_heading_2; ?>" /></td>
+			</tr>
+			<tr valign="top">
 				<td width="20%"><label for="reviewer_name_2" class="abt-row-title"><?php esc_attr_e( 'Peer Reviewer Name', 'abt-textdomain' ) ?></label></td>
 				<td><input type="text" class="large-text" name="reviewer_name_2" id="reviewer_name_2" value="<?php echo $reviewer_name_2; ?>" /></td>
 			</tr>
-			<tr valign="top">
+			<tr valign="top" class="alternate">
 				<td width="20%"><label for="reviewer_background_2" class="abt-row-title"><?php esc_attr_e( 'Peer Reviewer Background', 'abt-textdomain' ) ?></label></td>
 				<td><input type="text" class="large-text" name="reviewer_background_2" id="reviewer_background_2" value="<?php echo $reviewer_background_2; ?>" /></td>
 			</tr>
-			<tr valign="top" class="alternate">
+			<tr valign="top">
 				<td scope="row" width="20%"><label for="peer_review_content_2"><?php esc_attr_e( 'Peer Review', 'wp_admin_style' ); ?></label></td>
 				<td><textarea id="peer_review_content_2" name="peer_review_content_2" cols="80" rows="5" class="large-text"><?php echo $peer_review_content_2; ?></textarea><br></td>
 			</tr>
-			<tr valign="top">
+			<tr valign="top" class="alternate">
 				<td scope="row" width="20%"><label for="reviewer_headshot_image_2" class="abt-row-title"><?php esc_attr_e( 'Peer Reviewer Photo', 'abt-textdomain' )?></label></td>
 				<td>
 					<input type="text" name="reviewer_headshot_image_2" id="reviewer_headshot_image_2" value="<?php echo $peer_review_image_2; ?>" />
@@ -158,6 +171,10 @@ function abt_peer_review_callback( $post ) {
 
 	<div id="tabs-3">
 		<table class="form-table">
+			<tr valign="top" class="alternate" style="border-top: solid 2px #dedede;">
+				<td width="20%"><label for="peer_review_box_heading_3" class="abt-row-title" width="20%"><?php esc_attr_e( 'Heading for Peer Review', 'abt-textdomain' ) ?></label></td>
+				<td><input type="text" class="large-text" name="peer_review_box_heading_3" id="peer_review_box_heading_3" value="<?php echo $peer_review_box_heading_3; ?>" /></td>
+			</tr>
 			<tr valign="top">
 				<td width="20%"><label for="reviewer_name_3" class="abt-row-title"><?php esc_attr_e( 'Peer Reviewer Name', 'abt-textdomain' ) ?></label></td>
 				<td><input type="text" class="large-text" name="reviewer_name_3" id="reviewer_name_3" value="<?php echo $reviewer_name_3; ?>" /></td>
@@ -203,6 +220,7 @@ function abt_peer_review_callback( $post ) {
 			</tr>
 		</table>
 	</div>
+	</div>
 
 
 	<?php
@@ -225,9 +243,21 @@ function abt_meta_save( $post_id ) {
 
 	// Begin Saving Meta Variables
 
+	
 	// Selector Variable
 		if( isset( $_POST['reviewer_selector'] ) ) {
 			update_post_meta( $post_id, 'reviewer_selector', esc_attr( $_POST[ 'reviewer_selector' ] ) );
+		}
+
+	// Variables for Review Box Heading
+		if( isset( $_POST['peer_review_box_heading_1'] ) ) {
+			update_post_meta( $post_id, 'peer_review_box_heading_1', esc_attr( $_POST[ 'peer_review_box_heading_1' ] ) );
+		}
+		if( isset( $_POST['peer_review_box_heading_2'] ) ) {
+			update_post_meta( $post_id, 'peer_review_box_heading_2', esc_attr( $_POST[ 'peer_review_box_heading_2' ] ) );
+		}
+		if( isset( $_POST['peer_review_box_heading_3'] ) ) {
+			update_post_meta( $post_id, 'peer_review_box_heading_3', esc_attr( $_POST[ 'peer_review_box_heading_3' ] ) );
 		}
 
 	// Variables for First Reviewer
@@ -346,7 +376,8 @@ function insert_the_meta( $text ) {
 
 		// Set Reviewer Name Variables		
 		for ( $i = 1; $i < 4; $i++ ) { 
-			
+
+			${'peer_review_box_heading_' . $i} = $meta_master['peer_review_box_heading_' . $i][0];
 			${'reviewer_name_' . $i} = $meta_master['reviewer_name_' . $i][0];
 			${'reviewer_background_' . $i} = $meta_master['reviewer_background_' . $i][0];
 			${'peer_review_content_' . $i} = $meta_master['peer_review_content_' . $i][0];
@@ -383,7 +414,7 @@ function insert_the_meta( $text ) {
 				if ( ${'reviewer_name_' . $i} != '' ) {
 				
 					${'reviewer_block_' . $i} =
-						'<h3>Click Here</h3>' .
+						'<h3>' . ${'peer_review_box_heading_' . $i} . '</h3>' .
 							'<div>' .
 								'<div class="abt_chat_bubble">' . ${'peer_review_content_' . $i} . '</div>' .
 								'<div class="abt_PR_info"><img src="' . ${'reviewer_headshot_image_' . $i} . '" width="100px" class="abt_PR_headshot">' .
