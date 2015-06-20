@@ -4,6 +4,8 @@ Wordpress plugin providing an all-in-one solution for effective academic bloggin
 **Updated Readme coming soon**
 
 ##Features
+- Automatically parse references using digital identifiers (PMID, PMCID, or DOI).
+- Anchor links to and from in-text citations.
 - Append up to 3 formatted Peer Reviews to blog posts via a Frontend UI integrated on the post edit screen.
 
 ##Currently Working On
