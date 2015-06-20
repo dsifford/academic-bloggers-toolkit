@@ -33,6 +33,7 @@ function ref_id_parser ( $atts ) {
 	$a = shortcode_atts ( array(
 			'id'    => '',
 			'style' => '',
+			'link'  => false,
 		), $atts);
 	
 	// Prepare URL to convert input ID to PMID
@@ -66,9 +67,16 @@ function ref_id_parser ( $atts ) {
 
 	// Take formatted JSON and parse it into formatted citations
 
+
 	// American Medical Association (AMA) Format
 
-		if ( count($tidy_json->{'result'}->{$pmid}->{'authors'}) == 1 ) {
+		if( count($tidy_json->{'result'}->{$pmid}->{'authors'}) == 0 ) {
+
+			return '<strong style="color: red; font-size: 0.8em;">Unable to locate identifier for this reference. To avoid this error, please try again with the PMID.</strong>';
+
+		}
+		
+		elseif ( count($tidy_json->{'result'}->{$pmid}->{'authors'}) == 1 ) {
 		
 			$abt_authors = $tidy_json->{'result'}->{$pmid}->{'authors'}[0]->{'name'};
 		
@@ -96,17 +104,33 @@ function ref_id_parser ( $atts ) {
 
 		if ( $abt_volume == "" ) {
 		
-			return( $abt_authors . ' ' . $abt_title . ' <em>' . $abt_journal_name . '.</em> ' . $abt_pub_year . '.' );
+			$abt_full_citation = $abt_authors . ' ' . $abt_title . ' <em>' . $abt_journal_name . '.</em> ' . $abt_pub_year . '.';
 		
 		} elseif ( $abt_issue == '' || is_null($abt_issue) ) {
 		
-			return( $abt_authors . ' ' . $abt_title . ' <em>' . $abt_journal_name . '.</em> ' . $abt_pub_year . '; ' . $abt_volume . ': ' . $abt_pages . '.' );
+			$abt_full_citation = $abt_authors . ' ' . $abt_title . ' <em>' . $abt_journal_name . '.</em> ' . $abt_pub_year . '; ' . $abt_volume . ': ' . $abt_pages . '.';
 		
 		} else {
 
-			return( $abt_authors . ' ' . $abt_title . ' <em>' . $abt_journal_name . '.</em> ' . $abt_pub_year . '; ' . $abt_volume . '(' . $abt_issue . '): ' . $abt_pages . '.' );
+			$abt_full_citation = $abt_authors . ' ' . $abt_title . ' <em>' . $abt_journal_name . '.</em> ' . $abt_pub_year . '; ' . $abt_volume . '(' . $abt_issue . '): ' . $abt_pages . '.';
+
+		}
+
+		if ( esc_attr($a['link']) ) {
+		
+			$pmid_link = ' PMID: <a href="http://www.ncbi.nlm.nih.gov/pubmed/' . $pmid . '" target="_blank">' . $pmid . '</a>';
+			return $abt_full_citation . $pmid_link;
+		
+		} else {
+
+			return $abt_full_citation;
 
 		}
 	
 }
 add_shortcode( 'ref', 'ref_id_parser' );
+
+
+// Manually entered Citation
+
+	
