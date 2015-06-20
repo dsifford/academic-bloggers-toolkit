@@ -9,6 +9,9 @@ Wordpress plugin providing an all-in-one solution for effective academic bloggin
 - Anchor links to and from in-text citations.
 - Append up to 3 formatted Peer Reviews to blog posts via a Frontend UI integrated on the post edit screen.
 
+###Feature Requests
+Please direct all ideas to the Academic Blogger's Toolkit [Trello Board](https://trello.com/b/nFxfo6iO/academic-blogger-s-toolkit)
+
 ##Currently Working On
 - Automatic email metrics
 
