@@ -12,49 +12,29 @@ function abt_peer_review_callback( $post ) {
  	
 	$values = get_post_custom( $post->ID );
 	
-	// Value for Select Box
+	// Variable for Select Box
 		$selected = isset( $values['reviewer_selector'] ) ? esc_attr( $values['reviewer_selector'][0] ) : '';
 	
-	// Values for Peer Review Box Heading
-		$peer_review_box_heading_1 = isset( $values['peer_review_box_heading_1'] ) ? esc_attr( $values['peer_review_box_heading_1'][0] ) : '';
-		$peer_review_box_heading_2 = isset( $values['peer_review_box_heading_2'] ) ? esc_attr( $values['peer_review_box_heading_2'][0] ) : '';
-		$peer_review_box_heading_3 = isset( $values['peer_review_box_heading_3'] ) ? esc_attr( $values['peer_review_box_heading_3'][0] ) : '';
+	// Loop through and set variables
 
-	// Values for First Reviewer
-		$reviewer_name_1 = isset( $values['reviewer_name_1'] ) ? esc_attr( $values['reviewer_name_1'][0] ) : '';
-		$reviewer_background_1 = isset( $values['reviewer_background_1'] ) ? esc_attr( $values['reviewer_background_1'][0] ) : '';
-		$peer_review_content_1 = isset( $values['peer_review_content_1'] ) ? esc_attr( $values['peer_review_content_1'][0] ) : '';
-		$peer_review_image_1 = isset( $values['reviewer_headshot_image_1'] ) ? esc_attr( $values['reviewer_headshot_image_1'][0] ) : '';
+		for ( $i = 1; $i < 4; $i++ ) { 
+			
+			// Variables for Peer Review Box Headings
+			${'peer_review_box_heading_' . $i} = isset( $values['peer_review_box_heading_' . $i] ) ? esc_attr( $values['peer_review_box_heading_' . $i][0] ) : '';
+		
+			// Reviewer Variables
+			${'reviewer_name_' . $i} = isset( $values['reviewer_name_' . $i] ) ? esc_attr( $values['reviewer_name_' . $i][0] ) : '';
+			${'reviewer_background_' . $i} = isset( $values['reviewer_background_' . $i] ) ? esc_attr( $values['reviewer_background_' . $i][0] ) : '';
+			${'peer_review_content_' . $i} = isset( $values['peer_review_content_' . $i] ) ? esc_attr( $values['peer_review_content_' . $i][0] ) : '';
+			${'peer_review_image_' . $i} = isset( $values['reviewer_headshot_image_' . $i] ) ? esc_attr( $values['reviewer_headshot_image_' . $i][0] ) : '';
 
-	// Values for First Author Response
-		$author_name_1 = isset( $values['author_name_1'] ) ? esc_attr( $values['author_name_1'][0] ) : '';
-		$author_background_1 = isset( $values['author_background_1'] ) ? esc_attr( $values['author_background_1'][0] ) : '';
-		$author_content_1 = isset( $values['author_content_1'] ) ? esc_attr( $values['author_content_1'][0] ) : '';
-		$author_image_1 = isset( $values['author_headshot_image_1'] ) ? esc_attr( $values['author_headshot_image_1'][0] ) : '';
+			// Author Variables
+			${'author_name_' . $i} = isset( $values['author_name_' . $i] ) ? esc_attr( $values['author_name_' . $i][0] ) : '';
+			${'author_background_' . $i} = isset( $values['author_background_' . $i] ) ? esc_attr( $values['author_background_' . $i][0] ) : '';
+			${'author_content_' . $i} = isset( $values['author_content_' . $i] ) ? esc_attr( $values['author_content_' . $i][0] ) : '';
+			${'author_image_' . $i} = isset( $values['author_headshot_image_' . $i] ) ? esc_attr( $values['author_headshot_image_' . $i][0] ) : '';
 
-	// Values for Second Reviewer
-		$reviewer_name_2 = isset( $values['reviewer_name_2'] ) ? esc_attr( $values['reviewer_name_2'][0] ) : '';
-		$reviewer_background_2 = isset( $values['reviewer_background_2'] ) ? esc_attr( $values['reviewer_background_2'][0] ) : '';
-		$peer_review_content_2 = isset( $values['peer_review_content_2'] ) ? esc_attr( $values['peer_review_content_2'][0] ) : '';
-		$peer_review_image_2 = isset( $values['reviewer_headshot_image_2'] ) ? esc_attr( $values['reviewer_headshot_image_2'][0] ) : '';
-
-	// Values for Second Author Response
-		$author_name_2 = isset( $values['author_name_2'] ) ? esc_attr( $values['author_name_2'][0] ) : '';
-		$author_background_2 = isset( $values['author_background_2'] ) ? esc_attr( $values['author_background_2'][0] ) : '';
-		$author_content_2 = isset( $values['author_content_2'] ) ? esc_attr( $values['author_content_2'][0] ) : '';
-		$author_image_2 = isset( $values['author_headshot_image_2'] ) ? esc_attr( $values['author_headshot_image_2'][0] ) : '';
-
-	// Values for Third Reviewer
-		$reviewer_name_3 = isset( $values['reviewer_name_3'] ) ? esc_attr( $values['reviewer_name_3'][0] ) : '';
-		$reviewer_background_3 = isset( $values['reviewer_background_3'] ) ? esc_attr( $values['reviewer_background_3'][0] ) : '';
-		$peer_review_content_3 = isset( $values['peer_review_content_3'] ) ? esc_attr( $values['peer_review_content_3'][0] ) : '';
-		$peer_review_image_3 = isset( $values['reviewer_headshot_image_3'] ) ? esc_attr( $values['reviewer_headshot_image_3'][0] ) : '';
-
-	// Values for Third Author Response
-		$author_name_3 = isset( $values['author_name_3'] ) ? esc_attr( $values['author_name_3'][0] ) : '';
-		$author_background_3 = isset( $values['author_background_3'] ) ? esc_attr( $values['author_background_3'][0] ) : '';
-		$author_content_3 = isset( $values['author_content_3'] ) ? esc_attr( $values['author_content_3'][0] ) : '';
-		$author_image_3 = isset( $values['author_headshot_image_3'] ) ? esc_attr( $values['author_headshot_image_3'][0] ) : '';
+		}
 	
 	?>
 	<div id="peer_review_metabox_wrapper">
@@ -65,161 +45,64 @@ function abt_peer_review_callback( $post ) {
 		<option value="3" <?php selected( $selected, '3' ); ?>>Three Reviewers</option>
 	</select>
 
-	<div id="tabs-1">
-		<table class="form-table" style="border-top: solid 2px #dedede;">
-			<tr valign="top" class="alternate">
-				<td width="20%"><label for="peer_review_box_heading_1" class="abt-row-title" width="20%"><?php esc_attr_e( 'Heading for Peer Review', 'abt-textdomain' ) ?></label></td>
-				<td><input type="text" class="large-text" name="peer_review_box_heading_1" id="peer_review_box_heading_1" value="<?php echo $peer_review_box_heading_1; ?>" /></td>
-			</tr>
-			<tr valign="top">
-				<td width="20%"><label for="reviewer_name_1" class="abt-row-title" width="20%"><?php esc_attr_e( 'Peer Reviewer Name', 'abt-textdomain' ) ?></label></td>
-				<td><input type="text" class="large-text" name="reviewer_name_1" id="reviewer_name_1" value="<?php echo $reviewer_name_1; ?>" /></td>
-			</tr>
-			<tr valign="top" class="alternate">
-				<td width="20%"><label for="reviewer_background_1" class="abt-row-title" width="20%"><?php esc_attr_e( 'Peer Reviewer Background', 'abt-textdomain' ) ?></label></td>
-				<td><input type="text" class="large-text" name="reviewer_background_1" id="reviewer_background_1" value="<?php echo $reviewer_background_1; ?>" /></td>
-			</tr>
-			<tr valign="top">
-				<td scope="row" width="20%"><label for="peer_review_content_1" width="20%"><?php esc_attr_e( 'Peer Review', 'abt-textdomain' ); ?></label></td>
-				<td><textarea id="peer_review_content_1" name="peer_review_content_1" cols="80" rows="5" class="large-text"><?php echo $peer_review_content_1; ?></textarea><br></td>
-			</tr>
-			<tr valign="top" class="alternate">
-				<td scope="row" width="20%"><label for="reviewer_headshot_image_1" class="abt-row-title" width="20%"><?php esc_attr_e( 'Peer Reviewer Photo', 'abt-textdomain' )?></label></td>
-				<td>
-					<input type="text" name="reviewer_headshot_image_1" id="reviewer_headshot_image_1" value="<?php echo $peer_review_image_1; ?>" />
-						<input type="button" id="reviewer_headshot_image_button_1" class="button" value="<?php esc_attr_e( 'Choose or Upload an Image', 'abt-textdomain' )?>" />
-				</td>
-			</tr>
-			<tr valign="top">
-				<td scope="row" colspan="2"><input class="button-primary" type="button" id="author_response_button_1" value="<?php esc_attr_e( 'Toggle Author Response' ); ?>" /></td>
-			</tr>
-		</table>
-		<table class="form-table" id="author_response_1">
-			<tr valign="top" class="alternate" style="border-top: solid 2px #dedede;">
-				<td width="20%"><label for="author_name_1" class="abt-row-title"><?php esc_attr_e( 'Author Name', 'abt-textdomain' ) ?></label></td>
-				<td><input type="text" class="large-text" name="author_name_1" id="author_name_1" value="<?php echo $author_name_1; ?>" /></td>
-			</tr>
-			<tr valign="top">
-				<td width="20%"><label for="author_background_1" class="abt-row-title"><?php esc_attr_e( 'Author Background', 'abt-textdomain' ) ?></label></td>
-				<td><input type="text" class="large-text" name="author_background_1" id="author_background_1" value="<?php echo $author_background_1; ?>" /></td>
-			</tr>
-			<tr valign="top" class="alternate">
-				<td scope="row" width="20%"><label for="author_content_1"><?php esc_attr_e( 'Author Response', 'wp_admin_style' ); ?></label></td>
-				<td><textarea id="author_content_1" name="author_content_1" cols="80" rows="5" class="large-text"><?php echo $author_content_1; ?></textarea><br></td>
-			</tr>
-			<tr valign="top">
-				<td scope="row" width="20%"><label for="author_headshot_image_1" class="abt-row-title"><?php esc_attr_e( 'Author Photo', 'abt-textdomain' )?></label></td>
-				<td>
-					<input type="text" name="author_headshot_image_1" id="author_headshot_image_1" value="<?php echo $author_image_1; ?>" />
-						<input type="button" id="author_headshot_image_button_1" class="button" value="<?php esc_attr_e( 'Choose or Upload an Image', 'abt-textdomain' )?>" />
-				</td>
-			</tr>
-		</table>
-	</div>
-	
-	<div id="tabs-2">
-		<table class="form-table">
-			<tr valign="top" class="alternate" style="border-top: solid 2px #dedede;">
-				<td width="20%"><label for="peer_review_box_heading_2" class="abt-row-title" width="20%"><?php esc_attr_e( 'Heading for Peer Review', 'abt-textdomain' ) ?></label></td>
-				<td><input type="text" class="large-text" name="peer_review_box_heading_2" id="peer_review_box_heading_2" value="<?php echo $peer_review_box_heading_2; ?>" /></td>
-			</tr>
-			<tr valign="top">
-				<td width="20%"><label for="reviewer_name_2" class="abt-row-title"><?php esc_attr_e( 'Peer Reviewer Name', 'abt-textdomain' ) ?></label></td>
-				<td><input type="text" class="large-text" name="reviewer_name_2" id="reviewer_name_2" value="<?php echo $reviewer_name_2; ?>" /></td>
-			</tr>
-			<tr valign="top" class="alternate">
-				<td width="20%"><label for="reviewer_background_2" class="abt-row-title"><?php esc_attr_e( 'Peer Reviewer Background', 'abt-textdomain' ) ?></label></td>
-				<td><input type="text" class="large-text" name="reviewer_background_2" id="reviewer_background_2" value="<?php echo $reviewer_background_2; ?>" /></td>
-			</tr>
-			<tr valign="top">
-				<td scope="row" width="20%"><label for="peer_review_content_2"><?php esc_attr_e( 'Peer Review', 'wp_admin_style' ); ?></label></td>
-				<td><textarea id="peer_review_content_2" name="peer_review_content_2" cols="80" rows="5" class="large-text"><?php echo $peer_review_content_2; ?></textarea><br></td>
-			</tr>
-			<tr valign="top" class="alternate">
-				<td scope="row" width="20%"><label for="reviewer_headshot_image_2" class="abt-row-title"><?php esc_attr_e( 'Peer Reviewer Photo', 'abt-textdomain' )?></label></td>
-				<td>
-					<input type="text" name="reviewer_headshot_image_2" id="reviewer_headshot_image_2" value="<?php echo $peer_review_image_2; ?>" />
-						<input type="button" id="reviewer_headshot_image_button_2" class="button" value="<?php esc_attr_e( 'Choose or Upload an Image', 'abt-textdomain' )?>" />
-				</td>
-			</tr>
-			<tr valign="top">
-				<td scope="row" colspan="2"><input class="button-primary" type="button" id="author_response_button_2" value="<?php esc_attr_e( 'Toggle Author Response' ); ?>" /></td>
-			</tr>
-		</table>
-		<table class="form-table" id="author_response_2">
-			<tr valign="top" class="alternate" style="border-top: solid 2px #dedede;">
-				<td width="20%"><label for="author_name_2" class="abt-row-title"><?php esc_attr_e( 'Author Name', 'abt-textdomain' ) ?></label></td>
-				<td><input type="text" class="large-text" name="author_name_2" id="author_name_2" value="<?php echo $author_name_2; ?>" /></td>
-			</tr>
-			<tr valign="top">
-				<td width="20%"><label for="author_background_2" class="abt-row-title"><?php esc_attr_e( 'Author Background', 'abt-textdomain' ) ?></label></td>
-				<td><input type="text" class="large-text" name="author_background_2" id="author_background_2" value="<?php echo $author_background_2; ?>" /></td>
-			</tr>
-			<tr valign="top" class="alternate">
-				<td scope="row" width="20%"><label for="author_content_2"><?php esc_attr_e( 'Author Response', 'wp_admin_style' ); ?></label></td>
-				<td><textarea id="author_content_2" name="author_content_2" cols="80" rows="5" class="large-text"><?php echo $author_content_2; ?></textarea><br></td>
-			</tr>
-			<tr valign="top">
-				<td scope="row" width="20%"><label for="author_headshot_image_2" class="abt-row-title"><?php esc_attr_e( 'Author Photo', 'abt-textdomain' )?></label></td>
-				<td>
-					<input type="text" name="author_headshot_image_2" id="author_headshot_image_2" value="<?php echo $author_image_2; ?>" />
-						<input type="button" id="author_headshot_image_button_2" class="button" value="<?php esc_attr_e( 'Choose or Upload an Image', 'abt-textdomain' )?>" />
-				</td>
-			</tr>
-		</table>
-	</div>
+	<!-- Loop through and create 3 input tables -->
 
-	<div id="tabs-3">
-		<table class="form-table">
-			<tr valign="top" class="alternate" style="border-top: solid 2px #dedede;">
-				<td width="20%"><label for="peer_review_box_heading_3" class="abt-row-title" width="20%"><?php esc_attr_e( 'Heading for Peer Review', 'abt-textdomain' ) ?></label></td>
-				<td><input type="text" class="large-text" name="peer_review_box_heading_3" id="peer_review_box_heading_3" value="<?php echo $peer_review_box_heading_3; ?>" /></td>
-			</tr>
-			<tr valign="top">
-				<td width="20%"><label for="reviewer_name_3" class="abt-row-title"><?php esc_attr_e( 'Peer Reviewer Name', 'abt-textdomain' ) ?></label></td>
-				<td><input type="text" class="large-text" name="reviewer_name_3" id="reviewer_name_3" value="<?php echo $reviewer_name_3; ?>" /></td>
-			</tr>
-			<tr valign="top" class="alternate">
-				<td width="20%"><label for="reviewer_background_3" class="abt-row-title"><?php esc_attr_e( 'Peer Reviewer Background', 'abt-textdomain' ) ?></label></td>
-				<td><input type="text" class="large-text" name="reviewer_background_3" id="reviewer_background_3" value="<?php echo $reviewer_background_3; ?>" /></td>
-			</tr>
-			<tr valign="top">
-				<td scope="row" width="20%"><label for="peer_review_content_3"><?php esc_attr_e( 'Peer Review', 'wp_admin_style' ); ?></label></td>
-				<td><textarea id="peer_review_content_3" name="peer_review_content_3" cols="80" rows="5" class="large-text"><?php echo $peer_review_content_3; ?></textarea><br></td>
-			</tr>
-			<tr valign="top" class="alternate">
-				<td scope="row" width="20%"><label for="reviewer_headshot_image_3" class="abt-row-title"><?php esc_attr_e( 'Peer Reviewer Photo', 'abt-textdomain' )?></label></td>
-				<td>
-					<input type="text" name="reviewer_headshot_image_3" id="reviewer_headshot_image_3" value="<?php echo $peer_review_image_3; ?>" />
-						<input type="button" id="reviewer_headshot_image_button_3" class="button" value="<?php esc_attr_e( 'Choose or Upload an Image', 'abt-textdomain' )?>" />
-				</td>
-			</tr>
-			<tr valign="top">
-				<td scope="row" colspan="2"><input class="button-primary" type="button" id="author_response_button_3" value="<?php esc_attr_e( 'Toggle Author Response' ); ?>" /></td>
-			</tr>
-		</table>
-		<table class="form-table" id="author_response_3">
-			<tr valign="top" class="alternate" style="border-top: solid 2px #dedede;">
-				<td width="20%"><label for="author_name_3" class="abt-row-title"><?php esc_attr_e( 'Author Name', 'abt-textdomain' ) ?></label></td>
-				<td><input type="text" class="large-text" name="author_name_3" id="author_name_3" value="<?php echo $author_name_3; ?>" /></td>
-			</tr>
-			<tr valign="top">
-				<td width="20%"><label for="author_background_3" class="abt-row-title"><?php esc_attr_e( 'Author Background', 'abt-textdomain' ) ?></label></td>
-				<td><input type="text" class="large-text" name="author_background_3" id="author_background_3" value="<?php echo $author_background_3; ?>" /></td>
-			</tr>
-			<tr valign="top" class="alternate">
-				<td scope="row" width="20%"><label for="author_content_3"><?php esc_attr_e( 'Author Response', 'wp_admin_style' ); ?></label></td>
-				<td><textarea id="author_content_3" name="author_content_3" cols="80" rows="5" class="large-text"><?php echo $author_content_3; ?></textarea><br></td>
-			</tr>
-			<tr valign="top">
-				<td scope="row" width="20%"><label for="author_headshot_image_3" class="abt-row-title"><?php esc_attr_e( 'Author Photo', 'abt-textdomain' )?></label></td>
-				<td>
-					<input type="text" name="author_headshot_image_3" id="author_headshot_image_3" value="<?php echo $author_image_3; ?>" />
-						<input type="button" id="author_headshot_image_button_3" class="button" value="<?php esc_attr_e( 'Choose or Upload an Image', 'abt-textdomain' )?>" />
-				</td>
-			</tr>
-		</table>
-	</div>
+	<?php for ( $i = 1; $i < 4; $i++ ) : ?>
+
+		<div id="tabs-<?php echo $i; ?>">
+			<table class="form-table" style="border-top: solid 2px #dedede;">
+				<tr valign="top" class="alternate">
+					<td width="20%"><label for="peer_review_box_heading_<?php echo $i; ?>" class="abt-row-title" width="20%"><?php esc_attr_e( 'Heading for Peer Review', 'abt-textdomain' ) ?></label></td>
+					<td><input type="text" class="large-text" name="peer_review_box_heading_<?php echo $i; ?>" id="peer_review_box_heading_<?php echo $i; ?>" value="<?php echo ${'peer_review_box_heading_' . $i}; ?>" /></td>
+				</tr>
+				<tr valign="top">
+					<td width="20%"><label for="reviewer_name_<?php echo $i; ?>" class="abt-row-title" width="20%"><?php esc_attr_e( 'Peer Reviewer Name', 'abt-textdomain' ) ?></label></td>
+					<td><input type="text" class="large-text" name="reviewer_name_<?php echo $i; ?>" id="reviewer_name_<?php echo $i; ?>" value="<?php echo ${'reviewer_name_' . $i}; ?>" /></td>
+				</tr>
+				<tr valign="top" class="alternate">
+					<td width="20%"><label for="reviewer_background_<?php echo $i; ?>" class="abt-row-title" width="20%"><?php esc_attr_e( 'Peer Reviewer Background', 'abt-textdomain' ) ?></label></td>
+					<td><input type="text" class="large-text" name="reviewer_background_<?php echo $i; ?>" id="reviewer_background_<?php echo $i; ?>" value="<?php echo ${'reviewer_background_' . $i}; ?>" /></td>
+				</tr>
+				<tr valign="top">
+					<td scope="row" width="20%"><label for="peer_review_content_<?php echo $i; ?>" width="20%"><?php esc_attr_e( 'Peer Review', 'abt-textdomain' ); ?></label></td>
+					<td><textarea id="peer_review_content_<?php echo $i; ?>" name="peer_review_content_<?php echo $i; ?>" cols="80" rows="5" class="large-text"><?php echo ${'peer_review_content_' . $i}; ?></textarea><br></td>
+				</tr>
+				<tr valign="top" class="alternate">
+					<td scope="row" width="20%"><label for="reviewer_headshot_image_<?php echo $i; ?>" class="abt-row-title" width="20%"><?php esc_attr_e( 'Peer Reviewer Photo', 'abt-textdomain' )?></label></td>
+					<td>
+						<input type="text" name="reviewer_headshot_image_<?php echo $i; ?>" id="reviewer_headshot_image_<?php echo $i; ?>" value="<?php echo ${'peer_review_image_' . $i}; ?>" />
+							<input type="button" id="reviewer_headshot_image_button_<?php echo $i; ?>" class="button" value="<?php esc_attr_e( 'Choose or Upload an Image', 'abt-textdomain' )?>" />
+					</td>
+				</tr>
+				<tr valign="top">
+					<td scope="row" colspan="2"><input class="button-primary" type="button" id="author_response_button_<?php echo $i; ?>" value="<?php esc_attr_e( 'Toggle Author Response' ); ?>" /></td>
+				</tr>
+			</table>
+			<table class="form-table" id="author_response_<?php echo $i; ?>">
+				<tr valign="top" class="alternate" style="border-top: solid 2px #dedede;">
+					<td width="20%"><label for="author_name_<?php echo $i; ?>" class="abt-row-title"><?php esc_attr_e( 'Author Name', 'abt-textdomain' ) ?></label></td>
+					<td><input type="text" class="large-text" name="author_name_<?php echo $i; ?>" id="author_name_<?php echo $i; ?>" value="<?php echo ${'author_name_' . $i}; ?>" /></td>
+				</tr>
+				<tr valign="top">
+					<td width="20%"><label for="author_background_<?php echo $i; ?>" class="abt-row-title"><?php esc_attr_e( 'Author Background', 'abt-textdomain' ) ?></label></td>
+					<td><input type="text" class="large-text" name="author_background_<?php echo $i; ?>" id="author_background_<?php echo $i; ?>" value="<?php echo ${'author_background_' . $i}; ?>" /></td>
+				</tr>
+				<tr valign="top" class="alternate">
+					<td scope="row" width="20%"><label for="author_content_<?php echo $i; ?>"><?php esc_attr_e( 'Author Response', 'wp_admin_style' ); ?></label></td>
+					<td><textarea id="author_content_<?php echo $i; ?>" name="author_content_<?php echo $i; ?>" cols="80" rows="5" class="large-text"><?php echo ${'author_content_' . $i}; ?></textarea><br></td>
+				</tr>
+				<tr valign="top">
+					<td scope="row" width="20%"><label for="author_headshot_image_<?php echo $i; ?>" class="abt-row-title"><?php esc_attr_e( 'Author Photo', 'abt-textdomain' )?></label></td>
+					<td>
+						<input type="text" name="author_headshot_image_<?php echo $i; ?>" id="author_headshot_image_<?php echo $i; ?>" value="<?php echo ${'author_image_' . $i}; ?>" />
+							<input type="button" id="author_headshot_image_button_<?php echo $i; ?>" class="button" value="<?php esc_attr_e( 'Choose or Upload an Image', 'abt-textdomain' )?>" />
+					</td>
+				</tr>
+			</table>
+		</div>
+
+	<?php endfor; ?>
+	
 	</div>
 
 
@@ -249,116 +132,54 @@ function abt_meta_save( $post_id ) {
 			update_post_meta( $post_id, 'reviewer_selector', esc_attr( $_POST[ 'reviewer_selector' ] ) );
 		}
 
-	// Variables for Review Box Heading
-		if( isset( $_POST['peer_review_box_heading_1'] ) ) {
-			update_post_meta( $post_id, 'peer_review_box_heading_1', esc_attr( $_POST[ 'peer_review_box_heading_1' ] ) );
-		}
-		if( isset( $_POST['peer_review_box_heading_2'] ) ) {
-			update_post_meta( $post_id, 'peer_review_box_heading_2', esc_attr( $_POST[ 'peer_review_box_heading_2' ] ) );
-		}
-		if( isset( $_POST['peer_review_box_heading_3'] ) ) {
-			update_post_meta( $post_id, 'peer_review_box_heading_3', esc_attr( $_POST[ 'peer_review_box_heading_3' ] ) );
-		}
+	// Loop through Reviewers / Authors
+		for ( $i = 1; $i < 4; $i++ ) { 
+			
+			// Box Headings
+			if( isset( $_POST['peer_review_box_heading_' . $i] ) ) {
+				update_post_meta( $post_id, 'peer_review_box_heading_' . $i, esc_attr( $_POST[ 'peer_review_box_heading_' . $i ] ) );
+			}
 
-	// Variables for First Reviewer
-		if( isset( $_POST[ 'reviewer_name_1' ] ) ) {
-			update_post_meta( $post_id, 'reviewer_name_1', sanitize_text_field( $_POST[ 'reviewer_name_1' ] ) );
-		}
+			// Reviewer Names
+			if( isset( $_POST[ 'reviewer_name_' . $i ] ) ) {
+				update_post_meta( $post_id, 'reviewer_name_' . $i, sanitize_text_field( $_POST[ 'reviewer_name_' . $i ] ) );
+			}
 
-		if( isset( $_POST[ 'reviewer_background_1' ] ) ) {
-			update_post_meta( $post_id, 'reviewer_background_1', sanitize_text_field( $_POST[ 'reviewer_background_1' ] ) );
-		}
+			// Reviewer Backgrounds
+			if( isset( $_POST[ 'reviewer_background_' . $i ] ) ) {
+				update_post_meta( $post_id, 'reviewer_background_' . $i, sanitize_text_field( $_POST[ 'reviewer_background_' . $i ] ) );
+			}
 
-		if( isset( $_POST[ 'peer_review_content_1' ] ) ) {
-			update_post_meta( $post_id, 'peer_review_content_1', esc_attr( $_POST[ 'peer_review_content_1' ] ) );
-		}
+			// Reviews
+			if( isset( $_POST[ 'peer_review_content_' . $i ] ) ) {
+				update_post_meta( $post_id, 'peer_review_content_' . $i, esc_attr( $_POST[ 'peer_review_content_' . $i ] ) );
+			}
 
-		if( isset( $_POST[ 'reviewer_headshot_image_1' ] ) ) {
-			update_post_meta( $post_id, 'reviewer_headshot_image_1', $_POST[ 'reviewer_headshot_image_1' ] );
-		}
+			// Reviewer Headshot Image URLs
+			if( isset( $_POST[ 'reviewer_headshot_image_' . $i ] ) ) {
+				update_post_meta( $post_id, 'reviewer_headshot_image_' . $i, $_POST[ 'reviewer_headshot_image_' . $i ] );
+			}
 
-	// Variables for First Author Response
-		if( isset( $_POST[ 'author_name_1' ] ) ) {
-			update_post_meta( $post_id, 'author_name_1', sanitize_text_field( $_POST[ 'author_name_1' ] ) );
-		}
+			// Responding Author Names
+			if( isset( $_POST[ 'author_name_' . $i ] ) ) {
+				update_post_meta( $post_id, 'author_name_' . $i, sanitize_text_field( $_POST[ 'author_name_' . $i ] ) );
+			}
 
-		if( isset( $_POST[ 'author_background_1' ] ) ) {
-			update_post_meta( $post_id, 'author_background_1', sanitize_text_field( $_POST[ 'author_background_1' ] ) );
-		}
+			// Responding Author Backgrounds
+			if( isset( $_POST[ 'author_background_' . $i ] ) ) {
+				update_post_meta( $post_id, 'author_background_' . $i, sanitize_text_field( $_POST[ 'author_background_' . $i ] ) );
+			}
 
-		if( isset( $_POST[ 'author_content_1' ] ) ) {
-			update_post_meta( $post_id, 'author_content_1', esc_attr( $_POST[ 'author_content_1' ] ) );
-		}
+			// Author Responses
+			if( isset( $_POST[ 'author_content_' . $i ] ) ) {
+				update_post_meta( $post_id, 'author_content_' . $i, esc_attr( $_POST[ 'author_content_' . $i ] ) );
+			}
 
-		if( isset( $_POST[ 'author_headshot_image_1' ] ) ) {
-			update_post_meta( $post_id, 'author_headshot_image_1', $_POST[ 'author_headshot_image_1' ] );
-		}
-
-	// Variables for Second Reviewer
-		if( isset( $_POST[ 'reviewer_name_2' ] ) ) {
-			update_post_meta( $post_id, 'reviewer_name_2', sanitize_text_field( $_POST[ 'reviewer_name_2' ] ) );
-		}
-
-		if( isset( $_POST[ 'reviewer_background_2' ] ) ) {
-			update_post_meta( $post_id, 'reviewer_background_2', sanitize_text_field( $_POST[ 'reviewer_background_2' ] ) );
-		}
-
-		if( isset( $_POST[ 'peer_review_content_2' ] ) ) {
-			update_post_meta( $post_id, 'peer_review_content_2', esc_attr( $_POST[ 'peer_review_content_2' ] ) );
-		}
-		if( isset( $_POST[ 'reviewer_headshot_image_2' ] ) ) {
-			update_post_meta( $post_id, 'reviewer_headshot_image_2', $_POST[ 'reviewer_headshot_image_2' ] );
-		}
-
-	// Variables for Second Author Response
-		if( isset( $_POST[ 'author_name_2' ] ) ) {
-			update_post_meta( $post_id, 'author_name_2', sanitize_text_field( $_POST[ 'author_name_2' ] ) );
-		}
-
-		if( isset( $_POST[ 'author_background_2' ] ) ) {
-			update_post_meta( $post_id, 'author_background_2', sanitize_text_field( $_POST[ 'author_background_2' ] ) );
-		}
-
-		if( isset( $_POST[ 'author_content_2' ] ) ) {
-			update_post_meta( $post_id, 'author_content_2', esc_attr( $_POST[ 'author_content_2' ] ) );
-		}
-
-		if( isset( $_POST[ 'author_headshot_image_2' ] ) ) {
-			update_post_meta( $post_id, 'author_headshot_image_2', $_POST[ 'author_headshot_image_2' ] );
-		}
-
-
-	// Variables for Third Reviewer
-		if( isset( $_POST[ 'reviewer_name_3' ] ) ) {
-			update_post_meta( $post_id, 'reviewer_name_3', sanitize_text_field( $_POST[ 'reviewer_name_3' ] ) );
-		}
-
-		if( isset( $_POST[ 'reviewer_background_3' ] ) ) {
-			update_post_meta( $post_id, 'reviewer_background_3', sanitize_text_field( $_POST[ 'reviewer_background_3' ] ) );
-		}
-
-		if( isset( $_POST[ 'peer_review_content_3' ] ) ) {
-			update_post_meta( $post_id, 'peer_review_content_3', esc_attr( $_POST[ 'peer_review_content_3' ] ) );
-		}
-		if( isset( $_POST[ 'reviewer_headshot_image_3' ] ) ) {
-			update_post_meta( $post_id, 'reviewer_headshot_image_3', $_POST[ 'reviewer_headshot_image_3' ] );
-		}
-
-	// Variables for Third Author Response
-		if( isset( $_POST[ 'author_name_3' ] ) ) {
-			update_post_meta( $post_id, 'author_name_3', sanitize_text_field( $_POST[ 'author_name_3' ] ) );
-		}
-
-		if( isset( $_POST[ 'author_background_3' ] ) ) {
-			update_post_meta( $post_id, 'author_background_3', sanitize_text_field( $_POST[ 'author_background_3' ] ) );
-		}
-
-		if( isset( $_POST[ 'author_content_3' ] ) ) {
-			update_post_meta( $post_id, 'author_content_3', esc_attr( $_POST[ 'author_content_3' ] ) );
-		}
-
-		if( isset( $_POST[ 'author_headshot_image_3' ] ) ) {
-			update_post_meta( $post_id, 'author_headshot_image_3', $_POST[ 'author_headshot_image_3' ] );
+			// Responding Author Headshot Image URLs
+			if( isset( $_POST[ 'author_headshot_image_' . $i ] ) ) {
+				update_post_meta( $post_id, 'author_headshot_image_' . $i, $_POST[ 'author_headshot_image_' . $i ] );
+			}
+		
 		}
  
 }
@@ -374,7 +195,7 @@ function insert_the_meta( $text ) {
 		// Gather Variables
 		$meta_master = get_post_meta( get_the_id() );
 
-		// Set Reviewer Name Variables		
+		// Set Peer Review Variables		
 		for ( $i = 1; $i < 4; $i++ ) { 
 
 			${'peer_review_box_heading_' . $i} = $meta_master['peer_review_box_heading_' . $i][0];
@@ -382,17 +203,11 @@ function insert_the_meta( $text ) {
 			${'reviewer_background_' . $i} = $meta_master['reviewer_background_' . $i][0];
 			${'peer_review_content_' . $i} = $meta_master['peer_review_content_' . $i][0];
 			${'reviewer_headshot_image_' . $i} = $meta_master['reviewer_headshot_image_' . $i][0];
-
-		}
-
-		// Set Author Resonse Name Variables
-		for ( $i = 1; $i < 4; $i++ ) { 
-			
 			${'author_name_' . $i} = $meta_master['author_name_' . $i][0];
 			${'author_background_' . $i} = $meta_master['author_background_' . $i][0];
 			${'author_content_' . $i} = $meta_master['author_content_' . $i][0];
 			${'author_headshot_image_' . $i} = $meta_master['author_headshot_image_' . $i][0];
-		
+
 		}
 
 		// Loop through and create peer review 'blocks'
