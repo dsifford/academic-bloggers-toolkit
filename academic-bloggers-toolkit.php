@@ -14,6 +14,7 @@
 // Assign Global Variables
 
 $plugin_url = WP_PLUGIN_URL . '/academic-bloggers-toolkit';
+$options = array();
 
 
 // Enqueue Stylesheets
@@ -31,5 +32,8 @@ add_action( 'wp_enqueue_scripts', 'abt_enqueue_styles');
 require('inc/shortcodes.php');
 require('inc/tinymce-init.php');
 require('inc/peer-review.php');
+require('inc/options-page.php');
+require('inc/email-metrics.php');
+
 
 ?>
