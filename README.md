@@ -19,6 +19,10 @@ Please direct all ideas to the Academic Blogger's Toolkit [Trello Board](https:/
 - Options menu
     + Include css override area
 - Rewrite citation parser script to be friendlier with multiple citation styles
+- Add twitter link and image to peer review background area.
+- Tidy up citation anchor links --
+    + Add jQuery smooth animation
+    + Account for heading bar on bounceback
 
 ##Future
 - Multiple Authors
