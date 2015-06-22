@@ -22,8 +22,8 @@ add_action( 'admin_head', 'abt_custom_mce_buttons' );
 
 // Function for new button
 function custom_tinymce_plugin( $plugin_array ) {
-  $plugin_array['abt_inline_citation_mce_button'] = plugins_url('academic-bloggers-toolkit/inc/tinymce-buttons.js');
-  $plugin_array['abt_ref_id_parser_mce_button'] = plugins_url('academic-bloggers-toolkit/inc/tinymce-buttons.js');
+  $plugin_array['abt_inline_citation_mce_button'] = plugins_url('academic-bloggers-toolkit/inc/js/tinymce-buttons.js');
+  $plugin_array['abt_ref_id_parser_mce_button'] = plugins_url('academic-bloggers-toolkit/inc/js/tinymce-buttons.js');
   return $plugin_array;
 }
 

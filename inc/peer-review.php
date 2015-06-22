@@ -324,7 +324,7 @@ add_filter( 'the_content', 'insert_the_meta');
 
 function abt_peer_review_js_enqueue() {
 
-		wp_register_script('peer_review', plugin_dir_url( __FILE__ ) . 'peer-review.js', array( 'jquery', 'jquery-ui-accordion' ) );
+		wp_register_script('peer_review', plugins_url('academic-bloggers-toolkit/inc/js/peer-review.js'), array( 'jquery', 'jquery-ui-accordion' ) );
 
 		wp_enqueue_script('jquery');
 		wp_enqueue_script('jquery-ui-accordion');
@@ -346,7 +346,7 @@ function abt_image_enqueue() {
         wp_enqueue_media();
  
         // Registers and enqueues the required javascript.
-        wp_register_script( 'meta-box-image', plugin_dir_url( __FILE__ ) . 'meta-box-image.js', array( 'jquery' ) );
+        wp_register_script( 'meta-box-image', plugins_url('academic-bloggers-toolkit/inc/js/meta-box-image.js'), array( 'jquery' ) );
         wp_localize_script( 'meta-box-image', 'meta_image',
             array(
                 'title' => __( 'Choose or Upload an Image', 'abt-textdomain' ),

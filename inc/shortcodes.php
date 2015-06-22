@@ -67,23 +67,24 @@ function ref_id_parser ( $atts ) {
 
 	// Take formatted JSON and parse it into formatted citations
 
+	$options = get_option( 'abt_citation_options' );
 
+	
 	// American Medical Association (AMA) Format
+	if ( $options['abt_citation_style'] == 'American Medical Association (AMA)' ) {
 
 		if( count($tidy_json->{'result'}->{$pmid}->{'authors'}) == 0 ) {
 
 			return '<strong style="color: red; font-size: 0.8em;">Unable to locate identifier for this reference. To avoid this error, please try again with the PMID.</strong>';
 
-		}
-		
-		elseif ( count($tidy_json->{'result'}->{$pmid}->{'authors'}) == 1 ) {
+		} elseif ( count($tidy_json->{'result'}->{$pmid}->{'authors'}) == 1 ) {
 		
 			$abt_authors = $tidy_json->{'result'}->{$pmid}->{'authors'}[0]->{'name'};
 		
 		} elseif ( count($tidy_json->{'result'}->{$pmid}->{'authors'}) > 1 && count($tidy_json->{'result'}->{$pmid}->{'authors'}) < 7 ) {
 			
 			for ( $i=0; $i < count($tidy_json->{'result'}->{$pmid}->{'authors'}) - 1; $i++ ) { 
-				
+
 				$abt_authors = $abt_authors . $tidy_json->{'result'}->{$pmid}->{'authors'}[$i]->{'name'} . ', ';
 
 			}
@@ -126,11 +127,10 @@ function ref_id_parser ( $atts ) {
 			return $abt_full_citation;
 
 		}
+
+	}
 	
 }
 add_shortcode( 'ref', 'ref_id_parser' );
-
-
-// Manually entered Citation
 
 	
