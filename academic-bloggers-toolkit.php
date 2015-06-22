@@ -21,7 +21,7 @@ $options = array();
 
 function abt_enqueue_styles() {
 
-	wp_enqueue_style( 'abt_shortcodes_stylesheet', plugins_url('academic-bloggers-toolkit/inc/shortcodes.css') );
+	wp_enqueue_style( 'abt_shortcodes_stylesheet', plugins_url('academic-bloggers-toolkit/inc/css/shortcodes.css') );
 
 }
 add_action( 'wp_enqueue_scripts', 'abt_enqueue_styles');
@@ -33,7 +33,6 @@ require('inc/shortcodes.php');
 require('inc/tinymce-init.php');
 require('inc/peer-review.php');
 require('inc/options-page.php');
-require('inc/email-metrics.php');
 
 
 ?>
