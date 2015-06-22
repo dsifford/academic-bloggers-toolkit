@@ -14,24 +14,73 @@
 
 					<div class="postbox">
 
-						<h3><span><?php esc_attr_e( 'Automated Email Analytics via Google Analytics', 'wp_admin_style' ); ?></span></h3>
+						<!-- CSS Override Section Begins Here -->
+
+						<h3><span><?php esc_attr_e( 'Override CSS', 'wp_admin_style' ); ?></span></h3>
+
+						<table class="form-table">
+							<tr valign="top">
+								<td scope="row" width="50%">
+									<form method="post" name="abt_custom_css_editor_form" action="">
+									<input type="hidden" name="abt_custom_css_editor_form_submitted" value="Y">
+									<textarea name="abt_custom_css_editor" id="abt_custom_css_editor" class="large-text" cols="80" rows="10"><?php echo $abt_saved_css ?></textarea><br>
+									<input class="button-primary" type="submit" name="abt_custom_css_submit" value="Update" />
+									</form>
+								</td>
+								<td width="50%" style="vertical-align: top;">
+									<table>
+										<tr>
+											<th colspan="2">Classes / IDs used in this plugin:</th>
+										</tr>
+										<tr>
+											<td><strong>Anchor Links:</strong></td>
+											<td><code>.cite, .cite-return</code></td>
+										</tr>
+										<tr>
+											<td><strong>Peer Review Boxes:</strong></td>
+											<td><code>#abt_PR_boxes, .abt_PR_info, .abt_PR_headshot, .abt_chat_bubble</code></td>
+										</tr>
+									</table>
+								</td>
+							</tr>
+						</table>
+
+
+						<!-- .inside -->
+
+					</div>
+					<!-- .postbox -->
+
+					<div class="postbox">
+
+						<h3><span><?php esc_attr_e( 'Preferred Citation Style', 'wp_admin_style' ); ?></span></h3>
 
 						<div class="inside">
-							<p><?php esc_attr_e(
-									'WordPress started in 2003 with a single bit of code to enhance the typography of everyday writing and with fewer users than you can count on your fingers and toes. Since then it has grown to be the largest self-hosted blogging tool in the world, used on millions of sites and seen by tens of millions of people every day.',
-									'wp_admin_style'
-								); ?></p>
+							
+							<form method="post" name="abt_citation_style_form" action="">
+								
+								<input type="hidden" name="abt_citation_style_form_submitted" value="Y">
+								<select name="abt_citation_style" id="abt_citation_style">
+									<option value="American Medical Association (AMA)" <?php selected( $selected, 'American Medical Association (AMA)' ); ?>>American Medical Association (AMA)</option>
+									<option value="New England Journal of Medicine" <?php selected( $selected, "New England Journal of Medicine" ); ?>>New England Journal of Medicine</option>
+								</select>
+								<input class="button-primary" type="submit" name="abt_custom_css_submit" value="Update" />
+
+							</form>
+						
 						</div>
 						<!-- .inside -->
 
 					</div>
 					<!-- .postbox -->
 
+
 				</div>
 				<!-- .meta-box-sortables .ui-sortable -->
 
 			</div>
 			<!-- post-body-content -->
+
 
 			<!-- sidebar -->
 			<div id="postbox-container-1" class="postbox-container">
@@ -41,12 +90,12 @@
 					<div class="postbox">
 
 						<h3><span><?php esc_attr_e(
-									'Sidebar Content Header', 'wp_admin_style'
+									'Please send your feedback!', 'wp_admin_style'
 								); ?></span></h3>
 
 						<div class="inside">
-							<p><?php esc_attr_e(
-									'Everything you see here, from the documentation to the code itself, was created by and for the community. WordPress is an Open Source project, which means there are hundreds of people all over the world working on it. (More than most commercial platforms.) It also means you are free to use it for anything from your cat’s home page to a Fortune 500 web site without paying anyone a license fee and a number of other important freedoms.',
+							<p><?php _e(
+									"If you experience a bug or would like to request a new feature, please visit our <a href='https://trello.com/b/nFxfo6iO/academic-blogger-s-toolkit' target='_blank'>Trello board</a> and leave a comment. We'll do our best to make it happen.<br><br>Comments can also be sent to me on twitter <a href='http://www.twitter.com/flightmed1' target='_blank'>@flightmed1</a>.",
 									'wp_admin_style'
 								); ?></p>
 						</div>
@@ -69,3 +118,24 @@
 	<!-- #poststuff -->
 
 </div> <!-- .wrap -->
+
+<script>
+	
+	// jQuery(document).ready(function($) {
+
+	// 	$('#analytics_table').hide();
+
+	// 	$('#enable_analytics').change(function() {
+			
+	// 		if (this.checked) {
+	// 			$('#analytics_table').show('slow');
+	// 		} else {
+	// 			$('#analytics_table').hide('slow');
+	// 		}
+
+	// 	});
+
+
+	// });
+
+</script>
