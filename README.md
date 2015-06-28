@@ -14,7 +14,7 @@ An **open source** Wordpress plugin providing an all-in-one solution for effecti
 ![Anchor Links](http://giant.gfycat.com/GrizzledBabyishIntermediateegret.gif)
 
 ####Append up to 3 formatted Peer Reviews to blog posts via a Frontend UI integrated on the post edit screen
-![Peer Review](http://giant.gfycat.com/AccomplishedWindyDeviltasmanian.gif)
+![PeerReview](http://i.giphy.com/3oEduUHk7UBWhh5Pa0.gif)
 
 ####Customize Options
 ![Options Page](http://i.imgur.com/i8qLiey.png)
