@@ -3,20 +3,20 @@ An **open source** Wordpress plugin providing an all-in-one solution for effecti
 
 ##Features
 
-####Automatically parse references using digital identifiers (PMID, PMCID, or DOI)
+#####Automatically parse references using digital identifiers (PMID, PMCID, or DOI)
 ![Citation Parser](http://giant.gfycat.com/FreeIcyCormorant.gif)
 - Option to add hyperlink to PubMed.
 - Available citation styles include...
     + American Medical Association (AMA) Format.
     + American Psychological Association (APA) Format. 
 
-####Anchor links to and from in-text citations
+#####Anchor links to and from in-text citations
 ![Anchor Links](http://giant.gfycat.com/GrizzledBabyishIntermediateegret.gif)
 
-####Append up to 3 formatted Peer Reviews to blog posts via a Frontend UI integrated on the post edit screen
+#####Append up to 3 formatted Peer Reviews to blog posts via a Frontend UI integrated on the post edit screen
 ![PeerReview](http://i.giphy.com/3oEduUHk7UBWhh5Pa0.gif)
 
-####Customize Options
+#####Customize Options
 ![Options Page](http://i.imgur.com/i8qLiey.png)
 - CSS override.
 - Citation style picker.
