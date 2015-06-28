@@ -62,7 +62,7 @@
 								<input type="hidden" name="abt_citation_style_form_submitted" value="Y">
 								<select name="abt_citation_style" id="abt_citation_style">
 									<option value="American Medical Association (AMA)" <?php selected( $selected, 'American Medical Association (AMA)' ); ?>>American Medical Association (AMA)</option>
-									<option value="New England Journal of Medicine" <?php selected( $selected, "New England Journal of Medicine" ); ?>>New England Journal of Medicine</option>
+									<option value="American Psychological Association (APA)" <?php selected( $selected, "American Psychological Association (APA)" ); ?>>American Psychological Association (APA)</option>
 								</select>
 								<input class="button-primary" type="submit" name="abt_custom_css_submit" value="Update" />
 
