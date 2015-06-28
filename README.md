@@ -6,6 +6,9 @@ Wordpress plugin providing an all-in-one solution for effective academic bloggin
 ##Features
 - Automatically parse references using digital identifiers (PMID, PMCID, or DOI).
     + Option to add hyperlink to PubMed.
+    + Available citation styles include...
+        * American Medical Association (AMA) Format.
+        * American Psychological Association (APA) Format. 
 - Anchor links to and from in-text citations.
 - Append up to 3 formatted Peer Reviews to blog posts via a Frontend UI integrated on the post edit screen.
 - CSS Override area in options menu.
@@ -19,16 +22,16 @@ Please direct all ideas to the Academic Blogger's Toolkit [Trello Board](https:/
 
 ##Todo List
 - Tidy up citation anchor links --
-    + Add jQuery smooth animation
-    + Account for heading bar on bounceback
+    + Add jQuery smooth animation.
+    + Adjust for heading bar on bounceback.
 
 ##Future
-- Multiple Authors
+- Multiple Authors.
 - DOI System?
+- Automatic Email Metrics.
+    + Requires extensive programming through Google's Analytics Core API. Slowly working on this.
 
 ##Additional Notes
-- **Automatic Email Metrics**
-    + At present, I don't possess the knowledge on how to work with Google's vastly complex analytics API - Consider adding this in the future.
 - Hand-typed reference fields
     + Extensive coding would be required for this. Typing manually into fields vs manually in the editor doesn't save much time. Not going to add this feature unless requested.
 - Integrate CrossRef / CSL Citations API
