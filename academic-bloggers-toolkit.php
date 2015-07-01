@@ -2,7 +2,7 @@
 
 /*
  *	Plugin Name: Academic Blogger's Toolkit
- *  Plugin URI: http://google.com/
+ *  Plugin URI: null
  *	Description: A Wordpress plugin extending the functionality of Wordpress for Academic Blogging
  *	Version: 1.0
  *	Author: Derek P Sifford
