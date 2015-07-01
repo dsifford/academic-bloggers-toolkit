@@ -27,7 +27,7 @@ An **open source** Wordpress plugin providing an all-in-one solution for effecti
 Please direct all ideas to the Academic Blogger's Toolkit [Trello Board](https://trello.com/b/nFxfo6iO/academic-blogger-s-toolkit)
 
 ##Currently Working On
-
+- Update README in compliance with WordPress Standards
 
 ##Todo List
 
