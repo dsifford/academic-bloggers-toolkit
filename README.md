@@ -12,6 +12,8 @@ An **open source** Wordpress plugin providing an all-in-one solution for effecti
 
 #####Anchor links to and from in-text citations
 ![Anchor Links](http://giant.gfycat.com/GrizzledBabyishIntermediateegret.gif)
+- Smooth scrolling using jQuery
+- Fix: Corrected issue where admin bar would block the target link.
 
 #####Append up to 3 formatted Peer Reviews to blog posts via a Frontend UI integrated on the post edit screen
 ![PeerReview](http://i.giphy.com/3oEduUHk7UBWhh5Pa0.gif)
@@ -25,12 +27,10 @@ An **open source** Wordpress plugin providing an all-in-one solution for effecti
 Please direct all ideas to the Academic Blogger's Toolkit [Trello Board](https://trello.com/b/nFxfo6iO/academic-blogger-s-toolkit)
 
 ##Currently Working On
-- Rewrite citation parser script to be friendlier with multiple citation styles
+
 
 ##Todo List
-- Tidy up citation anchor links --
-    + Add jQuery smooth animation.
-    + Adjust for heading bar on bounceback.
+
 
 ##Future
 - Multiple Authors.
