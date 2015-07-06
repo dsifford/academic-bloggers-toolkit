@@ -56,9 +56,9 @@
 						<h3><span><?php esc_attr_e( 'Preferred Citation Style', 'wp_admin_style' ); ?></span></h3>
 
 						<div class="inside">
-							
+
 							<form method="post" name="abt_citation_style_form" action="">
-								
+
 								<input type="hidden" name="abt_citation_style_form_submitted" value="Y">
 								<select name="abt_citation_style" id="abt_citation_style">
 									<option value="American Medical Association (AMA)" <?php selected( $selected, 'American Medical Association (AMA)' ); ?>>American Medical Association (AMA)</option>
@@ -67,7 +67,7 @@
 								<input class="button-primary" type="submit" name="abt_custom_css_submit" value="Update" />
 
 							</form>
-						
+
 						</div>
 						<!-- .inside -->
 
@@ -118,24 +118,3 @@
 	<!-- #poststuff -->
 
 </div> <!-- .wrap -->
-
-<script>
-	
-	// jQuery(document).ready(function($) {
-
-	// 	$('#analytics_table').hide();
-
-	// 	$('#enable_analytics').change(function() {
-			
-	// 		if (this.checked) {
-	// 			$('#analytics_table').show('slow');
-	// 		} else {
-	// 			$('#analytics_table').hide('slow');
-	// 		}
-
-	// 	});
-
-
-	// });
-
-</script>

@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 function abt_peer_review_meta() {
 	add_meta_box( 'abt_peer_review', __( 'Add Peer Review(s)', 'abt-textdomain' ), 'abt_peer_review_callback', 'post', 'normal', 'high' );
@@ -9,19 +9,19 @@ add_action( 'add_meta_boxes', 'abt_peer_review_meta' );
 
 function abt_peer_review_callback( $post ) {
 	wp_nonce_field( basename( __file__ ), 'abt_nonce' );
- 	
+
 	$values = get_post_custom( $post->ID );
-	
+
 	// Variable for Select Box
 		$selected = isset( $values['reviewer_selector'] ) ? esc_attr( $values['reviewer_selector'][0] ) : '';
-	
+
 	// Loop through and set variables
 
-		for ( $i = 1; $i < 4; $i++ ) { 
-			
+		for ( $i = 1; $i < 4; $i++ ) {
+
 			// Variables for Peer Review Box Headings
 			${'peer_review_box_heading_' . $i} = isset( $values['peer_review_box_heading_' . $i] ) ? esc_attr( $values['peer_review_box_heading_' . $i][0] ) : '';
-		
+
 			// Reviewer Variables
 			${'reviewer_name_' . $i} = isset( $values['reviewer_name_' . $i] ) ? esc_attr( $values['reviewer_name_' . $i][0] ) : '';
 			${'reviewer_twitter_' . $i} = isset( $values['reviewer_twitter_' . $i] ) ? esc_attr( $values['reviewer_twitter_' . $i][0] ) : '';
@@ -37,7 +37,7 @@ function abt_peer_review_callback( $post ) {
 			${'author_image_' . $i} = isset( $values['author_headshot_image_' . $i] ) ? esc_attr( $values['author_headshot_image_' . $i][0] ) : '';
 
 		}
-	
+
 	?>
 	<div id="peer_review_metabox_wrapper">
 	<select name="reviewer_selector" id="reviewer_selector">
@@ -108,7 +108,7 @@ function abt_peer_review_callback( $post ) {
 		</div>
 
 	<?php endfor; ?>
-	
+
 	</div>
 
 
@@ -132,15 +132,15 @@ function abt_meta_save( $post_id ) {
 
 	// Begin Saving Meta Variables
 
-	
+
 	// Selector Variable
 		if( isset( $_POST['reviewer_selector'] ) ) {
 			update_post_meta( $post_id, 'reviewer_selector', esc_attr( $_POST[ 'reviewer_selector' ] ) );
 		}
 
 	// Loop through Reviewers / Authors
-		for ( $i = 1; $i < 4; $i++ ) { 
-			
+		for ( $i = 1; $i < 4; $i++ ) {
+
 			// Box Headings
 			if( isset( $_POST['peer_review_box_heading_' . $i] ) ) {
 				update_post_meta( $post_id, 'peer_review_box_heading_' . $i, esc_attr( $_POST[ 'peer_review_box_heading_' . $i ] ) );
@@ -195,27 +195,27 @@ function abt_meta_save( $post_id ) {
 			if( isset( $_POST[ 'author_headshot_image_' . $i ] ) ) {
 				update_post_meta( $post_id, 'author_headshot_image_' . $i, $_POST[ 'author_headshot_image_' . $i ] );
 			}
-		
+
 		}
- 
+
 }
 add_action( 'save_post', 'abt_meta_save' );
 
 
 function insert_the_meta( $text ) {
-	
+
 	if ( is_single() || is_page() ) {
-		
+
 		global $post;
 
 		$name = get_the_author_meta( 'display_name', $author );
 		$email = get_the_author_meta( 'user_email', $author );
-		
+
 		// Gather Variables
 		$meta_master = get_post_meta( get_the_id() );
 
-		// Set Peer Review Variables		
-		for ( $i = 1; $i < 4; $i++ ) { 
+		// Set Peer Review Variables
+		for ( $i = 1; $i < 4; $i++ ) {
 
 			${'peer_review_box_heading_' . $i} = $meta_master['peer_review_box_heading_' . $i][0];
 			${'reviewer_name_' . $i} = $meta_master['reviewer_name_' . $i][0];
@@ -232,90 +232,91 @@ function insert_the_meta( $text ) {
 		}
 
 		// Format Twitter Handles
-		for ( $i = 1; $i < 4; $i++ ) { 
-			
+		for ( $i = 1; $i < 4; $i++ ) {
+
 			// Check if the variable exists or is not blank
 			if ( ${'reviewer_twitter_' . $i} != null && ${'reviewer_twitter_' . $i} != '' ) {
-			
+
 				// Loop through to remove '@' symbol from Twitter handles if they are present
 				if ( ${'reviewer_twitter_' . $i}[0] == "@" ) {
 
 					${'reviewer_twitter_' . $i} = substr( ${'reviewer_twitter_' . $i} , 1);
-				
+
 				}
 
 				// Set the styled twitter links
 				${'reviewer_twitter_' . $i} = '<img style="vertical-align: middle;" src="https://g.twimg.com/Twitter_logo_blue.png" width="10px" height="10px"><a href="http://www.twitter.com/' . ${'reviewer_twitter_' . $i} . '" target="_blank">@' . ${'reviewer_twitter_' . $i} . '</a>' ;
 
 			}
-			
+
 			// Check if the variable exists or is not blank
 			if ( ${'author_twitter_' . $i} != null && ${'author_twitter_' . $i} != '' ) {
-			
+
 				// Loop through to remove '@' symbol from Twitter handles if they are present
 				if ( ${'author_twitter_' . $i}[0] == "@" ) {
 
 					${'author_twitter_' . $i} = substr( ${'author_twitter_' . $i} , 1);
-				
+
 				}
 
 				// Set the styled twitter links
 				${'author_twitter_' . $i} = '<img style="vertical-align: middle;" src="https://g.twimg.com/Twitter_logo_blue.png" width="10px" height="10px"><a href="http://www.twitter.com/' . ${'author_twitter_' . $i} . '" target="_blank">@' . ${'author_twitter_' . $i} . '</a>' ;
 
-			}	
-		
+			}
+
 		}
 
 		// Loop through and create peer review 'blocks'
-		if ( $post->post_type == 'post' && $meta_master != '' ) { 
-			
-			for ( $i = 1; $i < 4; $i++ ) { 
+		if ( $post->post_type == 'post' && $meta_master != '' ) {
+
+			for ( $i = 1; $i < 4; $i++ ) {
 
 				if ( ${'author_name_' . $i} != '' ) {
-				
+
 					${'author_block_' . $i} =
 						'<div class="abt_chat_bubble">' . ${'author_content_' . $i} . '</div>' .
 						'<div class="abt_PR_info"><img src="' . ${'author_headshot_image_' . $i} . '" width="100px" class="abt_PR_headshot">' .
-							'<strong>' . ${'author_name_' . $i} . '</strong><br />' . 
+							'<strong>' . ${'author_name_' . $i} . '</strong><br />' .
 							${'author_background_' . $i} . '<br />' .
 							${'author_twitter_' . $i} .
 						'</div>';
-				
+
 				}
-				
+
 				if ( ${'reviewer_name_' . $i} != '' ) {
-				
+
 					${'reviewer_block_' . $i} =
 						'<h3>' . ${'peer_review_box_heading_' . $i} . '</h3>' .
 							'<div>' .
 								'<div class="abt_chat_bubble">' . ${'peer_review_content_' . $i} . '</div>' .
 								'<div class="abt_PR_info"><img src="' . ${'reviewer_headshot_image_' . $i} . '" width="100px" class="abt_PR_headshot">' .
-									'<strong>' . ${'reviewer_name_' . $i} . '</strong><br />' . 
+									'<strong>' . ${'reviewer_name_' . $i} . '</strong><br />' .
 									${'reviewer_background_' . $i} . '<br />' .
 									${'reviewer_twitter_' . $i} .
 								'</div>' .
 								( isset(${'author_block_' . $i}) ? ${'author_block_' . $i} : '' ) .
 							'</div>';
-				
+
 				}
 			}
 
 			// Final logic check to make sure there is at least one peer review block available
 			if ( $reviewer_block_1 != '' ) {
-			
-				$text .= 
+
+				$text .=
 						'<div id="abt_PR_boxes">' .
-							$reviewer_block_1 . 
+							$reviewer_block_1 .
 							( ( $reviewer_block_2 != '' ) ? $reviewer_block_2 : '' ) .
 							( ( $reviewer_block_3 != '' ) ? $reviewer_block_3 : '' ) .
 						'</div>';
-			
+
 			}
 
 			return $text;
 
 		}
 	}
+	return $text;
 }
 add_filter( 'the_content', 'insert_the_meta');
 
@@ -344,7 +345,7 @@ function abt_image_enqueue() {
     global $typenow;
     if( $typenow == 'post' ) {
         wp_enqueue_media();
- 
+
         // Registers and enqueues the required javascript.
         wp_register_script( 'meta-box-image', plugins_url('academic-bloggers-toolkit/inc/js/meta-box-image.js'), array( 'jquery' ) );
         wp_localize_script( 'meta-box-image', 'meta_image',
