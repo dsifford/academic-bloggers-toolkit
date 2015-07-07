@@ -10,7 +10,7 @@ License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
 A WordPress plugin extending the functionality of WordPress for Academic Blogging.
 
-== Description ==
+== Description ==a
 
 Academic Blogger's toolkit is an **open source** WordPress plugin providing an all-in-one solution for effective academic blogging.
 
