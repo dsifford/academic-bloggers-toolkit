@@ -109,13 +109,13 @@
 										<h3>Setting Up Link Tracking:</h3>
 										<ol>
 											<li>Paste the Google Tag Manager code in the box on the left.</li>
-											<li>In the Google Tag Manager account window, click the <code>Variables</code> tab and be sure all <code>Clicks</code> variables are selected. Next, create a new <code>User-Defined Variable</code> with the following settings:</li>
-												<ul>
+											<li>In the Google Tag Manager account window, click the <code>Variables</code> tab and be sure all <code>Clicks</code> variables are selected.<br>Next, create a new <code>User-Defined Variable</code> with the following options:</li>
+												<ul style="margin-left: 15px;">
 													<li><strong>Name:</strong> gaProperty</li>
 													<li><strong>Type:</strong> Constant</li>
 													<li><strong>Value:</strong> (your Google Analytics Tracking ID)</li>
 												</ul>
-											<li>Click the <code>Tags</code> tab and set up a new tab (Note: I focus on link event tracking here, but most others should work as well). When the New Tag dialog window opens, select the following settings:</li>
+											<li>Click the <code>Tags</code> tab and set up a new tag (Note: I focus on link event tracking here, but most others should work as well).<br>When the New Tag dialog window opens, set the following options:</li>
 												<ul style="margin-left: 15px;">
 													<li><strong>Product:</strong> Google Analytics</li>
 													<li><strong>Tag Type:</strong> Universal Analytics</li>
