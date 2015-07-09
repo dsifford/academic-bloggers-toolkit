@@ -47,7 +47,6 @@
   text-align: center;
   font-size: 10px;
   margin-bottom: 10px;
-  /*line-height: 14px;*/
   margin-right: 5px;
 }
 
@@ -64,7 +63,7 @@
 .abt_chat_bubble {
   display: inline-block;
   position: relative;
-  width: 64%;
+  width: 63%;
   height: auto;
   min-height: 100px;
   margin-right: 0px;
@@ -120,7 +119,7 @@
       -webkit-transform: rotate(45deg);
       transform: rotate(45deg);
       z-index: 1;
-      
+
     }
     .abt_chat_bubble:after {
       display: none;

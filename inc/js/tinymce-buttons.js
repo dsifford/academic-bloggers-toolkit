@@ -2,7 +2,7 @@
 (function() {
 
     tinymce.PluginManager.add('abt_ref_id_parser_mce_button', function(editor, url) {
-        editor.addButton('abt_ref_id_parser_mce_button', 
+        editor.addButton('abt_ref_id_parser_mce_button',
 			{
 				type: 'menubutton',
 				image: url+ '/../images/book.png',
@@ -30,9 +30,9 @@
 																		name: 'citation_checkbox',
 																		checked: false,
 																		label: 'Return Citation?',
-																	}, 
+																	},
 																  ],
-														    
+
 														    onsubmit: function(e) {
 
 														    	if (e.data.citation_checkbox) {
@@ -40,14 +40,14 @@
 														            } else {
 														            	var trailingText = (']');
 														            }
-														        
+
 														        editor.insertContent(
 														            '[cite num=&quot;' + e.data.citation_number + '&quot;' + trailingText
 														            );
 														    }
 														});
 												}
-											}, 
+											},
 											// Separator
 											{text: '-'},
 											// Single Reference Menu Item
@@ -75,9 +75,9 @@
 												                    }
 												                  ],
 															onsubmit: function(e) {
-																if ( e.data.ref_id_include_link ) { 
+																if ( e.data.ref_id_include_link ) {
 																	var linkLogic = ' link=' + e.data.ref_id_include_link + ']';
-																} else { 
+																} else {
 																	var linkLogic = ']';
 																}
 
@@ -90,8 +90,66 @@
 											}
 										]
 							},
-							{text: '-'},
 							{
+                                text: 'Tracked Link',
+                                onclick: function() {
+                                    var user_selection = tinyMCE.activeEditor.selection.getContent( {format : 'text'} );
+                                    editor.windowManager.open(
+                                        {
+                                            title: 'Insert Tracked Link',
+                                            width: 600,
+                                            height: 160,
+                                            buttons: [
+                                                {
+                                                    text: 'Insert',
+                                                    onclick: 'submit'
+                                                }
+                                            ],
+                                            body: [
+                                                {
+                                                    type: 'textbox',
+                                                    name: 'tracked_url',
+                                                    label: 'URL',
+                                                    value: ''
+                                                },
+                                                {
+                                                    type: 'textbox',
+                                                    name: 'tracked_title',
+                                                    label: 'Link Text',
+                                                    value: user_selection
+                                                },
+                                                {
+                                                    type: 'textbox',
+                                                    name: 'tracked_tag',
+                                                    label: 'Custom Tag ID',
+                                                    tooltip: 'Don\'t forget to create matching tag in Google Tag Manager!',
+                                                    value: ''
+                                                },
+                                                {
+                                                    type: 'checkbox',
+                                                    name: 'tracked_new_window',
+                                                    label: 'Open link in a new window/tab'
+                                                },
+                                            ],
+                                            onsubmit: function(e) {
+                                                var trackedUrl = e.data.tracked_url;
+                                                var trackedTitle = e.data.tracked_title;
+                                                var trackedTag = e.data.tracked_tag;
+
+                                                if (e.data.tracked_new_window) {
+                                                    var trackedLink = '<a href="' + trackedUrl + '" id="' + trackedTag + '" target="_blank">' + trackedTitle + '</a>';
+                                                } else {
+                                                    var trackedLink = '<a href="' + trackedUrl + '" id="' + trackedTag + '">' + trackedTitle + '</a>';
+                                                }
+
+                                                editor.execCommand('mceInsertContent', false, trackedLink);
+                                            }
+                                        }
+                                    );
+                                }
+                            },
+							{text: '-'},
+                            {
 								text: 'Request More Tools',
 								onclick: function() {
 									editor.windowManager.open(

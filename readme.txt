@@ -1,10 +1,10 @@
 === Academic Blogger's Toolkit ===
 Contributors: dsifford
 Donate link: https://cash.me/$dsifford
-Tags: academic, pmid, doi, peer-review
+Tags: academic, pmid, doi, peer-review, Google Tag Manager
 Requires at least: 4.2.2
 Tested up to: 4.2.2
-Stable tag: 1.1
+Stable tag: 1.1.1
 License: GPL3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -14,9 +14,6 @@ A WordPress plugin extending the functionality of WordPress for Academic Bloggin
 
 Academic Blogger's toolkit is an **open source** WordPress plugin providing an all-in-one solution for effective academic blogging.
 
-= ---Features--- =
-
-
 = Automatically parse references using digital identifiers (PMID, PMCID, or DOI) =
 - Option to add hyperlink to PubMed.
 - Available citation styles include...
@@ -25,7 +22,6 @@ Academic Blogger's toolkit is an **open source** WordPress plugin providing an a
 
 = Anchor links to and from in-text citations =
 - Smooth scrolling using jQuery.
-- Fix: Corrected issue where admin bar would block the target link.
 
 = Append up to 3 formatted Peer Reviews to blog posts via a Frontend UI integrated on the post edit screen =
 - Input areas for the Peer Review section include...
@@ -35,6 +31,10 @@ Academic Blogger's toolkit is an **open source** WordPress plugin providing an a
 	4. Peer Review
 	5. Reviewer Photo (interfaces with WordPress's Media Uploader)
 - Option to add Author Response to Peer Reviews.
+
+= Integration with Google Tag Manager =
+- Google's newest [analytics powerhouse](http://www.google.com/tagmanager/)!
+- Track individual link clicks to see who is interacting with or downloading your content and much more!
 
 = Customizable Options =
 * CSS override area to adjust the look of any content that doesn't fit your site's style.
@@ -56,7 +56,7 @@ Absolutely! Please send all ideas to the Academic Blogger's Toolkit [Trello Boar
 
 = I found a bug. Who should I contact? =
 
-Yikes! I'm sorry about that. Please report all issues on the Academic Blogger's Toolkit [Github Repository](https://github.com/dsifford/academic-bloggers-toolkit/issues).
+Yikes! I'm sorry about that. Please report all issues on the Academic Blogger's Toolkit [GitHub Repository](https://github.com/dsifford/academic-bloggers-toolkit/issues).
 
 == Screenshots ==
 
@@ -67,6 +67,13 @@ Yikes! I'm sorry about that. Please report all issues on the Academic Blogger's 
 
 == Changelog ==
 
+= 1.1.1 =
+* **Feature Release:** Integration with Google Tag Manager. Starting now, you can set up individual link click tracking via Google Analytics! Use this feature to track PDF downloads, page-views, form submits, or anything else you can think of!
+* **Bugfix:** Issue causing some users' Peer Review Boxes to not be formatted correctly.
+* **Bugfix:** Add default citation style.
+* Add uninstall hook to cleanup plugin files from database in the unfortunate event that you decide to uninstall the plugin.
+* General Performance Improvements.
+
 = 1.1 =
 * Fixed issue where post excerpt wouldn't show correctly. (Thanks Brent Thoma!)
 
@@ -74,6 +81,13 @@ Yikes! I'm sorry about that. Please report all issues on the Academic Blogger's 
 * Initial stable release.
 
 == Upgrade Notice ==
+
+= 1.1.1 =
+* **Feature Release:** Integration with Google Tag Manager. Starting now, you can set up individual link click tracking via Google Analytics! Use this feature to track PDF downloads, page-views, form submits, or anything else you can think of!
+* **Bugfix:** Issue causing some users' Peer Review Boxes to not be formatted correctly.
+* **Bugfix:** Add default citation style.
+* Add uninstall hook to cleanup plugin files from database in the unfortunate event that you decide to uninstall the plugin.
+* General Performance Improvements.
 
 = 1.1 =
 * Fixed issue where post excerpt wouldn't show correctly. (Thanks Brent Thoma!)
