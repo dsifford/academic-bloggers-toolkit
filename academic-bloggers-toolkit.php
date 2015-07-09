@@ -38,6 +38,7 @@ require('inc/options-page.php');
 function abt_uninstall() {
 	delete_option( 'abt_citation_options' );
 	delete_option( 'abt_css_options' );
+	delete_option( 'abt_options' );
 }
 if ( function_exists('register_uninstall_hook') ) {
 	register_uninstall_hook(__FILE__, 'abt_uninstall');
