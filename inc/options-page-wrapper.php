@@ -96,7 +96,7 @@
 									<td>
 										<form method="post" name="abt_google_tag_manager_field">
 											<input type="hidden" name="abt_google_tag_manager_field_submitted" value="Y">
-											<textarea id="abt_google_tag_manager_code" name="abt_google_tag_manager_code" cols="75" rows="9" style="font-family: monospace;" placeholder=""><?php echo $abt_saved_google_tag_manager_field ?><?php echo stripslashes($abt_google_tag_manager_code); ?></textarea><br>
+											<textarea id="abt_google_tag_manager_code" name="abt_google_tag_manager_code" cols="75" rows="9" style="font-family: monospace;" placeholder="<?php echo esc_html($abt_google_tag_manager_placeholder); ?>"><?php echo stripslashes($abt_google_tag_manager_code); ?></textarea><br>
 											<input class="button-primary" type="submit" name="abt_google_tag_manager_submit" value="Update" />
 										</form>
 									</td>
@@ -146,7 +146,7 @@
 							</table>
 						</div>
 						<!-- .inside -->
-
+<?php echo $abt_google_tag_manager_placeholder; ?>
 					</div>
 
 <!-- END GOOGLE ANALYTICS INTEGRATION POSTBOX -->
