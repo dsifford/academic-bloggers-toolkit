@@ -97,11 +97,15 @@
                                     editor.windowManager.open(
                                         {
                                             title: 'Insert Tracked Link',
-                                            body: [
+                                            width: 600,
+                                            height: 160,
+                                            buttons: [
                                                 {
-                                                    type: 'label',
-                                                    text: 'Note: This requires Google Tag Manager Integration'
-                                                },
+                                                    text: 'Insert',
+                                                    onclick: 'submit'
+                                                }
+                                            ],
+                                            body: [
                                                 {
                                                     type: 'textbox',
                                                     name: 'tracked_url',
@@ -118,6 +122,7 @@
                                                     type: 'textbox',
                                                     name: 'tracked_tag',
                                                     label: 'Custom Tag ID',
+                                                    tooltip: 'Don\'t forget to create matching tag in Google Tag Manager!',
                                                     value: ''
                                                 },
                                                 {

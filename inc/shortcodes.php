@@ -67,17 +67,17 @@ function ref_id_parser ( $atts ) {
 
 	// Take formatted JSON and parse it into formatted citations
 
-	$options = get_option( 'abt_citation_options' );
+	$abt_options = get_option( 'abt_options' );
 
 	// If option is not set, default to AMA format
-	if ( !isset( $options['abt_citation_style'] ) ) {
+	if ( !isset( $abt_options['abt_citation_style'] ) ) {
 
-		$options['abt_citation_style'] = 'American Medical Association (AMA)';
+		$abt_options['abt_citation_style'] = 'American Medical Association (AMA)';
 
 	}
 
 	// American Medical Association (AMA) Format
-		if ( $options['abt_citation_style'] == 'American Medical Association (AMA)' ) {
+		if ( $abt_options['abt_citation_style'] == 'American Medical Association (AMA)' ) {
 			// 0 Authors
 			if( count($tidy_json->{'result'}->{$pmid}->{'authors'}) == 0 ) {
 
@@ -137,7 +137,7 @@ function ref_id_parser ( $atts ) {
 		}
 
 	// American Psychological Association (APA) Format
-		if ( $options['abt_citation_style'] == 'American Psychological Association (APA)' ) {
+		if ( $abt_options['abt_citation_style'] == 'American Psychological Association (APA)' ) {
 
 			// 0 Authors
 			if( count($tidy_json->{'result'}->{$pmid}->{'authors'}) == 0 ) {

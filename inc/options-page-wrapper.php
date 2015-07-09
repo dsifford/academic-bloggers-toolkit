@@ -73,7 +73,7 @@
 						<!-- .inside -->
 
 					</div>
-
+					
 <!-- END PREFERRED CITATION STYLE POSTBOX -->
 
 <!-- BEGIN GOOGLE ANALYTICS INTEGRATION POSTBOX -->
@@ -146,7 +146,7 @@
 							</table>
 						</div>
 						<!-- .inside -->
-<?php echo $abt_google_tag_manager_placeholder; ?>
+
 					</div>
 
 <!-- END GOOGLE ANALYTICS INTEGRATION POSTBOX -->

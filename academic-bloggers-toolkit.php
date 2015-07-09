@@ -14,7 +14,7 @@
 // Assign Global Variables
 
 $plugin_url = WP_PLUGIN_URL . '/academic-bloggers-toolkit';
-$options = array();
+$abt_options = array();
 
 
 // Enqueue Stylesheets
@@ -26,7 +26,6 @@ function abt_enqueue_styles() {
 }
 add_action( 'wp_enqueue_scripts', 'abt_enqueue_styles');
 
-
 // Tidy Requires
 
 require('inc/shortcodes.php');
@@ -34,5 +33,14 @@ require('inc/tinymce-init.php');
 require('inc/peer-review.php');
 require('inc/options-page.php');
 
+// Uninstall Hook - Clean database of Plugin entries
+
+function abt_uninstall() {
+	delete_option( 'abt_citation_options' );
+	delete_option( 'abt_css_options' );
+}
+if ( function_exists('register_uninstall_hook') ) {
+	register_uninstall_hook(__FILE__, 'abt_uninstall');
+}
 
 ?>
