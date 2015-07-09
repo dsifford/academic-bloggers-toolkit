@@ -22,7 +22,6 @@ Academic Blogger's toolkit is an **open source** WordPress plugin providing an a
 
 = Anchor links to and from in-text citations =
 - Smooth scrolling using jQuery.
-- Fix: Corrected issue where admin bar would block the target link.
 
 = Append up to 3 formatted Peer Reviews to blog posts via a Frontend UI integrated on the post edit screen =
 - Input areas for the Peer Review section include...
