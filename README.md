@@ -8,7 +8,7 @@ An **open source** Wordpress plugin providing an all-in-one solution for effecti
 - Option to add hyperlink to PubMed.
 - Available citation styles include...
     + American Medical Association (AMA) Format.
-    + American Psychological Association (APA) Format. 
+    + American Psychological Association (APA) Format.
 
 #####Anchor links to and from in-text citations
 ![Anchor Links](http://giant.gfycat.com/GrizzledBabyishIntermediateegret.gif)
@@ -17,6 +17,10 @@ An **open source** Wordpress plugin providing an all-in-one solution for effecti
 
 #####Append up to 3 formatted Peer Reviews to blog posts via a Frontend UI integrated on the post edit screen
 ![PeerReview](http://i.giphy.com/3oEduUHk7UBWhh5Pa0.gif)
+
+#####Integration with Google Tag Manager
+- Google's newest [analytics powerhouse](http://www.google.com/tagmanager/)!
+- Track individual link clicks to see who is interacting with or downloading your content and much more!
 
 #####Customize Options
 ![Options Page](http://i.imgur.com/i8qLiey.png)
@@ -41,5 +45,4 @@ Please direct all ideas to the Academic Blogger's Toolkit [Trello Board](https:/
 - Hand-typed reference fields
     + Extensive coding would be required for this. Typing manually into fields vs manually in the editor doesn't save much time. Not going to add this feature unless requested.
 - Integrate CrossRef / CSL Citations API
-    + **Note:** It appears that in order to do this, I'd have to include a huge javascript library in the build (citeproc.js). For now, I'll just hand-code styles as they are requested. 
-
+    + **Note:** It appears that in order to do this, I'd have to include a huge javascript library in the build (citeproc.js). For now, I'll just hand-code styles as they are requested.
