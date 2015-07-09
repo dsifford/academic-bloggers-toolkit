@@ -71,6 +71,7 @@ Yikes! I'm sorry about that. Please report all issues on the Academic Blogger's 
 * **Feature Release:** Integration with Google Tag Manager. Starting now, you can set up individual link click tracking via Google Analytics! Use this feature to track PDF downloads, page-views, form submits, or anything else you can think of!
 * **Bugfix:** Issue causing some users' Peer Review Boxes to not be formatted correctly.
 * **Bugfix:** Add default citation style.
+* Add uninstall hook to cleanup plugin files from database in the unfortunate event that you decide to uninstall the plugin.
 * General Performance Improvements.
 
 = 1.1 =
@@ -85,6 +86,7 @@ Yikes! I'm sorry about that. Please report all issues on the Academic Blogger's 
 * **Feature Release:** Integration with Google Tag Manager. Starting now, you can set up individual link click tracking via Google Analytics! Use this feature to track PDF downloads, page-views, form submits, or anything else you can think of!
 * **Bugfix:** Issue causing some users' Peer Review Boxes to not be formatted correctly.
 * **Bugfix:** Add default citation style.
+* Add uninstall hook to cleanup plugin files from database in the unfortunate event that you decide to uninstall the plugin.
 * General Performance Improvements.
 
 = 1.1 =
