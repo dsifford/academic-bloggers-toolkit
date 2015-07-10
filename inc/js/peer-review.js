@@ -8,7 +8,7 @@ jQuery(document).ready(function($) {
 
 		// Add smooth scrolling to anchor links + correct for admin bar
 		var $root = $('html, body');
-		$('a').click(function(){
+		$( 'a[name^=citation], a[name^=bounceback]' ).click(function(){
 		    $root.animate({
 		        scrollTop: $('[name="' + $.attr(this, 'href').substr(1) + '"]').offset().top + (-32)
 		    }, 500);

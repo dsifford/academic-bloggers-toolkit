@@ -4,7 +4,7 @@ Donate link: https://cash.me/$dsifford
 Tags: academic, pmid, doi, peer-review, Google Tag Manager
 Requires at least: 4.2.2
 Tested up to: 4.2.2
-Stable tag: 1.1.1
+Stable tag: 1.1.2
 License: GPL3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -67,6 +67,9 @@ Yikes! I'm sorry about that. Please report all issues on the Academic Blogger's 
 
 == Changelog ==
 
+= 1.1.2 =
+* **Bugfix:** Issue where citation anchor links were interfering with anchor links not created by this plugin.
+
 = 1.1.1 =
 * **Feature Release:** Integration with Google Tag Manager. Starting now, you can set up individual link click tracking via Google Analytics! Use this feature to track PDF downloads, page-views, form submits, or anything else you can think of!
 * **Bugfix:** Issue causing some users' Peer Review Boxes to not be formatted correctly.
@@ -81,6 +84,9 @@ Yikes! I'm sorry about that. Please report all issues on the Academic Blogger's 
 * Initial stable release.
 
 == Upgrade Notice ==
+
+= 1.1.2 =
+* **Bugfix:** Issue where citation anchor links were interfering with anchor links not created by this plugin.
 
 = 1.1.1 =
 * **Feature Release:** Integration with Google Tag Manager. Starting now, you can set up individual link click tracking via Google Analytics! Use this feature to track PDF downloads, page-views, form submits, or anything else you can think of!
