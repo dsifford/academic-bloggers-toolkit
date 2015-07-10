@@ -1,5 +1,5 @@
 # Academic Blogger's Toolkit
-An **open source** Wordpress plugin providing an all-in-one solution for effective academic blogging.
+An **open source** WordPress plugin providing an all-in-one solution for effective academic blogging.
 
 ##Features
 
@@ -22,18 +22,14 @@ An **open source** Wordpress plugin providing an all-in-one solution for effecti
 - Google's newest [analytics powerhouse](http://www.google.com/tagmanager/)!
 - Track individual link clicks to see who is interacting with or downloading your content and much more!
 
-#####Customize Options
-![Options Page](http://i.imgur.com/i8qLiey.png)
-- CSS override.
-- Citation style picker.
-
 ###Feature Requests
 Please direct all ideas to the Academic Blogger's Toolkit [Trello Board](https://trello.com/b/nFxfo6iO/academic-blogger-s-toolkit)
 
 ##Currently Working On
+- Communication with reference manager APIs.
 
 ##Todo List
-
+- Clean up jQuery functions in 'JS' folder.
 
 ##Future
 - Multiple Authors.
@@ -41,8 +37,21 @@ Please direct all ideas to the Academic Blogger's Toolkit [Trello Board](https:/
 - Automatic Email Metrics.
     + Requires extensive programming through Google's Analytics Core API. Slowly working on this.
 
-##Additional Notes
-- Hand-typed reference fields
-    + Extensive coding would be required for this. Typing manually into fields vs manually in the editor doesn't save much time. Not going to add this feature unless requested.
-- Integrate CrossRef / CSL Citations API
-    + **Note:** It appears that in order to do this, I'd have to include a huge javascript library in the build (citeproc.js). For now, I'll just hand-code styles as they are requested.
+##Changelog
+
+###1.1.2
+* **Bugfix:** Issue where citation anchor links were interfering with anchor links not created by this plugin.
+
+###1.1.1
+* **Feature Release:** Integration with Google Tag Manager. Starting now, you can set up individual link click tracking via Google Analytics! Use this feature to track PDF downloads, page-views, form submits, or anything else you can think of!
+* **Bugfix:** Issue causing some users' Peer Review Boxes to not be formatted correctly.
+* **Bugfix:** Add default citation style.
+* Add uninstall hook to cleanup plugin files from database in the unfortunate event that you decide to uninstall the plugin.
+* General Performance Improvements.
+* Switch to semantic versioning format.
+
+###1.1
+* Fixed issue where post excerpt wouldn't show correctly. (Thanks Brent Thoma!)
+
+###1.0
+* Initial stable release.
