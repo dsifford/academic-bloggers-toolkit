@@ -2,9 +2,9 @@
  * Attaches the image uploader to the input field
  */
 jQuery(document).ready(function($){
-    
+
     // Show/hide nodes based on selector option
-    $('#reviewer_selector').bind('change', function (e) { 
+    $('#reviewer_selector').bind('change', function (e) {
         if( $('#reviewer_selector').val() == '0') {
             $('#tabs-1').hide('slow');
             $('#tabs-2').hide('slow');
@@ -50,8 +50,8 @@ jQuery(document).ready(function($){
 
 
     // Instantiates the variable that holds the media library frame.
-    var meta_image_frame_reviewer_1, meta_image_frame_reviewer_2, meta_image_frame_reviewer_3, 
-        meta_image_frame_author_1, meta_image_frame_author_2, meta_image_frame_author_3; 
+    var meta_image_frame_reviewer_1, meta_image_frame_reviewer_2, meta_image_frame_reviewer_3,
+        meta_image_frame_author_1, meta_image_frame_author_2, meta_image_frame_author_3;
 
 // -----------------------------------------------------------------
 // TODO: Combine the following 6 functions into a single function
@@ -67,24 +67,24 @@ jQuery(document).ready(function($){
             meta_image_frame_reviewer_1.open();
             return;
         }
- 
+
         // Sets up the media library frame
         meta_image_frame_reviewer_1 = wp.media.frames.meta_image_frame_reviewer_1 = wp.media({
             title: meta_image.title,
             button: { text:  meta_image.button },
             library: { type: 'image' }
         });
- 
+
         // Runs when an image is selected.
         meta_image_frame_reviewer_1.on('select', function(){
- 
+
             // Grabs the attachment selection and creates a JSON representation of the model.
             var media_attachment_reviewer_1 = meta_image_frame_reviewer_1.state().get('selection').first().toJSON();
- 
+
             // Sends the attachment URL to our custom image input field.
             $('#reviewer_headshot_image_1').val(media_attachment_reviewer_1.url);
         });
- 
+
         // Opens the media library frame.
         meta_image_frame_reviewer_1.open();
     });
@@ -100,29 +100,29 @@ jQuery(document).ready(function($){
             meta_image_frame_reviewer_2.open();
             return;
         }
-    
+
         // Sets up the media library frame
         meta_image_frame_reviewer_2 = wp.media.frames.meta_image_frame_reviewer_2 = wp.media({
             title: meta_image.title,
             button: { text:  meta_image.button },
             library: { type: 'image' }
         });
-    
+
         // Runs when an image is selected.
         meta_image_frame_reviewer_2.on('select', function(){
-    
+
             // Grabs the attachment selection and creates a JSON representation of the model.
             var media_attachment_reviewer_2 = meta_image_frame_reviewer_2.state().get('selection').first().toJSON();
-    
+
             // Sends the attachment URL to our custom image input field.
             $('#reviewer_headshot_image_2').val(media_attachment_reviewer_2.url);
         });
-    
+
         // Opens the media library frame.
         meta_image_frame_reviewer_2.open();
     });
 
-    
+
     // Image selector function for Third Reviewer
     $('#reviewer_headshot_image_button_3').click(function(e){
 
@@ -133,24 +133,24 @@ jQuery(document).ready(function($){
             meta_image_frame_reviewer_3.open();
             return;
         }
-    
+
         // Sets up the media library frame
         meta_image_frame_reviewer_3 = wp.media.frames.meta_image_frame_reviewer_3 = wp.media({
             title: meta_image.title,
             button: { text:  meta_image.button },
             library: { type: 'image' }
         });
-    
+
         // Runs when an image is selected.
         meta_image_frame_reviewer_3.on('select', function(){
-    
+
             // Grabs the attachment selection and creates a JSON representation of the model.
             var media_attachment_reviewer_3 = meta_image_frame_reviewer_3.state().get('selection').first().toJSON();
-    
+
             // Sends the attachment URL to our custom image input field.
             $('#reviewer_headshot_image_3').val(media_attachment_reviewer_3.url);
         });
-    
+
         // Opens the media library frame.
         meta_image_frame_reviewer_3.open();
     });
@@ -166,24 +166,24 @@ jQuery(document).ready(function($){
             meta_image_frame_author_1.open();
             return;
         }
-    
+
         // Sets up the media library frame
         meta_image_frame_author_1 = wp.media.frames.meta_image_frame_author_1 = wp.media({
             title: meta_image.title,
             button: { text:  meta_image.button },
             library: { type: 'image' }
         });
-    
+
         // Runs when an image is selected.
         meta_image_frame_author_1.on('select', function(){
-    
+
             // Grabs the attachment selection and creates a JSON representation of the model.
             var media_attachment_author_1 = meta_image_frame_author_1.state().get('selection').first().toJSON();
-    
+
             // Sends the attachment URL to our custom image input field.
             $('#author_headshot_image_1').val(media_attachment_author_1.url);
         });
-    
+
         // Opens the media library frame.
         meta_image_frame_author_1.open();
     });
@@ -199,24 +199,24 @@ jQuery(document).ready(function($){
             meta_image_frame_author_2.open();
             return;
         }
-    
+
         // Sets up the media library frame
         meta_image_frame_author_2 = wp.media.frames.meta_image_frame_author_2 = wp.media({
             title: meta_image.title,
             button: { text:  meta_image.button },
             library: { type: 'image' }
         });
-    
+
         // Runs when an image is selected.
         meta_image_frame_author_2.on('select', function(){
-    
+
             // Grabs the attachment selection and creates a JSON representation of the model.
             var media_attachment_author_2 = meta_image_frame_author_2.state().get('selection').first().toJSON();
-    
+
             // Sends the attachment URL to our custom image input field.
             $('#author_headshot_image_2').val(media_attachment_author_2.url);
         });
-    
+
         // Opens the media library frame.
         meta_image_frame_author_2.open();
     });
@@ -232,34 +232,46 @@ jQuery(document).ready(function($){
             meta_image_frame_author_3.open();
             return;
         }
-    
+
         // Sets up the media library frame
         meta_image_frame_author_3 = wp.media.frames.meta_image_frame_author_3 = wp.media({
             title: meta_image.title,
             button: { text:  meta_image.button },
             library: { type: 'image' }
         });
-    
+
         // Runs when an image is selected.
         meta_image_frame_author_3.on('select', function(){
-    
+
             // Grabs the attachment selection and creates a JSON representation of the model.
             var media_attachment_author_3 = meta_image_frame_author_3.state().get('selection').first().toJSON();
-    
+
             // Sends the attachment URL to our custom image input field.
             $('#author_headshot_image_3').val(media_attachment_author_3.url);
         });
-    
+
         // Opens the media library frame.
         meta_image_frame_author_3.open();
     });
-    
+
     // Hide empty author response fields
     for (var i = 1; i < 4; i++) {
         if ( $('#author_name_' + i).val() === '' ) {
             $('#author_response_' + i).hide();
         }
     }
+    
+    // Replace <br> and <p> tags with actual line breaks on post edit screen
+    for (var i = 1; i < 4; i++) {
 
+        $("#peer_review_content_" + i).text(function() {
+            return $(this).text().replace(/(<br>)|(<br \/>)|(<p>)|(<\/p>)/, "").replace(/(<br>)|(<br \/>)|(<p>)|(<\/p>)/g, "\r");
+        });
+
+        $("#author_content_" + i).text(function() {
+            return $(this).text().replace(/(<br>)|(<br \/>)|(<p>)|(<\/p>)/, "").replace(/(<br>)|(<br \/>)|(<p>)|(<\/p>)/g, "\r");
+        });
+
+    }
 
 });
