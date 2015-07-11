@@ -41,6 +41,7 @@ Please direct all ideas to the Academic Blogger's Toolkit [Trello Board](https:/
 
 ###1.1.2
 * **Bugfix:** Issue where citation anchor links were interfering with anchor links not created by this plugin.
+* **Bugfix:** Fixed issue where users were unable to apply line breaks or simple html tags (<strong><i><a>) in peer review boxes.
 
 ###1.1.1
 * **Feature Release:** Integration with Google Tag Manager. Starting now, you can set up individual link click tracking via Google Analytics! Use this feature to track PDF downloads, page-views, form submits, or anything else you can think of!
