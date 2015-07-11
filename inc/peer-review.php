@@ -26,14 +26,14 @@ function abt_peer_review_callback( $post ) {
 			${'reviewer_name_' . $i} = isset( $values['reviewer_name_' . $i] ) ? esc_attr( $values['reviewer_name_' . $i][0] ) : '';
 			${'reviewer_twitter_' . $i} = isset( $values['reviewer_twitter_' . $i] ) ? esc_attr( $values['reviewer_twitter_' . $i][0] ) : '';
 			${'reviewer_background_' . $i} = isset( $values['reviewer_background_' . $i] ) ? esc_attr( $values['reviewer_background_' . $i][0] ) : '';
-			${'peer_review_content_' . $i} = isset( $values['peer_review_content_' . $i] ) ? esc_attr( $values['peer_review_content_' . $i][0] ) : '';
+			${'peer_review_content_' . $i} = isset( $values['peer_review_content_' . $i] ) ? $values['peer_review_content_' . $i][0] : '';
 			${'peer_review_image_' . $i} = isset( $values['reviewer_headshot_image_' . $i] ) ? esc_attr( $values['reviewer_headshot_image_' . $i][0] ) : '';
 
 			// Author Variables
 			${'author_name_' . $i} = isset( $values['author_name_' . $i] ) ? esc_attr( $values['author_name_' . $i][0] ) : '';
 			${'author_twitter_' . $i} = isset( $values['author_twitter_' . $i] ) ? esc_attr( $values['author_twitter_' . $i][0] ) : '';
 			${'author_background_' . $i} = isset( $values['author_background_' . $i] ) ? esc_attr( $values['author_background_' . $i][0] ) : '';
-			${'author_content_' . $i} = isset( $values['author_content_' . $i] ) ? esc_attr( $values['author_content_' . $i][0] ) : '';
+			${'author_content_' . $i} = isset( $values['author_content_' . $i] ) ? $values['author_content_' . $i][0] : '';
 			${'author_image_' . $i} = isset( $values['author_headshot_image_' . $i] ) ? esc_attr( $values['author_headshot_image_' . $i][0] ) : '';
 
 		}
@@ -163,7 +163,7 @@ function abt_meta_save( $post_id ) {
 
 			// Reviews
 			if( isset( $_POST[ 'peer_review_content_' . $i ] ) ) {
-				update_post_meta( $post_id, 'peer_review_content_' . $i, esc_attr( $_POST[ 'peer_review_content_' . $i ] ) );
+				update_post_meta( $post_id, 'peer_review_content_' . $i, wp_kses_post( wpautop( $_POST[ 'peer_review_content_' . $i ] ) ) );
 			}
 
 			// Reviewer Headshot Image URLs
@@ -188,7 +188,7 @@ function abt_meta_save( $post_id ) {
 
 			// Author Responses
 			if( isset( $_POST[ 'author_content_' . $i ] ) ) {
-				update_post_meta( $post_id, 'author_content_' . $i, esc_attr( $_POST[ 'author_content_' . $i ] ) );
+				update_post_meta( $post_id, 'author_content_' . $i, wp_kses_post( wpautop( $_POST[ 'author_content_' . $i ] ) ) );
 			}
 
 			// Responding Author Headshot Image URLs
