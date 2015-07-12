@@ -37,7 +37,7 @@
 										</tr>
 										<tr>
 											<td><strong>Peer Review Boxes:</strong></td>
-											<td><code>#abt_PR_boxes, .abt_PR_info, .abt_PR_headshot, .abt_chat_bubble</code></td>
+											<td><code>#abt_PR_boxes h3, .abt_PR_info, .abt_PR_headshot, .abt_chat_bubble</code></td>
 										</tr>
 									</table>
 								</td>
@@ -73,7 +73,7 @@
 						<!-- .inside -->
 
 					</div>
-					
+
 <!-- END PREFERRED CITATION STYLE POSTBOX -->
 
 <!-- BEGIN GOOGLE ANALYTICS INTEGRATION POSTBOX -->
@@ -171,7 +171,7 @@
 
 						<div class="inside">
 							<p><?php _e(
-									"If you experience a bug or would like to request a new feature, please visit our <a href='https://trello.com/b/nFxfo6iO/academic-blogger-s-toolkit' target='_blank'>Trello board</a> and leave a comment. We'll do our best to make it happen.<br><br>Comments can also be sent to me on twitter <a href='http://www.twitter.com/flightmed1' target='_blank'>@flightmed1</a>.",
+									"If you experience a bug or would like to request a new feature, please visit my <a href='https://github.com/dsifford/academic-bloggers-toolkit/issues' target='_blank'>GitHub Repository</a> and leave a comment. I'll do my best to get it handled in a timely manner.<br><br>Comments can also be sent to me on twitter <a href='http://www.twitter.com/flightmed1' target='_blank'>@flightmed1</a>.",
 									'wp_admin_style'
 								); ?></p>
 						</div>

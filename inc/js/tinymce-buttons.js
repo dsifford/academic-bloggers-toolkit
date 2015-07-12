@@ -165,7 +165,7 @@
 													type: 'button',
 													text: 'Send us your thoughts!',
 													onclick : function() {
-													                    window.open('https://trello.com/b/nFxfo6iO/academic-blogger-s-toolkit','_blank');
+													                    window.open('https://github.com/dsifford/academic-bloggers-toolkit/issues','_blank');
 													                },
 												}
 

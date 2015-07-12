@@ -4,7 +4,7 @@
  *	Plugin Name: Academic Blogger's Toolkit
  *	Plugin URI: null
  *	Description: A Wordpress plugin extending the functionality of Wordpress for Academic Blogging
- *	Version: 1.1.2
+ *	Version: 1.1.3
  *	Author: Derek P Sifford
  *	Author URI: http://www.twitter.com/flightmed1
  *	License: GPL3

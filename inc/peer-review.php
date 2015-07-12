@@ -25,14 +25,14 @@ function abt_peer_review_callback( $post ) {
 			// Reviewer Variables
 			${'reviewer_name_' . $i} = isset( $values['reviewer_name_' . $i] ) ? esc_attr( $values['reviewer_name_' . $i][0] ) : '';
 			${'reviewer_twitter_' . $i} = isset( $values['reviewer_twitter_' . $i] ) ? esc_attr( $values['reviewer_twitter_' . $i][0] ) : '';
-			${'reviewer_background_' . $i} = isset( $values['reviewer_background_' . $i] ) ? esc_attr( $values['reviewer_background_' . $i][0] ) : '';
+			${'reviewer_background_' . $i} = isset( $values['reviewer_background_' . $i] ) ? $values['reviewer_background_' . $i][0] : '';
 			${'peer_review_content_' . $i} = isset( $values['peer_review_content_' . $i] ) ? $values['peer_review_content_' . $i][0] : '';
 			${'peer_review_image_' . $i} = isset( $values['reviewer_headshot_image_' . $i] ) ? esc_attr( $values['reviewer_headshot_image_' . $i][0] ) : '';
 
 			// Author Variables
 			${'author_name_' . $i} = isset( $values['author_name_' . $i] ) ? esc_attr( $values['author_name_' . $i][0] ) : '';
 			${'author_twitter_' . $i} = isset( $values['author_twitter_' . $i] ) ? esc_attr( $values['author_twitter_' . $i][0] ) : '';
-			${'author_background_' . $i} = isset( $values['author_background_' . $i] ) ? esc_attr( $values['author_background_' . $i][0] ) : '';
+			${'author_background_' . $i} = isset( $values['author_background_' . $i] ) ? $values['author_background_' . $i][0] : '';
 			${'author_content_' . $i} = isset( $values['author_content_' . $i] ) ? $values['author_content_' . $i][0] : '';
 			${'author_image_' . $i} = isset( $values['author_headshot_image_' . $i] ) ? esc_attr( $values['author_headshot_image_' . $i][0] ) : '';
 
@@ -65,7 +65,7 @@ function abt_peer_review_callback( $post ) {
 				</tr>
 				<tr valign="top" class="alternate">
 					<td width="20%"><label for="reviewer_background_<?php echo $i; ?>" class="abt-row-title" width="20%"><?php esc_attr_e( 'Peer Reviewer Background', 'abt-textdomain' ) ?></label></td>
-					<td colspan="3"><input type="text" class="large-text" name="reviewer_background_<?php echo $i; ?>" id="reviewer_background_<?php echo $i; ?>" value="<?php echo ${'reviewer_background_' . $i}; ?>" /></td>
+					<td colspan="3"><input type="text" class="large-text" name="reviewer_background_<?php echo $i; ?>" id="reviewer_background_<?php echo $i; ?>" value="<?php echo esc_attr( ${'reviewer_background_' . $i} ); ?>" /></td>
 				</tr>
 				<tr valign="top">
 					<td scope="row" width="20%"><label for="peer_review_content_<?php echo $i; ?>" width="20%"><?php esc_attr_e( 'Peer Review', 'abt-textdomain' ); ?></label></td>
@@ -91,7 +91,7 @@ function abt_peer_review_callback( $post ) {
 				</tr>
 				<tr valign="top">
 					<td width="20%"><label for="author_background_<?php echo $i; ?>" class="abt-row-title"><?php esc_attr_e( 'Author Background', 'abt-textdomain' ) ?></label></td>
-					<td colspan="3"><input type="text" class="large-text" name="author_background_<?php echo $i; ?>" id="author_background_<?php echo $i; ?>" value="<?php echo ${'author_background_' . $i}; ?>" /></td>
+					<td colspan="3"><input type="text" class="large-text" name="author_background_<?php echo $i; ?>" id="author_background_<?php echo $i; ?>" value="<?php echo esc_attr( ${'author_background_' . $i} ); ?>" /></td>
 				</tr>
 				<tr valign="top" class="alternate">
 					<td scope="row" width="20%"><label for="author_content_<?php echo $i; ?>"><?php esc_attr_e( 'Author Response', 'wp_admin_style' ); ?></label></td>
@@ -130,6 +130,17 @@ function abt_meta_save( $post_id ) {
 			return;
 		}
 
+	// Set variable for allowed html tags in 'Background' Section
+		$abt_background_allowed_tags = array(
+			'a' => array(
+				'href' => array(),
+				'title' => array(),
+				'target' => array()
+			),
+			'br' => array(),
+			'em' => array()
+		);
+
 	// Begin Saving Meta Variables
 
 
@@ -158,7 +169,7 @@ function abt_meta_save( $post_id ) {
 
 			// Reviewer Backgrounds
 			if( isset( $_POST[ 'reviewer_background_' . $i ] ) ) {
-				update_post_meta( $post_id, 'reviewer_background_' . $i, sanitize_text_field( $_POST[ 'reviewer_background_' . $i ] ) );
+				update_post_meta( $post_id, 'reviewer_background_' . $i, wp_kses(  $_POST[ 'reviewer_background_' . $i ], $abt_background_allowed_tags ) );
 			}
 
 			// Reviews
@@ -183,7 +194,7 @@ function abt_meta_save( $post_id ) {
 
 			// Responding Author Backgrounds
 			if( isset( $_POST[ 'author_background_' . $i ] ) ) {
-				update_post_meta( $post_id, 'author_background_' . $i, sanitize_text_field( $_POST[ 'author_background_' . $i ] ) );
+				update_post_meta( $post_id, 'author_background_' . $i, wp_kses( $_POST[ 'author_background_' . $i ], $abt_background_allowed_tags ) );
 			}
 
 			// Author Responses

@@ -4,7 +4,7 @@ Donate link: https://cash.me/$dsifford
 Tags: academic, pmid, doi, peer-review, Google Tag Manager
 Requires at least: 4.2.2
 Tested up to: 4.2.2
-Stable tag: 1.1.2
+Stable tag: 1.1.3
 License: GPL3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -16,9 +16,6 @@ Academic Blogger's toolkit is an **open source** WordPress plugin providing an a
 
 = Automatically parse references using digital identifiers (PMID, PMCID, or DOI) =
 - Option to add hyperlink to PubMed.
-- Available citation styles include...
-    + American Medical Association (AMA) Format.
-    + American Psychological Association (APA) Format.
 
 = Anchor links to and from in-text citations =
 - Smooth scrolling using jQuery.
@@ -67,6 +64,10 @@ Yikes! I'm sorry about that. Please report all issues on the Academic Blogger's 
 
 == Changelog ==
 
+= 1.1.3 =
+* **Bugfix:** Fixed issue causing peer review dropdown boxes to be highlighted when clicked.
+* Allow the input of 'a', 'em', and 'br' tags in background section for peer reviews.
+
 = 1.1.2 =
 * **Bugfix:** Fixed issue where citation anchor links were interfering with anchor links not created by this plugin.
 * **Bugfix:** Fixed issue where users were unable to apply line breaks or simple html tags (<strong><i><a>) in peer review boxes.
@@ -85,6 +86,10 @@ Yikes! I'm sorry about that. Please report all issues on the Academic Blogger's 
 * Initial stable release.
 
 == Upgrade Notice ==
+
+= 1.1.3 =
+* **Bugfix:** Fixed issue causing peer review dropdown boxes to be highlighted when clicked.
+* Allow the input of 'a', 'em', and 'br' tags in background section for peer reviews.
 
 = 1.1.2 =
 * **Bugfix:** Issue where citation anchor links were interfering with anchor links not created by this plugin.
