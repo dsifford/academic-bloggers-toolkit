@@ -4,7 +4,7 @@ Donate link: https://cash.me/$dsifford
 Tags: academic, pmid, doi, peer-review, Google Tag Manager
 Requires at least: 4.2.2
 Tested up to: 4.3
-Stable tag: 2.0.0
+Stable tag: trunk
 License: GPL3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
