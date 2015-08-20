@@ -60,6 +60,9 @@ Yikes! I'm sorry about that. Please report all issues on the Academic Blogger's 
 
 == Changelog ==
 
+= 2.1.0 =
+* **Quick addition to previous update:** Added ability to open Formatted Reference and Inline Citation menus via keyboard shortcuts. (Ah, much nicer!)
+
 = 2.0.0 =
 * Updated plugin for WordPress 4.3
 * **Feature Upgrade:** Formatted references are now generated and inserted on the fly. (Note: This feature is only compatible with modern browsers or Internet Explorer 10 or above. If you are using an earlier version of IE, there will be no change.)

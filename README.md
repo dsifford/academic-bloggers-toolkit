@@ -24,7 +24,7 @@ An **open source** WordPress plugin providing an all-in-one solution for effecti
 - Track individual link clicks to see who is interacting with or downloading your content and much more!
 
 ###Feature Requests
-Please submit all feature requests / bugs to the Academic Blogger's Toolkit [Issues Page on GitHub](https://github.com/dsifford/academic-bloggers-toolkit/issues). 
+Please submit all feature requests / bugs to the Academic Blogger's Toolkit [Issues Page on GitHub](https://github.com/dsifford/academic-bloggers-toolkit/issues).
 
 ##Future
 - Multiple Authors.
@@ -33,6 +33,10 @@ Please submit all feature requests / bugs to the Academic Blogger's Toolkit [Iss
     + Requires extensive programming through Google's Analytics Core API. Slowly working on this.
 
 ##Changelog
+
+### 2.1.0
+- **Quick addition to previous update:** Added ability to open Formatted Reference and Inline Citation menus via keyboard shortcuts. (Ah, much nicer!)
+
 
 ### 2.0.0
 - Updated plugin for WordPress 4.3
