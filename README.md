@@ -4,7 +4,8 @@ An **open source** WordPress plugin providing an all-in-one solution for effecti
 ##Features
 
 #####Automatically parse references using digital identifiers (PMID, PMCID, or DOI)
-![Citation Parser](http://giant.gfycat.com/FreeIcyCormorant.gif)
+![Citation Parser](http://i.imgur.com/QrQ2CYw.gif)
+- **NEW FOR v2.0.0:** Citations are now inserted on the fly.
 - Option to add hyperlink to PubMed.
 - Available citation styles include...
     + American Medical Association (AMA) Format.
@@ -23,13 +24,7 @@ An **open source** WordPress plugin providing an all-in-one solution for effecti
 - Track individual link clicks to see who is interacting with or downloading your content and much more!
 
 ###Feature Requests
-Please direct all ideas to the Academic Blogger's Toolkit [Trello Board](https://trello.com/b/nFxfo6iO/academic-blogger-s-toolkit)
-
-##Currently Working On
-- Communication with reference manager APIs.
-
-##Todo List
-- Clean up jQuery functions in 'JS' folder.
+Please submit all feature requests / bugs to the Academic Blogger's Toolkit [Issues Page on GitHub](https://github.com/dsifford/academic-bloggers-toolkit/issues). 
 
 ##Future
 - Multiple Authors.
@@ -38,6 +33,11 @@ Please direct all ideas to the Academic Blogger's Toolkit [Trello Board](https:/
     + Requires extensive programming through Google's Analytics Core API. Slowly working on this.
 
 ##Changelog
+
+### 2.0.0
+- Updated plugin for WordPress 4.3
+- **Feature Upgrade:** Formatted references are now generated and inserted on the fly. (Note: This feature is only compatible with modern browsers or Internet Explorer 10 or above. If you are using an earlier version of IE, there will be no change.)
+- Removed ability to use DOI / PMCID for reference insertion due to overall unreliability.
 
 ###1.1.3
 - **Bugfix:** Fixed issue causing peer review dropdown boxes to be highlighted when clicked.

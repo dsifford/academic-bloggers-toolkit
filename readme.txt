@@ -3,8 +3,8 @@ Contributors: dsifford
 Donate link: https://cash.me/$dsifford
 Tags: academic, pmid, doi, peer-review, Google Tag Manager
 Requires at least: 4.2.2
-Tested up to: 4.2.2
-Stable tag: 1.1.3
+Tested up to: 4.3
+Stable tag: 2.0.0
 License: GPL3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -14,7 +14,7 @@ A WordPress plugin extending the functionality of WordPress for Academic Bloggin
 
 Academic Blogger's toolkit is an **open source** WordPress plugin providing an all-in-one solution for effective academic blogging.
 
-= Automatically parse references using digital identifiers (PMID, PMCID, or DOI) =
+= Automatically parse references on the fly using PMID =
 - Option to add hyperlink to PubMed.
 
 = Anchor links to and from in-text citations =
@@ -35,10 +35,6 @@ Academic Blogger's toolkit is an **open source** WordPress plugin providing an a
 
 = Customizable Options =
 * CSS override area to adjust the look of any content that doesn't fit your site's style.
-* Currently Available Citation Styles (Feel free to request more and I'll do my best).
-	1. American Medical Association (AMA)
-	2. American Psychological Association (APA)
-
 
 == Installation ==
 
@@ -49,7 +45,7 @@ Academic Blogger's toolkit is an **open source** WordPress plugin providing an a
 
 = I have a suggestion for a new feature. Would you be interested in considering it? =
 
-Absolutely! Please send all ideas to the Academic Blogger's Toolkit [Trello Board](https://trello.com/b/nFxfo6iO/academic-blogger-s-toolkit). Alternatively, you can reach out to me on Twitter [@flightmed1](https://twitter.com/flightmed1).
+Absolutely! Please send all ideas to the Academic Blogger's Toolkit [GitHub Repository](https://github.com/dsifford/academic-bloggers-toolkit/issues). Alternatively, you can reach out to me on Twitter [@flightmed1](https://twitter.com/flightmed1).
 
 = I found a bug. Who should I contact? =
 
@@ -63,6 +59,11 @@ Yikes! I'm sorry about that. Please report all issues on the Academic Blogger's 
 4. Options Page Screenshot
 
 == Changelog ==
+
+= 2.0.0 =
+* Updated plugin for WordPress 4.3
+* **Feature Upgrade:** Formatted references are now generated and inserted on the fly. (Note: This feature is only compatible with modern browsers or Internet Explorer 10 or above. If you are using an earlier version of IE, there will be no change.)
+* Removed ability to use DOI / PMCID for reference insertion due to overall unreliability.
 
 = 1.1.3 =
 * **Bugfix:** Fixed issue causing peer review dropdown boxes to be highlighted when clicked.
