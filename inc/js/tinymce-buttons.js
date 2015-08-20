@@ -35,10 +35,12 @@
 
 														    onsubmit: function(e) {
 
-														    	if (e.data.citation_checkbox) {
-														            	var trailingText = (' return=TRUE]');
+                                                                var trailingText;
+
+                                                                if (e.data.citation_checkbox) {
+														            	trailingText = (' return=TRUE]');
 														            } else {
-														            	var trailingText = (']');
+														            	trailingText = (']');
 														            }
 
 														        editor.insertContent(
@@ -57,33 +59,258 @@
 													editor.windowManager.open(
 														{
 															title: 'Insert Formatted Reference',
-															body: [
+															width: 600,
+                                                            height: 125,
+                                                            body: [
 																	{
 																		type: 'textbox',
 																		name: 'ref_id_number',
-																		label: 'PMID/PMCID/DOI',
+																		label: 'PMID',
 																		value: ''
 																	},
+                                                                    {
+                                                                        type: 'listbox',
+                                                                        label: 'Citation Format',
+                                                                        name: 'ref_id_citation_type',
+                                                                        'values': [
+                                                                            {text: 'American Medical Association (AMA)', value: 'AMA'},
+                                                                            {text: 'American Psychological Association (APA)', value: 'APA'}
+                                                                        ]
+
+                                                                    },
 																	{
 																		type: 'checkbox',
 																		name: 'ref_id_include_link',
 																		label: 'Include link to PubMed?'
-																	},
-																	{
-																		type: 'label',
-																		text: 'Note: DOI method rarely works. Use PMID/PMCID whenever possible.'
-												                    }
+																	}
 												                  ],
 															onsubmit: function(e) {
-																if ( e.data.ref_id_include_link ) {
-																	var linkLogic = ' link=' + e.data.ref_id_include_link + ']';
-																} else {
-																	var linkLogic = ']';
-																}
 
-																editor.insertContent(
-																	'[ref id=&quot;' + e.data.ref_id_number + '&quot;' + linkLogic
-																);
+                                                                if ( jQuery.browser.msie && jQuery.browser.version < 10 ) {
+
+                                                                    var linkLogic;
+
+                                                                    if ( e.data.ref_id_include_link ) {
+    																	linkLogic = ' link=' + e.data.ref_id_include_link + ']';
+    																} else {
+    																	linkLogic = ']';
+    																}
+
+    																editor.insertContent(
+    																	'[ref id=&quot;' + e.data.ref_id_number + '&quot;' + linkLogic
+    																);
+
+                                                                } else {
+
+                                                                    editor.setProgressState(1);
+
+                                                                    jQuery.get('http://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi?db=pubmed&id=' + e.data.ref_id_number + '&version=2.0&retmode=json', function( data ){
+
+                                                                        /**
+                                                                         * ERROR HANDLER
+                                                                         */
+
+                                                                        if(data.error) {
+                                                                            alert('ERROR: PMID not recognized.');
+                                                                            editor.setProgressState(0);
+                                                                            return;
+                                                                        }
+
+                                                                        var PMID = e.data.ref_id_number;
+                                                                        var citationFormat = e.data.ref_id_citation_type;
+                                                                        var includePubmedLink = e.data.ref_id_include_link;
+
+                                                                        var authorsRaw = data.result[PMID].authors;
+                                                                    	var title = data.result[PMID].title;
+                                                                    	var journalName = data.result[PMID].source;
+                                                                    	var pubYear = data.result[PMID].pubdate.substr(0, 4);
+                                                                    	var volume = data.result[PMID].volume;
+                                                                    	var issue = data.result[PMID].issue;
+                                                                    	var pages = data.result[PMID].pages;
+
+                                                                        var authors = '';
+                                                                        var output, i;
+
+                                                                        if ( citationFormat == 'AMA' ) {
+
+                                                                            /**
+                                                                             * AUTHOR PARSING
+                                                                             */
+
+                                                                            // 0 AUTHORS
+                                                                            if ( authorsRaw.length === 0 ) {
+                                                                                alert('ERROR: No authors were found for this PMID.\n\nPlease double-check PMID or insert reference manually.');
+                                                                            }
+                                                                            // 1 AUTHOR
+                                                                            else if ( authorsRaw.length === 1 ) {
+                                                                                authors = data.result[PMID].authors[0].name;
+                                                                            }
+                                                                            // 2 - 6 AUTHORS
+                                                                            else if ( authorsRaw.length > 1 && authorsRaw.length < 7 ) {
+
+                                                                                for (i = 0; i < authorsRaw.length - 1; i++) {
+                                                                                    authors += authorsRaw[i].name + ', ';
+                                                                                }
+                                                                                authors += authorsRaw[authorsRaw.length - 1].name + '. ';
+                                                                            }
+                                                                            // >7 AUTHORS
+                                                                            else {
+                                                                                for (i = 0; i < 3; i++) {
+                                                                                    authors += authorsRaw[i].name + ', ';
+                                                                                }
+                                                                                authors += 'et al. ';
+                                                                            }
+
+                                                                            // NO VOLUME NUMBER
+                                                                            if ( volume === '' ) {
+                                                                                output = authors + ' ' + title + ' <em>' + journalName + '.</em> ' + pubYear + '; ' + volume + ': ' + pages + '.';
+                                                                            }
+                                                                            // NO ISSUE NUMBER
+                                                                            else if ( issue === '' || issue === undefined ) {
+                                                                                output = authors + ' ' + title + ' <em>' + journalName + '.</em> ' + pubYear + '; ' + volume + ': ' + pages + '.';
+                                                                            } else {
+                                                                                output = authors + ' ' + title + ' <em>' + journalName + '.</em> ' + pubYear + '; ' + volume + '(' + issue + '): ' + pages + '.';
+                                                                            }
+
+
+                                                                        } else if ( citationFormat == 'APA' ) {
+
+                                                                            /**
+                                                                             * AUTHOR PARSING
+                                                                             */
+
+                                                                            // 0 AUTHORS
+                                                                            if ( authorsRaw.length === 0 ) {
+                                                                                alert('ERROR: No authors were found for this PMID.\n\nPlease double-check PMID or insert reference manually.');
+                                                                            }
+                                                                            // 1 AUTHOR
+                                                                            else if ( authorsRaw.length === 1 ) {
+
+                                                                                // Check to see if both initials are listed
+                                                                                if ( (/( \w\w)/g).test(data.result[PMID].authors[0].name) ) {
+                                                                                    authors +=  data.result[PMID].authors[0].name.substring( 0, data.result[PMID].authors[0].name.length - 3 ) + ', ' +
+                                                                                                data.result[PMID].authors[0].name.substring( data.result[PMID].authors[0].name.length - 2, data.result[PMID].authors[0].name.length - 1 ) + '. ' +
+                                                                                                data.result[PMID].authors[0].name.substring( data.result[PMID].authors[0].name.length - 1 ) + '. ';
+                                                                                } else {
+                                                                                    authors +=  data.result[PMID].authors[0].name.substring( 0, data.result[PMID].authors[0].name.length - 2 ) + ', ' +
+                                                                                                data.result[PMID].authors[0].name.substring( data.result[PMID].authors[0].name.length - 1 ) + '. ';
+                                                                                }
+
+                                                                            }
+                                                                            // 2 Authors
+                                                                            else if ( authorsRaw.length === 2 ) {
+
+                                                                                if ( (/( \w\w)/g).test(data.result[PMID].authors[0].name) ) {
+
+                                                                                    authors +=  data.result[PMID].authors[0].name.substring( 0, data.result[PMID].authors[0].name.length - 3 ) + ', ' +
+                                                                                                data.result[PMID].authors[0].name.substring( data.result[PMID].authors[0].name.length - 2, data.result[PMID].authors[0].name.length - 1 ) + '. ' +
+                                                                                                data.result[PMID].authors[0].name.substring( data.result[PMID].authors[0].name.length - 1 ) + '., & ';
+
+                                                                                } else {
+
+                                                                                    authors +=  data.result[PMID].authors[0].name.substring( 0, data.result[PMID].authors[0].name.length - 2 ) + ', ' +
+                                                                                                data.result[PMID].authors[0].name.substring( data.result[PMID].authors[0].name.length - 1 ) + '., & ';
+
+                                                                                }
+
+                                                                                if ( (/( \w\w)/g).test(data.result[PMID].authors[1].name) ) {
+
+                                                                                    authors +=  data.result[PMID].authors[1].name.substring( 0, data.result[PMID].authors[1].name.length - 3 ) + ', ' +
+                                                                                                data.result[PMID].authors[1].name.substring( data.result[PMID].authors[1].name.length - 2, data.result[PMID].authors[1].name.length - 1 ) + '. ' +
+                                                                                                data.result[PMID].authors[1].name.substring( data.result[PMID].authors[1].name.length - 1 ) + '. ';
+
+                                                                                } else {
+
+                                                                                    authors +=  data.result[PMID].authors[1].name.substring( 0, data.result[PMID].authors[1].name.length - 2 ) + ', ' +
+                                                                                                data.result[PMID].authors[1].name.substring( data.result[PMID].authors[1].name.length - 1 ) + '. ';
+
+                                                                                }
+
+                                                                            }
+                                                                            // 3-7 AUTHORS
+                                                                            else if ( authorsRaw.length > 2 && authorsRaw.length < 8 ) {
+
+                                                                                for (i = 0; i < authorsRaw.length - 1; i++) {
+
+                                                                                    if ( (/( \w\w)/g).test(data.result[PMID].authors[i].name) ) {
+
+                                                                                        authors +=  data.result[PMID].authors[i].name.substring( 0, data.result[PMID].authors[i].name.length - 3 ) + ', ' +
+                                                                                                    data.result[PMID].authors[i].name.substring( data.result[PMID].authors[i].name.length - 2, data.result[PMID].authors[i].name.length - 1 ) + '. ' +
+                                                                                                    data.result[PMID].authors[i].name.substring( data.result[PMID].authors[i].name.length - 1 ) + '., ';
+
+                                                                                    } else {
+
+                                                                                        authors +=  data.result[PMID].authors[i].name.substring( 0, data.result[PMID].authors[i].name.length - 2 ) + ', ' +
+                                                                                                    data.result[PMID].authors[i].name.substring( data.result[PMID].authors[i].name.length - 1 ) + '., ';
+
+                                                                                    }
+
+                                                                                }
+
+                                                                                if ( (/( \w\w)/g).test(data.result[PMID].lastauthor) ) {
+
+                                                                                    authors +=  '& ' + data.result[PMID].lastauthor.substring( 0, data.result[PMID].lastauthor.length - 3 ) + ', ' +
+                                                                                                data.result[PMID].lastauthor.substring( data.result[PMID].lastauthor.length - 2, data.result[PMID].lastauthor.length - 1 ) + '. ' +
+                                                                                                data.result[PMID].lastauthor.substring( data.result[PMID].lastauthor.length - 1 ) + '. ';
+
+                                                                                } else {
+
+                                                                                    authors +=  '& ' + data.result[PMID].lastauthor.substring( 0, data.result[PMID].lastauthor.length - 2 ) + ', ' +
+                                                                                                data.result[PMID].lastauthor.substring( data.result[PMID].lastauthor.length - 1 ) + '. ';
+
+                                                                                }
+
+                                                                            }
+                                                                            // >7 AUTHORS
+                                                                            else {
+
+                                                                                for (i = 0; i < 6; i++) {
+
+                                                                                    if ( (/( \w\w)/g).test(data.result[PMID].authors[i].name) ) {
+
+                                                                                        authors +=  data.result[PMID].authors[i].name.substring( 0, data.result[PMID].authors[i].name.length - 3 ) + ', ' +
+                                                                                                    data.result[PMID].authors[i].name.substring( data.result[PMID].authors[i].name.length - 2, data.result[PMID].authors[i].name.length - 1 ) + '. ' +
+                                                                                                    data.result[PMID].authors[i].name.substring( data.result[PMID].authors[i].name.length - 1 ) + '., ';
+
+                                                                                    } else {
+
+                                                                                        authors +=  data.result[PMID].authors[i].name.substring( 0, data.result[PMID].authors[i].name.length - 2 ) + ', ' +
+                                                                                                    data.result[PMID].authors[i].name.substring( data.result[PMID].authors[i].name.length - 1 ) + '., ';
+
+                                                                                    }
+
+                                                                                }
+
+                                                                                if ( (/( \w\w)/g).test(data.result[PMID].lastauthor) ) {
+
+                                                                                    authors +=  '. . . ' + data.result[PMID].lastauthor.substring( 0, data.result[PMID].lastauthor.length - 3 ) + ', ' +
+                                                                                                data.result[PMID].lastauthor.substring( data.result[PMID].lastauthor.length - 2, data.result[PMID].lastauthor.length - 1 ) + '. ' +
+                                                                                                data.result[PMID].lastauthor.substring( data.result[PMID].lastauthor.length - 1 ) + '. ';
+
+                                                                                } else {
+
+                                                                                    authors +=  '. . . ' + data.result[PMID].lastauthor.substring( 0, data.result[PMID].lastauthor.length - 2 ) + ', ' +
+                                                                                                data.result[PMID].lastauthor.substring( data.result[PMID].lastauthor.length - 1 ) + '. ';
+
+                                                                                }
+
+
+                                                                            }
+
+                                                                            output = authors + '(' + pubYear + '). ' + title + ' <em>' + journalName + '</em>, ' + (volume !== '' ? volume : '') + (issue !== '' ? '(' + issue + '), ' : '') + pages + '.';
+
+                                                                        }
+
+                                                                        // INCLUDE LINK TO PUBMED IF CHECKBOX IS CHECKED
+                                                                        if ( includePubmedLink ) {
+                                                                            output += ' PMID: <a href="http://www.ncbi.nlm.nih.gov/pubmed/' + PMID + '" target="_blank">' + PMID + '</a>';
+                                                                        }
+
+                                                                        editor.insertContent(output);
+                                                                        editor.setProgressState(0);
+
+                                                                    });
+                                                                }
 															}
 														});
 												}
@@ -135,11 +362,13 @@
                                                 var trackedUrl = e.data.tracked_url;
                                                 var trackedTitle = e.data.tracked_title;
                                                 var trackedTag = e.data.tracked_tag;
+                                                var trackedLink;
+
 
                                                 if (e.data.tracked_new_window) {
-                                                    var trackedLink = '<a href="' + trackedUrl + '" id="' + trackedTag + '" target="_blank">' + trackedTitle + '</a>';
+                                                    trackedLink = '<a href="' + trackedUrl + '" id="' + trackedTag + '" target="_blank">' + trackedTitle + '</a>';
                                                 } else {
-                                                    var trackedLink = '<a href="' + trackedUrl + '" id="' + trackedTag + '">' + trackedTitle + '</a>';
+                                                    trackedLink = '<a href="' + trackedUrl + '" id="' + trackedTag + '">' + trackedTitle + '</a>';
                                                 }
 
                                                 editor.execCommand('mceInsertContent', false, trackedLink);
