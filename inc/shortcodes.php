@@ -15,9 +15,9 @@ function inline_citation ( $atts ) {
 	$cite_num = number_format($a['num'], 0);
 
 	if ($a['return'] == FALSE) {
-		return '<a name="bounceback' . esc_attr($a['num']) . '" class="cite" href="#citation' . esc_attr($a['num']) . '">[' . $cite_num . ']</a>';
+		return '<a id="bounceback' . esc_attr($a['num']) . '" class="cite" href="#citation' . esc_attr($a['num']) . '">[' . $cite_num . ']</a>';
 	} else {
-		return '<a name="citation' . esc_attr($a['num']) . '" class="cite-return" href="#bounceback' . esc_attr($a['num']) . '">▲</a>';
+		return '<a id="citation' . esc_attr($a['num']) . '" class="cite-return" href="#bounceback' . esc_attr($a['num']) . '">▲</a>';
 	}
 }
 add_shortcode( 'cite', 'inline_citation' );
