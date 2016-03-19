@@ -8,20 +8,60 @@
 
 function inline_citation ( $atts ) {
 	$a = shortcode_atts( array(
-				'num' => 1,
-				'return' => FALSE,
-		), $atts);
+		'num' => 1,
+		'return' => FALSE,
+	), $atts);
 
-	$cite_num = number_format($a['num'], 0);
-
-	if ($a['return'] == FALSE) {
-		return '<a id="bounceback' . esc_attr($a['num']) . '" class="cite" href="#citation' . esc_attr($a['num']) . '">[' . $cite_num . ']</a>';
-	} else {
-		return '<a id="citation' . esc_attr($a['num']) . '" class="cite-return" href="#bounceback' . esc_attr($a['num']) . '">▲</a>';
+	// Handle depreciation
+	if ($a['return'] != FALSE) {
+		return;
 	}
+
+	// Split the string at each comma
+	$nums = explode(',', $a['num']);
+
+	$parsed_nums = array();
+	foreach($nums as $key => $value) {
+
+		$value = explode('-', $value);
+
+		switch (count($value)) {
+			case 1:
+				array_push($parsed_nums, floor($value[0]));
+				$nums[$key] = floor($value[0]);
+				break;
+			case 2:
+				$lower_val = (int)$value[0];
+				$upper_val = (int)$value[1];
+				for ($i = $lower_val; $i <= $upper_val; $i++) {
+					array_push($parsed_nums, $i);
+				}
+				break;
+			default:
+				return '<span style="font-weight: bold; color: red;">An error occurred while parsing your citation. Please try again</span>';
+		}
+
+	}
+	$parsed_nums = array_unique($parsed_nums);
+	sort($parsed_nums);
+	// $parsed_nums = join(',', $parsed_nums);
+	$parsed_nums = json_encode($parsed_nums);
+
+	$nums = implode(', ', $nums);
+
+	return '<span class="cite" data-reflist="' . $parsed_nums . '">[' . $nums . ']</span>';
+
 }
 add_shortcode( 'cite', 'inline_citation' );
 
+
+
+
+
+
+
+
+// DEPRECIATED
 
 /*
  * * * * * * * * * * * * * * *

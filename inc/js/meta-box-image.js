@@ -1,277 +1,146 @@
-/*
- * Attaches the image uploader to the input field
- */
-jQuery(document).ready(function($){
 
-    // Show/hide nodes based on selector option
-    $('#reviewer_selector').bind('change', function (e) {
-        if( $('#reviewer_selector').val() == '0') {
-            $('#tabs-1').hide('slow');
-            $('#tabs-2').hide('slow');
-            $('#tabs-3').hide('slow');
-        }
-        else if( $('#reviewer_selector').val() == '1') {
-            $('#tabs-1').show('slow');
-            $('#tabs-2').hide('slow');
-            $('#tabs-3').hide('slow');
-        }
-        else if( $('#reviewer_selector').val() == '2') {
-            $('#tabs-1').show('slow');
-            $('#tabs-2').show('slow');
-            $('#tabs-3').hide('slow');
-        } else {
-            $('#tabs-1').show('slow');
-            $('#tabs-2').show('slow');
-            $('#tabs-3').show('slow');
-        }
-      }).trigger('change');
+if (document.readyState != 'loading'){
+	editorJS();
+} else {
+	document.addEventListener('DOMContentLoaded', editorJS);
+}
 
-// TODO: Combine the following three functions into a single function
+function editorJS() {
 
-    // Show hide author response based on button toggle
-    $('#author_response_button_1').on('click', function(event) {
-        event.preventDefault();
+  var authorNameInputs = document.querySelectorAll('input[id^=author_name_]');
+  var authorResponseTables = document.querySelectorAll('table[id^=author_response]');
+  var reviewContent = document.querySelectorAll('textarea[id^=peer_review_content_]');
+  var responseContent = document.querySelectorAll('textarea[id^=author_content_]');
 
-        $('#author_response_1').toggle(500);
-    });
+  // Inital actions on load
+  for (var i = 0; i < 3; i++) {
 
-    $('#author_response_button_2').on('click', function(event) {
-        event.preventDefault();
-
-        $('#author_response_2').toggle(500);
-    });
-
-    $('#author_response_button_3').on('click', function(event) {
-        event.preventDefault();
-
-        $('#author_response_3').toggle(500);
-    });
-
-
-
-    // Instantiates the variable that holds the media library frame.
-    var meta_image_frame_reviewer_1, meta_image_frame_reviewer_2, meta_image_frame_reviewer_3,
-        meta_image_frame_author_1, meta_image_frame_author_2, meta_image_frame_author_3;
-
-// -----------------------------------------------------------------
-// TODO: Combine the following 6 functions into a single function
-// ----------------------------------------------------------------
-
-    // Image selector function for First Reviewer
-    $('#reviewer_headshot_image_button_1').click(function(e){
-
-        e.preventDefault();
-
-        // If the frame already exists, re-open it.
-        if ( meta_image_frame_reviewer_1 ) {
-            meta_image_frame_reviewer_1.open();
-            return;
-        }
-
-        // Sets up the media library frame
-        meta_image_frame_reviewer_1 = wp.media.frames.meta_image_frame_reviewer_1 = wp.media({
-            title: meta_image.title,
-            button: { text:  meta_image.button },
-            library: { type: 'image' }
-        });
-
-        // Runs when an image is selected.
-        meta_image_frame_reviewer_1.on('select', function(){
-
-            // Grabs the attachment selection and creates a JSON representation of the model.
-            var media_attachment_reviewer_1 = meta_image_frame_reviewer_1.state().get('selection').first().toJSON();
-
-            // Sends the attachment URL to our custom image input field.
-            $('#reviewer_headshot_image_1').val(media_attachment_reviewer_1.url);
-        });
-
-        // Opens the media library frame.
-        meta_image_frame_reviewer_1.open();
-    });
-
-
-    // Image selector function for Second Reviewer
-    $('#reviewer_headshot_image_button_2').click(function(e){
-
-        e.preventDefault();
-
-        // If the frame already exists, re-open it.
-        if ( meta_image_frame_reviewer_2 ) {
-            meta_image_frame_reviewer_2.open();
-            return;
-        }
-
-        // Sets up the media library frame
-        meta_image_frame_reviewer_2 = wp.media.frames.meta_image_frame_reviewer_2 = wp.media({
-            title: meta_image.title,
-            button: { text:  meta_image.button },
-            library: { type: 'image' }
-        });
-
-        // Runs when an image is selected.
-        meta_image_frame_reviewer_2.on('select', function(){
-
-            // Grabs the attachment selection and creates a JSON representation of the model.
-            var media_attachment_reviewer_2 = meta_image_frame_reviewer_2.state().get('selection').first().toJSON();
-
-            // Sends the attachment URL to our custom image input field.
-            $('#reviewer_headshot_image_2').val(media_attachment_reviewer_2.url);
-        });
-
-        // Opens the media library frame.
-        meta_image_frame_reviewer_2.open();
-    });
-
-
-    // Image selector function for Third Reviewer
-    $('#reviewer_headshot_image_button_3').click(function(e){
-
-        e.preventDefault();
-
-        // If the frame already exists, re-open it.
-        if ( meta_image_frame_reviewer_3 ) {
-            meta_image_frame_reviewer_3.open();
-            return;
-        }
-
-        // Sets up the media library frame
-        meta_image_frame_reviewer_3 = wp.media.frames.meta_image_frame_reviewer_3 = wp.media({
-            title: meta_image.title,
-            button: { text:  meta_image.button },
-            library: { type: 'image' }
-        });
-
-        // Runs when an image is selected.
-        meta_image_frame_reviewer_3.on('select', function(){
-
-            // Grabs the attachment selection and creates a JSON representation of the model.
-            var media_attachment_reviewer_3 = meta_image_frame_reviewer_3.state().get('selection').first().toJSON();
-
-            // Sends the attachment URL to our custom image input field.
-            $('#reviewer_headshot_image_3').val(media_attachment_reviewer_3.url);
-        });
-
-        // Opens the media library frame.
-        meta_image_frame_reviewer_3.open();
-    });
-
-
-    // Image selector function for First Author Reponse
-    $('#author_headshot_image_button_1').click(function(e){
-
-        e.preventDefault();
-
-        // If the frame already exists, re-open it.
-        if ( meta_image_frame_author_1 ) {
-            meta_image_frame_author_1.open();
-            return;
-        }
-
-        // Sets up the media library frame
-        meta_image_frame_author_1 = wp.media.frames.meta_image_frame_author_1 = wp.media({
-            title: meta_image.title,
-            button: { text:  meta_image.button },
-            library: { type: 'image' }
-        });
-
-        // Runs when an image is selected.
-        meta_image_frame_author_1.on('select', function(){
-
-            // Grabs the attachment selection and creates a JSON representation of the model.
-            var media_attachment_author_1 = meta_image_frame_author_1.state().get('selection').first().toJSON();
-
-            // Sends the attachment URL to our custom image input field.
-            $('#author_headshot_image_1').val(media_attachment_author_1.url);
-        });
-
-        // Opens the media library frame.
-        meta_image_frame_author_1.open();
-    });
-
-
-    // Image selector function for Second Author Response
-    $('#author_headshot_image_button_2').click(function(e){
-
-        e.preventDefault();
-
-        // If the frame already exists, re-open it.
-        if ( meta_image_frame_author_2 ) {
-            meta_image_frame_author_2.open();
-            return;
-        }
-
-        // Sets up the media library frame
-        meta_image_frame_author_2 = wp.media.frames.meta_image_frame_author_2 = wp.media({
-            title: meta_image.title,
-            button: { text:  meta_image.button },
-            library: { type: 'image' }
-        });
-
-        // Runs when an image is selected.
-        meta_image_frame_author_2.on('select', function(){
-
-            // Grabs the attachment selection and creates a JSON representation of the model.
-            var media_attachment_author_2 = meta_image_frame_author_2.state().get('selection').first().toJSON();
-
-            // Sends the attachment URL to our custom image input field.
-            $('#author_headshot_image_2').val(media_attachment_author_2.url);
-        });
-
-        // Opens the media library frame.
-        meta_image_frame_author_2.open();
-    });
-
-
-    // Image selector function for Third Author Response
-    $('#author_headshot_image_button_3').click(function(e){
-
-        e.preventDefault();
-
-        // If the frame already exists, re-open it.
-        if ( meta_image_frame_author_3 ) {
-            meta_image_frame_author_3.open();
-            return;
-        }
-
-        // Sets up the media library frame
-        meta_image_frame_author_3 = wp.media.frames.meta_image_frame_author_3 = wp.media({
-            title: meta_image.title,
-            button: { text:  meta_image.button },
-            library: { type: 'image' }
-        });
-
-        // Runs when an image is selected.
-        meta_image_frame_author_3.on('select', function(){
-
-            // Grabs the attachment selection and creates a JSON representation of the model.
-            var media_attachment_author_3 = meta_image_frame_author_3.state().get('selection').first().toJSON();
-
-            // Sends the attachment URL to our custom image input field.
-            $('#author_headshot_image_3').val(media_attachment_author_3.url);
-        });
-
-        // Opens the media library frame.
-        meta_image_frame_author_3.open();
-    });
-
-    // Hide empty author response fields
-    for (var i = 1; i < 4; i++) {
-        if ( $('#author_name_' + i).val() === '' ) {
-            $('#author_response_' + i).hide();
-        }
+    // Hide empty author responses
+    if (authorNameInputs[i].value == '') {
+      authorResponseTables[i].style.display = 'none';
     }
-    
+
     // Replace <br> and <p> tags with actual line breaks on post edit screen
-    for (var i = 1; i < 4; i++) {
+    reviewContent[i].value = reviewContent[i].value.replace(/(<br>)|(<br \/>)|(<p>)|(<\/p>)/, "").replace(/(<br>)|(<br \/>)|(<p>)|(<\/p>)/g, "\r");
+    responseContent[i].value = responseContent[i].value.replace(/(<br>)|(<br \/>)|(<p>)|(<\/p>)/, "").replace(/(<br>)|(<br \/>)|(<p>)|(<\/p>)/g, "\r");
 
-        $("#peer_review_content_" + i).text(function() {
-            return $(this).text().replace(/(<br>)|(<br \/>)|(<p>)|(<\/p>)/, "").replace(/(<br>)|(<br \/>)|(<p>)|(<\/p>)/g, "\r");
-        });
+  }
 
-        $("#author_content_" + i).text(function() {
-            return $(this).text().replace(/(<br>)|(<br \/>)|(<p>)|(<\/p>)/, "").replace(/(<br>)|(<br \/>)|(<p>)|(<\/p>)/g, "\r");
-        });
 
+  // ==================================================
+  //               SELECT BOX HANDLER
+  // ==================================================
+
+  // Show/hide nodes based on select option
+  var selectBox = document.querySelector('#reviewer_selector');
+  var selectDivs = document.querySelectorAll('#peer_review_metabox_wrapper > div');
+  selectBox.addEventListener('change', selectHandler);
+
+  // Simulate a change event on initial page load
+  var simulatedChange = new Event('change');
+  selectBox.dispatchEvent(simulatedChange);
+
+  function selectHandler(e) {
+    for (var i = 0; i < selectDivs.length; i++) {
+      selectDivs[i].style.display = 'none';
     }
 
-});
+    switch (e.target.value) {
+      case '3':
+        selectDivs['2'].style.display = '';
+      case '2':
+        selectDivs['1'].style.display = '';
+      case '1':
+        selectDivs['0'].style.display = '';
+    }
+
+  };
+
+
+  // ==================================================
+  //          AUTHOR RESPONSE BUTTON HANDLER
+  // ==================================================
+
+  // Show hide author response based on button toggle
+  var toggleButtons = document.querySelectorAll('input[id^=author_response_button]');
+  for (var i = 0; i < toggleButtons.length; i++) {
+
+    toggleButtons[i].addEventListener('click', function(e) {
+
+      currentIndex = parseInt(e.target.id.slice(-1)) - 1;
+
+      if (authorResponseTables[currentIndex].style.display == 'none') {
+        authorResponseTables[currentIndex].style.display = 'block';
+        return;
+      }
+
+      authorResponseTables[currentIndex].style.display = 'none';
+
+    });
+  }
+
+  //=====================================================
+  //          MEDIA UPLOAD HANDLER
+  //=====================================================
+
+  // Instantiates the variable that holds the media library frame.
+  var abt_meta_image_frames = [null, null, null, null, null, null];
+  wp.media.frames.abt_meta_image_frames = {
+    '1': null,
+    '2': null,
+    '3': null,
+    '4': null,
+    '5': null,
+    '6': null
+  };
+
+  var headshotButtons = document.querySelectorAll('input[id^=headshot_image_button]');
+  for (var i = 0; i < headshotButtons.length; i++) {
+
+    headshotButtons[i].addEventListener('click', function(e) {
+
+      var headshotImageInput;
+      var i = parseInt(e.target.id.slice(-1)) - 1;
+      switch (i) {
+        case 0:
+        case 1:
+        case 2:
+          headshotImageInput = document.querySelector('#reviewer_headshot_image_' + (i+1).toString());
+          break;
+        case 3:
+        case 4:
+        case 5:
+          headshotImageInput = document.querySelector('#author_headshot_image_' + (i-2).toString());
+          break;
+      }
+
+      if (abt_meta_image_frames[i]) {
+        abt_meta_image_frames[i].open();
+        return;
+      }
+
+      abt_meta_image_frames[i] = wp.media.frames.abt_meta_image_frames[i] = wp.media({
+          title: meta_image.title,
+          button: { text:  meta_image.button },
+          library: { type: 'image' }
+      });
+
+      // Runs when an image is selected.
+      abt_meta_image_frames[i].on('select', function(){
+
+        // Grabs the attachment selection and creates a JSON representation of the model.
+        var media_attachment = abt_meta_image_frames[i].state().get('selection').first().toJSON();
+
+        // Sends the attachment URL to our custom image input field.
+        headshotImageInput.value = media_attachment.url;
+
+      });
+
+      // Opens the media library frame.
+      abt_meta_image_frames[i].open();
+
+    });
+
+  }
+
+}

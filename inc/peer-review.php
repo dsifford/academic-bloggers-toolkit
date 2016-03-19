@@ -40,19 +40,22 @@ function abt_peer_review_callback( $post ) {
 
 	?>
 	<div id="peer_review_metabox_wrapper">
-	<select name="reviewer_selector" id="reviewer_selector">
-		<option value="0" <?php selected( $selected, '0' ); ?>>Select Number of Reviewers</option>
-		<option value="1" <?php selected( $selected, '1' ); ?>>One Reviewer</option>
-		<option value="2" <?php selected( $selected, '2' ); ?>>Two Reviewers</option>
-		<option value="3" <?php selected( $selected, '3' ); ?>>Three Reviewers</option>
-	</select>
+
+		<select name="reviewer_selector" id="reviewer_selector">
+			<option value="0" <?php selected( $selected, '0' ); ?>>Select Number of Reviewers</option>
+			<option value="1" <?php selected( $selected, '1' ); ?>>One Reviewer</option>
+			<option value="2" <?php selected( $selected, '2' ); ?>>Two Reviewers</option>
+			<option value="3" <?php selected( $selected, '3' ); ?>>Three Reviewers</option>
+		</select>
+
 
 	<!-- Loop through and create 3 input tables -->
 
 	<?php for ( $i = 1; $i < 4; $i++ ) : ?>
 
-		<div id="tabs-<?php echo $i; ?>">
-			<table class="form-table" style="border-top: solid 2px #dedede;">
+		<div id="tabs-<?php echo $i; ?>" style="padding-top: 10px;">
+			<h3 style="margin: 5px 0;">Review <?php echo $i; ?></h3>
+			<table class="form-table" style="border: solid 2px #dedede; margin-top: 0;">
 				<tr valign="top" class="alternate">
 					<td width="20%"><label for="peer_review_box_heading_<?php echo $i; ?>" class="abt-row-title" width="20%"><?php esc_attr_e( 'Heading for Peer Review', 'abt-textdomain' ) ?></label></td>
 					<td colspan="3"><input type="text" class="large-text" name="peer_review_box_heading_<?php echo $i; ?>" id="peer_review_box_heading_<?php echo $i; ?>" value="<?php echo ${'peer_review_box_heading_' . $i}; ?>" /></td>
@@ -75,15 +78,15 @@ function abt_peer_review_callback( $post ) {
 					<td scope="row" width="20%"><label for="reviewer_headshot_image_<?php echo $i; ?>" class="abt-row-title" width="20%"><?php esc_attr_e( 'Peer Reviewer Photo', 'abt-textdomain' )?></label></td>
 					<td colspan="3">
 						<input type="text" name="reviewer_headshot_image_<?php echo $i; ?>" id="reviewer_headshot_image_<?php echo $i; ?>" value="<?php echo ${'peer_review_image_' . $i}; ?>" />
-							<input type="button" id="reviewer_headshot_image_button_<?php echo $i; ?>" class="button" value="<?php esc_attr_e( 'Choose or Upload an Image', 'abt-textdomain' )?>" />
+							<input type="button" id="headshot_image_button_<?php echo $i; ?>" class="button" value="<?php esc_attr_e( 'Choose or Upload an Image', 'abt-textdomain' )?>" />
 					</td>
 				</tr>
 				<tr valign="top">
-					<td scope="row" colspan="2"><input class="button-primary" type="button" id="author_response_button_<?php echo $i; ?>" value="<?php esc_attr_e( 'Toggle Author Response' ); ?>" /></td>
+					<td scope="row" colspan="4"><input class="button-primary" type="button" id="author_response_button_<?php echo $i; ?>" value="<?php esc_attr_e( 'Toggle Author Response' ); ?>" /></td>
 				</tr>
 			</table>
-			<table class="form-table" id="author_response_<?php echo $i; ?>">
-				<tr valign="top" class="alternate" style="border-top: solid 2px #dedede;">
+			<table class="form-table" style="width: auto; margin-top: -2px; border: solid 2px #0085ba; border-top: none;" id="author_response_<?php echo $i; ?>">
+				<tr valign="top" class="alternate" style="">
 					<td width="20%"><label for="author_name_<?php echo $i; ?>" class="abt-row-title"><?php esc_attr_e( 'Author Name', 'abt-textdomain' ) ?></label></td>
 					<td><input type="text" class="large-text" name="author_name_<?php echo $i; ?>" id="author_name_<?php echo $i; ?>" value="<?php echo ${'author_name_' . $i}; ?>" /></td>
 					<td width="1px"><label for="author_twitter_<?php echo $i; ?>" class="abt-row-title" width="20%"><?php esc_attr_e( 'Twitter&nbsp;Handle', 'abt-textdomain' ) ?></label></td>
@@ -101,7 +104,7 @@ function abt_peer_review_callback( $post ) {
 					<td scope="row" width="20%"><label for="author_headshot_image_<?php echo $i; ?>" class="abt-row-title"><?php esc_attr_e( 'Author Photo', 'abt-textdomain' )?></label></td>
 					<td colspan="3">
 						<input type="text" name="author_headshot_image_<?php echo $i; ?>" id="author_headshot_image_<?php echo $i; ?>" value="<?php echo ${'author_image_' . $i}; ?>" />
-							<input type="button" id="author_headshot_image_button_<?php echo $i; ?>" class="button" value="<?php esc_attr_e( 'Choose or Upload an Image', 'abt-textdomain' )?>" />
+							<input type="button" id="headshot_image_button_<?php echo $i + 3; ?>" class="button" value="<?php esc_attr_e( 'Choose or Upload an Image', 'abt-textdomain' )?>" />
 					</td>
 				</tr>
 			</table>
@@ -336,10 +339,7 @@ add_filter( 'the_content', 'insert_the_meta');
 
 function abt_peer_review_js_enqueue() {
 
-		wp_register_script('peer_review', plugins_url('academic-bloggers-toolkit/inc/js/peer-review.js'), array( 'jquery', 'jquery-ui-accordion' ) );
-
-		wp_enqueue_script('jquery');
-		wp_enqueue_script('jquery-ui-accordion');
+		wp_register_script('peer_review', plugins_url('academic-bloggers-toolkit/inc/js/peer-review.js') );
 		wp_enqueue_script( 'peer_review' );
 
 }
