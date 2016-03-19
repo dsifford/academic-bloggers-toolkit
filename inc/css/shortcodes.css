@@ -1,14 +1,18 @@
 
-/* =====Inline Citation Style===== */
-
-.cite {
-	text-decoration : none;
+/* =========== TOOLTIP ============*/
+.abt_tooltip {
+	border: 1px solid black;
+	border-radius: 3px;
+	padding: 3px 5px;
+	font-size: 0.75em;
+	background: white;
 }
 
-.cite-return {
-	vertical-align  : text-top;
-	font-size       : 0.7em;
-	text-decoration : none;
+
+/* =====Inline Citation Style===== */
+
+.cite:hover {
+	cursor: pointer;
 }
 
 
@@ -132,3 +136,4 @@
     .abt_chat_bubble:after {
       display: none;
     }
+}

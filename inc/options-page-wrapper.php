@@ -39,6 +39,10 @@
 											<td><strong>Peer Review Boxes:</strong></td>
 											<td><code>#abt_PR_boxes h3, .abt_PR_info, .abt_PR_headshot, .abt_chat_bubble</code></td>
 										</tr>
+										<tr>
+											<td><strong>Citation Tooltips:</strong></td>
+											<td><code>.abt_tooltip</code></td>
+										</tr>
 									</table>
 								</td>
 							</tr>
@@ -96,11 +100,11 @@
 									<td>
 										<form method="post" name="abt_google_tag_manager_field">
 											<input type="hidden" name="abt_google_tag_manager_field_submitted" value="Y">
-											<textarea id="abt_google_tag_manager_code" name="abt_google_tag_manager_code" cols="75" rows="9" style="font-family: monospace;" placeholder="<?php echo esc_html($abt_google_tag_manager_placeholder); ?>"><?php echo stripslashes($abt_google_tag_manager_code); ?></textarea><br>
+											<textarea id="abt_google_tag_manager_code" name="abt_google_tag_manager_code" cols="75" rows="9" style="font-family: monospace; box-sizing: border-box; width: 100%;" placeholder="<?php echo esc_html($abt_google_tag_manager_placeholder); ?>"><?php echo stripslashes($abt_google_tag_manager_code); ?></textarea><br>
 											<input class="button-primary" type="submit" name="abt_google_tag_manager_submit" value="Update" />
 										</form>
 									</td>
-									<td><div style="height: 175px; overflow-y: scroll;">
+									<td style="width: 50%;"><div style="height: 175px; overflow-y: scroll;">
 										<h3>Prerequisites:</h3>
 										<ol>
 											<li>An account set up with <a href="https://www.google.com/analytics/" target="_blank">Google Analytics</a> (keep <code>Tracking ID</code> handy).</li>

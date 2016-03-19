@@ -1,10 +1,10 @@
 === Academic Blogger's Toolkit ===
 Contributors: dsifford
 Donate link: https://cash.me/$dsifford
-Tags: academic, pmid, doi, peer-review, Google Tag Manager
+Tags: academic, pmid, doi, peer-review, Google Tag Manager, citation, bibliography
 Requires at least: 4.2.2
-Tested up to: 4.3
-Stable tag: trunk
+Tested up to: 4.2.2
+Stable tag: 2.2.1
 License: GPL3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -17,8 +17,11 @@ Academic Blogger's toolkit is an **open source** WordPress plugin providing an a
 = Automatically parse references on the fly using PMID =
 - Option to add hyperlink to PubMed.
 
-= Anchor links to and from in-text citations =
-- Smooth scrolling using jQuery.
+= Inline citations with hover tooltips showing full reference =
+- **Requirements**:
+    - A bibliography ordered list must be present **AND** the ordered list must be last one in your blog post.
+- **How to use**:
+    - Select `Bibliography Tools -> inline citation` from the options menu located on the editor and insert a list of one or more citation numbers from your bibliography list in the form of `1-4,7,9`.
 
 = Append up to 3 formatted Peer Reviews to blog posts via a Frontend UI integrated on the post edit screen =
 - Input areas for the Peer Review section include...
@@ -59,6 +62,17 @@ Yikes! I'm sorry about that. Please report all issues on the Academic Blogger's 
 4. Options Page Screenshot
 
 == Changelog ==
+
+= 2.2.1 =
+* Fix issue where peer reviews containing ordered lists would break the inline reference tooltips.
+
+= 2.2.0 =
+* **Breaking Change:** Support for Internet Explorer versions 9 and below ended. (Please upgrade your browser).
+* jQuery removed entirely (network hog). Page load times should be modestly improved.
+* Instead of inline citations taking you to the references on click, the individual references are now displayed inside a tooltip. I've found that dealing with return links was too cumbersome and time consuming.
+* Inline citations now accepts a more natural format. For example, [cite num="1-3,5,8"] correctly cites references 1, 2, 3, 5, & 8. **Note:** Your bibliography **MUST** be an ordered list **AND** it must be the last ordered list in your blog post.
+* Slow animations on all pages removed.
+* Adjusted peer review metaboxes with a clearer delimiter so that they're easier to read.
 
 = 2.1.0 =
 * **Quick addition to previous update:** Added ability to open Formatted Reference and Inline Citation menus via keyboard shortcuts. (Ah, much nicer!)
