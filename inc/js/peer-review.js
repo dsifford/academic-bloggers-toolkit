@@ -65,29 +65,68 @@ function blogPageJS() {
 			// Remove URLs
 			var citation = referenceList.children[correctedNum].innerHTML.replace(/<a.+target="_blank">/, '').replace(/<\/a>/, '');
 
-			return '<span><strong>' + el + '.</strong> ' + citation + '</span><br>';
+			return '<div style="display: flex;"><span><strong>' + el + '.</strong> ' + citation + '</span></div>';
 		});
 		citations[i].dataset.citations = citeNums.join('');
 
-		// Create tooltip
-		citations[i].addEventListener('mouseover', function(e) {
-			var tooltip = document.createElement('div');
-			tooltip.id = tooltip.className = 'abt_tooltip';
-			tooltip.innerHTML = e.currentTarget.dataset.citations;
+		// Create tooltip event handlers based on device
+		if (isTouchDevice()) {
+			citations[i].addEventListener('touchstart', createTooltip);
+			citations[i].addEventListener('touchend', destroyTooltip);
+		} else {
+			citations[i].addEventListener('mouseover', createTooltip);
+			citations[i].addEventListener('mouseout', destroyTooltip);
+		}
+
+	}
+
+	// ==================================================
+	//               HELPER FUNCTIONS
+	// ==================================================
+
+	function isTouchDevice(){
+    return true == ("ontouchstart" in window || window.DocumentTouch && document instanceof DocumentTouch);
+  }
+
+	function createTooltip(e) {
+
+		if(document.getElementById('abt_tooltip') !== null) {
+  		document.getElementById('abt_tooltip').remove();
+		}
+
+		var tooltip = document.createElement('div');
+		tooltip.className = 'abt_tooltip';
+		tooltip.innerHTML = e.currentTarget.dataset.citations;
+		tooltip.style.visibility = 'hidden';
+
+		if (isTouchDevice()) {
+
+			var container = document.createElement('div');
+			container.id = 'abt_tooltip';
+			container.style.cssText = "position: absolute; display: flex; " +
+				"visibility: hidden; justify-content: center; left: 0; right: 0; margin: auto;";
+			container.appendChild(tooltip);
+			tooltip.style.cssText = "position: relative; display: flex;" +
+				"flex-direction: column; max-width: 95%;";
+
+			document.body.appendChild(container);
+			container.style.top = (e.touches[0].pageY + 10) + 'px';
+			container.style.visibility = tooltip.style.visibility = '';
+
+		} else {
+			tooltip.id = 'abt_tooltip';
 			tooltip.style.position = 'absolute';
-			tooltip.style.visibility = 'hidden';
 
 			document.body.appendChild(tooltip);
 			tooltip.style.top = (e.pageY + 20) + 'px';
 			tooltip.style.left = (e.pageX - 20) + 'px';
-
 			tooltip.style.visibility = '';
-		});
+		}
 
-		// Destroy tooltip
-		citations[i].addEventListener('mouseout', function() {
-			document.getElementById('abt_tooltip').remove();
-		});
+	};
+
+	function destroyTooltip() {
+		document.getElementById('abt_tooltip').remove();
 	}
 
 }

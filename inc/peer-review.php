@@ -86,11 +86,11 @@ function abt_peer_review_callback( $post ) {
 				</tr>
 			</table>
 			<table class="form-table" style="width: auto; margin-top: -2px; border: solid 2px #0085ba; border-top: none;" id="author_response_<?php echo $i; ?>">
-				<tr valign="top" class="alternate" style="">
+				<tr valign="top" class="alternate">
 					<td width="20%"><label for="author_name_<?php echo $i; ?>" class="abt-row-title"><?php esc_attr_e( 'Author Name', 'abt-textdomain' ) ?></label></td>
-					<td><input type="text" class="large-text" name="author_name_<?php echo $i; ?>" id="author_name_<?php echo $i; ?>" value="<?php echo ${'author_name_' . $i}; ?>" /></td>
-					<td width="1px"><label for="author_twitter_<?php echo $i; ?>" class="abt-row-title" width="20%"><?php esc_attr_e( 'Twitter&nbsp;Handle', 'abt-textdomain' ) ?></label></td>
-					<td><input type="text" class="large-text"  name="author_twitter_<?php echo $i; ?>" id="author_twitter_<?php echo $i; ?>" value="<?php echo ${'author_twitter_' . $i}; ?>" /></td>
+					<td width="40%"><input type="text" class="large-text" name="author_name_<?php echo $i; ?>" id="author_name_<?php echo $i; ?>" value="<?php echo ${'author_name_' . $i}; ?>" /></td>
+					<td width="10%"><label for="author_twitter_<?php echo $i; ?>" class="abt-row-title" width="20%"><?php esc_attr_e( 'Twitter&nbsp;Handle', 'abt-textdomain' ) ?></label></td>
+					<td width="30%"><input type="text" class="large-text"  name="author_twitter_<?php echo $i; ?>" id="author_twitter_<?php echo $i; ?>" value="<?php echo ${'author_twitter_' . $i}; ?>" /></td>
 				</tr>
 				<tr valign="top">
 					<td width="20%"><label for="author_background_<?php echo $i; ?>" class="abt-row-title"><?php esc_attr_e( 'Author Background', 'abt-textdomain' ) ?></label></td>

@@ -44,12 +44,11 @@ function inline_citation ( $atts ) {
 	}
 	$parsed_nums = array_unique($parsed_nums);
 	sort($parsed_nums);
-	// $parsed_nums = join(',', $parsed_nums);
 	$parsed_nums = json_encode($parsed_nums);
 
 	$nums = implode(', ', $nums);
 
-	return '<span class="cite" data-reflist="' . $parsed_nums . '">[' . $nums . ']</span>';
+	return '<span class="cite noselect" data-reflist="' . $parsed_nums . '">[' . $nums . ']</span>';
 
 }
 add_shortcode( 'cite', 'inline_citation' );
