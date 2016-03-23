@@ -1,5 +1,14 @@
 # Changelog
 
+### 2.3.0
+- Tooltips on desktop and mobile given a much-needed facelift.
+- Tooltips now appear above or below depending on page scroll position (prevents chopping).
+- Tooltips on desktop given a close timer so that the user has time to click links in references.
+- Peer review boxes now show a default silhouette photo if no photo attached.
+
+#### Bugfixes
+- Bumped the z-index of the tooltips to fight against elements from other plugins overlapping (Please let me know if '20' is still not enough).
+
 ### 2.2.2
 - Fix issue where tooltips on mobile wouldn't go away + better mobile tooltip rendering.
 

@@ -1,12 +1,52 @@
 
 /* =========== TOOLTIP ============*/
 .abt_tooltip {
-	border: 1px solid black;
+	border: 1px solid #f1f1f1;
 	border-radius: 3px;
-	padding: 3px 5px;
+	padding: 8px;
+	position: absolute;
+	margin: auto;
 	font-size: 0.75em;
-	background: white;
+	background-color: #fff;
+    box-shadow: 0 0 50px rgba(0,0,0,.35);
+	z-index: 20;
+    animation: fadeInUp .2s;
 }
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+		transform: translate3d(0, 10px, 0);
+	}
+	to {
+		opacity: 1;
+		transform: none;
+	}
+}
+
+.abt_tooltip_arrow {
+	content: "";
+    position: absolute;
+    margin-left: -8px;
+    border-width: 8px;
+    border-style: solid;
+	pointer-events: none;
+}
+
+.abt_tooltip_touch_close:before {
+	position: absolute;
+	color: #f1f1f1;
+	content: '✖';
+	top: -10px;
+	text-align: center;
+	background: #555;
+	width: 24px;
+	height: 24px;
+	border-radius: 50px;
+	right: -10px;
+	font: 20px monospace;
+}
+
 
 .noselect {
   -webkit-touch-callout: none; /* iOS Safari */

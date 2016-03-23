@@ -289,7 +289,7 @@ function insert_the_meta( $text ) {
 
 					${'author_block_' . $i} =
 						'<div class="abt_chat_bubble">' . ${'author_content_' . $i} . '</div>' .
-						'<div class="abt_PR_info"><img src="' . ${'author_headshot_image_' . $i} . '" width="100px" class="abt_PR_headshot">' .
+						'<div class="abt_PR_info"><img src="' . (${'author_headshot_image_' . $i} !== '' ? ${'author_headshot_image_' . $i} : plugins_url('academic-bloggers-toolkit/inc/images/silhouette.png')) . '" width="100px" class="abt_PR_headshot">' .
 							'<strong>' . ${'author_name_' . $i} . '</strong><br />' .
 							${'author_background_' . $i} . '<br />' .
 							${'author_twitter_' . $i} .
@@ -303,7 +303,7 @@ function insert_the_meta( $text ) {
 						'<h3>' . ${'peer_review_box_heading_' . $i} . '</h3>' .
 							'<div>' .
 								'<div class="abt_chat_bubble">' . ${'peer_review_content_' . $i} . '</div>' .
-								'<div class="abt_PR_info"><img src="' . ${'reviewer_headshot_image_' . $i} . '" width="100px" class="abt_PR_headshot">' .
+								'<div class="abt_PR_info"><img src="' . (${'reviewer_headshot_image_' . $i} !== '' ? ${'reviewer_headshot_image_' . $i} : plugins_url('academic-bloggers-toolkit/inc/images/silhouette.png')) . '" width="100px" class="abt_PR_headshot">' .
 									'<strong>' . ${'reviewer_name_' . $i} . '</strong><br />' .
 									${'reviewer_background_' . $i} . '<br />' .
 									${'reviewer_twitter_' . $i} .

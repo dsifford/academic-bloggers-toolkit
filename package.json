@@ -1,0 +1,19 @@
+{
+  "name": "academic-bloggers-toolkit",
+  "version": "2.3.0",
+  "description": "A plugin extending the functionality of WordPress for Academic Blogging.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dsifford/academic-bloggers-toolkit.git"
+  },
+  "author": "Derek P Sifford",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/dsifford/academic-bloggers-toolkit/issues"
+  },
+  "homepage": "https://github.com/dsifford/academic-bloggers-toolkit#readme"
+}

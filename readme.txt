@@ -4,7 +4,7 @@ Donate link: https://cash.me/$dsifford
 Tags: academic, pmid, doi, peer-review, Google Tag Manager, citation, bibliography
 Requires at least: 4.2.2
 Tested up to: 4.2.2
-Stable tag: 2.2.2
+Stable tag: 2.3.0
 License: GPL3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -62,6 +62,13 @@ Yikes! I'm sorry about that. Please report all issues on the Academic Blogger's 
 4. Options Page Screenshot
 
 == Changelog ==
+
+= 2.3.0 =
+* Tooltips on desktop and mobile given a much-needed facelift.
+* Tooltips now appear above or below depending on page scroll position (prevents chopping).
+* Tooltips on desktop given a close timer so that the user has time to click links in references.
+* Peer review boxes now show a default silhouette photo if no photo attached.
+* Bumped the z-index of the tooltips to fight against elements from other plugins overlapping (Please let me know if '20' is still not enough).
 
 = 2.2.2 =
 * Fix issue where tooltips on mobile wouldn't go away + better mobile tooltip rendering.
