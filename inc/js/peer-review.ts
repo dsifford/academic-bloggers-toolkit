@@ -131,13 +131,17 @@ module ABT_Frontend {
       if (this._isTouchDevice()) {
 
         let closeButton: HTMLDivElement = document.createElement('div');
+        let touchContainer: HTMLDivElement = document.createElement('div');
+        touchContainer.className = 'abt_tooltip_touch_close-container';
         closeButton.className = 'abt_tooltip_touch_close';
-        closeButton.addEventListener('touchend', () => tooltip.remove());
+        touchContainer.addEventListener('touchend', () => tooltip.remove());
 
         tooltip.style.left = '0';
         tooltip.style.right = '0';
         tooltip.style.maxWidth = '90%'
-        tooltip.appendChild(closeButton);
+        touchContainer.appendChild(closeButton);
+        tooltip.appendChild(touchContainer);
+        // tooltip.appendChild(closeButton);
         document.body.appendChild(tooltip);
         tooltip.appendChild(tooltipArrow);
 

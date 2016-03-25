@@ -89,12 +89,15 @@ var ABT_Frontend;
             tooltipArrow.className = 'abt_tooltip_arrow';
             if (this._isTouchDevice()) {
                 var closeButton = document.createElement('div');
+                var touchContainer = document.createElement('div');
+                touchContainer.className = 'abt_tooltip_touch_close-container';
                 closeButton.className = 'abt_tooltip_touch_close';
-                closeButton.addEventListener('touchend', function () { return tooltip.remove(); });
+                touchContainer.addEventListener('touchend', function () { return tooltip.remove(); });
                 tooltip.style.left = '0';
                 tooltip.style.right = '0';
                 tooltip.style.maxWidth = '90%';
-                tooltip.appendChild(closeButton);
+                touchContainer.appendChild(closeButton);
+                tooltip.appendChild(touchContainer);
                 document.body.appendChild(tooltip);
                 tooltip.appendChild(tooltipArrow);
                 tooltipArrow.style.left = "calc(" + rect.left + "px - 5% + " + ((rect.right - rect.left) / 2) + "px - 3px)";
