@@ -365,6 +365,10 @@ function abt_image_enqueue() {
                 'button' => __( 'Use this image', 'abt-textdomain' ),
             )
         );
+		wp_localize_script( 'meta-box-image', 'AU_locationInfo', array(
+			'jsURL' => plugins_url('academic-bloggers-toolkit/inc/js/'),
+			'tinymceViewsURL' => plugins_url('academic-bloggers-toolkit/inc/tinymce-views/')
+		));
         wp_enqueue_script( 'meta-box-image' );
     }
 }

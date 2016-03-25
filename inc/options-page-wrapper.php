@@ -32,8 +32,8 @@
 											<th colspan="2">Classes / IDs used in this plugin:</th>
 										</tr>
 										<tr>
-											<td><strong>Anchor Links:</strong></td>
-											<td><code>.cite, .cite-return</code></td>
+											<td><strong>Inline Citations:</strong></td>
+											<td><code>.cite</code></td>
 										</tr>
 										<tr>
 											<td><strong>Peer Review Boxes:</strong></td>
@@ -41,7 +41,7 @@
 										</tr>
 										<tr>
 											<td><strong>Citation Tooltips:</strong></td>
-											<td><code>.abt_tooltip</code></td>
+											<td><code>.abt_tooltip, .abt_tooltip_arrow</code></td>
 										</tr>
 									</table>
 								</td>
