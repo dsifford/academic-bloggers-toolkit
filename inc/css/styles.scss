@@ -33,29 +33,58 @@
 	pointer-events: none;
 }
 
-.abt_tooltip_touch_close:before {
+.abt_tooltip_touch_close-container {
+	width: 50px;
+	height: 50px;
 	position: absolute;
-	color: #f1f1f1;
-	content: '✖';
 	top: -10px;
-	text-align: center;
-	background: #555;
-	width: 24px;
-	height: 24px;
-	border-radius: 50px;
 	right: -10px;
-	font: 20px monospace;
+	text-align: right;
 }
 
+.abt_tooltip_touch_close {
+	position: relative;
+	border-radius: 50%;
+    width: 26px;
+    height: 26px;
+	box-sizing: border-box;
+	display: inline-block;
+	vertical-align: middle;
+	font-style: normal;
+	color: #f1f1f1;
+	background: #555;
+	text-indent: -9999px;
+	transform: rotate(45deg);
+
+    &:before,&:after {
+        content: '';
+        left: 50%;
+        top: 50%;
+    	box-shadow: inset 0 0 0 32px;
+    	position: absolute;
+    	transform: translate(-50%, -50%);
+    }
+
+    &:before {
+        width: 14px;
+    	pointer-events: none;
+    	height: 2px;
+    }
+
+    &:after {
+        height: 14px;
+    	pointer-events: none;
+    	width: 2px;
+    }
+}
 
 .noselect {
-  -webkit-touch-callout: none; /* iOS Safari */
-  -webkit-user-select: none;   /* Chrome/Safari/Opera */
-  -khtml-user-select: none;    /* Konqueror */
-  -moz-user-select: none;      /* Firefox */
-  -ms-user-select: none;       /* IE/Edge */
-  user-select: none;           /* non-prefixed version, currently
-  								not supported by any browser */
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
 /* =====Inline Citation Style===== */

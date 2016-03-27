@@ -4,7 +4,7 @@ Donate link: https://cash.me/$dsifford
 Tags: academic, pmid, doi, peer-review, Google Tag Manager, citation, bibliography
 Requires at least: 4.2.2
 Tested up to: 4.2.2
-Stable tag: 2.3.0
+Stable tag: 2.4.0
 License: GPL3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -62,6 +62,15 @@ Yikes! I'm sorry about that. Please report all issues on the Academic Blogger's 
 4. Options Page Screenshot
 
 == Changelog ==
+
+= 2.4.0 =
+* Full rewrite.
+* Parse multiple comma-separated PMIDs at once into an ordered list.
+* Add ability to add citations manually for Journals, Websites, or Blogs.
+
+= 2.3.1 =
+* Fix poor rendering of tooltip close icon on mobile.
+* Increase size of toucharea for tooltip close icon on mobile.
 
 = 2.3.0 =
 * Tooltips on desktop and mobile given a much-needed facelift.

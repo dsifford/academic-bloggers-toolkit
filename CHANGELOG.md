@@ -1,5 +1,14 @@
 # Changelog
 
+### 2.4.0
+- Full rewrite.
+- Parse multiple comma-separated PMIDs at once into an ordered list.
+- Add ability to add citations manually for Journals, Websites, or Blogs.
+
+### 2.3.1
+- Fixed poor rendering of tooltip close icon on mobile.
+- Increase size of toucharea for tooltip close icon on mobile.
+
 ### 2.3.0
 - Tooltips on desktop and mobile given a much-needed facelift.
 - Tooltips now appear above or below depending on page scroll position (prevents chopping).

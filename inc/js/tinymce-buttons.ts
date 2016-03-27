@@ -1,15 +1,26 @@
 declare var tinymce, tinyMCE, AU_locationInfo
 
-interface Author {
-  authtype: string
-  clusterid: string
-  name: string
+interface String {
+  toTitleCase(): string
 }
+String.prototype.toTitleCase = function(): string {
+  let smallWords = /^(a|an|and|as|at|but|by|en|for|if|in|nor|of|on|or|per|the|to|vs?\.?|via)$/i;
 
-interface AuthorObj {
-  [i: number]: Author
-  length: number
-}
+  return this.replace(/[A-Za-z0-9\u00C0-\u00FF]+[^\s-]*/g, function(match, index, title){
+    if (index > 0 && index + match.length !== title.length &&
+      match.search(smallWords) > -1 && title.charAt(index - 2) !== ":" &&
+      (title.charAt(index + match.length) !== '-' || title.charAt(index - 1) === '-') &&
+      title.charAt(index - 1).search(/[^\s-]/) < 0) {
+      return match.toLowerCase();
+    }
+
+    if (match.substr(1).search(/[A-Z]|\../) > -1) {
+      return match;
+    }
+
+    return match.charAt(0).toUpperCase() + match.substr(1);
+  });
+};
 
 interface TinyMCEMenuItem {
   text: string
@@ -41,6 +52,231 @@ interface TinyMCEPluginButton {
   icon: boolean
   menu: TinyMCEMenuItem[]
 }
+
+interface Author {
+  authtype: string
+  clusterid: string
+  name: string
+}
+
+interface ReferenceFormData {
+  'citation-format': string
+  'pmid-input'?: string
+  'include-link'?: boolean
+  'manual-type-selection'?: string
+}
+
+interface ReferenceObj {
+  authors: Author[]
+  title: string
+  source: string
+  pubdate: string
+  volume: string
+  issue: string
+  pages: string
+  lastauthor: string
+  fulljournalname?: string
+}
+
+interface ReferencePayload {
+  [i: number]: ReferenceObj
+  uids?: string[]
+}
+
+
+
+
+class ReferenceParser {
+
+  public citationFormat: string;
+  public includeLink: boolean;
+  public manualCitationType: string;
+  public PMIDquery: string;
+  public editor: any;
+
+  constructor(data: ReferenceFormData, editor: Object) {
+    this.citationFormat = data['citation-format'];
+    this.PMIDquery = data['pmid-input'].replace(/\s/g, '');
+    this.manualCitationType = data['manual-type-selection'];
+    this.includeLink = data['include-link'];
+    this.editor = editor;
+  }
+
+  public fromPMID(): void {
+    let requestURL = `http://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi?db=pubmed&id=${this.PMIDquery}&version=2.0&retmode=json`;
+    let request = new XMLHttpRequest();
+    request.open('GET', requestURL, true);
+    request.addEventListener('load', this._parsePMID.bind(this));
+    request.send(null);
+  }
+
+
+  private _parsePMID(e: Event): void {
+    let req = <XMLHttpRequest>e.target;
+
+    // Handle bad request
+    if (req.readyState !== 4 || req.status !== 200) {
+      this.editor.windowManager.alert('Your request could not be processed. Please try again.');
+      return;
+    }
+
+    let res = JSON.parse(req.responseText);
+
+    // Handle response errors
+    if (res.error) {
+      let badPMID = res.error.match(/uid (\S+)/)[1];
+      let badIndex = this.PMIDquery.split(',').indexOf(badPMID);
+      this.editor.windowManager.alert(
+        `PMID "${badPMID}" at index #${badIndex + 1} failed to process. Double check your list!`
+      );
+    }
+
+    let payload: string[]|Error;
+    switch (this.citationFormat) {
+      case 'ama':
+        payload = this._parseAMA(res.result);
+        break;
+      case 'apa':
+        payload = this._parseAPA(res.result);
+        break;
+      default:
+        this.editor.windowManager.alert('An error occurred while trying to parse the citation');
+        return;
+    }
+
+    if ((payload as Error).name === 'Error') {
+      this.editor.windowManager.alert((payload as Error).message);
+      return;
+    }
+    if ((payload as string[]).length === 1) {
+      this.editor.insertContent((payload as string[]).join());
+      this.editor.setProgressState(0);
+      return;
+    }
+
+    let orderedList: string =
+      '<ol>' + (payload as string[]).map((ref: string) => `<li>${ref}</li>`).join('') + '</ol>';
+
+    this.editor.insertContent(orderedList);
+    this.editor.setProgressState(0);
+
+  }
+
+
+  private _parseAMA(data: ReferencePayload): string[]|Error {
+    let pmidArray: string[] = data.uids;
+    let output: string[];
+
+    try {
+      output = pmidArray.map((PMID: string): string => {
+        let ref: ReferenceObj = data[PMID];
+        let year: string = ref.pubdate.substr(0, 4);
+        let link  = this.includeLink === true
+                  ? ` PMID: <a href="http://www.ncbi.nlm.nih.gov/pubmed/${PMID}" target="_blank">${PMID}</a>`
+                  : '';
+
+        let authors: string = '';
+        switch (ref.authors.length) {
+          case 0:
+            throw new Error(`No authors were found for PMID ${PMID}`);
+          case 1:
+          case 2:
+          case 3:
+          case 4:
+          case 5:
+          case 6:
+            authors = ref.authors.map((author: Author) => author.name).join(', ') + '.';
+            break;
+          default:
+            for (let i = 0; i < 3; i++) { authors+= ref.authors[i].name + ', ' };
+            authors += 'et al.';
+        }
+
+        return `${authors} ${ref.title} <em>${ref.source}.</em> ${year}; ` +
+               `${ref.volume === undefined || ref.volume === '' ? '' : ref.volume}` +
+               `${ref.issue === undefined || ref.issue === '' ? '' : '('+ref.issue+')'}:` +
+               `${ref.pages}.${link}`;
+      });
+    } catch(e) {
+      return e;
+    }
+
+    return output;
+  }
+
+  private _parseAPA(data: ReferencePayload): string[]|Error {
+    let pmidArray: string[] = data.uids;
+    let output: string[];
+
+    try {
+      output = pmidArray.map((PMID: string): string => {
+        let ref: ReferenceObj = data[PMID];
+        let year: string = ref.pubdate.substr(0, 4);
+        let link  = this.includeLink === true
+                  ? ` PMID: <a href="http://www.ncbi.nlm.nih.gov/pubmed/${PMID}" target="_blank">${PMID}</a>`
+                  : '';
+
+        let authors: string = '';
+        switch (ref.authors.length) {
+          case 0:
+            throw new Error(`No authors were found for PMID ${PMID}`);
+          case 1:
+            authors = ref.authors.map((author: Author) =>
+              `${author.name.split(' ')[0]}, ` +                   // Last name
+              `${author.name.split(' ')[1].split('').join('. ')}.` // First Initial(s)
+            ).join();
+            break;
+          case 2:
+            authors = ref.authors.map((author: Author) =>
+              `${author.name.split(' ')[0]}, ` +                    // Last name
+              `${author.name.split(' ')[1].split('').join('. ')}.`  // First Initial(s)
+            ).join(', & ');
+            break;
+          case 3:
+          case 4:
+          case 5:
+          case 6:
+          case 7:
+            authors = ref.authors.map((author, i, arr) => {
+              if (i === arr.length - 1) {
+                return(
+                  `& ${author.name.split(' ')[0]}, ` +
+                  `${author.name.split(' ')[1].split('').join('. ')}.`
+                );
+              }
+              return(
+                `${author.name.split(' ')[0]}, ` +
+                `${author.name.split(' ')[1].split('').join('. ')}., `
+              );
+            }).join('');
+            break;
+          default:
+            for (let i = 0; i < 6; i++) {
+              authors +=
+                `${ref.authors[i].name.split(' ')[0]}, ` +
+                `${ref.authors[i].name.split(' ')[1].split('').join('. ')}., `
+            }
+            authors += `. . . ` +
+              `${ref.lastauthor.split(' ')[0]}, ` +
+              `${ref.lastauthor.split(' ')[1].split('').join('. ')}.`;
+            break;
+        }
+
+        return `${authors} (${year}). ${ref.title} <em>` +
+          `${ref.fulljournalname === undefined || ref.fulljournalname === '' ? ref.source : ref.fulljournalname.toTitleCase()}.</em>, ` +
+          `${ref.volume === undefined || ref.volume === '' ? '' : ref.volume}` +
+          `${ref.issue === undefined || ref.issue === '' ? '' : '('+ref.issue+')'}, ` +
+          `${ref.pages}.${link}`;
+      });
+    } catch(e) {
+      return e;
+    }
+
+    return output;
+  }
+
+}
+
 
 tinymce.PluginManager.add('abt_ref_id_parser_mce_button', (editor, url: string) => {
 
@@ -167,12 +403,32 @@ tinymce.PluginManager.add('abt_ref_id_parser_mce_button', (editor, url: string) 
         title: 'Insert Formatted Reference',
         url: AU_locationInfo.tinymceViewsURL + 'formatted-reference.html',
         width: 600,
-        height: 'auto',
-        onclose: (e) => {
-          console.log(e);
+        height: 100,
+        onclose: (e: any) => {
+
+          // If the user presses the exit button, return.
+          if (Object.keys(e.target.params).length === 0) {
+            return;
+          }
+
+          editor.setProgressState(1);
+          let payload: ReferenceFormData = e.target.params.data;
+          let refparser = new ReferenceParser(payload, editor);
+
+          console.log(payload);
+
+          if (payload.hasOwnProperty('manual-type-selection')) {
+            // do manual parsing
+            editor.setProgressState(0);
+          }
+
+          // do pmid parsing
+          refparser.fromPMID();
+
         },
       });
-    }
+    },
+  }
 
     //   onsubmit: function(e) {
     //
@@ -203,7 +459,7 @@ tinymce.PluginManager.add('abt_ref_id_parser_mce_button', (editor, url: string) 
     //   }
     // });
 
-  }
+
 
   bibToolsMenu.menu.push(inlineCitation, separator, formattedReference);
   ABT_Button.menu.push(bibToolsMenu, trackedLink, separator, requestTools);
@@ -214,273 +470,82 @@ tinymce.PluginManager.add('abt_ref_id_parser_mce_button', (editor, url: string) 
 
 
 
-
-  editor.addShortcut('meta+alt+r', 'Insert Formatted Reference', function() {
-    editor.windowManager.open({
-      title: 'Insert Formatted Reference',
-      width: 600,
-      height: 125,
-      body: [{
-        type: 'textbox',
-        name: 'ref_id_number',
-        label: 'PMID',
-        value: ''
-      }, {
-          type: 'listbox',
-          label: 'Citation Format',
-          name: 'ref_id_citation_type',
-          'values': [{
-            text: 'American Medical Association (AMA)',
-            value: 'AMA'
-          }, {
-              text: 'American Psychological Association (APA)',
-              value: 'APA'
-            }]
-
-        }, {
-          type: 'checkbox',
-          name: 'ref_id_include_link',
-          label: 'Include link to PubMed?'
-        }
-      ],
-      onsubmit: function(e) {
-
-        editor.setProgressState(1);
-        var PMID = e.data.ref_id_number;
-        var citationFormat = e.data.ref_id_citation_type;
-        var includePubmedLink = e.data.ref_id_include_link;
-
-        var request = new XMLHttpRequest();
-        request.open('GET', 'http://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi?db=pubmed&id=' + PMID + '&version=2.0&retmode=json', true);
-        request.onload = function() {
-          if (request.readyState === 4) {
-            if (request.status === 200) {
-              let output = parseRequestData(JSON.parse(request.responseText), PMID, citationFormat, includePubmedLink);
-              editor.insertContent(output);
-              editor.setProgressState(0);
-            } else {
-              alert('ERROR: PMID not recognized.');
-              editor.setProgressState(0);
-              return;
-            }
-          }
-        };
-        request.send(null);
-
-      }
-    });
-  });
-
-  editor.addShortcut('meta+alt+c', 'Insert Inline Citation', function() {
-    editor.windowManager.open({
-      title: 'Insert Citation',
-      width: 600,
-      height: 58,
-      body: [{
-        type: 'textbox',
-        name: 'citation_number',
-        label: 'Citation Number',
-        value: ''
-      }],
-      onsubmit: function(e) {
-        editor.insertContent(
-          '[cite num=&quot;' + e.data.citation_number + '&quot;]'
-          );
-      }
-    });
-  });
-
+/* TODO: */
+//   editor.addShortcut('meta+alt+r', 'Insert Formatted Reference', function() {
+//     editor.windowManager.open({
+//       title: 'Insert Formatted Reference',
+//       width: 600,
+//       height: 125,
+//       body: [{
+//         type: 'textbox',
+//         name: 'ref_id_number',
+//         label: 'PMID',
+//         value: ''
+//       }, {
+//           type: 'listbox',
+//           label: 'Citation Format',
+//           name: 'ref_id_citation_type',
+//           'values': [{
+//             text: 'American Medical Association (AMA)',
+//             value: 'AMA'
+//           }, {
+//               text: 'American Psychological Association (APA)',
+//               value: 'APA'
+//             }]
+//
+//         }, {
+//           type: 'checkbox',
+//           name: 'ref_id_include_link',
+//           label: 'Include link to PubMed?'
+//         }
+//       ],
+//       onsubmit: function(e) {
+//
+//         editor.setProgressState(1);
+//         var PMID = e.data.ref_id_number;
+//         var citationFormat = e.data.ref_id_citation_type;
+//         var includePubmedLink = e.data.ref_id_include_link;
+//
+//         var request = new XMLHttpRequest();
+//         request.open('GET', 'http://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi?db=pubmed&id=' + PMID + '&version=2.0&retmode=json', true);
+//         request.onload = function() {
+//           if (request.readyState === 4) {
+//             if (request.status === 200) {
+//               let output = parseRequestData(JSON.parse(request.responseText), PMID, citationFormat, includePubmedLink);
+//               editor.insertContent(output);
+//               editor.setProgressState(0);
+//             } else {
+//               alert('ERROR: PMID not recognized.');
+//               editor.setProgressState(0);
+//               return;
+//             }
+//           }
+//         };
+//         request.send(null);
+//
+//       }
+//     });
+//   });
+//
+//   editor.addShortcut('meta+alt+c', 'Insert Inline Citation', function() {
+//     editor.windowManager.open({
+//       title: 'Insert Citation',
+//       width: 600,
+//       height: 58,
+//       body: [{
+//         type: 'textbox',
+//         name: 'citation_number',
+//         label: 'Citation Number',
+//         value: ''
+//       }],
+//       onsubmit: function(e) {
+//         editor.insertContent(
+//           '[cite num=&quot;' + e.data.citation_number + '&quot;]'
+//           );
+//       }
+//     });
+//   });
+//
+// });
+//
 });
-
-function parseRequestData(data, PMID, citationFormat, includePubmedLink): string {
-
-  var authorsRaw: AuthorObj = data.result[PMID].authors;
-  var title: string = data.result[PMID].title;
-  var journalName: string = data.result[PMID].source;
-  var pubYear: string = data.result[PMID].pubdate.substr(0, 4);
-  var volume: string = data.result[PMID].volume;
-  var issue: string = data.result[PMID].issue;
-  var pages: string = data.result[PMID].pages;
-
-  var authors = '';
-  var output, i;
-
-  if (citationFormat === 'AMA') {
-
-    /**
-     * AUTHOR PARSING
-     */
-
-    // 0 AUTHORS
-    if (authorsRaw.length === 0) {
-      alert('ERROR: No authors were found for this PMID.\n\nPlease double-check PMID or insert reference manually.');
-    }
-    // 1 AUTHOR
-    else if (authorsRaw.length === 1) {
-      authors = data.result[PMID].authors[0].name;
-    }
-    // 2 - 6 AUTHORS
-    else if (authorsRaw.length > 1 && authorsRaw.length < 7) {
-
-      for (i = 0; i < authorsRaw.length - 1; i++) {
-        authors += authorsRaw[i].name + ', ';
-      }
-      authors += authorsRaw[authorsRaw.length - 1].name + '. ';
-    }
-    // >7 AUTHORS
-    else {
-      for (i = 0; i < 3; i++) {
-        authors += authorsRaw[i].name + ', ';
-      }
-      authors += 'et al. ';
-    }
-
-    // NO VOLUME NUMBER
-    if (volume === '') {
-      output = authors + ' ' + title + ' <em>' + journalName + '.</em> ' + pubYear + '; ' + volume + ': ' + pages + '.';
-    }
-    // NO ISSUE NUMBER
-    else if (issue === '' || issue === undefined) {
-      output = authors + ' ' + title + ' <em>' + journalName + '.</em> ' + pubYear + '; ' + volume + ': ' + pages + '.';
-    } else {
-      output = authors + ' ' + title + ' <em>' + journalName + '.</em> ' + pubYear + '; ' + volume + '(' + issue + '): ' + pages + '.';
-    }
-
-
-  } else if (citationFormat === 'APA') {
-
-    /**
-     * AUTHOR PARSING
-     */
-
-    // 0 AUTHORS
-    if (authorsRaw.length === 0) {
-      alert('ERROR: No authors were found for this PMID.\n\nPlease double-check PMID or insert reference manually.');
-    }
-    // 1 AUTHOR
-    else if (authorsRaw.length === 1) {
-
-      // Check to see if both initials are listed
-      if ((/( \w\w)/g).test(data.result[PMID].authors[0].name)) {
-        authors += data.result[PMID].authors[0].name.substring(0, data.result[PMID].authors[0].name.length - 3) + ', ' +
-        data.result[PMID].authors[0].name.substring(data.result[PMID].authors[0].name.length - 2, data.result[PMID].authors[0].name.length - 1) + '. ' +
-        data.result[PMID].authors[0].name.substring(data.result[PMID].authors[0].name.length - 1) + '. ';
-      } else {
-        authors += data.result[PMID].authors[0].name.substring(0, data.result[PMID].authors[0].name.length - 2) + ', ' +
-        data.result[PMID].authors[0].name.substring(data.result[PMID].authors[0].name.length - 1) + '. ';
-      }
-
-    }
-    // 2 Authors
-    else if (authorsRaw.length === 2) {
-
-      if ((/( \w\w)/g).test(data.result[PMID].authors[0].name)) {
-
-        authors += data.result[PMID].authors[0].name.substring(0, data.result[PMID].authors[0].name.length - 3) + ', ' +
-        data.result[PMID].authors[0].name.substring(data.result[PMID].authors[0].name.length - 2, data.result[PMID].authors[0].name.length - 1) + '. ' +
-        data.result[PMID].authors[0].name.substring(data.result[PMID].authors[0].name.length - 1) + '., & ';
-
-      } else {
-
-        authors += data.result[PMID].authors[0].name.substring(0, data.result[PMID].authors[0].name.length - 2) + ', ' +
-        data.result[PMID].authors[0].name.substring(data.result[PMID].authors[0].name.length - 1) + '., & ';
-
-      }
-
-      if ((/( \w\w)/g).test(data.result[PMID].authors[1].name)) {
-
-        authors += data.result[PMID].authors[1].name.substring(0, data.result[PMID].authors[1].name.length - 3) + ', ' +
-        data.result[PMID].authors[1].name.substring(data.result[PMID].authors[1].name.length - 2, data.result[PMID].authors[1].name.length - 1) + '. ' +
-        data.result[PMID].authors[1].name.substring(data.result[PMID].authors[1].name.length - 1) + '. ';
-
-      } else {
-
-        authors += data.result[PMID].authors[1].name.substring(0, data.result[PMID].authors[1].name.length - 2) + ', ' +
-        data.result[PMID].authors[1].name.substring(data.result[PMID].authors[1].name.length - 1) + '. ';
-
-      }
-
-    }
-    // 3-7 AUTHORS
-    else if (authorsRaw.length > 2 && authorsRaw.length < 8) {
-
-      for (i = 0; i < authorsRaw.length - 1; i++) {
-
-        if ((/( \w\w)/g).test(data.result[PMID].authors[i].name)) {
-
-          authors += data.result[PMID].authors[i].name.substring(0, data.result[PMID].authors[i].name.length - 3) + ', ' +
-          data.result[PMID].authors[i].name.substring(data.result[PMID].authors[i].name.length - 2, data.result[PMID].authors[i].name.length - 1) + '. ' +
-          data.result[PMID].authors[i].name.substring(data.result[PMID].authors[i].name.length - 1) + '., ';
-
-        } else {
-
-          authors += data.result[PMID].authors[i].name.substring(0, data.result[PMID].authors[i].name.length - 2) + ', ' +
-          data.result[PMID].authors[i].name.substring(data.result[PMID].authors[i].name.length - 1) + '., ';
-
-        }
-
-      }
-
-      if ((/( \w\w)/g).test(data.result[PMID].lastauthor)) {
-
-        authors += '& ' + data.result[PMID].lastauthor.substring(0, data.result[PMID].lastauthor.length - 3) + ', ' +
-        data.result[PMID].lastauthor.substring(data.result[PMID].lastauthor.length - 2, data.result[PMID].lastauthor.length - 1) + '. ' +
-        data.result[PMID].lastauthor.substring(data.result[PMID].lastauthor.length - 1) + '. ';
-
-      } else {
-
-        authors += '& ' + data.result[PMID].lastauthor.substring(0, data.result[PMID].lastauthor.length - 2) + ', ' +
-        data.result[PMID].lastauthor.substring(data.result[PMID].lastauthor.length - 1) + '. ';
-
-      }
-
-    }
-    // >7 AUTHORS
-    else {
-
-      for (i = 0; i < 6; i++) {
-
-        if ((/( \w\w)/g).test(data.result[PMID].authors[i].name)) {
-
-          authors += data.result[PMID].authors[i].name.substring(0, data.result[PMID].authors[i].name.length - 3) + ', ' +
-          data.result[PMID].authors[i].name.substring(data.result[PMID].authors[i].name.length - 2, data.result[PMID].authors[i].name.length - 1) + '. ' +
-          data.result[PMID].authors[i].name.substring(data.result[PMID].authors[i].name.length - 1) + '., ';
-
-        } else {
-
-          authors += data.result[PMID].authors[i].name.substring(0, data.result[PMID].authors[i].name.length - 2) + ', ' +
-          data.result[PMID].authors[i].name.substring(data.result[PMID].authors[i].name.length - 1) + '., ';
-
-        }
-
-      }
-
-      if ((/( \w\w)/g).test(data.result[PMID].lastauthor)) {
-
-        authors += '. . . ' + data.result[PMID].lastauthor.substring(0, data.result[PMID].lastauthor.length - 3) + ', ' +
-        data.result[PMID].lastauthor.substring(data.result[PMID].lastauthor.length - 2, data.result[PMID].lastauthor.length - 1) + '. ' +
-        data.result[PMID].lastauthor.substring(data.result[PMID].lastauthor.length - 1) + '. ';
-
-      } else {
-
-        authors += '. . . ' + data.result[PMID].lastauthor.substring(0, data.result[PMID].lastauthor.length - 2) + ', ' +
-        data.result[PMID].lastauthor.substring(data.result[PMID].lastauthor.length - 1) + '. ';
-
-      }
-
-
-    }
-
-    output = authors + '(' + pubYear + '). ' + title + ' <em>' + journalName + '</em>, ' + (volume !== '' ? volume : '') + (issue !== '' ? '(' + issue + '), ' : '') + pages + '.';
-
-  }
-
-  // INCLUDE LINK TO PUBMED IF CHECKBOX IS CHECKED
-  if (includePubmedLink) {
-    output += ' PMID: <a href="http://www.ncbi.nlm.nih.gov/pubmed/' + PMID + '" target="_blank">' + PMID + '</a>';
-  }
-
-  return output;
-
-
-}

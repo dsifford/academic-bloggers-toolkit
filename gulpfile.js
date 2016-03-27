@@ -54,7 +54,7 @@ gulp.task('serve', ['sass'], function() {
   gulp.watch('./inc/**/*.scss', ['sass']);
   gulp.watch([
     './inc/**/*',
-    '!./inc/**/*.ts'
+    '!./inc/**/*.{ts,css}',
   ]).on('change', browserSync.reload);
 
 });

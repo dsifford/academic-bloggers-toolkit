@@ -1,159 +1,165 @@
 <link rel="stylesheet" href="tinymce-views.css">
-<div class="row" id="pubmed-related">
-    <div>
-        <label for="pmid-input">PMID</label>
-        <input type="text" id="pmit-input">
-        <label for="include-link">Include link?</label>
-        <input type="checkbox" id="include-link"> </div>
-</div>
-
-<div id="manual-citation" style="display: none;">
-  <div>
-    <label for="manual-type-selection">Select Citation Type</label>
-    <select id="manual-type-selection">
-      <option value="journal">Journal Article</option>
-      <option value="blog">Blog</option>
-      <option value="website">Website</option>
-    </select>
-  </div>
-
-  <div id="manual-journal" style="display: none;">
-    <form id="manual-journal-form">
-      <strong>Authors</strong>
-      <table id="journal-author-table">
-        <tr>
-          <td>First Name</td>
-          <td><input type="text"></td>
-          <td>Last Name</td>
-          <td><input type="text"></td>
-          <td><input type="button" value="x"></td>
-        </tr>
-      </table>
-      <div style="text-align: center;">
-        <input id="journal-add-author" type="button" value="Add Another Author">
-      </div>
-      <strong>Journal Information</strong>
-      <table id="journal-table">
-        <tr>
-          <td>Title</td>
-          <td><input type="text"></td>
-        </tr>
-        <tr>
-          <td>Journal Shortname</td>
-          <td><input type="text"></td>
-        </tr>
-        <tr>
-          <td>Year Published</td>
-          <td><input type="text"></td>
-        </tr>
-        <tr>
-          <td>Volume #</td>
-          <td><input type="text"></td>
-        </tr>
-        <tr>
-          <td>Issue #</td>
-          <td><input type="text"></td>
-        </tr>
-        <tr>
-          <td>Pages</td>
-          <td><input type="text"></td>
-        </tr>
-      </table>
+<div id="main-container">
+    <form id="main-form">
+        <div class="row" id="pubmed-container">
+            <div style="display: flex; align-items: center;">
+                <div style="display: flex; width: auto; white-space: no-wrap; margin-right: 5px;">
+                    <label for="pmid-input">PMID</label>
+                </div>
+                <div style="display: flex; flex-grow: 1;">
+                    <input type="text" id="pmid-input" style="width: 100%;" autofocus> </div>
+                <div style="display: flex; width: auto; white-space: no-wrap; margin-right: 5px; margin-left: 5px;">
+                    <label for="include-link">Include link?</label>
+                </div>
+                <div style="display: flex; width: auto; white-space: no-wrap; margin-right: 5px;">
+                    <input type="checkbox" id="include-link"> </div>
+            </div>
+        </div>
+        <div class="row" id="manual-container" style="display: none;">
+            <div style="display: flex; align-items: center;">
+                <div style="display: flex; width: auto; white-space: no-wrap; margin-right: 5px;">
+                    <label for="manual-type-selection">Select Citation Type</label>
+                </div>
+                <div style="display: flex; flex-grow: 1;">
+                    <select id="manual-type-selection" style="width: 100%;" disabled>
+                        <option value="journal">Journal Article</option>
+                        <option value="blog">Blog</option>
+                        <option value="website">Website</option>
+                    </select>
+                </div>
+            </div>
+            <div id="manual-authors"> <strong>Authors</strong>
+                <table id="author-table">
+                    <tbody></tbody>
+                </table>
+                <div style="text-align: center;">
+                    <input id="add-author" type="button" class="btn" value="Add Another Author"> </div>
+            </div>
+            <div id="manual-journal"> <strong>Journal Information</strong>
+                <table id="journal-table" class="manual-input-table">
+                    <tr>
+                        <td>Title</td>
+                        <td>
+                            <input id="journal-title" type="text">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Journal Abbreviation [<a href="http://www.ncbi.nlm.nih.gov/nlmcatalog/journals" target="_blank">?</a>]</td>
+                        <td>
+                            <input id="journal-abbreviation" type="text">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Year Published</td>
+                        <td>
+                            <input id="journal-year" type="text">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Volume #</td>
+                        <td>
+                            <input id="journal-volume" type="text">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Issue #</td>
+                        <td>
+                            <input id="journal-issue" type="text">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Pages</td>
+                        <td>
+                            <input id="journal-pages" type="text">
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div id="manual-blog" style="display: none;"> <strong>Blog Information</strong>
+                <table id="blog-table" class="manual-input-table">
+                    <tr>
+                        <td>Post Title</td>
+                        <td>
+                            <input id="blog-post" type="text">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Blog Title</td>
+                        <td>
+                            <input id="blog-title" type="text">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Post Date</td>
+                        <td>
+                            <input id="blog-date" type="text">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Post URL</td>
+                        <td>
+                            <input id="blog-url" type="text">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Access Date</td>
+                        <td>
+                            <input id="blog-dateid="website-" " type="text">
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div id="manual-website" style="display: none;"> <strong>Blog Information</strong>
+                <table id="website-table" class="manual-input-table">
+                    <tr>
+                        <td>Page Title</td>
+                        <td>
+                            <input id="website-page" type="text">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Website Name</td>
+                        <td>
+                            <input id="website-title" type="text">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Website URL</td>
+                        <td>
+                            <input id="website-url" type="text">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Year Published</td>
+                        <td>
+                            <input id="website-year" type="text">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Access Date</td>
+                        <td>
+                            <input id="website-date" type="text">
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class="row">
+            <div style="display: flex; align-items: center;">
+                <div style="display: flex; width: auto; white-space: no-wrap; margin-right: 5px;">
+                    <label for="citation-format">Citation Format</label>
+                </div>
+                <div style="display: flex; flex-grow: 1;">
+                    <select id="citation-format" style="width: 100%;">
+                        <option value="ama">American Medical Association (AMA)</option>
+                        <option value="apa">American Psychological Association (APA)</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="row" style="text-align: center;">
+            <input id="add-manually" type="button" class="btn" value="Add Citation Manually">
+            <input id="form-submit" type="submit" class="submit-btn" value="Insert Reference"> </div>
     </form>
-  </div>
-
-  <div id="manual-blog" style="display: none;">
-    <form id="manual-blog-form">
-    <strong>Authors</strong>
-      <table id="blog-author-table">
-        <tr>
-          <td>First Name</td>
-          <td><input type="text"></td>
-          <td>Last Name</td>
-          <td><input type="text"></td>
-          <td><input type="button" value="x"></td>
-        </tr>
-      </table>
-      <div style="text-align: center;">
-        <input id="blog-add-author" type="button" value="Add Another Author">
-      </div>
-    <strong>Blog Information</strong>
-    <table id="blog-table">
-        <tr>
-          <td>Post Title</td>
-          <td><input type="text"></td>
-        </tr>
-        <tr>
-          <td>Blog Title</td>
-          <td><input type="text"></td>
-        </tr>
-        <tr>
-          <td>Post Date</td>
-          <td><input type="text"></td>
-        </tr>
-        <tr>
-          <td>Post URL</td>
-          <td><input type="text"></td>
-        </tr>
-        <tr>
-          <td>Access Date</td>
-          <td><input type="text"></td>
-        </tr>
-      </table>
-    </form>
-  </div>
-
-  <div id="manual-website" style="display: none;">
-    <form id="manual-website-form">
-    <strong>Authors</strong>
-      <table id="website-author-table">
-        <tr>
-          <td>First Name</td>
-          <td><input type="text"></td>
-          <td>Last Name</td>
-          <td><input type="text"></td>
-          <td><input type="button" value="x"></td>
-        </tr>
-      </table>
-      <div style="text-align: center;">
-        <input id="website-add-author" type="button" value="Add Another Author">
-      </div>
-    <strong>Blog Information</strong>
-    <table id="website-table">
-        <tr>
-          <td>Page Title</td>
-          <td><input type="text"></td>
-        </tr>
-        <tr>
-          <td>Website Name</td>
-          <td><input type="text"></td>
-        </tr>
-        <tr>
-          <td>Website URL</td>
-          <td><input type="text"></td>
-        </tr>
-        <tr>
-          <td>Year Published</td>
-          <td><input type="text"></td>
-        </tr>
-        <tr>
-          <td>Access Date</td>
-          <td><input type="text"></td>
-        </tr>
-      </table>
-    </form>
-  </div>
 </div>
-
-<div class="row">
-    <label for="citation-format">Citation Format</label>
-    <select id="citation-format">
-        <option value="ama">American Medical Association (AMA)</option>
-        <option value="apa">American Psychological Association (APA)</option>
-    </select>
-</div>
-<div class="row" style="text-align: center;">
-    <input id="add-manually" type="button" class="btn" value="Add Citation Manually">
-</div>
-
 <script type="text/javascript" src="formatted-reference.js"></script>

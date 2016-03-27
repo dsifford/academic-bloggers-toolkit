@@ -21,7 +21,7 @@ $abt_options = array();
 
 function abt_enqueue_styles() {
 
-	wp_enqueue_style( 'abt_shortcodes_stylesheet', plugins_url('academic-bloggers-toolkit/inc/css/shortcodes.css') );
+	wp_enqueue_style( 'abt_shortcodes_stylesheet', plugins_url('academic-bloggers-toolkit/inc/css/styles.css') );
 
 }
 add_action( 'wp_enqueue_scripts', 'abt_enqueue_styles');
