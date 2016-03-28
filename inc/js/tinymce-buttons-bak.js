@@ -21,8 +21,8 @@ var Parsers;
             this.PMIDquery = data['pmid-input'] !== '' && data['pmid-input'] !== undefined
                 ? data['pmid-input'].replace(/\s/g, '')
                 : '';
-            MainParser.manualCitationType = data['manual-type-selection'];
-            MainParser.includeLink = data['include-link'];
+            this.manualCitationType = data['manual-type-selection'];
+            this.includeLink = data['include-link'];
             this.editor = editor;
         }
         MainParser.prototype.fromPMID = function () {
@@ -32,9 +32,9 @@ var Parsers;
             request.addEventListener('load', this._parsePMID.bind(this));
             request.send(null);
         };
-        MainParser.prototype.fromManualInput = function (data) {
-            var cleanedData;
-            var type = MainParser.manualCitationType;
+        MainParser.prototype.cleanManualData = function (data) {
+            var output;
+            var type = this.manualCitationType;
             var authors = data.authors;
             var title = data[(type + "-title")].toTitleCase();
             var source = data[(type + "-source")];
@@ -45,7 +45,7 @@ var Parsers;
             var lastauthor = data.authors[data.authors.length - 1].name;
             var url = data[(type + "-url")] ? data[(type + "-url")] : '';
             var accessdate = data[(type + "-accessed")] ? data[(type + "-accessed")] : '';
-            cleanedData = {
+            output = {
                 authors: authors,
                 title: title,
                 source: source,
@@ -57,30 +57,14 @@ var Parsers;
                 url: url,
                 accessdate: accessdate,
             };
-            var payload;
-            switch (this.citationFormat) {
-                case 'ama':
-                    var AMA_1 = new Parsers.AMA;
-                    payload = AMA_1.parse([cleanedData]);
-                    break;
-                case 'apa':
-                    var APA_1 = new Parsers.APA;
-                    payload = APA_1.parse([cleanedData]);
-                    break;
-                default:
-                    this.editor.windowManager.alert('An error occurred while trying to parse the citation');
-                    this.editor.setProgressState(0);
-                    return;
-            }
             console.log("OUTPUT:");
-            console.log(cleanedData);
-            return;
+            console.log(output);
+            return output;
         };
         MainParser.prototype._parsePMID = function (e) {
             var req = e.target;
             if (req.readyState !== 4 || req.status !== 200) {
                 this.editor.windowManager.alert('Your request could not be processed. Please try again.');
-                this.editor.setProgressState(0);
                 return;
             }
             var res = JSON.parse(req.responseText);
@@ -92,21 +76,17 @@ var Parsers;
             var payload;
             switch (this.citationFormat) {
                 case 'ama':
-                    var AMA_2 = new Parsers.AMA;
-                    payload = AMA_2.parse(res.result);
+                    payload = this._parseAMA(res.result);
                     break;
                 case 'apa':
-                    var APA_2 = new Parsers.APA;
-                    payload = APA_2.parse(res.result);
+                    payload = this._parseAPA(res.result);
                     break;
                 default:
                     this.editor.windowManager.alert('An error occurred while trying to parse the citation');
-                    this.editor.setProgressState(0);
                     return;
             }
             if (payload.name === 'Error') {
                 this.editor.windowManager.alert(payload.message);
-                this.editor.setProgressState(0);
                 return;
             }
             if (payload.length === 1) {
@@ -118,35 +98,35 @@ var Parsers;
             this.editor.insertContent(orderedList);
             this.editor.setProgressState(0);
         };
-        return MainParser;
-    }());
-    Parsers.MainParser = MainParser;
-})(Parsers || (Parsers = {}));
-var Parsers;
-(function (Parsers) {
-    var AMA = (function () {
-        function AMA() {
-        }
-        AMA.prototype.parse = function (data) {
-            var pmidArray = data.uids || false;
-            if (pmidArray) {
-                return this._fromPMID(data, pmidArray);
-            }
-            return this._fromManual(data);
-        };
-        AMA.prototype._fromPMID = function (data, pmidArray) {
+        MainParser.prototype._parseAMA = function (data) {
             var _this = this;
+            var pmidArray = data.uids;
             var output;
             try {
                 output = pmidArray.map(function (PMID) {
                     var ref = data[PMID];
                     var year = ref.pubdate.substr(0, 4);
-                    var link = Parsers.MainParser.includeLink === true
+                    var link = _this.includeLink === true
                         ? " PMID: <a href=\"http://www.ncbi.nlm.nih.gov/pubmed/" + PMID + "\" target=\"_blank\">" + PMID + "</a>"
                         : '';
-                    var authors = _this._parseAuthors(ref.authors);
-                    if (authors.name === 'Error') {
-                        throw authors;
+                    var authors = '';
+                    switch (ref.authors.length) {
+                        case 0:
+                            throw new Error("No authors were found for PMID " + PMID);
+                        case 1:
+                        case 2:
+                        case 3:
+                        case 4:
+                        case 5:
+                        case 6:
+                            authors = ref.authors.map(function (author) { return author.name; }).join(', ') + '.';
+                            break;
+                        default:
+                            for (var i = 0; i < 3; i++) {
+                                authors += ref.authors[i].name + ', ';
+                            }
+                            ;
+                            authors += 'et al.';
                     }
                     return (authors + " " + ref.title + " <em>" + ref.source + ".</em> " + year + "; ") +
                         ("" + (ref.volume === undefined || ref.volume === '' ? '' : ref.volume)) +
@@ -159,71 +139,57 @@ var Parsers;
             }
             return output;
         };
-        AMA.prototype._fromManual = function (data) {
-            switch (Parsers.MainParser.manualCitationType) {
-                case 'journal':
-                    break;
-                case 'blog':
-                    break;
-                case 'website':
-                    break;
-                default:
-            }
-            console.log('MADE IT DO FROM MANUAL');
-            console.log(data);
-            return ['unfinished'];
-        };
-        AMA.prototype._parseAuthors = function (authorArr) {
-            var authors = '';
-            switch (authorArr.length) {
-                case 0:
-                    return new Error("No authors were found for given reference");
-                case 1:
-                case 2:
-                case 3:
-                case 4:
-                case 5:
-                case 6:
-                    authors = authorArr.map(function (author) { return author.name; }).join(', ') + '.';
-                    break;
-                default:
-                    for (var i = 0; i < 3; i++) {
-                        authors += authorArr[i].name + ', ';
-                    }
-                    ;
-                    authors += 'et al.';
-            }
-            return authors;
-        };
-        return AMA;
-    }());
-    Parsers.AMA = AMA;
-})(Parsers || (Parsers = {}));
-var Parsers;
-(function (Parsers) {
-    var APA = (function () {
-        function APA() {
-        }
-        APA.prototype.parse = function (data) {
-            var pmidArray = data.uids || false;
-            if (pmidArray) {
-                return this._fromPMID(data, pmidArray);
-            }
-            return this._fromManual(data);
-        };
-        APA.prototype._fromPMID = function (data, pmidArray) {
+        MainParser.prototype._parseAPA = function (data) {
             var _this = this;
+            var pmidArray = data.uids;
             var output;
             try {
                 output = pmidArray.map(function (PMID) {
                     var ref = data[PMID];
                     var year = ref.pubdate.substr(0, 4);
-                    var link = Parsers.MainParser.includeLink === true
+                    var link = _this.includeLink === true
                         ? " PMID: <a href=\"http://www.ncbi.nlm.nih.gov/pubmed/" + PMID + "\" target=\"_blank\">" + PMID + "</a>"
                         : '';
-                    var authors = _this._parseAuthors(ref.authors, ref.lastauthor);
-                    if (authors.name === 'Error') {
-                        throw authors;
+                    var authors = '';
+                    switch (ref.authors.length) {
+                        case 0:
+                            throw new Error("No authors were found for PMID " + PMID);
+                        case 1:
+                            authors = ref.authors.map(function (author) {
+                                return (author.name.split(' ')[0] + ", ") +
+                                    (author.name.split(' ')[1].split('').join('. ') + ".");
+                            }).join();
+                            break;
+                        case 2:
+                            authors = ref.authors.map(function (author) {
+                                return (author.name.split(' ')[0] + ", ") +
+                                    (author.name.split(' ')[1].split('').join('. ') + ".");
+                            }).join(', & ');
+                            break;
+                        case 3:
+                        case 4:
+                        case 5:
+                        case 6:
+                        case 7:
+                            authors = ref.authors.map(function (author, i, arr) {
+                                if (i === arr.length - 1) {
+                                    return (("& " + author.name.split(' ')[0] + ", ") +
+                                        (author.name.split(' ')[1].split('').join('. ') + "."));
+                                }
+                                return ((author.name.split(' ')[0] + ", ") +
+                                    (author.name.split(' ')[1].split('').join('. ') + "., "));
+                            }).join('');
+                            break;
+                        default:
+                            for (var i = 0; i < 6; i++) {
+                                authors +=
+                                    (ref.authors[i].name.split(' ')[0] + ", ") +
+                                        (ref.authors[i].name.split(' ')[1].split('').join('. ') + "., ");
+                            }
+                            authors += ". . . " +
+                                (ref.lastauthor.split(' ')[0] + ", ") +
+                                (ref.lastauthor.split(' ')[1].split('').join('. ') + ".");
+                            break;
                     }
                     return (authors + " (" + year + "). " + ref.title + " <em>") +
                         ((ref.fulljournalname === undefined || ref.fulljournalname === '' ? ref.source : ref.fulljournalname.toTitleCase()) + ".</em>, ") +
@@ -237,56 +203,9 @@ var Parsers;
             }
             return output;
         };
-        APA.prototype._fromManual = function (data) {
-            return ['unfinished'];
-        };
-        APA.prototype._parseAuthors = function (authorArr, lastAuthor) {
-            var authors = '';
-            switch (authorArr.length) {
-                case 0:
-                    return new Error("No authors were found for given reference");
-                case 1:
-                    authors = authorArr.map(function (author) {
-                        return (author.name.split(' ')[0] + ", ") +
-                            (author.name.split(' ')[1].split('').join('. ') + ".");
-                    }).join();
-                    break;
-                case 2:
-                    authors = authorArr.map(function (author) {
-                        return (author.name.split(' ')[0] + ", ") +
-                            (author.name.split(' ')[1].split('').join('. ') + ".");
-                    }).join(', & ');
-                    break;
-                case 3:
-                case 4:
-                case 5:
-                case 6:
-                case 7:
-                    authors = authorArr.map(function (author, i, arr) {
-                        if (i === arr.length - 1) {
-                            return (("& " + author.name.split(' ')[0] + ", ") +
-                                (author.name.split(' ')[1].split('').join('. ') + "."));
-                        }
-                        return ((author.name.split(' ')[0] + ", ") +
-                            (author.name.split(' ')[1].split('').join('. ') + "., "));
-                    }).join('');
-                    break;
-                default:
-                    for (var i = 0; i < 6; i++) {
-                        authors +=
-                            (authorArr[i].name.split(' ')[0] + ", ") +
-                                (authorArr[i].name.split(' ')[1].split('').join('. ') + "., ");
-                    }
-                    authors += ". . . " +
-                        (lastAuthor.split(' ')[0] + ", ") +
-                        (lastAuthor.split(' ')[1].split('').join('. ') + ".");
-                    break;
-            }
-            return authors;
-        };
-        return APA;
+        return MainParser;
     }());
-    Parsers.APA = APA;
+    Parsers.MainParser = MainParser;
 })(Parsers || (Parsers = {}));
 tinymce.PluginManager.add('abt_ref_id_parser_mce_button', function (editor, url) {
     var ABT_Button = {
@@ -395,12 +314,13 @@ tinymce.PluginManager.add('abt_ref_id_parser_mce_button', function (editor, url)
                     if (Object.keys(e.target.params).length === 0) {
                         return;
                     }
+                    new Parsers.AMA;
                     editor.setProgressState(1);
                     var payload = e.target.params.data;
                     var refparser = new Parsers.MainParser(payload, editor);
                     console.log(payload);
                     if (payload.hasOwnProperty('manual-type-selection')) {
-                        refparser.fromManualInput(payload);
+                        refparser.cleanManualData(payload);
                         editor.setProgressState(0);
                         return;
                     }

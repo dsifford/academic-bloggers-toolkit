@@ -2,6 +2,7 @@
     "compilerOptions": {
         "target": "es5",
         "module": "commonjs",
+        "outFile": "../tinymce-buttons.js",
         "moduleResolution": "node",
         "isolatedModules": false,
         "jsx": "react",
@@ -15,6 +16,9 @@
         "preserveConstEnums": true,
         "suppressImplicitAnyIndexErrors": true
     },
+    "files": [
+      "./tinymce-buttons.ts"
+    ],
     "exclude": [
         "node_modules",
         "typings/browser",
