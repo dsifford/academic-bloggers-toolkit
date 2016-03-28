@@ -16,7 +16,9 @@ String.prototype.toTitleCase = function () {
 var ReferenceParser = (function () {
     function ReferenceParser(data, editor) {
         this.citationFormat = data['citation-format'];
-        this.PMIDquery = data['pmid-input'].replace(/\s/g, '');
+        this.PMIDquery = data['pmid-input'] !== '' && data['pmid-input'] !== undefined
+            ? data['pmid-input'].replace(/\s/g, '')
+            : '';
         this.manualCitationType = data['manual-type-selection'];
         this.includeLink = data['include-link'];
         this.editor = editor;
@@ -27,6 +29,35 @@ var ReferenceParser = (function () {
         request.open('GET', requestURL, true);
         request.addEventListener('load', this._parsePMID.bind(this));
         request.send(null);
+    };
+    ReferenceParser.prototype.cleanManualData = function (data) {
+        var output;
+        var type = this.manualCitationType;
+        var authors = data.authors;
+        var title = data[(type + "-title")].toTitleCase();
+        var source = data[(type + "-source")];
+        var pubdate = data[(type + "-date")] ? data[(type + "-date")] : '';
+        var volume = data[(type + "-volume")] ? data[(type + "-volume")] : '';
+        var issue = data[(type + "-issue")] ? data[(type + "-issue")] : '';
+        var pages = data[(type + "-pages")] ? data[(type + "-pages")] : '';
+        var lastauthor = data.authors[data.authors.length - 1].name;
+        var url = data[(type + "-url")] ? data[(type + "-url")] : '';
+        var accessdate = data[(type + "-accessed")] ? data[(type + "-accessed")] : '';
+        output = {
+            authors: authors,
+            title: title,
+            source: source,
+            pubdate: pubdate,
+            volume: volume,
+            issue: issue,
+            pages: pages,
+            lastauthor: lastauthor,
+            url: url,
+            accessdate: accessdate,
+        };
+        console.log("OUTPUT:");
+        console.log(output);
+        return output;
     };
     ReferenceParser.prototype._parsePMID = function (e) {
         var req = e.target;
@@ -284,7 +315,9 @@ tinymce.PluginManager.add('abt_ref_id_parser_mce_button', function (editor, url)
                     var refparser = new ReferenceParser(payload, editor);
                     console.log(payload);
                     if (payload.hasOwnProperty('manual-type-selection')) {
+                        refparser.cleanManualData(payload);
                         editor.setProgressState(0);
+                        return;
                     }
                     refparser.fromPMID();
                 },

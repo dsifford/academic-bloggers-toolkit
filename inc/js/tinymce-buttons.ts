@@ -1,3 +1,4 @@
+/// <reference path="parsers.ts"/>  
 declare var tinymce, tinyMCE, AU_locationInfo
 
 interface String {
@@ -54,8 +55,8 @@ interface TinyMCEPluginButton {
 }
 
 interface Author {
-  authtype: string
-  clusterid: string
+  authtype?: string
+  clusterid?: string
   name: string
 }
 
@@ -64,6 +65,7 @@ interface ReferenceFormData {
   'pmid-input'?: string
   'include-link'?: boolean
   'manual-type-selection'?: string
+  authors?: Author[]
 }
 
 interface ReferenceObj {
@@ -71,19 +73,23 @@ interface ReferenceObj {
   title: string
   source: string
   pubdate: string
-  volume: string
-  issue: string
   pages: string
   lastauthor: string
+  issue?: string
+  volume?: string
   fulljournalname?: string
+  url?: string
+  accessdate?: string
+}
+
+interface ManualReference extends ReferenceObj {
+  /** FIXME */
 }
 
 interface ReferencePayload {
   [i: number]: ReferenceObj
   uids?: string[]
 }
-
-
 
 
 class ReferenceParser {
@@ -96,7 +102,9 @@ class ReferenceParser {
 
   constructor(data: ReferenceFormData, editor: Object) {
     this.citationFormat = data['citation-format'];
-    this.PMIDquery = data['pmid-input'].replace(/\s/g, '');
+    this.PMIDquery = data['pmid-input'] !== '' && data['pmid-input'] !== undefined
+                   ? data['pmid-input'].replace(/\s/g, '')
+                   : '';
     this.manualCitationType = data['manual-type-selection'];
     this.includeLink = data['include-link'];
     this.editor = editor;
@@ -108,6 +116,39 @@ class ReferenceParser {
     request.open('GET', requestURL, true);
     request.addEventListener('load', this._parsePMID.bind(this));
     request.send(null);
+  }
+
+  public cleanManualData(data: ReferenceFormData): ReferenceObj {
+    let output: ReferenceObj;
+    let type = this.manualCitationType;
+
+    let authors: Author[] = data.authors;
+    let title: string = data[`${type}-title`].toTitleCase();
+    let source: string = data[`${type}-source`];
+    let pubdate: string = data[`${type}-date`] ? data[`${type}-date`] : '';
+    let volume: string = data[`${type}-volume`] ? data[`${type}-volume`] : '';
+    let issue: string = data[`${type}-issue`] ? data[`${type}-issue`] : '';
+    let pages: string = data[`${type}-pages`] ? data[`${type}-pages`] : '';
+    let lastauthor: string = data.authors[data.authors.length - 1].name;
+    let url: string = data[`${type}-url`] ? data[`${type}-url`] : '';
+    let accessdate: string = data[`${type}-accessed`] ? data[`${type}-accessed`] : '';
+
+    output = {
+      authors,
+      title,
+      source,
+      pubdate,
+      volume,
+      issue,
+      pages,
+      lastauthor,
+      url,
+      accessdate,
+    }
+
+    console.log(`OUTPUT:`);
+    console.log(output);
+    return output;
   }
 
 
@@ -418,8 +459,9 @@ tinymce.PluginManager.add('abt_ref_id_parser_mce_button', (editor, url: string) 
           console.log(payload);
 
           if (payload.hasOwnProperty('manual-type-selection')) {
-            // do manual parsing
+            refparser.cleanManualData(payload);
             editor.setProgressState(0);
+            return;
           }
 
           // do pmid parsing

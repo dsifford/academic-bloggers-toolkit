@@ -121,7 +121,7 @@ var ReferenceWindow = (function () {
         var wm = top.tinymce.activeEditor.windowManager;
         var formElement = e.srcElement;
         var payload = {};
-        var skippedFields = [];
+        var authorList = {};
         for (var i = 0; i < formElement.length; i++) {
             var el = formElement[i];
             if (el.type == 'button'
@@ -134,9 +134,20 @@ var ReferenceWindow = (function () {
                 payload[el.id] = el.checked;
                 continue;
             }
+            if (el.id.search(/^author-fname/) > -1 || el.id.search(/^author-lname/) > -1) {
+                var capitalizedName = el.value[0].toUpperCase() + el.value.substr(1).toLowerCase();
+                authorList[el.id] = capitalizedName;
+                continue;
+            }
             payload[el.id] = el.value;
         }
-        console.log(payload);
+        payload['authors'] = [];
+        for (var i = 0; i < (Object.keys(authorList).length / 2); i++) {
+            var author = {
+                name: authorList[("author-fname-" + (i + 1))] + ' ' + authorList[("author-lname-" + (i + 1))]
+            };
+            payload['authors'].push(author);
+        }
         wm.setParams({ data: payload });
         wm.close();
     };
