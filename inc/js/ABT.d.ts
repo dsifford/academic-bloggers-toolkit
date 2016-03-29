@@ -49,16 +49,20 @@ interface ReferenceFormData {
 
 interface ReferenceObj {
   authors: Author[]
-  title: string
-  source: string
-  pubdate: string
-  pages: string
   lastauthor: string
-  issue?: string
-  volume?: string
-  fulljournalname?: string
-  url?: string
+  pages: string
+  pubdate: string
+  source: string
+  title: string
   accessdate?: string
+  chapter?: string
+  edition?: string
+  fulljournalname?: string
+  issue?: string
+  location?: string
+  updated?: string
+  url?: string
+  volume?: string
 }
 
 interface ManualReference extends ReferenceObj {

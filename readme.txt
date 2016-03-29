@@ -66,7 +66,7 @@ Yikes! I'm sorry about that. Please report all issues on the Academic Blogger's 
 = 2.4.0 =
 * Full rewrite.
 * Parse multiple comma-separated PMIDs at once into an ordered list.
-* Add ability to add citations manually for Journals, Websites, or Blogs.
+* Add manual reference insertion for Journals, Websites, or Books.
 
 = 2.3.1 =
 * Fix poor rendering of tooltip close icon on mobile.

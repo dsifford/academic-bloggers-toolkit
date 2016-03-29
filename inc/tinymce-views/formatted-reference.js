@@ -21,8 +21,10 @@ var Modal = (function () {
     }
     Modal.prototype.resize = function () {
         var height = this.mainRect.getBoundingClientRect().height;
+        var position = "calc(50% - " + (height + 66) / 2 + "px)";
         this.outer.style.height = height + 66 + 'px';
         this.inner.style.height = height + 30 + 'px';
+        this.outer.style.top = position;
     };
     ;
     Modal.prototype._getModal = function () {
@@ -56,8 +58,8 @@ var ReferenceWindow = (function () {
         };
         this.manualComponents = {
             journal: document.getElementById('manual-journal'),
-            blog: document.getElementById('manual-blog'),
             website: document.getElementById('manual-website'),
+            book: document.getElementById('manual-book'),
         };
         this.selections = {
             manualCitationType: document.getElementById('manual-type-selection'),
@@ -80,6 +82,7 @@ var ReferenceWindow = (function () {
         if (selection !== '') {
             this.manualComponents[selection].showHide('show');
         }
+        this._adjustRequiredFields(selection);
         this.modal.resize();
     };
     ReferenceWindow.prototype._toggleAddManually = function () {
@@ -88,7 +91,26 @@ var ReferenceWindow = (function () {
         this.inputs.pmidInput.disabled = !this.inputs.pmidInput.disabled;
         this.inputs.includeLink.disabled = !this.inputs.includeLink.disabled;
         this.selections.manualCitationType.disabled = !this.selections.manualCitationType.disabled;
+        if (this.selections.manualCitationType.disabled === true) {
+            this._adjustRequiredFields('REQUIRE NONE');
+        }
+        else {
+            this._adjustRequiredFields(this.selections.manualCitationType.value);
+        }
+        this.buttons.toggleAddManually.value =
+            this.buttons.toggleAddManually.value === 'Add Reference Manually'
+                ? 'Add Reference with PMID'
+                : 'Add Reference Manually';
         this.modal.resize();
+    };
+    ReferenceWindow.prototype._adjustRequiredFields = function (selection) {
+        for (var key in this.manualComponents) {
+            var fields = document.querySelectorAll("input[id^=" + key + "-][data-required]");
+            var required = key === selection ? true : false;
+            for (var i = 0; i < fields.length; i++) {
+                document.getElementById(fields[i].id).required = required;
+            }
+        }
     };
     ReferenceWindow.prototype._addAuthorRow = function () {
         var _this = this;

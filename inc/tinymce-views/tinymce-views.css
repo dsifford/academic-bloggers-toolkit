@@ -68,10 +68,16 @@ input, select {
   input:focus, select:focus {
     border-color: #5b9dd9;
     box-shadow: 0 0 2px rgba(30, 140, 190, 0.8); }
+    input:focus:invalid, select:focus:invalid {
+      box-shadow: 0 0 2px rgba(204, 0, 0, 0.8);
+      border-color: #dc3232 !important; }
   input[type="checkbox"], select[type="checkbox"] {
     height: 18px;
     width: 18px;
     vertical-align: middle; }
+  input:invalid, select:invalid {
+    background: #f6c9cc;
+    color: #dc3232; }
 
 select {
   padding: 2px;

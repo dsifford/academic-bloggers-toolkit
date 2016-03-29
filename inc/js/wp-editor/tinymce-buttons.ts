@@ -3,7 +3,7 @@
 /// <reference path="./main-parser.ts"/>
 /// <reference path="./parsers/ama.ts"/>
 /// <reference path="./parsers/apa.ts"/>
-declare var tinymce, tinyMCE, AU_locationInfo
+declare var tinymce, tinyMCE, ABT_locationInfo
 
 
 tinymce.PluginManager.add('abt_ref_id_parser_mce_button', (editor, url: string) => {
@@ -112,7 +112,7 @@ tinymce.PluginManager.add('abt_ref_id_parser_mce_button', (editor, url: string) 
     onclick: () => {
       editor.windowManager.open(<TinyMCEWindowMangerObject>{
         title: 'Inline Citation',
-        url: AU_locationInfo.tinymceViewsURL + 'inline-citation.html',
+        url: ABT_locationInfo.tinymceViewsURL + 'inline-citation.html',
         width: 400,
         height: 85,
         onClose: (e) => {
@@ -129,7 +129,7 @@ tinymce.PluginManager.add('abt_ref_id_parser_mce_button', (editor, url: string) 
     onclick: () => {
       editor.windowManager.open(<TinyMCEWindowMangerObject>{
         title: 'Insert Formatted Reference',
-        url: AU_locationInfo.tinymceViewsURL + 'formatted-reference.html',
+        url: ABT_locationInfo.tinymceViewsURL + 'formatted-reference.html',
         width: 600,
         height: 100,
         onclose: (e: any) => {

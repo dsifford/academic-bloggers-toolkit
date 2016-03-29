@@ -35,16 +35,25 @@ var Parsers;
         MainParser.prototype.fromManualInput = function (data) {
             var cleanedData;
             var type = MainParser.manualCitationType;
-            var authors = data.authors;
+            var authors = data.authors.map(function (author) {
+                var name = author.name.split(' ')[1] + " " + author.name.split(' ')[0][0];
+                return { name: name };
+            });
             var title = data[(type + "-title")].toTitleCase();
             var source = data[(type + "-source")];
-            var pubdate = data[(type + "-date")] ? data[(type + "-date")] : '';
-            var volume = data[(type + "-volume")] ? data[(type + "-volume")] : '';
-            var issue = data[(type + "-issue")] ? data[(type + "-issue")] : '';
-            var pages = data[(type + "-pages")] ? data[(type + "-pages")] : '';
-            var lastauthor = data.authors[data.authors.length - 1].name;
-            var url = data[(type + "-url")] ? data[(type + "-url")] : '';
-            var accessdate = data[(type + "-accessed")] ? data[(type + "-accessed")] : '';
+            var pubdate = data[(type + "-date")] || '';
+            var volume = data[(type + "-volume")] || '';
+            var issue = data[(type + "-issue")] || '';
+            var pages = data[(type + "-pages")] || '';
+            var lastauthor = data.authors.length > 0
+                ? data.authors[data.authors.length - 1].name
+                : '';
+            var url = data[(type + "-url")] || '';
+            var accessdate = data[(type + "-accessed")] || '';
+            var updated = data[(type + "-updated")] || '';
+            var location = data[(type + "-location")] || '';
+            var chapter = data[(type + "-chapter")] || '';
+            var edition = data[(type + "-edition")] || '';
             cleanedData = {
                 authors: authors,
                 title: title,
@@ -56,6 +65,10 @@ var Parsers;
                 lastauthor: lastauthor,
                 url: url,
                 accessdate: accessdate,
+                updated: updated,
+                location: location,
+                chapter: chapter,
+                edition: edition,
             };
             var payload;
             switch (this.citationFormat) {
@@ -72,9 +85,7 @@ var Parsers;
                     this.editor.setProgressState(0);
                     return;
             }
-            console.log("OUTPUT:");
-            console.log(cleanedData);
-            return;
+            this._deliverContent(payload);
         };
         MainParser.prototype._parsePMID = function (e) {
             var req = e.target;
@@ -104,6 +115,9 @@ var Parsers;
                     this.editor.setProgressState(0);
                     return;
             }
+            this._deliverContent(payload);
+        };
+        MainParser.prototype._deliverContent = function (payload) {
             if (payload.name === 'Error') {
                 this.editor.windowManager.alert(payload.message);
                 this.editor.setProgressState(0);
@@ -126,13 +140,15 @@ var Parsers;
 (function (Parsers) {
     var AMA = (function () {
         function AMA() {
+            this._isManual = true;
         }
         AMA.prototype.parse = function (data) {
             var pmidArray = data.uids || false;
             if (pmidArray) {
+                this._isManual = false;
                 return this._fromPMID(data, pmidArray);
             }
-            return this._fromManual(data);
+            return [this._fromManual(data)];
         };
         AMA.prototype._fromPMID = function (data, pmidArray) {
             var _this = this;
@@ -160,23 +176,27 @@ var Parsers;
             return output;
         };
         AMA.prototype._fromManual = function (data) {
+            var payload;
             switch (Parsers.MainParser.manualCitationType) {
                 case 'journal':
-                    break;
-                case 'blog':
+                    payload = this._parseJournal(data);
                     break;
                 case 'website':
+                    payload = this._parseWebsite(data);
                     break;
-                default:
+                case 'book':
+                    payload = this._parseBook(data);
+                    break;
             }
-            console.log('MADE IT DO FROM MANUAL');
-            console.log(data);
-            return ['unfinished'];
+            return payload;
         };
         AMA.prototype._parseAuthors = function (authorArr) {
             var authors = '';
             switch (authorArr.length) {
                 case 0:
+                    if (this._isManual === true) {
+                        break;
+                    }
                     return new Error("No authors were found for given reference");
                 case 1:
                 case 2:
@@ -195,6 +215,46 @@ var Parsers;
             }
             return authors;
         };
+        AMA.prototype._parseJournal = function (data) {
+            var authors = this._parseAuthors(data[0].authors);
+            var year = (new Date(data[0].pubdate).getFullYear() + 1).toString();
+            var source = data[0].source.toTitleCase();
+            var issue = "(" + data[0].issue + ")" || '';
+            var volume = data[0].volume || '';
+            return (authors + " " + data[0].title + ". <em>" + source + ".</em> " + year + "; ") +
+                ("" + volume + issue + ":" + data[0].pages + ".");
+        };
+        AMA.prototype._parseWebsite = function (data) {
+            var authors = data[0].authors.length > 0
+                ? this._parseAuthors(data[0].authors) + ' '
+                : '';
+            var pubdate = "Published " + new Date(data[0].pubdate).toLocaleDateString('en-us', { month: 'long', year: 'numeric' }) + ". ";
+            var updated = data[0].updated !== ''
+                ? "Updated " + new Date(data[0].updated).toLocaleDateString('en-us', { month: 'long', day: 'numeric', year: 'numeric' }) + ". "
+                : '';
+            var accessed = data[0].accessdate !== ''
+                ? "Accessed " + new Date(data[0].accessdate).toLocaleDateString('en-us', { month: 'long', day: 'numeric', year: 'numeric' }) + ". "
+                : "Accessed " + new Date(Date.now()).toLocaleDateString('en-us', { month: 'long', day: 'numeric', year: 'numeric' });
+            return ("" + authors + data[0].title + ". <em>" + data[0].source + "</em>. Available at: ") +
+                ("<a href=\"" + data[0].url + "\" target=\"_blank\">" + data[0].url + "</a>. " + pubdate + updated + accessed);
+        };
+        AMA.prototype._parseBook = function (data) {
+            console.log(data);
+            var authors = this._parseAuthors(data[0].authors);
+            var title = data[0].title;
+            var pubLocation = data[0].location !== ''
+                ? data[0].location + ":"
+                : "";
+            var publisher = data[0].source;
+            var year = data[0].pubdate;
+            var chapter = data[0].chapter !== ''
+                ? " " + data[0].chapter + ". In:"
+                : "";
+            var pages = data[0].pages !== ''
+                ? ": " + data[0].pages + "."
+                : ".";
+            return "" + authors + chapter + " <em>" + title + "</em>. " + pubLocation + publisher + "; " + year + pages;
+        };
         return AMA;
     }());
     Parsers.AMA = AMA;
@@ -203,13 +263,15 @@ var Parsers;
 (function (Parsers) {
     var APA = (function () {
         function APA() {
+            this._isManual = true;
         }
         APA.prototype.parse = function (data) {
             var pmidArray = data.uids || false;
             if (pmidArray) {
+                this._isManual = false;
                 return this._fromPMID(data, pmidArray);
             }
-            return this._fromManual(data);
+            return [this._fromManual(data)];
         };
         APA.prototype._fromPMID = function (data, pmidArray) {
             var _this = this;
@@ -238,12 +300,27 @@ var Parsers;
             return output;
         };
         APA.prototype._fromManual = function (data) {
-            return ['unfinished'];
+            var payload;
+            switch (Parsers.MainParser.manualCitationType) {
+                case 'journal':
+                    payload = this._parseJournal(data);
+                    break;
+                case 'website':
+                    payload = this._parseWebsite(data);
+                    break;
+                case 'book':
+                    payload = this._parseBook(data);
+                    break;
+            }
+            return payload;
         };
         APA.prototype._parseAuthors = function (authorArr, lastAuthor) {
             var authors = '';
             switch (authorArr.length) {
                 case 0:
+                    if (this._isManual === true) {
+                        break;
+                    }
                     return new Error("No authors were found for given reference");
                 case 1:
                     authors = authorArr.map(function (author) {
@@ -283,6 +360,40 @@ var Parsers;
                     break;
             }
             return authors;
+        };
+        APA.prototype._parseJournal = function (data) {
+            var authors = this._parseAuthors(data[0].authors, data[0].lastauthor);
+            var year = (new Date(data[0].pubdate).getFullYear() + 1).toString();
+            var source = data[0].source.toTitleCase();
+            var issue = "(" + data[0].issue + ")" || '';
+            var volume = data[0].volume || '';
+            return (authors + " (" + year + "). " + data[0].title + ". <em>") +
+                (source + ".</em>, " + volume + issue + ", " + data[0].pages + ".");
+        };
+        APA.prototype._parseWebsite = function (data) {
+            var authors = this._parseAuthors(data[0].authors, data[0].lastauthor);
+            var rawDate = new Date(data[0].pubdate);
+            var source = data[0].source.toTitleCase();
+            var date = (rawDate.getFullYear() + ", ") +
+                ("" + rawDate.toLocaleDateString('en-us', { month: 'long', day: 'numeric' }));
+            return (authors + " (" + date + "). " + data[0].title + ". <em>" + source + "</em>. ") +
+                ("Retrieved from <a href=\"" + data[0].url + "\" target=\"_blank\">" + data[0].url + "</a>");
+        };
+        APA.prototype._parseBook = function (data) {
+            var authors = this._parseAuthors(data[0].authors, data[0].lastauthor);
+            var year = (new Date(data[0].pubdate).getFullYear() + 1).toString();
+            var pubLocation = data[0].location !== ''
+                ? data[0].location + ":"
+                : '';
+            var publisher = data[0].source;
+            var chapter = data[0].chapter !== ''
+                ? " " + data[0].chapter + ". In"
+                : '';
+            var pages = data[0].pages !== ''
+                ? " (" + data[0].pages + ")"
+                : '';
+            return (authors + " (" + year + ")." + chapter + " <em>" + data[0].title + "</em>" + pages + ". ") +
+                ("" + pubLocation + publisher + ".");
         };
         return APA;
     }());
@@ -374,7 +485,7 @@ tinymce.PluginManager.add('abt_ref_id_parser_mce_button', function (editor, url)
         onclick: function () {
             editor.windowManager.open({
                 title: 'Inline Citation',
-                url: AU_locationInfo.tinymceViewsURL + 'inline-citation.html',
+                url: ABT_locationInfo.tinymceViewsURL + 'inline-citation.html',
                 width: 400,
                 height: 85,
                 onClose: function (e) {
@@ -388,7 +499,7 @@ tinymce.PluginManager.add('abt_ref_id_parser_mce_button', function (editor, url)
         onclick: function () {
             editor.windowManager.open({
                 title: 'Insert Formatted Reference',
-                url: AU_locationInfo.tinymceViewsURL + 'formatted-reference.html',
+                url: ABT_locationInfo.tinymceViewsURL + 'formatted-reference.html',
                 width: 600,
                 height: 100,
                 onclose: function (e) {

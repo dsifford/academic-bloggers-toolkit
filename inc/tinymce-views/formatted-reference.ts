@@ -4,8 +4,6 @@ interface Window {
 
 interface HTMLElement {
   showHide(option?: 'show' | 'hide'): string
-  hide(): void
-  show(): void
 }
 HTMLElement.prototype.showHide = function(option?: 'show' | 'hide'): string {
   switch(option) {
@@ -40,8 +38,10 @@ class Modal {
 
   public resize(): void {
     let height = this.mainRect.getBoundingClientRect().height;
+    let position = `calc(50% - ${(height + 66) / 2}px)`;
     this.outer.style.height = height + 66 + 'px';
     this.inner.style.height = height + 30 + 'px';
+    this.outer.style.top = position;
   };
 
   private _getModal(): void {
@@ -84,8 +84,8 @@ class ReferenceWindow {
 
   public manualComponents = {
     journal: <HTMLDivElement>document.getElementById('manual-journal'),
-    blog: <HTMLDivElement>document.getElementById('manual-blog'),
     website: <HTMLDivElement>document.getElementById('manual-website'),
+    book: <HTMLDivElement>document.getElementById('manual-book'),
   }
 
   public selections = {
@@ -112,6 +112,7 @@ class ReferenceWindow {
     if (selection !== '' ) {
       this.manualComponents[selection].showHide('show');
     }
+    this._adjustRequiredFields(selection);
     this.modal.resize();
   }
 
@@ -123,7 +124,34 @@ class ReferenceWindow {
     this.inputs.includeLink.disabled = !this.inputs.includeLink.disabled;
     this.selections.manualCitationType.disabled = !this.selections.manualCitationType.disabled;
 
+    // Make all fields not required
+    if (this.selections.manualCitationType.disabled === true) {
+      this._adjustRequiredFields('REQUIRE NONE');
+    } else {
+      this._adjustRequiredFields(this.selections.manualCitationType.value);
+    }
+
+    this.buttons.toggleAddManually.value =
+      this.buttons.toggleAddManually.value === 'Add Reference Manually'
+      ? 'Add Reference with PMID'
+      : 'Add Reference Manually';
+
     this.modal.resize();
+  }
+
+  private _adjustRequiredFields(selection: string): void {
+
+    for (let key in this.manualComponents) {
+
+      let fields = document.querySelectorAll(`input[id^=${key}-][data-required]`);
+      let required: boolean = key === selection ? true : false;
+
+      for (let i = 0; i < fields.length; i++) {
+        (document.getElementById(fields[i].id) as HTMLInputElement).required = required;
+      }
+
+    }
+
   }
 
   private _addAuthorRow(): void {

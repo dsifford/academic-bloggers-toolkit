@@ -15,6 +15,7 @@
                     <input type="checkbox" id="include-link"> </div>
             </div>
         </div>
+
         <div class="row" id="manual-container" style="display: none;">
             <div style="display: flex; align-items: center;">
                 <div style="display: flex; width: auto; white-space: no-wrap; margin-right: 5px;">
@@ -23,11 +24,13 @@
                 <div style="display: flex; flex-grow: 1;">
                     <select id="manual-type-selection" style="width: 100%;" disabled>
                         <option value="journal">Journal Article</option>
-                        <option value="blog">Blog</option>
                         <option value="website">Website</option>
+                        <option value="book">Book</option>
                     </select>
                 </div>
             </div>
+
+            <!-- AUTHORS -->
             <div id="manual-authors"> <strong>Authors</strong>
                 <table id="author-table">
                     <tbody></tbody>
@@ -35,24 +38,26 @@
                 <div style="text-align: center;">
                     <input id="add-author" type="button" class="btn" value="Add Another Author"> </div>
             </div>
+
+            <!-- JOURNAL -->
             <div id="manual-journal"> <strong>Journal Information</strong>
                 <table id="journal-table" class="manual-input-table">
                     <tr>
                         <td>Title</td>
                         <td>
-                            <input id="journal-title" type="text">
+                            <input id="journal-title" type="text" data-required>
                         </td>
                     </tr>
                     <tr>
                         <td>Journal Abbreviation [<a href="http://www.ncbi.nlm.nih.gov/nlmcatalog/journals" target="_blank">?</a>]</td>
                         <td>
-                            <input id="journal-source" type="text">
+                            <input id="journal-source" type="text" data-required>
                         </td>
                     </tr>
                     <tr>
                         <td>Year Published</td>
                         <td>
-                            <input id="journal-date" type="text">
+                            <input id="journal-date" type="text" pattern="[1-2][0-9]{3}" data-required>
                         </td>
                     </tr>
                     <tr>
@@ -70,80 +75,104 @@
                     <tr>
                         <td>Pages</td>
                         <td>
-                            <input id="journal-pages" type="text">
+                            <input id="journal-pages" type="text" data-required>
                         </td>
                     </tr>
                 </table>
             </div>
-            <div id="manual-blog" style="display: none;"> <strong>Blog Information</strong>
-                <table id="blog-table" class="manual-input-table">
-                    <tr>
-                        <td>Post Title</td>
-                        <td>
-                            <input id="blog-title" type="text">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Blog Title</td>
-                        <td>
-                            <input id="blog-source" type="text">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Post Date</td>
-                        <td>
-                            <input id="blog-date" type="text">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Post URL</td>
-                        <td>
-                            <input id="blog-url" type="text">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Access Date</td>
-                        <td>
-                            <input id="blog-accessed" type="text">
-                        </td>
-                    </tr>
-                </table>
-            </div>
-            <div id="manual-website" style="display: none;"> <strong>Blog Information</strong>
+
+            <!-- INTERNET -->
+            <div id="manual-website" style="display: none;"> <strong>Website Information</strong>
                 <table id="website-table" class="manual-input-table">
                     <tr>
-                        <td>Page Title</td>
+                        <td>Content Title</td>
                         <td>
-                            <input id="website-title" type="text">
+                            <input id="website-title" type="text" data-required>
                         </td>
                     </tr>
                     <tr>
-                        <td>Website Name</td>
+                        <td>Website Title</td>
                         <td>
-                            <input id="website-source" type="text">
+                            <input id="website-source" type="text" data-required>
                         </td>
                     </tr>
                     <tr>
-                        <td>Website URL</td>
+                        <td>URL</td>
                         <td>
-                            <input id="website-url" type="text">
+                            <input id="website-url" type="text" data-required>
                         </td>
                     </tr>
                     <tr>
-                        <td>Year Published</td>
+                        <td>Published Date</td>
                         <td>
-                            <input id="website-date" type="text">
+                            <input id="website-date" type="text" pattern="[0-1][0-9][-/][0-3][0-9][-/][1-2][0-9]{3}" placeholder="MM/DD/YYYY" data-required>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Updated Date</td>
+                        <td>
+                            <input id="website-updated" type="text" pattern="[0-1][0-9][-/][0-3][0-9][-/][1-2][0-9]{3}" placeholder="MM/DD/YYYY">
                         </td>
                     </tr>
                     <tr>
                         <td>Access Date</td>
                         <td>
-                            <input id="website-accessed" type="text">
+                            <input id="website-accessed" type="text" pattern="[0-1][0-9][-/][0-3][0-9][-/][1-2][0-9]{3}" placeholder="MM/DD/YYYY (Leave blank for today's date)">
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+
+            <!-- BOOK -->
+            <div id="manual-book" style="display: none;"> <strong>Book Information</strong>
+                <table id="book-table" class="manual-input-table">
+                    <tr>
+                        <td>Book Title</td>
+                        <td>
+                            <input id="book-title" type="text" data-required>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Chapter</td>
+                        <td>
+                            <input id="book-chapter" type="text">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Edition Number</td>
+                        <td>
+                            <input id="book-edition" type="text">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Publisher</td>
+                        <td>
+                            <input id="book-source" type="text" data-required>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Publisher Location</td>
+                        <td>
+                            <input id="book-location" type="text">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Copyright Year</td>
+                        <td>
+                            <input id="book-date" type="text" pattern="[1-2][0-9]{3}" data-required>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Pages</td>
+                        <td>
+                            <input id="book-pages" type="text">
                         </td>
                     </tr>
                 </table>
             </div>
         </div>
+
         <div class="row">
             <div style="display: flex; align-items: center;">
                 <div style="display: flex; width: auto; white-space: no-wrap; margin-right: 5px;">
@@ -158,7 +187,7 @@
             </div>
         </div>
         <div class="row" style="text-align: center;">
-            <input id="add-manually" type="button" class="btn" value="Add Citation Manually">
+            <input id="add-manually" type="button" class="btn" value="Add Reference Manually">
             <input id="form-submit" type="submit" class="submit-btn" value="Insert Reference"> </div>
     </form>
 </div>

@@ -1,4 +1,4 @@
-declare var tinymce, tinyMCE, AU_locationInfo
+declare var tinymce, tinyMCE, ABT_locationInfo
 
 namespace Parsers {
 
@@ -32,16 +32,29 @@ namespace Parsers {
       let cleanedData: ReferenceObj;
       let type = MainParser.manualCitationType;
 
-      let authors: Author[] = data.authors;
+      // Reformat name to Last Name, First Initial
+      let authors: Author[] = data.authors.map((author: Author) => {
+        let name =
+          `${author.name.split(' ')[1]} ${author.name.split(' ')[0][0]}`;
+        return {name};
+      })
+
       let title: string = data[`${type}-title`].toTitleCase();
       let source: string = data[`${type}-source`];
-      let pubdate: string = data[`${type}-date`] ? data[`${type}-date`] : '';
-      let volume: string = data[`${type}-volume`] ? data[`${type}-volume`] : '';
-      let issue: string = data[`${type}-issue`] ? data[`${type}-issue`] : '';
-      let pages: string = data[`${type}-pages`] ? data[`${type}-pages`] : '';
-      let lastauthor: string = data.authors[data.authors.length - 1].name;
-      let url: string = data[`${type}-url`] ? data[`${type}-url`] : '';
-      let accessdate: string = data[`${type}-accessed`] ? data[`${type}-accessed`] : '';
+      let pubdate: string = data[`${type}-date`] || '';
+      let volume: string = data[`${type}-volume`] || '';
+      let issue: string = data[`${type}-issue`] || '';
+      let pages: string = data[`${type}-pages`] || '';
+      let lastauthor: string = data.authors.length > 0
+        ? data.authors[data.authors.length - 1].name
+        : '';
+      let url: string = data[`${type}-url`] || '';
+      let accessdate: string = data[`${type}-accessed`] || '';
+      let updated: string = data[`${type}-updated`] || '';
+      let location: string = data[`${type}-location`] || '';
+      let chapter: string = data[`${type}-chapter`] || '';
+      let edition: string = data[`${type}-edition`] || '';
+
 
       cleanedData = {
         authors,
@@ -54,6 +67,10 @@ namespace Parsers {
         lastauthor,
         url,
         accessdate,
+        updated,
+        location,
+        chapter,
+        edition,
       }
 
       let payload: string[]|Error;
@@ -72,9 +89,8 @@ namespace Parsers {
           return;
       }
 
-      console.log(`OUTPUT:`);
-      console.log(cleanedData);
-      return;
+      this._deliverContent(payload);
+
     }
 
 
@@ -115,6 +131,11 @@ namespace Parsers {
           return;
       }
 
+      this._deliverContent(payload);
+
+    }
+
+    private _deliverContent(payload: string[]|Error): void {
       if ((payload as Error).name === 'Error') {
         this.editor.windowManager.alert((payload as Error).message);
         this.editor.setProgressState(0);
@@ -131,7 +152,6 @@ namespace Parsers {
 
       this.editor.insertContent(orderedList);
       this.editor.setProgressState(0);
-
     }
 
   }
