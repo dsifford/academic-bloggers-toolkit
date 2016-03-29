@@ -17,7 +17,9 @@
     </div>
 </form>
 
+<script type="text/javascript" src="inline-citation.js"></script>
 <script>
+    console.log(top.tinymce.activeEditor.dom.doc.body)
     document.getElementById('mce_inline_citation_form').addEventListener('submit', function() {
         var citeNums = document.getElementById('mce_inline_citation').value;
         var wm = top.tinymce.activeEditor.windowManager;

@@ -6,6 +6,8 @@ interface TinyMCEMenuItem {
   text: string
   menu?: TinyMCEMenuItem[]
   onclick?: (e?: Event) => void
+  disabled?: boolean
+  id?: string
 }
 
 interface TinyMCEWindowElement {
@@ -22,7 +24,7 @@ interface TinyMCEWindowMangerObject {
   height: any
   body?: TinyMCEWindowElement[]
   url?: string
-  onclose?: (e?: Event) => void
+  onclose?: (e?) => void
 }
 
 interface TinyMCEPluginButton {
@@ -31,6 +33,7 @@ interface TinyMCEPluginButton {
   title: string
   icon: boolean
   menu: TinyMCEMenuItem[]
+  onclick?: (e?: Event) => void
 }
 
 interface Author {
