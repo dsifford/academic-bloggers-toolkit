@@ -1,12 +1,10 @@
-/// <reference path="../ABT.d.ts"/>
-/// <reference path="./inc/toTitleCase.ts"/>
-/// <reference path="./main-parser.ts"/>
-/// <reference path="./parsers/ama.ts"/>
-/// <reference path="./parsers/apa.ts"/>
-declare var tinymce, tinyMCE, ABT_locationInfo
+/// <reference path="./ABT.d.ts"/>
+import Dispatcher from './utils/Dispatcher.ts';
+
+declare var tinyMCE, ABT_locationInfo
 
 
-tinymce.PluginManager.add('abt_ref_id_parser_mce_button', (editor, url: string) => {
+tinyMCE.PluginManager.add('abt_main_menu', (editor, url: string) => {
 
   //==================================================
   //                 MAIN BUTTON
@@ -27,7 +25,7 @@ tinymce.PluginManager.add('abt_ref_id_parser_mce_button', (editor, url: string) 
   let openInlineCitationWindow = () => {
     editor.windowManager.open(<TinyMCEWindowMangerObject>{
       title: 'Inline Citation',
-      url: ABT_locationInfo.tinymceViewsURL + 'inline-citation.html',
+      url: ABT_locationInfo.tinymceViewsURL + 'inline-citation/inline-citation.html',
       width: 400,
       height: 85,
       onClose: (e) => {
@@ -42,7 +40,7 @@ tinymce.PluginManager.add('abt_ref_id_parser_mce_button', (editor, url: string) 
   let openFormattedReferenceWindow = () => {
     editor.windowManager.open(<TinyMCEWindowMangerObject>{
       title: 'Insert Formatted Reference',
-      url: ABT_locationInfo.tinymceViewsURL + 'formatted-reference.html',
+      url: ABT_locationInfo.tinymceViewsURL + 'formatted-reference/formatted-reference.html',
       width: 600,
       height: 100,
       onclose: (e: any) => {
@@ -53,7 +51,7 @@ tinymce.PluginManager.add('abt_ref_id_parser_mce_button', (editor, url: string) 
         }
         editor.setProgressState(1);
         let payload: ReferenceFormData = e.target.params.data;
-        let refparser = new Parsers.MainParser(payload, editor);
+        let refparser = new Dispatcher(payload, editor);
 
         if (payload.hasOwnProperty('manual-type-selection')) {
           refparser.fromManualInput(payload);
@@ -215,7 +213,7 @@ tinymce.PluginManager.add('abt_ref_id_parser_mce_button', (editor, url: string) 
   bibToolsMenu.menu.push(trackedLink, separator, requestTools);
   ABT_Button.menu.push(smartBib, inlineCitation, formattedReference, bibToolsMenu);
 
-  editor.addButton('abt_ref_id_parser_mce_button', ABT_Button);
+  editor.addButton('abt_main_menu', ABT_Button);
 
 
 

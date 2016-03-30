@@ -1,3 +1,4 @@
+declare var wp, meta_image;
 
 if (document.readyState != 'loading'){
 	editorJS();
@@ -16,13 +17,13 @@ function editorJS() {
   for (var i = 0; i < 3; i++) {
 
     // Hide empty author responses
-    if (authorNameInputs[i].value == '') {
-      authorResponseTables[i].style.display = 'none';
+    if ((authorNameInputs[i] as any).value == '') {
+      (authorResponseTables[i] as any).style.display = 'none';
     }
 
     // Replace <br> and <p> tags with actual line breaks on post edit screen
-    reviewContent[i].value = reviewContent[i].value.replace(/(<br>)|(<br \/>)|(<p>)|(<\/p>)/, "").replace(/(<br>)|(<br \/>)|(<p>)|(<\/p>)/g, "\r");
-    responseContent[i].value = responseContent[i].value.replace(/(<br>)|(<br \/>)|(<p>)|(<\/p>)/, "").replace(/(<br>)|(<br \/>)|(<p>)|(<\/p>)/g, "\r");
+    (reviewContent[i] as any).value = (reviewContent[i] as any).value.replace(/(<br>)|(<br \/>)|(<p>)|(<\/p>)/, "").replace(/(<br>)|(<br \/>)|(<p>)|(<\/p>)/g, "\r");
+    (responseContent[i] as any).value = (responseContent[i] as any).value.replace(/(<br>)|(<br \/>)|(<p>)|(<\/p>)/, "").replace(/(<br>)|(<br \/>)|(<p>)|(<\/p>)/g, "\r");
 
   }
 
@@ -42,7 +43,7 @@ function editorJS() {
 
   function selectHandler(e) {
     for (var i = 0; i < selectDivs.length; i++) {
-      selectDivs[i].style.display = 'none';
+      (selectDivs[i] as any).style.display = 'none';
     }
 
     switch (e.target.value) {
@@ -67,14 +68,14 @@ function editorJS() {
 
     toggleButtons[i].addEventListener('click', function(e) {
 
-      currentIndex = parseInt(e.target.id.slice(-1)) - 1;
+      let currentIndex = parseInt((e.target as any).id.slice(-1)) - 1;
 
-      if (authorResponseTables[currentIndex].style.display == 'none') {
-        authorResponseTables[currentIndex].style.display = 'block';
+      if ((authorResponseTables[currentIndex] as any).style.display == 'none') {
+        (authorResponseTables[currentIndex] as any).style.display = 'block';
         return;
       }
 
-      authorResponseTables[currentIndex].style.display = 'none';
+      (authorResponseTables[currentIndex] as any).style.display = 'none';
 
     });
   }
@@ -100,7 +101,7 @@ function editorJS() {
     headshotButtons[i].addEventListener('click', function(e) {
 
       var headshotImageInput;
-      var i = parseInt(e.target.id.slice(-1)) - 1;
+      var i = parseInt((e.target as any).id.slice(-1)) - 1;
       switch (i) {
         case 0:
         case 1:

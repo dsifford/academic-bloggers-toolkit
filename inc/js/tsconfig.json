@@ -15,14 +15,32 @@
         "preserveConstEnums": true,
         "suppressImplicitAnyIndexErrors": true
     },
+    "filesGlob": [
+        "**/*.ts",
+        "!node_modules/**"
+    ],
     "exclude": [
+        "../../node_modules/",
         "node_modules",
         "typings/browser",
         "typings/browser.d.ts"
     ],
-    "compileOnSave": true,
+    "compileOnSave": false,
     "buildOnSave": false,
     "atom": {
-        "rewriteTsconfig": false
-    }
+        "rewriteTsconfig": true
+    },
+    "files": [
+        "ABT.d.ts",
+        "components/Modal.ts",
+        "frontend.ts",
+        "metaboxes.ts",
+        "tinymce-entrypoint.ts",
+        "tinymce-views/formatted-reference/formatted-reference.ts",
+        "tinymce-views/inline-citation/inline-citation.ts",
+        "utils/Dispatcher.ts",
+        "utils/HelperFunctions-bak.ts",
+        "utils/HelperFunctions.ts",
+        "utils/Parsers.ts"
+    ]
 }

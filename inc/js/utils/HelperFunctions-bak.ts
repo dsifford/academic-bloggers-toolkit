@@ -1,3 +1,14 @@
+export default {};
+
+declare global {
+  interface String {
+      toTitleCase(): string
+  }
+  interface HTMLElement {
+    showHide(option?: 'show'|'hide'): string
+  }
+}
+
 String.prototype.toTitleCase = function(): string {
   let smallWords = /^(a|an|and|as|at|but|by|en|for|if|in|nor|of|on|or|per|the|to|vs?\.?|via)$/i;
 
@@ -16,3 +27,17 @@ String.prototype.toTitleCase = function(): string {
     return match.charAt(0).toUpperCase() + match.substr(1);
   });
 };
+
+HTMLElement.prototype.showHide = function(option?: 'show' | 'hide'): string {
+  switch(option) {
+    case 'show':
+      this.style.display = '';
+      break;
+    case 'hide':
+      this.style.display = 'none';
+      break;
+    default:
+      this.style.display = this.style.display == 'none' ? '' : 'none';
+  }
+  return this.style.display;
+}

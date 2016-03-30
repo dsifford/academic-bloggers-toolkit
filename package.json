@@ -4,9 +4,9 @@
   "description": "A plugin extending the functionality of WordPress for Academic Blogging.",
   "main": "index.js",
   "scripts": {
-    "build": "rm -rf ./dist && gulp build",
+    "build": "gulp build",
     "serve": "gulp serve",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "deploy": "gulp build && find ./dist -type d -empty -delete && find ./dist -name '*.map' -type f -delete"
   },
   "repository": {
     "type": "git",
@@ -19,11 +19,16 @@
   },
   "homepage": "https://github.com/dsifford/academic-bloggers-toolkit#readme",
   "devDependencies": {
+    "awesome-typescript-loader": "^0.17.0-rc.3",
     "browser-sync": "^2.11.2",
     "gulp": "^3.9.1",
     "gulp-autoprefixer": "^3.1.0",
     "gulp-clean-css": "^2.0.4",
     "gulp-sass": "^2.2.0",
-    "gulp-uglify": "^1.5.3"
+    "gulp-uglify": "^1.5.3",
+    "ts-loader": "^0.8.1",
+    "typescript": "^1.8.9",
+    "webpack": "^1.12.14",
+    "webpack-stream": "^3.1.0"
   }
 }
