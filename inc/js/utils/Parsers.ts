@@ -1,4 +1,4 @@
-/// <reference path="../ABT.d.ts"/>
+import { toTitleCase } from './HelperFunctions.ts';
 
 export class AMA {
 
@@ -90,7 +90,7 @@ export class AMA {
   private _parseJournal(data: ReferencePayload): string {
     let authors = this._parseAuthors(data[0].authors);
     let year = (new Date(data[0].pubdate).getFullYear() + 1).toString();
-    let source = data[0].source.toTitleCase();
+    let source = toTitleCase(data[0].source);
     let issue = `(${data[0].issue})` || '';
     let volume = data[0].volume || '';
 
@@ -176,7 +176,7 @@ export class APA {
         }
 
         return `${authors} (${year}). ${ref.title} <em>` +
-          `${ref.fulljournalname === undefined || ref.fulljournalname === '' ? ref.source : ref.fulljournalname.toTitleCase()}.</em>, ` +
+          `${ref.fulljournalname === undefined || ref.fulljournalname === '' ? ref.source : toTitleCase(ref.fulljournalname)}.</em>, ` +
           `${ref.volume === undefined || ref.volume === '' ? '' : ref.volume}` +
           `${ref.issue === undefined || ref.issue === '' ? '' : '('+ref.issue+')'}, ` +
           `${ref.pages}.${link}`;
@@ -262,7 +262,7 @@ export class APA {
   private _parseJournal(data: ReferencePayload): string {
     let authors = this._parseAuthors(data[0].authors, data[0].lastauthor);
     let year = (new Date(data[0].pubdate).getFullYear() + 1).toString();
-    let source = data[0].source.toTitleCase();
+    let source = toTitleCase(data[0].source);
     let issue = `(${data[0].issue})` || '';
     let volume = data[0].volume || '';
 
@@ -273,7 +273,7 @@ export class APA {
   private _parseWebsite(data: ReferencePayload): string {
     let authors = this._parseAuthors(data[0].authors, data[0].lastauthor);
     let rawDate = new Date(data[0].pubdate);
-    let source = data[0].source.toTitleCase();
+    let source = toTitleCase(data[0].source);
     let date = `${rawDate.getFullYear()}, ` +
       `${rawDate.toLocaleDateString('en-us', {month: 'long', day: 'numeric'})}`;
 

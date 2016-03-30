@@ -28,6 +28,7 @@
     "gulp-uglify": "^1.5.3",
     "ts-loader": "^0.8.1",
     "typescript": "^1.8.9",
-    "webpack": "^1.12.14"
+    "webpack": "^1.12.14",
+    "webpack-stream": "^3.1.0"
   }
 }

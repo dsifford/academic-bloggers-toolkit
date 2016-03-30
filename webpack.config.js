@@ -1,11 +1,13 @@
 module.exports = {
   devtool: 'source-map',
   entry: {
-    'tinymce-entrypoint': './inc/js/tinymce-entrypoint.ts'
+    '/inc/js/tinymce-buttons': './inc/js/tinymce-entrypoint.ts',
+    '/inc/js/tinymce-views/formatted-reference/formatted-reference': './inc/js/tinymce-views/formatted-reference/formatted-reference.ts',
+    '/inc/js/tinymce-views/inline-citation/inline-citation': './inc/js/tinymce-views/inline-citation/inline-citation.ts',
   },
   output: {
     filename: '[name].js',
-    path: __dirname + '/test'
+    path: __dirname,
   },
   module: {
     loaders: [
@@ -16,7 +18,7 @@ module.exports = {
       }
     ],
     resolve: {
-      extensions: ['.ts']
+      extensions: ['', '.ts', '.js']
     }
   }
 }

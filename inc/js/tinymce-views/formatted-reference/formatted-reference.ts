@@ -1,64 +1,9 @@
-interface Window {
-  tinymce: any
-}
-
-interface HTMLElement {
-  showHide(option?: 'show' | 'hide'): string
-}
-HTMLElement.prototype.showHide = function(option?: 'show' | 'hide'): string {
-  switch(option) {
-    case 'show':
-      this.style.display = '';
-      break;
-    case 'hide':
-      this.style.display = 'none';
-      break;
-    default:
-      this.style.display = this.style.display == 'none' ? '' : 'none';
-  }
-  return this.style.display;
-}
-
-class Modal {
-  public outer: HTMLElement;
-  public inner: HTMLElement;
-  public mainRect: HTMLElement;
-  public initialSize: {
-    outer: number
-    inner: number
-  }
-
-  constructor() {
-    this._getModal();
-    this.initialSize = {
-      outer: parseInt(this.outer.style.height.substr(0, this.outer.style.height.length - 2)),
-      inner: parseInt(this.inner.style.height.substr(0, this.inner.style.height.length - 2)),
-    }
-  }
-
-  public resize(): void {
-    let height = this.mainRect.getBoundingClientRect().height;
-    let position = `calc(50% - ${(height + 66) / 2}px)`;
-    this.outer.style.height = height + 66 + 'px';
-    this.inner.style.height = height + 30 + 'px';
-    this.outer.style.top = position;
-  };
-
-  private _getModal(): void {
-    let outerModalID: string = top.document.querySelector('div.mce-floatpanel[aria-label="Insert Formatted Reference"]').id;
-    let innerModalID: string = `${outerModalID}-body`;
-    this.outer = top.document.getElementById(outerModalID);
-    this.inner = top.document.getElementById(innerModalID);
-    this.mainRect = document.getElementById('main-container');
-  }
-
-}
-
-
+import { showHide } from '../../utils/HelperFunctions.ts';
+import Modal from '../../components/Modal.ts';
 
 class ReferenceWindow {
 
-  private modal: Modal = new Modal;
+  private modal: Modal = new Modal('Insert Formatted Reference');
 
   public buttons = {
     toggleAddManually: <HTMLInputElement>document.getElementById('add-manually'),
@@ -107,18 +52,18 @@ class ReferenceWindow {
     let selection = this.selections.manualCitationType.value;
     for (let key in this.manualComponents) {
       if (key == selection || key == '') { continue; }
-      this.manualComponents[key].showHide('hide');
+      showHide(this.manualComponents[key], 'hide');
     }
     if (selection !== '' ) {
-      this.manualComponents[selection].showHide('show');
+      showHide(this.manualComponents[selection], 'show');
     }
     this._adjustRequiredFields(selection);
     this.modal.resize();
   }
 
   private _toggleAddManually(): void {
-    this.containers.pubmedContainer.showHide();
-    this.containers.manualContainer.showHide();
+    showHide(this.containers.pubmedContainer);
+    showHide(this.containers.manualContainer);
 
     this.inputs.pmidInput.disabled = !this.inputs.pmidInput.disabled;
     this.inputs.includeLink.disabled = !this.inputs.includeLink.disabled;

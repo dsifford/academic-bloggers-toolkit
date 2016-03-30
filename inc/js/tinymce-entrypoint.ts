@@ -1,11 +1,10 @@
+/// <reference path="./ABT.d.ts"/>
+import Dispatcher from './utils/Dispatcher.ts';
 
-/// <reference path="./utils/HelperFunctions.ts"/>
-import Dispatcher from './utils/Dispatcher';
-
-declare var tinymce, tinyMCE, ABT_locationInfo
+declare var tinyMCE, ABT_locationInfo
 
 
-tinymce.PluginManager.add('abt_main_menu', (editor, url: string) => {
+tinyMCE.PluginManager.add('abt_main_menu', (editor, url: string) => {
 
   //==================================================
   //                 MAIN BUTTON
@@ -26,7 +25,7 @@ tinymce.PluginManager.add('abt_main_menu', (editor, url: string) => {
   let openInlineCitationWindow = () => {
     editor.windowManager.open(<TinyMCEWindowMangerObject>{
       title: 'Inline Citation',
-      url: ABT_locationInfo.tinymceViewsURL + 'inline-citation.html',
+      url: ABT_locationInfo.tinymceViewsURL + 'inline-citation/inline-citation.html',
       width: 400,
       height: 85,
       onClose: (e) => {
@@ -41,7 +40,7 @@ tinymce.PluginManager.add('abt_main_menu', (editor, url: string) => {
   let openFormattedReferenceWindow = () => {
     editor.windowManager.open(<TinyMCEWindowMangerObject>{
       title: 'Insert Formatted Reference',
-      url: ABT_locationInfo.tinymceViewsURL + 'formatted-reference.html',
+      url: ABT_locationInfo.tinymceViewsURL + 'formatted-reference/formatted-reference.html',
       width: 600,
       height: 100,
       onclose: (e: any) => {

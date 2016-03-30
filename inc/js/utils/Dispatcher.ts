@@ -1,4 +1,4 @@
-import { AMA, APA } from './Parsers';
+import { AMA, APA } from './Parsers.ts';
 
 
 export default class Dispatcher {

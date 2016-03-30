@@ -3,9 +3,10 @@ var gulp = require('gulp'),
     sass = require('gulp-sass'),
     autoprefixer = require('gulp-autoprefixer'),
     cleanCSS = require('gulp-clean-css'),
-    browserSync = require('browser-sync').create();
+    browserSync = require('browser-sync').create(),
+    webpack = require('webpack-stream');
 
-gulp.task('build', ['js', 'css'], function() {
+gulp.task('build', ['webpack', 'js', 'scss'], function() {
   gulp.src([
     './academic-bloggers-toolkit.php',
     './CHANGELOG.md',
@@ -20,10 +21,10 @@ gulp.task('build', ['js', 'css'], function() {
 
 gulp.task('js', function() {
   gulp.src([
-    './inc/**/*.js'
+    './dist/inc/**/*.js'
   ], { base: './' })
   .pipe(uglify())
-  .pipe(gulp.dest('./dist'));
+  .pipe(gulp.dest('./'));
 });
 
 gulp.task('sass', function() {
@@ -31,20 +32,24 @@ gulp.task('sass', function() {
     './inc/**/*.scss'
   ], { base: './' })
   .pipe(sass().on('error', sass.logError))
-  .pipe(gulp.dest('./'))
-  .pipe(browserSync.stream());
-});
-
-gulp.task('css', function() {
-  gulp.src([
-    './inc/**/*.css'
-  ], { base: './' })
   .pipe(autoprefixer({
     browsers: ['last 2 versions']
   }))
   .pipe(cleanCSS({compatibility: 'ie10'}))
   .pipe(gulp.dest('./dist'))
+  .pipe(browserSync.stream());
 });
+
+// gulp.task('css', function() {
+//   gulp.src([
+//     './inc/**/*.css'
+//   ], { base: './' })
+//   .pipe(autoprefixer({
+//     browsers: ['last 2 versions']
+//   }))
+//   .pipe(cleanCSS({compatibility: 'ie10'}))
+//   .pipe(gulp.dest('./dist'))
+// });
 
 gulp.task('serve', ['sass'], function() {
   browserSync.init({
@@ -58,3 +63,9 @@ gulp.task('serve', ['sass'], function() {
   ]).on('change', browserSync.reload);
 
 });
+
+gulp.task('webpack', function() {
+  return gulp.src('./inc/js/tinymce-views/inline-citation/inline-citation.ts')
+    .pipe(webpack( require('./webpack.config.js') ))
+    .pipe(gulp.dest('./dist'));
+})

@@ -1,5 +1,5 @@
-interface String {
-  toTitleCase(): string
+interface Window {
+  tinymce: any
 }
 
 interface TinyMCEMenuItem {
@@ -66,10 +66,6 @@ interface ReferenceObj {
   updated?: string
   url?: string
   volume?: string
-}
-
-interface ManualReference extends ReferenceObj {
-  /** FIXME */
 }
 
 interface ReferencePayload {
