@@ -339,7 +339,7 @@ add_filter( 'the_content', 'insert_the_meta');
 
 function abt_peer_review_js_enqueue() {
 
-		wp_register_script('peer_review', plugins_url('academic-bloggers-toolkit/inc/js/peer-review.js') );
+		wp_register_script('peer_review', plugins_url('academic-bloggers-toolkit/inc/js/frontend.js') );
 		wp_enqueue_script( 'peer_review' );
 
 }
@@ -358,18 +358,18 @@ function abt_image_enqueue() {
         wp_enqueue_media();
 
         // Registers and enqueues the required javascript.
-        wp_register_script( 'meta-box-image', plugins_url('academic-bloggers-toolkit/inc/js/meta-box-image.js'), array( 'jquery' ) );
-        wp_localize_script( 'meta-box-image', 'meta_image',
+        wp_register_script( 'abt-metaboxes', plugins_url('academic-bloggers-toolkit/inc/js/metaboxes.js') );
+        wp_localize_script( 'abt-metaboxes', 'meta_image',
             array(
                 'title' => __( 'Choose or Upload an Image', 'abt-textdomain' ),
                 'button' => __( 'Use this image', 'abt-textdomain' ),
             )
         );
-		wp_localize_script( 'meta-box-image', 'ABT_locationInfo', array(
+		wp_localize_script( 'abt-metaboxes', 'ABT_locationInfo', array(
 			'jsURL' => plugins_url('academic-bloggers-toolkit/inc/js/'),
 			'tinymceViewsURL' => plugins_url('academic-bloggers-toolkit/inc/tinymce-views/')
 		));
-        wp_enqueue_script( 'meta-box-image' );
+        wp_enqueue_script( 'abt-metaboxes' );
     }
 }
 add_action( 'admin_enqueue_scripts', 'abt_image_enqueue' );

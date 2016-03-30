@@ -1,12 +1,11 @@
-/// <reference path="../ABT.d.ts"/>
-/// <reference path="./inc/toTitleCase.ts"/>
-/// <reference path="./main-parser.ts"/>
-/// <reference path="./parsers/ama.ts"/>
-/// <reference path="./parsers/apa.ts"/>
+
+/// <reference path="./utils/HelperFunctions.ts"/>
+import Dispatcher from './utils/Dispatcher';
+
 declare var tinymce, tinyMCE, ABT_locationInfo
 
 
-tinymce.PluginManager.add('abt_ref_id_parser_mce_button', (editor, url: string) => {
+tinymce.PluginManager.add('abt_main_menu', (editor, url: string) => {
 
   //==================================================
   //                 MAIN BUTTON
@@ -53,7 +52,7 @@ tinymce.PluginManager.add('abt_ref_id_parser_mce_button', (editor, url: string) 
         }
         editor.setProgressState(1);
         let payload: ReferenceFormData = e.target.params.data;
-        let refparser = new Parsers.MainParser(payload, editor);
+        let refparser = new Dispatcher(payload, editor);
 
         if (payload.hasOwnProperty('manual-type-selection')) {
           refparser.fromManualInput(payload);
@@ -215,7 +214,7 @@ tinymce.PluginManager.add('abt_ref_id_parser_mce_button', (editor, url: string) 
   bibToolsMenu.menu.push(trackedLink, separator, requestTools);
   ABT_Button.menu.push(smartBib, inlineCitation, formattedReference, bibToolsMenu);
 
-  editor.addButton('abt_ref_id_parser_mce_button', ABT_Button);
+  editor.addButton('abt_main_menu', ABT_Button);
 
 
 
