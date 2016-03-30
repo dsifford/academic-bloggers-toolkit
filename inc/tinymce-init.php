@@ -22,7 +22,7 @@ add_action( 'admin_head', 'abt_custom_mce_buttons' );
 
 // Function for new button
 function custom_tinymce_plugin( $plugin_array ) {
-  $plugin_array['abt_main_menu'] = plugins_url('academic-bloggers-toolkit/inc/js/tinymce-buttons.js');
+  $plugin_array['abt_main_menu'] = plugins_url('academic-bloggers-toolkit/inc/js/tinymce-entrypoint.js');
   return $plugin_array;
 }
 

@@ -4,9 +4,9 @@
   "description": "A plugin extending the functionality of WordPress for Academic Blogging.",
   "main": "index.js",
   "scripts": {
-    "build": "rm -rf ./dist && gulp build",
+    "build": "gulp build",
     "serve": "gulp serve",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "deploy": "gulp build && find ./dist -type d -empty -delete && find ./dist -name '*.map' -type f -delete"
   },
   "repository": {
     "type": "git",
