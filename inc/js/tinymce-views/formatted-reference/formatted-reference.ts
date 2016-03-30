@@ -1,5 +1,6 @@
 import { showHide } from '../../utils/HelperFunctions.ts';
 import Modal from '../../components/Modal.ts';
+import PubmedWindow from '../../components/PubmedWindow.ts';
 
 class ReferenceWindow {
 
@@ -8,6 +9,7 @@ class ReferenceWindow {
   public buttons = {
     toggleAddManually: <HTMLInputElement>document.getElementById('add-manually'),
     addAuthor: <HTMLInputElement>document.getElementById('add-author'),
+    searchPubmed: <HTMLInputElement>document.getElementById('search-pubmed'),
   }
 
   public containers = {
@@ -46,6 +48,10 @@ class ReferenceWindow {
     this.buttons.addAuthor.addEventListener('click', this._addAuthorRow.bind(this));
     this.selections.manualCitationType.addEventListener('change', this._manualCitationChange.bind(this));
     this.form.addEventListener('submit', this._submitForm.bind(this));
+    this.buttons.searchPubmed.addEventListener('click', () => {
+      let wm = top.tinyMCE.activeEditor.windowManager;
+      new PubmedWindow(wm);
+    });
   }
 
   private _manualCitationChange(e: Event): void {
@@ -139,7 +145,7 @@ class ReferenceWindow {
   private _submitForm(e: Event) {
     e.preventDefault();
 
-    let wm = top.tinymce.activeEditor.windowManager;
+    let wm = top.tinyMCE.activeEditor.windowManager;
     let formElement: HTMLFormElement = <HTMLFormElement>e.srcElement;
     let payload: Object = {};
     let authorList: Object = {};

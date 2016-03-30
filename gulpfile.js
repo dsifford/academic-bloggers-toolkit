@@ -6,6 +6,9 @@ var gulp = require('gulp'),
     browserSync = require('browser-sync').create(),
     webpack = require('webpack-stream');
 
+// TODO: Static asset optimization
+// TODO: Better minifyer for js (one that doesn't break)
+
 gulp.task('build', ['webpack', 'sass'], function() {
   gulp.src([
     './academic-bloggers-toolkit.php',

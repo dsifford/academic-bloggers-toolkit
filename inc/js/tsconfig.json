@@ -33,6 +33,7 @@
     "files": [
         "ABT.d.ts",
         "components/Modal.ts",
+        "components/PubmedWindow.ts",
         "frontend.ts",
         "metaboxes.ts",
         "tinymce-entrypoint.ts",

@@ -186,9 +186,12 @@
                 </div>
             </div>
         </div>
-        <div class="row" style="text-align: center;">
-            <input id="add-manually" type="button" class="btn" value="Add Reference Manually">
-            <input id="form-submit" type="submit" class="submit-btn" value="Insert Reference"> </div>
+        <div class="row" style="text-align: center; display: flex; align-items: center; justify-content: space-around;">
+            <input id="add-manually" style="margin: 0 5px;" type="button" class="btn" value="Add Reference Manually">
+            <input id="search-pubmed" style="margin: 0 5px;" type="button" class="btn" value="Search PubMed">
+            <span style="border-right: solid 2px #ccc; height: 25px; margin: 0 15px 0 10px;"></span>
+            <input id="form-submit" style="flex-grow: 1; margin: 0 15px 0 0;" type="submit" class="submit-btn" value="Insert Reference">
+        </div>
     </form>
 </div>
 <script type="text/javascript" src="formatted-reference.js"></script>

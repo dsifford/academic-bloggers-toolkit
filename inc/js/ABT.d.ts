@@ -1,5 +1,54 @@
 interface Window {
-  tinymce: any
+  tinyMCE: tinyMCE
+}
+
+interface tinyMCE {
+  DOM: any
+  EditorManager: any
+  EditorObservable: any
+  Env: any
+  WindowManager: any
+  activeEditor: tinyMCEEditor
+  add: (a:any) => any
+  dom: any
+  editors: any[]
+  remove: (e?: any) => void
+}
+
+interface tinyMCEEditor {
+  addButton: (any) => any
+  buttons: any
+  container: any
+  contentDocument: HTMLDocument
+  contentWindow: Window
+  controlManager: any
+  dom: any
+  editorCommands: any
+  editorContainer: any
+  editorManager: any
+  editorUpload: any
+  plugins: any
+  settings: any
+  target: any
+  windowManager: TinyMCEWindowManager
+  wp: any
+}
+
+interface TinyMCEWindowManager {
+  alert: (a?:any) => any
+  close: (a?:any) => any
+  confirm: (a?:any) => any
+  createInstance: (a?:any) => any
+  editor: tinyMCEEditor
+  getParams: (a?:any) => any
+  getWindows: (a?:any) => any
+  onClose: any
+  onOpen: any
+  open: (a?:any) => any
+  parent: any
+  setParams: (a?:any) => any
+  windows: any
+  wp: any
 }
 
 interface TinyMCEMenuItem {
