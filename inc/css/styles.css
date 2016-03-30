@@ -158,6 +158,9 @@
   border-left: 1px solid #c7c7c7;
   border-bottom: 1px solid #c7c7c7; }
 
+.abt_editor-only {
+  display: none; }
+
 @media only screen and (max-width: 620px) {
   .abt_PR_info {
     display: block;

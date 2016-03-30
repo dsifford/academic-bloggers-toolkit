@@ -1,9 +1,10 @@
 <link rel="stylesheet" type="text/css" href="tinymce-views.css">
-<form id="mce_inline_citation_form">
-    <label for="mce_inline_citation">Enter Citation Number</label><br>
-    <div style="display: flex; width: 100%; align-items: center;">
-        <div style="display: flex; width: 100%;">
-            <input
+<div id="main-container">
+    <form id="mce_inline_citation_form">
+        <label for="mce_inline_citation">Enter Citation Number</label><br>
+        <div style="display: flex; width: 100%; align-items: center;">
+            <div style="display: flex; width: 100%;">
+                <input
                 type="text"
                 id="mce_inline_citation"
                 class="large-text"
@@ -16,10 +17,11 @@
         </div>
     </div>
 </form>
+<div id="smart-bib-render"></div>
+</div>
 
 <script type="text/javascript" src="inline-citation.js"></script>
 <script>
-    console.log(top.tinymce.activeEditor.dom.doc.body)
     document.getElementById('mce_inline_citation_form').addEventListener('submit', function() {
         var citeNums = document.getElementById('mce_inline_citation').value;
         var wm = top.tinymce.activeEditor.windowManager;

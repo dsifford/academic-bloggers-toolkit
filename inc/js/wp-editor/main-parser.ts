@@ -9,6 +9,7 @@ namespace Parsers {
     public static manualCitationType: string;
     public PMIDquery: string;
     public editor: any;
+    public smartBib: HTMLOListElement|boolean
 
     constructor(data: ReferenceFormData, editor: Object) {
       this.citationFormat = data['citation-format'];
@@ -18,6 +19,9 @@ namespace Parsers {
       MainParser.manualCitationType = data['manual-type-selection'];
       MainParser.includeLink = data['include-link'];
       this.editor = editor;
+      let smartBib = <HTMLOListElement>(this.editor.dom.doc as HTMLDocument)
+                        .getElementById('abt-smart-bib') as HTMLOListElement;
+      this.smartBib = smartBib || false;
     }
 
     public fromPMID(): void {
@@ -141,6 +145,17 @@ namespace Parsers {
         this.editor.setProgressState(0);
         return;
       }
+
+      if (this.smartBib) {
+        for (let key in (payload as string[])) {
+          let listItem = (this.editor.dom.doc as HTMLDocument).createElement('LI');
+          listItem.innerHTML = payload[key];
+          (this.smartBib as HTMLOListElement).appendChild(listItem);
+        }
+        this.editor.setProgressState(0);
+        return;
+      }
+
       if ((payload as string[]).length === 1) {
         this.editor.insertContent((payload as string[]).join());
         this.editor.setProgressState(0);
