@@ -67,6 +67,7 @@ Yikes! I'm sorry about that. Please report all issues on the Academic Blogger's 
 * Full rewrite.
 * Parse multiple comma-separated PMIDs at once into an ordered list.
 * Add manual reference insertion for Journals, Websites, or Books.
+* Add "Smart Bibliography" (see github repo for full details).
 
 = 2.3.1 =
 * Fix poor rendering of tooltip close icon on mobile.

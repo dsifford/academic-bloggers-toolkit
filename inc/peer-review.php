@@ -359,12 +359,6 @@ function abt_image_enqueue() {
 
         // Registers and enqueues the required javascript.
         wp_register_script( 'abt-metaboxes', plugins_url('academic-bloggers-toolkit/inc/js/metaboxes.js') );
-        wp_localize_script( 'abt-metaboxes', 'meta_image',
-            array(
-                'title' => __( 'Choose or Upload an Image', 'abt-textdomain' ),
-                'button' => __( 'Use this image', 'abt-textdomain' ),
-            )
-        );
 		wp_localize_script( 'abt-metaboxes', 'ABT_locationInfo', array(
 			'jsURL' => plugins_url('academic-bloggers-toolkit/inc/js/'),
 			'tinymceViewsURL' => plugins_url('academic-bloggers-toolkit/inc/js/tinymce-views/')
