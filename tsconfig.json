@@ -44,6 +44,7 @@
         "inc/js/utils/HelperFunctions-bak.ts",
         "inc/js/utils/HelperFunctions.ts",
         "inc/js/utils/Parsers.ts",
+        "inc/js/utils/PubmedAPI.ts",
         "typings/main.d.ts",
         "typings/react-dom/index.d.ts",
         "typings/react/index.d.ts",

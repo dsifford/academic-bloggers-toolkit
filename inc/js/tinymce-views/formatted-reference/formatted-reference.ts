@@ -49,7 +49,6 @@ class ReferenceWindow {
     this.form.addEventListener('submit', this._submitForm.bind(this));
     this.buttons.searchPubmed.addEventListener('click', () => {
       let wm = top.tinyMCE.activeEditor.windowManager;
-      console.log(wm)
       wm.open(<TinyMCEWindowMangerObject>{
         title: 'Search PubMed for Reference',
         url: wm.windows[0].settings.params.baseUrl + 'pubmed-window/pubmed-window.html',
