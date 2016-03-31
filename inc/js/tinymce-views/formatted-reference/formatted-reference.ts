@@ -1,6 +1,5 @@
 import { showHide } from '../../utils/HelperFunctions.ts';
 import Modal from '../../components/Modal.ts';
-import PubmedWindow from '../../components/PubmedWindow.ts';
 
 class ReferenceWindow {
 
@@ -50,7 +49,15 @@ class ReferenceWindow {
     this.form.addEventListener('submit', this._submitForm.bind(this));
     this.buttons.searchPubmed.addEventListener('click', () => {
       let wm = top.tinyMCE.activeEditor.windowManager;
-      new PubmedWindow(wm);
+      console.log(wm)
+      wm.open(<TinyMCEWindowMangerObject>{
+        title: 'Search PubMed for Reference',
+        url: wm.windows[0].settings.params.baseUrl + 'pubmed-window/pubmed-window.html',
+        width: 600,
+        height: 100,
+        onclose: (e: any) => {},
+        }
+      );
     });
   }
 

@@ -46,7 +46,7 @@ gulp.task('serve', ['build'], function() {
     open: false,
   });
 
-  gulp.watch('./inc/**/*.ts', ['webpack']).on('change', browserSync.reload);
+  gulp.watch(['./inc/**/*.ts', './inc/**/*.tsx'], ['webpack']).on('change', browserSync.reload);
   gulp.watch('./inc/**/*.scss', ['sass']);
   gulp.watch([
     './inc/**/*',

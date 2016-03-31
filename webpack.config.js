@@ -6,6 +6,7 @@ module.exports = {
     'inc/js/tinymce-views/formatted-reference/formatted-reference': './inc/js/tinymce-views/formatted-reference/formatted-reference.ts',
     'inc/js/tinymce-views/inline-citation/inline-citation': './inc/js/tinymce-views/inline-citation/inline-citation.ts',
     'inc/js/metaboxes': './inc/js/metaboxes.ts',
+    'inc/js/tinymce-views/pubmed-window/pubmed-window': './inc/js/tinymce-views/pubmed-window/pubmed-window.tsx',
   },
   output: {
     filename: '[name].js',
@@ -14,13 +15,13 @@ module.exports = {
   module: {
     loaders: [
       {
-        test: /\.(ts|tsx)$/,
+        test: /\.tsx?$/,
         exclude: /node_modules/,
-        loader: 'awesome-typescript-loader',
+        loader: 'ts-loader',
       }
     ],
     resolve: {
-      extensions: ['', '.ts', '.js']
+      extensions: ['', '.ts', 'tsx', '.js']
     }
   }
 }

@@ -1,0 +1,9 @@
+{
+  "name": "academic-bloggers-toolkit",
+  "version": false,
+  "dependencies": {},
+  "ambientDependencies": {
+    "react": "registry:dt/react#0.14.0+20160319053454",
+    "react-dom": "registry:dt/react-dom#0.14.0+20160316155526"
+  }
+}

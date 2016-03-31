@@ -43,6 +43,9 @@ tinyMCE.PluginManager.add('abt_main_menu', (editor, url: string) => {
       url: ABT_locationInfo.tinymceViewsURL + 'formatted-reference/formatted-reference.html',
       width: 600,
       height: 100,
+      params: {
+        baseUrl: ABT_locationInfo.tinymceViewsURL
+      },
       onclose: (e: any) => {
 
         // If the user presses the exit button, return.

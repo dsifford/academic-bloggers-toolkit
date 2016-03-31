@@ -1,0 +1,52 @@
+{
+    "compilerOptions": {
+        "target": "es5",
+        "module": "commonjs",
+        "moduleResolution": "node",
+        "isolatedModules": false,
+        "jsx": "react",
+        "experimentalDecorators": true,
+        "emitDecoratorMetadata": true,
+        "declaration": false,
+        "noImplicitAny": false,
+        "noImplicitUseStrict": false,
+        "removeComments": true,
+        "noLib": false,
+        "preserveConstEnums": true,
+        "suppressImplicitAnyIndexErrors": true
+    },
+    "filesGlob": [
+        "**/*.ts",
+        "**/*.tsx",
+        "!node_modules/**",
+        "../../typings/**"
+    ],
+    "exclude": [
+        "node_modules",
+        "typings/browser",
+        "typings/browser.d.ts",
+        "dist"
+    ],
+    "compileOnSave": false,
+    "buildOnSave": false,
+    "atom": {
+        "rewriteTsconfig": true
+    },
+    "files": [
+        "inc/js/ABT.d.ts",
+        "inc/js/components/Modal.ts",
+        "inc/js/frontend.ts",
+        "inc/js/metaboxes.ts",
+        "inc/js/tinymce-entrypoint.ts",
+        "inc/js/tinymce-views/formatted-reference/formatted-reference.ts",
+        "inc/js/tinymce-views/inline-citation/inline-citation.ts",
+        "inc/js/utils/Dispatcher.ts",
+        "inc/js/utils/HelperFunctions-bak.ts",
+        "inc/js/utils/HelperFunctions.ts",
+        "inc/js/utils/Parsers.ts",
+        "typings/main.d.ts",
+        "typings/react-dom/index.d.ts",
+        "typings/react/index.d.ts",
+        "inc/js/tinymce-views/pubmed-window/pubmed-window.tsx"
+    ]
+}
