@@ -44,7 +44,7 @@ tinyMCE.PluginManager.add('abt_main_menu', (editor, url: string) => {
       width: 600,
       height: 100,
       params: {
-        baseUrl: ABT_locationInfo.tinymceViewsURL
+        baseUrl: ABT_locationInfo.tinymceViewsURL,
       },
       onclose: (e: any) => {
 
@@ -70,7 +70,6 @@ tinyMCE.PluginManager.add('abt_main_menu', (editor, url: string) => {
   };
 
   let generateSmartBib = function() {
-    console.log(this)
     let dom: HTMLDocument = editor.dom.doc;
     let existingSmartBib: HTMLOListElement = <HTMLOListElement>dom.getElementById('abt-smart-bib');
 

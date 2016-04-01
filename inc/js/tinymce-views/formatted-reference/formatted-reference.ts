@@ -15,6 +15,7 @@ class ReferenceWindow {
     mainContainer: <HTMLDivElement>document.getElementById('main-container'),
     pubmedContainer: <HTMLDivElement>document.getElementById('pubmed-container'),
     manualContainer: <HTMLDivElement>document.getElementById('manual-container'),
+    attachInline: <HTMLDivElement>document.getElementById('attach-inline-container'),
   }
 
   public form: HTMLFormElement = <HTMLFormElement>document.getElementById('main-form');
@@ -26,6 +27,7 @@ class ReferenceWindow {
   public inputs = {
     pmidInput: <HTMLInputElement>document.getElementById('pmid-input'),
     includeLink: <HTMLInputElement>document.getElementById('include-link'),
+    attachInline: <HTMLInputElement>document.getElementById('attach-inline'),
   }
 
   public manualComponents = {
@@ -43,6 +45,11 @@ class ReferenceWindow {
     this.modal.resize();
     this._addAuthorRow();
 
+    let existingSmartBib = top.tinyMCE.activeEditor.dom.doc.getElementById('abt-smart-bib');
+    if (existingSmartBib !== null) {
+      this.containers.attachInline.style.display = 'flex';
+    }
+
     this.buttons.toggleAddManually.addEventListener('click', this._toggleAddManually.bind(this));
     this.buttons.addAuthor.addEventListener('click', this._addAuthorRow.bind(this));
     this.selections.manualCitationType.addEventListener('change', this._manualCitationChange.bind(this));
@@ -54,7 +61,15 @@ class ReferenceWindow {
         url: wm.windows[0].settings.params.baseUrl + 'pubmed-window/pubmed-window.html',
         width: 600,
         height: 100,
-        onclose: (e: any) => {},
+        onsubmit: (e: any) => {
+          if (this.inputs.pmidInput.value === '') {
+            this.inputs.pmidInput.value = (e.target as any).data.pmid;
+            return;
+          }
+          let combinedInput = this.inputs.pmidInput.value.split(',');
+          combinedInput.push((e.target as any).data.pmid)
+          this.inputs.pmidInput.value = combinedInput.join(',');
+        },
         }
       );
     });

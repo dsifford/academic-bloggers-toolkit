@@ -3,19 +3,15 @@ import * as ReactDOM from 'react-dom'
 import Modal from '../../components/Modal.ts';
 import { PubmedQuery } from '../../utils/PubmedAPI.ts';
 
-interface P {
+declare var wm;
 
-}
+/** TODO: Better handling of "next" button for paginator */
 
-interface S {
-  query: string
-  results: Object[]
-  page: number
-}
-
-class PubmedWindow extends React.Component<P, S> {
+class PubmedWindow extends React.Component
+<{}, {query: string, results: Object[], page: number}> {
 
   private modal: Modal = new Modal('Search PubMed for Reference');
+  private wm: any = top.window.tinyMCE.activeEditor.windowManager.windows[top.window.tinyMCE.activeEditor.windowManager.windows.length - 1];
 
   constructor() {
     super();
@@ -33,7 +29,6 @@ class PubmedWindow extends React.Component<P, S> {
   _handleSubmit(e: Event) {
     e.preventDefault();
     PubmedQuery(this.state.query, (data) => {
-      console.log(data)
       this.setState({
         query: '',
         results: data,
@@ -41,7 +36,6 @@ class PubmedWindow extends React.Component<P, S> {
       })
       this.modal.resize();
     });
-
   }
 
   _changeHandler(e: Event) {
@@ -70,38 +64,85 @@ class PubmedWindow extends React.Component<P, S> {
     }, 200);
   }
 
+  _insertPMID(e: Event) {
+    this.wm.data['pmid'] = (e.target as HTMLInputElement).dataset['pmid'];
+    this.wm.submit();
+  }
+
   render() {
     return (
       <div>
-        <form id="query" onSubmit={this._handleSubmit.bind(this)}>
-          <div className="row" style={{display: 'flex'}}>
+        <form id='query' onSubmit={this._handleSubmit.bind(this)} style={{margin: 0}}>
+          <div className='row' style={{display: 'flex'}}>
             <input
-              type="text"
+              type='text'
               style={{flexGrow: '1'}}
               onChange={this._changeHandler.bind(this)}
+              autoFocus={true}
+              placeholder={generatePlaceholder()}
+              value={this.state.query}
             />
-            <input type="submit" value="Search" className="submit-btn" disabled={!this.state.query} />
+            <input type='submit' value='Search' className='submit-btn' disabled={!this.state.query} />
           </div>
         </form>
-        <ResultList results={this.state.results.filter((result, i) => {
-          if ( i < (this.state.page * 5) && ((this.state.page * 5) - 6) < i ) {
-            return true;
-          }
-        })} />
-        <Paginate page={this.state.page} onClick={this._handlePagination.bind(this)} />
+        { this.state.results.length !== 0 &&
+          <ResultList onClick={this._insertPMID.bind(this)} results={this.state.results.filter((result, i) => {
+            if ( i < (this.state.page * 5) && ((this.state.page * 5) - 6) < i ) {
+              return true;
+            }
+          })} />
+        }
+        { this.state.results.length !== 0 &&
+          <Paginate page={this.state.page} onClick={this._handlePagination.bind(this)} />
+        }
       </div>
     )
   }
 }
 
 const ResultList = ({
-  results
+  results,
+  onClick
 }) => {
   return(
     <div>
-      <ol>
-        {results.map((result, i: number) => <li key={i}>{result.title}</li> )}
-      </ol>
+      {results.map((result, i: number) =>
+        <div key={i} style={
+          {
+            background: i % 2 == 0 ? '#fafafa' : 'white',
+            minHeight: 100,
+            display: 'flex',
+            alignItems: 'center',
+          }
+        }>
+          <div style={{display: 'flex', flex: '1', flexDirection: 'column', fontSize: '0.85em'}}>
+              <div>
+                <a href={`http://www.pubmed.com/${result.uid}`} target='_blank'>{result.title}</a>
+              </div>
+              <div>
+                {result.authors.filter((el, i) => i < 3).map(el => el.name).join(', ')}
+              </div>
+              <div style={{fontSize: '0.9em'}}>
+                <em>{result.source}</em> | {result.pubdate}
+              </div>
+          </div>
+          <div style={{padding: '0 10px'}}>
+            <input
+              type='button'
+              className='btn'
+              data-pmid={result.uid}
+              value='Add Reference'
+              style={{
+                whiteSpace: 'normal',
+                width: 90,
+                height: 'auto',
+                lineHeight: '1em',
+                padding: '10px'}
+              }
+              onClick={onClick} />
+          </div>
+        </div>
+      )}
     </div>
   )
 }
@@ -111,15 +152,35 @@ const Paginate = ({
   onClick
 }) => {
   return (
-    <div style={{display: 'flex'}}>
+    <div style={{display: 'flex', paddingTop: '5px'}}>
       <div style={{flex: '1'}}>
         <input id='prev' type='button' className='btn' disabled={page < 2} onClick={onClick} value='Previous' />
       </div>
       <div style={{flex: '1', textAlign: 'right'}}>
-        <input id='next' type='button' className='btn' disabled={page > 3} onClick={onClick} value='Next' />
+        <input id='next' type='button' className='btn' disabled={page > 3 || page === 0} onClick={onClick} value='Next' />
       </div>
     </div>
   )
+}
+
+
+function generatePlaceholder(): string {
+
+  let options = [
+    "Ioannidis JP[Author - First] AND meta research",
+    'Brohi K[Author - First] AND "acute traumatic coagulopathy"',
+    "Dunning[Author] AND Kruger[Author] AND incompetence",
+    "parachute use AND death prevention AND BMJ[Journal]",
+    "obediance AND Milgram S[Author - First]",
+    "tranexamic acid AND trauma NOT arthroscopy AND Lancet[Journal]",
+    'Watson JD[Author] AND Crick FH[Author] AND "nucleic acid"',
+    'innovation OR ("machine learning" OR "deep learning") AND healthcare',
+    "injuries NOT orthopedic AND hemorrhage[MeSH]",
+    "resident OR student AND retention",
+  ];
+
+  return options[Math.ceil(Math.random() * 10) - 1];
+
 }
 
 

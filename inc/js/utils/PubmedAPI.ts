@@ -20,7 +20,6 @@ export function PubmedQuery(query: string, callback: Function): void {
       console.log('error')
     }
 
-    console.log(res)
     getData(res.esearchresult.idlist.join(), callback);
 
   };
@@ -51,6 +50,7 @@ function getData(PMIDlist: string, callback: Function): void {
     let iterable = [];
 
     for (let i in (res.result as Object)) {
+      if (i === 'uids') { continue; }
       iterable.push(res.result[i]);
     }
 

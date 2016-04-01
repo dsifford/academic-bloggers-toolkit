@@ -4,6 +4,7 @@ import { AMA, APA } from './Parsers.ts';
 export default class Dispatcher {
   public citationFormat: string;
   public includeLink: boolean;
+  public attachInline: boolean;
   public manualCitationType: string;
   public PMIDquery: string;
   public editor: any;
@@ -16,6 +17,7 @@ export default class Dispatcher {
                    : '';
     this.manualCitationType = data['manual-type-selection'];
     this.includeLink = data['include-link'];
+    this.attachInline = data['attach-inline']
     this.editor = editor;
     let smartBib = <HTMLOListElement>(this.editor.dom.doc as HTMLDocument)
                       .getElementById('abt-smart-bib') as HTMLOListElement;
@@ -145,10 +147,15 @@ export default class Dispatcher {
     }
 
     if (this.smartBib) {
+      let beforeLength: number = (this.smartBib as HTMLOListElement).children.length;
       for (let key in (payload as string[])) {
         let listItem = (this.editor.dom.doc as HTMLDocument).createElement('LI');
         listItem.innerHTML = payload[key];
         (this.smartBib as HTMLOListElement).appendChild(listItem);
+      }
+      if (this.attachInline) {
+        let afterLength: number = (this.smartBib as HTMLOListElement).children.length;
+        this.editor.insertContent(`[cite num="${beforeLength + 1}-${afterLength}"]`);
       }
       this.editor.setProgressState(0);
       return;

@@ -115,7 +115,6 @@ export class AMA {
   }
 
   private _parseBook(data: ReferencePayload): string {
-    console.log(data)
     let authors = this._parseAuthors(data[0].authors);
     let title = data[0].title;
     let pubLocation = data[0].location !== ''

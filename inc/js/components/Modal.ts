@@ -3,6 +3,7 @@ export default class Modal {
   public title: string
   public outer: HTMLElement
   public inner: HTMLElement
+  public mceReset: HTMLElement
   public mainRect: HTMLElement
   public initialSize: {
     outer: number
@@ -20,9 +21,8 @@ export default class Modal {
 
   public resize(): void {
     let height = this.mainRect.getBoundingClientRect().height;
-    let position = `calc(50% - ${(height + 66) / 2}px)`;
-    this.outer.style.height = height + 66 + 'px';
-    this.inner.style.height = height + 30 + 'px';
+    let position = `calc(50% - ${(height + 56) / 2}px)`;
+    this.outer.style.height = height + 56 + 'px';
     this.outer.style.top = position;
   };
 
@@ -31,7 +31,10 @@ export default class Modal {
     let innerModalID: string = `${outerModalID}-body`;
     this.outer = top.document.getElementById(outerModalID);
     this.inner = top.document.getElementById(innerModalID);
+    this.mceReset = this.outer.children[0] as HTMLElement;
     this.mainRect = document.getElementById('main-container');
+    this.mceReset.style.height = '100%';
+    this.inner.style.height = '100%';
   }
 
 }
