@@ -12,6 +12,7 @@ services:
     environment:
       DB_NAME: wordpress
       DB_PASS: root
+      WP_DEBUG: 'true'
   db:
     image: mysql:5.7
     ports:
