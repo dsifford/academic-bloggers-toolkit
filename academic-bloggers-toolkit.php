@@ -3,11 +3,11 @@
 /*
  *	Plugin Name: Academic Blogger's Toolkit
  *	Plugin URI: https://wordpress.org/plugins/academic-bloggers-toolkit/
- *	Description: A Wordpress plugin extending the functionality of Wordpress for Academic Blogging
+ *	Description: A plugin extending the functionality of Wordpress for academic blogging
  *	Version: 2.4.0
  *	Author: Derek P Sifford
- *	Author URI: http://www.twitter.com/flightmed1
- *	License: MIT
+ *	Author URI: https://github.com/dsifford
+ *	License: GPL3 or later
  */
 
 // Assign Global Variables

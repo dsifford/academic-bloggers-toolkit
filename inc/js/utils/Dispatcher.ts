@@ -1,5 +1,5 @@
-import { AMA, APA } from './Parsers.ts';
-import './HelperFunctions.ts';
+import { AMA, APA } from './Parsers';
+import './PrototypeFunctions';
 
 export default class Dispatcher {
   public citationFormat: string;

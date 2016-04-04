@@ -1,19 +1,17 @@
 {
   "name": "academic-bloggers-toolkit",
-  "version": "2.3.0",
+  "version": "2.4.0",
   "description": "A plugin extending the functionality of WordPress for Academic Blogging.",
   "main": "index.js",
   "scripts": {
-    "build": "gulp build",
-    "serve": "gulp serve",
-    "deploy": "gulp build && find ./dist -type d -empty -delete && find ./dist -name '*.map' -type f -delete"
+    "test": "jest"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/dsifford/academic-bloggers-toolkit.git"
   },
   "author": "Derek P Sifford",
-  "license": "MIT",
+  "license": "GPL3 or later",
   "bugs": {
     "url": "https://github.com/dsifford/academic-bloggers-toolkit/issues"
   },
@@ -29,11 +27,22 @@
     "gulp-clean-css": "^2.0.4",
     "gulp-sass": "^2.2.0",
     "gulp-uglify": "^1.5.3",
+    "jest-cli": "^0.10.0",
     "react": "^0.14.8",
+    "react-addons-test-utils": "^0.14.8",
     "react-dom": "^0.14.8",
     "ts-loader": "^0.8.1",
     "typescript": "^1.8.9",
     "webpack": "^1.12.14",
     "webpack-stream": "^3.1.0"
+  },
+  "jest": {
+    "scriptPreprocessor": "jestPreprocessor.js",
+    "testFileExtensions": ["ts", "tsx", "js"],
+    "unmockedModulePathPatterns": [
+      "<rootDir>/node_modules/react",
+      "<rootDir>/node_modules/react-dom",
+      "<rootDir>/node_modules/react-addons-test-utils"
+    ]
   }
 }

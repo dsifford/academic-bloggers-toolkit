@@ -3,10 +3,10 @@ module.exports = {
   entry: {
     'inc/js/tinymce-entrypoint': './inc/js/tinymce-entrypoint.ts',
     'inc/js/frontend': './inc/js/frontend.ts',
-    'inc/js/components/referenceWindow': './inc/js/components/referenceWindow.tsx',
-    'inc/js/components/inline-citation': './inc/js/components/inline-citation.ts',
+    'inc/js/components/ReferenceWindow': './inc/js/components/ReferenceWindow.tsx',
+    'inc/js/components/CitationWindow': './inc/js/components/CitationWindow.tsx',
     'inc/js/metaboxes': './inc/js/metaboxes.ts',
-    'inc/js/components/pubmed-window': './inc/js/components/pubmed-window.tsx',
+    'inc/js/components/PubmedWindow': './inc/js/components/PubmedWindow.tsx',
   },
   output: {
     filename: '[name].js',
@@ -20,8 +20,8 @@ module.exports = {
         loader: 'babel?presets[]=es2015!ts',
       },
     ],
-    resolve: {
-      extensions: ['', '.ts', 'tsx', '.js'],
-    },
+  },
+  resolve: {
+    extensions: ['', '.ts', '.tsx', '.js'],
   },
 };

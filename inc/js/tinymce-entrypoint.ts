@@ -1,8 +1,7 @@
-/// <reference path="./ABT.d.ts"/>
-import Dispatcher from './utils/Dispatcher.ts';
+import Dispatcher from './utils/Dispatcher';
+import { parseInlineCitationString } from './utils/HelperFunctions';
 
 declare var tinyMCE, ABT_locationInfo
-
 
 tinyMCE.PluginManager.add('abt_main_menu', (editor, url: string) => {
 
@@ -15,7 +14,6 @@ tinyMCE.PluginManager.add('abt_main_menu', (editor, url: string) => {
     type: 'menubutton',
     icon: 'abt_menu dashicons-welcome-learn-more',
     title: 'Academic Blogger\'s Toolkit',
-    // icon: true,
     menu: [],
   };
 
@@ -24,19 +22,19 @@ tinyMCE.PluginManager.add('abt_main_menu', (editor, url: string) => {
   //==================================================
 
   let openInlineCitationWindow = () => {
-    editor.windowManager.open(<TinyMCEWindowMangerObject>{
-      title: 'Inline Citation',
-      url: ABT_locationInfo.tinymceViewsURL + 'inline-citation.html',
-      width: 400,
-      height: 85,
-      onClose: (e) => {
-        if (!e.target.params.data) { return; }
-        editor.insertContent(
-          '[cite num=&quot;' + e.target.params.data + '&quot;]'
-        );
-      }
-    });
-  }
+      editor.windowManager.open(<TinyMCEWindowMangerObject>{
+        title: 'Inline Citation',
+        url: ABT_locationInfo.tinymceViewsURL + 'citation-window.html',
+        width: 400,
+        height: 85,
+        onClose: (e) => {
+          if (!e.target.params.data) { return; }
+          editor.insertContent(
+            '[cite num=&quot;' + parseInlineCitationString(e.target.params.data) + '&quot;]'
+          );
+        }
+      });
+    }
 
   let openFormattedReferenceWindow = () => {
     editor.windowManager.open(<TinyMCEWindowMangerObject>{
@@ -61,12 +59,10 @@ tinyMCE.PluginManager.add('abt_main_menu', (editor, url: string) => {
 
         if (payload.addManually === true) {
           refparser.fromManualInput(payload);
-          // editor.setProgressState(0);
           return;
         }
 
         refparser.fromPMID();
-
       },
     });
   };
@@ -91,8 +87,6 @@ tinyMCE.PluginManager.add('abt_main_menu', (editor, url: string) => {
   }
 
 
-
-
   //==================================================
   //                 MENU ITEMS
   //==================================================
@@ -111,7 +105,6 @@ tinyMCE.PluginManager.add('abt_main_menu', (editor, url: string) => {
     onclick: openInlineCitationWindow,
   }
   editor.addShortcut('meta+alt+c', 'Insert Inline Citation', openInlineCitationWindow);
-
 
   let formattedReference: TinyMCEMenuItem = {
     text: 'Formatted Reference',

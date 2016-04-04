@@ -1,14 +1,14 @@
 === Academic Blogger's Toolkit ===
 Contributors: dsifford
 Donate link: https://cash.me/$dsifford
-Tags: academic, pmid, doi, peer-review, Google Tag Manager, citation, bibliography
+Tags: academic, pmid, doi, peer-review, pubmed, citation, bibliography, reference
 Requires at least: 4.2.2
-Tested up to: 4.2.2
+Tested up to: 4.5
 Stable tag: 2.4.0
 License: GPL3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
-A WordPress plugin extending the functionality of WordPress for Academic Blogging.
+A plugin extending the functionality of Wordpress for academic blogging.
 
 == Description ==
 
@@ -61,6 +61,13 @@ Yikes! I'm sorry about that. Please report all issues on the Academic Blogger's 
 * Details for nerds:
     * Full rewrite; a majority of which is using React by Facebook.
     * Speed improvements & resource minification.
+
+Documentation improvements will be added within the next few days.
+
+**Note:** Due to the magnitude of this update, there may be bugs that I have not encountered (although, I did test this pretty heavily).
+If you run into any problems, have any questions, or experience a bug, please file an issue [here](https://github.com/dsifford/academic-bloggers-toolkit/issues).
+
+A special thanks to @metallikat36 for the great suggestions that led directly to the features added in this update.
 
 = 2.3.1 =
 * Fix poor rendering of tooltip close icon on mobile.

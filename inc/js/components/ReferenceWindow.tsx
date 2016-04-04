@@ -1,6 +1,6 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import Modal from '../utils/Modal.ts';
+import Modal from '../utils/Modal';
 
 interface Author {
   firstname: string

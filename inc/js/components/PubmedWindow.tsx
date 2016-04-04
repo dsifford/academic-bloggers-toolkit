@@ -1,7 +1,7 @@
 import * as React from 'react'
 import * as ReactDOM from 'react-dom'
-import Modal from '../utils/Modal.ts';
-import { PubmedQuery } from '../utils/PubmedAPI.ts';
+import Modal from '../utils/Modal';
+import { PubmedQuery } from '../utils/PubmedAPI';
 
 declare var wm;
 

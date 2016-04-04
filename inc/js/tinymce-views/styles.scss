@@ -28,7 +28,7 @@ body {
     font-size: 13px;
     height: 30px;
     line-height: 31px;
-    margin: 0;
+    margin: 2px 0;
     padding: 0 12px 2px;
     vertical-align: top;
     white-space: nowrap;
@@ -148,4 +148,30 @@ kbd {
     font-size: 15px;
     background: #eaeaea;
     background: rgba(0,0,0,.08)
+}
+
+.cite-row {
+    padding: 5px;
+    font-size: 0.8em;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+
+    &.even {
+        background: #fafafa;
+        border: 1px solid #ccc;
+        border-left: none;
+        border-right: none;
+    }
+
+    &:hover {
+        cursor: pointer;
+    }
+}
+
+.cite-selected {
+    background: rgba(0, 133, 186, 0.5)!important;
 }
