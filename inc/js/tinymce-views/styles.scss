@@ -120,6 +120,7 @@ input, select {
     &:invalid {
         background: #f6c9cc;
         color: #dc3232;
+        border: solid #E58383 1px;
     }
 
 }
@@ -137,4 +138,14 @@ a {
     &:hover {
         color: #00a0d2;
     }
+}
+
+kbd {
+    font-family: monospace;
+    padding: 2px 7px 3px;
+    font-weight: 400;
+    margin: 0;
+    font-size: 15px;
+    background: #eaeaea;
+    background: rgba(0,0,0,.08)
 }

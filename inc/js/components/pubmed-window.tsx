@@ -1,11 +1,10 @@
 import * as React from 'react'
 import * as ReactDOM from 'react-dom'
-import Modal from '../../components/Modal.ts';
-import { PubmedQuery } from '../../utils/PubmedAPI.ts';
+import Modal from '../utils/Modal.ts';
+import { PubmedQuery } from '../utils/PubmedAPI.ts';
 
 declare var wm;
 
-/** TODO: Better handling of "next" button for paginator */
 
 class PubmedWindow extends React.Component
 <{}, {query: string, results: Object[], page: number}> {
@@ -28,10 +27,14 @@ class PubmedWindow extends React.Component
 
   _handleSubmit(e: Event) {
     e.preventDefault();
-    PubmedQuery(this.state.query, (data) => {
+    PubmedQuery(this.state.query, (data: Object[]|Error) => {
+      if ((data as Error).name == 'Error') {
+        top.tinyMCE.activeEditor.windowManager.alert((data as Error).message);
+        return;
+      }
       this.setState({
         query: '',
-        results: data,
+        results: (data as Object[]),
         page: 1,
       })
       this.modal.resize();
@@ -93,7 +96,10 @@ class PubmedWindow extends React.Component
           })} />
         }
         { this.state.results.length !== 0 &&
-          <Paginate page={this.state.page} onClick={this._handlePagination.bind(this)} />
+          <Paginate
+            page={this.state.page}
+            onClick={this._handlePagination.bind(this)}
+            resultLength={this.state.results.length } />
         }
       </div>
     )
@@ -149,15 +155,28 @@ const ResultList = ({
 
 const Paginate = ({
   page,
-  onClick
+  onClick,
+  resultLength,
 }) => {
   return (
     <div style={{display: 'flex', paddingTop: '5px'}}>
       <div style={{flex: '1'}}>
-        <input id='prev' type='button' className='btn' disabled={page < 2} onClick={onClick} value='Previous' />
+        <input
+          id='prev'
+          type='button'
+          className='btn'
+          disabled={page < 2}
+          onClick={onClick}
+          value='Previous' />
       </div>
       <div style={{flex: '1', textAlign: 'right'}}>
-        <input id='next' type='button' className='btn' disabled={page > 3 || page === 0} onClick={onClick} value='Next' />
+        <input
+          id='next'
+          type='button'
+          className='btn'
+          disabled={page > 3 || page === 0 || ((page + 1) * 5) > resultLength }
+          onClick={onClick}
+          value='Next' />
       </div>
     </div>
   )

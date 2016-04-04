@@ -1,5 +1,5 @@
 import { AMA, APA } from './Parsers.ts';
-
+import './HelperFunctions.ts';
 
 export default class Dispatcher {
   public citationFormat: string;
@@ -11,13 +11,13 @@ export default class Dispatcher {
   public smartBib: HTMLOListElement|boolean
 
   constructor(data: ReferenceFormData, editor: Object) {
-    this.citationFormat = data['citation-format'];
-    this.PMIDquery = data['pmid-input'] !== '' && data['pmid-input'] !== undefined
-                   ? data['pmid-input'].replace(/\s/g, '')
+    this.citationFormat = data.citationFormat;
+    this.PMIDquery = data.pmidList !== ''
+                   ? data.pmidList.replace(/\s/g, '')
                    : '';
-    this.manualCitationType = data['manual-type-selection'];
-    this.includeLink = data['include-link'];
-    this.attachInline = data['attach-inline']
+    this.manualCitationType = data.manualData.type;
+    this.includeLink = data.includeLink;
+    this.attachInline = data.attachInline;
     this.editor = editor;
     let smartBib = <HTMLOListElement>(this.editor.dom.doc as HTMLDocument)
                       .getElementById('abt-smart-bib') as HTMLOListElement;
@@ -36,29 +36,51 @@ export default class Dispatcher {
     let cleanedData: ReferenceObj;
     let type = this.manualCitationType;
 
-    // Reformat name to Last Name, First Initial
-    let authors: Author[] = data.authors.map((author: Author) => {
-      let name =
-        `${author.name.split(' ')[1]} ${author.name.split(' ')[0][0]}`;
-      return {name};
-    })
+    // Reformat name to <last> <firstinitial><middleinitial>
+    let authors: Author[] = data.manualData.authors.map((author: any) => {
+      let name = this._prepareName(author);
+      return { name };
+    });
 
-    let title: string = data[`${type}-title`].toTitleCase();
-    let source: string = data[`${type}-source`];
-    let pubdate: string = data[`${type}-date`] || '';
-    let volume: string = data[`${type}-volume`] || '';
-    let issue: string = data[`${type}-issue`] || '';
-    let pages: string = data[`${type}-pages`] || '';
-    let lastauthor: string = data.authors.length > 0
-      ? data.authors[data.authors.length - 1].name
+    let meta: JournalMeta|BookMeta|WebsiteMeta = data.manualData.meta[type];
+
+    let title: string = meta.title.toTitleCase();
+    let source: string = meta.source;
+    let pubdate: string = meta.pubdate;
+    let lastauthor: string = data.manualData.authors.length > 0
+      ? this._prepareName(data.manualData.authors[data.manualData.authors.length - 1])
       : '';
-    let url: string = data[`${type}-url`] || '';
-    let accessdate: string = data[`${type}-accessed`] || '';
-    let updated: string = data[`${type}-updated`] || '';
-    let location: string = data[`${type}-location`] || '';
-    let chapter: string = data[`${type}-chapter`] || '';
-    let edition: string = data[`${type}-edition`] || '';
 
+    let volume: string;
+    let issue: string;
+    let pages: string;
+
+    let url: string;
+    let accessdate: string;
+    let updated: string;
+
+    let location: string;
+    let chapter: string;
+    let edition: string;
+
+    switch (type) {
+      case 'journal':
+        volume = (meta as JournalMeta).volume;
+        issue = (meta as JournalMeta).issue;
+        pages = (meta as JournalMeta).pages;
+        break;
+      case 'website':
+        url = (meta as WebsiteMeta).url;
+        accessdate = (meta as WebsiteMeta).accessed;
+        updated = (meta as WebsiteMeta).updated;
+        break;
+      case 'book':
+        pages = (meta as BookMeta).pages;
+        location = (meta as BookMeta).location;
+        chapter = (meta as BookMeta).chapter;
+        edition = (meta as BookMeta).edition;
+        break;
+    }
 
     cleanedData = {
       authors,
@@ -95,6 +117,13 @@ export default class Dispatcher {
 
     this._deliverContent(payload);
 
+  }
+
+  private _prepareName(author: Author): string {
+    return( author.lastname[0].toUpperCase() +
+      author.lastname.substring(1, author.lastname.length) + ' ' +
+      author.firstname[0].toUpperCase() + author.middleinitial.toUpperCase()
+    )
   }
 
 
@@ -147,7 +176,7 @@ export default class Dispatcher {
     }
 
     if (this.smartBib) {
-      let beforeLength: number = (this.smartBib as HTMLOListElement).children.length;
+      let beforeLength: number = (this.smartBib as HTMLOListElement).children.length + 1;
       for (let key in (payload as string[])) {
         let listItem = (this.editor.dom.doc as HTMLDocument).createElement('LI');
         listItem.innerHTML = payload[key];
@@ -155,7 +184,7 @@ export default class Dispatcher {
       }
       if (this.attachInline) {
         let afterLength: number = (this.smartBib as HTMLOListElement).children.length;
-        this.editor.insertContent(`[cite num="${beforeLength + 1}-${afterLength}"]`);
+        this.editor.insertContent(`[cite num="${beforeLength}${afterLength > beforeLength ? '-' + afterLength : ''}"]`);
       }
       this.editor.setProgressState(0);
       return;

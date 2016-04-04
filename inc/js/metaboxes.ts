@@ -1,4 +1,4 @@
-declare var wp;
+declare var wp, ABT_locationInfo;
 
 class PeerReviewMetabox {
 
@@ -69,9 +69,7 @@ class PeerReviewMetabox {
 			el.style.display = 'none';
 		}
 
-		if (!e) { return; }
-
-		let selectBox = e.srcElement as HTMLSelectElement
+		let selectBox = document.getElementById('reviewer_selector') as HTMLSelectElement
     switch (selectBox.value) {
       case '3':
         this.containers.reviews[2].style.display = '';
@@ -136,7 +134,9 @@ class PeerReviewMetabox {
 }
 
 if (document.readyState != 'loading'){
-	new PeerReviewMetabox
+	if (ABT_locationInfo.postType !== 'page') { new PeerReviewMetabox; }
 } else {
-	document.addEventListener('DOMContentLoaded', () => new PeerReviewMetabox);
+	document.addEventListener('DOMContentLoaded', () => {
+		if (ABT_locationInfo.postType !== 'page') { new PeerReviewMetabox }
+	});
 }

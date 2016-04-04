@@ -9,7 +9,8 @@ export function PubmedQuery(query: string, callback: Function): void {
 
     // Handle bad request
     if (request.readyState !== 4 || request.status !== 200) {
-      console.log('Error');
+      let error = new Error('Error: PubMed Query, Phase 1 - PubMed returned a non-200 status code.');
+      callback(error);
       return;
     }
 
@@ -17,7 +18,9 @@ export function PubmedQuery(query: string, callback: Function): void {
 
     // Handle response errors
     if (res.error) {
-      console.log('error')
+      let error = new Error('Error: PubMed Query, Phase 1 - Unknown response error.');
+      callback(error);
+      return;
     }
 
     getData(res.esearchresult.idlist.join(), callback);
@@ -35,7 +38,8 @@ function getData(PMIDlist: string, callback: Function): void {
 
     // Handle bad request
     if (request.readyState !== 4 || request.status !== 200) {
-      console.log('Error');
+      let error = new Error('Error: PubMed Query, Phase 2 - PubMed returned a non-200 status code.');
+      callback(error);
       return;
     }
 
@@ -43,7 +47,9 @@ function getData(PMIDlist: string, callback: Function): void {
 
     // Handle response errors
     if (res.error) {
-      console.log('error')
+      let error = new Error('Error: PubMed Query, Phase 2 - Unknown response error.');
+      callback(error);
+      return;
     }
 
 

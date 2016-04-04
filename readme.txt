@@ -14,30 +14,15 @@ A WordPress plugin extending the functionality of WordPress for Academic Bloggin
 
 Academic Blogger's toolkit is an **open source** WordPress plugin providing an all-in-one solution for effective academic blogging.
 
-= Automatically parse references on the fly using PMID =
-- Option to add hyperlink to PubMed.
+= Feature List =
+* Insert formatted references on the fly using PMID.
+* Search and insert references from PubMed directly within WordPress.
+* **Smart Bibliography** - Insert references to a bibliography and append inline citations without breaking focus of your writing.
+* References inserted using this plugin are displayed as tooltips on hover in the post. No need to scroll down to the reference list to check the reference (unless you want to!).
+* Append up to 3 formatted Peer Reviews to blog posts via a Frontend UI integrated on the post edit screen.
 
-= Inline citations with hover tooltips showing full reference =
-- **Requirements**:
-    - A bibliography ordered list must be present **AND** the ordered list must be last one in your blog post.
-- **How to use**:
-    - Select `Bibliography Tools -> inline citation` from the options menu located on the editor and insert a list of one or more citation numbers from your bibliography list in the form of `1-4,7,9`.
-
-= Append up to 3 formatted Peer Reviews to blog posts via a Frontend UI integrated on the post edit screen =
-- Input areas for the Peer Review section include...
-	1. Reviewer Name
-	2. Reviewer Background (optional)
-	3. Reviewer Twitter Handle (optional)
-	4. Peer Review
-	5. Reviewer Photo (interfaces with WordPress's Media Uploader)
-- Option to add Author Response to Peer Reviews.
-
-= Integration with Google Tag Manager =
-- Google's newest [analytics powerhouse](http://www.google.com/tagmanager/)!
-- Track individual link clicks to see who is interacting with or downloading your content and much more!
-
-= Customizable Options =
-* CSS override area to adjust the look of any content that doesn't fit your site's style.
+= Want to learn more? =
+Check out this plugin's [GitHub Repository](https://github.com/dsifford/academic-bloggers-toolkit) for more details or to ask questions.
 
 == Installation ==
 
@@ -64,10 +49,18 @@ Yikes! I'm sorry about that. Please report all issues on the Academic Blogger's 
 == Changelog ==
 
 = 2.4.0 =
-* Full rewrite.
 * Parse multiple comma-separated PMIDs at once into an ordered list.
-* Add manual reference insertion for Journals, Websites, or Books.
-* Add "Smart Bibliography" (see github repo for full details).
+* Option to add references manually for Journals, Websites, or Books.
+* Search PubMed from WordPress!
+    * References from your search are displayed in a list similar to native PubMed and, if you find one you like, click it and it'll be inserted into your post.
+* Add optional "Smart Bibliography" feature which, if enabled, allows you to...
+    * Insert references directly to your bibliography without having to scroll down.
+    * Insert references and inline citations in one step.
+    * Choose from a visual list of references in your bibliography if you do not choose to add citations in one step.
+* If Smart Bibliography not used, the last-occurring ordered list is automatically tagged with the HTML ID `abt-smart-bib` on load to allow for more reliable tooltip rendering.
+* Details for nerds:
+    * Full rewrite; a majority of which is using React by Facebook.
+    * Speed improvements & resource minification.
 
 = 2.3.1 =
 * Fix poor rendering of tooltip close icon on mobile.

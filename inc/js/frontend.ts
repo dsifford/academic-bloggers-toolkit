@@ -2,28 +2,29 @@
 declare var DocumentTouch;
 
 
-module ABT_Frontend {
+namespace ABT_Frontend {
 
 
   export class Accordion {
 
-    private _headings: NodeList;
+    private _headings: NodeListOf<HTMLHeadingElement>;
 
     constructor() {
-      this._headings = document.querySelectorAll('#abt_PR_boxes > h3');
+      this._headings = (document.getElementsByClassName('abt_PR_heading') as NodeListOf<HTMLHeadingElement>);
 
-      for (let heading of (<any>this._headings)) {
-        let reviewContent: HTMLElement = heading.nextSibling;
+      for (let i = 0; i < this._headings.length; i++) {
+        let currentHeading = this._headings[i];
+        let reviewContent = (currentHeading.nextElementSibling as HTMLDivElement);
+
         reviewContent.style.display = 'none';
-
-        heading.addEventListener('click', this._clickHandler);
+        currentHeading.addEventListener('click', this._clickHandler);
       }
 
     }
 
     private _clickHandler(e: Event): void {
 
-      let targetContent = <HTMLElement>e.srcElement.nextSibling;
+      let targetContent = (e.srcElement.nextSibling as HTMLDivElement);
 
       // If targetContent already visible, hide it and exit
       if (targetContent.style.display != 'none') {
@@ -31,16 +32,20 @@ module ABT_Frontend {
         return;
       }
 
-      let accordionNodes = e.srcElement.parentElement.childNodes;
-      let element: HTMLElement;
+      let accordionChildren = e.srcElement.parentElement.children;
 
-      for (element of <any>accordionNodes) {
-        if (element.tagName != 'DIV') { continue; }
-        if (element.previousSibling === e.srcElement) {
-          element.style.display = '';
+      for (let i = 0; i < accordionChildren.length; i++) {
+
+        let currentElement = accordionChildren[i] as HTMLElement;
+
+        if (currentElement.tagName != 'DIV') { continue; }
+
+        if (currentElement.previousSibling === e.srcElement) {
+          currentElement.style.display = '';
           continue;
         }
-        element.style.display = 'none';
+
+        currentElement.style.display = 'none';
       }
 
     }
@@ -53,13 +58,12 @@ module ABT_Frontend {
     public static timer: number;
 
     constructor() {
-      let referenceList: HTMLOListElement = this._getReferenceList();
-      let citationList: NodeListOf<Element> = document.querySelectorAll('span.cite');
-      let citation: HTMLSpanElement;
+      let referenceList = (document.getElementById('abt-smart-bib') as HTMLOListElement);
+      let citationList = document.getElementsByClassName('abt_cite')
 
-      for (citation of <any>citationList) {
+      for (let i = 0; i < citationList.length; i++) {
 
-        let citeNums: number[] = JSON.parse(citation.dataset['reflist']);
+        let citeNums: number[] = JSON.parse((citationList[i] as HTMLSpanElement).dataset['reflist']);
         let citationHTML = citeNums.map((citeNum: number): string => {
           // Correct for zero-based index
           citeNum--;
@@ -78,28 +82,18 @@ module ABT_Frontend {
         });
 
         // Save CSV string of citenums as data attr 'citations'
-        citation.dataset['citations'] = citationHTML.join('');
+        (citationList[i] as HTMLSpanElement).dataset['citations'] = citationHTML.join('');
 
         // Conditionally create tooltip based on device
         if (this._isTouchDevice()) {
-          citation.addEventListener('touchstart', this._createTooltip.bind(this));
+          citationList[i].addEventListener('touchstart', this._createTooltip.bind(this));
         } else {
-          citation.addEventListener('mouseover', this._createTooltip.bind(this));
-          citation.addEventListener('mouseout', this._destroyTooltip);
+          citationList[i].addEventListener('mouseover', this._createTooltip.bind(this));
+          citationList[i].addEventListener('mouseout', this._destroyTooltip);
         }
 
       }
 
-    }
-
-
-    private _getReferenceList(): HTMLOListElement {
-      let orderedLists: NodeListOf<HTMLOListElement> = document.getElementsByTagName('ol');
-      for (let i = (orderedLists.length - 1); i >= 0; i--){
-        if (orderedLists[i].parentElement.className !== 'abt_chat_bubble') {
-          return orderedLists[i];
-        }
-      }
     }
 
 
@@ -109,7 +103,7 @@ module ABT_Frontend {
 
 
     private _createTooltip(e: Event): void {
-
+      e.preventDefault();
       clearTimeout(Citations.timer);
 
       let preExistingTooltip: HTMLElement = document.getElementById('abt_tooltip');
@@ -132,6 +126,7 @@ module ABT_Frontend {
 
         let closeButton: HTMLDivElement = document.createElement('div');
         let touchContainer: HTMLDivElement = document.createElement('div');
+
         touchContainer.className = 'abt_tooltip_touch_close-container';
         closeButton.className = 'abt_tooltip_touch_close';
         touchContainer.addEventListener('touchend', () => tooltip.remove());
@@ -139,9 +134,9 @@ module ABT_Frontend {
         tooltip.style.left = '0';
         tooltip.style.right = '0';
         tooltip.style.maxWidth = '90%'
+
         touchContainer.appendChild(closeButton);
         tooltip.appendChild(touchContainer);
-        // tooltip.appendChild(closeButton);
         document.body.appendChild(tooltip);
         tooltip.appendChild(tooltipArrow);
 
@@ -162,13 +157,14 @@ module ABT_Frontend {
 
       // Set tooltip above or below based on window position + set arrow position
       if ((rect.top - tooltip.offsetHeight) < 0) {
+        // On bottom - Upwards arrow
         tooltip.style.top = (rect.bottom + window.scrollY + 5) + 'px';
-        tooltipArrow.style.top = '-15px';
-        tooltipArrow.style.borderColor = 'transparent transparent #fff';
+        tooltip.style.animation = 'fadeInUp .2s';
+        tooltipArrow.classList.add('abt_arrow_up');
       } else {
+        // On top - Downwards arrow
         tooltip.style.top = (rect.top + window.scrollY - tooltip.offsetHeight - 5) + 'px';
-        tooltipArrow.style.bottom = '-15px';
-        tooltipArrow.style.borderColor = '#fff transparent transparent';
+        tooltipArrow.classList.add('abt_arrow_down');
       }
 
       tooltip.style.visibility = '';
@@ -196,7 +192,7 @@ if (document.readyState != 'loading'){
 
 function frontendJS() {
 
-  new ABT_Frontend.Citations();
-  new ABT_Frontend.Accordion();
+  new ABT_Frontend.Citations;
+  new ABT_Frontend.Accordion;
 
 }

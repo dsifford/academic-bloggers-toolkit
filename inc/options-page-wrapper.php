@@ -1,22 +1,12 @@
 <div class="wrap">
 	<div id="icon-options-general" class="icon32"></div>
-	<h2><?php esc_attr_e( "Academic Blogger's Toolkit Options", 'wp_admin_style' ); ?></h2>
-
+	<h2><?php esc_attr_e("Academic Blogger's Toolkit Options", 'wp_admin_style'); ?></h2>
 	<div id="poststuff">
-
 		<div id="post-body" class="metabox-holder columns-2">
-
-			<!-- main content -->
 			<div id="post-body-content">
-
 				<div class="meta-box-sortables ui-sortable">
-
-<!-- BEGIN CSS OVERRIDE POSTBOX -->
-
 					<div class="postbox">
-
-						<h3><span><?php esc_attr_e( 'Override CSS', 'wp_admin_style' ); ?></span></h3>
-
+						<h3><span><?php esc_attr_e('Override CSS', 'wp_admin_style'); ?></span></h3>
 						<table class="form-table">
 							<tr valign="top">
 								<td scope="row" width="50%">
@@ -29,63 +19,71 @@
 								<td width="50%" style="vertical-align: top;">
 									<table>
 										<tr>
-											<th colspan="2">Classes / IDs used in this plugin:</th>
+											<th colspan="2">CSS classes used in this plugin:</th>
 										</tr>
 										<tr>
 											<td><strong>Inline Citations:</strong></td>
-											<td><code>.cite</code></td>
+											<td><code>.abt_cite</code></td>
 										</tr>
 										<tr>
 											<td><strong>Peer Review Boxes:</strong></td>
-											<td><code>#abt_PR_boxes h3, .abt_PR_info, .abt_PR_headshot, .abt_chat_bubble</code></td>
+											<td><code>.abt_PR_heading, .abt_PR_info, .abt_PR_headshot, .abt_chat_bubble</code></td>
 										</tr>
 										<tr>
 											<td><strong>Citation Tooltips:</strong></td>
-											<td><code>.abt_tooltip, .abt_tooltip_arrow</code></td>
+											<td><code>.abt_tooltip, .abt_tooltip_arrow, .abt_tooltip_touch_close</code></td>
 										</tr>
 									</table>
 								</td>
 							</tr>
 						</table>
-
-						<!-- .inside -->
-
 					</div>
-
-<!-- END CSS OVERRIDE SECTION -->
-
-<!-- BEGIN PREFERRED CITATION STYLE POSTBOX -->
-
 					<div class="postbox">
-
-						<h3><span><?php esc_attr_e( 'Preferred Citation Style', 'wp_admin_style' ); ?></span></h3>
-
+						<h3><span><?php esc_attr_e('How do I....', 'wp_admin_style'); ?></span></h3>
 						<div class="inside">
-
-							<form method="post" name="abt_citation_style_form" action="">
-
-								<input type="hidden" name="abt_citation_style_form_submitted" value="Y">
-								<select name="abt_citation_style" id="abt_citation_style">
-									<option value="American Medical Association (AMA)" <?php selected( $selected, 'American Medical Association (AMA)' ); ?>>American Medical Association (AMA)</option>
-									<option value="American Psychological Association (APA)" <?php selected( $selected, "American Psychological Association (APA)" ); ?>>American Psychological Association (APA)</option>
-								</select>
-								<input class="button-primary" type="submit" name="abt_custom_css_submit" value="Update" />
-
-							</form>
-
+							<div style="display: flex; flex-wrap: wrap;">
+								<div style="padding: 10px; flex-grow: 1; flex-shrink: 0;">
+									<h4>Make my tooltips a different color?</h4>
+									<div style="font-family: monospace; background: #eaeaea; padding: 5px; white-space: pre-line;"
+									>.abt_tooltip {
+										&nbsp;&nbsp;background-color: magenta;
+										&nbsp;&nbsp;border: solid lime 2px;
+										}
+										.abt_arrow_up {
+										&nbsp;&nbsp;border-color: transparent transparent magenta;
+										}
+										.abt_arrow_down {
+										&nbsp;&nbsp;border-color: magenta transparent transparent;
+										}
+									</div>
+								</div>
+								<div style="padding: 10px; flex-grow: 1; flex-shrink: 0;">
+									<h4>Make my citations superscript?</h4>
+									<div style="font-family: monospace; background: #eaeaea; padding: 5px; white-space: pre-line;"
+									>.abt_cite {
+									&nbsp;&nbsp;vertical-align: super;
+									&nbsp;&nbsp;font-size: 0.8em;
+									}
+									</div>
+								</div>
+								<div style="padding: 10px; flex-grow: 1; flex-shrink: 0;">
+									<h4>Apply style to the bibliography list?</h4>
+									<div style="font-family: monospace; background: #eaeaea; padding: 5px; white-space: pre-line;"
+									>.abt-smart-bib {
+									&nbsp;&nbsp;vertical-align: super;
+									&nbsp;&nbsp;font-size: 0.8em;
+									&nbsp;&nbsp;list-style-type: upper-roman;
+									&nbsp;&nbsp;padding: 20px 40px;
+									&nbsp;&nbsp;border: solid;
+									&nbsp;&nbsp;border-radius: 3px;
+									}
+									</div>
+								</div>
+							</div>
 						</div>
-						<!-- .inside -->
-
 					</div>
-
-<!-- END PREFERRED CITATION STYLE POSTBOX -->
-
-<!-- BEGIN GOOGLE ANALYTICS INTEGRATION POSTBOX -->
-
 					<div class="postbox">
-
-						<h3><span><?php esc_attr_e( 'Google Analytics Tools', 'wp_admin_style' ); ?></span></h3>
-
+						<h3><span><?php esc_attr_e('Google Analytics Tools', 'wp_admin_style'); ?></span></h3>
 						<div class="inside">
 							<table>
 								<tr>
@@ -149,52 +147,40 @@
 								</tr>
 							</table>
 						</div>
-						<!-- .inside -->
-
 					</div>
-
-<!-- END GOOGLE ANALYTICS INTEGRATION POSTBOX -->
-
 				</div>
-				<!-- .meta-box-sortables .ui-sortable -->
-
 			</div>
-			<!-- post-body-content -->
-
-
-			<!-- sidebar -->
 			<div id="postbox-container-1" class="postbox-container">
-
 				<div class="meta-box-sortables">
-
 					<div class="postbox">
-
 						<h3><span><?php esc_attr_e(
-									'Please send your feedback!', 'wp_admin_style'
-								); ?></span></h3>
-
+                                    'Please send your feedback!', 'wp_admin_style'
+                                ); ?></span></h3>
 						<div class="inside">
 							<p><?php _e(
-									"If you experience a bug or would like to request a new feature, please visit my <a href='https://github.com/dsifford/academic-bloggers-toolkit/issues' target='_blank'>GitHub Repository</a> and leave a comment. I'll do my best to get it handled in a timely manner.<br><br>Comments can also be sent to me on twitter <a href='http://www.twitter.com/flightmed1' target='_blank'>@flightmed1</a>.",
-									'wp_admin_style'
-								); ?></p>
+                                    "If you experience a bug or would like to request a new feature, please visit my <a href='https://github.com/dsifford/academic-bloggers-toolkit/issues' target='_blank'>GitHub Repository</a> and leave a comment. I'll do my best to get it handled in a timely manner.<br><br>Comments can also be sent to me on twitter <a href='http://www.twitter.com/flightmed1' target='_blank'>@flightmed1</a>.",
+                                    'wp_admin_style'
+                                ); ?></p>
 						</div>
-						<!-- .inside -->
-
 					</div>
-					<!-- .postbox -->
-
 				</div>
-				<!-- .meta-box-sortables -->
-
+				<div class="meta-box-sortables">
+					<div class="postbox">
+						<h3><span><?php esc_attr_e('Preferred Citation Style', 'wp_admin_style'); ?></span></h3>
+						<div class="inside">
+							<form method="post" name="abt_citation_style_form" action="">
+								<input type="hidden" name="abt_citation_style_form_submitted" value="Y">
+								<select name="abt_citation_style" id="abt_citation_style">
+									<option value="ama" <?php selected($selected, 'ama'); ?>>American Medical Association (AMA)</option>
+									<option value="apa" <?php selected($selected, 'apa'); ?>>American Psychological Association (APA)</option>
+								</select>
+								<input class="button-primary" type="submit" name="abt_custom_css_submit" value="Update" />
+							</form>
+						</div>
+					</div>
+				</div>
 			</div>
-			<!-- #postbox-container-1 .postbox-container -->
-
 		</div>
-		<!-- #post-body .metabox-holder .columns-2 -->
-
 		<br class="clear">
 	</div>
-	<!-- #poststuff -->
-
-</div> <!-- .wrap -->
+</div>

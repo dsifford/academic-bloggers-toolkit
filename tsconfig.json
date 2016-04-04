@@ -1,6 +1,6 @@
 {
     "compilerOptions": {
-        "target": "es5",
+        "target": "es6",
         "module": "commonjs",
         "moduleResolution": "node",
         "isolatedModules": false,
@@ -34,20 +34,19 @@
     },
     "files": [
         "inc/js/ABT.d.ts",
-        "inc/js/components/Modal.ts",
+        "inc/js/components/inline-citation.ts",
         "inc/js/frontend.ts",
         "inc/js/metaboxes.ts",
         "inc/js/tinymce-entrypoint.ts",
-        "inc/js/tinymce-views/formatted-reference/formatted-reference.ts",
-        "inc/js/tinymce-views/inline-citation/inline-citation.ts",
         "inc/js/utils/Dispatcher.ts",
-        "inc/js/utils/HelperFunctions-bak.ts",
         "inc/js/utils/HelperFunctions.ts",
+        "inc/js/utils/Modal.ts",
         "inc/js/utils/Parsers.ts",
         "inc/js/utils/PubmedAPI.ts",
         "typings/main.d.ts",
         "typings/react-dom/index.d.ts",
         "typings/react/index.d.ts",
-        "inc/js/tinymce-views/pubmed-window/pubmed-window.tsx"
+        "inc/js/components/pubmed-window.tsx",
+        "inc/js/components/referenceWindow.tsx"
     ]
 }

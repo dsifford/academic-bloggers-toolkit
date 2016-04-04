@@ -10,11 +10,12 @@ tinyMCE.PluginManager.add('abt_main_menu', (editor, url: string) => {
   //                 MAIN BUTTON
   //==================================================
 
-  let ABT_Button: TinyMCEPluginButton = {
+  let ABT_Button: any = {
+    id: 'abt_menubutton',
     type: 'menubutton',
-    image: url + '/../images/book.png',
+    icon: 'abt_menu dashicons-welcome-learn-more',
     title: 'Academic Blogger\'s Toolkit',
-    icon: true,
+    // icon: true,
     menu: [],
   };
 
@@ -25,7 +26,7 @@ tinyMCE.PluginManager.add('abt_main_menu', (editor, url: string) => {
   let openInlineCitationWindow = () => {
     editor.windowManager.open(<TinyMCEWindowMangerObject>{
       title: 'Inline Citation',
-      url: ABT_locationInfo.tinymceViewsURL + 'inline-citation/inline-citation.html',
+      url: ABT_locationInfo.tinymceViewsURL + 'inline-citation.html',
       width: 400,
       height: 85,
       onClose: (e) => {
@@ -40,11 +41,12 @@ tinyMCE.PluginManager.add('abt_main_menu', (editor, url: string) => {
   let openFormattedReferenceWindow = () => {
     editor.windowManager.open(<TinyMCEWindowMangerObject>{
       title: 'Insert Formatted Reference',
-      url: ABT_locationInfo.tinymceViewsURL + 'formatted-reference/formatted-reference.html',
+      url: ABT_locationInfo.tinymceViewsURL + 'reference-window.html',
       width: 600,
-      height: 100,
+      height: 10,
       params: {
         baseUrl: ABT_locationInfo.tinymceViewsURL,
+        preferredStyle: ABT_locationInfo.preferredCitationStyle,
       },
       onclose: (e: any) => {
 
@@ -52,17 +54,17 @@ tinyMCE.PluginManager.add('abt_main_menu', (editor, url: string) => {
         if (Object.keys(e.target.params).length === 0) {
           return;
         }
+
         editor.setProgressState(1);
         let payload: ReferenceFormData = e.target.params.data;
         let refparser = new Dispatcher(payload, editor);
 
-        if (payload.hasOwnProperty('manual-type-selection')) {
+        if (payload.addManually === true) {
           refparser.fromManualInput(payload);
-          editor.setProgressState(0);
+          // editor.setProgressState(0);
           return;
         }
 
-        // do pmid parsing
         refparser.fromPMID();
 
       },
@@ -126,15 +128,15 @@ tinyMCE.PluginManager.add('abt_main_menu', (editor, url: string) => {
   }
 
 
+  /** NOTE: THIS WILL BE DEPRECIATED NEXT RELEASE! */
   let trackedLink: TinyMCEMenuItem = {
     text: 'Tracked Link',
     onclick: () => {
 
       let user_selection = tinyMCE.activeEditor.selection.getContent({format: 'text'});
 
-      /** TODO: Fix this so it doesn't suck */
       editor.windowManager.open({
-        title: 'Insert Tracked Link',
+        title: 'Insert Tracked Link === Depreciating Next Release! ===',
         width: 600,
         height: 160,
         buttons: [{
@@ -203,6 +205,20 @@ tinyMCE.PluginManager.add('abt_main_menu', (editor, url: string) => {
     }
   }
 
+
+  let keyboardShortcuts: TinyMCEMenuItem = {
+    text: 'Keyboard Shortcuts',
+    onclick: () => {
+      editor.windowManager.open({
+        title: 'Keyboard Shortcuts',
+        url: ABT_locationInfo.tinymceViewsURL + 'keyboard-shortcuts.html',
+        width: 400,
+        height: 90,
+      });
+    }
+  }
+
+  // Workaround for checking to see if a smart bib exists.
   setTimeout(() => {
     let dom: HTMLDocument = editor.dom.doc;
     let existingSmartBib: HTMLOListElement = <HTMLOListElement>dom.getElementById('abt-smart-bib');
@@ -213,7 +229,7 @@ tinyMCE.PluginManager.add('abt_main_menu', (editor, url: string) => {
   }, 500);
 
   bibToolsMenu.menu.push(trackedLink, separator, requestTools);
-  ABT_Button.menu.push(smartBib, inlineCitation, formattedReference, bibToolsMenu);
+  ABT_Button.menu.push(smartBib, inlineCitation, formattedReference, bibToolsMenu, separator, keyboardShortcuts);
 
   editor.addButton('abt_main_menu', ABT_Button);
 

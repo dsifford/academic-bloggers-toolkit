@@ -1,10 +1,18 @@
 # Changelog
 
 ### 2.4.0
-- Full rewrite.
 - Parse multiple comma-separated PMIDs at once into an ordered list.
-- Add manual reference insertion for Journals, Websites, or Books.
-- Add "Smart Bibliography" (see github repo for full details).
+- Option to add references manually for Journals, Websites, or Books.
+- Search PubMed from WordPress!
+    - References from your search are displayed in a list similar to native PubMed and, if you find one you like, click it and it'll be inserted into your post.
+- Add optional "Smart Bibliography" feature which, if enabled, allows you to...
+    - Insert references directly to your bibliography without having to scroll down.
+    - Insert references and inline citations in one step.
+    - Choose from a visual list of references in your bibliography if you do not choose to add citations in one step.
+- If Smart Bibliography not used, the last-occurring ordered list is automatically tagged with the HTML ID `abt-smart-bib` on load to allow for more reliable tooltip rendering.
+- Details for nerds:
+    - Full rewrite; a majority of which is using React by Facebook.
+    - Speed improvements & resource minification.
 
 ### 2.3.1
 - Fixed poor rendering of tooltip close icon on mobile.

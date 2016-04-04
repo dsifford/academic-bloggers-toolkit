@@ -1,4 +1,6 @@
-import Modal from '../../components/Modal.ts';
+/** TODO: Smart bibliography insertion */
+
+import Modal from '../utils/Modal.ts';
 
 class InlineCitationWindow {
 

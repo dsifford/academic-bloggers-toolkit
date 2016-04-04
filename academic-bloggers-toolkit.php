@@ -7,9 +7,8 @@
  *	Version: 2.4.0
  *	Author: Derek P Sifford
  *	Author URI: http://www.twitter.com/flightmed1
- *	License: GPL3
- *	License URI: https://www.gnu.org/licenses/gpl-3.0.html
-*/
+ *	License: MIT
+ */
 
 // Assign Global Variables
 
@@ -20,9 +19,7 @@ $abt_options = array();
 // Enqueue Stylesheets
 
 function abt_enqueue_styles() {
-
-	wp_enqueue_style( 'abt_shortcodes_stylesheet', plugins_url('academic-bloggers-toolkit/inc/css/styles.css') );
-
+	wp_enqueue_style( 'abt_frontend_styles', plugins_url('academic-bloggers-toolkit/inc/css/frontend.css') );
 }
 add_action( 'wp_enqueue_scripts', 'abt_enqueue_styles');
 

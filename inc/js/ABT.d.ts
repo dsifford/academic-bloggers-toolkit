@@ -88,15 +88,54 @@ interface TinyMCEPluginButton {
 interface Author {
   authtype?: string
   clusterid?: string
-  name: string
+  name?: string
+  firstname?: string
+  lastname?: string
+  middleinitial?: string
+}
+
+interface CommonMeta {
+  title: string
+  source: string
+  pubdate: string
+}
+
+interface BookMeta extends CommonMeta {
+  chapter: string
+  edition: string
+  location: string
+  pages: string
+}
+
+interface JournalMeta extends CommonMeta {
+  volume: string
+  issue: string
+  pages: string
+}
+
+interface WebsiteMeta extends CommonMeta {
+  url: string
+  updated: string
+  accessed: string
+}
+
+interface ManualDataObj {
+  authors: Author[]
+  meta: {
+    book: BookMeta
+    journal: JournalMeta
+    website: WebsiteMeta
+  }
+  type: 'journal'|'website'|'book'
 }
 
 interface ReferenceFormData {
-  'citation-format': string
-  'pmid-input'?: string
-  'include-link'?: boolean
-  'manual-type-selection'?: string
-  authors?: Author[]
+  addManually: boolean
+  attachInline: boolean
+  citationFormat: string
+  includeLink: boolean
+  manualData: ManualDataObj
+  pmidList: string
 }
 
 interface ReferenceObj {
