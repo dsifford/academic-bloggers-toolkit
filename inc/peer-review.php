@@ -6,7 +6,6 @@ function abt_peer_review_meta() {
 add_action( 'add_meta_boxes', 'abt_peer_review_meta' );
 
 
-
 function abt_peer_review_callback( $post ) {
 	wp_nonce_field( basename( __file__ ), 'abt_nonce' );
 
@@ -48,7 +47,6 @@ function abt_peer_review_callback( $post ) {
 			<option value="3" <?php selected( $selected, '3' ); ?>>Three Reviewers</option>
 		</select>
 
-
 	<!-- Loop through and create 3 input tables -->
 
 	<?php for ( $i = 1; $i < 4; $i++ ) : ?>
@@ -85,7 +83,7 @@ function abt_peer_review_callback( $post ) {
 					<td scope="row" colspan="4"><input class="button-primary" type="button" id="author_response_button_<?php echo $i; ?>" value="<?php esc_attr_e( 'Toggle Author Response' ); ?>" /></td>
 				</tr>
 			</table>
-			<table class="form-table" style="width: auto; margin-top: -2px; border: solid 2px #0085ba; border-top: none;" id="author_response_<?php echo $i; ?>">
+			<table class="form-table" style="margin-top: -2px; border: solid 2px #0085ba; border-top: none;" id="author_response_<?php echo $i; ?>">
 				<tr valign="top" class="alternate">
 					<td width="20%"><label for="author_name_<?php echo $i; ?>" class="abt-row-title"><?php esc_attr_e( 'Author Name', 'abt-textdomain' ) ?></label></td>
 					<td width="40%"><input type="text" class="large-text" name="author_name_<?php echo $i; ?>" id="author_name_<?php echo $i; ?>" value="<?php echo ${'author_name_' . $i}; ?>" /></td>
@@ -216,6 +214,28 @@ function abt_meta_save( $post_id ) {
 add_action( 'save_post', 'abt_meta_save' );
 
 
+function tag_ordered_list( $content ) {
+
+	if ( is_single() || is_page() ) {
+
+		$smart_bib_exists = preg_match('<ol id="abt-smart-bib">', $content);
+
+		if (!$smart_bib_exists) {
+
+			$lastOLPosition = strrpos($content, '<ol');
+			$content = substr($content, 0, $lastOLPosition) . '<ol id="abt-smart-bib" ' . substr($content, $lastOLPosition+3, strlen($content));
+
+		}
+
+		return $content;
+	}
+
+	return $content;
+
+}
+add_filter( 'the_content', 'tag_ordered_list' );
+
+
 function insert_the_meta( $text ) {
 
 	if ( is_single() || is_page() ) {
@@ -289,10 +309,23 @@ function insert_the_meta( $text ) {
 
 					${'author_block_' . $i} =
 						'<div class="abt_chat_bubble">' . ${'author_content_' . $i} . '</div>' .
-						'<div class="abt_PR_info"><img src="' . (${'author_headshot_image_' . $i} !== '' ? ${'author_headshot_image_' . $i} : plugins_url('academic-bloggers-toolkit/inc/images/silhouette.png')) . '" width="100px" class="abt_PR_headshot">' .
-							'<strong>' . ${'author_name_' . $i} . '</strong><br />' .
-							${'author_background_' . $i} . '<br />' .
-							${'author_twitter_' . $i} .
+						'<div class="abt_PR_info">' .
+							'<div class="abt_PR_headshot">' .
+								(
+									${'author_headshot_image_' . $i} !== ''
+									? '<img src="' . ${'author_headshot_image_' . $i} . '" width="100px">'
+									: '<i class="dashicons dashicons-admin-users abt_PR_headshot" style="font-size: 100px;"></i>'
+								) .
+							'</div>' .
+							'<div>' .
+								'<strong>' . ${'author_name_' . $i} . '</strong>' .
+							'</div>' .
+							'<div>' .
+							'</div>' .
+								${'author_background_' . $i} .
+							'<div>' .
+								${'author_twitter_' . $i} .
+							'</div>' .
 						'</div>';
 
 				}
@@ -300,13 +333,26 @@ function insert_the_meta( $text ) {
 				if ( ${'reviewer_name_' . $i} != '' ) {
 
 					${'reviewer_block_' . $i} =
-						'<h3>' . ${'peer_review_box_heading_' . $i} . '</h3>' .
+						'<h3 class="abt_PR_heading">' . ${'peer_review_box_heading_' . $i} . '</h3>' .
 							'<div>' .
 								'<div class="abt_chat_bubble">' . ${'peer_review_content_' . $i} . '</div>' .
-								'<div class="abt_PR_info"><img src="' . (${'reviewer_headshot_image_' . $i} !== '' ? ${'reviewer_headshot_image_' . $i} : plugins_url('academic-bloggers-toolkit/inc/images/silhouette.png')) . '" width="100px" class="abt_PR_headshot">' .
-									'<strong>' . ${'reviewer_name_' . $i} . '</strong><br />' .
-									${'reviewer_background_' . $i} . '<br />' .
-									${'reviewer_twitter_' . $i} .
+								'<div class="abt_PR_info">' .
+									'<div class="abt_PR_headshot">' .
+										(
+											${'reviewer_headshot_image_' . $i} !== ''
+											? '<img src="' . ${'reviewer_headshot_image_' . $i} . '" width="100px">'
+											: '<i class="dashicons dashicons-admin-users abt_PR_headshot" style="font-size: 100px;"></i>'
+										) .
+									'</div>' .
+									'<div>' .
+										'<strong>' . ${'reviewer_name_' . $i} . '</strong>' .
+									'</div>' .
+									'<div>' .
+									'</div>' .
+										${'reviewer_background_' . $i} .
+									'<div>' .
+										${'reviewer_twitter_' . $i} .
+									'</div>' .
 								'</div>' .
 								( isset(${'author_block_' . $i}) ? ${'author_block_' . $i} : '' ) .
 							'</div>';
@@ -339,7 +385,7 @@ add_filter( 'the_content', 'insert_the_meta');
 
 function abt_peer_review_js_enqueue() {
 
-		wp_register_script('peer_review', plugins_url('academic-bloggers-toolkit/inc/js/peer-review.js') );
+		wp_register_script('peer_review', plugins_url('academic-bloggers-toolkit/inc/js/frontend.js') );
 		wp_enqueue_script( 'peer_review' );
 
 }
@@ -352,20 +398,23 @@ add_action('wp_enqueue_scripts', 'abt_peer_review_js_enqueue');
 /**
  * Loads the image management javascript
  */
-function abt_image_enqueue() {
-    global $typenow;
-    if( $typenow == 'post' ) {
-        wp_enqueue_media();
+function abt_image_enqueue( $hook ) {
+
+	global $typenow;
+
+    if( $hook == 'post.php' ) {
+
+		wp_enqueue_media();
+		$abt_options = get_option( 'abt_options' );
 
         // Registers and enqueues the required javascript.
-        wp_register_script( 'meta-box-image', plugins_url('academic-bloggers-toolkit/inc/js/meta-box-image.js'), array( 'jquery' ) );
-        wp_localize_script( 'meta-box-image', 'meta_image',
-            array(
-                'title' => __( 'Choose or Upload an Image', 'abt-textdomain' ),
-                'button' => __( 'Use this image', 'abt-textdomain' ),
-            )
-        );
-        wp_enqueue_script( 'meta-box-image' );
+        wp_enqueue_script( 'abt-metaboxes', plugins_url('academic-bloggers-toolkit/inc/js/metaboxes.js') );
+		wp_localize_script( 'abt-metaboxes', 'ABT_locationInfo', array(
+			'jsURL' => plugins_url('academic-bloggers-toolkit/inc/js/'),
+			'tinymceViewsURL' => plugins_url('academic-bloggers-toolkit/inc/js/tinymce-views/'),
+			'preferredCitationStyle' => $abt_options['abt_citation_style'],
+			'postType' => $typenow,
+		));
     }
 }
 add_action( 'admin_enqueue_scripts', 'abt_image_enqueue' );

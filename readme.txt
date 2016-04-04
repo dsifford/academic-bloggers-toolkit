@@ -1,43 +1,28 @@
 === Academic Blogger's Toolkit ===
 Contributors: dsifford
 Donate link: https://cash.me/$dsifford
-Tags: academic, pmid, doi, peer-review, Google Tag Manager, citation, bibliography
+Tags: academic, pmid, doi, peer-review, pubmed, citation, bibliography, reference
 Requires at least: 4.2.2
-Tested up to: 4.2.2
-Stable tag: 2.3.0
+Tested up to: 4.5
+Stable tag: 2.4.0
 License: GPL3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
-A WordPress plugin extending the functionality of WordPress for Academic Blogging.
+A plugin extending the functionality of Wordpress for academic blogging.
 
 == Description ==
 
 Academic Blogger's toolkit is an **open source** WordPress plugin providing an all-in-one solution for effective academic blogging.
 
-= Automatically parse references on the fly using PMID =
-- Option to add hyperlink to PubMed.
+= Feature List =
+* Insert formatted references on the fly using PMID.
+* Search and insert references from PubMed directly within WordPress.
+* **Smart Bibliography** - Insert references to a bibliography and append inline citations without breaking focus of your writing.
+* References inserted using this plugin are displayed as tooltips on hover in the post. No need to scroll down to the reference list to check the reference (unless you want to!).
+* Append up to 3 formatted Peer Reviews to blog posts via a Frontend UI integrated on the post edit screen.
 
-= Inline citations with hover tooltips showing full reference =
-- **Requirements**:
-    - A bibliography ordered list must be present **AND** the ordered list must be last one in your blog post.
-- **How to use**:
-    - Select `Bibliography Tools -> inline citation` from the options menu located on the editor and insert a list of one or more citation numbers from your bibliography list in the form of `1-4,7,9`.
-
-= Append up to 3 formatted Peer Reviews to blog posts via a Frontend UI integrated on the post edit screen =
-- Input areas for the Peer Review section include...
-	1. Reviewer Name
-	2. Reviewer Background (optional)
-	3. Reviewer Twitter Handle (optional)
-	4. Peer Review
-	5. Reviewer Photo (interfaces with WordPress's Media Uploader)
-- Option to add Author Response to Peer Reviews.
-
-= Integration with Google Tag Manager =
-- Google's newest [analytics powerhouse](http://www.google.com/tagmanager/)!
-- Track individual link clicks to see who is interacting with or downloading your content and much more!
-
-= Customizable Options =
-* CSS override area to adjust the look of any content that doesn't fit your site's style.
+= Want to learn more? =
+Check out this plugin's [GitHub Repository](https://github.com/dsifford/academic-bloggers-toolkit) for more details or to ask questions.
 
 == Installation ==
 
@@ -62,6 +47,31 @@ Yikes! I'm sorry about that. Please report all issues on the Academic Blogger's 
 4. Options Page Screenshot
 
 == Changelog ==
+
+= 2.4.0 =
+* Parse multiple comma-separated PMIDs at once into an ordered list.
+* Option to add references manually for Journals, Websites, or Books.
+* Search PubMed from WordPress!
+    * References from your search are displayed in a list similar to native PubMed and, if you find one you like, click it and it'll be inserted into your post.
+* Add optional "Smart Bibliography" feature which, if enabled, allows you to...
+    * Insert references directly to your bibliography without having to scroll down.
+    * Insert references and inline citations in one step.
+    * Choose from a visual list of references in your bibliography if you do not choose to add citations in one step.
+* If Smart Bibliography not used, the last-occurring ordered list is automatically tagged with the HTML ID `abt-smart-bib` on load to allow for more reliable tooltip rendering.
+* Details for nerds:
+    * Full rewrite; a majority of which is using React by Facebook.
+    * Speed improvements & resource minification.
+
+Documentation improvements will be added within the next few days.
+
+**Note:** Due to the magnitude of this update, there may be bugs that I have not encountered (although, I did test this pretty heavily).
+If you run into any problems, have any questions, or experience a bug, please file an issue [here](https://github.com/dsifford/academic-bloggers-toolkit/issues).
+
+A special thanks to @metallikat36 for the great suggestions that led directly to the features added in this update.
+
+= 2.3.1 =
+* Fix poor rendering of tooltip close icon on mobile.
+* Increase size of toucharea for tooltip close icon on mobile.
 
 = 2.3.0 =
 * Tooltips on desktop and mobile given a much-needed facelift.

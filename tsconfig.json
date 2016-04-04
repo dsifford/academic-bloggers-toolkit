@@ -1,6 +1,6 @@
 {
     "compilerOptions": {
-        "target": "es5",
+        "target": "es6",
         "module": "commonjs",
         "moduleResolution": "node",
         "isolatedModules": false,
@@ -15,14 +15,42 @@
         "preserveConstEnums": true,
         "suppressImplicitAnyIndexErrors": true
     },
+    "filesGlob": [
+        "**/*.ts",
+        "**/*.tsx",
+        "!node_modules/**",
+        "../../typings/**"
+    ],
     "exclude": [
         "node_modules",
         "typings/browser",
-        "typings/browser.d.ts"
+        "typings/browser.d.ts",
+        "dist"
     ],
-    "compileOnSave": true,
+    "compileOnSave": false,
     "buildOnSave": false,
     "atom": {
-        "rewriteTsconfig": false
-    }
+        "rewriteTsconfig": true
+    },
+    "files": [
+        "inc/js/ABT.d.ts",
+        "inc/js/frontend.ts",
+        "inc/js/metaboxes.ts",
+        "inc/js/tinymce-entrypoint.ts",
+        "inc/js/utils/Dispatcher.ts",
+        "inc/js/utils/HelperFunctions.ts",
+        "inc/js/utils/Modal.ts",
+        "inc/js/utils/Parsers.ts",
+        "inc/js/utils/PrototypeFunctions.ts",
+        "inc/js/utils/PubmedAPI.ts",
+        "typings/main.d.ts",
+        "typings/main/ambient/jest/index.d.ts",
+        "typings/main/ambient/react-addons-test-utils/index.d.ts",
+        "typings/main/ambient/require/index.d.ts",
+        "typings/react-dom/index.d.ts",
+        "typings/react/index.d.ts",
+        "inc/js/components/CitationWindow.tsx",
+        "inc/js/components/PubmedWindow.tsx",
+        "inc/js/components/ReferenceWindow.tsx"
+    ]
 }

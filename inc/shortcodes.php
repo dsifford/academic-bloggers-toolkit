@@ -48,7 +48,7 @@ function inline_citation ( $atts ) {
 
 	$nums = implode(', ', $nums);
 
-	return '<span class="cite noselect" data-reflist="' . $parsed_nums . '">[' . $nums . ']</span>';
+	return '<span class="abt_cite noselect" data-reflist="' . $parsed_nums . '">[' . $nums . ']</span>';
 
 }
 add_shortcode( 'cite', 'inline_citation' );
