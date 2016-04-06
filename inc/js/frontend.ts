@@ -24,7 +24,7 @@ namespace ABT_Frontend {
 
     private _clickHandler(e: Event): void {
 
-      let targetContent = (e.srcElement.nextSibling as HTMLDivElement);
+      let targetContent = ((e.target as HTMLElement).nextSibling as HTMLDivElement);
 
       // If targetContent already visible, hide it and exit
       if (targetContent.style.display != 'none') {
@@ -32,7 +32,7 @@ namespace ABT_Frontend {
         return;
       }
 
-      let accordionChildren = e.srcElement.parentElement.children;
+      let accordionChildren = (e.target as HTMLElement).parentElement.children;
 
       for (let i = 0; i < accordionChildren.length; i++) {
 
@@ -40,7 +40,7 @@ namespace ABT_Frontend {
 
         if (currentElement.tagName != 'DIV') { continue; }
 
-        if (currentElement.previousSibling === e.srcElement) {
+        if (currentElement.previousSibling === (e.target as HTMLElement)) {
           currentElement.style.display = '';
           continue;
         }
@@ -111,11 +111,11 @@ namespace ABT_Frontend {
         preExistingTooltip.remove();
       }
 
-      let rect: ClientRect = e.srcElement.getBoundingClientRect();
+      let rect: ClientRect = (e.target as HTMLElement).getBoundingClientRect();
 
       let tooltip: HTMLDivElement = document.createElement('div');
       tooltip.className = tooltip.id = 'abt_tooltip';
-      tooltip.innerHTML = e.srcElement.getAttribute('data-citations');
+      tooltip.innerHTML = (e.target as HTMLElement).getAttribute('data-citations');
       tooltip.style.visibility = 'hidden';
 
       let tooltipArrow: HTMLDivElement = document.createElement('div');

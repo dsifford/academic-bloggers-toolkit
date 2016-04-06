@@ -1,3 +1,7 @@
+* {
+    font-family: "Open Sans",sans-serif;
+}
+
 body {
     overflow: hidden;
 }
@@ -115,6 +119,17 @@ input, select {
         height: 18px;
         width: 18px;
         vertical-align: middle;
+        -moz-appearance: none;
+
+        &:focus {
+            box-shadow: none;
+        }
+    }
+
+    &[type="button"] {
+        &::-moz-focus-inner {
+            border: 0;
+        }
     }
 
     &:invalid {
@@ -130,6 +145,7 @@ select {
     vertical-align: middle;
     margin: 1px;
     font-size: 1em;
+    -moz-appearance: none;
 }
 
 a {

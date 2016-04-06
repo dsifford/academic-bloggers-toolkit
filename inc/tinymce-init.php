@@ -27,7 +27,7 @@ function register_abt_mce_button( $buttons ) {
 }
 
 function abt_enqueue_admin_css($hook) {
-    if ($hook == 'page.php' || $hook == 'post.php') {
+    if ($hook == 'page.php' || $hook == 'post.php' || $hook == 'post-new.php') {
         wp_enqueue_style('abt_styles', plugins_url('academic-bloggers-toolkit/inc/css/admin.css') );
     }
 }

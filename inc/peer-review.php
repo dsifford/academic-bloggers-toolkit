@@ -1,7 +1,14 @@
 <?php
 
 function abt_peer_review_meta() {
-	add_meta_box( 'abt_peer_review', __( 'Add Peer Review(s)', 'abt-textdomain' ), 'abt_peer_review_callback', 'post', 'normal', 'high' );
+	add_meta_box(
+		'abt_peer_review',
+		__( 'Add Peer Review(s)', 'abt-textdomain' ),
+		'abt_peer_review_callback',
+		'post',
+		'normal',
+		'high'
+	);
 }
 add_action( 'add_meta_boxes', 'abt_peer_review_meta' );
 
@@ -399,23 +406,23 @@ add_action('wp_enqueue_scripts', 'abt_peer_review_js_enqueue');
  * Loads the image management javascript
  */
 function abt_image_enqueue( $hook ) {
-
 	global $typenow;
 
-    if( $hook == 'post.php' ) {
+	if( $hook != 'post.php' && $hook != 'post-new.php' ) {
+		return;
+	}
 
-		wp_enqueue_media();
-		$abt_options = get_option( 'abt_options' );
+	wp_enqueue_media();
+	$abt_options = get_option( 'abt_options' );
 
-        // Registers and enqueues the required javascript.
-        wp_enqueue_script( 'abt-metaboxes', plugins_url('academic-bloggers-toolkit/inc/js/metaboxes.js') );
-		wp_localize_script( 'abt-metaboxes', 'ABT_locationInfo', array(
-			'jsURL' => plugins_url('academic-bloggers-toolkit/inc/js/'),
-			'tinymceViewsURL' => plugins_url('academic-bloggers-toolkit/inc/js/tinymce-views/'),
-			'preferredCitationStyle' => $abt_options['abt_citation_style'],
-			'postType' => $typenow,
-		));
-    }
+    wp_enqueue_script( 'abt-metaboxes', plugins_url('academic-bloggers-toolkit/inc/js/metaboxes.js') );
+	wp_localize_script( 'abt-metaboxes', 'ABT_locationInfo', array(
+		'jsURL' => plugins_url('academic-bloggers-toolkit/inc/js/'),
+		'tinymceViewsURL' => plugins_url('academic-bloggers-toolkit/inc/js/tinymce-views/'),
+		'preferredCitationStyle' => $abt_options['abt_citation_style'],
+		'postType' => $typenow,
+	));
+
 }
 add_action( 'admin_enqueue_scripts', 'abt_image_enqueue' );
 

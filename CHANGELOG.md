@@ -1,5 +1,15 @@
 # Changelog
 
+### 2.4.1
+- Fix bug that caused tooltips to not render at all on Firefox browsers (and Internet Explorer?) - If IE still has issues, please let me know. I don't own a Windows PC so I can't test.
+- Fix bug that caused the menu icon to display as a smiley face on new posts and pages.
+
+**Note:** I received the following two suggestions from users. Expect to see them implemented on the next update.
+1. The ability to have the reference list toggleable (similar to the peer review boxes).
+2. The ability to make the peer review boxes non-toggleable.
+
+Keep the great suggestions coming!
+
 ### 2.4.0
 - Parse multiple comma-separated PMIDs at once into an ordered list.
 - Option to add references manually for Journals, Websites, or Books.
