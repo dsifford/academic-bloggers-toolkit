@@ -1,5 +1,14 @@
 # Changelog
 
+### 2.4.2
+- Fix critical bug which caused posts without an ordered list to lose the first paragraph and indent strangely.
+- Fix typo on one of the CSS selectors on the options page. `.abt-smart-bib` => `#abt-smart-bib`
+
+**Note:** I am aware of the issue with Internet Explorer browsers not generating tooltips. This is because IE operates using a very, very, very....very outdated broswer standard. I'll work on a fix soon and push that out when I get it working. Thanks!
+
+If you'd like to follow along or join the conversation on some of the next few milestones of this plugin, please see [this excellent thread](https://github.com/dsifford/academic-bloggers-toolkit/issues/20) started by @metallikat36.
+
+
 ### 2.4.1
 - Fix bug that caused tooltips to not render at all on Firefox browsers (and Internet Explorer?) - If IE still has issues, please let me know. I don't own a Windows PC so I can't test.
 - Fix bug that caused the menu icon to display as a smiley face on new posts and pages.

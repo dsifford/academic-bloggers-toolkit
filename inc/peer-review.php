@@ -230,6 +230,10 @@ function tag_ordered_list( $content ) {
 		if (!$smart_bib_exists) {
 
 			$lastOLPosition = strrpos($content, '<ol');
+			if (!$lastOLPosition) {
+				return $content;
+			}
+
 			$content = substr($content, 0, $lastOLPosition) . '<ol id="abt-smart-bib" ' . substr($content, $lastOLPosition+3, strlen($content));
 
 		}

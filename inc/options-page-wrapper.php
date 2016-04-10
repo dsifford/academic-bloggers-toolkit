@@ -69,7 +69,7 @@
 								<div style="padding: 10px; flex-grow: 1; flex-shrink: 0;">
 									<h4>Apply style to the bibliography list?</h4>
 									<div style="font-family: monospace; background: #eaeaea; padding: 5px; white-space: pre-line;"
-									>.abt-smart-bib {
+									>#abt-smart-bib {
 									&nbsp;&nbsp;vertical-align: super;
 									&nbsp;&nbsp;font-size: 0.8em;
 									&nbsp;&nbsp;list-style-type: upper-roman;
