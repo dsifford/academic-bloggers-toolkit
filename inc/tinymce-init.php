@@ -1,36 +1,49 @@
 <?php
 
 
-function abt_tinymce_button() {
-  // Check if user have permission
-  if ( !current_user_can( 'edit_posts' ) && !current_user_can( 'edit_pages' ) ) {
-    return;
-  }
-  // Check if WYSIWYG is enabled
-  if ( 'true' == get_user_option( 'rich_editing' ) ) {
-    add_filter( 'mce_external_plugins', 'abt_tinymce_plugin' );
-    add_filter( 'mce_buttons', 'register_abt_mce_button' );
-  }
-}
-add_action( 'admin_head', 'abt_tinymce_button' );
-
-// Function for new button
-function abt_tinymce_plugin( $plugin_array ) {
-  $plugin_array['abt_main_menu'] = plugins_url('academic-bloggers-toolkit/inc/js/tinymce-entrypoint.js');
-  return $plugin_array;
+function call_abt_tinymce_buttons() {
+    new ABT_TinyMCE_Buttons();
 }
 
-// Register new button in the editor
-function register_abt_mce_button( $buttons ) {
-  array_push( $buttons, 'abt_main_menu');
-  return $buttons;
+if (is_admin()) {
+    add_action('load-post.php', 'call_abt_tinymce_buttons');
+    add_action('load-post-new.php', 'call_abt_tinymce_buttons');
 }
 
-function abt_enqueue_admin_css($hook) {
-    if ($hook == 'page.php' || $hook == 'post.php' || $hook == 'post-new.php') {
-        wp_enqueue_style('abt_styles', plugins_url('academic-bloggers-toolkit/inc/css/admin.css') );
+
+/**
+ * Responsible for rendering all TinyMCE components
+ *
+ * @since 2.5.0
+ */
+class ABT_TinyMCE_Buttons {
+
+    public function __construct() {
+        add_action('admin_head', array($this, 'init_tinymce_button'));
     }
-}
-add_action('admin_enqueue_scripts', 'abt_enqueue_admin_css');
 
- ?>
+    public function init_tinymce_button() {
+
+        if (!current_user_can('edit_posts') && !current_user_can('edit_pages')) {
+            return;
+        }
+
+        // Check if WYSIWYG is enabled
+        if ('true' == get_user_option('rich_editing')) {
+            add_filter('mce_external_plugins', array($this, 'register_plugin'));
+            add_filter('mce_buttons', array($this, 'register_buttons'));
+        }
+    }
+
+    public function register_plugin($plugin_array) {
+        $plugin_array['abt_main_menu'] = plugins_url('academic-bloggers-toolkit/inc/js/tinymce-entrypoint.js');
+        $plugin_array['abt_generate_references'] = plugins_url('academic-bloggers-toolkit/inc/js/tinymce-entrypoint.js');
+        return $plugin_array;
+    }
+
+    public function register_buttons($buttons) {
+        array_push($buttons, 'abt_generate_references', 'abt_main_menu');
+        return $buttons;
+    }
+
+}

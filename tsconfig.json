@@ -51,6 +51,8 @@
         "typings/react/index.d.ts",
         "inc/js/components/CitationWindow.tsx",
         "inc/js/components/PubmedWindow.tsx",
-        "inc/js/components/ReferenceWindow.tsx"
+        "inc/js/components/ReferenceWindow.tsx",
+        "inc/js/PeerReviewMetabox.tsx",
+        "inc/js/reflist.tsx"
     ]
 }

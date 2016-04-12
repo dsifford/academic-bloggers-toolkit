@@ -94,17 +94,12 @@ tinyMCE.PluginManager.add('abt_main_menu', (editor, url: string) => {
   let separator: TinyMCEMenuItem = { text: '-' };
 
 
-  let bibToolsMenu: TinyMCEMenuItem = {
-    text: 'Other Tools',
-    menu: [],
-  };
-
-
   let inlineCitation: TinyMCEMenuItem = {
     text: 'Inline Citation',
     onclick: openInlineCitationWindow,
   }
   editor.addShortcut('meta+alt+c', 'Insert Inline Citation', openInlineCitationWindow);
+
 
   let formattedReference: TinyMCEMenuItem = {
     text: 'Formatted Reference',
@@ -120,62 +115,6 @@ tinyMCE.PluginManager.add('abt_main_menu', (editor, url: string) => {
     disabled: false,
   }
 
-
-  /** NOTE: THIS WILL BE DEPRECIATED NEXT RELEASE! */
-  let trackedLink: TinyMCEMenuItem = {
-    text: 'Tracked Link',
-    onclick: () => {
-
-      let user_selection = tinyMCE.activeEditor.selection.getContent({format: 'text'});
-
-      editor.windowManager.open({
-        title: 'Insert Tracked Link === Depreciating Next Release! ===',
-        width: 600,
-        height: 160,
-        buttons: [{
-          text: 'Insert',
-          onclick: 'submit'
-        }],
-        body: [
-          {
-            type: 'textbox',
-            name: 'tracked_url',
-            label: 'URL',
-            value: ''
-          },
-          {
-            type: 'textbox',
-            name: 'tracked_title',
-            label: 'Link Text',
-            value: user_selection
-          },
-          {
-            type: 'textbox',
-            name: 'tracked_tag',
-            label: 'Custom Tag ID',
-            tooltip: 'Don\'t forget to create matching tag in Google Tag Manager!',
-            value: ''
-          },
-          {
-            type: 'checkbox',
-            name: 'tracked_new_window',
-            label: 'Open link in a new window/tab'
-          },
-        ],
-        onsubmit: (e) => {
-          let trackedUrl = e.data.tracked_url;
-          let trackedTitle = e.data.tracked_title;
-          let trackedTag = e.data.tracked_tag;
-          let trackedLink = `<a href="${trackedUrl}" id="${trackedTag}" ` +
-            `${e.data.tracked_new_window ? 'target="_blank"' : ''}>${trackedTitle}</a>`;
-
-          editor.execCommand('mceInsertContent', false, trackedLink);
-
-        }
-      });
-    }
-  }
-  // End Tracked Link Menu Item
 
   let requestTools: TinyMCEMenuItem = {
     text: 'Request More Tools',
@@ -221,11 +160,24 @@ tinyMCE.PluginManager.add('abt_main_menu', (editor, url: string) => {
     }
   }, 500);
 
-  bibToolsMenu.menu.push(trackedLink, separator, requestTools);
-  ABT_Button.menu.push(smartBib, inlineCitation, formattedReference, bibToolsMenu, separator, keyboardShortcuts);
+  ABT_Button.menu.push(smartBib, inlineCitation, formattedReference, separator, keyboardShortcuts, requestTools);
 
   editor.addButton('abt_main_menu', ABT_Button);
 
 
 
+});
+
+
+// Reference List Generator Button
+
+tinyMCE.PluginManager.add('abt_generate_references', (editor, url: string) => {
+  let Button: any = {
+    id: 'abt_refgenerator',
+    type: 'button',
+    title: 'Generate Reference List',
+    icon: 'abt_menu dashicons-admin-generic',
+  };
+
+  editor.addButton('abt_generate_references', Button);
 });

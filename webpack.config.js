@@ -3,6 +3,8 @@ module.exports = {
   entry: {
     'inc/js/tinymce-entrypoint': './inc/js/tinymce-entrypoint.ts',
     'inc/js/frontend': './inc/js/frontend.ts',
+    'inc/js/reflist': './inc/js/reflist.tsx',
+    'inc/js/PeerReviewMetabox': './inc/js/PeerReviewMetabox.tsx',
     'inc/js/components/ReferenceWindow': './inc/js/components/ReferenceWindow.tsx',
     'inc/js/components/CitationWindow': './inc/js/components/CitationWindow.tsx',
     'inc/js/metaboxes': './inc/js/metaboxes.ts',
@@ -17,7 +19,7 @@ module.exports = {
       {
         test: /\.tsx?$/,
         exclude: /node_modules/,
-        loader: 'babel?presets[]=es2015!ts',
+        loader: 'babel?presets[]=es2015,presets[]=react!ts',
       },
     ],
   },
