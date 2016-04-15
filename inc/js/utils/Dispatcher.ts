@@ -181,6 +181,8 @@ export default class Dispatcher {
         let listItem = (this.editor.dom.doc as HTMLDocument).createElement('LI');
         listItem.innerHTML = payload[key];
         (this.smartBib as HTMLOListElement).appendChild(listItem);
+        let ev = new CustomEvent('REFERENCE_ADDED', { detail: payload[key] });
+        window.dispatchEvent(ev);
       }
       if (this.attachInline) {
         let afterLength: number = (this.smartBib as HTMLOListElement).children.length;

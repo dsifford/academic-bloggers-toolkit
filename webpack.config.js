@@ -3,12 +3,12 @@ module.exports = {
   entry: {
     'inc/js/tinymce-entrypoint': './inc/js/tinymce-entrypoint.ts',
     'inc/js/frontend': './inc/js/frontend.ts',
-    'inc/js/reflist': './inc/js/reflist.tsx',
+    'inc/js/Reflist': './inc/js/Reflist.tsx',
     'inc/js/PeerReviewMetabox': './inc/js/PeerReviewMetabox.tsx',
     'inc/js/components/ReferenceWindow': './inc/js/components/ReferenceWindow.tsx',
     'inc/js/components/CitationWindow': './inc/js/components/CitationWindow.tsx',
-    'inc/js/metaboxes': './inc/js/metaboxes.ts',
     'inc/js/components/PubmedWindow': './inc/js/components/PubmedWindow.tsx',
+    'inc/js/vendor/noneditable': './inc/js/vendor/noneditable.ts',
   },
   output: {
     filename: '[name].js',

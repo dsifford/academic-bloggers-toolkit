@@ -65,21 +65,57 @@ class ABT_PR_Metabox {
 
 		$new_meta = unserialize(get_post_meta($post_id, '_abt-meta', true));
 
+		if (empty($new_meta['peer_review'])) {
+			$new_meta['peer_review'] = array();
+		}
+
 		// Begin Saving Meta Variables
 		$new_meta['peer_review']['selection'] = esc_attr( $_POST[ 'reviewer_selector' ] );
 
 		for ($i=1; $i < 4; $i++) {
-			$new_meta['peer_review'][$i]['heading'] = esc_attr( $_POST[ 'peer_review_box_heading_' . $i ] );
-			$new_meta['peer_review'][$i]['review']['name'] = sanitize_text_field( $_POST[ 'reviewer_name_' . $i ] );
-			$new_meta['peer_review'][$i]['review']['twitter'] = sanitize_text_field( $_POST[ 'reviewer_twitter_' . $i ] );
-			$new_meta['peer_review'][$i]['review']['background'] = wp_kses(  $_POST[ 'reviewer_background_' . $i ], $abt_background_allowed_tags );
-			$new_meta['peer_review'][$i]['review']['content'] = wp_kses_post( wpautop( $_POST[ 'peer_review_content_' . $i ] ) );
-			$new_meta['peer_review'][$i]['review']['image'] = $_POST[ 'reviewer_headshot_image_' . $i ];
-			$new_meta['peer_review'][$i]['response']['name'] = sanitize_text_field( $_POST[ 'author_name_' . $i ] );
-			$new_meta['peer_review'][$i]['response']['twitter'] = sanitize_text_field( $_POST[ 'author_twitter_' . $i ] );
-			$new_meta['peer_review'][$i]['response']['background'] = wp_kses( $_POST[ 'author_background_' . $i ], $abt_background_allowed_tags );
-			$new_meta['peer_review'][$i]['response']['content'] = wp_kses_post( wpautop( $_POST[ 'author_content_' . $i ] ) );
-			$new_meta['peer_review'][$i]['response']['image'] = $_POST[ 'author_headshot_image_' . $i ];
+			$new_meta['peer_review'][$i]['heading'] = isset($_POST[ 'peer_review_box_heading_' . $i ])
+				? sanitize_text_field( $_POST[ 'peer_review_box_heading_' . $i ] )
+				: '';
+
+			$new_meta['peer_review'][$i]['review']['name'] = isset($_POST[ 'reviewer_name_' . $i ])
+				? sanitize_text_field( $_POST[ 'reviewer_name_' . $i ] )
+				: '';
+
+			$new_meta['peer_review'][$i]['review']['twitter'] = isset($_POST[ 'reviewer_twitter_' . $i ])
+				? sanitize_text_field( $_POST[ 'reviewer_twitter_' . $i ] )
+				: '';
+
+			$new_meta['peer_review'][$i]['review']['background'] = isset($_POST[ 'reviewer_background_' . $i ])
+				? wp_kses(  $_POST[ 'reviewer_background_' . $i ], $abt_background_allowed_tags )
+				: '';
+
+			$new_meta['peer_review'][$i]['review']['content'] = isset($_POST[ 'peer_review_content_' . $i ])
+				? wp_kses_post( wpautop( $_POST[ 'peer_review_content_' . $i ] ) )
+				: '';
+
+			$new_meta['peer_review'][$i]['review']['image'] = isset($_POST[ 'reviewer_headshot_image_' . $i ])
+				? $_POST[ 'reviewer_headshot_image_' . $i ]
+				: '';
+
+			$new_meta['peer_review'][$i]['response']['name'] = isset($_POST[ 'author_name_' . $i ])
+				? sanitize_text_field( $_POST[ 'author_name_' . $i ] )
+				: '';
+
+			$new_meta['peer_review'][$i]['response']['twitter'] = isset($_POST[ 'author_twitter_' . $i ])
+				? sanitize_text_field( $_POST[ 'author_twitter_' . $i ] )
+				: '';
+
+			$new_meta['peer_review'][$i]['response']['background'] = isset($_POST[ 'author_background_' . $i ])
+				? wp_kses( $_POST[ 'author_background_' . $i ], $abt_background_allowed_tags )
+				: '';
+
+			$new_meta['peer_review'][$i]['response']['content'] = isset($_POST[ 'author_content_' . $i ])
+				? wp_kses_post( wpautop( $_POST[ 'author_content_' . $i ] ) )
+				: '';
+
+			$new_meta['peer_review'][$i]['response']['image'] = isset($_POST[ 'author_headshot_image_' . $i ])
+				? $_POST[ 'author_headshot_image_' . $i ]
+				: '';
 		}
 
 		update_post_meta($post_id, '_abt-meta', serialize($new_meta));
@@ -100,16 +136,38 @@ class ABT_PR_Metabox {
 
 		$meta_fields = unserialize(get_post_meta( $post->ID, '_abt-meta', true));
 
-		wp_localize_script('abt-PR-metabox', 'ABT_PR_Metabox_Data', $meta_fields['peer_review']);
-
-		// $html = '<div id="peer_review_metabox_wrapper">';
-		// $html .= $this->render_select_box($meta_fields);
-		// $html .= $this->render_review_row($meta_fields['peer_review']['1'], 1);
-		// $html .= $this->render_review_row($meta_fields['peer_review']['2'], 2);
-		// $html .= $this->render_review_row($meta_fields['peer_review']['3'], 3);
-		// $html .= '</div>';
-		//
-		// echo $html;
+		if (!empty($meta_fields['peer_review'])) {
+			for ($i=1; $i < 4; $i++) {
+				$meta_fields['peer_review'][$i]['response']['content'] =
+					$meta_fields['peer_review'][$i]['response']['content'] === ''
+					? ''
+					: preg_replace('/(<br>)|(<br \/>)|(<p>)|(<\/p>)/', "\r", $meta_fields['peer_review'][$i]['response']['content']);
+				$meta_fields['peer_review'][$i]['review']['content'] =
+					$meta_fields['peer_review'][$i]['review']['content'] === ''
+					? ''
+					: preg_replace('/(<br>)|(<br \/>)|(<p>)|(<\/p>)/', "\r", $meta_fields['peer_review'][$i]['review']['content']);
+			}
+			wp_localize_script('abt-PR-metabox', 'ABT_PR_Metabox_Data', $meta_fields['peer_review']);
+		} else {
+			wp_localize_script('abt-PR-metabox', 'ABT_PR_Metabox_Data', array(
+				'1' => array(
+					'heading' => '',
+					'response' => array(),
+					'review' => array(),
+				),
+				'2' => array(
+					'heading' => '',
+					'response' => array(),
+					'review' => array(),
+				),
+				'3' => array(
+					'heading' => '',
+					'response' => array(),
+					'review' => array(),
+				),
+				'selection' => ''
+			));
+		}
 
 		echo "<div id='abt-peer-review-metabox'></div>";
 
@@ -135,97 +193,6 @@ class ABT_PR_Metabox {
 			'preferredCitationStyle' => $abt_options['abt_citation_style'],
 			'postType' => $typenow,
 		));
-	}
-
-	/**
-	 * Renders the select box
-	 *
-	 * @since 2.5.0
-	 * @param  array $meta The entire `_abt-meta` array
-	 * @return string       HTML select group
-	 */
-	private function render_select_box($meta) {
-		return "
-		<select name='reviewer_selector' id='reviewer_selector'>
-			<option value='0' " . ($meta['peer_review']['selection'] == '0' ? 'selected' : '') . ">Select Number of Reviewers</option>
-			<option value='1' " . ($meta['peer_review']['selection'] == '1' ? 'selected' : '') . ">One Reviewer</option>
-			<option value='2' " . ($meta['peer_review']['selection'] == '2' ? 'selected' : '') . ">Two Reviewers</option>
-			<option value='3' " . ($meta['peer_review']['selection'] == '3' ? 'selected' : '') . ">Three Reviewers</option>
-		</select>
-		";
-	}
-
-	/**
-	 * Renders an entire review/response row
-	 *
-	 * @since 2.5.0
-	 * @param  arary $meta   `_abt-meta` (either 1, 2, or 3)
-	 * @param  int $number    The review number (either 1, 2, or 3)
-	 * @return string         Formatted HTML
-	 */
-	private function render_review_row($meta, $number) {
-		$heading = $meta['heading'];
-		$review = $meta['review'];
-		$response = $meta['response'];
-
-		return "
-		<div id='tabs-${number}' style='padding-top: 10px;'>
-			<h3 style='margin: 5px 0;'>Review ${number}</h3>
-			<table class='form-table' style='border: solid 2px #dedede; margin-top: 0;'>
-				<tr valign='top' class='alternate'>
-					<td width='20%'><label for='peer_review_box_heading_${number}' class='abt-row-title' width='20%'>Heading for Peer Review</label></td>
-					<td colspan='3'><input type='text' class='large-text' name='peer_review_box_heading_${number}' id='peer_review_box_heading_${number}' value='${heading}' /></td>
-				</tr>
-				<tr valign='top'>
-					<td width='20%'><label for='reviewer_name_${number}' class='abt-row-title' width='20%'>Peer Reviewer Name</label></td>
-					<td><input type='text' class='large-text' name='reviewer_name_${number}' id='reviewer_name_${number}' value='${review['name']}' /></td>
-					<td width='1px'><label for='reviewer_twitter_${number}' class='abt-row-title' width='20%'>Twitter&nbsp;Handle</label></td>
-					<td><input type='text' class='large-text' name='reviewer_twitter_${number}' id='reviewer_twitter_${number}' value='${review['twitter']}' /></td>
-				</tr>
-				<tr valign='top' class='alternate'>
-					<td width='20%'><label for='reviewer_background_${number}' class='abt-row-title' width='20%'>Peer Reviewer Background</label></td>
-					<td colspan='3'><input type='text' class='large-text' name='reviewer_background_${number}' id='reviewer_background_${number}' value='${review['background']}' /></td>
-				</tr>
-				<tr valign='top'>
-					<td scope='row' width='20%'><label for='peer_review_content_${number}' width='20%'>Peer Review</label></td>
-					<td colspan='3'><textarea name='peer_review_content_${number}' id='peer_review_content_${number}' cols='80' rows='5' class='large-text'>${review['content']}</textarea><br></td>
-				</tr>
-				<tr valign='top' class='alternate'>
-					<td scope='row' width='20%'><label for='reviewer_headshot_image_${number}' class='abt-row-title' width='20%'>Peer Reviewer Photo</label></td>
-					<td colspan='3'>
-						<input type='text' name='reviewer_headshot_image_${number}' id='reviewer_headshot_image_${number}' value='${review['image']}' />
-						<input type='button' id='headshot_image_button_${number}' class='button' value='Choose or Upload an Image' />
-					</td>
-				</tr>
-				<tr valign='top'>
-					<td scope='row' colspan='4'><input class='button-primary' type='button' id='author_response_button_${number}' value='Toggle Author Response' /></td>
-				</tr>
-			</table>
-			<table class='form-table' style='margin-top: -2px; border: solid 2px #0085ba; border-top: none;' id='author_response_${number}'>
-				<tr valign='top' class='alternate'>
-					<td width='20%'><label for='author_name_${number}' class='abt-row-title'>Author Name</label></td>
-					<td width='40%'><input type='text' class='large-text' name='author_name_${number}' id='author_name_${number}' value='${response['name']}' /></td>
-					<td width='10%'><label for='author_twitter_${number}' class='abt-row-title' width='20%'>Twitter&nbsp;Handle</label></td>
-					<td width='30%'><input type='text' class='large-text' name='author_twitter_${number}' id='author_twitter_${number}' value='${response['twitter']}' /></td>
-				</tr>
-				<tr valign='top'>
-					<td width='20%'><label for='author_background_${number}' class='abt-row-title'>Author Background</label></td>
-					<td colspan='3'><input type='text' class='large-text' name='author_background_${number}' id='author_background_${number}' value='${response['background']}' /></td>
-				</tr>
-				<tr valign='top' class='alternate'>
-					<td scope='row' width='20%'><label for='author_content_${number}'>Author Response</label></td>
-					<td colspan='3'><textarea name='author_content_${number}' id='author_content_${number}' cols='80' rows='5' class='large-text'>${response['content']}</textarea><br></td>
-				</tr>
-				<tr valign='top'>
-					<td scope='row' width='20%'><label for='author_headshot_image_${number}' class='abt-row-title'>Author Photo</label></td>
-					<td colspan='3'>
-						<input type='text' name='author_headshot_image_${number}' id='author_headshot_image_${number}' value='${response['image']}' />
-						<input type='button' id='headshot_image_button_". ($number+3) ."' class='button' value='Choose or Upload an Image' />
-					</td>
-				</tr>
-			</table>
-		</div>
-		";
 	}
 
 	/**
@@ -346,7 +313,7 @@ class ABT_PR_Metabox {
 
 }
 
-
+// NOTE: This will likely be depreciated soon
 function tag_ordered_list( $content ) {
 
 	if ( is_single() || is_page() ) {
@@ -480,12 +447,12 @@ function abt_insert_the_meta( $text ) {
 
 			}
 
-			if ( $reviewer_block_1 != '' ) {
+			if ( !empty($reviewer_block_1) ) {
 				$text .=
 				'<div id="abt_PR_boxes">' .
 					$reviewer_block_1 .
-					( ( $reviewer_block_2 != '' ) ? $reviewer_block_2 : '' ) .
-					( ( $reviewer_block_3 != '' ) ? $reviewer_block_3 : '' ) .
+					( ( !empty($reviewer_block_2) ) ? $reviewer_block_2 : '' ) .
+					( ( !empty($reviewer_block_3) ) ? $reviewer_block_3 : '' ) .
 					'</div>';
 			}
 		}

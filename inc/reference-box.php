@@ -39,7 +39,7 @@ class ABT_Reference_Box {
     }
 
     public function enqueue_js() {
-        wp_register_script('abt_reflist', plugins_url('academic-bloggers-toolkit/inc/js/reflist.js') );
+        wp_register_script('abt_reflist', plugins_url('academic-bloggers-toolkit/inc/js/Reflist.js') );
     	wp_enqueue_script( 'abt_reflist', false, array(), false, true );
     }
 

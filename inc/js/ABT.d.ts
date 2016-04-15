@@ -27,6 +27,7 @@ interface tinyMCEEditor {
   editorContainer: any
   editorManager: any
   editorUpload: any
+  insertContent(any): any
   plugins: any
   settings: any
   target: any

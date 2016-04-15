@@ -35,7 +35,6 @@
     "files": [
         "inc/js/ABT.d.ts",
         "inc/js/frontend.ts",
-        "inc/js/metaboxes.ts",
         "inc/js/tinymce-entrypoint.ts",
         "inc/js/utils/Dispatcher.ts",
         "inc/js/utils/HelperFunctions.ts",
@@ -43,6 +42,7 @@
         "inc/js/utils/Parsers.ts",
         "inc/js/utils/PrototypeFunctions.ts",
         "inc/js/utils/PubmedAPI.ts",
+        "inc/js/vendor/noneditable.ts",
         "typings/main.d.ts",
         "typings/main/ambient/jest/index.d.ts",
         "typings/main/ambient/react-addons-test-utils/index.d.ts",
@@ -53,6 +53,6 @@
         "inc/js/components/PubmedWindow.tsx",
         "inc/js/components/ReferenceWindow.tsx",
         "inc/js/PeerReviewMetabox.tsx",
-        "inc/js/reflist.tsx"
+        "inc/js/Reflist.tsx"
     ]
 }
