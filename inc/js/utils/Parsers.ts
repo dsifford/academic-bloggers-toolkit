@@ -87,7 +87,7 @@ export class AMA {
 
     private _parseJournal(data: ReferenceObj): string {
         let authors = this._parseAuthors(data.authors);
-        let year = (new Date(data.pubdate).getFullYear() + 1).toString();
+        let year = (new Date(data.pubdate).getFullYear()).toString();
         let source = toTitleCase(data.source);
         let title = toTitleCase(data.title);
         let issue = `(${data.issue})` || '';
@@ -257,7 +257,7 @@ export class APA {
 
     private _parseJournal(data: ReferenceObj): string {
         let authors = this._parseAuthors(data.authors, data.lastauthor);
-        let year = (new Date(data.pubdate).getFullYear() + 1).toString();
+        let year = (new Date(data.pubdate).getFullYear()).toString();
         let source = toTitleCase(data.source);
         let issue = `(${data.issue})` || '';
         let volume = ` ${data.volume}` || '';
