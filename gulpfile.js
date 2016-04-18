@@ -6,6 +6,7 @@ var cleanCSS     = require('gulp-clean-css');
 var browserSync  = require('browser-sync').create();
 var webpack      = require('webpack-stream');
 var del          = require('del');
+var coveralls    = require('gulp-coveralls');
 
 gulp.task('clean', function () {
   return del([
@@ -70,3 +71,8 @@ gulp.task('minify-js', ['remove-mapfiles'], function () {
 });
 
 gulp.task('deploy', ['remove-mapfiles', 'minify-js']);
+
+gulp.task('coveralls', function () {
+    gulp.src('./coverage/**/lcov.info')
+    .pipe(coveralls());
+});

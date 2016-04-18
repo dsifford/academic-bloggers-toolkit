@@ -148,6 +148,25 @@ tinyMCE.PluginManager.add('abt_main_menu', (editor: tinyMCEEditor, url: string) 
         }
     }
 
+    const importBibtex: TinyMCEMenuItem = {
+        text: 'Import BibTeX',
+        onclick: () => {
+            editor.windowManager.open(<TinyMCEWindowMangerObject>{
+                title: 'Import BibTeX',
+                url: ABT_locationInfo.tinymceViewsURL + 'import-bibtex.html',
+                width: 600,
+                height: 10,
+                params: {
+                    baseUrl: ABT_locationInfo.tinymceViewsURL,
+                    preferredStyle: ABT_locationInfo.preferredCitationStyle,
+                },
+                onclose: (e: any) => {
+                    console.log(e);
+                },
+            });
+        },
+    }
+
 
     // Event Handlers
     editor.on('init', () => {
@@ -167,6 +186,8 @@ tinyMCE.PluginManager.add('abt_main_menu', (editor: tinyMCEEditor, url: string) 
         icon: 'abt_menu dashicons-welcome-learn-more',
         title: 'Academic Blogger\'s Toolkit',
         menu: [
+            importBibtex,
+            separator,
             keyboardShortcuts,
             requestTools,
         ],

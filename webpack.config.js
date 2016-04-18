@@ -7,6 +7,7 @@ module.exports = {
     'inc/js/PeerReviewMetabox': './inc/js/PeerReviewMetabox.tsx',
     'inc/js/components/ReferenceWindow': './inc/js/components/ReferenceWindow.tsx',
     'inc/js/components/PubmedWindow': './inc/js/components/PubmedWindow.tsx',
+    'inc/js/components/BibtexWindow': './inc/js/components/BibtexWindow.tsx',
     'inc/js/vendor/noneditable': './inc/js/vendor/noneditable.ts',
   },
   output: {

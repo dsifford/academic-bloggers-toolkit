@@ -1,6 +1,7 @@
 .git
 node_modules
 dist
+coverage
 npm-debug.log
 typings/*
 !typings/ABT.d.ts
