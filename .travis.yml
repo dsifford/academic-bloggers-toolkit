@@ -1,3 +1,11 @@
 language: nodejs
 node_js:
     - "5"
+before_script:
+    - nvm install node
+    - node --version
+    - npm --version
+    - nvm --version
+    - npm install
+script:
+    - npm test
