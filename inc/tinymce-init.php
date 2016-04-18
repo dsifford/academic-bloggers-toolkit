@@ -37,13 +37,12 @@ class ABT_TinyMCE_Buttons {
 
     public function register_plugin($plugin_array) {
         $plugin_array['abt_main_menu'] = plugins_url('academic-bloggers-toolkit/inc/js/tinymce-entrypoint.js');
-        $plugin_array['abt_generate_references'] = plugins_url('academic-bloggers-toolkit/inc/js/tinymce-entrypoint.js');
         $plugin_array['noneditable'] = plugins_url('academic-bloggers-toolkit/inc/js/vendor/noneditable.js');
         return $plugin_array;
     }
 
     public function register_buttons($buttons) {
-        array_push($buttons, 'abt_generate_references', 'abt_main_menu');
+        array_push($buttons, 'abt_main_menu');
         return $buttons;
     }
 

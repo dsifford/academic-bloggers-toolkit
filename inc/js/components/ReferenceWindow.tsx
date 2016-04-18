@@ -58,8 +58,6 @@ interface State {
 class ReferenceWindow extends React.Component<{}, State> {
 
   private modal: Modal = new Modal('Insert Formatted Reference');
-  private smartBibIsEnabled =
-    (top.tinyMCE.activeEditor.dom.doc as Document).getElementById('abt-smart-bib');
 
   constructor() {
     super();
@@ -227,7 +225,6 @@ class ReferenceWindow extends React.Component<{}, State> {
             onChange={this.consumeManualDataChange.bind(this)} />
         }
         <RefOptions
-          smartBibIsEnabled={this.smartBibIsEnabled}
           attachInline={this.state.attachInline}
           citationFormat={this.state.citationFormat}
           onChange={this.consumeChange.bind(this)} />
@@ -294,7 +291,6 @@ const RefOptions = ({
   attachInline,
   citationFormat,
   onChange,
-  smartBibIsEnabled,
 }) => {
   let commonStyle = { padding: '5px' }
   return(
@@ -314,8 +310,7 @@ const RefOptions = ({
           </select>
         </div>
       </div>
-      { smartBibIsEnabled &&
-        <div style={{display: 'flex', alignItems: 'center'}}>
+      <div style={{display: 'flex', alignItems: 'center'}}>
           <div style={commonStyle}>
             <label htmlFor='attachInline'>Also add inline citation at current cursor position?</label>
           </div>
@@ -323,7 +318,6 @@ const RefOptions = ({
             <input type='checkbox' id='attachInline' checked={attachInline} onChange={onChange} />
           </div>
         </div>
-      }
     </div>
   );
 }
@@ -395,8 +389,7 @@ class ManualEntryContainer extends React.Component<{
 
 
   typeChange(e) {
-    let event = new CustomEvent('TYPE_CHANGE', { detail: e.target.value });
-    this.props.onChange(event);
+    this.props.onChange(new CustomEvent('TYPE_CHANGE', { detail: e.target.value }));
   }
 
   authorChange(e) {
@@ -404,27 +397,22 @@ class ManualEntryContainer extends React.Component<{
     let authNumber: number = parseInt(e.target.dataset['authornum']);
     let newAuthorList = [...this.props.manualData.authors];
     newAuthorList[authNumber][type] = e.target.value;
-    let event = new CustomEvent('AUTHOR_DATA_CHANGE', {detail: newAuthorList})
-    this.props.onChange(event);
-
+    this.props.onChange(new CustomEvent('AUTHOR_DATA_CHANGE', {detail: newAuthorList}));
   }
 
   addAuthor(e) {
-    let event = new CustomEvent('ADD_AUTHOR');
-    this.props.onChange(event);
+    this.props.onChange(new CustomEvent('ADD_AUTHOR'));
   }
 
   removeAuthor(e) {
     let authornum = e.target.dataset['authornum'];
-    let event = new CustomEvent('REMOVE_AUTHOR', { detail: authornum });
-    this.props.onChange(event);
+    this.props.onChange(new CustomEvent('REMOVE_AUTHOR', { detail: authornum }));
   }
 
   handleMetaChange(e) {
     let newMeta = Object.assign({}, this.props.manualData.meta);
     newMeta[this.props.manualData.type][e.target.dataset['metakey']] = e.target.value;
-    let event = new CustomEvent('META_CHANGE', { detail: newMeta });
-    this.props.onChange(event);
+    this.props.onChange(new CustomEvent('META_CHANGE', { detail: newMeta }));
   }
 
   render() {

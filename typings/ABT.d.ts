@@ -16,7 +16,6 @@ interface tinyMCE {
 }
 
 interface tinyMCEEditor {
-  addButton: (any) => any
   buttons: any
   container: any
   contentDocument: HTMLDocument
@@ -28,6 +27,10 @@ interface tinyMCEEditor {
   editorManager: any
   editorUpload: any
   insertContent(any): any
+  setProgressState(state: number): void
+  addShortcut(keys: string, title: string, func: Function): void
+  on(eventString: string, callback: Function): void
+  addButton(buttonID: string, buttonObj: any): void
   plugins: any
   settings: any
   target: any
@@ -75,15 +78,6 @@ interface TinyMCEWindowMangerObject {
   body?: TinyMCEWindowElement[]
   url?: string
   onclose?: (e?) => void
-}
-
-interface TinyMCEPluginButton {
-  type: string
-  image: string
-  title: string
-  icon: boolean
-  menu: TinyMCEMenuItem[]
-  onclick?: (e?: Event) => void
 }
 
 interface Author {
@@ -155,8 +149,10 @@ interface ReferenceObj {
   updated?: string
   url?: string
   volume?: string
+  uid?: string
 }
 
+/** FIXME */
 interface ReferencePayload {
   [i: number]: ReferenceObj
   uids?: string[]

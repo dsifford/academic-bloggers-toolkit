@@ -35,7 +35,7 @@ class ABT_Reference_Box {
     }
 
     public function render_metabox() {
-        echo "<div id='abt-reflist' style='margin: 0 -12px;'></div>";
+        echo "<div id='abt-reflist' style='margin: 0 -12px -12px -12px;'></div>";
     }
 
     public function enqueue_js() {

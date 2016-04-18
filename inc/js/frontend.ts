@@ -65,8 +65,6 @@ namespace ABT_Frontend {
 
         let citeNums: number[] = JSON.parse((citationList[i] as HTMLSpanElement).dataset['reflist']);
         let citationHTML = citeNums.map((citeNum: number): string => {
-          // Correct for zero-based index
-          citeNum--;
 
           // Handle error silently if citeNum is outside the indices of the reference list
           if (!referenceList.children[citeNum]) { return; }

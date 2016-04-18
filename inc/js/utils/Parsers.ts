@@ -1,302 +1,298 @@
+import { toTitleCase } from './HelperFunctions';
 
 export class AMA {
 
-  private _isManual: boolean = true;
-  private manualCitationType: string;
-  private includeLink: boolean;
+    private manualCitationType: string;
+    private includeLink: boolean;
 
-  constructor(includeLink?: boolean, manualCitationType?: string) {
-    this.includeLink = includeLink;
-    this.manualCitationType = manualCitationType;
-  }
-
-  public parse(data: ReferencePayload): string[]|Error {
-
-    if (data.uids) {
-      this._isManual = false
+    constructor(includeLink?: boolean, manualCitationType?: string) {
+        this.includeLink = includeLink;
+        this.manualCitationType = manualCitationType;
     }
 
-    if (this._isManual) {
-      return [this._fromManual(data)];
-    }
+    public parse(data: ReferenceObj[]): string[]|Error {
 
-    return this._fromPMID(data, data.uids);
-  }
-
-  private _fromPMID(data: ReferencePayload, pmidArray: string[]): string[]|Error {
-    let output: string[]|Error;
-    try {
-      output = pmidArray.map((PMID: string): string => {
-        let ref: ReferenceObj = data[PMID];
-        let year: string = ref.pubdate.substr(0, 4);
-        let link  = this.includeLink === true
-                  ? ` PMID: <a href="http://www.ncbi.nlm.nih.gov/pubmed/${PMID}" target="_blank">${PMID}</a>`
-                  : '';
-
-        let authors: string|Error = this._parseAuthors(ref.authors);
-        if ((authors as Error).name === 'Error') {
-          throw authors;
+        if (this.manualCitationType !== undefined) {
+            return [this._fromManual(data[0])];
         }
 
-        return `${authors} ${ref.title} <em>${ref.source}.</em> ${year}; ` +
-               `${ref.volume === undefined || ref.volume === '' ? '' : ref.volume}` +
-               `${ref.issue === undefined || ref.issue === '' ? '' : '('+ref.issue+')'}:` +
-               `${ref.pages}.${link}`;
-      });
-    } catch(e) {
-      return e;
-    }
-    return output;
-  }
-
-  private _fromManual(data: ReferencePayload): string {
-
-    let payload: string;
-    switch (this.manualCitationType) {
-      case 'journal':
-        payload = this._parseJournal(data);
-        break;
-      case 'website':
-        payload = this._parseWebsite(data);
-        break;
-      case 'book':
-        payload = this._parseBook(data);
-        break;
+        return this._fromPMID(data);
     }
 
-    return payload;
-  }
+    private _fromPMID(data: ReferenceObj[]): string[]|Error {
+        let output: string[]|Error;
+        try {
+            output = data.map((ref: ReferenceObj): string => {
+                let year: string = ref.pubdate.substr(0, 4);
+                let link = this.includeLink === true
+                    ? ` PMID: <a href="http://www.ncbi.nlm.nih.gov/pubmed/${ref.uid}" target="_blank">${ref.uid}</a>`
+                    : '';
 
-  private _parseAuthors(authorArr: Author[]): string|Error {
-    let authors: string = '';
-    switch (authorArr.length) {
-      case 0:
-        if (this._isManual === true) { break; }
-        return new Error(`No authors were found for given reference`);
-      case 1:
-      case 2:
-      case 3:
-      case 4:
-      case 5:
-      case 6:
-        authors = authorArr.map((author: Author) => author.name).join(', ') + '.';
-        break;
-      default:
-        for (let i = 0; i < 3; i++) { authors+= authorArr[i].name + ', ' };
-        authors += 'et al.';
+                let authors: string|Error = this._parseAuthors(ref.authors, false);
+                if (authors instanceof Error) {
+                    throw authors;
+                }
+                else {
+                    return `${authors} ${ref.title} <em>${ref.source}.</em> ${year}; ` +
+                        `${ref.volume === undefined || ref.volume === '' ? '' : ref.volume}` +
+                        `${ref.issue === undefined || ref.issue === '' ? '' : '(' + ref.issue + ')'}:` +
+                        `${ref.pages}.${link}`;
+                }
+            });
+        }
+        catch (e) {
+            return e;
+        }
+        return output;
     }
-    return authors;
-  }
 
-  private _parseJournal(data: ReferencePayload): string {
-    let authors = this._parseAuthors(data[0].authors);
-    let year = (new Date(data[0].pubdate).getFullYear() + 1).toString();
-    let source = data[0].source.toTitleCase();
-    let issue = `(${data[0].issue})` || '';
-    let volume = data[0].volume || '';
+    private _fromManual(data: ReferenceObj): string {
 
-    return `${authors} ${data[0].title}. <em>${source}.</em> ${year}; ` +
-           `${volume}${issue}:${data[0].pages}.`;
-  }
+        let payload: string;
+        switch (this.manualCitationType) {
+            case 'journal':
+                payload = this._parseJournal(data);
+                break;
+            case 'website':
+                payload = this._parseWebsite(data);
+                break;
+            case 'book':
+                payload = this._parseBook(data);
+                break;
+        }
 
-  private _parseWebsite(data: ReferencePayload): string {
-    let authors = data[0].authors.length > 0
-      ? this._parseAuthors(data[0].authors) + ' '
-      : '';
-    let pubdate: string = `Published ${new Date(data[0].pubdate).toLocaleDateString('en-us', {month: 'long', year: 'numeric'})}. `;
-    let updated: string = data[0].updated !== ''
-    ? `Updated ${new Date(data[0].updated).toLocaleDateString('en-us', {month: 'long', day: 'numeric', year: 'numeric'})}. `
-    : ''
-    let accessed: string = data[0].accessdate !== ''
-      ? `Accessed ${new Date(data[0].accessdate).toLocaleDateString('en-us', {month: 'long', day: 'numeric', year: 'numeric'})}. `
-      : `Accessed ${new Date(Date.now()).toLocaleDateString('en-us', {month: 'long', day: 'numeric', year: 'numeric'})}`;
+        return payload;
+    }
 
-    return `${authors}${data[0].title}. <em>${data[0].source}</em>. Available at: ` +
-    `<a href="${data[0].url}" target="_blank">${data[0].url}</a>. ${pubdate}${updated}${accessed}`;
-  }
+    private _parseAuthors(authorArr: Author[], isManual: boolean = true): string|Error {
+        let authors: string = '';
+        switch (authorArr.length) {
+            case 0:
+                if (isManual) { break; }
+                return new Error(`No authors were found for given reference`);
+            case 1:
+            case 2:
+            case 3:
+            case 4:
+            case 5:
+            case 6:
+                authors = authorArr.map((author: Author) => author.name).join(', ') + '.';
+                break;
+            default:
+                for (let i = 0; i < 3; i++) { authors += authorArr[i].name + ', ' };
+                authors += 'et al.';
+        }
+        return authors;
+    }
 
-  private _parseBook(data: ReferencePayload): string {
-    let authors = this._parseAuthors(data[0].authors);
-    let title = data[0].title;
-    let pubLocation = data[0].location !== ''
-      ? `${data[0].location}:`
-      : ``;
-    let publisher = data[0].source;
-    let year = data[0].pubdate;
-    let chapter = data[0].chapter !== ''
-      ? ` ${data[0].chapter}. In:`
-      : ``;
-    let pages = data[0].pages !== ''
-      ? `: ${data[0].pages}.`
-      : `.`;
+    private _parseJournal(data: ReferenceObj): string {
+        let authors = this._parseAuthors(data.authors);
+        let year = (new Date(data.pubdate).getFullYear() + 1).toString();
+        let source = toTitleCase(data.source);
+        let title = toTitleCase(data.title);
+        let issue = `(${data.issue})` || '';
+        let volume = data.volume || '';
 
-    return `${authors}${chapter} <em>${title}</em>. ${pubLocation}${publisher}; ${year}${pages}`;
-  }
+        return `${authors} ${title}. <em>${source}.</em> ${year}; ` +
+            `${volume}${issue}:${data.pages}.`;
+    }
+
+    private _parseWebsite(data: ReferenceObj): string {
+        let authors = data.authors.length > 0
+            ? this._parseAuthors(data.authors) + ' '
+            : '';
+        let pubdate: string = `Published ${new Date(data.pubdate).toLocaleDateString('en-us', { month: 'long', year: 'numeric' }) }. `;
+        let updated: string = data.updated !== ''
+            ? `Updated ${new Date(data.updated).toLocaleDateString('en-us', { month: 'long', day: 'numeric', year: 'numeric' }) }. `
+            : ''
+        let accessed: string = data.accessdate !== ''
+            ? `Accessed ${new Date(data.accessdate).toLocaleDateString('en-us', { month: 'long', day: 'numeric', year: 'numeric' }) }. `
+            : `Accessed ${new Date(Date.now()).toLocaleDateString('en-us', { month: 'long', day: 'numeric', year: 'numeric' }) }`;
+
+        return `${authors}${data.title}. <em>${data.source}</em>. Available at: ` +
+            `<a href="${data.url}" target="_blank">${data.url}</a>. ${pubdate}${updated}${accessed}`;
+    }
+
+    private _parseBook(data: ReferenceObj): string {
+        let authors = this._parseAuthors(data.authors);
+        let title = data.title;
+        let pubLocation = data.location !== ''
+            ? `${data.location}:`
+            : ``;
+        let publisher = data.source;
+        let year = data.pubdate;
+        let chapter = data.chapter !== ''
+            ? ` ${data.chapter}. In:`
+            : ``;
+        let pages = data.pages !== ''
+            ? `: ${data.pages}.`
+            : `.`;
+
+        return `${authors}${chapter} <em>${title}</em>. ${pubLocation}${publisher}; ${year}${pages}`;
+    }
 
 }
 
 
 export class APA {
 
-  private _isManual: boolean = true;
-  private manualCitationType: string;
-  private includeLink: boolean;
+    private includeLink: boolean;
+    private manualCitationType: string;
 
-  constructor(includeLink?: boolean, manualCitationType?: string) {
-    this.includeLink = includeLink;
-    this.manualCitationType = manualCitationType;
-  }
-
-  public parse(data: ReferencePayload): string[]|Error {
-    let pmidArray: string[]|boolean = data.uids || false;
-
-    if (pmidArray) {
-      this._isManual = false;
-      return this._fromPMID(data, (pmidArray as string[]));
+    constructor(includeLink?: boolean, manualCitationType?: string) {
+        this.includeLink = includeLink;
+        this.manualCitationType = manualCitationType;
     }
 
-    return [this._fromManual(data)];
-  }
+    public parse(data: ReferenceObj[]): string[]|Error {
 
-  private _fromPMID(data: ReferencePayload, pmidArray: string[]): string[]|Error {
-
-    let output: string[];
-
-    try {
-      output = pmidArray.map((PMID: string): string => {
-        let ref: ReferenceObj = data[PMID];
-        let year: string = ref.pubdate.substr(0, 4);
-        let link  = this.includeLink === true
-                  ? ` PMID: <a href="http://www.ncbi.nlm.nih.gov/pubmed/${PMID}" target="_blank">${PMID}</a>`
-                  : '';
-
-        let authors: string|Error = this._parseAuthors(ref.authors, ref.lastauthor);
-        if ((authors as Error).name === 'Error') {
-          throw authors;
+        if (this.manualCitationType ) {
+            return [this._fromManual(data[0])];
         }
 
-        return `${authors} (${year}). ${ref.title} <em>` +
-          `${ref.fulljournalname === undefined || ref.fulljournalname === '' ? ref.source : ref.fulljournalname.toTitleCase()}.</em>, ` +
-          `${ref.volume === undefined || ref.volume === '' ? '' : ref.volume}` +
-          `${ref.issue === undefined || ref.issue === '' ? '' : '('+ref.issue+')'}, ` +
-          `${ref.pages}.${link}`;
-      });
-    } catch(e) {
-      return e;
+        return this._fromPMID(data);
     }
 
-    return output;
+    private _fromPMID(data: ReferenceObj[]): string[]|Error {
 
-  }
+        let output: string[]|Error;
 
-  private _fromManual(data: ReferencePayload): string {
-    let payload: string;
-    switch (this.manualCitationType) {
-      case 'journal':
-        payload = this._parseJournal(data);
-        break;
-      case 'website':
-        payload = this._parseWebsite(data);
-        break;
-      case 'book':
-        payload = this._parseBook(data);
-        break;
-    }
+        try {
+            output = data.map((ref: ReferenceObj): string => {
+                let year: string = ref.pubdate.substr(0, 4);
+                let link = this.includeLink === true
+                    ? ` PMID: <a href="http://www.ncbi.nlm.nih.gov/pubmed/${ref.uid}" target="_blank">${ref.uid}</a>`
+                    : '';
 
-    return payload;
-  }
+                let authors: string|Error = this._parseAuthors(ref.authors, ref.lastauthor, false);
 
-  private _parseAuthors(authorArr: Author[], lastAuthor: string): string|Error {
-    let authors: string = '';
+                if (authors instanceof Error) {
+                    throw authors;
+                }
 
-    switch (authorArr.length) {
-      case 0:
-        if (this._isManual === true) { break; }
-        return new Error(`No authors were found for given reference`);
-      case 1:
-        authors = authorArr.map((author: Author) =>
-          `${author.name.split(' ')[0]}, ` +                   // Last name
-          `${author.name.split(' ')[1].split('').join('. ')}.` // First Initial(s)
-        ).join();
-        break;
-      case 2:
-        authors = authorArr.map((author: Author) =>
-          `${author.name.split(' ')[0]}, ` +                    // Last name
-          `${author.name.split(' ')[1].split('').join('. ')}.`  // First Initial(s)
-        ).join(', & ');
-        break;
-      case 3:
-      case 4:
-      case 5:
-      case 6:
-      case 7:
-        authors = authorArr.map((author, i, arr) => {
-          if (i === arr.length - 1) {
-            return(
-              `& ${author.name.split(' ')[0]}, ` +
-              `${author.name.split(' ')[1].split('').join('. ')}.`
-            );
-          }
-          return(
-            `${author.name.split(' ')[0]}, ` +
-            `${author.name.split(' ')[1].split('').join('. ')}., `
-          );
-        }).join('');
-        break;
-      default:
-        for (let i = 0; i < 6; i++) {
-          authors +=
-            `${authorArr[i].name.split(' ')[0]}, ` +
-            `${authorArr[i].name.split(' ')[1].split('').join('. ')}., `
+                return (
+                    `${authors} (${year}). ${ref.title} <em>` +
+                    `${!ref.fulljournalname ? ref.source : toTitleCase(ref.fulljournalname) }.</em>, ` +
+                    `${!ref.volume ? '' : ref.volume}` +
+                    `${!ref.issue ? '' : '(' + ref.issue + ')'}, ` +
+                    `${ref.pages}.${link}`
+                    );
+            });
+        } catch (e) {
+            return e;
         }
-        authors += `. . . ` +
-          `${lastAuthor.split(' ')[0]}, ` +
-          `${lastAuthor.split(' ')[1].split('').join('. ')}.`;
-        break;
+
+        return output;
     }
-    return authors;
+
+    private _fromManual(data: ReferenceObj): string {
+        let payload: string;
+        switch (this.manualCitationType) {
+            case 'journal':
+                payload = this._parseJournal(data);
+                break;
+            case 'website':
+                payload = this._parseWebsite(data);
+                break;
+            case 'book':
+                payload = this._parseBook(data);
+                break;
+        }
+
+        return payload;
+    }
+
+    private _parseAuthors(authorArr: Author[], lastAuthor: string, isManual: boolean = true): string | Error {
+        let authors: string = '';
+
+        switch (authorArr.length) {
+            case 0:
+                if (isManual) { break; }
+                return new Error(`No authors were found for given reference`);
+            case 1:
+                authors = authorArr.map((author: Author) =>
+                    `${author.name.split(' ')[0]}, ` +                   // Last name
+                    `${author.name.split(' ')[1].split('').join('.') }.` // First Initial(s)
+                    ).join();
+                break;
+            case 2:
+                authors = authorArr.map((author: Author) =>
+                    `${author.name.split(' ')[0]}, ` +                    // Last name
+                    `${author.name.split(' ')[1].split('').join('.') }.`  // First Initial(s)
+                    ).join(', & ');
+                break;
+            case 3:
+            case 4:
+            case 5:
+            case 6:
+            case 7:
+                authors = authorArr.map((author, i, arr) => {
+                    if (i === arr.length - 1) {
+                        return (
+                            `& ${author.name.split(' ')[0]}, ` +
+                            `${author.name.split(' ')[1].split('').join('.') }.`
+                            );
+                    }
+                    return (
+                        `${author.name.split(' ')[0]}, ` +
+                        `${author.name.split(' ')[1].split('').join('.') }., `
+                        );
+                }).join('');
+                break;
+            default:
+                for (let i = 0; i < 6; i++) {
+                    authors +=
+                    `${authorArr[i].name.split(' ')[0]}, ` +
+                    `${authorArr[i].name.split(' ')[1].split('').join('.') }., `
+                }
+                authors += `. . . ` +
+                `${lastAuthor.split(' ')[0]}, ` +
+                `${lastAuthor.split(' ')[1].split('').join('.') }.`;
+                break;
+        }
+        return authors;
 
 
-  }
+    }
 
-  private _parseJournal(data: ReferencePayload): string {
-    let authors = this._parseAuthors(data[0].authors, data[0].lastauthor);
-    let year = (new Date(data[0].pubdate).getFullYear() + 1).toString();
-    let source = data[0].source.toTitleCase();
-    let issue = `(${data[0].issue})` || '';
-    let volume = data[0].volume || '';
+    private _parseJournal(data: ReferenceObj): string {
+        let authors = this._parseAuthors(data.authors, data.lastauthor);
+        let year = (new Date(data.pubdate).getFullYear() + 1).toString();
+        let source = toTitleCase(data.source);
+        let issue = `(${data.issue})` || '';
+        let volume = ` ${data.volume}` || '';
 
-    return `${authors} (${year}). ${data[0].title}. <em>` +
-      `${source}.</em>, ${volume}${issue}, ${data[0].pages}.`;
-  }
+        return `${authors} (${year}). ${data.title}. <em>` +
+            `${source},${volume}</em>${issue}, ${data.pages}.`;
+    }
 
-  private _parseWebsite(data: ReferencePayload): string {
-    let authors = this._parseAuthors(data[0].authors, data[0].lastauthor);
-    let rawDate = new Date(data[0].pubdate);
-    let source = data[0].source.toTitleCase();
-    let date = `${rawDate.getFullYear()}, ` +
-      `${rawDate.toLocaleDateString('en-us', {month: 'long', day: 'numeric'})}`;
+    private _parseWebsite(data: ReferenceObj): string {
+        let authors = this._parseAuthors(data.authors, data.lastauthor);
+        let rawDate = new Date(data.pubdate);
+        let source = toTitleCase(data.source);
+        let date = `${rawDate.getFullYear() }, ` +
+            `${rawDate.toLocaleDateString('en-us', { month: 'long', day: 'numeric' }) }`;
 
-    return `${authors} (${date}). ${data[0].title}. <em>${source}</em>. ` +
-      `Retrieved from <a href="${data[0].url}" target="_blank">${data[0].url}</a>`;
-  }
+        return `${authors} (${date}). ${data.title}. <em>${source}</em>. ` +
+            `Retrieved from <a href="${data.url}" target="_blank">${data.url}</a>`;
+    }
 
-  private _parseBook(data: ReferencePayload): string {
-    let authors = this._parseAuthors(data[0].authors, data[0].lastauthor);
-    let year = (new Date(data[0].pubdate).getFullYear() + 1).toString();
-    let pubLocation = data[0].location !== ''
-      ? `${data[0].location}:`
-      : '';
-    let publisher = data[0].source;
-    let chapter = data[0].chapter !== ''
-      ? ` ${data[0].chapter}. In`
-      : '';
-    let pages = data[0].pages !== ''
-      ? ` (${data[0].pages})`
-      : '';
+    private _parseBook(data: ReferenceObj): string {
+        let authors = this._parseAuthors(data.authors, data.lastauthor);
+        let year = (new Date(data.pubdate).getFullYear() + 1).toString();
+        let pubLocation = data.location !== ''
+            ? `${data.location}:`
+            : '';
+        let publisher = data.source;
+        let chapter = data.chapter !== ''
+            ? ` ${data.chapter}. In`
+            : '';
+        let pages = data.pages !== ''
+            ? ` (${data.pages})`
+            : '';
 
-    return `${authors} (${year}).${chapter} <em>${data[0].title}</em>${pages}. ` +
-        `${pubLocation}${publisher}.`;
-  }
+        return `${authors} (${year}).${chapter} <em>${data.title}</em>${pages}. ` +
+            `${pubLocation}${publisher}.`;
+    }
 
 }

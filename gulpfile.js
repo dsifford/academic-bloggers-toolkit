@@ -48,12 +48,13 @@ gulp.task('serve', ['build'], function () {
     open: false,
   });
 
-  gulp.watch(['./inc/**/*.tsx?'], ['webpack']).on('change', browserSync.reload);
+  gulp.watch(['./inc/**/*.{ts,tsx}', '!./inc/**/*-test.{ts,tsx}'], ['webpack']).on('change', browserSync.reload);
   gulp.watch('./inc/**/*.scss', ['sass']);
   gulp.watch([
     './inc/**/*',
-    '!./inc/**/*.{tsx?,scss}',
+    '!./inc/**/*.{ts,tsx,scss}',
     '!__tests__/**/*',
+    '!./inc/**/*-test.{ts,tsx}',
   ], ['build']).on('change', browserSync.reload);
 });
 

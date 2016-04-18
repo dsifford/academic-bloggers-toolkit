@@ -9,7 +9,7 @@ export function PubmedQuery(query: string, callback: Function): void {
 
     // Handle bad request
     if (request.readyState !== 4 || request.status !== 200) {
-      let error = new Error('Error: PubMed Query, Phase 1 - PubMed returned a non-200 status code.');
+      let error = new Error('Error: PubmedQuery => Pubmed returned a non-200 status code.');
       callback(error);
       return;
     }
@@ -18,18 +18,18 @@ export function PubmedQuery(query: string, callback: Function): void {
 
     // Handle response errors
     if (res.error) {
-      let error = new Error('Error: PubMed Query, Phase 1 - Unknown response error.');
+      let error = new Error('Error: PubmedQuery => Request not valid.');
       callback(error);
       return;
     }
 
-    getData(res.esearchresult.idlist.join(), callback);
+    PubmedGet(res.esearchresult.idlist.join(), callback);
 
   };
   request.send(null);
 }
 
-function getData(PMIDlist: string, callback: Function): void {
+export function PubmedGet(PMIDlist: string, callback: Function): void {
 
   let requestURL = `http://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi?db=pubmed&id=${PMIDlist}&version=2.0&retmode=json`;
   let request = new XMLHttpRequest();
@@ -38,7 +38,7 @@ function getData(PMIDlist: string, callback: Function): void {
 
     // Handle bad request
     if (request.readyState !== 4 || request.status !== 200) {
-      let error = new Error('Error: PubMed Query, Phase 2 - PubMed returned a non-200 status code.');
+      let error = new Error('Error: PubmedGet => PubMed returned a non-200 status code.');
       callback(error);
       return;
     }
@@ -47,7 +47,7 @@ function getData(PMIDlist: string, callback: Function): void {
 
     // Handle response errors
     if (res.error) {
-      let error = new Error('Error: PubMed Query, Phase 2 - Unknown response error.');
+      let error = new Error('Error: PubmedGet => PMID not valid.');
       callback(error);
       return;
     }
