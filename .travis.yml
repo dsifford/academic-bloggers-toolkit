@@ -1,4 +1,3 @@
 language: nodejs
 node_js:
-    - "5"
-sudo: required
+    - "node"
