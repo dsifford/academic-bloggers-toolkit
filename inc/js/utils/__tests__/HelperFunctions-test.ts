@@ -33,7 +33,7 @@ describe('HelperFunctions Tests', () => {
 
     it('should format titles properly', () => {
         expect(helpers.toTitleCase('this is a test title')).toBe('This Is a Test Title');
-        expect(helpers.toTitleCase('THIS IS A TEST TITLE')).toBe('This Is a Test Title');
+        expect(helpers.toTitleCase('THIS IS A TEST TITLE')).toBe('THIS IS a TEST TITLE');
         expect(helpers.toTitleCase('wack-A-mole')).toBe('Wack-a-Mole');
         expect(helpers.toTitleCase(`a chronological history of new-england in the form of annals: being a summary and exact account of the most material transactions and occurences`)).toBe(`A Chronological History of New-England in the Form of Annals: Being a Summary and Exact Account of the Most Material Transactions and Occurences`);
         expect(helpers.toTitleCase('writing science: how to write papers that get cited and proposals that get funded')).toBe('Writing Science: How to Write Papers That Get Cited and Proposals That Get Funded');
