@@ -106,7 +106,7 @@ export class AMA {
         let authors = data.authors.length > 0
             ? this._parseAuthors(data.authors) + ' '
             : '';
-        let pubdate: string = `Published ${new Date(data.pubdate).toLocaleDateString('en-us', { month: 'long', year: 'numeric' }) }. `;
+        let pubdate: string = `Published ${new Date(`1/1/${data.pubdate}`).toLocaleDateString('en-us', { month: 'long', year: 'numeric' }) }. `;
         let updated: string = data.updated !== ''
             ? `Updated ${new Date(data.updated).toLocaleDateString('en-us', { month: 'long', day: 'numeric', year: 'numeric' }) }. `
             : ''
@@ -276,7 +276,7 @@ export class APA {
 
     private _parseWebsite(data: ReferenceObj): string {
         let authors = this._parseAuthors(data.authors, data.lastauthor);
-        let rawDate = new Date(data.pubdate);
+        let rawDate = new Date(`1/1/${data.pubdate}`);
         let source = toTitleCase(data.source);
         let date = `${rawDate.getFullYear() }, ` +
             `${rawDate.toLocaleDateString('en-us', { month: 'long', day: 'numeric' }) }`;

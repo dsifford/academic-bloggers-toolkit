@@ -68,7 +68,7 @@ describe('AMA Format Tests', () => {
     it('should parse manual websites correctly', () => {
         let ama = new AMA(false, 'website');
         let reference = ama.parse([testData]);
-        expect(reference[0]).toBe('Wooldridge MB, Shapka J. Playing with technology: Mother-toddler interaction scores lower during play with electronic toys. <em>Journal of Applied Developmental Psychology</em>. Available at: <a href="www.google.com" target="_blank">www.google.com</a>. Published December 2011. Updated January 1, 2016. Accessed January 1, 2016.');
+        expect(reference[0]).toBe('Wooldridge MB, Shapka J. Playing with technology: Mother-toddler interaction scores lower during play with electronic toys. <em>Journal of Applied Developmental Psychology</em>. Available at: <a href="www.google.com" target="_blank">www.google.com</a>. Published January 2012. Updated January 1, 2016. Accessed January 1, 2016.');
     });
 
     it('should parse manual books correctly', () => {
@@ -101,7 +101,7 @@ describe('APA Format Tests', () => {
     it('should parse manual websites correctly', () => {
         let apa = new APA(false, 'website');
         let reference = apa.parse([testData]);
-        expect(reference[0]).toBe('Wooldridge, M.B., & Shapka, J. (2011, December 31). Playing with technology: Mother-toddler interaction scores lower during play with electronic toys. <em>Journal of Applied Developmental Psychology</em>. Retrieved from <a href="www.google.com" target="_blank">www.google.com</a>');
+        expect(reference[0]).toBe('Wooldridge, M.B., & Shapka, J. (2012, January 1). Playing with technology: Mother-toddler interaction scores lower during play with electronic toys. <em>Journal of Applied Developmental Psychology</em>. Retrieved from <a href="www.google.com" target="_blank">www.google.com</a>');
     });
 
     it('should parse manual books correctly', () => {
