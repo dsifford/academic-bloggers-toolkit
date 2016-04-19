@@ -287,7 +287,7 @@ export class APA {
 
     private _parseBook(data: ReferenceObj): string {
         let authors = this._parseAuthors(data.authors, data.lastauthor);
-        let year = (new Date(data.pubdate).getFullYear() + 1).toString();
+        let year = (new Date(`1/1/${data.pubdate}`).getFullYear()).toString();
         let pubLocation = data.location !== ''
             ? `${data.location}: `
             : '';
