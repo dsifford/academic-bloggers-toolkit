@@ -1,4 +1,4 @@
-import { toTitleCase } from './HelperFunctions';
+import { toTitleCase, getNumberSuffix } from './HelperFunctions';
 
 export class AMA {
 
@@ -13,6 +13,11 @@ export class AMA {
     public parse(data: ReferenceObj[]): string[]|Error {
 
         if (this.manualCitationType !== undefined) {
+            return [this._fromManual(data[0])];
+        }
+
+        if (data[0].type) {
+            this.manualCitationType = data[0].type;
             return [this._fromManual(data[0])];
         }
 
@@ -90,7 +95,7 @@ export class AMA {
         let year = data.pubdate;
         let source = toTitleCase(data.source);
         let title = toTitleCase(data.title);
-        let issue = `(${data.issue})` || '';
+        let issue = data.issue !== '' ? `(${data.issue})` : '';
         let volume = data.volume || '';
 
         return `${authors} ${title}. <em>${source}.</em> ${year}; ` +
@@ -106,7 +111,7 @@ export class AMA {
             ? `Updated ${new Date(data.updated).toLocaleDateString('en-us', { month: 'long', day: 'numeric', year: 'numeric' }) }. `
             : ''
         let accessed: string = data.accessdate !== ''
-            ? `Accessed ${new Date(data.accessdate).toLocaleDateString('en-us', { month: 'long', day: 'numeric', year: 'numeric' }) }. `
+            ? `Accessed ${new Date(data.accessdate).toLocaleDateString('en-us', { month: 'long', day: 'numeric', year: 'numeric' }) }.`
             : `Accessed ${new Date(Date.now()).toLocaleDateString('en-us', { month: 'long', day: 'numeric', year: 'numeric' }) }`;
 
         return `${authors}${data.title}. <em>${data.source}</em>. Available at: ` +
@@ -117,10 +122,13 @@ export class AMA {
         let authors = this._parseAuthors(data.authors);
         let title = data.title;
         let pubLocation = data.location !== ''
-            ? `${data.location}:`
+            ? `${data.location}: `
             : ``;
         let publisher = data.source;
         let year = data.pubdate;
+        let edition = data.edition !== ''
+            ? `${getNumberSuffix(parseInt(data.edition))} ed. `
+            : ``;
         let chapter = data.chapter !== ''
             ? ` ${data.chapter}. In:`
             : ``;
@@ -128,7 +136,7 @@ export class AMA {
             ? `: ${data.pages}.`
             : `.`;
 
-        return `${authors}${chapter} <em>${title}</em>. ${pubLocation}${publisher}; ${year}${pages}`;
+        return `${authors}${chapter} <em>${title}</em>. ${edition}${pubLocation}${publisher}; ${year}${pages}`;
     }
 
 }
@@ -259,8 +267,8 @@ export class APA {
         let authors = this._parseAuthors(data.authors, data.lastauthor);
         let year = data.pubdate;
         let source = toTitleCase(data.source);
-        let issue = `(${data.issue})` || '';
-        let volume = ` ${data.volume}` || '';
+        let issue = data.issue !== '' ? `(${data.issue})` : '';
+        let volume = data.volume !== '' ? ` ${data.volume}` : '';
 
         return `${authors} (${year}). ${data.title}. <em>` +
             `${source},${volume}</em>${issue}, ${data.pages}.`;
@@ -281,17 +289,30 @@ export class APA {
         let authors = this._parseAuthors(data.authors, data.lastauthor);
         let year = (new Date(data.pubdate).getFullYear() + 1).toString();
         let pubLocation = data.location !== ''
-            ? `${data.location}:`
+            ? `${data.location}: `
             : '';
         let publisher = data.source;
         let chapter = data.chapter !== ''
             ? ` ${data.chapter}. In`
             : '';
-        let pages = data.pages !== ''
-            ? ` (${data.pages})`
+        let edition = data.edition !== ''
+            ? `${getNumberSuffix(parseInt(data.edition))} ed.`
             : '';
 
-        return `${authors} (${year}).${chapter} <em>${data.title}</em>${pages}. ` +
+        let pageEdition = ``;
+        switch (true) {
+            case data.pages !== '' && edition !== '':
+                pageEdition = ` (${edition}, pp. ${data.pages})`;
+                break;
+            case data.pages !== '' && edition === '':
+                pageEdition = ` (${data.pages})`;
+                break;
+            case data.pages === '' && edition !== '':
+                pageEdition = ` (${edition})`;
+                break;
+        }
+
+        return `${authors} (${year}).${chapter} <em>${data.title}</em>${pageEdition}. ` +
             `${pubLocation}${publisher}.`;
     }
 

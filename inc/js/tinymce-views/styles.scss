@@ -37,6 +37,13 @@ body {
     vertical-align: top;
     white-space: nowrap;
     -webkit-appearance: none;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+
 
     &:hover {
         background: #fafafa;
@@ -132,6 +139,12 @@ input, select {
         }
     }
 
+    // &[type='file'] {
+    //     padding: 10px 0 36px 10px;
+    //     box-shadow: none;
+    //     width: 100%;
+    // }
+
     &:invalid {
         background: #f6c9cc;
         color: #dc3232;
@@ -139,6 +152,27 @@ input, select {
     }
 
 }
+
+label.uploadLabel input[type="file"] {
+    position: fixed;
+    top: -1000px;
+}
+
+.uploadLabel {
+    @extend .btn;
+}
+// .uploadLabel:hover {
+//     background: #CCC;
+// }
+// .uploadLabel:active {
+//     background: #CCF;
+// }
+// .uploadLabel :invalid + span {
+//     color: #A44;
+// }
+// .uploadLabel :valid + span {
+//     color: #4A4;
+// }
 
 select {
     padding: 2px;

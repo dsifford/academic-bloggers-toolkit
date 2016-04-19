@@ -124,6 +124,14 @@ interface ManualDataObj {
   type: 'journal'|'website'|'book'
 }
 
+/**
+ * addManually: boolean
+ * attachInline: boolean
+ * citationFormat: string
+ * includeLink: boolean
+ * manualData: ManualDataObj
+ * pmidList: string
+ */
 interface ReferenceFormData {
   addManually: boolean
   attachInline: boolean
@@ -133,6 +141,26 @@ interface ReferenceFormData {
   pmidList: string
 }
 
+/**
+ * authors: Author[]
+ * lastauthor: string
+ * pages: string
+ * pubdate: string
+ * source: string
+ * title: string
+ * accessdate?: string
+ * chapter?: string
+ * edition?: string
+ * fulljournalname?: string
+ * issue?: string
+ * location?: string
+ * updated?: string
+ * url?: string
+ * volume?: string
+ * uid?: string
+ * type?: string
+ * DOI?: string
+ */
 interface ReferenceObj {
   authors: Author[]
   lastauthor: string
@@ -150,6 +178,8 @@ interface ReferenceObj {
   url?: string
   volume?: string
   uid?: string
+  type?: string
+  DOI?: string
 }
 
 /** FIXME */

@@ -105,3 +105,15 @@ export function prepareName(author: Author): string {
         author.firstname[0].toUpperCase() + author.middleinitial.toUpperCase()
     )
 }
+
+/**
+ * Takes a number as input and returns the number as a string with the correct
+ *   suffix.
+ * @param  {number} n The number to be suffixed.
+ * @return {string}   The number with the suffix applied.
+ */
+export function getNumberSuffix(n: number): string {
+    let s = ["th","st","nd","rd"];
+    let v = n % 100;
+    return n+(s[(v-20)%10]||s[v]||s[0]);
+ }

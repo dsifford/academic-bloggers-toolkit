@@ -1,4 +1,5 @@
 import Dispatcher from './utils/Dispatcher';
+import { AMA, APA } from './utils/Parsers';
 import { parseInlineCitationString } from './utils/HelperFunctions';
 import ABTEvent from './utils/Events';
 
@@ -49,7 +50,7 @@ tinyMCE.PluginManager.add('abt_main_menu', (editor: tinyMCEEditor, url: string) 
      * Responsible for serving the reference payload once generated
      * @type {Function}
      */
-    const deliverContent = (data: Error|string[], payload: ReferenceFormData) => {
+    const deliverContent = (data: Error|string[], payload: { attachInline: boolean }) => {
         if (data instanceof Error) {
             editor.windowManager.alert(data.message);
             editor.setProgressState(0);
@@ -148,12 +149,12 @@ tinyMCE.PluginManager.add('abt_main_menu', (editor: tinyMCEEditor, url: string) 
         }
     }
 
-    const importBibtex: TinyMCEMenuItem = {
-        text: 'Import BibTeX',
+    const importRefs: TinyMCEMenuItem = {
+        text: 'Import References',
         onclick: () => {
             editor.windowManager.open(<TinyMCEWindowMangerObject>{
-                title: 'Import BibTeX',
-                url: ABT_locationInfo.tinymceViewsURL + 'import-bibtex.html',
+                title: 'Import References',
+                url: ABT_locationInfo.tinymceViewsURL + 'import-window.html',
                 width: 600,
                 height: 10,
                 params: {
@@ -161,7 +162,59 @@ tinyMCE.PluginManager.add('abt_main_menu', (editor: tinyMCEEditor, url: string) 
                     preferredStyle: ABT_locationInfo.preferredCitationStyle,
                 },
                 onclose: (e: any) => {
-                    console.log(e);
+                    // If the user presses the exit button, return.
+                    if (Object.keys(e.target.params).length === 0) {
+                        return;
+                    }
+
+                    editor.setProgressState(1);
+
+                    let data: {
+                        filename: string,
+                        payload: ReferenceObj[],
+                        format: 'ama'|'apa',
+                    } = e.target.params.data;
+
+                    let payload = data.payload;
+                    let refArray: string[] = [];
+
+                    switch (data.format) {
+                        case 'ama':
+                            payload.forEach((ref: ReferenceObj, i: number) => {
+                                let ama = new AMA(false, ref.type);
+                                let parsedRef = ama.parse([ref]);
+                                if (parsedRef instanceof Error) {
+                                    editor.windowManager.alert(`Error => An error occured while parsing reference ${i}`);
+                                    return;
+                                }
+                                else {
+                                    refArray.push(...parsedRef);
+                                }
+                            });
+                            break;
+                        case 'apa':
+                            payload.forEach((ref: ReferenceObj, i: number) => {
+                                let apa = new APA(false, ref.type);
+                                let parsedRef = apa.parse([ref]);
+                                if (parsedRef instanceof Error) {
+                                    editor.windowManager.alert(`Error => An error occured while parsing reference ${i}`);
+                                    return;
+                                }
+                                else {
+                                    refArray.push(...parsedRef);
+                                }
+                            });
+                            break;
+                        default:
+                            editor.windowManager.alert('Error => Could not establish selected citation type.');
+                            editor.setProgressState(0);
+                            return;
+                    }
+
+                    deliverContent(refArray, { attachInline: false });
+                    editor.setProgressState(0);
+                    return;
+
                 },
             });
         },
@@ -186,7 +239,7 @@ tinyMCE.PluginManager.add('abt_main_menu', (editor: tinyMCEEditor, url: string) 
         icon: 'abt_menu dashicons-welcome-learn-more',
         title: 'Academic Blogger\'s Toolkit',
         menu: [
-            importBibtex,
+            importRefs,
             separator,
             keyboardShortcuts,
             requestTools,

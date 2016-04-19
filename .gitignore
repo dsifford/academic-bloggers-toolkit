@@ -3,6 +3,7 @@ node_modules
 .coveralls.yml
 dist
 coverage
+junk
 npm-debug.log
 typings/*
 !typings/ABT.d.ts
