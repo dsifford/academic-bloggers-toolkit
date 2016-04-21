@@ -196,108 +196,106 @@ export class RISParser {
         ECHAP  : 'chapter',
         EJOUR  : 'article-journal',
         INPR   : 'article-journal',
-        ICOMM  : 'webpage', // perhaps post-weblog
+        ICOMM  : 'webpage',                 // perhaps post-weblog
         JOUR   : 'article-journal',
         ELEC   : 'webpage',
-        GEN    : 'article', //'Generic',
-        ABST   : 'article', //'Abstract',
-        AGGR   : 'dataset', //'Aggregated Database',
-        ART    : 'graphic', //'Artwork',
-        ADVS   : 'broadcast', //'Audiovisual Material',
-        BILL   : 'bill', //'Bill',
-        CASE   : 'legal_case', //'Case',
-        CTLG   : 'article', //'Catalog',
-        CHART  : 'figure', //'Chart',
-        CLSWK  : 'musical_score', //'Classical Work',
-        COMP   : 'article', //'Computer Program',
-        CPAPER : 'paper-conference', //'Conference Paper',
-        CONF   : 'speech', //'Conference Proceeding',
-        DATA   : 'dataset', //'Dataset',
-        DICT   : 'entry-dictionary', //'Dictionary',
-        ENCYC  : 'entry-encyclopedia', //'Encyclopedia',
-        EQUA   : 'figure', //'Equation',
-        FIGURE : 'figure', //'Figure',
-        MPCT   : 'motion_picture', //'Film or Broadcast',
-        JFULL  : 'article-journal', //'Full Journal',
-        GOVDOC : 'legislation', //'Government Document',
-        HEAR   : 'legal_case', //'Hearing',
-        LEGAL  : 'legal_case', //'Legal Rule',
-        MGZN   : 'article-magazine', //'Magazine Article',
-        MANSCPT: 'manuscript', //'Manuscript',
-        MAP    : 'map', //'Map',
-        MUSIC  : 'song', //'Music',
-        NEWS   : 'article-newspaper', //'Newspaper Article',
-        DBASE  : 'dataset', //'Online Database',
-        MULTI  : 'graphic', //'Online Multimedia',
-        PAMP   : 'pamphlet', //'Pamphlet',
-        PAT    : 'patent', //'Patent',
-        PCOMM  : 'personal_communication', //'Personal Communication',
-        RPRT   : 'report', //'Report',
-        SLIDE  : 'figure', //'Slide',
-        SOUND  : 'song', //'Sound Recording',
-        STAND  : 'article', //'Standard',
-        STAT   : 'legislation', //'Statute',
-        THES   : 'thesis', //'Thesis',
-        UNBILL : 'bill', //'Unenacted Bill',
-        UNPD   : 'article', //'Unpublished Work',
-        VIDEO  : 'broadcast', //'Video Recording'
+        GEN    : 'article',                 //'Generic',
+        ABST   : 'article',                 //'Abstract',
+        AGGR   : 'dataset',                 //'Aggregated Database',
+        ART    : 'graphic',                 //'Artwork',
+        ADVS   : 'broadcast',               //'Audiovisual Material',
+        BILL   : 'bill',                    //'Bill',
+        CASE   : 'legal_case',              //'Case',
+        CTLG   : 'article',                 //'Catalog',
+        CHART  : 'figure',                  //'Chart',
+        CLSWK  : 'musical_score',           //'Classical Work',
+        COMP   : 'article',                 //'Computer Program',
+        CPAPER : 'paper-conference',        //'Conference Paper',
+        CONF   : 'speech',                  //'Conference Proceeding',
+        DATA   : 'dataset',                 //'Dataset',
+        DICT   : 'entry-dictionary',        //'Dictionary',
+        ENCYC  : 'entry-encyclopedia',      //'Encyclopedia',
+        EQUA   : 'figure',                  //'Equation',
+        FIGURE : 'figure',                  //'Figure',
+        MPCT   : 'motion_picture',          //'Film or Broadcast',
+        JFULL  : 'article-journal',         //'Full Journal',
+        GOVDOC : 'legislation',             //'Government Document',
+        HEAR   : 'legal_case',              //'Hearing',
+        LEGAL  : 'legal_case',              //'Legal Rule',
+        MGZN   : 'article-magazine',        //'Magazine Article',
+        MANSCPT: 'manuscript',              //'Manuscript',
+        MAP    : 'map',                     //'Map',
+        MUSIC  : 'song',                    //'Music',
+        NEWS   : 'article-newspaper',       //'Newspaper Article',
+        DBASE  : 'dataset',                 //'Online Database',
+        MULTI  : 'graphic',                 //'Online Multimedia',
+        PAMP   : 'pamphlet',                //'Pamphlet',
+        PAT    : 'patent',                  //'Patent',
+        PCOMM  : 'personal_communication',  //'Personal Communication',
+        RPRT   : 'report',                  //'Report',
+        SLIDE  : 'figure',                  //'Slide',
+        SOUND  : 'song',                    //'Sound Recording',
+        STAND  : 'article',                 //'Standard',
+        STAT   : 'legislation',             //'Statute',
+        THES   : 'thesis',                  //'Thesis',
+        UNBILL : 'bill',                    //'Unenacted Bill',
+        UNPD   : 'article',                 //'Unpublished Work',
+        VIDEO  : 'broadcast',               //'Video Recording'
     }
-
-    public static RISFields: { [abbr: string]: string|boolean } = {
-
-        /** NOTE: Below are the official spec fields */
-        AU: 'authors',
-        A1: 'authors',  // mendeley and sciencedirect use this rather than AU
-        A2: 'editor', // Editor --- author secondary
-        A3: 'translators / author tertiary',
-        A4: 'author Subsidiary',
-        PY: 'publication year', // must be in the form of '0000' (four number characters)
-        DA: 'date', // must be in the form of 'YYYY/MM/DD/other info' eg => 1993///spring or 1990/12
-        KW: 'Keywords',
-        // RP: 'reprint status', // must be one of the following: 'IN FILE', 'NOT IN FILE', 'ON REQUEST (MM/DD/YY)'
-        J2: 'alternate title', // should be the abbreviated name
-        UR: 'url',
-        AB: 'abstract', //Abstract
-        // AD: 'Author Address', // affiliations
-        AN: 'Accession Number',
-        // CA: 'Caption',
-        CN: 'Call Number',
-        CY: 'location', // conference location, publish location, city of publisher (zotero)
-        DB: 'Name of Database',
-        DO: 'DOI',
-        DP: 'Database Provider',
-        ET: 'edition',
-        // L1: 'File Attachments',
-        // L4: 'Figure',
-        LA: 'Language',
-        // LB: 'Label',
-        IS: 'issue',
-        // M3: 'Type of Work',
-        // N1: 'notes', // SCOPUS: cited by count, CODEN, conference code, correspondence address, export date, references, tradenames,
-        NV: 'Number of Volumes',
-        OP: 'Original Publication',
-        PB: 'publisher', // Publisher
-
-
-        JA: 'abbreviated source title', //Abbreviated source title
-        ED: 'editor',
-        EP: 'end page',
-        SP: 'start page',
-        // ID: 'ID number',
-        JF: 'source title', // periodical name (zotero mendeley)
-        C2: 'pmid/pmcid', // PMID/PMCID
-        C3: 'proceedings title', // Proceedings title
-        T3: 'series title', // zotero
-        C7: 'article number', //Article number
-        N2: 'abstract', // mendeley zotero
-        SN: 'issn/isbn,eissn', // ISSN/ISBN/EISSN / pages /
-        T1: 'title', // mendeley / scopus
-        ST: 'seconda article title', // Second article title
-        T2: 'fulljournalname', // conference name
-        TI: 'title',
-        VL: 'volume',
-        Y1: 'pubdate', // mendeley uses this instead of PY
-        Y2: 'conference date', // Conference date
-    }
-
 }
+
+
+/**
+ * ========== RIS Field Notes ==========
+ *
+ * AU: authors                          // official spec
+ * A1: authors                          // mendeley, sciencedirect
+ * A2: secondary authors                // official spec -- editor used here by some
+ * A3: translator/tertiary authors      // official spec
+ * A4: author subsidary                 // official spec
+ * PY: publication year                 // official spec -- Format: `0000` (four number characters)
+ * DA: date                             // official spec -- Format: `YYYY/MM/DD/other` eg => `1993///spring` or `1990/12`
+ * KW: keywords                         // official spec
+ * J2: alternate title                  // official spec (abbreviated title name)
+ * UR: URL                              // official spec
+ * AB: abstract                         // official spec
+ * AN: accession number                 // official spec
+ * CN: call number                      // official spec
+ * CY: location                         // official spec -- conference location, publish location, city of publisher (zotero)
+ * DB: database name                    // official spec
+ * DO: DOI                              // official spec
+ * DP: database provider                // official spec
+ * ET: edition                          // official spec
+ * LA: language                         // official spec
+ * IS: issue                            // official spec
+ * NV: number of volumes                // official spec
+ * OP: original publication             // official spec
+ * PB: publisher                        // official spec
+ * JA: abbreviates source title         // official spec -- eg: J Trauma.
+ * ED: editor                           // official spec
+ * EP: end page                         // NON-OFFICAL (mendeley, zotero)
+ * SP: start page                       // NON-OFFICIAL (mendeley, zotero)
+ * JF: source title                     // NON-OFFICIAL (mendeley, zotero) - periodical name
+ * C2: PMID/PMCID                       // official spec
+ * C3: proceedings title                // ?unsure
+ * T3: series title                     // NON-OFFICIAL (zotero)
+ * C7: article number                   // ?unsure
+ * N2: abstract                         // NON-OFFICIAL (mendeley, zotero)
+ * SN: ISSN/ISBN/EISSN                  // official spec
+ * T1: title                            // NON-OFFICIAL (mendeley, scopus)
+ * ST: seconda article title            // ?unsure
+ * T2: fulljournalname                  // ?unsure -- also conference name
+ * TI: title                            // official spec
+ * VL: volume                           // official spec
+ * Y1: issued date                      // NON-OFFICIAL (mendeley)
+ * Y2: conference date                  // NON-OFFICIAL
+ * RP: reprint status                   // official spec -- format: `IN FILE`, `NOT IN FILE`, `ON REQUEST (MM/DD/YY)`
+ * AD: author address                   // ?unsure -- also affiliations
+ * CA: caption                          // official spec
+ * L1: file attachments                 // official spec
+ * L4: figure                           // official spec
+ * LB: label                            // official spec
+ * M3: type of work                     // official spec
+ * N1: notes                            // ?unsure -- (scopus: cited by count, CODEN, conference code, correspondence address, export date, references, tradenames)
+ * ID: ID number                        // official spec
+ */

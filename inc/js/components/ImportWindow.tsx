@@ -3,9 +3,7 @@ import * as ReactDOM from 'react-dom';
 import Modal from '../utils/Modal';
 import { RISParser } from '../utils/RISParser';
 import citeStyles from '../utils/CitationStylesObj';
-import * as Select from 'react-select';
 
-// declare var tinyMCE: tinyMCE;
 
 interface DOMEvent extends React.UIEvent {
     target: HTMLInputElement

@@ -1,12 +1,12 @@
-var gulp         = require('gulp');
-var uglify       = require('gulp-uglify');
-var sass         = require('gulp-sass');
+var gulp = require('gulp');
+var uglify = require('gulp-uglify');
+var sass = require('gulp-sass');
 var autoprefixer = require('gulp-autoprefixer');
-var cleanCSS     = require('gulp-clean-css');
-var browserSync  = require('browser-sync').create();
-var webpack      = require('webpack-stream');
-var del          = require('del');
-var coveralls    = require('gulp-coveralls');
+var cleanCSS = require('gulp-clean-css');
+var browserSync = require('browser-sync').create();
+var webpack = require('webpack-stream');
+var del = require('del');
+var coveralls = require('gulp-coveralls');
 
 gulp.task('clean', function () {
   return del([
@@ -15,32 +15,41 @@ gulp.task('clean', function () {
 });
 
 gulp.task('sass', function () {
-  return gulp.src(['./inc/**/*.scss'], { base: './' })
-  .pipe(sass().on('error', sass.logError))
-  .pipe(autoprefixer({ browsers: ['last 2 versions'] }))
-  .pipe(cleanCSS({ compatibility: 'ie10' }))
-  .pipe(gulp.dest('./dist'))
-  .pipe(browserSync.stream());
+  return gulp.src(['./inc/**/*.scss'], {
+      base: './',
+    })
+    .pipe(sass().on('error', sass.logError))
+    .pipe(autoprefixer({
+      browsers: ['last 2 versions'],
+    }))
+    .pipe(cleanCSS({
+      compatibility: 'ie10',
+    }))
+    .pipe(gulp.dest('./dist'))
+    .pipe(browserSync.stream());
 });
 
 gulp.task('webpack', function () {
   return gulp.src('inc/js/frontend.ts')
-  .pipe(webpack(require('./webpack.config.js')))
-  .pipe(gulp.dest('dist/'));
+    .pipe(webpack(require('./webpack.config.js')))
+    .pipe(gulp.dest('dist/'));
 });
 
 gulp.task('build', ['clean', 'webpack', 'sass'], function () {
   gulp.src([
-    './academic-bloggers-toolkit.php',
-    './CHANGELOG.md',
-    './LICENSE',
-    './readme.txt',
-    './inc/**/*',
-    '!./inc/**/*.{ts,tsx,css,scss,json}',
-    '!./**/__tests__',
-    '!./inc/js/utils',
-  ], { base: './' })
-  .pipe(gulp.dest('./dist'));
+      './academic-bloggers-toolkit.php',
+      './CHANGELOG.md',
+      './LICENSE',
+      './readme.txt',
+      './inc/**/*',
+      './vendor/*',
+      '!./inc/**/*.{ts,tsx,css,scss,json}',
+      '!./**/__tests__',
+      '!./inc/js/utils',
+    ], {
+      base: './',
+    })
+    .pipe(gulp.dest('./dist'));
 });
 
 gulp.task('serve', ['build'], function () {
@@ -65,14 +74,18 @@ gulp.task('remove-mapfiles', function (cb) {
 });
 
 gulp.task('minify-js', ['remove-mapfiles'], function () {
-  gulp.src(['./dist/**/*.js'])
-  .pipe(uglify())
-  .pipe(gulp.dest('./dist/'));
+  gulp.src([
+      './dist/**/*.js',
+      './dist/vendor/**/*.js',
+    ])
+    .pipe(uglify())
+    .pipe(gulp.dest('./dist/'));
 });
 
 gulp.task('deploy', ['remove-mapfiles', 'minify-js']);
 
+// TODO: Build this into travis pipeline
 gulp.task('coveralls', function () {
-    gulp.src('./coverage/**/lcov.info')
+  gulp.src('./coverage/**/lcov.info')
     .pipe(coveralls());
 });

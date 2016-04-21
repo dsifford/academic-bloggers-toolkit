@@ -72,10 +72,10 @@ export function PubmedGet(PMIDlist: string, callback: Function, bypassJSONFormat
 
 
 /**
- * Takes the raw response from pubmed and processed it into CSL.
+ * Takes the raw response from pubmed and processes it into CSL.
  *
  * @note The following response fields were skipped:
- *   - articleids     NOTE: skipped in favor of `uid`
+ *   - articleids       // skipped in favor of `uid`
  *   - attributes
  *   - doccontriblist
  *   - docdate
@@ -87,7 +87,7 @@ export function PubmedGet(PMIDlist: string, callback: Function, bypassJSONFormat
  *   - locationlabel
  *   - nlmuniqueid
  *   - pmcrefcount
- *   - pubdate        NOTE: skipped in favor of `sortpubdate`
+ *   - pubdate          // skipped in favor of `sortpubdate`
  *   - pubstatus
  *   - pubtype        TODO: fix this - figure out what types pubmed has
  *   - recordstatus

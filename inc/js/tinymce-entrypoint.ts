@@ -1,9 +1,6 @@
-
-import Dispatcher from './utils/Dispatcher';
 import { PubmedGet } from './utils/PubmedAPI';
 import { getFromDOI } from './utils/CrossRefAPI';
 import { CSLPreprocessor } from './utils/CSLPreprocessor';
-import { AMA, APA } from './utils/Parsers';
 import { parseInlineCitationString } from './utils/HelperFunctions';
 import ABTEvent from './utils/Events';
 

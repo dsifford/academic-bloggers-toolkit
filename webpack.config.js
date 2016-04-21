@@ -8,7 +8,6 @@ module.exports = {
     'inc/js/components/ReferenceWindow': './inc/js/components/ReferenceWindow.tsx',
     'inc/js/components/PubmedWindow': './inc/js/components/PubmedWindow.tsx',
     'inc/js/components/ImportWindow': './inc/js/components/ImportWindow.tsx',
-    'inc/js/vendor/noneditable': './inc/js/vendor/noneditable.ts',
   },
   output: {
     filename: '[name].js',
