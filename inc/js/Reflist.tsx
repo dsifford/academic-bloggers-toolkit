@@ -3,7 +3,7 @@ import * as ReactDOM from 'react-dom'
 import { parseInlineCitationString } from './utils/HelperFunctions';
 import ABTEvent from './utils/Events';
 
-declare var tinyMCE: tinyMCE;
+declare var tinyMCE: TinyMCE.tinyMCE;
 
 interface DOMEvent extends Event {
     target: HTMLElement
@@ -17,7 +17,7 @@ interface State {
 
 class Reflist extends React.Component<{}, State> {
 
-    private editor: tinyMCEEditor;
+    private editor: TinyMCE.Editor;
 
     constructor() {
         super();
@@ -370,6 +370,7 @@ class Reflist extends React.Component<{}, State> {
                 <div style={{
                     maxHeight: 1000,
                     overflowY: 'auto',
+                    overflowX: 'hidden',
                 }}>
                     {
                         this.state.references.map((r: string, i: number) =>

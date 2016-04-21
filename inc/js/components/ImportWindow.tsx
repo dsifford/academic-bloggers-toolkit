@@ -2,6 +2,8 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import Modal from '../utils/Modal';
 import { RISParser } from '../utils/RISParser';
+import citeStyles from '../utils/CitationStylesObj';
+import * as Select from 'react-select';
 
 // declare var tinyMCE: tinyMCE;
 
@@ -15,8 +17,8 @@ interface Props {
 
 interface State {
     filename: string,
-    payload: ReferenceObj[],
-    format: 'ama'|'apa',
+    payload: CSL.Data[],
+    format: string,
 }
 
 class ImportWindow extends React.Component<Props, State> {
@@ -28,7 +30,7 @@ class ImportWindow extends React.Component<Props, State> {
         this.state = {
             filename: '',
             payload: [],
-            format: 'ama',
+            format: 'american-medical-association',
         }
     }
 
@@ -48,9 +50,18 @@ class ImportWindow extends React.Component<Props, State> {
 
         reader.onload = (upload: any) => {
             let parser = new RISParser(upload.target.result);
-            let payload = parser.parse();
+            let payload: { [id: string]: CSL.Data } = {};
+
+            parser.parse().forEach(ref => {
+                payload[ref.id] = ref;
+            });
+
             let leftovers = parser.unsupportedRefs;
-            top.window.tinyMCE.activeEditor.windowManager.alert(`The following references were unable to be processed: ${leftovers.join(', ')}`);
+
+            if (leftovers.length > 0) {
+                top.window.tinyMCE.activeEditor.windowManager.alert(`The following references were unable to be processed: ${leftovers.join(', ')}`);
+            }
+
             this.setState(
                 Object.assign({}, this.state, { payload })
             );
@@ -60,6 +71,10 @@ class ImportWindow extends React.Component<Props, State> {
         this.setState(
             Object.assign({}, this.state, { filename: e.target.value })
         );
+    }
+
+    logChange(e) {
+        console.log(e);
     }
 
     handleChange(e: DOMEvent) {
@@ -91,9 +106,13 @@ class ImportWindow extends React.Component<Props, State> {
                         style={{width: '100%'}}
                         onChange={this.handleChange.bind(this)}
                         value={this.state.format} >
-                            <option value='ama'>American Medical Association (AMA)</option>
-                            <option value='apa'>American Psychological Association (APA)</option>
+                            {
+                                citeStyles.map((style, i: number) =>
+                                    <option className='testing' key={i} value={style.label} children={style.value} />
+                                )
+                            }
                     </select>
+
                 </div>
                 <div style={{ display: 'flex', justifyContent: 'space-between', }}>
                     <div style={{ display: 'flex', alignItems: 'center', flex: 1, }}>

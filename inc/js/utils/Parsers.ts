@@ -1,5 +1,6 @@
 import { toTitleCase, getNumberSuffix } from './HelperFunctions';
 
+
 export class AMA {
 
     private manualCitationType: string;

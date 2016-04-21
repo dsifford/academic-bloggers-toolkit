@@ -1,18 +1,34 @@
+
 import Dispatcher from './utils/Dispatcher';
+import { PubmedGet } from './utils/PubmedAPI';
+import { getFromDOI } from './utils/CrossRefAPI';
+import { CSLPreprocessor } from './utils/CSLPreprocessor';
 import { AMA, APA } from './utils/Parsers';
 import { parseInlineCitationString } from './utils/HelperFunctions';
 import ABTEvent from './utils/Events';
 
-declare var tinyMCE, ABT_locationInfo
+declare var tinyMCE: TinyMCE.tinyMCE, ABT_locationInfo
 
-tinyMCE.PluginManager.add('abt_main_menu', (editor: tinyMCEEditor, url: string) => {
+tinyMCE.PluginManager.add('abt_main_menu', (editor: TinyMCE.Editor, url: string) => {
+
+
+    interface ReferenceWindowPayload {
+        identifierList: string
+        citationStyle: string
+        showCitationSelect: boolean
+        includeLink: boolean
+        attachInline: boolean
+        addManually: boolean
+        people: CSL.Person[]
+        manualData: CSL.Data
+    }
 
     /**
      * Responsible for opening the formatted reference window and serving the reference
      * @type {Function}
      */
     const openFormattedReferenceWindow = () => {
-        editor.windowManager.open(<TinyMCEWindowMangerObject>{
+        editor.windowManager.open(<TinyMCE.WindowMangerObject>{
             title: 'Insert Formatted Reference',
             url: ABT_locationInfo.tinymceViewsURL + 'reference-window.html',
             width: 600,
@@ -29,18 +45,52 @@ tinyMCE.PluginManager.add('abt_main_menu', (editor: tinyMCEEditor, url: string) 
                 }
 
                 editor.setProgressState(1);
-                let payload: ReferenceFormData = e.target.params.data;
-                let dispatcher = new Dispatcher(payload);
+                let payload: ReferenceWindowPayload = e.target.params.data;
 
-                if (payload.addManually === true) {
-                    let data = dispatcher.fromManualInput(payload);
-                    deliverContent(data, payload);
-                    return;
+                if (payload.identifierList !== '') {
+
+                    let identifiers: string = payload.identifierList.replace(/\s/g, '');
+
+                    if (identifiers.search(/^10\./) > -1) {
+
+                        getFromDOI(identifiers, (res) => {
+
+                            let processor = new CSLPreprocessor(ABT_locationInfo.locale, res, payload.citationStyle, (citeproc) => {
+
+                                citeproc.updateItems(Object.keys(processor.citations));
+                                let bib = citeproc.makeBibliography();
+
+                                let data = [];
+                                bib[1].forEach(ref => {
+                                    data.push(ref.match(/.+class="csl-right-inline">(.+?)<\/div>/)[1]);
+                                });
+
+                                deliverContent(data, { attachInline: payload.attachInline });
+
+                            });
+
+                        });
+                        return;
+                    }
+
+                    PubmedGet(identifiers, (res) => {
+                        console.log(res);
+                        let processor = new CSLPreprocessor(ABT_locationInfo.locale, res, payload.citationStyle, (citeproc) => {
+
+                            citeproc.updateItems(Object.keys(processor.citations));
+                            let bib = citeproc.makeBibliography();
+
+                            let data = [];
+                            bib[1].forEach(ref => {
+                                data.push(ref.match(/.+class="csl-right-inline">(.+?)<\/div>/)[1]);
+                            });
+
+                            deliverContent(data, { attachInline: payload.attachInline });
+
+                        });
+
+                    });
                 }
-
-                dispatcher.fromPMID(payload.pmidList, (data) => {
-                    deliverContent(data, payload);
-                });
             },
         });
     };
@@ -114,9 +164,9 @@ tinyMCE.PluginManager.add('abt_main_menu', (editor: tinyMCEEditor, url: string) 
 
 
     // TinyMCE Menu Items
-    const separator: TinyMCEMenuItem = { text: '-' };
+    const separator: TinyMCE.MenuItem = { text: '-' };
 
-    const requestTools: TinyMCEMenuItem = {
+    const requestTools: TinyMCE.MenuItem = {
         text: 'Request More Tools',
         onclick: () => {
             editor.windowManager.open({
@@ -137,7 +187,7 @@ tinyMCE.PluginManager.add('abt_main_menu', (editor: tinyMCEEditor, url: string) 
         }
     }
 
-    const keyboardShortcuts: TinyMCEMenuItem = {
+    const keyboardShortcuts: TinyMCE.MenuItem = {
         text: 'Keyboard Shortcuts',
         onclick: () => {
             editor.windowManager.open({
@@ -149,10 +199,10 @@ tinyMCE.PluginManager.add('abt_main_menu', (editor: tinyMCEEditor, url: string) 
         }
     }
 
-    const importRefs: TinyMCEMenuItem = {
+    const importRefs: TinyMCE.MenuItem = {
         text: 'Import References',
         onclick: () => {
-            editor.windowManager.open(<TinyMCEWindowMangerObject>{
+            editor.windowManager.open(<TinyMCE.WindowMangerObject>{
                 title: 'Import References',
                 url: ABT_locationInfo.tinymceViewsURL + 'import-window.html',
                 width: 600,
@@ -171,50 +221,26 @@ tinyMCE.PluginManager.add('abt_main_menu', (editor: tinyMCEEditor, url: string) 
 
                     let data: {
                         filename: string,
-                        payload: ReferenceObj[],
+                        payload: { [id: string]:CSL.Data },
                         format: 'ama'|'apa',
                     } = e.target.params.data;
 
                     let payload = data.payload;
-                    let refArray: string[] = [];
+                    console.log(payload);
 
-                    switch (data.format) {
-                        case 'ama':
-                            payload.forEach((ref: ReferenceObj, i: number) => {
-                                let ama = new AMA(false, ref.type);
-                                let parsedRef = ama.parse([ref]);
-                                if (parsedRef instanceof Error) {
-                                    editor.windowManager.alert(`Error => An error occured while parsing reference ${i}`);
-                                    return;
-                                }
-                                else {
-                                    refArray.push(...parsedRef);
-                                }
-                            });
-                            break;
-                        case 'apa':
-                            payload.forEach((ref: ReferenceObj, i: number) => {
-                                let apa = new APA(false, ref.type);
-                                let parsedRef = apa.parse([ref]);
-                                if (parsedRef instanceof Error) {
-                                    editor.windowManager.alert(`Error => An error occured while parsing reference ${i}`);
-                                    return;
-                                }
-                                else {
-                                    refArray.push(...parsedRef);
-                                }
-                            });
-                            break;
-                        default:
-                            editor.windowManager.alert('Error => Could not establish selected citation type.');
-                            editor.setProgressState(0);
-                            return;
-                    }
+                    let processor = new CSLPreprocessor(ABT_locationInfo.locale, payload, 'american-medical-association', (citeproc) => {
 
-                    deliverContent(refArray, { attachInline: false });
-                    editor.setProgressState(0);
-                    return;
+                        citeproc.updateItems(Object.keys(processor.citations));
+                        let bib = citeproc.makeBibliography();
 
+                        let payload = [];
+                        bib[1].forEach(ref => {
+                            payload.push(ref.match(/.+class="csl-right-inline">(.+?)<\/div>/)[1]);
+                        });
+
+                        deliverContent(payload, { attachInline: false });
+
+                    });
                 },
             });
         },

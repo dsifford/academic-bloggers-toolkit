@@ -192,6 +192,7 @@ class ABT_PR_Metabox {
 			'tinymceViewsURL' => plugins_url('academic-bloggers-toolkit/inc/js/tinymce-views/'),
 			'preferredCitationStyle' => $abt_options['abt_citation_style'],
 			'postType' => $typenow,
+			'locale' => str_replace('_', '-', get_locale())
 		));
 	}
 
@@ -350,7 +351,11 @@ function abt_insert_the_meta( $text ) {
 
 		$meta = unserialize(get_post_meta( $post->ID, '_abt-meta', true ));
 
-		if ($post->post_type == 'post' || $post->post_type == 'page' && $meta != '') {
+		if (!isset($meta['peer_review']) || empty($meta['peer_review'])) {
+			return $text;
+		}
+
+		if ($post->post_type == 'post' || $post->post_type == 'page') {
 
 			for ( $i = 1; $i < 4; $i++ ) {
 

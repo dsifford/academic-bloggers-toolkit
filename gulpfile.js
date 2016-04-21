@@ -36,7 +36,7 @@ gulp.task('build', ['clean', 'webpack', 'sass'], function () {
     './LICENSE',
     './readme.txt',
     './inc/**/*',
-    '!./inc/**/*.{ts,tsx,js,css,scss,json}',
+    '!./inc/**/*.{ts,tsx,css,scss,json}',
     '!./**/__tests__',
     '!./inc/js/utils',
   ], { base: './' })

@@ -18,7 +18,7 @@ export default class Dispatcher {
         PMIDstring = PMIDstring.replace(/\s/g, '');
 
         PubmedGet(PMIDstring, (res: Error|ReferenceObj[]) => {
-
+            console.log(res)
             // Handle response errors
             if (res instanceof Error) {
                 callback(res);

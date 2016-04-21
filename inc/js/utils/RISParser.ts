@@ -1,5 +1,4 @@
-
-
+import * as processor from './CSLFieldProcessors';
 
 
 export class RISParser {
@@ -14,12 +13,14 @@ export class RISParser {
                 .filter(i => i.trim() !== '');
     }
 
-    public parse(): ReferenceObj[] {
+    public parse(): CSL.Data[] {
 
-        let payload: ReferenceObj[] = [];
+        let payload: CSL.Data[] = [];
 
         this.refArray.forEach((ref: string, i: number) => {
-            let refObj = this._parse(ref);
+
+            let refObj = this.parseSingle(ref, i);
+
             if (typeof refObj === 'boolean') {
                 this.unsupportedRefs.push(i);
             }
@@ -31,190 +32,272 @@ export class RISParser {
         return payload;
     }
 
-    private _parse(singleRef: string): ReferenceObj|boolean {
+    private parseSingle(singleRef: string, id: number): CSL.Data|boolean {
 
-        let isSupportedRefType: boolean = true;
+        let payload: CSL.Data = {};
+        let ref = singleRef.split(/\n/);
+        let type = ref[0].substr(6).trim();
 
-        let payload: ReferenceObj = {
-            type: '',
-            authors: [],
-            lastauthor: '',
-            pages: '',
-            pubdate: '',
-            source: '',
-            title: '',
-            accessdate: '',
-            chapter: '',
-            edition: '',
-            fulljournalname: '',
-            issue: '',
-            location: '',
-            updated: '',
-            url: '',
-            volume: '',
-            uid: '',
-            DOI: '',
+        if (!RISParser.RISTypes[type]) {
+            return false;
+        }
+
+        payload.id = id;
+        payload.type = RISParser.RISTypes[type];
+        payload.author = [];
+        payload.editor = [];
+        payload.translator = [];
+        payload.issued = {
+            'date-parts': [ [], ]
         };
 
         let pageHolder = {
             SP: '',
             EP: '',
-        }
+        };
 
-        let ref = singleRef.split(/\n/);
-        ref.some((line: string, i: number) => {
+        ref.forEach((line: string, i: number) => {
 
             let key = line.substr(0, 2);
             let val = line.substr(6).trim();
 
-            switch (true) {
-                case key === 'TY':
-                    if (!RISParser.RISTypes[val]) {
-                        isSupportedRefType = false;
-                        return true;
-                    }
-                    payload.type = RISParser.RISTypes[val] as string;
+            switch (key) {
+                case 'ER':
                     break;
-                case key === 'ER':
+                case 'AU':
+                case 'A1':
+                case 'A4': // Not sure what to do with this field yet.
+                    payload.author.push(processor.processName(val, 'RIS'));
                     break;
-                case key.search(/^A(U|\d)/) > -1:
-                    if (val.split(',').length !== 2) {
-                        isSupportedRefType = false;
-                        return true;
-                    }
-                    let ln = val.split(',')[0];
-                    let fn = val.split(',')[1].trim().split(' ')[0];
-                    let mi = val.split(',')[1].trim().split(' ')[1] || '';
-                    mi = mi.replace('.', '');
-                    payload.authors.push({ name: `${ln} ${fn[0]}${mi}` });
+                case 'A2':
+                case 'ED':
+                    payload.editor.push(processor.processName(val, 'RIS'));
+                    break
+                case 'A3':
+                    payload.translator.push(processor.processName(val, 'RIS'));
                     break;
-                case ['SP', 'EP'].indexOf(key) > -1:
+                case 'PY':
+                case 'Y1':
+                    payload.issued['date-parts'][0][0] = val;
+                    break;
+                case 'DA':
+                    payload.issued = processor.processDate(val, 'RIS');
+                    break;
+                case 'KW':
+                    payload.keyword = val;
+                    break;
+                case 'J2':
+                case 'JA':
+                    payload.journalAbbreviation = val;
+                    payload['container-title-short'] = val;
+                    break;
+                case 'UR':
+                    payload.URL = val;
+                    break;
+                case 'AB':
+                case 'N2':
+                    payload.abstract = val;
+                    break;
+                case 'AN':
+                case 'C7':
+                    payload.number = val; /** NOTE: This may be incorrect */
+                    break;
+                case 'CN':
+                    payload['call-number'] = val;
+                    break;
+                case 'CY': // conference location, publish location, city of publisher (zotero)
+                    payload['publisher-place'] = val;
+                    payload['event-place'] = val;
+                    break;
+                case 'DB':
+                    payload.source = val;
+                    break;
+                case 'DO':
+                    payload.DOI = val;
+                    break;
+                case 'DP': /** NOTE: This may be incorrect */
+                    payload.archive = val;
+                    break;
+                case 'ET':
+                    payload.edition = val;
+                    break;
+                case 'LA':
+                    payload.language = val;
+                    break;
+                case 'IS':
+                    payload.issue = val;
+                    break;
+                case 'NV':
+                    payload['number-of-volumes'] = val;
+                    break;
+                case 'OP': /** NOTE: This may be incorrect */
+                    payload['original-title'] = val;
+                    break;
+                case 'PB':
+                    payload.publisher = val;
+                    break;
+                case 'SP':
+                case 'EP':
                     if (pageHolder.SP && pageHolder.EP === '') {
                         pageHolder[key] = val;
                         break;
                     }
                     pageHolder[key] = val;
-                    payload.pages = `${pageHolder.SP}-${pageHolder.EP}`;
+                    payload.page = `${pageHolder.SP}-${pageHolder.EP}`;
                     break;
-                default:
-                    if (RISParser.RISFields[key]) {
-                        payload[RISParser.RISFields[key] as string] = val;
+                case 'JF':
+                case 'T2':
+                    payload['container-title'] = val;
+                    payload.event = val;
+                case 'C2':
+                    if (val.search(/PMC/i) > -1) {
+                        payload.PMCID = val;
+                        break;
                     }
+                    payload.PMID = val;
+                    break;
+                case 'C3':
+                    payload.event = val;
+                    break;
+                case 'T3':
+                    payload['collection-title'] = val;
+                    break;
+                case 'SN':
+                    payload.ISBN = val;
+                    payload.ISSN = val;
+                    break;
+                case 'T1':
+                case 'TI':
+                    payload.title = val;
+                    break;
+                case 'ST':
+                    payload.shortTitle = val;
+                    break;
+                case 'VL':
+                    payload.volume = val;
+                    break;
+                case 'Y2':
+                    payload['event-date'] = processor.processDate(val, 'RIS');
+                    break;
             }
-            // payload.lastauthor = payload.authors[payload.authors.length - 1].name;
+
         });
 
-        if (!isSupportedRefType) {
-            return false;
-        }
-        return payload;
 
+        return payload;
     }
 
-    public static RISTypes: { [abbr: string]: string|boolean } = {
-        BLOG: 'website',
-        BOOK: 'book',
-        EBOOK: 'book',
-        EDBOOK: 'book',
-        CHAP: 'book',
-        ECHAP: 'book',
-        EJOUR: 'journal',
-        INPR: 'journal',
-        ICOMM: 'website',
-        JOUR: 'journal',
-        ELEC: 'website',
-        GEN: false,   //'Generic',
-        ABST: false,   //'Abstract',
-        AGGR: false,   //'Aggregated Database',
-        ANCIENT: false,   //'Ancient Text',
-        ART: false,   //'Artwork',
-        ADVS: false,   //'Audiovisual Material',
-        BILL: false,   //'Bill',
-        CASE: false,   //'Case',
-        CTLG: false,   //'Catalog',
-        CHART: false,   //'Chart',
-        CLSWK: false,   //'Classical Work',
-        COMP: false,   //'Computer Program',
-        CPAPER: false,   //'Conference Paper',
-        CONF: false,   //'Conference Proceeding',
-        DATA: false,   //'Dataset',
-        DICT: false,   //'Dictionary',
-        ENCYC: false,   //'Encyclopedia',
-        EQUA: false,   //'Equation',
-        FIGURE: false,   //'Figure',
-        MPCT: false,   //'Film or Broadcast',
-        JFULL: false,   //'Full Journal',
-        GOVDOC: false,   //'Government Document',
-        GRNT: false,   //'Grant',
-        HEAR: false,   //'Hearing',
-        LEGAL: false,   //'Legal Rule',
-        MGZN: false,   //'Magazine Article',
-        MANSCPT: false,   //'Manuscript',
-        MAP: false,   //'Map',
-        MUSIC: false,   //'Music',
-        NEWS: false,   //'Newspaper Article',
-        DBASE: false,   //'Online Database',
-        MULTI: false,   //'Online Multimedia',
-        PAMP: false,   //'Pamphlet',
-        PAT: false,   //'Patent',
-        PCOMM: false,   //'Personal Communication',
-        RPRT: false,   //'Report',
-        SER: false,   //'Serial',
-        SLIDE: false,   //'Slide',
-        SOUND: false,   //'Sound Recording',
-        STAND: false,   //'Standard',
-        STAT: false,   //'Statute',
-        THES: false,   //'Thesis',
-        UNBILL: false,   //'Unenacted Bill',
-        UNPD: false,   //'Unpublished Work',
-        VIDEO: false,   //'Video Recording',
+    public static RISTypes: { [abbr: string]: CSL.CitationType } = {
+        BLOG   : 'post-weblog',
+        BOOK   : 'book',
+        EBOOK  : 'book',
+        EDBOOK : 'book',
+        CHAP   : 'chapter',
+        ECHAP  : 'chapter',
+        EJOUR  : 'article-journal',
+        INPR   : 'article-journal',
+        ICOMM  : 'webpage', // perhaps post-weblog
+        JOUR   : 'article-journal',
+        ELEC   : 'webpage',
+        GEN    : 'article', //'Generic',
+        ABST   : 'article', //'Abstract',
+        AGGR   : 'dataset', //'Aggregated Database',
+        ART    : 'graphic', //'Artwork',
+        ADVS   : 'broadcast', //'Audiovisual Material',
+        BILL   : 'bill', //'Bill',
+        CASE   : 'legal_case', //'Case',
+        CTLG   : 'article', //'Catalog',
+        CHART  : 'figure', //'Chart',
+        CLSWK  : 'musical_score', //'Classical Work',
+        COMP   : 'article', //'Computer Program',
+        CPAPER : 'paper-conference', //'Conference Paper',
+        CONF   : 'speech', //'Conference Proceeding',
+        DATA   : 'dataset', //'Dataset',
+        DICT   : 'entry-dictionary', //'Dictionary',
+        ENCYC  : 'entry-encyclopedia', //'Encyclopedia',
+        EQUA   : 'figure', //'Equation',
+        FIGURE : 'figure', //'Figure',
+        MPCT   : 'motion_picture', //'Film or Broadcast',
+        JFULL  : 'article-journal', //'Full Journal',
+        GOVDOC : 'legislation', //'Government Document',
+        HEAR   : 'legal_case', //'Hearing',
+        LEGAL  : 'legal_case', //'Legal Rule',
+        MGZN   : 'article-magazine', //'Magazine Article',
+        MANSCPT: 'manuscript', //'Manuscript',
+        MAP    : 'map', //'Map',
+        MUSIC  : 'song', //'Music',
+        NEWS   : 'article-newspaper', //'Newspaper Article',
+        DBASE  : 'dataset', //'Online Database',
+        MULTI  : 'graphic', //'Online Multimedia',
+        PAMP   : 'pamphlet', //'Pamphlet',
+        PAT    : 'patent', //'Patent',
+        PCOMM  : 'personal_communication', //'Personal Communication',
+        RPRT   : 'report', //'Report',
+        SLIDE  : 'figure', //'Slide',
+        SOUND  : 'song', //'Sound Recording',
+        STAND  : 'article', //'Standard',
+        STAT   : 'legislation', //'Statute',
+        THES   : 'thesis', //'Thesis',
+        UNBILL : 'bill', //'Unenacted Bill',
+        UNPD   : 'article', //'Unpublished Work',
+        VIDEO  : 'broadcast', //'Video Recording'
     }
 
     public static RISFields: { [abbr: string]: string|boolean } = {
+
+        /** NOTE: Below are the official spec fields */
         AU: 'authors',
         A1: 'authors',  // mendeley and sciencedirect use this rather than AU
-        SN: 'pages',
-        SP: 'start page', /** TODO */
-        EP: 'end page', /** TODO */
-        DA: 'pubdate',
-        PY: 'pubdate',
-        Y1: 'pubdate', // mendeley uses this instead of PY
-        J2: 'source',
-        PB: 'source',
-        JF: 'source',
-        TI: 'title',
-        T1: 'title', // mendeley
-        ET: 'edition',
-        T2: 'fulljournalname',
-        IS: 'issue',
-        CY: 'location',
+        A2: 'editor', // Editor --- author secondary
+        A3: 'translators / author tertiary',
+        A4: 'author Subsidiary',
+        PY: 'publication year', // must be in the form of '0000' (four number characters)
+        DA: 'date', // must be in the form of 'YYYY/MM/DD/other info' eg => 1993///spring or 1990/12
+        KW: 'Keywords',
+        // RP: 'reprint status', // must be one of the following: 'IN FILE', 'NOT IN FILE', 'ON REQUEST (MM/DD/YY)'
+        J2: 'alternate title', // should be the abbreviated name
         UR: 'url',
-        VL: 'volume',
-        DO: 'DOI',
-
-        // AB: 'abstract',
-        // N2: 'abstract', // mendeley
-        // DP: 'Database Provider',
-        // LA: 'Language',
-        // KW: 'Keywords',
-        // ID: 'ID number (not used)',
-
-        /** NOTE: I haven't seen these used yet. */
-        // ED: 'editor',
-        // A2: 'author secondary',
-        // AD: 'Author Address',
-        // AN: 'Accession Number',
+        AB: 'abstract', //Abstract
+        // AD: 'Author Address', // affiliations
+        AN: 'Accession Number',
         // CA: 'Caption',
-        // CN: 'Call Number',
-        // DB: 'Name of Database',
+        CN: 'Call Number',
+        CY: 'location', // conference location, publish location, city of publisher (zotero)
+        DB: 'Name of Database',
+        DO: 'DOI',
+        DP: 'Database Provider',
+        ET: 'edition',
         // L1: 'File Attachments',
         // L4: 'Figure',
+        LA: 'Language',
         // LB: 'Label',
+        IS: 'issue',
         // M3: 'Type of Work',
-        // N1: 'Notes',
-        // NV: 'Number of Volumes',
-        // OP: 'Original Publication',
+        // N1: 'notes', // SCOPUS: cited by count, CODEN, conference code, correspondence address, export date, references, tradenames,
+        NV: 'Number of Volumes',
+        OP: 'Original Publication',
+        PB: 'publisher', // Publisher
 
+
+        JA: 'abbreviated source title', //Abbreviated source title
+        ED: 'editor',
+        EP: 'end page',
+        SP: 'start page',
+        // ID: 'ID number',
+        JF: 'source title', // periodical name (zotero mendeley)
+        C2: 'pmid/pmcid', // PMID/PMCID
+        C3: 'proceedings title', // Proceedings title
+        T3: 'series title', // zotero
+        C7: 'article number', //Article number
+        N2: 'abstract', // mendeley zotero
+        SN: 'issn/isbn,eissn', // ISSN/ISBN/EISSN / pages /
+        T1: 'title', // mendeley / scopus
+        ST: 'seconda article title', // Second article title
+        T2: 'fulljournalname', // conference name
+        TI: 'title',
+        VL: 'volume',
+        Y1: 'pubdate', // mendeley uses this instead of PY
+        Y2: 'conference date', // Conference date
     }
 
 }

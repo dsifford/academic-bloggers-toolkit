@@ -1,655 +1,707 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import Modal from '../utils/Modal';
+import citeStyles from '../utils/CitationStylesObj';
+import { CitationTypeArray, FieldMappings } from '../utils/Constants';
+import { toTitleCase } from '../utils/HelperFunctions';
 
-interface Author {
-  firstname: string
-  lastname: string
-  middleinitial: string
-}
-
-interface CommonMeta {
-  title: string
-  source: string
-  pubdate: string
-}
-
-interface JournalMeta extends CommonMeta {
-  volume: string
-  issue: string
-  pages: string
-}
-
-interface WebsiteMeta extends CommonMeta {
-  url: string
-  updated: string
-  accessed: string
-}
-
-interface BookMeta extends CommonMeta {
-  chapter: string
-  edition: string
-  location: string
-  pages: string
-}
-
-interface ManualMeta {
-  journal: JournalMeta,
-  website: WebsiteMeta,
-  book: BookMeta,
-}
-
-interface ManualPayload {
-  type: 'journal'|'website'|'book'
-  authors: Author[]
-  meta: ManualMeta
+interface DOMEvent extends UIEvent {
+    target: HTMLInputElement
 }
 
 interface State {
-  pmidList: string
-  citationFormat: string
-  includeLink: boolean
-  attachInline: boolean
-  addManually: boolean
-  manualData: ManualPayload
+    identifierList: string
+    citationStyle: string
+    showCitationSelect: boolean
+    includeLink: boolean
+    attachInline: boolean
+    addManually: boolean
+    people: CSL.Person[]
+    manualData: CSL.Data
 }
+
+const LocalEvents = {
+    'IDENTIFIER_FIELD_CHANGE': 'IDENTIFIER_FIELD_CHANGE',
+    'PUBMED_DATA_SUBMIT': 'PUBMED_DATA_SUBMIT',
+    'TOGGLE_MANUAL': 'TOGGLE_MANUAL',
+    'TOGGLE_INCLUDE_LINK': 'TOGGLE_INCLUDE_LINK',
+    'ADD_PERSON': 'ADD_PERSON',
+    'REMOVE_PERSON': 'REMOVE_PERSON',
+    'PERSON_CHANGE': 'PERSON_CHANGE',
+    'SHOW_CITATION_SELECT': 'SHOW_CITATION_SELECT',
+    'TOGGLE_INLINE_ATTACHMENT': 'TOGGLE_INLINE_ATTACHMENT',
+    'CHANGE_CITATION_STYLE': 'CHANGE_CITATION_STYLE',
+    'CHANGE_CITATION_TYPE': 'CHANGE_CITATION_TYPE',
+}
+
 
 
 class ReferenceWindow extends React.Component<{}, State> {
 
-  private modal: Modal = new Modal('Insert Formatted Reference');
+    private modal: Modal = new Modal('Insert Formatted Reference');
 
-  constructor() {
-    super();
-    this.state = {
-      pmidList: '',
-      citationFormat: top.tinyMCE.activeEditor.windowManager.windows[0].settings.params.preferredStyle || 'ama',
-      includeLink: false,
-      attachInline: false,
-      addManually: false,
-      manualData: {
-        type: 'journal',
-        authors: [
-          { firstname: '', lastname: '', middleinitial: '', },
-        ],
-        meta: {
-          journal: {
-            title: '',
-            source: '',
-            pubdate: '',
-            volume: '',
-            issue: '',
-            pages: '',
-          },
-          website: {
-            title: '',
-            source: '',
-            pubdate: '',
-            url: '',
-            updated: '',
-            accessed: '',
-          },
-          book: {
-            title: '',
-            source: '',
-            pubdate: '',
-            chapter: '',
-            edition: '',
-            location: '',
-            pages: '',
-          },
+    constructor() {
+        super();
+        this.state = {
+            identifierList: '',
+            citationStyle: top.tinyMCE.activeEditor.windowManager.windows[0].settings.params.preferredStyle || 'american-medical-association',
+            includeLink: false,
+            attachInline: false,
+            showCitationSelect: false,
+            addManually: false,
+            people: [
+                { given: '', family: '' },
+            ],
+            manualData: {
+                id: 0,
+                type: 'article-journal',
+                accessed: [],
+                issued: [],
+                // 'event-date': [],
+                'chapter-number': '',
+                journalAbbreviation: '',
+                'collection-title': '', // book series
+                'container-title': '', // book title for chapter, journal title for journal article
+                'container-title-short': '',
+                DOI: '', // string
+                edition: '', // string|number
+                event: '', // string
+                'event-place': '', // string
+                genre: '', // string // eg. phd dissertation for thesis
+                ISBN: '', // string
+                issue: '', // string|number
+                'page': '', // string
+                publisher: '', // string
+                'publisher-place': '', // string
+                section: '', // string // relevant for newspaper
+                title: '', // string
+                'title-short': '', // string
+                URL: '', // string
+                volume: '', // string|number
+            },
         }
-      },
     }
-  }
 
-  componentDidMount() {
-    this.modal.resize();
-  }
+    componentDidMount() {
+        this.modal.resize();
+    }
 
-  componentDidUpdate() {
-    this.modal.resize();
-  }
+    componentDidUpdate() {
+        this.modal.resize();
+    }
 
-  handleButtonClick(e: MouseEvent) {
-    let id = (e.target as HTMLInputElement).id;
+    handleSubmit(e: Event) {
+        e.preventDefault();
+        let wm = top.tinyMCE.activeEditor.windowManager;
+        wm.setParams({ data: this.state });
+        wm.close();
+    }
 
-    switch(id) {
-      case 'searchPubmed':
+    consumeChildEvents(e: CustomEvent) {
+        switch (e.type) {
+            case LocalEvents.IDENTIFIER_FIELD_CHANGE: {
+                this.setState(
+                    Object.assign({}, this.state, {
+                        identifierList: e.detail
+                    })
+                );
+                return;
+            }
+            case LocalEvents.PUBMED_DATA_SUBMIT: {
+                let newList: string = e.detail;
+
+                // If the current PMID List is not empty, add PMID to it
+                if (this.state.identifierList !== '') {
+                    let combinedInput: string[] = this.state.identifierList.split(',');
+                    combinedInput.push(newList);
+                    newList = combinedInput.join(',');
+                }
+
+                this.setState(Object.assign({}, this.state, { identifierList: newList }));
+                return;
+            }
+            case LocalEvents.TOGGLE_MANUAL: {
+                this.setState(
+                    Object.assign({}, this.state, {
+                        addManually: !this.state.addManually,
+                    })
+                );
+                return;
+            }
+            case LocalEvents.TOGGLE_INCLUDE_LINK: {
+                this.setState(
+                    Object.assign({}, this.state, {
+                        includeLink: !this.state.includeLink
+                    })
+                );
+                return;
+            }
+            case LocalEvents.ADD_PERSON: {
+                this.setState(
+                    Object.assign({}, this.state, {
+                        people: [
+                            ...this.state.people,
+                            { given: '', family: '' },
+                        ],
+                    })
+                );
+                return;
+            }
+            case LocalEvents.REMOVE_PERSON: {
+                this.setState(
+                    Object.assign({}, this.state, {
+                        people: [
+                            ...this.state.people.slice(0, e.detail),
+                            ...this.state.people.slice(e.detail + 1)
+                        ]
+                    })
+                );
+                return;
+            }
+            case LocalEvents.PERSON_CHANGE: {
+                let people = [...this.state.people];
+                people[e.detail.index][e.detail.field] = e.detail.value;
+                this.setState(
+                    Object.assign({}, this.state, {
+                        people
+                    })
+                );
+                return;
+            }
+            case LocalEvents.SHOW_CITATION_SELECT: {
+                this.setState(
+                    Object.assign({}, this.state, { showCitationSelect: !this.state.showCitationSelect })
+                );
+                return;
+            }
+            case LocalEvents.TOGGLE_INLINE_ATTACHMENT: {
+                this.setState(
+                    Object.assign({}, this.state, { attachInline: !this.state.attachInline })
+                );
+                return;
+            }
+            case LocalEvents.CHANGE_CITATION_STYLE: {
+                this.setState(
+                    Object.assign({}, this.state, { citationStyle: e.detail })
+                );
+                return;
+            }
+            case LocalEvents.CHANGE_CITATION_TYPE: {
+                let manualData = Object.assign({}, this.state.manualData, {
+                    type: e.detail,
+                });
+                this.setState(
+                    Object.assign({}, this.state, { manualData })
+                );
+                return;
+            }
+        }
+    }
+
+    render() {
+        return(
+            <div>
+                <form onSubmit={this.handleSubmit.bind(this)}>
+                    { !this.state.addManually &&
+                        <IdentifierInput
+                            identifierList={this.state.identifierList}
+                            eventHandler={this.consumeChildEvents.bind(this)} />
+                    }
+                    { this.state.addManually &&
+                        <ManualEntryContainer
+                            manualData={this.state.manualData}
+                            people={this.state.people}
+                            eventHandler={this.consumeChildEvents.bind(this)} />
+                    }
+                    <RefOptions
+                        attachInline={this.state.attachInline}
+                        citationStyle={this.state.citationStyle}
+                        eventHandler={this.consumeChildEvents.bind(this)}
+                        showSelectBox={this.state.showCitationSelect} />
+                    <ActionButtons
+                        addManually={this.state.addManually}
+                        eventHandler={this.consumeChildEvents.bind(this)} />
+                </form>
+            </div>
+        );
+    }
+}
+
+
+interface IdentifierInputProps {
+    identifierList: string
+    eventHandler: Function
+}
+
+class IdentifierInput extends React.Component<IdentifierInputProps,{}> {
+
+    refs: {
+        [key: string]: Element
+        identifierField: HTMLInputElement
+    }
+
+    constructor(props) {
+        super(props);
+    }
+
+    componentDidMount() {
+        (ReactDOM.findDOMNode(this.refs.identifierField) as HTMLInputElement).focus()
+    }
+
+    handleChange(e: DOMEvent) {
+        this.props.eventHandler(
+            new CustomEvent(LocalEvents.IDENTIFIER_FIELD_CHANGE, { detail: e.target.value })
+        );
+    }
+
+    handleLinkToggle() {
+        this.props.eventHandler(
+            new CustomEvent(LocalEvents.TOGGLE_INCLUDE_LINK)
+        );
+    }
+
+    render() {
+        return(
+            <div className='row' style={{display: 'flex', alignItems: 'center'}}>
+                <div style={{ padding: '5px', }}>
+                    <label
+                        htmlFor='identifierList'
+                        children='PMID/DOI' />
+                </div>
+                <input
+                    type='text'
+                    id='identifierList'
+                    style={{ width: '100%', }}
+                    onChange={this.handleChange.bind(this)}
+                    ref='identifierField'
+                    required={true}
+                    value={this.props.identifierList} />
+                <div style={{ padding: '5px', }}>
+                    <label
+                        style={{ whiteSpace: 'nowrap', }}
+                        htmlFor='includeLink'
+                        children='Include Link?'/>
+                </div>
+                <div style={{ padding: '5px', }}>
+                    <input
+                        type="checkbox"
+                        onChange={this.handleLinkToggle.bind(this)}
+                        id="includeLink" />
+                </div>
+            </div>
+        )
+    }
+}
+
+interface RefOptionsProps {
+    attachInline: boolean
+    citationStyle: string
+    eventHandler: Function
+    showSelectBox: boolean
+}
+
+class RefOptions extends React.Component<RefOptionsProps,{}> {
+
+    constructor(props) {
+        super(props);
+    }
+
+    handleSelect(e: DOMEvent) {
+        this.props.eventHandler(
+            new CustomEvent(LocalEvents.CHANGE_CITATION_STYLE, {
+                detail: e.target.value
+            })
+        );
+    }
+
+    handleToggleInlineAttachment() {
+        this.props.eventHandler(
+            new CustomEvent(LocalEvents.TOGGLE_INLINE_ATTACHMENT)
+        );
+    }
+
+    handleToggleSelect() {
+        this.props.eventHandler(
+            new CustomEvent(LocalEvents.SHOW_CITATION_SELECT)
+        );
+    }
+
+    public citationStyleText = toTitleCase(this.props.citationStyle.split('-').join(' '));
+
+    render() {
+        return (
+            <div className='row'>
+                <div style={{ display: 'flex', alignItems: 'center', }}>
+                    <label
+                        htmlFor='citationStyle'
+                        children='Format'
+                        style={{ padding: '5px', }} />
+                    { this.props.showSelectBox &&
+                        <select
+                            id='citationStyle'
+                            style={{ width: '100%', }}
+                            onChange={this.handleSelect.bind(this)}
+                            value={this.props.citationStyle} >
+                            { citeStyles.map((style, i) =>
+                                <option
+                                key={i}
+                                value={style.label}
+                                children={style.value} />
+                            )}
+                        </select>
+                    }
+                    { !this.props.showSelectBox &&
+                        <input
+                            type='button'
+                            className='btn'
+                            style={{ width: '100%', }}
+                            onClick={this.handleToggleSelect.bind(this)}
+                            value={`${this.citationStyleText} (Click to change)`} />
+                    }
+                </div>
+                <div style={{ display: 'flex', alignItems: 'center', }}>
+                    <label
+                        htmlFor='attachInline'
+                        style={{ padding: '5px', }}
+                        children='Also add inline citation at current cursor position?' />
+                    <input
+                        type='checkbox'
+                        id='attachInline'
+                        style={{ padding: '5px', }}
+                        checked={this.props.attachInline}
+                        onChange={this.handleToggleInlineAttachment.bind(this)} />
+                </div>
+            </div>
+        )
+    }
+}
+
+
+
+interface ActionButtonProps {
+    addManually: boolean
+    eventHandler: Function
+}
+
+class ActionButtons extends React.Component<ActionButtonProps, {}> {
+
+    constructor(props: ActionButtonProps) {
+        super(props);
+    }
+
+    searchPubmedClick() {
         let wm = top.tinyMCE.activeEditor.windowManager;
         wm.open({
-          title: 'Search PubMed for Reference',
-          url: wm.windows[0].settings.params.baseUrl + 'pubmed-window.html',
-          width: 600,
-          height: 100,
-          onsubmit: (e: any) => {
-            let newList: string = e.target.data.pmid;
-
-            // If the current PMID List is not empty, add PMID to it
-            if (this.state.pmidList !== '') {
-              let combinedInput = this.state.pmidList.split(',');
-              combinedInput.push(e.target.data.pmid);
-              newList = combinedInput.join(',');
+            title: 'Search PubMed for Reference',
+            url: wm.windows[0].settings.params.baseUrl + 'pubmed-window.html',
+            width: 600,
+            height: 100,
+            onsubmit: (e: any) => {
+                this.props.eventHandler(
+                    new CustomEvent(LocalEvents.PUBMED_DATA_SUBMIT, { detail: e.target.data.pmid })
+                );
             }
+        });
+    }
 
-            this.setState(Object.assign({}, this.state, { pmidList: newList }));
-          }}
+    addManuallyClick() {
+        this.props.eventHandler(
+            new CustomEvent(LocalEvents.TOGGLE_MANUAL)
         );
-        break;
-      case 'addManually':
-        this.setState(Object.assign({}, this.state, { addManually: !this.state.addManually }));
-        break;
     }
 
-  }
-
-  handleSubmit(e: Event) {
-    e.preventDefault();
-    let wm = top.tinyMCE.activeEditor.windowManager;
-    wm.setParams({ data: this.state });
-    wm.close();
-  }
-
-  consumeChange(e: Event) {
-
-    // Switch on the type of input element and create a new, non-mutated
-    // state object to apply the result of the state change.
-    let id: string = (e.target as HTMLElement).id;
-    let tagName: string = (e.target as HTMLElement).tagName;
-    let newState = {};
-
-    switch (tagName) {
-      case 'INPUT':
-        let type: string = (e.target as HTMLInputElement).type;
-
-        switch(type) {
-          case 'text':
-            newState[id] = (e.target as HTMLInputElement).value;
-            break;
-          case 'checkbox':
-            newState[id] = (e.target as HTMLInputElement).checked;
-            break;
-        }
-        break;
-      case 'SELECT':
-        newState[id] = (e.target as HTMLSelectElement).value;
-        break;
+    render() {
+        return(
+            <div className='row' style={{
+                textAlign: 'center',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-around',
+            }}>
+                <input
+                    id='addManually'
+                    style={{ margin: '0 5px' }}
+                    onClick={this.addManuallyClick.bind(this)}
+                    type='button'
+                    className='btn'
+                    value={
+                        this.props.addManually === false
+                        ? 'Add Reference Manually'
+                        : 'Add Reference with PMID'} />
+                <input
+                    id='searchPubmed'
+                    style={{ margin: '0 5px' }}
+                    onClick={this.searchPubmedClick.bind(this)}
+                    type='button'
+                    className='btn'
+                    value='Search Pubmed' />
+                <span style={{
+                    borderRight: 'solid 2px #ccc',
+                    height: 25, margin: '0 15px 0 10px',
+                }} />
+                <input
+                    style={{ flexGrow: 1, margin: '0 15px 0 0' }}
+                    type='submit'
+                    className='submit-btn'
+                    value='Insert Reference' />
+            </div>
+        )
     }
-
-    this.setState(Object.assign({}, this.state, newState));
-  }
-
-  consumeManualDataChange(e: Event) {
-
-    let type: string = e.type;
-    let newData = Object.assign({}, this.state.manualData);
-
-    switch(type) {
-      case 'AUTHOR_DATA_CHANGE':
-        newData.authors = (e as CustomEvent).detail;
-        break;
-      case 'ADD_AUTHOR':
-        newData.authors = [...newData.authors, { firstname: '', lastname: '', middleinitial: '', }];
-        break
-      case 'REMOVE_AUTHOR':
-        let removeNum: number = parseInt((e as CustomEvent).detail);
-        newData.authors = [
-          ...newData.authors.slice(0, removeNum),
-          ...newData.authors.slice(removeNum + 1),
-        ];
-        break;
-      case 'TYPE_CHANGE':
-        newData.type = (e as CustomEvent).detail;
-        break;
-      case 'META_CHANGE':
-        newData.meta = (e as CustomEvent).detail;
-        break;
-    }
-
-    this.setState(Object.assign({}, this.state, { manualData: newData }));
-
-  }
-
-  render() {
-    return(
-      <div>
-        <form onSubmit={this.handleSubmit.bind(this)}>
-        { !this.state.addManually &&
-          <PMIDInput
-            pmidList={this.state.pmidList}
-            onChange={this.consumeChange.bind(this)} />
-        }
-        { this.state.addManually &&
-          <ManualEntryContainer
-            manualData={this.state.manualData}
-            onChange={this.consumeManualDataChange.bind(this)} />
-        }
-        <RefOptions
-          attachInline={this.state.attachInline}
-          citationFormat={this.state.citationFormat}
-          onChange={this.consumeChange.bind(this)} />
-        <ActionButtons
-          addManually={this.state.addManually}
-          onClick={this.handleButtonClick.bind(this)} />
-        </form>
-      </div>
-    );
-  }
 
 }
 
 
-class PMIDInput extends React.Component<{pmidList: string, onChange: Function},{}> {
 
-  refs: {
-    [key: string]: Element
-    pmidInput: HTMLInputElement
-  }
+interface ManualEntryProps {
+    manualData: CSL.Data
+    people: CSL.Person[]
+    eventHandler: Function
+}
 
-  componentDidMount() {
-    (ReactDOM.findDOMNode(this.refs.pmidInput) as HTMLInputElement).focus()
-  }
+class ManualEntryContainer extends React.Component<ManualEntryProps, {}> {
 
-  render() {
-    let sharedStyle = {
-      padding: '5px',
+    constructor(props) {
+        super(props);
     }
-    return(
-      <div className='row' style={{display: 'flex', alignItems: 'center'}}>
-        <div style={sharedStyle}>
-          <label htmlFor='pmidList'>PMID</label>
-        </div>
-          <input
-            type='text'
-            id='pmidList'
-            style={{width: '100%'}}
-            onChange={this.props.onChange}
-            ref='pmidInput'
-            required={true}
-            value={this.props.pmidList} />
-        <div style={sharedStyle}>
-          <label
-            style={{whiteSpace: 'nowrap'}}
-            htmlFor='includeLink' >
-              Include Link?
-          </label>
-        </div>
-        <div style={sharedStyle}>
-          <input
-            type="checkbox"
-            onChange={this.props.onChange}
-            id="includeLink" />
-        </div>
-      </div>
-    )
-  }
 
-}
+    consumeChildEvents(e: CustomEvent) {
+        this.props.eventHandler(e);
+    }
 
+    typeChange(e: DOMEvent) {
+        this.props.eventHandler(
+            new CustomEvent(LocalEvents.CHANGE_CITATION_TYPE, {
+                detail: e.target.value
+            })
+        );
+    }
 
-const RefOptions = ({
-  attachInline,
-  citationFormat,
-  onChange,
-}) => {
-  let commonStyle = { padding: '5px' }
-  return(
-    <div className='row'>
-      <div style={{display: 'flex', alignItems: 'center'}}>
-        <div style={commonStyle}>
-          <label htmlFor='citationFormat'>Format </label>
-        </div>
-        <div style={Object.assign({}, commonStyle, {flex: 1})}>
-          <select
-            id='citationFormat'
-            style={{width: '100%'}}
-            onChange={onChange}
-            value={citationFormat} >
-            <option value='ama'>American Medical Association (AMA)</option>
-            <option value='apa'>American Psychological Association (APA)</option>
-          </select>
-        </div>
-      </div>
-      <div style={{display: 'flex', alignItems: 'center'}}>
-          <div style={commonStyle}>
-            <label htmlFor='attachInline'>Also add inline citation at current cursor position?</label>
-          </div>
-          <div style={commonStyle}>
-            <input type='checkbox' id='attachInline' checked={attachInline} onChange={onChange} />
-          </div>
-        </div>
-    </div>
-  );
-}
+    handleMetaChange(e) {
+        // let newMeta = Object.assign({}, this.props.manualData);
+        // newMeta[this.props.manualData.type][e.target.dataset['metakey']] = e.target.value;
+        // this.props.onChange(new CustomEvent('META_CHANGE', { detail: newMeta }));
+    }
 
-
-const ActionButtons = ({
-  addManually,
-  onClick
-}) => {
-
-  const rowStyle = {
-    textAlign: 'center',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'space-around',
-  };
-
-  const spanStyle = {
-    borderRight: 'solid 2px #ccc',
-    height: 25,
-    margin: '0 15px 0 10px',
-  };
-
-  const buttonStyle = { margin: '0 5px' };
-
-  const submitStyle = {
-    flexGrow: 1,
-    margin: '0 15px 0 0'
-  };
-
-  return(
-    <div className='row' style={rowStyle}>
-      <input
-        id='addManually'
-        style={buttonStyle}
-        onClick={onClick}
-        type='button'
-        className='btn'
-        value={ addManually === false ? 'Add Reference Manually' : 'Add Reference with PMID'} />
-      <input
-        id='searchPubmed'
-        style={buttonStyle}
-        onClick={onClick}
-        type='button'
-        className='btn'
-        value='Search Pubmed' />
-      <span style={spanStyle}>
-      </span>
-      <input
-        style={submitStyle}
-        type='submit'
-        className='submit-btn'
-        value='Insert Reference' />
-    </div>
-  )
-}
-
-
-
-
-class ManualEntryContainer extends React.Component<{
-  manualData: ManualPayload,
-  onChange
-},{}> {
-
-  constructor(props) {
-    super(props);
-  }
-
-
-  typeChange(e) {
-    this.props.onChange(new CustomEvent('TYPE_CHANGE', { detail: e.target.value }));
-  }
-
-  authorChange(e) {
-    let type = e.target.dataset['nametype'];
-    let authNumber: number = parseInt(e.target.dataset['authornum']);
-    let newAuthorList = [...this.props.manualData.authors];
-    newAuthorList[authNumber][type] = e.target.value;
-    this.props.onChange(new CustomEvent('AUTHOR_DATA_CHANGE', {detail: newAuthorList}));
-  }
-
-  addAuthor(e) {
-    this.props.onChange(new CustomEvent('ADD_AUTHOR'));
-  }
-
-  removeAuthor(e) {
-    let authornum = e.target.dataset['authornum'];
-    this.props.onChange(new CustomEvent('REMOVE_AUTHOR', { detail: authornum }));
-  }
-
-  handleMetaChange(e) {
-    let newMeta = Object.assign({}, this.props.manualData.meta);
-    newMeta[this.props.manualData.type][e.target.dataset['metakey']] = e.target.value;
-    this.props.onChange(new CustomEvent('META_CHANGE', { detail: newMeta }));
-  }
-
-  render() {
-    return(
-      <div>
-        <ManualSelection
-          value={this.props.manualData.type}
-          onChange={this.typeChange.bind(this)} />
-        <Authors
-          authorList={this.props.manualData.authors}
-          onChange={this.authorChange.bind(this)}
-          addAuthor={this.addAuthor.bind(this)}
-          removeAuthor={this.removeAuthor.bind(this)}
-          type={this.props.manualData.type} />
-        <MetaFields
-          type={this.props.manualData.type}
-          meta={this.props.manualData.meta}
-          onChange={this.handleMetaChange.bind(this)} />
-      </div>
-    )
-  }
-
+    render() {
+        return (
+            <div>
+                <ManualSelection
+                    value={this.props.manualData.type}
+                    onChange={this.typeChange.bind(this)} />
+                <People
+                    people={this.props.people}
+                    eventHandler={this.consumeChildEvents.bind(this)}
+                    citationType={this.props.manualData.type}/>
+                <MetaFields
+                    citationType={this.props.manualData.type}
+                    meta={this.props.manualData}
+                    onChange={this.consumeChildEvents.bind(this)} />
+            </div>
+        )
+    }
 }
 
 const ManualSelection = ({
-  value,
-  onChange,
+    value,
+    onChange,
 }) => {
-  const commonStyle = { padding: '5px' };
-  return(
-    <div style={{display: 'flex', alignItems: 'center'}}>
-      <div style={commonStyle}>
-        <label
-          htmlFor="type"
-          style={{whiteSpace: 'nowrap'}}>
-            Select Citation Type
-        </label>
-      </div>
-      <div style={Object.assign({}, commonStyle, {flex: 1})}>
-        <select
-          id="type"
-          style={{width: '100%'}}
-          onChange={onChange}
-          value={value} >
-            <option value="journal">Journal Article</option>
-            <option value="website">Website</option>
-            <option value="book">Book</option>
-        </select>
-      </div>
-    </div>
-  )
-}
+    const commonStyle = { padding: '5px' };
+    return (
+        <div style={{display: 'flex', alignItems: 'center'}}>
+            <div style={commonStyle}>
+                <label
+                    htmlFor="type"
+                    style={{whiteSpace: 'nowrap'}}
+                    children='Select Citation Type' />
+            </div>
+            <div style={Object.assign({}, commonStyle, {flex: 1})}>
+                <select
+                    id="type"
+                    style={{width: '100%'}}
+                    onChange={onChange}
+                    value={value} >
+                    {
+                        CitationTypeArray.map((item, i) => {
 
-const Authors = ({
-  authorList,
-  removeAuthor,
-  onChange,
-  addAuthor,
-  type,
-}) => {
-  const inputStyle = {
-    flex: 1,
-    padding: '0 5px',
-  };
-  const commonStyle = {
-    padding: '0 5px'
-  }
-  return(
-    <div>
-      <div className='row'>
-        <strong>Author Name(s)</strong>
-      </div>
-      {authorList.map((author: Author, i: number) =>
-        <div key={`author-list-${i}`} style={{display: 'flex', alignItems: 'center'}}>
-          <div style={commonStyle}>
-            <label
-              htmlFor={`auth-FN-${i}`}
-              style={{whiteSpace: 'nowrap'}} >
-                First
-            </label>
-          </div>
-          <div style={inputStyle} >
-            <input
-              type='text'
-              data-nametype='firstname'
-              data-authornum={i}
-              style={{width: '100%'}}
-              pattern='^[a-zA-Z]+$'
-              id={`auth-FN-${i}`}
-              value={author.firstname}
-              onChange={onChange}
-              required={ type !== 'website' } />
-          </div>
-          <div style={commonStyle}>
-            <label
-              htmlFor={`auth-MI-${i}`}
-              style={{whiteSpace: 'nowrap'}} >
-                M.I.
-            </label>
-          </div>
-          <div style={Object.assign({}, inputStyle, { maxWidth: '30px' })} >
-            <input
-              type='text'
-              data-nametype='middleinitial'
-              style={{width: '100%'}}
-              pattern='[a-zA-Z]'
-              data-authornum={i}
-              id={`auth-MI-${i}`}
-              value={author.middleinitial}
-              onChange={onChange} />
-          </div>
-          <div style={commonStyle}>
-            <label
-              htmlFor={`auth-LN-${i}`}
-              style={{whiteSpace: 'nowrap'}} >
-                Last
-            </label>
-          </div>
-          <div style={inputStyle} >
-            <input
-              type='text'
-              data-nametype='lastname'
-              style={{width: '100%'}}
-              pattern='^[a-zA-Z]+$'
-              data-authornum={i}
-              id={`auth-LN-${i}`}
-              value={author.lastname}
-              onChange={onChange}
-              required={ type !== 'website' } />
-          </div>
-          <div style={commonStyle}>
-            <input
-              type='button'
-              className='btn'
-              data-authornum={i}
-              value='x'
-              onClick={removeAuthor} />
-          </div>
+                            if (!item.inUse) {
+                                return;
+                            }
+
+                            return (
+                                <option
+                                    key={i}
+                                    value={item.value}
+                                    children={item.label} />
+                            )
+                        }
+                    )}
+                </select>
+            </div>
         </div>
-      )}
-      <div className='row' style={{textAlign: 'center'}}>
-        <input type='button' className='btn' value='Add Another Author' onClick={addAuthor}/>
-      </div>
-    </div>
-  )
+    )
 }
 
 
-const MetaFields = ({type, meta, onChange,} :
-{
-  type: string
-  meta: ManualMeta
-  onChange: Function
-}) => {
 
-  const outerFlex = {
-    display: 'flex',
-    flexDirection: 'column',
-  }
-
-  const innerFlex = {
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
-  }
-
-  let displayMeta: Object[] = [];
-  let title: string = type[0].toUpperCase() + type.substring(1, type.length);
-
-  switch(type) {
-    case 'journal':
-      displayMeta = [
-        { meta: meta.journal.title, key: 'title', label: 'Title', required: true },
-        { meta: meta.journal.source, key: 'source', label: 'Journal Name', required: true },
-        { meta: meta.journal.pubdate, key: 'pubdate', label: 'Year Published', pattern: '[1-2][0-9]{3}', required: true },
-        { meta: meta.journal.volume, key: 'volume', label: 'Volume', pattern: '[0-9]{1,5}', required: false },
-        { meta: meta.journal.issue, key: 'issue', label: 'Issue', pattern: '^[0-9]{1,4}', required: false },
-        { meta: meta.journal.pages, key: 'pages', label: 'Pages', pattern: '^([0-9]{1,4}(?:-[0-9]{1,4}$)?)', required: true }
-      ];
-      break;
-    case 'website':
-      displayMeta = [
-        { meta: meta.website.title, key: 'title', label: 'Content Title', required: true },
-        { meta: meta.website.source, key: 'source', label: 'Website Title', required: true },
-        { meta: meta.website.pubdate, key: 'pubdate', label: 'Published Date', placeholder: 'MM/DD/YYYY', pattern: '[0-1][0-9][-/][0-3][0-9][-/][1-2][0-9]{3}', required: true },
-        { meta: meta.website.url, key: 'url', label: 'URL', required: true },
-        { meta: meta.website.updated, key: 'updated', label: 'Updated Date', placeholder: 'MM/DD/YYYY', pattern: '[0-1][0-9][-/][0-3][0-9][-/][1-2][0-9]{3}', required: false },
-        { meta: meta.website.accessed, key: 'accessed', label: 'Accessed Date', placeholder: 'MM/DD/YYYY', pattern: '[0-1][0-9][-/][0-3][0-9][-/][1-2][0-9]{3}', required: false },
-      ];
-      break;
-    case 'book':
-      displayMeta = [
-        { meta: meta.book.title, key: 'title', label: 'Book Title', required: true },
-        { meta: meta.book.source, key: 'source', label: 'Publisher', required: true },
-        { meta: meta.book.pubdate, key: 'pubdate', label: 'Copyright Year', pattern: '[1-2][0-9]{3}', required: true },
-        { meta: meta.book.chapter, key: 'chapter', label: 'Chapter/Section', required: false },
-        { meta: meta.book.edition, key: 'edition', label: 'Edition', required: false },
-        { meta: meta.book.location, key: 'location', label: 'Publisher Location', required: false },
-        { meta: meta.book.pages, key: 'pages', label: 'Pages', pattern: '^([0-9]{1,4}(?:-[0-9]{1,4}$)?)', required: false },
-      ];
-      break;
-  }
-
-  return(
-    <div>
-      <div className='row'>
-        <strong>{title} Information </strong>
-      </div>
-      <div style={outerFlex}>
-        {displayMeta.map((item, i: number) =>
-          <div key={`${title}-meta-${i}`} style={innerFlex}>
-            <div style={{padding: '0 5px', flex: 1}}>
-              <label
-                htmlFor={`${title}-${item.label}`}
-                style={{padding: '5px'}} >
-                  {item.label}
-              </label>
-            </div>
-            <div style={{padding: '0 5px', flex: 2}}>
-              <input
-                type='text'
-                pattern={item.pattern}
-                placeholder={item.placeholder}
-                style={{width: '100%'}}
-                required={item.required}
-                id={`${title}-${item.label}`}
-                data-metakey={item.key}
-                onChange={onChange}
-                value={item.meta} />
-            </div>
-          </div>
-        )}
-      </div>
-    </div>
-  )
+interface PeopleProps {
+    people: CSL.Person[]
+    eventHandler: Function
+    citationType: CSL.CitationType
 }
 
+class People extends React.Component<PeopleProps,{}> {
+
+    constructor(props) {
+        super(props);
+    }
+
+    addPerson() {
+        this.props.eventHandler(
+            new CustomEvent(LocalEvents.ADD_PERSON)
+        );
+    }
+
+    removePerson(e: DOMEvent) {
+        this.props.eventHandler(
+            new CustomEvent(LocalEvents.REMOVE_PERSON, {
+                detail: parseInt(e.target.dataset['num']),
+            })
+        );
+    }
+
+    onChange(e: DOMEvent) {
+        this.props.eventHandler(
+            new CustomEvent(LocalEvents.PERSON_CHANGE, {
+                detail: {
+                    index: parseInt(e.target.dataset['num']),
+                    field: e.target.dataset['namefield'],
+                    value: e.target.value,
+                }
+            })
+        );
+    }
+
+    render() {
+        return (
+            <div>
+                <div className='row'>
+                    <strong children='Author Name(s)'/>
+                </div>
+                {this.props.people.map((person: CSL.Person, i: number) =>
+                    <div key={`person-list-${i}`} style={{ display: 'flex', alignItems: 'center', }}>
+                        <div style={{ padding: '0 5px', }}>
+                            <label
+                                htmlFor={`person-given-${i}`}
+                                style={{whiteSpace: 'nowrap'}}
+                                children='First'/>
+
+                        </div>
+                        <div style={{ flex: 1, padding: '0 5px', }} >
+                            <input
+                                type='text'
+                                data-namefield='given'
+                                data-num={i}
+                                style={{ width: '100%', }}
+                                pattern='^[a-zA-Z]+$' /** TODO: Fix this pattern */
+                                id={`person-given-${i}`}
+                                value={person.given}
+                                onChange={this.onChange.bind(this)}
+                                required={true} />
+                        </div>
+                        <div style={{ padding: '0 5px', }}>
+                            <label
+                                htmlFor={`person-family-${i}`}
+                                style={{whiteSpace: 'nowrap'}}
+                                children='Last'/>
+                        </div>
+                        <div style={{ flex: 1, padding: '0 5px', }} >
+                            <input
+                                type='text'
+                                data-namefield='family'
+                                style={{width: '100%'}}
+                                pattern='^[a-zA-Z]+$'
+                                data-num={i}
+                                id={`person-family-${i}`}
+                                value={person.family}
+                                onChange={this.onChange.bind(this)}
+                                required={true} />
+                        </div>
+                        <div style={{ padding: '0 5px', }}>
+                            <input
+                            type='button'
+                            className='btn'
+                            data-num={i}
+                            value='x'
+                            onClick={this.removePerson.bind(this)} />
+                        </div>
+                    </div>
+                )}
+                <div className='row' style={{textAlign: 'center'}}>
+                    <input type='button' className='btn' value='Add Author' onClick={this.addPerson.bind(this)}/>
+                </div>
+            </div>
+        )
+    }
+}
+
+
+interface MetaFieldProps {
+    citationType: CSL.CitationType
+    meta: CSL.Data
+    onChange: Function
+}
+
+class MetaFields extends React.Component<MetaFieldProps,{}> {
+
+    public fieldMappings = FieldMappings;
+
+    constructor(props) {
+        super(props);
+    }
+
+    handleChange() {
+
+    }
+
+    render() {
+        let title = this.fieldMappings[this.props.citationType].title;
+        let relevantFields = this.fieldMappings[this.props.citationType].relevant;
+        let labels = this.fieldMappings[this.props.citationType].label;
+        return (
+            <div>
+                <div className='row'>
+                    <strong>{title} Information</strong>
+                    <span style={{ marginLeft: 5 }} children='(fill out what you can)' />
+                </div>
+                <div style={{ display: 'flex', flexDirection: 'column', }}>
+                    {relevantFields.map((fieldname, i: number) =>
+                        <div
+                            key={`${title}-meta-${i}`}
+                            style={{
+                                display: 'flex',
+                                flexDirection: 'row',
+                                alignItems: 'center', }}>
+                            <div style={{ padding: '0 5px', flex: 1, }}>
+                                <label
+                                    htmlFor={`${title}-${labels[i]}`}
+                                    style={{ padding: '5px', }} children={labels[i]} />
+                            </div>
+                            <div style={{ padding: '0 5px', flex: 2, }}>
+                                <input
+                                    type='text'
+                                    style={{width: '100%'}}
+                                    id={`${title}-${labels[i]}`}
+                                    data-fieldname={fieldname}
+                                    onChange={this.handleChange.bind(this)}
+                                    value={this.props.meta[fieldname]} />
+                            </div>
+                        </div>
+                    )}
+                </div>
+            </div>
+        )
+    }
+}
 
 
 ReactDOM.render(
