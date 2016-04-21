@@ -91,29 +91,3 @@ export function toTitleCase(str: string): string {
         return match.charAt(0).toUpperCase() + match.substr(1);
     });
 };
-
-/**
- * Takes data that has the Author interface and returns the author name in the
- *   form of `Lastname FM`
- * @param  {Author} author Author object.
- * @return {string}        Formatted author name.
- */
-export function prepareName(author: Author): string {
-    return (
-        author.lastname[0].toUpperCase() +
-        author.lastname.substring(1, author.lastname.length) + ' ' +
-        author.firstname[0].toUpperCase() + author.middleinitial.toUpperCase()
-    )
-}
-
-/**
- * Takes a number as input and returns the number as a string with the correct
- *   suffix.
- * @param  {number} n The number to be suffixed.
- * @return {string}   The number with the suffix applied.
- */
-export function getNumberSuffix(n: number): string {
-    let s = ["th","st","nd","rd"];
-    let v = n % 100;
-    return n+(s[(v-20)%10]||s[v]||s[0]);
- }

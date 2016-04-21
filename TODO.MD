@@ -11,11 +11,11 @@
 ### JS Related
 - [ ] Finish date parsing function for `referenceWindow`.
 - [ ] Finish Person parsing function for `referenceWindow`.
-- [ ] Finish test coverage
+- [ ] Finish test coverage for untested files.
 - [ ] Document all undocumented functions / classes / etc
 - [ ] Figure out multiple DOI input and mixed DOI/PMID inputs
 - [x] Remove `Parsers.ts` (be sure it's not still needed).
-- [ ] Prune `helperFunctions.ts` for irrelevant functions.
+- [x] Prune `helperFunctions.ts` for irrelevant functions.
 - [ ] Add nicer loading spinner to reflist meta box
 - [ ] Determine what to do with modal vertical sizing on manual reference window.
 

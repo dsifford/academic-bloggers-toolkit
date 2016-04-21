@@ -41,11 +41,4 @@ describe('HelperFunctions Tests', () => {
         expect(helpers.toTitleCase('a brief history of time: from the big bang to black holes')).toBe('A Brief History of Time: From the Big Bang to Black Holes');
     });
 
-    it('should prepare author names correctly', () => {
-        expect(helpers.prepareName(testNames[0])).toBe('Doe JP');
-        expect(helpers.prepareName(testNames[1])).toBe('Sifford DP');
-        expect(helpers.prepareName(testNames[2])).toBe('Smith S');
-        expect(helpers.prepareName(testNames[3])).toBe('Underwood FJ');
-        expect(helpers.prepareName(testNames[4])).toBe('Peterson W');
-    });
 });
