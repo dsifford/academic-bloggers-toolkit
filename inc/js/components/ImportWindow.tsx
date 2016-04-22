@@ -67,10 +67,6 @@ class ImportWindow extends React.Component<{}, State> {
         );
     }
 
-    logChange(e) {
-        console.log(e);
-    }
-
     handleChange(e: DOMEvent) {
         this.setState(
             Object.assign({}, this.state, {

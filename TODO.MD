@@ -21,7 +21,7 @@
 - [ ] Figure out multiple DOI input and mixed DOI/PMID inputs
 - [x] Remove `Parsers.ts` (be sure it's not still needed).
 - [x] Prune `helperFunctions.ts` for irrelevant functions.
-- [ ] Add nicer loading spinner to reflist meta box
+- [x] Add nicer loading spinner to reflist meta box
 - [ ] Determine what to do with modal vertical sizing on manual reference window.
 
 ### PHP / WordPress Related
