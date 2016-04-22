@@ -1,16 +1,21 @@
+### Large Tasks
+- [ ] Add select box so user can choose person type for cases where there may be more than one (books = author, editor).
+- [ ] Finish date parsing function for `referenceWindow`.
+- [ ] Finish Person parsing function for `referenceWindow`.
+
 ### General Todos...
-- [ ] Fix list of reference types to not include dependent refs.
-- [ ] Bump this branch to version 3.0.0 -- should be a major semver bump.
+- [x] Fix list of reference types to not include dependent refs.
+- [x] Bump this branch to version 3.0.0 -- should be a major semver bump.
 - [x] Fix vendor path (bring to root).
 - [x] Minify all vendored scripts (and make them JS files).
 - [x] Fix gulp task flow for vendored files.
-- [ ] Fix field labels for manual reference inputs.
+- [x] Fix field labels for manual reference inputs.
 - [ ] Better labelling on RIS import window
 - [ ] Cleanup unused typings + add globals for CrossRef/etc where needed.
+- [ ] Throw together typings for constants
+- [ ] Break `referenceWindow` into multiple files + add `LocalEvents` to `Constants`
 
 ### JS Related
-- [ ] Finish date parsing function for `referenceWindow`.
-- [ ] Finish Person parsing function for `referenceWindow`.
 - [ ] Finish test coverage for untested files.
 - [ ] Document all undocumented functions / classes / etc
 - [ ] Figure out multiple DOI input and mixed DOI/PMID inputs

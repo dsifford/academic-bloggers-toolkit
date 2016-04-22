@@ -1,63 +1,63 @@
 {
-  "name": "academic-bloggers-toolkit",
-  "version": "2.5.0",
-  "description": "A plugin extending the functionality of WordPress for Academic Blogging.",
-  "main": "index.js",
-  "scripts": {
-    "test": "jest",
-    "wp": "wpcmd() { docker exec $(docker ps -lq) /bin/bash -c \"sudo -u www-data wp $(echo $@)\"; };wpcmd "
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/dsifford/academic-bloggers-toolkit.git"
-  },
-  "author": "Derek P Sifford",
-  "license": "GPL-3.0",
-  "bugs": {
-    "url": "https://github.com/dsifford/academic-bloggers-toolkit/issues"
-  },
-  "homepage": "https://github.com/dsifford/academic-bloggers-toolkit#readme",
-  "devDependencies": {
-    "babel-core": "^6.7.6",
-    "babel-loader": "^6.2.4",
-    "babel-preset-es2015": "^6.6.0",
-    "babel-preset-react": "^6.5.0",
-    "browser-sync": "^2.12.3",
-    "del": "^2.2.0",
-    "gulp": "^3.9.1",
-    "gulp-autoprefixer": "^3.1.0",
-    "gulp-clean-css": "^2.0.6",
-    "gulp-coveralls": "^0.1.4",
-    "gulp-sass": "^2.2.0",
-    "gulp-uglify": "^1.5.3",
-    "jest-cli": "^11.0.2",
-    "react": "^15.0.1",
-    "react-addons-test-utils": "^15.0.1",
-    "react-dom": "^15.0.1",
-    "ts-loader": "^0.8.2",
-    "typescript": "^1.8.10",
-    "webpack": "^1.13.0",
-    "webpack-stream": "^3.1.0"
-  },
-  "jest": {
-    "scriptPreprocessor": "jestPreprocessor.js",
-    "testFileExtensions": [
-      "ts",
-      "tsx",
-      "js"
-    ],
-    "moduleFileExtensions": [
-      "js",
-      "ts",
-      "tsx"
-    ],
-    "unmockedModulePathPatterns": [
-      "<rootDir>/node_modules/react",
-      "<rootDir>/node_modules/react-dom",
-      "<rootDir>/node_modules/react-addons-test-utils"
-    ],
-    "verbose": true,
-    "collectCoverage": true
-  },
-  "dependencies": {}
+    "name": "academic-bloggers-toolkit",
+    "version": "3.0.0",
+    "description": "A plugin extending the functionality of WordPress for Academic Blogging.",
+    "main": "index.js",
+    "scripts": {
+        "test": "jest",
+        "wp": "wpcmd() { docker exec $(docker ps -lq) /bin/bash -c \"sudo -u www-data wp $(echo $@)\"; };wpcmd "
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/dsifford/academic-bloggers-toolkit.git"
+    },
+    "author": "Derek P Sifford",
+    "license": "GPL-3.0",
+    "bugs": {
+        "url": "https://github.com/dsifford/academic-bloggers-toolkit/issues"
+    },
+    "homepage": "https://github.com/dsifford/academic-bloggers-toolkit#readme",
+    "devDependencies": {
+        "babel-core": "^6.7.6",
+        "babel-loader": "^6.2.4",
+        "babel-preset-es2015": "^6.6.0",
+        "babel-preset-react": "^6.5.0",
+        "browser-sync": "^2.12.3",
+        "del": "^2.2.0",
+        "gulp": "^3.9.1",
+        "gulp-autoprefixer": "^3.1.0",
+        "gulp-clean-css": "^2.0.6",
+        "gulp-coveralls": "^0.1.4",
+        "gulp-sass": "^2.3.1",
+        "gulp-uglify": "^1.5.3",
+        "jest-cli": "^11.0.2",
+        "react": "^15.0.1",
+        "react-addons-test-utils": "^15.0.1",
+        "react-dom": "^15.0.1",
+        "ts-loader": "^0.8.2",
+        "typescript": "^1.8.10",
+        "webpack": "^1.13.0",
+        "webpack-stream": "^3.1.0"
+    },
+    "jest": {
+        "scriptPreprocessor": "jestPreprocessor.js",
+        "testFileExtensions": [
+            "ts",
+            "tsx",
+            "js"
+        ],
+        "moduleFileExtensions": [
+            "js",
+            "ts",
+            "tsx"
+        ],
+        "unmockedModulePathPatterns": [
+            "<rootDir>/node_modules/react",
+            "<rootDir>/node_modules/react-dom",
+            "<rootDir>/node_modules/react-addons-test-utils"
+        ],
+        "verbose": true,
+        "collectCoverage": true
+    },
+    "dependencies": {}
 }

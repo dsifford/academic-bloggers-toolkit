@@ -2,15 +2,11 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import Modal from '../utils/Modal';
 import { RISParser } from '../utils/RISParser';
-import citeStyles from '../utils/CitationStylesObj';
+const citeStyles = require('../../../vendor/CitationStylesObj.js');
 
 
 interface DOMEvent extends React.UIEvent {
     target: HTMLInputElement
-}
-
-interface Props {
-
 }
 
 interface State {
@@ -19,7 +15,7 @@ interface State {
     format: string,
 }
 
-class ImportWindow extends React.Component<Props, State> {
+class ImportWindow extends React.Component<{}, State> {
 
     private modal: Modal = new Modal('Import References');
 
@@ -106,7 +102,7 @@ class ImportWindow extends React.Component<Props, State> {
                         value={this.state.format} >
                             {
                                 citeStyles.map((style, i: number) =>
-                                    <option className='testing' key={i} value={style.label} children={style.value} />
+                                    <option className='testing' key={i} value={style.value} children={style.label} />
                                 )
                             }
                     </select>

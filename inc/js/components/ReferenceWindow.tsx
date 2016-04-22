@@ -1,9 +1,9 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import Modal from '../utils/Modal';
-import citeStyles from '../utils/CitationStylesObj';
 import { CitationTypeArray, FieldMappings } from '../utils/Constants';
 import { toTitleCase } from '../utils/HelperFunctions';
+const citeStyles = require('../../../vendor/CitationStylesObj.js');
 
 interface DOMEvent extends UIEvent {
     target: HTMLInputElement
@@ -32,6 +32,7 @@ const LocalEvents = {
     'TOGGLE_INLINE_ATTACHMENT': 'TOGGLE_INLINE_ATTACHMENT',
     'CHANGE_CITATION_STYLE': 'CHANGE_CITATION_STYLE',
     'CHANGE_CITATION_TYPE': 'CHANGE_CITATION_TYPE',
+    'META_FIELD_CHANGE': 'META_FIELD_CHANGE',
 }
 
 
@@ -57,10 +58,11 @@ class ReferenceWindow extends React.Component<{}, State> {
                 type: 'article-journal',
                 accessed: [],
                 issued: [],
-                // 'event-date': [],
+                'event-date': [],
                 'chapter-number': '',
                 journalAbbreviation: '',
                 'collection-title': '', // book series
+                'collection-number': '', // book series
                 'container-title': '', // book title for chapter, journal title for journal article
                 'container-title-short': '',
                 DOI: '', // string
@@ -78,8 +80,18 @@ class ReferenceWindow extends React.Component<{}, State> {
                 'title-short': '', // string
                 URL: '', // string
                 volume: '', // string|number
+                'number-of-volumes': '', // string|number
             },
         }
+    }
+
+    /** FIXME: Just for testing purposes */
+    private timer;
+    logState() {
+        clearTimeout(this.timer);
+        this.timer = setTimeout(() => {
+            console.log(this.state);
+        }, 1000);
     }
 
     componentDidMount() {
@@ -98,6 +110,8 @@ class ReferenceWindow extends React.Component<{}, State> {
     }
 
     consumeChildEvents(e: CustomEvent) {
+        this.logState();
+
         switch (e.type) {
             case LocalEvents.IDENTIFIER_FIELD_CHANGE: {
                 this.setState(
@@ -190,6 +204,14 @@ class ReferenceWindow extends React.Component<{}, State> {
                 let manualData = Object.assign({}, this.state.manualData, {
                     type: e.detail,
                 });
+                this.setState(
+                    Object.assign({}, this.state, { manualData })
+                );
+                return;
+            }
+            case LocalEvents.META_FIELD_CHANGE: {
+                let manualData = Object.assign({}, this.state.manualData);
+                manualData[e.detail.field] = e.detail.value;
                 this.setState(
                     Object.assign({}, this.state, { manualData })
                 );
@@ -345,8 +367,8 @@ class RefOptions extends React.Component<RefOptionsProps,{}> {
                             { citeStyles.map((style, i) =>
                                 <option
                                 key={i}
-                                value={style.label}
-                                children={style.value} />
+                                value={style.value}
+                                children={style.label} />
                             )}
                         </select>
                     }
@@ -476,12 +498,6 @@ class ManualEntryContainer extends React.Component<ManualEntryProps, {}> {
         );
     }
 
-    handleMetaChange(e) {
-        // let newMeta = Object.assign({}, this.props.manualData);
-        // newMeta[this.props.manualData.type][e.target.dataset['metakey']] = e.target.value;
-        // this.props.onChange(new CustomEvent('META_CHANGE', { detail: newMeta }));
-    }
-
     render() {
         return (
             <div>
@@ -495,7 +511,7 @@ class ManualEntryContainer extends React.Component<ManualEntryProps, {}> {
                 <MetaFields
                     citationType={this.props.manualData.type}
                     meta={this.props.manualData}
-                    onChange={this.consumeChildEvents.bind(this)} />
+                    eventHandler={this.consumeChildEvents.bind(this)} />
             </div>
         )
     }
@@ -648,7 +664,7 @@ class People extends React.Component<PeopleProps,{}> {
 interface MetaFieldProps {
     citationType: CSL.CitationType
     meta: CSL.Data
-    onChange: Function
+    eventHandler: Function
 }
 
 class MetaFields extends React.Component<MetaFieldProps,{}> {
@@ -659,8 +675,13 @@ class MetaFields extends React.Component<MetaFieldProps,{}> {
         super(props);
     }
 
-    handleChange() {
-
+    handleChange(e: DOMEvent) {
+        this.props.eventHandler(
+            new CustomEvent(LocalEvents.META_FIELD_CHANGE, { detail: {
+                field: e.target.dataset['fieldname'],
+                value: e.target.value,
+            }})
+        );
     }
 
     render() {

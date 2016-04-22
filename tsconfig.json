@@ -36,8 +36,6 @@
         "inc/js/frontend.ts",
         "inc/js/tinymce-entrypoint.ts",
         "inc/js/utils/__tests__/HelperFunctions-test.ts",
-        "inc/js/utils/CitationStyles.ts",
-        "inc/js/utils/CitationStylesObj.ts",
         "inc/js/utils/Constants.ts",
         "inc/js/utils/CrossRefAPI.ts",
         "inc/js/utils/CSLFieldProcessors.ts",
