@@ -5,7 +5,7 @@ module.exports = {
     'inc/js/frontend': './inc/js/frontend.ts',
     'inc/js/Reflist': './inc/js/Reflist.tsx',
     'inc/js/PeerReviewMetabox': './inc/js/PeerReviewMetabox.tsx',
-    'inc/js/components/ReferenceWindow': './inc/js/components/ReferenceWindow.tsx',
+    'inc/js/components/ReferenceWindow/ReferenceWindow': './inc/js/components/ReferenceWindow/ReferenceWindow.tsx',
     'inc/js/components/PubmedWindow': './inc/js/components/PubmedWindow.tsx',
     'inc/js/components/ImportWindow': './inc/js/components/ImportWindow.tsx',
   },

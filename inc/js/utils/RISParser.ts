@@ -22,7 +22,7 @@ export class RISParser {
             let refObj = this.parseSingle(ref, i);
 
             if (typeof refObj === 'boolean') {
-                this.unsupportedRefs.push(i);
+                this.unsupportedRefs.push(i+1);
             }
             else {
                 payload.push(refObj);

@@ -1,7 +1,7 @@
 import * as React from 'react'
 import * as ReactDOM from 'react-dom'
 import { parseInlineCitationString } from './utils/HelperFunctions';
-import ABTEvent from './utils/Events';
+import { ABTGlobalEvents } from './utils/Constants';
 
 declare var tinyMCE: TinyMCE.tinyMCE;
 
@@ -29,12 +29,12 @@ class Reflist extends React.Component<{}, State> {
     }
 
     componentDidMount() {
-        addEventListener(ABTEvent.TINYMCE_READY, this.gatherReferences.bind(this));
-        addEventListener(ABTEvent.REFERENCE_ADDED, this.addReference.bind(this));
+        addEventListener(ABTGlobalEvents.TINYMCE_READY, this.gatherReferences.bind(this));
+        addEventListener(ABTGlobalEvents.REFERENCE_ADDED, this.addReference.bind(this));
     }
 
     componentWillUnmount() {
-        removeEventListener(ABTEvent.REFERENCE_ADDED, this.addReference);
+        removeEventListener(ABTGlobalEvents.REFERENCE_ADDED, this.addReference);
     }
 
     addReference(e: CustomEvent) {
@@ -341,7 +341,7 @@ class Reflist extends React.Component<{}, State> {
                         disabled={this.state.selected.length !== 0}
                         onClick={(e) => {
                             e.preventDefault();
-                            dispatchEvent(new CustomEvent(ABTEvent.INSERT_REFERENCE));
+                            dispatchEvent(new CustomEvent(ABTGlobalEvents.INSERT_REFERENCE));
                         }}
                         onMouseOver={this.createTooltip.bind(this)}
                         onMouseLeave={this.destroyTooltip}

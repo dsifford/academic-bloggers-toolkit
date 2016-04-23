@@ -1,8 +1,9 @@
 import { PubmedGet } from './utils/PubmedAPI';
 import { getFromDOI } from './utils/CrossRefAPI';
 import { CSLPreprocessor } from './utils/CSLPreprocessor';
+import { processDate } from './utils/CSLFieldProcessors';
 import { parseInlineCitationString } from './utils/HelperFunctions';
-import ABTEvent from './utils/Events';
+import { ABTGlobalEvents } from './utils/Constants';
 
 declare var tinyMCE: TinyMCE.tinyMCE, ABT_locationInfo
 
@@ -16,14 +17,11 @@ tinyMCE.PluginManager.add('abt_main_menu', (editor: TinyMCE.Editor, url: string)
         includeLink: boolean
         attachInline: boolean
         addManually: boolean
-        people: CSL.Person[]
+        people: CSL.TypedPerson[]
         manualData: CSL.Data
     }
 
-    /**
-     * Responsible for opening the formatted reference window and serving the reference
-     * @type {Function}
-     */
+
     const openFormattedReferenceWindow = () => {
         editor.windowManager.open(<TinyMCE.WindowMangerObject>{
             title: 'Insert Formatted Reference',
@@ -44,60 +42,69 @@ tinyMCE.PluginManager.add('abt_main_menu', (editor: TinyMCE.Editor, url: string)
                 editor.setProgressState(1);
                 let payload: ReferenceWindowPayload = e.target.params.data;
 
-                if (payload.identifierList !== '') {
+                // Handle PubMed and CrossRef calls
+                if (!payload.addManually) {
 
                     let identifiers: string = payload.identifierList.replace(/\s/g, '');
 
                     if (identifiers.search(/^10\./) > -1) {
 
                         getFromDOI(identifiers, (res) => {
-
                             let processor = new CSLPreprocessor(ABT_locationInfo.locale, res, payload.citationStyle, (citeproc) => {
-
-                                citeproc.updateItems(Object.keys(processor.citations));
-                                let bib = citeproc.makeBibliography();
-
-                                let data = [];
-                                bib[1].forEach(ref => {
-                                    data.push(ref.match(/.+class="csl-right-inline">(.+?)<\/div>/)[1]);
-                                });
-
+                                let data = processor.prepare(citeproc);
                                 deliverContent(data, { attachInline: payload.attachInline });
-
                             });
-
                         });
                         return;
                     }
 
                     PubmedGet(identifiers, (res) => {
-                        console.log(res);
                         let processor = new CSLPreprocessor(ABT_locationInfo.locale, res, payload.citationStyle, (citeproc) => {
-
-                            citeproc.updateItems(Object.keys(processor.citations));
-                            let bib = citeproc.makeBibliography();
-
-                            let data = [];
-                            bib[1].forEach(ref => {
-                                data.push(ref.match(/.+class="csl-right-inline">(.+?)<\/div>/)[1]);
-                            });
-
+                            let data = processor.prepare(citeproc);
                             deliverContent(data, { attachInline: payload.attachInline });
-
                         });
-
                     });
+                    return;
                 }
+
+                // Process manual name fields
+                payload.people.forEach(person => {
+
+                    if (typeof payload.manualData[person.type] === 'undefined') {
+                        payload.manualData[person.type] = [{ family: person.family, given: person.given }];
+                        return;
+                    }
+
+                    payload.manualData[person.type].push({ family: person.family, given: person.given });
+                });
+
+                // Process date fields
+                ['accessed', 'event-date', 'issued'].forEach(dateType => {
+                    payload.manualData[dateType] = processDate(payload.manualData[dateType], 'RIS');
+                });
+
+                let processor = new CSLPreprocessor(ABT_locationInfo.locale, { 0: payload.manualData }, payload.citationStyle, (citeproc) => {
+                    let data = processor.prepare(citeproc);
+                    deliverContent(data, { attachInline: payload.attachInline });
+                });
             },
         });
     };
     editor.addShortcut('meta+alt+r', 'Insert Formatted Reference', openFormattedReferenceWindow);
 
+
     /**
-     * Responsible for serving the reference payload once generated
-     * @type {Function}
+     * Responsible for serving the reference payload once generated.
+     *
+     * TODO: Attach inline will be broken for anything other than pubmed calls
+     *
+     * @param  {Error|string[]} data Either an array of formatted references or
+     *   an error, depending on if one was received from an external request.
+     * @param  {Object}  payload     An object containing an inner boolean
+     *   property who's key is `attachInline`. This determines wheter or not a
+     *   URL is generated and served after the citation.
      */
-    const deliverContent = (data: Error|string[], payload: { attachInline: boolean }) => {
+    function deliverContent(data: Error|string[], payload: { attachInline: boolean }): void {
         if (data instanceof Error) {
             editor.windowManager.alert(data.message);
             editor.setProgressState(0);
@@ -112,7 +119,7 @@ tinyMCE.PluginManager.add('abt_main_menu', (editor: TinyMCE.Editor, url: string)
                 li.innerHTML = ref;
                 smartBib.appendChild(li);
                 reflist.push(smartBib.children.length - 1);
-                dispatchEvent(new CustomEvent(ABTEvent.REFERENCE_ADDED, { detail: ref }));
+                dispatchEvent(new CustomEvent(ABTGlobalEvents.REFERENCE_ADDED, { detail: ref }));
             });
 
             if (payload.attachInline) {
@@ -126,12 +133,13 @@ tinyMCE.PluginManager.add('abt_main_menu', (editor: TinyMCE.Editor, url: string)
         }
     }
 
+
     /**
-     * Generates a Smart Bibliography in the editor and returns the list element.
-     * @type {Function}
-     * @return {HTMLOListElement}  The Smart Bibliography OL element.
+     * Generates a Smart Bibliography in the editor and returns the associated
+     *   HTMLOListElement.
+     * @return {HTMLOListElement} The Smart Bibliography Ordered List.
      */
-    const generateSmartBib = (): HTMLOListElement => {
+    function generateSmartBib(): HTMLOListElement {
         let doc: HTMLDocument = editor.dom.doc;
         let existingSmartBib: HTMLOListElement = <HTMLOListElement>doc.getElementById('abt-smart-bib');
 
@@ -196,11 +204,17 @@ tinyMCE.PluginManager.add('abt_main_menu', (editor: TinyMCE.Editor, url: string)
         }
     }
 
+    interface RefImportPayload {
+        filename: string,
+        payload: { [id: string]:CSL.Data },
+        format: string,
+    }
+
     const importRefs: TinyMCE.MenuItem = {
-        text: 'Import References',
+        text: 'Import RIS file',
         onclick: () => {
             editor.windowManager.open(<TinyMCE.WindowMangerObject>{
-                title: 'Import References',
+                title: 'Import References from RIS File',
                 url: ABT_locationInfo.tinymceViewsURL + 'import-window.html',
                 width: 600,
                 height: 10,
@@ -215,28 +229,11 @@ tinyMCE.PluginManager.add('abt_main_menu', (editor: TinyMCE.Editor, url: string)
                     }
 
                     editor.setProgressState(1);
+                    let data: RefImportPayload = e.target.params.data;
 
-                    let data: {
-                        filename: string,
-                        payload: { [id: string]:CSL.Data },
-                        format: 'ama'|'apa',
-                    } = e.target.params.data;
-
-                    let payload = data.payload;
-                    console.log(payload);
-
-                    let processor = new CSLPreprocessor(ABT_locationInfo.locale, payload, 'american-medical-association', (citeproc) => {
-
-                        citeproc.updateItems(Object.keys(processor.citations));
-                        let bib = citeproc.makeBibliography();
-
-                        let payload = [];
-                        bib[1].forEach(ref => {
-                            payload.push(ref.match(/.+class="csl-right-inline">(.+?)<\/div>/)[1]);
-                        });
-
+                    let processor = new CSLPreprocessor(ABT_locationInfo.locale, data.payload, data.format, (citeproc) => {
+                        let payload = processor.prepare(citeproc);
                         deliverContent(payload, { attachInline: false });
-
                     });
                 },
             });
@@ -246,12 +243,12 @@ tinyMCE.PluginManager.add('abt_main_menu', (editor: TinyMCE.Editor, url: string)
 
     // Event Handlers
     editor.on('init', () => {
-        addEventListener(ABTEvent.INSERT_REFERENCE, openFormattedReferenceWindow);
-        dispatchEvent(new CustomEvent(ABTEvent.TINYMCE_READY));
+        addEventListener(ABTGlobalEvents.INSERT_REFERENCE, openFormattedReferenceWindow);
+        dispatchEvent(new CustomEvent(ABTGlobalEvents.TINYMCE_READY));
     });
 
     editor.on('remove', () => {
-        removeEventListener(ABTEvent.INSERT_REFERENCE, openFormattedReferenceWindow);
+        removeEventListener(ABTGlobalEvents.INSERT_REFERENCE, openFormattedReferenceWindow);
     });
 
 

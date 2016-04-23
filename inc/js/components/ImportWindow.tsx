@@ -17,7 +17,9 @@ interface State {
 
 class ImportWindow extends React.Component<{}, State> {
 
-    private modal: Modal = new Modal('Import References');
+    private modal: Modal = new Modal('Import References from RIS File');
+    private wm: TinyMCE.WindowManager = top.window.tinyMCE.activeEditor.windowManager;
+
 
     constructor() {
         super();
@@ -46,14 +48,21 @@ class ImportWindow extends React.Component<{}, State> {
             let parser = new RISParser(upload.target.result);
             let payload: { [id: string]: CSL.Data } = {};
 
-            parser.parse().forEach(ref => {
+            let parsedRefs: CSL.Data[] = parser.parse();
+            if (parsedRefs.length === 0) {
+                this.wm.alert(`The file could not be processed. Are you sure it's a .RIS (Refman) file?`);
+                return;
+            }
+
+            parsedRefs.forEach(ref => {
+                console.log()
                 payload[ref.id] = ref;
             });
 
             let leftovers = parser.unsupportedRefs;
 
             if (leftovers.length > 0) {
-                top.window.tinyMCE.activeEditor.windowManager.alert(`The following references were unable to be processed: ${leftovers.join(', ')}`);
+                this.wm.alert(`The following references were unable to be processed: ${leftovers.join(', ')}`);
             }
 
             this.setState(

@@ -171,53 +171,6 @@ class ResultList extends React.Component<ResultListProps,{}> {
     }
 }
 
-// const ResuldtList = ({
-//     results,
-//     onClick
-// }) => {
-//   return(
-//     <div>
-//       {results.map((result, i: number) =>
-//         <div key={i} style={
-//           {
-//             background: i % 2 == 0 ? '#fafafa' : 'white',
-//             minHeight: 100,
-//             display: 'flex',
-//             alignItems: 'center',
-//           }
-//         }>
-//           <div style={{display: 'flex', flex: '1', flexDirection: 'column', fontSize: '0.85em'}}>
-//               <div>
-//                 <a href={`http://www.pubmed.com/${result.uid}`} target='_blank'>{result.title}</a>
-//               </div>
-//               <div>
-//                 {result.authors.filter((el, i) => i < 3).map(el => el.name).join(', ')}
-//               </div>
-//               <div style={{fontSize: '0.9em'}}>
-//                 <em>{result.source}</em> | {result.pubdate}
-//               </div>
-//           </div>
-//           <div style={{padding: '0 10px'}}>
-//             <input
-//               type='button'
-//               className='btn'
-//               data-pmid={result.uid}
-//               value='Add Reference'
-//               style={{
-//                 whiteSpace: 'normal',
-//                 width: 90,
-//                 height: 'auto',
-//                 lineHeight: '1em',
-//                 padding: '10px'}
-//               }
-//               onClick={onClick} />
-//           </div>
-//         </div>
-//       )}
-//     </div>
-//   )
-// }
-
 const Paginate = ({
   page,
   onClick,

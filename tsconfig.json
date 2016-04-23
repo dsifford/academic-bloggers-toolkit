@@ -35,12 +35,12 @@
     "files": [
         "inc/js/frontend.ts",
         "inc/js/tinymce-entrypoint.ts",
+        "inc/js/utils/__tests__/CSLFieldProcessors-test.ts",
         "inc/js/utils/__tests__/HelperFunctions-test.ts",
         "inc/js/utils/Constants.ts",
         "inc/js/utils/CrossRefAPI.ts",
         "inc/js/utils/CSLFieldProcessors.ts",
         "inc/js/utils/CSLPreprocessor.ts",
-        "inc/js/utils/Events.ts",
         "inc/js/utils/HelperFunctions.ts",
         "inc/js/utils/Modal.ts",
         "inc/js/utils/PubmedAPI.ts",
@@ -54,7 +54,10 @@
         "typings/main/ambient/require/index.d.ts",
         "inc/js/components/ImportWindow.tsx",
         "inc/js/components/PubmedWindow.tsx",
-        "inc/js/components/ReferenceWindow.tsx",
+        "inc/js/components/ReferenceWindow/Components/ManualEntryContainer.tsx",
+        "inc/js/components/ReferenceWindow/Components/MetaFields.tsx",
+        "inc/js/components/ReferenceWindow/Components/People.tsx",
+        "inc/js/components/ReferenceWindow/ReferenceWindow.tsx",
         "inc/js/PeerReviewMetabox.tsx",
         "inc/js/Reflist.tsx"
     ]

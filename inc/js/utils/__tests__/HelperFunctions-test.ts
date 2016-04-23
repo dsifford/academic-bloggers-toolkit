@@ -2,7 +2,7 @@ jest.unmock('../HelperFunctions');
 
 import * as helpers from '../HelperFunctions';
 
-const testNames: Author[] = [
+const testNames: PubMed.Author[] = [
     { firstname: 'john', lastname: 'doe', middleinitial: 'p' },
     { firstname: 'derek', lastname: 'sifford', middleinitial: 'p' },
     { firstname: 'susan', lastname: 'smith', middleinitial: '' },

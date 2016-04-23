@@ -161,7 +161,7 @@ function abt_options_page() {
 							<form method="post" name="abt_citation_style_form" action="">
 								<input type="hidden" name="abt_citation_style_form_submitted" value="Y">
 								<select name="abt_citation_style" id="abt_citation_style">
-									<option value="ama" <?php selected($selected, 'ama'); ?>>American Medical Association (AMA)</option>
+									<option value="american-medical-association" <?php selected($selected, 'ama'); ?>>American Medical Association (AMA)</option>
 									<option value="apa" <?php selected($selected, 'apa'); ?>>American Psychological Association (APA)</option>
 								</select>
 								<input class="button-primary" type="submit" name="abt_custom_css_submit" value="Update" />

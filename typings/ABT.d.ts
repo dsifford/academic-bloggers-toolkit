@@ -2,6 +2,60 @@ interface Window {
   tinyMCE: TinyMCE.tinyMCE
 }
 
+interface InputEvent extends UIEvent {
+    target: HTMLInputElement
+}
+
+declare namespace ABT {
+
+    interface FieldMappings {
+        bill: FieldMap
+        book: FieldMap
+        chapter: FieldMap
+        'legal_case': FieldMap
+        'paper-conference': FieldMap
+        'entry-encyclopedia': FieldMap
+        'motion_picture': FieldMap
+        speech: FieldMap
+        'article-journal': FieldMap
+        'article-magazine': FieldMap
+        'article-newspaper': FieldMap
+        patent: FieldMap
+        report: FieldMap
+        legislation: FieldMap
+        thesis: FieldMap
+        broadcast: FieldMap
+        webpage: FieldMap
+    }
+
+    interface FieldMap {
+        title: string
+        fields: Field[]
+        people: {
+            label: string
+            type:
+                'author'|
+                'container-author'|
+                'editor'|
+                'director'|
+                'interviewer'|
+                'illustrator'|
+                'composer'|
+                'translator'|
+                'recipient'|
+                'collection-editor'
+        }[]
+    }
+
+    interface Field {
+        value: string
+        label: string
+        required: boolean
+        pattern: string
+        placeholder: string
+    }
+}
+
 declare namespace TinyMCE {
 
     interface tinyMCE {
@@ -112,7 +166,7 @@ declare namespace CSL {
 
     interface CitationItem {
         id: string|number
-        itemData?: string /** TODO */
+        itemData?: string
         prefix?: string
         suffix?: string
         locator?: string
@@ -138,85 +192,6 @@ declare namespace CSL {
         uris?: string[]
     }
 
-    /**
-     * id?: string|number
-     * type?: CitationType
-     * categories?: string[]
-     * language?: string
-     * journalAbbreviation?: string
-     * shortTitle?: string
-     * author?: Person[]
-     * 'collection-editor'?: Person[]
-     * composor?: Person[]
-     * 'container-author'?: Person[]
-     * director?: Person[]
-     * editor?: Person[]
-     * 'editorial-director'?: Person[]
-     * interviewer?: Person[]
-     * illustrator?: Person[]
-     * 'original-author'?: Person[]
-     * recipient?: Person[]
-     * 'reviewed-author'?: Person[]
-     * translator?: Person[]
-     * accessed?: Date
-     * container?: Date
-     * 'event-date'?: Date
-     * 'issued'?: Date
-     * 'original-date'?: Date
-     * submitted?: Date
-     * abstract?: string
-     * annote?: string
-     * archive?: string
-     * 'archive-location'?: string
-     * 'achive-place'?: string
-     * authority?: string
-     * 'call-number'?: string
-     * 'chapter-number'?: string
-     * 'citation-number'?: string
-     * 'citation-label'?: string
-     * 'collection-number'?: string
-     * 'collection-title'?: string
-     * 'container-title'?: string
-     * 'container-title-short'?: string
-     * dimensions?: string
-     * DOI?: string
-     * edition?: string|number
-     * event?: string
-     * 'event-place'?: string
-     * 'first-reference-note-number'?: string
-     * genre?: string
-     * ISBN?: string
-     * issue?: string|number
-     * jurisdiction?: string
-     * keyword?: string
-     * locator?: string
-     * medium?: string
-     * note?: string
-     * number?: string|number
-     * 'number-of-pages'?: string
-     * 'number-of-volumes'?: string|number
-     * 'original-publisher'?: string
-     * 'original-publisher-place'?: string
-     * 'original-title'?: string
-     * 'page'?: string
-     * 'page-first'?: string
-     * PMCID?: string
-     * PMID?: string
-     * publisher?: string
-     * 'publisher-place'?: string
-     * references?: string
-     * 'reviewed-title'?: string
-     * scale?: string
-     * section?: string
-     * source?: string
-     * status?: string
-     * title?: string
-     * 'title-short'?: string
-     * URL?: string
-     * version?: string
-     * volume?: string|number
-     * 'year-suffix'?: string
-     */
     interface Data {
         id?: string|number
         type?: CitationType
@@ -226,7 +201,7 @@ declare namespace CSL {
         shortTitle?: string
         author?: Person[]
         'collection-editor'?: Person[]
-        composor?: Person[]
+        composer?: Person[]
         'container-author'?: Person[]
         director?: Person[]
         editor?: Person[]
@@ -299,8 +274,8 @@ declare namespace CSL {
     }
 
     interface Person {
-        family: string
-        given: string
+        family?: string
+        given?: string
         'dropping-particle'?: string
         'non-dropping-particle'?: string
         suffix?: string
@@ -308,6 +283,26 @@ declare namespace CSL {
         'static-ordering'?: string|number|boolean
         literal?: string
         'parse-names'?: string|number|boolean
+    }
+
+    /**
+     * Skipped Person Types:
+     *   - collection-editor
+     *   - editorial-director
+     *   - original-author
+     *   - reviewed-author
+     */
+    interface TypedPerson extends Person {
+        type:
+            'author'|
+            'container-author'|
+            'editor'|
+            'director'|
+            'interviewer'|
+            'illustrator'|
+            'composer'|
+            'translator'|
+            'recipient'
     }
 
     interface Date {
@@ -373,118 +368,13 @@ declare namespace PubMed {
         volume?: string
     }
 
-}
+    interface Author {
+      authtype?: string
+      clusterid?: string
+      name?: string
+      firstname?: string
+      lastname?: string
+      middleinitial?: string
+    }
 
-
-
-
-
-
-
-interface Author {
-  authtype?: string
-  clusterid?: string
-  name?: string
-  firstname?: string
-  lastname?: string
-  middleinitial?: string
-}
-
-interface CommonMeta {
-  title: string
-  source: string
-  pubdate: string
-}
-
-interface BookMeta extends CommonMeta {
-  chapter: string
-  edition: string
-  location: string
-  pages: string
-}
-
-interface JournalMeta extends CommonMeta {
-  volume: string
-  issue: string
-  pages: string
-}
-
-interface WebsiteMeta extends CommonMeta {
-  url: string
-  updated: string
-  accessed: string
-}
-
-interface ManualDataObj {
-  authors: Author[]
-  meta: {
-    book: BookMeta
-    journal: JournalMeta
-    website: WebsiteMeta
-  }
-  type: 'journal'|'website'|'book'
-}
-
-/**
- * addManually: boolean
- * attachInline: boolean
- * citationFormat: string
- * includeLink: boolean
- * manualData: ManualDataObj
- * pmidList: string
- */
-interface ReferenceFormData {
-  addManually: boolean
-  attachInline: boolean
-  citationFormat: string
-  includeLink: boolean
-  manualData: ManualDataObj
-  pmidList: string
-}
-
-/**
- * authors: Author[]
- * lastauthor: string
- * pages: string
- * pubdate: string
- * source: string
- * title: string
- * accessdate?: string
- * chapter?: string
- * edition?: string
- * fulljournalname?: string
- * issue?: string
- * location?: string
- * updated?: string
- * url?: string
- * volume?: string
- * uid?: string
- * type?: string
- * DOI?: string
- */
-interface ReferenceObj {
-  authors: Author[]
-  lastauthor: string
-  pages: string
-  pubdate: string
-  source: string
-  title: string
-  accessdate?: string
-  chapter?: string
-  edition?: string
-  fulljournalname?: string
-  issue?: string
-  location?: string
-  updated?: string
-  url?: string
-  volume?: string
-  uid?: string
-  type?: string
-  DOI?: string
-}
-
-/** FIXME */
-interface ReferencePayload {
-  [i: number]: ReferenceObj
-  uids?: string[]
 }

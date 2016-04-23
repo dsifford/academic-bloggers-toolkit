@@ -2,9 +2,11 @@
 type Source = 'RIS'|'pubmed'
 
 /**
- * Responsible for parsing RIS or PubMed fields containing names into the correct shape for CSL.
+ * Responsible for parsing RIS or PubMed fields containing names into the correct
+ *   shape for CSL.
  *
- * @note This is largely unfinished.
+ * Shape of PubMed string   => Lastname FM
+ * Shape of CrossRef string => Lastname, Firstname M
  *
  * @param  {string}     input  The raw, unformatted name.
  * @param  {Source}     source The source of the name field.
@@ -43,6 +45,8 @@ export function processName(input: string, source: Source): CSL.Person {
 export function processDate(input: string, source: Source): CSL.Date {
 
     let date: CSL.Date = { 'date-parts': [[], ], };
+    if (input.length === 0) { return date; }
+
     switch (source) {
         case 'RIS':
             input.split('/').forEach((part: string, i: number) => {
