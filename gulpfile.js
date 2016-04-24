@@ -6,16 +6,15 @@ var cleanCSS = require('gulp-clean-css');
 var browserSync = require('browser-sync').create();
 var webpack = require('webpack-stream');
 var del = require('del');
-var coveralls = require('gulp-coveralls');
 
 gulp.task('clean', function () {
   return del([
-    'dist/inc/**/*',
+    'dist/lib/**/*',
   ]);
 });
 
 gulp.task('sass', function () {
-  return gulp.src(['./inc/**/*.scss'], {
+  return gulp.src(['./lib/**/*.scss'], {
       base: './',
     })
     .pipe(sass().on('error', sass.logError))
@@ -30,7 +29,7 @@ gulp.task('sass', function () {
 });
 
 gulp.task('webpack', function () {
-  return gulp.src('inc/js/frontend.ts')
+  return gulp.src('lib/js/frontend.ts')
     .pipe(webpack(require('./webpack.config.js')))
     .pipe(gulp.dest('dist/'));
 });
@@ -41,11 +40,11 @@ gulp.task('build', ['clean', 'webpack', 'sass'], function () {
       './CHANGELOG.md',
       './LICENSE',
       './readme.txt',
-      './inc/**/*',
+      './lib/**/*',
       './vendor/*',
-      '!./inc/**/*.{ts,tsx,css,scss,json}',
+      '!./lib/**/*.{ts,tsx,css,scss,json}',
       '!./**/__tests__',
-      '!./inc/js/utils',
+      '!./lib/js/utils',
     ], {
       base: './',
     })
@@ -58,13 +57,13 @@ gulp.task('serve', ['build'], function () {
     open: false,
   });
 
-  gulp.watch(['./inc/**/*.{ts,tsx}', '!./inc/**/*-test.{ts,tsx}'], ['webpack']).on('change', browserSync.reload);
-  gulp.watch('./inc/**/*.scss', ['sass']);
+  gulp.watch(['./lib/**/*.{ts,tsx}', '!./lib/**/*-test.{ts,tsx}'], ['webpack']).on('change', browserSync.reload);
+  gulp.watch('./lib/**/*.scss', ['sass']);
   gulp.watch([
-    './inc/**/*',
-    '!./inc/**/*.{ts,tsx,scss}',
+    './lib/**/*',
+    '!./lib/**/*.{ts,tsx,scss}',
     '!__tests__/**/*',
-    '!./inc/**/*-test.{ts,tsx}',
+    '!./lib/**/*-test.{ts,tsx}',
   ], ['build']).on('change', browserSync.reload);
 });
 
@@ -83,9 +82,3 @@ gulp.task('minify-js', ['remove-mapfiles'], function () {
 });
 
 gulp.task('deploy', ['remove-mapfiles', 'minify-js']);
-
-// TODO: Build this into travis pipeline
-gulp.task('coveralls', function () {
-  gulp.src('./coverage/**/lcov.info')
-    .pipe(coveralls());
-});

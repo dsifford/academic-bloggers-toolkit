@@ -28,8 +28,8 @@ add_action('wp_head', 'abt_css_override');
 
 
 function abt_enqueue_frontend_scripts() {
-	wp_enqueue_style( 'abt_frontend_styles', plugins_url('academic-bloggers-toolkit/inc/css/frontend.css') );
-	wp_register_script('abt_frontend_js', plugins_url('academic-bloggers-toolkit/inc/js/frontend.js') );
+	wp_enqueue_style( 'abt_frontend_styles', plugins_url('academic-bloggers-toolkit/lib/css/frontend.css') );
+	wp_register_script('abt_frontend_js', plugins_url('academic-bloggers-toolkit/lib/js/frontend.js') );
 	wp_enqueue_script( 'abt_frontend_js' );
 }
 add_action('wp_enqueue_scripts', 'abt_enqueue_frontend_scripts');
@@ -37,18 +37,18 @@ add_action('wp_enqueue_scripts', 'abt_enqueue_frontend_scripts');
 
 function abt_enqueue_admin_scripts($hook) {
     if ($hook == 'page.php' || $hook == 'post.php' || $hook == 'post-new.php') {
-        wp_enqueue_style('abt_styles', plugins_url('academic-bloggers-toolkit/inc/css/admin.css'));
+        wp_enqueue_style('abt_styles', plugins_url('academic-bloggers-toolkit/lib/css/admin.css'));
     }
 }
 add_action('admin_enqueue_scripts', 'abt_enqueue_admin_scripts');
 
 
 // Tidy Requires
-require('inc/shortcodes.php');
-require('inc/tinymce-init.php');
-require('inc/peer-review.php');
-require('inc/reference-box.php');
-require('inc/options-page.php');
+require('lib/shortcodes.php');
+require('lib/tinymce-init.php');
+require('lib/peer-review.php');
+require('lib/reference-box.php');
+require('lib/options-page.php');
 
 
 // Uninstall Hook - Clean database of Plugin entries

@@ -18,7 +18,7 @@
 - [x] Throw together typings for constants
 - [x] Break `referenceWindow` into multiple files + add `LocalEvents` to `Constants`
 - [x] TypeScript just released (finally) the version with improved control flow type guards... update if/else blocks accordingly.
-- [ ] Have travis trigger coveralls.
+- [x] Have travis trigger coveralls.
 - [ ] `Reflist` loading spinner hangs when page loads with regular text editor selected.
 
 ### JS Related
