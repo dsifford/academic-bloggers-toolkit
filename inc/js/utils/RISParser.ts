@@ -18,15 +18,13 @@ export class RISParser {
         let payload: CSL.Data[] = [];
 
         this.refArray.forEach((ref: string, i: number) => {
-
             let refObj = this.parseSingle(ref, i);
 
             if (typeof refObj === 'boolean') {
                 this.unsupportedRefs.push(i+1);
+                return;
             }
-            else {
-                payload.push(refObj);
-            }
+            payload.push(refObj);
         });
 
         return payload;
@@ -44,17 +42,11 @@ export class RISParser {
 
         payload.id = id;
         payload.type = RISParser.RISTypes[type];
-        payload.author = [];
-        payload.editor = [];
-        payload.translator = [];
         payload.issued = {
-            'date-parts': [ [], ]
+            'date-parts': [[], ]
         };
 
-        let pageHolder = {
-            SP: '',
-            EP: '',
-        };
+        let pageHolder = {};
 
         ref.forEach((line: string, i: number) => {
 
@@ -62,23 +54,32 @@ export class RISParser {
             let val = line.substr(6).trim();
 
             switch (key) {
-                case 'ER':
-                    break;
                 case 'AU':
                 case 'A1':
-                case 'A4': // Not sure what to do with this field yet.
-                    payload.author.push(processor.processName(val, 'RIS'));
+                case 'A4':
+                    payload.author =
+                        !payload.author
+                        ? [processor.processName(val, 'RIS')]
+                        : payload.author.concat(processor.processName(val, 'RIS'));
                     break;
                 case 'A2':
                 case 'ED':
-                    payload.editor.push(processor.processName(val, 'RIS'));
-                    break
+                    payload.editor =
+                        !payload.editor
+                        ? [processor.processName(val, 'RIS')]
+                        : payload.editor.concat(processor.processName(val, 'RIS'));
+                    break;
                 case 'A3':
-                    payload.translator.push(processor.processName(val, 'RIS'));
+                    if (typeof payload.translator === 'undefined') {
+                        payload.translator = [processor.processName(val, 'RIS')];
+                    }
+                    else {
+                        payload.translator.push(processor.processName(val, 'RIS'));
+                    }
                     break;
                 case 'PY':
                 case 'Y1':
-                    payload.issued['date-parts'][0][0] = val;
+                    payload.issued['date-parts'][0][0] = processor.processDate(val, 'RIS')['date-parts'][0][0];
                     break;
                 case 'DA':
                     payload.issued = processor.processDate(val, 'RIS');
@@ -106,8 +107,11 @@ export class RISParser {
                     payload['call-number'] = val;
                     break;
                 case 'CY': // conference location, publish location, city of publisher (zotero)
+                    if (['paper-conference', 'speech'].indexOf(payload.type) > -1) {
+                        payload['event-place'] = val;
+                        break;
+                    }
                     payload['publisher-place'] = val;
-                    payload['event-place'] = val;
                     break;
                 case 'DB':
                     payload.source = val;
@@ -138,17 +142,15 @@ export class RISParser {
                     break;
                 case 'SP':
                 case 'EP':
-                    if (pageHolder.SP && pageHolder.EP === '') {
-                        pageHolder[key] = val;
-                        break;
-                    }
                     pageHolder[key] = val;
-                    payload.page = `${pageHolder.SP}-${pageHolder.EP}`;
                     break;
                 case 'JF':
                 case 'T2':
                     payload['container-title'] = val;
-                    payload.event = val;
+                    if (['paper-conference', 'speech'].indexOf(payload.type) > -1) {
+                        payload.event = val;
+                    }
+                    break;
                 case 'C2':
                     if (val.search(/PMC/i) > -1) {
                         payload.PMCID = val;
@@ -178,6 +180,11 @@ export class RISParser {
                     break;
                 case 'Y2':
                     payload['event-date'] = processor.processDate(val, 'RIS');
+                    break;
+                case 'ER':
+                    if (Object.keys(pageHolder).length === 2) {
+                        payload.page = `${pageHolder['SP']}-${pageHolder['EP']}`;
+                    }
                     break;
             }
 

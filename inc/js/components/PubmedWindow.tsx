@@ -41,13 +41,11 @@ class PubmedWindow extends React.Component<{}, State> {
                 top.tinyMCE.activeEditor.windowManager.alert(data.message);
                 return;
             }
-            else {
-                this.setState({
-                    query: '',
-                    results: data,
-                    page: 1,
-                });
-            }
+            this.setState({
+                query: '',
+                results: data,
+                page: 1,
+            });
             this.modal.resize();
         }, true);
     }

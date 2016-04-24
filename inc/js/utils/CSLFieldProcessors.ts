@@ -19,8 +19,12 @@ export function processName(input: string, source: Source): CSL.Person {
 
     switch (source) {
         case 'RIS':
-            family = input.split(', ')[0];
-            given = input.split(', ')[1];
+            let splitName= input.split(', ');
+            if (splitName.length === 1) {
+                return { literal: input };
+            }
+            family = splitName[0];
+            given = splitName[1];
             break;
         case 'pubmed':
             family = input.split(' ')[0];

@@ -25,4 +25,7 @@ module.exports = {
   resolve: {
     extensions: ['', '.ts', '.tsx', '.js'],
   },
+  ts: {
+    compiler: 'ntypescript',
+  },
 };

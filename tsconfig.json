@@ -37,6 +37,7 @@
         "inc/js/tinymce-entrypoint.ts",
         "inc/js/utils/__tests__/CSLFieldProcessors-test.ts",
         "inc/js/utils/__tests__/HelperFunctions-test.ts",
+        "inc/js/utils/__tests__/RISParser-test.ts",
         "inc/js/utils/Constants.ts",
         "inc/js/utils/CrossRefAPI.ts",
         "inc/js/utils/CSLFieldProcessors.ts",

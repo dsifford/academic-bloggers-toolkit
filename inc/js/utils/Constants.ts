@@ -1,12 +1,18 @@
 
-
+/**
+ * Object containing event types that are shared globally.
+ * @type {Object}
+ */
 export const ABTGlobalEvents = {
     REFERENCE_ADDED: 'REFERENCE_ADDED',
     TINYMCE_READY: 'TINYMCE_READY',
     INSERT_REFERENCE: 'INSERT_REFERENCE',
 };
 
-
+/**
+ * Object containing event types that are used in the ReferenceWindow component.
+ * @type {Object}
+ */
 export const ReferenceWindowEvents = {
     'IDENTIFIER_FIELD_CHANGE': 'IDENTIFIER_FIELD_CHANGE',
     'PUBMED_DATA_SUBMIT': 'PUBMED_DATA_SUBMIT',
@@ -99,6 +105,11 @@ export const ManualDataObj: CSL.Data = {
 
 type CiteTypeArray = { label: string, value: CSL.CitationType, inUse: boolean }[];
 
+
+/**
+ * Array of objects used to render option groups for select boxes.
+ * @type {CiteTypeArray}
+ */
 export const CitationTypeArray: CiteTypeArray = [
     { label: 'Bill', value: 'bill', inUse: true },
     { label: 'Book', value: 'book', inUse: true },
@@ -138,8 +149,12 @@ export const CitationTypeArray: CiteTypeArray = [
     { label: 'Website - Blog', value: 'post-weblog', inUse: false },
 ];
 
-/** NOTE: Date is in the form of `YYYY/MM/DD` or `YYYY/MM` or `YYYY` -- It can not end in `/` */
 
+/**
+ * Field mappings for manual reference fields.
+ * @note Date is in the form of `YYYY/MM/DD` or `YYYY/MM` or `YYYY` -- It can not end in `/`
+ * @type {ABT.FieldMappings}
+ */
 export const FieldMappings: ABT.FieldMappings = {
     bill: {
         title: 'Bill',

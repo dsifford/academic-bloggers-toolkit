@@ -94,9 +94,9 @@ export class CSLPreprocessor {
      */
     trimHTML(ref: string): string {
         return ref
-            .replace(/<(?!(i|\/i)).+?>/g, '')
+            .replace(/<(?!(i|\/i|a|\/a)).+?>/g, '')
             .trim()
-            .replace(/^\d+\.\s/, '');
+            .replace(/^\d+\.\s?/, '');
     }
 
 }

@@ -47,22 +47,73 @@ tinyMCE.PluginManager.add('abt_main_menu', (editor: TinyMCE.Editor, url: string)
 
                     let identifiers: string = payload.identifierList.replace(/\s/g, '');
 
-                    if (identifiers.search(/^10\./) > -1) {
+                    let PMIDlist: string[] = [];
+                    let DOIlist: string[] = [];
 
-                        getFromDOI(identifiers, (res) => {
+                    identifiers.split(',').forEach(i => {
+                        if (i.search(/^10\./) > -1) {
+                            DOIlist.push(i);
+                            return;
+                        }
+                        PMIDlist.push(i);
+                    });
+
+
+                    let p1 = new Promise((resolve, reject) => {
+                        PubmedGet(PMIDlist.join(','), (res: Error|{ [id: string]: CSL.Data }) => {
+                            if (res instanceof Error) {
+                                reject(res.message);
+                                return;
+                            }
+
                             let processor = new CSLPreprocessor(ABT_locationInfo.locale, res, payload.citationStyle, (citeproc) => {
                                 let data = processor.prepare(citeproc);
-                                deliverContent(data, { attachInline: payload.attachInline });
+                                if (payload.includeLink) {
+                                    data = data.map((ref: string, i: number) =>
+                                    `${ref} PMID: <a href="https://www.ncbi.nlm.nih.gov/pubmed/${PMIDlist[i]}" target="_blank">${PMIDlist[i]}</a>`);
+                                }
+                                resolve(data);
                             });
                         });
-                        return;
-                    }
+                    });
 
-                    PubmedGet(identifiers, (res) => {
-                        let processor = new CSLPreprocessor(ABT_locationInfo.locale, res, payload.citationStyle, (citeproc) => {
-                            let data = processor.prepare(citeproc);
-                            deliverContent(data, { attachInline: payload.attachInline });
+                    let p2 = new Promise((resolve, reject) => {
+                        let promises = [];
+                        DOIlist.forEach((doi: string, i: number) => {
+                            promises.push(
+                                new Promise((resolveInner, rejectInner) => {
+                                    getFromDOI(doi, (res: Error|{ [id: string]: CSL.Data }) => {
+                                        if (res instanceof Error) {
+                                            rejectInner(res.message);
+                                            return;
+                                        }
+
+                                        let processor = new CSLPreprocessor(ABT_locationInfo.locale, res, payload.citationStyle, (citeproc) => {
+                                            let data = processor.prepare(citeproc);
+                                            if (payload.includeLink) {
+                                                data[0] = data[0].replace(DOIlist[i], `<a href="https://dx.doi.org/${DOIlist[i]}" target="_blank">${DOIlist[i]}</a>`);
+                                            }
+                                            resolveInner(data);
+                                        });
+                                    });
+                                })
+                            );
                         });
+
+                        Promise.all(promises).then((data) => {
+                            resolve(data.reduce((a,b) => a.concat(b), []));
+                        }, (err) => {
+                            reject(err);
+                        });
+
+                    });
+
+                    Promise.all([p1, p2]).then((data: any) => {
+                        let combined = data.reduce((a,b) => a.concat(b), []);
+                        deliverContent(combined, { attachInline: payload.attachInline});
+                    }, (err) => {
+                        editor.setProgressState(0);
+                        editor.windowManager.alert(err);
                     });
                     return;
                 }
@@ -104,33 +155,26 @@ tinyMCE.PluginManager.add('abt_main_menu', (editor: TinyMCE.Editor, url: string)
      *   property who's key is `attachInline`. This determines wheter or not a
      *   URL is generated and served after the citation.
      */
-    function deliverContent(data: Error|string[], payload: { attachInline: boolean }): void {
-        if (data instanceof Error) {
-            editor.windowManager.alert(data.message);
-            editor.setProgressState(0);
-            return;
+    function deliverContent(data: string[], payload: { attachInline: boolean }): void {
+        let smartBib = generateSmartBib();
+        let reflist: number[] = [];
+
+        data.forEach((ref) => {
+            let li = document.createElement('LI') as HTMLLIElement;
+            li.innerHTML = ref;
+            smartBib.appendChild(li);
+            reflist.push(smartBib.children.length - 1);
+            dispatchEvent(new CustomEvent(ABTGlobalEvents.REFERENCE_ADDED, { detail: ref }));
+        });
+
+        if (payload.attachInline) {
+            editor.insertContent(
+                `<span class="abt_cite noselect mceNonEditable" contenteditable="false" data-reflist="[${reflist}]">` +
+                `[${parseInlineCitationString(reflist.map(i => i + 1))}]</span>`
+            );
         }
-        else {
-            let smartBib = generateSmartBib();
-            let reflist: number[] = [];
 
-            data.forEach((ref) => {
-                let li = document.createElement('LI') as HTMLLIElement;
-                li.innerHTML = ref;
-                smartBib.appendChild(li);
-                reflist.push(smartBib.children.length - 1);
-                dispatchEvent(new CustomEvent(ABTGlobalEvents.REFERENCE_ADDED, { detail: ref }));
-            });
-
-            if (payload.attachInline) {
-                editor.insertContent(
-                    `<span class="abt_cite noselect mceNonEditable" contenteditable="false" data-reflist="[${reflist}]">` +
-                    `[${parseInlineCitationString(reflist.map(i => i + 1))}]</span>`
-                );
-            }
-
-            editor.setProgressState(0);
-        }
+        editor.setProgressState(0);
     }
 
 

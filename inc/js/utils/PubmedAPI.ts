@@ -34,21 +34,19 @@ export function PubmedGet(PMIDlist: string, callback: Function, bypassJSONFormat
     let requestURL = `http://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi?db=pubmed&id=${PMIDlist}&version=2.0&retmode=json`;
     let request = new XMLHttpRequest();
     request.open('GET', requestURL, true);
-    request.onload = () => {
+    request.onreadystatechange = () => {
 
-        // Handle bad request
-        if (request.readyState !== 4 || request.status !== 200) {
-            let error = new Error('Error: PubmedGet => PubMed returned a non-200 status code.');
-            callback(error);
+        if (request.readyState !== 4) { return; }
+
+        if (request.status !== 200) {
+            callback(new Error('Error: PubmedGet => PubMed returned a non-200 status code.'));
             return;
         }
 
         let res = JSON.parse(request.responseText);
 
-        // Handle response errors
         if (res.error) {
-            let error = new Error('Error: PubmedGet => PMID not valid.');
-            callback(error);
+            callback(new Error(`Error: PubmedGet => ${res.error}`))
             return;
         }
 
@@ -56,6 +54,10 @@ export function PubmedGet(PMIDlist: string, callback: Function, bypassJSONFormat
 
         for (let i in (res.result as Object)) {
             if (i === 'uids') { continue; }
+            if (res.result[i].error) {
+                callback(new Error(`Error: PubmedGet => (PMID ${i}): ${res.result[i].error}`));
+                return;
+            }
             iterable.push(res.result[i]);
         }
 

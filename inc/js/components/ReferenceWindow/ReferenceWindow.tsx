@@ -262,21 +262,8 @@ interface RefOptionsProps {
 
 class RefOptions extends React.Component<RefOptionsProps,{}> {
 
-    /**
-     * NOTE: This fixes a strange issue where React triggers a single onChange
-     *   event on the select element during initial render. No idea why it happens,
-     *   however this seems to fix it.
-     */
-    private delayUpdate: boolean = true;
-
     constructor(props) {
         super(props);
-    }
-
-    componentDidMount() {
-        setTimeout(() => {
-            this.delayUpdate = false;
-        }, 300);
     }
 
     handleSelect(e: DOMEvent) {

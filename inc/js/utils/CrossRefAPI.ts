@@ -1,7 +1,7 @@
 
 export function getFromDOI(query: string, callback: Function) {
 
-    let requestURL: string = `http://api.crossref.org/works/${query}/transform/application/vnd.citationstyles.csl+json`;
+    let requestURL: string = `https://api.crossref.org/v1/works/http://dx.doi.org/${query}/transform/application/vnd.citationstyles.csl+json`;
     let request = new XMLHttpRequest();
     request.open('GET', requestURL, true);
 
@@ -12,11 +12,10 @@ export function getFromDOI(query: string, callback: Function) {
         }
 
         if (request.status !== 200) {
-            callback(new Error('Error: CrossRef => Request could not be processed'));
+            callback(new Error(`Error: CrossRef => Unable to find data for DOI ${query}`));
             return;
         }
 
-        /** FIXME: this will have to be changed if I ever plan on parsing more than one DOI at a time */
         let res = JSON.parse(request.responseText);
         res['id'] = 0;
         callback([res]);
