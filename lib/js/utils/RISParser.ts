@@ -6,6 +6,11 @@ export class RISParser {
     private refArray: string[];
     public unsupportedRefs: number[] = [];
 
+    /**
+     * Constructor. Takes a raw string of RIS as input and process it for parsing.
+     * @param  {string} risText Raw RIS string.
+     * @return {void}
+     */
     constructor(risText: string) {
         this.refArray =
             risText
@@ -13,6 +18,12 @@ export class RISParser {
                 .filter(i => i.trim() !== '');
     }
 
+    /**
+     * Wrapper function that is called after constructing a new RISParser that
+     *   returns an array of CSL.Data. If any single RIS object can't be processed,
+     *   its index is pushed to unsupportedRefs.
+     * @return {CSL.Data[]} Array of CSL.Data
+     */
     public parse(): CSL.Data[] {
 
         let payload: CSL.Data[] = [];
@@ -30,6 +41,13 @@ export class RISParser {
         return payload;
     }
 
+    /**
+     * Parses a single RIS Object and returns its CSL.Data or false (if it can't
+     *   be processed).
+     * @param  {string}   singleRef A single RIS string.
+     * @param  {number}   id        The ID to be used for the CSL.Data object.
+     * @return {CSL.Data}           Parsed CSL.Data.
+     */
     private parseSingle(singleRef: string, id: number): CSL.Data|boolean {
 
         let payload: CSL.Data = {};
@@ -194,6 +212,10 @@ export class RISParser {
         return payload;
     }
 
+    /**
+     * On object that holds the RIS types as keys and the corresponding CSL types
+     * as values.
+     */
     public static RISTypes: { [abbr: string]: CSL.CitationType } = {
         BLOG   : 'post-weblog',
         BOOK   : 'book',

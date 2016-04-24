@@ -263,7 +263,6 @@ tinyMCE.PluginManager.add('abt_main_menu', (editor: TinyMCE.Editor, url: string)
                 width: 600,
                 height: 10,
                 params: {
-                    baseUrl: ABT_locationInfo.tinymceViewsURL,
                     preferredStyle: ABT_locationInfo.preferredCitationStyle,
                 },
                 onclose: (e: any) => {

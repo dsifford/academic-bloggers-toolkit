@@ -4,7 +4,7 @@
  *	Plugin Name: Academic Blogger's Toolkit
  *	Plugin URI: https://wordpress.org/plugins/academic-bloggers-toolkit/
  *	Description: A plugin extending the functionality of Wordpress for academic blogging
- *	Version: 3.0.0 
+ *	Version: 3.0.0
  *	Author: Derek P Sifford
  *	Author URI: https://github.com/dsifford
  *	License: GPL3 or later
@@ -45,9 +45,8 @@ add_action('admin_enqueue_scripts', 'abt_enqueue_admin_scripts');
 
 // Tidy Requires
 require('lib/shortcodes.php');
-require('lib/tinymce-init.php');
 require('lib/peer-review.php');
-require('lib/reference-box.php');
+require('lib/backend.php');
 require('lib/options-page.php');
 
 

@@ -179,17 +179,16 @@ class ABT_PR_Metabox {
 		wp_enqueue_media();
 		$abt_options = get_option( 'abt_options' );
 
-	    // wp_enqueue_script( 'abt-metaboxes', plugins_url('academic-bloggers-toolkit/inc/js/metaboxes.js') );
 		wp_enqueue_script(
 			'abt-PR-metabox',
-			plugins_url('academic-bloggers-toolkit/inc/js/PeerReviewMetabox.js'),
+			plugins_url('academic-bloggers-toolkit/lib/js/PeerReviewMetabox.js'),
 			array(),
 			false,
 			true
 		);
 		wp_localize_script( 'abt-PR-metabox', 'ABT_locationInfo', array(
-			'jsURL' => plugins_url('academic-bloggers-toolkit/inc/js/'),
-			'tinymceViewsURL' => plugins_url('academic-bloggers-toolkit/inc/js/tinymce-views/'),
+			'jsURL' => plugins_url('academic-bloggers-toolkit/lib/js/'),
+			'tinymceViewsURL' => plugins_url('academic-bloggers-toolkit/lib/js/tinymce-views/'),
 			'preferredCitationStyle' => $abt_options['abt_citation_style'],
 			'postType' => $typenow,
 			'locale' => str_replace('_', '-', get_locale())

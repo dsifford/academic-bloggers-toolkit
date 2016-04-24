@@ -13,7 +13,7 @@ gulp.task('clean', function () {
   ]);
 });
 
-gulp.task('sass', function () {
+gulp.task('sass', ['clean'], function () {
   return gulp.src(['./lib/**/*.scss'], {
       base: './',
     })

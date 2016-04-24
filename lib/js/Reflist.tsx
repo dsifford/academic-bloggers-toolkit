@@ -37,6 +37,31 @@ class Reflist extends React.Component<{}, State> {
         removeEventListener(ABTGlobalEvents.REFERENCE_ADDED, this.addReference);
     }
 
+    gatherReferences() {
+        this.editor = tinyMCE.activeEditor;
+        let bib = this.editor.dom.doc.getElementById('abt-smart-bib');
+
+        if (!bib) {
+            this.setState({
+                loading: false,
+                references: [],
+                selected: [],
+            });
+            return;
+        }
+
+        let children = bib.children;
+        let references: string[] = [];
+        for (let i = 0; i < children.length; i++) {
+            references.push(children[i].innerHTML);
+        }
+        this.setState({
+            loading: false,
+            references,
+            selected: [],
+        });
+    }
+
     addReference(e: CustomEvent) {
         this.setState(
             Object.assign({}, this.state, {
@@ -233,31 +258,6 @@ class Reflist extends React.Component<{}, State> {
         let doc: HTMLDocument = this.editor.dom.doc;
         let bib = doc.getElementById('abt-smart-bib') as HTMLOListElement;
         bib.innerHTML = refs.map(r => `<li>${r}</li>`).join('');
-    }
-
-    gatherReferences() {
-        this.editor = tinyMCE.activeEditor;
-        let bib = this.editor.dom.doc.getElementById('abt-smart-bib');
-
-        if (!bib) {
-            this.setState({
-                loading: false,
-                references: [],
-                selected: [],
-            });
-            return;
-        }
-
-        let children = bib.children;
-        let references: string[] = [];
-        for (let i = 0; i < children.length; i++) {
-            references.push(children[i].innerHTML);
-        }
-        this.setState({
-            loading: false,
-            references,
-            selected: [],
-        });
     }
 
     createTooltip(e: DOMEvent) {

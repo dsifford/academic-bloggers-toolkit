@@ -21,6 +21,9 @@ export default class Modal {
 
     public resize(): void {
         let height = this.mainRect.getBoundingClientRect().height;
+        if (top.window.innerHeight < height + 100) {
+            height = top.window.innerHeight - 112;
+        }
         let position = `calc(50% - ${(height + 56) / 2}px)`;
         this.outer.style.height = height + 56 + 'px';
         this.outer.style.top = position;
@@ -35,6 +38,8 @@ export default class Modal {
         this.mainRect = document.getElementById('main-container');
         this.mceReset.style.height = '100%';
         this.inner.style.height = '100%';
+        this.inner.style.maxHeight = 'calc(100vh - 112px)';
+        document.body.style.overflowY = 'auto';
     }
 
 }

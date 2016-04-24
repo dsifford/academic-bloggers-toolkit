@@ -1,5 +1,16 @@
 import * as processor from './CSLFieldProcessors';
 
+
+/**
+ * Sends a string of text to PubMed and gets a list of PMIDs for the query.
+ *   Depending on the state of `bypassJSONFormatter`, the result is either sent
+ *   through `PubmedGet` and `procssJSON` or just to `PubmedGet`.
+ * @param {string}     query    A search string (the same you would type into
+ *   the search box on pubmed)
+ * @param {Function}   callback Callback function (passed into `PubmedGet`).
+ * @param {boolean}    bypassJSONFormatter A boolean (default = false) which
+ *   decides whether or not to send the response to be processed as CSL.
+ */
 export function PubmedQuery(query: string, callback: Function, bypassJSONFormatter: boolean = false): void {
 
     let requestURL: string = `http://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=pubmed&term=${encodeURI(query) }&retmode=json`
@@ -29,6 +40,15 @@ export function PubmedQuery(query: string, callback: Function, bypassJSONFormatt
     request.send(null);
 }
 
+
+/**
+ * Takes a comma-separated list of PMIDs as input and returns metadata for each
+ *   paper requested.
+ * @param {string}     PMIDlist A comma-separated list of PMIDs
+ * @param {Function}   callback Callback function
+ * @param {boolean}    bypassJSONFormatter A boolean (default = false) which
+ *   decides whether or not to send the response to be processed as CSL.
+ */
 export function PubmedGet(PMIDlist: string, callback: Function, bypassJSONFormatter: boolean = false): void {
 
     let requestURL = `http://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi?db=pubmed&id=${PMIDlist}&version=2.0&retmode=json`;

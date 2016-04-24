@@ -1,10 +1,15 @@
 
-export function getFromDOI(query: string, callback: Function) {
+/**
+ * Gets CSL JSON from CrossRef and passes it to a callback after setting an
+ *   arbitrary ID for it.
+ * @param  {string}   query    Single DOI query.
+ * @param  {Function} callback Callback function.
+ */
+export function getFromDOI(query: string, callback: Function): void {
 
-    let requestURL: string = `https://api.crossref.org/v1/works/http://dx.doi.org/${query}/transform/application/vnd.citationstyles.csl+json`;
+    let requestURL: string = `https://api.crossref.org/v1/works/${query}/transform/application/vnd.citationstyles.csl+json`;
     let request = new XMLHttpRequest();
     request.open('GET', requestURL, true);
-
     request.onreadystatechange = () => {
 
         if (request.readyState !== 4) {
@@ -21,6 +26,5 @@ export function getFromDOI(query: string, callback: Function) {
         callback([res]);
 
     }
-
     request.send(null);
 }

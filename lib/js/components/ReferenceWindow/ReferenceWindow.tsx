@@ -3,7 +3,7 @@ import * as ReactDOM from 'react-dom';
 import Modal from '../../utils/Modal';
 import { ReferenceWindowEvents as LocalEvents, ManualDataObj } from '../../utils/Constants';
 import { toTitleCase } from '../../utils/HelperFunctions';
-const citeStyles = require('../../../../vendor/CitationStylesObj.js');
+const citeStyles = require('../../../../vendor/citationstyles');
 
 import { ManualEntryContainer } from './Components/ManualEntryContainer';
 

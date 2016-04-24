@@ -2,7 +2,7 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import Modal from '../utils/Modal';
 import { RISParser } from '../utils/RISParser';
-const citeStyles = require('../../../vendor/CitationStylesObj.js');
+const citeStyles = require('../../../vendor/citationstyles');
 
 
 interface DOMEvent extends React.UIEvent {
@@ -26,7 +26,7 @@ class ImportWindow extends React.Component<{}, State> {
         this.state = {
             filename: '',
             payload: [],
-            format: 'american-medical-association',
+            format: top.tinyMCE.activeEditor.windowManager.windows[0].settings.params.preferredStyle || 'american-medical-association',
         }
     }
 

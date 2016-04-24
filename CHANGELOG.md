@@ -1,5 +1,27 @@
 # Changelog
 
+### 3.0.0
+
+You spoke and I heard, this latest version is (in my opinion) the strongest, most stable, and easiest to use version of this plugin that has ever existed.
+
+#### What's new?
+- Everything. No, really. There's too many changes to reasonably list here, so please take 5 minutes and read the readme.
+
+**Changes I think you'll be most excited about:**
+- Choose from any citation style that exists (over 1300).
+- Cite from DOIs (reliably) just like with PMIDs.
+- Import an entire bibliography from a `.ris` file exported from Endnote, Zotero, Mendeley, Papers, et al.
+- Click and drag references to rearrange them in your bibliography. This also automatically adjusts all of your inline citation numbers on the fly.
+
+#### Depreciation Notices:
+This plugin now uses zero shortcodes. All citations and references are generated and served in realtime. This way, in the future if you no longer require this plugin, you can uninstall it without it breaking all of your previous posts. There is not one other citation plugin that I am aware of that allows for this, but I believe it is an absolute must. That being said, if you are an early adoptor, you will need to do one of the two following things to preserve your posts from back when this plugin did use shortcodes.
+
+1. **The hard way**: Go back and regenerate all the citations that you made with shortcodes.
+2. **The easy way**: Copy and paste one or both of [these code snippets](https://gist.github.com/dsifford/d464e1a0398fae3df570b94776646e79) into your `functions.php` file in your theme.
+
+I will keep the depreciated shortcodes live in this plugin from now until the next update. Sorry for the trouble.
+
+
 ### 2.4.2
 - Fix critical bug which caused posts without an ordered list to lose the first paragraph and indent strangely.
 - Fix typo on one of the CSS selectors on the options page. `.abt-smart-bib` => `#abt-smart-bib`
