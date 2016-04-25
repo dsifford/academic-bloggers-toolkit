@@ -189,7 +189,7 @@ class ABT_PR_Metabox {
 		wp_localize_script( 'abt-PR-metabox', 'ABT_locationInfo', array(
 			'jsURL' => plugins_url('academic-bloggers-toolkit/lib/js/'),
 			'tinymceViewsURL' => plugins_url('academic-bloggers-toolkit/lib/js/tinymce-views/'),
-			'preferredCitationStyle' => $abt_options['abt_citation_style'],
+			'preferredCitationStyle' => isset($abt_options['abt_citation_style']) ? $abt_options['abt_citation_style'] : '',
 			'postType' => $typenow,
 			'locale' => str_replace('_', '-', get_locale())
 		));

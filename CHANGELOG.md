@@ -1,5 +1,10 @@
 # Changelog
 
+### 3.0.1
+- Fix bug that caused bold text to stay in place if you click and drag a highlighted reference.
+- Fix issue where WordPress added escape slashes to custom CSS containing quote characters.
+- Fix bug where an error message would display on some pages if a preferred citation style is not set.
+
 ### 3.0.0
 
 You spoke and I heard, this latest version is (in my opinion) the strongest, most stable, and easiest to use version of this plugin that has ever existed.

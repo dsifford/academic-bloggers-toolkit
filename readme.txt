@@ -4,7 +4,7 @@ Donate link: https://cash.me/$dsifford
 Tags: academic, pmid, doi, peer-review, pubmed, citation, bibliography, reference
 Requires at least: 4.2.2
 Tested up to: 4.5
-Stable tag: 3.0.0
+Stable tag: 3.0.1
 License: GPL3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -67,6 +67,11 @@ Yikes! I'm sorry about that. Please report all issues on the Academic Blogger's 
 4. Demo of desktop citation tooltips.
 
 == Changelog ==
+
+= 3.0.1 =
+* Fix bug that caused bold text to stay in place if you click and drag a highlighted reference.
+* Fix issue where WordPress added escape slashes to custom CSS containing quote characters.
+* Fix bug where an error message would display on some pages if a preferred citation style is not set.
 
 = 3.0.0 =
 You spoke and I heard, this latest version is (in my opinion) the strongest, most stable, and easiest to use version that has ever existed.

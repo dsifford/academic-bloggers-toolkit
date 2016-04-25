@@ -41,7 +41,7 @@ class ABT_Options {
 		// Form Submits -- If form is submitted, set data as variables within the 'abt_options' array in the database
 		if ($hidden_field_1 == 'Y') {
 
-			$abt_options['custom_css'] = esc_html( $_POST['abt_custom_css_editor'] );
+			$abt_options['custom_css'] = stripslashes_deep($_POST['abt_custom_css_editor']);
 			update_option( 'abt_options', $abt_options );
 
 		}
@@ -55,7 +55,7 @@ class ABT_Options {
 
 
 		// Check if options are set. If they are, save them as variables
-		$abt_saved_css = isset($abt_options['custom_css']) ? esc_attr( $abt_options['custom_css']) : '';
+		$abt_saved_css = isset($abt_options['custom_css']) ? $abt_options['custom_css'] : '';
 		$selected = isset($abt_options['abt_citation_style']) ? $abt_options['abt_citation_style'] : '';
 
 
