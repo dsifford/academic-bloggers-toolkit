@@ -16,6 +16,14 @@ $plugin_url = WP_PLUGIN_URL . '/academic-bloggers-toolkit';
 $abt_options = array();
 
 
+function abt_add_options_link ($links) {
+	$mylinks = array(
+		'<a href="' . admin_url( 'options-general.php?page=abt-options' ) . '">Plugin Settings</a>',
+	);
+	return array_merge($links, $mylinks);
+}
+add_filter('plugin_action_links_' . plugin_basename(__FILE__), 'abt_add_options_link');
+
 function abt_css_override(){
 	$abt_options = get_option( 'abt_options' );
 	$custom_css = '';

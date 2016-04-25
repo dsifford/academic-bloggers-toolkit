@@ -77,7 +77,13 @@ gulp.task('minify-js', ['remove-mapfiles'], function () {
       './dist/**/*.js',
       './dist/vendor/**/*.js',
     ])
-    .pipe(uglify())
+    .pipe(uglify({
+      compress: {
+        'dead_code': true,
+        'unused': true,
+        'drop_debugger': true,
+        'drop_console': true,
+      }}))
     .pipe(gulp.dest('./dist/'));
 });
 

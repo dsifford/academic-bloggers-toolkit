@@ -4,7 +4,7 @@ Donate link: https://cash.me/$dsifford
 Tags: academic, pmid, doi, peer-review, pubmed, citation, bibliography, reference
 Requires at least: 4.2.2
 Tested up to: 4.5
-Stable tag: 3.0.0 
+Stable tag: 3.0.0
 License: GPL3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -14,15 +14,35 @@ A plugin extending the functionality of Wordpress for academic blogging.
 
 Academic Blogger's toolkit is an **open source** WordPress plugin providing an all-in-one solution for effective academic blogging.
 
-= Feature List =
-* Insert formatted references on the fly using PMID.
-* Search and insert references from PubMed directly within WordPress.
-* **Smart Bibliography** - Insert references to a bibliography and append inline citations without breaking focus of your writing.
-* References inserted using this plugin are displayed as tooltips on hover in the post. No need to scroll down to the reference list to check the reference (unless you want to!).
-* Append up to 3 formatted Peer Reviews to blog posts via a Frontend UI integrated on the post edit screen.
+[youtube https://www.youtube.com/watch?v=5k72Dh8L2BA]
+
+= Features =
+* Insert formatted references on the fly using digital identifiers (**PMID** or **DOI**).
+* Manually insert formatted references from **over 15 types of references**.
+* **Import a full bibliography from your favorite reference manager** using an exported `.ris` file.
+* Automatically format references for **every citation style on planet earth** (over 1300).
+* **Fully interactive** reference list which lives beside the post editor.
+    * Need to change your bibliography order? Click and drag a reference to move it around the list. This automagically adjusts your bibliography as well as **all** of your inline citation numbers on the fly.
+    * Want to insert a citation inline from your reference list? Select it (and any others you'd like to insert) and click insert.
+* **Search PubMed from the post editor** and insert references instantly.
+* Inline citations display full formatted references on the frontend when hovered with the mouse (or when tapped on mobile). No more scrolling down and losing your focus!
+* Append up to three peer reviews below your posts. Peer reviews include not only the review content, but also reviewer bios, photos, and author responses (when necessary).
+
+= What makes this plugin different than `x`? Don't they offer the same thing? =
+
+Here's the problem. To my knowledge, there is not one citation plugin that exists for WordPress that does its job the way it should. Every other citation plugin uses WordPress shortcodes to render citations. Is that a bad thing. **Yes**. Here's why:
+
+Once you commit to using a plugin that uses shortcodes to render content, you're stuck with it for the life of your website. If you uninstall that plugin, all posts which rely on the shortcodes from that plugin break. Additionally, if the person who wrote the plugin decides he/she no longer wants to support it and the shortcode API changes, all of your posts will break. **This is unacceptable for academic writing**.
+
+This plugin generates plain, beautiful HTML and renders it at the time of insertion. There are **zero** shortcodes. There is **zero** chance of your posts breaking.
+
+Need to write one long blog post with lots of references? Download this plugin, write the post, and then delete the plugin if you don't need it any longer. **Freedom.**
+
+= Development =
+If you're a developer and would like to contribute, you can do so via this plugin's [GitHub Repository](https://github.com/dsifford/academic-bloggers-toolkit).
 
 = Want to learn more? =
-Check out this plugin's [GitHub Repository](https://github.com/dsifford/academic-bloggers-toolkit) for more details or to ask questions.
+Check out this plugin's [GitHub Repository](https://github.com/dsifford/academic-bloggers-toolkit) for detailed instructions or to ask questions.
 
 == Installation ==
 
@@ -41,12 +61,31 @@ Yikes! I'm sorry about that. Please report all issues on the Academic Blogger's 
 
 == Screenshots ==
 
-1. Demo of the automatic reference parser.
-2. Demo of the anchor link generator.
-3. Demo of the Peer Review front-end GUI
-4. Options Page Screenshot
+1. Overview of the reference manager screen.
+2. Overview of the manual reference insertion screen.
+3. Overview of the PubMed search box (results display in same window).
+4. Demo of desktop citation tooltips.
 
 == Changelog ==
+
+= 3.0.0 =
+You spoke and I heard, this latest version is (in my opinion) the strongest, most stable, and easiest to use version that has ever existed.
+
+**What's new?**
+* Everything. No, really. There's too many changes to reasonably list here, so please take 5 minutes and read the readme. Alternatively, you can watch this short [YouTube demo](https://www.youtube.com/watch?v=5k72Dh8L2BA).
+
+**Changes I think you'll be most excited about:**
+* Choose from any citation style that exists (over 1300).
+* Cite from DOIs (reliably) just like with PMIDs.
+* Import an entire bibliography from a `.ris` file exported from Endnote, Zotero, Mendeley, Papers, et al.
+* Click and drag references to rearrange them in your bibliography. This also automatically adjusts all of your inline citation numbers on the fly.
+
+**Depreciation Notice:**
+This plugin now uses **zero shortcodes**. All citations and references are generated and served in realtime. This way, in the future if you no longer require this plugin, you can uninstall it without it breaking all of your previous posts. There is not one other citation plugin that I am aware of that allows for this, but I believe it is an absolute must. That being said, if you are an early adoptor, you will need to do one of the two following things to preserve your posts from back when this plugin did use shortcodes.
+1. **The hard way**: Go back and regenerate all the citations that you made with shortcodes.
+2. **The easy way**: Copy and paste one or both of [these code snippets](https://gist.github.com/dsifford/d464e1a0398fae3df570b94776646e79) into your `functions.php` file in your theme.
+
+I will keep the depreciated shortcodes live in this plugin from now until the next update. Sorry for the trouble this may cause.
 
 = 2.4.2 =
 * Fix critical bug which caused posts without an ordered list to lose the first paragraph and indent strangely.
