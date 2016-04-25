@@ -1,12 +1,13 @@
 module.exports = {
   devtool: 'source-map',
   entry: {
-    'inc/js/tinymce-entrypoint': './inc/js/tinymce-entrypoint.ts',
-    'inc/js/frontend': './inc/js/frontend.ts',
-    'inc/js/components/ReferenceWindow': './inc/js/components/ReferenceWindow.tsx',
-    'inc/js/components/CitationWindow': './inc/js/components/CitationWindow.tsx',
-    'inc/js/metaboxes': './inc/js/metaboxes.ts',
-    'inc/js/components/PubmedWindow': './inc/js/components/PubmedWindow.tsx',
+    'lib/js/tinymce-entrypoint': './lib/js/tinymce-entrypoint.ts',
+    'lib/js/frontend': './lib/js/frontend.ts',
+    'lib/js/Reflist': './lib/js/Reflist.tsx',
+    'lib/js/PeerReviewMetabox': './lib/js/PeerReviewMetabox.tsx',
+    'lib/js/components/ReferenceWindow/ReferenceWindow': './lib/js/components/ReferenceWindow/ReferenceWindow.tsx',
+    'lib/js/components/PubmedWindow': './lib/js/components/PubmedWindow.tsx',
+    'lib/js/components/ImportWindow': './lib/js/components/ImportWindow.tsx',
   },
   output: {
     filename: '[name].js',
@@ -17,11 +18,14 @@ module.exports = {
       {
         test: /\.tsx?$/,
         exclude: /node_modules/,
-        loader: 'babel?presets[]=es2015!ts',
+        loader: 'babel?presets[]=es2015,presets[]=react!ts',
       },
     ],
   },
   resolve: {
     extensions: ['', '.ts', '.tsx', '.js'],
+  },
+  ts: {
+    compiler: 'ntypescript',
   },
 };

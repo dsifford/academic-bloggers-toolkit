@@ -1,6 +1,6 @@
 {
   "name": "academic-bloggers-toolkit",
-  "version": "2.4.1",
+  "version": "3.0.0",
   "description": "A plugin extending the functionality of WordPress for Academic Blogging.",
   "main": "index.js",
   "scripts": {
@@ -12,38 +12,53 @@
     "url": "git+https://github.com/dsifford/academic-bloggers-toolkit.git"
   },
   "author": "Derek P Sifford",
-  "license": "GPL3 or later",
+  "license": "GPL-3.0",
   "bugs": {
     "url": "https://github.com/dsifford/academic-bloggers-toolkit/issues"
   },
   "homepage": "https://github.com/dsifford/academic-bloggers-toolkit#readme",
   "devDependencies": {
-    "babel-core": "^6.7.4",
+    "babel-core": "^6.7.6",
     "babel-loader": "^6.2.4",
     "babel-preset-es2015": "^6.6.0",
-    "browser-sync": "^2.11.2",
+    "babel-preset-react": "^6.5.0",
+    "browser-sync": "^2.12.3",
+    "coveralls": "^2.11.9",
     "del": "^2.2.0",
     "gulp": "^3.9.1",
     "gulp-autoprefixer": "^3.1.0",
-    "gulp-clean-css": "^2.0.4",
-    "gulp-sass": "^2.2.0",
+    "gulp-clean-css": "^2.0.6",
+    "gulp-sass": "^2.3.1",
     "gulp-uglify": "^1.5.3",
-    "jest-cli": "^0.10.0",
-    "react": "^0.14.8",
-    "react-addons-test-utils": "^0.14.8",
-    "react-dom": "^0.14.8",
-    "ts-loader": "^0.8.1",
-    "typescript": "^1.8.9",
-    "webpack": "^1.12.14",
-    "webpack-stream": "^3.1.0"
+    "jest-cli": "^11.0.2",
+    "ntypescript": "^1.201604232306.1",
+    "react": "^15.0.1",
+    "react-addons-test-utils": "^15.0.1",
+    "react-dom": "^15.0.1",
+    "ts-loader": "^0.8.2",
+    "typescript": "^1.9.0-dev.20160423",
+    "webpack": "^1.13.0",
+    "webpack-stream": "^3.2.0"
   },
   "jest": {
     "scriptPreprocessor": "jestPreprocessor.js",
-    "testFileExtensions": ["ts", "tsx", "js"],
+    "testFileExtensions": [
+      "ts",
+      "tsx",
+      "js"
+    ],
+    "moduleFileExtensions": [
+      "js",
+      "ts",
+      "tsx"
+    ],
     "unmockedModulePathPatterns": [
       "<rootDir>/node_modules/react",
       "<rootDir>/node_modules/react-dom",
       "<rootDir>/node_modules/react-addons-test-utils"
-    ]
-  }
+    ],
+    "verbose": true,
+    "collectCoverage": true
+  },
+  "dependencies": {}
 }

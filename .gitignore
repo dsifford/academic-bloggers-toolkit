@@ -1,5 +1,9 @@
 .git
 node_modules
+.coveralls.yml
 dist
+coverage
+junk
 npm-debug.log
-typings
+typings/*
+!typings/ABT.d.ts
