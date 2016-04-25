@@ -143,7 +143,7 @@ class Reflist extends React.Component<{}, State> {
     dragStart(e: DragEvent) {
         this.setState(
             Object.assign({}, this.state, {
-                selected: []
+                selected: [],
             })
         );
         e.dataTransfer.setData('text/plain', (e.target as HTMLDivElement).dataset['num']);
