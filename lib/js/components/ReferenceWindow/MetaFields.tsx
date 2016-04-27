@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { FieldMappings } from '../../../utils/Constants';
-import { ReferenceWindowEvents as LocalEvents } from '../../../utils/Constants';
+import { FieldMappings } from '../../utils/Constants';
+import { ReferenceWindowEvents as LocalEvents } from '../../utils/Constants';
 
 
 interface MetaFieldProps {

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { ReferenceWindowEvents as LocalEvents, FieldMappings } from '../../../utils/Constants';
+import { ReferenceWindowEvents as LocalEvents, FieldMappings } from '../../utils/Constants';
 
 
 interface PeopleProps {
@@ -49,6 +49,7 @@ export class People extends React.Component<PeopleProps,{}> {
                     <strong style={{ paddingRight: 5, }} children='Contributors'/>
                     <input
                         type='button'
+                        id='add-person'
                         className='btn'
                         value='Add Another'
                         onClick={this.addPerson.bind(this)}/>

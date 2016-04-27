@@ -145,6 +145,10 @@ class ABT_Options {
 										<strong>Attach a heading line to my bibliography automagically?</strong>
 										<iframe width="100%" height="200" src="//jsfiddle.net/dsifford/27aL59af/embedded/css,result/" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
 									</div>
+									<div style="flex: 1; min-width: 300px; padding: 0 5px;">
+										<strong>Change the style of the peer review boxes?</strong>
+										<iframe width="100%" height="300" src="//jsfiddle.net/dsifford/ky4LangL/embedded/css,result/" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
+									</div>
 							</div>
 						</div>
 					</div>

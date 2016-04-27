@@ -5,7 +5,7 @@ import { ReferenceWindowEvents as LocalEvents, ManualDataObj } from '../../utils
 import { toTitleCase } from '../../utils/HelperFunctions';
 const citeStyles = require('../../../../vendor/citationstyles');
 
-import { ManualEntryContainer } from './Components/ManualEntryContainer';
+import { ManualEntryContainer } from './ManualEntryContainer';
 
 interface DOMEvent extends UIEvent {
     target: HTMLInputElement
