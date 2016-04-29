@@ -8,7 +8,7 @@ import { ABTGlobalEvents } from './utils/Constants';
 declare var tinyMCE: TinyMCE.tinyMCE, ABT_locationInfo
 
 tinyMCE.PluginManager.add('abt_main_menu', (editor: TinyMCE.Editor, url: string) => {
-
+    if (editor.id !== 'content') { return; }
 
     interface ReferenceWindowPayload {
         identifierList: string

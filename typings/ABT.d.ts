@@ -73,6 +73,7 @@ declare namespace TinyMCE {
     }
 
     interface Editor {
+        id: string
         buttons: any
         container: any
         contentDocument: HTMLDocument
