@@ -4,6 +4,7 @@ node_modules
 dist
 coverage
 junk
+tmp
 npm-debug.log
 typings/*
 !typings/ABT.d.ts

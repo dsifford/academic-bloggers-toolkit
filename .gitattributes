@@ -1,2 +1,3 @@
 *.tsx linguist-language=TypeScript
+*.sss linguist-language=CSS
 vendor/* linguist-vendored
