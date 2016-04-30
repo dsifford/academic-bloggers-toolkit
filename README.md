@@ -26,9 +26,36 @@ This plugin generates plain, beautiful HTML and renders it at the time of insert
 Need to write one long blog post with lots of references? Download this plugin, write the post, and then delete the plugin if you don't need it any longer. **Freedom.**
 
 ## Contributing
-- Fork this repo.
-- Make changes.
-- Submit a PR.
+
+#### Requirements
+- NodeJS
+- Gulp (globally install): `npm i -g gulp-cli`
+- Typings (globally install): `npm i -g typings`
+- Docker and Docker Compose (preferably the latest versions running on a linux machine)
+
+#### Optional
+- TypeScript (global install): `npm i -g typescript`
+
+### Getting Started
+|  Steps  |  Command Line Instructions  |
+|---------|-----------------------------|
+Fork this repo and clone locally | `git clone <your fork>`
+Navigate to the cloned directory | `cd academic-bloggers-toolkit`
+Install local node dependencies | `npm install`
+Install typings | `typings install`
+Compile the files | `gulp build`
+Start your dev server | `docker-compose up -d`
+Start BrowserSync | `gulp serve`
+
+After those steps are completed, you'll be able to login to a fresh install of WordPress at `localhost:3000` (if using browser sync) or `localhost:8080`. The login credentials are:
+- Username: `root`
+- Password: `root`
+
+### After completing your changes
+Submit a PR to this repo and let's talk about your changes. After we're both on the same page (and assuming the changes are in accordance with the direction of the project), the changes will be merged.
+
+Thanks for your interest!
+
 
 ## Usage
 
