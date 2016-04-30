@@ -91,3 +91,40 @@ export function toTitleCase(str: string): string {
         return match.charAt(0).toUpperCase() + match.substr(1);
     });
 };
+
+/**
+ * Takes an array of reference strings and makes the following replacements to each
+ *   reference:
+ *   - Any URL => wrapped with an anchor tag (to make clickable).
+ *   - DOIs => wrapped with an anchor tag (link to DOI.org resolver).
+ * @param  {string[]} input Array of reference strings.
+ * @return {string[]}       Array of reference strings with parsed links.
+ */
+export function parseReferenceURLs(input: string[]): string[] {
+    input.forEach((ref: string, i: number) => {
+
+        let url: RegExp = /((http:\/\/|https:\/\/|www.)(www.)?[^;\s]+[0-9a-zA-Z\/])/g;
+        let doi: RegExp = /doi:(\S+)./g;
+        let match: RegExpExecArray;
+        let replacements: [string, string][] = [];
+
+
+        while ((match = url.exec(ref)) !== null) {
+            if (match[0].search(/^www./) > -1) {
+                replacements.push([match[0], `<a href="http://${match[0]}" target="_blank">${match[0]}</a>`]);
+            }
+            else {
+                replacements.push([match[0], `<a href="${match[0]}" target="_blank">${match[0]}</a>`]);
+            }
+        }
+
+        while ((match = doi.exec(ref)) !== null) {
+            replacements.push([match[1], `<a href="https://doi.org/${match[1]}" target="_blank">${match[1]}</a>`]);
+        }
+
+        replacements.forEach(r => ref = ref.replace(r[0], r[1]));
+        input[i] = ref;
+
+    });
+    return input;
+}

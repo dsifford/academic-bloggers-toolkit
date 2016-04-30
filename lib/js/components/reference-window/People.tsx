@@ -55,7 +55,7 @@ export class People extends React.Component<PeopleProps,{}> {
                         onClick={this.addPerson.bind(this)}/>
                 </div>
                 {this.props.people.map((person: CSL.TypedPerson, i: number) =>
-                    <div key={`person-list-${i}`} style={{ display: 'flex', alignItems: 'center', }}>
+                    <div key={`person-list-${i}`} id={`person-list-${i}`} style={{ display: 'flex', alignItems: 'center', }}>
                         <div>
                             <select
                                 value={person.type}

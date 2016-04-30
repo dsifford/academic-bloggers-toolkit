@@ -33,8 +33,8 @@
         "rewriteTsconfig": true
     },
     "files": [
-        "lib/js/frontend.ts",
-        "lib/js/tinymce-entrypoint.ts",
+        "lib/js/Frontend.ts",
+        "lib/js/TinymceEntrypoint.ts",
         "lib/js/utils/__tests__/CSLFieldProcessors-test.ts",
         "lib/js/utils/__tests__/HelperFunctions-test.ts",
         "lib/js/utils/__tests__/RISParser-test.ts",
@@ -56,14 +56,15 @@
         "typings/main/ambient/require/index.d.ts",
         "typings/main/ambient/sinon/index.d.ts",
         "lib/js/components/ImportWindow.tsx",
+        "lib/js/components/PeerReviewMetabox.tsx",
         "lib/js/components/PubmedWindow.tsx",
-        "lib/js/components/ReferenceWindow/__tests__/MetaFields-test.tsx",
-        "lib/js/components/ReferenceWindow/__tests__/People-test.tsx",
-        "lib/js/components/ReferenceWindow/ManualEntryContainer.tsx",
-        "lib/js/components/ReferenceWindow/MetaFields.tsx",
-        "lib/js/components/ReferenceWindow/People.tsx",
-        "lib/js/components/ReferenceWindow/ReferenceWindow.tsx",
-        "lib/js/PeerReviewMetabox.tsx",
-        "lib/js/Reflist.tsx"
+        "lib/js/components/reference-window/__tests__/ManualEntryContainer-test.tsx",
+        "lib/js/components/reference-window/__tests__/MetaFields-test.tsx",
+        "lib/js/components/reference-window/__tests__/People-test.tsx",
+        "lib/js/components/reference-window/ManualEntryContainer.tsx",
+        "lib/js/components/reference-window/MetaFields.tsx",
+        "lib/js/components/reference-window/People.tsx",
+        "lib/js/components/reference-window/ReferenceWindow.tsx",
+        "lib/js/components/ReferenceList.tsx"
     ]
 }

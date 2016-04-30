@@ -32,7 +32,7 @@ class ReferenceWindow extends React.Component<{}, State> {
             identifierList: '',
             citationStyle: top.tinyMCE.activeEditor.windowManager.windows[0].settings.params.preferredStyle || 'american-medical-association',
             includeLink: false,
-            attachInline: false,
+            attachInline: true,
             addManually: false,
             people: [
                 { given: '', family: '', type: 'author', },
@@ -177,6 +177,7 @@ class ReferenceWindow extends React.Component<{}, State> {
                     }
                     <RefOptions
                         attachInline={this.state.attachInline}
+                        includeLink={this.state.includeLink}
                         citationStyle={this.state.citationStyle}
                         eventHandler={this.consumeChildEvents.bind(this)} />
                     <ActionButtons
@@ -215,12 +216,6 @@ class IdentifierInput extends React.Component<IdentifierInputProps,{}> {
         );
     }
 
-    handleLinkToggle() {
-        this.props.eventHandler(
-            new CustomEvent(LocalEvents.TOGGLE_INCLUDE_LINK)
-        );
-    }
-
     render() {
         return(
             <div className='row' style={{display: 'flex', alignItems: 'center'}}>
@@ -237,18 +232,6 @@ class IdentifierInput extends React.Component<IdentifierInputProps,{}> {
                     ref='identifierField'
                     required={true}
                     value={this.props.identifierList} />
-                <div style={{ padding: '5px', }}>
-                    <label
-                        style={{ whiteSpace: 'nowrap', }}
-                        htmlFor='includeLink'
-                        children='Include Link?'/>
-                </div>
-                <div style={{ padding: '5px', }}>
-                    <input
-                        type="checkbox"
-                        onChange={this.handleLinkToggle.bind(this)}
-                        id="includeLink" />
-                </div>
             </div>
         )
     }
@@ -256,6 +239,7 @@ class IdentifierInput extends React.Component<IdentifierInputProps,{}> {
 
 interface RefOptionsProps {
     attachInline: boolean
+    includeLink: boolean
     citationStyle: string
     eventHandler: Function
 }
@@ -267,7 +251,6 @@ class RefOptions extends React.Component<RefOptionsProps,{}> {
     }
 
     handleSelect(e: DOMEvent) {
-        if (e.target.value === 'apa') {return};
         this.props.eventHandler(
             new CustomEvent(LocalEvents.CHANGE_CITATION_STYLE, {
                 detail: e.target.value
@@ -281,6 +264,12 @@ class RefOptions extends React.Component<RefOptionsProps,{}> {
         );
     }
 
+    handleLinkToggle() {
+        this.props.eventHandler(
+            new CustomEvent(LocalEvents.TOGGLE_INCLUDE_LINK)
+        );
+    }
+
     public citationStyleText = toTitleCase(this.props.citationStyle.split('-').join(' '));
 
     render() {
@@ -289,7 +278,7 @@ class RefOptions extends React.Component<RefOptionsProps,{}> {
                 <div style={{ display: 'flex', alignItems: 'center', }}>
                     <label
                         htmlFor='citationStyle'
-                        children='Format'
+                        children='Style'
                         style={{ padding: '5px', }} />
                     <select
                         id='citationStyle'
@@ -304,17 +293,29 @@ class RefOptions extends React.Component<RefOptionsProps,{}> {
                         )}
                     </select>
                 </div>
-                <div style={{ display: 'flex', alignItems: 'center', }}>
-                    <label
-                        htmlFor='attachInline'
-                        style={{ padding: '5px', }}
-                        children='Also add inline citation at current cursor position?' />
-                    <input
-                        type='checkbox'
-                        id='attachInline'
-                        style={{ padding: '5px', }}
-                        checked={this.props.attachInline}
-                        onChange={this.handleToggleInlineAttachment.bind(this)} />
+                <div style={{ display: 'flex', alignItems: 'center', }} className='row' >
+                    <div style={{ flex: 1, textAlign: 'center', }}>
+                        <label
+                            htmlFor='attachInline'
+                            style={{ padding: '5px', whiteSpace: 'nowrap', }}
+                            children='Attach Inline' />
+                        <input
+                            type='checkbox'
+                            id='attachInline'
+                            checked={this.props.attachInline}
+                            onChange={this.handleToggleInlineAttachment.bind(this)} />
+                    </div>
+                    <div style={{ flex: 1, textAlign: 'center', }}>
+                        <label
+                            htmlFor='includeLink'
+                            style={{ padding: '5px', whiteSpace: 'nowrap', }}
+                            children='Include Link'/>
+                        <input
+                            type="checkbox"
+                            id="includeLink"
+                            checked={this.props.includeLink}
+                            onChange={this.handleLinkToggle.bind(this)} />
+                    </div>
                 </div>
             </div>
         )
@@ -372,7 +373,7 @@ class ActionButtons extends React.Component<ActionButtonProps, {}> {
                     value={
                         this.props.addManually === false
                         ? 'Add Reference Manually'
-                        : 'Add Reference with PMID'} />
+                        : 'Add Reference with Identifier'} />
                 <input
                     id='searchPubmed'
                     style={{ margin: '0 5px' }}

@@ -13,8 +13,6 @@ services:
             DB_NAME: wordpress
             DB_PASS: root
             WP_DEBUG: 'true'
-            PLUGINS: >-
-                advanced-custom-fields
     db:
         image: mysql:5.7
         ports:

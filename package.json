@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "jest",
-    "wp": "wpcmd() { docker exec $(docker ps -lq) /bin/bash -c \"sudo -u www-data wp $(echo $@)\"; };wpcmd "
+    "wp": "wpcmd() { docker exec $(docker ps -lq) /bin/bash -c \"sudo -u www-data wp $(echo $@)\"; };wpcmd ",
+    "chown": "sudo chown -R $USER $(pwd)/dist"
   },
   "repository": {
     "type": "git",
@@ -38,7 +39,7 @@
     "react-dom": "^15.0.1",
     "sinon": "^1.17.3",
     "ts-loader": "^0.8.2",
-    "typescript": "^1.9.0-dev.20160423",
+    "typescript": "^1.9.0-dev.20160429",
     "webpack": "^1.13.0",
     "webpack-stream": "^3.2.0"
   },

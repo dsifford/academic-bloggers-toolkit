@@ -155,18 +155,6 @@ label.uploadLabel input[type="file"] {
 .uploadLabel {
     @extend .btn;
 }
-// .uploadLabel:hover {
-//     background: #CCC;
-// }
-// .uploadLabel:active {
-//     background: #CCF;
-// }
-// .uploadLabel :invalid + span {
-//     color: #A44;
-// }
-// .uploadLabel :valid + span {
-//     color: #4A4;
-// }
 
 select {
     padding: 2px;

@@ -36,9 +36,10 @@ add_action('wp_head', 'abt_css_override');
 
 
 function abt_enqueue_frontend_scripts() {
-	wp_enqueue_style( 'abt_frontend_styles', plugins_url('academic-bloggers-toolkit/lib/css/frontend.css') );
-	wp_register_script('abt_frontend_js', plugins_url('academic-bloggers-toolkit/lib/js/frontend.js') );
-	wp_enqueue_script( 'abt_frontend_js' );
+	wp_enqueue_style( 'dashicons' );
+	wp_enqueue_style( 'abt_frontend_styles', plugins_url('academic-bloggers-toolkit/lib/css/frontend.css'), 'dashicons' );
+	wp_enqueue_script('abt_frontend_js', plugins_url('academic-bloggers-toolkit/lib/js/Frontend.js') );
+	wp_localize_script('abt_frontend_js', 'ABT_Options', get_option('abt_options'));
 }
 add_action('wp_enqueue_scripts', 'abt_enqueue_frontend_scripts');
 

@@ -13,7 +13,7 @@ gulp.task('clean', function () {
   ]);
 });
 
-gulp.task('sass', ['clean'], function () {
+gulp.task('sass', function () {
   return gulp.src(['./lib/**/*.scss'], {
       base: './',
     })
@@ -29,7 +29,7 @@ gulp.task('sass', ['clean'], function () {
 });
 
 gulp.task('webpack', function () {
-  return gulp.src('lib/js/frontend.ts')
+  return gulp.src('lib/js/Frontend.ts')
     .pipe(webpack(require('./webpack.config.js')))
     .pipe(gulp.dest('dist/'));
 });

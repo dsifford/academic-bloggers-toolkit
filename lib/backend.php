@@ -125,16 +125,16 @@ class ABT_Backend {
 		wp_enqueue_media();
 		$abt_options = get_option( 'abt_options' );
 
-		wp_enqueue_script('abt-PR-metabox', plugins_url('academic-bloggers-toolkit/lib/js/PeerReviewMetabox.js'), array(), false, true);
+		wp_enqueue_script('abt-PR-metabox', plugins_url('academic-bloggers-toolkit/lib/js/components/PeerReviewMetabox.js'), array(), false, true);
 		wp_localize_script( 'abt-PR-metabox', 'ABT_locationInfo', array(
 			'jsURL' => plugins_url('academic-bloggers-toolkit/lib/js/'),
 			'tinymceViewsURL' => plugins_url('academic-bloggers-toolkit/lib/js/tinymce-views/'),
 			'preferredCitationStyle' => isset($abt_options['abt_citation_style']) ? $abt_options['abt_citation_style'] : '',
 			'postType' => $typenow,
-			'locale' => str_replace('_', '-', get_locale())
+			'locale' => get_locale()
 		));
 
-        wp_register_script('abt_reflist', plugins_url('academic-bloggers-toolkit/lib/js/Reflist.js') );
+        wp_register_script('abt_reflist', plugins_url('academic-bloggers-toolkit/lib/js/components/ReferenceList.js') );
         wp_register_script('abt_citeproc', plugins_url('academic-bloggers-toolkit/vendor/citeproc.js') );
         wp_enqueue_script( 'abt_citeproc', false, array(), false, true );
     	wp_enqueue_script( 'abt_reflist', false, array(), false, true );
@@ -160,7 +160,7 @@ class ABT_Backend {
      * @return array               Array of TinyMCE plugins with plugins added
      */
     public function register_tinymce_plugin($plugin_array) {
-        $plugin_array['abt_main_menu'] = plugins_url('academic-bloggers-toolkit/lib/js/tinymce-entrypoint.js');
+        $plugin_array['abt_main_menu'] = plugins_url('academic-bloggers-toolkit/lib/js/TinymceEntrypoint.js');
         $plugin_array['noneditable'] = plugins_url('academic-bloggers-toolkit/vendor/noneditable.js');
         return $plugin_array;
     }

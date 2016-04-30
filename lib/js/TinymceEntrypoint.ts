@@ -2,13 +2,15 @@ import { PubmedGet } from './utils/PubmedAPI';
 import { getFromDOI } from './utils/CrossRefAPI';
 import { CSLPreprocessor } from './utils/CSLPreprocessor';
 import { processDate } from './utils/CSLFieldProcessors';
-import { parseInlineCitationString } from './utils/HelperFunctions';
+import { parseInlineCitationString, parseReferenceURLs } from './utils/HelperFunctions';
 import { ABTGlobalEvents } from './utils/Constants';
 
-declare var tinyMCE: TinyMCE.tinyMCE, ABT_locationInfo
+declare var tinyMCE: TinyMCE.tinyMCE, ABT_locationInfo, wpActiveEditor
 
 tinyMCE.PluginManager.add('abt_main_menu', (editor: TinyMCE.Editor, url: string) => {
-    if (editor.id !== 'content') { return; }
+
+    // Fixes issues created if other plugins spawn separate TinyMCE instances
+    if (editor.id !== wpActiveEditor) { return; }
 
     interface ReferenceWindowPayload {
         identifierList: string
@@ -60,7 +62,7 @@ tinyMCE.PluginManager.add('abt_main_menu', (editor: TinyMCE.Editor, url: string)
 
 
                     let p1 = new Promise((resolve, reject) => {
-                        PubmedGet(PMIDlist.join(','), (res: Error|{ [id: string]: CSL.Data }) => {
+                        PubmedGet(PMIDlist.join(','), (res: Error | { [id: string]: CSL.Data }) => {
                             if (res instanceof Error) {
                                 reject(res.message);
                                 return;
@@ -70,7 +72,7 @@ tinyMCE.PluginManager.add('abt_main_menu', (editor: TinyMCE.Editor, url: string)
                                 let data = processor.prepare(citeproc);
                                 if (payload.includeLink) {
                                     data = data.map((ref: string, i: number) =>
-                                    `${ref} PMID: <a href="https://www.ncbi.nlm.nih.gov/pubmed/${PMIDlist[i]}" target="_blank">${PMIDlist[i]}</a>`);
+                                        `${ref} PMID: <a href="https://www.ncbi.nlm.nih.gov/pubmed/${PMIDlist[i]}" target="_blank">${PMIDlist[i]}</a>`);
                                 }
                                 resolve(data);
                             });
@@ -82,7 +84,7 @@ tinyMCE.PluginManager.add('abt_main_menu', (editor: TinyMCE.Editor, url: string)
                         DOIlist.forEach((doi: string, i: number) => {
                             promises.push(
                                 new Promise((resolveInner, rejectInner) => {
-                                    getFromDOI(doi, (res: Error|{ [id: string]: CSL.Data }) => {
+                                    getFromDOI(doi, (res: Error | { [id: string]: CSL.Data }) => {
                                         if (res instanceof Error) {
                                             rejectInner(res.message);
                                             return;
@@ -91,7 +93,7 @@ tinyMCE.PluginManager.add('abt_main_menu', (editor: TinyMCE.Editor, url: string)
                                         let processor = new CSLPreprocessor(ABT_locationInfo.locale, res, payload.citationStyle, (citeproc) => {
                                             let data = processor.prepare(citeproc);
                                             if (payload.includeLink) {
-                                                data[0] = data[0].replace(DOIlist[i], `<a href="https://dx.doi.org/${DOIlist[i]}" target="_blank">${DOIlist[i]}</a>`);
+                                                data = parseReferenceURLs(data);
                                             }
                                             resolveInner(data);
                                         });
@@ -101,7 +103,7 @@ tinyMCE.PluginManager.add('abt_main_menu', (editor: TinyMCE.Editor, url: string)
                         });
 
                         Promise.all(promises).then((data) => {
-                            resolve(data.reduce((a,b) => a.concat(b), []));
+                            resolve(data.reduce((a, b) => a.concat(b), []));
                         }, (err) => {
                             reject(err);
                         });
@@ -109,8 +111,8 @@ tinyMCE.PluginManager.add('abt_main_menu', (editor: TinyMCE.Editor, url: string)
                     });
 
                     Promise.all([p1, p2]).then((data: any) => {
-                        let combined = data.reduce((a,b) => a.concat(b), []);
-                        deliverContent(combined, { attachInline: payload.attachInline});
+                        let combined = data.reduce((a, b) => a.concat(b), []);
+                        deliverContent(combined, { attachInline: payload.attachInline });
                     }, (err) => {
                         editor.setProgressState(0);
                         editor.windowManager.alert(err);
@@ -136,6 +138,9 @@ tinyMCE.PluginManager.add('abt_main_menu', (editor: TinyMCE.Editor, url: string)
 
                 let processor = new CSLPreprocessor(ABT_locationInfo.locale, { 0: payload.manualData }, payload.citationStyle, (citeproc) => {
                     let data = processor.prepare(citeproc);
+                    if (payload.includeLink) {
+                        data = parseReferenceURLs(data);
+                    }
                     deliverContent(data, { attachInline: payload.attachInline });
                 });
             },
@@ -144,10 +149,50 @@ tinyMCE.PluginManager.add('abt_main_menu', (editor: TinyMCE.Editor, url: string)
     editor.addShortcut('meta+alt+r', 'Insert Formatted Reference', openFormattedReferenceWindow);
 
 
+    interface RefImportPayload {
+        filename: string
+        payload: { [id: string]: CSL.Data }
+        format: string
+        links: boolean
+    }
+
+    const importRefs: TinyMCE.MenuItem = {
+        text: 'Import RIS file',
+        onclick: () => {
+            editor.windowManager.open(<TinyMCE.WindowMangerObject>{
+                title: 'Import References from RIS File',
+                url: ABT_locationInfo.tinymceViewsURL + 'import-window.html',
+                width: 600,
+                height: 10,
+                params: {
+                    preferredStyle: ABT_locationInfo.preferredCitationStyle,
+                },
+                onclose: (e: any) => {
+                    // If the user presses the exit button, return.
+                    if (Object.keys(e.target.params).length === 0) {
+                        return;
+                    }
+
+                    editor.setProgressState(1);
+                    let data: RefImportPayload = e.target.params.data;
+
+                    let processor = new CSLPreprocessor(ABT_locationInfo.locale, data.payload, data.format, (citeproc) => {
+                        let payload = processor.prepare(citeproc);
+
+                        if (data.links) {
+                            payload = parseReferenceURLs(payload);
+                        }
+
+                        deliverContent(payload, { attachInline: false });
+                    });
+                },
+            });
+        },
+    }
+
+
     /**
      * Responsible for serving the reference payload once generated.
-     *
-     * TODO: Attach inline will be broken for anything other than pubmed calls
      *
      * @param  {Error|string[]} data Either an array of formatted references or
      *   an error, depending on if one was received from an external request.
@@ -247,42 +292,6 @@ tinyMCE.PluginManager.add('abt_main_menu', (editor: TinyMCE.Editor, url: string)
             });
         }
     }
-
-    interface RefImportPayload {
-        filename: string,
-        payload: { [id: string]:CSL.Data },
-        format: string,
-    }
-
-    const importRefs: TinyMCE.MenuItem = {
-        text: 'Import RIS file',
-        onclick: () => {
-            editor.windowManager.open(<TinyMCE.WindowMangerObject>{
-                title: 'Import References from RIS File',
-                url: ABT_locationInfo.tinymceViewsURL + 'import-window.html',
-                width: 600,
-                height: 10,
-                params: {
-                    preferredStyle: ABT_locationInfo.preferredCitationStyle,
-                },
-                onclose: (e: any) => {
-                    // If the user presses the exit button, return.
-                    if (Object.keys(e.target.params).length === 0) {
-                        return;
-                    }
-
-                    editor.setProgressState(1);
-                    let data: RefImportPayload = e.target.params.data;
-
-                    let processor = new CSLPreprocessor(ABT_locationInfo.locale, data.payload, data.format, (citeproc) => {
-                        let payload = processor.prepare(citeproc);
-                        deliverContent(payload, { attachInline: false });
-                    });
-                },
-            });
-        },
-    }
-
 
     // Event Handlers
     editor.on('init', () => {

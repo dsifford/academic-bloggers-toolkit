@@ -10,9 +10,10 @@ interface DOMEvent extends React.UIEvent {
 }
 
 interface State {
-    filename: string,
-    payload: CSL.Data[],
-    format: string,
+    filename: string
+    payload: CSL.Data[]
+    format: string
+    links: boolean
 }
 
 class ImportWindow extends React.Component<{}, State> {
@@ -27,6 +28,7 @@ class ImportWindow extends React.Component<{}, State> {
             filename: '',
             payload: [],
             format: top.tinyMCE.activeEditor.windowManager.windows[0].settings.params.preferredStyle || 'american-medical-association',
+            links: true,
         }
     }
 
@@ -55,7 +57,6 @@ class ImportWindow extends React.Component<{}, State> {
             }
 
             parsedRefs.forEach(ref => {
-                console.log()
                 payload[ref.id] = ref;
             });
 
@@ -84,6 +85,14 @@ class ImportWindow extends React.Component<{}, State> {
         );
     }
 
+    handleClick(e: DOMEvent) {
+        this.setState(
+            Object.assign({}, this.state, {
+                links: !this.state.links,
+            })
+        );
+    }
+
     handleSubmit(e) {
         e.preventDefault();
         let wm = top.tinyMCE.activeEditor.windowManager;
@@ -98,8 +107,8 @@ class ImportWindow extends React.Component<{}, State> {
                 <div style={{ display: 'flex', alignItems: 'center', }}>
                     <label
                         htmlFor='citeformat'
-                        style={{ fontWeight: 900, whiteSpace: 'nowrap', marginRight: 10 }}
-                        children='Citation Format:'/>
+                        style={{ whiteSpace: 'nowrap', marginRight: 10 }}
+                        children='Style'/>
                     <select
                         id='citeformat'
                         style={{width: '100%'}}
@@ -111,7 +120,13 @@ class ImportWindow extends React.Component<{}, State> {
                                 )
                             }
                     </select>
-
+                    <div>
+                        <label
+                            htmlFor='includeLink'
+                            style={{ whiteSpace: 'nowrap', margin: '0 10px', }}
+                            children='Links'/>
+                        <input type='checkbox' checked={this.state.links} onChange={this.handleClick.bind(this)} />
+                    </div>
                 </div>
                 <div style={{ display: 'flex', justifyContent: 'space-between', }}>
                     <div style={{ display: 'flex', alignItems: 'center', flex: 1, }}>

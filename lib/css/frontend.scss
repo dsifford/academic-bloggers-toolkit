@@ -1,3 +1,24 @@
+// Toggle Bibliography Heading
+h3#abt-smart-bib-toggle {
+
+	margin-left: -30px;
+
+	&:hover {
+		cursor: pointer;
+	}
+
+	&:before {
+		content: "\f140";
+		font-family: 'dashicons';
+		position: relative;
+		font-size: 30px;
+		top: 5px;
+	}
+
+	&.abt-hidden:before {
+		content: "\f139";
+	}
+}
 
 /* =========== TOOLTIP ============*/
 .abt_tooltip {

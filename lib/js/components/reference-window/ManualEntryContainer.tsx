@@ -48,7 +48,7 @@ export class ManualEntryContainer extends React.Component<ManualEntryProps, {}> 
     }
 }
 
-const ManualSelection = ({
+export const ManualSelection = ({
     value,
     onChange,
 }) => {
@@ -67,20 +67,11 @@ const ManualSelection = ({
                     style={{width: '100%'}}
                     onChange={onChange}
                     value={value} >
-                    {
-                        CitationTypeArray.map((item, i) => {
-
-                            if (!item.inUse) {
-                                return;
-                            }
-
-                            return (
-                                <option
-                                    key={i}
-                                    value={item.value}
-                                    children={item.label} />
-                            )
-                        }
+                    { CitationTypeArray.map((item, i) =>
+                        <option
+                            key={i}
+                            value={item.value}
+                            children={item.label} />
                     )}
                 </select>
             </div>
