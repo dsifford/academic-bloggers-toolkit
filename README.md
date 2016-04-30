@@ -29,8 +29,8 @@ Need to write one long blog post with lots of references? Download this plugin, 
 
 #### Requirements
 - [NodeJS](https://nodejs.org)
-- [Gulp](https://github.com/gulpjs/gulp) (globally install): `npm install -g gulp-cli`
-- [Typings](https://github.com/typings/typings) (globally install): `npm install -g typings`
+- [Gulp](https://github.com/gulpjs/gulp) (global install): `npm install -g gulp-cli`
+- [Typings](https://github.com/typings/typings) (global install): `npm install -g typings`
 - [Docker](https://github.com/docker/docker) & [Docker Compose](https://github.com/docker/compose) (preferably the latest versions running on a linux machine)
 
 #### Optional
