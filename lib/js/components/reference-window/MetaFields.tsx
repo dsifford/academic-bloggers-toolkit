@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { FieldMappings } from '../../../utils/Constants';
-import { ReferenceWindowEvents as LocalEvents } from '../../../utils/Constants';
+import { FieldMappings } from '../../utils/Constants';
+import { ReferenceWindowEvents as LocalEvents } from '../../utils/Constants';
 
 
 interface MetaFieldProps {
@@ -39,6 +39,7 @@ export class MetaFields extends React.Component<MetaFieldProps,{}> {
                     {fields.map((field: ABT.Field, i: number) =>
                         <div
                             key={`${title}-meta-${i}`}
+                            id={`${title}-meta-${i}`}
                             style={{
                                 display: 'flex',
                                 flexDirection: 'row',

@@ -33,8 +33,8 @@
         "rewriteTsconfig": true
     },
     "files": [
-        "lib/js/frontend.ts",
-        "lib/js/tinymce-entrypoint.ts",
+        "lib/js/Frontend.ts",
+        "lib/js/TinymceEntrypoint.ts",
         "lib/js/utils/__tests__/CSLFieldProcessors-test.ts",
         "lib/js/utils/__tests__/HelperFunctions-test.ts",
         "lib/js/utils/__tests__/RISParser-test.ts",
@@ -48,18 +48,23 @@
         "lib/js/utils/RISParser.ts",
         "typings/ABT.d.ts",
         "typings/main.d.ts",
+        "typings/main/ambient/enzyme/index.d.ts",
         "typings/main/ambient/jest/index.d.ts",
         "typings/main/ambient/react-addons-test-utils/index.d.ts",
         "typings/main/ambient/react-dom/index.d.ts",
         "typings/main/ambient/react/index.d.ts",
         "typings/main/ambient/require/index.d.ts",
+        "typings/main/ambient/sinon/index.d.ts",
         "lib/js/components/ImportWindow.tsx",
+        "lib/js/components/PeerReviewMetabox.tsx",
         "lib/js/components/PubmedWindow.tsx",
-        "lib/js/components/ReferenceWindow/Components/ManualEntryContainer.tsx",
-        "lib/js/components/ReferenceWindow/Components/MetaFields.tsx",
-        "lib/js/components/ReferenceWindow/Components/People.tsx",
-        "lib/js/components/ReferenceWindow/ReferenceWindow.tsx",
-        "lib/js/PeerReviewMetabox.tsx",
-        "lib/js/Reflist.tsx"
+        "lib/js/components/reference-window/__tests__/ManualEntryContainer-test.tsx",
+        "lib/js/components/reference-window/__tests__/MetaFields-test.tsx",
+        "lib/js/components/reference-window/__tests__/People-test.tsx",
+        "lib/js/components/reference-window/ManualEntryContainer.tsx",
+        "lib/js/components/reference-window/MetaFields.tsx",
+        "lib/js/components/reference-window/People.tsx",
+        "lib/js/components/reference-window/ReferenceWindow.tsx",
+        "lib/js/components/ReferenceList.tsx"
     ]
 }

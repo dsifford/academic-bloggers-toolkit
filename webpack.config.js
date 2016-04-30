@@ -1,11 +1,11 @@
 module.exports = {
   devtool: 'source-map',
   entry: {
-    'lib/js/tinymce-entrypoint': './lib/js/tinymce-entrypoint.ts',
-    'lib/js/frontend': './lib/js/frontend.ts',
-    'lib/js/Reflist': './lib/js/Reflist.tsx',
-    'lib/js/PeerReviewMetabox': './lib/js/PeerReviewMetabox.tsx',
-    'lib/js/components/ReferenceWindow/ReferenceWindow': './lib/js/components/ReferenceWindow/ReferenceWindow.tsx',
+    'lib/js/Frontend': './lib/js/Frontend.ts',
+    'lib/js/TinymceEntrypoint': './lib/js/TinymceEntrypoint.ts',
+    'lib/js/components/ReferenceList': './lib/js/components/ReferenceList.tsx',
+    'lib/js/components/PeerReviewMetabox': './lib/js/components/PeerReviewMetabox.tsx',
+    'lib/js/components/reference-window/ReferenceWindow': './lib/js/components/reference-window/ReferenceWindow.tsx',
     'lib/js/components/PubmedWindow': './lib/js/components/PubmedWindow.tsx',
     'lib/js/components/ImportWindow': './lib/js/components/ImportWindow.tsx',
   },

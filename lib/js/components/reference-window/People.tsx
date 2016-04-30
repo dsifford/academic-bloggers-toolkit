@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { ReferenceWindowEvents as LocalEvents, FieldMappings } from '../../../utils/Constants';
+import { ReferenceWindowEvents as LocalEvents, FieldMappings } from '../../utils/Constants';
 
 
 interface PeopleProps {
@@ -22,20 +22,20 @@ export class People extends React.Component<PeopleProps,{}> {
         );
     }
 
-    removePerson(e: InputEvent) {
+    removePerson(index: number) {
         this.props.eventHandler(
             new CustomEvent(LocalEvents.REMOVE_PERSON, {
-                detail: parseInt(e.target.dataset['num']),
+                detail: index,
             })
         );
     }
 
-    onChange(e: InputEvent) {
+    onChange(index: number, field: string, e: InputEvent) {
         this.props.eventHandler(
             new CustomEvent(LocalEvents.PERSON_CHANGE, {
                 detail: {
-                    index: parseInt(e.target.dataset['num']),
-                    field: e.target.dataset['namefield'],
+                    index,
+                    field,
                     value: e.target.value,
                 }
             })
@@ -49,57 +49,52 @@ export class People extends React.Component<PeopleProps,{}> {
                     <strong style={{ paddingRight: 5, }} children='Contributors'/>
                     <input
                         type='button'
+                        id='add-person'
                         className='btn'
                         value='Add Another'
                         onClick={this.addPerson.bind(this)}/>
                 </div>
                 {this.props.people.map((person: CSL.TypedPerson, i: number) =>
-                    <div key={`person-list-${i}`} style={{ display: 'flex', alignItems: 'center', }}>
+                    <div key={`person-list-${i}`} id={`person-list-${i}`} style={{ display: 'flex', alignItems: 'center', }}>
                         <div>
                             <select
                                 value={person.type}
-                                data-num={i}
-                                data-namefield='type'
-                                onChange={this.onChange.bind(this)}>
+                                onChange={this.onChange.bind(this, i, 'type')}>
                                 { this.fieldMaps[this.props.citationType].people.map((p, j: number) =>
-                                    <option key={`peopleSelect-${j}`} value={p.type} children={p.label} />
+                                    <option key={`peopleSelect-${j}`} id={`peopleSelect-${j}`} value={p.type} children={p.label} />
                                 )}
                             </select>
                         </div>
                         <div style={{ flex: 1, padding: '0 5px', }} >
                             <input
                                 type='text'
-                                data-namefield='family'
-                                data-num={i}
                                 style={{ width: '100%', }}
                                 placeholder='Lastname'
                                 aria-label='Last Name'
                                 id={`person-family-${i}`}
                                 value={person.family}
-                                onChange={this.onChange.bind(this)}
+                                onChange={this.onChange.bind(this, i, 'family')}
                                 required={true} />
                         </div>
                         ,
                         <div style={{ flex: 1, padding: '0 5px', }} >
                             <input
                                 type='text'
-                                data-namefield='given'
                                 style={{width: '100%'}}
                                 placeholder='Firstname, Middleinitial'
                                 aria-label='First Name, Middle Initial'
-                                data-num={i}
                                 id={`person-given-${i}`}
                                 value={person.given}
-                                onChange={this.onChange.bind(this)}
+                                onChange={this.onChange.bind(this, i, 'given')}
                                 required={true} />
                         </div>
                         <div style={{ padding: '0 5px', }}>
                             <input
+                            id={`remove-button-${i}`}
                             type='button'
                             className='btn'
-                            data-num={i}
                             value='✖'
-                            onClick={this.removePerson.bind(this)} />
+                            onClick={this.removePerson.bind(this, i)} />
                         </div>
                     </div>
                 )}

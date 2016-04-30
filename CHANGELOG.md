@@ -1,5 +1,21 @@
 # Changelog
 
+### 3.1.0
+
+**Bugfixes**:
+- Fix issue which resulted in this plugin not playing nicely with other plugins that generate additional TinyMCE editors (eg. Advanced Custom Fields). HT: @billmorton.
+- Add a space between the reference number and the reference in the reference list.
+
+**Improvements**:
+- Slightly better locale processing (bigger fix still in the works). HT: @Tammakit.
+- When importing a RIS file, the plugin now automatically makes URLs clickable. Also, it takes DOIs and turns them into clickable URLs (resolved by DOI.org). This option can be turned off by unchecking `Links` on the import RIS window. HT: @someonehere15.
+- Set reference insertion window to default to attaching reference inline, rather than requiring a checkbox click each time.
+- Add options to options page which allow for the following (HT: @metallikat36 & @canadiem):
+    - Make the bibliography toggleable
+    - Make the peer review sections non-toggleable
+    - Set default heading for bibliography list.
+- Manual references with DOIs now optionally create clickable links resolved by doi.org. HT: @someonehere15
+
 ### 3.0.1
 - Fix bug that caused bold text to stay in place if you click and drag a highlighted reference.
 - Fix issue where WordPress added escape slashes to custom CSS containing quote characters.

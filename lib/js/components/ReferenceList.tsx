@@ -1,7 +1,7 @@
 import * as React from 'react'
 import * as ReactDOM from 'react-dom'
-import { parseInlineCitationString } from './utils/HelperFunctions';
-import { ABTGlobalEvents } from './utils/Constants';
+import { parseInlineCitationString } from '../utils/HelperFunctions';
+import { ABTGlobalEvents } from '../utils/Constants';
 
 declare var tinyMCE: TinyMCE.tinyMCE;
 
@@ -15,7 +15,7 @@ interface State {
     selected: number[]
 }
 
-class Reflist extends React.Component<{}, State> {
+class ReferenceList extends React.Component<{}, State> {
 
     private editor: TinyMCE.Editor;
 
@@ -448,7 +448,7 @@ const Card = (props: CardProps) => {
                     backgroundColor: 'rgba(243, 255, 62, 0.2)',
                     textShadow: '0px 0px 0.1px',
                 })}>
-            <strong children={`${num+1}.`} />
+            <strong children={`${num+1}. `} />
             <span style={{pointerEvents: 'none'}} dangerouslySetInnerHTML={{ __html: html }} data-num={num} />
         </div>
     )
@@ -476,6 +476,6 @@ function generateTooltip(text: string): HTMLDivElement {
 
 
 ReactDOM.render(
-    <Reflist />,
+    <ReferenceList />,
     document.getElementById('abt-reflist')
 );

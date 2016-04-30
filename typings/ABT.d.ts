@@ -54,6 +54,15 @@ declare namespace ABT {
         pattern: string
         placeholder: string
     }
+
+    interface ABT_Options {
+        'abt_citation_style': string
+        'display_options': {
+            'PR_boxes': 'fixed'|'toggle'
+            bibliography: 'fixed'|'toggle'
+            'bib_heading': string
+        }
+    }
 }
 
 declare namespace TinyMCE {
@@ -73,6 +82,7 @@ declare namespace TinyMCE {
     }
 
     interface Editor {
+        id: string
         buttons: any
         container: any
         contentDocument: HTMLDocument
