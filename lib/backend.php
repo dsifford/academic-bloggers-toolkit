@@ -471,7 +471,7 @@ function abt_append_peer_reviews( $text ) {
 				}
 
 				${'reviewer_block_' . $i} =
-				"<h3 class='abt_PR_heading'>${heading}</h3>" .
+				"<h3 class='abt_PR_heading noselect'>${heading}</h3>" .
 				"<div>" .
 					"<div class='abt_chat_bubble'>${review_content}</div>" .
 					"<div class='abt_PR_info'>" .
