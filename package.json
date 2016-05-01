@@ -30,6 +30,8 @@
     "del": "^2.2.0",
     "enzyme": "^2.2.0",
     "gulp": "github:gulpjs/gulp#4.0",
+    "gulp-file-insert": "^1.0.2",
+    "gulp-jade2php": "^1.0.3",
     "gulp-postcss": "^6.1.0",
     "gulp-rename": "^1.2.2",
     "gulp-sourcemaps": "^2.0.0-alpha",

@@ -3,6 +3,8 @@ const gulp = require('gulp');
 const uglify = require('gulp-uglify');
 const browserSync = require('browser-sync').create();
 const del = require('del');
+const jade = require('gulp-jade2php');
+const gfi = require("gulp-file-insert");
 const postcss = require('gulp-postcss');
 const sugarss = require('sugarss');
 const rename  = require('gulp-rename');
@@ -14,7 +16,36 @@ const webpackDevConfig = Object.assign({}, webpackConfig, {
     cache: true,
 });
 
+
 gulp.task('clean', (done) => del(['dist/lib/**/*',], done) );
+
+
+gulp.task('reload', (done) => {
+    browserSync.reload();
+    done();
+});
+
+
+gulp.task('jade', () =>
+    gulp.src('lib/**/*.jade')
+    .pipe(jade({
+        omitPhpRuntime: true,
+        omitPhpExtractor: true,
+        arraysOnly: false,
+    }))
+    .pipe(rename({ extname: '.php' }))
+    .pipe(gulp.dest('tmp'))
+);
+
+
+gulp.task('php', gulp.series('jade', () =>
+    gulp.src('lib/options-page.php', { base: './', })
+    .pipe(gfi({
+        '<!-- JADE -->': 'tmp/options-page.php',
+    }))
+    .pipe(gulp.dest('./dist'))
+));
+
 
 gulp.task('css', () => {
 
@@ -36,7 +67,8 @@ gulp.task('css', () => {
 
 });
 
-gulp.task('static', () =>
+
+gulp.task('static', gulp.parallel('php', () =>
     gulp.src([
         'academic-bloggers-toolkit.php',
         'CHANGELOG.md',
@@ -44,12 +76,13 @@ gulp.task('static', () =>
         'readme.txt',
         'lib/**/*',
         'vendor/*',
-        '!lib/**/*.{ts,tsx,sss,json}',
+        '!lib/**/*.{ts,tsx,sss,json,jade}',
         '!**/__tests__',
         '!lib/js/utils',
     ], { base: './', })
     .pipe(gulp.dest('./dist'))
-);
+));
+
 
 gulp.task('webpack:dev', () =>
     gulp.src('lib/js/Frontend.ts')
@@ -57,11 +90,13 @@ gulp.task('webpack:dev', () =>
     .pipe(gulp.dest('dist/'))
 );
 
+
 gulp.task('webpack:prod', () =>
     gulp.src('lib/js/Frontend.ts')
     .pipe(webpack(webpackConfig))
     .pipe(gulp.dest('dist/'))
 );
+
 
 gulp.task('js', () =>
     gulp.src([
@@ -79,14 +114,11 @@ gulp.task('js', () =>
     .pipe(gulp.dest('./dist/'))
 );
 
-gulp.task('reload', (done) => {
-    browserSync.reload();
-    done();
-});
 
 gulp.task('build',
     gulp.series('clean', gulp.parallel('css', 'static', 'webpack:prod'), 'js')
 );
+
 
 gulp.task('default', gulp.series('clean', gulp.parallel('static', 'css', 'webpack:dev'), () => {
     browserSync.init({
