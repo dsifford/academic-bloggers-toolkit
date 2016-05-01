@@ -29,7 +29,7 @@ Need to write one long blog post with lots of references? Download this plugin, 
 
 #### Requirements
 - [NodeJS](https://nodejs.org)
-- [Gulp](https://github.com/gulpjs/gulp) (global install): `npm install -g gulp-cli`
+- [Gulp 4.0](https://github.com/gulpjs/gulp) (global install): `npm install -g gulpjs/gulp-cli#4.0`
 - [Typings](https://github.com/typings/typings) (global install): `npm install -g typings`
 - [Docker](https://github.com/docker/docker) & [Docker Compose](https://github.com/docker/compose) (preferably the latest versions running on a linux machine)
 
@@ -43,9 +43,8 @@ Fork this repo and clone locally | `git clone <your fork>`
 Navigate to the cloned directory | `cd academic-bloggers-toolkit`
 Install local node dependencies | `npm install`
 Install typings | `typings install`
-Compile the files | `gulp build`
 Start your dev server | `docker-compose up -d`
-Start BrowserSync | `gulp serve`
+Start BrowserSync | `gulp`
 
 After those steps are completed, you'll be able to login to a fresh install of WordPress at `localhost:3000` (if using browser sync) or `localhost:8080`. The login credentials are:
 - Username: `root`
