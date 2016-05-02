@@ -69,7 +69,7 @@ gulp.task('php', gulp.series('jade', () =>
 ));
 
 
-gulp.task('static', gulp.parallel('php', () =>
+gulp.task('static', () =>
     gulp.src([
         'academic-bloggers-toolkit.php',
         'CHANGELOG.md',
@@ -82,7 +82,7 @@ gulp.task('static', gulp.parallel('php', () =>
         '!lib/js/utils',
     ], { base: './', })
     .pipe(gulp.dest('./dist'))
-));
+);
 
 
 // ==================================================
@@ -150,11 +150,19 @@ gulp.task('js', () =>
 // ==================================================
 
 gulp.task('build',
-    gulp.series('clean', 'bump', gulp.parallel('css', 'static', 'webpack:prod'), 'js')
+    gulp.series(
+        'clean', 'bump',
+        gulp.parallel('css', 'static', 'webpack:prod'),
+        gulp.parallel('js', 'php')
+    )
 );
 
 
-gulp.task('default', gulp.series('clean', gulp.parallel('static', 'css', 'webpack:dev'), () => {
+gulp.task('default',
+    gulp.series(
+        'clean', 'static',
+        gulp.parallel('php', 'css', 'webpack:dev'), () => {
+
     browserSync.init({
         proxy: 'localhost:8080',
         open: false,
