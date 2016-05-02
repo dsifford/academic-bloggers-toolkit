@@ -69,7 +69,7 @@ gulp.task('php', gulp.series('jade', () =>
 ));
 
 
-gulp.task('static', gulp.parallel('php', () =>
+gulp.task('static', () =>
     gulp.src([
         'academic-bloggers-toolkit.php',
         'CHANGELOG.md',
@@ -82,22 +82,21 @@ gulp.task('static', gulp.parallel('php', () =>
         '!lib/js/utils',
     ], { base: './', })
     .pipe(gulp.dest('./dist'))
-));
+);
 
 
 // ==================================================
 //                 Style Tasks
 // ==================================================
 
-gulp.task('css', () => {
+const processors = [
+    require('precss'),
+    require('autoprefixer')({ browsers: ['last 2 versions'] }),
+    require('cssnano')(),
+];
 
-    const processors = [
-        require('precss'),
-        require('autoprefixer')({ browsers: ['last 2 versions'] }),
-        require('cssnano')(),
-    ];
-
-    return gulp.src([
+gulp.task('css:dev', () =>
+    gulp.src([
         'lib/**/*.sss',
     ], { base: './', })
     .pipe(sourcemaps.init())
@@ -105,9 +104,17 @@ gulp.task('css', () => {
     .pipe(rename({ extname: '.css' }))
     .pipe(sourcemaps.write('.'))
     .pipe(gulp.dest('./dist'))
-    .pipe(browserSync.stream());
+    .pipe(browserSync.stream())
+);
 
-});
+gulp.task('css:prod', () =>
+    gulp.src([
+        'lib/**/*.sss',
+    ], { base: './', })
+    .pipe(postcss(processors, { parser: sugarss }))
+    .pipe(rename({ extname: '.css' }))
+    .pipe(gulp.dest('./dist'))
+);
 
 
 // ==================================================
@@ -150,17 +157,25 @@ gulp.task('js', () =>
 // ==================================================
 
 gulp.task('build',
-    gulp.series('clean', 'bump', gulp.parallel('css', 'static', 'webpack:prod'), 'js')
+    gulp.series(
+        'clean', 'bump',
+        gulp.parallel('css:prod', 'static', 'webpack:prod'),
+        gulp.parallel('js', 'php')
+    )
 );
 
 
-gulp.task('default', gulp.series('clean', gulp.parallel('static', 'css', 'webpack:dev'), () => {
+gulp.task('default',
+    gulp.series(
+        'clean', 'static',
+        gulp.parallel('php', 'css:dev', 'webpack:dev'), () => {
+
     browserSync.init({
         proxy: 'localhost:8080',
         open: false,
     });
 
-    gulp.watch('./lib/**/*.sss', gulp.series('css'));
+    gulp.watch('./lib/**/*.sss', gulp.series('css:dev'));
 
     gulp.watch([
         'lib/**/*.{ts,tsx}',
