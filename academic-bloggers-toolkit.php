@@ -53,7 +53,6 @@ add_action('admin_enqueue_scripts', 'abt_enqueue_admin_scripts');
 
 
 // Tidy Requires
-require('lib/shortcodes.php');
 require('lib/backend.php');
 require('lib/options-page.php');
 

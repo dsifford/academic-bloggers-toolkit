@@ -6,10 +6,10 @@ function call_abt_reference_box() {
 
 
 if (is_admin()) {
-    add_action('load-post.php', 'call_abt_reference_box');
-    add_action('load-post-new.php', 'call_abt_reference_box');
-    add_action('load-page.php', 'call_abt_reference_box');
-    add_action('load-page-new.php', 'call_abt_reference_box');
+    add_action("load-post.php", 'call_abt_reference_box');
+    add_action("load-post-new.php", 'call_abt_reference_box');
+    add_action("load-page.php", 'call_abt_reference_box');
+    add_action("load-page-new.php", 'call_abt_reference_box');
 }
 
 
@@ -44,7 +44,7 @@ class ABT_Backend {
 				'abt_reflist',
 				'Reference List',
 				array($this, 'render_reflist'),
-				'post',
+				array('post', 'page'),
 				'side',
 				'high'
 			);
@@ -52,7 +52,7 @@ class ABT_Backend {
 				'abt_peer_review',
 				__( 'Add Peer Review(s)', 'abt-textdomain' ),
 				array($this, 'render_PR_meta'),
-				'post',
+				array('post', 'page'),
 				'normal',
 				'high'
 			);
