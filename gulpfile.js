@@ -89,15 +89,14 @@ gulp.task('static', () =>
 //                 Style Tasks
 // ==================================================
 
-gulp.task('css', () => {
+const processors = [
+    require('precss'),
+    require('autoprefixer')({ browsers: ['last 2 versions'] }),
+    require('cssnano')(),
+];
 
-    const processors = [
-        require('precss'),
-        require('autoprefixer')({ browsers: ['last 2 versions'] }),
-        require('cssnano')(),
-    ];
-
-    return gulp.src([
+gulp.task('css:dev', () =>
+    gulp.src([
         'lib/**/*.sss',
     ], { base: './', })
     .pipe(sourcemaps.init())
@@ -105,9 +104,17 @@ gulp.task('css', () => {
     .pipe(rename({ extname: '.css' }))
     .pipe(sourcemaps.write('.'))
     .pipe(gulp.dest('./dist'))
-    .pipe(browserSync.stream());
+    .pipe(browserSync.stream())
+);
 
-});
+gulp.task('css:prod', () =>
+    gulp.src([
+        'lib/**/*.sss',
+    ], { base: './', })
+    .pipe(postcss(processors, { parser: sugarss }))
+    .pipe(rename({ extname: '.css' }))
+    .pipe(gulp.dest('./dist'))
+);
 
 
 // ==================================================
@@ -152,7 +159,7 @@ gulp.task('js', () =>
 gulp.task('build',
     gulp.series(
         'clean', 'bump',
-        gulp.parallel('css', 'static', 'webpack:prod'),
+        gulp.parallel('css:prod', 'static', 'webpack:prod'),
         gulp.parallel('js', 'php')
     )
 );
@@ -161,14 +168,14 @@ gulp.task('build',
 gulp.task('default',
     gulp.series(
         'clean', 'static',
-        gulp.parallel('php', 'css', 'webpack:dev'), () => {
+        gulp.parallel('php', 'css:dev', 'webpack:dev'), () => {
 
     browserSync.init({
         proxy: 'localhost:8080',
         open: false,
     });
 
-    gulp.watch('./lib/**/*.sss', gulp.series('css'));
+    gulp.watch('./lib/**/*.sss', gulp.series('css:dev'));
 
     gulp.watch([
         'lib/**/*.{ts,tsx}',
