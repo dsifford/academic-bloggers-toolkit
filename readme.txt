@@ -4,7 +4,7 @@ Donate link: https://cash.me/$dsifford
 Tags: academic, pmid, doi, peer-review, pubmed, citation, bibliography, reference
 Requires at least: 4.2.2
 Tested up to: 4.5
-Stable tag: 3.1.0
+Stable tag: 3.1.1
 License: GPL3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -68,13 +68,20 @@ Yikes! I'm sorry about that. Please report all issues on the Academic Blogger's 
 
 == Changelog ==
 
+= 3.1.1 =
+* **Shortcodes are now fully depreciated.**
+* Fix issue causing reference list to not load on pages.
+* General under-the-hood improvements.
+
 = 3.1.0 =
 
 **Bugfixes**:
+
 * Fix issue which resulted in this plugin not playing nicely with other plugins that generate additional TinyMCE editors (eg. Advanced Custom Fields). HT: @billmorton.
 * Add a space between the reference number and the reference in the reference list.
 
 **Improvements**:
+
 * Slightly better locale processing (bigger fix still in the works). HT: @Tammakit.
 * When importing a RIS file, the plugin now automatically makes URLs clickable. Also, it takes DOIs and turns them into clickable URLs (resolved by DOI.org). This option can be turned off by unchecking `Links` on the import RIS window. HT: @someonehere15.
 * Set reference insertion window to default to attaching reference inline, rather than requiring a checkbox click each time.
@@ -93,16 +100,20 @@ Yikes! I'm sorry about that. Please report all issues on the Academic Blogger's 
 You spoke and I heard, this latest version is (in my opinion) the strongest, most stable, and easiest to use version that has ever existed.
 
 **What's new?**
+
 * Everything. No, really. There's too many changes to reasonably list here, so please take 5 minutes and read the readme. Alternatively, you can watch this short [YouTube demo](https://www.youtube.com/watch?v=5k72Dh8L2BA).
 
 **Changes I think you'll be most excited about:**
+
 * Choose from any citation style that exists (over 1300).
 * Cite from DOIs (reliably) just like with PMIDs.
 * Import an entire bibliography from a `.ris` file exported from Endnote, Zotero, Mendeley, Papers, et al.
 * Click and drag references to rearrange them in your bibliography. This also automatically adjusts all of your inline citation numbers on the fly.
 
 **Depreciation Notice:**
+
 This plugin now uses **zero shortcodes**. All citations and references are generated and served in realtime. This way, in the future if you no longer require this plugin, you can uninstall it without it breaking all of your previous posts. There is not one other citation plugin that I am aware of that allows for this, but I believe it is an absolute must. That being said, if you are an early adoptor, you will need to do one of the two following things to preserve your posts from back when this plugin did use shortcodes.
+
 1. **The hard way**: Go back and regenerate all the citations that you made with shortcodes.
 2. **The easy way**: Copy and paste one or both of [these code snippets](https://gist.github.com/dsifford/d464e1a0398fae3df570b94776646e79) into your `functions.php` file in your theme.
 
@@ -202,6 +213,9 @@ A special thanks to @metallikat36 for the great suggestions that led directly to
 * Initial stable release.
 
 == Upgrade Notice ==
+
+= 3.1.1 =
+Bugfixes and performance improvements.
 
 = 1.1.3 =
 * **Bugfix:** Fixed issue causing peer review dropdown boxes to be highlighted when clicked.

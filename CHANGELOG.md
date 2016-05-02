@@ -1,5 +1,10 @@
 # Changelog
 
+### 3.1.1
+- **Shortcodes are now fully depreciated.**
+- Fix issue causing reference list to not load on pages.
+- General under-the-hood improvements.
+
 ### 3.1.0
 
 **Bugfixes**:

@@ -8,6 +8,7 @@ const gfi = require("gulp-file-insert");
 const postcss = require('gulp-postcss');
 const sugarss = require('sugarss');
 const rename  = require('gulp-rename');
+const replace = require('gulp-replace');
 const sourcemaps = require('gulp-sourcemaps');
 const webpack = require('webpack-stream');
 const webpackConfig = require('./webpack.config.js');
@@ -17,14 +18,35 @@ const webpackDevConfig = Object.assign({}, webpackConfig, {
 });
 
 
+// ==================================================
+//                 Utility Tasks
+// ==================================================
+
+// Delete all files in dist/lib
 gulp.task('clean', (done) => del(['dist/lib/**/*',], done) );
 
-
+// Trigger a browsersync reload
 gulp.task('reload', (done) => {
     browserSync.reload();
     done();
 });
 
+// Version bump the required files according to the version in package.json
+gulp.task('bump', () => {
+    const version = require('./package.json').version;
+    return gulp.src([
+        'academic-bloggers-toolkit.php',
+        'readme.txt',
+    ])
+    .pipe(replace(/Version: [\d\.]+/, `Version: ${version}`))
+    .pipe(replace(/Stable tag: [\d\.]+/, `Stable tag: ${version}`))
+    .pipe(gulp.dest('./'));
+});
+
+
+// ==================================================
+//              PHP/Static Asset Tasks
+// ==================================================
 
 gulp.task('jade', () =>
     gulp.src('lib/**/*.jade')
@@ -47,6 +69,26 @@ gulp.task('php', gulp.series('jade', () =>
 ));
 
 
+gulp.task('static', gulp.parallel('php', () =>
+    gulp.src([
+        'academic-bloggers-toolkit.php',
+        'CHANGELOG.md',
+        'LICENSE',
+        'readme.txt',
+        'lib/**/*',
+        'vendor/*',
+        '!lib/**/*.{ts,tsx,sss,json,jade}',
+        '!**/__tests__',
+        '!lib/js/utils',
+    ], { base: './', })
+    .pipe(gulp.dest('./dist'))
+));
+
+
+// ==================================================
+//                 Style Tasks
+// ==================================================
+
 gulp.task('css', () => {
 
     const processors = [
@@ -68,21 +110,9 @@ gulp.task('css', () => {
 });
 
 
-gulp.task('static', gulp.parallel('php', () =>
-    gulp.src([
-        'academic-bloggers-toolkit.php',
-        'CHANGELOG.md',
-        'LICENSE',
-        'readme.txt',
-        'lib/**/*',
-        'vendor/*',
-        '!lib/**/*.{ts,tsx,sss,json,jade}',
-        '!**/__tests__',
-        '!lib/js/utils',
-    ], { base: './', })
-    .pipe(gulp.dest('./dist'))
-));
-
+// ==================================================
+//                 Javascript Tasks
+// ==================================================
 
 gulp.task('webpack:dev', () =>
     gulp.src('lib/js/Frontend.ts')
@@ -115,8 +145,12 @@ gulp.task('js', () =>
 );
 
 
+// ==================================================
+//                 Compound Tasks
+// ==================================================
+
 gulp.task('build',
-    gulp.series('clean', gulp.parallel('css', 'static', 'webpack:prod'), 'js')
+    gulp.series('clean', 'bump', gulp.parallel('css', 'static', 'webpack:prod'), 'js')
 );
 
 
