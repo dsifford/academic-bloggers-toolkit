@@ -1,0 +1,2 @@
+- [ ] create `Entrypoint.js` structure so that tests don't crash
+- [ ] finish tests

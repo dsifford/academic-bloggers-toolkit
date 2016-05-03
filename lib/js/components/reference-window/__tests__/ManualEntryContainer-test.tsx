@@ -1,25 +1,11 @@
 jest.unmock('../ManualEntryContainer');
 
 import * as React from 'react';
-import { mount, shallow } from 'enzyme';
+import { mount } from 'enzyme';
 import * as sinon from 'sinon';
 import { ManualSelection, ManualEntryContainer } from '../ManualEntryContainer';
 
-const setup1 = (
-    citationType: string = 'article-journal'
-) => {
-    const spy = sinon.spy();
-    const component = shallow(
-        <ManualSelection value={citationType} onChange={spy} />
-    );
-    return {
-        spy,
-        component,
-        selection: component.find('#type').props().value,
-    }
-}
-
-const setup2 = (
+const setup = (
     citationType: CSL.CitationType = 'article-journal'
 ) => {
     const spy = sinon.spy();
@@ -38,12 +24,12 @@ const setup2 = (
 describe('<ManualEntryContainer />', () => {
 
     it('should render with the correct option', () => {
-        const { selection } = setup2();
+        const { selection } = setup();
         expect(selection).toBe('article-journal');
     });
 
     it('should dispatch CHANGE_CITATION_TYPE when another type is selected', () => {
-        const { select, spy } = setup2();
+        const { select, spy } = setup();
         select.simulate('change', { target: { value: 'broadcast' }, });
         expect(spy.callCount).toBe(1);
         expect(spy.firstCall.args[0].detail).toBe('broadcast');

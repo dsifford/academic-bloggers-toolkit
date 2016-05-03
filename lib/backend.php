@@ -144,7 +144,7 @@ class ABT_Backend {
             'locale' => get_locale(),
         ));
 
-        wp_register_script('abt_reflist', plugins_url('academic-bloggers-toolkit/lib/js/components/ReferenceList.js'));
+        wp_register_script('abt_reflist', plugins_url('academic-bloggers-toolkit/lib/js/components/reference-list/Entrypoint.js'));
         wp_register_script('abt_citeproc', plugins_url('academic-bloggers-toolkit/vendor/citeproc.js'));
         wp_enqueue_script('abt_citeproc', false, array(), false, true);
         wp_enqueue_script('abt_reflist', false, array(), false, true);

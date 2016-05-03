@@ -20,7 +20,7 @@
   "homepage": "https://github.com/dsifford/academic-bloggers-toolkit#readme",
   "devDependencies": {
     "autoprefixer": "^6.3.6",
-    "babel-core": "^6.7.6",
+    "babel-core": "^6.8.0",
     "babel-loader": "^6.2.4",
     "babel-preset-es2015": "^6.6.0",
     "babel-preset-react": "^6.5.0",
@@ -38,7 +38,7 @@
     "gulp-sourcemaps": "^2.0.0-alpha",
     "gulp-uglify": "^1.5.3",
     "jest-cli": "^12.0.2",
-    "ntypescript": "^1.201605012205.1",
+    "ntypescript": "^1.201605022209.1",
     "precss": "^1.4.0",
     "react-addons-test-utils": "^15.0.2",
     "sinon": "^1.17.4",

@@ -1,7 +1,8 @@
 import * as React from 'react'
 import * as ReactDOM from 'react-dom'
-import { parseInlineCitationString } from '../utils/HelperFunctions';
-import { ABTGlobalEvents } from '../utils/Constants';
+import { parseInlineCitationString } from '../../utils/HelperFunctions';
+import { ABTGlobalEvents } from '../../utils/Constants';
+import { Card } from './Card';
 
 declare var tinyMCE: TinyMCE.tinyMCE;
 
@@ -15,7 +16,7 @@ interface State {
     selected: number[]
 }
 
-class ReferenceList extends React.Component<{}, State> {
+export class ReferenceList extends React.Component<{}, State> {
 
     private editor: TinyMCE.Editor;
 
@@ -410,50 +411,6 @@ class ReferenceList extends React.Component<{}, State> {
     }
 }
 
-interface CardProps extends React.HTMLProps<HTMLDivElement> {
-    dragStart()
-    dragOver()
-    dragLeave()
-    drop()
-    onClick()
-    num: number
-    isSelected: number[]
-    html: string
-}
-
-const Card = (props: CardProps) => {
-
-    const style: React.CSSProperties = {
-        borderBottom: '1px solid #E5E5E5',
-        padding: 5,
-        cursor: 'pointer',
-    }
-
-    const { dragStart, dragOver, dragLeave,
-        onClick, drop, num, html, isSelected } = props;
-
-    return (
-        <div
-            draggable={true}
-            onDragStart={dragStart}
-            onDragOver={dragOver}
-            onDragLeave={dragLeave}
-            onDrop={drop}
-            onClick={onClick}
-            data-num={num}
-            style={
-                isSelected.indexOf(num) === -1
-                ? style
-                : Object.assign({}, style, {
-                    backgroundColor: 'rgba(243, 255, 62, 0.2)',
-                    textShadow: '0px 0px 0.1px',
-                })}>
-            <strong children={`${num+1}. `} />
-            <span style={{pointerEvents: 'none'}} dangerouslySetInnerHTML={{ __html: html }} data-num={num} />
-        </div>
-    )
-}
-
 function generateTooltip(text: string): HTMLDivElement {
     let container = document.createElement('DIV') as HTMLDivElement;
     let arrow = document.createElement('DIV') as HTMLDivElement;
@@ -473,9 +430,3 @@ function generateTooltip(text: string): HTMLDivElement {
 
     return container;
 }
-
-
-ReactDOM.render(
-    <ReferenceList />,
-    document.getElementById('abt-reflist')
-);
