@@ -64,6 +64,9 @@ let wpMock = {
             x['open'] = function() {
                 return;
             };
+            x['on'] = function() {
+                return;
+            };
             return x;
         }
         public static frames = {

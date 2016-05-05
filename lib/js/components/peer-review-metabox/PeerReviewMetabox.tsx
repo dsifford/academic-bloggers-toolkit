@@ -108,13 +108,13 @@ export class PeerReviewMetabox extends React.Component<Props, ABT.PRMetaState> {
             library: { type: 'image', },
         });
 
-        wp.media.frames.abt_reviewer_photos[num][topfield].onselect = () => {
+        wp.media.frames.abt_reviewer_photos[num][topfield].on('select', () => {
             let mediaAttachment = wp.media.frames.abt_reviewer_photos[num][topfield]
                 .state().get('selection').first().toJSON();
             let newState = Object.assign({}, this.state);
             newState[num][topfield].image = mediaAttachment.url;
             this.setState(newState);
-        };
+        });
 
         wp.media.frames.abt_reviewer_photos[num][topfield].open();
     }
