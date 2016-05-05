@@ -4,7 +4,7 @@ Donate link: https://cash.me/$dsifford
 Tags: academic, pmid, doi, peer-review, pubmed, citation, bibliography, reference
 Requires at least: 4.2.2
 Tested up to: 4.5
-Stable tag: 3.1.1
+Stable tag: 3.1.2
 License: GPL3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -67,6 +67,11 @@ Yikes! I'm sorry about that. Please report all issues on the Academic Blogger's 
 4. Demo of desktop citation tooltips.
 
 == Changelog ==
+
+= 3.1.2 =
+* Fix bug that caused the editor button to appear twice on pages.
+* Lay groundwork for full plugin translation / localization.
+* Add 60 individual unit tests to ensure plugin works properly now, tomorrow.. always.
 
 = 3.1.1 =
 * **Shortcodes are now fully depreciated.**

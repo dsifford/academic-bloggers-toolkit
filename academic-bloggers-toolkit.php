@@ -4,10 +4,11 @@
  *	Plugin Name: Academic Blogger's Toolkit
  *	Plugin URI: https://wordpress.org/plugins/academic-bloggers-toolkit/
  *	Description: A plugin extending the functionality of Wordpress for academic blogging
- *	Version: 3.1.1
+ *	Version: 3.1.2
  *	Author: Derek P Sifford
  *	Author URI: https://github.com/dsifford
  *	License: GPL3 or later
+ *  Text Domain: academic-bloggers-toolkit
  */
 
 // Assign Global Variables
@@ -18,7 +19,7 @@ $abt_options = array();
 
 function abt_add_options_link ($links) {
 	$mylinks = array(
-		'<a href="' . admin_url( 'options-general.php?page=abt-options' ) . '">Plugin Settings</a>',
+		'<a href="' . admin_url( 'options-general.php?page=abt-options' ) . '">' . __('Plugin Settings', 'academic-bloggers-toolkit') . '</a>',
 	);
 	return array_merge($links, $mylinks);
 }

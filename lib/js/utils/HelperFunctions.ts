@@ -78,7 +78,7 @@ export function toTitleCase(str: string): string {
 
     return str.replace(/[A-Za-z0-9\u00C0-\u00FF]+[^\s-]*/g, function(match, index, title) {
         if (index > 0 && index + match.length !== title.length &&
-            match.search(smallWords) > -1 && title.charAt(index - 2) !== ":" &&
+            match.search(smallWords) > -1 && title.charAt(index - 2) !== ':' &&
             (title.charAt(index + match.length) !== '-' || title.charAt(index - 1) === '-') &&
             title.charAt(index - 1).search(/[^\s-]/) < 0) {
             return match.toLowerCase();
@@ -111,15 +111,15 @@ export function parseReferenceURLs(input: string[]): string[] {
 
         while ((match = url.exec(ref)) !== null) {
             if (match[0].search(/^www./) > -1) {
-                replacements.push([match[0], `<a href="http://${match[0]}" target="_blank">${match[0]}</a>`]);
+                replacements.push([match[0], `<a href="http://${match[0]}" target="_blank">${match[0]}</a>`, ]);
             }
             else {
-                replacements.push([match[0], `<a href="${match[0]}" target="_blank">${match[0]}</a>`]);
+                replacements.push([match[0], `<a href="${match[0]}" target="_blank">${match[0]}</a>`, ]);
             }
         }
 
         while ((match = doi.exec(ref)) !== null) {
-            replacements.push([match[1], `<a href="https://doi.org/${match[1]}" target="_blank">${match[1]}</a>`]);
+            replacements.push([match[1], `<a href="https://doi.org/${match[1]}" target="_blank">${match[1]}</a>`, ]);
         }
 
         replacements.forEach(r => ref = ref.replace(r[0], r[1]));

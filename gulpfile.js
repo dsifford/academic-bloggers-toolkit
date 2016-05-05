@@ -189,6 +189,6 @@ gulp.task('default',
         '!lib/**/*.{ts,tsx,sss}',
         '!lib/**/__tests__/',
         '!lib/**/__tests__/*',
-    ], gulp.series('static', 'reload'));
+    ], gulp.series('static', 'php', 'reload'));
 
 }));

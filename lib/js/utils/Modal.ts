@@ -1,14 +1,14 @@
-export default class Modal {
+export class Modal {
 
-    public title: string
-    public outer: HTMLElement
-    public inner: HTMLElement
-    public mceReset: HTMLElement
-    public mainRect: HTMLElement
+    public title: string;
+    public outer: HTMLElement;
+    public inner: HTMLElement;
+    public mceReset: HTMLElement;
+    public mainRect: HTMLElement;
     public initialSize: {
         outer: number
         inner: number
-    }
+    };
 
     constructor(title: string) {
         this.title = title;
@@ -16,7 +16,7 @@ export default class Modal {
         this.initialSize = {
             outer: parseInt(this.outer.style.height.substr(0, this.outer.style.height.length - 2)),
             inner: parseInt(this.inner.style.height.substr(0, this.inner.style.height.length - 2)),
-        }
+        };
     }
 
     public resize(): void {

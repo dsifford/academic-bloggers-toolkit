@@ -7,8 +7,6 @@ function call_abt_reference_box() {
 if (is_admin()) {
     add_action('load-post.php', 'call_abt_reference_box');
     add_action('load-post-new.php', 'call_abt_reference_box');
-    add_action('load-page.php', 'call_abt_reference_box');
-    add_action('load-page-new.php', 'call_abt_reference_box');
 }
 
 /**
@@ -135,7 +133,7 @@ class ABT_Backend {
         wp_enqueue_media();
         $abt_options = get_option('abt_options');
 
-        wp_enqueue_script('abt-PR-metabox', plugins_url('academic-bloggers-toolkit/lib/js/components/PeerReviewMetabox.js'), array(), false, true);
+        wp_enqueue_script('abt-PR-metabox', plugins_url('academic-bloggers-toolkit/lib/js/components/peer-review-metabox/Entrypoint.js'), array(), false, true);
         wp_localize_script('abt-PR-metabox', 'ABT_locationInfo', array(
             'jsURL' => plugins_url('academic-bloggers-toolkit/lib/js/'),
             'tinymceViewsURL' => plugins_url('academic-bloggers-toolkit/lib/js/tinymce-views/'),
@@ -144,7 +142,7 @@ class ABT_Backend {
             'locale' => get_locale(),
         ));
 
-        wp_register_script('abt_reflist', plugins_url('academic-bloggers-toolkit/lib/js/components/ReferenceList.js'));
+        wp_register_script('abt_reflist', plugins_url('academic-bloggers-toolkit/lib/js/components/reference-list/Entrypoint.js'));
         wp_register_script('abt_citeproc', plugins_url('academic-bloggers-toolkit/vendor/citeproc.js'));
         wp_enqueue_script('abt_citeproc', false, array(), false, true);
         wp_enqueue_script('abt_reflist', false, array(), false, true);

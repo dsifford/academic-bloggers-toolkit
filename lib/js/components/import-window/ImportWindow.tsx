@@ -1,35 +1,39 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import Modal from '../utils/Modal';
-import { RISParser } from '../utils/RISParser';
-const citeStyles = require('../../../vendor/citationstyles');
+import { Modal, } from '../../utils/Modal';
+import { RISParser, } from '../../utils/RISParser';
+const citeStyles = require('../../../../vendor/citationstyles');
 
 
 interface DOMEvent extends React.UIEvent {
-    target: HTMLInputElement
+    target: HTMLInputElement;
 }
 
 interface State {
-    filename: string
-    payload: CSL.Data[]
-    format: string
-    links: boolean
+    filename: string;
+    payload: CSL.Data[];
+    format: string;
+    links: boolean;
 }
 
-class ImportWindow extends React.Component<{}, State> {
+interface Props {
+    wm: TinyMCE.WindowManager;
+}
+
+export class ImportWindow extends React.Component<Props, State> {
 
     private modal: Modal = new Modal('Import References from RIS File');
-    private wm: TinyMCE.WindowManager = top.window.tinyMCE.activeEditor.windowManager;
+    private wm: TinyMCE.WindowManager = this.props.wm;
 
 
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
             filename: '',
             payload: [],
-            format: top.tinyMCE.activeEditor.windowManager.windows[0].settings.params.preferredStyle || 'american-medical-association',
+            format: this.wm.windows[0].settings.params.preferredStyle || 'american-medical-association',
             links: true,
-        }
+        };
     }
 
     componentDidMount() {
@@ -41,10 +45,10 @@ class ImportWindow extends React.Component<{}, State> {
     }
 
     handleFileUpload(e: DOMEvent) {
-
         e.preventDefault();
         let reader = new FileReader();
         let file = e.target.files[0];
+        let filename = e.target.files[0].name;
 
         reader.onload = (upload: any) => {
             let parser = new RISParser(upload.target.result);
@@ -66,15 +70,10 @@ class ImportWindow extends React.Component<{}, State> {
                 this.wm.alert(`The following references were unable to be processed: ${leftovers.join(', ')}`);
             }
 
-            this.setState(
-                Object.assign({}, this.state, { payload })
-            );
-        }
+            this.setState(Object.assign({}, this.state, { payload, filename, }));
+        };
 
         reader.readAsText(file);
-        this.setState(
-            Object.assign({}, this.state, { filename: e.target.value })
-        );
     }
 
     handleChange(e: DOMEvent) {
@@ -95,9 +94,8 @@ class ImportWindow extends React.Component<{}, State> {
 
     handleSubmit(e) {
         e.preventDefault();
-        let wm = top.tinyMCE.activeEditor.windowManager;
-        wm.setParams({ data: this.state });
-        wm.close();
+        this.wm.setParams({ data: this.state, });
+        this.wm.close();
     }
 
 
@@ -107,16 +105,16 @@ class ImportWindow extends React.Component<{}, State> {
                 <div style={{ display: 'flex', alignItems: 'center', }}>
                     <label
                         htmlFor='citeformat'
-                        style={{ whiteSpace: 'nowrap', marginRight: 10 }}
+                        style={{ whiteSpace: 'nowrap', marginRight: 10, }}
                         children='Style'/>
                     <select
                         id='citeformat'
-                        style={{width: '100%'}}
+                        style={{ width: '100%', }}
                         onChange={this.handleChange.bind(this)}
                         value={this.state.format} >
                             {
                                 citeStyles.map((style, i: number) =>
-                                    <option className='testing' key={i} value={style.value} children={style.label} />
+                                    <option key={i} value={style.value} children={style.label} />
                                 )
                             }
                     </select>
@@ -125,14 +123,19 @@ class ImportWindow extends React.Component<{}, State> {
                             htmlFor='includeLink'
                             style={{ whiteSpace: 'nowrap', margin: '0 10px', }}
                             children='Links'/>
-                        <input type='checkbox' checked={this.state.links} onChange={this.handleClick.bind(this)} />
+                        <input
+                            type='checkbox'
+                            id='includeLink'
+                            checked={this.state.links}
+                            onChange={this.handleClick.bind(this)} />
                     </div>
                 </div>
                 <div style={{ display: 'flex', justifyContent: 'space-between', }}>
                     <div style={{ display: 'flex', alignItems: 'center', flex: 1, }}>
                         <label className='uploadLabel'>
                             <input
-                                type="file"
+                                type='file'
+                                id='uploadField'
                                 required={true}
                                 onChange={this.handleFileUpload.bind(this)}
                                 accept='application/xresearch-info-systems'/>
@@ -155,18 +158,13 @@ class ImportWindow extends React.Component<{}, State> {
                         <input
                             type='button'
                             className='submit-btn'
+                            id='submitbtn'
                             value='Import'
                             disabled={this.state.payload.length === 0}
                             onClick={this.handleSubmit.bind(this)} />
                     </div>
                 </div>
             </div>
-        )
+        );
     }
 }
-
-
-ReactDOM.render(
-    <ImportWindow />,
-    document.getElementById('main-container')
-);

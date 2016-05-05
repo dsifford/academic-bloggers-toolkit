@@ -184,3 +184,35 @@ kbd
 
 .cite-selected
 	background: rgba(0, 133, 186, 0.5)!important
+
+
+// ================================
+// ResultList.tsx
+// ================================
+
+.result-item
+	min-height: 100px
+	display: flex
+	background: white
+
+	&.even
+		background: #fafafa
+
+	.left-container
+		display: flex
+		flex: 1
+		flex-direction: column
+		font-size: 0.9em
+
+		div:last-of-type
+			font-size: 0.85em
+
+	.right-container
+		padding: 0 10px
+
+		input
+			white-space: normal
+			width: 90px
+			height: auto
+			line-height: 1em
+			padding: 10px

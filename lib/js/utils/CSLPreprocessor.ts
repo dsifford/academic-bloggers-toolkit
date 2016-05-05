@@ -57,7 +57,7 @@ export class CSLPreprocessor {
             }
         };
 
-        req.open("GET", `https://raw.githubusercontent.com/citation-style-language/locales/8c976408d3cb287d0cecb29f97752ec3a28db9e5/locales-${locale}.xml`);
+        req.open('GET', `https://raw.githubusercontent.com/citation-style-language/locales/8c976408d3cb287d0cecb29f97752ec3a28db9e5/locales-${locale}.xml`);
         req.send(null);
     }
 
@@ -77,7 +77,7 @@ export class CSLPreprocessor {
                 let citeproc = new CSL.Engine(data, req.responseText);
                 callback(citeproc);
             }
-        }
+        };
 
         req.send(null);
     }
@@ -116,7 +116,7 @@ export class CSLPreprocessor {
      *   in CSL (values). If CSL doesn't have a locale for a given WordPress locale,
      *   then false is used (which will default to en-US).
      */
-    private locales: {[wp: string]:string|boolean} = {
+    private locales: {[wp: string]: string|boolean} = {
         'af': 'af-ZA',
         'ak': false,
         'am': false,
@@ -278,7 +278,7 @@ export class CSLPreprocessor {
         'zh_CN': 'zh-CN',
         'zh_HK': 'zh-CN',
         'zh_TW': 'zh-TW',
-    }
+    };
 
 
 }

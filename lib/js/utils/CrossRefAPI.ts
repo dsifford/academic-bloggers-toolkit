@@ -23,8 +23,8 @@ export function getFromDOI(query: string, callback: Function): void {
 
         let res = JSON.parse(request.responseText);
         res['id'] = 0;
-        callback([res]);
+        callback([res, ]);
 
-    }
+    };
     request.send(null);
 }

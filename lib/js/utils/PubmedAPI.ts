@@ -13,7 +13,7 @@ import * as processor from './CSLFieldProcessors';
  */
 export function PubmedQuery(query: string, callback: Function, bypassJSONFormatter: boolean = false): void {
 
-    let requestURL: string = `http://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=pubmed&term=${encodeURI(query) }&retmode=json`
+    let requestURL: string = `http://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=pubmed&term=${encodeURI(query) }&retmode=json`;
     let request = new XMLHttpRequest();
     request.open('GET', requestURL, true);
     request.onload = () => {
@@ -66,7 +66,7 @@ export function PubmedGet(PMIDlist: string, callback: Function, bypassJSONFormat
         let res = JSON.parse(request.responseText);
 
         if (res.error) {
-            callback(new Error(`Error: PubmedGet => ${res.error}`))
+            callback(new Error(`Error: PubmedGet => ${res.error}`));
             return;
         }
 
@@ -139,7 +139,7 @@ function processJSON(res: PubMed.SingleReference[], callback: Function): void {
             switch (key) {
                 case 'authors':
                     ref[key].forEach(author => {
-                        output.author.push(processor.processName(author.name, 'pubmed'))
+                        output.author.push(processor.processName(author.name, 'pubmed'));
                     });
                     break;
                 case 'availablefromurl':
@@ -186,7 +186,7 @@ function processJSON(res: PubMed.SingleReference[], callback: Function): void {
                     output.number = ref[key]; /** NOTE: This may be incorrect. */
                     break;
                 case 'sortpubdate':
-                    output.issued = processor.processDate(ref[key], 'pubmed')
+                    output.issued = processor.processDate(ref[key], 'pubmed');
                     break;
                 case 'source':
                     output.journalAbbreviation = ref[key];

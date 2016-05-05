@@ -1,17 +1,18 @@
 .wrap
 	h2
-		- esc_attr_e("Academic Blogger's Toolkit Options", 'wp_admin_style')
+		- _e("Academic Blogger's Toolkit Options", 'academic-bloggers-toolkit')
 	#poststuff
 		#post-body.metabox-holder
 			#post-body-content
 				.meta-box-sortables.ui-sortable
 					.postbox
 						h3
-							- esc_attr_e('Please send your feedback!', 'wp_admin_style')
-						.inside If you experience a bug or would like to request a new feature, please visit my #[a(href='https://github.com/dsifford/academic-bloggers-toolkit', target='_blank') GitHub Repository] and submit an issue. I'll do my best to get it handled in a timely manner. Comments can also be sent to me on twitter #[a(href='http://www.twitter.com/flightmed1', target='_blank') @flightmed1].
+							- _e('Please send your feedback!', 'academic-bloggers-toolkit')
+						.inside 
+							| <?php _e('If you experience a bug or would like to request a new feature, please visit the ', 'academic-bloggers-toolkit') ?><a href='https://github.com/dsifford/academic-bloggers-toolkit' target='_blank'> <?php _e('GitHub Repository', 'academic-bloggers-toolkit') ?></a><?php _e('and submit an issue. I\'ll do my best to get it handled in a timely manner. Comments can also be sent to me on twitter ', 'academic-bloggers-toolkit') ?><a href='http://www.twitter.com/flightmed1' target='_blank'>@flightmed1</a>.
 					.postbox
 						h3
-							- esc_attr_e('Preferred Citation Style', 'wp_admin_style')
+							- _e('Preferred Citation Style', 'academic-bloggers-toolkit')
 						.inside
 							form(method='post', name='abt_citation_style_form')
 								input(type='hidden', name='abt_citation_style_form_submitted', value='Y')
@@ -21,27 +22,30 @@
 								input.button-primary(type='submit', name='abt_citation_style_submit', value='Update')
 					.postbox
 						h3
-							- esc_attr_e('Display Options', 'wp_admin_style')
+							- _e('Display Options', 'academic-bloggers-toolkit')
 						.inside
 							form(method='post', name='abt_display_options_form_submitted', value='Y')
 							table(style='width: 100%;')
 								tr
 									td(style='width: 25%;')
-										label(for='abt_bibliography_display') The bibliography should
+										label(for='abt_bibliography_display') 
+											- _e('The bibliography should', 'academic-bloggers-toolkit')
 									td(style='width: 75%;')
 										select(name='abt_bibliography_display', style='width: 100%;')
-											| <option value="fixed" <?php selected($selected_bib_display, 'fixed'); ?>>be fixed on the page</option>
-											| <option value="toggle" <?php selected($selected_bib_display, 'toggle'); ?>>toggle on click</option>
+											| <option value="fixed" <?php selected($selected_bib_display, 'fixed'); ?>><?php _e('be fixed on the page', 'academic-bloggers-toolkit') ?></option>
+											| <option value="toggle" <?php selected($selected_bib_display, 'toggle'); ?>><?php _e('toggle on click', 'academic-bloggers-toolkit') ?></option>
 								tr
 									td(style='width: 25%;')
-										label(for='abt_PR_display') The peer review boxes should
+										label(for='abt_PR_display') 
+											- _e('The peer review boxes should', 'academic-bloggers-toolkit')
 									td(style='width: 75%;')
 										select(name='abt_PR_display', style='width: 100%;')
-											| <option value="toggle" <?php selected($selected_PR_box_display, 'toggle'); ?>>toggle on click</option>
-											| <option value="fixed" <?php selected($selected_PR_box_display, 'fixed'); ?>>be fixed on the page</option>
+											| <option value="toggle" <?php selected($selected_PR_box_display, 'toggle'); ?>><?php _e('toggle on click', 'academic-bloggers-toolkit') ?></option>
+											| <option value="fixed" <?php selected($selected_PR_box_display, 'fixed'); ?>><?php _e('be fixed on the page', 'academic-bloggers-toolkit') ?></option>
 								tr
 									td(style='width: 25%;')
-										label(style='white-space: nowrap;', for='abt_bib_heading') The heading for bibliographies should be
+										label(style='white-space: nowrap;', for='abt_bib_heading') 
+											- _e('The heading for bibliographies should be', 'academic-bloggers-toolkit')
 									td(style='width: 75%;')
 										input.large-text(type='text', name='abt_bib_heading', value=!{bib_heading})
 								tr
@@ -49,7 +53,7 @@
 										input.button-primary(type='submit', name='abt_display_options_submit', value='Update')
 					.postbox
 						h3
-							- esc_attr_e('Override CSS', 'wp_admin_style')
+							- _e('Override CSS', 'academic-bloggers-toolkit')
 						table.form-table
 							tr(valign='top')
 								td(scope='row', width='50%')
@@ -62,41 +66,51 @@
 								td(width='50%', style='vertical-align: top;')
 									table
 										tr
-											th(colspan='2') CSS Selectors used in this plugin
+											th(colspan='2') 
+												- _e('CSS Selectors used in this plugin', 'academic-bloggers-toolkit')
 										tr
 											td
-												strong Inline Citations:
+												strong 
+													- _e('Inline Citations:', 'academic-bloggers-toolkit')
 											td
 												code .abt_cite
 										tr
 											td
-												strong Peer Review Boxes:
+												strong 
+													- _e('Peer Review Boxes:', 'academic-bloggers-toolkit')
 											td
 												code .abt_PR_heading, .abt_PR_info, .abt_PR_headshot, .abt_chat_bubble
 										tr
 											td
-												strong Citation Tooltips:
+												strong 
+													- _e('Citation Tooltips:', 'academic-bloggers-toolkit')
 											td
 												code .abt_tooltip, .abt_tooltip_arrow, .abt_tooltip_touch_close
 										tr
 											td
-												strong Bibliography:
+												strong 
+													- _e('Bibliography:', 'academic-bloggers-toolkit')
 											td
 												code #abt-smart-bib, #abt-smart-bib-toggle, #abt-smart-bib-container h3
 					.postbox
 						h3
-							- esc_attr_e('How do I....', 'wp_admin_style')
+							- _e('How do I', 'academic-bloggers-toolkit')
+							| ...
 						.inside
 							div(style='display: flex; flex-wrap: wrap;')
 								div(style='flex: 1, min-width: 300px; padding: 0 5px;')
-									strong Make my tooltips a different color?
+									strong 
+										- _e('Make my tooltips a different color?', 'academic-bloggers-toolkit')
 									| <iframe width="100%" height="200" src="//jsfiddle.net/dsifford/e93h26yf/embedded/css,result/" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
 								div(style='flex: 1, min-width: 300px; padding: 0 5px;')
-									strong Make my citations superscript?
+									strong 
+										- _e('Make my citations superscript?', 'academic-bloggers-toolkit')
 									| <iframe width="100%" height="200" src="//jsfiddle.net/dsifford/0hvotx2r/embedded/css,result/" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
 								div(style='flex: 1, min-width: 300px; padding: 0 5px;')
-									strong Apply style to the bibliography list?
+									strong 
+										- _e('Apply style to the bibliography list?', 'academic-bloggers-toolkit')
 									| <iframe width="100%" height="200" src="//jsfiddle.net/dsifford/9hhh5ut6/embedded/css,result/" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
 								div(style='flex: 1, min-width: 300px; padding: 0 5px;')
-									strong Change the style of the peer review boxes?
+									strong 
+										- _e('Change the style of the peer review boxes?', 'academic-bloggers-toolkit')
 									| <iframe width="100%" height="300" src="//jsfiddle.net/dsifford/ky4LangL/embedded/css,result/" allowfullscreen="allowfullscreen" frameborder="0"></iframe>

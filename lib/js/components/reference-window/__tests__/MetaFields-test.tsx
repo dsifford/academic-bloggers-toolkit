@@ -1,13 +1,13 @@
 jest.unmock('../MetaFields');
 
 import * as React from 'react';
-import { mount } from 'enzyme';
+import { mount, } from 'enzyme';
 import * as sinon from 'sinon';
-import { MetaFields } from '../MetaFields';
+import { MetaFields, } from '../MetaFields';
 
 const testMeta: CSL.Data = {
     title: 'TEST',
-}
+};
 
 const setup = (
     citationType: CSL.CitationType = 'article-journal',
@@ -22,8 +22,8 @@ const setup = (
         eventHandler: spy,
         title: component.find('strong').text(),
         field: component.find('#title'),
-    }
-}
+    };
+};
 
 
 describe('<MetaFields />', () => {
@@ -36,10 +36,10 @@ describe('<MetaFields />', () => {
     });
 
     it('should dispatch META_FIELD_CHANGE event when fields are changed', () => {
-        const { field, component, eventHandler } = setup();
+        const { field, component, eventHandler, } = setup();
         field.simulate('change');
         expect(eventHandler.callCount).toBe(1);
         expect(eventHandler.firstCall.args[0].type).toBe('META_FIELD_CHANGE');
-        expect(eventHandler.firstCall.args[0].detail).toEqual({ field: 'title', value: 'TEST'});
+        expect(eventHandler.firstCall.args[0].detail).toEqual({ field: 'title', value: 'TEST', });
     });
-})
+});
