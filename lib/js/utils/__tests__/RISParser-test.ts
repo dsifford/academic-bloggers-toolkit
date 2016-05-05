@@ -100,7 +100,7 @@ ER  -
 `,
 ];
 
-describe('RISParser Tests', () => {
+describe('RISParser', () => {
     it('should parse webpage correctly', () => {
         let parser = new RISParser(testCases[0]);
         let expected: CSL.Data = [{

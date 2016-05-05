@@ -18,7 +18,7 @@ const testRefs: string[] = [
     'Cameron P. Pundit-Based Medicine. Emergency Physicians International.',
 ];
 
-describe('HelperFunctions Tests', () => {
+describe('HelperFunctions', () => {
     it('should parse inline citation strings correctly', () => {
         expect(helpers.parseInlineCitationString([1, 2, 3, 4, 5, 7, 12, ])).toBe('1-5,7,12');
         expect(helpers.parseInlineCitationString([1, 3, 5, 6, 7, 9, 10, ])).toBe('1,3,5-7,9,10');

@@ -7,8 +7,6 @@ function call_abt_reference_box() {
 if (is_admin()) {
     add_action('load-post.php', 'call_abt_reference_box');
     add_action('load-post-new.php', 'call_abt_reference_box');
-    add_action('load-page.php', 'call_abt_reference_box');
-    add_action('load-page-new.php', 'call_abt_reference_box');
 }
 
 /**

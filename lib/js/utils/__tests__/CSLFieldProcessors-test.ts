@@ -37,7 +37,7 @@ const pubmedDates = [
     '',
 ];
 
-describe('CSLFieldProcessors Tests', () => {
+describe('CSLFieldProcessors', () => {
     it('should process RIS names correctly', () => {
         expect(processor.processName(risNames[0], 'RIS')).toEqual({ family: 'Paterson', given: 'Quinten S', });
         expect(processor.processName(risNames[1], 'RIS')).toEqual({ family: 'Rezaie', given: 'Salim R', });
