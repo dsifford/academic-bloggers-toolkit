@@ -1,11 +1,11 @@
-import { PubmedGet } from './utils/PubmedAPI';
-import { getFromDOI } from './utils/CrossRefAPI';
-import { CSLPreprocessor } from './utils/CSLPreprocessor';
-import { processDate } from './utils/CSLFieldProcessors';
-import { parseInlineCitationString, parseReferenceURLs } from './utils/HelperFunctions';
-import { ABTGlobalEvents } from './utils/Constants';
+import { PubmedGet, } from './utils/PubmedAPI';
+import { getFromDOI, } from './utils/CrossRefAPI';
+import { CSLPreprocessor, } from './utils/CSLPreprocessor';
+import { processDate, } from './utils/CSLFieldProcessors';
+import { parseInlineCitationString, parseReferenceURLs, } from './utils/HelperFunctions';
+import { abtGlobalEvents, } from './utils/Constants';
 
-declare var tinyMCE: TinyMCE.tinyMCE, ABT_locationInfo, wpActiveEditor
+declare var tinyMCE: TinyMCE.tinyMCE, ABT_locationInfo, wpActiveEditor;
 
 tinyMCE.PluginManager.add('abt_main_menu', (editor: TinyMCE.Editor, url: string) => {
 
@@ -13,19 +13,19 @@ tinyMCE.PluginManager.add('abt_main_menu', (editor: TinyMCE.Editor, url: string)
     if (editor.id !== wpActiveEditor) { return; }
 
     interface ReferenceWindowPayload {
-        identifierList: string
-        citationStyle: string
-        showCitationSelect: boolean
-        includeLink: boolean
-        attachInline: boolean
-        addManually: boolean
-        people: CSL.TypedPerson[]
-        manualData: CSL.Data
+        identifierList: string;
+        citationStyle: string;
+        showCitationSelect: boolean;
+        includeLink: boolean;
+        attachInline: boolean;
+        addManually: boolean;
+        people: CSL.TypedPerson[];
+        manualData: CSL.Data;
     }
 
 
     const openFormattedReferenceWindow = () => {
-        editor.windowManager.open(<TinyMCE.WindowMangerObject>{
+        editor.windowManager.open({
             title: 'Insert Formatted Reference',
             url: ABT_locationInfo.tinymceViewsURL + 'reference-window.html',
             width: 600,
@@ -34,7 +34,7 @@ tinyMCE.PluginManager.add('abt_main_menu', (editor: TinyMCE.Editor, url: string)
                 baseUrl: ABT_locationInfo.tinymceViewsURL,
                 preferredStyle: ABT_locationInfo.preferredCitationStyle,
             },
-            onclose: (e: any) => {
+            onclose: (e) => {
 
                 // If the user presses the exit button, return.
                 if (Object.keys(e.target.params).length === 0) {
@@ -110,9 +110,9 @@ tinyMCE.PluginManager.add('abt_main_menu', (editor: TinyMCE.Editor, url: string)
 
                     });
 
-                    Promise.all([p1, p2]).then((data: any) => {
+                    Promise.all([p1, p2, ]).then((data: any) => {
                         let combined = data.reduce((a, b) => a.concat(b), []);
-                        deliverContent(combined, { attachInline: payload.attachInline });
+                        deliverContent(combined, { attachInline: payload.attachInline, });
                     }, (err) => {
                         editor.setProgressState(0);
                         editor.windowManager.alert(err);
@@ -124,42 +124,42 @@ tinyMCE.PluginManager.add('abt_main_menu', (editor: TinyMCE.Editor, url: string)
                 payload.people.forEach(person => {
 
                     if (typeof payload.manualData[person.type] === 'undefined') {
-                        payload.manualData[person.type] = [{ family: person.family, given: person.given }];
+                        payload.manualData[person.type] = [{ family: person.family, given: person.given, }, ];
                         return;
                     }
 
-                    payload.manualData[person.type].push({ family: person.family, given: person.given });
+                    payload.manualData[person.type].push({ family: person.family, given: person.given, });
                 });
 
                 // Process date fields
-                ['accessed', 'event-date', 'issued'].forEach(dateType => {
+                ['accessed', 'event-date', 'issued', ].forEach(dateType => {
                     payload.manualData[dateType] = processDate(payload.manualData[dateType], 'RIS');
                 });
 
-                let processor = new CSLPreprocessor(ABT_locationInfo.locale, { 0: payload.manualData }, payload.citationStyle, (citeproc) => {
+                let processor = new CSLPreprocessor(ABT_locationInfo.locale, { 0: payload.manualData, }, payload.citationStyle, (citeproc) => {
                     let data = processor.prepare(citeproc);
                     if (payload.includeLink) {
                         data = parseReferenceURLs(data);
                     }
-                    deliverContent(data, { attachInline: payload.attachInline });
+                    deliverContent(data, { attachInline: payload.attachInline, });
                 });
             },
-        });
+        } as TinyMCE.WindowMangerObject);
     };
     editor.addShortcut('meta+alt+r', 'Insert Formatted Reference', openFormattedReferenceWindow);
 
 
     interface RefImportPayload {
-        filename: string
-        payload: { [id: string]: CSL.Data }
-        format: string
-        links: boolean
+        filename: string;
+        payload: { [id: string]: CSL.Data };
+        format: string;
+        links: boolean;
     }
 
     const importRefs: TinyMCE.MenuItem = {
         text: 'Import RIS file',
         onclick: () => {
-            editor.windowManager.open(<TinyMCE.WindowMangerObject>{
+            editor.windowManager.open({
                 title: 'Import References from RIS File',
                 url: ABT_locationInfo.tinymceViewsURL + 'import-window.html',
                 width: 600,
@@ -167,7 +167,7 @@ tinyMCE.PluginManager.add('abt_main_menu', (editor: TinyMCE.Editor, url: string)
                 params: {
                     preferredStyle: ABT_locationInfo.preferredCitationStyle,
                 },
-                onclose: (e: any) => {
+                onclose: (e) => {
                     // If the user presses the exit button, return.
                     if (Object.keys(e.target.params).length === 0) {
                         return;
@@ -183,12 +183,12 @@ tinyMCE.PluginManager.add('abt_main_menu', (editor: TinyMCE.Editor, url: string)
                             payload = parseReferenceURLs(payload);
                         }
 
-                        deliverContent(payload, { attachInline: false });
+                        deliverContent(payload, { attachInline: false, });
                     });
                 },
-            });
+            } as TinyMCE.WindowMangerObject);
         },
-    }
+    };
 
 
     /**
@@ -209,7 +209,7 @@ tinyMCE.PluginManager.add('abt_main_menu', (editor: TinyMCE.Editor, url: string)
             li.innerHTML = ref;
             smartBib.appendChild(li);
             reflist.push(smartBib.children.length - 1);
-            dispatchEvent(new CustomEvent(ABTGlobalEvents.REFERENCE_ADDED, { detail: ref }));
+            dispatchEvent(new CustomEvent(abtGlobalEvents.REFERENCE_ADDED, { detail: ref, }));
         });
 
         if (payload.attachInline) {
@@ -230,7 +230,7 @@ tinyMCE.PluginManager.add('abt_main_menu', (editor: TinyMCE.Editor, url: string)
      */
     function generateSmartBib(): HTMLOListElement {
         let doc: HTMLDocument = editor.dom.doc;
-        let existingSmartBib: HTMLOListElement = <HTMLOListElement>doc.getElementById('abt-smart-bib');
+        let existingSmartBib: HTMLOListElement = doc.getElementById('abt-smart-bib') as HTMLOListElement;
 
         if (!existingSmartBib) {
             let container = doc.createElement('DIV') as HTMLDivElement;
@@ -258,7 +258,7 @@ tinyMCE.PluginManager.add('abt_main_menu', (editor: TinyMCE.Editor, url: string)
 
 
     // TinyMCE Menu Items
-    const separator: TinyMCE.MenuItem = { text: '-' };
+    const separator: TinyMCE.MenuItem = { text: '-', };
 
     const requestTools: TinyMCE.MenuItem = {
         text: 'Request More Tools',
@@ -275,11 +275,11 @@ tinyMCE.PluginManager.add('abt_main_menu', (editor: TinyMCE.Editor, url: string)
                     `style="color: #00a0d2;" ` +
                     `target="_blank">Open an issue</a> on the GitHub repository and let me know!` +
                     `</div>`,
-                }],
+                }, ],
                 buttons: [],
             });
-        }
-    }
+        },
+    };
 
     const keyboardShortcuts: TinyMCE.MenuItem = {
         text: 'Keyboard Shortcuts',
@@ -290,17 +290,17 @@ tinyMCE.PluginManager.add('abt_main_menu', (editor: TinyMCE.Editor, url: string)
                 width: 400,
                 height: 70,
             });
-        }
-    }
+        },
+    };
 
     // Event Handlers
     editor.on('init', () => {
-        addEventListener(ABTGlobalEvents.INSERT_REFERENCE, openFormattedReferenceWindow);
-        dispatchEvent(new CustomEvent(ABTGlobalEvents.TINYMCE_READY));
+        addEventListener(abtGlobalEvents.INSERT_REFERENCE, openFormattedReferenceWindow);
+        dispatchEvent(new CustomEvent(abtGlobalEvents.TINYMCE_READY));
     });
 
     editor.on('remove', () => {
-        removeEventListener(ABTGlobalEvents.INSERT_REFERENCE, openFormattedReferenceWindow);
+        removeEventListener(abtGlobalEvents.INSERT_REFERENCE, openFormattedReferenceWindow);
     });
 
 

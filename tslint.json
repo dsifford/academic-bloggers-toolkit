@@ -1,0 +1,64 @@
+{
+    "rules": {
+        "class-name": true,
+        "comment-format": [true, "check-space", "check-uppercase"],
+        "indent": [true, "spaces"],
+        "jsdoc-format": true,
+        "no-angle-bracket-type-assertion": true,
+        "no-any": true,
+        "no-conditional-assignment": true,
+        "no-duplicate-key": true,
+        "no-duplicate-variable": true,
+        "no-empty": true,
+        "no-eval": true,
+        "no-internal-module": true,
+        "no-reference": true,
+        "no-shadowed-variable": true,
+        "no-trailing-whitespace": true,
+        "no-unreachable": true,
+        "trailing-comma": [
+            true,
+            {
+                "multiline": "always",
+                "singleline": "always"
+            }
+        ],
+        "no-var-keyword": true,
+        "one-line": [true, "check-open-brace", "check-whitespace" ],
+        "quotemark": [true, "single"],
+        "semicolon": [true, "always"],
+        "triple-equals": [true, "allow-null-check", "allow-undefined-check"],
+        "typedef-whitespace": [
+            true,
+            {
+                "call-signature": "nospace",
+                "index-signature": "nospace",
+                "parameter": "nospace",
+                "property-declaration": "nospace",
+                "variable-declaration": "nospace"
+            },
+            {
+                "call-signature": "onespace",
+                "index-signature": "onespace",
+                "parameter": "onespace",
+                "property-declaration": "onespace",
+                "variable-declaration": "onespace"
+            }
+        ],
+        "variable-name": [
+            true,
+            "ban-keywords",
+            "check-format"
+        ],
+        "whitespace": [
+            true,
+            "check-branch",
+            "check-decl",
+            "check-operator",
+            "check-module",
+            "check-separator",
+            "check-type",
+            "check-typecast"
+        ]
+    }
+}

@@ -1,21 +1,22 @@
-import * as React from 'react'
-import * as ReactDOM from 'react-dom'
-import { parseInlineCitationString } from '../utils/HelperFunctions';
-import { ABTGlobalEvents } from '../utils/Constants';
+import * as React from 'react';
+import * as ReactDOM from 'react-dom';
+import { parseInlineCitationString, } from '../../utils/HelperFunctions';
+import { abtGlobalEvents, } from '../../utils/Constants';
+import { Card, } from './Card';
 
 declare var tinyMCE: TinyMCE.tinyMCE;
 
 interface DOMEvent extends Event {
-    target: HTMLElement
+    target: HTMLElement;
 }
 
 interface State {
-    loading: boolean
-    references: string[]
-    selected: number[]
+    loading: boolean;
+    references: string[];
+    selected: number[];
 }
 
-class ReferenceList extends React.Component<{}, State> {
+export class ReferenceList extends React.Component<{}, State> {
 
     private editor: TinyMCE.Editor;
 
@@ -29,12 +30,12 @@ class ReferenceList extends React.Component<{}, State> {
     }
 
     componentDidMount() {
-        addEventListener(ABTGlobalEvents.TINYMCE_READY, this.gatherReferences.bind(this));
-        addEventListener(ABTGlobalEvents.REFERENCE_ADDED, this.addReference.bind(this));
+        addEventListener(abtGlobalEvents.TINYMCE_READY, this.gatherReferences.bind(this));
+        addEventListener(abtGlobalEvents.REFERENCE_ADDED, this.addReference.bind(this));
     }
 
     componentWillUnmount() {
-        removeEventListener(ABTGlobalEvents.REFERENCE_ADDED, this.addReference);
+        removeEventListener(abtGlobalEvents.REFERENCE_ADDED, this.addReference);
     }
 
     gatherReferences() {
@@ -67,14 +68,14 @@ class ReferenceList extends React.Component<{}, State> {
             Object.assign({}, this.state, {
                 references: [
                     ...this.state.references,
-                    e.detail
-                ]
+                    e.detail,
+                ],
             })
-        )
+        );
     }
 
     removeReference(e: DOMEvent) {
-        let references = [...this.state.references];
+        let references = [...this.state.references, ];
         let removeList: number[] = [];
         this.state.selected.forEach((ref) => {
             removeList.push(ref);
@@ -83,7 +84,7 @@ class ReferenceList extends React.Component<{}, State> {
         for (let i = 0; i < removeList.length; i++) {
             references = [
                 ...references.slice(0, removeList[i] - i),
-                ...references.slice((removeList[i] - i) + 1)
+                ...references.slice((removeList[i] - i) + 1),
             ];
         }
 
@@ -102,24 +103,24 @@ class ReferenceList extends React.Component<{}, State> {
 
     handleClick(e: MouseEvent) {
         let num = parseInt((e.target as HTMLDivElement).dataset['num']);
-        let newSelected = [...this.state.selected];
+        let newSelected = [...this.state.selected, ];
         let i = newSelected.indexOf(num);
 
         switch (i) {
             case -1:
                 newSelected.push(num);
-                newSelected.sort((a,b) => a - b);
+                newSelected.sort((a, b) => a - b);
                 break;
             default:
                 newSelected = [
                     ...newSelected.slice(0, i),
-                    ...newSelected.slice(i + 1)
+                    ...newSelected.slice(i + 1),
                 ];
         }
 
         this.setState(
             Object.assign({}, this.state, {
-                selected: newSelected
+                selected: newSelected,
             })
         );
     }
@@ -127,7 +128,7 @@ class ReferenceList extends React.Component<{}, State> {
     clearSelection() {
         this.setState(
             Object.assign({}, this.state, {
-                selected: []
+                selected: [],
             })
         );
     }
@@ -136,7 +137,7 @@ class ReferenceList extends React.Component<{}, State> {
         let citeString = parseInlineCitationString(this.state.selected.map(i => i + 1));
         this.editor.insertContent(
             `<span class="abt_cite noselect mceNonEditable" contenteditable="false" data-reflist="[${this.state.selected}]">[${citeString}]</span>`
-        )
+        );
         this.clearSelection();
     }
 
@@ -173,18 +174,18 @@ class ReferenceList extends React.Component<{}, State> {
         let refCard = this.state.references[before];
         let newRefList = [
             ...this.state.references.slice(0, before),
-            ...this.state.references.slice(before + 1)
+            ...this.state.references.slice(before + 1),
         ];
 
         newRefList = [
             ...newRefList.slice(0, after),
             refCard,
-            ...newRefList.slice(after)
+            ...newRefList.slice(after),
         ];
 
         this.setState(
             Object.assign({}, this.state, {
-                references: newRefList
+                references: newRefList,
             })
         );
 
@@ -212,7 +213,7 @@ class ReferenceList extends React.Component<{}, State> {
                         reflist[i] = after;
                 }
             });
-            reflist = reflist.sort((a,b) => a - b);
+            reflist = reflist.sort((a, b) => a - b);
             (cite as HTMLSpanElement).dataset['reflist'] = JSON.stringify(reflist);
             (cite as HTMLSpanElement).innerText = `[${parseInlineCitationString(reflist.map(i => i + 1))}]`;
         }
@@ -224,7 +225,7 @@ class ReferenceList extends React.Component<{}, State> {
 
         for (let cite of Array.from(citations)) {
             let reflist: number[] = JSON.parse((cite as HTMLSpanElement).dataset['reflist']);
-            let newRefList: number[] = [...reflist];
+            let newRefList: number[] = [...reflist, ];
             let removeList: number[] = [];
             reflist.forEach((ref: number, i: number) => {
                 deletionList.forEach((ind: number) => {
@@ -235,7 +236,7 @@ class ReferenceList extends React.Component<{}, State> {
                         case ref > ind && deletionList.indexOf(ref) === -1:
                             newRefList[i] = newRefList[i] - 1;
                     }
-                })
+                });
             });
 
             if (removeList.length > 0) {
@@ -243,7 +244,7 @@ class ReferenceList extends React.Component<{}, State> {
                     let removeIndex = newRefList.indexOf(removeList[i]);
                     newRefList = [
                         ...newRefList.slice(0, removeIndex),
-                        ...newRefList.slice(removeIndex + 1)
+                        ...newRefList.slice(removeIndex + 1),
                     ];
                 }
             }
@@ -290,19 +291,19 @@ class ReferenceList extends React.Component<{}, State> {
         if (this.state.loading) {
             return(
                 <div style={{ marginTop: -6, background: '#f5f5f5', }}>
-                    <div className="sk-circle">
-                        <div className="sk-circle1 sk-child"></div>
-                        <div className="sk-circle2 sk-child"></div>
-                        <div className="sk-circle3 sk-child"></div>
-                        <div className="sk-circle4 sk-child"></div>
-                        <div className="sk-circle5 sk-child"></div>
-                        <div className="sk-circle6 sk-child"></div>
-                        <div className="sk-circle7 sk-child"></div>
-                        <div className="sk-circle8 sk-child"></div>
-                        <div className="sk-circle9 sk-child"></div>
-                        <div className="sk-circle10 sk-child"></div>
-                        <div className="sk-circle11 sk-child"></div>
-                        <div className="sk-circle12 sk-child"></div>
+                    <div className='sk-circle'>
+                        <div className='sk-circle1 sk-child'></div>
+                        <div className='sk-circle2 sk-child'></div>
+                        <div className='sk-circle3 sk-child'></div>
+                        <div className='sk-circle4 sk-child'></div>
+                        <div className='sk-circle5 sk-child'></div>
+                        <div className='sk-circle6 sk-child'></div>
+                        <div className='sk-circle7 sk-child'></div>
+                        <div className='sk-circle8 sk-child'></div>
+                        <div className='sk-circle9 sk-child'></div>
+                        <div className='sk-circle10 sk-child'></div>
+                        <div className='sk-circle11 sk-child'></div>
+                        <div className='sk-circle12 sk-child'></div>
                     </div>
                 </div>
             );
@@ -346,7 +347,7 @@ class ReferenceList extends React.Component<{}, State> {
                         disabled={this.state.selected.length !== 0}
                         onClick={(e) => {
                             e.preventDefault();
-                            dispatchEvent(new CustomEvent(ABTGlobalEvents.INSERT_REFERENCE));
+                            dispatchEvent(new CustomEvent(abtGlobalEvents.INSERT_REFERENCE));
                         }}
                         onMouseOver={this.createTooltip.bind(this)}
                         onMouseLeave={this.destroyTooltip}
@@ -406,52 +407,8 @@ class ReferenceList extends React.Component<{}, State> {
                     }
                 </div>
             </div>
-        )
+        );
     }
-}
-
-interface CardProps extends React.HTMLProps<HTMLDivElement> {
-    dragStart()
-    dragOver()
-    dragLeave()
-    drop()
-    onClick()
-    num: number
-    isSelected: number[]
-    html: string
-}
-
-const Card = (props: CardProps) => {
-
-    const style: React.CSSProperties = {
-        borderBottom: '1px solid #E5E5E5',
-        padding: 5,
-        cursor: 'pointer',
-    }
-
-    const { dragStart, dragOver, dragLeave,
-        onClick, drop, num, html, isSelected } = props;
-
-    return (
-        <div
-            draggable={true}
-            onDragStart={dragStart}
-            onDragOver={dragOver}
-            onDragLeave={dragLeave}
-            onDrop={drop}
-            onClick={onClick}
-            data-num={num}
-            style={
-                isSelected.indexOf(num) === -1
-                ? style
-                : Object.assign({}, style, {
-                    backgroundColor: 'rgba(243, 255, 62, 0.2)',
-                    textShadow: '0px 0px 0.1px',
-                })}>
-            <strong children={`${num+1}. `} />
-            <span style={{pointerEvents: 'none'}} dangerouslySetInnerHTML={{ __html: html }} data-num={num} />
-        </div>
-    )
 }
 
 function generateTooltip(text: string): HTMLDivElement {
@@ -473,9 +430,3 @@ function generateTooltip(text: string): HTMLDivElement {
 
     return container;
 }
-
-
-ReactDOM.render(
-    <ReferenceList />,
-    document.getElementById('abt-reflist')
-);

@@ -1,5 +1,10 @@
 # Changelog
 
+### 3.1.2
+- Fix bug that caused the editor button to appear twice on pages.
+- Lay groundwork for full plugin translation / localization.
+- Add 60 individual unit tests to ensure plugin works properly now, tomorrow.. always.
+
 ### 3.1.1
 - **Shortcodes are now fully depreciated.**
 - Fix issue causing reference list to not load on pages.

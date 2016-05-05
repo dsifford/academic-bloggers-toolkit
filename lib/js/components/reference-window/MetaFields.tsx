@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { FieldMappings } from '../../utils/Constants';
-import { ReferenceWindowEvents as LocalEvents } from '../../utils/Constants';
+import { fieldMappings } from '../../utils/Constants';
+import { referenceWindowEvents as LocalEvents } from '../../utils/Constants';
 
 
 interface MetaFieldProps {
@@ -12,7 +12,7 @@ interface MetaFieldProps {
 
 export class MetaFields extends React.Component<MetaFieldProps,{}> {
 
-    public fieldMappings: ABT.FieldMappings = FieldMappings;
+    public fieldMappings: ABT.FieldMappings = fieldMappings;
 
     constructor(props) {
         super(props);

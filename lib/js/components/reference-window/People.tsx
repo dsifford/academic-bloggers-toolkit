@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { ReferenceWindowEvents as LocalEvents, FieldMappings } from '../../utils/Constants';
+import { referenceWindowEvents as LocalEvents, fieldMappings } from '../../utils/Constants';
 
 
 interface PeopleProps {
@@ -10,7 +10,7 @@ interface PeopleProps {
 
 export class People extends React.Component<PeopleProps,{}> {
 
-    public fieldMaps: ABT.FieldMappings = FieldMappings;
+    public fieldMaps: ABT.FieldMappings = fieldMappings;
 
     constructor(props) {
         super(props);
