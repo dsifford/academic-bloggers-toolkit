@@ -1,5 +1,11 @@
 # Changelog
 
+### 3.1.3
+- Fix bug that caused peer review data to not save at times.
+- Fix bug that broke peer review image upload.
+- Fix bug that caused an extra space to be inserted in peer review content boxes.
+- Fix issue causing the peer review content boxes to not be full-width.
+
 ### 3.1.2
 - Fix bug that caused the editor button to appear twice on pages.
 - Lay groundwork for full plugin translation / localization.
