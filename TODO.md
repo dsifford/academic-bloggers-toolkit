@@ -1,3 +1,0 @@
-- [x] create `Entrypoint.js` structure so that tests don't crash
-- [x] finish tests
-- [ ] Fix "multiple button" bug on pages
