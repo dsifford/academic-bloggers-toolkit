@@ -4,7 +4,7 @@ Donate link: https://cash.me/$dsifford
 Tags: academic, pmid, doi, peer-review, pubmed, citation, bibliography, reference
 Requires at least: 4.2.2
 Tested up to: 4.5
-Stable tag: 3.1.2
+Stable tag: 3.1.3
 License: GPL3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -67,6 +67,12 @@ Yikes! I'm sorry about that. Please report all issues on the Academic Blogger's 
 4. Demo of desktop citation tooltips.
 
 == Changelog ==
+
+= 3.1.3 =
+* Fix bug that caused peer review data to not save at times.
+* Fix bug that broke peer review image upload.
+* Fix bug that caused an extra space to be inserted in peer review content boxes.
+* Fix issue causing the peer review content boxes to not be full-width.
 
 = 3.1.2 =
 * Fix bug that caused the editor button to appear twice on pages.
@@ -218,6 +224,9 @@ A special thanks to @metallikat36 for the great suggestions that led directly to
 * Initial stable release.
 
 == Upgrade Notice ==
+
+= 3.1.3 =
+Bugfixes
 
 = 3.1.1 =
 Bugfixes and performance improvements.

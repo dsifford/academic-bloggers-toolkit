@@ -87,15 +87,15 @@ class ABT_Backend {
         $meta_fields = unserialize(get_post_meta($post->ID, '_abt-meta', true));
 
         if (!empty($meta_fields['peer_review'])) {
-            for ($i = 1; $i < 4; ++$i) {
-                $meta_fields['peer_review'][$i]['response']['content'] =
-                    $meta_fields['peer_review'][$i]['response']['content'] === ''
-                    ? ''
-                    : preg_replace('/(<br>)|(<br \/>)|(<p>)|(<\/p>)/', "\r", $meta_fields['peer_review'][$i]['response']['content']);
-                $meta_fields['peer_review'][$i]['review']['content'] =
-                    $meta_fields['peer_review'][$i]['review']['content'] === ''
-                    ? ''
-                    : preg_replace('/(<br>)|(<br \/>)|(<p>)|(<\/p>)/', "\r", $meta_fields['peer_review'][$i]['review']['content']);
+            for ($i = 1; $i < 4; $i++) {
+                if (!empty($meta_fields['peer_review'][$i]['response']['content'])) {
+                    $replaced = substr($meta_fields['peer_review'][$i]['response']['content'], 3);
+                    $meta_fields['peer_review'][$i]['response']['content'] = preg_replace('/(<br>)|(<br \/>)|(<p>)|(<\/p>)/', "\r", $replaced);
+                }
+                if (!empty($meta_fields['peer_review'][$i]['review']['content'])) {
+                    $replaced = substr($meta_fields['peer_review'][$i]['review']['content'], 3);
+                    $meta_fields['peer_review'][$i]['review']['content'] = preg_replace('/(<br>)|(<br \/>)|(<p>)|(<\/p>)/', "\r", $replaced);
+                }
             }
             wp_localize_script('abt-PR-metabox', 'ABT_PR_Metabox_Data', $meta_fields['peer_review']);
         } else {
@@ -221,7 +221,24 @@ class ABT_Backend {
         $new_meta = unserialize(get_post_meta($post_id, '_abt-meta', true));
 
         if (empty($new_meta['peer_review'])) {
-            $new_meta['peer_review'] = array();
+            $new_meta['peer_review'] = array(
+                '1' => array(
+                    'heading' => '',
+                    'response' => array(),
+                    'review' => array(),
+                ),
+                '2' => array(
+                    'heading' => '',
+                    'response' => array(),
+                    'review' => array(),
+                ),
+                '3' => array(
+                    'heading' => '',
+                    'response' => array(),
+                    'review' => array(),
+                ),
+                'selection' => '',
+            );
         }
 
         // Begin Saving Meta Variables
