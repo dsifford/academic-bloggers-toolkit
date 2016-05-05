@@ -1,5 +1,5 @@
 
-declare var DocumentTouch, ABT_Options: ABT.ABT_Options;
+declare var DocumentTouch, ABT_Options: ABT.ABTOptions;
 
 
 namespace ABT_Frontend {
@@ -7,13 +7,13 @@ namespace ABT_Frontend {
 
     export class Accordion {
 
-        private _headings;
+        private headings;
 
         constructor() {
-            this._headings = document.getElementsByClassName('abt_PR_heading');
+            this.headings = document.getElementsByClassName('abt_PR_heading');
 
-            for (let i = 0; i < this._headings.length; i++) {
-                let currentHeading = this._headings[i];
+            for (let i = 0; i < this.headings.length; i++) {
+                let currentHeading = this.headings[i];
                 let reviewContent = (currentHeading.nextElementSibling as HTMLDivElement);
 
                 reviewContent.style.display = 'none';
@@ -27,7 +27,7 @@ namespace ABT_Frontend {
             let targetContent = ((e.target as HTMLElement).nextSibling as HTMLDivElement);
 
             // If targetContent already visible, hide it and exit
-            if (targetContent.style.display != 'none') {
+            if (targetContent.style.display !== 'none') {
                 targetContent.style.display = 'none';
                 return;
             }
@@ -38,7 +38,7 @@ namespace ABT_Frontend {
 
                 let currentElement = accordionChildren[i] as HTMLElement;
 
-                if (currentElement.tagName != 'DIV') { continue; }
+                if (currentElement.tagName !== 'DIV') { continue; }
 
                 if (currentElement.previousSibling === (e.target as HTMLElement)) {
                     currentElement.style.display = '';
@@ -99,7 +99,7 @@ namespace ABT_Frontend {
 
 
         private _isTouchDevice(): boolean {
-            return true == ("ontouchstart" in window || (<any>window).DocumentTouch && document instanceof DocumentTouch);
+            return true === ('ontouchstart' in window || (window as any).DocumentTouch && document instanceof DocumentTouch);
         }
 
 
@@ -134,7 +134,7 @@ namespace ABT_Frontend {
 
                 tooltip.style.left = '0';
                 tooltip.style.right = '0';
-                tooltip.style.maxWidth = '90%'
+                tooltip.style.maxWidth = '90%';
 
                 touchContainer.appendChild(closeButton);
                 tooltip.appendChild(touchContainer);
@@ -221,7 +221,7 @@ namespace ABT_Frontend {
 
 
 
-if (document.readyState != 'loading') {
+if (document.readyState !== 'loading') {
     frontendJS();
 } else {
     document.addEventListener('DOMContentLoaded', frontendJS);

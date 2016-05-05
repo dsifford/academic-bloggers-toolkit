@@ -3,7 +3,7 @@
  * Object containing event types that are shared globally.
  * @type {Object}
  */
-export const ABTGlobalEvents = {
+export const abtGlobalEvents = {
     REFERENCE_ADDED: 'REFERENCE_ADDED',
     TINYMCE_READY: 'TINYMCE_READY',
     INSERT_REFERENCE: 'INSERT_REFERENCE',
@@ -13,7 +13,7 @@ export const ABTGlobalEvents = {
  * Object containing event types that are used in the ReferenceWindow component.
  * @type {Object}
  */
-export const ReferenceWindowEvents = {
+export const referenceWindowEvents = {
     'IDENTIFIER_FIELD_CHANGE': 'IDENTIFIER_FIELD_CHANGE',
     'PUBMED_DATA_SUBMIT': 'PUBMED_DATA_SUBMIT',
     'TOGGLE_MANUAL': 'TOGGLE_MANUAL',
@@ -52,7 +52,7 @@ export const ReferenceWindowEvents = {
  *
  * @type {Object}
  */
-export const ManualDataObj: CSL.Data = {
+export const manualDataObj: CSL.Data = {
     id: 0,
     type: 'article-journal',
     accessed: '',      /** NOTE: This requires cleaning prior to CSL */
@@ -101,7 +101,7 @@ export const ManualDataObj: CSL.Data = {
     version: '',
     volume: '',
     'year-suffix': '',
-}
+};
 
 type CiteTypeArray = { label: string, value: CSL.CitationType, inUse: boolean }[];
 
@@ -110,43 +110,43 @@ type CiteTypeArray = { label: string, value: CSL.CitationType, inUse: boolean }[
  * Array of objects used to render option groups for select boxes.
  * @type {CiteTypeArray}
  */
-export const CitationTypeArray: CiteTypeArray = [
-    { label: 'Bill', value: 'bill', inUse: true },
-    { label: 'Book', value: 'book', inUse: true },
-    { label: 'Book Section', value: 'chapter', inUse: true },
-    { label: 'Case', value: 'legal_case', inUse: true },
-    { label: 'Conference Proceeding', value: 'paper-conference', inUse: true },
-    { label: 'Encyclopedia Entry', value: 'entry-encyclopedia', inUse: true },
-    { label: 'Film', value: 'motion_picture', inUse: true },
-    { label: 'Hearing', value: 'speech', inUse: true },
-    { label: 'Journal Article', value: 'article-journal', inUse: true },
-    { label: 'Magazine Article', value: 'article-magazine', inUse: true },
-    { label: 'Newspaper Article', value: 'article-newspaper', inUse: true },
-    { label: 'Patent', value: 'patent', inUse: true },
-    { label: 'Report', value: 'report', inUse: true },
-    { label: 'Statute', value: 'legislation', inUse: true },
-    { label: 'Thesis', value: 'thesis', inUse: true },
-    { label: 'Television Broadcast', value: 'broadcast', inUse: true },
-    { label: 'Web Page', value: 'webpage', inUse: true },
+export const citationTypeArray: CiteTypeArray = [
+    { label: 'Bill', value: 'bill', inUse: true, },
+    { label: 'Book', value: 'book', inUse: true, },
+    { label: 'Book Section', value: 'chapter', inUse: true, },
+    { label: 'Case', value: 'legal_case', inUse: true, },
+    { label: 'Conference Proceeding', value: 'paper-conference', inUse: true, },
+    { label: 'Encyclopedia Entry', value: 'entry-encyclopedia', inUse: true, },
+    { label: 'Film', value: 'motion_picture', inUse: true, },
+    { label: 'Hearing', value: 'speech', inUse: true, },
+    { label: 'Journal Article', value: 'article-journal', inUse: true, },
+    { label: 'Magazine Article', value: 'article-magazine', inUse: true, },
+    { label: 'Newspaper Article', value: 'article-newspaper', inUse: true, },
+    { label: 'Patent', value: 'patent', inUse: true, },
+    { label: 'Report', value: 'report', inUse: true, },
+    { label: 'Statute', value: 'legislation', inUse: true, },
+    { label: 'Thesis', value: 'thesis', inUse: true, },
+    { label: 'Television Broadcast', value: 'broadcast', inUse: true, },
+    { label: 'Web Page', value: 'webpage', inUse: true, },
 
-    { label: 'Book - Review', value: 'review-book', inUse: false },
-    { label: 'Dataset', value: 'dataset', inUse: false },
-    { label: 'Entry - Generic', value: 'entry', inUse: false },
-    { label: 'Entry - Dictionary', value: 'entry-dictionary', inUse: false },
-    { label: 'Figure', value: 'figure', inUse: false },
-    { label: 'Generic', value: 'article', inUse: false },
-    { label: 'Graphic', value: 'graphic', inUse: false },
-    { label: 'Interview', value: 'interview', inUse: false },
-    { label: 'Manuscript', value: 'manuscript', inUse: false },
-    { label: 'Map', value: 'map', inUse: false },
-    { label: 'Music - Musical Score', value: 'musical_score', inUse: false },
-    { label: 'Music - Song', value: 'song', inUse: false },
-    { label: 'Pamphlet', value: 'pamphlet', inUse: false },
-    { label: 'Personal Communication', value: 'personal_communication', inUse: false },
-    { label: 'Post', value: 'post', inUse: false },
-    { label: 'Review', value: 'review', inUse: false },
-    { label: 'Treaty', value: 'treaty', inUse: false },
-    { label: 'Website - Blog', value: 'post-weblog', inUse: false },
+    { label: 'Book - Review', value: 'review-book', inUse: false, },
+    { label: 'Dataset', value: 'dataset', inUse: false, },
+    { label: 'Entry - Generic', value: 'entry', inUse: false, },
+    { label: 'Entry - Dictionary', value: 'entry-dictionary', inUse: false, },
+    { label: 'Figure', value: 'figure', inUse: false, },
+    { label: 'Generic', value: 'article', inUse: false, },
+    { label: 'Graphic', value: 'graphic', inUse: false, },
+    { label: 'Interview', value: 'interview', inUse: false, },
+    { label: 'Manuscript', value: 'manuscript', inUse: false, },
+    { label: 'Map', value: 'map', inUse: false, },
+    { label: 'Music - Musical Score', value: 'musical_score', inUse: false, },
+    { label: 'Music - Song', value: 'song', inUse: false, },
+    { label: 'Pamphlet', value: 'pamphlet', inUse: false, },
+    { label: 'Personal Communication', value: 'personal_communication', inUse: false, },
+    { label: 'Post', value: 'post', inUse: false, },
+    { label: 'Review', value: 'review', inUse: false, },
+    { label: 'Treaty', value: 'treaty', inUse: false, },
+    { label: 'Website - Blog', value: 'post-weblog', inUse: false, },
 ];
 
 
@@ -155,7 +155,7 @@ export const CitationTypeArray: CiteTypeArray = [
  * @note Date is in the form of `YYYY/MM/DD` or `YYYY/MM` or `YYYY` -- It can not end in `/`
  * @type {ABT.FieldMappings}
  */
-export const FieldMappings: ABT.FieldMappings = {
+export const fieldMappings: ABT.FieldMappings = {
     bill: {
         title: 'Bill',
         fields: [
@@ -298,7 +298,7 @@ export const FieldMappings: ABT.FieldMappings = {
             { value: 'accessed', label: 'Date Accessed', required: false, pattern: '[0-9]{4}(\/[0-9]{2})?(\/[0-9]{2})?(?!\/)$', placeholder: 'YYYY/MM/DD or YYYY/MM or YYYY', },
         ],
         people: [
-            { type: 'author', label: 'Scriptwriter'},
+            { type: 'author', label: 'Scriptwriter', },
             { type: 'director', label: 'Director', },
             { type: 'editor', label: 'Producer', },
         ],
@@ -443,4 +443,70 @@ export const FieldMappings: ABT.FieldMappings = {
             { type: 'author', label: 'Author', },
         ],
     },
-}
+};
+
+export const abtPRFieldMapping: ABT.PRMetaState = {
+    selection: '0',
+    1: {
+        heading: {
+            value: '',
+        },
+        response: {
+            background: '',
+            content: '',
+            image: '',
+            name: '',
+            twitter: '',
+        },
+        review: {
+            background: '',
+            content: '',
+            image: '',
+            name: '',
+            twitter: '',
+        },
+    },
+    2: {
+        heading: {
+            value: '',
+        },
+        response: {
+            background: '',
+            content: '',
+            image: '',
+            name: '',
+            twitter: '',
+        },
+        review: {
+            background: '',
+            content: '',
+            image: '',
+            name: '',
+            twitter: '',
+        },
+    },
+    3: {
+        heading: {
+            value: '',
+        },
+        response: {
+            background: '',
+            content: '',
+            image: '',
+            name: '',
+            twitter: '',
+        },
+        review: {
+            background: '',
+            content: '',
+            image: '',
+            name: '',
+            twitter: '',
+        },
+    },
+    hidden: {
+        1: true,
+        2: true,
+        3: true,
+    },
+};

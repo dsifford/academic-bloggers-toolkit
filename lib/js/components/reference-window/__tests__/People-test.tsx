@@ -1,13 +1,13 @@
 jest.unmock('../People');
 
 import * as React from 'react';
-import { mount } from 'enzyme';
+import { mount, } from 'enzyme';
 import * as sinon from 'sinon';
-import { People } from '../People';
+import { People, } from '../People';
 
 const setup = (
     citationType: CSL.CitationType = 'article-journal',
-    people: CSL.TypedPerson[] = [{type: 'author', family: 'Doe', given: 'John'}]
+    people: CSL.TypedPerson[] = [{type: 'author', family: 'Doe', given: 'John', }, ]
 ) => {
     const eventHandler = sinon.spy();
     const component = mount(
@@ -19,14 +19,14 @@ const setup = (
         addButton: component.find('#add-person'),
         removeButton: component.find('#remove-button-0'),
         select: component.find('select'),
-    }
-}
+    };
+};
 
 describe('<People />', () => {
 
     it('should dispatch the ADD_PERSON event when add button is clicked', () => {
 
-        const { addButton, eventHandler } = setup();
+        const { addButton, eventHandler, } = setup();
 
         addButton.simulate('click');
         addButton.simulate('click');
@@ -41,7 +41,7 @@ describe('<People />', () => {
 
     it('should dispatch the REMOVE_PERSON event when remove button is clicked',  () => {
 
-        const { removeButton, eventHandler } = setup();
+        const { removeButton, eventHandler, } = setup();
 
         removeButton.simulate('click');
 
@@ -52,7 +52,7 @@ describe('<People />', () => {
 
     it('should dispatch the PERSON_CHANGE event appropriately when input fields are changed', () => {
 
-        const { component, eventHandler } = setup();
+        const { component, eventHandler, } = setup();
 
         const firstNameInput = component.find('#person-given-0');
         const lastNameInput = component.find('#person-family-0');
@@ -64,30 +64,30 @@ describe('<People />', () => {
         expect(eventHandler.firstCall.args[0].type).toBe('PERSON_CHANGE');
         expect(eventHandler.secondCall.args[0].type).toBe('PERSON_CHANGE');
 
-        expect(eventHandler.firstCall.args[0].detail).toEqual({ index: 0, field: 'given', value: 'John' });
-        expect(eventHandler.secondCall.args[0].detail).toEqual({ index: 0, field: 'family', value: 'Doe' });
+        expect(eventHandler.firstCall.args[0].detail).toEqual({ index: 0, field: 'given', value: 'John', });
+        expect(eventHandler.secondCall.args[0].detail).toEqual({ index: 0, field: 'family', value: 'Doe', });
 
     });
 
     it('should dispatch the PERSON_CHANGE event appropriately when select fields are changed', () => {
 
-        const { component, eventHandler } = setup();
+        const { component, eventHandler, } = setup();
         const select = component.find('#peopleSelect-0');
 
         select.simulate('change');
 
         expect(eventHandler.callCount).toBe(1);
         expect(eventHandler.firstCall.args[0].type).toBe('PERSON_CHANGE');
-        expect(eventHandler.firstCall.args[0].detail).toEqual({ index: 0, field: 'type', value: 'author' });
+        expect(eventHandler.firstCall.args[0].detail).toEqual({ index: 0, field: 'type', value: 'author', });
 
     });
 
     it('should display the correct label for AUTHOR in varying types', () => {
 
-        const { select, component } = setup('bill');
+        const { select, component, } = setup('bill');
         expect(select.text()).toBe('Sponsor');
 
-        component.setProps({ citationType: 'broadcast' });
+        component.setProps({ citationType: 'broadcast', });
         expect(component.find('#peopleSelect-0').text()).toBe('Producer');
 
     });

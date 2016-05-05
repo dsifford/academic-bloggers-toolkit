@@ -1,6 +1,6 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import Modal from '../../utils/Modal';
+import { Modal, } from '../../utils/Modal';
 import { PubmedQuery, } from '../../utils/PubmedAPI';
 import { ResultList, } from './ResultList';
 import { Paginate, } from './Paginate';

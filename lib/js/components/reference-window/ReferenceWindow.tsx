@@ -1,24 +1,24 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import Modal from '../../utils/Modal';
-import { ReferenceWindowEvents as LocalEvents, ManualDataObj } from '../../utils/Constants';
-import { toTitleCase } from '../../utils/HelperFunctions';
+import { Modal, } from '../../utils/Modal';
+import { referenceWindowEvents as LocalEvents, manualDataObj, } from '../../utils/Constants';
+import { toTitleCase, } from '../../utils/HelperFunctions';
 const citeStyles = require('../../../../vendor/citationstyles');
 
-import { ManualEntryContainer } from './ManualEntryContainer';
+import { ManualEntryContainer, } from './ManualEntryContainer';
 
 interface DOMEvent extends UIEvent {
-    target: HTMLInputElement
+    target: HTMLInputElement;
 }
 
 interface State {
-    identifierList: string
-    citationStyle: string
-    includeLink: boolean
-    attachInline: boolean
-    addManually: boolean
-    people: CSL.TypedPerson[]
-    manualData: CSL.Data
+    identifierList: string;
+    citationStyle: string;
+    includeLink: boolean;
+    attachInline: boolean;
+    addManually: boolean;
+    people: CSL.TypedPerson[];
+    manualData: CSL.Data;
 }
 
 
@@ -37,8 +37,8 @@ class ReferenceWindow extends React.Component<{}, State> {
             people: [
                 { given: '', family: '', type: 'author', },
             ],
-            manualData: ManualDataObj,
-        }
+            manualData: manualDataObj,
+        };
     }
 
     componentDidMount() {
@@ -52,7 +52,7 @@ class ReferenceWindow extends React.Component<{}, State> {
     handleSubmit(e: Event) {
         e.preventDefault();
         let wm = top.tinyMCE.activeEditor.windowManager;
-        wm.setParams({ data: this.state });
+        wm.setParams({ data: this.state, });
         wm.close();
     }
 
@@ -61,7 +61,7 @@ class ReferenceWindow extends React.Component<{}, State> {
             case LocalEvents.IDENTIFIER_FIELD_CHANGE: {
                 this.setState(
                     Object.assign({}, this.state, {
-                        identifierList: e.detail
+                        identifierList: e.detail,
                     })
                 );
                 return;
@@ -76,7 +76,7 @@ class ReferenceWindow extends React.Component<{}, State> {
                     newList = combinedInput.join(',');
                 }
 
-                this.setState(Object.assign({}, this.state, { identifierList: newList }));
+                this.setState(Object.assign({}, this.state, { identifierList: newList, }));
                 return;
             }
             case LocalEvents.TOGGLE_MANUAL: {
@@ -90,7 +90,7 @@ class ReferenceWindow extends React.Component<{}, State> {
             case LocalEvents.TOGGLE_INCLUDE_LINK: {
                 this.setState(
                     Object.assign({}, this.state, {
-                        includeLink: !this.state.includeLink
+                        includeLink: !this.state.includeLink,
                     })
                 );
                 return;
@@ -111,38 +111,38 @@ class ReferenceWindow extends React.Component<{}, State> {
                     Object.assign({}, this.state, {
                         people: [
                             ...this.state.people.slice(0, e.detail),
-                            ...this.state.people.slice(e.detail + 1)
-                        ]
+                            ...this.state.people.slice(e.detail + 1),
+                        ],
                     })
                 );
                 return;
             }
             case LocalEvents.PERSON_CHANGE: {
-                let people = [...this.state.people];
+                let people = [...this.state.people, ];
                 people[e.detail.index][e.detail.field] = e.detail.value;
                 this.setState(
                     Object.assign({}, this.state, {
-                        people
+                        people,
                     })
                 );
                 return;
             }
             case LocalEvents.TOGGLE_INLINE_ATTACHMENT: {
                 this.setState(
-                    Object.assign({}, this.state, { attachInline: !this.state.attachInline })
+                    Object.assign({}, this.state, { attachInline: !this.state.attachInline, })
                 );
                 return;
             }
             case LocalEvents.CHANGE_CITATION_STYLE: {
                 this.setState(
-                    Object.assign({}, this.state, { citationStyle: e.detail })
+                    Object.assign({}, this.state, { citationStyle: e.detail, })
                 );
                 return;
             }
             case LocalEvents.CHANGE_CITATION_TYPE: {
                 this.setState(
                     Object.assign({}, this.state, {
-                        manualData: Object.assign({}, ManualDataObj, { type: e.detail })
+                        manualData: Object.assign({}, manualDataObj, { type: e.detail, }),
                     })
                 );
                 return;
@@ -152,7 +152,7 @@ class ReferenceWindow extends React.Component<{}, State> {
                     Object.assign({}, this.state, {
                         manualData: Object.assign({}, this.state.manualData, {
                             [e.detail.field]: e.detail.value,
-                        })
+                        }),
                     })
                 );
                 return;
@@ -191,34 +191,34 @@ class ReferenceWindow extends React.Component<{}, State> {
 
 
 interface IdentifierInputProps {
-    identifierList: string
-    eventHandler: Function
+    identifierList: string;
+    eventHandler: Function;
 }
 
-class IdentifierInput extends React.Component<IdentifierInputProps,{}> {
+class IdentifierInput extends React.Component<IdentifierInputProps, {}> {
 
     refs: {
         [key: string]: Element
         identifierField: HTMLInputElement
-    }
+    };
 
     constructor(props) {
         super(props);
     }
 
     componentDidMount() {
-        (ReactDOM.findDOMNode(this.refs.identifierField) as HTMLInputElement).focus()
+        (ReactDOM.findDOMNode(this.refs.identifierField) as HTMLInputElement).focus();
     }
 
     handleChange(e: DOMEvent) {
         this.props.eventHandler(
-            new CustomEvent(LocalEvents.IDENTIFIER_FIELD_CHANGE, { detail: e.target.value })
+            new CustomEvent(LocalEvents.IDENTIFIER_FIELD_CHANGE, { detail: e.target.value, })
         );
     }
 
     render() {
         return(
-            <div className='row' style={{display: 'flex', alignItems: 'center'}}>
+            <div className='row' style={{ display: 'flex', alignItems: 'center', }}>
                 <div style={{ padding: '5px', }}>
                     <label
                         htmlFor='identifierList'
@@ -233,18 +233,18 @@ class IdentifierInput extends React.Component<IdentifierInputProps,{}> {
                     required={true}
                     value={this.props.identifierList} />
             </div>
-        )
+        );
     }
 }
 
 interface RefOptionsProps {
-    attachInline: boolean
-    includeLink: boolean
-    citationStyle: string
-    eventHandler: Function
+    attachInline: boolean;
+    includeLink: boolean;
+    citationStyle: string;
+    eventHandler: Function;
 }
 
-class RefOptions extends React.Component<RefOptionsProps,{}> {
+class RefOptions extends React.Component<RefOptionsProps, {}> {
 
     constructor(props) {
         super(props);
@@ -253,7 +253,7 @@ class RefOptions extends React.Component<RefOptionsProps,{}> {
     handleSelect(e: DOMEvent) {
         this.props.eventHandler(
             new CustomEvent(LocalEvents.CHANGE_CITATION_STYLE, {
-                detail: e.target.value
+                detail: e.target.value,
             })
         );
     }
@@ -311,22 +311,22 @@ class RefOptions extends React.Component<RefOptionsProps,{}> {
                             style={{ padding: '5px', whiteSpace: 'nowrap', }}
                             children='Include Link'/>
                         <input
-                            type="checkbox"
-                            id="includeLink"
+                            type='checkbox'
+                            id='includeLink'
                             checked={this.props.includeLink}
                             onChange={this.handleLinkToggle.bind(this)} />
                     </div>
                 </div>
             </div>
-        )
+        );
     }
 }
 
 
 
 interface ActionButtonProps {
-    addManually: boolean
-    eventHandler: Function
+    addManually: boolean;
+    eventHandler: Function;
 }
 
 class ActionButtons extends React.Component<ActionButtonProps, {}> {
@@ -342,11 +342,11 @@ class ActionButtons extends React.Component<ActionButtonProps, {}> {
             url: wm.windows[0].settings.params.baseUrl + 'pubmed-window.html',
             width: 600,
             height: 100,
-            onsubmit: (e: any) => {
+            onsubmit: (e) => {
                 this.props.eventHandler(
-                    new CustomEvent(LocalEvents.PUBMED_DATA_SUBMIT, { detail: e.target.data.pmid })
+                    new CustomEvent(LocalEvents.PUBMED_DATA_SUBMIT, { detail: e.target.data.pmid, })
                 );
-            }
+            },
         });
     }
 
@@ -366,7 +366,7 @@ class ActionButtons extends React.Component<ActionButtonProps, {}> {
             }}>
                 <input
                     id='addManually'
-                    style={{ margin: '0 5px' }}
+                    style={{ margin: '0 5px', }}
                     onClick={this.addManuallyClick.bind(this)}
                     type='button'
                     className='btn'
@@ -376,7 +376,7 @@ class ActionButtons extends React.Component<ActionButtonProps, {}> {
                         : 'Add Reference with Identifier'} />
                 <input
                     id='searchPubmed'
-                    style={{ margin: '0 5px' }}
+                    style={{ margin: '0 5px', }}
                     onClick={this.searchPubmedClick.bind(this)}
                     type='button'
                     className='btn'
@@ -386,12 +386,12 @@ class ActionButtons extends React.Component<ActionButtonProps, {}> {
                     height: 25, margin: '0 15px 0 10px',
                 }} />
                 <input
-                    style={{ flexGrow: 1, margin: '0 15px 0 0' }}
+                    style={{ flexGrow: 1, margin: '0 15px 0 0', }}
                     type='submit'
                     className='submit-btn'
                     value='Insert Reference' />
             </div>
-        )
+        );
     }
 
 }
@@ -401,4 +401,4 @@ class ActionButtons extends React.Component<ActionButtonProps, {}> {
 ReactDOM.render(
   <ReferenceWindow />,
   document.getElementById('main-container')
-)
+);

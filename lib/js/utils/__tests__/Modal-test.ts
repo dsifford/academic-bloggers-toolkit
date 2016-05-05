@@ -1,6 +1,6 @@
 jest.unmock('../Modal');
 
-import Modal from '../Modal';
+import { Modal } from '../Modal';
 
 const setup = (
     title: string
@@ -13,7 +13,7 @@ const setup = (
             </div>
         </div>
     `;
-}
+};
 
 describe('Modal', () => {
     it('should render', () => {
@@ -25,4 +25,7 @@ describe('Modal', () => {
         const modal = new Modal('test');
         modal.resize();
     });
-})
+    it('something', () => {
+        setup('');
+    });
+});

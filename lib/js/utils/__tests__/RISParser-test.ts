@@ -1,7 +1,7 @@
 jest.unmock('../RISParser');
 jest.unmock('../CSLFieldProcessors');
 
-import { RISParser } from '../RISParser';
+import { RISParser, } from '../RISParser';
 
 const testCases = [
 `
@@ -109,14 +109,14 @@ describe('RISParser Tests', () => {
             'container-title': 'The Skeptics Guide to Emergency Medicine',
             title: 'ARISE Up, ARISE Up (EGDT vs. Usual Care for Sepsis)',
             author: [
-                { family: 'Milne', given: 'W. Kenneth' },
-                { family: 'Upadhye', given: 'Suneel' },
+                { family: 'Milne', given: 'W. Kenneth', },
+                { family: 'Upadhye', given: 'Suneel', },
             ],
             issued: {
-                'date-parts': [[ '2014', ], ]
+                'date-parts': [[ '2014', ], ],
             },
             URL: 'http://thesgem.com/2014/10/sgem92-arise-up-arise-up-egdt-vs-usual-care-for-sepsis/',
-        }];
+        }, ];
         expect(parser.parse()).toEqual(expected);
     });
 
@@ -128,17 +128,17 @@ describe('RISParser Tests', () => {
             'container-title': 'The Winnower',
             title: 'The quality checklists for medical education blogs and podcasts',
             author: [
-                { family: 'Colmers', given: 'Isabelle N' },
-                { family: 'Paterson', given: 'Quinten S' },
-                { family: 'Lin', given: 'Michelle' },
-                { family: 'Thoma', given: 'Brent' },
-                { family: 'Chan', given: 'Teresa M' },
+                { family: 'Colmers', given: 'Isabelle N', },
+                { family: 'Paterson', given: 'Quinten S', },
+                { family: 'Lin', given: 'Michelle', },
+                { family: 'Thoma', given: 'Brent', },
+                { family: 'Chan', given: 'Teresa M', },
             ],
             issued: {
-                'date-parts': [['2015',],],
+                'date-parts': [['2015', ], ],
             },
             DOI: '10.15200/winn.144720.08769',
-        }];
+        }, ];
         expect(parser.parse()).toEqual(expected);
     });
 
@@ -149,16 +149,16 @@ describe('RISParser Tests', () => {
             type: 'book',
             title: 'Guide to Knowledge Translation Planning at CIHR: Integrated and End-of-Grant Approaches',
             author: [
-                { literal: 'Canadian Institutes of Health Research' },
-                { family: 'Stevens', given: 'James L' },
+                { literal: 'Canadian Institutes of Health Research', },
+                { family: 'Stevens', given: 'James L', },
             ],
             editor: [
-                { family: 'Doe', given: 'John M' },
-                { family: 'Jones', given: 'Sally P' },
+                { family: 'Doe', given: 'John M', },
+                { family: 'Jones', given: 'Sally P', },
             ],
             'container-title': 'CIHR Website',
             issued: {
-                'date-parts': [['2012',],],
+                'date-parts': [['2012', ], ],
             },
             publisher: 'Canadian Institute of Health Research',
             'publisher-place': 'Ottawa',
@@ -166,7 +166,7 @@ describe('RISParser Tests', () => {
             ISBN: '9781100205175',
             ISSN: '9781100205175',
             abstract: 'This guide outlines those elements that contribute to strong KT projects. It is intended to be used both bythose developing project proposals and by those who are assessing such proposals for the purposes of funding or partnership.',
-        }];
+        }, ];
         expect(parser.parse()).toEqual(expected);
     });
 
@@ -189,19 +189,19 @@ describe('RISParser Tests', () => {
             type: 'paper-conference',
             title: 'The title of the paper',
             editor: [
-                { family: 'Smith', given: 'John L' },
-                { family: 'Doe', given: 'Jane P' },
+                { family: 'Smith', given: 'John L', },
+                { family: 'Doe', given: 'Jane P', },
             ],
             translator: [
-                { family: 'Translator', given: 'Name A' },
-                { family: 'Translator', given: 'Name B' },
+                { family: 'Translator', given: 'Name A', },
+                { family: 'Translator', given: 'Name B', },
             ],
             issued: {
-                'date-parts': [['2011', '11', '05',],],
+                'date-parts': [['2011', '11', '05', ], ],
                 season: 'summer',
             },
             'event-date': {
-                'date-parts': [['2011', '11', '05',],],
+                'date-parts': [['2011', '11', '05', ], ],
                 season: 'summer',
             },
             keyword: 'Keyword 1',
@@ -229,7 +229,7 @@ describe('RISParser Tests', () => {
             volume: '1',
             abstract: 'The abstract',
             URL: 'www.google.com',
-        }];
+        }, ];
         expect(parser.parse()).toEqual(expected);
     });
 });

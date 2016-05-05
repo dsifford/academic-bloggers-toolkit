@@ -32,7 +32,7 @@ export class RISParser {
             let refObj = this.parseSingle(ref, i);
 
             if (typeof refObj === 'boolean') {
-                this.unsupportedRefs.push(i+1);
+                this.unsupportedRefs.push(i + 1);
                 return;
             }
             payload.push(refObj);
@@ -61,7 +61,7 @@ export class RISParser {
         payload.id = id;
         payload.type = RISParser.RISTypes[type];
         payload.issued = {
-            'date-parts': [[], ]
+            'date-parts': [[], ],
         };
 
         let pageHolder = {};
@@ -77,19 +77,19 @@ export class RISParser {
                 case 'A4':
                     payload.author =
                         !payload.author
-                        ? [processor.processName(val, 'RIS')]
+                        ? [processor.processName(val, 'RIS'), ]
                         : payload.author.concat(processor.processName(val, 'RIS'));
                     break;
                 case 'A2':
                 case 'ED':
                     payload.editor =
                         !payload.editor
-                        ? [processor.processName(val, 'RIS')]
+                        ? [processor.processName(val, 'RIS'), ]
                         : payload.editor.concat(processor.processName(val, 'RIS'));
                     break;
                 case 'A3':
                     if (typeof payload.translator === 'undefined') {
-                        payload.translator = [processor.processName(val, 'RIS')];
+                        payload.translator = [processor.processName(val, 'RIS'), ];
                     }
                     else {
                         payload.translator.push(processor.processName(val, 'RIS'));
@@ -124,8 +124,8 @@ export class RISParser {
                 case 'CN':
                     payload['call-number'] = val;
                     break;
-                case 'CY': // conference location, publish location, city of publisher (zotero)
-                    if (['paper-conference', 'speech'].indexOf(payload.type) > -1) {
+                case 'CY': // Conference location, publish location, city of publisher (zotero)
+                    if (['paper-conference', 'speech', ].indexOf(payload.type) > -1) {
                         payload['event-place'] = val;
                         break;
                     }
@@ -165,7 +165,7 @@ export class RISParser {
                 case 'JF':
                 case 'T2':
                     payload['container-title'] = val;
-                    if (['paper-conference', 'speech'].indexOf(payload.type) > -1) {
+                    if (['paper-conference', 'speech', ].indexOf(payload.type) > -1) {
                         payload.event = val;
                     }
                     break;
@@ -225,52 +225,52 @@ export class RISParser {
         ECHAP  : 'chapter',
         EJOUR  : 'article-journal',
         INPR   : 'article-journal',
-        ICOMM  : 'webpage',                 // perhaps post-weblog
+        ICOMM  : 'webpage',                 // Perhaps post-weblog
         JOUR   : 'article-journal',
         ELEC   : 'webpage',
-        GEN    : 'article',                 //'Generic',
-        ABST   : 'article',                 //'Abstract',
-        AGGR   : 'dataset',                 //'Aggregated Database',
-        ART    : 'graphic',                 //'Artwork',
-        ADVS   : 'broadcast',               //'Audiovisual Material',
-        BILL   : 'bill',                    //'Bill',
-        CASE   : 'legal_case',              //'Case',
-        CTLG   : 'article',                 //'Catalog',
-        CHART  : 'figure',                  //'Chart',
-        CLSWK  : 'musical_score',           //'Classical Work',
-        COMP   : 'article',                 //'Computer Program',
-        CPAPER : 'paper-conference',        //'Conference Paper',
-        CONF   : 'speech',                  //'Conference Proceeding',
-        DATA   : 'dataset',                 //'Dataset',
-        DICT   : 'entry-dictionary',        //'Dictionary',
-        ENCYC  : 'entry-encyclopedia',      //'Encyclopedia',
-        EQUA   : 'figure',                  //'Equation',
-        FIGURE : 'figure',                  //'Figure',
-        MPCT   : 'motion_picture',          //'Film or Broadcast',
-        JFULL  : 'article-journal',         //'Full Journal',
-        GOVDOC : 'legislation',             //'Government Document',
-        HEAR   : 'legal_case',              //'Hearing',
-        LEGAL  : 'legal_case',              //'Legal Rule',
-        MGZN   : 'article-magazine',        //'Magazine Article',
-        MANSCPT: 'manuscript',              //'Manuscript',
-        MAP    : 'map',                     //'Map',
-        MUSIC  : 'song',                    //'Music',
-        NEWS   : 'article-newspaper',       //'Newspaper Article',
-        DBASE  : 'dataset',                 //'Online Database',
-        MULTI  : 'graphic',                 //'Online Multimedia',
-        PAMP   : 'pamphlet',                //'Pamphlet',
-        PAT    : 'patent',                  //'Patent',
-        PCOMM  : 'personal_communication',  //'Personal Communication',
-        RPRT   : 'report',                  //'Report',
-        SLIDE  : 'figure',                  //'Slide',
-        SOUND  : 'song',                    //'Sound Recording',
-        STAND  : 'article',                 //'Standard',
-        STAT   : 'legislation',             //'Statute',
-        THES   : 'thesis',                  //'Thesis',
-        UNBILL : 'bill',                    //'Unenacted Bill',
-        UNPD   : 'article',                 //'Unpublished Work',
-        VIDEO  : 'broadcast',               //'Video Recording'
-    }
+        GEN    : 'article',                 // 'Generic',
+        ABST   : 'article',                 // 'Abstract',
+        AGGR   : 'dataset',                 // 'Aggregated Database',
+        ART    : 'graphic',                 // 'Artwork',
+        ADVS   : 'broadcast',               // 'Audiovisual Material',
+        BILL   : 'bill',                    // 'Bill',
+        CASE   : 'legal_case',              // 'Case',
+        CTLG   : 'article',                 // 'Catalog',
+        CHART  : 'figure',                  // 'Chart',
+        CLSWK  : 'musical_score',           // 'Classical Work',
+        COMP   : 'article',                 // 'Computer Program',
+        CPAPER : 'paper-conference',        // 'Conference Paper',
+        CONF   : 'speech',                  // 'Conference Proceeding',
+        DATA   : 'dataset',                 // 'Dataset',
+        DICT   : 'entry-dictionary',        // 'Dictionary',
+        ENCYC  : 'entry-encyclopedia',      // 'Encyclopedia',
+        EQUA   : 'figure',                  // 'Equation',
+        FIGURE : 'figure',                  // 'Figure',
+        MPCT   : 'motion_picture',          // 'Film or Broadcast',
+        JFULL  : 'article-journal',         // 'Full Journal',
+        GOVDOC : 'legislation',             // 'Government Document',
+        HEAR   : 'legal_case',              // 'Hearing',
+        LEGAL  : 'legal_case',              // 'Legal Rule',
+        MGZN   : 'article-magazine',        // 'Magazine Article',
+        MANSCPT: 'manuscript',              // 'Manuscript',
+        MAP    : 'map',                     // 'Map',
+        MUSIC  : 'song',                    // 'Music',
+        NEWS   : 'article-newspaper',       // 'Newspaper Article',
+        DBASE  : 'dataset',                 // 'Online Database',
+        MULTI  : 'graphic',                 // 'Online Multimedia',
+        PAMP   : 'pamphlet',                // 'Pamphlet',
+        PAT    : 'patent',                  // 'Patent',
+        PCOMM  : 'personal_communication',  // 'Personal Communication',
+        RPRT   : 'report',                  // 'Report',
+        SLIDE  : 'figure',                  // 'Slide',
+        SOUND  : 'song',                    // 'Sound Recording',
+        STAND  : 'article',                 // 'Standard',
+        STAT   : 'legislation',             // 'Statute',
+        THES   : 'thesis',                  // 'Thesis',
+        UNBILL : 'bill',                    // 'Unenacted Bill',
+        UNPD   : 'article',                 // 'Unpublished Work',
+        VIDEO  : 'broadcast',               // 'Video Recording'
+    };
 }
 
 

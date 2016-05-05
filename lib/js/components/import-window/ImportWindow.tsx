@@ -1,23 +1,23 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import Modal from '../../utils/Modal';
-import { RISParser } from '../../utils/RISParser';
+import { Modal, } from '../../utils/Modal';
+import { RISParser, } from '../../utils/RISParser';
 const citeStyles = require('../../../../vendor/citationstyles');
 
 
 interface DOMEvent extends React.UIEvent {
-    target: HTMLInputElement
+    target: HTMLInputElement;
 }
 
 interface State {
-    filename: string
-    payload: CSL.Data[]
-    format: string
-    links: boolean
+    filename: string;
+    payload: CSL.Data[];
+    format: string;
+    links: boolean;
 }
 
 interface Props {
-    wm: TinyMCE.WindowManager
+    wm: TinyMCE.WindowManager;
 }
 
 export class ImportWindow extends React.Component<Props, State> {
@@ -33,7 +33,7 @@ export class ImportWindow extends React.Component<Props, State> {
             payload: [],
             format: this.wm.windows[0].settings.params.preferredStyle || 'american-medical-association',
             links: true,
-        }
+        };
     }
 
     componentDidMount() {
@@ -48,6 +48,7 @@ export class ImportWindow extends React.Component<Props, State> {
         e.preventDefault();
         let reader = new FileReader();
         let file = e.target.files[0];
+        let filename = e.target.files[0].name;
 
         reader.onload = (upload: any) => {
             let parser = new RISParser(upload.target.result);
@@ -69,8 +70,8 @@ export class ImportWindow extends React.Component<Props, State> {
                 this.wm.alert(`The following references were unable to be processed: ${leftovers.join(', ')}`);
             }
 
-            this.setState(Object.assign({}, this.state, { payload, filename: e.target.files[0].name }));
-        }
+            this.setState(Object.assign({}, this.state, { payload, filename, }));
+        };
 
         reader.readAsText(file);
     }
@@ -93,7 +94,7 @@ export class ImportWindow extends React.Component<Props, State> {
 
     handleSubmit(e) {
         e.preventDefault();
-        this.wm.setParams({ data: this.state });
+        this.wm.setParams({ data: this.state, });
         this.wm.close();
     }
 
@@ -104,11 +105,11 @@ export class ImportWindow extends React.Component<Props, State> {
                 <div style={{ display: 'flex', alignItems: 'center', }}>
                     <label
                         htmlFor='citeformat'
-                        style={{ whiteSpace: 'nowrap', marginRight: 10 }}
+                        style={{ whiteSpace: 'nowrap', marginRight: 10, }}
                         children='Style'/>
                     <select
                         id='citeformat'
-                        style={{width: '100%'}}
+                        style={{ width: '100%', }}
                         onChange={this.handleChange.bind(this)}
                         value={this.state.format} >
                             {
@@ -133,7 +134,7 @@ export class ImportWindow extends React.Component<Props, State> {
                     <div style={{ display: 'flex', alignItems: 'center', flex: 1, }}>
                         <label className='uploadLabel'>
                             <input
-                                type="file"
+                                type='file'
                                 id='uploadField'
                                 required={true}
                                 onChange={this.handleFileUpload.bind(this)}
@@ -164,6 +165,6 @@ export class ImportWindow extends React.Component<Props, State> {
                     </div>
                 </div>
             </div>
-        )
+        );
     }
 }

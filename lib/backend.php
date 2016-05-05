@@ -135,7 +135,7 @@ class ABT_Backend {
         wp_enqueue_media();
         $abt_options = get_option('abt_options');
 
-        wp_enqueue_script('abt-PR-metabox', plugins_url('academic-bloggers-toolkit/lib/js/components/PeerReviewMetabox.js'), array(), false, true);
+        wp_enqueue_script('abt-PR-metabox', plugins_url('academic-bloggers-toolkit/lib/js/components/peer-review-metabox/Entrypoint.js'), array(), false, true);
         wp_localize_script('abt-PR-metabox', 'ABT_locationInfo', array(
             'jsURL' => plugins_url('academic-bloggers-toolkit/lib/js/'),
             'tinymceViewsURL' => plugins_url('academic-bloggers-toolkit/lib/js/tinymce-views/'),
