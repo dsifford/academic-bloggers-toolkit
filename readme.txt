@@ -4,7 +4,7 @@ Donate link: https://cash.me/$dsifford
 Tags: academic, pmid, doi, peer-review, pubmed, citation, bibliography, reference
 Requires at least: 4.2.2
 Tested up to: 4.5
-Stable tag: 3.1.3
+Stable tag: 3.1.4
 License: GPL3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -67,6 +67,11 @@ Yikes! I'm sorry about that. Please report all issues on the Academic Blogger's 
 4. Demo of desktop citation tooltips.
 
 == Changelog ==
+
+= 3.1.4 =
+* Fix issue that caused peer reviews that contain special characters to confuse WordPress.
+
+**Note:** Sorry for all the updates today. This should be the last one.
 
 = 3.1.3 =
 * Fix bug that caused peer review data to not save at times.
