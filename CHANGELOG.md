@@ -1,5 +1,8 @@
 # Changelog
 
+### 3.1.4
+- Fix issue that caused peer reviews that contain special characters to confuse WordPress.
+
 ### 3.1.3
 - Fix bug that caused peer review data to not save at times.
 - Fix bug that broke peer review image upload.
