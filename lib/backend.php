@@ -84,7 +84,8 @@ class ABT_Backend {
 
         self::refactor_depreciated_meta($post);
 
-        $meta_fields = unserialize(get_post_meta($post->ID, '_abt-meta', true));
+        $meta_fields = unserialize(base64_decode(get_post_meta($post->ID, '_abt-meta', true)));
+        $meta_fields = stripslashes_deep($meta_fields);
 
         if (!empty($meta_fields['peer_review'])) {
             for ($i = 1; $i < 4; $i++) {
@@ -218,7 +219,7 @@ class ABT_Backend {
             'em' => array(),
         );
 
-        $new_meta = unserialize(get_post_meta($post_id, '_abt-meta', true));
+        $new_meta = unserialize(base64_decode(get_post_meta($post_id, '_abt-meta', true)));
 
         if (empty($new_meta['peer_review'])) {
             $new_meta['peer_review'] = array(
@@ -290,7 +291,7 @@ class ABT_Backend {
                 : '';
         }
 
-        update_post_meta($post_id, '_abt-meta', serialize($new_meta));
+        update_post_meta($post_id, '_abt-meta', base64_encode(serialize($new_meta)));
     }
 
     /**
@@ -302,7 +303,7 @@ class ABT_Backend {
      */
     public static function refactor_depreciated_meta($post) {
         $old_meta = get_post_custom($post->ID);
-        $new_meta = unserialize(get_post_meta($post->ID, '_abt-meta', true));
+        $new_meta = unserialize(base64_decode(get_post_meta($post->ID, '_abt-meta', true)));
 
         if (empty($new_meta)) {
             $new_meta = array();
@@ -401,7 +402,7 @@ class ABT_Backend {
             }
         }
 
-        update_post_meta($post->ID, '_abt-meta', serialize($new_meta));
+        update_post_meta($post->ID, '_abt-meta', base64_encode(serialize($new_meta)));
     }
 }
 
@@ -411,7 +412,7 @@ function abt_append_peer_reviews($text) {
 
         ABT_Backend::refactor_depreciated_meta($post);
 
-        $meta = unserialize(get_post_meta($post->ID, '_abt-meta', true));
+        $meta = unserialize(base64_decode(get_post_meta($post->ID, '_abt-meta', true)));
 
         if (!isset($meta['peer_review']) || empty($meta['peer_review'])) {
             return $text;
