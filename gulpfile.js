@@ -1,17 +1,20 @@
 /* eslint-env node, es6 */
+
 const gulp = require('gulp');
-const uglify = require('gulp-uglify');
 const browserSync = require('browser-sync').create();
 const del = require('del');
+const replace = require('gulp-replace');
+// PHP
 const jade = require('gulp-jade2php');
 const gfi = require('gulp-file-insert');
+const rename = require('gulp-rename');
+// Styles
 const stylus = require('gulp-stylus');
 const poststylus = require('poststylus');
 const autoprefixer = require('autoprefixer')({ browsers: ['last 2 versions'] });
-const rename = require('gulp-rename');
-
-const replace = require('gulp-replace');
 const sourcemaps = require('gulp-sourcemaps');
+// JS
+const uglify = require('gulp-uglify');
 const webpack = require('webpack-stream');
 const webpackConfig = require('./webpack.config.js');
 const webpackDevConfig = Object.assign({}, webpackConfig, {
@@ -93,7 +96,7 @@ gulp.task('static', () =>
 
 gulp.task('stylus:dev', () =>
     gulp.src([
-        'lib/css/*.styl',
+        'lib/**/*.styl',
     ], { base: './', })
     .pipe(sourcemaps.init())
     .pipe(stylus({
@@ -107,7 +110,7 @@ gulp.task('stylus:dev', () =>
 
 gulp.task('stylus:prod', () =>
     gulp.src([
-        'lib/css/*.styl',
+        'lib/**/*.styl',
     ], { base: './', })
     .pipe(stylus({
         use: [ poststylus([autoprefixer]), ],

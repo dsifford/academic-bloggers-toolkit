@@ -1,233 +1,240 @@
+$white = #fff
+$f1 = #f1f1f1
+$555 = #555
+$f5 = #f5f5f5
+$f6 = #f6f6f6
+$c7 = #c7c7c7
+
 // ======= Toggleable Bibliography Heading
 h3#abt-smart-bib-toggle
 
-	margin-left: -30px
+	margin-left -30px
 
 	&:hover
-		cursor: pointer
+		cursor pointer
 
 	&:before
-		content: "\f140"
-		font-family: 'dashicons'
-		position: relative
-		font-size: 30px
-		top: 5px
+		content '\f140'
+		font-family 'dashicons'
+		position relative
+		font-size 30px
+		top 5px
 
 	&.abt-hidden:before
-		content: "\f139"
+		content '\f139'
 
 
 // ======== Tooltips =========
 .abt_tooltip
-	border-radius: 3px
-	padding: 8px
-	position: absolute
-	margin: auto
-	font-size: 0.75em
-	background-color: #fff
-	box-shadow: 0 0 50px rgba(0,0,0,.35)
-	z-index: 20
-	animation: fadeInDown .2s
+	border-radius 3px
+	padding 8px
+	position absolute
+	margin auto
+	font-size 0.75em
+	background-color $white
+	box-shadow 0 0 50px rgba(0,0,0,.35)
+	z-index 20
+	animation fadeInDown .2s
 
 
 @keyframes fadeInUp
 	from
-		opacity: 0
-		transform: translate3d(0, 10px, 0)
+		opacity 0
+		transform translate3d(0, 10px, 0)
 	to
-		opacity: 1
-		transform: none
+		opacity 1
+		transform none
 
 
 @keyframes fadeInDown
 	from
-		opacity: 0
-		transform: translate3d(0, -10px, 0)
+		opacity 0
+		transform translate3d(0, -10px, 0)
 	to
-		opacity: 1
-		transform: none
+		opacity 1
+		transform none
 
 
 .abt_tooltip_arrow
-	content: ""
-	position: absolute
-	margin-left: -8px
-	border-width: 8px
-	border-style: solid
-	pointer-events: none
+	content ''
+	position absolute
+	margin-left -8px
+	border-width 8px
+	border-style solid
+	pointer-events none
 
 	&.abt_arrow_up
-		border-color: transparent transparent #fff
-		top: -15px
+		border-color transparent transparent $white
+		top -15px
 
 	&.abt_arrow_down
-		border-color: #fff transparent transparent
-		bottom: -15px
+		border-color $white transparent transparent
+		bottom -15px
 
 
 .abt_tooltip_touch_close-container
-	width: 50px
-	height: 50px
-	position: absolute
-	top: -10px
-	right: -10px
-	text-align: right
+	width 50px
+	height 50px
+	position absolute
+	top -10px
+	right -10px
+	text-align right
 
 
 .abt_tooltip_touch_close
-	position: relative
-	border-radius: 50%
-	width: 26px
-	height: 26px
-	box-sizing: border-box
-	display: inline-block
-	vertical-align: middle
-	font-style: normal
-	color: #f1f1f1
-	background: #555
-	text-indent: -9999px
-	transform: rotate(45deg)
+	position relative
+	border-radius 50%
+	width 26px
+	height 26px
+	box-sizing border-box
+	display inline-block
+	vertical-align middle
+	font-style normal
+	color $f1
+	background $555
+	text-indent -9999px
+	transform rotate(45deg)
 
 	&:before,&:after
-		content: ''
-		left: 50%
-		top: 50%
-		box-shadow: inset 0 0 0 32px
-		position: absolute
-		transform: translate(-50%, -50%)
+		content ''
+		left 50%
+		top 50%
+		box-shadow inset 0 0 0 32px
+		position absolute
+		transform translate(-50%, -50%)
 
 	&:before
-		width: 14px
-		pointer-events: none
-		height: 2px
+		width 14px
+		pointer-events none
+		height 2px
 
 	&:after
-		height: 14px
-		pointer-events: none
-		width: 2px
+		height 14px
+		pointer-events none
+		width 2px
 
 
 .noselect
-	-webkit-touch-callout: none
-	-webkit-user-select: none
-	-khtml-user-select: none
-	-moz-user-select: none
-	-ms-user-select: none
-	user-select: none
+	-webkit-touch-callout none
+	-webkit-user-select none
+	-khtml-user-select none
+	-moz-user-select none
+	-ms-user-select none
+	user-select none
 
 
 // ===== Inline Citations ========
 
 .abt_cite
-	white-space: nowrap
+	white-space nowrap
 
 
 .abt_cite:hover
-	cursor: pointer
+	cursor pointer
 
 
 // Peer Review Box
 .abt_PR_heading
-	cursor: pointer
-	border-bottom: 4px solid
-	border-radius: 5px
-	background: #f5f5f5
-	padding: 15px
-	text-align: center
-	margin: 10px 0 !important
+	cursor pointer
+	border-bottom 4px solid
+	border-radius 5px
+	background $f5
+	padding 15px
+	text-align center
+	margin 10px 0 !important
 
 
 .abt_PR_heading:hover
-	background: #f1f1f1
+	background $f1
 
 
 .abt_PR_heading:active
-	border-bottom: 1px solid
-	padding-top: 18px
+	border-bottom 1px solid
+	padding-top 18px
 
 
 .abt_PR_info
-	display: inline-block
-	float: left
-	width: 30%
-	position: relative
-	top: 0
-	text-align: center
-	font-size: 10px
-	margin-bottom: 10px
-	margin-right: 5px
+	display inline-block
+	float left
+	width 30%
+	position relative
+	top 0
+	text-align center
+	font-size 10px
+	margin-bottom 10px
+	margin-right 5px
 
 
 .abt_PR_info strong
-	font-size: 14px
+	font-size 14px
 
 
 .abt_PR_headshot
-	display: block
-	margin-left: auto
-	margin-right: auto
-	height: auto
-	min-width: 100px
+	display block
+	margin-left auto
+	margin-right auto
+	height auto
+	min-width 100px
 
 
 .abt_chat_bubble
-	display: inline-block
-	position: relative
-	width: 63%
-	min-height: 100px
-	margin: auto 0 20px 0
-	background: #F6F6F6
-	border-radius: 8px
-	padding: 15px
-	border-left: 1px solid #c7c7c7
-	border-top: 1px solid #c7c7c7
-	box-shadow: 1px 1px 1px #C7C7C7
+	display inline-block
+	position relative
+	width 63%
+	min-height 100px
+	margin auto 0 20px 0
+	background $f6
+	border-radius 8px
+	padding 15px
+	border-left 1px solid $c7
+	border-top 1px solid $c7
+	box-shadow 1px 1px 1px $c7
 
 
 .abt_chat_bubble:after
-	content: ''
-	position: absolute
-	background-color: #F6F6F6
-	width: 20px
-	height: 20px
-	transform: rotate(45deg)
-	z-index: 1
-	margin-top: -15px
-	left: -11px
-	top: 60px
-	border-left: 1px solid #c7c7c7
-	border-bottom: 1px solid #c7c7c7
+	content ''
+	position absolute
+	background-color $f6
+	width 20px
+	height 20px
+	transform rotate(45deg)
+	z-index 1
+	margin-top -15px
+	left -11px
+	top 60px
+	border-left 1px solid $c7
+	border-bottom 1px solid $c7
 
 
 // Horizontal Rule -- Visible only in editor
 .abt_editor-only
-	display: none
+	display none
 
 
-@media only screen and (max-width: 620px)
+@media only screen and (max-width 620px)
 	.abt_PR_info
-		display: block
-		width: 100%
-		padding-top: 10px
-		padding-bottom: 20px
+		display block
+		width 100%
+		padding-top 10px
+		padding-bottom 20px
 
 
 	.abt_chat_bubble
-		width: 100%
+		width 100%
 
 
 	.abt_PR_info:before
-		content: ''
-		width: 20px
-		height: 20px
-		background-color: #F6F6F6
-		border-right: 1px solid #c7c7c7
-		border-bottom: 1px solid #c7c7c7
-		position: absolute
-		top: -30px
-		transform: rotate(45deg)
-		z-index: 1
+		content ''
+		width 20px
+		height 20px
+		background-color $f6
+		border-right 1px solid $c7
+		border-bottom 1px solid $c7
+		position absolute
+		top -30px
+		transform rotate(45deg)
+		z-index 1
 
 
 	.abt_chat_bubble:after
-		display: none
+		display none

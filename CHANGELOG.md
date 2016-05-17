@@ -1,5 +1,8 @@
 # Changelog
 
+### 3.1.5
+- Fix PubMed bug that resulted in citations with ampersands in the title to be parsed as `&amp;amp;`. HT @Da5idHatch
+
 ### 3.1.4
 - Fix issue that caused peer reviews that contain special characters to confuse WordPress.
 

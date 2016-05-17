@@ -78,6 +78,9 @@ export function PubmedGet(PMIDlist: string, callback: Function, bypassJSONFormat
                 callback(new Error(`Error: PubmedGet => (PMID ${i}): ${res.result[i].error}`));
                 return;
             }
+            if (res.result[i].title) {
+                res.result[i].title = res.result[i].title.replace(/(&amp;amp;)/g, '&');
+            }
             iterable.push(res.result[i]);
         }
 
