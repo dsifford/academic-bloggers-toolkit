@@ -4,10 +4,12 @@ const uglify = require('gulp-uglify');
 const browserSync = require('browser-sync').create();
 const del = require('del');
 const jade = require('gulp-jade2php');
-const gfi = require("gulp-file-insert");
-const postcss = require('gulp-postcss');
-const sugarss = require('sugarss');
-const rename  = require('gulp-rename');
+const gfi = require('gulp-file-insert');
+const stylus = require('gulp-stylus');
+const poststylus = require('poststylus');
+const autoprefixer = require('autoprefixer')({ browsers: ['last 2 versions'] });
+const rename = require('gulp-rename');
+
 const replace = require('gulp-replace');
 const sourcemaps = require('gulp-sourcemaps');
 const webpack = require('webpack-stream');
@@ -77,7 +79,7 @@ gulp.task('static', () =>
         'readme.txt',
         'lib/**/*',
         'vendor/*',
-        '!lib/**/*.{ts,tsx,sss,json,jade}',
+        '!lib/**/*.{ts,tsx,styl,json,jade}',
         '!**/__tests__',
         '!lib/js/utils',
     ], { base: './', })
@@ -89,31 +91,29 @@ gulp.task('static', () =>
 //                 Style Tasks
 // ==================================================
 
-const processors = [
-    require('precss'),
-    require('autoprefixer')({ browsers: ['last 2 versions'] }),
-    require('cssnano')(),
-];
-
-gulp.task('css:dev', () =>
+gulp.task('stylus:dev', () =>
     gulp.src([
-        'lib/**/*.sss',
+        'lib/css/*.styl',
     ], { base: './', })
     .pipe(sourcemaps.init())
-    .pipe(postcss(processors, { parser: sugarss }))
-    .pipe(rename({ extname: '.css' }))
+    .pipe(stylus({
+        use: [ poststylus([autoprefixer]), ],
+        compress: true,
+    }))
     .pipe(sourcemaps.write('.'))
-    .pipe(gulp.dest('./dist'))
-    .pipe(browserSync.stream())
+    .pipe(gulp.dest('dist'))
+    .pipe(browserSync.stream({ match: '**/*.css' }))
 );
 
-gulp.task('css:prod', () =>
+gulp.task('stylus:prod', () =>
     gulp.src([
-        'lib/**/*.sss',
+        'lib/css/*.styl',
     ], { base: './', })
-    .pipe(postcss(processors, { parser: sugarss }))
-    .pipe(rename({ extname: '.css' }))
-    .pipe(gulp.dest('./dist'))
+    .pipe(stylus({
+        use: [ poststylus([autoprefixer]), ],
+        compress: true,
+    }))
+    .pipe(gulp.dest('dist'))
 );
 
 
@@ -159,7 +159,7 @@ gulp.task('js', () =>
 gulp.task('build',
     gulp.series(
         'clean', 'bump',
-        gulp.parallel('css:prod', 'static', 'webpack:prod'),
+        gulp.parallel('stylus:prod', 'static', 'webpack:prod'),
         gulp.parallel('js', 'php')
     )
 );
@@ -168,14 +168,14 @@ gulp.task('build',
 gulp.task('default',
     gulp.series(
         'clean', 'static',
-        gulp.parallel('php', 'css:dev', 'webpack:dev'), () => {
+        gulp.parallel('php', 'stylus:dev', 'webpack:dev'), () => {
 
     browserSync.init({
         proxy: 'localhost:8080',
         open: false,
     });
 
-    gulp.watch('./lib/**/*.sss', gulp.series('css:dev'));
+    gulp.watch('./lib/**/*.styl', gulp.series('stylus:dev'));
 
     gulp.watch([
         'lib/**/*.{ts,tsx}',
@@ -186,7 +186,7 @@ gulp.task('default',
     gulp.watch([
         'academic-bloggers-toolkit.php',
         'lib/**/*',
-        '!lib/**/*.{ts,tsx,sss}',
+        '!lib/**/*.{ts,tsx,styl}',
         '!lib/**/__tests__/',
         '!lib/**/__tests__/*',
     ], gulp.series('static', 'php', 'reload'));
