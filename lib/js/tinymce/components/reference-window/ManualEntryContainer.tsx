@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { citationTypeArray, referenceWindowEvents as LocalEvents, } from '../../utils/Constants';
+import { citationTypeArray, referenceWindowEvents as LocalEvents, } from '../../../utils/Constants';
 
 import { People, } from './People';
 import { MetaFields, } from './MetaFields';

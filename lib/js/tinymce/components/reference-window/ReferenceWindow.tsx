@@ -1,9 +1,9 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import { Modal, } from '../../utils/Modal';
-import { referenceWindowEvents as LocalEvents, manualDataObj, } from '../../utils/Constants';
-import { toTitleCase, } from '../../utils/HelperFunctions';
-const citeStyles = require('../../../../vendor/citationstyles');
+import { Modal, } from '../../../utils/Modal';
+import { referenceWindowEvents as LocalEvents, manualDataObj, } from '../../../utils/Constants';
+import { toTitleCase, } from '../../../utils/HelperFunctions';
+const citeStyles = require('../../../../../vendor/citationstyles');
 
 import { ManualEntryContainer, } from './ManualEntryContainer';
 

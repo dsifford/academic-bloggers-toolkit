@@ -1,9 +1,10 @@
-import { PubmedGet, } from './utils/PubmedAPI';
+import { getFromPMID, } from './utils/PubmedAPI';
 import { getFromDOI, } from './utils/CrossRefAPI';
 import { CSLPreprocessor, } from './utils/CSLPreprocessor';
 import { processDate, } from './utils/CSLFieldProcessors';
 import { parseInlineCitationString, parseReferenceURLs, } from './utils/HelperFunctions';
 import { abtGlobalEvents, } from './utils/Constants';
+import { referenceWindow, } from './utils/TinymceFunctions';
 
 declare var tinyMCE: TinyMCE.tinyMCE, ABT_locationInfo, wpActiveEditor;
 
@@ -24,8 +25,8 @@ tinyMCE.PluginManager.add('abt_main_menu', (editor: TinyMCE.Editor, url: string)
     }
 
 
-    const openFormattedReferenceWindow = () => {
-        editor.windowManager.open({
+    const openFormattedReferenceWindow = (ed) => {
+        ed.windowManager.open({
             title: 'Insert Formatted Reference',
             url: ABT_locationInfo.tinymceViewsURL + 'reference-window.html',
             width: 600,
@@ -41,7 +42,7 @@ tinyMCE.PluginManager.add('abt_main_menu', (editor: TinyMCE.Editor, url: string)
                     return;
                 }
 
-                editor.setProgressState(1);
+                ed.setProgressState(1);
                 let payload: ReferenceWindowPayload = e.target.params.data;
 
                 // Handle PubMed and CrossRef calls
@@ -62,7 +63,7 @@ tinyMCE.PluginManager.add('abt_main_menu', (editor: TinyMCE.Editor, url: string)
 
 
                     let p1 = new Promise((resolve, reject) => {
-                        PubmedGet(PMIDlist.join(','), (res: Error | { [id: string]: CSL.Data }) => {
+                        getFromPMID(PMIDlist.join(','), (res: Error | { [id: string]: CSL.Data }) => {
                             if (res instanceof Error) {
                                 reject(res.message);
                                 return;
@@ -114,8 +115,8 @@ tinyMCE.PluginManager.add('abt_main_menu', (editor: TinyMCE.Editor, url: string)
                         let combined = data.reduce((a, b) => a.concat(b), []);
                         deliverContent(combined, { attachInline: payload.attachInline, });
                     }, (err) => {
-                        editor.setProgressState(0);
-                        editor.windowManager.alert(err);
+                        ed.setProgressState(0);
+                        ed.windowManager.alert(err);
                     });
                     return;
                 }
@@ -146,7 +147,7 @@ tinyMCE.PluginManager.add('abt_main_menu', (editor: TinyMCE.Editor, url: string)
             },
         } as TinyMCE.WindowMangerObject);
     };
-    editor.addShortcut('meta+alt+r', 'Insert Formatted Reference', openFormattedReferenceWindow);
+    editor.addShortcut('meta+alt+r', 'Insert Formatted Reference', openFormattedReferenceWindow.bind(null, editor));
 
 
     interface RefImportPayload {
@@ -295,12 +296,12 @@ tinyMCE.PluginManager.add('abt_main_menu', (editor: TinyMCE.Editor, url: string)
 
     // Event Handlers
     editor.on('init', () => {
-        addEventListener(abtGlobalEvents.INSERT_REFERENCE, openFormattedReferenceWindow);
+        // addEventListener(abtGlobalEvents.INSERT_REFERENCE, openFormattedReferenceWindow.bind(null, editor));
         dispatchEvent(new CustomEvent(abtGlobalEvents.TINYMCE_READY));
     });
 
     editor.on('remove', () => {
-        removeEventListener(abtGlobalEvents.INSERT_REFERENCE, openFormattedReferenceWindow);
+        // removeEventListener(abtGlobalEvents.INSERT_REFERENCE, openFormattedReferenceWindow);
     });
 
 

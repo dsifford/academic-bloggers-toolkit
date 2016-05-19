@@ -4,10 +4,10 @@ import * as processor from './CSLFieldProcessors';
 /**
  * Sends a string of text to PubMed and gets a list of PMIDs for the query.
  *   Depending on the state of `bypassJSONFormatter`, the result is either sent
- *   through `PubmedGet` and `procssJSON` or just to `PubmedGet`.
+ *   through `getFromPMID` and `procssJSON` or just to `getFromPMID`.
  * @param {string}     query    A search string (the same you would type into
  *   the search box on pubmed)
- * @param {Function}   callback Callback function (passed into `PubmedGet`).
+ * @param {Function}   callback Callback function (passed into `getFromPMID`).
  * @param {boolean}    bypassJSONFormatter A boolean (default = false) which
  *   decides whether or not to send the response to be processed as CSL.
  */
@@ -34,7 +34,7 @@ export function PubmedQuery(query: string, callback: Function, bypassJSONFormatt
             return;
         }
 
-        PubmedGet(res.esearchresult.idlist.join(), callback, bypassJSONFormatter);
+        getFromPMID(res.esearchresult.idlist.join(), callback, bypassJSONFormatter);
 
     };
     request.send(null);
@@ -49,7 +49,7 @@ export function PubmedQuery(query: string, callback: Function, bypassJSONFormatt
  * @param {boolean}    bypassJSONFormatter A boolean (default = false) which
  *   decides whether or not to send the response to be processed as CSL.
  */
-export function PubmedGet(PMIDlist: string, callback: Function, bypassJSONFormatter: boolean = false): void {
+export function getFromPMID(PMIDlist: string, callback: Function, bypassJSONFormatter: boolean = false): void {
 
     let requestURL = `http://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi?db=pubmed&id=${PMIDlist}&version=2.0&retmode=json`;
     let request = new XMLHttpRequest();
@@ -59,14 +59,14 @@ export function PubmedGet(PMIDlist: string, callback: Function, bypassJSONFormat
         if (request.readyState !== 4) { return; }
 
         if (request.status !== 200) {
-            callback(new Error('Error: PubmedGet => PubMed returned a non-200 status code.'));
+            callback(new Error('Error: getFromPMID => PubMed returned a non-200 status code.'));
             return;
         }
 
         let res = JSON.parse(request.responseText);
 
         if (res.error) {
-            callback(new Error(`Error: PubmedGet => ${res.error}`));
+            callback(new Error(`Error: getFromPMID => ${res.error}`));
             return;
         }
 
@@ -75,7 +75,7 @@ export function PubmedGet(PMIDlist: string, callback: Function, bypassJSONFormat
         for (let i in (res.result as Object)) {
             if (i === 'uids') { continue; }
             if (res.result[i].error) {
-                callback(new Error(`Error: PubmedGet => (PMID ${i}): ${res.result[i].error}`));
+                callback(new Error(`Error: getFromPMID => (PMID ${i}): ${res.result[i].error}`));
                 return;
             }
             if (res.result[i].title) {

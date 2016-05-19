@@ -8,6 +8,16 @@ interface InputEvent extends UIEvent {
 
 declare namespace ABT {
 
+    interface ReferencePayload {
+        addManually: boolean;
+        attachInline: boolean;
+        citationStyle: string;
+        identifierList: string;
+        includeLink: boolean;
+        manualData: CSL.Data;
+        people: CSL.TypedPerson[];
+    }
+
     interface FieldMappings {
         bill: FieldMap;
         book: FieldMap;
@@ -184,7 +194,7 @@ declare namespace TinyMCE {
         height: any;
         body?: WindowElement[];
         url?: string;
-        onclose?: (e?) => void;
+        onclose?: any;
     }
 }
 

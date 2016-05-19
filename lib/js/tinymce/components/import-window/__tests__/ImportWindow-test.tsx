@@ -1,6 +1,6 @@
 jest.unmock('../ImportWindow');
-jest.mock('../../../utils/Modal');
-jest.unmock('../../../utils/RISParser');
+jest.mock('../../../../utils/Modal');
+jest.unmock('../../../../utils/RISParser');
 
 import * as React from 'react';
 import { mount, } from 'enzyme';

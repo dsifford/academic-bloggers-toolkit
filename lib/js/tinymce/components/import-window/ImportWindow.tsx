@@ -1,8 +1,8 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import { Modal, } from '../../utils/Modal';
-import { RISParser, } from '../../utils/RISParser';
-const citeStyles = require('../../../../vendor/citationstyles');
+import { Modal, } from '../../../utils/Modal';
+import { RISParser, } from '../../../utils/RISParser';
+const citeStyles = require('../../../../../vendor/citationstyles');
 
 
 interface DOMEvent extends React.UIEvent {

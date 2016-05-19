@@ -1,10 +1,13 @@
+import { Map, List, Record } from 'immutable';
 
 declare var CSL;
 
-export class CSLPreprocessor {
+export class CSLProcessor {
 
     public citeprocSys: Citeproc.SystemObj;
-    public citations: { [id: string]: CSL.Data };
+    public state: Immutable.Map<
+        string, (Immutable.Map<string, {}> | Immutable.List<{}>)
+    >;
     public citeproc;
 
     /**
@@ -16,22 +19,27 @@ export class CSLPreprocessor {
      * @param  {Function} callback  Callback function
      * @return {void}
      */
-    constructor(locale: string, citations: { [id: string]: CSL.Data }, style: string, callback: Function) {
+    constructor(locale: string, style: string) {
 
-        this.citations = citations;
+        this.state = Map({
+            citations: Map({}),
+            citationIDs: List([]),
+        });
+
+        if (!style) style = 'american-medical-association';
 
         let p1 = new Promise((resolve, reject) => {
             this.getLocale(locale, (data: string) => {
                 resolve({
                     retrieveLocale: (lang) => data,
-                    retrieveItem: (id: string | number) => this.citations[id],
+                    retrieveItem: (id: string | number) => this.state.getIn(['citations', id]),
                 });
             });
         });
 
         p1.then((data: Citeproc.SystemObj) => {
             this.citeprocSys = data;
-            this.getProcessor(style, data, callback);
+            this.getProcessor(style, data);
         });
 
     }
@@ -66,18 +74,27 @@ export class CSLPreprocessor {
      * @param  {string}   styleID  The style ID for the style of interest (no .csl extension)
      * @param  {Function} callback Callback function.
      */
-    getProcessor(styleID: string, data: Citeproc.SystemObj, callback: Function): void {
+    getProcessor(styleID: string, data: Citeproc.SystemObj): void {
         let req = new XMLHttpRequest();
         req.open('GET', `https://raw.githubusercontent.com/citation-style-language/styles/master/${styleID}.csl`);
 
         req.onreadystatechange = () => {
             if (req.readyState === 4) {
-                const citeproc = new CSL.Engine(data, req.responseText);
-                callback(citeproc);
+                this.citeproc = new CSL.Engine(data, req.responseText);
             }
         };
 
         req.send(null);
+    }
+
+    consumeCitations(citations: CSL.Data[]): Promise<{}> {
+        return new Promise((res, rej) => {
+            citations.forEach(c => {
+                this.state = this.state.setIn(['citations', c.id], c);
+                this.state = this.state.updateIn(['citationIDs'], arr => arr.push(c.id));
+            });
+            res();
+        });
     }
 
     /**
@@ -87,7 +104,7 @@ export class CSLPreprocessor {
      * @return {string[]}          Array of citations to be served.
      */
     prepare(citeproc): string[] {
-        citeproc.updateItems(Object.keys(this.citations));
+        citeproc.updateItems(Object.keys(this.state['citations']));
         let bib = citeproc.makeBibliography();
 
         let data = [];

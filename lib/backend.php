@@ -137,13 +137,13 @@ class ABT_Backend {
         wp_enqueue_script('abt-PR-metabox', plugins_url('academic-bloggers-toolkit/lib/js/components/peer-review-metabox/Entrypoint.js'), array(), false, true);
         wp_localize_script('abt-PR-metabox', 'ABT_locationInfo', array(
             'jsURL' => plugins_url('academic-bloggers-toolkit/lib/js/'),
-            'tinymceViewsURL' => plugins_url('academic-bloggers-toolkit/lib/js/tinymce-views/'),
+            'tinymceViewsURL' => plugins_url('academic-bloggers-toolkit/lib/js/tinymce/views/'),
             'preferredCitationStyle' => isset($abt_options['abt_citation_style']) ? $abt_options['abt_citation_style'] : '',
             'postType' => $typenow,
             'locale' => get_locale(),
         ));
 
-        wp_register_script('abt_reflist', plugins_url('academic-bloggers-toolkit/lib/js/components/reference-list/Entrypoint.js'));
+        wp_register_script('abt_reflist', plugins_url('academic-bloggers-toolkit/lib/js/reference-list/components/Entrypoint.js'));
         wp_register_script('abt_citeproc', plugins_url('academic-bloggers-toolkit/vendor/citeproc.js'));
         wp_enqueue_script('abt_citeproc', false, array(), false, true);
         wp_enqueue_script('abt_reflist', false, array(), false, true);

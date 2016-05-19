@@ -1,14 +1,12 @@
 import * as React from 'react';
-import * as ReactDOM from 'react-dom';
 import { parseInlineCitationString, } from '../../utils/HelperFunctions';
 import { abtGlobalEvents, } from '../../utils/Constants';
 import { Card, } from './Card';
+import { referenceWindow, } from '../../utils/TinymceFunctions';
+import { CSLProcessor, } from '../../utils/CSLProcessor';
+import { getRemoteData } from '../API';
 
-declare var tinyMCE: TinyMCE.tinyMCE;
-
-interface DOMEvent extends Event {
-    target: HTMLElement;
-}
+declare var tinyMCE: TinyMCE.tinyMCE, ABT_locationInfo;
 
 interface State {
     loading: boolean;
@@ -19,6 +17,7 @@ interface State {
 export class ReferenceList extends React.Component<{}, State> {
 
     private editor: TinyMCE.Editor;
+    private processor = new CSLProcessor(ABT_locationInfo.locale, ABT_locationInfo.preferredCitationStyle);
 
     constructor() {
         super();
@@ -27,6 +26,7 @@ export class ReferenceList extends React.Component<{}, State> {
             references: [],
             selected: [],
         };
+        console.log(this.processor);
     }
 
     componentDidMount() {
@@ -74,7 +74,7 @@ export class ReferenceList extends React.Component<{}, State> {
         );
     }
 
-    removeReference(e: DOMEvent) {
+    removeReference(e: InputEvent) {
         let references = [...this.state.references, ];
         let removeList: number[] = [];
         this.state.selected.forEach((ref) => {
@@ -266,7 +266,7 @@ export class ReferenceList extends React.Component<{}, State> {
         bib.innerHTML = refs.map(r => `<li>${r}</li>`).join('');
     }
 
-    createTooltip(e: DOMEvent) {
+    createTooltip(e: InputEvent) {
         e.stopPropagation();
         this.destroyTooltip();
 
@@ -286,24 +286,37 @@ export class ReferenceList extends React.Component<{}, State> {
         if (existingTooltip) { existingTooltip.remove(); }
     }
 
+    testTinymce(e) {
+        e.preventDefault();
+        referenceWindow(this.editor, (data: ABT.ReferencePayload) => {
+            if (!data.addManually) {
+                getRemoteData(data.identifierList, (res: CSL.Data[]|Error) => {
+                    if (res instanceof Error) {
+                        console.log(res.message);
+                        return;
+                    }
+                    this.processor.consumeCitations(res);
+                    this.processor.citeproc.updateItems(this.processor.state.toJS().citationIDs);
+                    this.setState(Object.assign({}, this.state, {
+                        references: this.processor.citeproc.makeBibliography()[1],
+                    }));
+                });
+            }
+        });
+    }
+
     render() {
 
         if (this.state.loading) {
             return(
                 <div style={{ marginTop: -6, background: '#f5f5f5', }}>
                     <div className='sk-circle'>
-                        <div className='sk-circle1 sk-child'></div>
-                        <div className='sk-circle2 sk-child'></div>
-                        <div className='sk-circle3 sk-child'></div>
-                        <div className='sk-circle4 sk-child'></div>
-                        <div className='sk-circle5 sk-child'></div>
-                        <div className='sk-circle6 sk-child'></div>
-                        <div className='sk-circle7 sk-child'></div>
-                        <div className='sk-circle8 sk-child'></div>
-                        <div className='sk-circle9 sk-child'></div>
-                        <div className='sk-circle10 sk-child'></div>
-                        <div className='sk-circle11 sk-child'></div>
-                        <div className='sk-circle12 sk-child'></div>
+                        {
+                            [...Array(13).keys()].map(k => k !== 0 ?
+                                <div key={k} className={`sk-circle${k} sk-child`} /> :
+                                null
+                            )
+                        }
                     </div>
                 </div>
             );
@@ -345,10 +358,11 @@ export class ReferenceList extends React.Component<{}, State> {
                     <button
                         className='abt-reflist-button'
                         disabled={this.state.selected.length !== 0}
-                        onClick={(e) => {
-                            e.preventDefault();
-                            dispatchEvent(new CustomEvent(abtGlobalEvents.INSERT_REFERENCE));
-                        }}
+                        // onClick={(e) => {
+                        //     e.preventDefault();
+                        //     dispatchEvent(new CustomEvent(abtGlobalEvents.INSERT_REFERENCE));
+                        // }}
+                        onClick={this.testTinymce.bind(this)}
                         onMouseOver={this.createTooltip.bind(this)}
                         onMouseLeave={this.destroyTooltip}
                         data-tooltip='Add reference to reference list'>

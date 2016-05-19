@@ -1,6 +1,6 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import { ReferenceList } from './ReferenceList';
+import { ReferenceList, } from './ReferenceList';
 
 ReactDOM.render(
     <ReferenceList />,
