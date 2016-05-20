@@ -106,9 +106,7 @@ export class CSLProcessor {
             if (sys instanceof Error) return sys;
             return {style, sys};
         })
-        .catch(e => {
-            console.log(e);
-        });
+        .catch(e => e);
     }
 
     /**

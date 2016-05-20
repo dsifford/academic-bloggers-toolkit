@@ -1,5 +1,6 @@
-import { getFromPMID, } from '../utils/PubmedAPI';
-import { getFromDOI, } from '../utils/CrossRefAPI';
+import { getFromPMID } from '../utils/PubmedAPI';
+import { getFromDOI } from '../utils/CrossRefAPI';
+import { generateID } from '../utils/HelperFunctions';
 
 export function getRemoteData(identifierList: string, callback: Function): void {
     const pmidList: string[] = [];
@@ -49,11 +50,10 @@ export function getRemoteData(identifierList: string, callback: Function): void 
 
     Promise.all([p1, p2]).then((data: [CSL.Data[], CSL.Data[]]) => {
         const combined = data.reduce((a, b) => a.concat(b), []);
-        let rand: number = Math.round(Math.random() * Date.now());
         combined.forEach(ref => {
-            ref.id = Math.round(Math.random() * Date.now()).toString(30);
+            ref.id = generateID();
         });
-        callback(combined);
+        callback(combined as CSL.Data[]);
     }, (err) => {
         callback(err);
     });

@@ -128,3 +128,9 @@ export function parseReferenceURLs(input: string[]): string[] {
     });
     return input;
 }
+
+/**
+ * Creates a "unique" ID value to be used for an ID field.
+ * @return {string}              Unique ID.
+ */
+export const generateID = (): string => Math.round(Math.random() * Date.now()).toString(30);

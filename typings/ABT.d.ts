@@ -371,9 +371,24 @@ declare namespace CSL {
 
 declare namespace Citeproc {
 
+    type CitationByIndex = CitationByIndexSingle[];
+
     interface SystemObj {
         retrieveLocale(lang: string): string;
         retrieveItem(id: string|number): CSL.Data;
+    }
+
+    interface CitationByIndexSingle {
+        citationID?: string|number;
+        citationItems: {
+            id: string|number;
+            item?: CSL.Data;
+        }[];
+        properties: {
+            index?: number;
+            noteIndex: number;
+        };
+        sortedItems?: [CSL.Data, { id: string|number }][];
     }
 
 }

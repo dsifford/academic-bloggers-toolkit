@@ -297,6 +297,7 @@ export class ReferenceList extends React.Component<{}, State> {
                     }
                     this.processor.consumeCitations(res);
                     this.processor.citeproc.updateItems(this.processor.state.toJS().citationIDs);
+                    console.log(this.processor.citeproc)
                     this.setState(Object.assign({}, this.state, {
                         references: this.processor.citeproc.makeBibliography()[1],
                     }));
