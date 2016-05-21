@@ -2,7 +2,7 @@ import * as React from 'react';
 import { parseInlineCitationString, } from '../../utils/HelperFunctions';
 import { abtGlobalEvents, } from '../../utils/Constants';
 import { Card, } from './Card';
-import { referenceWindow, } from '../../utils/TinymceFunctions';
+import * as MCE from '../../utils/TinymceFunctions';
 import { CSLProcessor, } from '../../utils/CSLProcessor';
 import { getRemoteData } from '../API';
 
@@ -288,7 +288,7 @@ export class ReferenceList extends React.Component<{}, State> {
 
     testTinymce(e) {
         e.preventDefault();
-        referenceWindow(this.editor, (data: ABT.ReferencePayload) => {
+        MCE.referenceWindow(this.editor, (data: ABT.ReferencePayload) => {
             if (!data.addManually) {
                 getRemoteData(data.identifierList, (res: CSL.Data[]|Error) => {
                     if (res instanceof Error) {
@@ -296,11 +296,14 @@ export class ReferenceList extends React.Component<{}, State> {
                         return;
                     }
                     this.processor.consumeCitations(res);
-                    this.processor.citeproc.updateItems(this.processor.state.toJS().citationIDs);
-                    console.log(this.processor.citeproc)
                     this.setState(Object.assign({}, this.state, {
                         references: this.processor.citeproc.makeBibliography()[1],
                     }));
+                    const { currentIndex, locations } = MCE.getCitationData(this.editor);
+                    const citationData = this.processor.getSingleCitationData(currentIndex, res);
+                    let test = this.processor.testing(citationData, locations[0], locations[1]);
+                    MCE.insertInlineCitation(this.editor, test[1]);
+                    console.log(this.processor.citeproc);
                 });
             }
         });

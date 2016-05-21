@@ -109,6 +109,31 @@ declare namespace ABT {
     }
 }
 
+declare namespace Citeproc {
+
+    type CitationByIndex = CitationByIndexSingle[];
+    type CitationsPrePost = [string, number][]
+
+    interface SystemObj {
+        retrieveLocale(lang: string): string;
+        retrieveItem(id: string|number): CSL.Data;
+    }
+
+    interface CitationByIndexSingle {
+        citationID?: string|number;
+        citationItems: {
+            id: string|number;
+            item?: CSL.Data;
+        }[];
+        properties: {
+            index?: number;
+            noteIndex: number;
+        };
+        sortedItems?: [CSL.Data, { id: string|number }][];
+    }
+
+}
+
 declare namespace TinyMCE {
 
     interface tinyMCE {
@@ -143,6 +168,7 @@ declare namespace TinyMCE {
         on(eventString: string, callback: Function): void;
         addButton(buttonID: string, buttonObj: any): void;
         plugins: any;
+        selection: any;
         settings: any;
         target: any;
         windowManager: WindowManager;
@@ -365,30 +391,6 @@ declare namespace CSL {
         circa?: string|number|boolean;
         literal?: string;
         raw?: string;
-    }
-
-}
-
-declare namespace Citeproc {
-
-    type CitationByIndex = CitationByIndexSingle[];
-
-    interface SystemObj {
-        retrieveLocale(lang: string): string;
-        retrieveItem(id: string|number): CSL.Data;
-    }
-
-    interface CitationByIndexSingle {
-        citationID?: string|number;
-        citationItems: {
-            id: string|number;
-            item?: CSL.Data;
-        }[];
-        properties: {
-            index?: number;
-            noteIndex: number;
-        };
-        sortedItems?: [CSL.Data, { id: string|number }][];
     }
 
 }

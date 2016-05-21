@@ -1,6 +1,6 @@
 declare var ABT_locationInfo;
 
-
+/** TODO */
 export const referenceWindow = (editor: TinyMCE.Editor, callback: Function) => {
     editor.windowManager.open({
         title: 'Insert Formatted Reference',
@@ -18,113 +18,43 @@ export const referenceWindow = (editor: TinyMCE.Editor, callback: Function) => {
 };
 
 
-// const someFunc = (e) => {
-//
-//     // If the user presses the exit button, return.
-//     if (Object.keys(e.target.params).length === 0) {
-//         return;
-//     }
-//
-//     editor.setProgressState(1);
-//     let payload: ReferenceWindowPayload = e.target.params.data;
-//
-//     // Handle PubMed and CrossRef calls
-//     if (!payload.addManually) {
-//
-        // let identifiers: string = payload.identifierList.replace(/\s/g, '');
-        //
-        // let PMIDlist: string[] = [];
-        // let DOIlist: string[] = [];
-        //
-        // identifiers.split(',').forEach(i => {
-        //     if (i.search(/^10\./) > -1) {
-        //         DOIlist.push(i);
-        //         return;
-        //     }
-        //     PMIDlist.push(i);
-        // });
-        //
-        //
-        // let p1 = new Promise((resolve, reject) => {
-        //     getFromPMID(PMIDlist.join(','), (res: Error | { [id: string]: CSL.Data }) => {
-        //         if (res instanceof Error) {
-        //             reject(res.message);
-        //             return;
-        //         }
-        //
-        //         let processor = new CSLPreprocessor(ABT_locationInfo.locale, res, payload.citationStyle, (citeproc) => {
-        //             let data = processor.prepare(citeproc);
-        //             if (payload.includeLink) {
-        //                 data = data.map((ref: string, i: number) =>
-        //                     `${ref} PMID: <a href="https://www.ncbi.nlm.nih.gov/pubmed/${PMIDlist[i]}" target="_blank">${PMIDlist[i]}</a>`);
-        //             }
-        //             resolve(data);
-        //         });
-        //     });
-        // });
-        //
-        // let p2 = new Promise((resolve, reject) => {
-        //     let promises = [];
-        //     DOIlist.forEach((doi: string, i: number) => {
-        //         promises.push(
-        //             new Promise((resolveInner, rejectInner) => {
-        //                 getFromDOI(doi, (res: Error | { [id: string]: CSL.Data }) => {
-        //                     if (res instanceof Error) {
-        //                         rejectInner(res.message);
-        //                         return;
-        //                     }
-        //
-        //                     let processor = new CSLPreprocessor(ABT_locationInfo.locale, res, payload.citationStyle, (citeproc) => {
-        //                         let data = processor.prepare(citeproc);
-        //                         if (payload.includeLink) {
-        //                             data = parseReferenceURLs(data);
-        //                         }
-        //                         resolveInner(data);
-        //                     });
-        //                 });
-        //             })
-        //         );
-        //     });
-        //
-        //     Promise.all(promises).then((data) => {
-        //         resolve(data.reduce((a, b) => a.concat(b), []));
-        //     }, (err) => {
-        //         reject(err);
-        //     });
-        //
-        // });
-        //
-        // Promise.all([p1, p2, ]).then((data: any) => {
-        //     let combined = data.reduce((a, b) => a.concat(b), []);
-        //     deliverContent(combined, { attachInline: payload.attachInline, });
-        // }, (err) => {
-        //     editor.setProgressState(0);
-        //     editor.windowManager.alert(err);
-        // });
-//         return;
-//     }
-//
-//     // Process manual name fields
-//     payload.people.forEach(person => {
-//
-//         if (typeof payload.manualData[person.type] === 'undefined') {
-//             payload.manualData[person.type] = [{ family: person.family, given: person.given, }, ];
-//             return;
-//         }
-//
-//         payload.manualData[person.type].push({ family: person.family, given: person.given, });
-//     });
-//
-//     // Process date fields
-//     ['accessed', 'event-date', 'issued', ].forEach(dateType => {
-//         payload.manualData[dateType] = processDate(payload.manualData[dateType], 'RIS');
-//     });
-//
-//     let processor = new CSLPreprocessor(ABT_locationInfo.locale, { 0: payload.manualData, }, payload.citationStyle, (citeproc) => {
-//         let data = processor.prepare(citeproc);
-//         if (payload.includeLink) {
-//             data = parseReferenceURLs(data);
-//         }
-//         deliverContent(data, { attachInline: payload.attachInline, });
-//     });
-// };
+
+interface CitationData {
+    currentIndex: number;
+    locations: [[string, number][], [string, number][]];
+}
+
+/** TODO */
+export function getCitationData(editor: TinyMCE.Editor): CitationData {
+    const selection = editor.selection;
+    const doc: Document = editor.dom.doc;
+
+    const cursor = editor.dom.create('span', { id: 'CURSOR', class: 'abt_cite'});
+    selection.getNode().appendChild(cursor);
+
+    const citations = doc.getElementsByClassName('abt_cite');
+    const payload: CitationData = {
+        currentIndex: 0,
+        locations: [[], []],
+    };
+
+    if (citations.length > 1) {
+        let key = 0;
+        Array.from(citations).forEach((el, i) => {
+            if (el.id === 'CURSOR') {
+                key = 1;
+                payload.currentIndex = i;
+                return;
+            }
+            payload.locations[key].push([el.id, i - key]);
+        });
+    }
+    editor.dom.doc.getElementById('CURSOR').remove();
+    return payload;
+}
+
+/** TODO */
+export function insertInlineCitation(editor: TinyMCE.Editor, data) {
+    const citation = editor.dom.create('span', {id: data[0][2], class: 'abt_cite noselect mceNonEditable'}, data[0][1]);
+    editor.selection.getNode().appendChild(citation);
+}

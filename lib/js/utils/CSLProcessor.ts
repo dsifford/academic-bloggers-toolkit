@@ -4,111 +4,6 @@ declare var CSL;
 
 export class CSLProcessor {
 
-    private locale: string;
-    public style: string;
-    public state: Immutable.Map<
-        string, (Immutable.Map<string, {}> | Immutable.List<{}>)
-    >;
-    public citeproc;
-
-    /**
-     * Constructor for the CSLPreprossor class.
-     * @param  {string}  locale  The current user's locale string.
-     * @param  {{[id: string]:CSL.Data}}  citations  An object of CSL.Data.
-     *   Note, the object key MUST match the `id` param within the object.
-     * @param  {string}   style  The user's selected style string.
-     * @param  {Function} callback  Callback function
-     * @return {void}
-     * TODO: rewrite docblock
-     */
-    constructor(locale: string, style: string) {
-        this.state = Map({
-            citations: Map({}),
-            citationIDs: List([]),
-        });
-        this.style = !style ? 'american-medical-association' : style;
-        this.locale = locale;
-
-        this.init(style).then(data => {
-            if (data instanceof Error) {
-                console.error(data.message);
-                return;
-            }
-            this.citeproc = new CSL.Engine(data.sys, data.style);
-        });
-    }
-
-    /**
-     * Retrieves the locale rules for CSL using HTTP and passes it to a callback function.
-     * @param {string}   locale   The user's locale.
-     * @param {Function} callback Callback function.
-     * TODO: rewrite this docblock
-     */
-    private generateSys(locale: string): Promise<Citeproc.SystemObj|Error> {
-        return new Promise((resolve, reject) => {
-            const req = new XMLHttpRequest();
-            const cslLocale = !this.locales[locale] ? 'en-US' : this.locales[locale];
-            req.onreadystatechange = () => {
-                if (req.readyState === 4) {
-                    if (req.status !== 200) reject(new Error(req.responseText));
-                    resolve({
-                        retrieveLocale: (lang: string) => req.responseText,
-                        retrieveItem: (id: string|number) => this.state.getIn(['citations', id]),
-                    });
-                }
-            };
-            req.open('GET', `https://raw.githubusercontent.com/citation-style-language/locales/8c976408d3cb287d0cecb29f97752ec3a28db9e5/locales-${cslLocale}.xml`);
-            req.send(null);
-        })
-        .catch(e => e);
-    }
-
-    /**
-     * Retrieves the CSL style rules for the selected style using HTTP. When the
-     *   style instructions are received, a CSL.Engine is created and passed to
-     *   the callback function.
-     * @param  {string}   styleID  The style ID for the style of interest (no .csl extension)
-     * @param  {Function} callback Callback function.
-     * TODO: rewrite docblock
-     */
-    private getCSLStyle(style: string): Promise<string|Error> {
-        return new Promise((resolve, reject) => {
-            const req = new XMLHttpRequest();
-            req.open('GET', `https://raw.githubusercontent.com/citation-style-language/styles/master/${style}.csl`);
-            req.onreadystatechange = () => {
-                if (req.readyState === 4) {
-                    if (req.status !== 200) reject(new Error(req.responseText));
-                    resolve(req.responseText);
-                }
-            };
-            req.send(null);
-        })
-        .catch(e => e);
-    }
-
-    consumeCitations(citations: CSL.Data[]): void {
-        citations.forEach(c => {
-            this.state = this.state.setIn(['citations', c.id], c);
-            this.state = this.state.updateIn(['citationIDs'], arr => arr.push(c.id));
-        });
-    }
-
-    init(styleID: string): Promise<{ style: string, sys: Citeproc.SystemObj }|Error> {
-        this.style = styleID;
-        const p1 = this.getCSLStyle(styleID);
-        const p2 = this.generateSys(this.locale);
-        return Promise.all(
-            [p1, p2]
-        )
-        .then(data => {
-            const [style, sys] = data;
-            if (style instanceof Error) return style;
-            if (sys instanceof Error) return sys;
-            return {style, sys};
-        })
-        .catch(e => e);
-    }
-
     /**
      * This object converts the locale names in wordpress (keys) to the locales
      *   in CSL (values). If CSL doesn't have a locale for a given WordPress locale,
@@ -277,6 +172,132 @@ export class CSLProcessor {
         'zh_HK': 'zh-CN',
         'zh_TW': 'zh-TW',
     };
+    private locale: string;
+
+    public style: string;
+    public state: Immutable.Map<
+        string, (Immutable.Map<string, {}> | Immutable.List<{}>)
+    >;
+    public citeproc;
+
+    /**
+     * Constructor for the CSLPreprossor class.
+     * @param  {string}  locale  The current user's locale string.
+     * @param  {{[id: string]:CSL.Data}}  citations  An object of CSL.Data.
+     *   Note, the object key MUST match the `id` param within the object.
+     * @param  {string}   style  The user's selected style string.
+     * @param  {Function} callback  Callback function
+     * @return {void}
+     * TODO: rewrite docblock
+     */
+    constructor(locale: string, style: string) {
+        this.state = Map({
+            citations: Map({}),
+            citationIDs: List([]),
+        });
+        this.style = !style ? 'american-medical-association' : style;
+        this.locale = locale;
+
+        this.init(style).then(data => {
+            if (data instanceof Error) {
+                console.error(data.message);
+                return;
+            }
+            this.citeproc = new CSL.Engine(data.sys, data.style);
+        });
+    }
+
+    /**
+     * Retrieves the locale rules for CSL using HTTP and passes it to a callback function.
+     * @param {string}   locale   The user's locale.
+     * @param {Function} callback Callback function.
+     * TODO: rewrite this docblock
+     */
+    private generateSys(locale: string): Promise<Citeproc.SystemObj|Error> {
+        return new Promise((resolve, reject) => {
+            const req = new XMLHttpRequest();
+            const cslLocale = !this.locales[locale] ? 'en-US' : this.locales[locale];
+            req.onreadystatechange = () => {
+                if (req.readyState === 4) {
+                    if (req.status !== 200) reject(new Error(req.responseText));
+                    resolve({
+                        retrieveLocale: (lang: string) => req.responseText,
+                        retrieveItem: (id: string|number) => this.state.getIn(['citations', id]),
+                    });
+                }
+            };
+            req.open('GET', `https://raw.githubusercontent.com/citation-style-language/locales/8c976408d3cb287d0cecb29f97752ec3a28db9e5/locales-${cslLocale}.xml`);
+            req.send(null);
+        })
+        .catch(e => e);
+    }
+
+    /**
+     * Retrieves the CSL style rules for the selected style using HTTP. When the
+     *   style instructions are received, a CSL.Engine is created and passed to
+     *   the callback function.
+     * @param  {string}   styleID  The style ID for the style of interest (no .csl extension)
+     * @param  {Function} callback Callback function.
+     * TODO: rewrite docblock
+     */
+    private getCSLStyle(style: string): Promise<string|Error> {
+        return new Promise((resolve, reject) => {
+            const req = new XMLHttpRequest();
+            req.open('GET', `https://raw.githubusercontent.com/citation-style-language/styles/master/${style}.csl`);
+            req.onreadystatechange = () => {
+                if (req.readyState === 4) {
+                    if (req.status !== 200) reject(new Error(req.responseText));
+                    resolve(req.responseText);
+                }
+            };
+            req.send(null);
+        })
+        .catch(e => e);
+    }
+
+    /** TODO */
+    init(styleID: string): Promise<{style: string, sys: Citeproc.SystemObj}|Error> {
+        this.style = styleID;
+        const p1 = this.getCSLStyle(styleID);
+        const p2 = this.generateSys(this.locale);
+        return Promise.all(
+            [p1, p2]
+        )
+        .then(data => {
+            const [style, sys] = data;
+            if (style instanceof Error) return style;
+            if (sys instanceof Error) return sys;
+            return {style, sys};
+        })
+        .catch(e => e);
+    }
+
+    /** TODO */
+    consumeCitations(citations: CSL.Data[]): void {
+        citations.forEach(c => {
+            this.state = this.state.setIn(['citations', c.id], c);
+            this.state = this.state.updateIn(['citationIDs'], arr => arr.push(c.id));
+        });
+        this.citeproc.updateItems(this.state.toJS().citationIDs);
+    }
+
+    /** TODO */
+    getSingleCitationData(currentIndex: number, csl: CSL.Data[]): Citeproc.CitationByIndexSingle {
+        let payload: Citeproc.CitationByIndexSingle = this.citeproc.registry.citationreg.citationByIndex[currentIndex];
+        if (!payload) {
+            payload = {
+                citationItems: [],
+                properties: { noteIndex: 0 },
+            };
+            csl.forEach((c) => payload.citationItems.push({id: c.id}));
+        }
+        return payload;
+    }
+
+    /** TODO */
+    testing(citationSingle: Citeproc.CitationByIndexSingle, citationsBefore: Citeproc.CitationsPrePost, citationsAfter: Citeproc.CitationsPrePost): any {
+        return this.citeproc.processCitationCluster(citationSingle, citationsBefore, citationsAfter);
+    }
 
 
 }
