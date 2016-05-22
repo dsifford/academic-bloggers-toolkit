@@ -288,7 +288,7 @@ export class ReferenceList extends React.Component<{}, State> {
 
     testTinymce(e) {
         e.preventDefault();
-        MCE.referenceWindow(this.editor, (data: ABT.ReferencePayload) => {
+        MCE.openReferenceWindow(this.editor, (data: ABT.ReferencePayload) => {
             if (!data.addManually) {
                 getRemoteData(data.identifierList, (res: CSL.Data[]|Error) => {
                     if (res instanceof Error) {

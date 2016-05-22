@@ -181,24 +181,18 @@ export class CSLProcessor {
     public citeproc;
 
     /**
-     * Constructor for the CSLPreprossor class.
-     * @param  {string}  locale  The current user's locale string.
-     * @param  {{[id: string]:CSL.Data}}  citations  An object of CSL.Data.
-     *   Note, the object key MUST match the `id` param within the object.
-     * @param  {string}   style  The user's selected style string.
-     * @param  {Function} callback  Callback function
-     * @return {void}
-     * TODO: rewrite docblock
+     * @param locale Locale string passed in from WordPress.
+     * @param style  Selected citation style (chosen on options page).
      */
     constructor(locale: string, style: string) {
         this.state = Map({
             citations: Map({}),
             citationIDs: List([]),
         });
-        this.style = !style ? 'american-medical-association' : style;
+        this.style = style === '' ? 'american-medical-association' : style;
         this.locale = locale;
 
-        this.init(style).then(data => {
+        this.init(this.style).then(data => {
             if (data instanceof Error) {
                 console.error(data.message);
                 return;
@@ -208,10 +202,11 @@ export class CSLProcessor {
     }
 
     /**
-     * Retrieves the locale rules for CSL using HTTP and passes it to a callback function.
-     * @param {string}   locale   The user's locale.
-     * @param {Function} callback Callback function.
-     * TODO: rewrite this docblock
+     * Called exclusively from the `init` method to generate the `sys` object
+     *   required by the CSL.Engine.
+     * @param locale The locale string from this.locales (handled in constructor)
+     * @return Promise that resolves either to a Citeproc.SystemObj or Error,
+     *   depending on the response from the network request.
      */
     private generateSys(locale: string): Promise<Citeproc.SystemObj|Error> {
         return new Promise((resolve, reject) => {
@@ -233,12 +228,11 @@ export class CSLProcessor {
     }
 
     /**
-     * Retrieves the CSL style rules for the selected style using HTTP. When the
-     *   style instructions are received, a CSL.Engine is created and passed to
-     *   the callback function.
-     * @param  {string}   styleID  The style ID for the style of interest (no .csl extension)
-     * @param  {Function} callback Callback function.
-     * TODO: rewrite docblock
+     * Called exclusively from the `init` method to get the CSL style file over
+     *   the air from the Github repo.
+     * @param style CSL style filename
+     * @return Promise that resolves to a string of CSL XML or an Error, depending
+     *   on the response from the network request.
      */
     private getCSLStyle(style: string): Promise<string|Error> {
         return new Promise((resolve, reject) => {
@@ -255,7 +249,14 @@ export class CSLProcessor {
         .catch(e => e);
     }
 
-    /** TODO */
+    /**
+     * Instantiates a new CSL.Engine (either when initially constructed or when
+     *   the user changes his/her selected citation style)
+     * @param styleID CSL style filename.
+     * @return Promise that resolves to either an object containing the style XML
+     *   and the `sys` object, or an Error depending on the responses from the
+     *   network.
+     */
     init(styleID: string): Promise<{style: string, sys: Citeproc.SystemObj}|Error> {
         this.style = styleID;
         const p1 = this.getCSLStyle(styleID);
@@ -272,7 +273,10 @@ export class CSLProcessor {
         .catch(e => e);
     }
 
-    /** TODO */
+    /**
+     * Updates the Citeproc object and the local state with new citation data.
+     * @param citations Array of CSL.Data.
+     */
     consumeCitations(citations: CSL.Data[]): void {
         citations.forEach(c => {
             this.state = this.state.setIn(['citations', c.id], c);
@@ -281,7 +285,14 @@ export class CSLProcessor {
         this.citeproc.updateItems(this.state.toJS().citationIDs);
     }
 
-    /** TODO */
+    /**
+     * Either retrieves a Citeproc.CitationByIndexSingle object from the citeproc
+     *   registry or, if it doesn't exist in the registry, transforms the CSL.Data[]
+     *   param into that shape.
+     * @param currentIndex The current inline-citation's index.
+     * @param csl Fallback CSL.Data[].
+     * @return Citeproc.CitationByIndexSingle for the current inline citation.
+     */
     getSingleCitationData(currentIndex: number, csl: CSL.Data[]): Citeproc.CitationByIndexSingle {
         let payload: Citeproc.CitationByIndexSingle = this.citeproc.registry.citationreg.citationByIndex[currentIndex];
         if (!payload) {

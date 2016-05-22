@@ -1,10 +1,10 @@
-import { getFromPMID, } from './utils/PubmedAPI';
-import { getFromDOI, } from './utils/CrossRefAPI';
-import { CSLPreprocessor, } from './utils/CSLPreprocessor';
-import { processDate, } from './utils/CSLFieldProcessors';
-import { parseInlineCitationString, parseReferenceURLs, } from './utils/HelperFunctions';
-import { abtGlobalEvents, } from './utils/Constants';
-import { referenceWindow, } from './utils/TinymceFunctions';
+import { getFromPMID } from './utils/PubmedAPI';
+import { getFromDOI } from './utils/CrossRefAPI';
+import { CSLPreprocessor } from './utils/CSLPreprocessor';
+import { processDate } from './utils/CSLFieldProcessors';
+import { parseInlineCitationString, parseReferenceURLs } from './utils/HelperFunctions';
+import { abtGlobalEvents } from './utils/Constants';
+// import { openReferenceWindow } from './utils/TinymceFunctions';
 
 declare var tinyMCE: TinyMCE.tinyMCE, ABT_locationInfo, wpActiveEditor;
 

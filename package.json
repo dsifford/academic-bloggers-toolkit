@@ -36,22 +36,22 @@
     "gulp-sourcemaps": "^2.0.0-alpha",
     "gulp-stylus": "^2.3.1",
     "gulp-uglify": "^1.5.3",
-    "jest-cli": "^12.0.2",
+    "jest-cli": "^12.1.0",
     "ntypescript": "^1.201605182206.1",
     "poststylus": "^0.2.3",
-    "react-addons-test-utils": "^15.0.2",
+    "react-addons-test-utils": "^15.1.0",
     "react-redux": "^4.4.5",
     "redux": "^3.5.2",
     "sinon": "^1.17.4",
     "ts-loader": "^0.8.2",
     "typescript": "^1.9.0-dev.20160429",
-    "webpack": "^1.13.0",
+    "webpack": "^1.13.1",
     "webpack-stream": "^3.2.0"
   },
   "dependencies": {
     "immutable": "^3.8.1",
-    "react": "^15.0.2",
-    "react-dom": "^15.0.2"
+    "react": "^15.1.0",
+    "react-dom": "^15.1.0"
   },
   "jest": {
     "scriptPreprocessor": "jestPreprocessor.js",
