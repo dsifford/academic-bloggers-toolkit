@@ -1,6 +1,12 @@
-import { Map, List } from 'immutable';
+import { localeConversions } from './Constants';
 
 declare var CSL;
+
+interface State {
+    citations: {
+        [itemID: string]: CSL.Data;
+    };
+}
 
 export class CSLProcessor {
 
@@ -9,195 +15,35 @@ export class CSLProcessor {
      *   in CSL (values). If CSL doesn't have a locale for a given WordPress locale,
      *   then false is used (which will default to en-US).
      */
-    private locales: {[wp: string]: string|boolean} = {
-        'af': 'af-ZA',
-        'ak': false,
-        'am': false,
-        'ar': 'ar',
-        'arq': 'ar',
-        'art_xemoji': 'ar',
-        'ary': 'ar',
-        'as': 'en-US',
-        'az_TR': 'tr-TR',
-        'az': 'tr-TR',
-        'azb': 'en-US',
-        'ba': false,
-        'bal': false,
-        'bcc': false,
-        'bel': false,
-        'bg_BG': 'bg-BG',
-        'bn_BD': 'en-US',
-        'bo': false,
-        'bre': false,
-        'bs_BA': false,
-        'ca': 'ca-AD',
-        'ceb': false,
-        'ckb': false,
-        'co': false,
-        'cs_CZ': 'cs-CZ',
-        'cy': 'cy-GB',
-        'da_DK': 'da-DK',
-        'de_CH': 'de-CH',
-        'de_DE': 'de-DE',
-        'dv': false,
-        'dzo': false,
-        'el': 'el-GR',
-        'en_AU': 'en-US',
-        'en_CA': 'en-US',
-        'en_GB': 'en-GB',
-        'en_NZ': 'en-US',
-        'en_US': 'en-US',
-        'en_ZA': 'en-US',
-        'eo': false,
-        'es_AR': 'es-ES',
-        'es_CL': 'es-CL',
-        'es_CO': 'es-CL',
-        'es_ES': 'es-ES',
-        'es_GT': 'es-ES',
-        'es_MX': 'es-MX',
-        'es_PE': 'es-CL',
-        'es_PR': 'es-CL',
-        'es_VE': 'es-CL',
-        'et': 'et-ET',
-        'eu': 'eu',
-        'fa_AF': 'fa-IR',
-        'fa_IR': 'fa-IR',
-        'fi': 'fi-FI',
-        'fo': false,
-        'fr_BE': 'fr-FR',
-        'fr_CA': 'fr-CA',
-        'fr_FR': 'fr-FR',
-        'frp': false,
-        'fuc': false,
-        'fur': false,
-        'fy': false,
-        'ga': false,
-        'gd': false,
-        'gl_ES': false,
-        'gn': false,
-        'gsw': 'de-CH',
-        'gu': false,
-        'haw_US': 'en-US',
-        'haz': false,
-        'he_IL': 'he-IL',
-        'hi_IN': false,
-        'hr': 'hr-HR',
-        'hu_HU': 'hu-HU',
-        'hy': false,
-        'id_ID': 'id-ID',
-        'ido': false,
-        'is_IS': 'is-IS',
-        'it_IT': 'it-IT',
-        'ja': 'ja-JP',
-        'jv_ID': false,
-        'ka_GE': false,
-        'kab': false,
-        'kal': false,
-        'kin': false,
-        'kk': false,
-        'km': 'km-KH',
-        'kn': false,
-        'ko_KR': 'ko-KR',
-        'ky_KY': false,
-        'lb_LU': 'lt-LT',
-        'li': false,
-        'lin': false,
-        'lo': false,
-        'lt_LT': 'lt-LT',
-        'lv': 'lv-LV',
-        'me_ME': false,
-        'mg_MG': false,
-        'mk_MK': false,
-        'ml_IN': false,
-        'mn': 'mn-MN',
-        'mr': false,
-        'mri': false,
-        'ms_MY': false,
-        'my_MM': false,
-        'nb_NO': 'nb-NO',
-        'ne_NP': false,
-        'nl_BE': 'nl-NL',
-        'nl_NL': 'nl-NL',
-        'nn_NO': 'nn-NO',
-        'oci': false,
-        'ory': false,
-        'os': false,
-        'pa_IN': false,
-        'pl_PL': 'pl-PL',
-        'ps': false,
-        'pt_BR': 'pt-PR',
-        'pt_PT': 'pt-PT',
-        'rhg': false,
-        'ro_RO': 'ro-RO',
-        'roh': false,
-        'ru_RU': 'ru-RU',
-        'rue': false,
-        'rup_MK': false,
-        'sa_IN': false,
-        'sah': false,
-        'si_LK': false,
-        'sk_SK': 'sk-SK',
-        'sl_SI': 'sl-SI',
-        'snd': false,
-        'so_SO': false,
-        'sq': false,
-        'sr_RS': 'sr-RS',
-        'srd': false,
-        'su_ID': false,
-        'sv_SE': 'sv-SE',
-        'sw': false,
-        'szl': false,
-        'ta_IN': false,
-        'ta_LK': false,
-        'tah': false,
-        'te': false,
-        'tg': false,
-        'th': 'th-TH',
-        'tir': false,
-        'tl': false,
-        'tr_TR': 'tr-TR',
-        'tt_RU': false,
-        'tuk': false,
-        'twd': false,
-        'tzm': false,
-        'ug_CN': false,
-        'uk': 'uk-UA',
-        'ur': false,
-        'uz_UZ': false,
-        'vi': 'vi-VN',
-        'wa': false,
-        'xmf': false,
-        'yor': false,
-        'zh_CN': 'zh-CN',
-        'zh_HK': 'zh-CN',
-        'zh_TW': 'zh-TW',
-    };
+    private locales = localeConversions;
     private locale: string;
 
     public style: string;
-    public state: Immutable.Map<
-        string, (Immutable.Map<string, {}> | Immutable.List<{}>)
-    >;
-    public citeproc;
+    public state: State;
+    public citeproc: Citeproc.Processor;
 
     /**
      * @param locale Locale string passed in from WordPress.
      * @param style  Selected citation style (chosen on options page).
      */
-    constructor(locale: string, style: string) {
-        this.state = Map({
-            citations: Map({}),
-            citationIDs: List([]),
-        });
+    constructor(locale: string, style: string, state, citationsByIndex: Citeproc.Citation[]) {
+        this.state = {
+            citations: state,
+        };
+        console.log(this.state);
         this.style = style === '' ? 'american-medical-association' : style;
         this.locale = locale;
 
-        this.init(this.style).then(data => {
+        this.init(this.style)
+        .then(data => {
             if (data instanceof Error) {
                 console.error(data.message);
                 return;
             }
             this.citeproc = new CSL.Engine(data.sys, data.style);
+        })
+        .then(() => {
+            this.citeproc.rebuildProcessorState(citationsByIndex);
         });
     }
 
@@ -217,7 +63,7 @@ export class CSLProcessor {
                     if (req.status !== 200) reject(new Error(req.responseText));
                     resolve({
                         retrieveLocale: (lang: string) => req.responseText,
-                        retrieveItem: (id: string|number) => this.state.getIn(['citations', id]),
+                        retrieveItem: (id: string|number) => this.state.citations[id],
                     });
                 }
             };
@@ -277,12 +123,13 @@ export class CSLProcessor {
      * Updates the Citeproc object and the local state with new citation data.
      * @param citations Array of CSL.Data.
      */
-    consumeCitations(citations: CSL.Data[]): void {
+    consumeCitations(citations: CSL.Data[]): {[itemID: string]: CSL.Data} {
+        const newCitations = {};
         citations.forEach(c => {
-            this.state = this.state.setIn(['citations', c.id], c);
-            this.state = this.state.updateIn(['citationIDs'], arr => arr.push(c.id));
+            newCitations[c.id] = c;
         });
-        this.citeproc.updateItems(this.state.toJS().citationIDs);
+        this.state.citations = Object.assign({}, this.state.citations, newCitations);
+        return this.state.citations;
     }
 
     /**
@@ -293,22 +140,13 @@ export class CSLProcessor {
      * @param csl Fallback CSL.Data[].
      * @return Citeproc.CitationByIndexSingle for the current inline citation.
      */
-    getSingleCitationData(currentIndex: number, csl: CSL.Data[]): Citeproc.CitationByIndexSingle {
-        let payload: Citeproc.CitationByIndexSingle = this.citeproc.registry.citationreg.citationByIndex[currentIndex];
-        if (!payload) {
-            payload = {
-                citationItems: [],
-                properties: { noteIndex: 0 },
-            };
-            csl.forEach((c) => payload.citationItems.push({id: c.id}));
-        }
+    prepareInlineCitationData(currentIndex: number, csl: CSL.Data[]): Citeproc.Citation {
+        const payload = {
+            citationItems: [],
+            properties: { noteIndex: 0 },
+        };
+        csl.forEach((c) => payload.citationItems.push({id: c.id}));
         return payload;
     }
-
-    /** TODO */
-    testing(citationSingle: Citeproc.CitationByIndexSingle, citationsBefore: Citeproc.CitationsPrePost, citationsAfter: Citeproc.CitationsPrePost): any {
-        return this.citeproc.processCitationCluster(citationSingle, citationsBefore, citationsAfter);
-    }
-
 
 }

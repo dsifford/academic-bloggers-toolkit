@@ -1,5 +1,7 @@
-export const ADD_REF = 'ADD_REF';
-export const DELETE_REF = 'DELETE_REF';
-export const MOVE_REF = 'MOVE_REF';
-export const SELECT_REF = 'SELECT_REF';
+export const ADD_CITATION = 'ADD_CITATION';
+export const REMOVE_CITATION = 'REMOVE_CITATION';
+export const MOVE_CITATION = 'MOVE_CITATION';
+
+export const ADD_TO_SELECTION = 'ADD_TO_SELECTION';
 export const CLEAR_SELECTION = 'CLEAR_SELECTION';
+export const TOGGLE_LOADING = 'TOGGLE_LOADING';

@@ -13,7 +13,7 @@ import * as processor from './CSLFieldProcessors';
  */
 export function PubmedQuery(query: string, callback: Function, bypassJSONFormatter: boolean = false): void {
 
-    let requestURL: string = `http://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=pubmed&term=${encodeURI(query) }&retmode=json`;
+    let requestURL: string = `https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=pubmed&term=${encodeURI(query) }&retmode=json`;
     let request = new XMLHttpRequest();
     request.open('GET', requestURL, true);
     request.onload = () => {
@@ -51,7 +51,7 @@ export function PubmedQuery(query: string, callback: Function, bypassJSONFormatt
  */
 export function getFromPMID(PMIDlist: string, callback: Function, bypassJSONFormatter: boolean = false): void {
 
-    let requestURL = `http://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi?db=pubmed&id=${PMIDlist}&version=2.0&retmode=json`;
+    let requestURL = `https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi?db=pubmed&id=${PMIDlist}&version=2.0&retmode=json`;
     let request = new XMLHttpRequest();
     request.open('GET', requestURL, true);
     request.onreadystatechange = () => {

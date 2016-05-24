@@ -8,6 +8,19 @@ interface InputEvent extends UIEvent {
 
 declare namespace ABT {
 
+    interface LocationInfo {
+        /** URL to the `js` directory */
+        jsURL: string;
+        /** URL `views` within the `tinymce` directory */
+        tinymceViewsURL: string;
+        /** CSL style filename of the user's preferred citation style (without .csl extension) */
+        preferredCitationStyle: string;
+        /** The WordPress post type NOTE: probably can remove this */
+        postType: string;
+        /** The user's locale (WordPress format) */
+        locale: string;
+    }
+
     interface ReferencePayload {
         addManually: boolean;
         attachInline: boolean;
@@ -111,15 +124,51 @@ declare namespace ABT {
 
 declare namespace Citeproc {
 
-    type CitationByIndex = CitationByIndexSingle[];
-    type CitationsPrePost = [string, number][]
+    /**
+     * 1:
+     *     - bibend: Closing div tag for bibliography.
+     *     - bibliography_errors: array of strings? for errors.
+     *     - bibstart: Opening div tag for bibliography.
+     *     - done: boolean (not sure what for)
+     *     - entry_ids: array of itemIDs
+     *     - entryspacing: horizontal spacing?
+     *     - linespacing: vertical spacing?
+     *     - second-field-align: either "flush" or "margin"
+     * 2: Array of raw citation HTML.
+     */
+    type Bibliography = [
+        {
+            bibend: string;
+            'bibliography_errors': string[];
+            bibstart: string;
+            done: boolean;
+            'entry_ids': [string][];
+            entryspacing: number;
+            linespacing: number;
+            maxoffset: number;
+            'second-field-align': 'flush'|'margin';
+        },
+        string[]
+    ];
+    type CitationByIndex = Citation[];
+    /**
+     * 0: The index of the HTMLSpanElement within the document
+     * 1: An HTML string of the inline citation.
+     * 2: A string containing a unique ID which should be used for the span
+     *    element's ID.
+     */
+    type CitationClusterData = [number, string, string];
+    type CitationsPrePost = [string, number][];
+    /**
+     * 0: A string containing a unique ID which should be used for the span
+     *    element's ID.
+     * 1: The index of the HTMLSpanElement within the document
+     * 2: An HTML string of the inline citation.
+     * @type {Array}
+     */
+    type RebuildProcessorStateData = [string, number, string];
 
-    interface SystemObj {
-        retrieveLocale(lang: string): string;
-        retrieveItem(id: string|number): CSL.Data;
-    }
-
-    interface CitationByIndexSingle {
+    interface Citation {
         citationID?: string|number;
         citationItems: {
             id: string|number;
@@ -130,6 +179,37 @@ declare namespace Citeproc {
             noteIndex: number;
         };
         sortedItems?: [CSL.Data, { id: string|number }][];
+    }
+
+    interface CitationRegistry {
+        /** Retrieve citation(s) by a HTMLSpanElement ID */
+        citationById: {
+            [id: string]: Citation;
+        };
+        /** Retrieve citation(s) by the index of its parent HTMLSpanElement in the document */
+        citationByIndex: Citation[];
+        /** Retrieve citation by the unique citation ID */
+        citationsByItemId: {
+            [itemId: string]: Citation;
+        };
+    }
+
+    interface SystemObj {
+        retrieveLocale(lang: string): string;
+        retrieveItem(id: string|number): CSL.Data;
+    }
+
+    interface Processor {
+        registry: {
+            citationreg: CitationRegistry;
+        };
+        makeBibliography(): Bibliography;
+        processCitationCluster(
+            citation: Citeproc.Citation,
+            pre: Citeproc.CitationsPrePost,
+            post: Citeproc.CitationsPrePost
+        ): [{ bibchange: boolean; 'citation_errors': string[]}, CitationClusterData[]];
+        rebuildProcessorState(citationByIndex: Citation[]): RebuildProcessorStateData[];
     }
 
 }

@@ -25,8 +25,10 @@ export function openReferenceWindow(editor: TinyMCE.Editor, callback: (data: ABT
 
 
 
-interface CitationData {
+interface CitationPositions {
+    /** The index of the HTMLSpanElement being inserted */
     currentIndex: number;
+    /** Tuple type: 0: HTMLSpanElement ID, 1: HTMLSpanElement Index */
     locations: [[string, number][], [string, number][]];
 }
 
@@ -39,7 +41,7 @@ interface CitationData {
  * @param editor The active TinyMCE instance.
  * @return Parsed citation data.
  */
-export function getCitationData(editor: TinyMCE.Editor): CitationData {
+export function getRelativeCitationPositions(editor: TinyMCE.Editor): CitationPositions {
     const selection = editor.selection;
     const doc: Document = editor.dom.doc;
 
@@ -47,7 +49,7 @@ export function getCitationData(editor: TinyMCE.Editor): CitationData {
     selection.getNode().appendChild(cursor);
 
     const citations = doc.getElementsByClassName('abt_cite');
-    const payload: CitationData = {
+    const payload: CitationPositions = {
         currentIndex: 0,
         locations: [[], []],
     };
@@ -68,6 +70,13 @@ export function getCitationData(editor: TinyMCE.Editor): CitationData {
 }
 
 /** TODO */
-export function insertInlineCitation(editor: TinyMCE.Editor, data) {
-    editor.insertContent(`<span id='${data[0][2]}' class='abt_cite noselect mceNonEditable'>${data[0][1]}</span>`);
+export function parseInlineCitations(editor: TinyMCE.Editor, data) {
+    for (const [i, item] of data.entries()) {
+        if (i === 0) {
+            editor.insertContent(`<span id='${item[2]}' class='abt_cite noselect mceNonEditable'>${item[1]}</span>`);
+            continue;
+        }
+        const citation: HTMLSpanElement = editor.dom.doc.getElementById(item[2]);
+        citation.innerHTML = item[1];
+    }
 }

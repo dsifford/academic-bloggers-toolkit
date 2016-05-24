@@ -1,7 +1,27 @@
-import * as types from '../constants/ActionTypes';
+import {
+    ADD_CITATION,
+    REMOVE_CITATION,
+    MOVE_CITATION,
+    ADD_TO_SELECTION,
+    CLEAR_SELECTION,
+} from '../constants/ActionTypes';
 
-export const addRef = (ref) => ({ type: types.ADD_REF, ref, });
-export const deleteRef = (ref) => ({ type: types.DELETE_REF, ref, });
-export const moveRef = (ref) => ({ type: types.MOVE_REF, ref, });
-export const selectRef = (ref) => ({ type: types.SELECT_REF, ref, });
-export const clearSelection = () => ({ type: types.CLEAR_SELECTION, });
+export function addCitation(citation: CSL.Data) {
+    return { type: ADD_CITATION, citation };
+}
+
+export function removeCitation() {
+    return { type: REMOVE_CITATION };
+}
+
+export function moveCitation() {
+    return { type: MOVE_CITATION };
+}
+
+export function addToSelection() {
+    return { type: ADD_TO_SELECTION };
+}
+
+export function clearSelection() {
+    return { type: CLEAR_SELECTION };
+}

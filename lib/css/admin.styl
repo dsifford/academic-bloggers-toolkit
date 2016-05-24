@@ -6,6 +6,7 @@ $ebebeb = #ebebeb
 $a0a5aa = a0a5aa
 $c9 = #c9c9c9
 $f9 = #f9f9f9
+$ddd = #ddd
 
 #abt_menubutton
     &::after
@@ -126,3 +127,39 @@ i.mce-i-abt_menu
     label
         white-space nowrap
         padding 0 10px
+
+
+// =========== Reference List ====================
+#abt_reflist
+    .inside
+        margin 0
+#abt-reflist
+    .panel
+        display flex
+        padding 10px 0
+        margin-top -6px
+        background $f5
+        border-bottom 1px solid $ddd
+        border-top 1px solid $ddd
+        clear both
+        justify-content space-around
+
+        button.abt-reflist-button
+            span
+                pointer-events: none
+                height 18px
+                width 18px
+                &.insert-inline
+                    transform rotateY(180deg)
+                    padding-left 2px
+                &.add-reference
+                    line-height 22px
+                    width 20px
+                    padding-right 2px
+                &.remove-reference
+                    font-weight 900
+                    padding-right 2px
+    .list
+        max-height 1000px
+        overflow-y auto
+        overflow-x hidden

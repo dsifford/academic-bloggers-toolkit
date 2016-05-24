@@ -3,151 +3,32 @@ import { getFromDOI } from './utils/CrossRefAPI';
 import { CSLPreprocessor } from './utils/CSLPreprocessor';
 import { processDate } from './utils/CSLFieldProcessors';
 import { parseInlineCitationString, parseReferenceURLs } from './utils/HelperFunctions';
-import { abtGlobalEvents } from './utils/Constants';
-// import { openReferenceWindow } from './utils/TinymceFunctions';
+import { EVENTS } from './utils/Constants';
+const { TINYMCE_READY, REFERENCE_ADDED, OPEN_REFERENCE_WINDOW } = EVENTS;
 
-declare var tinyMCE: TinyMCE.tinyMCE, ABT_locationInfo, wpActiveEditor;
+declare var tinyMCE: TinyMCE.tinyMCE;
+declare const ABT_locationInfo: ABT.LocationInfo;
+declare const wpActiveEditor: string;
 
 tinyMCE.PluginManager.add('abt_main_menu', (editor: TinyMCE.Editor, url: string) => {
 
     // Fixes issues created if other plugins spawn separate TinyMCE instances
     if (editor.id !== wpActiveEditor) { return; }
 
-    interface ReferenceWindowPayload {
-        identifierList: string;
-        citationStyle: string;
-        showCitationSelect: boolean;
-        includeLink: boolean;
-        attachInline: boolean;
-        addManually: boolean;
-        people: CSL.TypedPerson[];
-        manualData: CSL.Data;
-    }
+    // const eventCreator = (kind: string) => {
+    //
+    // };
 
 
-    const openFormattedReferenceWindow = (ed) => {
-        ed.windowManager.open({
-            title: 'Insert Formatted Reference',
-            url: ABT_locationInfo.tinymceViewsURL + 'reference-window.html',
-            width: 600,
-            height: 10,
-            params: {
-                baseUrl: ABT_locationInfo.tinymceViewsURL,
-                preferredStyle: ABT_locationInfo.preferredCitationStyle,
-            },
-            onclose: (e) => {
-
-                // If the user presses the exit button, return.
-                if (Object.keys(e.target.params).length === 0) {
-                    return;
-                }
-
-                ed.setProgressState(1);
-                let payload: ReferenceWindowPayload = e.target.params.data;
-
-                // Handle PubMed and CrossRef calls
-                if (!payload.addManually) {
-
-                    let identifiers: string = payload.identifierList.replace(/\s/g, '');
-
-                    let PMIDlist: string[] = [];
-                    let DOIlist: string[] = [];
-
-                    identifiers.split(',').forEach(i => {
-                        if (i.search(/^10\./) > -1) {
-                            DOIlist.push(i);
-                            return;
-                        }
-                        PMIDlist.push(i);
-                    });
-
-
-                    let p1 = new Promise((resolve, reject) => {
-                        getFromPMID(PMIDlist.join(','), (res: Error | { [id: string]: CSL.Data }) => {
-                            if (res instanceof Error) {
-                                reject(res.message);
-                                return;
-                            }
-
-                            let processor = new CSLPreprocessor(ABT_locationInfo.locale, res, payload.citationStyle, (citeproc) => {
-                                let data = processor.prepare(citeproc);
-                                if (payload.includeLink) {
-                                    data = data.map((ref: string, i: number) =>
-                                        `${ref} PMID: <a href="https://www.ncbi.nlm.nih.gov/pubmed/${PMIDlist[i]}" target="_blank">${PMIDlist[i]}</a>`);
-                                }
-                                resolve(data);
-                            });
-                        });
-                    });
-
-                    let p2 = new Promise((resolve, reject) => {
-                        let promises = [];
-                        DOIlist.forEach((doi: string, i: number) => {
-                            promises.push(
-                                new Promise((resolveInner, rejectInner) => {
-                                    getFromDOI(doi, (res: Error | { [id: string]: CSL.Data }) => {
-                                        if (res instanceof Error) {
-                                            rejectInner(res.message);
-                                            return;
-                                        }
-
-                                        let processor = new CSLPreprocessor(ABT_locationInfo.locale, res, payload.citationStyle, (citeproc) => {
-                                            let data = processor.prepare(citeproc);
-                                            if (payload.includeLink) {
-                                                data = parseReferenceURLs(data);
-                                            }
-                                            resolveInner(data);
-                                        });
-                                    });
-                                })
-                            );
-                        });
-
-                        Promise.all(promises).then((data) => {
-                            resolve(data.reduce((a, b) => a.concat(b), []));
-                        }, (err) => {
-                            reject(err);
-                        });
-
-                    });
-
-                    Promise.all([p1, p2, ]).then((data: any) => {
-                        let combined = data.reduce((a, b) => a.concat(b), []);
-                        deliverContent(combined, { attachInline: payload.attachInline, });
-                    }, (err) => {
-                        ed.setProgressState(0);
-                        ed.windowManager.alert(err);
-                    });
-                    return;
-                }
-
-                // Process manual name fields
-                payload.people.forEach(person => {
-
-                    if (typeof payload.manualData[person.type] === 'undefined') {
-                        payload.manualData[person.type] = [{ family: person.family, given: person.given, }, ];
-                        return;
-                    }
-
-                    payload.manualData[person.type].push({ family: person.family, given: person.given, });
-                });
-
-                // Process date fields
-                ['accessed', 'event-date', 'issued', ].forEach(dateType => {
-                    payload.manualData[dateType] = processDate(payload.manualData[dateType], 'RIS');
-                });
-
-                let processor = new CSLPreprocessor(ABT_locationInfo.locale, { 0: payload.manualData, }, payload.citationStyle, (citeproc) => {
-                    let data = processor.prepare(citeproc);
-                    if (payload.includeLink) {
-                        data = parseReferenceURLs(data);
-                    }
-                    deliverContent(data, { attachInline: payload.attachInline, });
-                });
-            },
-        } as TinyMCE.WindowMangerObject);
-    };
-    editor.addShortcut('meta+alt+r', 'Insert Formatted Reference', openFormattedReferenceWindow.bind(null, editor));
+    editor.addShortcut(
+        'meta+alt+r',
+        'Insert Formatted Reference',
+        dispatchEvent.bind(null, new CustomEvent(OPEN_REFERENCE_WINDOW))
+    );
+    // editor.addShortcut('meta+alt+r', 'Insert Formatted Reference', () => {
+    //     const x = new CustomEvent(shortcuts.REFERENCE_WINDOW);
+    //     window.dispatchEvent(x);
+    // });
 
 
     interface RefImportPayload {
@@ -210,7 +91,7 @@ tinyMCE.PluginManager.add('abt_main_menu', (editor: TinyMCE.Editor, url: string)
             li.innerHTML = ref;
             smartBib.appendChild(li);
             reflist.push(smartBib.children.length - 1);
-            dispatchEvent(new CustomEvent(abtGlobalEvents.REFERENCE_ADDED, { detail: ref, }));
+            dispatchEvent(new CustomEvent(REFERENCE_ADDED, { detail: ref, }));
         });
 
         if (payload.attachInline) {
@@ -297,12 +178,12 @@ tinyMCE.PluginManager.add('abt_main_menu', (editor: TinyMCE.Editor, url: string)
     // Event Handlers
     editor.on('init', () => {
         // addEventListener(abtGlobalEvents.INSERT_REFERENCE, openFormattedReferenceWindow.bind(null, editor));
-        dispatchEvent(new CustomEvent(abtGlobalEvents.TINYMCE_READY));
+        dispatchEvent(new CustomEvent(TINYMCE_READY));
     });
 
-    editor.on('remove', () => {
-        // removeEventListener(abtGlobalEvents.INSERT_REFERENCE, openFormattedReferenceWindow);
-    });
+    // editor.on('remove', () => {
+    //     // removeEventListener(abtGlobalEvents.INSERT_REFERENCE, openFormattedReferenceWindow);
+    // });
 
 
     // Register Button

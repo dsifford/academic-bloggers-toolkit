@@ -7,16 +7,12 @@ import { Card, } from '../Card';
 
 const setup = (
     num: number,
-    selected: number[]
+    selected: boolean
 ) => {
     const spy = sinon.spy();
     const component = mount(
         <Card
-            dragStart={spy}
-            dragOver={spy}
-            dragLeave={spy}
             onClick={spy}
-            drop={spy}
             num={num}
             html={`<h1>Hello World</h1>`}
             isSelected={selected} />
@@ -29,7 +25,7 @@ const setup = (
 
 describe('<Card />', () => {
     it('should render as selected when index is in "selected"', () => {
-        const { component, } = setup(1, [1, ]);
+        const { component, } = setup(1, true);
         const style = {
             borderBottom: '1px solid #E5E5E5',
             padding: 5,
@@ -40,7 +36,7 @@ describe('<Card />', () => {
         expect(component.find('.abt-card').props().style).toEqual(style);
     });
     it('should render as unselected when index not in "selected"', () => {
-        const { component, } = setup(3, [1, ]);
+        const { component, } = setup(3, false);
         const style = {
             borderBottom: '1px solid #E5E5E5',
             padding: 5,

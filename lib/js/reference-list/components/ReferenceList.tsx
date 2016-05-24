@@ -1,128 +1,93 @@
 import * as React from 'react';
-import { parseInlineCitationString, } from '../../utils/HelperFunctions';
-import { abtGlobalEvents, } from '../../utils/Constants';
-import { Card, } from './Card';
+import { parseInlineCitationString } from '../../utils/HelperFunctions';
+import { EVENTS } from '../../utils/Constants';
 import * as MCE from '../../utils/TinymceFunctions';
-import { CSLProcessor, } from '../../utils/CSLProcessor';
-import { getRemoteData } from '../API';
+import { CSLProcessor } from '../../utils/CSLProcessor';
+import { getRemoteData, parseManualData } from '../API';
+import { Card } from './Card';
+import { PanelButton } from './PanelButton';
 
-declare var tinyMCE: TinyMCE.tinyMCE, ABT_locationInfo;
+declare const tinyMCE: TinyMCE.tinyMCE;
+declare const ABT_locationInfo: ABT.LocationInfo;
+declare const ABT_Reflist_State: string;
 
-interface State {
+const { OPEN_REFERENCE_WINDOW, TINYMCE_READY } = EVENTS;
+
+interface SavedState {
+    bibliography: {
+        id: string;
+        html: string;
+    }[];
+    cache: {
+        style: string;
+        locale: string;
+    };
+    citations: Citeproc.CitationRegistry;
+    processorState: {
+        [itemID: string]: CSL.Data;
+    };
+}
+
+interface State extends SavedState {
+    selected: string[];
     loading: boolean;
-    references: string[];
-    selected: number[];
 }
 
 export class ReferenceList extends React.Component<{}, State> {
 
     private editor: TinyMCE.Editor;
-    private processor = new CSLProcessor(ABT_locationInfo.locale, ABT_locationInfo.preferredCitationStyle);
+    private processor;
 
     constructor() {
         super();
+        const { bibliography, cache, processorState, citations }: SavedState = JSON.parse(ABT_Reflist_State);
+        this.processor = new CSLProcessor(
+            ABT_locationInfo.locale,
+            ABT_locationInfo.preferredCitationStyle,
+            processorState,
+            citations.citationByIndex
+        );
         this.state = {
-            loading: true,
-            references: [],
+            bibliography,
+            cache,
+            processorState,
+            citations,
             selected: [],
+            loading: true,
         };
-        console.log(this.processor);
     }
 
     componentDidMount() {
-        addEventListener(abtGlobalEvents.TINYMCE_READY, this.gatherReferences.bind(this));
-        addEventListener(abtGlobalEvents.REFERENCE_ADDED, this.addReference.bind(this));
+        addEventListener(TINYMCE_READY, this.initTinyMCE.bind(this));
+        addEventListener(OPEN_REFERENCE_WINDOW, this.openReferenceWindow.bind(this));
     }
 
-    componentWillUnmount() {
-        removeEventListener(abtGlobalEvents.REFERENCE_ADDED, this.addReference);
-    }
-
-    gatherReferences() {
+    initTinyMCE() {
         this.editor = tinyMCE.activeEditor;
-        let bib = this.editor.dom.doc.getElementById('abt-smart-bib');
-
-        if (!bib) {
-            this.setState({
+        this.setState(
+            Object.assign({}, this.state, {
                 loading: false,
-                references: [],
-                selected: [],
-            });
-            return;
-        }
-
-        let children = bib.children;
-        let references: string[] = [];
-        for (let i = 0; i < children.length; i++) {
-            references.push(children[i].innerHTML);
-        }
-        this.setState({
-            loading: false,
-            references,
-            selected: [],
-        });
-    }
-
-    addReference(e: CustomEvent) {
-        this.setState(
-            Object.assign({}, this.state, {
-                references: [
-                    ...this.state.references,
-                    e.detail,
-                ],
             })
         );
     }
 
-    removeReference(e: InputEvent) {
-        let references = [...this.state.references, ];
-        let removeList: number[] = [];
-        this.state.selected.forEach((ref) => {
-            removeList.push(ref);
-        });
-
-        for (let i = 0; i < removeList.length; i++) {
-            references = [
-                ...references.slice(0, removeList[i] - i),
-                ...references.slice((removeList[i] - i) + 1),
-            ];
-        }
-
-        this.correctForDeletion(removeList);
-
-        this.setState(
-            Object.assign({}, this.state, {
-                references,
-                selected: [],
-            })
-        );
-        this.adjustBibliography(references);
-
-
-    }
-
-    handleClick(e: MouseEvent) {
-        let num = parseInt((e.target as HTMLDivElement).dataset['num']);
-        let newSelected = [...this.state.selected, ];
-        let i = newSelected.indexOf(num);
-
-        switch (i) {
-            case -1:
-                newSelected.push(num);
-                newSelected.sort((a, b) => a - b);
-                break;
+    toggleSelect(id: string, isSelected: boolean, e: MouseEvent) {
+        switch (isSelected) {
+            case true:
+                return this.setState(
+                    Object.assign({}, this.state, {
+                        selected: this.state.selected.filter((i) => i !== id),
+                    })
+                );
+            case false:
+                return this.setState(
+                    Object.assign({}, this.state, {
+                        selected: [...this.state.selected, id],
+                    })
+                );
             default:
-                newSelected = [
-                    ...newSelected.slice(0, i),
-                    ...newSelected.slice(i + 1),
-                ];
+                return;
         }
-
-        this.setState(
-            Object.assign({}, this.state, {
-                selected: newSelected,
-            })
-        );
     }
 
     clearSelection() {
@@ -133,179 +98,54 @@ export class ReferenceList extends React.Component<{}, State> {
         );
     }
 
-    insertInline() {
-        let citeString = parseInlineCitationString(this.state.selected.map(i => i + 1));
-        this.editor.insertContent(
-            `<span class="abt_cite noselect mceNonEditable" contenteditable="false" data-reflist="[${this.state.selected}]">[${citeString}]</span>`
-        );
-        this.clearSelection();
-    }
+    insertInline(data: CSL.Data[], processorState: {[itemID: string]: CSL.Data}) {
 
-    dragStart(e: DragEvent) {
-        this.setState(
-            Object.assign({}, this.state, {
-                selected: [],
-            })
-        );
-        e.dataTransfer.setData('text/plain', (e.target as HTMLDivElement).dataset['num']);
-        e.dataTransfer.dropEffect = 'move';
-    }
-
-    dragOver(e: DragEvent) {
-        e.preventDefault();
-        e.dataTransfer.dropEffect = 'move';
-        (e.target as HTMLDivElement).style.backgroundColor = '#0073AA';
-        (e.target as HTMLDivElement).style.color = '#FFF';
-    }
-
-
-    dragLeave(e: DragEvent) {
-        e.preventDefault();
-        (e.target as HTMLDivElement).style.backgroundColor = '';
-        (e.target as HTMLDivElement).style.color = 'inherit';
-    }
-
-    drop(e: DragEvent) {
-        e.preventDefault();
-        (e.target as HTMLDivElement).style.backgroundColor = '';
-        (e.target as HTMLDivElement).style.color = 'inherit';
-        let before = parseInt(e.dataTransfer.getData('text'));
-        let after = parseInt((e.target as HTMLDivElement).dataset['num']);
-        let refCard = this.state.references[before];
-        let newRefList = [
-            ...this.state.references.slice(0, before),
-            ...this.state.references.slice(before + 1),
-        ];
-
-        newRefList = [
-            ...newRefList.slice(0, after),
-            refCard,
-            ...newRefList.slice(after),
-        ];
-
-        this.setState(
-            Object.assign({}, this.state, {
-                references: newRefList,
-            })
-        );
-
-        this.adjustInlineCitations(before, after);
-        this.adjustBibliography(newRefList);
-
-    }
-
-    adjustInlineCitations(before: number, after: number) {
-
-        let citations = (tinyMCE.activeEditor.dom.doc as HTMLDocument).getElementsByClassName('abt_cite');
-
-        for (let cite of Array.from(citations)) {
-            let reflist: number[] = JSON.parse((cite as HTMLSpanElement).dataset['reflist']);
-            let incrementer: number = before > after ? 1 : -1;
-            reflist.forEach((ref: number, i: number) => {
-                switch (true) {
-                    case after <= ref && ref < before:
-                        reflist[i] = reflist[i] + incrementer;
-                        break;
-                    case before < ref && ref <= after:
-                        reflist[i] = reflist[i] + incrementer;
-                        break;
-                    case before === ref:
-                        reflist[i] = after;
-                }
+        if (data.length === 0) {
+            this.state.selected.forEach(id => {
+                data.push(this.processor.citeproc.sys.retrieveItem(id));
             });
-            reflist = reflist.sort((a, b) => a - b);
-            (cite as HTMLSpanElement).dataset['reflist'] = JSON.stringify(reflist);
-            (cite as HTMLSpanElement).innerText = `[${parseInlineCitationString(reflist.map(i => i + 1))}]`;
         }
 
-    }
-
-    correctForDeletion(deletionList: number[]) {
-        let citations = (tinyMCE.activeEditor.dom.doc as HTMLDocument).getElementsByClassName('abt_cite');
-
-        for (let cite of Array.from(citations)) {
-            let reflist: number[] = JSON.parse((cite as HTMLSpanElement).dataset['reflist']);
-            let newRefList: number[] = [...reflist, ];
-            let removeList: number[] = [];
-            reflist.forEach((ref: number, i: number) => {
-                deletionList.forEach((ind: number) => {
-                    switch (true) {
-                        case ref === ind:
-                            removeList.push(ref);
-                            break;
-                        case ref > ind && deletionList.indexOf(ref) === -1:
-                            newRefList[i] = newRefList[i] - 1;
-                    }
-                });
-            });
-
-            if (removeList.length > 0) {
-                for (let i = 0; i < removeList.length; i++) {
-                    let removeIndex = newRefList.indexOf(removeList[i]);
-                    newRefList = [
-                        ...newRefList.slice(0, removeIndex),
-                        ...newRefList.slice(removeIndex + 1),
-                    ];
-                }
-            }
-
-            if (newRefList.length === 0) {
-                cite.remove();
-                continue;
-            }
-
-            (cite as HTMLSpanElement).dataset['reflist'] = JSON.stringify(newRefList);
-            (cite as HTMLSpanElement).innerText = `[${parseInlineCitationString(newRefList.map(i => i + 1))}]`;
+        const { currentIndex, locations: [citationsBefore, citationsAfter] } = MCE.getRelativeCitationPositions(this.editor);
+        const citationData = this.processor.prepareInlineCitationData(currentIndex, data);
+        const [status, clusters] = this.processor.citeproc.processCitationCluster(citationData, citationsBefore, citationsAfter);
+        if (status['citation_errors'].length > 0) {
+            console.error(status['citation_errors']);
         }
+        const [bibMeta, bibHTML]: Citeproc.Bibliography = this.processor.citeproc.makeBibliography();
+        const bibliography = bibHTML.map((h, i) => ({ id: bibMeta.entry_ids[i][0], html: h }));
+        const citations = this.processor.citeproc.registry.citationreg;
 
+        MCE.parseInlineCitations(this.editor, clusters);
+
+        this.setState(
+            Object.assign({}, this.state, { bibliography, citations, processorState, selected: [] })
+        );
     }
 
-    adjustBibliography(refs: string[]) {
-        let doc: HTMLDocument = this.editor.dom.doc;
-        let bib = doc.getElementById('abt-smart-bib') as HTMLOListElement;
-        bib.innerHTML = refs.map(r => `<li>${r}</li>`).join('');
-    }
-
-    createTooltip(e: InputEvent) {
-        e.stopPropagation();
-        this.destroyTooltip();
-
-        let tooltip = generateTooltip(e.target.dataset['tooltip']);
-        document.body.appendChild(tooltip);
-
-        let targetRect = e.target.getBoundingClientRect();
-        let tooltipRect = tooltip.getBoundingClientRect();
-
-        tooltip.style.left = (targetRect.left + 20 - (tooltipRect.width / 2)) + 'px';
-        tooltip.style.top = (targetRect.top + targetRect.height + window.scrollY) + 'px';
-        tooltip.style.visibility = '';
-    }
-
-    destroyTooltip() {
-        let existingTooltip = document.getElementById('abt-reflist-tooltip');
-        if (existingTooltip) { existingTooltip.remove(); }
-    }
-
-    testTinymce(e) {
+    openReferenceWindow(e: Event) {
         e.preventDefault();
-        MCE.openReferenceWindow(this.editor, (data: ABT.ReferencePayload) => {
-            if (!data.addManually) {
-                getRemoteData(data.identifierList, (res: CSL.Data[]|Error) => {
-                    if (res instanceof Error) {
-                        console.log(res.message);
-                        return;
-                    }
-                    this.processor.consumeCitations(res);
-                    this.setState(Object.assign({}, this.state, {
-                        references: this.processor.citeproc.makeBibliography()[1],
-                    }));
-                    const { currentIndex, locations } = MCE.getCitationData(this.editor);
-                    const citationData = this.processor.getSingleCitationData(currentIndex, res);
-                    let test = this.processor.testing(citationData, locations[0], locations[1]);
-                    MCE.insertInlineCitation(this.editor, test[1]);
-                    console.log(this.processor.citeproc);
-                });
+        MCE.openReferenceWindow(this.editor, (payload: ABT.ReferencePayload) => {
+
+            let preprocess: Promise<CSL.Data[]|Error>;
+
+            if (!payload.addManually) {
+                preprocess = getRemoteData(payload.identifierList);
             }
+            else {
+                preprocess = parseManualData(payload);
+            }
+
+            preprocess
+            .then((data): {data: CSL.Data[], processorState: {[itemID: string]: CSL.Data}} => {
+                if (data instanceof Error) throw data;
+                const processorState: {[itemID: string]: CSL.Data} = this.processor.consumeCitations(data);
+                return({data, processorState});
+            })
+            .then(({data, processorState}) => {
+                this.insertInline(data, processorState);
+            })
+            .catch(err => console.error(err.message));
         });
     }
 
@@ -326,77 +166,38 @@ export class ReferenceList extends React.Component<{}, State> {
             );
         }
 
-        // Destroys existing tooltips on re-renders
-        this.destroyTooltip();
+        const saveData = {
+            bibliography: this.state.bibliography,
+            cache: this.state.cache,
+            processorState: this.state.processorState,
+            citations: this.state.citations,
+        };
 
         return (
             <div>
-                <div id='abt-reflist-tooltip' />
-                <div style={{
-                    display: 'flex',
-                    padding: '10px 0',
-                    marginTop: -6,
-                    background: '#f5f5f5',
-                    borderBottom: '1px solid #ddd',
-                    borderTop: '1px solid #ddd',
-                    clear: 'both',
-                    justifyContent: 'space-around',
-                }}>
-                    <button
-                        className='abt-reflist-button'
+                <input
+                    type='hidden'
+                    name='abt-reflist-state'
+                    value={JSON.stringify(saveData)} />
+                <div className='panel'>
+                    <PanelButton
                         disabled={this.state.selected.length === 0}
-                        onClick={this.insertInline.bind(this)}
-                        onMouseOver={this.createTooltip.bind(this)}
-                        onMouseLeave={this.destroyTooltip}
-                        data-tooltip='Insert selected references'>
-                        <span
-                            className='dashicons dashicons-migrate'
-                            style={{
-                                transform: 'rotateY(180deg)',
-                                width: 18,
-                                height: 18,
-                                paddingLeft: 2,
-                                pointerEvents: 'none',
-                            }}/>
-                    </button>
-                    <button
-                        className='abt-reflist-button'
+                        onClick={this.insertInline.bind(this, [], this.state.processorState)}
+                        tooltip='Insert selected references'>
+                        <span className='dashicons dashicons-migrate insert-inline' />
+                    </PanelButton>
+                    <PanelButton
                         disabled={this.state.selected.length !== 0}
-                        // onClick={(e) => {
-                        //     e.preventDefault();
-                        //     dispatchEvent(new CustomEvent(abtGlobalEvents.INSERT_REFERENCE));
-                        // }}
-                        onClick={this.testTinymce.bind(this)}
-                        onMouseOver={this.createTooltip.bind(this)}
-                        onMouseLeave={this.destroyTooltip}
-                        data-tooltip='Add reference to reference list'>
-                        <span
-                            className='dashicons dashicons-plus'
-                            style={{
-                                lineHeight: '22px',
-                                width: 20,
-                                height: 18,
-                                paddingRight: 2,
-                                pointerEvents: 'none',
-                            }}/>
-                    </button>
-                    <button
-                        className='abt-reflist-button'
+                        onClick={this.openReferenceWindow.bind(this)}
+                        tooltip='Add reference to reference list'>
+                        <span className='dashicons dashicons-plus add-reference' />
+                    </PanelButton>
+                    <PanelButton
                         disabled={this.state.selected.length === 0}
-                        onClick={this.removeReference.bind(this)}
-                        onMouseOver={this.createTooltip.bind(this)}
-                        onMouseLeave={this.destroyTooltip}
-                        data-tooltip='Remove selected references from reference list'>
-                        <span
-                            className='dashicons dashicons-minus'
-                            style={{
-                                fontWeight: 900,
-                                height: 18,
-                                width: 18,
-                                paddingRight: 2,
-                                pointerEvents: 'none',
-                            }}/>
-                    </button>
+                        onClick={(e) => {e.preventDefault(); console.log(e);}}
+                        tooltip='Remove selected references from reference list'>
+                        <span className='dashicons dashicons-minus remove-reference' />
+                    </PanelButton>
                     <input
                         type='button'
                         className='button'
@@ -404,23 +205,15 @@ export class ReferenceList extends React.Component<{}, State> {
                         disabled={this.state.selected.length === 0}
                         onClick={this.clearSelection.bind(this)} />
                 </div>
-                <div style={{
-                    maxHeight: 1000,
-                    overflowY: 'auto',
-                    overflowX: 'hidden',
-                }}>
+                <div className='list'>
                     {
-                        this.state.references.map((r: string, i: number) =>
+                        this.state.bibliography.map((r: {id: string, html: string}, i: number) =>
                             <Card
                                 key={i}
-                                dragLeave={this.dragLeave.bind(this)}
-                                dragStart={this.dragStart.bind(this)}
-                                dragOver={this.dragOver.bind(this)}
-                                drop={this.drop.bind(this)}
-                                onClick={this.handleClick.bind(this)}
-                                isSelected={this.state.selected}
+                                onClick={this.toggleSelect.bind(this, r.id, this.state.selected.indexOf(r.id) > -1)}
+                                isSelected={this.state.selected.indexOf(r.id) > -1}
                                 num={i}
-                                html={r} />
+                                html={r.html} />
                         )
                     }
                 </div>
@@ -429,22 +222,180 @@ export class ReferenceList extends React.Component<{}, State> {
     }
 }
 
-function generateTooltip(text: string): HTMLDivElement {
-    let container = document.createElement('DIV') as HTMLDivElement;
-    let arrow = document.createElement('DIV') as HTMLDivElement;
-    let tooltip = document.createElement('DIV') as HTMLDivElement;
+/*
+============ LEGACY OPENREFERENCEWINDOW ===================
+const { currentIndex, locations: [citationsBefore, citationsAfter] } = MCE.getRelativeCitationPositions(this.editor);
+const citationData = this.processor.prepareInlineCitationData(currentIndex, data);
 
-    container.id = 'abt-reflist-tooltip';
-    container.className = 'mce-widget mce-tooltip mce-tooltip-n';
-    container.style.zIndex = '131070';
-    container.style.visibility = 'hidden';
-
-    arrow.className = 'mce-tooltip-arrow';
-    tooltip.className = 'mce-tooltip-inner';
-    tooltip.innerText = text;
-
-    container.appendChild(arrow);
-    container.appendChild(tooltip);
-
-    return container;
+const [status, clusters] = this.processor.citeproc.processCitationCluster(citationData, citationsBefore, citationsAfter);
+if (status['citation_errors'].length > 0) {
+    console.error(status['citation_errors']);
 }
+
+
+const bibliography = this.processor.citeproc.makeBibliography()[1];
+const citations = this.processor.citeproc.registry.citationreg;
+
+MCE.parseInlineCitations(this.editor, clusters);
+
+this.setState(
+    Object.assign({}, this.state, { bibliography, citations, processorState })
+);
+ */
+
+/*
+================ LEGACY MANUAL DATA PROCESSING ======================
+// Process manual name fields
+payload.people.forEach(person => {
+
+    if (typeof payload.manualData[person.type] === 'undefined') {
+        payload.manualData[person.type] = [{ family: person.family, given: person.given, }, ];
+        return;
+    }
+
+    payload.manualData[person.type].push({ family: person.family, given: person.given, });
+});
+
+// Process date fields
+['accessed', 'event-date', 'issued', ].forEach(dateType => {
+    payload.manualData[dateType] = processDate(payload.manualData[dateType], 'RIS');
+});
+
+let processor = new CSLPreprocessor(ABT_locationInfo.locale, { 0: payload.manualData, }, payload.citationStyle, (citeproc) => {
+    let data = processor.prepare(citeproc);
+    if (payload.includeLink) {
+        data = parseReferenceURLs(data);
+    }
+    deliverContent(data, { attachInline: payload.attachInline, });
+});
+ */
+
+
+/*
+============== LEGACY ================
+
+dragStart(e: DragEvent) {
+    this.setState(
+        Object.assign({}, this.state, {
+            selected: [],
+        })
+    );
+    e.dataTransfer.setData('text/plain', (e.target as HTMLDivElement).dataset['num']);
+    e.dataTransfer.dropEffect = 'move';
+}
+
+dragOver(e: DragEvent) {
+    e.preventDefault();
+    e.dataTransfer.dropEffect = 'move';
+    (e.target as HTMLDivElement).style.backgroundColor = '#0073AA';
+    (e.target as HTMLDivElement).style.color = '#FFF';
+}
+
+
+dragLeave(e: DragEvent) {
+    e.preventDefault();
+    (e.target as HTMLDivElement).style.backgroundColor = '';
+    (e.target as HTMLDivElement).style.color = 'inherit';
+}
+
+drop(e: DragEvent) {
+    e.preventDefault();
+    (e.target as HTMLDivElement).style.backgroundColor = '';
+    (e.target as HTMLDivElement).style.color = 'inherit';
+    let before = parseInt(e.dataTransfer.getData('text'));
+    let after = parseInt((e.target as HTMLDivElement).dataset['num']);
+    let refCard = this.state.references[before];
+    let newRefList = [
+        ...this.state.references.slice(0, before),
+        ...this.state.references.slice(before + 1),
+    ];
+
+    newRefList = [
+        ...newRefList.slice(0, after),
+        refCard,
+        ...newRefList.slice(after),
+    ];
+
+    this.setState(
+        Object.assign({}, this.state, {
+            references: newRefList,
+        })
+    );
+
+    this.adjustInlineCitations(before, after);
+    this.adjustBibliography(newRefList);
+
+}
+
+adjustInlineCitations(before: number, after: number) {
+
+    let citations = (tinyMCE.activeEditor.dom.doc as HTMLDocument).getElementsByClassName('abt_cite');
+
+    for (let cite of Array.from(citations)) {
+        let reflist: number[] = JSON.parse((cite as HTMLSpanElement).dataset['reflist']);
+        let incrementer: number = before > after ? 1 : -1;
+        reflist.forEach((ref: number, i: number) => {
+            switch (true) {
+                case after <= ref && ref < before:
+                    reflist[i] = reflist[i] + incrementer;
+                    break;
+                case before < ref && ref <= after:
+                    reflist[i] = reflist[i] + incrementer;
+                    break;
+                case before === ref:
+                    reflist[i] = after;
+            }
+        });
+        reflist = reflist.sort((a, b) => a - b);
+        (cite as HTMLSpanElement).dataset['reflist'] = JSON.stringify(reflist);
+        (cite as HTMLSpanElement).innerText = `[${parseInlineCitationString(reflist.map(i => i + 1))}]`;
+    }
+
+}
+
+correctForDeletion(deletionList: number[]) {
+    let citations = (tinyMCE.activeEditor.dom.doc as HTMLDocument).getElementsByClassName('abt_cite');
+
+    for (let cite of Array.from(citations)) {
+        let reflist: number[] = JSON.parse((cite as HTMLSpanElement).dataset['reflist']);
+        let newRefList: number[] = [...reflist, ];
+        let removeList: number[] = [];
+        reflist.forEach((ref: number, i: number) => {
+            deletionList.forEach((ind: number) => {
+                switch (true) {
+                    case ref === ind:
+                        removeList.push(ref);
+                        break;
+                    case ref > ind && deletionList.indexOf(ref) === -1:
+                        newRefList[i] = newRefList[i] - 1;
+                }
+            });
+        });
+
+        if (removeList.length > 0) {
+            for (let i = 0; i < removeList.length; i++) {
+                let removeIndex = newRefList.indexOf(removeList[i]);
+                newRefList = [
+                    ...newRefList.slice(0, removeIndex),
+                    ...newRefList.slice(removeIndex + 1),
+                ];
+            }
+        }
+
+        if (newRefList.length === 0) {
+            cite.remove();
+            continue;
+        }
+
+        (cite as HTMLSpanElement).dataset['reflist'] = JSON.stringify(newRefList);
+        (cite as HTMLSpanElement).innerText = `[${parseInlineCitationString(newRefList.map(i => i + 1))}]`;
+    }
+
+}
+
+adjustBibliography(refs: string[]) {
+    let doc: HTMLDocument = this.editor.dom.doc;
+    let bib = doc.getElementById('abt-smart-bib') as HTMLOListElement;
+    bib.innerHTML = refs.map(r => `<li>${r}</li>`).join('');
+}
+ */
