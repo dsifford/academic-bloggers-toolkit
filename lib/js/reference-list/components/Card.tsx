@@ -31,14 +31,8 @@ export class Card extends React.Component<CardProps, {}> {
                 className='abt-card'
                 onClick={this.props.onClick}
                 data-num={this.props.num}
-                style={style} >
-                <strong
-                    children={`${this.props.num + 1}. `} />
-                <span
-                    style={{pointerEvents: 'none'}}
-                    dangerouslySetInnerHTML={{ __html: this.props.html }}
-                    data-num={this.props.num} />
-            </div>
+                style={style}
+                dangerouslySetInnerHTML={{ __html: this.props.html }} />
         );
     }
 

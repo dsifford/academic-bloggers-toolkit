@@ -26,6 +26,7 @@
     "babel-preset-react": "^6.5.0",
     "browser-sync": "^2.12.8",
     "coveralls": "^2.11.9",
+    "css-loader": "^0.23.1",
     "del": "^2.2.0",
     "enzyme": "^2.3.0",
     "gulp": "github:gulpjs/gulp#4.0",
@@ -43,6 +44,7 @@
     "react-redux": "^4.4.5",
     "redux": "^3.5.2",
     "sinon": "^1.17.4",
+    "style-loader": "^0.13.1",
     "ts-loader": "^0.8.2",
     "typescript": "^1.9.0-dev.20160429",
     "webpack": "^1.13.1",
@@ -51,8 +53,12 @@
   "dependencies": {
     "immutable": "^3.8.1",
     "react": "^15.1.0",
+    "react-addons-css-transition-group": "^15.1.0",
+    "react-addons-shallow-compare": "^15.1.0",
     "react-dom": "^15.1.0",
-    "react-redux": "^4.4.5"
+    "react-redux": "^4.4.5",
+    "react-select": "^1.0.0-beta13",
+    "react-virtualized-select": "^1.0.0"
   },
   "jest": {
     "scriptPreprocessor": "jestPreprocessor.js",

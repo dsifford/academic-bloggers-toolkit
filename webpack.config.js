@@ -20,6 +20,10 @@ module.exports = {
                 exclude: /node_modules/,
                 loader: 'babel?presets[]=es2015,presets[]=react!ts',
             },
+            {
+                test: /\.css$/,
+                loader: 'style!css',
+            },
         ],
     },
     resolve: {

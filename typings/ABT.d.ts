@@ -125,29 +125,11 @@ declare namespace ABT {
 declare namespace Citeproc {
 
     /**
-     * 1:
-     *     - bibend: Closing div tag for bibliography.
-     *     - bibliography_errors: array of strings? for errors.
-     *     - bibstart: Opening div tag for bibliography.
-     *     - done: boolean (not sure what for)
-     *     - entry_ids: array of itemIDs
-     *     - entryspacing: horizontal spacing?
-     *     - linespacing: vertical spacing?
-     *     - second-field-align: either "flush" or "margin"
+     * 1: Bibmeta
      * 2: Array of raw citation HTML.
      */
     type Bibliography = [
-        {
-            bibend: string;
-            'bibliography_errors': string[];
-            bibstart: string;
-            done: boolean;
-            'entry_ids': [string][];
-            entryspacing: number;
-            linespacing: number;
-            maxoffset: number;
-            'second-field-align': 'flush'|'margin';
-        },
+        Bibmeta,
         string[]
     ];
     type CitationByIndex = Citation[];
@@ -167,6 +149,25 @@ declare namespace Citeproc {
      * @type {Array}
      */
     type RebuildProcessorStateData = [string, number, string];
+
+    interface Bibmeta {
+        /** Closing div tag for bibliography. */
+        bibend: string;
+        /** array of strings? for errors. */
+        'bibliography_errors': string[];
+        /** Opening div tag for bibliography. */
+        bibstart: string;
+        /** (not sure what for) */
+        done: boolean;
+        /** array of itemIDs */
+        'entry_ids': [string][];
+        /** horizontal spacing? */
+        entryspacing: number;
+        /** vertical spacing? */
+        linespacing: number;
+        maxoffset: number;
+        'second-field-align': 'flush'|'margin'|boolean;
+    }
 
     interface Citation {
         citationID?: string|number;

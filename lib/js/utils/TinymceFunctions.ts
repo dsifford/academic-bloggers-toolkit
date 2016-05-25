@@ -6,7 +6,7 @@ declare var ABT_locationInfo;
  * @param editor   The active TinyMCE instance.
  * @param callback Callback.
  */
-export function openReferenceWindow(editor: TinyMCE.Editor, callback: (data: ABT.ReferencePayload) => void): void {
+export function openReferenceWindow(editor: TinyMCE.Editor, style: string, callback: (data: ABT.ReferencePayload) => void): void {
     editor.windowManager.open({
         title: 'Insert Formatted Reference',
         url: ABT_locationInfo.tinymceViewsURL + 'reference-window.html',
@@ -14,7 +14,7 @@ export function openReferenceWindow(editor: TinyMCE.Editor, callback: (data: ABT
         height: 10,
         params: {
             baseUrl: ABT_locationInfo.tinymceViewsURL,
-            preferredStyle: ABT_locationInfo.preferredCitationStyle,
+            preferredStyle: style,
         },
         onclose: (e) => {
             if (!e.target.params.data) return;
@@ -70,9 +70,9 @@ export function getRelativeCitationPositions(editor: TinyMCE.Editor): CitationPo
 }
 
 /** TODO */
-export function parseInlineCitations(editor: TinyMCE.Editor, data) {
+export function parseInlineCitations(editor: TinyMCE.Editor, data, reparseExisting: boolean = false) {
     for (const [i, item] of data.entries()) {
-        if (i === 0) {
+        if (i === 0 && !reparseExisting) {
             editor.insertContent(`<span id='${item[2]}' class='abt_cite noselect mceNonEditable'>${item[1]}</span>`);
             continue;
         }

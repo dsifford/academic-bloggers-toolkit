@@ -34,17 +34,7 @@ export class CSLProcessor {
         this.style = style === '' ? 'american-medical-association' : style;
         this.locale = locale;
 
-        this.init(this.style)
-        .then(data => {
-            if (data instanceof Error) {
-                console.error(data.message);
-                return;
-            }
-            this.citeproc = new CSL.Engine(data.sys, data.style);
-        })
-        .then(() => {
-            this.citeproc.rebuildProcessorState(citationsByIndex);
-        });
+        this.init(this.style, citationsByIndex);
     }
 
     /**
@@ -103,7 +93,7 @@ export class CSLProcessor {
      *   and the `sys` object, or an Error depending on the responses from the
      *   network.
      */
-    init(styleID: string): Promise<{style: string, sys: Citeproc.SystemObj}|Error> {
+    init(styleID: string, citationsByIndex: Citeproc.Citation[]): Promise<Citeproc.CitationClusterData[]> {
         this.style = styleID;
         const p1 = this.getCSLStyle(styleID);
         const p2 = this.generateSys(this.locale);
@@ -115,6 +105,16 @@ export class CSLProcessor {
             if (style instanceof Error) return style;
             if (sys instanceof Error) return sys;
             return {style, sys};
+        })
+        .then(data => {
+            if (data instanceof Error) {
+                console.error(data.message);
+                return;
+            }
+            this.citeproc = new CSL.Engine(data.sys, data.style);
+        })
+        .then(() => {
+            return this.citeproc.rebuildProcessorState(citationsByIndex).map(([a, b, c]) => [b, c, a]);
         })
         .catch(e => e);
     }
@@ -128,7 +128,9 @@ export class CSLProcessor {
         citations.forEach(c => {
             newCitations[c.id] = c;
         });
-        this.state.citations = Object.assign({}, this.state.citations, newCitations);
+        this.state = Object.assign({}, this.state, {
+            citations: Object.assign({}, this.state.citations, newCitations),
+        });
         return this.state.citations;
     }
 
@@ -147,6 +149,24 @@ export class CSLProcessor {
         };
         csl.forEach((c) => payload.citationItems.push({id: c.id}));
         return payload;
+    }
+
+    makeBibliography(): Citeproc.Bibliography {
+        const [bibmeta, bibHTML]: Citeproc.Bibliography = this.citeproc.makeBibliography();
+        const temp = document.createElement('DIV');
+        const payload: string[] = bibHTML.map(h => {
+            temp.innerHTML = h;
+            const el = temp.firstElementChild as HTMLDivElement;
+
+            switch (bibmeta['second-field-align']) {
+                case false:
+                    el.classList.add('hanging-indent');
+                    break;
+            }
+            return temp.innerHTML;
+        });
+        temp.remove();
+        return [bibmeta, payload];
     }
 
 }

@@ -4,8 +4,12 @@ import { EVENTS } from '../../utils/Constants';
 import * as MCE from '../../utils/TinymceFunctions';
 import { CSLProcessor } from '../../utils/CSLProcessor';
 import { getRemoteData, parseManualData } from '../API';
+import * as CSSTransitionGroup from 'react-addons-css-transition-group';
+
+import { Menu } from './Menu';
 import { Card } from './Card';
 import { PanelButton } from './PanelButton';
+import { SingleChild } from './SingleChild';
 
 declare const tinyMCE: TinyMCE.tinyMCE;
 declare const ABT_locationInfo: ABT.LocationInfo;
@@ -21,6 +25,7 @@ interface SavedState {
     cache: {
         style: string;
         locale: string;
+        bibmeta: Citeproc.Bibmeta
     };
     citations: Citeproc.CitationRegistry;
     processorState: {
@@ -31,6 +36,7 @@ interface SavedState {
 interface State extends SavedState {
     selected: string[];
     loading: boolean;
+    menuOpen: boolean;
 }
 
 export class ReferenceList extends React.Component<{}, State> {
@@ -41,12 +47,20 @@ export class ReferenceList extends React.Component<{}, State> {
     constructor() {
         super();
         const { bibliography, cache, processorState, citations }: SavedState = JSON.parse(ABT_Reflist_State);
+
+        if (!cache.style) {
+            cache.style = ABT_locationInfo.preferredCitationStyle;
+            cache.locale = ABT_locationInfo.locale;
+            cache.bibmeta = null;
+        }
+
         this.processor = new CSLProcessor(
-            ABT_locationInfo.locale,
-            ABT_locationInfo.preferredCitationStyle,
+            cache.locale,
+            cache.style,
             processorState,
             citations.citationByIndex
         );
+
         this.state = {
             bibliography,
             cache,
@@ -54,6 +68,7 @@ export class ReferenceList extends React.Component<{}, State> {
             citations,
             selected: [],
             loading: true,
+            menuOpen: false,
         };
     }
 
@@ -98,6 +113,15 @@ export class ReferenceList extends React.Component<{}, State> {
         );
     }
 
+    toggleMenu(e: Event) {
+        e.preventDefault();
+        this.setState(
+            Object.assign({}, this.state, {
+                menuOpen: !this.state.menuOpen,
+            })
+        );
+    }
+
     insertInline(data: CSL.Data[], processorState: {[itemID: string]: CSL.Data}) {
 
         if (data.length === 0) {
@@ -112,20 +136,80 @@ export class ReferenceList extends React.Component<{}, State> {
         if (status['citation_errors'].length > 0) {
             console.error(status['citation_errors']);
         }
-        const [bibMeta, bibHTML]: Citeproc.Bibliography = this.processor.citeproc.makeBibliography();
-        const bibliography = bibHTML.map((h, i) => ({ id: bibMeta.entry_ids[i][0], html: h }));
+        const [bibmeta, bibHTML]: Citeproc.Bibliography = this.processor.makeBibliography();
+        const bibliography = bibHTML.map((h, i) => ({ id: bibmeta.entry_ids[i][0], html: h }));
         const citations = this.processor.citeproc.registry.citationreg;
 
         MCE.parseInlineCitations(this.editor, clusters);
 
         this.setState(
-            Object.assign({}, this.state, { bibliography, citations, processorState, selected: [] })
+            Object.assign({}, this.state, {
+                bibliography,
+                citations,
+                cache: Object.assign({}, this.state.cache, {
+                    bibmeta,
+                }),
+                processorState,
+                selected: [],
+             })
         );
+    }
+
+    deleteCitations(e: Event) {
+        e.preventDefault();
+
+        const newProcessorState: {[itemID: string]: CSL.Data} = {};
+        Object.keys(this.state.processorState).forEach(key => {
+            if (this.state.selected.indexOf(key) === -1) {
+                newProcessorState[key] = this.state.processorState[key];
+            }
+        });
+
+        this.setState(
+            Object.assign({}, this.state, {
+                citations: Object.assign({}, this.state.citations, {
+                    citationByIndex: this.state.citations.citationByIndex.filter(citationObj => {
+                        citationObj.citationItems = citationObj.citationItems.filter(item =>
+                            this.state.selected.indexOf(item.id as string) === -1
+                        );
+                        if (citationObj.citationItems.length === 0) {
+                            this.editor.dom.doc.getElementById(citationObj.citationID).remove();
+                        }
+                        return citationObj.citationItems.length > 0;
+                    }),
+                }),
+                processorState: newProcessorState,
+            }), afterStateChange.bind(this)
+        );
+
+        function afterStateChange() {
+            this.processor.state.citations = Object.assign({}, this.state.processorState);
+            this.processor.init(this.state.cache.style, this.state.citations.citationByIndex)
+            .then((clusters) => {
+                MCE.parseInlineCitations(this.editor, clusters, true);
+                const processorState = this.processor.state.citations;
+                const [bibmeta, bibHTML]: Citeproc.Bibliography = this.processor.makeBibliography();
+                const bibliography = bibHTML.map((h, i) => ({ id: bibmeta.entry_ids[i][0], html: h }));
+                const citations = this.processor.citeproc.registry.citationreg;
+                this.setState(
+                    Object.assign({}, this.state, {
+                        bibliography,
+                        citations,
+                        cache: Object.assign({}, this.state.cache, {
+                            bibmeta,
+                        }),
+                        processorState,
+                        selected: [],
+                     })
+                );
+            });
+        }
+
     }
 
     openReferenceWindow(e: Event) {
         e.preventDefault();
-        MCE.openReferenceWindow(this.editor, (payload: ABT.ReferencePayload) => {
+        MCE.openReferenceWindow(this.editor, this.state.cache.style, (payload: ABT.ReferencePayload) => {
 
             let preprocess: Promise<CSL.Data[]|Error>;
 
@@ -139,13 +223,55 @@ export class ReferenceList extends React.Component<{}, State> {
             preprocess
             .then((data): {data: CSL.Data[], processorState: {[itemID: string]: CSL.Data}} => {
                 if (data instanceof Error) throw data;
+
+                if (payload.citationStyle !== this.state.cache.style) {
+                    this.setState(
+                        Object.assign({}, this.state, {
+                            cache: Object.assign({}, this.state.cache, {
+                                style: payload.citationStyle,
+                            }),
+                        })
+                    );
+                    return (
+                        this.processor.init(payload.citationStyle, this.state.citations.citationByIndex)
+                        .then((clusters) => {
+                            MCE.parseInlineCitations(this.editor, clusters, true);
+                            const processorState: {[itemID: string]: CSL.Data} = this.processor.consumeCitations(data);
+                            return { data, processorState };
+                        })
+                    );
+                }
+
                 const processorState: {[itemID: string]: CSL.Data} = this.processor.consumeCitations(data);
-                return({data, processorState});
+                return { data, processorState };
             })
             .then(({data, processorState}) => {
                 this.insertInline(data, processorState);
             })
             .catch(err => console.error(err.message));
+        });
+    }
+
+    handleMenuSubmit(data: {style: string}) {
+        this.processor.init(data.style, this.state.citations.citationByIndex)
+        .then((clusters) => {
+            MCE.parseInlineCitations(this.editor, clusters, true);
+            const processorState = this.processor.state.citations;
+            const [bibmeta, bibHTML]: Citeproc.Bibliography = this.processor.makeBibliography();
+            const bibliography = bibHTML.map((h, i) => ({ id: bibmeta.entry_ids[i][0], html: h }));
+            const citations = this.processor.citeproc.registry.citationreg;
+            this.setState(
+                Object.assign({}, this.state, {
+                    bibliography,
+                    citations,
+                    cache: Object.assign({}, this.state.cache, {
+                        bibmeta,
+                        style: data.style,
+                    }),
+                    processorState,
+                    selected: [],
+                 })
+            );
         });
     }
 
@@ -194,17 +320,28 @@ export class ReferenceList extends React.Component<{}, State> {
                     </PanelButton>
                     <PanelButton
                         disabled={this.state.selected.length === 0}
-                        onClick={(e) => {e.preventDefault(); console.log(e);}}
+                        onClick={this.deleteCitations.bind(this)}
                         tooltip='Remove selected references from reference list'>
                         <span className='dashicons dashicons-minus remove-reference' />
                     </PanelButton>
-                    <input
-                        type='button'
-                        className='button'
-                        value='Clear Selection'
-                        disabled={this.state.selected.length === 0}
-                        onClick={this.clearSelection.bind(this)} />
+                    <PanelButton
+                        onClick={this.toggleMenu.bind(this)}
+                        tooltip='Toggle Menu'>
+                        <span className='dashicons dashicons-menu hamburger-menu' />
+                    </PanelButton>
                 </div>
+                    <CSSTransitionGroup
+                        transitionName='menu'
+                        transitionEnterTimeout={200}
+                        transitionLeaveTimeout={200}
+                        component={SingleChild}>
+                        { this.state.menuOpen &&
+                            <Menu
+                                key='menu'
+                                cslStyle={this.state.cache.style}
+                                submitData={this.handleMenuSubmit.bind(this)}/>
+                        }
+                    </CSSTransitionGroup>
                 <div className='list'>
                     {
                         this.state.bibliography.map((r: {id: string, html: string}, i: number) =>
@@ -221,181 +358,3 @@ export class ReferenceList extends React.Component<{}, State> {
         );
     }
 }
-
-/*
-============ LEGACY OPENREFERENCEWINDOW ===================
-const { currentIndex, locations: [citationsBefore, citationsAfter] } = MCE.getRelativeCitationPositions(this.editor);
-const citationData = this.processor.prepareInlineCitationData(currentIndex, data);
-
-const [status, clusters] = this.processor.citeproc.processCitationCluster(citationData, citationsBefore, citationsAfter);
-if (status['citation_errors'].length > 0) {
-    console.error(status['citation_errors']);
-}
-
-
-const bibliography = this.processor.citeproc.makeBibliography()[1];
-const citations = this.processor.citeproc.registry.citationreg;
-
-MCE.parseInlineCitations(this.editor, clusters);
-
-this.setState(
-    Object.assign({}, this.state, { bibliography, citations, processorState })
-);
- */
-
-/*
-================ LEGACY MANUAL DATA PROCESSING ======================
-// Process manual name fields
-payload.people.forEach(person => {
-
-    if (typeof payload.manualData[person.type] === 'undefined') {
-        payload.manualData[person.type] = [{ family: person.family, given: person.given, }, ];
-        return;
-    }
-
-    payload.manualData[person.type].push({ family: person.family, given: person.given, });
-});
-
-// Process date fields
-['accessed', 'event-date', 'issued', ].forEach(dateType => {
-    payload.manualData[dateType] = processDate(payload.manualData[dateType], 'RIS');
-});
-
-let processor = new CSLPreprocessor(ABT_locationInfo.locale, { 0: payload.manualData, }, payload.citationStyle, (citeproc) => {
-    let data = processor.prepare(citeproc);
-    if (payload.includeLink) {
-        data = parseReferenceURLs(data);
-    }
-    deliverContent(data, { attachInline: payload.attachInline, });
-});
- */
-
-
-/*
-============== LEGACY ================
-
-dragStart(e: DragEvent) {
-    this.setState(
-        Object.assign({}, this.state, {
-            selected: [],
-        })
-    );
-    e.dataTransfer.setData('text/plain', (e.target as HTMLDivElement).dataset['num']);
-    e.dataTransfer.dropEffect = 'move';
-}
-
-dragOver(e: DragEvent) {
-    e.preventDefault();
-    e.dataTransfer.dropEffect = 'move';
-    (e.target as HTMLDivElement).style.backgroundColor = '#0073AA';
-    (e.target as HTMLDivElement).style.color = '#FFF';
-}
-
-
-dragLeave(e: DragEvent) {
-    e.preventDefault();
-    (e.target as HTMLDivElement).style.backgroundColor = '';
-    (e.target as HTMLDivElement).style.color = 'inherit';
-}
-
-drop(e: DragEvent) {
-    e.preventDefault();
-    (e.target as HTMLDivElement).style.backgroundColor = '';
-    (e.target as HTMLDivElement).style.color = 'inherit';
-    let before = parseInt(e.dataTransfer.getData('text'));
-    let after = parseInt((e.target as HTMLDivElement).dataset['num']);
-    let refCard = this.state.references[before];
-    let newRefList = [
-        ...this.state.references.slice(0, before),
-        ...this.state.references.slice(before + 1),
-    ];
-
-    newRefList = [
-        ...newRefList.slice(0, after),
-        refCard,
-        ...newRefList.slice(after),
-    ];
-
-    this.setState(
-        Object.assign({}, this.state, {
-            references: newRefList,
-        })
-    );
-
-    this.adjustInlineCitations(before, after);
-    this.adjustBibliography(newRefList);
-
-}
-
-adjustInlineCitations(before: number, after: number) {
-
-    let citations = (tinyMCE.activeEditor.dom.doc as HTMLDocument).getElementsByClassName('abt_cite');
-
-    for (let cite of Array.from(citations)) {
-        let reflist: number[] = JSON.parse((cite as HTMLSpanElement).dataset['reflist']);
-        let incrementer: number = before > after ? 1 : -1;
-        reflist.forEach((ref: number, i: number) => {
-            switch (true) {
-                case after <= ref && ref < before:
-                    reflist[i] = reflist[i] + incrementer;
-                    break;
-                case before < ref && ref <= after:
-                    reflist[i] = reflist[i] + incrementer;
-                    break;
-                case before === ref:
-                    reflist[i] = after;
-            }
-        });
-        reflist = reflist.sort((a, b) => a - b);
-        (cite as HTMLSpanElement).dataset['reflist'] = JSON.stringify(reflist);
-        (cite as HTMLSpanElement).innerText = `[${parseInlineCitationString(reflist.map(i => i + 1))}]`;
-    }
-
-}
-
-correctForDeletion(deletionList: number[]) {
-    let citations = (tinyMCE.activeEditor.dom.doc as HTMLDocument).getElementsByClassName('abt_cite');
-
-    for (let cite of Array.from(citations)) {
-        let reflist: number[] = JSON.parse((cite as HTMLSpanElement).dataset['reflist']);
-        let newRefList: number[] = [...reflist, ];
-        let removeList: number[] = [];
-        reflist.forEach((ref: number, i: number) => {
-            deletionList.forEach((ind: number) => {
-                switch (true) {
-                    case ref === ind:
-                        removeList.push(ref);
-                        break;
-                    case ref > ind && deletionList.indexOf(ref) === -1:
-                        newRefList[i] = newRefList[i] - 1;
-                }
-            });
-        });
-
-        if (removeList.length > 0) {
-            for (let i = 0; i < removeList.length; i++) {
-                let removeIndex = newRefList.indexOf(removeList[i]);
-                newRefList = [
-                    ...newRefList.slice(0, removeIndex),
-                    ...newRefList.slice(removeIndex + 1),
-                ];
-            }
-        }
-
-        if (newRefList.length === 0) {
-            cite.remove();
-            continue;
-        }
-
-        (cite as HTMLSpanElement).dataset['reflist'] = JSON.stringify(newRefList);
-        (cite as HTMLSpanElement).innerText = `[${parseInlineCitationString(newRefList.map(i => i + 1))}]`;
-    }
-
-}
-
-adjustBibliography(refs: string[]) {
-    let doc: HTMLDocument = this.editor.dom.doc;
-    let bib = doc.getElementById('abt-smart-bib') as HTMLOListElement;
-    bib.innerHTML = refs.map(r => `<li>${r}</li>`).join('');
-}
- */
