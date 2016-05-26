@@ -1,8 +1,6 @@
 import * as React from 'react';
 
-interface CardProps  {
-    onClick();
-    num: number;
+interface CardProps extends React.HTMLProps<HTMLDivElement> {
     isSelected: boolean;
     html: string;
 }
@@ -30,7 +28,6 @@ export class Card extends React.Component<CardProps, {}> {
             <div
                 className='abt-card'
                 onClick={this.props.onClick}
-                data-num={this.props.num}
                 style={style}
                 dangerouslySetInnerHTML={{ __html: this.props.html }} />
         );

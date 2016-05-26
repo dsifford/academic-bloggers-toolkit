@@ -516,7 +516,7 @@ export const abtPRFieldMapping: ABT.PRMetaState = {
  *   in CSL (values). If CSL doesn't have a locale for a given WordPress locale,
  *   then false is used (which will default to en-US).
  */
-export const localeConversions: {[wp: string]: string|boolean} = {
+export const localeConversions = {
     'af': 'af-ZA',
     'ak': false,
     'am': false,

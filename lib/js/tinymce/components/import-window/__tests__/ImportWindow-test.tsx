@@ -9,18 +9,12 @@ import { spy, } from 'sinon';
 import { ImportWindow, } from '../ImportWindow';
 
 
-const setup = (
-    style: string|boolean = false
-) => {
+const setup = () => {
     const spy = sinon.spy();
     const wm: TinyMCE.WindowManager = {
         windows: [
             {
-                settings: {
-                    params: {
-                        preferredStyle: style,
-                    },
-                },
+                settings: {},
             },
         ],
         setParams: spy,
@@ -34,7 +28,6 @@ const setup = (
         spy,
         component,
         linkCheckbox: component.find('#includeLink'),
-        select: component.find('#citeformat'),
         submit: component.find('#submitbtn'),
         upload: component.find('#uploadField'),
     };
@@ -48,13 +41,6 @@ describe('<ImportWindow />', () => {
         expect((ImportWindow.prototype.componentDidMount as Sinon.SinonSpy).calledOnce).toEqual(true);
     });
 
-    it('calls componentDidUpdate', () => {
-        spy(ImportWindow.prototype, 'componentDidUpdate');
-        const { select, } = setup();
-        select.simulate('change');
-        expect((ImportWindow.prototype.componentDidUpdate as Sinon.SinonSpy).calledOnce).toEqual(true);
-    });
-
     it('should properly toggle "links" when checkbox is toggled', () => {
         const { component, linkCheckbox, } = setup();
 
@@ -65,23 +51,6 @@ describe('<ImportWindow />', () => {
 
         expect(linkCheckbox.props().checked).toBe(false);
         expect(component.state().links).toBe(false);
-    });
-
-    it('should render citation selection properly when default is set', () => {
-        const { select, } = setup('bibtex');
-        expect(select.props().value).toEqual('bibtex');
-    });
-
-    it('should default to "american-medical-association" when no default style is set', () => {
-        const { select, } = setup();
-        expect(select.props().value).toEqual('american-medical-association');
-    });
-
-    it('should render selected option properly and set state correctly on change', () => {
-        const { select, component, } = setup();
-        select.simulate('change', { target: { value: 'bibtex', }, });
-        expect(select.props().value).toBe('bibtex');
-        expect(component.state().format).toBe('bibtex');
     });
 
     it('should trigger handleFileUpload when upload field changed', () => {

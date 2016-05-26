@@ -6,14 +6,12 @@ import * as sinon from 'sinon';
 import { Card, } from '../Card';
 
 const setup = (
-    num: number,
     selected: boolean
 ) => {
     const spy = sinon.spy();
     const component = mount(
         <Card
             onClick={spy}
-            num={num}
             html={`<h1>Hello World</h1>`}
             isSelected={selected} />
     );
@@ -25,7 +23,7 @@ const setup = (
 
 describe('<Card />', () => {
     it('should render as selected when index is in "selected"', () => {
-        const { component, } = setup(1, true);
+        const { component, } = setup(true);
         const style = {
             borderBottom: '1px solid #E5E5E5',
             padding: 5,
@@ -36,7 +34,7 @@ describe('<Card />', () => {
         expect(component.find('.abt-card').props().style).toEqual(style);
     });
     it('should render as unselected when index not in "selected"', () => {
-        const { component, } = setup(3, false);
+        const { component, } = setup(false);
         const style = {
             borderBottom: '1px solid #E5E5E5',
             padding: 5,

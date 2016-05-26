@@ -62,7 +62,7 @@ export function getRemoteData(identifierList: string): Promise<CSL.Data[]|Error>
     });
 };
 
-export function parseManualData(payload: ABT.ReferencePayload): Promise<CSL.Data[]|Error> {
+export function parseManualData(payload: ABT.ReferenceWindowPayload): Promise<CSL.Data[]|Error> {
     return new Promise((resolve, reject) => {
         payload.people.forEach(person => {
             if (typeof payload.manualData[person.type] === 'undefined') {

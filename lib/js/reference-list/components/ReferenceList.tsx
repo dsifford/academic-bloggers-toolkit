@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { parseInlineCitationString } from '../../utils/HelperFunctions';
 import { EVENTS } from '../../utils/Constants';
 import * as MCE from '../../utils/TinymceFunctions';
 import { CSLProcessor } from '../../utils/CSLProcessor';
@@ -11,7 +10,7 @@ import { Card } from './Card';
 import { PanelButton } from './PanelButton';
 import { SingleChild } from './SingleChild';
 
-declare const tinyMCE: TinyMCE.tinyMCE;
+declare const tinyMCE: TinyMCE.MCE;
 declare const ABT_locationInfo: ABT.LocationInfo;
 declare const ABT_Reflist_State: string;
 
@@ -42,7 +41,7 @@ interface State extends SavedState {
 export class ReferenceList extends React.Component<{}, State> {
 
     private editor: TinyMCE.Editor;
-    private processor;
+    private processor: ABT.CSLProcessor;
 
     constructor() {
         super();
@@ -122,8 +121,39 @@ export class ReferenceList extends React.Component<{}, State> {
         );
     }
 
-    insertInline(data: CSL.Data[], processorState: {[itemID: string]: CSL.Data}) {
+    initProcessor(style: string, citationByIndex: Citeproc.Citation[] = this.state.citations.citationByIndex) {
+        this.processor.init(style, citationByIndex)
+        .then((clusters) => {
+            MCE.parseInlineCitations(this.editor, clusters, true);
+            const processorState = this.processor.state.citations;
 
+            const [bibmeta, bibHTML]: Citeproc.Bibliography = this.processor.makeBibliography();
+            const bibliography = bibHTML.map((h, i) => ({ id: bibmeta.entry_ids[i][0], html: h }));
+            const citations = this.processor.citeproc.registry.citationreg;
+
+            this.setState(
+                Object.assign({}, this.state, {
+                    bibliography,
+                    citations,
+                    cache: Object.assign({}, this.state.cache, {
+                        bibmeta,
+                        style,
+                    }),
+                    processorState,
+                    selected: [],
+                 })
+            );
+        });
+    }
+
+    insertInline(data: CSL.Data[], processorState: {[itemID: string]: CSL.Data}, e?: Event) {
+
+        if (e) e.preventDefault();
+
+        /**
+         * If no data, then this must be a case where we're inserting from the
+         *   list selection.
+         */
         if (data.length === 0) {
             this.state.selected.forEach(id => {
                 data.push(this.processor.citeproc.sys.retrieveItem(id));
@@ -131,16 +161,18 @@ export class ReferenceList extends React.Component<{}, State> {
         }
 
         const { currentIndex, locations: [citationsBefore, citationsAfter] } = MCE.getRelativeCitationPositions(this.editor);
-        const citationData = this.processor.prepareInlineCitationData(currentIndex, data);
+        const citationData = this.processor.prepareInlineCitationData(data);
         const [status, clusters] = this.processor.citeproc.processCitationCluster(citationData, citationsBefore, citationsAfter);
         if (status['citation_errors'].length > 0) {
             console.error(status['citation_errors']);
         }
+
+        MCE.parseInlineCitations(this.editor, clusters);
+
         const [bibmeta, bibHTML]: Citeproc.Bibliography = this.processor.makeBibliography();
         const bibliography = bibHTML.map((h, i) => ({ id: bibmeta.entry_ids[i][0], html: h }));
         const citations = this.processor.citeproc.registry.citationreg;
 
-        MCE.parseInlineCitations(this.editor, clusters);
 
         this.setState(
             Object.assign({}, this.state, {
@@ -158,58 +190,42 @@ export class ReferenceList extends React.Component<{}, State> {
     deleteCitations(e: Event) {
         e.preventDefault();
 
-        const newProcessorState: {[itemID: string]: CSL.Data} = {};
-        Object.keys(this.state.processorState).forEach(key => {
-            if (this.state.selected.indexOf(key) === -1) {
-                newProcessorState[key] = this.state.processorState[key];
+        const citationByIndex = this.state.citations.citationByIndex.filter(c => {
+            c.citationItems = c.citationItems.filter(i => this.state.selected.indexOf(i.id) === -1);
+            if (c.citationItems.length === 0) {
+                let el = this.editor.dom.doc.getElementById(c.citationID);
+                el.parentElement.removeChild(el);
             }
+            return c.citationItems.length > 0;
         });
+
+        const processorState = Object.keys(this.state.processorState)
+            .filter(key => this.state.selected.indexOf(key) === -1)
+            .reduce((result, key) => {
+                result[key] = this.state.processorState[key];
+                return result;
+            }, {});
+
+        this.processor.state = Object.assign({}, this.processor.state, {
+            citations: processorState,
+        });
+        this.initProcessor(this.state.cache.style, citationByIndex);
 
         this.setState(
             Object.assign({}, this.state, {
                 citations: Object.assign({}, this.state.citations, {
-                    citationByIndex: this.state.citations.citationByIndex.filter(citationObj => {
-                        citationObj.citationItems = citationObj.citationItems.filter(item =>
-                            this.state.selected.indexOf(item.id as string) === -1
-                        );
-                        if (citationObj.citationItems.length === 0) {
-                            this.editor.dom.doc.getElementById(citationObj.citationID).remove();
-                        }
-                        return citationObj.citationItems.length > 0;
-                    }),
+                    citationByIndex,
                 }),
-                processorState: newProcessorState,
-            }), afterStateChange.bind(this)
+                processorState,
+            })
         );
-
-        function afterStateChange() {
-            this.processor.state.citations = Object.assign({}, this.state.processorState);
-            this.processor.init(this.state.cache.style, this.state.citations.citationByIndex)
-            .then((clusters) => {
-                MCE.parseInlineCitations(this.editor, clusters, true);
-                const processorState = this.processor.state.citations;
-                const [bibmeta, bibHTML]: Citeproc.Bibliography = this.processor.makeBibliography();
-                const bibliography = bibHTML.map((h, i) => ({ id: bibmeta.entry_ids[i][0], html: h }));
-                const citations = this.processor.citeproc.registry.citationreg;
-                this.setState(
-                    Object.assign({}, this.state, {
-                        bibliography,
-                        citations,
-                        cache: Object.assign({}, this.state.cache, {
-                            bibmeta,
-                        }),
-                        processorState,
-                        selected: [],
-                     })
-                );
-            });
-        }
-
     }
 
     openReferenceWindow(e: Event) {
         e.preventDefault();
-        MCE.openReferenceWindow(this.editor, this.state.cache.style, (payload: ABT.ReferencePayload) => {
+        MCE.referenceWindow(this.editor)
+        .then(payload => {
+            if (!payload) return;
 
             let preprocess: Promise<CSL.Data[]|Error>;
 
@@ -221,27 +237,8 @@ export class ReferenceList extends React.Component<{}, State> {
             }
 
             preprocess
-            .then((data): {data: CSL.Data[], processorState: {[itemID: string]: CSL.Data}} => {
+            .then((data) => {
                 if (data instanceof Error) throw data;
-
-                if (payload.citationStyle !== this.state.cache.style) {
-                    this.setState(
-                        Object.assign({}, this.state, {
-                            cache: Object.assign({}, this.state.cache, {
-                                style: payload.citationStyle,
-                            }),
-                        })
-                    );
-                    return (
-                        this.processor.init(payload.citationStyle, this.state.citations.citationByIndex)
-                        .then((clusters) => {
-                            MCE.parseInlineCitations(this.editor, clusters, true);
-                            const processorState: {[itemID: string]: CSL.Data} = this.processor.consumeCitations(data);
-                            return { data, processorState };
-                        })
-                    );
-                }
-
                 const processorState: {[itemID: string]: CSL.Data} = this.processor.consumeCitations(data);
                 return { data, processorState };
             })
@@ -252,27 +249,26 @@ export class ReferenceList extends React.Component<{}, State> {
         });
     }
 
-    handleMenuSubmit(data: {style: string}) {
-        this.processor.init(data.style, this.state.citations.citationByIndex)
-        .then((clusters) => {
-            MCE.parseInlineCitations(this.editor, clusters, true);
-            const processorState = this.processor.state.citations;
-            const [bibmeta, bibHTML]: Citeproc.Bibliography = this.processor.makeBibliography();
-            const bibliography = bibHTML.map((h, i) => ({ id: bibmeta.entry_ids[i][0], html: h }));
-            const citations = this.processor.citeproc.registry.citationreg;
-            this.setState(
-                Object.assign({}, this.state, {
-                    bibliography,
-                    citations,
-                    cache: Object.assign({}, this.state.cache, {
-                        bibmeta,
-                        style: data.style,
-                    }),
-                    processorState,
-                    selected: [],
-                 })
-            );
+    /** TODO */
+    openImportWindow() {
+        MCE.importWindow(this.editor)
+        .then(payload => {
+            if (!payload) return;
+            console.log(payload);
         });
+    }
+
+    handleMenuSelection(kind: string, data?) {
+        switch (kind) {
+            case 'CHANGE_STYLE':
+                return this.initProcessor(data);
+            case 'IMPORT_RIS':
+                this.setState(Object.assign({}, this.state, { menuOpen: false }));
+                this.openImportWindow();
+                return;
+            default:
+                return console.log('Default hit');
+        }
     }
 
     render() {
@@ -339,7 +335,7 @@ export class ReferenceList extends React.Component<{}, State> {
                             <Menu
                                 key='menu'
                                 cslStyle={this.state.cache.style}
-                                submitData={this.handleMenuSubmit.bind(this)}/>
+                                submitData={this.handleMenuSelection.bind(this)}/>
                         }
                     </CSSTransitionGroup>
                 <div className='list'>
@@ -349,7 +345,6 @@ export class ReferenceList extends React.Component<{}, State> {
                                 key={i}
                                 onClick={this.toggleSelect.bind(this, r.id, this.state.selected.indexOf(r.id) > -1)}
                                 isSelected={this.state.selected.indexOf(r.id) > -1}
-                                num={i}
                                 html={r.html} />
                         )
                     }

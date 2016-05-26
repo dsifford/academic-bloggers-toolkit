@@ -1,28 +1,15 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import { Modal, } from '../../../utils/Modal';
-import { referenceWindowEvents as LocalEvents, manualDataObj, } from '../../../utils/Constants';
-import { toTitleCase, } from '../../../utils/HelperFunctions';
-const citeStyles = require('../../../../../vendor/citationstyles');
+import { Modal } from '../../../utils/Modal';
+import { referenceWindowEvents as LocalEvents, manualDataObj } from '../../../utils/Constants';
 
-import { ManualEntryContainer, } from './ManualEntryContainer';
+import { ManualEntryContainer } from './ManualEntryContainer';
 
 interface DOMEvent extends UIEvent {
     target: HTMLInputElement;
 }
 
-interface State {
-    identifierList: string;
-    citationStyle: string;
-    includeLink: boolean;
-    attachInline: boolean;
-    addManually: boolean;
-    people: CSL.TypedPerson[];
-    manualData: CSL.Data;
-}
-
-
-class ReferenceWindow extends React.Component<{}, State> {
+class ReferenceWindow extends React.Component<{}, ABT.ReferenceWindowPayload> {
 
     private modal: Modal = new Modal('Insert Formatted Reference');
 
@@ -30,12 +17,11 @@ class ReferenceWindow extends React.Component<{}, State> {
         super();
         this.state = {
             identifierList: '',
-            citationStyle: top.tinyMCE.activeEditor.windowManager.windows[0].settings.params.preferredStyle || 'american-medical-association',
             includeLink: false,
             attachInline: true,
             addManually: false,
             people: [
-                { given: '', family: '', type: 'author', },
+                { given: '', family: '', type: 'author' },
             ],
             manualData: manualDataObj,
         };
@@ -178,7 +164,6 @@ class ReferenceWindow extends React.Component<{}, State> {
                     <RefOptions
                         attachInline={this.state.attachInline}
                         includeLink={this.state.includeLink}
-                        citationStyle={this.state.citationStyle}
                         eventHandler={this.consumeChildEvents.bind(this)} />
                     <ActionButtons
                         addManually={this.state.addManually}
@@ -240,7 +225,6 @@ class IdentifierInput extends React.Component<IdentifierInputProps, {}> {
 interface RefOptionsProps {
     attachInline: boolean;
     includeLink: boolean;
-    citationStyle: string;
     eventHandler: Function;
 }
 
@@ -270,29 +254,9 @@ class RefOptions extends React.Component<RefOptionsProps, {}> {
         );
     }
 
-    public citationStyleText = toTitleCase(this.props.citationStyle.split('-').join(' '));
-
     render() {
         return (
             <div className='row'>
-                <div style={{ display: 'flex', alignItems: 'center', }}>
-                    <label
-                        htmlFor='citationStyle'
-                        children='Style'
-                        style={{ padding: '5px', }} />
-                    <select
-                        id='citationStyle'
-                        style={{ width: '100%', }}
-                        onChange={this.handleSelect.bind(this)}
-                        value={this.props.citationStyle} >
-                        { citeStyles.map((style, i) =>
-                            <option
-                                key={`citation-style-${i}`}
-                                value={style.value}
-                                children={style.label} />
-                        )}
-                    </select>
-                </div>
                 <div style={{ display: 'flex', alignItems: 'center', }} className='row' >
                     <div style={{ flex: 1, textAlign: 'center', }}>
                         <label

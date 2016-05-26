@@ -8,7 +8,7 @@ import 'react-select/dist/react-select.min.css';
 
 interface Props extends React.HTMLProps<HTMLDivElement> {
     cslStyle: string;
-    submitData(data: {style: string});
+    submitData(kind: string, data?);
 }
 
 interface State {
@@ -31,21 +31,27 @@ export class Menu extends React.Component<Props, State> {
         };
     }
 
-    handleSelect(selection) {
-        this.setState(
-            Object.assign({}, this.state, {
-                style: selection.value,
-                selected: selection,
-            })
-        );
-        this.props.submitData({
-            style: selection.value,
-        });
-    }
+    handleSelect(kind: string, data, e?: Event) {
 
-    handleClick(kind: string, e: Event) {
-        e.preventDefault();
-        console.log(kind);
+        if (e) e.preventDefault();
+
+        switch (kind) {
+            case 'CHANGE_STYLE': {
+                this.setState(
+                    Object.assign({}, this.state, {
+                        style: data.value,
+                        selected: data,
+                    })
+                );
+                this.props.submitData(kind, data.value);
+                return;
+            }
+            case 'IMPORT_RIS': {
+                return this.props.submitData(kind);
+            }
+            default:
+                return console.log('default hit');
+        }
     }
 
     render() {
@@ -55,7 +61,7 @@ export class Menu extends React.Component<Props, State> {
                     <label children='Style' />
                     <VSelect
                         id='style-select'
-                        onChange={this.handleSelect.bind(this)}
+                        onChange={this.handleSelect.bind(this, 'CHANGE_STYLE')}
                         value={this.state.selected === null ? this.props.cslStyle : this.state.selected}
                         options={this.styles}
                         clearable={false} />
@@ -63,7 +69,7 @@ export class Menu extends React.Component<Props, State> {
                 <div className='option-buttons'>
                     <div
                         className='row-btn'
-                        onClick={this.handleClick.bind(this, 'import')}
+                        onClick={this.handleSelect.bind(this, 'IMPORT_RIS', null)}
                         children='Import RIS File' />
                 </div>
             </div>

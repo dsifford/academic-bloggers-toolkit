@@ -2,24 +2,22 @@ import { localeConversions } from './Constants';
 
 declare var CSL;
 
-interface State {
-    citations: {
-        [itemID: string]: CSL.Data;
-    };
-}
-
-export class CSLProcessor {
+export class CSLProcessor implements ABT.CSLProcessor {
 
     /**
      * This object converts the locale names in wordpress (keys) to the locales
      *   in CSL (values). If CSL doesn't have a locale for a given WordPress locale,
      *   then false is used (which will default to en-US).
      */
-    private locales = localeConversions;
+    private locales: {[wp: string]: string|boolean} = localeConversions;
     private locale: string;
 
     public style: string;
-    public state: State;
+    public state: {
+        citations: {
+            [itemID: string]: CSL.Data;
+        };
+    };
     public citeproc: Citeproc.Processor;
 
     /**
@@ -30,7 +28,6 @@ export class CSLProcessor {
         this.state = {
             citations: state,
         };
-        console.log(this.state);
         this.style = style === '' ? 'american-medical-association' : style;
         this.locale = locale;
 
@@ -135,14 +132,13 @@ export class CSLProcessor {
     }
 
     /**
-     * Either retrieves a Citeproc.CitationByIndexSingle object from the citeproc
-     *   registry or, if it doesn't exist in the registry, transforms the CSL.Data[]
-     *   param into that shape.
+     * Transforms the CSL.Data[] into a Citeproc.Citation.
+     *
      * @param currentIndex The current inline-citation's index.
      * @param csl Fallback CSL.Data[].
      * @return Citeproc.CitationByIndexSingle for the current inline citation.
      */
-    prepareInlineCitationData(currentIndex: number, csl: CSL.Data[]): Citeproc.Citation {
+    prepareInlineCitationData(csl: CSL.Data[]): Citeproc.Citation {
         const payload = {
             citationItems: [],
             properties: { noteIndex: 0 },
@@ -151,6 +147,13 @@ export class CSLProcessor {
         return payload;
     }
 
+    /**
+     * Wrapper function for citeproc.makeBibliography that takes the output and
+     *   inlines CSS classes that are appropriate for the style (according to the
+     *   generated bibmeta).
+     * NOTE: This still needs to be extended further.
+     * @return {Citeproc.Bibliography} Parsed bibliography.
+     */
     makeBibliography(): Citeproc.Bibliography {
         const [bibmeta, bibHTML]: Citeproc.Bibliography = this.citeproc.makeBibliography();
         const temp = document.createElement('DIV');

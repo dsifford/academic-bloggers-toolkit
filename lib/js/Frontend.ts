@@ -99,7 +99,7 @@ namespace ABT_Frontend {
 
 
         private _isTouchDevice(): boolean {
-            return true === ('ontouchstart' in window || (window as any).DocumentTouch && document instanceof DocumentTouch);
+            return true === ('ontouchstart' in window || window.DocumentTouch && document instanceof DocumentTouch);
         }
 
 
@@ -109,7 +109,7 @@ namespace ABT_Frontend {
 
             let preExistingTooltip: HTMLElement = document.getElementById('abt_tooltip');
             if (preExistingTooltip !== null) {
-                preExistingTooltip.remove();
+                preExistingTooltip.parentElement.removeChild(preExistingTooltip);
             }
 
             let rect: ClientRect = (e.target as HTMLElement).getBoundingClientRect();
@@ -130,7 +130,7 @@ namespace ABT_Frontend {
 
                 touchContainer.className = 'abt_tooltip_touch_close-container';
                 closeButton.className = 'abt_tooltip_touch_close';
-                touchContainer.addEventListener('touchend', () => tooltip.remove());
+                touchContainer.addEventListener('touchend', () => tooltip.parentElement.removeChild(tooltip));
 
                 tooltip.style.left = '0';
                 tooltip.style.right = '0';
@@ -174,7 +174,8 @@ namespace ABT_Frontend {
 
         private _destroyTooltip(): void {
             Citations.timer = setTimeout(() => {
-                document.getElementById('abt_tooltip').remove();
+                let tip = document.getElementById('abt_tooltip');
+                tip.parentElement.removeChild(tip);
             }, 200);
         }
 

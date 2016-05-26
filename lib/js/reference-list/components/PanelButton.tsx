@@ -14,7 +14,7 @@ export class PanelButton extends React.Component<Props, {}> {
         e.stopPropagation();
         this.destroyTooltip();
 
-        let tooltip = generateTooltip(e.target.dataset['tooltip']);
+        let tooltip = generateTooltip(this.props.tooltip);
         document.body.appendChild(tooltip);
 
         let targetRect = e.target.getBoundingClientRect();
@@ -27,16 +27,16 @@ export class PanelButton extends React.Component<Props, {}> {
 
     destroyTooltip() {
         let existingTooltip = document.getElementById('abt-reflist-tooltip');
-        if (existingTooltip) { existingTooltip.remove(); }
+        if (existingTooltip) existingTooltip.parentElement.removeChild(existingTooltip);
     }
 
     render() {
+        this.destroyTooltip();
         return (
             <button {...this.props}
                 className='abt-reflist-button'
                 onMouseOver={this.createTooltip.bind(this)}
-                onMouseLeave={this.destroyTooltip}
-                data-tooltip={this.props.tooltip} />
+                onMouseLeave={this.destroyTooltip} />
         );
     }
 

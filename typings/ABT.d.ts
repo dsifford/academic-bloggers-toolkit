@@ -1,5 +1,6 @@
 interface Window {
-  tinyMCE: TinyMCE.tinyMCE;
+  tinyMCE: TinyMCE.MCE;
+  DocumentTouch?;
 }
 
 interface InputEvent extends UIEvent {
@@ -7,6 +8,46 @@ interface InputEvent extends UIEvent {
 }
 
 declare namespace ABT {
+
+    class CSLProcessor {
+        style: string;
+        state: {
+            citations: {
+                [itemID: string]: CSL.Data;
+            }
+        };
+        citeproc: Citeproc.Processor;
+        /**
+         * Instantiates a new CSL.Engine (either when initially constructed or when
+         *   the user changes his/her selected citation style)
+         * @param styleID CSL style filename.
+         * @return Promise that resolves to either an object containing the style XML
+         *   and the `sys` object, or an Error depending on the responses from the
+         *   network.
+         */
+        init(style: string, citationByIndex: Citeproc.CitationByIndex): Promise<Citeproc.CitationClusterData[]>
+        /**
+         * Updates the Citeproc object and the local state with new citation data.
+         * @param citations Array of CSL.Data.
+         */
+        consumeCitations(citations: CSL.Data[]): {[itemID: string]: CSL.Data};
+        /**
+         * Transforms the CSL.Data[] into a Citeproc.Citation.
+         *
+         * @param currentIndex The current inline-citation's index.
+         * @param csl Fallback CSL.Data[].
+         * @return Citeproc.CitationByIndexSingle for the current inline citation.
+         */
+        prepareInlineCitationData(csl: CSL.Data[]): Citeproc.Citation;
+        /**
+         * Wrapper function for citeproc.makeBibliography that takes the output and
+         *   inlines CSS classes that are appropriate for the style (according to the
+         *   generated bibmeta).
+         * NOTE: This still needs to be extended further.
+         * @return {Citeproc.Bibliography} Parsed bibliography.
+         */
+        makeBibliography(): Citeproc.Bibliography;
+    }
 
     interface LocationInfo {
         /** URL to the `js` directory */
@@ -21,14 +62,31 @@ declare namespace ABT {
         locale: string;
     }
 
-    interface ReferencePayload {
+    /**
+     * addManually: boolean
+     * attachInline: boolean;
+     * identifierList: string;
+     * includeLink: boolean;
+     * manualData: CSL.Data;
+     * people: CSL.TypedPerson[];
+     */
+    interface ReferenceWindowPayload {
         addManually: boolean;
         attachInline: boolean;
-        citationStyle: string;
         identifierList: string;
         includeLink: boolean;
         manualData: CSL.Data;
         people: CSL.TypedPerson[];
+    }
+
+    interface ReferencePayload extends ReferenceWindowPayload {
+        citationStyle: string;
+    }
+
+    interface ImportWindowPayload {
+        filename: string;
+        payload: { [id: string]: CSL.Data };
+        links: boolean;
     }
 
     interface FieldMappings {
@@ -170,9 +228,9 @@ declare namespace Citeproc {
     }
 
     interface Citation {
-        citationID?: string|number;
+        citationID?: string;
         citationItems: {
-            id: string|number;
+            id: string;
             item?: CSL.Data;
         }[];
         properties: {
@@ -204,6 +262,7 @@ declare namespace Citeproc {
         registry: {
             citationreg: CitationRegistry;
         };
+        sys: SystemObj;
         makeBibliography(): Bibliography;
         processCitationCluster(
             citation: Citeproc.Citation,
@@ -217,62 +276,63 @@ declare namespace Citeproc {
 
 declare namespace TinyMCE {
 
-    interface tinyMCE {
-        DOM: any;
-        EditorManager: any;
+    interface MCE {
+        DOM: Object;
+        EditorManager;
         PluginManager: PluginManager;
-        EditorObservable: any;
-        Env: any;
-        WindowManager: any;
+        EditorObservable;
+        Env;
+        WindowManager;
         activeEditor: Editor;
-        add: (a:any) => any;
-        dom: any;
-        editors: any[];
-        remove: (e?: any) => void;
+        add(editor: Editor): Editor;
+        dom: Object;
+        editors: Editor[];
+        remove(e?: string): void;
     }
 
     interface Editor {
         id: string;
-        buttons: any;
-        container: any;
+        buttons: Object;
+        container: HTMLDivElement;
         contentDocument: HTMLDocument;
         contentWindow: Window;
-        controlManager: any;
-        dom: any;
-        editorCommands: any;
-        editorContainer: any;
-        editorManager: any;
-        editorUpload: any;
-        insertContent(any): any;
+        controlManager: Object;
+        dom: {
+            doc: Document;
+            create(tag: string, attrs: { [attr: string]: string}, children?: string): HTMLElement;
+        };
+        insertContent(content: string): void;
         setProgressState(state: number): void;
         addShortcut(keys: string, title: string, func: Function): void;
         on(eventString: string, callback: Function): void;
-        addButton(buttonID: string, buttonObj: any): void;
-        plugins: any;
-        selection: any;
-        settings: any;
-        target: any;
+        addButton(buttonID: string, buttonObj: Object): void;
+        selection: {
+            bookmarkManager: {
+                getBookmark(type: number, normalized: boolean): Object;
+                moveToBookmark(bookmark: Object): boolean
+            }
+            getNode(): Node;
+        };
+        settings: {
+            params;
+        };
+        target: Object;
         windowManager: WindowManager;
-        wp: any;
+        wp: Object;
     }
 
     interface WindowManager {
-        alert?: (a?:any) => any;
-        close?: (a?:any) => any;
-        confirm?: (a?:any) => any;
-        createInstance?: (a?:any) => any;
+        alert?(message: string, callback?: Function, scope?: Object): void;
+        close?(): void;
+        confirm?(message: string, callback?: Function, scope?: Object): void;
         data?: Object;
         editor?: Editor;
-        getParams?: (a?:any) => any;
-        getWindows?: (a?:any) => any;
-        onClose?: any;
-        onOpen?: any;
-        open?: (a?:any) => any;
-        parent?: any;
-        setParams?: (a?:any) => any;
-        windows?: any;
-        wp?: any;
-        submit?: () => void;
+        onClose?(e): void;
+        onOpen?(e): void;
+        open?(window: WindowMangerObject): void;
+        setParams?(paramObj): void;
+        windows?;
+        submit?(): () => void;
     }
 
     interface PluginManager {
@@ -289,19 +349,23 @@ declare namespace TinyMCE {
 
     interface WindowElement {
         type: string;
-        name: string;
-        label: string;
-        value: string;
+        name?: string;
+        label?: string;
+        value?: string;
+        html?: string;
         tooltip?: string;
     }
 
     interface WindowMangerObject {
         title: string;
-        width: number;
-        height: any;
+        width?: number;
+        height?: number;
         body?: WindowElement[];
         url?: string;
-        onclose?: any;
+        buttons?: Object;
+        params?: Object;
+        onclose?(e);
+        onsubmit?(e);
     }
 }
 

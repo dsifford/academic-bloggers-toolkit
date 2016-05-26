@@ -1,9 +1,7 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import { Modal, } from '../../../utils/Modal';
-import { RISParser, } from '../../../utils/RISParser';
-const citeStyles = require('../../../../../vendor/citationstyles');
-
+import { Modal } from '../../../utils/Modal';
+import { RISParser } from '../../../utils/RISParser';
 
 interface DOMEvent extends React.UIEvent {
     target: HTMLInputElement;
@@ -12,7 +10,6 @@ interface DOMEvent extends React.UIEvent {
 interface State {
     filename: string;
     payload: CSL.Data[];
-    format: string;
     links: boolean;
 }
 
@@ -31,7 +28,6 @@ export class ImportWindow extends React.Component<Props, State> {
         this.state = {
             filename: '',
             payload: [],
-            format: this.wm.windows[0].settings.params.preferredStyle || 'american-medical-association',
             links: true,
         };
     }
@@ -103,21 +99,6 @@ export class ImportWindow extends React.Component<Props, State> {
         return (
             <div>
                 <div style={{ display: 'flex', alignItems: 'center', }}>
-                    <label
-                        htmlFor='citeformat'
-                        style={{ whiteSpace: 'nowrap', marginRight: 10, }}
-                        children='Style'/>
-                    <select
-                        id='citeformat'
-                        style={{ width: '100%', }}
-                        onChange={this.handleChange.bind(this)}
-                        value={this.state.format} >
-                            {
-                                citeStyles.map((style, i: number) =>
-                                    <option key={i} value={style.value} children={style.label} />
-                                )
-                            }
-                    </select>
                     <div>
                         <label
                             htmlFor='includeLink'
