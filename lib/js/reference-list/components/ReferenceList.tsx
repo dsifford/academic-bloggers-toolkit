@@ -11,7 +11,7 @@ import { PanelButton } from './PanelButton';
 import { SingleChild } from './SingleChild';
 
 declare const tinyMCE: TinyMCE.MCE;
-declare const ABT_locationInfo: ABT.LocationInfo;
+declare const ABT_meta: ABT.AdminMeta;
 declare const ABT_Reflist_State: string;
 
 const { OPEN_REFERENCE_WINDOW, TINYMCE_READY } = EVENTS;
@@ -36,6 +36,10 @@ interface State extends SavedState {
     selected: string[];
     loading: boolean;
     menuOpen: boolean;
+    bibOptions: {
+        heading: string;
+        style: 'fixed'|'toggle';
+    };
 }
 
 export class ReferenceList extends React.Component<{}, State> {
@@ -48,8 +52,8 @@ export class ReferenceList extends React.Component<{}, State> {
         const { bibliography, cache, processorState, citations }: SavedState = JSON.parse(ABT_Reflist_State);
 
         if (!cache.style) {
-            cache.style = ABT_locationInfo.preferredCitationStyle;
-            cache.locale = ABT_locationInfo.locale;
+            cache.style = ABT_meta.preferredCitationStyle;
+            cache.locale = ABT_meta.locale;
             cache.bibmeta = null;
         }
 
@@ -68,6 +72,10 @@ export class ReferenceList extends React.Component<{}, State> {
             selected: [],
             loading: true,
             menuOpen: false,
+            bibOptions: {
+                heading: ABT_meta.bibHeading,
+                style: ABT_meta.bibStyle,
+            },
         };
     }
 
@@ -124,12 +132,14 @@ export class ReferenceList extends React.Component<{}, State> {
     initProcessor(style: string, citationByIndex: Citeproc.Citation[] = this.state.citations.citationByIndex) {
         this.processor.init(style, citationByIndex)
         .then((clusters) => {
-            MCE.parseInlineCitations(this.editor, clusters, true);
             const processorState = this.processor.state.citations;
 
             const [bibmeta, bibHTML]: Citeproc.Bibliography = this.processor.makeBibliography();
             const bibliography = bibHTML.map((h, i) => ({ id: bibmeta.entry_ids[i][0], html: h }));
             const citations = this.processor.citeproc.registry.citationreg;
+
+            MCE.parseInlineCitations(this.editor, clusters, citations.citationByIndex, true);
+            MCE.setBibliography(this.editor, bibliography, this.state.bibOptions);
 
             this.setState(
                 Object.assign({}, this.state, {
@@ -167,12 +177,13 @@ export class ReferenceList extends React.Component<{}, State> {
             console.error(status['citation_errors']);
         }
 
-        MCE.parseInlineCitations(this.editor, clusters);
 
         const [bibmeta, bibHTML]: Citeproc.Bibliography = this.processor.makeBibliography();
         const bibliography = bibHTML.map((h, i) => ({ id: bibmeta.entry_ids[i][0], html: h }));
         const citations = this.processor.citeproc.registry.citationreg;
 
+        MCE.parseInlineCitations(this.editor, clusters, citations.citationByIndex);
+        MCE.setBibliography(this.editor, bibliography, this.state.bibOptions);
 
         this.setState(
             Object.assign({}, this.state, {
@@ -249,12 +260,34 @@ export class ReferenceList extends React.Component<{}, State> {
         });
     }
 
-    /** TODO */
+    /**
+     * TODO: This is still very broken --- Just realized there is no way to add
+     *   items to the reference list without having them set in the document.
+     *   I'll have to figure that out...
+     */
     openImportWindow() {
         MCE.importWindow(this.editor)
-        .then(payload => {
-            if (!payload) return;
-            console.log(payload);
+        .then(data => {
+            if (!data) return;
+            console.log(data);
+            // const processorState: {[itemID: string]: CSL.Data} = this.processor.consumeCitations(data.payload);
+            // const [bibmeta, bibHTML]: Citeproc.Bibliography = this.processor.makeBibliography();
+            // const bibliography = bibHTML.map((h, i) => ({ id: bibmeta.entry_ids[i][0], html: h }));
+            // const citations = this.processor.citeproc.registry.citationreg;
+            //
+            // MCE.setBibliography(this.editor, bibliography, this.state.bibOptions);
+            //
+            // this.setState(
+            //     Object.assign({}, this.state, {
+            //         bibliography,
+            //         citations,
+            //         cache: Object.assign({}, this.state.cache, {
+            //             bibmeta,
+            //         }),
+            //         processorState,
+            //         selected: [],
+            //      })
+            // );
         });
     }
 

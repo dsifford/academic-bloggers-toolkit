@@ -2,6 +2,7 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { Modal } from '../../../utils/Modal';
 import { RISParser } from '../../../utils/RISParser';
+import { generateID } from '../../../utils/HelperFunctions';
 
 interface DOMEvent extends React.UIEvent {
     target: HTMLInputElement;
@@ -42,31 +43,30 @@ export class ImportWindow extends React.Component<Props, State> {
 
     handleFileUpload(e: DOMEvent) {
         e.preventDefault();
-        let reader = new FileReader();
-        let file = e.target.files[0];
-        let filename = e.target.files[0].name;
+        const reader = new FileReader();
+        const file = e.target.files[0];
+        const filename = e.target.files[0].name;
 
         reader.onload = (upload: any) => {
-            let parser = new RISParser(upload.target.result);
-            let payload: { [id: string]: CSL.Data } = {};
+            const parser = new RISParser(upload.target.result);
 
-            let parsedRefs: CSL.Data[] = parser.parse();
-            if (parsedRefs.length === 0) {
+            const payload: CSL.Data[] = parser.parse();
+            if (payload.length === 0) {
                 this.wm.alert(`The file could not be processed. Are you sure it's a .RIS (Refman) file?`);
                 return;
             }
 
-            parsedRefs.forEach(ref => {
-                payload[ref.id] = ref;
+            payload.forEach((ref, i) => {
+                payload[i].id = generateID();
             });
 
-            let leftovers = parser.unsupportedRefs;
+            const leftovers = parser.unsupportedRefs;
 
             if (leftovers.length > 0) {
                 this.wm.alert(`The following references were unable to be processed: ${leftovers.join(', ')}`);
             }
 
-            this.setState(Object.assign({}, this.state, { payload, filename, }));
+            this.setState(Object.assign({}, this.state, { payload, filename }));
         };
 
         reader.readAsText(file);
@@ -90,7 +90,7 @@ export class ImportWindow extends React.Component<Props, State> {
 
     handleSubmit(e) {
         e.preventDefault();
-        this.wm.setParams({ data: this.state, });
+        this.wm.setParams({ data: this.state });
         this.wm.close();
     }
 

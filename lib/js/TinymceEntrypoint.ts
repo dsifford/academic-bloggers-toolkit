@@ -2,7 +2,7 @@ import { EVENTS } from './utils/Constants';
 const { TINYMCE_READY, OPEN_REFERENCE_WINDOW } = EVENTS;
 
 declare var tinyMCE: TinyMCE.MCE;
-declare const ABT_locationInfo: ABT.LocationInfo;
+declare const ABT_meta: ABT.AdminMeta;
 declare const wpActiveEditor: string;
 
 tinyMCE.PluginManager.add('abt_main_menu', (editor: TinyMCE.Editor, url: string) => {
@@ -79,7 +79,7 @@ tinyMCE.PluginManager.add('abt_main_menu', (editor: TinyMCE.Editor, url: string)
         onclick: () => {
             editor.windowManager.open({
                 title: 'Keyboard Shortcuts',
-                url: ABT_locationInfo.tinymceViewsURL + 'keyboard-shortcuts.html',
+                url: ABT_meta.tinymceViewsURL + 'keyboard-shortcuts.html',
                 width: 400,
                 height: 70,
             });

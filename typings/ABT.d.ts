@@ -49,17 +49,24 @@ declare namespace ABT {
         makeBibliography(): Citeproc.Bibliography;
     }
 
-    interface LocationInfo {
+    interface AdminMeta {
+        /** Heading for the bibliography */
+        bibHeading: string;
+        /** Display style for the bibliography */
+        bibStyle: 'fixed'|'toggle';
         /** URL to the `js` directory */
         jsURL: string;
         /** URL `views` within the `tinymce` directory */
         tinymceViewsURL: string;
         /** CSL style filename of the user's preferred citation style (without .csl extension) */
         preferredCitationStyle: string;
-        /** The WordPress post type NOTE: probably can remove this */
-        postType: string;
         /** The user's locale (WordPress format) */
         locale: string;
+    }
+
+    interface FrontendMeta {
+        prBoxStyle: 'fixed'|'toggle';
+        bibStyle: 'fixed'|'toggle';
     }
 
     /**
@@ -85,7 +92,7 @@ declare namespace ABT {
 
     interface ImportWindowPayload {
         filename: string;
-        payload: { [id: string]: CSL.Data };
+        payload: CSL.Data[];
         links: boolean;
     }
 
@@ -133,15 +140,6 @@ declare namespace ABT {
         required: boolean;
         pattern: string;
         placeholder: string;
-    }
-
-    interface ABTOptions {
-        'abt_citation_style': string;
-        'display_options': {
-            'PR_boxes': 'fixed'|'toggle'
-            bibliography: 'fixed'|'toggle'
-            'bib_heading': string
-        };
     }
 
     interface PRMetaPayload {
@@ -207,6 +205,13 @@ declare namespace Citeproc {
      * @type {Array}
      */
     type RebuildProcessorStateData = [string, number, string];
+    type SortedItems = [
+        CSL.Data,
+        {
+            id: string;
+            sortkeys: [string];
+        }
+    ][];
 
     interface Bibmeta {
         /** Closing div tag for bibliography. */
@@ -227,6 +232,7 @@ declare namespace Citeproc {
         'second-field-align': 'flush'|'margin'|boolean;
     }
 
+
     interface Citation {
         citationID?: string;
         citationItems: {
@@ -237,7 +243,7 @@ declare namespace Citeproc {
             index?: number;
             noteIndex: number;
         };
-        sortedItems?: [CSL.Data, { id: string|number }][];
+        sortedItems?: SortedItems;
     }
 
     interface CitationRegistry {
@@ -301,17 +307,17 @@ declare namespace TinyMCE {
             doc: Document;
             create(tag: string, attrs: { [attr: string]: string}, children?: string): HTMLElement;
         };
-        insertContent(content: string): void;
-        setProgressState(state: number): void;
-        addShortcut(keys: string, title: string, func: Function): void;
-        on(eventString: string, callback: Function): void;
-        addButton(buttonID: string, buttonObj: Object): void;
         selection: {
             bookmarkManager: {
-                getBookmark(type: number, normalized: boolean): Object;
+                getBookmark(type?: number, normalized?: boolean): Object;
                 moveToBookmark(bookmark: Object): boolean
             }
+            getBookmark(type?: number, normalized?: boolean): Object;
+            collapse(toStart: boolean): void;
             getNode(): Node;
+            select(el: HTMLElement, content: boolean);
+            setCursorLocation(a): void;
+            moveToBookmark(bookmark: Object): boolean;
         };
         settings: {
             params;
@@ -319,6 +325,14 @@ declare namespace TinyMCE {
         target: Object;
         windowManager: WindowManager;
         wp: Object;
+        addButton(buttonID: string, buttonObj: Object): void;
+        addShortcut(keys: string, title: string, func: Function): void;
+        getBody(): HTMLBodyElement;
+        getContent(): string;
+        setContent(content: string, args?: Object): string;
+        insertContent(content: string): void;
+        on(eventString: string, callback: Function): void;
+        setProgressState(state: number): void;
     }
 
     interface WindowManager {

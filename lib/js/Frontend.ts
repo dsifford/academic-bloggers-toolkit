@@ -1,5 +1,6 @@
 
-declare var DocumentTouch, ABT_Options: ABT.ABTOptions;
+declare var DocumentTouch;
+declare var ABT_meta: ABT.FrontendMeta;
 
 
 namespace ABT_Frontend {
@@ -56,54 +57,60 @@ namespace ABT_Frontend {
     export class Citations {
 
         public static timer: number;
-        public referenceContainer: HTMLDivElement;
-        public referenceList: HTMLOListElement;
+        public bibliography: HTMLDivElement;
 
         constructor() {
-            this.referenceContainer = document.getElementById('abt-smart-bib-container') as HTMLDivElement;
-            this.referenceList = document.getElementById('abt-smart-bib') as HTMLOListElement;
-            let citationList = document.getElementsByClassName('abt_cite');
+            this.bibliography = document.getElementById('abt-smart-bib') as HTMLDivElement;
+            const citationList = document.getElementsByClassName('abt_cite');
 
             for (let i = 0; i < citationList.length; i++) {
 
-                let citeNums: number[] = JSON.parse((citationList[i] as HTMLSpanElement).dataset['reflist']);
-                let citationHTML = citeNums.map((citeNum: number): string => {
+                const citation = citationList[i] as HTMLSpanElement;
+                const citations: string[] = JSON.parse(citation.dataset['reflist']);
+                const citationHTML = citations.map((id: string): string => this.bibliography.children[id].outerHTML);
 
-                    // Handle error silently if citeNum is outside the indices of the reference list
-                    if (!this.referenceList.children[citeNum]) { return; }
-
-                    return (
-                        `<div style="display: flex;">` +
-                        `<span>` +
-                        `<strong>${citeNum + 1}. </strong>` +
-                        `${this.referenceList.children[citeNum].innerHTML}` +
-                        `</span>` +
-                        `</div>`
-                    );
-                });
-
-                // Save CSV string of citenums as data attr 'citations'
-                (citationList[i] as HTMLSpanElement).dataset['citations'] = citationHTML.join('');
+                citation.dataset['citations'] = citationHTML.join('');
 
                 // Conditionally create tooltip based on device
-                if (this._isTouchDevice()) {
-                    citationList[i].addEventListener('touchstart', this._createTooltip.bind(this));
+                if (this.isTouchDevice()) {
+                    citationList[i].addEventListener('touchstart', this.createTooltip.bind(this));
                 } else {
-                    citationList[i].addEventListener('mouseover', this._createTooltip.bind(this));
-                    citationList[i].addEventListener('mouseout', this._destroyTooltip);
+                    citationList[i].addEventListener('mouseover', this.createTooltip.bind(this));
+                    citationList[i].addEventListener('mouseout', this.destroyTooltip);
                 }
 
             }
 
+            if (this.bibliography.querySelector('h3.toggle')) this.enableToggle();
         }
 
+        private enableToggle() {
+            const citations = document.querySelectorAll('#abt-smart-bib>div');
+            const heading = document.querySelector('h3.toggle');
+            const container = document.createElement('DIV');
+            container.id = 'abt-bib-container';
+            container.style.display = 'none';
+            heading.classList.toggle('abt-hidden');
 
-        private _isTouchDevice(): boolean {
+            this.bibliography.appendChild(container);
+            for (let el of citations) {
+                container.appendChild(el);
+            }
+
+            heading.addEventListener('click', () => {
+                container.style.display =
+                    container.style.display === 'none' ? '' : 'none';
+                heading.classList.toggle('abt-hidden');
+            });
+
+        }
+
+        private isTouchDevice(): boolean {
             return true === ('ontouchstart' in window || window.DocumentTouch && document instanceof DocumentTouch);
         }
 
 
-        private _createTooltip(e: Event): void {
+        private createTooltip(e: Event): void {
             e.preventDefault();
             clearTimeout(Citations.timer);
 
@@ -123,7 +130,7 @@ namespace ABT_Frontend {
             tooltipArrow.className = 'abt_tooltip_arrow';
 
 
-            if (this._isTouchDevice()) {
+            if (this.isTouchDevice()) {
 
                 let closeButton: HTMLDivElement = document.createElement('div');
                 let touchContainer: HTMLDivElement = document.createElement('div');
@@ -152,7 +159,7 @@ namespace ABT_Frontend {
                 tooltip.style.maxWidth = (500 > ((rect.left * 2) + ((rect.right - rect.left) / 2))) ? (rect.left * 2) + 'px' : '500px';
                 tooltip.style.left = rect.left + ((rect.right - rect.left) / 2) - (tooltip.clientWidth / 2) + 'px';
                 tooltip.addEventListener('mouseover', () => clearTimeout(Citations.timer));
-                tooltip.addEventListener('mouseout', this._destroyTooltip);
+                tooltip.addEventListener('mouseout', this.destroyTooltip);
 
             }
 
@@ -172,48 +179,11 @@ namespace ABT_Frontend {
 
         }
 
-        private _destroyTooltip(): void {
+        private destroyTooltip(): void {
             Citations.timer = setTimeout(() => {
                 let tip = document.getElementById('abt_tooltip');
                 tip.parentElement.removeChild(tip);
             }, 200);
-        }
-
-        public enableToggle(headingText: string): void {
-            if (!this.referenceList) { return; }
-
-            if (headingText === '') {
-                headingText = 'Bibliography';
-            }
-
-            this.referenceList.style.display = 'none';
-
-            let heading = document.createElement('H3');
-            heading.id = 'abt-smart-bib-toggle';
-            heading.classList.add('abt-hidden', 'noselect');
-            heading.innerText = headingText;
-
-            heading.addEventListener('click', (e: Event) => {
-                let target = e.target as HTMLHeadingElement;
-
-                this.referenceList.style.display =
-                    this.referenceList.style.display === 'none'
-                    ? ''
-                    : 'none';
-
-                target.classList.toggle('abt-hidden');
-            });
-
-            this.referenceContainer.insertBefore(heading, this.referenceList);
-        }
-
-        public renderHeading(headingText: string): void {
-            if (!this.referenceList) { return; }
-
-            let heading = document.createElement('H3');
-            heading.innerText = headingText;
-
-            this.referenceContainer.insertBefore(heading, this.referenceList);
         }
 
     }
@@ -222,7 +192,7 @@ namespace ABT_Frontend {
 
 
 
-if (document.readyState !== 'loading') {
+if (document.readyState === 'interactive') {
     frontendJS();
 } else {
     document.addEventListener('DOMContentLoaded', frontendJS);
@@ -231,22 +201,15 @@ if (document.readyState !== 'loading') {
 
 function frontendJS() {
 
-    let options = ABT_Options;
+    let options = ABT_meta;
 
-    const bibliography = new ABT_Frontend.Citations;
+    new ABT_Frontend.Citations();
 
-    if (options['display_options'] && options['display_options']['bibliography'] === 'toggle') {
-        bibliography.enableToggle(options['display_options']['bib_heading']);
-    }
-    else if (options['display_options'] && options['display_options']['bib_heading'] !== 'undefined') {
-        bibliography.renderHeading(options['display_options']['bib_heading']);
-    }
-
-    if (options['display_options'] && options['display_options']['PR_boxes'] === 'fixed') {
+    if (options.prBoxStyle === 'fixed') {
         Array.from(document.getElementsByClassName('abt_PR_heading')).forEach(heading => heading.className = '');
     }
     else {
-        new ABT_Frontend.Accordion;
+        new ABT_Frontend.Accordion();
     }
 
 

@@ -2,6 +2,7 @@
     "rules": {
         "class-name": true,
         "comment-format": [true, "check-space"],
+        "forin": true,
         "indent": [true, "spaces"],
         "jsdoc-format": true,
         "no-angle-bracket-type-assertion": true,

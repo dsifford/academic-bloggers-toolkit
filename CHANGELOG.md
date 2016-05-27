@@ -1,5 +1,12 @@
 # Changelog
 
+# Next
+
+**Bugfixes**
+
+- Fix bug that caused some options to not be saved on the options page.
+- Fix issue that caused the plugin to break if your site is SSL encrypted.
+
 ### 3.1.5
 - Fix PubMed bug that resulted in citations with ampersands in the title to be parsed as `&amp;amp;`. HT @Da5idHatch
 

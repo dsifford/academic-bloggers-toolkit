@@ -24,22 +24,10 @@ const setup = (
 describe('<Card />', () => {
     it('should render as selected when index is in "selected"', () => {
         const { component, } = setup(true);
-        const style = {
-            borderBottom: '1px solid #E5E5E5',
-            padding: 5,
-            cursor: 'pointer',
-            backgroundColor: 'rgba(243, 255, 62, 0.2)',
-            textShadow: '0px 0px 0.1px',
-        };
-        expect(component.find('.abt-card').props().style).toEqual(style);
+        expect(component.find('.abt-card').props().className).toEqual('abt-card selected');
     });
     it('should render as unselected when index not in "selected"', () => {
         const { component, } = setup(false);
-        const style = {
-            borderBottom: '1px solid #E5E5E5',
-            padding: 5,
-            cursor: 'pointer',
-        };
-        expect(component.find('.abt-card').props().style).toEqual(style);
+        expect(component.find('.abt-card').props().className).toEqual('abt-card');
     });
 });

@@ -37,10 +37,16 @@ add_action('wp_head', 'abt_css_override');
 
 
 function abt_enqueue_frontend_scripts() {
-	wp_enqueue_style( 'dashicons' );
+
+    $abt_options = get_option('abt_options');
+
+    wp_enqueue_style( 'dashicons' );
 	wp_enqueue_style( 'abt_frontend_styles', plugins_url('academic-bloggers-toolkit/lib/css/frontend.css'), 'dashicons' );
 	wp_enqueue_script('abt_frontend_js', plugins_url('academic-bloggers-toolkit/lib/js/Frontend.js') );
-	wp_localize_script('abt_frontend_js', 'ABT_Options', get_option('abt_options'));
+	wp_localize_script('abt_frontend_js', 'ABT_meta', array(
+        'prBoxStyle' => isset($abt_options['display_options']['PR_boxes']) ? $abt_options['display_options']['PR_boxes'] : null,
+        'bibStyle' => isset($abt_options['display_options']['bibliography']) ? $abt_options['display_options']['bibliography'] : null
+    ));
 }
 add_action('wp_enqueue_scripts', 'abt_enqueue_frontend_scripts');
 

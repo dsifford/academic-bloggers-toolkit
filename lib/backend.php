@@ -30,6 +30,19 @@ class ABT_Backend {
         add_action('add_meta_boxes', array($this, 'add_metaboxes'));
         add_action('save_post', array($this, 'save_meta'));
         add_action('admin_enqueue_scripts', array($this, 'enqueue_js'));
+        add_filter('mce_css', array($this, 'load_tinymce_css'));
+    }
+
+    /**
+     * Loads the required stylesheet into TinyMCE (required for proper citation parsing)
+     * @param  string $mce_css CSS string
+     * @return string          CSS string + custom CSS appended.
+     */
+    public function load_tinymce_css($mce_css) {
+        if (!empty($mce_css))
+		    $mce_css .= ',';
+        $mce_css .= plugins_url('academic-bloggers-toolkit/lib/css/collections/citations.css');
+	    return $mce_css;
     }
 
     /**
@@ -136,19 +149,19 @@ class ABT_Backend {
      * @since 3.0.0
      */
     public function enqueue_js($hook) {
-        global $typenow;
 
         wp_enqueue_media();
         wp_dequeue_script('autosave');
         $abt_options = get_option('abt_options');
 
         wp_enqueue_script('abt-PR-metabox', plugins_url('academic-bloggers-toolkit/lib/js/components/peer-review-metabox/Entrypoint.js'), array(), false, true);
-        wp_localize_script('abt-PR-metabox', 'ABT_locationInfo', array(
+        wp_localize_script('abt-PR-metabox', 'ABT_meta', array(
             'jsURL' => plugins_url('academic-bloggers-toolkit/lib/js/'),
             'tinymceViewsURL' => plugins_url('academic-bloggers-toolkit/lib/js/tinymce/views/'),
             'preferredCitationStyle' => isset($abt_options['abt_citation_style']) ? $abt_options['abt_citation_style'] : '',
-            'postType' => $typenow,
             'locale' => get_locale(),
+            'bibHeading' => isset($abt_options['display_options']['bib_heading']) ? $abt_options['display_options']['bib_heading'] : null,
+            'bibStyle' => isset($abt_options['display_options']['bibliography']) ? $abt_options['display_options']['bibliography'] : null
         ));
 
         wp_enqueue_script('abt_citeproc', plugins_url('academic-bloggers-toolkit/vendor/citeproc.js'), array(), false, true);
@@ -533,20 +546,20 @@ function abt_append_peer_reviews($text) {
 }
 add_filter('the_content', 'abt_append_peer_reviews');
 
-function tag_ordered_list($content) {
-    if (is_single() || is_page()) {
-        $smart_bib_exists = preg_match('<ol id="abt-smart-bib">', $content);
-        if (!$smart_bib_exists) {
-            $lastOLPosition = strrpos($content, '<ol');
-            if (!$lastOLPosition) {
-                return $content;
-            }
-            $content = substr($content, 0, $lastOLPosition).'<ol id="abt-smart-bib" '.substr($content, $lastOLPosition + 3, strlen($content));
-        }
-
-        return $content;
-    }
-
-    return $content;
-}
-add_filter('the_content', 'tag_ordered_list');
+// function tag_ordered_list($content) {
+//     if (is_single() || is_page()) {
+//         $smart_bib_exists = preg_match('<ol id="abt-smart-bib">', $content);
+//         if (!$smart_bib_exists) {
+//             $lastOLPosition = strrpos($content, '<ol');
+//             if (!$lastOLPosition) {
+//                 return $content;
+//             }
+//             $content = substr($content, 0, $lastOLPosition).'<ol id="abt-smart-bib" '.substr($content, $lastOLPosition + 3, strlen($content));
+//         }
+//
+//         return $content;
+//     }
+//
+//     return $content;
+// }
+// add_filter('the_content', 'tag_ordered_list');
