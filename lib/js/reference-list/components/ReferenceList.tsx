@@ -17,28 +17,28 @@ declare const ABT_Reflist_State: string;
 const { OPEN_REFERENCE_WINDOW, TINYMCE_READY } = EVENTS;
 
 interface SavedState {
-    bibliography: {
-        id: string;
-        html: string;
+    readonly bibliography: {
+        readonly id: string;
+        readonly html: string;
     }[];
     cache: {
         style: string;
         locale: string;
         bibmeta: Citeproc.Bibmeta
     };
-    citations: Citeproc.CitationRegistry;
-    processorState: {
-        [itemID: string]: CSL.Data;
+    readonly citations: Citeproc.CitationRegistry;
+    readonly processorState: {
+        readonly [itemID: string]: CSL.Data;
     };
 }
 
 interface State extends SavedState {
-    selected: string[];
-    loading: boolean;
-    menuOpen: boolean;
-    bibOptions: {
-        heading: string;
-        style: 'fixed'|'toggle';
+    readonly selected: string[];
+    readonly loading: boolean;
+    readonly menuOpen: boolean;
+    readonly bibOptions: {
+        readonly heading: string;
+        readonly style: 'fixed'|'toggle';
     };
 }
 

@@ -4,14 +4,18 @@ import { Modal } from '../../../utils/Modal';
 import { RISParser } from '../../../utils/RISParser';
 import { generateID } from '../../../utils/HelperFunctions';
 
-interface DOMEvent extends React.UIEvent {
-    target: HTMLInputElement;
+interface FileReaderEvent extends Event {
+    target: FileReaderEventTarget;
+}
+
+interface FileReaderEventTarget extends EventTarget {
+    result: string;
 }
 
 interface State {
-    filename: string;
-    payload: CSL.Data[];
-    links: boolean;
+    readonly filename: string;
+    readonly payload: CSL.Data[];
+    readonly links: boolean;
 }
 
 interface Props {
@@ -41,13 +45,13 @@ export class ImportWindow extends React.Component<Props, State> {
         this.modal.resize();
     }
 
-    handleFileUpload(e: DOMEvent) {
+    handleFileUpload(e: InputEvent) {
         e.preventDefault();
         const reader = new FileReader();
         const file = e.target.files[0];
         const filename = e.target.files[0].name;
 
-        reader.onload = (upload: any) => {
+        reader.onload = (upload: FileReaderEvent) => {
             const parser = new RISParser(upload.target.result);
 
             const payload: CSL.Data[] = parser.parse();
@@ -72,7 +76,7 @@ export class ImportWindow extends React.Component<Props, State> {
         reader.readAsText(file);
     }
 
-    handleChange(e: DOMEvent) {
+    handleChange(e: InputEvent) {
         this.setState(
             Object.assign({}, this.state, {
                 format: e.target.value,
@@ -80,7 +84,7 @@ export class ImportWindow extends React.Component<Props, State> {
         );
     }
 
-    handleClick(e: DOMEvent) {
+    handleClick(e: InputEvent) {
         this.setState(
             Object.assign({}, this.state, {
                 links: !this.state.links,

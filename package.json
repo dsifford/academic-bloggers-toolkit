@@ -52,6 +52,7 @@
     "sinon": "^1.17.4",
     "style-loader": "^0.13.1",
     "ts-loader": "^0.8.2",
+    "tslint": "^3.10.0-dev.2",
     "typescript": "^1.9.0-dev.20160429",
     "webpack": "^1.13.1",
     "webpack-stream": "^3.2.0"
