@@ -2,7 +2,7 @@
 
 // ========== Loading Spinner ===========
 .sk-circle
-    border 5px solid $f5
+    border 5px solid $light-gray
     margin-left auto
     margin-right auto
     width 40px
@@ -22,7 +22,7 @@
             margin 0 auto
             width 15%
             height 15%
-            background-color $555d66
+            background-color $dark-gray
             border-radius 100%
             animation sk-circleBounceDelay 1.2s infinite ease-in-out both
 
@@ -50,7 +50,7 @@
         display flex
         padding 10px 0
         margin-top -6px
-        background $f5
+        background $light-gray
         border-bottom 1px solid $border
         border-top 1px solid $border
         clear both
@@ -59,21 +59,21 @@
             background 0
             border 0
             border-radius 2px
-            color $555
+            color $dark-gray
             cursor pointer
             height 30px
             outline 0
             min-width 40px
             $selector = selector()
             &:hover
-                box-shadow inset 0 1px 0 $white,0 1px 0 rgba(0,0,0,.08)
-                border 1px solid $555d66
+                box-shadow inset 0 1px 0 white,0 1px 0 rgba(0,0,0,.08)
+                border 1px solid $dark-gray
             &:active
                 @extend {$selector}:hover
-                background $ebebeb
+                background darken($light-gray, 5)
                 box-shadow inset 0 2px 5px -3px rgba(0,0,0,.3)
             &:disabled
-                color $a0a5aa
+                color $disabled
                 pointer-events none
             span
                 pointer-events: none
@@ -95,7 +95,7 @@
     #abt-reflist-menu
         display flex
         flex-direction column
-        background $f5
+        background $light-gray
         padding 5px 5px 0 5px
         height auto
         align-content flex-end
@@ -117,15 +117,15 @@
                 border-bottom solid $border 1px
                 cursor pointer
                 &:hover
-                    background darken($f5, 5)
+                    background darken($light-gray, 5)
                 &:active
-                    background darken($f5, 10)
+                    background darken($light-gray, 10)
     .abt-card
         border-bottom 1px solid $border
         padding 5px 10px
         cursor pointer
         &:hover
-            background $f9
+            background $light-gray
         &.selected
             border-left solid darken($blue, 5) 3px
             padding 5px 10px 5px 7px
