@@ -24,14 +24,14 @@ export class Modal {
         if (top.window.innerHeight < height + 100) {
             height = top.window.innerHeight - 112;
         }
-        let position = `calc(50% - ${(height + 56) / 2}px)`;
+        const position = `calc(50% - ${(height + 56) / 2}px)`;
         this.outer.style.height = height + 56 + 'px';
         this.outer.style.top = position;
     };
 
     private _getModal(): void {
-        let outerModalID: string = top.document.querySelector(`div.mce-floatpanel[aria-label="${this.title}"]`).id;
-        let innerModalID: string = `${outerModalID}-body`;
+        const outerModalID: string = top.document.querySelector(`div.mce-floatpanel[aria-label="${this.title}"]`).id;
+        const innerModalID: string = `${outerModalID}-body`;
         this.outer = top.document.getElementById(outerModalID);
         this.inner = top.document.getElementById(innerModalID);
         this.mceReset = this.outer.children[0] as HTMLElement;

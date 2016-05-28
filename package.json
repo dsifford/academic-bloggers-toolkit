@@ -41,7 +41,7 @@
     "gulp-rename": "^1.2.2",
     "gulp-replace": "^0.5.4",
     "gulp-sourcemaps": "^2.0.0-alpha",
-    "gulp-stylus": "^2.3.1",
+    "gulp-stylus": "^2.4.0",
     "gulp-uglify": "^1.5.3",
     "jest-cli": "^12.1.1",
     "ntypescript": "^1.201605262208.1",

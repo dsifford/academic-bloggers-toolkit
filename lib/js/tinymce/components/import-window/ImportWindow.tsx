@@ -15,7 +15,6 @@ interface FileReaderEventTarget extends EventTarget {
 interface State {
     readonly filename: string;
     readonly payload: [string, CSL.Data][];
-    readonly links: boolean;
 }
 
 interface Props {
@@ -33,7 +32,6 @@ export class ImportWindow extends React.Component<Props, State> {
         this.state = {
             filename: '',
             payload: [],
-            links: true,
         };
     }
 
@@ -86,14 +84,6 @@ export class ImportWindow extends React.Component<Props, State> {
         );
     }
 
-    handleClick(e: InputEvent) {
-        this.setState(
-            Object.assign({}, this.state, {
-                links: !this.state.links,
-            })
-        );
-    }
-
     handleSubmit(e) {
         e.preventDefault();
         this.wm.setParams({ data: this.state });
@@ -104,19 +94,6 @@ export class ImportWindow extends React.Component<Props, State> {
     render() {
         return (
             <div>
-                <div style={{ display: 'flex', alignItems: 'center', }}>
-                    <div>
-                        <label
-                            htmlFor='includeLink'
-                            style={{ whiteSpace: 'nowrap', margin: '0 10px', }}
-                            children='Links'/>
-                        <input
-                            type='checkbox'
-                            id='includeLink'
-                            checked={this.state.links}
-                            onChange={this.handleClick.bind(this)} />
-                    </div>
-                </div>
                 <div style={{ display: 'flex', justifyContent: 'space-between', }}>
                     <div style={{ display: 'flex', alignItems: 'center', flex: 1, }}>
                         <label className='uploadLabel'>

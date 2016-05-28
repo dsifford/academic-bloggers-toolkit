@@ -99,6 +99,7 @@ declare namespace ABT {
 
     interface ImportWindowPayload {
         filename: string;
+        /** [itemID, CSL.Data][] */
         payload: [string, CSL.Data][];
         links: boolean;
     }
@@ -342,7 +343,8 @@ declare namespace TinyMCE {
         setContent(content: string, args?: Object): string;
         insertContent(content: string): void;
         on(eventString: string, callback: Function): void;
-        setProgressState(state: number): void;
+        /** true = loading; false = not loading */
+        setProgressState(state: boolean): void;
     }
 
     interface WindowManager {

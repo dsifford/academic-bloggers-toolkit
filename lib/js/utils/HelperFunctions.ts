@@ -1,42 +1,4 @@
 
-
-/**
- * Function that takes a sorted array of integers as input and returns
- * an inline citation string representation of the numbers.
- *
- * Example: [1,3,4,5,10] => "1,3-5,10"
- *
- * @param  {number[]} numArr Sorted array of integers.
- * @returns {string} A formatted inline citation string.
- */
-export function parseInlineCitationString(numArr: number[]): string {
-    if (numArr.length === 0) { return ''; }
-
-    let output: string = numArr[0].toString();
-
-    for (let i = 1; i < numArr.length; i++) {
-        switch (output[output.length - 1]) {
-            case ',':
-                output += numArr[i];
-                break;
-            case '-':
-                if (numArr[i + 1] === numArr[i] + 1) { break; }
-                if (i === numArr.length - 1) { output += numArr[i]; break; }
-                output += numArr[i] + ',';
-                break;
-            default:
-                let lastNum = parseInt(output.split(',')[output.split(',').length - 1]);
-                if (lastNum === numArr[i] - 1 && numArr[i + 1] === numArr[i] + 1) {
-                    output += '-';
-                    break;
-                }
-                output += ',' + numArr[i];
-        }
-    }
-
-    return output;
-}
-
 /**
  * Takes an array of reference strings and makes the following replacements to each
  *   reference:

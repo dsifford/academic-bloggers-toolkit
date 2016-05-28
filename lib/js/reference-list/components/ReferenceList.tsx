@@ -171,6 +171,7 @@ export class ReferenceList extends React.Component<{}, State> {
     insertInline(data: CSL.Data[], processorState: {[itemID: string]: CSL.Data}, e?: Event) {
 
         if (e) e.preventDefault();
+        this.editor.setProgressState(true);
 
         /**
          * If no data, then this must be a case where we're inserting from the
@@ -203,6 +204,7 @@ export class ReferenceList extends React.Component<{}, State> {
             this.processor.citeproc.opt.xclass
         ).then(() => {
             MCE.setBibliography(this.editor, bibliography, this.state.bibOptions);
+            this.editor.setProgressState(false);
         });
 
         this.setState(
@@ -281,6 +283,11 @@ export class ReferenceList extends React.Component<{}, State> {
                 return { data, processorState };
             })
             .then(({data, processorState}) => {
+                if (!payload.attachInline) {
+                    const uncited: [string, CSL.Data][] = []; /** FIXME: Typescript wont let me map this. */
+                    data.forEach(d => uncited.push([d.id, d]));
+                    return this.addToUncitedList(uncited, processorState);
+                };
                 this.insertInline(data, processorState);
             })
             .catch(err => console.error(err.message));
@@ -292,26 +299,30 @@ export class ReferenceList extends React.Component<{}, State> {
         .then(data => {
             if (!data) return;
             const processorState: {[itemID: string]: CSL.Data} = this.processor.consumeCitations(data.payload.map(r => r[1]));
-            const uncited = [
-                ...data.payload,
-                ...this.state.cache.uncited,
-            ].sort((a, b) => {
-                const A = a[1].title.toLowerCase();
-                const B = b[1].title.toLowerCase();
-                if ( A < B ) return -1;
-                if ( A > B ) return 1;
-                return 0;
-            });
-            this.setState(
-                Object.assign({}, this.state, {
-                    cache: Object.assign({}, this.state.cache, {
-                        uncited,
-                    }),
-                    processorState,
-                    selected: [],
-                 })
-            );
+            this.addToUncitedList(data.payload, processorState);
         });
+    }
+
+    addToUncitedList(data: [string, CSL.Data][], processorState): void {
+        const uncited = [
+            ...data,
+            ...this.state.cache.uncited,
+        ].sort((a, b) => {
+            const A = a[1].title.toLowerCase();
+            const B = b[1].title.toLowerCase();
+            if ( A < B ) return -1;
+            if ( A > B ) return 1;
+            return 0;
+        });
+        this.setState(
+            Object.assign({}, this.state, {
+                cache: Object.assign({}, this.state.cache, {
+                    uncited,
+                }),
+                processorState,
+                selected: [],
+             })
+        );
     }
 
     handleMenuSelection(kind: string, data?) {
@@ -386,7 +397,7 @@ export class ReferenceList extends React.Component<{}, State> {
                         transitionName='menu'
                         transitionEnterTimeout={200}
                         transitionLeaveTimeout={200}
-                        component={SingleChild}>
+                        component={SingleChild as any}>
                         { this.state.menuOpen &&
                             <Menu
                                 key='menu'
