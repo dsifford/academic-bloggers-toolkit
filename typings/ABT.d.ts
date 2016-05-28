@@ -32,6 +32,12 @@ declare namespace ABT {
          */
         consumeCitations(citations: CSL.Data[]): {[itemID: string]: CSL.Data};
         /**
+         * Purges items from the local state whos ID is listed in `items`
+         * @param  items Array of item IDs to remove from the state.
+         * @return State after removing items
+         */
+        purgeCitations(items: string[]): {[itemID: string]: CSL.Data};
+        /**
          * Transforms the CSL.Data[] into a Citeproc.Citation.
          *
          * @param currentIndex The current inline-citation's index.
@@ -46,7 +52,7 @@ declare namespace ABT {
          * NOTE: This still needs to be extended further.
          * @return {Citeproc.Bibliography} Parsed bibliography.
          */
-        makeBibliography(): Citeproc.Bibliography;
+        makeBibliography(links: 'always'|'urls'|'never'): Citeproc.Bibliography;
     }
 
     interface AdminMeta {
@@ -56,10 +62,12 @@ declare namespace ABT {
         bibStyle: 'fixed'|'toggle';
         /** URL to the `js` directory */
         jsURL: string;
+        /** When links should be included in the bibliography */
+        links: 'always'|'urls'|'never';
         /** URL `views` within the `tinymce` directory */
         tinymceViewsURL: string;
         /** CSL style filename of the user's preferred citation style (without .csl extension) */
-        preferredCitationStyle: string;
+        style: string;
         /** The user's locale (WordPress format) */
         locale: string;
     }
@@ -81,7 +89,6 @@ declare namespace ABT {
         addManually: boolean;
         attachInline: boolean;
         identifierList: string;
-        includeLink: boolean;
         manualData: CSL.Data;
         people: CSL.TypedPerson[];
     }
@@ -92,7 +99,7 @@ declare namespace ABT {
 
     interface ImportWindowPayload {
         filename: string;
-        payload: CSL.Data[];
+        payload: [string, CSL.Data][];
         links: boolean;
     }
 
@@ -269,6 +276,9 @@ declare namespace Citeproc {
             citationreg: CitationRegistry;
         };
         sys: SystemObj;
+        opt: {
+            xclass: 'note'|'in-text';
+        };
         makeBibliography(): Bibliography;
         processCitationCluster(
             citation: Citeproc.Citation,
@@ -433,7 +443,7 @@ declare namespace CSL {
     }
 
     interface Data {
-        id?: string|number;
+        id?: string;
         type?: CitationType;
         categories?: string[];
         language?: string;

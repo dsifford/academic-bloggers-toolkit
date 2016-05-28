@@ -158,7 +158,8 @@ class ABT_Backend {
         wp_localize_script('abt-PR-metabox', 'ABT_meta', array(
             'jsURL' => plugins_url('academic-bloggers-toolkit/lib/js/'),
             'tinymceViewsURL' => plugins_url('academic-bloggers-toolkit/lib/js/tinymce/views/'),
-            'preferredCitationStyle' => isset($abt_options['abt_citation_style']) ? $abt_options['abt_citation_style'] : '',
+            'style' => isset($abt_options['abt_citation_style']) ? $abt_options['abt_citation_style'] : 'american-medical-association',
+            'links' => isset($abt_options['display_options']['links']) ? $abt_options['display_options']['links'] : 'always',
             'locale' => get_locale(),
             'bibHeading' => isset($abt_options['display_options']['bib_heading']) ? $abt_options['display_options']['bib_heading'] : null,
             'bibStyle' => isset($abt_options['display_options']['bibliography']) ? $abt_options['display_options']['bibliography'] : null

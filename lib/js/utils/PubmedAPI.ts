@@ -131,7 +131,7 @@ function processJSON(res: PubMed.SingleReference[], callback: Function): void {
     res.forEach((ref: PubMed.SingleReference, i: number) => {
 
         let output: CSL.Data = {};
-        output.id = i;
+        output.id = `${i}`;
         output.type = 'article-journal'; /** TODO: Figure out all the supported types */
         output.author = [];
 

@@ -14,7 +14,7 @@ interface FileReaderEventTarget extends EventTarget {
 
 interface State {
     readonly filename: string;
-    readonly payload: CSL.Data[];
+    readonly payload: [string, CSL.Data][];
     readonly links: boolean;
 }
 
@@ -54,14 +54,16 @@ export class ImportWindow extends React.Component<Props, State> {
         reader.onload = (upload: FileReaderEvent) => {
             const parser = new RISParser(upload.target.result);
 
-            const payload: CSL.Data[] = parser.parse();
+            let payload = parser.parse();
             if (payload.length === 0) {
                 this.wm.alert(`The file could not be processed. Are you sure it's a .RIS (Refman) file?`);
                 return;
             }
 
-            payload.forEach((ref, i) => {
-                payload[i].id = generateID();
+            payload = payload.map((ref, i) => {
+                const id = generateID();
+                ref.id = id;
+                return [id, ref];
             });
 
             const leftovers = parser.unsupportedRefs;

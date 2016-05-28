@@ -57,20 +57,22 @@ export class Menu extends React.Component<Props, State> {
     render() {
         return (
             <div id='abt-reflist-menu'>
-                <div id='style-select'>
-                    <label children='Style' />
-                    <VSelect
-                        id='style-select'
-                        onChange={this.handleSelect.bind(this, 'CHANGE_STYLE')}
-                        value={this.state.selected === null ? this.props.cslStyle : this.state.selected}
-                        options={this.styles}
-                        clearable={false} />
-                </div>
-                <div className='option-buttons'>
-                    <div
-                        className='row-btn'
-                        onClick={this.handleSelect.bind(this, 'IMPORT_RIS', null)}
-                        children='Import RIS File' />
+                <div className='inner'>
+                    <div className='option-buttons'>
+                        <div
+                            className='row-btn'
+                            onClick={this.handleSelect.bind(this, 'IMPORT_RIS', null)}
+                            children='Import RIS File' />
+                    </div>
+                    <div id='style-select'>
+                        <VSelect
+                            id='style-select'
+                            onChange={this.handleSelect.bind(this, 'CHANGE_STYLE')}
+                            value={this.state.selected}
+                            placeholder='Choose citation style...'
+                            options={this.styles}
+                            clearable={false} />
+                    </div>
                 </div>
             </div>
         );

@@ -1,4 +1,5 @@
 import { localeConversions } from './Constants';
+import { parseReferenceURLs } from './HelperFunctions';
 
 declare var CSL;
 
@@ -117,8 +118,9 @@ export class CSLProcessor implements ABT.CSLProcessor {
     }
 
     /**
-     * Updates the Citeproc object and the local state with new citation data.
+     * Updates the local state with new citation data.
      * @param citations Array of CSL.Data.
+     * @return State after adding items
      */
     consumeCitations(citations: CSL.Data[]): {[itemID: string]: CSL.Data} {
         const newCitations = {};
@@ -127,6 +129,24 @@ export class CSLProcessor implements ABT.CSLProcessor {
         });
         this.state = Object.assign({}, this.state, {
             citations: Object.assign({}, this.state.citations, newCitations),
+        });
+        return this.state.citations;
+    }
+
+    /**
+     * Purges items from the local state whos ID is listed in `items`
+     * @param  items Array of item IDs to remove from the state.
+     * @return State after removing items
+     */
+    purgeCitations(items: string[]): {[itemID: string]: CSL.Data} {
+        const citations = Object.keys(this.state.citations)
+            .filter(id => items.indexOf(id) === -1)
+            .reduce((result, id) => {
+                result[id] = this.state.citations[id];
+                return result;
+            }, {});
+        this.state = Object.assign({}, this.state, {
+            citations,
         });
         return this.state.citations;
     }
@@ -154,18 +174,33 @@ export class CSLProcessor implements ABT.CSLProcessor {
      * NOTE: This still needs to be extended further.
      * @return {Citeproc.Bibliography} Parsed bibliography.
      */
-    makeBibliography(): Citeproc.Bibliography {
+    makeBibliography(links: 'always'|'urls'|'never'): Citeproc.Bibliography {
         const [bibmeta, bibHTML]: Citeproc.Bibliography = this.citeproc.makeBibliography();
         const temp = document.createElement('DIV');
-        const payload: string[] = bibHTML.map(h => {
+        const payload: string[] = bibHTML.map((h: string, i: number) => {
             temp.innerHTML = h;
             const el = temp.firstElementChild as HTMLDivElement;
+            const item: CSL.Data = this.state.citations[bibmeta.entry_ids[i][0]];
 
             switch (bibmeta['second-field-align']) {
                 case false:
                     el.classList.add('hanging-indent');
                     break;
             }
+            switch (links) {
+                case 'always': {
+                    el.innerHTML = parseReferenceURLs(el.innerHTML);
+                    if (item.PMID) {
+                        el.innerHTML += ` [<a href="http://www.ncbi.nlm.nih.gov/pubmed/${item.PMID}" target="_blank">PubMed</a>]`;
+                    }
+                    break;
+                }
+                case 'urls': {
+                    el.innerHTML = parseReferenceURLs(el.innerHTML);
+                    break;
+                }
+            }
+
             return temp.innerHTML;
         });
         temp.remove();

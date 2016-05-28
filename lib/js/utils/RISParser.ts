@@ -58,7 +58,7 @@ export class RISParser {
             return false;
         }
 
-        payload.id = id;
+        payload.id = `${id}`;
         payload.type = RISParser.RISTypes[type];
         payload.issued = {
             'date-parts': [[], ],

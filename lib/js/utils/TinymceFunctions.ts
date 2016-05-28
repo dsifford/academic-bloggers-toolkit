@@ -100,20 +100,71 @@ export function parseInlineCitations(
     editor: TinyMCE.Editor,
     clusters: Citeproc.CitationClusterData[],
     citationByIndex: Citeproc.CitationByIndex,
+    xclass: 'in-text'|'note',
     reparseExisting: boolean = false
-): void {
-    for (const [i, item] of clusters.entries()) {
-        if (i === 0 && !reparseExisting) {
-            const sortedItems: Citeproc.SortedItems = citationByIndex[item[0]].sortedItems;
-            const idList: string = JSON.stringify(sortedItems.map(c => c[1].id));
-            editor.insertContent(
-                `<span id='${item[2]}' data-reflist='${idList}' class='abt_cite noselect mceNonEditable'>${item[1]}</span>`
-            );
-            continue;
+): Promise<boolean> {
+
+    return new Promise(resolve => {
+        const doc = editor.dom.doc;
+        const exisingNote = doc.getElementById('abt-footnote');
+
+
+        for (const [i, item] of clusters.entries()) {
+            const inlineText = xclass === 'note' ? `[${i + 1}]` : item[1];
+            if (i === 0 && !reparseExisting) {
+                const sortedItems: Citeproc.SortedItems = citationByIndex[item[0]].sortedItems;
+                const idList: string = JSON.stringify(sortedItems.map(c => c[1].id));
+                editor.insertContent(
+                    `<span id='${item[2]}' data-reflist='${idList}' class='abt_cite noselect mceNonEditable'>${inlineText}</span>`
+                );
+                continue;
+            }
+            const citation: HTMLSpanElement = editor.dom.doc.getElementById(item[2]);
+            citation.innerHTML = inlineText;
         }
-        const citation: HTMLSpanElement = editor.dom.doc.getElementById(item[2]);
-        citation.innerHTML = item[1];
-    }
+
+        if (exisingNote) exisingNote.parentElement.removeChild(exisingNote);
+
+        if (xclass === 'note') {
+
+            const note = doc.createElement('DIV');
+            note.id = 'abt-footnote';
+            note.className = 'noselect mceNonEditable';
+
+            const heading = doc.createElement('DIV');
+            heading.className = 'abt-footnote-heading';
+            heading.innerText = 'Footnotes';
+            note.appendChild(heading);
+
+            for (const [i, item] of clusters.entries()) {
+                const div = doc.createElement('DIV');
+                div.className = 'abt-footnote-item';
+                div.innerHTML = `<span class="note-number">[${i + 1}]</span><span class="note-item">${item[1]}</span>`;
+                note.appendChild(div);
+            }
+
+            const bib = doc.getElementById('abt-smart-bib');
+
+            // Save a reference to the current cursor location
+            const selection = editor.selection;
+            const cursor = editor.dom.create('span', { id: 'CURSOR', class: 'abt_cite'});
+            selection.getNode().appendChild(cursor);
+
+            // Do work
+            if (bib) bib.parentNode.removeChild(bib);
+
+            editor.setContent(editor.getContent() + note.outerHTML);
+
+            // Move cursor back to where it was & delete reference
+            const el = doc.getElementById('CURSOR');
+            if (el) {
+                editor.selection.select(el, true);
+                editor.selection.collapse(true);
+                el.parentElement.removeChild(el);
+            }
+        }
+        resolve(true);
+    });
 }
 
 /**

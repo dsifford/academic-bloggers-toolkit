@@ -17,7 +17,6 @@ class ReferenceWindow extends React.Component<{}, ABT.ReferenceWindowPayload> {
         super();
         this.state = {
             identifierList: '',
-            includeLink: false,
             attachInline: true,
             addManually: false,
             people: [
@@ -69,14 +68,6 @@ class ReferenceWindow extends React.Component<{}, ABT.ReferenceWindowPayload> {
                 this.setState(
                     Object.assign({}, this.state, {
                         addManually: !this.state.addManually,
-                    })
-                );
-                return;
-            }
-            case LocalEvents.TOGGLE_INCLUDE_LINK: {
-                this.setState(
-                    Object.assign({}, this.state, {
-                        includeLink: !this.state.includeLink,
                     })
                 );
                 return;
@@ -161,13 +152,10 @@ class ReferenceWindow extends React.Component<{}, ABT.ReferenceWindowPayload> {
                             people={this.state.people}
                             eventHandler={this.consumeChildEvents.bind(this)} />
                     }
-                    <RefOptions
-                        attachInline={this.state.attachInline}
-                        includeLink={this.state.includeLink}
-                        eventHandler={this.consumeChildEvents.bind(this)} />
                     <ActionButtons
                         addManually={this.state.addManually}
-                        eventHandler={this.consumeChildEvents.bind(this)} />
+                        eventHandler={this.consumeChildEvents.bind(this)}
+                        attachInline={this.state.attachInline} />
                 </form>
             </div>
         );
@@ -222,75 +210,11 @@ class IdentifierInput extends React.Component<IdentifierInputProps, {}> {
     }
 }
 
-interface RefOptionsProps {
-    attachInline: boolean;
-    includeLink: boolean;
-    eventHandler: Function;
-}
-
-class RefOptions extends React.Component<RefOptionsProps, {}> {
-
-    constructor(props) {
-        super(props);
-    }
-
-    handleSelect(e: DOMEvent) {
-        this.props.eventHandler(
-            new CustomEvent(LocalEvents.CHANGE_CITATION_STYLE, {
-                detail: e.target.value,
-            })
-        );
-    }
-
-    handleToggleInlineAttachment() {
-        this.props.eventHandler(
-            new CustomEvent(LocalEvents.TOGGLE_INLINE_ATTACHMENT)
-        );
-    }
-
-    handleLinkToggle() {
-        this.props.eventHandler(
-            new CustomEvent(LocalEvents.TOGGLE_INCLUDE_LINK)
-        );
-    }
-
-    render() {
-        return (
-            <div className='row'>
-                <div style={{ display: 'flex', alignItems: 'center', }} className='row' >
-                    <div style={{ flex: 1, textAlign: 'center', }}>
-                        <label
-                            htmlFor='attachInline'
-                            style={{ padding: '5px', whiteSpace: 'nowrap', }}
-                            children='Attach Inline' />
-                        <input
-                            type='checkbox'
-                            id='attachInline'
-                            checked={this.props.attachInline}
-                            onChange={this.handleToggleInlineAttachment.bind(this)} />
-                    </div>
-                    <div style={{ flex: 1, textAlign: 'center', }}>
-                        <label
-                            htmlFor='includeLink'
-                            style={{ padding: '5px', whiteSpace: 'nowrap', }}
-                            children='Include Link'/>
-                        <input
-                            type='checkbox'
-                            id='includeLink'
-                            checked={this.props.includeLink}
-                            onChange={this.handleLinkToggle.bind(this)} />
-                    </div>
-                </div>
-            </div>
-        );
-    }
-}
-
-
 
 interface ActionButtonProps {
     addManually: boolean;
     eventHandler: Function;
+    attachInline: boolean;
 }
 
 class ActionButtons extends React.Component<ActionButtonProps, {}> {
@@ -320,6 +244,12 @@ class ActionButtons extends React.Component<ActionButtonProps, {}> {
         );
     }
 
+    handleToggleInlineAttachment() {
+        this.props.eventHandler(
+            new CustomEvent(LocalEvents.TOGGLE_INLINE_ATTACHMENT)
+        );
+    }
+
     render() {
         return(
             <div className='row' style={{
@@ -336,8 +266,8 @@ class ActionButtons extends React.Component<ActionButtonProps, {}> {
                     className='btn'
                     value={
                         this.props.addManually === false
-                        ? 'Add Reference Manually'
-                        : 'Add Reference with Identifier'} />
+                        ? 'Add Manually'
+                        : 'Add with Identifier'} />
                 <input
                     id='searchPubmed'
                     style={{ margin: '0 5px', }}
@@ -347,13 +277,24 @@ class ActionButtons extends React.Component<ActionButtonProps, {}> {
                     value='Search Pubmed' />
                 <span style={{
                     borderRight: 'solid 2px #ccc',
-                    height: 25, margin: '0 15px 0 10px',
+                    height: 25, margin: '0 10px',
                 }} />
                 <input
-                    style={{ flexGrow: 1, margin: '0 15px 0 0', }}
+                    style={{ margin: '0 5px', }}
                     type='submit'
                     className='submit-btn'
                     value='Insert Reference' />
+                <div>
+                    <label
+                        htmlFor='attachInline'
+                        style={{ padding: '5px', whiteSpace: 'nowrap', }}
+                        children='Attach Inline' />
+                    <input
+                        type='checkbox'
+                        id='attachInline'
+                        checked={this.props.attachInline}
+                        onChange={this.handleToggleInlineAttachment.bind(this)} />
+                </div>
             </div>
         );
     }
