@@ -20,7 +20,8 @@
         "lib/**/*.tsx",
         "!node_modules/**",
         "typings/index.d.ts",
-        "typings/ABT.d.ts"
+        "typings/ABT.d.ts",
+        "vendor/*.ts"
     ],
     "exclude": [
         "node_modules",
@@ -79,6 +80,7 @@
         "lib/js/tinymce/components/reference-window/People.tsx",
         "lib/js/tinymce/components/reference-window/ReferenceWindow.tsx",
         "typings/index.d.ts",
-        "typings/ABT.d.ts"
+        "typings/ABT.d.ts",
+        "vendor/citationstyles.ts"
     ]
 }
