@@ -34,7 +34,6 @@
     "files": [
         "lib/js/Frontend.ts",
         "lib/js/reference-list/API.ts",
-        "lib/js/reference-list/components/SingleChild.ts",
         "lib/js/TinymceEntrypoint.ts",
         "lib/js/utils/__tests__/CSLFieldProcessors-test.ts",
         "lib/js/utils/__tests__/HelperFunctions-test.ts",
@@ -62,6 +61,7 @@
         "lib/js/reference-list/components/Menu.tsx",
         "lib/js/reference-list/components/PanelButton.tsx",
         "lib/js/reference-list/components/ReferenceList.tsx",
+        "lib/js/reference-list/components/SingleChild.tsx",
         "lib/js/reference-list/components/UncitedList.tsx",
         "lib/js/tinymce/components/import-window/__tests__/ImportWindow-test.tsx",
         "lib/js/tinymce/components/import-window/Entrypoint.tsx",

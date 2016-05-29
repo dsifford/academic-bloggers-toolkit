@@ -61,6 +61,7 @@ export class Menu extends React.Component<Props, State> {
                     <div className='option-buttons'>
                         <div
                             className='row-btn'
+                            id='import-ris'
                             onClick={this.handleSelect.bind(this, 'IMPORT_RIS', null)}
                             children='Import RIS File' />
                     </div>

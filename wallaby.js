@@ -3,6 +3,7 @@ module.exports = function (wallaby) {
         files: [
             "lib/**/*.tsx",
             "lib/**/*.ts",
+            "vendor/*",
             "typings/**/*.d.ts",
             "!lib/**/__tests__/*",
         ],
