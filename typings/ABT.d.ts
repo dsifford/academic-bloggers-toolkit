@@ -72,6 +72,12 @@ declare namespace ABT {
         locale: string;
     }
 
+    interface PeopleProps {
+        people: CSL.TypedPerson[];
+        eventHandler: Function;
+        citationType: CSL.CitationType;
+    }
+
     interface FrontendMeta {
         prBoxStyle: 'fixed'|'toggle';
         bibStyle: 'fixed'|'toggle';

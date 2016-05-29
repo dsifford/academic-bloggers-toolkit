@@ -1,33 +1,33 @@
 jest.unmock('../Card');
 
 import * as React from 'react';
-import { mount, } from 'enzyme';
-import * as sinon from 'sinon';
-import { Card, } from '../Card';
+import { shallow } from 'enzyme';
+import { spy } from 'sinon';
+import { Card } from '../Card';
 
-const setup = (
-    selected: boolean
-) => {
-    const spy = sinon.spy();
-    const component = mount(
-        <Card
-            onClick={spy}
-            html={`<h1>Hello World</h1>`}
-            isSelected={selected} />
+const setup = (selected: boolean) => {
+    const s = spy();
+    const component = shallow(
+        <Card isSelected={selected} onClick={s} html={'<h3>Test</h3>'}/>
     );
     return {
+        s,
         component,
-        spy,
     };
 };
 
-describe('<Card />', () => {
-    it('should render as selected when index is in "selected"', () => {
-        const { component, } = setup(true);
-        expect(component.find('.abt-card').props().className).toEqual('abt-card selected');
+describe('<Card/>', () => {
+    it('should render selected', () => {
+        const { component } = setup(true);
+        expect(component.first().props().className).toBe('abt-card selected');
     });
-    it('should render as unselected when index not in "selected"', () => {
-        const { component, } = setup(false);
-        expect(component.find('.abt-card').props().className).toEqual('abt-card');
+    it('should render unselected', () => {
+        const { component } = setup(false);
+        expect(component.first().props().className).toBe('abt-card');
+    });
+    it('should call onClick when clicked', () => {
+        const { component, s } = setup(false);
+        component.simulate('click');
+        expect(s.callCount).toBe(1);
     });
 });

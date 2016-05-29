@@ -1,7 +1,7 @@
 {
     "compilerOptions": {
         "target": "es6",
-        "module": "commonjs",
+        "module": "es6",
         "moduleResolution": "node",
         "isolatedModules": false,
         "jsx": "react",
@@ -33,13 +33,8 @@
     },
     "files": [
         "lib/js/Frontend.ts",
-        "lib/js/reference-list/actions/index.ts",
         "lib/js/reference-list/API.ts",
         "lib/js/reference-list/components/SingleChild.ts",
-        "lib/js/reference-list/constants/ActionTypes.ts",
-        "lib/js/reference-list/reducers/data.ts",
-        "lib/js/reference-list/reducers/index.ts",
-        "lib/js/reference-list/reducers/view.ts",
         "lib/js/TinymceEntrypoint.ts",
         "lib/js/utils/__tests__/CSLFieldProcessors-test.ts",
         "lib/js/utils/__tests__/HelperFunctions-test.ts",

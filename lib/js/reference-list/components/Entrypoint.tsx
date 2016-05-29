@@ -1,8 +1,6 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import { bindActionCreators } from 'redux';
-// import { connect } from 'react-redux';
-import { ReferenceList, } from './ReferenceList';
+import { ReferenceList } from './ReferenceList';
 
 
 interface State {

@@ -4,6 +4,7 @@
 - [x] There's a bug somewhere in `People.tsx` -- related to props.citationType
 - [x] Add bibliography to editor
 - [x] Figure out full-note citations
+- [ ] Add keyboard shortcuts hover thing
 
 
 

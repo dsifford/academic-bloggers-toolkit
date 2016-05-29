@@ -47,8 +47,6 @@
     "ntypescript": "^1.201605262208.1",
     "poststylus": "^0.2.3",
     "react-addons-test-utils": "^15.1.0",
-    "react-redux": "^4.4.5",
-    "redux": "^3.5.2",
     "sinon": "^1.17.4",
     "style-loader": "^0.13.1",
     "ts-loader": "^0.8.2",
@@ -63,7 +61,6 @@
     "react-addons-css-transition-group": "^15.1.0",
     "react-addons-shallow-compare": "^15.1.0",
     "react-dom": "^15.1.0",
-    "react-redux": "^4.4.5",
     "react-select": "^1.0.0-beta13",
     "react-virtualized-select": "^1.0.0"
   },

@@ -39,10 +39,6 @@ export class ImportWindow extends React.Component<Props, State> {
         this.modal.resize();
     }
 
-    componentDidUpdate() {
-        this.modal.resize();
-    }
-
     handleFileUpload(e: InputEvent) {
         e.preventDefault();
         const reader = new FileReader();
