@@ -1,7 +1,7 @@
 {
     "compilerOptions": {
         "target": "es6",
-        "module": "es6",
+        "module": "commonjs",
         "moduleResolution": "node",
         "isolatedModules": false,
         "jsx": "react",
@@ -61,7 +61,6 @@
         "lib/js/reference-list/components/Menu.tsx",
         "lib/js/reference-list/components/PanelButton.tsx",
         "lib/js/reference-list/components/ReferenceList.tsx",
-        "lib/js/reference-list/components/SingleChild.tsx",
         "lib/js/reference-list/components/UncitedList.tsx",
         "lib/js/tinymce/components/import-window/__tests__/ImportWindow-test.tsx",
         "lib/js/tinymce/components/import-window/Entrypoint.tsx",

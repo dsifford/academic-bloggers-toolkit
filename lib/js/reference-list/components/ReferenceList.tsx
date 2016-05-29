@@ -9,7 +9,6 @@ import { Menu } from './Menu';
 import { Card } from './Card';
 import { PanelButton } from './PanelButton';
 import { UncitedList } from './UncitedList';
-import { SingleChild } from './SingleChild';
 
 declare const tinyMCE: TinyMCE.MCE;
 declare const ABT_meta: ABT.AdminMeta;
@@ -396,8 +395,7 @@ export class ReferenceList extends React.Component<{}, State> {
                     <CSSTransitionGroup
                         transitionName='menu'
                         transitionEnterTimeout={200}
-                        transitionLeaveTimeout={200}
-                        component={SingleChild as any}>
+                        transitionLeaveTimeout={200} >
                         { this.state.menuOpen &&
                             <Menu
                                 key='menu'
