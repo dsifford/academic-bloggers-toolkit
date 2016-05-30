@@ -83,6 +83,7 @@ gulp.task('static', () =>
         'readme.txt',
         'lib/**/*',
         'vendor/*',
+        '!vendor/citationstyles.ts',
         '!lib/**/*.{ts,tsx,styl,json,jade}',
         '!lib/css/*',
         '!**/__tests__',
