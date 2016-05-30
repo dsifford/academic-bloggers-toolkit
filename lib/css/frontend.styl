@@ -22,7 +22,7 @@
 
 
 // ======== Tooltips =========
-.abt_tooltip
+.abt-tooltip
     border-radius 3px
     padding 8px
     position absolute
@@ -34,6 +34,8 @@
     animation fadeInDown .2s
     p
         margin 0 !important
+    .abt-url
+        display inline
 
 
 @keyframes fadeInUp
@@ -54,7 +56,7 @@
         transform none
 
 
-.abt_tooltip_arrow
+.abt-tooltip-arrow
     content ''
     position absolute
     margin-left -8px
@@ -62,16 +64,16 @@
     border-style solid
     pointer-events none
 
-    &.abt_arrow_up
+    &.abt-arrow-up
         border-color transparent transparent white
         top -15px
 
-    &.abt_arrow_down
+    &.abt-arrow-down
         border-color white transparent transparent
         bottom -15px
 
 
-.abt_tooltip_touch_close-container
+.abt-tooltip-touch-close-container
     width 50px
     height 50px
     position absolute
@@ -80,7 +82,7 @@
     text-align right
 
 
-.abt_tooltip_touch_close
+.abt-tooltip-touch-close
     position relative
     border-radius 50%
     width 26px
@@ -209,7 +211,7 @@ abt-PR-heading:active
 
 
 // Horizontal Rule -- Visible only in editor
-.abt_editor-only
+.abt-editor-only
     display none
 
 
