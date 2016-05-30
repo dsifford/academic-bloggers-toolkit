@@ -81,7 +81,7 @@ namespace ABT_Frontend {
 
             }
 
-            if (this.bibliography.querySelector('h3.toggle')) this.enableToggle();
+            if (document.querySelector('#abt-smart-bib>h3.toggle')) this.enableToggle();
         }
 
         private enableToggle() {

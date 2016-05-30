@@ -84,6 +84,7 @@ gulp.task('static', () =>
         'lib/**/*',
         'vendor/*',
         '!lib/**/*.{ts,tsx,styl,json,jade}',
+        '!lib/css/*',
         '!**/__tests__',
         '!lib/js/utils',
     ], { base: './', })
@@ -111,7 +112,10 @@ gulp.task('stylus:dev', () =>
 
 gulp.task('stylus:prod', () =>
     gulp.src([
-        'lib/**/*.styl',
+        'lib/css/admin.styl',
+        'lib/css/frontend.styl',
+        'lib/js/tinymce/views/styles.styl',
+        'lib/css/collections/citations.styl'
     ], { base: './', })
     .pipe(stylus({
         use: [ poststylus([autoprefixer]), nib() ],
