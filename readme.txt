@@ -88,6 +88,9 @@ Yikes! I'm sorry about that. Please report all issues on the Academic Blogger's 
 
 * The last-occurring ordered list is not tagged as a bibliography on page load anymore. This is now done upon initial bibliography creation. You shouldn't notice a difference, but some users who have used this plugin for a longer period of time may find that some of their older bibliographys are not being correctly identified. Email me if this is an issue and I'll walk you thorough it.
 
+**Special Thanks**
+This update would not have been possible without the help and support of Frank Bennett (@fgbjr). Thanks for all your help! 
+
 = 3.1.5 =
 * Fix PubMed bug that resulted in citations with ampersands in the title to be parsed as `&amp;amp;`. HT @Da5idHatch
 
