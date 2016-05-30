@@ -1,2 +1,2 @@
 vendor/* linguist-vendored
-*.tsx linguist-language=TypeScript
+lib/**/*.tsx linguist-language=TypeScript
