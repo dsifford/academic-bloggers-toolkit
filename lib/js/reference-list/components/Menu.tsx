@@ -1,8 +1,6 @@
 import * as React from 'react';
-const VSelect = require('react-virtualized-select').default;
-// const citeStyles = require('../../../../vendor/citationstyles');
-
 import { citeStyles } from '../../../../vendor/citationstyles';
+import VSelect from 'react-virtualized-select';
 
 import 'react-virtualized-select/styles.css';
 import 'react-virtualized/styles.css';

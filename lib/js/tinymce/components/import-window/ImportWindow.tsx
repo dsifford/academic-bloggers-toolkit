@@ -72,14 +72,6 @@ export class ImportWindow extends React.Component<Props, State> {
         reader.readAsText(file);
     }
 
-    handleChange(e: InputEvent) {
-        this.setState(
-            Object.assign({}, this.state, {
-                format: e.target.value,
-            })
-        );
-    }
-
     handleSubmit(e) {
         e.preventDefault();
         this.wm.setParams({ data: this.state });

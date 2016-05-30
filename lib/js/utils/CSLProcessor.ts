@@ -191,7 +191,7 @@ export class CSLProcessor implements ABT.CSLProcessor {
                 case 'always': {
                     el.innerHTML = parseReferenceURLs(el.innerHTML);
                     if (item.PMID) {
-                        el.innerHTML += ` [<a href="http://www.ncbi.nlm.nih.gov/pubmed/${item.PMID}" target="_blank">PubMed</a>]`;
+                        el.lastElementChild.innerHTML += ` [<a href="http://www.ncbi.nlm.nih.gov/pubmed/${item.PMID}" target="_blank">PubMed</a>]`;
                     }
                     break;
                 }

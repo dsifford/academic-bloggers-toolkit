@@ -6,6 +6,7 @@
   "scripts": {
     "test": "jest",
     "wp": "wpcmd() { docker exec $(docker ps -lq) /bin/bash -c \"sudo -u www-data wp $(echo $@)\"; };wpcmd ",
+    "clear-cache": "rm -rf node_modules/jest-cli/.haste_cache",
     "chown": "sudo chown -R $USER $(pwd)/dist",
     "update-vendors": "cd vendor && curl -o 'citeproc.js' https://raw.githubusercontent.com/Juris-M/citeproc-js/master/citeproc.js"
   },
@@ -44,6 +45,7 @@
     "gulp-stylus": "^2.4.0",
     "gulp-uglify": "^1.5.3",
     "jest-cli": "^12.1.1",
+    "nib": "^1.1.0",
     "ntypescript": "^1.201605262208.1",
     "poststylus": "^0.2.3",
     "react-addons-test-utils": "^15.1.0",

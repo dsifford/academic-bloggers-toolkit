@@ -55,12 +55,15 @@ class ABT_Backend {
      * @param string $post_type The post type
      */
     public function add_metaboxes($post_type) {
-        if (in_array($post_type, array('post', 'page'))) {
+
+        $all_types = get_post_types();
+
+        if (in_array($post_type, $all_types)) {
             add_meta_box(
                 'abt_reflist',
                 'Reference List',
                 array($this, 'render_reflist'),
-                array('post', 'page'),
+                $all_types,
                 'side',
                 'high'
             );
@@ -68,7 +71,7 @@ class ABT_Backend {
                 'abt_peer_review',
                 __('Add Peer Review(s)', 'abt-textdomain'),
                 array($this, 'render_PR_meta'),
-                array('post', 'page'),
+                $all_types,
                 'normal',
                 'high'
             );

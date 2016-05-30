@@ -31,10 +31,18 @@ describe('<ManualEntryContainer />', () => {
     });
 
     it('should dispatch CHANGE_CITATION_TYPE when another type is selected', () => {
-        const { select, spy, } = setup();
+        const { select, spy, component } = setup();
         select.simulate('change', { target: { value: 'broadcast', }, });
         expect(spy.callCount).toBe(1);
         expect(spy.firstCall.args[0].detail).toBe('broadcast');
     });
 
+    it('should consume child events', () => {
+        ManualEntryContainer.prototype.consumeChildEvents = sinon.spy();
+        const { select, component } = setup();
+        component.setProps({people: [{type: 'author'}]});
+        const people = component.find('People');
+        people.find('select').simulate('change');
+        expect((ManualEntryContainer.prototype.consumeChildEvents as Sinon.SinonSpy).callCount).toBe(1);
+    });
 });

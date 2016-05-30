@@ -178,10 +178,10 @@ describe('<PeerReviewMetabox />', () => {
         toggleButton.simulate('click');
         expect(component.state().hidden).toEqual(after);
     });
-    // it('should open mocked media manager', () => {
-    //     const { component, } = setup('1');
-    //     const button = component.find('#reviewer-upload-button-1');
-    //     button.simulate('click');
-    //     button.simulate('click');
-    // });
+    it('should open mocked media manager', () => {
+        const { component, } = setup('1');
+        const button = component.find('#reviewer-upload-button-1');
+        button.simulate('click');
+        button.simulate('click');
+    });
 });

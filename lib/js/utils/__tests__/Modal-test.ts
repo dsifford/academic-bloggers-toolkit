@@ -1,6 +1,7 @@
 jest.unmock('../Modal');
 
 import { Modal, } from '../Modal';
+import * as sinon from 'sinon';
 
 const setup = (
     title: string
@@ -24,5 +25,14 @@ describe('Modal', () => {
         setup('test');
         const modal = new Modal('test');
         modal.resize();
+    });
+    it('should resize appropriately if modal is large', () => {
+        setup('test');
+        const modal = new Modal('test');
+        const el = document.getElementById('main-container');
+        const x = sinon.stub(el, 'getBoundingClientRect');
+        x.returns({height: 10000});
+        modal.resize();
+        x.restore();
     });
 });

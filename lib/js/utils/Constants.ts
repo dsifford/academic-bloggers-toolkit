@@ -253,8 +253,8 @@ export const fieldMappings: ABT.FieldMappings = {
         fields: [
             { value: 'title', label: 'Title', required: true, pattern: '.*', placeholder: '', },
             { value: 'event', label: 'Conference Name', required: true, pattern: '.*', placeholder: '', },
-            { value: 'event-place', label: 'Conference Location', required: true, pattern: '.*', placeholder: '', },
-            { value: 'event-date', label: 'Date', required: true, pattern: '[0-9]{4}(\/[0-9]{2})?(\/[0-9]{2})?(?!\/)$', placeholder: 'YYYY/MM/DD or YYYY/MM or YYYY', },
+            { value: 'publisher-place', label: 'Conference Location', required: true, pattern: '.*', placeholder: '', },
+            { value: 'issued', label: 'Date', required: true, pattern: '[0-9]{4}(\/[0-9]{2})?(\/[0-9]{2})?(?!\/)$', placeholder: 'YYYY/MM/DD or YYYY/MM or YYYY', },
         ],
         people: [
             { type: 'author', label: 'Author', },

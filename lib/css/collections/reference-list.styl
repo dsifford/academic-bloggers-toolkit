@@ -1,4 +1,5 @@
 @import 'colors'
+@import 'nib/gradients'
 
 // ========== Loading Spinner ===========
 .sk-circle
@@ -102,8 +103,9 @@
             height auto
             align-content flex-end
             #style-select
-                padding 10px 0
-                margin 0 10px
+                padding 10px
+                margin 0 -5px
+                background linear-gradient(to bottom, white, lighten($border, 8))
                 label
                     font-size 1.2em
                     font-weight 600

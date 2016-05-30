@@ -201,8 +201,7 @@ if (document.readyState === 'interactive') {
 
 function frontendJS() {
 
-    let options = ABT_meta;
-
+    const options = ABT_meta;
     new ABT_Frontend.Citations();
 
     if (options.prBoxStyle === 'fixed') {

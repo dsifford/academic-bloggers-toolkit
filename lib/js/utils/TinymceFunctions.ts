@@ -119,17 +119,18 @@ export function parseInlineCitations(
 
 
         for (const [i, item] of clusters.entries()) {
-            const inlineText = xclass === 'note' ? `[${i + 1}]` : item[1];
-            if (i === 0 && !reparseExisting) {
-                const sortedItems: Citeproc.SortedItems = citationByIndex[item[0]].sortedItems;
-                const idList: string = JSON.stringify(sortedItems.map(c => c[1].id));
+            const inlineText = xclass === 'note' ? `[${item[0] + 1}]` : item[1];
+            const citation: HTMLSpanElement = editor.dom.doc.getElementById(item[2]);
+            const sortedItems: Citeproc.SortedItems = citationByIndex[item[0]].sortedItems;
+            const idList: string = JSON.stringify(sortedItems.map(c => c[1].id));
+            if (!citation) {
                 editor.insertContent(
                     `<span id='${item[2]}' data-reflist='${idList}' class='abt_cite noselect mceNonEditable'>${inlineText}</span>`
                 );
                 continue;
             }
-            const citation: HTMLSpanElement = editor.dom.doc.getElementById(item[2]);
             citation.innerHTML = inlineText;
+            citation.dataset['reflist'] = idList;
         }
 
         if (exisingNote) exisingNote.parentElement.removeChild(exisingNote);

@@ -7,6 +7,11 @@ interface InputEvent extends UIEvent {
     target: HTMLInputElement;
 }
 
+declare module 'react-virtualized-select' {
+    const VSelect: any;
+    export default VSelect.defaultProps;
+}
+
 declare namespace ABT {
 
     class CSLProcessor {
