@@ -83,13 +83,13 @@
                                                 strong
                                                     - _e('Inline Citations:', 'academic-bloggers-toolkit')
                                             td
-                                                code .abt_cite
+                                                code .abt-cite
                                         tr
                                             td
                                                 strong
                                                     - _e('Peer Review Boxes:', 'academic-bloggers-toolkit')
                                             td
-                                                code .abt_PR_heading, .abt_PR_info, .abt_PR_headshot, .abt_chat_bubble
+                                                code abt-PR-heading, .abt-PR-info, .abt-PR-headshot, .abt-chat-bubble
                                         tr
                                             td
                                                 strong
@@ -101,26 +101,28 @@
                                                 strong
                                                     - _e('Bibliography:', 'academic-bloggers-toolkit')
                                             td
-                                                code #abt-smart-bib, #abt-smart-bib-toggle, #abt-smart-bib-container h3
+                                                code #abt-smart-bib, #abt-smart-bib h3, #abt-smart-bib > div, .abt-url
+                                        tr
+                                            td
+                                                strong
+                                                    - _e('Footnotes', 'academic-bloggers-toolkit')
+                                            td
+                                                code #abt-footnote, .abt-footnote-heading, .abt-footnote-item, .abt-footnote-number
                     .postbox
                         h3
                             - _e('How do I', 'academic-bloggers-toolkit')
                             | ...
                         .inside
                             div(style='display: flex; flex-wrap: wrap;')
-                                div(style='flex: 1, min-width: 300px; padding: 0 5px;')
+                                div(style='flex: 1; min-width: 300px; padding: 0 5px;')
                                     strong
                                         - _e('Make my tooltips a different color?', 'academic-bloggers-toolkit')
-                                    | <iframe width="100%" height="200" src="//jsfiddle.net/dsifford/e93h26yf/embedded/css,result/" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
-                                div(style='flex: 1, min-width: 300px; padding: 0 5px;')
-                                    strong
-                                        - _e('Make my citations superscript?', 'academic-bloggers-toolkit')
-                                    | <iframe width="100%" height="200" src="//jsfiddle.net/dsifford/0hvotx2r/embedded/css,result/" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
-                                div(style='flex: 1, min-width: 300px; padding: 0 5px;')
+                                    | <p data-height="300" data-theme-id="dark" data-slug-hash="pboYoZ" data-default-tab="result" data-user="dsifford" data-embed-version="2" class="codepen">See the Pen <a href="http://codepen.io/dsifford/pen/pboYoZ/">pboYoZ</a> by Derek Sifford (<a href="http://codepen.io/dsifford">@dsifford</a>) on <a href="http://codepen.io">CodePen</a>.</p><script async src="//assets.codepen.io/assets/embed/ei.js"></script>
+                                div(style='flex: 1; min-width: 300px; padding: 0 5px;')
                                     strong
                                         - _e('Apply style to the bibliography list?', 'academic-bloggers-toolkit')
-                                    | <iframe width="100%" height="200" src="//jsfiddle.net/dsifford/9hhh5ut6/embedded/css,result/" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
-                                div(style='flex: 1, min-width: 300px; padding: 0 5px;')
+                                    | <p data-height="300" data-theme-id="dark" data-slug-hash="JKjzGj" data-default-tab="result" data-user="dsifford" data-embed-version="2" class="codepen">See the Pen <a href="http://codepen.io/dsifford/pen/JKjzGj/">Bibliography</a> by Derek Sifford (<a href="http://codepen.io/dsifford">@dsifford</a>) on <a href="http://codepen.io">CodePen</a>.</p><script async src="//assets.codepen.io/assets/embed/ei.js"></script>
+                                div(style='flex: 1; min-width: 300px; padding: 0 5px;')
                                     strong
                                         - _e('Change the style of the peer review boxes?', 'academic-bloggers-toolkit')
-                                    | <iframe width="100%" height="300" src="//jsfiddle.net/dsifford/ky4LangL/embedded/css,result/" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
+                                    | <p data-height="300" data-theme-id="dark" data-slug-hash="ezYXzX" data-default-tab="result" data-user="dsifford" data-embed-version="2" class="codepen">See the Pen <a href="http://codepen.io/dsifford/pen/ezYXzX/">Peer Review Boxes</a> by Derek Sifford (<a href="http://codepen.io/dsifford">@dsifford</a>) on <a href="http://codepen.io">CodePen</a>.</p><script async src="//assets.codepen.io/assets/embed/ei.js"></script>

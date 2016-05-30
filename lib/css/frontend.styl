@@ -5,7 +5,7 @@
 #abt-smart-bib
     &.noselect
         user-select inherit
-    h3
+    h3.toggle
         margin-left -30px
         &:hover
             cursor pointer
@@ -17,6 +17,8 @@
             top 5px
         &.abt-hidden:before
             content '\f139'
+    .abt-url
+        display inline
 
 
 // ======== Tooltips =========
@@ -30,6 +32,8 @@
     box-shadow 0 0 20px rgba(0,0,0,.20)
     z-index 20
     animation fadeInDown .2s
+    p
+        margin 0 !important
 
 
 @keyframes fadeInUp
@@ -120,19 +124,19 @@
 
 // ===== Inline Citations ========
 
-span.abt_cite > *
+span.abt-cite > *
     pointer-events none
 
-.abt_cite
+.abt-cite
     white-space nowrap
 
 
-.abt_cite:hover
+.abt-cite:hover
     cursor pointer
 
 
 // Peer Review Box
-.abt_PR_heading
+abt-PR-heading
     cursor pointer
     border-bottom 4px solid
     border-radius 5px
@@ -142,16 +146,16 @@ span.abt_cite > *
     margin 10px 0 !important
 
 
-.abt_PR_heading:hover
+abt-PR-heading:hover
     background $light-gray
 
 
-.abt_PR_heading:active
+abt-PR-heading:active
     border-bottom 1px solid
     padding-top 18px
 
 
-.abt_PR_info
+.abt-PR-info
     display inline-block
     float left
     width 30%
@@ -163,11 +167,11 @@ span.abt_cite > *
     margin-right 5px
 
 
-.abt_PR_info strong
+.abt-PR-info strong
     font-size 14px
 
 
-.abt_PR_headshot
+.abt-PR-headshot
     display block
     margin-left auto
     margin-right auto
@@ -175,7 +179,7 @@ span.abt_cite > *
     min-width 100px
 
 
-.abt_chat_bubble
+.abt-chat-bubble
     display inline-block
     position relative
     width 63%
@@ -189,7 +193,7 @@ span.abt_cite > *
     box-shadow 1px 1px 1px $dark-gray
 
 
-.abt_chat_bubble:after
+.abt-chat-bubble:after
     content ''
     position absolute
     background-color $light-gray
@@ -210,18 +214,18 @@ span.abt_cite > *
 
 
 @media only screen and (max-width 620px)
-    .abt_PR_info
+    .abt-PR-info
         display block
         width 100%
         padding-top 10px
         padding-bottom 20px
 
 
-    .abt_chat_bubble
+    .abt-chat-bubble
         width 100%
 
 
-    .abt_PR_info:before
+    .abt-PR-info:before
         content ''
         width 20px
         height 20px
@@ -234,5 +238,5 @@ span.abt_cite > *
         z-index 1
 
 
-    .abt_chat_bubble:after
+    .abt-chat-bubble:after
         display none

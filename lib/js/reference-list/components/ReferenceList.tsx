@@ -146,8 +146,7 @@ export class ReferenceList extends React.Component<{}, State> {
                 this.editor,
                 clusters,
                 citations.citationByIndex,
-                this.processor.citeproc.opt.xclass,
-                true
+                this.processor.citeproc.opt.xclass
             ).then(() => {
                 MCE.setBibliography(this.editor, bibliography, this.state.bibOptions);
             });
@@ -283,7 +282,7 @@ export class ReferenceList extends React.Component<{}, State> {
             })
             .then(({data, processorState}) => {
                 if (!payload.attachInline) {
-                    const uncited: [string, CSL.Data][] = []; /** FIXME: Typescript wont let me map this. */
+                    const uncited: [string, CSL.Data][] = [];
                     data.forEach(d => uncited.push([d.id, d]));
                     return this.addToUncitedList(uncited, processorState);
                 };

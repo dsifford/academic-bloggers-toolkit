@@ -61,7 +61,7 @@ namespace ABT_Frontend {
 
         constructor() {
             this.bibliography = document.getElementById('abt-smart-bib') as HTMLDivElement;
-            const citationList = document.getElementsByClassName('abt_cite');
+            const citationList = document.getElementsByClassName('abt-cite');
 
             for (let i = 0; i < citationList.length; i++) {
 

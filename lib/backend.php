@@ -336,7 +336,8 @@ class ABT_Backend {
             $new_meta = array();
         }
 
-        // NOTE: This is the schema for the new meta
+        // The schema for the new meta
+        //
         // array(
         // 	'selection' => 'asdf',
         // 	'1' => array(
@@ -459,7 +460,7 @@ function abt_append_peer_reviews($text) {
                 $review_image = $meta['peer_review'][$i]['review']['image'];
                 $review_image = !empty($review_image)
                 ? "<img src='${review_image}' width='100px'>"
-                : "<i class='dashicons dashicons-admin-users abt_PR_headshot' style='font-size: 100px;'></i>";
+                : "<i class='dashicons dashicons-admin-users abt-PR-headshot' style='font-size: 100px;'></i>";
 
                 $review_twitter = $meta['peer_review'][$i]['review']['twitter'];
                 $review_twitter = !empty($review_twitter)
@@ -490,15 +491,15 @@ function abt_append_peer_reviews($text) {
                     $response_image = $meta['peer_review'][$i]['response']['image'];
                     $response_image = !empty($response_image)
                     ? "<img src='${response_image}' width='100px'>"
-                    : "<i class='dashicons dashicons-admin-users abt_PR_headshot' style='font-size: 100px;'></i>";
+                    : "<i class='dashicons dashicons-admin-users abt-PR-headshot' style='font-size: 100px;'></i>";
 
                     $response_background = $meta['peer_review'][$i]['response']['background'];
                     $response_content = $meta['peer_review'][$i]['response']['content'];
 
                     $response_block =
-                    "<div class='abt_chat_bubble'>${response_content}</div>".
-                    "<div class='abt_PR_info'>".
-                        "<div class='abt_PR_headshot'>".
+                    "<div class='abt-chat-bubble'>${response_content}</div>".
+                    "<div class='abt-PR-info'>".
+                        "<div class='abt-PR-headshot'>".
                             "${response_image}".
                         '</div>'.
                         '<div>'.
@@ -516,9 +517,9 @@ function abt_append_peer_reviews($text) {
                 ${'reviewer_block_'.$i} =
                 "<h3 class='abt_PR_heading noselect'>${heading}</h3>".
                 '<div>'.
-                    "<div class='abt_chat_bubble'>${review_content}</div>".
-                    "<div class='abt_PR_info'>".
-                        "<div class='abt_PR_headshot'>".
+                    "<div class='abt-chat-bubble'>${review_content}</div>".
+                    "<div class='abt-PR-info'>".
+                        "<div class='abt-PR-headshot'>".
                             "${review_image}".
                         '</div>'.
                         '<div>'.
@@ -549,21 +550,3 @@ function abt_append_peer_reviews($text) {
     return $text;
 }
 add_filter('the_content', 'abt_append_peer_reviews');
-
-// function tag_ordered_list($content) {
-//     if (is_single() || is_page()) {
-//         $smart_bib_exists = preg_match('<ol id="abt-smart-bib">', $content);
-//         if (!$smart_bib_exists) {
-//             $lastOLPosition = strrpos($content, '<ol');
-//             if (!$lastOLPosition) {
-//                 return $content;
-//             }
-//             $content = substr($content, 0, $lastOLPosition).'<ol id="abt-smart-bib" '.substr($content, $lastOLPosition + 3, strlen($content));
-//         }
-//
-//         return $content;
-//     }
-//
-//     return $content;
-// }
-// add_filter('the_content', 'tag_ordered_list');

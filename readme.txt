@@ -4,7 +4,7 @@ Donate link: https://cash.me/$dsifford
 Tags: academic, pmid, doi, peer-review, pubmed, citation, bibliography, reference
 Requires at least: 4.2.2
 Tested up to: 4.5
-Stable tag: 3.1.5
+Stable tag: 3.2.0
 License: GPL3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -22,8 +22,7 @@ Academic Blogger's toolkit is an **open source** WordPress plugin providing an a
 * **Import a full bibliography from your favorite reference manager** using an exported `.ris` file.
 * Automatically format references for **every citation style on planet earth** (over 1300).
 * **Fully interactive** reference list which lives beside the post editor.
-    * Need to change your bibliography order? Click and drag a reference to move it around the list. This automagically adjusts your bibliography as well as **all** of your inline citation numbers on the fly.
-    * Want to insert a citation inline from your reference list? Select it (and any others you'd like to insert) and click insert.
+* Change citation styles in realtime.
 * **Search PubMed from the post editor** and insert references instantly.
 * Inline citations display full formatted references on the frontend when hovered with the mouse (or when tapped on mobile). No more scrolling down and losing your focus!
 * Append up to three peer reviews below your posts. Peer reviews include not only the review content, but also reviewer bios, photos, and author responses (when necessary).
@@ -67,6 +66,27 @@ Yikes! I'm sorry about that. Please report all issues on the Academic Blogger's 
 4. Demo of desktop citation tooltips.
 
 == Changelog ==
+
+= 3.2.0 =
+
+**New Features**
+
+* Citations are now sorted automatically based on how sorting is defined in the citation style (no more drag and drop).
+* In-text citations styles now reflect each individual citation style.
+* Improvements to the UI.
+* Realtime citation style switching.
+* "Full note" style citations are now fully supported. (eg. Chicago Full Note).
+
+**Bugfixes**
+
+* Fix bug that caused some options to not be saved on the options page.
+* Fix issue that caused the plugin to break if your site is SSL encrypted.
+* Fix bug related to conference proceedings fields. HT @metallikat36
+* Reference list now enabled for all post types. HT @halatkins
+
+**Depreciations**
+
+* The last-occurring ordered list is not tagged as a bibliography on page load anymore. This is now done upon initial bibliography creation. You shouldn't notice a difference, but some users who have used this plugin for a longer period of time may find that some of their older bibliographys are not being correctly identified. Email me if this is an issue and I'll walk you thorough it.
 
 = 3.1.5 =
 * Fix PubMed bug that resulted in citations with ampersands in the title to be parsed as `&amp;amp;`. HT @Da5idHatch

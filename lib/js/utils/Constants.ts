@@ -55,9 +55,9 @@ export const referenceWindowEvents = {
 export const manualDataObj: CSL.Data = {
     id: '0',
     type: 'article-journal',
-    accessed: '',      /** NOTE: This requires cleaning prior to CSL */
-    'event-date': '',  /** NOTE: This requires cleaning prior to CSL */
-    issued: '',        /** NOTE: This requires cleaning prior to CSL */
+    accessed: '',
+    'event-date': '',
+    issued: '',
     language: '',
     journalAbbreviation: '',
     shortTitle: '',
