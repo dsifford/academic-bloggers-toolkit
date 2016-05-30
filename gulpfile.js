@@ -114,7 +114,7 @@ gulp.task('stylus:prod', () =>
         'lib/**/*.styl',
     ], { base: './', })
     .pipe(stylus({
-        use: [ poststylus([autoprefixer]), ],
+        use: [ poststylus([autoprefixer]), nib() ],
         compress: true,
     }))
     .pipe(gulp.dest('dist'))
