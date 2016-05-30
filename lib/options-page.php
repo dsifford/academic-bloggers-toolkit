@@ -79,7 +79,7 @@ class ABT_Options  {
         }
 
         $abt_saved_css = isset($abt_options['custom_css']) ? $abt_options['custom_css'] : '';
-        $selected_style = isset($abt_options['abt_citation_style']) ? $abt_options['abt_citation_style'] : '';
+        $selected_style = isset($abt_options['abt_citation_style']) ? $abt_options['abt_citation_style'] : 'american-medical-association';
 
         $selected_bib_display = isset($abt_options['display_options']['bibliography']) ? $abt_options['display_options']['bibliography'] : '';
         $selected_PR_box_display = isset($abt_options['display_options']['PR_boxes']) ? $abt_options['display_options']['PR_boxes'] : '';
