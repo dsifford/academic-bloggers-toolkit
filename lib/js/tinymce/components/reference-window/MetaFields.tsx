@@ -1,16 +1,16 @@
 import * as React from 'react';
-import { fieldMappings } from '../../utils/Constants';
-import { referenceWindowEvents as LocalEvents } from '../../utils/Constants';
+import { fieldMappings, } from '../../../utils/Constants';
+import { referenceWindowEvents as LocalEvents, } from '../../../utils/Constants';
 
 
 interface MetaFieldProps {
-    citationType: CSL.CitationType
-    meta: CSL.Data
-    eventHandler: Function
+    citationType: CSL.CitationType;
+    meta: CSL.Data;
+    eventHandler: Function;
 }
 
 
-export class MetaFields extends React.Component<MetaFieldProps,{}> {
+export class MetaFields extends React.Component<MetaFieldProps, {}> {
 
     public fieldMappings: ABT.FieldMappings = fieldMappings;
 
@@ -20,10 +20,12 @@ export class MetaFields extends React.Component<MetaFieldProps,{}> {
 
     handleChange(e: InputEvent) {
         this.props.eventHandler(
-            new CustomEvent(LocalEvents.META_FIELD_CHANGE, { detail: {
-                field: e.target.id,
-                value: e.target.value,
-            }})
+            new CustomEvent(LocalEvents.META_FIELD_CHANGE, {
+                detail: {
+                    field: e.target.id,
+                    value: e.target.value,
+                },
+            })
         );
     }
 
@@ -52,7 +54,7 @@ export class MetaFields extends React.Component<MetaFieldProps,{}> {
                             <div style={{ padding: '0 5px', flex: 2, }}>
                                 <input
                                     type='text'
-                                    style={{width: '100%'}}
+                                    style={{ width: '100%', }}
                                     id={field.value}
                                     onChange={this.handleChange.bind(this)}
                                     value={this.props.meta[field.value]}
@@ -64,6 +66,6 @@ export class MetaFields extends React.Component<MetaFieldProps,{}> {
                     )}
                 </div>
             </div>
-        )
+        );
     }
 }

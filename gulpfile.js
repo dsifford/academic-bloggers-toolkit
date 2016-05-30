@@ -13,6 +13,7 @@ const stylus = require('gulp-stylus');
 const poststylus = require('poststylus');
 const autoprefixer = require('autoprefixer')({ browsers: ['last 2 versions'] });
 const sourcemaps = require('gulp-sourcemaps');
+const nib = require('nib');
 // JS
 const uglify = require('gulp-uglify');
 const webpack = require('webpack-stream');
@@ -82,7 +83,9 @@ gulp.task('static', () =>
         'readme.txt',
         'lib/**/*',
         'vendor/*',
+        '!vendor/citationstyles.ts',
         '!lib/**/*.{ts,tsx,styl,json,jade}',
+        '!lib/css/*',
         '!**/__tests__',
         '!lib/js/utils',
     ], { base: './', })
@@ -100,7 +103,7 @@ gulp.task('stylus:dev', () =>
     ], { base: './', })
     .pipe(sourcemaps.init())
     .pipe(stylus({
-        use: [ poststylus([autoprefixer]), ],
+        use: [ poststylus([autoprefixer]), nib() ],
         compress: true,
     }))
     .pipe(sourcemaps.write('.'))
@@ -110,10 +113,13 @@ gulp.task('stylus:dev', () =>
 
 gulp.task('stylus:prod', () =>
     gulp.src([
-        'lib/**/*.styl',
+        'lib/css/admin.styl',
+        'lib/css/frontend.styl',
+        'lib/js/tinymce/views/styles.styl',
+        'lib/css/collections/citations.styl'
     ], { base: './', })
     .pipe(stylus({
-        use: [ poststylus([autoprefixer]), ],
+        use: [ poststylus([autoprefixer]), nib() ],
         compress: true,
     }))
     .pipe(gulp.dest('dist'))

@@ -3,11 +3,11 @@ module.exports = {
     entry: {
         'lib/js/Frontend': './lib/js/Frontend.ts',
         'lib/js/TinymceEntrypoint': './lib/js/TinymceEntrypoint.ts',
-        'lib/js/components/reference-list/Entrypoint': './lib/js/components/reference-list/Entrypoint.tsx',
+        'lib/js/reference-list/components/Entrypoint': './lib/js/reference-list/components/Entrypoint.tsx',
         'lib/js/components/peer-review-metabox/Entrypoint': './lib/js/components/peer-review-metabox/Entrypoint.tsx',
-        'lib/js/components/reference-window/ReferenceWindow': './lib/js/components/reference-window/ReferenceWindow.tsx',
-        'lib/js/components/pubmed-window/Entrypoint': './lib/js/components/pubmed-window/Entrypoint.tsx',
-        'lib/js/components/import-window/Entrypoint': './lib/js/components/import-window/Entrypoint.tsx',
+        'lib/js/tinymce/components/reference-window/ReferenceWindow': './lib/js/tinymce/components/reference-window/ReferenceWindow.tsx',
+        'lib/js/tinymce/components/pubmed-window/Entrypoint': './lib/js/tinymce/components/pubmed-window/Entrypoint.tsx',
+        'lib/js/tinymce/components/import-window/Entrypoint': './lib/js/tinymce/components/import-window/Entrypoint.tsx',
     },
     output: {
         filename: '[name].js',
@@ -18,7 +18,11 @@ module.exports = {
             {
                 test: /\.tsx?$/,
                 exclude: /node_modules/,
-                loader: 'babel?presets[]=es2015,presets[]=react!ts',
+                loader: 'babel?presets[]=es2015,presets[]=react,compact=true!ts',
+            },
+            {
+                test: /\.css$/,
+                loader: 'style!css',
             },
         ],
     },

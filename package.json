@@ -1,18 +1,25 @@
 {
   "name": "academic-bloggers-toolkit",
-  "version": "3.1.5",
+  "version": "3.2.0",
   "description": "A plugin extending the functionality of WordPress for Academic Blogging.",
   "main": "index.js",
   "scripts": {
     "test": "jest",
     "wp": "wpcmd() { docker exec $(docker ps -lq) /bin/bash -c \"sudo -u www-data wp $(echo $@)\"; };wpcmd ",
-    "chown": "sudo chown -R $USER $(pwd)/dist"
+    "clear-cache": "rm -rf node_modules/jest-cli/.haste_cache",
+    "chown": "sudo chown -R $USER $(pwd)/dist",
+    "update-vendors": "cd vendor && curl -o 'citeproc.js' https://raw.githubusercontent.com/Juris-M/citeproc-js/master/citeproc.js"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/dsifford/academic-bloggers-toolkit.git"
   },
   "author": "Derek P Sifford",
+  "contributors": [
+    {
+      "name": "Frank Bennett"
+    }
+  ],
   "license": "GPL-3.0",
   "bugs": {
     "url": "https://github.com/dsifford/academic-bloggers-toolkit/issues"
@@ -20,35 +27,44 @@
   "homepage": "https://github.com/dsifford/academic-bloggers-toolkit#readme",
   "devDependencies": {
     "autoprefixer": "^6.3.6",
-    "babel-core": "^6.8.0",
+    "babel-core": "^6.9.0",
     "babel-loader": "^6.2.4",
-    "babel-preset-es2015": "^6.6.0",
+    "babel-preset-es2015": "^6.9.0",
     "babel-preset-react": "^6.5.0",
-    "browser-sync": "^2.12.5",
+    "browser-sync": "^2.12.10",
     "coveralls": "^2.11.9",
+    "css-loader": "^0.23.1",
     "del": "^2.2.0",
-    "enzyme": "^2.2.0",
+    "enzyme": "^2.3.0",
     "gulp": "github:gulpjs/gulp#4.0",
     "gulp-file-insert": "^1.0.2",
     "gulp-jade2php": "^1.0.3",
     "gulp-rename": "^1.2.2",
     "gulp-replace": "^0.5.4",
     "gulp-sourcemaps": "^2.0.0-alpha",
-    "gulp-stylus": "^2.3.1",
+    "gulp-stylus": "^2.4.0",
     "gulp-uglify": "^1.5.3",
-    "jest-cli": "^12.0.2",
-    "ntypescript": "^1.201605022209.1",
+    "jest-cli": "^12.1.1",
+    "nib": "^1.1.0",
+    "ntypescript": "^1.201605262208.1",
     "poststylus": "^0.2.3",
-    "react-addons-test-utils": "^15.0.2",
+    "react-addons-test-utils": "^15.1.0",
     "sinon": "^1.17.4",
+    "style-loader": "^0.13.1",
     "ts-loader": "^0.8.2",
+    "tslint": "^3.10.2",
     "typescript": "^1.9.0-dev.20160429",
-    "webpack": "^1.13.0",
+    "webpack": "^1.13.1",
     "webpack-stream": "^3.2.0"
   },
   "dependencies": {
-    "react": "^15.0.2",
-    "react-dom": "^15.0.2"
+    "immutable": "^3.8.1",
+    "react": "^15.1.0",
+    "react-addons-css-transition-group": "^15.1.0",
+    "react-addons-shallow-compare": "^15.1.0",
+    "react-dom": "^15.1.0",
+    "react-select": "^1.0.0-beta13",
+    "react-virtualized-select": "^1.0.0"
   },
   "jest": {
     "scriptPreprocessor": "jestPreprocessor.js",

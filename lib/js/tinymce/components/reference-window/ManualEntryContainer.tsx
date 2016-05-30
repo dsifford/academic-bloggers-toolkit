@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { citationTypeArray, referenceWindowEvents as LocalEvents, } from '../../utils/Constants';
+import { citationTypeArray, referenceWindowEvents as LocalEvents, } from '../../../utils/Constants';
 
 import { People, } from './People';
 import { MetaFields, } from './MetaFields';
@@ -67,12 +67,16 @@ export const ManualSelection = ({
                     style={{ width: '100%', }}
                     onChange={onChange}
                     value={value} >
-                    { citationTypeArray.map((item, i) =>
-                        <option
-                            key={i}
-                            value={item.value}
-                            children={item.label} />
-                    )}
+                    {
+                        citationTypeArray.map((item, i) =>
+                            item.inUse ?
+                            <option
+                                key={i}
+                                value={item.value}
+                                children={item.label} />
+                            : null
+                        )
+                    }
                 </select>
             </div>
         </div>

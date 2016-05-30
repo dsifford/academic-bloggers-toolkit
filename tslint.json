@@ -1,7 +1,8 @@
 {
     "rules": {
         "class-name": true,
-        "comment-format": [true, "check-space", "check-uppercase"],
+        "comment-format": [true, "check-space"],
+        "forin": true,
         "indent": [true, "spaces"],
         "jsdoc-format": true,
         "no-angle-bracket-type-assertion": true,
@@ -19,8 +20,7 @@
         "trailing-comma": [
             true,
             {
-                "multiline": "always",
-                "singleline": "always"
+                "multiline": "always"
             }
         ],
         "no-var-keyword": true,
@@ -47,8 +47,7 @@
         ],
         "variable-name": [
             true,
-            "ban-keywords",
-            "check-format"
+            "ban-keywords"
         ],
         "whitespace": [
             true,

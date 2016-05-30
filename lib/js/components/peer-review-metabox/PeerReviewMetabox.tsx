@@ -57,9 +57,7 @@ export class PeerReviewMetabox extends React.Component<Props, ABT.PRMetaState> {
         }
 
         for (let i = 1; i < 4; i++) {
-            state[i].heading.value = this.props.data[i].heading !== ''
-                ? this.props.data[i].heading
-                : '';
+            state[i].heading.value = this.props.data[i].heading;
             if (!Array.isArray(this.props.data[i].review)) {
                 Object.keys(this.props.data[i].review).forEach(key => {
                     state[i].review[key] = this.props.data[i].review[key];
@@ -102,7 +100,7 @@ export class PeerReviewMetabox extends React.Component<Props, ABT.PRMetaState> {
             return;
         }
 
-        wp.media.frames.abt_reviewer_photos[num][topfield] = wp.media({
+        wp.media.frames.abt_reviewer_photos[num][topfield] = new wp.media({
             title: 'Choose or Upload an Image',
             button: { text:  'Use this image', },
             library: { type: 'image', },

@@ -1,14 +1,14 @@
 import * as React from 'react';
-import { referenceWindowEvents as LocalEvents, fieldMappings } from '../../utils/Constants';
+import { referenceWindowEvents as LocalEvents, fieldMappings, } from '../../../utils/Constants';
 
 
 interface PeopleProps {
-    people: CSL.TypedPerson[]
-    eventHandler: Function
-    citationType: CSL.CitationType
+    people: CSL.TypedPerson[];
+    eventHandler: Function;
+    citationType: CSL.CitationType;
 }
 
-export class People extends React.Component<PeopleProps,{}> {
+export class People extends React.Component<PeopleProps, {}> {
 
     public fieldMaps: ABT.FieldMappings = fieldMappings;
 
@@ -37,7 +37,7 @@ export class People extends React.Component<PeopleProps,{}> {
                     index,
                     field,
                     value: e.target.value,
-                }
+                },
             })
         );
     }
@@ -80,7 +80,7 @@ export class People extends React.Component<PeopleProps,{}> {
                         <div style={{ flex: 1, padding: '0 5px', }} >
                             <input
                                 type='text'
-                                style={{width: '100%'}}
+                                style={{ width: '100%', }}
                                 placeholder='Firstname, Middleinitial'
                                 aria-label='First Name, Middle Initial'
                                 id={`person-given-${i}`}
@@ -99,6 +99,6 @@ export class People extends React.Component<PeopleProps,{}> {
                     </div>
                 )}
             </div>
-        )
+        );
     }
 }

@@ -73,14 +73,17 @@ class ABT_Options  {
         if ($hidden_field_3 == 'Y') {
             $abt_options['display_options']['bibliography'] = esc_html($_POST['abt_bibliography_display']);
             $abt_options['display_options']['PR_boxes'] = esc_html($_POST['abt_PR_display']);
+            $abt_options['display_options']['links'] = esc_html($_POST['abt_link_display']);
             $abt_options['display_options']['bib_heading'] = esc_html($_POST['abt_bib_heading']);
             update_option('abt_options', $abt_options);
         }
 
         $abt_saved_css = isset($abt_options['custom_css']) ? $abt_options['custom_css'] : '';
-        $selected_style = isset($abt_options['abt_citation_style']) ? $abt_options['abt_citation_style'] : '';
-        $selected_PR_box_display = isset($abt_options['display_options']['PR_boxes']) ? $abt_options['display_options']['PR_boxes'] : '';
+        $selected_style = isset($abt_options['abt_citation_style']) ? $abt_options['abt_citation_style'] : 'american-medical-association';
+
         $selected_bib_display = isset($abt_options['display_options']['bibliography']) ? $abt_options['display_options']['bibliography'] : '';
+        $selected_PR_box_display = isset($abt_options['display_options']['PR_boxes']) ? $abt_options['display_options']['PR_boxes'] : '';
+        $selected_link_display = isset($abt_options['display_options']['links']) ? $abt_options['display_options']['links'] : '';
         $bib_heading = isset($abt_options['display_options']['bib_heading']) ? $abt_options['display_options']['bib_heading'] : '';
 
         ?>

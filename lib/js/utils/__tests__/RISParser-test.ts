@@ -103,8 +103,8 @@ ER  -
 describe('RISParser', () => {
     it('should parse webpage correctly', () => {
         let parser = new RISParser(testCases[0]);
-        let expected: CSL.Data = [{
-            id: 0,
+        let expected: CSL.Data[] = [{
+            id: '0',
             type: 'webpage',
             'container-title': 'The Skeptics Guide to Emergency Medicine',
             title: 'ARISE Up, ARISE Up (EGDT vs. Usual Care for Sepsis)',
@@ -122,8 +122,8 @@ describe('RISParser', () => {
 
     it('should parse journal-article correctly', () => {
         let parser = new RISParser(testCases[1]);
-        let expected: CSL.Data = [{
-            id: 0,
+        let expected: CSL.Data[] = [{
+            id: '0',
             type: 'article-journal',
             'container-title': 'The Winnower',
             title: 'The quality checklists for medical education blogs and podcasts',
@@ -145,7 +145,7 @@ describe('RISParser', () => {
     it('should parse books correctly', () => {
         let parser = new RISParser(testCases[2]);
         let expected: CSL.Data = [{
-            id: 0,
+            id: '0',
             type: 'book',
             title: 'Guide to Knowledge Translation Planning at CIHR: Integrated and End-of-Grant Approaches',
             author: [
@@ -185,7 +185,7 @@ describe('RISParser', () => {
     it('should process an assortment of fields correctly', () => {
         let parser = new RISParser(testCases[5]);
         let expected: CSL.Data = [{
-            id: 0,
+            id: '0',
             type: 'paper-conference',
             title: 'The title of the paper',
             editor: [

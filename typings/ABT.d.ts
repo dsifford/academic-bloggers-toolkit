@@ -1,12 +1,119 @@
 interface Window {
-  tinyMCE: TinyMCE.tinyMCE;
+  tinyMCE: TinyMCE.MCE;
+  DocumentTouch?;
 }
 
 interface InputEvent extends UIEvent {
     target: HTMLInputElement;
 }
 
+declare module 'react-virtualized-select' {
+    const VSelect: any;
+    export default VSelect.defaultProps;
+}
+
 declare namespace ABT {
+
+    class CSLProcessor {
+        style: string;
+        state: {
+            citations: {
+                [itemID: string]: CSL.Data;
+            }
+        };
+        citeproc: Citeproc.Processor;
+        /**
+         * Instantiates a new CSL.Engine (either when initially constructed or when
+         *   the user changes his/her selected citation style)
+         * @param styleID CSL style filename.
+         * @return Promise that resolves to either an object containing the style XML
+         *   and the `sys` object, or an Error depending on the responses from the
+         *   network.
+         */
+        init(style: string, citationByIndex: Citeproc.CitationByIndex): Promise<Citeproc.CitationClusterData[]>
+        /**
+         * Updates the Citeproc object and the local state with new citation data.
+         * @param citations Array of CSL.Data.
+         */
+        consumeCitations(citations: CSL.Data[]): {[itemID: string]: CSL.Data};
+        /**
+         * Purges items from the local state whos ID is listed in `items`
+         * @param  items Array of item IDs to remove from the state.
+         * @return State after removing items
+         */
+        purgeCitations(items: string[]): {[itemID: string]: CSL.Data};
+        /**
+         * Transforms the CSL.Data[] into a Citeproc.Citation.
+         *
+         * @param currentIndex The current inline-citation's index.
+         * @param csl Fallback CSL.Data[].
+         * @return Citeproc.CitationByIndexSingle for the current inline citation.
+         */
+        prepareInlineCitationData(csl: CSL.Data[]): Citeproc.Citation;
+        /**
+         * Wrapper function for citeproc.makeBibliography that takes the output and
+         *   inlines CSS classes that are appropriate for the style (according to the
+         *   generated bibmeta).
+         * NOTE: This still needs to be extended further.
+         * @return {Citeproc.Bibliography} Parsed bibliography.
+         */
+        makeBibliography(links: 'always'|'urls'|'never'): Citeproc.Bibliography;
+    }
+
+    interface AdminMeta {
+        /** Heading for the bibliography */
+        bibHeading: string;
+        /** Display style for the bibliography */
+        bibStyle: 'fixed'|'toggle';
+        /** URL to the `js` directory */
+        jsURL: string;
+        /** When links should be included in the bibliography */
+        links: 'always'|'urls'|'never';
+        /** URL `views` within the `tinymce` directory */
+        tinymceViewsURL: string;
+        /** CSL style filename of the user's preferred citation style (without .csl extension) */
+        style: string;
+        /** The user's locale (WordPress format) */
+        locale: string;
+    }
+
+    interface PeopleProps {
+        people: CSL.TypedPerson[];
+        eventHandler: Function;
+        citationType: CSL.CitationType;
+    }
+
+    interface FrontendMeta {
+        prBoxStyle: 'fixed'|'toggle';
+        bibStyle: 'fixed'|'toggle';
+    }
+
+    /**
+     * addManually: boolean
+     * attachInline: boolean;
+     * identifierList: string;
+     * includeLink: boolean;
+     * manualData: CSL.Data;
+     * people: CSL.TypedPerson[];
+     */
+    interface ReferenceWindowPayload {
+        addManually: boolean;
+        attachInline: boolean;
+        identifierList: string;
+        manualData: CSL.Data;
+        people: CSL.TypedPerson[];
+    }
+
+    interface ReferencePayload extends ReferenceWindowPayload {
+        citationStyle: string;
+    }
+
+    interface ImportWindowPayload {
+        filename: string;
+        /** [itemID, CSL.Data][] */
+        payload: [string, CSL.Data][];
+        links: boolean;
+    }
 
     interface FieldMappings {
         bill: FieldMap;
@@ -54,15 +161,6 @@ declare namespace ABT {
         placeholder: string;
     }
 
-    interface ABTOptions {
-        'abt_citation_style': string;
-        'display_options': {
-            'PR_boxes': 'fixed'|'toggle'
-            bibliography: 'fixed'|'toggle'
-            'bib_heading': string
-        };
-    }
-
     interface PRMetaPayload {
         1: PeerReviewTableData;
         2: PeerReviewTableData;
@@ -99,63 +197,179 @@ declare namespace ABT {
     }
 }
 
+declare namespace Citeproc {
+
+    /**
+     * 1: Bibmeta
+     * 2: Array of raw citation HTML.
+     */
+    type Bibliography = [
+        Bibmeta,
+        string[]
+    ];
+    type CitationByIndex = Citation[];
+    /**
+     * 0: The index of the HTMLSpanElement within the document
+     * 1: An HTML string of the inline citation.
+     * 2: A string containing a unique ID which should be used for the span
+     *    element's ID.
+     */
+    type CitationClusterData = [number, string, string];
+    type CitationsPrePost = [string, number][];
+    /**
+     * 0: A string containing a unique ID which should be used for the span
+     *    element's ID.
+     * 1: The index of the HTMLSpanElement within the document
+     * 2: An HTML string of the inline citation.
+     * @type {Array}
+     */
+    type RebuildProcessorStateData = [string, number, string];
+    type SortedItems = [
+        CSL.Data,
+        {
+            id: string;
+            sortkeys: [string];
+        }
+    ][];
+
+    interface Bibmeta {
+        /** Closing div tag for bibliography. */
+        bibend: string;
+        /** array of strings? for errors. */
+        'bibliography_errors': string[];
+        /** Opening div tag for bibliography. */
+        bibstart: string;
+        /** (not sure what for) */
+        done: boolean;
+        /** array of itemIDs */
+        'entry_ids': [string][];
+        /** horizontal spacing? */
+        entryspacing: number;
+        /** vertical spacing? */
+        linespacing: number;
+        maxoffset: number;
+        'second-field-align': 'flush'|'margin'|boolean;
+    }
+
+
+    interface Citation {
+        citationID?: string;
+        citationItems: {
+            id: string;
+            item?: CSL.Data;
+        }[];
+        properties: {
+            index?: number;
+            noteIndex: number;
+        };
+        sortedItems?: SortedItems;
+    }
+
+    interface CitationRegistry {
+        /** Retrieve citation(s) by a HTMLSpanElement ID */
+        citationById: {
+            [id: string]: Citation;
+        };
+        /** Retrieve citation(s) by the index of its parent HTMLSpanElement in the document */
+        citationByIndex: Citation[];
+        /** Retrieve citation by the unique citation ID */
+        citationsByItemId: {
+            [itemId: string]: Citation;
+        };
+    }
+
+    interface SystemObj {
+        retrieveLocale(lang: string): string;
+        retrieveItem(id: string|number): CSL.Data;
+    }
+
+    interface Processor {
+        registry: {
+            citationreg: CitationRegistry;
+        };
+        sys: SystemObj;
+        opt: {
+            xclass: 'note'|'in-text';
+        };
+        makeBibliography(): Bibliography;
+        processCitationCluster(
+            citation: Citeproc.Citation,
+            pre: Citeproc.CitationsPrePost,
+            post: Citeproc.CitationsPrePost
+        ): [{ bibchange: boolean; 'citation_errors': string[]}, CitationClusterData[]];
+        rebuildProcessorState(citationByIndex: Citation[]): RebuildProcessorStateData[];
+    }
+
+}
+
 declare namespace TinyMCE {
 
-    interface tinyMCE {
-        DOM: any;
-        EditorManager: any;
+    interface MCE {
+        DOM: Object;
+        EditorManager;
         PluginManager: PluginManager;
-        EditorObservable: any;
-        Env: any;
-        WindowManager: any;
+        EditorObservable;
+        Env;
+        WindowManager;
         activeEditor: Editor;
-        add: (a:any) => any;
-        dom: any;
-        editors: any[];
-        remove: (e?: any) => void;
+        add(editor: Editor): Editor;
+        dom: Object;
+        editors: Editor[];
+        remove(e?: string): void;
     }
 
     interface Editor {
         id: string;
-        buttons: any;
-        container: any;
+        buttons: Object;
+        container: HTMLDivElement;
         contentDocument: HTMLDocument;
         contentWindow: Window;
-        controlManager: any;
-        dom: any;
-        editorCommands: any;
-        editorContainer: any;
-        editorManager: any;
-        editorUpload: any;
-        insertContent(any): any;
-        setProgressState(state: number): void;
-        addShortcut(keys: string, title: string, func: Function): void;
-        on(eventString: string, callback: Function): void;
-        addButton(buttonID: string, buttonObj: any): void;
-        plugins: any;
-        settings: any;
-        target: any;
+        controlManager: Object;
+        dom: {
+            doc: Document;
+            create(tag: string, attrs: { [attr: string]: string}, children?: string): HTMLElement;
+        };
+        selection: {
+            bookmarkManager: {
+                getBookmark(type?: number, normalized?: boolean): Object;
+                moveToBookmark(bookmark: Object): boolean
+            }
+            getBookmark(type?: number, normalized?: boolean): Object;
+            collapse(toStart: boolean): void;
+            getNode(): Node;
+            select(el: HTMLElement, content: boolean);
+            setCursorLocation(a): void;
+            moveToBookmark(bookmark: Object): boolean;
+        };
+        settings: {
+            params;
+        };
+        target: Object;
         windowManager: WindowManager;
-        wp: any;
+        wp: Object;
+        addButton(buttonID: string, buttonObj: Object): void;
+        addShortcut(keys: string, title: string, func: Function): void;
+        getBody(): HTMLBodyElement;
+        getContent(): string;
+        setContent(content: string, args?: Object): string;
+        insertContent(content: string): void;
+        on(eventString: string, callback: Function): void;
+        /** true = loading; false = not loading */
+        setProgressState(state: boolean): void;
     }
 
     interface WindowManager {
-        alert?: (a?:any) => any;
-        close?: (a?:any) => any;
-        confirm?: (a?:any) => any;
-        createInstance?: (a?:any) => any;
+        alert?(message: string, callback?: Function, scope?: Object): void;
+        close?(): void;
+        confirm?(message: string, callback?: Function, scope?: Object): void;
         data?: Object;
         editor?: Editor;
-        getParams?: (a?:any) => any;
-        getWindows?: (a?:any) => any;
-        onClose?: any;
-        onOpen?: any;
-        open?: (a?:any) => any;
-        parent?: any;
-        setParams?: (a?:any) => any;
-        windows?: any;
-        wp?: any;
-        submit?: () => void;
+        onClose?(e): void;
+        onOpen?(e): void;
+        open?(window: WindowMangerObject): void;
+        setParams?(paramObj): void;
+        windows?;
+        submit?(): () => void;
     }
 
     interface PluginManager {
@@ -172,19 +386,23 @@ declare namespace TinyMCE {
 
     interface WindowElement {
         type: string;
-        name: string;
-        label: string;
-        value: string;
+        name?: string;
+        label?: string;
+        value?: string;
+        html?: string;
         tooltip?: string;
     }
 
     interface WindowMangerObject {
         title: string;
-        width: number;
-        height: any;
+        width?: number;
+        height?: number;
         body?: WindowElement[];
         url?: string;
-        onclose?: (e?) => void;
+        buttons?: Object;
+        params?: Object;
+        onclose?(e);
+        onsubmit?(e);
     }
 }
 
@@ -238,7 +456,7 @@ declare namespace CSL {
     }
 
     interface Data {
-        id?: string|number;
+        id?: string;
         type?: CitationType;
         categories?: string[];
         language?: string;
@@ -355,15 +573,6 @@ declare namespace CSL {
         circa?: string|number|boolean;
         literal?: string;
         raw?: string;
-    }
-
-}
-
-declare namespace Citeproc {
-
-    interface SystemObj {
-        retrieveLocale(lang: string): string;
-        retrieveItem(id: string|number): CSL.Data;
     }
 
 }

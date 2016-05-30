@@ -1,5 +1,27 @@
 # Changelog
 
+# 3.2.0
+
+**New Features**
+
+- Citations are now sorted automatically based on how sorting is defined in the citation style (no more drag and drop).
+- In-text citations styles now reflect each individual citation style.
+- Improvements to the UI.
+- Realtime citation style switching.
+- "Full note" style citations are now fully supported. (eg. Chicago Full Note).
+
+**Bugfixes**
+
+- Fix bug that caused some options to not be saved on the options page.
+- Fix issue that caused the plugin to break if your site is SSL encrypted.
+- Fix bug related to conference proceedings fields. HT @metallikat36
+- Reference list now enabled for all post types. HT @halatkins
+
+**Depreciations**
+
+- If you have custom CSS, check your selectors. I've made some changes to selector names (the largest of which is using dashes `-` rather than underscores `_`).
+- The last-occurring ordered list is not tagged as a bibliography on page load anymore. This is now done upon initial bibliography creation. You shouldn't notice a difference, but some users who have used this plugin for a longer period of time may find that some of their older bibliographys are not being correctly identified. Email me if this is an issue and I'll walk you thorough it.
+
 ### 3.1.5
 - Fix PubMed bug that resulted in citations with ampersands in the title to be parsed as `&amp;amp;`. HT @Da5idHatch
 
