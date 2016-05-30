@@ -66,10 +66,10 @@ export function getRelativeCitationPositions(editor: TinyMCE.Editor): CitationPo
     const selection = editor.selection;
     const doc: Document = editor.dom.doc;
 
-    const cursor = editor.dom.create('span', { id: 'CURSOR', class: 'abt-cite'});
+    const cursor = editor.dom.create('span', { id: 'CURSOR', class: 'abt_cite'});
     selection.getNode().appendChild(cursor);
 
-    const citations = doc.getElementsByClassName('abt-cite');
+    const citations = doc.getElementsByClassName('abt_cite');
     const payload: CitationPositions = {
         currentIndex: 0,
         locations: [[], []],
@@ -120,7 +120,7 @@ export function parseInlineCitations(
             const idList: string = JSON.stringify(sortedItems.map(c => c[1].id));
             if (!citation) {
                 editor.insertContent(
-                    `<span id='${item[2]}' data-reflist='${idList}' class='abt-cite noselect mceNonEditable'>${inlineText}</span>`
+                    `<span id='${item[2]}' data-reflist='${idList}' class='abt_cite noselect mceNonEditable'>${inlineText}</span>`
                 );
                 continue;
             }
@@ -152,7 +152,7 @@ export function parseInlineCitations(
 
             // Save a reference to the current cursor location
             const selection = editor.selection;
-            const cursor = editor.dom.create('span', { id: 'CURSOR', class: 'abt-cite'});
+            const cursor = editor.dom.create('span', { id: 'CURSOR', class: 'abt_cite'});
             selection.getNode().appendChild(cursor);
 
             // Do work
@@ -211,7 +211,7 @@ export function setBibliography(
 
     // Save a reference to the current cursor location
     const selection = editor.selection;
-    const cursor = editor.dom.create('span', { id: 'CURSOR', class: 'abt-cite'});
+    const cursor = editor.dom.create('span', { id: 'CURSOR', class: 'abt_cite'});
     selection.getNode().appendChild(cursor);
 
     // Do work

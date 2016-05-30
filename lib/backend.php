@@ -460,7 +460,7 @@ function abt_append_peer_reviews($text) {
                 $review_image = $meta['peer_review'][$i]['review']['image'];
                 $review_image = !empty($review_image)
                 ? "<img src='${review_image}' width='100px'>"
-                : "<i class='dashicons dashicons-admin-users abt-PR-headshot' style='font-size: 100px;'></i>";
+                : "<i class='dashicons dashicons-admin-users abt_PR_headshot' style='font-size: 100px;'></i>";
 
                 $review_twitter = $meta['peer_review'][$i]['review']['twitter'];
                 $review_twitter = !empty($review_twitter)
@@ -491,15 +491,15 @@ function abt_append_peer_reviews($text) {
                     $response_image = $meta['peer_review'][$i]['response']['image'];
                     $response_image = !empty($response_image)
                     ? "<img src='${response_image}' width='100px'>"
-                    : "<i class='dashicons dashicons-admin-users abt-PR-headshot' style='font-size: 100px;'></i>";
+                    : "<i class='dashicons dashicons-admin-users abt_PR_headshot' style='font-size: 100px;'></i>";
 
                     $response_background = $meta['peer_review'][$i]['response']['background'];
                     $response_content = $meta['peer_review'][$i]['response']['content'];
 
                     $response_block =
-                    "<div class='abt-chat-bubble'>${response_content}</div>".
-                    "<div class='abt-PR-info'>".
-                        "<div class='abt-PR-headshot'>".
+                    "<div class='abt_chat_bubble'>${response_content}</div>".
+                    "<div class='abt_PR_info'>".
+                        "<div class='abt_PR_headshot'>".
                             "${response_image}".
                         '</div>'.
                         '<div>'.
@@ -515,11 +515,11 @@ function abt_append_peer_reviews($text) {
                 }
 
                 ${'reviewer_block_'.$i} =
-                "<h3 class='abt-PR-heading noselect'>${heading}</h3>".
+                "<h3 class='abt_PR_heading noselect'>${heading}</h3>".
                 '<div>'.
-                    "<div class='abt-chat-bubble'>${review_content}</div>".
-                    "<div class='abt-PR-info'>".
-                        "<div class='abt-PR-headshot'>".
+                    "<div class='abt_chat_bubble'>${review_content}</div>".
+                    "<div class='abt_PR_info'>".
+                        "<div class='abt_PR_headshot'>".
                             "${review_image}".
                         '</div>'.
                         '<div>'.

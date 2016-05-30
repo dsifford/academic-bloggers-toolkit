@@ -1,6 +1,18 @@
 @import 'collections/colors'
 @import 'collections/citations'
 
+span.abt_cite
+    sup
+    sub
+        font-size 75%
+        line-height 0
+        position relative
+        vertical-align baseline
+    sup
+        top -0.5em
+    sub
+        bottom -0.25em
+
 // ======= Toggleable Bibliography Heading
 #abt-smart-bib
     &.noselect
@@ -22,7 +34,7 @@
 
 
 // ======== Tooltips =========
-.abt-tooltip
+.abt_tooltip
     border-radius 3px
     padding 8px
     position absolute
@@ -56,7 +68,7 @@
         transform none
 
 
-.abt-tooltip-arrow
+.abt_tooltip_arrow
     content ''
     position absolute
     margin-left -8px
@@ -64,16 +76,16 @@
     border-style solid
     pointer-events none
 
-    &.abt-arrow-up
+    &.abt_arrow_up
         border-color transparent transparent white
         top -15px
 
-    &.abt-arrow-down
+    &.abt_arrow_down
         border-color white transparent transparent
         bottom -15px
 
 
-.abt-tooltip-touch-close-container
+.abt_tooltip_touch_close-container
     width 50px
     height 50px
     position absolute
@@ -82,7 +94,7 @@
     text-align right
 
 
-.abt-tooltip-touch-close
+.abt_tooltip_touch_close
     position relative
     border-radius 50%
     width 26px
@@ -126,19 +138,19 @@
 
 // ===== Inline Citations ========
 
-span.abt-cite > *
+span.abt_cite > *
     pointer-events none
 
-.abt-cite
+.abt_cite
     white-space nowrap
 
 
-.abt-cite:hover
+.abt_cite:hover
     cursor pointer
 
 
 // Peer Review Box
-abt-PR-heading
+.abt_PR_heading
     cursor pointer
     border-bottom 4px solid
     border-radius 5px
@@ -148,16 +160,16 @@ abt-PR-heading
     margin 10px 0 !important
 
 
-abt-PR-heading:hover
+.abt_PR_heading:hover
     background $light-gray
 
 
-abt-PR-heading:active
+.abt_PR_heading:active
     border-bottom 1px solid
     padding-top 18px
 
 
-.abt-PR-info
+.abt_PR_info
     display inline-block
     float left
     width 30%
@@ -169,19 +181,21 @@ abt-PR-heading:active
     margin-right 5px
 
 
-.abt-PR-info strong
+.abt_PR_info strong
     font-size 14px
 
 
-.abt-PR-headshot
+.abt_PR_headshot
     display block
     margin-left auto
     margin-right auto
     height auto
     min-width 100px
+    img
+    	margin 5px auto
 
 
-.abt-chat-bubble
+.abt_chat_bubble
     display inline-block
     position relative
     width 63%
@@ -195,7 +209,7 @@ abt-PR-heading:active
     box-shadow 1px 1px 1px $dark-gray
 
 
-.abt-chat-bubble:after
+.abt_chat_bubble:after
     content ''
     position absolute
     background-color $light-gray
@@ -211,23 +225,23 @@ abt-PR-heading:active
 
 
 // Horizontal Rule -- Visible only in editor
-.abt-editor-only
+.abt_editor-only
     display none
 
 
 @media only screen and (max-width 620px)
-    .abt-PR-info
+    .abt_PR_info
         display block
         width 100%
         padding-top 10px
         padding-bottom 20px
 
 
-    .abt-chat-bubble
+    .abt_chat_bubble
         width 100%
 
 
-    .abt-PR-info:before
+    .abt_PR_info:before
         content ''
         width 20px
         height 20px
@@ -240,5 +254,5 @@ abt-PR-heading:active
         z-index 1
 
 
-    .abt-chat-bubble:after
+    .abt_chat_bubble:after
         display none

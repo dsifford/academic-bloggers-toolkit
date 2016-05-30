@@ -11,7 +11,7 @@ namespace ABT_Frontend {
         private headings;
 
         constructor() {
-            this.headings = document.getElementsByClassName('abt-PR-heading');
+            this.headings = document.getElementsByClassName('abt_PR_heading');
 
             for (let i = 0; i < this.headings.length; i++) {
                 let currentHeading = this.headings[i];
@@ -61,7 +61,7 @@ namespace ABT_Frontend {
 
         constructor() {
             this.bibliography = document.getElementById('abt-smart-bib') as HTMLDivElement;
-            const citationList = document.getElementsByClassName('abt-cite');
+            const citationList = document.getElementsByClassName('abt_cite');
 
             for (let i = 0; i < citationList.length; i++) {
 
@@ -114,7 +114,7 @@ namespace ABT_Frontend {
             e.preventDefault();
             clearTimeout(Citations.timer);
 
-            let preExistingTooltip: HTMLElement = document.getElementById('abt-tooltip');
+            let preExistingTooltip: HTMLElement = document.getElementById('abt_tooltip');
             if (preExistingTooltip !== null) {
                 preExistingTooltip.parentElement.removeChild(preExistingTooltip);
             }
@@ -122,12 +122,12 @@ namespace ABT_Frontend {
             let rect: ClientRect = (e.target as HTMLElement).getBoundingClientRect();
 
             let tooltip: HTMLDivElement = document.createElement('div');
-            tooltip.className = tooltip.id = 'abt-tooltip';
+            tooltip.className = tooltip.id = 'abt_tooltip';
             tooltip.innerHTML = (e.target as HTMLElement).getAttribute('data-citations');
             tooltip.style.visibility = 'hidden';
 
             let tooltipArrow: HTMLDivElement = document.createElement('div');
-            tooltipArrow.className = 'abt-tooltip-arrow';
+            tooltipArrow.className = 'abt_tooltip_arrow';
 
 
             if (this.isTouchDevice()) {
@@ -135,8 +135,8 @@ namespace ABT_Frontend {
                 let closeButton: HTMLDivElement = document.createElement('div');
                 let touchContainer: HTMLDivElement = document.createElement('div');
 
-                touchContainer.className = 'abt-tooltip-touch-close-container';
-                closeButton.className = 'abt-tooltip-touch-close';
+                touchContainer.className = 'abt_tooltip_touch_close-container';
+                closeButton.className = 'abt_tooltip_touch_close';
                 touchContainer.addEventListener('touchend', () => tooltip.parentElement.removeChild(tooltip));
 
                 tooltip.style.left = '0';
@@ -168,11 +168,11 @@ namespace ABT_Frontend {
                 // On bottom - Upwards arrow
                 tooltip.style.top = (rect.bottom + window.scrollY + 5) + 'px';
                 tooltip.style.animation = 'fadeInUp .2s';
-                tooltipArrow.classList.add('abt-arrow-up');
+                tooltipArrow.classList.add('abt_arrow_up');
             } else {
                 // On top - Downwards arrow
                 tooltip.style.top = (rect.top + window.scrollY - tooltip.offsetHeight - 5) + 'px';
-                tooltipArrow.classList.add('abt-arrow-down');
+                tooltipArrow.classList.add('abt_arrow_down');
             }
 
             tooltip.style.visibility = '';
@@ -181,7 +181,7 @@ namespace ABT_Frontend {
 
         private destroyTooltip(): void {
             Citations.timer = setTimeout(() => {
-                let tip = document.getElementById('abt-tooltip');
+                let tip = document.getElementById('abt_tooltip');
                 tip.parentElement.removeChild(tip);
             }, 200);
         }
@@ -205,7 +205,7 @@ function frontendJS() {
     new ABT_Frontend.Citations();
 
     if (options.prBoxStyle === 'fixed') {
-        Array.from(document.getElementsByClassName('abt-PR-heading')).forEach(heading => heading.className = '');
+        Array.from(document.getElementsByClassName('abt_PR_heading')).forEach(heading => heading.className = '');
     }
     else {
         new ABT_Frontend.Accordion();
