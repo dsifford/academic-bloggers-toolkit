@@ -1,5 +1,15 @@
 # Changelog
 
+### 3.2.1
+
+Sometimes you make good calls, and sometimes you make bad calls.
+
+Changing the CSS selectors was a bad call. Sorry about that!
+
+**Bugfixes**
+
+- Revert CSS selectors back to what they were originally.
+
 ### 3.2.0
 
 **New Features**

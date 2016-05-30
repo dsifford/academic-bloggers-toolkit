@@ -4,7 +4,7 @@ Donate link: https://cash.me/$dsifford
 Tags: academic, pmid, doi, peer-review, pubmed, citation, bibliography, reference
 Requires at least: 4.2.2
 Tested up to: 4.5
-Stable tag: 3.2.0
+Stable tag: 3.2.1
 License: GPL3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -67,6 +67,16 @@ Yikes! I'm sorry about that. Please report all issues on the Academic Blogger's 
 
 == Changelog ==
 
+= 3.2.1 =
+
+Sometimes you make good calls, and sometimes you make bad calls.
+
+Changing the CSS selectors was a bad call. Sorry about that!
+
+**Bugfixes**
+
+* Revert CSS selectors back to what they were originally. 
+
 = 3.2.0 =
 
 **New Features**
@@ -89,7 +99,7 @@ Yikes! I'm sorry about that. Please report all issues on the Academic Blogger's 
 * The last-occurring ordered list is not tagged as a bibliography on page load anymore. This is now done upon initial bibliography creation. You shouldn't notice a difference, but some users who have used this plugin for a longer period of time may find that some of their older bibliographys are not being correctly identified. Email me if this is an issue and I'll walk you thorough it.
 
 **Special Thanks**
-This update would not have been possible without the help and support of Frank Bennett (@fgbjr). Thanks for all your help! 
+This update would not have been possible without the help and support of Frank Bennett (@fgbjr). Thanks for all your help!
 
 = 3.1.5 =
 * Fix PubMed bug that resulted in citations with ampersands in the title to be parsed as `&amp;amp;`. HT @Da5idHatch
