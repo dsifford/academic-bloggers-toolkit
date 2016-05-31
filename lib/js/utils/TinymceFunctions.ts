@@ -66,8 +66,7 @@ export function getRelativeCitationPositions(editor: TinyMCE.Editor): CitationPo
     const selection = editor.selection;
     const doc: Document = editor.dom.doc;
 
-    const cursor = editor.dom.create('span', { id: 'CURSOR', class: 'abt_cite'});
-    selection.getNode().appendChild(cursor);
+    editor.insertContent('<span id="CURSOR" class="abt_cite"></span>');
 
     const citations = doc.getElementsByClassName('abt_cite');
     const payload: CitationPositions = {
