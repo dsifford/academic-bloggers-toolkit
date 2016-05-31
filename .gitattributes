@@ -1,4 +1,2 @@
-lib/**/*.tsx linguist-language=TypeScript
 *.tsx linguist-language=TypeScript
-lib/js/components/peer-review-metabox/CommonRowContent.tsx linguist-language=TypeScript
 vendor/* linguist-vendored

@@ -4,7 +4,7 @@ Donate link: https://cash.me/$dsifford
 Tags: academic, pmid, doi, peer-review, pubmed, citation, bibliography, reference
 Requires at least: 4.2.2
 Tested up to: 4.5
-Stable tag: 3.2.1
+Stable tag: 3.2.2
 License: GPL3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -67,6 +67,12 @@ Yikes! I'm sorry about that. Please report all issues on the Academic Blogger's 
 
 == Changelog ==
 
+= 3.2.2 =
+
+**Bugfixes**
+
+* Fix issue that caused citations written before existing citations on the same line to be numbered incorrectly. HT @metallikat36
+
 = 3.2.1 =
 
 Sometimes you make good calls, and sometimes you make bad calls.
@@ -75,7 +81,7 @@ Changing the CSS selectors was a bad call. Sorry about that!
 
 **Bugfixes**
 
-* Revert CSS selectors back to what they were originally. 
+* Revert CSS selectors back to what they were originally.
 
 = 3.2.0 =
 

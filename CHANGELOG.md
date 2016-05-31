@@ -1,5 +1,10 @@
 # Changelog
 
+### 3.2.2
+
+**Bugfixes**
+- Fix issue that caused citations written before existing citations on the same line to be numbered incorrectly. HT @metallikat36
+
 ### 3.2.1
 
 Sometimes you make good calls, and sometimes you make bad calls.
