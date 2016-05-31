@@ -7,7 +7,7 @@ module.exports = {
         'lib/js/components/peer-review-metabox/Entrypoint': './lib/js/components/peer-review-metabox/Entrypoint.tsx',
         'lib/js/tinymce/components/reference-window/ReferenceWindow': './lib/js/tinymce/components/reference-window/ReferenceWindow.tsx',
         'lib/js/tinymce/components/pubmed-window/Entrypoint': './lib/js/tinymce/components/pubmed-window/Entrypoint.tsx',
-        'lib/js/tinymce/components/import-window/Entrypoint': './lib/js/tinymce/components/import-window/Entrypoint.tsx',
+        'lib/js/tinymce/components/import-window/Entrypoint': './lib/js/tinymce/components/import-window/Entrypoint.tsx'
     },
     output: {
         filename: '[name].js',
@@ -18,7 +18,7 @@ module.exports = {
             {
                 test: /\.tsx?$/,
                 exclude: /node_modules/,
-                loader: 'babel?presets[]=es2015,presets[]=react,compact=true!ts',
+                loaders: ['babel', 'ts'],
             },
             {
                 test: /\.css$/,

@@ -19,7 +19,7 @@ const uglify = require('gulp-uglify');
 const webpack = require('webpack-stream');
 const webpackConfig = require('./webpack.config.js');
 const webpackDevConfig = Object.assign({}, webpackConfig, {
-    devtool: 'source-map',
+    devtool: 'eval-source-map',
     cache: true,
 });
 
