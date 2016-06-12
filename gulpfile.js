@@ -3,6 +3,7 @@
 const gulp = require('gulp');
 const browserSync = require('browser-sync').create();
 const del = require('del');
+const exec = require('child_process').exec;
 const replace = require('gulp-replace');
 // PHP
 const jade = require('gulp-jade2php');
@@ -30,6 +31,18 @@ const webpackDevConfig = Object.assign({}, webpackConfig, {
 
 // Delete all files in dist/lib
 gulp.task('clean', (done) => del(['dist/lib/**/*',], done) );
+
+// Take ownership of dist directory
+gulp.task('chown', (done) => {
+    exec('ls -ld dist | awk \'{print $3}\'', (err, stdout, stderr) => {
+        if (err) throw err;
+        if (stdout === process.env.USER) return done();
+        exec(`sudo chown -R ${process.env.USER} dist`, (err) => {
+            if (err) throw err;
+            done();
+        });
+    });
+});
 
 // Trigger a browsersync reload
 gulp.task('reload', (done) => {
@@ -176,7 +189,7 @@ gulp.task('build',
 
 gulp.task('default',
     gulp.series(
-        'clean', 'static',
+        'chown', 'clean', 'static',
         gulp.parallel('php', 'stylus:dev', 'webpack:dev'), () => {
 
     browserSync.init({
