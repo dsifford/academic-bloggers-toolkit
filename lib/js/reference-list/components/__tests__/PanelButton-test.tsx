@@ -6,7 +6,7 @@ import { PanelButton } from '../PanelButton';
 
 const setup = () => {
     const component = mount(
-        <PanelButton tooltip='test' />
+        <PanelButton data-tooltip='test' />
     );
     return {
         component,
