@@ -25,14 +25,14 @@ export class IdentifierInput extends React.Component<IdentifierInputProps, {}> {
 
     handleChange(e: InputEvent) {
         this.props.eventHandler(
-            new CustomEvent(IDENTIFIER_FIELD_CHANGE, { detail: e.target.value, })
+            new CustomEvent(IDENTIFIER_FIELD_CHANGE, { detail: e.target.value })
         );
     }
 
     render() {
         return(
-            <div className='row' style={{ display: 'flex', alignItems: 'center', }}>
-                <div style={{ padding: '5px', }}>
+            <div className='row' style={{ display: 'flex', alignItems: 'center' }}>
+                <div style={{ padding: '5px' }}>
                     <label
                         htmlFor='identifierList'
                         children='PMID/DOI' />
@@ -40,7 +40,7 @@ export class IdentifierInput extends React.Component<IdentifierInputProps, {}> {
                 <input
                     type='text'
                     id='identifierList'
-                    style={{ width: '100%', }}
+                    style={{ width: '100%' }}
                     onChange={this.handleChange.bind(this)}
                     ref='identifierField'
                     required={true}

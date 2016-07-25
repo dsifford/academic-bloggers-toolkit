@@ -1,9 +1,9 @@
 jest.unmock('../ReviewRow');
 
 import * as React from 'react';
-import { mount, } from 'enzyme';
+import { mount } from 'enzyme';
 import * as sinon from 'sinon';
-import { ReviewRow, } from '../ReviewRow';
+import { ReviewRow } from '../ReviewRow';
 
 const setup = () => {
     const spy = sinon.spy();
@@ -45,7 +45,7 @@ const setup = () => {
 
 describe('<ReviewRow />', () => {
     it('should dispatch "onChange" with the correct data', () => {
-        const { spy, heading, } = setup();
+        const { spy, heading } = setup();
         heading.simulate('change');
         expect(spy.callCount).toBe(1);
         expect(spy.firstCall.args.length).toBe(4);
@@ -54,7 +54,7 @@ describe('<ReviewRow />', () => {
         expect(spy.firstCall.args[2]).toEqual('1');
     });
     it('should dispatch "onClick" with the correct data', () => {
-        const { spy, button, } = setup();
+        const { spy, button } = setup();
         button.simulate('click');
         expect(spy.callCount).toBe(1);
         expect(spy.firstCall.args[0]).toEqual('1');

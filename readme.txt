@@ -4,7 +4,7 @@ Donate link: https://cash.me/$dsifford
 Tags: academic, pmid, doi, peer-review, pubmed, citation, bibliography, reference
 Requires at least: 4.2.2
 Tested up to: 4.5
-Stable tag: 3.2.2
+Stable tag: 3.3.0
 License: GPL3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -66,6 +66,20 @@ Yikes! I'm sorry about that. Please report all issues on the Academic Blogger's 
 4. Demo of desktop citation tooltips.
 
 == Changelog ==
+
+= 3.3.0 =
+
+**Bugfixes**
+
+* Fix insertion of PMID urls so that it doesn't brake citation formating (specifically, flush indents).
+
+**New Features**
+
+* Add ability to `Pin reference list to visible window`: The biggest personal annoyance I've had with this plugin is the fact that I'd have to scroll all the way to the top of the page if I wanted to interact with the reference list menu-bar. This feature adds the ability to pin the reference list in a fixed position on the screen so that the menu-bar is always within reach.
+* Add ability to `Delete all references`: I've received feedback that sometimes the processor gets so out of wack, some of you would prefer to just start over. Click this button and all the citations will be stripped from your document, your reference list will be cleared, and you can start with a clean slate.
+* Add ability to `Refresh reference list`: Sometimes the processor just needs a kick in the butt to realign itself with the state of the document. Click this button to do just that.
+
+**Are you experiencing any other bugs? Open an issue in the github repo and I'll do my best to get it fixed in a timely fashion. Thanks!**
 
 = 3.2.2 =
 

@@ -16,7 +16,7 @@ const setup = () => {
 
 describe('<PanelButton/>', () => {
     it('should create and destroy tooltips', () => {
-        const { component, button } = setup();
+        const { button } = setup();
         button.simulate('mouseover');
 
         let tip = document.querySelector('.mce-tooltip-inner');
@@ -31,7 +31,7 @@ describe('<PanelButton/>', () => {
         document.body.appendChild(tip);
 
         expect(document.getElementById('abt-reflist-tooltip')).toBeTruthy();
-        const { component } = setup();
+        setup();
         expect(document.getElementById('abt-reflist-tooltip')).toBe(null);
     });
 });

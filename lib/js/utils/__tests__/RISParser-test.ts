@@ -1,7 +1,7 @@
 jest.unmock('../RISParser');
 jest.unmock('../CSLFieldProcessors');
 
-import { RISParser, } from '../RISParser';
+import { RISParser } from '../RISParser';
 
 const testCases = [
 `
@@ -109,8 +109,8 @@ describe('RISParser', () => {
             'container-title': 'The Skeptics Guide to Emergency Medicine',
             title: 'ARISE Up, ARISE Up (EGDT vs. Usual Care for Sepsis)',
             author: [
-                { family: 'Milne', given: 'W. Kenneth', },
-                { family: 'Upadhye', given: 'Suneel', },
+                { family: 'Milne', given: 'W. Kenneth' },
+                { family: 'Upadhye', given: 'Suneel' },
             ],
             issued: {
                 'date-parts': [[ '2014', ], ],
@@ -128,11 +128,11 @@ describe('RISParser', () => {
             'container-title': 'The Winnower',
             title: 'The quality checklists for medical education blogs and podcasts',
             author: [
-                { family: 'Colmers', given: 'Isabelle N', },
-                { family: 'Paterson', given: 'Quinten S', },
-                { family: 'Lin', given: 'Michelle', },
-                { family: 'Thoma', given: 'Brent', },
-                { family: 'Chan', given: 'Teresa M', },
+                { family: 'Colmers', given: 'Isabelle N' },
+                { family: 'Paterson', given: 'Quinten S' },
+                { family: 'Lin', given: 'Michelle' },
+                { family: 'Thoma', given: 'Brent' },
+                { family: 'Chan', given: 'Teresa M' },
             ],
             issued: {
                 'date-parts': [['2015', ], ],
@@ -149,12 +149,12 @@ describe('RISParser', () => {
             type: 'book',
             title: 'Guide to Knowledge Translation Planning at CIHR: Integrated and End-of-Grant Approaches',
             author: [
-                { literal: 'Canadian Institutes of Health Research', },
-                { family: 'Stevens', given: 'James L', },
+                { literal: 'Canadian Institutes of Health Research' },
+                { family: 'Stevens', given: 'James L' },
             ],
             editor: [
-                { family: 'Doe', given: 'John M', },
-                { family: 'Jones', given: 'Sally P', },
+                { family: 'Doe', given: 'John M' },
+                { family: 'Jones', given: 'Sally P' },
             ],
             'container-title': 'CIHR Website',
             issued: {
@@ -189,12 +189,12 @@ describe('RISParser', () => {
             type: 'paper-conference',
             title: 'The title of the paper',
             editor: [
-                { family: 'Smith', given: 'John L', },
-                { family: 'Doe', given: 'Jane P', },
+                { family: 'Smith', given: 'John L' },
+                { family: 'Doe', given: 'Jane P' },
             ],
             translator: [
-                { family: 'Translator', given: 'Name A', },
-                { family: 'Translator', given: 'Name B', },
+                { family: 'Translator', given: 'Name A' },
+                { family: 'Translator', given: 'Name B' },
             ],
             issued: {
                 'date-parts': [['2011', '11', '05', ], ],

@@ -66,7 +66,7 @@ export class RISParser {
 
         let pageHolder = {};
 
-        ref.forEach((line: string, i: number) => {
+        ref.forEach((line: string) => {
 
             let key = line.substr(0, 2);
             let val = line.substr(6).trim();

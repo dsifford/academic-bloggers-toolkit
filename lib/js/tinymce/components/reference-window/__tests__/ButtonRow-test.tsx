@@ -49,17 +49,17 @@ window['tinyMCE'] = {
 
 describe('<ButtonRow />', () => {
     it('should render with the correct labels for "falsy" props', () => {
-        const { component, checkbox, addManually } = setup();
+        const { checkbox, addManually } = setup();
         expect(addManually.props().value).toBe('Add Manually');
         expect(checkbox.props().checked).toBe(false);
     });
     it('should render with the correct labels for "truthy" props', () => {
-        const { component, checkbox, addManually } = setup(true, true);
+        const { checkbox, addManually } = setup(true, true);
         expect(addManually.props().value).toBe('Add with Identifier');
         expect(checkbox.props().checked).toBe(true);
     });
     it('should handle toggles correctly', () => {
-        const { component, checkbox, addManually, spy } = setup();
+        const { checkbox, addManually, spy } = setup();
         expect(addManually.props().value).toBe('Add Manually');
         expect(checkbox.props().checked).toBe(false);
 
@@ -72,7 +72,7 @@ describe('<ButtonRow />', () => {
     });
     it('should open the pubmed window appropriately', () => {
         const spy = sinon.spy(window.tinyMCE.activeEditor.windowManager, 'open');
-        const { component, searchPubmed } = setup();
+        const { searchPubmed } = setup();
         searchPubmed.simulate('click');
         expect(spy.callCount).toBe(1);
         expect(spy.args[0][0].title).toBe('Search PubMed for Reference');

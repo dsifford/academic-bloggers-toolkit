@@ -1,6 +1,6 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import { PeerReviewMetabox, } from './PeerReviewMetabox';
+import { PeerReviewMetabox } from './PeerReviewMetabox';
 
 declare var ABT_PR_Metabox_Data: ABT.PRMetaPayload;
 

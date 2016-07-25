@@ -3,10 +3,10 @@ jest.mock('../../../../utils/Modal');
 jest.unmock('../../../../utils/RISParser');
 
 import * as React from 'react';
-import { mount, } from 'enzyme';
+import { mount } from 'enzyme';
 import * as sinon from 'sinon';
-import { spy, } from 'sinon';
-import { ImportWindow, } from '../ImportWindow';
+import { spy } from 'sinon';
+import { ImportWindow } from '../ImportWindow';
 
 
 const setup = () => {
@@ -36,19 +36,19 @@ describe('<ImportWindow />', () => {
 
     it('calls componentDidMount', () => {
         spy(ImportWindow.prototype, 'componentDidMount');
-        const { component, } = setup();
-        expect((ImportWindow.prototype.componentDidMount as Sinon.SinonSpy).calledOnce).toEqual(true);
+        setup();
+        expect((ImportWindow.prototype.componentDidMount as sinon.SinonSpy).calledOnce).toEqual(true);
     });
 
     it('should trigger handleFileUpload when upload field changed', () => {
         const handleFileUpload = spy(ImportWindow.prototype, 'handleFileUpload');
-        const { upload, } = setup();
-        upload.simulate('change', { target: { files: [ new File(['testdata', ], 'test'), ], value: 'test.ris', }, });
+        const { upload } = setup();
+        upload.simulate('change', { target: { files: [ new File(['testdata', ], 'test'), ], value: 'test.ris' } });
         expect(handleFileUpload.calledOnce).toEqual(true);
     });
 
     it('should handle form submit correctly', () => {
-        const { component, submit, spy, } = setup();
+        const { component, submit, spy } = setup();
         const stateData = {
             filename: 'test',
             payload: [{}, ],
@@ -60,7 +60,7 @@ describe('<ImportWindow />', () => {
         expect(submit.props().disabled).toBe(false);
         submit.simulate('click');
         expect(spy.callCount).toBe(2);
-        expect(spy.firstCall.args[0]).toEqual({ data: stateData, });
+        expect(spy.firstCall.args[0]).toEqual({ data: stateData });
     });
 
 });

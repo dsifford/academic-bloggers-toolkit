@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { referenceWindowEvents as LocalEvents, fieldMappings, } from '../../../utils/Constants';
+import { referenceWindowEvents as LocalEvents, fieldMappings } from '../../../utils/Constants';
 
 
 interface PeopleProps {
@@ -45,8 +45,8 @@ export class People extends React.Component<PeopleProps, {}> {
     render() {
         return (
             <div>
-                <div className='row' style={{ display: 'flex', alignItems: 'center', }}>
-                    <strong style={{ paddingRight: 5, }} children='Contributors'/>
+                <div className='row' style={{ display: 'flex', alignItems: 'center' }}>
+                    <strong style={{ paddingRight: 5 }} children='Contributors'/>
                     <input
                         type='button'
                         id='add-person'
@@ -55,7 +55,7 @@ export class People extends React.Component<PeopleProps, {}> {
                         onClick={this.addPerson.bind(this)}/>
                 </div>
                 {this.props.people.map((person: CSL.TypedPerson, i: number) =>
-                    <div key={`person-list-${i}`} id={`person-list-${i}`} style={{ display: 'flex', alignItems: 'center', }}>
+                    <div key={`person-list-${i}`} id={`person-list-${i}`} style={{ display: 'flex', alignItems: 'center' }}>
                         <div>
                             <select
                                 value={person.type}
@@ -65,10 +65,10 @@ export class People extends React.Component<PeopleProps, {}> {
                                 )}
                             </select>
                         </div>
-                        <div style={{ flex: 1, padding: '0 5px', }} >
+                        <div style={{ flex: 1, padding: '0 5px' }} >
                             <input
                                 type='text'
-                                style={{ width: '100%', }}
+                                style={{ width: '100%' }}
                                 placeholder='Lastname'
                                 aria-label='Last Name'
                                 id={`person-family-${i}`}
@@ -77,10 +77,10 @@ export class People extends React.Component<PeopleProps, {}> {
                                 required={true} />
                         </div>
                         ,
-                        <div style={{ flex: 1, padding: '0 5px', }} >
+                        <div style={{ flex: 1, padding: '0 5px' }} >
                             <input
                                 type='text'
-                                style={{ width: '100%', }}
+                                style={{ width: '100%' }}
                                 placeholder='Firstname, Middleinitial'
                                 aria-label='First Name, Middle Initial'
                                 id={`person-given-${i}`}
@@ -88,7 +88,7 @@ export class People extends React.Component<PeopleProps, {}> {
                                 onChange={this.onChange.bind(this, i, 'given')}
                                 required={true} />
                         </div>
-                        <div style={{ padding: '0 5px', }}>
+                        <div style={{ padding: '0 5px' }}>
                             <input
                             id={`remove-button-${i}`}
                             type='button'

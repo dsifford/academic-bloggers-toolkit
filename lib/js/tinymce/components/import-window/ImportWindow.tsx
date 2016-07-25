@@ -1,5 +1,4 @@
 import * as React from 'react';
-import * as ReactDOM from 'react-dom';
 import { Modal } from '../../../utils/Modal';
 import { RISParser } from '../../../utils/RISParser';
 import { generateID } from '../../../utils/HelperFunctions';
@@ -54,7 +53,7 @@ export class ImportWindow extends React.Component<Props, State> {
                 return;
             }
 
-            payload = payload.map((ref, i) => {
+            payload = payload.map(ref => {
                 const id = generateID();
                 ref.id = id;
                 return [id, ref];
@@ -82,8 +81,8 @@ export class ImportWindow extends React.Component<Props, State> {
     render() {
         return (
             <div>
-                <div style={{ display: 'flex', justifyContent: 'space-between', }}>
-                    <div style={{ display: 'flex', alignItems: 'center', flex: 1, }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', flex: 1 }}>
                         <label className='uploadLabel'>
                             <input
                                 type='file'

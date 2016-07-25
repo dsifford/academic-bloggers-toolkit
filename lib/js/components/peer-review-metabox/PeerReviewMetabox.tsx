@@ -1,7 +1,6 @@
 import * as React from 'react';
-import * as ReactDOM from 'react-dom';
-import { ReviewRow, } from './ReviewRow';
-import { abtPRFieldMapping, } from '../../utils/Constants';
+import { ReviewRow } from './ReviewRow';
+import { abtPRFieldMapping } from '../../utils/Constants';
 
 declare var wp;
 
@@ -87,13 +86,13 @@ export class PeerReviewMetabox extends React.Component<Props, ABT.PRMetaState> {
         this.setState(newState);
     }
 
-    toggleHidden(num: number, e: DOMEvent) {
+    toggleHidden(num: number) {
         let newState = Object.assign({}, this.state);
         newState.hidden[num] = !newState.hidden[num];
         this.setState(newState);
     }
 
-    handleUpload(topfield: string, num: number, e: DOMEvent) {
+    handleUpload(topfield: string, num: number) {
 
         if (wp.media.frames.abt_reviewer_photos[num][topfield]) {
             wp.media.frames.abt_reviewer_photos[num][topfield].open();
@@ -102,8 +101,8 @@ export class PeerReviewMetabox extends React.Component<Props, ABT.PRMetaState> {
 
         wp.media.frames.abt_reviewer_photos[num][topfield] = new wp.media({
             title: 'Choose or Upload an Image',
-            button: { text:  'Use this image', },
-            library: { type: 'image', },
+            button: { text:  'Use this image' },
+            library: { type: 'image' },
         });
 
         wp.media.frames.abt_reviewer_photos[num][topfield].on('select', () => {
@@ -122,7 +121,7 @@ export class PeerReviewMetabox extends React.Component<Props, ABT.PRMetaState> {
         return (
             <div>
                 <select
-                    style={{ width: '100%', }}
+                    style={{ width: '100%' }}
                     value={this.state.selection}
                     name='reviewer_selector'
                     onChange={this.handleSelectChange.bind(this)}>

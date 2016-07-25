@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { CommonRowContent, } from './CommonRowContent';
+import { CommonRowContent } from './CommonRowContent';
 
 interface Props extends React.HTMLProps<HTMLDivElement> {
     rowData: ABT.PeerReviewTableData;
@@ -17,7 +17,7 @@ export class ReviewRow extends React.Component<Props, {}> {
     }
 
     render() {
-        const { rowData, num, hidden, onChange, toggleHidden, uploadHandler, } = this.props;
+        const { rowData, num, hidden, onChange, toggleHidden, uploadHandler } = this.props;
         return (
             <div>
                 <div className='row-container'>
@@ -39,13 +39,13 @@ export class ReviewRow extends React.Component<Props, {}> {
                     onChange={onChange}
                     reviewer={true}
                     uploadHandler={uploadHandler} />
-                <div className='row-container' style={{ borderBottom: '1px solid #C9C9C9', }}>
+                <div className='row-container' style={{ borderBottom: '1px solid #C9C9C9' }}>
                     <div className='row even'>
                         <input
                             type='button'
                             className='button button-primary'
                             value='Toggle Author Response'
-                            style={{ margin: '0 10px', }}
+                            style={{ margin: '0 10px' }}
                             onClick={toggleHidden.bind(null, num)} />
                     </div>
                 </div>

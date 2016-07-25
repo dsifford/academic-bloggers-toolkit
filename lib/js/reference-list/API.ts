@@ -29,7 +29,7 @@ export function getRemoteData(identifierList: string): Promise<CSL.Data[]|Error>
 
         const p2: Promise<CSL.Data[]> = new Promise((resolve, reject) => {
             const promises: Promise<CSL.Data>[] = [];
-            doiList.forEach((doi: string, i: number) => {
+            doiList.forEach((doi: string) => {
                 promises.push(
                     new Promise((resolveInner, rejectInner) => {
                         getFromDOI(doi, (res: Error|CSL.Data[]) => {
@@ -63,13 +63,13 @@ export function getRemoteData(identifierList: string): Promise<CSL.Data[]|Error>
 };
 
 export function parseManualData(payload: ABT.ReferenceWindowPayload): Promise<CSL.Data[]|Error> {
-    return new Promise((resolve, reject) => {
+    return new Promise(resolve => {
         payload.people.forEach(person => {
             if (typeof payload.manualData[person.type] === 'undefined') {
-                payload.manualData[person.type] = [{ family: person.family, given: person.given, }];
+                payload.manualData[person.type] = [{ family: person.family, given: person.given }];
                 return;
             }
-            payload.manualData[person.type].push({ family: person.family, given: person.given, });
+            payload.manualData[person.type].push({ family: person.family, given: person.given });
         });
 
         // Process date fields

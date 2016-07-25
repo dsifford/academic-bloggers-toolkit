@@ -1,10 +1,6 @@
 import * as React from 'react';
 
-interface Props extends React.HTMLProps<HTMLButtonElement> {
-    tooltip: string;
-}
-
-export class PanelButton extends React.Component<Props, {}> {
+export class PanelButton extends React.Component<React.HTMLProps<HTMLButtonElement>, {}> {
 
     generateTooltip(text: string): HTMLDivElement {
         let container = document.createElement('DIV') as HTMLDivElement;
@@ -30,7 +26,7 @@ export class PanelButton extends React.Component<Props, {}> {
         e.stopPropagation();
         this.destroyTooltip();
 
-        let tooltip = this.generateTooltip(this.props.tooltip);
+        let tooltip = this.generateTooltip(this.props['data-tooltip']);
         document.body.appendChild(tooltip);
 
         let targetRect = e.target.getBoundingClientRect();

@@ -50,7 +50,7 @@ export class CSLProcessor implements ABT.CSLProcessor {
                 if (req.readyState === 4) {
                     if (req.status !== 200) reject(new Error(req.responseText));
                     resolve({
-                        retrieveLocale: (lang: string) => req.responseText,
+                        retrieveLocale: () => req.responseText,
                         retrieveItem: (id: string|number) => this.state.citations[id],
                     });
                 }
@@ -186,17 +186,20 @@ export class CSLProcessor implements ABT.CSLProcessor {
                 case false:
                     el.classList.add('hanging-indent');
                     break;
+                case 'flush':
+                    el.classList.add('flush');
+                    break;
             }
             switch (links) {
                 case 'always': {
                     el.innerHTML = parseReferenceURLs(el.innerHTML);
                     if (item.PMID) {
-                        el.innerHTML += ` <div class="abt-url">[<a href="http://www.ncbi.nlm.nih.gov/pubmed/${item.PMID}" target="_blank">PubMed</a>]</div>`;
+                        el.lastElementChild.innerHTML += `<span class="abt-url"> [<a href="http://www.ncbi.nlm.nih.gov/pubmed/${item.PMID}" target="_blank">PubMed</a>]</span>`;
                     }
                     break;
                 }
                 case 'urls': {
-                    el.innerHTML = parseReferenceURLs(el.innerHTML);
+                    el.lastElementChild.innerHTML = parseReferenceURLs(el.innerHTML);
                     break;
                 }
             }

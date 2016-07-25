@@ -7,10 +7,6 @@ import { IdentifierInput } from './IdentifierInput';
 import { ManualEntryContainer } from './ManualEntryContainer';
 import { ButtonRow } from './ButtonRow';
 
-interface DOMEvent extends UIEvent {
-    target: HTMLInputElement;
-}
-
 class ReferenceWindow extends React.Component<{}, ABT.ReferenceWindowPayload> {
 
     private modal: Modal = new Modal('Insert Formatted Reference');
@@ -39,7 +35,7 @@ class ReferenceWindow extends React.Component<{}, ABT.ReferenceWindowPayload> {
     handleSubmit(e: Event) {
         e.preventDefault();
         let wm = top.tinyMCE.activeEditor.windowManager;
-        wm.setParams({ data: this.state, });
+        wm.setParams({ data: this.state });
         wm.close();
     }
 
@@ -63,7 +59,7 @@ class ReferenceWindow extends React.Component<{}, ABT.ReferenceWindowPayload> {
                     newList = combinedInput.join(',');
                 }
 
-                this.setState(Object.assign({}, this.state, { identifierList: newList, }));
+                this.setState(Object.assign({}, this.state, { identifierList: newList }));
                 return;
             }
             case LocalEvents.TOGGLE_MANUAL: {
@@ -79,7 +75,7 @@ class ReferenceWindow extends React.Component<{}, ABT.ReferenceWindowPayload> {
                     Object.assign({}, this.state, {
                         people: [
                             ...this.state.people,
-                            { given: '', family: '', type: 'author', },
+                            { given: '', family: '', type: 'author' },
                         ],
                     })
                 );
@@ -108,20 +104,20 @@ class ReferenceWindow extends React.Component<{}, ABT.ReferenceWindowPayload> {
             }
             case LocalEvents.TOGGLE_INLINE_ATTACHMENT: {
                 this.setState(
-                    Object.assign({}, this.state, { attachInline: !this.state.attachInline, })
+                    Object.assign({}, this.state, { attachInline: !this.state.attachInline })
                 );
                 return;
             }
             case LocalEvents.CHANGE_CITATION_STYLE: {
                 this.setState(
-                    Object.assign({}, this.state, { citationStyle: e.detail, })
+                    Object.assign({}, this.state, { citationStyle: e.detail })
                 );
                 return;
             }
             case LocalEvents.CHANGE_CITATION_TYPE: {
                 this.setState(
                     Object.assign({}, this.state, {
-                        manualData: Object.assign({}, manualDataObj, { type: e.detail, }),
+                        manualData: Object.assign({}, manualDataObj, { type: e.detail }),
                     })
                 );
                 return;

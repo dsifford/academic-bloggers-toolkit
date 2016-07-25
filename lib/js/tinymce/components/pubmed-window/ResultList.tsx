@@ -1,5 +1,4 @@
 import * as React from 'react';
-import * as ReactDOM from 'react-dom';
 
 interface ResultListProps {
     results: PubMed.SingleReference[];
@@ -26,7 +25,7 @@ export class ResultList extends React.Component<ResultListProps, {}> {
                                 children={result.title} />
                             <div>
                                 { result.authors
-                                    .filter((el, j) => j < 3)
+                                    .filter((_el, j) => j < 3)
                                     .map(el => el.name).join(', ')
                                 }
                             </div>

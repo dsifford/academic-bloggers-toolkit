@@ -1,19 +1,19 @@
 jest.unmock('../ResultList');
 
 import * as React from 'react';
-import { mount, } from 'enzyme';
+import { mount } from 'enzyme';
 import * as sinon from 'sinon';
-import { ResultList, } from '../ResultList';
+import { ResultList } from '../ResultList';
 
 let testData: PubMed.SingleReference[] = [
     {
         uid: 11111,
         title: 'Test Title 1',
         authors: [
-            { name: 'Author 1', },
-            { name: 'Author 2', },
-            { name: 'Author 3', },
-            { name: 'NOT VISIBLE', },
+            { name: 'Author 1' },
+            { name: 'Author 2' },
+            { name: 'Author 3' },
+            { name: 'NOT VISIBLE' },
         ],
         source: 'J Test 1',
         pubdate: '2016 May 1',
@@ -22,10 +22,10 @@ let testData: PubMed.SingleReference[] = [
         uid: 22222,
         title: 'Test Title 2',
         authors: [
-            { name: 'First A', },
-            { name: 'Second A', },
-            { name: 'Third A', },
-            { name: 'NOT VISIBLE', },
+            { name: 'First A' },
+            { name: 'Second A' },
+            { name: 'Third A' },
+            { name: 'NOT VISIBLE' },
         ],
         source: 'J Test 2',
         pubdate: '2016 May 2',
@@ -46,11 +46,11 @@ const setup = () => {
 
 describe('<ResultList />', () => {
     it('should render with two children', () => {
-        const { results, } = setup();
+        const { results } = setup();
         expect(results.length).toBe(2);
     });
     it('should bind the PMID to the event on button click', () => {
-        const { results, spy, } = setup();
+        const { results, spy } = setup();
 
         let button = results.children().find('input.btn').first();
         button.simulate('click');

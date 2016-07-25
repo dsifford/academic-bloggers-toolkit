@@ -38,6 +38,7 @@ interface State extends SavedState {
     readonly selected: string[];
     readonly loading: boolean;
     readonly menuOpen: boolean;
+    readonly fixed: boolean;
     readonly bibOptions: {
         readonly heading: string;
         readonly style: 'fixed'|'toggle';
@@ -76,6 +77,7 @@ export class ReferenceList extends React.Component<{}, State> {
             selected: [],
             loading: true,
             menuOpen: false,
+            fixed: false,
             bibOptions: {
                 heading: ABT_meta.bibHeading,
                 style: ABT_meta.bibStyle,
@@ -86,6 +88,21 @@ export class ReferenceList extends React.Component<{}, State> {
     componentDidMount() {
         addEventListener(TINYMCE_READY, this.initTinyMCE.bind(this));
         addEventListener(OPEN_REFERENCE_WINDOW, this.openReferenceWindow.bind(this));
+        addEventListener('scroll', () => {
+            const scrollpos = document.body.scrollTop;
+            const list = document.getElementById('abt_reflist');
+
+            if (!this.state.fixed) return list.style.top = '';
+
+            switch (true) {
+                case scrollpos === 0:
+                    return list.style.top = '98px';
+                case scrollpos < 135:
+                    return list.style.top = 98 - (scrollpos/3) + 'px';
+                default:
+                    return list.style.top = '55px';
+            }
+        })
     }
 
     initTinyMCE() {
@@ -97,7 +114,7 @@ export class ReferenceList extends React.Component<{}, State> {
         );
     }
 
-    toggleSelect(id: string, isSelected: boolean, e: MouseEvent) {
+    toggleSelect(id: string, isSelected: boolean) {
         switch (isSelected) {
             case true:
                 return this.setState(
@@ -112,7 +129,7 @@ export class ReferenceList extends React.Component<{}, State> {
                     })
                 );
             default:
-                return;
+                return console.error('Could not determine if item is selected');
         }
     }
 
@@ -183,7 +200,7 @@ export class ReferenceList extends React.Component<{}, State> {
             });
         }
 
-        const { currentIndex, locations: [citationsBefore, citationsAfter] } = MCE.getRelativeCitationPositions(this.editor);
+        const { locations: [citationsBefore, citationsAfter] } = MCE.getRelativeCitationPositions(this.editor);
         const citationData = this.processor.prepareInlineCitationData(data);
         const [status, clusters] = this.processor.citeproc.processCitationCluster(citationData, citationsBefore, citationsAfter);
         if (status['citation_errors'].length > 0) {
@@ -219,8 +236,8 @@ export class ReferenceList extends React.Component<{}, State> {
         );
     }
 
-    deleteCitations(e: Event) {
-        e.preventDefault();
+    deleteCitations(e?: Event) {
+        if (e) e.preventDefault();
 
         if (this.state.selected.length === 0) return;
 
@@ -331,16 +348,56 @@ export class ReferenceList extends React.Component<{}, State> {
                 this.setState(Object.assign({}, this.state, { menuOpen: false }));
                 this.openImportWindow();
                 return;
+            case 'REFRESH_PROCESSOR':
+                this.setState(Object.assign({}, this.state, { menuOpen: false }));
+                return this.initProcessor(this.state.cache.style);
+            case 'DESTROY_PROCESSOR': {
+                return this.setState(
+                    Object.assign({}, this.state, {
+                        selected: this.state.bibliography.map(b => b.id)
+                    }),
+                    () => {
+                        this.deleteCitations();
+                        /* HACK: This is very temporary and hacky. Will need to refactor and fix this soon */
+                        setTimeout(() => {
+                            this.setState(
+                                Object.assign({}, this.state, {
+                                    bibliography: [],
+                                    cache: Object.assign({}, this.state.cache, {
+                                        bibmeta: null,
+                                        uncited: [],
+                                    }),
+                                    processorState: {},
+                                    citations: {
+                                        citationById: {},
+                                        citationByIndex: [],
+                                        citationsByItemId: {},
+                                    },
+                                    menuOpen: false,
+                                }),
+                                () => this.initProcessor(this.state.cache.style, [])
+                            )
+                        }, 500);
+                    }
+                );
+            }
             default:
-                return console.log('Default hit');
+                return console.error('Menu selection type not recognized');
         }
+    }
+
+    pinReferenceList(e) {
+        e.preventDefault();
+        const container = document.getElementById('abt_reflist');
+        container.classList.toggle('fixed');
+        this.setState(Object.assign({}, this.state, { fixed: !this.state.fixed }));
     }
 
     render() {
 
         if (this.state.loading) {
             return(
-                <div style={{ marginTop: -6, background: '#f5f5f5', }}>
+                <div style={{ marginTop: -6, background: '#f5f5f5' }}>
                     <div className='sk-circle'>
                         {
                             [...Array(13).keys()].map(k => k !== 0 ?
@@ -370,24 +427,33 @@ export class ReferenceList extends React.Component<{}, State> {
                     <PanelButton
                         disabled={this.state.selected.length === 0}
                         onClick={this.insertInline.bind(this, [], this.state.processorState)}
-                        tooltip='Insert selected references'>
+                        data-tooltip='Insert selected references'>
                         <span className='dashicons dashicons-migrate insert-inline' />
                     </PanelButton>
                     <PanelButton
                         disabled={this.state.selected.length !== 0}
                         onClick={this.openReferenceWindow.bind(this)}
-                        tooltip='Add reference to reference list'>
+                        data-tooltip='Add reference to reference list'>
                         <span className='dashicons dashicons-plus add-reference' />
                     </PanelButton>
                     <PanelButton
                         disabled={this.state.selected.length === 0}
                         onClick={this.deleteCitations.bind(this)}
-                        tooltip='Remove selected references from reference list'>
+                        data-tooltip='Remove selected references from reference list'>
                         <span className='dashicons dashicons-minus remove-reference' />
                     </PanelButton>
                     <PanelButton
+                        onClick={this.pinReferenceList.bind(this)}
+                        data-tooltip='Pin Reference List to Visible Window'>
+                        <span className={
+                            this.state.fixed
+                            ? 'dashicons dashicons-admin-post pin-reflist fixed'
+                            : 'dashicons dashicons-admin-post pin-reflist'
+                        } />
+                    </PanelButton>
+                    <PanelButton
                         onClick={this.toggleMenu.bind(this)}
-                        tooltip='Toggle Menu'>
+                        data-tooltip='Toggle Menu'>
                         <span className='dashicons dashicons-menu hamburger-menu' />
                     </PanelButton>
                 </div>

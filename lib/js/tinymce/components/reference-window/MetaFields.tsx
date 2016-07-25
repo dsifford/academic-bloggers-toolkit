@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { fieldMappings, } from '../../../utils/Constants';
-import { referenceWindowEvents as LocalEvents, } from '../../../utils/Constants';
+import { fieldMappings } from '../../../utils/Constants';
+import { referenceWindowEvents as LocalEvents } from '../../../utils/Constants';
 
 
 interface MetaFieldProps {
@@ -37,7 +37,7 @@ export class MetaFields extends React.Component<MetaFieldProps, {}> {
                 <div className='row'>
                     <strong>{title} Information</strong>
                 </div>
-                <div style={{ display: 'flex', flexDirection: 'column', }}>
+                <div style={{ display: 'flex', flexDirection: 'column' }}>
                     {fields.map((field: ABT.Field, i: number) =>
                         <div
                             key={`${title}-meta-${i}`}
@@ -45,16 +45,16 @@ export class MetaFields extends React.Component<MetaFieldProps, {}> {
                             style={{
                                 display: 'flex',
                                 flexDirection: 'row',
-                                alignItems: 'center', }}>
-                            <div style={{ padding: '0 5px', flex: 1, }}>
+                                alignItems: 'center' }}>
+                            <div style={{ padding: '0 5px', flex: 1 }}>
                                 <label
                                     htmlFor={field.value}
-                                    style={{ padding: '5px', }} children={field.label} />
+                                    style={{ padding: '5px' }} children={field.label} />
                             </div>
-                            <div style={{ padding: '0 5px', flex: 2, }}>
+                            <div style={{ padding: '0 5px', flex: 2 }}>
                                 <input
                                     type='text'
-                                    style={{ width: '100%', }}
+                                    style={{ width: '100%' }}
                                     id={field.value}
                                     onChange={this.handleChange.bind(this)}
                                     value={this.props.meta[field.value]}

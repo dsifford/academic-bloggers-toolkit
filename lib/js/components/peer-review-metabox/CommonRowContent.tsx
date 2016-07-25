@@ -16,7 +16,7 @@ export class CommonRowContent extends React.Component<Props, {}> {
     }
 
     render() {
-        const { rowData, num, reviewer, onChange, uploadHandler, } = this.props;
+        const { rowData, num, reviewer, onChange, uploadHandler } = this.props;
 
         let labelname = reviewer ? 'reviewer' : 'author';
         let prLabel = reviewer ? 'peer_review_content' : 'author_content';
@@ -76,7 +76,7 @@ export class CommonRowContent extends React.Component<Props, {}> {
                 </div>
                 <div
                     className={ reviewer ? 'row' : 'row even' }
-                    style={ reviewer ? {} : { borderBottom: '1px solid #C9C9C9', }} >
+                    style={ reviewer ? {} : { borderBottom: '1px solid #C9C9C9' }} >
                     <label
                         htmlFor={labels[4]}
                         children='Photo' />
@@ -90,7 +90,7 @@ export class CommonRowContent extends React.Component<Props, {}> {
                         type='button'
                         id={`${labelname}-upload-button-${num}`}
                         className='button'
-                        style={{ marginLeft: 10, }}
+                        style={{ marginLeft: 10 }}
                         value='Choose or Upload an Image'
                         onClick={uploadHandler.bind(null, topfield, num)} />
                 </div>

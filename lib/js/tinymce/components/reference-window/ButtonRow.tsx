@@ -23,7 +23,7 @@ export class ButtonRow extends React.Component<ButtonRowProps, {}> {
             height: 100,
             onsubmit: (e) => {
                 this.props.eventHandler(
-                    new CustomEvent(PUBMED_DATA_SUBMIT, { detail: e.target.data.pmid, })
+                    new CustomEvent(PUBMED_DATA_SUBMIT, { detail: e.target.data.pmid })
                 );
             },
         });
@@ -51,7 +51,7 @@ export class ButtonRow extends React.Component<ButtonRowProps, {}> {
             }}>
                 <input
                     id='addManually'
-                    style={{ margin: '0 5px', }}
+                    style={{ margin: '0 5px' }}
                     onClick={this.addManuallyClick.bind(this)}
                     type='button'
                     className='btn'
@@ -61,7 +61,7 @@ export class ButtonRow extends React.Component<ButtonRowProps, {}> {
                         : 'Add with Identifier'} />
                 <input
                     id='searchPubmed'
-                    style={{ margin: '0 5px', }}
+                    style={{ margin: '0 5px' }}
                     onClick={this.searchPubmedClick.bind(this)}
                     type='button'
                     className='btn'
@@ -71,7 +71,7 @@ export class ButtonRow extends React.Component<ButtonRowProps, {}> {
                     height: 25, margin: '0 10px',
                 }} />
                 <input
-                    style={{ margin: '0 5px', }}
+                    style={{ margin: '0 5px' }}
                     id='submit-btn'
                     type='submit'
                     className='submit-btn'
@@ -79,7 +79,7 @@ export class ButtonRow extends React.Component<ButtonRowProps, {}> {
                 <div>
                     <label
                         htmlFor='attachInline'
-                        style={{ padding: '5px', whiteSpace: 'nowrap', }}
+                        style={{ padding: '5px', whiteSpace: 'nowrap' }}
                         children='Attach Inline' />
                     <input
                         type='checkbox'

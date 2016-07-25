@@ -4,7 +4,7 @@ const { TINYMCE_READY, OPEN_REFERENCE_WINDOW } = EVENTS;
 declare var tinyMCE: TinyMCE.MCE;
 declare const wpActiveEditor: string;
 
-tinyMCE.PluginManager.add('abt_main_menu', (editor: TinyMCE.Editor, url: string) => {
+tinyMCE.PluginManager.add('abt_main_menu', (editor: TinyMCE.Editor) => {
 
     // Fixes issues created if other plugins spawn separate TinyMCE instances
     if (editor.id !== wpActiveEditor) return;

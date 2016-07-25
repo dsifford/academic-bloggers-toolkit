@@ -1,8 +1,8 @@
 import * as React from 'react';
-import { citationTypeArray, referenceWindowEvents as LocalEvents, } from '../../../utils/Constants';
+import { citationTypeArray, referenceWindowEvents as LocalEvents } from '../../../utils/Constants';
 
-import { People, } from './People';
-import { MetaFields, } from './MetaFields';
+import { People } from './People';
+import { MetaFields } from './MetaFields';
 
 
 interface ManualEntryProps {
@@ -52,19 +52,19 @@ export const ManualSelection = ({
     value,
     onChange,
 }) => {
-    const commonStyle = { padding: '5px', };
+    const commonStyle = { padding: '5px' };
     return (
-        <div style={{display: 'flex', alignItems: 'center', }}>
+        <div style={{display: 'flex', alignItems: 'center' }}>
             <div style={commonStyle}>
                 <label
                     htmlFor='type'
-                    style={{ whiteSpace: 'nowrap', }}
+                    style={{ whiteSpace: 'nowrap' }}
                     children='Select Citation Type' />
             </div>
-            <div style={Object.assign({}, commonStyle, { flex: 1, })}>
+            <div style={Object.assign({}, commonStyle, { flex: 1 })}>
                 <select
                     id='type'
-                    style={{ width: '100%', }}
+                    style={{ width: '100%' }}
                     onChange={onChange}
                     value={value} >
                     {

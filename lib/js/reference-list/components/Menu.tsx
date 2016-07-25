@@ -46,11 +46,13 @@ export class Menu extends React.Component<Props, State> {
                 this.props.submitData(kind, data.value);
                 return;
             }
-            case 'IMPORT_RIS': {
+            case 'IMPORT_RIS':
+            case 'REFRESH_PROCESSOR':
+            case 'DESTROY_PROCESSOR': {
                 return this.props.submitData(kind);
             }
             default:
-                return console.log('default hit');
+                return console.error('Could not determine what menu item was selected');
         }
     }
 
@@ -64,6 +66,16 @@ export class Menu extends React.Component<Props, State> {
                             id='import-ris'
                             onClick={this.handleSelect.bind(this, 'IMPORT_RIS', null)}
                             children='Import RIS File' />
+                        <div
+                            className='row-btn'
+                            id='refresh-processor'
+                            onClick={this.handleSelect.bind(this, 'REFRESH_PROCESSOR', null)}
+                            children='Refresh Reference List' />
+                        <div
+                            className='row-btn'
+                            id='destroy-processor'
+                            onClick={this.handleSelect.bind(this, 'DESTROY_PROCESSOR', null)}
+                            children='Delete All References' />
                     </div>
                     <div id='style-select'>
                         <VSelect

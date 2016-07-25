@@ -20,7 +20,7 @@ const setup = () => {
 describe('<IdentifierInput />', () => {
     it('should call componentDidMount', () => {
         const mounted = sinon.spy(IdentifierInput.prototype, 'componentDidMount');
-        const { component } = setup();
+        setup();
         expect(mounted.called).toBe(true);
     });
     it('should handle input changes correctly', () => {
@@ -28,6 +28,6 @@ describe('<IdentifierInput />', () => {
         expect(input.props().value).toBe('testing');
         input.simulate('change', { target: { value: 'new value'}});
         expect(spy.callCount).toBe(1);
-        expect(spy.calledWithExactly(new CustomEvent('IDENTIFIER_FIELD_CHANGE', { detail: 'new value', }))).toBe(true);
+        expect(spy.calledWithExactly(new CustomEvent('IDENTIFIER_FIELD_CHANGE', { detail: 'new value' }))).toBe(true);
     });
 });

@@ -67,7 +67,7 @@ gulp.task('jade', () =>
 
 
 gulp.task('php', gulp.series('jade', () =>
-    gulp.src('lib/options-page.php', { base: './', })
+    gulp.src('lib/options-page.php', { base: './' })
     .pipe(gfi({
         '<!-- JADE -->': 'tmp/options-page.php',
     }))
@@ -88,7 +88,7 @@ gulp.task('static', () =>
         '!lib/css/*',
         '!**/__tests__',
         '!lib/js/utils',
-    ], { base: './', })
+    ], { base: './' })
     .pipe(gulp.dest('./dist'))
 );
 
@@ -100,7 +100,7 @@ gulp.task('static', () =>
 gulp.task('stylus:dev', () =>
     gulp.src([
         'lib/**/*.styl',
-    ], { base: './', })
+    ], { base: './' })
     .pipe(sourcemaps.init())
     .pipe(stylus({
         use: [ poststylus([autoprefixer]), nib() ],
@@ -117,7 +117,7 @@ gulp.task('stylus:prod', () =>
         'lib/css/frontend.styl',
         'lib/js/tinymce/views/styles.styl',
         'lib/css/collections/citations.styl'
-    ], { base: './', })
+    ], { base: './' })
     .pipe(stylus({
         use: [ poststylus([autoprefixer]), nib() ],
         compress: true,

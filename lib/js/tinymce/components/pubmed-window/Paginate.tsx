@@ -1,5 +1,4 @@
 import * as React from 'react';
-import * as ReactDOM from 'react-dom';
 
 interface Props {
     page: number;
@@ -14,10 +13,10 @@ export class Paginate extends React.Component<Props, {}> {
     }
 
     render() {
-        const { onClick, page, resultLength, } = this.props;
+        const { onClick, page, resultLength } = this.props;
         return (
-            <div style={{display: 'flex', paddingTop: '5px', }}>
-                <div style={{ flex: '1', }}>
+            <div style={{display: 'flex', paddingTop: '5px' }}>
+                <div style={{ flex: '1' }}>
                     <input
                         id='prev'
                         type='button'
@@ -26,7 +25,7 @@ export class Paginate extends React.Component<Props, {}> {
                         onClick={onClick.bind(null, page - 1)}
                         value='Previous' />
                 </div>
-                <div style={{ flex: '1', textAlign: 'right', }}>
+                <div style={{ flex: '1', textAlign: 'right' }}>
                     <input
                         id='next'
                         type='button'

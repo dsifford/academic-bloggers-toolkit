@@ -21,7 +21,7 @@ export function processName(input: string, source: Source): CSL.Person {
         case 'RIS':
             let splitName = input.split(', ');
             if (splitName.length === 1) {
-                return { literal: input, };
+                return { literal: input };
             }
             family = splitName[0];
             given = splitName[1];
@@ -32,7 +32,7 @@ export function processName(input: string, source: Source): CSL.Person {
             break;
     }
 
-    return { family, given, };
+    return { family, given };
 }
 
 
@@ -48,7 +48,7 @@ export function processName(input: string, source: Source): CSL.Person {
  */
 export function processDate(input: string, source: Source): CSL.Date {
 
-    let date: CSL.Date = { 'date-parts': [[], ], };
+    let date: CSL.Date = { 'date-parts': [[], ] };
     if (input.length === 0) { return date; }
 
     switch (source) {

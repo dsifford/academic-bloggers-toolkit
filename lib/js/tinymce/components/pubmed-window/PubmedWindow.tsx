@@ -1,11 +1,8 @@
 import * as React from 'react';
-import * as ReactDOM from 'react-dom';
-import { Modal, } from '../../../utils/Modal';
-import { PubmedQuery, } from '../../../utils/PubmedAPI';
-import { ResultList, } from './ResultList';
-import { Paginate, } from './Paginate';
-
-declare var wm;
+import { Modal } from '../../../utils/Modal';
+import { PubmedQuery } from '../../../utils/PubmedAPI';
+import { ResultList } from './ResultList';
+import { Paginate } from './Paginate';
 
 interface DOMEvent extends UIEvent {
     target: HTMLInputElement;
@@ -73,19 +70,19 @@ export class PubmedWindow extends React.Component<{}, State> {
 
     handleChange(e: DOMEvent) {
         this.setState(
-            Object.assign({}, this.state, { query: e.target.value, })
+            Object.assign({}, this.state, { query: e.target.value })
         );
     }
 
     handlePagination(page: number, e: Event) {
         e.preventDefault();
         this.setState(
-            Object.assign({}, this.state, { page, })
+            Object.assign({}, this.state, { page })
         );
         this.modal.resize();
     }
 
-    deliverPMID(pmid: string, e: Event) {
+    deliverPMID(pmid: string) {
         this.wm.data['pmid'] = pmid;
         this.wm.submit();
     }
@@ -93,11 +90,11 @@ export class PubmedWindow extends React.Component<{}, State> {
     render() {
         return (
             <div>
-                <form id='query' onSubmit={this.handleQuery.bind(this)} style={{ margin: 0, }}>
-                    <div className='row' style={{ display: 'flex', }}>
+                <form id='query' onSubmit={this.handleQuery.bind(this)} style={{ margin: 0 }}>
+                    <div className='row' style={{ display: 'flex' }}>
                         <input
                             type='text'
-                            style={{ flexGrow: '1', }}
+                            style={{ flexGrow: '1' }}
                             onChange={this.handleChange.bind(this)}
                             autoFocus={true}
                             placeholder={this.placeholder}
@@ -113,7 +110,7 @@ export class PubmedWindow extends React.Component<{}, State> {
                     <ResultList
                         eventHandler={this.deliverPMID.bind(this)}
                         results={
-                            this.state.results.filter((result, i) => {
+                            this.state.results.filter((_result, i) => {
                                 if ( i < (this.state.page * 5) && ((this.state.page * 5) - 6) < i ) {
                                     return true;
                                 }

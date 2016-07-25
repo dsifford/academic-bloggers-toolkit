@@ -8,7 +8,7 @@ declare var ABT_meta;
  * @return A Promise which resolves to ABT.ReferenceWindowPayload
  */
 export function referenceWindow(editor: TinyMCE.Editor): Promise<ABT.ReferenceWindowPayload> {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
         editor.windowManager.open({
             title: 'Insert Formatted Reference',
             url: ABT_meta.tinymceViewsURL + 'reference-window.html',
@@ -33,7 +33,7 @@ export function referenceWindow(editor: TinyMCE.Editor): Promise<ABT.ReferenceWi
  * @return A Promise which resolves to ABT.ImportWindowPayload
  */
 export function importWindow(editor: TinyMCE.Editor): Promise<ABT.ImportWindowPayload> {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
         editor.windowManager.open({
             title: 'Import References from RIS File',
             url: ABT_meta.tinymceViewsURL + 'import-window.html',
@@ -63,7 +63,6 @@ interface CitationPositions {
  * @return Parsed citation data.
  */
 export function getRelativeCitationPositions(editor: TinyMCE.Editor): CitationPositions {
-    const selection = editor.selection;
     const doc: Document = editor.dom.doc;
 
     editor.insertContent('<span id="CURSOR" class="abt_cite"></span>');
@@ -111,8 +110,8 @@ export function parseInlineCitations(
         const doc = editor.dom.doc;
         const exisingNote = doc.getElementById('abt-footnote');
 
-
-        for (const [i, item] of clusters.entries()) {
+        /* FIXME */
+        for (const item of clusters) {
             const inlineText = xclass === 'note' ? `[${item[0] + 1}]` : item[1];
             const citation: HTMLSpanElement = editor.dom.doc.getElementById(item[2]);
             const sortedItems: Citeproc.SortedItems = citationByIndex[item[0]].sortedItems;

@@ -1,6 +1,6 @@
 jest.unmock('../Modal');
 
-import { Modal, } from '../Modal';
+import { Modal } from '../Modal';
 import * as sinon from 'sinon';
 
 const setup = (
