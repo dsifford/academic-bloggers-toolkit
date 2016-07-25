@@ -194,7 +194,12 @@ export class CSLProcessor implements ABT.CSLProcessor {
                 case 'always': {
                     el.innerHTML = parseReferenceURLs(el.innerHTML);
                     if (item.PMID) {
-                        el.lastElementChild.innerHTML += `<span class="abt-url"> [<a href="http://www.ncbi.nlm.nih.gov/pubmed/${item.PMID}" target="_blank">PubMed</a>]</span>`;
+                        if (el.getElementsByClassName('csl-right-inline').length > 0) {
+                            el.lastElementChild.innerHTML += `<span class="abt-url"> [<a href="http://www.ncbi.nlm.nih.gov/pubmed/${item.PMID}" target="_blank">PubMed</a>]</span>`;
+                        }
+                        else {
+                            el.innerHTML += `<span class="abt-url"> [<a href="http://www.ncbi.nlm.nih.gov/pubmed/${item.PMID}" target="_blank">PubMed</a>]</span>`;
+                        }
                     }
                     break;
                 }
