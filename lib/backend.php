@@ -56,9 +56,8 @@ class ABT_Backend {
      */
     public function add_metaboxes($post_type) {
 
-        $all_types = get_post_types();
+        if ($post_type === 'attachment') return;
 
-        if (in_array($post_type, $all_types)) {
             add_meta_box(
                 'abt_reflist',
                 'Reference List',
@@ -75,7 +74,6 @@ class ABT_Backend {
                 'normal',
                 'high'
             );
-        }
     }
 
     /**
@@ -151,7 +149,10 @@ class ABT_Backend {
      *
      * @since 3.0.0
      */
-    public function enqueue_js($hook) {
+    public function enqueue_js() {
+        global $post_type;
+
+        if ($post_type === 'attachment') return;
 
         wp_enqueue_media();
         wp_dequeue_script('autosave');
