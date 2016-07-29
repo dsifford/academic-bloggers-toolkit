@@ -5,27 +5,25 @@ declare var ABT_meta: ABT.FrontendMeta;
 
 namespace ABT_Frontend {
 
-
     export class Accordion {
 
-        private headings;
+        private headings: HTMLCollectionOf<Element>;
 
         constructor() {
             this.headings = document.getElementsByClassName('abt_PR_heading');
 
             for (let i = 0; i < this.headings.length; i++) {
-                let currentHeading = this.headings[i];
-                let reviewContent = (currentHeading.nextElementSibling as HTMLDivElement);
+                const currentHeading = this.headings[i];
+                const reviewContent = (currentHeading.nextElementSibling as HTMLDivElement);
 
                 reviewContent.style.display = 'none';
                 currentHeading.addEventListener('click', this._clickHandler);
             }
-
         }
 
         private _clickHandler(e: Event): void {
 
-            let targetContent = ((e.target as HTMLElement).nextSibling as HTMLDivElement);
+            const targetContent = ((e.target as HTMLElement).nextSibling as HTMLDivElement);
 
             // If targetContent already visible, hide it and exit
             if (targetContent.style.display !== 'none') {
@@ -33,13 +31,13 @@ namespace ABT_Frontend {
                 return;
             }
 
-            let accordionChildren = (e.target as HTMLElement).parentElement.children;
+            const accordionChildren = (e.target as HTMLElement).parentElement.children;
 
             for (let i = 0; i < accordionChildren.length; i++) {
 
-                let currentElement = accordionChildren[i] as HTMLElement;
+                const currentElement = accordionChildren[i] as HTMLElement;
 
-                if (currentElement.tagName !== 'DIV') { continue; }
+                if (currentElement.tagName !== 'DIV') continue;
 
                 if (currentElement.previousSibling === (e.target as HTMLElement)) {
                     currentElement.style.display = '';
@@ -200,16 +198,16 @@ if (document.readyState === 'interactive') {
 
 
 function frontendJS() {
-
     const options = ABT_meta;
     new ABT_Frontend.Citations();
 
     if (options.prBoxStyle === 'fixed') {
-        Array.from(document.getElementsByClassName('abt_PR_heading')).forEach(heading => heading.className = '');
+        const headings = document.querySelectorAll('.abt_PR_heading');
+        for (let i = 0; i < headings.length; i++) {
+            headings[i].className = '';
+        }
     }
     else {
         new ABT_Frontend.Accordion();
     }
-
-
 }

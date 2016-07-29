@@ -3,8 +3,8 @@ Contributors: dsifford
 Donate link: https://cash.me/$dsifford
 Tags: academic, pmid, doi, peer-review, pubmed, citation, bibliography, reference
 Requires at least: 4.2.2
-Tested up to: 4.5
-Stable tag: 3.3.0
+Tested up to: 4.6
+Stable tag: 3.3.1
 License: GPL3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -66,6 +66,16 @@ Yikes! I'm sorry about that. Please report all issues on the Academic Blogger's 
 4. Demo of desktop citation tooltips.
 
 == Changelog ==
+
+== 3.3.1 ==
+
+**Bugfixes**
+* Only load plugin javascript on single posts, rather than on `front_page()` or any other collection of posts.
+* Fix border color on peer review boxes.
+* Stop loading plugin on media upload pages.
+* Regress to older iterator function for frontend bibliographies so that Safari 9, Internet Explorer, and Edge 13 don't throw errors. (Protip: If you're using these browsers, stop. Use Chrome or Firefox. Or, at least upgrade to Edge 14 or Safari 10).
+
+**Note:** The Safari, Edge, and Internet Explorer bugs are only theoretically fixed. I don't own a computer capable of testing those browsers. If bugs persist, open an issue in the [GitHub repo](https://github.com/dsifford/academic-bloggers-toolkit/issues).
 
 = 3.3.0 =
 

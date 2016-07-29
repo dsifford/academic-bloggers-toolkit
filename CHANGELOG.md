@@ -1,9 +1,19 @@
 # Changelog
 
+### 3.3.1
+
+**Bugfixes**
+- Only load plugin javascript on single posts, rather than on `front_page()` or any other collection of posts.
+- Fix border color on peer review boxes.
+- Stop loading plugin on media upload pages.
+- Regress to older iterator function for frontend bibliographies so that Safari 9, Internet Explorer, and Edge 13 don't throw errors. (Protip: If you're using these browsers, stop. Use Chrome or Firefox. Or, at least upgrade to Edge 14 or Safari 10).
+
+**Note:** The Safari, Edge, and Internet Explorer bugs are only theoretically fixed. I don't own a computer with those browsers and I was not able to test. If bugs persist, open an issue in the [GitHub repo](https://github.com/dsifford/academic-bloggers-toolkit/issues).
+
 ### 3.3.0
 
 **Bugfixes**
-- Fix insertion of PMID urls so that it doesn't brake citation formating (specifically, flush indents).
+- Fix insertion of PMID urls so that it doesn't break citation formating (specifically, flush indents).
 
 **New Features**
 - Add ability to `Pin reference list to visible window`: The biggest personal annoyance I've had with this plugin is the fact that I'd have to scroll all the way to the top of the page if I wanted to interact with the reference list menu-bar. This feature adds the ability to pin the reference list in a fixed position on the screen so that the menu-bar is always within reach.
