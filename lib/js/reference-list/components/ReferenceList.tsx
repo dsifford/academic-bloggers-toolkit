@@ -2,6 +2,8 @@ import * as React from 'react';
 import { EVENTS } from '../../utils/Constants';
 import * as MCE from '../../utils/TinymceFunctions';
 import { CSLProcessor } from '../../utils/CSLProcessor';
+import { observable } from 'mobx';
+import { observer } from 'mobx-react';
 import { getRemoteData, parseManualData } from '../API';
 import * as CSSTransitionGroup from 'react-addons-css-transition-group';
 
@@ -45,6 +47,52 @@ interface State extends SavedState {
     };
 }
 
+class StateNew {
+
+    @observable
+    bibliography: {
+        id: string;
+        html: string;
+    }[] = [];
+
+    @observable
+    bibOptions: {
+        heading: string;
+        style: 'fixed'|'toggle';
+    } = {
+        heading: '',
+        style: 'fixed',
+    };
+
+    @observable
+    cache: {
+        style: string;
+        links: 'always'|'urls'|'never';
+        locale: string;
+        bibmeta: Citeproc.Bibmeta;
+        uncited: [string, CSL.Data][];
+    };
+
+    @observable
+    citations: Citeproc.CitationRegistry;
+
+    @observable
+    isFixed: boolean = false;
+
+    @observable
+    menuOpen: boolean = false;
+
+    @observable
+    isLoading: boolean = true;
+
+    @observable
+    processorState: {
+        [itemID: string]: CSL.Data;
+    } = {};
+
+}
+
+@observer
 export class ReferenceList extends React.Component<{}, State> {
 
     private editor: TinyMCE.Editor;

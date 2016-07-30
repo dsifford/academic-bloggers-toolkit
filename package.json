@@ -61,6 +61,8 @@
     "@types/react-addons-css-transition-group": "^0.14.13",
     "@types/react-dom": "^0.14.14",
     "@types/sinon": "^1.16.26",
+    "mobx": "^2.4.1",
+    "mobx-react": "^3.5.1",
     "react": "^15.2.1",
     "react-addons-css-transition-group": "^15.2.1",
     "react-addons-shallow-compare": "^15.2.1",
