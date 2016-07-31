@@ -58,6 +58,8 @@ class ABT_Backend {
 
         if ($post_type === 'attachment') return;
 
+            $all_types = get_post_types();
+
             add_meta_box(
                 'abt_reflist',
                 'Reference List',
@@ -84,7 +86,25 @@ class ABT_Backend {
     public function render_reflist($post) {
         $reflist_state = get_post_meta($post->ID, '_abt-reflist-state', true);
         if (empty($reflist_state)) {
-            $reflist_state = '{"bibliography":[],"cache":{"style":"","locale":""},"processorState":{},"citations":{"citationById":{},"citationByIndex":[],"citationsByItemId":{}}}';
+            $abt_options = get_option('abt_options');
+            $reflist_state = [
+                'bibliography' => [],
+                'cache' => [
+                    'style' => isset($abt_options['abt_citation_style']) ? $abt_options['abt_citation_style'] : 'american-medical-association',
+                    'locale' => get_locale(),
+                    'links' => isset($abt_options['display_options']['links']) ? $abt_options['display_options']['links'] : 'always',
+                ],
+                'processorState' => (object)[],
+                'citations' => [
+                    'citationById' => (object)[],
+                    'citationByIndex' => (object)[],
+                    'citationsByItemId' => (object)[],
+                ],
+                'bibOptions' => [
+                    'heading' => isset($abt_options['display_options']['bib_heading']) ? $abt_options['display_options']['bib_heading'] : null,
+                    'style' => isset($abt_options['display_options']['bibliography']) ? $abt_options['display_options']['bibliography'] : 'fixed',
+                ],
+            ];
         }
 
         wp_localize_script('abt_reflist', 'ABT_Reflist_State', $reflist_state);
@@ -162,11 +182,6 @@ class ABT_Backend {
         wp_localize_script('abt-PR-metabox', 'ABT_meta', array(
             'jsURL' => plugins_url('academic-bloggers-toolkit/lib/js/'),
             'tinymceViewsURL' => plugins_url('academic-bloggers-toolkit/lib/js/tinymce/views/'),
-            'style' => isset($abt_options['abt_citation_style']) ? $abt_options['abt_citation_style'] : 'american-medical-association',
-            'links' => isset($abt_options['display_options']['links']) ? $abt_options['display_options']['links'] : 'always',
-            'locale' => get_locale(),
-            'bibHeading' => isset($abt_options['display_options']['bib_heading']) ? $abt_options['display_options']['bib_heading'] : null,
-            'bibStyle' => isset($abt_options['display_options']['bibliography']) ? $abt_options['display_options']['bibliography'] : null
         ));
 
         wp_enqueue_script('abt_citeproc', plugins_url('academic-bloggers-toolkit/vendor/citeproc.js'), array(), false, true);

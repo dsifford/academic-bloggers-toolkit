@@ -13,134 +13,69 @@ import { PanelButton } from './PanelButton';
 import { UncitedList } from './UncitedList';
 
 declare const tinyMCE: TinyMCE.MCE;
-declare const ABT_meta: ABT.AdminMeta;
-declare const ABT_Reflist_State: string;
+declare const ABT_Reflist_State;
 
 const { OPEN_REFERENCE_WINDOW, TINYMCE_READY } = EVENTS;
 
-interface SavedState {
-    readonly bibliography: {
-        readonly id: string;
-        readonly html: string;
-    }[];
-    cache: {
-        style: string;
-        links: 'always'|'urls'|'never';
-        locale: string;
-        bibmeta: Citeproc.Bibmeta;
-        uncited: [string, CSL.Data][];
-    };
-    readonly citations: Citeproc.CitationRegistry;
-    readonly processorState: {
-        readonly [itemID: string]: CSL.Data;
-    };
-}
-
-interface State extends SavedState {
-    readonly selected: string[];
-    readonly loading: boolean;
-    readonly menuOpen: boolean;
-    readonly fixed: boolean;
-    readonly bibOptions: {
-        readonly heading: string;
-        readonly style: 'fixed'|'toggle';
-    };
-}
-
-class StateNew {
-
-    @observable
-    bibliography: {
-        id: string;
-        html: string;
-    }[] = [];
-
-    @observable
-    bibOptions: {
-        heading: string;
-        style: 'fixed'|'toggle';
-    } = {
-        heading: '',
-        style: 'fixed',
-    };
-
-    @observable
-    cache: {
-        style: string;
-        links: 'always'|'urls'|'never';
-        locale: string;
-        bibmeta: Citeproc.Bibmeta;
-        uncited: [string, CSL.Data][];
-    };
-
-    @observable
-    citations: Citeproc.CitationRegistry;
-
-    @observable
-    isFixed: boolean = false;
-
-    @observable
-    menuOpen: boolean = false;
-
-    @observable
-    isLoading: boolean = true;
-
-    @observable
-    processorState: {
-        [itemID: string]: CSL.Data;
-    } = {};
-
-}
+// interface SavedState {
+//     readonly bibliography: {
+//         readonly id: string;
+//         readonly html: string;
+//     }[];
+//     cache: {
+//         style: string;
+//         links: 'always'|'urls'|'never';
+//         locale: string;
+//         bibmeta: Citeproc.Bibmeta;
+//         uncited: [string, CSL.Data][];
+//     };
+//     readonly citations: Citeproc.CitationRegistry;
+//     readonly processorState: {
+//         readonly [itemID: string]: CSL.Data;
+//     };
+// }
 
 @observer
-export class ReferenceList extends React.Component<{}, State> {
+export class ReferenceList extends React.Component<{store: any}, {}> {
 
-    private editor: TinyMCE.Editor;
-    private processor: ABT.CSLProcessor;
+    editor: TinyMCE.Editor;
 
-    constructor() {
-        super();
-        const { bibliography, cache, processorState, citations }: SavedState = JSON.parse(ABT_Reflist_State);
+    @observable
+    processor;
 
-        if (!cache.locale) {
-            cache.style = ABT_meta.style;
-            cache.links = ABT_meta.links;
-            cache.locale = ABT_meta.locale;
-            cache.bibmeta = null;
-            cache.uncited = [];
-        }
+    @observable
+    selected: string[] = [];
 
+    @observable
+    loading = true;
+
+    @observable
+    menuOpen = false;
+
+    @observable
+    fixed = false;
+
+    constructor(props) {
+        super(props);
+        this.props.store.init(ABT_Reflist_State);
+        /* TODO: Make into explicit action */
         this.processor = new CSLProcessor(
-            cache.locale,
-            cache.style,
-            processorState,
-            citations.citationByIndex
+            this.props.store.cache.locale,
+            this.props.store.cache.style,
+            this.props.store.processorState,
+            this.props.store.citations.citationByIndex
         );
-
-        this.state = {
-            bibliography,
-            cache,
-            processorState,
-            citations,
-            selected: [],
-            loading: true,
-            menuOpen: false,
-            fixed: false,
-            bibOptions: {
-                heading: ABT_meta.bibHeading,
-                style: ABT_meta.bibStyle,
-            },
-        };
     }
 
     componentDidMount() {
         addEventListener(TINYMCE_READY, this.initTinyMCE.bind(this));
         addEventListener(OPEN_REFERENCE_WINDOW, this.openReferenceWindow.bind(this));
+
         addEventListener('scroll', () => {
             const scrollpos = document.body.scrollTop;
             const list = document.getElementById('abt_reflist');
 
-            if (!this.state.fixed) return list.style.top = '';
+            if (!this.fixed) return list.style.top = '';
 
             switch (true) {
                 case scrollpos === 0:
@@ -150,60 +85,35 @@ export class ReferenceList extends React.Component<{}, State> {
                 default:
                     return list.style.top = '55px';
             }
-        })
+        });
     }
 
     initTinyMCE() {
         this.editor = tinyMCE.activeEditor;
-        this.setState(
-            Object.assign({}, this.state, {
-                loading: false,
-            })
-        );
+        this.loading = !this.loading;
     }
 
     toggleSelect(id: string, isSelected: boolean) {
-        switch (isSelected) {
-            case true:
-                return this.setState(
-                    Object.assign({}, this.state, {
-                        selected: this.state.selected.filter((i) => i !== id),
-                    })
-                );
-            case false:
-                return this.setState(
-                    Object.assign({}, this.state, {
-                        selected: [...this.state.selected, id],
-                    })
-                );
-            default:
-                return console.error('Could not determine if item is selected');
-        }
+        return isSelected
+        ? this.selected.filter((i) => i !== id)
+        : this.selected = [...this.selected, id];
     }
 
     clearSelection() {
-        this.setState(
-            Object.assign({}, this.state, {
-                selected: [],
-            })
-        );
+        this.selected = [];
     }
 
     toggleMenu(e: Event) {
         e.preventDefault();
-        this.setState(
-            Object.assign({}, this.state, {
-                menuOpen: !this.state.menuOpen,
-            })
-        );
+        this.menuOpen = !this.menuOpen;
     }
 
-    initProcessor(style: string, citationByIndex: Citeproc.Citation[] = this.state.citations.citationByIndex) {
+    initProcessor(style: string, citationByIndex: Citeproc.Citation[] = this.props.store.citations.citationByIndex) {
         this.processor.init(style, citationByIndex)
         .then((clusters) => {
             const processorState = this.processor.state.citations;
 
-            const [bibmeta, bibHTML]: Citeproc.Bibliography = this.processor.makeBibliography(this.state.cache.links);
+            const [bibmeta, bibHTML]: Citeproc.Bibliography = this.processor.makeBibliography(this.props.store.cache.links);
             const bibliography = bibHTML.map((h, i) => ({ id: bibmeta.entry_ids[i][0], html: h }));
             const citations = this.processor.citeproc.registry.citationreg;
 
@@ -213,21 +123,19 @@ export class ReferenceList extends React.Component<{}, State> {
                 citations.citationByIndex,
                 this.processor.citeproc.opt.xclass
             ).then(() => {
-                MCE.setBibliography(this.editor, bibliography, this.state.bibOptions);
+                MCE.setBibliography(this.editor, bibliography, this.props.store.bibOptions);
             });
 
-            this.setState(
-                Object.assign({}, this.state, {
-                    bibliography,
-                    citations,
-                    cache: Object.assign({}, this.state.cache, {
-                        bibmeta,
-                        style,
-                    }),
-                    processorState,
-                    selected: [],
-                 })
-            );
+
+            this.props.store.bibliography = bibliography;
+            this.props.store.citations = citations;
+            this.props.store.cache = Object.assign({}, this.props.store.cache, {
+                bibmeta,
+                style,
+            });
+            this.props.store.processorState = processorState;
+
+            this.clearSelection();
         });
     }
 
@@ -240,9 +148,9 @@ export class ReferenceList extends React.Component<{}, State> {
          * If no data, then this must be a case where we're inserting from the
          *   list selection.
          */
-        let uncited = [...this.state.cache.uncited];
+        let uncited = [...this.props.store.cache.uncited];
         if (data.length === 0) {
-            this.state.selected.forEach(id => {
+            this.selected.forEach(id => {
                 data.push(this.processor.citeproc.sys.retrieveItem(id));
                 uncited = uncited.filter(c => c[0] !== id);
             });
@@ -256,7 +164,7 @@ export class ReferenceList extends React.Component<{}, State> {
         }
 
 
-        const [bibmeta, bibHTML]: Citeproc.Bibliography = this.processor.makeBibliography(this.state.cache.links);
+        const [bibmeta, bibHTML]: Citeproc.Bibliography = this.processor.makeBibliography(this.props.store.cache.links);
         const bibliography = bibHTML.map((h, i) => ({ id: bibmeta.entry_ids[i][0], html: h }));
         const citations = this.processor.citeproc.registry.citationreg;
 
@@ -266,39 +174,35 @@ export class ReferenceList extends React.Component<{}, State> {
             citations.citationByIndex,
             this.processor.citeproc.opt.xclass
         ).then(() => {
-            MCE.setBibliography(this.editor, bibliography, this.state.bibOptions);
+            MCE.setBibliography(this.editor, bibliography, this.props.store.bibOptions);
             this.editor.setProgressState(false);
         });
 
-        this.setState(
-            Object.assign({}, this.state, {
-                bibliography,
-                citations,
-                cache: Object.assign({}, this.state.cache, {
-                    bibmeta,
-                    uncited,
-                }),
-                processorState,
-                selected: [],
-             })
-        );
+        this.props.store.bibliography = bibliography;
+        this.props.store.citations = citations;
+        this.props.store.cache = Object.assign({}, this.props.store.cache, {
+            bibmeta,
+            uncited,
+        });
+        this.props.store.processorState = processorState;
+        this.clearSelection();
     }
 
     deleteCitations(e?: Event) {
         if (e) e.preventDefault();
 
-        if (this.state.selected.length === 0) return;
+        if (this.selected.length === 0) return;
 
-        const citedItems: string[] = this.state.selected.filter(id =>
-            this.state.citations.citationsByItemId.hasOwnProperty(id)
+        const citedItems: string[] = this.selected.filter(id =>
+            this.props.store.citations.citationsByItemId.hasOwnProperty(id)
         );
-        const uncited = this.state.cache.uncited.filter(item =>
-            this.state.selected.indexOf(item[0]) === -1
+        const uncited = this.props.store.cache.uncited.filter(item =>
+            this.selected.indexOf(item[0]) === -1
         );
 
-        let citationByIndex = [...this.state.citations.citationByIndex];
+        let citationByIndex = [...this.props.store.citations.citationByIndex];
         if (citedItems.length > 0) {
-            citationByIndex = this.state.citations.citationByIndex.filter(c => {
+            citationByIndex = this.props.store.citations.citationByIndex.filter(c => {
                 c.citationItems = c.citationItems.filter(i => citedItems.indexOf(i.id) === -1);
                 if (c.citationItems.length === 0) {
                     const el = this.editor.dom.doc.getElementById(c.citationID);
@@ -306,22 +210,14 @@ export class ReferenceList extends React.Component<{}, State> {
                 }
                 return c.citationItems.length > 0;
             });
-            this.initProcessor(this.state.cache.style, citationByIndex);
+            this.initProcessor(this.props.store.cache.style, citationByIndex);
         }
 
-        const processorState = this.processor.purgeCitations(this.state.selected);
+        const processorState = this.processor.purgeCitations(this.selected);
 
-        this.setState(
-            Object.assign({}, this.state, {
-                citations: Object.assign({}, this.state.citations, {
-                    citationByIndex,
-                }),
-                cache: Object.assign({}, this.state.cache, {
-                    uncited,
-                }),
-                processorState,
-            })
-        );
+        this.props.store.citations.citationByIndex = citationByIndex;
+        this.props.store.cache.uncited = uncited;
+        this.props.store.processorState = processorState;
     }
 
     openReferenceWindow(e: Event) {
@@ -369,7 +265,7 @@ export class ReferenceList extends React.Component<{}, State> {
     addToUncitedList(data: [string, CSL.Data][], processorState): void {
         const uncited = [
             ...data,
-            ...this.state.cache.uncited,
+            ...this.props.store.cache.uncited,
         ].sort((a, b) => {
             const A = a[1].title.toLowerCase();
             const B = b[1].title.toLowerCase();
@@ -377,15 +273,9 @@ export class ReferenceList extends React.Component<{}, State> {
             if ( A > B ) return 1;
             return 0;
         });
-        this.setState(
-            Object.assign({}, this.state, {
-                cache: Object.assign({}, this.state.cache, {
-                    uncited,
-                }),
-                processorState,
-                selected: [],
-             })
-        );
+        this.props.store.cache.uncited = uncited;
+        this.props.store.processorState = processorState;
+        this.clearSelection();
     }
 
     handleMenuSelection(kind: string, data?) {
@@ -393,41 +283,26 @@ export class ReferenceList extends React.Component<{}, State> {
             case 'CHANGE_STYLE':
                 return this.initProcessor(data);
             case 'IMPORT_RIS':
-                this.setState(Object.assign({}, this.state, { menuOpen: false }));
+                this.menuOpen = false;
                 this.openImportWindow();
                 return;
             case 'REFRESH_PROCESSOR':
-                this.setState(Object.assign({}, this.state, { menuOpen: false }));
-                return this.initProcessor(this.state.cache.style);
+                this.menuOpen = false;
+                return this.initProcessor(this.props.store.cache.style);
             case 'DESTROY_PROCESSOR': {
-                return this.setState(
-                    Object.assign({}, this.state, {
-                        selected: this.state.bibliography.map(b => b.id)
-                    }),
-                    () => {
-                        this.deleteCitations();
-                        /* HACK: This is very temporary and hacky. Will need to refactor and fix this soon */
-                        setTimeout(() => {
-                            this.setState(
-                                Object.assign({}, this.state, {
-                                    bibliography: [],
-                                    cache: Object.assign({}, this.state.cache, {
-                                        bibmeta: null,
-                                        uncited: [],
-                                    }),
-                                    processorState: {},
-                                    citations: {
-                                        citationById: {},
-                                        citationByIndex: [],
-                                        citationsByItemId: {},
-                                    },
-                                    menuOpen: false,
-                                }),
-                                () => this.initProcessor(this.state.cache.style, [])
-                            )
-                        }, 500);
-                    }
-                );
+                this.selected = this.props.store.bibliography.map(b => b.id);
+                this.deleteCitations();
+                this.props.store.bibliography = [];
+                this.props.store.cache.bibMeta = {};
+                this.props.store.cache.uncited = [];
+                this.props.store.processorState = {};
+                this.props.store.citations = {
+                    citationById: {},
+                    citationByIndex: [],
+                    citationsByItemId: {},
+                };
+                this.menuOpen = false;
+                this.initProcessor(this.props.store.cache.style, []);
             }
             default:
                 return console.error('Menu selection type not recognized');
@@ -438,12 +313,12 @@ export class ReferenceList extends React.Component<{}, State> {
         e.preventDefault();
         const container = document.getElementById('abt_reflist');
         container.classList.toggle('fixed');
-        this.setState(Object.assign({}, this.state, { fixed: !this.state.fixed }));
+        this.fixed = !this.fixed;
     }
 
     render() {
 
-        if (this.state.loading) {
+        if (this.loading) {
             return(
                 <div style={{ marginTop: -6, background: '#f5f5f5' }}>
                     <div className='sk-circle'>
@@ -459,10 +334,10 @@ export class ReferenceList extends React.Component<{}, State> {
         }
 
         const saveData = {
-            bibliography: this.state.bibliography,
-            cache: this.state.cache,
-            processorState: this.state.processorState,
-            citations: this.state.citations,
+            bibliography: this.props.store.cache.bibliography,
+            cache: this.props.store.cache.cache,
+            processorState: this.props.store.cache.processorState,
+            citations: this.props.store.cache.citations,
         };
 
         return (
@@ -473,19 +348,19 @@ export class ReferenceList extends React.Component<{}, State> {
                     value={JSON.stringify(saveData)} />
                 <div className='panel'>
                     <PanelButton
-                        disabled={this.state.selected.length === 0}
-                        onClick={this.insertInline.bind(this, [], this.state.processorState)}
+                        disabled={this.selected.length === 0}
+                        onClick={this.insertInline.bind(this, [], this.props.store.cache.processorState)}
                         data-tooltip='Insert selected references'>
                         <span className='dashicons dashicons-migrate insert-inline' />
                     </PanelButton>
                     <PanelButton
-                        disabled={this.state.selected.length !== 0}
+                        disabled={this.selected.length !== 0}
                         onClick={this.openReferenceWindow.bind(this)}
                         data-tooltip='Add reference to reference list'>
                         <span className='dashicons dashicons-plus add-reference' />
                     </PanelButton>
                     <PanelButton
-                        disabled={this.state.selected.length === 0}
+                        disabled={this.selected.length === 0}
                         onClick={this.deleteCitations.bind(this)}
                         data-tooltip='Remove selected references from reference list'>
                         <span className='dashicons dashicons-minus remove-reference' />
@@ -494,7 +369,7 @@ export class ReferenceList extends React.Component<{}, State> {
                         onClick={this.pinReferenceList.bind(this)}
                         data-tooltip='Pin Reference List to Visible Window'>
                         <span className={
-                            this.state.fixed
+                            this.fixed
                             ? 'dashicons dashicons-admin-post pin-reflist fixed'
                             : 'dashicons dashicons-admin-post pin-reflist'
                         } />
@@ -509,28 +384,28 @@ export class ReferenceList extends React.Component<{}, State> {
                         transitionName='menu'
                         transitionEnterTimeout={200}
                         transitionLeaveTimeout={200} >
-                        { this.state.menuOpen &&
+                        { this.menuOpen &&
                             <Menu
                                 key='menu'
-                                cslStyle={this.state.cache.style}
+                                cslStyle={this.props.store.cache.style}
                                 submitData={this.handleMenuSelection.bind(this)}/>
                         }
                     </CSSTransitionGroup>
                 <div className='list'>
                     {
-                        this.state.bibliography.map((r: {id: string, html: string}, i: number) =>
+                        this.props.store.cache.bibliography.map((r: {id: string, html: string}, i: number) =>
                             <Card
                                 key={i}
-                                onClick={this.toggleSelect.bind(this, r.id, this.state.selected.indexOf(r.id) > -1)}
-                                isSelected={this.state.selected.indexOf(r.id) > -1}
+                                onClick={this.toggleSelect.bind(this, r.id, this.selected.indexOf(r.id) > -1)}
+                                isSelected={this.selected.indexOf(r.id) > -1}
                                 html={r.html} />
                         )
                     }
                 </div>
-                { this.state.cache.uncited.length > 0 &&
+                { this.props.store.cache.uncited.length > 0 &&
                     <UncitedList
-                        uncited={this.state.cache.uncited}
-                        selected={this.state.selected}
+                        uncited={this.props.store.cache.uncited}
+                        selected={this.selected}
                         onClick={this.toggleSelect.bind(this)}/>
                 }
             </div>
