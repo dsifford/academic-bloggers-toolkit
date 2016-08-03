@@ -117,7 +117,7 @@ export class ReferenceList extends React.Component<{store: any}, {}> {
         this.clearSelection();
     }
 
-    deleteCitations(e?: Event) {
+    deleteCitations(e?: React.MouseEvent<HTMLButtonElement>) {
         if (e) e.preventDefault();
 
         if (this.selected.length === 0) return;
@@ -147,7 +147,7 @@ export class ReferenceList extends React.Component<{store: any}, {}> {
         }
     }
 
-    openReferenceWindow(e: Event) {
+    openReferenceWindow(e: React.MouseEvent<HTMLButtonElement>) {
         e.preventDefault();
         MCE.referenceWindow(this.editor).then(payload => {
             if (!payload) return;
@@ -237,7 +237,7 @@ export class ReferenceList extends React.Component<{store: any}, {}> {
         : this.selected.push(id);
     }
 
-    toggleMenu = (e: Event) => {
+    toggleMenu = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
         this.menuOpen = !this.menuOpen;
     }

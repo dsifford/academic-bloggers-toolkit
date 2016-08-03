@@ -26,23 +26,23 @@ class ABT_Backend {
      * @version 0.1.0
      */
     public function __construct() {
-        add_action('admin_head', array($this, 'init_tinymce'));
-        add_action('add_meta_boxes', array($this, 'add_metaboxes'));
-        add_action('save_post', array($this, 'save_meta'));
-        add_action('admin_enqueue_scripts', array($this, 'enqueue_js'));
-        add_filter('mce_css', array($this, 'load_tinymce_css'));
+        add_action('admin_head', [$this, 'initTinymce']);
+        add_action('add_meta_boxes', [$this, 'addMetaboxes']);
+        add_action('save_post', [$this, 'saveMeta']);
+        add_action('admin_enqueue_scripts', [$this, 'enqueueJs']);
+        add_filter('mce_css', [$this, 'load_tinymce_css']);
     }
 
     /**
      * Loads the required stylesheet into TinyMCE (required for proper citation parsing)
-     * @param  string $mce_css CSS string
+     * @param  string $mceCss  CSS string
      * @return string          CSS string + custom CSS appended.
      */
-    public function load_tinymce_css($mce_css) {
-        if (!empty($mce_css))
-		    $mce_css .= ',';
-        $mce_css .= plugins_url('academic-bloggers-toolkit/lib/css/collections/citations.css');
-	    return $mce_css;
+    public function load_tinymce_css($mceCss) {
+        if (!empty($mceCss))
+		    $mceCss .= ',';
+        $mceCss .= plugins_url('academic-bloggers-toolkit/lib/css/collections/citations.css');
+	    return $mceCss;
     }
 
     /**
@@ -52,27 +52,27 @@ class ABT_Backend {
      *
      * @version 0.1.0
      *
-     * @param string $post_type The post type
+     * @param string $postType The post type
      */
-    public function add_metaboxes($post_type) {
+    public function addMetaboxes($postType) {
 
-        if ($post_type === 'attachment') return;
+        if ($postType === 'attachment') return;
 
-            $all_types = get_post_types();
+            $allTypes = get_post_types();
 
             add_meta_box(
                 'abt_reflist',
                 'Reference List',
-                array($this, 'render_reflist'),
-                $all_types,
+                [$this, 'render_reflist'],
+                $allTypes,
                 'side',
                 'high'
             );
             add_meta_box(
                 'abt_peer_review',
                 __('Add Peer Review(s)', 'abt-textdomain'),
-                array($this, 'render_PR_meta'),
-                $all_types,
+                [$this, 'renderPrMeta'],
+                $allTypes,
                 'normal',
                 'high'
             );
@@ -129,10 +129,10 @@ class ABT_Backend {
      *
      * @param array $post The post multidimensional array
      */
-    public function render_PR_meta($post) {
+    public function renderPrMeta($post) {
         wp_nonce_field(basename(__file__), 'abt_PR_nonce');
 
-        self::refactor_depreciated_meta($post);
+        self::refactorDepreciatedMeta($post);
 
         $meta_fields = unserialize(base64_decode(get_post_meta($post->ID, '_abt-meta', true)));
         $meta_fields = stripslashes_deep($meta_fields);
@@ -149,25 +149,26 @@ class ABT_Backend {
                 }
             }
             wp_localize_script('abt-PR-metabox', 'ABT_PR_Metabox_Data', $meta_fields['peer_review']);
-        } else {
-            wp_localize_script('abt-PR-metabox', 'ABT_PR_Metabox_Data', array(
-                '1' => array(
+        }
+        else {
+            wp_localize_script('abt-PR-metabox', 'ABT_PR_Metabox_Data', [
+                '1' => [
                     'heading' => '',
-                    'response' => array(),
-                    'review' => array(),
-                ),
-                '2' => array(
+                    'response' => [],
+                    'review' => [],
+                ],
+                '2' => [
                     'heading' => '',
-                    'response' => array(),
-                    'review' => array(),
-                ),
-                '3' => array(
+                    'response' => [],
+                    'review' => [],
+                ],
+                '3' => [
                     'heading' => '',
-                    'response' => array(),
-                    'review' => array(),
-                ),
+                    'response' => [],
+                    'review' => [],
+                ],
                 'selection' => '',
-            ));
+            ]);
         }
 
         echo "<div id='abt-peer-review-metabox'></div>";
@@ -178,23 +179,16 @@ class ABT_Backend {
      *
      * @since 3.0.0
      */
-    public function enqueue_js() {
+    public function enqueueJs() {
         global $post_type;
 
         if ($post_type === 'attachment') return;
 
         wp_enqueue_media();
         wp_dequeue_script('autosave');
-        $abt_options = get_option('abt_options');
-
-        wp_enqueue_script('abt-PR-metabox', plugins_url('academic-bloggers-toolkit/lib/js/components/peer-review-metabox/Entrypoint.js'), array(), false, true);
-        wp_localize_script('abt-PR-metabox', 'ABT_meta', array(
-            'jsURL' => plugins_url('academic-bloggers-toolkit/lib/js/'),
-            'tinymceViewsURL' => plugins_url('academic-bloggers-toolkit/lib/js/tinymce/views/'),
-        ));
-
-        wp_enqueue_script('abt_citeproc', plugins_url('academic-bloggers-toolkit/vendor/citeproc.js'), array(), false, true);
-        wp_enqueue_script('abt_reflist', plugins_url('academic-bloggers-toolkit/lib/js/reference-list/components/Entrypoint.js'), array(), false, true);
+        wp_enqueue_script('abt-PR-metabox', plugins_url('academic-bloggers-toolkit/lib/js/components/peer-review-metabox/Entrypoint.js'), [], false, true);
+        wp_enqueue_script('abt_citeproc', plugins_url('academic-bloggers-toolkit/vendor/citeproc.js'), [], false, true);
+        wp_enqueue_script('abt_reflist', plugins_url('academic-bloggers-toolkit/lib/js/reference-list/components/Entrypoint.js'), ['abt_citeproc'], false, true);
     }
 
     /**
@@ -202,10 +196,10 @@ class ABT_Backend {
      *
      * @since 3.0.0
      */
-    public function init_tinymce() {
+    public function initTinymce() {
         if ('true' == get_user_option('rich_editing')) {
-            add_filter('mce_external_plugins', array($this, 'register_tinymce_plugin'));
-            add_filter('mce_buttons', array($this, 'register_tinymce_buttons'));
+            add_filter('mce_external_plugins', [$this, 'registerTinymcePlugins']);
+            add_filter('mce_buttons', [$this, 'registerTinymceButtons']);
         }
     }
 
@@ -214,15 +208,15 @@ class ABT_Backend {
      *
      * @since 3.0.0
      *
-     * @param array $plugin_array Array of TinyMCE plugins
+     * @param array $pluginArray Array of TinyMCE plugins
      *
      * @return array Array of TinyMCE plugins with plugins added
      */
-    public function register_tinymce_plugin($plugin_array) {
-        $plugin_array['abt_main_menu'] = plugins_url('academic-bloggers-toolkit/lib/js/TinymceEntrypoint.js');
-        $plugin_array['noneditable'] = plugins_url('academic-bloggers-toolkit/vendor/noneditable.js');
+    public function registerTinymcePlugins($pluginArray) {
+        $pluginArray['abt_main_menu'] = plugins_url('academic-bloggers-toolkit/lib/js/TinymceEntrypoint.js');
+        $pluginArray['noneditable'] = plugins_url('academic-bloggers-toolkit/vendor/noneditable.js');
 
-        return $plugin_array;
+        return $pluginArray;
     }
 
     /**
@@ -234,9 +228,8 @@ class ABT_Backend {
      *
      * @return array Array of buttons with button added
      */
-    public function register_tinymce_buttons($buttons) {
+    public function registerTinymceButtons($buttons) {
         array_push($buttons, 'abt_main_menu');
-
         return $buttons;
     }
 
@@ -247,47 +240,45 @@ class ABT_Backend {
      *
      * @param string $post_id The post ID
      */
-    public function save_meta($post_id) {
+    public function saveMeta($post_id) {
         $is_autosave = wp_is_post_autosave($post_id);
         $is_revision = wp_is_post_revision($post_id);
         $is_valid_nonce = (isset($_POST[ 'abt_PR_nonce' ]) && wp_verify_nonce($_POST[ 'abt_PR_nonce' ], basename(__FILE__))) ? true : false;
 
-        if ($is_autosave || $is_revision || !$is_valid_nonce) {
-            return;
-        }
+        if ($is_autosave || $is_revision || !$is_valid_nonce) return;
 
         // Set variable for allowed html tags in 'Background' Section
-        $abt_background_allowed_tags = array(
-            'a' => array(
-                'href' => array(),
-                'title' => array(),
-                'target' => array(),
-            ),
-            'br' => array(),
-            'em' => array(),
-        );
+        $abtAllowedTags = [
+            'a' => [
+                'href' => [],
+                'title' => [],
+                'target' => [],
+            ],
+            'br' => [],
+            'em' => [],
+        ];
 
         $new_PR_meta = unserialize(base64_decode(get_post_meta($post_id, '_abt-meta', true)));
 
         if (empty($new_PR_meta['peer_review'])) {
-            $new_PR_meta['peer_review'] = array(
-                '1' => array(
+            $new_PR_meta['peer_review'] = [
+                '1' => [
                     'heading' => '',
-                    'response' => array(),
-                    'review' => array(),
-                ),
-                '2' => array(
+                    'response' => [],
+                    'review' => [],
+                ],
+                '2' => [
                     'heading' => '',
-                    'response' => array(),
-                    'review' => array(),
-                ),
-                '3' => array(
+                    'response' => [],
+                    'review' => [],
+                ],
+                '3' => [
                     'heading' => '',
-                    'response' => array(),
-                    'review' => array(),
-                ),
+                    'response' => [],
+                    'review' => [],
+                ],
                 'selection' => '',
-            );
+            ];
         }
 
         // Begin Saving Meta Variables
@@ -307,7 +298,7 @@ class ABT_Backend {
                 : '';
 
             $new_PR_meta['peer_review'][$i]['review']['background'] = isset($_POST[ 'reviewer_background_'.$i ])
-                ? wp_kses($_POST[ 'reviewer_background_'.$i ], $abt_background_allowed_tags)
+                ? wp_kses($_POST[ 'reviewer_background_'.$i ], $abtAllowedTags)
                 : '';
 
             $new_PR_meta['peer_review'][$i]['review']['content'] = isset($_POST[ 'peer_review_content_'.$i ])
@@ -327,7 +318,7 @@ class ABT_Backend {
                 : '';
 
             $new_PR_meta['peer_review'][$i]['response']['background'] = isset($_POST[ 'author_background_'.$i ])
-                ? wp_kses($_POST[ 'author_background_'.$i ], $abt_background_allowed_tags)
+                ? wp_kses($_POST[ 'author_background_'.$i ], $abtAllowedTags)
                 : '';
 
             $new_PR_meta['peer_review'][$i]['response']['content'] = isset($_POST[ 'author_content_'.$i ])
@@ -353,12 +344,12 @@ class ABT_Backend {
      *
      * @param postObject $post WordPress post object
      */
-    public static function refactor_depreciated_meta($post) {
+    public static function refactorDepreciatedMeta($post) {
         $old_meta = get_post_custom($post->ID);
         $new_meta = unserialize(base64_decode(get_post_meta($post->ID, '_abt-meta', true)));
 
         if (empty($new_meta)) {
-            $new_meta = array();
+            $new_meta = [];
         }
 
         // The schema for the new meta
@@ -459,11 +450,11 @@ class ABT_Backend {
     }
 }
 
-function abt_append_peer_reviews($text) {
+function abtAppendPeerReviews($text) {
     if (is_single() || is_page()) {
         global $post;
 
-        ABT_Backend::refactor_depreciated_meta($post);
+        ABT_Backend::refactorDepreciatedMeta($post);
 
         $meta = unserialize(base64_decode(get_post_meta($post->ID, '_abt-meta', true)));
 
@@ -574,4 +565,4 @@ function abt_append_peer_reviews($text) {
 
     return $text;
 }
-add_filter('the_content', 'abt_append_peer_reviews');
+add_filter('the_content', 'abtAppendPeerReviews');

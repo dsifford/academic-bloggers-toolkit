@@ -1,4 +1,4 @@
-declare var ABT_meta;
+import { BaseURL }  from './Constants';
 
 
 /**
@@ -11,11 +11,11 @@ export function referenceWindow(editor: TinyMCE.Editor): Promise<ABT.ReferenceWi
     return new Promise((resolve) => {
         editor.windowManager.open({
             title: 'Insert Formatted Reference',
-            url: ABT_meta.tinymceViewsURL + 'reference-window.html',
+            url: `${BaseURL}/lib/js/tinymce/views/reference-window.html`,
             width: 600,
             height: 10,
             params: {
-                baseUrl: ABT_meta.tinymceViewsURL,
+                baseUrl: `${BaseURL}/lib/js/tinymce/views/`,
             },
             onclose: (e) => {
                 if (!e.target.params.data) resolve(null);
@@ -36,7 +36,7 @@ export function importWindow(editor: TinyMCE.Editor): Promise<ABT.ImportWindowPa
     return new Promise((resolve) => {
         editor.windowManager.open({
             title: 'Import References from RIS File',
-            url: ABT_meta.tinymceViewsURL + 'import-window.html',
+            url: `${BaseURL}/lib/js/tinymce/views/import-window.html`,
             width: 600,
             height: 10,
             onclose: (e) => {
@@ -89,6 +89,7 @@ export function getRelativeCitationPositions(editor: TinyMCE.Editor): CitationPo
     return payload;
 }
 
+
 /**
  * Updates the editor with inline citation data (citation clusters) generated
  *   by the processor.
@@ -105,7 +106,6 @@ export function parseInlineCitations(
     citationByIndex: Citeproc.CitationByIndex,
     xclass: 'in-text'|'note'
 ): Promise<boolean> {
-
     return new Promise(resolve => {
         const doc = editor.dom.doc;
         const exisingNote = doc.getElementById('abt-footnote');
@@ -169,6 +169,7 @@ export function parseInlineCitations(
         resolve(true);
     });
 }
+
 
 /**
  * Replaces the current bibliography, or creates a new one if one doesn't exist

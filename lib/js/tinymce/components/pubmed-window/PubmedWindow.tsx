@@ -94,7 +94,7 @@ export class PubmedWindow extends React.Component<{}, State> {
                     <div className='row' style={{ display: 'flex' }}>
                         <input
                             type='text'
-                            style={{ flexGrow: '1' }}
+                            style={{ flexGrow: 1 }}
                             onChange={this.handleChange.bind(this)}
                             autoFocus={true}
                             placeholder={this.placeholder}

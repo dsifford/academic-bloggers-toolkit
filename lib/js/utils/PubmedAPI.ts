@@ -1,4 +1,5 @@
 import * as processor from './CSLFieldProcessors';
+import { localeConversions } from './Constants';
 
 
 /**
@@ -12,32 +13,23 @@ import * as processor from './CSLFieldProcessors';
  *   decides whether or not to send the response to be processed as CSL.
  */
 export function PubmedQuery(query: string, callback: Function, bypassJSONFormatter: boolean = false): void {
+    const req = new XMLHttpRequest();
+    req.open('GET', `https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=pubmed&term=${encodeURI(query) }&retmode=json`);
+    req.onload = () => {
 
-    let requestURL: string = `https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=pubmed&term=${encodeURI(query) }&retmode=json`;
-    let request = new XMLHttpRequest();
-    request.open('GET', requestURL, true);
-    request.onload = () => {
+        if (req.status !== 200)
+            return callback(new Error('Error: PubmedQuery => Pubmed returned a non-200 status code.'));
 
-        // Handle bad request
-        if (request.readyState !== 4 || request.status !== 200) {
-            let error = new Error('Error: PubmedQuery => Pubmed returned a non-200 status code.');
-            callback(error);
-            return;
-        }
+        const res = JSON.parse(req.responseText);
 
-        let res = JSON.parse(request.responseText);
-
-        // Handle response errors
-        if (res.error) {
-            let error = new Error('Error: PubmedQuery => Request not valid.');
-            callback(error);
-            return;
-        }
+        if (res.error)
+            return callback(new Error('Error: PubmedQuery => Request not valid.'));
 
         getFromPMID(res.esearchresult.idlist.join(), callback, bypassJSONFormatter);
 
     };
-    request.send(null);
+    req.onerror = () => callback(new Error('Error: PubmedQuery => Network Error.'));
+    req.send(null);
 }
 
 
@@ -50,33 +42,24 @@ export function PubmedQuery(query: string, callback: Function, bypassJSONFormatt
  *   decides whether or not to send the response to be processed as CSL.
  */
 export function getFromPMID(PMIDlist: string, callback: Function, bypassJSONFormatter: boolean = false): void {
+    const req = new XMLHttpRequest();
+    req.open('GET', `https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi?db=pubmed&id=${PMIDlist}&version=2.0&retmode=json`);
+    req.onload = () => {
 
-    let requestURL = `https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi?db=pubmed&id=${PMIDlist}&version=2.0&retmode=json`;
-    let request = new XMLHttpRequest();
-    request.open('GET', requestURL, true);
-    request.onreadystatechange = () => {
+        if (req.status !== 200)
+            return callback(new Error('Error: getFromPMID => PubMed returned a non-200 status code.'));
 
-        if (request.readyState !== 4) { return; }
+        const res = JSON.parse(req.responseText);
 
-        if (request.status !== 200) {
-            callback(new Error('Error: getFromPMID => PubMed returned a non-200 status code.'));
-            return;
-        }
+        if (res.error)
+            return callback(new Error(`Error: getFromPMID => ${res.error}`));
 
-        let res = JSON.parse(request.responseText);
+        const iterable = [];
 
-        if (res.error) {
-            callback(new Error(`Error: getFromPMID => ${res.error}`));
-            return;
-        }
-
-        let iterable = [];
-
-        for (let i in (res.result as Object)) {
-            if (i === 'uids') { continue; }
+        for (const i of Object.keys(res.result)) {
+            if (i === 'uids') continue;
             if (res.result[i].error) {
-                callback(new Error(`Error: getFromPMID => (PMID ${i}): ${res.result[i].error}`));
-                return;
+                return callback(new Error(`Error: getFromPMID => (PMID ${i}): ${res.result[i].error}`));
             }
             if (res.result[i].title) {
                 res.result[i].title = res.result[i].title.replace(/(&amp;amp;)/g, '&');
@@ -84,15 +67,13 @@ export function getFromPMID(PMIDlist: string, callback: Function, bypassJSONForm
             iterable.push(res.result[i]);
         }
 
-        if (bypassJSONFormatter) {
-            callback(iterable);
-            return;
-        }
+        if (bypassJSONFormatter) return callback(iterable);
 
         processJSON(iterable, callback);
 
     };
-    request.send(null);
+    req.onerror = () => callback(new Error('Error: getFromPMID => Network Error.'));
+    req.send(null);
 }
 
 
@@ -168,7 +149,9 @@ function processJSON(res: PubMed.SingleReference[], callback: Function): void {
                     output.issue = ref[key];
                     break;
                 case 'lang':
-                    output.language = ref[key][0];
+                    output.language = localeConversions[ref[key][0]]
+                        ? localeConversions[ref[key][0]]
+                        : 'en-US';
                     break;
                 case 'medium':
                     output.medium = ref[key];

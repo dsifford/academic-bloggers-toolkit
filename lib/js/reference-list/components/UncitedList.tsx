@@ -4,7 +4,7 @@ import { Card } from './Card';
 interface Props {
     readonly uncited: CSL.Data[];
     readonly selected: string[];
-    readonly onClick: Function;
+    readonly onClick: (id: string, isSelected: boolean) => any;
 }
 
 interface State {

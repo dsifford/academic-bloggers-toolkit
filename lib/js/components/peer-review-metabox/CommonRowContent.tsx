@@ -70,7 +70,7 @@ export class CommonRowContent extends React.Component<Props, {}> {
                     <textarea
                         name={labels[3]}
                         className='large-text'
-                        rows='5'
+                        rows={5}
                         value={rowData[topfield].content}
                         onChange={onChange.bind(null, topfield, 'content', num)} />
                 </div>
