@@ -7,6 +7,7 @@ import { observer } from 'mobx-react';
 import { getRemoteData, parseManualData } from '../API';
 import * as CSSTransitionGroup from 'react-addons-css-transition-group';
 
+import { Store } from '../Store';
 import { Menu } from './Menu';
 import { Card } from './Card';
 import { PanelButton } from './PanelButton';
@@ -16,7 +17,7 @@ declare const tinyMCE: TinyMCE.MCE;
 const { OPEN_REFERENCE_WINDOW, TINYMCE_READY } = EVENTS;
 
 @observer
-export class ReferenceList extends React.Component<{store: any}, {}> {
+export class ReferenceList extends React.Component<{store: Store}, {}> {
 
     editor: TinyMCE.Editor;
     processor: CSLProcessor;
@@ -38,6 +39,7 @@ export class ReferenceList extends React.Component<{store: any}, {}> {
 
         this.processor = new CSLProcessor(this.props.store);
 
+        this.insertInline = this.insertInline.bind(this);
         this.openReferenceWindow = this.openReferenceWindow.bind(this);
         this.deleteCitations = this.deleteCitations.bind(this);
         this.handleMenuSelection = this.handleMenuSelection.bind(this);
@@ -63,7 +65,9 @@ export class ReferenceList extends React.Component<{store: any}, {}> {
         this.processor.init()
         .then((clusters) => {
 
-            [this.props.store.bibmeta, this.props.store.bibliography] = this.processor.makeBibliography(this.props.store.cache.links);
+            const [bibmeta, bibliography] = this.processor.makeBibliography(this.props.store.links);
+            this.props.store.bibmeta = bibmeta;
+            this.props.store.bibliography.replace(bibliography);
 
             MCE.parseInlineCitations(
                 this.editor,
@@ -78,19 +82,21 @@ export class ReferenceList extends React.Component<{store: any}, {}> {
         });
     }
 
-    insertInline(data: CSL.Data[], e?: Event) {
+    insertInline(e?: React.MouseEvent<HTMLButtonElement>, data?: CSL.Data[]) {
 
         if (e) e.preventDefault();
+        // if (!data) data = [];
         this.editor.setProgressState(true);
 
         /**
          * If no data, then this must be a case where we're inserting from the
          *   list selection.
          */
-        if (data.length === 0) {
+        if (!data || data.length === 0) {
+            data = [];
             this.selected.forEach(id => {
-                data.push(this.processor.citeproc.sys.retrieveItem(id));
-                this.props.store.uncited.filter(c => c[0] !== id);
+                data.push(this.props.store.citations.CSL.get(id));
+                // this.props.store.uncited.filter(c => c[0] !== id);
             });
         }
 
@@ -101,8 +107,9 @@ export class ReferenceList extends React.Component<{store: any}, {}> {
             console.error(status['citation_errors']);
         }
 
-
-        [this.props.store.bibmeta, this.props.store.bibliography] = this.processor.makeBibliography(this.props.store.links);
+        const [bibmeta, bibliography] = this.processor.makeBibliography(this.props.store.links);
+        this.props.store.bibmeta = bibmeta;
+        this.props.store.bibliography.replace(bibliography);
 
         MCE.parseInlineCitations(
             this.editor,
@@ -169,7 +176,7 @@ export class ReferenceList extends React.Component<{store: any}, {}> {
                 if (!payload.attachInline) {
                     return this.addToUncitedList(data.map(d => d.id));
                 }
-                this.insertInline(data);
+                this.insertInline(null, data);
             })
             .catch(err => console.error(err.message));
         });
@@ -198,7 +205,7 @@ export class ReferenceList extends React.Component<{store: any}, {}> {
     handleMenuSelection(kind: string, data?) {
         switch (kind) {
             case 'CHANGE_STYLE':
-                this.props.store.style = data;
+                this.props.store.citationStyle = data;
                 return this.initProcessor();
             case 'IMPORT_RIS':
                 this.menuOpen = false;
@@ -208,19 +215,19 @@ export class ReferenceList extends React.Component<{store: any}, {}> {
                 this.menuOpen = false;
                 return this.initProcessor();
             case 'DESTROY_PROCESSOR': {
-                this.selected = this.props.store.bibliography.map(b => b.id);
-                this.deleteCitations();
-                this.props.store.bibliography = [];
-                this.props.store.cache.bibMeta = {};
-                this.props.store.cache.uncited = [];
-                this.props.store.processorState = {};
-                this.props.store.citations = {
-                    citationById: {},
-                    citationByIndex: [],
-                    citationsByItemId: {},
-                };
-                this.menuOpen = false;
-                this.initProcessor();
+                // this.selected = this.props.store.bibliography.map(b => b.id);
+                // this.deleteCitations();
+                // this.props.store.bibliography = [];
+                // this.props.store.cache.bibMeta = {};
+                // this.props.store.cache.uncited = [];
+                // this.props.store.processorState = {};
+                // this.props.store.citations = {
+                //     citationById: {},
+                //     citationByIndex: [],
+                //     citationsByItemId: {},
+                // };
+                // this.menuOpen = false;
+                // this.initProcessor();
             }
             default:
                 return console.error('Menu selection type not recognized');
@@ -290,7 +297,7 @@ export class ReferenceList extends React.Component<{store: any}, {}> {
                 <div className='panel'>
                     <PanelButton
                         disabled={this.selected.length === 0}
-                        onClick={this.insertInline.bind(this, [], this.props.store.cache.processorState)}
+                        onClick={this.insertInline}
                         data-tooltip='Insert selected references'>
                         <span className='dashicons dashicons-migrate insert-inline' />
                     </PanelButton>

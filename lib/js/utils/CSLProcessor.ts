@@ -1,5 +1,6 @@
 import { localeConversions, BaseURL } from './Constants';
 import { parseReferenceURLs } from './HelperFunctions';
+import { Store } from '../reference-list/Store';
 
 declare var CSL;
 
@@ -21,7 +22,7 @@ export class CSLProcessor /* FIXME implements ABT.CSLProcessor */ {
     /**
      * The main store for the reference list.
      */
-    private store;
+    private store: Store;
 
     /**
      * Worker used to fetch locale XML off thread and save it into the localeStore.
@@ -37,7 +38,7 @@ export class CSLProcessor /* FIXME implements ABT.CSLProcessor */ {
     /**
      * @param store The main store for the reference list.
      */
-    constructor(store) {
+    constructor(store: Store) {
         this.store = store;
         this.worker = new Worker(`${BaseURL}/vendor/worker.js`);
         this.worker.onmessage = (e) => {
@@ -65,7 +66,7 @@ export class CSLProcessor /* FIXME implements ABT.CSLProcessor */ {
                     this.localeStore.set(cslLocale, req.responseText);
                     resolve({
                         retrieveLocale: this.getRemoteLocale.bind(this),
-                        retrieveItem: (id: string|number) => this.store.citations.CSL.get(id),
+                        retrieveItem: (id: string) => this.store.citations.CSL.get(id),
                     });
                 }
             };
@@ -122,7 +123,7 @@ export class CSLProcessor /* FIXME implements ABT.CSLProcessor */ {
      * First, this function checks too see if there is the desired locale available
      *   in the localeStore. If there is, it returns that. If not, it returns the
      *   fallback locale (the primary locale for the current user).
-     * 
+     *
      * @param  loc  The locale name.
      * @return      Locale XML (as a string)
      */

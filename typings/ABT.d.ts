@@ -1,3 +1,4 @@
+
 interface Window {
   tinyMCE: TinyMCE.MCE;
   DocumentTouch?;

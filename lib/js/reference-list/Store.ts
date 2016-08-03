@@ -119,6 +119,7 @@ export class Store {
     @observable
     bibliography: IObservableArray<{id: string, html: string}>
 
+    /* TODO: This can be computed */
     @observable
     uncited: IObservableArray<string>;
 
