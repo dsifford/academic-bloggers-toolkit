@@ -3,7 +3,7 @@ import { parseReferenceURLs } from './HelperFunctions';
 
 declare var CSL;
 
-export class CSLProcessor implements ABT.CSLProcessor {
+export class CSLProcessor /* FIXME implements ABT.CSLProcessor */ {
 
     /**
      * This object converts the locale names in wordpress (keys) to the locales
@@ -11,28 +11,16 @@ export class CSLProcessor implements ABT.CSLProcessor {
      *   then false is used (which will default to en-US).
      */
     private locales: {[wp: string]: string|boolean} = localeConversions;
-    private locale: string;
-
-    public style: string;
-    public state: {
-        citations: {
-            [itemID: string]: CSL.Data;
-        };
-    };
+    private store;
     public citeproc: Citeproc.Processor;
 
     /**
      * @param locale Locale string passed in from WordPress.
      * @param style  Selected citation style (chosen on options page).
      */
-    constructor(locale: string, style: string, state, citationsByIndex: Citeproc.Citation[]) {
-        this.state = {
-            citations: state,
-        };
-        this.style = style === '' ? 'american-medical-association' : style;
-        this.locale = locale;
-
-        this.init(this.style, citationsByIndex);
+    constructor(store) {
+        this.store = store;
+        this.init();
     }
 
     /**
@@ -45,13 +33,13 @@ export class CSLProcessor implements ABT.CSLProcessor {
     private generateSys(locale: string): Promise<Citeproc.SystemObj|Error> {
         return new Promise((resolve, reject) => {
             const req = new XMLHttpRequest();
-            const cslLocale = !this.locales[locale] ? 'en-US' : this.locales[locale];
+            const cslLocale = this.locales[locale] ? this.locales[locale] : 'en-US';
             req.onreadystatechange = () => {
                 if (req.readyState === 4) {
                     if (req.status !== 200) reject(new Error(req.responseText));
                     resolve({
                         retrieveLocale: () => req.responseText,
-                        retrieveItem: (id: string|number) => this.state.citations[id],
+                        retrieveItem: (id: string|number) => this.store.citations.CSL.get(id),
                     });
                 }
             };
@@ -91,65 +79,21 @@ export class CSLProcessor implements ABT.CSLProcessor {
      *   and the `sys` object, or an Error depending on the responses from the
      *   network.
      */
-    init(styleID: string, citationsByIndex: Citeproc.Citation[]): Promise<Citeproc.CitationClusterData[]> {
-        this.style = styleID;
-        const p1 = this.getCSLStyle(styleID);
-        const p2 = this.generateSys(this.locale);
-        return Promise.all(
-            [p1, p2]
-        )
-        .then(data => {
-            const [style, sys] = data;
-            if (style instanceof Error) return style;
-            if (sys instanceof Error) return sys;
-            return {style, sys};
-        })
-        .then(data => {
-            if (data instanceof Error) {
-                console.error(data.message);
-                return;
-            }
-            this.citeproc = new CSL.Engine(data.sys, data.style);
-        })
-        .then(() => {
-            return this.citeproc.rebuildProcessorState(citationsByIndex).map(([a, b, c]) => [b, c, a]);
-        })
-        .catch(e => e);
+    async init(): Promise<Citeproc.CitationClusterData[]> {
+        const style = await this.getCSLStyle(this.store.citationStyle);
+        const sys = await this.generateSys(this.store.locale);
+        if (style instanceof Error) throw style;
+        if (sys instanceof Error) throw sys;
+        this.citeproc = new CSL.Engine(sys, style);
+        return <[number,string,string][]>
+            this.citeproc.rebuildProcessorState(this.store.citations.citationByIndex)
+            .map(([a, b, c]) => [b, c, a]);
     }
 
-    /**
-     * Updates the local state with new citation data.
-     * @param citations Array of CSL.Data.
-     * @return State after adding items
-     */
-    consumeCitations(citations: CSL.Data[]): {[itemID: string]: CSL.Data} {
-        const newCitations = {};
-        citations.forEach(c => {
-            newCitations[c.id] = c;
-        });
-        this.state = Object.assign({}, this.state, {
-            citations: Object.assign({}, this.state.citations, newCitations),
-        });
-        return this.state.citations;
-    }
-
-    /**
-     * Purges items from the local state whos ID is listed in `items`
-     * @param  items Array of item IDs to remove from the state.
-     * @return State after removing items
-     */
-    purgeCitations(items: string[]): {[itemID: string]: CSL.Data} {
-        const citations = Object.keys(this.state.citations)
-            .filter(id => items.indexOf(id) === -1)
-            .reduce((result, id) => {
-                result[id] = this.state.citations[id];
-                return result;
-            }, {});
-        this.state = Object.assign({}, this.state, {
-            citations,
-        });
-        return this.state.citations;
-    }
+    // private getRemoteLocale(loc) {
+    //     console.log('GET REMOTE LOCALE CALLED');
+    //     console.log(loc);
+    // }
 
     /**
      * Transforms the CSL.Data[] into a Citeproc.Citation.
@@ -174,13 +118,14 @@ export class CSLProcessor implements ABT.CSLProcessor {
      * NOTE: This still needs to be extended further.
      * @return {Citeproc.Bibliography} Parsed bibliography.
      */
-    makeBibliography(links: 'always'|'urls'|'never'): Citeproc.Bibliography {
+    makeBibliography(links: 'always'|'urls'|'never'): ABT.Bibliography {
         const [bibmeta, bibHTML]: Citeproc.Bibliography = this.citeproc.makeBibliography();
+        this.store.citations.init(this.citeproc.registry.citationreg);
         const temp = document.createElement('DIV');
-        const payload: string[] = bibHTML.map((h: string, i: number) => {
+        const payload: {id: string, html: string}[] = bibHTML.map((h: string, i: number) => {
             temp.innerHTML = h;
             const el = temp.firstElementChild as HTMLDivElement;
-            const item: CSL.Data = this.state.citations[bibmeta.entry_ids[i][0]];
+            const item: CSL.Data = this.store.citations.CSL.get(bibmeta.entry_ids[i][0]);
 
             switch (bibmeta['second-field-align']) {
                 case false:
@@ -209,10 +154,16 @@ export class CSLProcessor implements ABT.CSLProcessor {
                 }
             }
 
-            return temp.innerHTML;
+            return {id: bibmeta.entry_ids[i][0], html: temp.innerHTML};
         });
         temp.remove();
         return [bibmeta, payload];
     }
 
 }
+
+/*
+NOTE: Locale list...
+eng
+rus
+ */

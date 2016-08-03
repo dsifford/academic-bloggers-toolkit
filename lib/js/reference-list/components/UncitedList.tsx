@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Card } from './Card';
 
 interface Props {
-    readonly uncited: [string, CSL.Data][];
+    readonly uncited: CSL.Data[];
     readonly selected: string[];
     readonly onClick: Function;
 }
@@ -41,10 +41,11 @@ export class UncitedList extends React.Component<Props, State> {
                         {
                             uncited.map(r =>
                                 <Card
-                                    key={r[0]}
-                                    html={r[1].title}
-                                    isSelected={selected.indexOf(r[0]) > -1}
-                                    onClick={onClick.bind(null, r[0], selected.indexOf(r[0]) > -1)} />
+                                    key={r.id}
+                                    CSL={r}
+                                    isSelected={selected.indexOf(r.id) > -1}
+                                    id={r.id}
+                                    click={onClick} />
                             )
                         }
                     </div>

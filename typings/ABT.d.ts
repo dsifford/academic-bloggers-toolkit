@@ -14,13 +14,8 @@ declare module 'react-virtualized-select' {
 
 declare namespace ABT {
 
-    class CSLProcessor {
+    interface CSLProcessor {
         style: string;
-        state: {
-            citations: {
-                [itemID: string]: CSL.Data;
-            }
-        };
         citeproc: Citeproc.Processor;
         /**
          * Instantiates a new CSL.Engine (either when initially constructed or when
@@ -59,6 +54,8 @@ declare namespace ABT {
          */
         makeBibliography(links: 'always'|'urls'|'never'): Citeproc.Bibliography;
     }
+
+    type Bibliography = [Citeproc.Bibmeta, {id: string, html: string}[]];
 
     interface AdminMeta {
         /** Heading for the bibliography */
@@ -274,7 +271,7 @@ declare namespace Citeproc {
         citationByIndex: Citation[];
         /** Retrieve citation by the unique citation ID */
         citationsByItemId: {
-            [itemId: string]: Citation;
+            [itemId: string]: Citation[];
         };
     }
 
@@ -573,6 +570,10 @@ declare namespace CSL {
         circa?: string|number|boolean;
         literal?: string;
         raw?: string;
+        /* Not part of CSL spec - Added by Citeproc */
+        day?: number;
+        month?: number;
+        year?: number;
     }
 
 }

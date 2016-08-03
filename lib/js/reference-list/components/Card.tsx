@@ -2,7 +2,9 @@ import * as React from 'react';
 
 interface CardProps extends React.HTMLProps<HTMLDivElement> {
     isSelected: boolean;
-    html: string;
+    CSL: CSL.Data;
+    id: string;
+    click(id: string, isSelected: boolean);
 }
 
 export class Card extends React.Component<CardProps, {}> {
@@ -11,12 +13,33 @@ export class Card extends React.Component<CardProps, {}> {
         super(props);
     }
 
+    click = () => {
+        this.props.click(this.props.id, this.props.isSelected);
+    }
+
+    private parsePeople = (p: CSL.Person[]): string =>
+        p.reduce((prev, curr, i) => {
+            if (i < 2)
+                return prev += `${curr.family}, ${curr.given[0]}${p.length > i + 1 ? ', ' : `.`}`;
+            if (i === 2)
+                return prev +=`${curr.family}, ${curr.given[0]}${p.length > i + 1 ? '...' : `.`}`;
+            return prev;
+        }, '');
+
     render() {
+        const { CSL, isSelected } = this.props;
         return (
             <div
-                className={this.props.isSelected ? 'abt-card selected' : 'abt-card'}
-                onClick={this.props.onClick}
-                dangerouslySetInnerHTML={{ __html: this.props.html }} />
+                className={isSelected ? 'abt-card selected' : 'abt-card'}
+                onClick={this.click}>
+                <div>{CSL.title}</div>
+                <div style={{fontSize: '0.8em', fontWeight: 600}}>{this.parsePeople(CSL.author)}</div>
+                <div style={{fontSize: '0.8em', display: 'flex', justifyContent: 'space-between'}}>
+                    <div>({CSL.issued.year})</div>
+                    <div><em>{CSL.journalAbbreviation}</em></div>
+                    <div>{CSL.page}</div>
+                </div>
+            </div>
         );
     }
 

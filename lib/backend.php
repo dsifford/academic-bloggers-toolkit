@@ -84,27 +84,36 @@ class ABT_Backend {
      * @since 3.0.0
      */
     public function render_reflist($post) {
-        $reflist_state = get_post_meta($post->ID, '_abt-reflist-state', true);
+        $reflist_state = json_decode(get_post_meta($post->ID, '_abt-reflist-state', true), true);
+        $abt_options = get_option('abt_options');
         if (empty($reflist_state)) {
-            $abt_options = get_option('abt_options');
             $reflist_state = [
                 'bibliography' => [],
                 'cache' => [
                     'style' => isset($abt_options['abt_citation_style']) ? $abt_options['abt_citation_style'] : 'american-medical-association',
-                    'locale' => get_locale(),
                     'links' => isset($abt_options['display_options']['links']) ? $abt_options['display_options']['links'] : 'always',
+                    'locale' => get_locale(),
+                    'bibmeta' => (object)[],
+                    'uncited' => [],
                 ],
-                'processorState' => (object)[],
                 'citations' => [
                     'citationById' => (object)[],
-                    'citationByIndex' => (object)[],
+                    'citationByIndex' => [],
                     'citationsByItemId' => (object)[],
                 ],
-                'bibOptions' => [
-                    'heading' => isset($abt_options['display_options']['bib_heading']) ? $abt_options['display_options']['bib_heading'] : null,
-                    'style' => isset($abt_options['display_options']['bibliography']) ? $abt_options['display_options']['bibliography'] : 'fixed',
-                ],
+                'CSL' => (object)[],
             ];
+        }
+
+        $reflist_state['bibOptions'] = [
+            'heading' => isset($abt_options['display_options']['bib_heading']) ? $abt_options['display_options']['bib_heading'] : null,
+            'style' => isset($abt_options['display_options']['bibliography']) ? $abt_options['display_options']['bibliography'] : 'fixed',
+        ];
+
+        // Fix legacy post meta
+        if (array_key_exists('processorState', $reflist_state)) {
+            $reflist_state['CSL'] = $reflist_state['processorState'];
+            unset($reflist_state['processorState']);
         }
 
         wp_localize_script('abt_reflist', 'ABT_Reflist_State', $reflist_state);

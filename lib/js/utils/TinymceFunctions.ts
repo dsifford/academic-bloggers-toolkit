@@ -85,7 +85,7 @@ export function getRelativeCitationPositions(editor: TinyMCE.Editor): CitationPo
         });
     }
     let el = editor.dom.doc.getElementById('CURSOR');
-    el.parentElement.removeChild(el);
+    if (el) el.parentElement.removeChild(el);
     return payload;
 }
 
