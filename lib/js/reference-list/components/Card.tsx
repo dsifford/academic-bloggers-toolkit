@@ -17,7 +17,7 @@ export class Card extends React.Component<CardProps, {}> {
         this.props.click(this.props.id, this.props.isSelected);
     }
 
-    private parsePeople = (p: CSL.Person[]): string =>
+    parsePeople = (p: CSL.Person[]): string =>
         p.reduce((prev, curr, i) => {
             if (i < 2)
                 return prev += `${curr.family}, ${curr.given[0]}${p.length > i + 1 ? ', ' : `.`}`;
@@ -25,6 +25,11 @@ export class Card extends React.Component<CardProps, {}> {
                 return prev +=`${curr.family}, ${curr.given[0]}${p.length > i + 1 ? '...' : `.`}`;
             return prev;
         }, '');
+
+    parseDate = (date: CSL.Date): number|string =>
+        date.year
+        ? date.year
+        : date['date-parts'][0][0];
 
     render() {
         const { CSL, isSelected } = this.props;
@@ -35,7 +40,7 @@ export class Card extends React.Component<CardProps, {}> {
                 <div>{CSL.title}</div>
                 <div style={{fontSize: '0.8em', fontWeight: 600}}>{this.parsePeople(CSL.author)}</div>
                 <div style={{fontSize: '0.8em', display: 'flex', justifyContent: 'space-between'}}>
-                    <div>({CSL.issued.year})</div>
+                    <div>({this.parseDate(CSL.issued)})</div>
                     <div><em>{CSL.journalAbbreviation}</em></div>
                     <div>{CSL.page}</div>
                 </div>

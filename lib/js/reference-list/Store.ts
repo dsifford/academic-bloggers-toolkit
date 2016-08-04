@@ -119,9 +119,14 @@ export class Store {
     @observable
     bibliography: IObservableArray<{id: string, html: string}>
 
-    /* TODO: This can be computed */
-    @observable
-    uncited: IObservableArray<string>;
+    @computed
+    get uncited(): CSL.Data[] {
+        const cited = this.bibliography.map(i => i.id);
+        return this.citations.CSL.keys().reduce((prev, curr) => {
+            if (cited.indexOf(curr) === -1) prev.push(this.citations.CSL.get(curr));
+            return prev;
+        }, []);
+    }
 
     @computed
     get cache() {
@@ -145,11 +150,6 @@ export class Store {
     }
 
     @computed
-    get uncitedData(): CSL.Data[] {
-        return this.uncited.map(id => this.citations.CSL.get(id));
-    }
-
-    @computed
     get citedData(): CSL.Data[] {
         return this.bibliography.map(b => this.citations.CSL.get(b.id));
     }
@@ -165,11 +165,11 @@ export class Store {
         this.bibOptions = bibOptions;
 
         // Handle legacy uncited cache
-        if (cache.uncited.length > 0 && typeof cache.uncited[0] === 'object') {
-            this.uncited = observable((cache.uncited as [string, CSL.Data][]).map(i => i[0]));
-        }
-        else {
-            this.uncited = observable(cache.uncited as string[])
-        }
+        // if (cache.uncited.length > 0 && typeof cache.uncited[0] === 'object') {
+        //     this.uncited = observable((cache.uncited as [string, CSL.Data][]).map(i => i[0]));
+        // }
+        // else {
+        //     this.uncited = observable(cache.uncited as string[])
+        // }
     }
 }

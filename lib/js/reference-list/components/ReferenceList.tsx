@@ -45,11 +45,6 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
         this.handleMenuSelection = this.handleMenuSelection.bind(this);
     }
 
-    // updateCitations(data: CSL.Data[]): void {
-    //     const { locations: [citationsBefore, citationsAfter] } = MCE.getRelativeCitationPositions(this.editor);
-    //     const citationData = this.processor.prepareInlineCitationData(data);
-    // }
-
     componentDidMount() {
         addEventListener(TINYMCE_READY, this.initTinyMCE.bind(this));
         addEventListener(OPEN_REFERENCE_WINDOW, this.openReferenceWindow.bind(this));
@@ -85,7 +80,6 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
     insertInline(e?: React.MouseEvent<HTMLButtonElement>, data?: CSL.Data[]) {
 
         if (e) e.preventDefault();
-        // if (!data) data = [];
         this.editor.setProgressState(true);
 
         /**
@@ -96,7 +90,6 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
             data = [];
             this.selected.forEach(id => {
                 data.push(this.props.store.citations.CSL.get(id));
-                // this.props.store.uncited.filter(c => c[0] !== id);
             });
         }
 
@@ -136,10 +129,6 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
         const citedItems: string[] = this.selected.filter(id =>
             this.props.store.citations.citationsByItemId.hasOwnProperty(id)
         );
-        const uncited = this.props.store.uncited.filter(item =>
-            this.selected.indexOf(item) === -1
-        );
-        this.props.store.uncited.replace(uncited);
 
         if (citedItems.length > 0) {
             this.props.store.citations.citationByIndex = this.props.store.citations.citationByIndex.filter(c => {
@@ -173,9 +162,7 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
                     }, {} as {[itemId: string]: CSL.Data})
                 );
 
-                if (!payload.attachInline) {
-                    return this.addToUncitedList(data.map(d => d.id));
-                }
+                if (!payload.attachInline) return;
                 this.insertInline(null, data);
             })
             .catch(err => console.error(err.message));
@@ -192,14 +179,7 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
                     return prev;
                 }, {} as {[itemId: string]: CSL.Data})
             );
-
-            this.addToUncitedList(data.payload.map(d => d[0]));
         });
-    }
-
-    addToUncitedList(data: string[]): void {
-        this.props.store.uncited.push(...data);
-        this.clearSelection();
     }
 
     handleMenuSelection(kind: string, data?) {
@@ -353,7 +333,7 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
                 </div>
                 { this.props.store.uncited.length > 0 &&
                     <UncitedList
-                        uncited={this.props.store.uncitedData}
+                        uncited={this.props.store.uncited}
                         selected={this.selected}
                         onClick={this.toggleSelect.bind(this)}/>
                 }
