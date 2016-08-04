@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { ReviewRow } from './ReviewRow';
-import { abtPRFieldMapping } from '../../utils/Constants';
+import { abtPRFieldMapping } from '../utils/Constants';
 
 declare var wp;
 

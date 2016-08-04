@@ -186,9 +186,9 @@ class ABT_Backend {
 
         wp_enqueue_media();
         wp_dequeue_script('autosave');
-        wp_enqueue_script('abt-PR-metabox', plugins_url('academic-bloggers-toolkit/lib/js/components/peer-review-metabox/Entrypoint.js'), [], false, true);
+        wp_enqueue_script('abt-PR-metabox', plugins_url('academic-bloggers-toolkit/lib/js/peer-review-metabox/index.js'), [], false, true);
         wp_enqueue_script('abt_citeproc', plugins_url('academic-bloggers-toolkit/vendor/citeproc.js'), [], false, true);
-        wp_enqueue_script('abt_reflist', plugins_url('academic-bloggers-toolkit/lib/js/reference-list/components/Entrypoint.js'), ['abt_citeproc'], false, true);
+        wp_enqueue_script('abt_reflist', plugins_url('academic-bloggers-toolkit/lib/js/reference-list/index.js'), ['abt_citeproc'], false, true);
     }
 
     /**

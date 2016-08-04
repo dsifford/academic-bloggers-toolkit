@@ -3,16 +3,17 @@ module.exports = {
     entry: {
         'lib/js/Frontend': './lib/js/Frontend.ts',
         'lib/js/TinymceEntrypoint': './lib/js/TinymceEntrypoint.ts',
-        'lib/js/reference-list/components/Entrypoint': './lib/js/reference-list/components/Entrypoint.tsx',
-        'lib/js/components/peer-review-metabox/Entrypoint': './lib/js/components/peer-review-metabox/Entrypoint.tsx',
-        'lib/js/tinymce/components/reference-window/ReferenceWindow': './lib/js/tinymce/components/reference-window/ReferenceWindow.tsx',
-        'lib/js/tinymce/components/pubmed-window/Entrypoint': './lib/js/tinymce/components/pubmed-window/Entrypoint.tsx',
-        'lib/js/tinymce/components/import-window/Entrypoint': './lib/js/tinymce/components/import-window/Entrypoint.tsx'
+        'lib/js/reference-list/index': './lib/js/reference-list/',
+        'lib/js/peer-review-metabox/index': './lib/js/peer-review-metabox/',
+        'lib/js/tinymce/components/reference-window/index': './lib/js/tinymce/components/reference-window/',
+        'lib/js/tinymce/components/pubmed-window/index': './lib/js/tinymce/components/pubmed-window/',
+        'lib/js/tinymce/components/import-window/index': './lib/js/tinymce/components/import-window/',
     },
     output: {
         filename: '[name].js',
         path: __dirname,
     },
+    devtool: 'eval-source-map',
     module: {
         loaders: [
             {

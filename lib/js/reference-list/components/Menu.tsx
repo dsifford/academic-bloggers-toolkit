@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { citeStyles } from '../../../../vendor/citationstyles';
 import VSelect from 'react-virtualized-select';
+import { observer } from 'mobx-react';
 
 import 'react-virtualized-select/styles.css';
 import 'react-virtualized/styles.css';
@@ -19,6 +20,7 @@ interface State {
     };
 }
 
+@observer
 export class Menu extends React.Component<Props, State> {
 
     public styles = citeStyles;

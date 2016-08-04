@@ -129,6 +129,11 @@ export class Store {
     }
 
     @computed
+    get cited(): CSL.Data[] {
+        return this.bibliography.map(b => this.citations.CSL.get(b.id));
+    }
+
+    @computed
     get cache() {
         return {
             style: this.citationStyle,
@@ -147,11 +152,6 @@ export class Store {
             citations: this.citations.data.registry,
             CSL: this.citations.data.CSL,
         });
-    }
-
-    @computed
-    get citedData(): CSL.Data[] {
-        return this.bibliography.map(b => this.citations.CSL.get(b.id));
     }
 
     constructor(savedState: SavedState) {

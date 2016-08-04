@@ -1,5 +1,4 @@
 import * as React from 'react';
-import * as ReactDOM from 'react-dom';
 import { Modal } from '../../../utils/Modal';
 import { referenceWindowEvents as LocalEvents, manualDataObj } from '../../../utils/Constants';
 
@@ -7,7 +6,7 @@ import { IdentifierInput } from './IdentifierInput';
 import { ManualEntryContainer } from './ManualEntryContainer';
 import { ButtonRow } from './ButtonRow';
 
-class ReferenceWindow extends React.Component<{}, ABT.ReferenceWindowPayload> {
+export class ReferenceWindow extends React.Component<{}, ABT.ReferenceWindowPayload> {
 
     private modal: Modal = new Modal('Insert Formatted Reference');
 
@@ -159,9 +158,3 @@ class ReferenceWindow extends React.Component<{}, ABT.ReferenceWindowPayload> {
         );
     }
 }
-
-
-ReactDOM.render(
-  <ReferenceWindow />,
-  document.getElementById('main-container')
-);

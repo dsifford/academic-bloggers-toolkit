@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { observer } from 'mobx-react';
 
 interface CardProps extends React.HTMLProps<HTMLDivElement> {
     isSelected: boolean;
@@ -7,6 +8,7 @@ interface CardProps extends React.HTMLProps<HTMLDivElement> {
     click(id: string, isSelected: boolean);
 }
 
+@observer
 export class Card extends React.Component<CardProps, {}> {
 
     constructor(props) {

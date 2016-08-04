@@ -6,12 +6,12 @@ import { observable, IObservableArray } from 'mobx';
 import { observer } from 'mobx-react';
 import { getRemoteData, parseManualData } from '../API';
 import * as CSSTransitionGroup from 'react-addons-css-transition-group';
+import DevTools from 'mobx-react-devtools';
 
 import { Store } from '../Store';
 import { Menu } from './Menu';
-import { Card } from './Card';
 import { PanelButton } from './PanelButton';
-import { UncitedList } from './UncitedList';
+import { ItemList } from './ItemList';
 
 declare const tinyMCE: TinyMCE.MCE;
 const { OPEN_REFERENCE_WINDOW, TINYMCE_READY } = EVENTS;
@@ -117,6 +117,7 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
         this.clearSelection();
     }
 
+    /* TODO: Start here for fixing the performance and rendering issues...... */
     deleteCitations(e?: React.MouseEvent<HTMLButtonElement>) {
         if (e) e.preventDefault();
 
@@ -186,6 +187,7 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
         switch (kind) {
             case 'CHANGE_STYLE':
                 this.props.store.citationStyle = data;
+                this.menuOpen = false;
                 return this.initProcessor();
             case 'IMPORT_RIS':
                 this.menuOpen = false;
@@ -270,6 +272,7 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
 
         return (
             <div>
+                <DevTools position={{top: 40, left: 50}}/>
                 <input
                     type='hidden'
                     name='abt-reflist-state'
@@ -319,23 +322,26 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
                                 submitData={this.handleMenuSelection}/>
                         }
                     </CSSTransitionGroup>
-                <div className='list'>
-                    {
-                        this.props.store.citedData.map((r: CSL.Data) =>
-                            <Card
-                                key={r.id}
-                                click={this.toggleSelect}
-                                isSelected={this.selected.indexOf(r.id) > -1}
-                                id={r.id}
-                                CSL={r} />
-                        )
-                    }
-                </div>
+                { this.props.store.cited.length > 0 &&
+                    <ItemList
+                        items={this.props.store.cited}
+                        selectedItems={this.selected}
+                        startVisible={true}
+                        click={this.toggleSelect}
+                        className='list'>
+                        Cited Items
+                    </ItemList>
+
+                }
                 { this.props.store.uncited.length > 0 &&
-                    <UncitedList
-                        uncited={this.props.store.uncited}
-                        selected={this.selected}
-                        onClick={this.toggleSelect.bind(this)}/>
+                    <ItemList
+                        items={this.props.store.uncited}
+                        selectedItems={this.selected}
+                        startVisible={false}
+                        click={this.toggleSelect}
+                        className='list uncited'>
+                        Uncited Items
+                    </ItemList>
                 }
             </div>
         );
