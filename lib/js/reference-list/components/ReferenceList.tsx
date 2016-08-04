@@ -123,13 +123,14 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
 
         if (this.selected.length === 0) return;
 
-        /* TODO: Optimize these functions */
-        // Dispose of CSL
-        this.selected.forEach(id => this.props.store.citations.CSL.delete(id));
+        const citedItems: string[] = this.selected.filter(id => {
+            const index = this.props.store.bibliography.findIndex(item => item.id === id);
+            return index !== -1
+            ? this.props.store.bibliography.remove(this.props.store.bibliography[index])
+            : false;
+        });
 
-        const citedItems: string[] = this.selected.filter(id =>
-            this.props.store.citations.citationsByItemId.hasOwnProperty(id)
-        );
+        this.selected.forEach(id => this.props.store.citations.CSL.delete(id));
 
         if (citedItems.length > 0) {
             this.props.store.citations.citationByIndex = this.props.store.citations.citationByIndex.filter(c => {
@@ -273,10 +274,7 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
         return (
             <div>
                 <DevTools position={{top: 40, left: 50}}/>
-                <input
-                    type='hidden'
-                    name='abt-reflist-state'
-                    value={this.props.store.persistent} />
+                <StorageField store={this.props.store} />
                 <div className='panel'>
                     <PanelButton
                         disabled={this.selected.length === 0}
@@ -318,7 +316,7 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
                         { this.menuOpen &&
                             <Menu
                                 key='menu'
-                                cslStyle={this.props.store.cache.style}
+                                cslStyle={this.props.store.citationStyle}
                                 submitData={this.handleMenuSelection}/>
                         }
                     </CSSTransitionGroup>
@@ -331,7 +329,6 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
                         className='list'>
                         Cited Items
                     </ItemList>
-
                 }
                 { this.props.store.uncited.length > 0 &&
                     <ItemList
@@ -345,5 +342,17 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
                 }
             </div>
         );
+    }
+}
+
+@observer
+class StorageField extends React.Component<{store: Store},{}> {
+    render() {
+        return (
+            <input
+                type='hidden'
+                name='abt-reflist-state'
+                value={this.props.store.persistent} />
+        )
     }
 }

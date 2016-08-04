@@ -41,18 +41,33 @@ export class ItemList extends React.Component<Props, State> {
                     <div className='badge' children={items.length} />
                 </div>
                 { this.state.showList &&
-                    <div className={className}>
-                        {
-                            items.map(r =>
-                                <Card
-                                    key={r.id}
-                                    CSL={r}
-                                    isSelected={selectedItems.indexOf(r.id) > -1}
-                                    id={r.id}
-                                    click={click} />
-                            )
-                        }
-                    </div>
+                    <Items className={className} items={items} selectedItems={selectedItems} click={click} />
+                }
+            </div>
+        );
+    }
+}
+
+interface ItemsProps extends React.HTMLProps<HTMLElement> {
+    readonly items: CSL.Data[];
+    readonly selectedItems: string[];
+    readonly click: (id: string, isSelected: boolean) => any;
+}
+
+@observer
+class Items extends React.Component<ItemsProps,{}> {
+    render() {
+        return (
+            <div className={this.props.className}>
+                {
+                    this.props.items.map(r =>
+                        <Card
+                            key={r.id}
+                            CSL={r}
+                            isSelected={this.props.selectedItems.indexOf(r.id) > -1}
+                            id={r.id}
+                            click={this.props.click} />
+                    )
                 }
             </div>
         );

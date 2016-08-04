@@ -134,6 +134,15 @@ export class Store {
     }
 
     @computed
+    get persistent(): string {
+        return JSON.stringify({
+            bibliography: this.bibliography,
+            cache: this.cache,
+            citations: this.citations.data.registry,
+            CSL: this.citations.data.CSL,
+        });
+    }
+
     get cache() {
         return {
             style: this.citationStyle,
@@ -142,16 +151,6 @@ export class Store {
             bibmeta: toJS(this.bibmeta),
             uncited: this.uncited,
         };
-    }
-
-    @computed
-    get persistent(): string {
-        return JSON.stringify({
-            bibliography: this.bibliography,
-            cache: this.cache,
-            citations: this.citations.data.registry,
-            CSL: this.citations.data.CSL,
-        });
     }
 
     constructor(savedState: SavedState) {
@@ -163,13 +162,5 @@ export class Store {
         this.bibliography = observable(bibliography);
         this.citations = new CitationStore(citations, CSL);
         this.bibOptions = bibOptions;
-
-        // Handle legacy uncited cache
-        // if (cache.uncited.length > 0 && typeof cache.uncited[0] === 'object') {
-        //     this.uncited = observable((cache.uncited as [string, CSL.Data][]).map(i => i[0]));
-        // }
-        // else {
-        //     this.uncited = observable(cache.uncited as string[])
-        // }
     }
 }
