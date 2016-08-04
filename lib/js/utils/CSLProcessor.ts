@@ -45,7 +45,6 @@ export class CSLProcessor /* FIXME implements ABT.CSLProcessor */ {
             this.localeStore.set(e.data[0], e.data[1]);
         }
         this.worker.postMessage('');
-        this.init();
     }
 
     /**

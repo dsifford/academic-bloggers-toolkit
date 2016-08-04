@@ -1,4 +1,5 @@
 [![Coverage Status](https://coveralls.io/repos/github/dsifford/academic-bloggers-toolkit/badge.svg?branch=master)](https://coveralls.io/github/dsifford/academic-bloggers-toolkit?branch=master) [![Build Status](https://travis-ci.org/dsifford/academic-bloggers-toolkit.svg?branch=master)](https://travis-ci.org/dsifford/academic-bloggers-toolkit) [![WordPress](https://img.shields.io/wordpress/plugin/dt/academic-bloggers-toolkit.svg?maxAge=2592000)](https://wordpress.org/plugins/academic-bloggers-toolkit/)
+![Dependencies](https://david-dm.org/dsifford/academic-bloggers-toolkit.svg)
 
 # Academic Blogger's Toolkit
 An **open source** WordPress plugin providing an all-in-one solution for effective academic blogging.

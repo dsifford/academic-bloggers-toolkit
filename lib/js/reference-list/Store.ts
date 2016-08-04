@@ -1,10 +1,6 @@
 import { observable, ObservableMap, asMap, toJS, IObservableArray, computed } from 'mobx';
 
 interface SavedState {
-    bibliography: {
-        id: string;
-        html: string;
-    }[];
     cache: {
         style: string;
         links: 'always'|'urls'|'never';
@@ -37,6 +33,18 @@ class CitationStore {
     @observable
     CSL: ObservableMap<CSL.Data>;
 
+    @computed
+    get data(): {registry: Citeproc.CitationRegistry, CSL: {[id: string]: CSL.Data}} {
+        return {
+            registry: {
+                citationById: toJS(this.byId),
+                citationByIndex: this.byIndex.slice(),
+                citationsByItemId: toJS(this.byItemId),
+            },
+            CSL: toJS(this.CSL),
+        }
+    }
+
     constructor(c: Citeproc.CitationRegistry, CSL: {[id: string]: CSL.Data}) {
         this.byId = asMap(c.citationById);
         this.byIndex = observable(c.citationByIndex);
@@ -50,18 +58,6 @@ class CitationStore {
         this.byItemId = asMap(registry.citationsByItemId);
     }
 
-    @computed
-    get data(): {registry: Citeproc.CitationRegistry, CSL: {[id: string]: CSL.Data}} {
-        return {
-            registry: {
-                citationById: toJS(this.byId),
-                citationByIndex: this.byIndex,
-                citationsByItemId: toJS(this.byItemId),
-            },
-            CSL: toJS(this.CSL),
-        }
-    }
-
     get citationById(): {[id: string]: Citeproc.Citation} {
         return toJS(this.byId);
     }
@@ -71,7 +67,7 @@ class CitationStore {
     }
 
     get citationByIndex(): Citeproc.Citation[] {
-        return this.byIndex;
+        return this.byIndex.slice();
     }
 
     set citationByIndex(arr: Citeproc.Citation[]) {
@@ -117,7 +113,7 @@ export class Store {
     bibmeta: Citeproc.Bibmeta;
 
     @observable
-    bibliography: IObservableArray<{id: string, html: string}>
+    bibliography: IObservableArray<{id: string, html: string}> = observable([]);
 
     @computed
     get uncited(): CSL.Data[] {
@@ -125,18 +121,17 @@ export class Store {
         return this.citations.CSL.keys().reduce((prev, curr) => {
             if (cited.indexOf(curr) === -1) prev.push(this.citations.CSL.get(curr));
             return prev;
-        }, []);
+        }, []).slice();
     }
 
     @computed
     get cited(): CSL.Data[] {
-        return this.bibliography.map(b => this.citations.CSL.get(b.id));
+        return this.bibliography.map(b => this.citations.CSL.get(b.id)).slice();
     }
 
     @computed
     get persistent(): string {
         return JSON.stringify({
-            bibliography: this.bibliography,
             cache: this.cache,
             citations: this.citations.data.registry,
             CSL: this.citations.data.CSL,
@@ -149,18 +144,16 @@ export class Store {
             links: this.links,
             locale: this.locale,
             bibmeta: toJS(this.bibmeta),
-            uncited: this.uncited,
         };
     }
 
     constructor(savedState: SavedState) {
-        const { bibliography, cache, citations, bibOptions, CSL } = savedState;
+        const { cache, citations, bibOptions, CSL } = savedState;
+        this.citations = new CitationStore(citations, CSL);
         this.links = cache.links;
         this.locale = cache.locale;
         this.citationStyle = cache.style;
         this.bibmeta = cache.bibmeta;
-        this.bibliography = observable(bibliography);
-        this.citations = new CitationStore(citations, CSL);
         this.bibOptions = bibOptions;
     }
 }

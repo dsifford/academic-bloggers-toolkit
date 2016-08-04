@@ -52,7 +52,7 @@ export function getFromPMID(PMIDlist: string, callback: Function, bypassJSONForm
         const res = JSON.parse(req.responseText);
 
         if (res.error)
-            return callback(new Error(`Error: getFromPMID => ${res.error}`));
+            return callback(new Error(`Error: getFromPMID => One or more entered PMIDs are invalid.`));
 
         const iterable = [];
 

@@ -53,11 +53,11 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
 
     initTinyMCE() {
         this.editor = tinyMCE.activeEditor;
-        this.loading = !this.loading;
+        this.initProcessor().then(() => this.loading = !this.loading);
     }
 
     initProcessor() {
-        this.processor.init()
+        return this.processor.init()
         .then((clusters) => {
 
             const [bibmeta, bibliography] = this.processor.makeBibliography(this.props.store.links);
@@ -117,11 +117,12 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
         this.clearSelection();
     }
 
-    /* TODO: Start here for fixing the performance and rendering issues...... */
     deleteCitations(e?: React.MouseEvent<HTMLButtonElement>) {
         if (e) e.preventDefault();
 
         if (this.selected.length === 0) return;
+
+        this.editor.setProgressState(true);
 
         const citedItems: string[] = this.selected.filter(id => {
             const index = this.props.store.bibliography.findIndex(item => item.id === id);
@@ -132,17 +133,20 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
 
         this.selected.forEach(id => this.props.store.citations.CSL.delete(id));
 
-        if (citedItems.length > 0) {
-            this.props.store.citations.citationByIndex = this.props.store.citations.citationByIndex.filter(c => {
-                c.citationItems = c.citationItems.filter(i => citedItems.indexOf(i.id) === -1);
-                if (c.citationItems.length === 0) {
-                    const el = this.editor.dom.doc.getElementById(c.citationID);
-                    el.parentElement.removeChild(el);
-                }
-                return c.citationItems.length > 0;
-            });
-            this.initProcessor();
+        if (citedItems.length === 0) {
+            this.editor.setProgressState(false);
+            return;
         }
+
+        this.props.store.citations.citationByIndex = this.props.store.citations.citationByIndex.filter(c => {
+            c.citationItems = c.citationItems.filter(i => citedItems.indexOf(i.id) === -1);
+            if (c.citationItems.length === 0) {
+                const el = this.editor.dom.doc.getElementById(c.citationID);
+                el.parentElement.removeChild(el);
+            }
+            return c.citationItems.length > 0;
+        });
+        this.initProcessor().then(() => this.editor.setProgressState(false));
     }
 
     openReferenceWindow(e: React.MouseEvent<HTMLButtonElement>) {
@@ -167,7 +171,10 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
                 if (!payload.attachInline) return;
                 this.insertInline(null, data);
             })
-            .catch(err => console.error(err.message));
+            .catch(err => {
+                console.error(err.message);
+                this.editor.windowManager.alert(err.message);
+            });
         });
     }
 
@@ -189,14 +196,16 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
             case 'CHANGE_STYLE':
                 this.props.store.citationStyle = data;
                 this.menuOpen = false;
-                return this.initProcessor();
+                this.initProcessor();
+                return;
             case 'IMPORT_RIS':
                 this.menuOpen = false;
                 this.openImportWindow();
                 return;
             case 'REFRESH_PROCESSOR':
                 this.menuOpen = false;
-                return this.initProcessor();
+                this.initProcessor();
+                return;
             case 'DESTROY_PROCESSOR': {
                 // this.selected = this.props.store.bibliography.map(b => b.id);
                 // this.deleteCitations();
