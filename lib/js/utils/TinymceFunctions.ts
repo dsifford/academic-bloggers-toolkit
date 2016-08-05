@@ -229,4 +229,10 @@ export function setBibliography(
         editor.selection.collapse(true);
         el.parentElement.removeChild(el);
     }
+
+    // Remove unnecessary &nbsp; from editor
+    const p = editor.dom.doc.getElementById('abt-smart-bib').previousElementSibling;
+    if (p.tagName === 'P' && p.textContent.trim() === '') {
+        p.parentNode.removeChild(p);
+    }
 }
