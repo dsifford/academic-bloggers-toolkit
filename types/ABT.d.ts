@@ -232,20 +232,20 @@ declare namespace Citeproc {
 
     interface Bibmeta {
         /** Closing div tag for bibliography. */
-        bibend?: string;
+        bibend: string;
         /** array of strings? for errors. */
-        'bibliography_errors'?: string[];
+        'bibliography_errors': string[];
         /** Opening div tag for bibliography. */
-        bibstart?: string;
+        bibstart: string;
         /** (not sure what for) */
-        done?: boolean;
+        done: boolean;
         /** array of itemIDs */
-        'entry_ids'?: [string][];
+        'entry_ids': [string][];
         /** horizontal spacing? */
-        entryspacing?: number;
+        entryspacing: number;
         /** vertical spacing? */
-        linespacing?: number;
-        maxoffset?: number;
+        linespacing: number;
+        maxoffset: number;
         'second-field-align'?: 'flush'|'margin'|boolean;
     }
 

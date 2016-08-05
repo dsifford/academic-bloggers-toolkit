@@ -12,24 +12,28 @@ import { localeConversions } from './Constants';
  * @param {boolean}    bypassJSONFormatter A boolean (default = false) which
  *   decides whether or not to send the response to be processed as CSL.
  */
-export function PubmedQuery(query: string, callback: Function, bypassJSONFormatter: boolean = false): void {
-    const req = new XMLHttpRequest();
-    req.open('GET', `https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=pubmed&term=${encodeURI(query) }&retmode=json`);
-    req.onload = () => {
 
-        if (req.status !== 200)
-            return callback(new Error('Error: PubmedQuery => Pubmed returned a non-200 status code.'));
 
-        const res = JSON.parse(req.responseText);
+export function PubmedQuery(query: string, bypassJSONFormatter: boolean = false): Promise<PubMed.SingleReference[]> {
+    return new Promise<[string, boolean]>((resolve, reject) => {
+        const req = new XMLHttpRequest();
+        req.open('GET', `https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=pubmed&term=${encodeURI(query)}&retmode=json`);
+        req.onload = () => {
 
-        if (res.error)
-            return callback(new Error('Error: PubmedQuery => Request not valid.'));
+            if (req.status !== 200)
+                reject(new Error('Error: PubmedQuery => Pubmed returned a non-200 status code.'));
 
-        getFromPMID(res.esearchresult.idlist.join(), callback, bypassJSONFormatter);
+            const res = JSON.parse(req.responseText);
 
-    };
-    req.onerror = () => callback(new Error('Error: PubmedQuery => Network Error.'));
-    req.send(null);
+            if (res.error)
+                reject(new Error('Error: PubmedQuery => Request not valid.'));
+
+            resolve([res.res.esearchresult.idlist.join(), bypassJSONFormatter]);
+        };
+        req.onerror = () => reject(new Error('Error: PubmedQuery => Network Error.'));
+        req.send(null);
+    })
+    .then(data => getFromPMID(data[0], data[1]));
 }
 
 
@@ -41,39 +45,38 @@ export function PubmedQuery(query: string, callback: Function, bypassJSONFormatt
  * @param {boolean}    bypassJSONFormatter A boolean (default = false) which
  *   decides whether or not to send the response to be processed as CSL.
  */
-export function getFromPMID(PMIDlist: string, callback: Function, bypassJSONFormatter: boolean = false): void {
-    const req = new XMLHttpRequest();
-    req.open('GET', `https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi?db=pubmed&id=${PMIDlist}&version=2.0&retmode=json`);
-    req.onload = () => {
 
-        if (req.status !== 200)
-            return callback(new Error('Error: getFromPMID => PubMed returned a non-200 status code.'));
 
-        const res = JSON.parse(req.responseText);
+export function getFromPMID(PMIDlist: string, bypassJSONFormatter: boolean = false): Promise<PubMed.SingleReference[]|[CSL.Data[], string[]]> {
+    return new Promise((resolve, reject) => {
+        const req = new XMLHttpRequest();
+        req.open('GET', `https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi?db=pubmed&id=${PMIDlist}&version=2.0&retmode=json`);
+        req.onload = () => {
 
-        if (res.error)
-            return callback(new Error(`Error: getFromPMID => One or more entered PMIDs are invalid.`));
+            if (req.status !== 200)
+                reject(new Error('Error: getFromPMID => PubMed returned a non-200 status code.'));
 
-        const iterable = [];
+            const res = JSON.parse(req.responseText);
+            const iterable: PubMed.SingleReference[] = [];
 
-        for (const i of Object.keys(res.result)) {
-            if (i === 'uids') continue;
-            if (res.result[i].error) {
-                return callback(new Error(`Error: getFromPMID => (PMID ${i}): ${res.result[i].error}`));
+            for (const i of Object.keys(res.result)) {
+                if (i === 'uids') continue;
+                if (res.result[i].title)
+                    res.result[i].title = res.result[i].title.replace(/(&amp;amp;)/g, '&');
+                iterable.push(res.result[i]);
             }
-            if (res.result[i].title) {
-                res.result[i].title = res.result[i].title.replace(/(&amp;amp;)/g, '&');
-            }
-            iterable.push(res.result[i]);
-        }
 
-        if (bypassJSONFormatter) return callback(iterable);
+            if (bypassJSONFormatter) resolve(iterable);
 
-        processJSON(iterable, callback);
+            resolve([
+                processJSON(iterable),
+                PMIDlist.split(',').filter(i => res.result.uids.indexOf(i) === -1)
+            ]);
 
-    };
-    req.onerror = () => callback(new Error('Error: getFromPMID => Network Error.'));
-    req.send(null);
+        };
+        req.onerror = () => reject(new Error('Error: getFromPMID => Network Error.'));
+        req.send(null);
+    });
 }
 
 
@@ -103,15 +106,15 @@ export function getFromPMID(PMIDlist: string, callback: Function, bypassJSONForm
  *   - vernaculartitle
  *   - viewcount
  *
- * @param {PubMed.SingleReference[]} res      The pubmed api response.
- * @param {Function}                 callback Callback function.
+ * @param res  The pubmed api response
+ * @return     CSL.Data[]
  */
-function processJSON(res: PubMed.SingleReference[], callback: Function): void {
-    let payload: CSL.Data[] = [];
+function processJSON(res: PubMed.SingleReference[]): CSL.Data[] {
+    const payload: CSL.Data[] = [];
 
     res.forEach((ref: PubMed.SingleReference, i: number) => {
 
-        let output: CSL.Data = {};
+        const output: CSL.Data = {};
         output.id = `${i}`;
         output.type = 'article-journal'; /** TODO: Figure out all the supported types */
         output.author = [];
@@ -192,5 +195,5 @@ function processJSON(res: PubMed.SingleReference[], callback: Function): void {
         payload.push(output);
     });
 
-    callback(payload);
+    return payload;
 }

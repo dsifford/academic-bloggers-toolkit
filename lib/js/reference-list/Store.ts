@@ -58,6 +58,42 @@ class CitationStore {
         this.byItemId = asMap(registry.citationsByItemId);
     }
 
+    removeItems(idList: string[], editor: HTMLDocument) {
+        idList.forEach(id => {
+            this.removeByIndex(id, editor);
+            this.removeById(id);
+            this.byItemId.delete(id);
+        });
+    }
+
+    private removeByIndex(id: string, editor: HTMLDocument) {
+        for (const [k, v] of this.byIndex.entries()) {
+            this.byIndex[k].citationItems = v.citationItems.filter(i => i.id !== id);
+            if (this.byIndex[k].citationItems.length === 0) {
+                const el = editor.getElementById(v.citationID);
+                el.parentNode.removeChild(el);
+                this.byIndex.remove(this.byIndex[k]);
+                continue;
+            }
+            this.byIndex[k].sortedItems = v.sortedItems.filter(i => i[1].id !== id);
+        }
+    }
+
+    private removeById(id: string) {
+        const item = this.citationById;
+
+        for (const k of Object.keys(item)) {
+            item[k].citationItems = item[k].citationItems.filter(i => i.id !== id);
+            if (item[k].citationItems.length === 0) {
+                this.byId.delete(k);
+                continue;
+            }
+            console.log(this.byId.get(k));
+            item[k].sortedItems = item[k].sortedItems.filter(i => i[1].id !== id);
+            this.byId.set(k, item[k]);
+        }
+    }
+
     get citationById(): {[id: string]: Citeproc.Citation} {
         return toJS(this.byId);
     }
@@ -67,7 +103,7 @@ class CitationStore {
     }
 
     get citationByIndex(): Citeproc.Citation[] {
-        return this.byIndex.slice();
+        return this.byIndex.slice().map(i => toJS(i));
     }
 
     set citationByIndex(arr: Citeproc.Citation[]) {
@@ -110,23 +146,34 @@ export class Store {
     citationStyle: string;
 
     @observable
-    bibmeta: Citeproc.Bibmeta;
+    bibmeta: ObservableMap<Citeproc.Bibmeta>;
 
     @observable
     bibliography: IObservableArray<{id: string, html: string}> = observable([]);
 
     @computed
     get uncited(): CSL.Data[] {
-        const cited = this.bibliography.map(i => i.id);
         return this.citations.CSL.keys().reduce((prev, curr) => {
-            if (cited.indexOf(curr) === -1) prev.push(this.citations.CSL.get(curr));
+            if (this.citedIDs.indexOf(curr) === -1) prev.push(this.citations.CSL.get(curr));
             return prev;
         }, []).slice();
     }
 
     @computed
     get cited(): CSL.Data[] {
-        return this.bibliography.map(b => this.citations.CSL.get(b.id)).slice();
+        return this.citedIDs.map(id => this.citations.CSL.get(id)).slice();
+    }
+
+    @computed
+    get citedIDs(): string[] {
+        return this.citations.citationByIndex
+        .map(i => i.citationItems.map(j => j.id))
+        .reduce((prev, curr) => [...prev, ...curr], [])
+        .reduce((p, c) =>
+            p.indexOf(c) === -1
+            ? [...p, c]
+            : p
+        , []).slice();
     }
 
     @computed
@@ -153,7 +200,7 @@ export class Store {
         this.links = cache.links;
         this.locale = cache.locale;
         this.citationStyle = cache.style;
-        this.bibmeta = cache.bibmeta;
+        this.bibmeta = asMap(<{[id: string]: any}>cache.bibmeta);
         this.bibOptions = bibOptions;
     }
 }

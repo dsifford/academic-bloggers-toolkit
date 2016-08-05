@@ -3,11 +3,12 @@ import { getFromDOI } from '../utils/CrossRefAPI';
 import { generateID } from '../utils/HelperFunctions';
 import { processDate } from '../utils/CSLFieldProcessors';
 
-export function getRemoteData(identifierList: string): Promise<CSL.Data[]|Error> {
-    return new Promise((mainResolve, mainReject) => {
+export function getRemoteData(identifierList: string, mce: TinyMCE.WindowManager): Promise<CSL.Data[]> {
+    return new Promise((resolve, reject) => {
         const pmidList: string[] = [];
         const doiList: string[] = [];
         const identifiers = identifierList.replace(/\s/g, '');
+        const promises: Promise<[CSL.Data[], string[]]>[] = [];
 
         identifiers.split(',').forEach(i => {
             if (i.search(/^10\./) > -1) {
@@ -17,47 +18,29 @@ export function getRemoteData(identifierList: string): Promise<CSL.Data[]|Error>
             pmidList.push(i);
         });
 
-        const p1: Promise<CSL.Data[]> = new Promise((resolve, reject) => {
-            getFromPMID(pmidList.join(','), (res: Error|CSL.Data[]) => {
-                if (res instanceof Error) {
-                    reject(res);
-                    return;
-                }
-                resolve(res);
-            });
-        });
+        if (pmidList.length) promises.push(getFromPMID(pmidList.join(',')));
+        if (doiList.length) promises.push(getFromDOI(doiList));
 
-        const p2: Promise<CSL.Data[]> = new Promise((resolve, reject) => {
-            const promises: Promise<CSL.Data>[] = [];
-            doiList.forEach((doi: string) => {
-                promises.push(
-                    new Promise((resolveInner, rejectInner) => {
-                        getFromDOI(doi, (res: Error|CSL.Data[]) => {
-                            if (res instanceof Error) {
-                                rejectInner(res);
-                                return;
-                            }
-                            resolveInner(res);
-                        });
-                    }) as Promise<CSL.Data>
-                );
-            });
+        if (!promises.length) reject(new Error(`No identifiers could be found for your request.`));
 
-            Promise.all(promises).then((data) => {
-                resolve(data.reduce((a, b) => a.concat(b), []));
-            }, (err: Error) => {
-                reject(err);
-            });
-        });
+        Promise.all(promises).then((data: [CSL.Data[], string[]][]) => {
+            const errs: string[] = data.reduce((prev, curr) => {
+                prev.push(...curr[1].filter(d => d));
+                return prev;
+            }, []);
 
-        Promise.all([p1, p2]).then((data: [CSL.Data[], CSL.Data[]]) => {
-            const combined: CSL.Data[] = data.reduce((a, b) => a.concat(b), []);
+            if (errs.length) mce.alert(`The following identifiers could not be found: ${errs.join(', ')}`);
+
+            const combined: CSL.Data[] = data.reduce((prev, curr) => {
+                prev.push(...curr[0]);
+                return prev;
+            }, [])
             combined.forEach(ref => {
                 ref.id = generateID();
             });
-            mainResolve(combined);
+            resolve(combined);
         }, (err: Error) => {
-            mainReject(err);
+            reject(err);
         });
     });
 };

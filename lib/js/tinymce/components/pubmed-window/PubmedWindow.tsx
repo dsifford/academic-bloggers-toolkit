@@ -10,7 +10,7 @@ interface DOMEvent extends UIEvent {
 
 interface State {
     query: string;
-    results: Object[];
+    results: PubMed.SingleReference[];
     page: number;
 }
 
@@ -54,18 +54,16 @@ export class PubmedWindow extends React.Component<{}, State> {
 
     handleQuery(e: Event) {
         e.preventDefault();
-        PubmedQuery(this.state.query, (data: Object[]|Error) => {
-            if (data instanceof Error) {
-                top.tinyMCE.activeEditor.windowManager.alert(data.message);
-                return;
-            }
+        PubmedQuery(this.state.query, true)
+        .then(data => {
             this.setState({
                 query: '',
                 results: data,
                 page: 1,
             });
             this.modal.resize();
-        }, true);
+        })
+        .catch(e => top.tinyMCE.activeEditor.windowManager.alert(e.message));
     }
 
     handleChange(e: DOMEvent) {

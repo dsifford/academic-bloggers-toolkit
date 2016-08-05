@@ -61,7 +61,7 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
         .then((clusters) => {
 
             const [bibmeta, bibliography] = this.processor.makeBibliography(this.props.store.links);
-            this.props.store.bibmeta = bibmeta;
+            this.props.store.bibmeta.merge(bibmeta as {[id: string]: any});
             this.props.store.bibliography.replace(bibliography);
 
             MCE.parseInlineCitations(
@@ -101,7 +101,7 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
         }
 
         const [bibmeta, bibliography] = this.processor.makeBibliography(this.props.store.links);
-        this.props.store.bibmeta = bibmeta;
+        this.props.store.bibmeta.merge(bibmeta as {[id: string]: any});
         this.props.store.bibliography.replace(bibliography);
 
         MCE.parseInlineCitations(
@@ -124,28 +124,24 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
 
         this.editor.setProgressState(true);
 
-        const citedItems: string[] = this.selected.filter(id => {
-            const index = this.props.store.bibliography.findIndex(item => item.id === id);
-            return index !== -1
-            ? this.props.store.bibliography.remove(this.props.store.bibliography[index])
-            : false;
-        });
+        // const citedItems: string[] = this.selected.filter(id => {
+        //     const index = this.props.store.bibliography.findIndex(item => item.id === id);
+        //     return index !== -1
+        //     ? this.props.store.bibliography.remove(this.props.store.bibliography[index])
+        //     : false;
+        // });
 
-        this.selected.forEach(id => this.props.store.citations.CSL.delete(id));
+        const citedItems = this.selected.slice().filter(i => this.props.store.citedIDs.indexOf(i) !== -1);
+
 
         if (citedItems.length === 0) {
+            this.selected.forEach(id => this.props.store.citations.CSL.delete(id));
             this.editor.setProgressState(false);
             return;
         }
 
-        this.props.store.citations.citationByIndex = this.props.store.citations.citationByIndex.filter(c => {
-            c.citationItems = c.citationItems.filter(i => citedItems.indexOf(i.id) === -1);
-            if (c.citationItems.length === 0) {
-                const el = this.editor.dom.doc.getElementById(c.citationID);
-                el.parentElement.removeChild(el);
-            }
-            return c.citationItems.length > 0;
-        });
+        this.props.store.citations.removeItems(citedItems, this.editor.dom.doc);
+        this.selected.forEach(id => this.props.store.citations.CSL.delete(id));debugger;
         this.initProcessor().then(() => this.editor.setProgressState(false));
     }
 
@@ -154,12 +150,11 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
         MCE.referenceWindow(this.editor).then(payload => {
             if (!payload) return;
 
-            let preprocess: Promise<CSL.Data[]|Error> = payload.addManually
+            let preprocess: Promise<CSL.Data[]> = payload.addManually
                 ? parseManualData(payload)
-                : getRemoteData(payload.identifierList);
+                : getRemoteData(payload.identifierList, this.editor.windowManager);
 
             preprocess.then((data) => {
-                if (data instanceof Error) throw data;
 
                 this.props.store.citations.CSL.merge(
                     data.reduce((prev, curr) => {
