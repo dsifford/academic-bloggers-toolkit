@@ -56,7 +56,7 @@ declare namespace ABT {
         makeBibliography(links: 'always'|'urls'|'never'): Citeproc.Bibliography;
     }
 
-    type Bibliography = [Citeproc.Bibmeta, {id: string, html: string}[]];
+    type Bibliography = {id: string, html: string}[];
 
     interface AdminMeta {
         /** Heading for the bibliography */

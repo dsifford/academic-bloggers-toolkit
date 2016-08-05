@@ -110,11 +110,17 @@ export function parseInlineCitations(
         const doc = editor.dom.doc;
         const exisingNote = doc.getElementById('abt-footnote');
 
-        /* FIXME */
         for (const item of clusters) {
             const inlineText = xclass === 'note' ? `[${item[0] + 1}]` : item[1];
             const citation: HTMLSpanElement = editor.dom.doc.getElementById(item[2]);
-            const sortedItems: Citeproc.SortedItems = citationByIndex[item[0]].sortedItems;
+            let sortedItems: Citeproc.SortedItems;
+
+            /* HACK: This is an issue with Citeproc-JS. Sometimes it serves bad data. This fixes that. */
+            try {
+                sortedItems = citationByIndex[item[0]].sortedItems;
+            } catch(e) {
+                sortedItems = citationByIndex[item[0] - 1].sortedItems;
+            }
             const idList: string = JSON.stringify(sortedItems.map(c => c[1].id));
             if (!citation) {
                 editor.insertContent(

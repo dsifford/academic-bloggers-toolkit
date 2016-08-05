@@ -160,7 +160,7 @@ export class CSLProcessor /* FIXME implements ABT.CSLProcessor */ {
      */
     makeBibliography(links: 'always'|'urls'|'never'): ABT.Bibliography {
         const [bibmeta, bibHTML]: Citeproc.Bibliography = this.citeproc.makeBibliography();
-        this.store.citations.init(this.citeproc.registry.citationreg);
+        this.store.citations.init(this.citeproc.registry.citationreg.citationByIndex);
         const temp = document.createElement('DIV');
         const payload: {id: string, html: string}[] = bibHTML.map((h: string, i: number) => {
             temp.innerHTML = h;
@@ -197,7 +197,7 @@ export class CSLProcessor /* FIXME implements ABT.CSLProcessor */ {
             return {id: bibmeta.entry_ids[i][0], html: temp.innerHTML};
         });
         temp.remove();
-        return [bibmeta, payload];
+        return payload;
     }
 
 }

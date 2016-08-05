@@ -60,9 +60,7 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
         return this.processor.init()
         .then((clusters) => {
 
-            const [bibmeta, bibliography] = this.processor.makeBibliography(this.props.store.links);
-            this.props.store.bibmeta.merge(bibmeta as {[id: string]: any});
-            this.props.store.bibliography.replace(bibliography);
+            const bibliography = this.processor.makeBibliography(this.props.store.links);
 
             MCE.parseInlineCitations(
                 this.editor,
@@ -70,7 +68,7 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
                 this.props.store.citations.citationByIndex,
                 this.processor.citeproc.opt.xclass
             ).then(() => {
-                MCE.setBibliography(this.editor, this.props.store.bibliography, this.props.store.bibOptions);
+                MCE.setBibliography(this.editor, bibliography, this.props.store.bibOptions);
             });
 
             this.clearSelection();
@@ -100,9 +98,7 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
             console.error(status['citation_errors']);
         }
 
-        const [bibmeta, bibliography] = this.processor.makeBibliography(this.props.store.links);
-        this.props.store.bibmeta.merge(bibmeta as {[id: string]: any});
-        this.props.store.bibliography.replace(bibliography);
+        const bibliography = this.processor.makeBibliography(this.props.store.links);
 
         MCE.parseInlineCitations(
             this.editor,
@@ -110,7 +106,7 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
             this.props.store.citations.citationByIndex,
             this.processor.citeproc.opt.xclass,
         ).then(() => {
-            MCE.setBibliography(this.editor, this.props.store.bibliography, this.props.store.bibOptions);
+            MCE.setBibliography(this.editor, bibliography, this.props.store.bibOptions);
             this.editor.setProgressState(false);
         });
 
@@ -124,25 +120,11 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
 
         this.editor.setProgressState(true);
 
-        // const citedItems: string[] = this.selected.filter(id => {
-        //     const index = this.props.store.bibliography.findIndex(item => item.id === id);
-        //     return index !== -1
-        //     ? this.props.store.bibliography.remove(this.props.store.bibliography[index])
-        //     : false;
-        // });
-
-        const citedItems = this.selected.slice().filter(i => this.props.store.citedIDs.indexOf(i) !== -1);
-
-
-        if (citedItems.length === 0) {
-            this.selected.forEach(id => this.props.store.citations.CSL.delete(id));
+        this.props.store.citations.removeItems(this.selected, this.editor.dom.doc);
+        this.clearSelection();
+        this.initProcessor().then(() => {
             this.editor.setProgressState(false);
-            return;
-        }
-
-        this.props.store.citations.removeItems(citedItems, this.editor.dom.doc);
-        this.selected.forEach(id => this.props.store.citations.CSL.delete(id));debugger;
-        this.initProcessor().then(() => this.editor.setProgressState(false));
+        });
     }
 
     openReferenceWindow(e: React.MouseEvent<HTMLButtonElement>) {

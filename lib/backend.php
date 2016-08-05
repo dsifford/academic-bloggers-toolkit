@@ -92,15 +92,9 @@ class ABT_Backend {
                 'cache' => [
                     'style' => isset($abt_options['abt_citation_style']) ? $abt_options['abt_citation_style'] : 'american-medical-association',
                     'links' => isset($abt_options['display_options']['links']) ? $abt_options['display_options']['links'] : 'always',
-                    'locale' => get_locale(),
-                    'bibmeta' => (object)[],
-                    'uncited' => [],
+                    'locale' => get_locale()
                 ],
-                'citations' => [
-                    'citationById' => (object)[],
-                    'citationByIndex' => [],
-                    'citationsByItemId' => (object)[],
-                ],
+                'citationByIndex' => [],
                 'CSL' => (object)[],
             ];
         }
@@ -114,6 +108,11 @@ class ABT_Backend {
         if (array_key_exists('processorState', $reflist_state)) {
             $reflist_state['CSL'] = $reflist_state['processorState'];
             unset($reflist_state['processorState']);
+        }
+
+        if (array_key_exists('citations', $reflist_state)) {
+            $reflist_state['citationByIndex'] = $reflist_state['citations']['citationByIndex'];
+            unset($reflist_state['citations']);
         }
 
         wp_localize_script('abt_reflist', 'ABT_Reflist_State', $reflist_state);
