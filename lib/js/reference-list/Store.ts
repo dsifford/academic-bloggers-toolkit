@@ -25,14 +25,8 @@ class CitationStore {
     @observable
     CSL: ObservableMap<CSL.Data>;
 
-    @computed
-    get data(): {registry: {citationByIndex: Citeproc.CitationByIndex}, CSL: {[id: string]: CSL.Data}} {
-        return {
-            registry: {
-                citationByIndex: this.byIndex.slice(),
-            },
-            CSL: toJS(this.CSL),
-        }
+    get citationByIndex(): Citeproc.Citation[] {
+        return this.byIndex.slice().map(i => toJS(i));
     }
 
     constructor(byIndex: Citeproc.CitationByIndex, CSL: {[id: string]: CSL.Data}) {
@@ -63,15 +57,6 @@ class CitationStore {
         this.byIndex.replace(byIndex);
         idList.forEach(id => this.CSL.delete(id));
     }
-
-    get citationByIndex(): Citeproc.Citation[] {
-        return this.byIndex.slice().map(i => toJS(i));
-    }
-
-    set citationByIndex(arr: Citeproc.Citation[]) {
-        this.byIndex.replace(arr);
-    }
-
 }
 
 
