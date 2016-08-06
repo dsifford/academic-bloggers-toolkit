@@ -1,5 +1,4 @@
 import * as React from 'react';
-import * as ReactDOM from 'react-dom';
 import { referenceWindowEvents } from '../../../utils/Constants';
 const { IDENTIFIER_FIELD_CHANGE } = referenceWindowEvents;
 
@@ -10,17 +9,14 @@ interface IdentifierInputProps {
 
 export class IdentifierInput extends React.Component<IdentifierInputProps, {}> {
 
-    refs: {
-        [key: string]: Element
-        identifierField: HTMLInputElement
-    };
+    input;
 
     constructor(props) {
         super(props);
     }
 
     componentDidMount() {
-        (ReactDOM.findDOMNode(this.refs.identifierField) as HTMLInputElement).focus();
+        this.input.focus();
     }
 
     handleChange(e: InputEvent) {
@@ -31,20 +27,20 @@ export class IdentifierInput extends React.Component<IdentifierInputProps, {}> {
 
     render() {
         return(
-            <div className='row' style={{ display: 'flex', alignItems: 'center' }}>
-                <div style={{ padding: '5px' }}>
-                    <label
-                        htmlFor='identifierList'
-                        children='PMID/DOI' />
+            <div className="row" style={{alignItems: 'center', display: 'flex'}}>
+                <div style={{padding: '5px'}}>
+                    <label htmlFor="identifierList" children="PMID/DOI" />
                 </div>
                 <input
-                    type='text'
-                    id='identifierList'
+                    type="text"
+                    id="identifierList"
                     style={{ width: '100%' }}
                     onChange={this.handleChange.bind(this)}
-                    ref='identifierField'
+                    // ref="identifierField"
+                    ref={(c) => this.input = c /* tslint:disable-line */}
                     required={true}
-                    value={this.props.identifierList} />
+                    value={this.props.identifierList}
+                />
             </div>
         );
     }

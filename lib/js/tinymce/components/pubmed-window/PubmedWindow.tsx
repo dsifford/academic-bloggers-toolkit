@@ -16,12 +16,22 @@ interface State {
 
 export class PubmedWindow extends React.Component<{}, State> {
 
-    private modal: Modal = new Modal('Search PubMed for Reference');
-    private wm: TinyMCE.WindowManager = top.window.tinyMCE.activeEditor.windowManager
+    modal: Modal = new Modal('Search PubMed for Reference');
+    wm: TinyMCE.WindowManager = top.window.tinyMCE.activeEditor.windowManager
         .windows[top.window.tinyMCE.activeEditor.windowManager.windows.length - 1];
-    private placeholder: string;
+    placeholder: string;
 
-    private generatePlaceholder(): string {
+    constructor() {
+        super();
+        this.state = {
+            page: 0,
+            query: '',
+            results: [],
+        };
+        this.placeholder = this.generatePlaceholder();
+    }
+
+    generatePlaceholder(): string {
         let options = [
             'Ioannidis JP[Author - First] AND meta research',
             'Brohi K[Author - First] AND "acute traumatic coagulopathy"',
@@ -38,16 +48,6 @@ export class PubmedWindow extends React.Component<{}, State> {
         return options[Math.ceil(Math.random() * 10) - 1];
     }
 
-    constructor() {
-        super();
-        this.state = {
-            query: '',
-            results: [],
-            page: 0,
-        };
-        this.placeholder = this.generatePlaceholder();
-    }
-
     componentDidMount() {
         this.modal.resize();
     }
@@ -57,13 +57,13 @@ export class PubmedWindow extends React.Component<{}, State> {
         PubmedQuery(this.state.query, true)
         .then(data => {
             this.setState({
+                page: 1,
                 query: '',
                 results: data,
-                page: 1,
             });
             this.modal.resize();
         })
-        .catch(e => top.tinyMCE.activeEditor.windowManager.alert(e.message));
+        .catch(err => top.tinyMCE.activeEditor.windowManager.alert(err.message));
     }
 
     handleChange(e: DOMEvent) {
@@ -88,38 +88,42 @@ export class PubmedWindow extends React.Component<{}, State> {
     render() {
         return (
             <div>
-                <form id='query' onSubmit={this.handleQuery.bind(this)} style={{ margin: 0 }}>
-                    <div className='row' style={{ display: 'flex' }}>
+                <form id="query" onSubmit={this.handleQuery.bind(this)} style={{margin: 0}}>
+                    <div className="row" style={{ display: 'flex' }}>
                         <input
-                            type='text'
+                            type="text"
                             style={{ flexGrow: 1 }}
                             onChange={this.handleChange.bind(this)}
                             autoFocus={true}
                             placeholder={this.placeholder}
-                            value={this.state.query} />
+                            value={this.state.query}
+                        />
                         <input
-                            type='submit'
-                            value='Search'
-                            className='submit-btn'
-                            disabled={!this.state.query} />
+                            type="submit"
+                            value="Search"
+                            className="submit-btn"
+                            disabled={!this.state.query}
+                        />
                     </div>
                 </form>
                 { this.state.results.length !== 0 &&
                     <ResultList
                         eventHandler={this.deliverPMID.bind(this)}
                         results={
-                            this.state.results.filter((_result, i) => {
+                            this.state.results.filter((_result, i) => { // tslint:disable-line
                                 if ( i < (this.state.page * 5) && ((this.state.page * 5) - 6) < i ) {
                                     return true;
                                 }
                             })
-                        } />
+                        }
+                    />
                 }
                 { this.state.results.length !== 0 &&
                     <Paginate
                         page={this.state.page}
                         onClick={this.handlePagination.bind(this)}
-                        resultLength={this.state.results.length } />
+                        resultLength={this.state.results.length}
+                    />
                 }
             </div>
         );

@@ -36,9 +36,7 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
 
     constructor(props) {
         super(props);
-
         this.processor = new CSLProcessor(this.props.store);
-
         this.insertInline = this.insertInline.bind(this);
         this.openReferenceWindow = this.openReferenceWindow.bind(this);
         this.deleteCitations = this.deleteCitations.bind(this);
@@ -57,20 +55,22 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
     }
 
     initProcessor() {
+        this.editor.setProgressState(true);
         return this.processor.init()
         .then((clusters) => {
-
-            const bibliography = this.processor.makeBibliography(this.props.store.links);
-
             MCE.parseInlineCitations(
                 this.editor,
                 clusters,
                 this.props.store.citations.citationByIndex,
                 this.processor.citeproc.opt.xclass
             ).then(() => {
-                MCE.setBibliography(this.editor, bibliography, this.props.store.bibOptions);
+                MCE.setBibliography(
+                    this.editor,
+                    this.processor.makeBibliography(this.props.store.links),
+                    this.props.store.bibOptions
+                );
+                this.editor.setProgressState(false);
             });
-
             this.clearSelection();
         });
     }
@@ -93,12 +93,15 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
 
         const { locations: [citationsBefore, citationsAfter] } = MCE.getRelativeCitationPositions(this.editor);
         const citationData = this.processor.prepareInlineCitationData(data);
-        const [status, clusters] = this.processor.citeproc.processCitationCluster(citationData, citationsBefore, citationsAfter);
+        const [status, clusters] =
+            this.processor.citeproc.processCitationCluster(
+                citationData,
+                citationsBefore,
+                citationsAfter,
+            );
         if (status['citation_errors'].length > 0) {
             console.error(status['citation_errors']);
         }
-
-        const bibliography = this.processor.makeBibliography(this.props.store.links);
 
         MCE.parseInlineCitations(
             this.editor,
@@ -106,7 +109,11 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
             this.props.store.citations.citationByIndex,
             this.processor.citeproc.opt.xclass,
         ).then(() => {
-            MCE.setBibliography(this.editor, bibliography, this.props.store.bibOptions);
+            MCE.setBibliography(
+                this.editor,
+                this.processor.makeBibliography(this.props.store.links),
+                this.props.store.bibOptions
+            );
             this.editor.setProgressState(false);
         });
 
@@ -115,16 +122,11 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
 
     deleteCitations(e?: React.MouseEvent<HTMLButtonElement>) {
         if (e) e.preventDefault();
-
         if (this.selected.length === 0) return;
-
         this.editor.setProgressState(true);
-
         this.props.store.citations.removeItems(this.selected, this.editor.dom.doc);
         this.clearSelection();
-        this.initProcessor().then(() => {
-            this.editor.setProgressState(false);
-        });
+        this.initProcessor();
     }
 
     openReferenceWindow(e: React.MouseEvent<HTMLButtonElement>) {
@@ -169,38 +171,33 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
     }
 
     handleMenuSelection(kind: string, data?) {
+        this.menuOpen = false;
         switch (kind) {
             case 'CHANGE_STYLE':
                 this.props.store.citationStyle = data;
-                this.menuOpen = false;
                 this.initProcessor();
                 return;
             case 'IMPORT_RIS':
-                this.menuOpen = false;
                 this.openImportWindow();
                 return;
             case 'REFRESH_PROCESSOR':
-                this.menuOpen = false;
                 this.initProcessor();
                 return;
             case 'DESTROY_PROCESSOR': {
-                // this.selected = this.props.store.bibliography.map(b => b.id);
-                // this.deleteCitations();
-                // this.props.store.bibliography = [];
-                // this.props.store.cache.bibMeta = {};
-                // this.props.store.cache.uncited = [];
-                // this.props.store.processorState = {};
-                // this.props.store.citations = {
-                //     citationById: {},
-                //     citationByIndex: [],
-                //     citationsByItemId: {},
-                // };
-                // this.menuOpen = false;
-                // this.initProcessor();
+                this.reset();
+                return;
             }
             default:
                 return console.error('Menu selection type not recognized');
         }
+    }
+
+    reset = () => {
+        this.editor.setProgressState(true);
+        this.clearSelection();
+        this.props.store.reset();
+        MCE.reset(this.editor.dom.doc);
+        this.initProcessor();
     }
 
     clearSelection = () => {
@@ -234,7 +231,7 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
             case scrollpos === 0:
                 return list.style.top = '98px';
             case scrollpos < 135:
-                return list.style.top = 98 - (scrollpos/3) + 'px';
+                return list.style.top = 98 - (scrollpos / 3) + 'px';
             default:
                 return list.style.top = '55px';
         }
@@ -244,8 +241,8 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
 
         if (this.loading) {
             return(
-                <div style={{ marginTop: -6, background: '#f5f5f5' }}>
-                    <div className='sk-circle'>
+                <div style={{background: '#f5f5f5', marginTop: -6}}>
+                    <div className="sk-circle">
                         {
                             [...Array(13).keys()].map(k => k !== 0 ?
                                 <div key={k} className={`sk-circle${k} sk-child`} /> :
@@ -259,60 +256,70 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
 
         return (
             <div>
-                <DevTools position={{top: 40, left: 50}}/>
+                <DevTools position={{left: 50, top: 40}} />
                 <StorageField store={this.props.store} />
-                <div className='panel'>
+                <div className="panel">
                     <PanelButton
                         disabled={this.selected.length === 0}
                         onClick={this.insertInline}
-                        data-tooltip='Insert selected references'>
-                        <span className='dashicons dashicons-migrate insert-inline' />
+                        data-tooltip="Insert selected references"
+                    >
+                        <span className="dashicons dashicons-migrate insert-inline" />
                     </PanelButton>
                     <PanelButton
                         disabled={this.selected.length !== 0}
                         onClick={this.openReferenceWindow}
-                        data-tooltip='Add reference to reference list'>
-                        <span className='dashicons dashicons-plus add-reference' />
+                        data-tooltip="Add reference to reference list"
+                    >
+                        <span className="dashicons dashicons-plus add-reference" />
                     </PanelButton>
                     <PanelButton
                         disabled={this.selected.length === 0}
                         onClick={this.deleteCitations}
-                        data-tooltip='Remove selected references from reference list'>
-                        <span className='dashicons dashicons-minus remove-reference' />
+                        data-tooltip="Remove selected references from reference list"
+                    >
+                        <span className="dashicons dashicons-minus remove-reference" />
                     </PanelButton>
                     <PanelButton
                         onClick={this.pinReferenceList}
-                        data-tooltip='Pin Reference List to Visible Window'>
-                        <span className={
-                            this.fixed
-                            ? 'dashicons dashicons-admin-post pin-reflist fixed'
-                            : 'dashicons dashicons-admin-post pin-reflist'
-                        } />
+                        data-tooltip="Pin Reference List to Visible Window"
+                    >
+                        <span
+                            className={
+                                this.fixed
+                                ? 'dashicons dashicons-admin-post pin-reflist fixed'
+                                : 'dashicons dashicons-admin-post pin-reflist'
+                            }
+                        />
                     </PanelButton>
                     <PanelButton
                         onClick={this.toggleMenu}
-                        data-tooltip='Toggle Menu'>
-                        <span className='dashicons dashicons-menu hamburger-menu' />
+                        data-tooltip="Toggle Menu"
+                    >
+                        <span className="dashicons dashicons-menu hamburger-menu" />
                     </PanelButton>
                 </div>
-                    <CSSTransitionGroup
-                        transitionName='menu'
-                        transitionEnterTimeout={200}
-                        transitionLeaveTimeout={200} >
-                        { this.menuOpen &&
-                            <Menu
-                                key='menu'
-                                cslStyle={this.props.store.citationStyle}
-                                submitData={this.handleMenuSelection}/>
-                        }
-                    </CSSTransitionGroup>
+                <CSSTransitionGroup
+                    transitionName="menu"
+                    transitionEnterTimeout={200}
+                    transitionLeaveTimeout={200}
+                >
+                    { this.menuOpen &&
+                        <Menu
+                            key="menu"
+                            cslStyle={this.props.store.citationStyle}
+                            submitData={this.handleMenuSelection}
+                        />
+                    }
+                </CSSTransitionGroup>
                 { this.props.store.cited.length > 0 &&
                     <ItemList
                         items={this.props.store.cited}
                         selectedItems={this.selected}
                         startVisible={true}
                         click={this.toggleSelect}
-                        className='list'>
+                        className="list"
+                    >
                         Cited Items
                     </ItemList>
                 }
@@ -322,7 +329,8 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
                         selectedItems={this.selected}
                         startVisible={false}
                         click={this.toggleSelect}
-                        className='list uncited'>
+                        className="list uncited"
+                    >
                         Uncited Items
                     </ItemList>
                 }
@@ -332,13 +340,14 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
 }
 
 @observer
-class StorageField extends React.Component<{store: Store},{}> {
+class StorageField extends React.Component<{store: Store}, {}> {
     render() {
         return (
             <input
-                type='hidden'
-                name='abt-reflist-state'
-                value={this.props.store.persistent} />
-        )
+                type="hidden"
+                name="abt-reflist-state"
+                value={this.props.store.persistent}
+            />
+        );
     }
 }

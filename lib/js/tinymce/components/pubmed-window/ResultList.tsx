@@ -17,12 +17,14 @@ export class ResultList extends React.Component<ResultListProps, {}> {
                 { this.props.results.map((result, i: number) =>
                     <div
                         key={i}
-                        className={i % 2 === 0 ? 'result-item' : 'result-item even'} >
-                        <div className='left-container'>
+                        className={i % 2 === 0 ? 'result-item' : 'result-item even'}
+                    >
+                        <div className="left-container">
                             <a
                                 href={`http://www.pubmed.com/${result.uid}`}
-                                target='_blank'
-                                children={result.title} />
+                                target="_blank"
+                                children={result.title}
+                            />
                             <div>
                                 { result.authors
                                     .filter((_el, j) => j < 3)
@@ -33,12 +35,13 @@ export class ResultList extends React.Component<ResultListProps, {}> {
                                 <em>{result.source}</em> | {result.pubdate}
                             </div>
                         </div>
-                        <div className='right-container'>
+                        <div className="right-container">
                             <input
-                                type='button'
-                                className='btn'
-                                value='Add Reference'
-                                onClick={this.props.eventHandler.bind(null, result.uid)} />
+                                type="button"
+                                className="btn"
+                                value="Add Reference"
+                                onClick={this.props.eventHandler.bind(null, result.uid)}
+                            />
                         </div>
                     </div>
                 )}

@@ -13,13 +13,13 @@ export class ReferenceWindow extends React.Component<{}, ABT.ReferenceWindowPayl
     constructor() {
         super();
         this.state = {
-            identifierList: '',
-            attachInline: true,
             addManually: false,
-            people: [
-                { given: '', family: '', type: 'author' },
-            ],
+            attachInline: true,
+            identifierList: '',
             manualData: manualDataObj,
+            people: [
+                {family: '', given: '', type: 'author'},
+            ],
         };
     }
 
@@ -74,7 +74,7 @@ export class ReferenceWindow extends React.Component<{}, ABT.ReferenceWindowPayl
                     Object.assign({}, this.state, {
                         people: [
                             ...this.state.people,
-                            { given: '', family: '', type: 'author' },
+                            {family: '', given: '', type: 'author'},
                         ],
                     })
                 );
@@ -92,7 +92,7 @@ export class ReferenceWindow extends React.Component<{}, ABT.ReferenceWindowPayl
                 return;
             }
             case LocalEvents.PERSON_CHANGE: {
-                let people = [...this.state.people, ];
+                let people = [...this.state.people];
                 people[e.detail.index][e.detail.field] = e.detail.value;
                 this.setState(
                     Object.assign({}, this.state, {
@@ -131,6 +131,8 @@ export class ReferenceWindow extends React.Component<{}, ABT.ReferenceWindowPayl
                 );
                 return;
             }
+            default:
+                return;
         }
     }
 
@@ -141,18 +143,21 @@ export class ReferenceWindow extends React.Component<{}, ABT.ReferenceWindowPayl
                     { !this.state.addManually &&
                         <IdentifierInput
                             identifierList={this.state.identifierList}
-                            eventHandler={this.consumeChildEvents.bind(this)} />
+                            eventHandler={this.consumeChildEvents.bind(this)}
+                        />
                     }
                     { this.state.addManually &&
                         <ManualEntryContainer
                             manualData={this.state.manualData}
                             people={this.state.people}
-                            eventHandler={this.consumeChildEvents.bind(this)} />
+                            eventHandler={this.consumeChildEvents.bind(this)}
+                        />
                     }
                     <ButtonRow
                         addManually={this.state.addManually}
                         eventHandler={this.consumeChildEvents.bind(this)}
-                        attachInline={this.state.attachInline} />
+                        attachInline={this.state.attachInline}
+                    />
                 </form>
             </div>
         );

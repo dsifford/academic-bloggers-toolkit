@@ -20,17 +20,19 @@ export class ReviewRow extends React.Component<Props, {}> {
         const { rowData, num, hidden, onChange, toggleHidden, uploadHandler } = this.props;
         return (
             <div>
-                <div className='row-container'>
-                    <div className='row bordered'>
+                <div className="row-container">
+                    <div className="row bordered">
                         <label
                             htmlFor={`peer_review_box_heading_${num}`}
-                            children='Review Heading' />
+                            children="Review Heading"
+                        />
                         <input
-                            type='text'
-                            className='large-text'
+                            type="text"
+                            className="large-text"
                             name={`peer_review_box_heading_${num}`}
                             value={rowData.heading.value}
-                            onChange={onChange.bind(null, 'heading', 'value', num)} />
+                            onChange={onChange.bind(null, 'heading', 'value', num)}
+                        />
                     </div>
                 </div>
                 <CommonRowContent
@@ -38,15 +40,17 @@ export class ReviewRow extends React.Component<Props, {}> {
                     num={num}
                     onChange={onChange}
                     reviewer={true}
-                    uploadHandler={uploadHandler} />
-                <div className='row-container' style={{ borderBottom: '1px solid #C9C9C9' }}>
-                    <div className='row even'>
+                    uploadHandler={uploadHandler}
+                />
+                <div className="row-container" style={{ borderBottom: '1px solid #C9C9C9' }}>
+                    <div className="row even">
                         <input
-                            type='button'
-                            className='button button-primary'
-                            value='Toggle Author Response'
+                            type="button"
+                            className="button button-primary"
+                            value="Toggle Author Response"
                             style={{ margin: '0 10px' }}
-                            onClick={toggleHidden.bind(null, num)} />
+                            onClick={toggleHidden.bind(null, num)}
+                        />
                     </div>
                 </div>
                 { hidden === false &&
@@ -55,7 +59,8 @@ export class ReviewRow extends React.Component<Props, {}> {
                         onChange={onChange}
                         reviewer={false}
                         num={num}
-                        uploadHandler={uploadHandler} />
+                        uploadHandler={uploadHandler}
+                    />
                 }
             </div>
         );

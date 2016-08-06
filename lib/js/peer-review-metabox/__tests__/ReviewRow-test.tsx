@@ -8,6 +8,8 @@ import { ReviewRow } from '../ReviewRow';
 const setup = () => {
     const spy = sinon.spy();
     const testData = {
+        hidden: false,
+        onChange: spy,
         rowData: {
             heading: {
                 value: '',
@@ -27,8 +29,6 @@ const setup = () => {
                 twitter: '',
             },
         },
-        hidden: false,
-        onChange: spy,
         toggleHidden: spy,
         uploadHandler: spy,
     };

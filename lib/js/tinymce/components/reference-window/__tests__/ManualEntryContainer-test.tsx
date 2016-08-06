@@ -22,7 +22,6 @@ const setup = (
     };
 };
 
-
 describe('<ManualEntryContainer />', () => {
 
     it('should render with the correct option', () => {

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Card } from './Card';
-import { observer } from 'mobx-react'
+import { observer } from 'mobx-react';
 
 interface Props extends React.HTMLProps<HTMLElement> {
     readonly items: CSL.Data[];
@@ -36,9 +36,9 @@ export class ItemList extends React.Component<Props, State> {
         if (!items) return;
         return (
             <div>
-                <div className='group-label' onClick={this.toggle}>
+                <div className="group-label" onClick={this.toggle}>
                     <div children={children} />
-                    <div className='badge' children={items.length} />
+                    <div className="badge" children={items.length} />
                 </div>
                 { this.state.showList &&
                     <Items className={className} items={items} selectedItems={selectedItems} click={click} />
@@ -55,7 +55,7 @@ interface ItemsProps extends React.HTMLProps<HTMLElement> {
 }
 
 @observer
-class Items extends React.Component<ItemsProps,{}> {
+class Items extends React.Component<ItemsProps, {}> {
     render() {
         return (
             <div className={this.props.className}>
@@ -66,7 +66,8 @@ class Items extends React.Component<ItemsProps,{}> {
                             CSL={r}
                             isSelected={this.props.selectedItems.indexOf(r.id) > -1}
                             id={r.id}
-                            click={this.props.click} />
+                            click={this.props.click}
+                        />
                     )
                 }
             </div>

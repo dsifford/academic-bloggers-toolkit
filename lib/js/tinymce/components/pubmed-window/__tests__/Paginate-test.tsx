@@ -11,17 +11,21 @@ const setup = (
 ) => {
     const spy = sinon.spy();
     const component = mount(
-        <Paginate page={page} resultLength={resultLength} onClick={(num) => {
-            component.setProps(
-                Object.assign({}, component.props, { page: num })
-            );
-        }} />
+        <Paginate
+            page={page}
+            resultLength={resultLength}
+            onClick={(num) => { // tslint:disable-line
+                component.setProps(
+                    Object.assign({}, component.props, { page: num })
+                );
+            }}
+        />
     );
     return {
-        spy,
         component,
         next: component.find('#next'),
         prev: component.find('#prev'),
+        spy,
     };
 };
 

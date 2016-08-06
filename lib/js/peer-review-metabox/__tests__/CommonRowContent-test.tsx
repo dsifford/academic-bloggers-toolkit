@@ -10,6 +10,9 @@ const setup = (
 ) => {
     const spy = sinon.spy();
     const testData = {
+        num: '1',
+        onChange: spy,
+        reviewer,
         rowData: {
             heading: {
                 value: '',
@@ -29,20 +32,17 @@ const setup = (
                 twitter: '',
             },
         },
-        num: '1',
-        reviewer,
-        onChange: spy,
         uploadHandler: spy,
     };
     const component = mount(
         <CommonRowContent {...testData} />
     );
     return {
-        component,
-        spy,
-        reviewerName: component.find('input[name="reviewer_name_1"]'),
         authorName: component.find('input[name="author_name_1"]'),
         button: component.find('input[type="button"]'),
+        component,
+        reviewerName: component.find('input[name="reviewer_name_1"]'),
+        spy,
     };
 };
 

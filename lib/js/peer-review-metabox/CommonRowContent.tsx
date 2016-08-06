@@ -1,6 +1,5 @@
 import * as React from 'react';
 
-
 interface Props extends React.HTMLProps<HTMLDivElement> {
     rowData: ABT.PeerReviewTableData;
     num: string;
@@ -31,68 +30,80 @@ export class CommonRowContent extends React.Component<Props, {}> {
         ];
 
         return (
-            <div className='row-container'>
+            <div className="row-container">
                 <div className={reviewer ? 'row even' : 'row'}>
                     <label
                         htmlFor={labels[0]}
-                        children='Name'/>
+                        children="Name"
+                    />
                     <input
-                        type='text'
-                        className='large-text'
+                        type="text"
+                        className="large-text"
                         name={labels[0]}
                         value={rowData[topfield]['name']}
-                        onChange={onChange.bind(null, topfield, 'name', num)} />
+                        onChange={onChange.bind(null, topfield, 'name', num)}
+                    />
                     <label
                         htmlFor={labels[1]}
-                        children='Twitter Handle' />
+                        children="Twitter Handle"
+                    />
                     <input
-                        type='text'
-                        className='large-text'
+                        type="text"
+                        className="large-text"
                         name={labels[1]}
                         value={rowData[topfield].twitter}
-                        onChange={onChange.bind(null, topfield, 'twitter', num)} />
+                        onChange={onChange.bind(null, topfield, 'twitter', num)}
+                    />
                 </div>
                 <div className={reviewer ? 'row' : 'row even'}>
                     <label
                         htmlFor={labels[2]}
-                        children='Background' />
+                        children="Background"
+                    />
                     <input
-                        type='text'
+                        type="text"
                         name={labels[2]}
-                        className='large-text'
+                        className="large-text"
                         value={rowData[topfield].background}
-                        onChange={onChange.bind(null, topfield, 'background', num)} />
+                        onChange={onChange.bind(null, topfield, 'background', num)}
+                    />
                 </div>
                 <div className={reviewer ? 'row even' : 'row'}>
                     <label
                         htmlFor={labels[3]}
-                        children='Content' />
+                        children="Content"
+                    />
                     <textarea
                         name={labels[3]}
-                        className='large-text'
+                        className="large-text"
                         rows={5}
                         value={rowData[topfield].content}
-                        onChange={onChange.bind(null, topfield, 'content', num)} />
+                        onChange={onChange.bind(null, topfield, 'content', num)}
+                    />
                 </div>
                 <div
                     className={ reviewer ? 'row' : 'row even' }
-                    style={ reviewer ? {} : { borderBottom: '1px solid #C9C9C9' }} >
+                    style={ reviewer ? {} : { borderBottom: '1px solid #C9C9C9' }}
+                >
                     <label
                         htmlFor={labels[4]}
-                        children='Photo' />
+                        children="Photo"
+                    />
                     <input
-                        type='text'
+                        type="text"
                         name={labels[4]}
-                        className='large-text'
+                        className="large-text"
                         value={rowData[topfield].image}
-                        onChange={onChange.bind(null, topfield, 'image', num)} />
+                        onChange={onChange.bind(null, topfield, 'image', num)}
+                    />
                     <input
-                        type='button'
+                        type="button"
                         id={`${labelname}-upload-button-${num}`}
-                        className='button'
+                        className="button"
                         style={{ marginLeft: 10 }}
-                        value='Choose or Upload an Image'
-                        onClick={uploadHandler.bind(null, topfield, num)} />
+                        value="Choose or Upload an Image"
+                        onClick={uploadHandler.bind(null, topfield, num)}
+                    />
                 </div>
             </div>
         );

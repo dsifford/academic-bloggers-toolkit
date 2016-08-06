@@ -25,7 +25,6 @@ export class ImportWindow extends React.Component<Props, State> {
     private modal: Modal = new Modal('Import References from RIS File');
     private wm: TinyMCE.WindowManager = this.props.wm;
 
-
     constructor(props) {
         super(props);
         this.state = {
@@ -77,42 +76,44 @@ export class ImportWindow extends React.Component<Props, State> {
         this.wm.close();
     }
 
-
     render() {
         return (
             <div>
-                <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                    <div style={{ display: 'flex', alignItems: 'center', flex: 1 }}>
-                        <label className='uploadLabel'>
+                <div style={{display: 'flex', justifyContent: 'space-between'}}>
+                    <div style={{alignItems: 'center', display: 'flex', flex: 1}}>
+                        <label className="uploadLabel">
                             <input
-                                type='file'
-                                id='uploadField'
+                                type="file"
+                                id="uploadField"
                                 required={true}
                                 onChange={this.handleFileUpload.bind(this)}
-                                accept='application/xresearch-info-systems'/>
+                                accept="application/xresearch-info-systems"
+                            />
                             <span children={`Choose File`} />
                         </label>
                         <div
                             style={{
-                                margin: '0 10px',
                                 background: '#f1f1f1',
                                 border: '1px solid #ddd',
                                 borderRadius: 2,
-                                padding: 3,
                                 color: '#444',
                                 flex: 1,
+                                margin: '0 10px',
                                 minHeight: 20,
+                                padding: 3,
                             }}
-                            children={this.state.filename} />
+                            children={this.state.filename}
+                        />
                     </div>
                     <div>
                         <input
-                            type='button'
-                            className='submit-btn'
-                            id='submitbtn'
-                            value='Import'
+                            type="button"
+                            className="submit-btn"
+                            id="submitbtn"
+                            value="Import"
                             disabled={this.state.payload.length === 0}
-                            onClick={this.handleSubmit.bind(this)} />
+                            onClick={this.handleSubmit.bind(this)}
+                        />
                     </div>
                 </div>
             </div>

@@ -4,7 +4,6 @@ import { citationTypeArray, referenceWindowEvents as LocalEvents } from '../../.
 import { People } from './People';
 import { MetaFields } from './MetaFields';
 
-
 interface ManualEntryProps {
     manualData: CSL.Data;
     people: CSL.TypedPerson[];
@@ -34,15 +33,18 @@ export class ManualEntryContainer extends React.Component<ManualEntryProps, {}> 
             <div>
                 <ManualSelection
                     value={this.props.manualData.type}
-                    onChange={this.typeChange.bind(this)} />
+                    onChange={this.typeChange.bind(this)}
+                />
                 <People
                     people={this.props.people}
                     eventHandler={this.consumeChildEvents.bind(this)}
-                    citationType={this.props.manualData.type}/>
+                    citationType={this.props.manualData.type}
+                />
                 <MetaFields
                     citationType={this.props.manualData.type}
                     meta={this.props.manualData}
-                    eventHandler={this.consumeChildEvents.bind(this)} />
+                    eventHandler={this.consumeChildEvents.bind(this)}
+                />
             </div>
         );
     }
@@ -52,28 +54,31 @@ export const ManualSelection = ({
     value,
     onChange,
 }) => {
-    const commonStyle = { padding: '5px' };
+    const commonStyle = {padding: '5px'};
     return (
-        <div style={{display: 'flex', alignItems: 'center' }}>
+        <div style={{alignItems: 'center', display: 'flex'}}>
             <div style={commonStyle}>
                 <label
-                    htmlFor='type'
-                    style={{ whiteSpace: 'nowrap' }}
-                    children='Select Citation Type' />
+                    htmlFor="type"
+                    style={{whiteSpace: 'nowrap'}}
+                    children="Select Citation Type"
+                />
             </div>
-            <div style={Object.assign({}, commonStyle, { flex: 1 })}>
+            <div style={Object.assign({}, commonStyle, {flex: 1})}>
                 <select
-                    id='type'
+                    id="type"
                     style={{ width: '100%' }}
                     onChange={onChange}
-                    value={value} >
+                    value={value}
+                >
                     {
                         citationTypeArray.map((item, i) =>
                             item.inUse ?
                             <option
                                 key={i}
                                 value={item.value}
-                                children={item.label} />
+                                children={item.label}
+                            />
                             : null
                         )
                     }

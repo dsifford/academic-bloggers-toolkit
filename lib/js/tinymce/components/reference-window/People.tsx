@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { referenceWindowEvents as LocalEvents, fieldMappings } from '../../../utils/Constants';
 
-
 interface PeopleProps {
     people: CSL.TypedPerson[];
     eventHandler: Function;
@@ -45,56 +44,70 @@ export class People extends React.Component<PeopleProps, {}> {
     render() {
         return (
             <div>
-                <div className='row' style={{ display: 'flex', alignItems: 'center' }}>
-                    <strong style={{ paddingRight: 5 }} children='Contributors'/>
+                <div className="row" style={{alignItems: 'center', display: 'flex'}}>
+                    <strong style={{paddingRight: 5}} children="Contributors"/>
                     <input
-                        type='button'
-                        id='add-person'
-                        className='btn'
-                        value='Add Another'
-                        onClick={this.addPerson.bind(this)}/>
+                        type="button"
+                        id="add-person"
+                        className="btn"
+                        value="Add Another"
+                        onClick={this.addPerson.bind(this)}
+                    />
                 </div>
                 {this.props.people.map((person: CSL.TypedPerson, i: number) =>
-                    <div key={`person-list-${i}`} id={`person-list-${i}`} style={{ display: 'flex', alignItems: 'center' }}>
+                    <div
+                        key={`person-list-${i}`}
+                        id={`person-list-${i}`}
+                        style={{alignItems: 'center', display: 'flex'}}
+                    >
                         <div>
                             <select
                                 value={person.type}
-                                onChange={this.onChange.bind(this, i, 'type')}>
+                                onChange={this.onChange.bind(this, i, 'type')}
+                            >
                                 { this.fieldMaps[this.props.citationType].people.map((p, j: number) =>
-                                    <option key={`peopleSelect-${j}`} id={`peopleSelect-${j}`} value={p.type} children={p.label} />
+                                    <option
+                                        key={`peopleSelect-${j}`}
+                                        id={`peopleSelect-${j}`}
+                                        value={p.type}
+                                        children={p.label}
+                                    />
                                 )}
                             </select>
                         </div>
-                        <div style={{ flex: 1, padding: '0 5px' }} >
+                        <div style={{flex: 1, padding: '0 5px'}}>
                             <input
-                                type='text'
-                                style={{ width: '100%' }}
-                                placeholder='Lastname'
-                                aria-label='Last Name'
+                                type="text"
+                                style={{width: '100%'}}
+                                placeholder="Surname"
+                                aria-label="Surname"
                                 id={`person-family-${i}`}
                                 value={person.family}
                                 onChange={this.onChange.bind(this, i, 'family')}
-                                required={true} />
+                                required={true}
+                            />
                         </div>
                         ,
-                        <div style={{ flex: 1, padding: '0 5px' }} >
+                        <div style={{flex: 1, padding: '0 5px'}}>
                             <input
-                                type='text'
-                                style={{ width: '100%' }}
-                                placeholder='Firstname, Middleinitial'
-                                aria-label='First Name, Middle Initial'
+                                type="text"
+                                style={{width: '100%'}}
+                                placeholder="Given Name, Middleinitial"
+                                aria-label="Given Name, Middle Initial"
                                 id={`person-given-${i}`}
                                 value={person.given}
                                 onChange={this.onChange.bind(this, i, 'given')}
-                                required={true} />
+                                required={true}
+                            />
                         </div>
-                        <div style={{ padding: '0 5px' }}>
+                        <div style={{padding: '0 5px'}}>
                             <input
-                            id={`remove-button-${i}`}
-                            type='button'
-                            className='btn'
-                            value='✖'
-                            onClick={this.removePerson.bind(this, i)} />
+                                id={`remove-button-${i}`}
+                                type="button"
+                                className="btn"
+                                value="✖"
+                                onClick={this.removePerson.bind(this, i)}
+                            />
                         </div>
                     </div>
                 )}

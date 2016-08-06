@@ -7,7 +7,7 @@ import { People } from '../People';
 
 const setup = (
     citationType: CSL.CitationType = 'article-journal',
-    people: CSL.TypedPerson[] = [{type: 'author', family: 'Doe', given: 'John' }, ]
+    people: CSL.TypedPerson[] = [{family: 'Doe', given: 'John', type: 'author'}]
 ) => {
     const eventHandler = sinon.spy();
     const component = mount(
@@ -64,8 +64,8 @@ describe('<People />', () => {
         expect(eventHandler.firstCall.args[0].type).toBe('PERSON_CHANGE');
         expect(eventHandler.secondCall.args[0].type).toBe('PERSON_CHANGE');
 
-        expect(eventHandler.firstCall.args[0].detail).toEqual({ index: 0, field: 'given', value: 'John' });
-        expect(eventHandler.secondCall.args[0].detail).toEqual({ index: 0, field: 'family', value: 'Doe' });
+        expect(eventHandler.firstCall.args[0].detail).toEqual({field: 'given', index: 0, value: 'John'});
+        expect(eventHandler.secondCall.args[0].detail).toEqual({field: 'family', index: 0, value: 'Doe'});
 
     });
 
@@ -78,7 +78,7 @@ describe('<People />', () => {
 
         expect(eventHandler.callCount).toBe(1);
         expect(eventHandler.firstCall.args[0].type).toBe('PERSON_CHANGE');
-        expect(eventHandler.firstCall.args[0].detail).toEqual({ index: 0, field: 'type', value: 'author' });
+        expect(eventHandler.firstCall.args[0].detail).toEqual({field: 'type', index: 0, value: 'author'});
 
     });
 

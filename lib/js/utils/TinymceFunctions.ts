@@ -236,3 +236,13 @@ export function setBibliography(
         p.parentNode.removeChild(p);
     }
 }
+
+
+export function reset(doc: HTMLDocument) {
+    const inlines = doc.querySelectorAll('.abt_cite');
+    const bib = doc.querySelector('#abt-smart-bib');
+    for (const cite of inlines) {
+        cite.parentNode.removeChild(cite);
+    }
+    bib.parentNode.removeChild(bib);
+}

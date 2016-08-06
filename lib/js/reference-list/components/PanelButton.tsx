@@ -45,12 +45,12 @@ export class PanelButton extends React.Component<React.HTMLProps<HTMLButtonEleme
     render() {
         this.destroyTooltip();
         return (
-            <button {...this.props}
-                className='abt-reflist-button'
+            <button
+                {...this.props}
+                className="abt-reflist-button"
                 onMouseOver={this.createTooltip.bind(this)}
-                onMouseLeave={this.destroyTooltip} />
+                onMouseLeave={this.destroyTooltip}
+            />
         );
     }
-
-
 }

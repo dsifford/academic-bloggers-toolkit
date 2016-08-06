@@ -27,16 +27,16 @@ export class PeerReviewMetabox extends React.Component<Props, ABT.PRMetaState> {
         super(props);
         wp.media.frames.abt_reviewer_photos = {
             1: {
-                review: null,
                 response: null,
+                review: null,
             },
             2: {
-                review: null,
                 response: null,
+                review: null,
             },
             3: {
-                review: null,
                 response: null,
+                review: null,
             },
         };
 
@@ -100,9 +100,9 @@ export class PeerReviewMetabox extends React.Component<Props, ABT.PRMetaState> {
         }
 
         wp.media.frames.abt_reviewer_photos[num][topfield] = new wp.media({
-            title: 'Choose or Upload an Image',
             button: { text:  'Use this image' },
             library: { type: 'image' },
+            title: 'Choose or Upload an Image',
         });
 
         wp.media.frames.abt_reviewer_photos[num][topfield].on('select', () => {
@@ -116,55 +116,58 @@ export class PeerReviewMetabox extends React.Component<Props, ABT.PRMetaState> {
         wp.media.frames.abt_reviewer_photos[num][topfield].open();
     }
 
-
     render() {
         return (
             <div>
                 <select
                     style={{ width: '100%' }}
                     value={this.state.selection}
-                    name='reviewer_selector'
-                    onChange={this.handleSelectChange.bind(this)}>
+                    name="reviewer_selector"
+                    onChange={this.handleSelectChange.bind(this)}
+                >
                     {
                         this.optionText.map((text: string, i: number) =>
                             <option key={i} value={i}>{text}</option>
                         )
                     }
                 </select>
-                { ['1', '2', '3', ].indexOf(this.state.selection) > -1 &&
+                { ['1', '2', '3'].indexOf(this.state.selection) > -1 &&
                     <div>
-                        <h3 children='Review 1' />
+                        <h3 children="Review 1" />
                         <ReviewRow
                             rowData={this.state['1']}
-                            num='1'
+                            num="1"
                             onChange={this.handleInputChange.bind(this)}
                             hidden={this.state.hidden['1']}
                             toggleHidden={this.toggleHidden.bind(this)}
-                            uploadHandler={this.handleUpload.bind(this)} />
+                            uploadHandler={this.handleUpload.bind(this)}
+                        />
                     </div>
                 }
-                { ['2', '3', ].indexOf(this.state.selection) > -1 &&
+                { ['2', '3'].indexOf(this.state.selection) > -1 &&
                     <div>
-                        <h3 children='Review 2' />
+                        <h3 children="Review 2" />
                         <ReviewRow
                             rowData={this.state['2']}
-                            num='2'
+                            num="2"
                             onChange={this.handleInputChange.bind(this)}
                             hidden={this.state.hidden['2']}
                             toggleHidden={this.toggleHidden.bind(this)}
-                            uploadHandler={this.handleUpload.bind(this)} />
+                            uploadHandler={this.handleUpload.bind(this)}
+                        />
                     </div>
                 }
                 { this.state.selection === '3' &&
                     <div>
-                        <h3 children='Review 3' />
+                        <h3 children="Review 3" />
                         <ReviewRow
                             rowData={this.state['3']}
-                            num='3'
+                            num="3"
                             onChange={this.handleInputChange.bind(this)}
                             hidden={this.state.hidden['3']}
                             toggleHidden={this.toggleHidden.bind(this)}
-                            uploadHandler={this.handleUpload.bind(this)} />
+                            uploadHandler={this.handleUpload.bind(this)}
+                        />
                     </div>
                 }
             </div>

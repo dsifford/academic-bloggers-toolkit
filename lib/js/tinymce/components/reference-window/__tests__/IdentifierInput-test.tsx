@@ -8,7 +8,7 @@ import { IdentifierInput } from '../IdentifierInput';
 const setup = () => {
     const spy = sinon.spy();
     const component = mount(
-        <IdentifierInput identifierList='testing' eventHandler={spy} />
+        <IdentifierInput identifierList="testing" eventHandler={spy} />
     );
     return {
         component,

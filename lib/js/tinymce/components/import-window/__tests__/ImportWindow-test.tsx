@@ -8,18 +8,17 @@ import * as sinon from 'sinon';
 import { spy } from 'sinon';
 import { ImportWindow } from '../ImportWindow';
 
-
 const setup = () => {
     const spy = sinon.spy();
     const wm: TinyMCE.WindowManager = {
+        alert: spy,
+        close: spy,
+        setParams: spy,
         windows: [
             {
                 settings: {},
             },
         ],
-        setParams: spy,
-        close: spy,
-        alert: spy,
     };
     const component = mount(
         <ImportWindow wm={wm} />
@@ -43,7 +42,7 @@ describe('<ImportWindow />', () => {
     it('should trigger handleFileUpload when upload field changed', () => {
         const handleFileUpload = spy(ImportWindow.prototype, 'handleFileUpload');
         const { upload } = setup();
-        upload.simulate('change', { target: { files: [ new File(['testdata', ], 'test'), ], value: 'test.ris' } });
+        upload.simulate('change', { target: { files: [new File(['testdata'], 'test')], value: 'test.ris' } });
         expect(handleFileUpload.calledOnce).toEqual(true);
     });
 
@@ -51,8 +50,8 @@ describe('<ImportWindow />', () => {
         const { component, submit, spy } = setup();
         const stateData = {
             filename: 'test',
-            payload: [{}, ],
             format: 'american-medical-association',
+            payload: [{}],
         };
 
         expect(submit.props().disabled).toBe(true);

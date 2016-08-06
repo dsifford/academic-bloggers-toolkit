@@ -38,7 +38,7 @@ class CitationStore {
         this.byIndex.replace(byIndex);
     }
 
-    removeItems(idList: string[], editor: HTMLDocument) {
+    removeItems(idList: string[], doc: HTMLDocument) {
         const byIndex = this.citationByIndex
         .map(i =>
             Object.assign({}, i, {
@@ -48,7 +48,7 @@ class CitationStore {
         )
         .reduce((prev, curr) => {
             if (curr.citationItems.length === 0) {
-                const el = editor.getElementById(curr.citationID);
+                const el = doc.getElementById(curr.citationID);
                 el.parentNode.removeChild(el);
                 return prev;
             }
@@ -67,6 +67,7 @@ export class Store {
         style: <'fixed'|'toggle'>'fixed',
     };
 
+    @observable
     citations: CitationStore;
 
     /**
@@ -134,5 +135,9 @@ export class Store {
         this.locale = cache.locale;
         this.citationStyle = cache.style;
         this.bibOptions = bibOptions;
+    }
+
+    reset() {
+        this.citations = new CitationStore([], {});
     }
 }

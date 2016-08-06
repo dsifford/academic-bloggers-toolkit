@@ -7,28 +7,28 @@ import { ResultList } from '../ResultList';
 
 let testData: PubMed.SingleReference[] = [
     {
-        uid: 11111,
-        title: 'Test Title 1',
         authors: [
             { name: 'Author 1' },
             { name: 'Author 2' },
             { name: 'Author 3' },
             { name: 'NOT VISIBLE' },
         ],
-        source: 'J Test 1',
         pubdate: '2016 May 1',
+        source: 'J Test 1',
+        title: 'Test Title 1',
+        uid: 11111,
     },
     {
-        uid: 22222,
-        title: 'Test Title 2',
         authors: [
             { name: 'First A' },
             { name: 'Second A' },
             { name: 'Third A' },
             { name: 'NOT VISIBLE' },
         ],
-        source: 'J Test 2',
         pubdate: '2016 May 2',
+        source: 'J Test 2',
+        title: 'Test Title 2',
+        uid: 22222,
     },
 ];
 

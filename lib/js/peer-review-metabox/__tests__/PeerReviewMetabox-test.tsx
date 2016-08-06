@@ -8,25 +8,25 @@ import { PeerReviewMetabox } from '../PeerReviewMetabox';
 
 const generateData = (
     heading: string = '',
-    response: string[] = ['', '', '', '', '', ],
-    review: string[] = ['', '', '', '', '', ]
+    response: string[] = ['', '', '', '', ''],
+    review: string[] = ['', '', '', '', '']
 ) => {
     return {
         heading: {
             value: heading,
         },
         response: {
-            name: response[0],
             background: response[1],
             content: response[2],
             image: response[3],
+            name: response[0],
             twitter: response[4],
         },
         review: {
-            name: review[0],
             background: review[1],
             content: review[2],
             image: review[3],
+            name: review[0],
             twitter: review[4],
         },
     };
@@ -49,12 +49,10 @@ const setup = (
     );
     return {
         component,
-        wrapper: component.find('div').at(0),
         select: component.find('select[name="reviewer_selector"]'),
+        wrapper: component.find('div').at(0),
     };
 };
-
-
 
 let wpMock = {
     media: class media {
@@ -109,7 +107,7 @@ describe('<PeerReviewMetabox />', () => {
     it('should mount with "state.hidden[1]" false', () => {
         const { component } = setup(
             '3',
-            generateData(undefined, ['name', '', '', '', '', ])
+            generateData(undefined, ['name', '', '', '', ''])
         );
         const expected = {
             1: false,
@@ -121,8 +119,8 @@ describe('<PeerReviewMetabox />', () => {
     it('should mount with "state.hidden[1]" & "state.hidden[2]" false', () => {
         const { component } = setup(
             '3',
-            generateData(undefined, ['name', '', '', '', '', ]),
-            generateData(undefined, ['name', '', '', '', '', ])
+            generateData(undefined, ['name', '', '', '', '']),
+            generateData(undefined, ['name', '', '', '', ''])
         );
         const expected = {
             1: false,
@@ -134,9 +132,9 @@ describe('<PeerReviewMetabox />', () => {
     it('should mount with all "state.hidden" false', () => {
         const { component } = setup(
             '3',
-            generateData(undefined, ['name', '', '', '', '', ]),
-            generateData(undefined, ['name', '', '', '', '', ]),
-            generateData(undefined, ['name', '', '', '', '', ])
+            generateData(undefined, ['name', '', '', '', '']),
+            generateData(undefined, ['name', '', '', '', '']),
+            generateData(undefined, ['name', '', '', '', ''])
         );
         const expected = {
             1: false,

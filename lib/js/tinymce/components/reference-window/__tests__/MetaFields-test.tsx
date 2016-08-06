@@ -20,11 +20,10 @@ const setup = (
     return {
         component,
         eventHandler: spy,
-        title: component.find('strong').text(),
         field: component.find('#title'),
+        title: component.find('strong').text(),
     };
 };
-
 
 describe('<MetaFields />', () => {
     it('should render with the correct title', () => {

@@ -14,12 +14,12 @@ const setup = (
         <ButtonRow addManually={addManually} attachInline={attachInline} eventHandler={spy} />
     );
     return {
-        spy,
-        component,
         addManually: component.find('#addManually'),
-        searchPubmed: component.find('#searchPubmed'),
-        submit: component.find('#submit-btn'),
         checkbox: component.find('#attachInline'),
+        component,
+        searchPubmed: component.find('#searchPubmed'),
+        spy,
+        submit: component.find('#submit-btn'),
     };
 };
 

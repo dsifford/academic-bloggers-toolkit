@@ -24,7 +24,7 @@ export class Card extends React.Component<CardProps, {}> {
             if (i < 2)
                 return prev += `${curr.family}, ${curr.given[0]}${p.length > i + 1 ? ', ' : `.`}`;
             if (i === 2)
-                return prev +=`${curr.family}, ${curr.given[0]}${p.length > i + 1 ? '...' : `.`}`;
+                return prev += `${curr.family}, ${curr.given[0]}${p.length > i + 1 ? '...' : `.`}`;
             return prev;
         }, '');
 
@@ -35,13 +35,25 @@ export class Card extends React.Component<CardProps, {}> {
 
     render() {
         const { CSL, isSelected } = this.props;
+        const styles = {
+            meta: {
+                display: 'flex',
+                fontSize: '0.8em',
+                justifyContent: 'space-between',
+            },
+            people: {
+                fontSize: '0.8em',
+                fontWeight: 600,
+            },
+        };
         return (
             <div
                 className={isSelected ? 'abt-card selected' : 'abt-card'}
-                onClick={this.click}>
+                onClick={this.click}
+            >
                 <div>{CSL.title}</div>
-                <div style={{fontSize: '0.8em', fontWeight: 600}}>{this.parsePeople(CSL.author)}</div>
-                <div style={{fontSize: '0.8em', display: 'flex', justifyContent: 'space-between'}}>
+                <div style={styles.people}>{this.parsePeople(CSL.author)}</div>
+                <div style={styles.meta}>
                     <div>({this.parseDate(CSL.issued)})</div>
                     <div><em>{CSL.journalAbbreviation}</em></div>
                     <div>{CSL.page}</div>

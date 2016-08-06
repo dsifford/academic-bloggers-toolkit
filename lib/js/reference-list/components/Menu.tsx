@@ -2,6 +2,7 @@ import * as React from 'react';
 import { citeStyles } from '../../../../vendor/citationstyles';
 import VSelect from 'react-virtualized-select';
 import { observer } from 'mobx-react';
+import { PanelButton } from './PanelButton';
 
 import 'react-virtualized-select/styles.css';
 import 'react-virtualized/styles.css';
@@ -23,13 +24,13 @@ interface State {
 @observer
 export class Menu extends React.Component<Props, State> {
 
-    public styles = citeStyles;
+    styles: {label: string, value: string}[] = citeStyles;
 
     constructor(props) {
         super(props);
         this.state = {
-            style: this.props.cslStyle,
             selected: null,
+            style: this.props.cslStyle,
         };
     }
 
@@ -41,8 +42,8 @@ export class Menu extends React.Component<Props, State> {
             case 'CHANGE_STYLE': {
                 this.setState(
                     Object.assign({}, this.state, {
-                        style: data.value,
                         selected: data,
+                        style: data.value,
                     })
                 );
                 this.props.submitData(kind, data.value);
@@ -60,33 +61,40 @@ export class Menu extends React.Component<Props, State> {
 
     render() {
         return (
-            <div id='abt-reflist-menu'>
-                <div className='inner'>
-                    <div className='option-buttons'>
-                        <div
-                            className='row-btn'
-                            id='import-ris'
+            <div id="abt-reflist-menu">
+                <div className="inner">
+                    <div className="panel" style={{ background: 'white', margin: '0 -5px'}}>
+                        <PanelButton
+                            id="import-ris"
                             onClick={this.handleSelect.bind(this, 'IMPORT_RIS', null)}
-                            children='Import RIS File' />
-                        <div
-                            className='row-btn'
-                            id='refresh-processor'
+                            data-tooltip="Import References from RIS File"
+                        >
+                            <span className="dashicons dashicons-media-code"/>
+                        </PanelButton>
+                        <PanelButton
+                            id="refresh-processor"
                             onClick={this.handleSelect.bind(this, 'REFRESH_PROCESSOR', null)}
-                            children='Refresh Reference List' />
-                        <div
-                            className='row-btn'
-                            id='destroy-processor'
+                            data-tooltip="Refresh Reference List"
+                        >
+                            <span className="dashicons dashicons-update" />
+                        </PanelButton>
+                        <PanelButton
+                            id="destroy-processor"
                             onClick={this.handleSelect.bind(this, 'DESTROY_PROCESSOR', null)}
-                            children='Delete All References' />
+                            data-tooltip="Delete All References"
+                        >
+                            <span className="dashicons dashicons-trash" />
+                        </PanelButton>
                     </div>
-                    <div id='style-select'>
+                    <div id="style-select">
                         <VSelect
-                            id='style-select'
+                            id="style-select"
                             onChange={this.handleSelect.bind(this, 'CHANGE_STYLE')}
                             value={this.state.selected}
-                            placeholder='Choose citation style...'
+                            placeholder="Choose citation style..."
                             options={this.styles}
-                            clearable={false} />
+                            clearable={false}
+                        />
                     </div>
                 </div>
             </div>
