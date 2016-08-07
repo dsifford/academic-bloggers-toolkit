@@ -25,15 +25,7 @@ msgid "Please send your feedback!"
 msgstr ""
 
 #: dist/lib/options-page.php:90
-msgid "If you experience a bug or would like to request a new feature, please visit the "
-msgstr ""
-
-#: dist/lib/options-page.php:90
-msgid "GitHub Repository"
-msgstr ""
-
-#: dist/lib/options-page.php:90
-msgid "and submit an issue. I'll do my best to get it handled in a timely manner. Comments can also be sent to me on twitter "
+msgid "If you experience a bug or would like to request a new feature, please visit the <a href='%s' target='_blank'>GitHub Repository</a> and submit an issue. I'll do my best to get it handled in a timely manner. Comments can also be sent to me on twitter "
 msgstr ""
 
 #: dist/lib/options-page.php:90
@@ -84,43 +76,47 @@ msgstr ""
 msgid "Override CSS"
 msgstr ""
 
-#: dist/lib/options-page.php:94
+#: dist/lib/options-page.php:95
+msgid "Note: If you are already using a child theme to load CSS, place your CSS overrides there. The box above is only a crutch for those who do not have any custom CSS saved yet. Loading CSS this way is very inefficient."
+msgstr ""
+
+#: dist/lib/options-page.php:95
 msgid "CSS Selectors used in this plugin"
 msgstr ""
 
-#: dist/lib/options-page.php:94
-msgid "Inline Citations:"
+#: dist/lib/options-page.php:95
+msgid "Inline Citations"
 msgstr ""
 
-#: dist/lib/options-page.php:94
-msgid "Peer Review Boxes:"
+#: dist/lib/options-page.php:95
+msgid "Peer Review Boxes"
 msgstr ""
 
-#: dist/lib/options-page.php:94
+#: dist/lib/options-page.php:95
 msgid "Citation Tooltips:"
 msgstr ""
 
-#: dist/lib/options-page.php:94
+#: dist/lib/options-page.php:95
 msgid "Bibliography:"
 msgstr ""
 
-#: dist/lib/options-page.php:94
+#: dist/lib/options-page.php:95
 msgid "Footnotes"
 msgstr ""
 
-#: dist/lib/options-page.php:94
+#: dist/lib/options-page.php:95
 msgid "How do I"
 msgstr ""
 
-#: dist/lib/options-page.php:94
+#: dist/lib/options-page.php:95
 msgid "Make my tooltips a different color?"
 msgstr ""
 
-#: dist/lib/options-page.php:94
+#: dist/lib/options-page.php:95
 msgid "Apply style to the bibliography list?"
 msgstr ""
 
-#: dist/lib/options-page.php:94
+#: dist/lib/options-page.php:95
 msgid "Change the style of the peer review boxes?"
 msgstr ""
 

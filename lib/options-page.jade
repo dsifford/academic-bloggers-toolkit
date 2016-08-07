@@ -9,7 +9,7 @@
                         h3
                             - _e('Please send your feedback!', 'academic-bloggers-toolkit')
                         .inside
-                            | <?php _e('If you experience a bug or would like to request a new feature, please visit the ', 'academic-bloggers-toolkit') ?><a href='https://github.com/dsifford/academic-bloggers-toolkit' target='_blank'> <?php _e('GitHub Repository', 'academic-bloggers-toolkit') ?></a><?php _e('and submit an issue. I\'ll do my best to get it handled in a timely manner. Comments can also be sent to me on twitter ', 'academic-bloggers-toolkit') ?><a href='http://www.twitter.com/flightmed1' target='_blank'>@flightmed1</a>.
+                            | <?php printf ( __("If you experience a bug or would like to request a new feature, please visit the <a href='%s' target='_blank'>GitHub Repository</a> and submit an issue. I'll do my best to get it handled in a timely manner. Comments can also be sent to me on twitter ", 'academic-bloggers-toolkit'), 'https://github.com/dsifford/academic-bloggers-toolkit') ?> <a href='http://www.twitter.com/flightmed1' target='_blank'>@flightmed1</a>.
                     .postbox
                         h3
                             - _e('Preferred Citation Style', 'academic-bloggers-toolkit')
@@ -72,6 +72,8 @@
                                         textarea.large-text(name='abt_custom_css_editor', cols='80', rows='20', style='font-family: monospace;')
                                             != abt_saved_css
                                         br
+                                        p(style="font-size: 0.8em") 
+                                            | <?php _e('Note: If you are already using a child theme to load CSS, place your CSS overrides there. The box above is only a crutch for those who do not have any custom CSS saved yet. Loading CSS this way is very inefficient.', 'academic-bloggers-toolkit') ?>
                                         input.button-primary(type='submit', name='abt_custom_css_submit', value='Update')
                                 td(width='50%', style='vertical-align: top;')
                                     table
@@ -81,13 +83,13 @@
                                         tr
                                             td
                                                 strong
-                                                    - _e('Inline Citations:', 'academic-bloggers-toolkit')
+                                                    - _e('Inline Citations', 'academic-bloggers-toolkit')
                                             td
                                                 code .abt_cite
                                         tr
                                             td
                                                 strong
-                                                    - _e('Peer Review Boxes:', 'academic-bloggers-toolkit')
+                                                    - _e('Peer Review Boxes', 'academic-bloggers-toolkit')
                                             td
                                                 code abt_PR_heading, .abt_PR_info, .abt_PR_headshot, .abt_chat_bubble
                                         tr
