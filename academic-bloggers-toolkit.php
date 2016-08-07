@@ -11,39 +11,35 @@
  *  Text Domain: academic-bloggers-toolkit
  */
 
-// Assign Global Variables
-
-$plugin_url = WP_PLUGIN_URL . '/academic-bloggers-toolkit';
-$abt_options = array();
+// $abt_options = [];
 
 function abt_add_options_link ($links) {
-	$mylinks = array(
-		'<a href="' . admin_url( 'options-general.php?page=abt-options' ) . '">' . __('Plugin Settings', 'academic-bloggers-toolkit') . '</a>',
-	);
+    $url = admin_url('options-general.php?page=abt-options');
+    $text = __('Plugin Settings', 'academic-bloggers-toolkit');
+	$mylinks = [
+        "<a href='$url'>$text</a>",
+	];
 	return array_merge($links, $mylinks);
 }
 add_filter('plugin_action_links_' . plugin_basename(__FILE__), 'abt_add_options_link');
 
 function abt_css_override(){
-	$abt_options = get_option( 'abt_options' );
+	$abt_options = get_option('abt_options');
 	$custom_css = '';
-	if ( isset ($abt_options['custom_css']) && !empty($abt_options['custom_css']) ) {
+	if (isset($abt_options['custom_css']) && !empty($abt_options['custom_css'])) {
 		$custom_css .= $abt_options['custom_css']."\r\n";
-		echo '<style id="custom_css">' . $custom_css . '</style>';
+		echo "<style id='custom_css'>$custom_css</style>";
 	}
 }
 add_action('wp_head', 'abt_css_override');
 
-
 function abt_enqueue_frontend_scripts() {
-
     $abt_options = get_option('abt_options');
-
-    wp_enqueue_style( 'dashicons' );
-	wp_enqueue_style( 'abt_frontend_styles', plugins_url('academic-bloggers-toolkit/lib/css/frontend.css'), 'dashicons' );
+    wp_enqueue_style('dashicons');
+	wp_enqueue_style('abt_frontend_styles', plugins_url('academic-bloggers-toolkit/lib/css/frontend.css'), 'dashicons');
 
     if (is_singular()) {
-        wp_enqueue_script('abt_frontend_js', plugins_url('academic-bloggers-toolkit/lib/js/Frontend.js') );
+        wp_enqueue_script('abt_frontend_js', plugins_url('academic-bloggers-toolkit/lib/js/Frontend.js'));
         wp_localize_script('abt_frontend_js', 'ABT_meta', array(
             'prBoxStyle' => isset($abt_options['display_options']['PR_boxes']) ? $abt_options['display_options']['PR_boxes'] : null,
             'bibStyle' => isset($abt_options['display_options']['bibliography']) ? $abt_options['display_options']['bibliography'] : null
@@ -61,19 +57,18 @@ function abt_enqueue_admin_scripts($hook) {
 add_action('admin_enqueue_scripts', 'abt_enqueue_admin_scripts');
 
 
+// Uninstall Hook - Clean database of Plugin entries
+function abt_uninstall() {
+	delete_option('abt_citation_options');
+	delete_option('abt_css_options');
+	delete_option('abt_options');
+}
+if (function_exists('register_uninstall_hook')) {
+	register_uninstall_hook(__FILE__, 'abt_uninstall');
+}
+
 // Tidy Requires
 require('lib/backend.php');
 require('lib/options-page.php');
-
-
-// Uninstall Hook - Clean database of Plugin entries
-function abt_uninstall() {
-	delete_option( 'abt_citation_options' );
-	delete_option( 'abt_css_options' );
-	delete_option( 'abt_options' );
-}
-if ( function_exists('register_uninstall_hook') ) {
-	register_uninstall_hook(__FILE__, 'abt_uninstall');
-}
 
 ?>

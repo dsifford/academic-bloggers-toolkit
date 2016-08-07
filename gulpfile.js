@@ -22,6 +22,22 @@ const webpackDevConfig = Object.assign({}, webpackConfig, {
     cache: true,
 });
 
+gulp.task('pot', () => {
+    const wpPot = require('gulp-wp-pot');
+    const sort = require('gulp-sort');
+    const version = require('./package.json').version;
+    return gulp.src(['./academic-bloggers-toolkit.php', 'lib/**/*.php', 'dist/lib/options-page.php'])
+        .pipe(sort())
+        .pipe(wpPot({
+            domain: 'academic-bloggers-toolkit',
+            package: `Academic Blogger's Toolkit ${version}`,
+            bugReport: 'https://github.com/dsifford/academic-bloggers-toolkit/issues',
+            lastTranslator: 'Derek P Sifford <dereksifford@gmail.com>',
+            team: 'Derek P Sifford <dereksifford@gmail.com>',
+            headers: false,
+        }))
+        .pipe(gulp.dest('./'))
+});
 
 // ==================================================
 //                 Utility Tasks
@@ -77,6 +93,7 @@ gulp.task('php', gulp.series('jade', () =>
 gulp.task('static', () =>
     gulp.src([
         'academic-bloggers-toolkit.php',
+        'academic-bloggers-toolkit.pot',
         'CHANGELOG.md',
         'LICENSE',
         'readme.txt',

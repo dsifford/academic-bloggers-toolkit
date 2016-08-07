@@ -9,7 +9,7 @@ import { ButtonRow } from './ButtonRow';
 export class ReferenceWindow extends React.Component<{}, ABT.ReferenceWindowPayload> {
 
     labels = (top as any).ABT_i18n.tinymce.referenceWindow.referenceWindow;
-    private modal: Modal = new Modal(this.labels.title);
+    modal: Modal = new Modal(this.labels.title);
 
     constructor() {
         super();

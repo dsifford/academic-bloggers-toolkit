@@ -13,7 +13,6 @@ module.exports = {
         filename: '[name].js',
         path: __dirname,
     },
-    devtool: 'eval-source-map',
     module: {
         loaders: [
             {
