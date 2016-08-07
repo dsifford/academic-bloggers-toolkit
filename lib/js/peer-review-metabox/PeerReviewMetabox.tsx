@@ -2,7 +2,7 @@ import * as React from 'react';
 import { ReviewRow } from './ReviewRow';
 import { abtPRFieldMapping } from '../utils/Constants';
 
-declare var wp;
+declare const wp;
 
 interface DOMEvent extends Event {
     target: HTMLInputElement;
@@ -14,14 +14,9 @@ interface Props {
 
 export class PeerReviewMetabox extends React.Component<Props, ABT.PRMetaState> {
 
-    private optionText: string[] = [
-        'Select Number of Reviewers',
-        'One Reviewer',
-        'Two Reviewers',
-        'Three Reviewers',
-    ];
-
-    private blankState: ABT.PRMetaState = abtPRFieldMapping;
+    labels =  ABT_i18n.peerReviewMetabox.peerReviewMetabox;
+    optionText: string[] = this.labels.optionText;
+    blankState: ABT.PRMetaState = abtPRFieldMapping;
 
     constructor(props) {
         super(props);
@@ -100,9 +95,9 @@ export class PeerReviewMetabox extends React.Component<Props, ABT.PRMetaState> {
         }
 
         wp.media.frames.abt_reviewer_photos[num][topfield] = new wp.media({
-            button: { text:  'Use this image' },
+            button: { text:  this.labels.mediaButton },
             library: { type: 'image' },
-            title: 'Choose or Upload an Image',
+            title: this.labels.mediaTitle,
         });
 
         wp.media.frames.abt_reviewer_photos[num][topfield].on('select', () => {
@@ -120,7 +115,7 @@ export class PeerReviewMetabox extends React.Component<Props, ABT.PRMetaState> {
         return (
             <div>
                 <select
-                    style={{ width: '100%' }}
+                    style={{width: '100%'}}
                     value={this.state.selection}
                     name="reviewer_selector"
                     onChange={this.handleSelectChange.bind(this)}
@@ -133,7 +128,7 @@ export class PeerReviewMetabox extends React.Component<Props, ABT.PRMetaState> {
                 </select>
                 { ['1', '2', '3'].indexOf(this.state.selection) > -1 &&
                     <div>
-                        <h3 children="Review 1" />
+                        <h3 children={this.labels.review1} />
                         <ReviewRow
                             rowData={this.state['1']}
                             num="1"
@@ -146,7 +141,7 @@ export class PeerReviewMetabox extends React.Component<Props, ABT.PRMetaState> {
                 }
                 { ['2', '3'].indexOf(this.state.selection) > -1 &&
                     <div>
-                        <h3 children="Review 2" />
+                        <h3 children={this.labels.review2} />
                         <ReviewRow
                             rowData={this.state['2']}
                             num="2"
@@ -159,7 +154,7 @@ export class PeerReviewMetabox extends React.Component<Props, ABT.PRMetaState> {
                 }
                 { this.state.selection === '3' &&
                     <div>
-                        <h3 children="Review 3" />
+                        <h3 children={this.labels.review3} />
                         <ReviewRow
                             rowData={this.state['3']}
                             num="3"

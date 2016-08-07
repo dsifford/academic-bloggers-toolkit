@@ -28,7 +28,7 @@ export function PubmedQuery(query: string, bypassJSONFormatter: boolean = false)
             if (res.error)
                 reject(new Error('Error: PubmedQuery => Request not valid.'));
 
-            resolve([res.res.esearchresult.idlist.join(), bypassJSONFormatter]);
+            resolve([res.esearchresult.idlist.join(), bypassJSONFormatter]);
         };
         req.onerror = () => reject(new Error('Error: PubmedQuery => Network Error.'));
         req.send(null);

@@ -13,7 +13,6 @@ const stylus = require('gulp-stylus');
 const poststylus = require('poststylus');
 const autoprefixer = require('autoprefixer')({ browsers: ['last 2 versions'] });
 const sourcemaps = require('gulp-sourcemaps');
-const nib = require('nib');
 // JS
 const uglify = require('gulp-uglify');
 const webpack = require('webpack-stream');
@@ -103,7 +102,7 @@ gulp.task('stylus:dev', () =>
     ], { base: './' })
     .pipe(sourcemaps.init())
     .pipe(stylus({
-        use: [ poststylus([autoprefixer]), nib() ],
+        use: [poststylus([autoprefixer])],
         compress: true,
     }))
     .pipe(sourcemaps.write('.'))
@@ -119,7 +118,7 @@ gulp.task('stylus:prod', () =>
         'lib/css/collections/citations.styl'
     ], { base: './' })
     .pipe(stylus({
-        use: [ poststylus([autoprefixer]), nib() ],
+        use: [poststylus([autoprefixer])],
         compress: true,
     }))
     .pipe(gulp.dest('dist'))

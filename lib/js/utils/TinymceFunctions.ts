@@ -1,5 +1,5 @@
 import { BaseURL }  from './Constants';
-
+// declare const ABT_i18n;
 
 /**
  * Opens `reference-window.tsx` and returns a promise which resolves to either
@@ -244,5 +244,5 @@ export function reset(doc: HTMLDocument) {
     for (const cite of inlines) {
         cite.parentNode.removeChild(cite);
     }
-    bib.parentNode.removeChild(bib);
+    if (bib) bib.parentNode.removeChild(bib);
 }

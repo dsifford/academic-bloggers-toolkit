@@ -22,8 +22,9 @@ interface Props {
 
 export class ImportWindow extends React.Component<Props, State> {
 
-    private modal: Modal = new Modal('Import References from RIS File');
-    private wm: TinyMCE.WindowManager = this.props.wm;
+    labels = (top as any).ABT_i18n.tinymce.importWindow;
+    modal: Modal = new Modal(this.labels.title);
+    wm: TinyMCE.WindowManager = this.props.wm;
 
     constructor(props) {
         super(props);
@@ -37,7 +38,7 @@ export class ImportWindow extends React.Component<Props, State> {
         this.modal.resize();
     }
 
-    handleFileUpload(e: InputEvent) {
+    handleFileUpload = (e: React.FormEvent<HTMLInputElement>) => {
         e.preventDefault();
         const reader = new FileReader();
         const file = e.target.files[0];
@@ -48,7 +49,7 @@ export class ImportWindow extends React.Component<Props, State> {
 
             let payload = parser.parse();
             if (payload.length === 0) {
-                this.wm.alert(`The file could not be processed. Are you sure it's a .RIS (Refman) file?`);
+                this.wm.alert(this.labels.filetypeError);
                 return;
             }
 
@@ -61,7 +62,7 @@ export class ImportWindow extends React.Component<Props, State> {
             const leftovers = parser.unsupportedRefs;
 
             if (leftovers.length > 0) {
-                this.wm.alert(`The following references were unable to be processed: ${leftovers.join(', ')}`);
+                this.wm.alert(`${this.labels.leftovers}: ${leftovers.join(', ')}`);
             }
 
             this.setState(Object.assign({}, this.state, { payload, filename }));
@@ -70,9 +71,9 @@ export class ImportWindow extends React.Component<Props, State> {
         reader.readAsText(file);
     }
 
-    handleSubmit(e) {
+    handleSubmit = (e: React.MouseEvent<HTMLInputElement>) => {
         e.preventDefault();
-        this.wm.setParams({ data: this.state });
+        this.wm.setParams({data: this.state});
         this.wm.close();
     }
 
@@ -86,10 +87,10 @@ export class ImportWindow extends React.Component<Props, State> {
                                 type="file"
                                 id="uploadField"
                                 required={true}
-                                onChange={this.handleFileUpload.bind(this)}
+                                onChange={this.handleFileUpload}
                                 accept="application/xresearch-info-systems"
                             />
-                            <span children={`Choose File`} />
+                            <span children={this.labels.upload} />
                         </label>
                         <div
                             style={{
@@ -110,9 +111,9 @@ export class ImportWindow extends React.Component<Props, State> {
                             type="button"
                             className="submit-btn"
                             id="submitbtn"
-                            value="Import"
+                            value={this.labels.import}
                             disabled={this.state.payload.length === 0}
-                            onClick={this.handleSubmit.bind(this)}
+                            onClick={this.handleSubmit}
                         />
                     </div>
                 </div>

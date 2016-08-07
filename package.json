@@ -46,7 +46,6 @@
     "gulp-uglify": "^2.0.0",
     "jest-cli": "^14.1.0",
     "mobx-react-devtools": "^4.2.4",
-    "nib": "^1.1.0",
     "poststylus": "^0.2.3",
     "react-addons-test-utils": "^15.3.0",
     "sinon": "^1.17.5",

@@ -4,16 +4,106 @@ interface Window {
   DocumentTouch?;
 }
 
-interface InputEvent extends UIEvent {
-    target: HTMLInputElement;
-}
-
 declare module 'react-virtualized-select' {
     const VSelect: any;
     export default VSelect.defaultProps;
 }
 
+declare const ABT_i18n: ABT.i18n;
+
 declare namespace ABT {
+
+    interface i18n {
+        citationTypes: CitationTypes;
+        fieldmaps: ABT.FieldMappings;
+        peerReviewMetabox: {
+            commonRowContent: {
+                background: string;
+                content: string;
+                imageButton: string;
+                name: string;
+                photo: string;
+                twitter: string;
+            };
+            peerReviewMetabox: {
+                mediaButton: string;
+                mediaTitle: string;
+                optionText: string[];
+                review1: string;
+                review2: string;
+                review3: string;
+            };
+            reviewRow: {
+                reviewHeading: string;
+                toggleResponse: string;
+            };
+        };
+        referenceList: {
+            menu: {
+                stylePlaceholder: string;
+                tooltips: {
+                    destroy: string;
+                    'import': string;
+                    refresh: string;
+                };
+            };
+            referenceList: {
+                citedItems: string;
+                tooltips: {
+                    add: string;
+                    insert: string;
+                    pin: string;
+                    remove: string;
+                };
+                uncitedItems: string;
+            };
+        };
+        tinymce: {
+            importWindow: {
+                title: string;
+                filetypeError: string;
+                leftovers: string;
+                'import': string;
+                upload: string;
+            };
+            pubmedWindow: {
+                addReference: string;
+                next: string;
+                previous: string;
+                search: string;
+            };
+            referenceWindow: {
+                referenceWindow: {
+                    title: string;
+                };
+                buttonRow: {
+                    addManually: string;
+                    addReference: string;
+                    addWithIdentifier: string;
+                    attachInline: string;
+                    pubmedWindowTitle: string;
+                    searchPubmed: string;
+                };
+                identifierInput: {
+                    label: string;
+                };
+                manualEntryContainer: {
+                    type: string;
+                };
+                people: {
+                    add: string;
+                    given: string;
+                    surname: string;
+                };
+            };
+        }
+    }
+
+    type CitationTypes = {
+        inUse: boolean;
+        label: string;
+        value: string;
+    }[];
 
     interface CSLProcessor {
         style: string;

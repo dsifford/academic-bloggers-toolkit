@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { citationTypeArray, referenceWindowEvents as LocalEvents } from '../../../utils/Constants';
+import { referenceWindowEvents as LocalEvents } from '../../../utils/Constants';
 
 import { People } from './People';
 import { MetaFields } from './MetaFields';
@@ -16,11 +16,11 @@ export class ManualEntryContainer extends React.Component<ManualEntryProps, {}> 
         super(props);
     }
 
-    consumeChildEvents(e: CustomEvent) {
+    consumeChildEvents = (e: CustomEvent) => {
         this.props.eventHandler(e);
     }
 
-    typeChange(e: InputEvent) {
+    typeChange = (e: React.FormEvent<HTMLInputElement>) => {
         this.props.eventHandler(
             new CustomEvent(LocalEvents.CHANGE_CITATION_TYPE, {
                 detail: e.target.value,
@@ -33,17 +33,17 @@ export class ManualEntryContainer extends React.Component<ManualEntryProps, {}> 
             <div>
                 <ManualSelection
                     value={this.props.manualData.type}
-                    onChange={this.typeChange.bind(this)}
+                    onChange={this.typeChange}
                 />
                 <People
                     people={this.props.people}
-                    eventHandler={this.consumeChildEvents.bind(this)}
+                    eventHandler={this.consumeChildEvents}
                     citationType={this.props.manualData.type}
                 />
                 <MetaFields
                     citationType={this.props.manualData.type}
                     meta={this.props.manualData}
-                    eventHandler={this.consumeChildEvents.bind(this)}
+                    eventHandler={this.consumeChildEvents}
                 />
             </div>
         );
@@ -55,13 +55,15 @@ export const ManualSelection = ({
     onChange,
 }) => {
     const commonStyle = {padding: '5px'};
+    const citationTypes = (top as any).ABT_i18n.citationTypes as ABT.CitationTypes;
+    const label = (top as any).ABT_i18n.tinymce.referenceWindow.manualEntryContainer.type;
     return (
         <div style={{alignItems: 'center', display: 'flex'}}>
             <div style={commonStyle}>
                 <label
                     htmlFor="type"
                     style={{whiteSpace: 'nowrap'}}
-                    children="Select Citation Type"
+                    children={label}
                 />
             </div>
             <div style={Object.assign({}, commonStyle, {flex: 1})}>
@@ -72,7 +74,7 @@ export const ManualSelection = ({
                     value={value}
                 >
                     {
-                        citationTypeArray.map((item, i) =>
+                        citationTypes.map((item, i) =>
                             item.inUse ?
                             <option
                                 key={i}

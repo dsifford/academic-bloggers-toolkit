@@ -1,5 +1,4 @@
 @import 'colors'
-@import 'nib/gradients'
 
 // ========== Loading Spinner ===========
 .sk-circle
@@ -55,65 +54,64 @@
     .panel
         display flex
         padding 10px 0
-        margin-top -6px
         background $light-gray
         border-bottom 1px solid $border
         border-top 1px solid $border
-        clear both
         justify-content space-around
-        button.abt-reflist-button
-            background 0
-            border 0
-            border-radius 2px
-            color $dark-gray
-            cursor pointer
-            height 30px
-            outline 0
-            min-width 40px
-            $selector = selector()
-            &:hover
-                box-shadow inset 0 1px 0 white,0 1px 0 rgba(0,0,0,.08)
-                border 1px solid $dark-gray
-            &:active
-                @extend {$selector}:hover
-                background darken($light-gray, 5)
-                box-shadow inset 0 2px 5px -3px rgba(0,0,0,.3)
-            &:disabled
-                color $disabled
-                pointer-events none
-            span
-                pointer-events: none
-                height 18px
-                width 18px
-                &.insert-inline
-                    transform rotateY(180deg)
-                    padding-left 2px
-                &.add-reference
-                    line-height 22px
-                    width 20px
-                    padding-right 2px
-                &.remove-reference
-                    font-weight 900
-                    padding-right 2px
-                &.hamburger-menu
-                    font-size 2em
-                    padding 0 8px 6px 0
-                &.pin-reflist.fixed
-                    transform rotate(-45deg)
+    .subpanel
+        display flex
+        padding 5px 0
+        justify-content space-around
+    button.abt-reflist-button
+        background 0
+        border none
+        border-radius 2px
+        color $dark-gray
+        cursor pointer
+        height 30px
+        outline 0
+        min-width 40px
+        $selector = selector()
+        &:hover
+            box-shadow inset 0 1px 0 white,0 1px 0 rgba(0,0,0,.08)
+            border 1px solid $dark-gray
+        &:active
+            @extend {$selector}:hover
+            background darken($light-gray, 5)
+            box-shadow inset 0 2px 5px -3px rgba(0,0,0,.3)
+        &:disabled
+            color $disabled
+            pointer-events none
+        span
+            pointer-events: none
+            height 18px
+            width 18px
+            &.insert-inline
+                transform rotateY(180deg)
+                padding-left 2px
+            &.add-reference
+                line-height 22px
+                width 20px
+                padding-right 2px
+            &.remove-reference
+                font-weight 900
+                padding-right 2px
+            &.hamburger-menu
+                font-size 2em
+                padding 0 8px 6px 0
+            &.pin-reflist.fixed
+                transform rotate(-45deg)
 
     #abt-reflist-menu
-        padding 0 5px
         border-bottom solid $border 1px
+        box-shadow inset 0 2px 5px -3px rgba(0,0,0,.3)
         .inner
             display flex
             flex-direction column
-            background white
             height auto
-            align-content flex-end
             #style-select
-                padding 10px
+                padding 2px 10px 10px 10px
                 margin 0 -5px
-                background linear-gradient(to bottom, white, lighten($border, 8))
                 label
                     font-size 1.2em
                     font-weight 600
@@ -127,16 +125,33 @@
         &.selected
             border-left solid darken($blue, 5) 3px
             padding 5px 10px 5px 7px
-        a
-            pointer-events none
-            color $font
-            text-decoration none
+        +prefix-classes('abt-card-')
+            .people
+                font-size 0.8em
+                font-weight 600
+            .meta-container
+                display flex
+                font-size 0.8em
+                justify-content space-between
+                & > div
+                    padding 0 3px
+            .source
+                font-style italic
+                text-overflow ellipsis
+                white-space nowrap
+                overflow hidden
+            .pages
+                white-space nowrap
     .list
-        max-height 50vh
+        max-height 400px
         overflow-y auto
         overflow-x hidden
+        &.fixed
+            max-height calc(50vh - 134px)
         &.uncited
-            max-height 20vh
+            max-height 400px
+            &.fixed
+                max-height calc(50vh - 134px)
 
     .group-label
         display flex

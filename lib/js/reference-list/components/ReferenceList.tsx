@@ -21,6 +21,7 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
 
     editor: TinyMCE.Editor;
     processor: CSLProcessor;
+    labels = ABT_i18n.referenceList.referenceList;
 
     @observable
     selected: IObservableArray<string> = observable([]);
@@ -93,15 +94,7 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
 
         const { locations: [citationsBefore, citationsAfter] } = MCE.getRelativeCitationPositions(this.editor);
         const citationData = this.processor.prepareInlineCitationData(data);
-        const [status, clusters] =
-            this.processor.citeproc.processCitationCluster(
-                citationData,
-                citationsBefore,
-                citationsAfter,
-            );
-        if (status['citation_errors'].length > 0) {
-            console.error(status['citation_errors']);
-        }
+        const clusters = this.processor.processCitationCluster(citationData, citationsBefore, citationsAfter);
 
         MCE.parseInlineCitations(
             this.editor,
@@ -147,6 +140,19 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
                     }, {} as {[itemId: string]: CSL.Data})
                 );
 
+                data = data.reduce((prev, curr) => {
+                    const index = this.props.store.citations.lookup.titles.indexOf(curr.title);
+                    if (index > -1) {
+                        return [
+                            ...prev,
+                            this.props.store.citations.CSL.get(
+                                this.props.store.citations.lookup.ids[index]
+                            )
+                        ];
+                    }
+                    return [...prev, curr];
+                }, []);
+
                 if (!payload.attachInline) return;
                 this.insertInline(null, data);
             })
@@ -188,7 +194,7 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
                 return;
             }
             default:
-                return console.error('Menu selection type not recognized');
+                return;
         }
     }
 
@@ -219,6 +225,7 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
         e.preventDefault();
         document.getElementById('abt_reflist').classList.toggle('fixed');
         this.fixed = !this.fixed;
+        this.scrollHandler();
     }
 
     scrollHandler = () => {
@@ -262,27 +269,27 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
                     <PanelButton
                         disabled={this.selected.length === 0}
                         onClick={this.insertInline}
-                        data-tooltip="Insert selected references"
+                        data-tooltip={this.labels.tooltips.insert}
                     >
                         <span className="dashicons dashicons-migrate insert-inline" />
                     </PanelButton>
                     <PanelButton
                         disabled={this.selected.length !== 0}
                         onClick={this.openReferenceWindow}
-                        data-tooltip="Add reference to reference list"
+                        data-tooltip={this.labels.tooltips.add}
                     >
                         <span className="dashicons dashicons-plus add-reference" />
                     </PanelButton>
                     <PanelButton
                         disabled={this.selected.length === 0}
                         onClick={this.deleteCitations}
-                        data-tooltip="Remove selected references from reference list"
+                        data-tooltip={this.labels.tooltips.remove}
                     >
                         <span className="dashicons dashicons-minus remove-reference" />
                     </PanelButton>
                     <PanelButton
                         onClick={this.pinReferenceList}
-                        data-tooltip="Pin Reference List to Visible Window"
+                        data-tooltip={this.labels.tooltips.pin}
                     >
                         <span
                             className={
@@ -292,11 +299,14 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
                             }
                         />
                     </PanelButton>
-                    <PanelButton
-                        onClick={this.toggleMenu}
-                        data-tooltip="Toggle Menu"
-                    >
-                        <span className="dashicons dashicons-menu hamburger-menu" />
+                    <PanelButton onClick={this.toggleMenu}>
+                        <span
+                            className={
+                                this.menuOpen
+                                ? 'dashicons dashicons-no-alt hamburger-menu open'
+                                : 'dashicons dashicons-menu hamburger-menu'
+                            }
+                        />
                     </PanelButton>
                 </div>
                 <CSSTransitionGroup
@@ -318,10 +328,9 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
                         selectedItems={this.selected}
                         startVisible={true}
                         click={this.toggleSelect}
-                        className="list"
-                    >
-                        Cited Items
-                    </ItemList>
+                        className={this.fixed ? 'list fixed' : 'list'}
+                        children={this.labels.citedItems}
+                    />
                 }
                 { this.props.store.uncited.length > 0 &&
                     <ItemList
@@ -329,10 +338,9 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
                         selectedItems={this.selected}
                         startVisible={false}
                         click={this.toggleSelect}
-                        className="list uncited"
-                    >
-                        Uncited Items
-                    </ItemList>
+                        className={this.fixed ? 'list uncited fixed' : 'list uncited'}
+                        children={this.labels.uncitedItems}
+                    />
                 }
             </div>
         );

@@ -8,6 +8,8 @@ interface Props {
 
 export class Paginate extends React.Component<Props, {}> {
 
+    labels = (top as any).ABT_i18n.tinymce.pubmedWindow;
+
     constructor(props) {
         super(props);
     }
@@ -23,7 +25,7 @@ export class Paginate extends React.Component<Props, {}> {
                         className="btn"
                         disabled={page < 2}
                         onClick={onClick.bind(null, page - 1)}
-                        value="Previous"
+                        value={this.labels.previous}
                     />
                 </div>
                 <div style={{ flex: '1', textAlign: 'right' }}>
@@ -33,7 +35,7 @@ export class Paginate extends React.Component<Props, {}> {
                         className="btn"
                         disabled={page > 3 || page === 0 || ((page + 1) * 5) > resultLength }
                         onClick={onClick.bind(null, page + 1)}
-                        value="Next"
+                        value={this.labels.next}
                     />
                 </div>
             </div>

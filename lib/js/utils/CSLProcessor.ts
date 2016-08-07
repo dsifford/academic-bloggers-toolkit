@@ -149,6 +149,23 @@ export class CSLProcessor /* FIXME implements ABT.CSLProcessor */ {
         return payload;
     }
 
+    /* TODO: Document */
+    processCitationCluster(
+        citation: Citeproc.Citation,
+        before: Citeproc.CitationsPrePost,
+        after:  Citeproc.CitationsPrePost,
+    ): Citeproc.CitationClusterData[] {
+        const [status, clusters] =
+            this.citeproc.processCitationCluster(
+                citation,
+                before,
+                after,
+            );
+        if (status['citation_errors'].length) console.error(status['citation_errors']);
+        this.store.citations.init(this.citeproc.registry.citationreg.citationByIndex);
+        return clusters;
+    }
+
     /**
      * Wrapper function for citeproc.makeBibliography that takes the output and
      *   inlines CSS classes that are appropriate for the style (according to the

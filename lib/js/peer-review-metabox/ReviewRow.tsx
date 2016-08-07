@@ -12,6 +12,8 @@ interface Props extends React.HTMLProps<HTMLDivElement> {
 
 export class ReviewRow extends React.Component<Props, {}> {
 
+    labels = ABT_i18n.peerReviewMetabox.reviewRow;
+
     constructor(props) {
         super(props);
     }
@@ -24,7 +26,7 @@ export class ReviewRow extends React.Component<Props, {}> {
                     <div className="row bordered">
                         <label
                             htmlFor={`peer_review_box_heading_${num}`}
-                            children="Review Heading"
+                            children={this.labels.reviewHeading}
                         />
                         <input
                             type="text"
@@ -42,13 +44,13 @@ export class ReviewRow extends React.Component<Props, {}> {
                     reviewer={true}
                     uploadHandler={uploadHandler}
                 />
-                <div className="row-container" style={{ borderBottom: '1px solid #C9C9C9' }}>
+                <div className="row-container" style={{borderBottom: '1px solid #C9C9C9'}}>
                     <div className="row even">
                         <input
                             type="button"
                             className="button button-primary"
-                            value="Toggle Author Response"
-                            style={{ margin: '0 10px' }}
+                            value={this.labels.toggleResponse}
+                            style={{margin: '0 10px'}}
                             onClick={toggleHidden.bind(null, num)}
                         />
                     </div>

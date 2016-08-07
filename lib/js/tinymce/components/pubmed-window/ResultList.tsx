@@ -7,6 +7,8 @@ interface ResultListProps {
 
 export class ResultList extends React.Component<ResultListProps, {}> {
 
+    labels = (top as any).ABT_i18n.tinymce.pubmedWindow;
+
     constructor(props) {
         super(props);
     }
@@ -39,7 +41,7 @@ export class ResultList extends React.Component<ResultListProps, {}> {
                             <input
                                 type="button"
                                 className="btn"
-                                value="Add Reference"
+                                value={this.labels.addReference}
                                 onClick={this.props.eventHandler.bind(null, result.uid)}
                             />
                         </div>

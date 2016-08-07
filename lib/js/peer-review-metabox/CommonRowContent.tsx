@@ -10,6 +10,8 @@ interface Props extends React.HTMLProps<HTMLDivElement> {
 
 export class CommonRowContent extends React.Component<Props, {}> {
 
+    labels = ABT_i18n.peerReviewMetabox.commonRowContent;
+
     constructor(props) {
         super(props);
     }
@@ -17,11 +19,11 @@ export class CommonRowContent extends React.Component<Props, {}> {
     render() {
         const { rowData, num, reviewer, onChange, uploadHandler } = this.props;
 
-        let labelname = reviewer ? 'reviewer' : 'author';
-        let prLabel = reviewer ? 'peer_review_content' : 'author_content';
-        let topfield = reviewer ? 'review' : 'response';
+        const labelname = reviewer ? 'reviewer' : 'author';
+        const prLabel = reviewer ? 'peer_review_content' : 'author_content';
+        const topfield = reviewer ? 'review' : 'response';
 
-        let labels = [
+        const labels = [
             `${labelname}_name_${num}`,
             `${labelname}_twitter_${num}`,
             `${labelname}_background_${num}`,
@@ -34,7 +36,7 @@ export class CommonRowContent extends React.Component<Props, {}> {
                 <div className={reviewer ? 'row even' : 'row'}>
                     <label
                         htmlFor={labels[0]}
-                        children="Name"
+                        children={this.labels.name}
                     />
                     <input
                         type="text"
@@ -45,7 +47,7 @@ export class CommonRowContent extends React.Component<Props, {}> {
                     />
                     <label
                         htmlFor={labels[1]}
-                        children="Twitter Handle"
+                        children={this.labels.twitter}
                     />
                     <input
                         type="text"
@@ -58,7 +60,7 @@ export class CommonRowContent extends React.Component<Props, {}> {
                 <div className={reviewer ? 'row' : 'row even'}>
                     <label
                         htmlFor={labels[2]}
-                        children="Background"
+                        children={this.labels.background}
                     />
                     <input
                         type="text"
@@ -71,7 +73,7 @@ export class CommonRowContent extends React.Component<Props, {}> {
                 <div className={reviewer ? 'row even' : 'row'}>
                     <label
                         htmlFor={labels[3]}
-                        children="Content"
+                        children={this.labels.content}
                     />
                     <textarea
                         name={labels[3]}
@@ -87,7 +89,7 @@ export class CommonRowContent extends React.Component<Props, {}> {
                 >
                     <label
                         htmlFor={labels[4]}
-                        children="Photo"
+                        children={this.labels.photo}
                     />
                     <input
                         type="text"
@@ -101,7 +103,7 @@ export class CommonRowContent extends React.Component<Props, {}> {
                         id={`${labelname}-upload-button-${num}`}
                         className="button"
                         style={{ marginLeft: 10 }}
-                        value="Choose or Upload an Image"
+                        value={this.labels.imageButton}
                         onClick={uploadHandler.bind(null, topfield, num)}
                     />
                 </div>

@@ -16,7 +16,8 @@ interface State {
 
 export class PubmedWindow extends React.Component<{}, State> {
 
-    modal: Modal = new Modal('Search PubMed for Reference');
+    labels = (top as any).ABT_i18n.tinymce.pubmedWindow;
+    modal: Modal = new Modal(this.labels.title);
     wm: TinyMCE.WindowManager = top.window.tinyMCE.activeEditor.windowManager
         .windows[top.window.tinyMCE.activeEditor.windowManager.windows.length - 1];
     placeholder: string;
@@ -89,10 +90,10 @@ export class PubmedWindow extends React.Component<{}, State> {
         return (
             <div>
                 <form id="query" onSubmit={this.handleQuery.bind(this)} style={{margin: 0}}>
-                    <div className="row" style={{ display: 'flex' }}>
+                    <div className="row" style={{display: 'flex'}}>
                         <input
                             type="text"
-                            style={{ flexGrow: 1 }}
+                            style={{flexGrow: 1}}
                             onChange={this.handleChange.bind(this)}
                             autoFocus={true}
                             placeholder={this.placeholder}
@@ -100,7 +101,7 @@ export class PubmedWindow extends React.Component<{}, State> {
                         />
                         <input
                             type="submit"
-                            value="Search"
+                            value={this.labels.search}
                             className="submit-btn"
                             disabled={!this.state.query}
                         />

@@ -1,4 +1,4 @@
-import { observable, ObservableMap, asMap, toJS, IObservableArray, computed } from 'mobx';
+import { observable, ObservableMap, asMap, toJS, IObservableArray, computed, intercept } from 'mobx';
 
 interface SavedState {
     cache: {
@@ -25,6 +25,13 @@ class CitationStore {
     @observable
     CSL: ObservableMap<CSL.Data>;
 
+    get lookup(): {ids: string[], titles: string[]} {
+        return {
+            ids: this.CSL.keys(),
+            titles: this.CSL.values().map(v => v.title),
+        };
+    }
+
     get citationByIndex(): Citeproc.Citation[] {
         return this.byIndex.slice().map(i => toJS(i));
     }
@@ -32,6 +39,11 @@ class CitationStore {
     constructor(byIndex: Citeproc.CitationByIndex, CSL: {[id: string]: CSL.Data}) {
         this.byIndex = observable(byIndex);
         this.CSL = asMap(CSL);
+        intercept(this.CSL, (change) => {
+            if (change.type !== 'add') return change;
+            if (this.lookup.titles.indexOf(change.newValue.title) > -1) return null;
+            return change;
+        });
     }
 
     init(byIndex: Citeproc.CitationByIndex) {

@@ -99,6 +99,8 @@ export class RISParser {
                 case 'Y1':
                     payload.issued['date-parts'][0][0] = processor.processDate(val, 'RIS')['date-parts'][0][0];
                     break;
+                case 'Y2':
+                    payload.accessed = processor.processDate(val, 'RIS');
                 case 'DA':
                     payload.issued = processor.processDate(val, 'RIS');
                     break;

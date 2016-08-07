@@ -10,6 +10,8 @@ interface ButtonRowProps {
 
 export class ButtonRow extends React.Component<ButtonRowProps, {}> {
 
+    labels = (top as any).ABT_i18n.tinymce.referenceWindow.buttonRow;
+
     constructor(props: ButtonRowProps) {
         super(props);
     }
@@ -23,7 +25,7 @@ export class ButtonRow extends React.Component<ButtonRowProps, {}> {
                     new CustomEvent(PUBMED_DATA_SUBMIT, { detail: e.target.data.pmid })
                 );
             },
-            title: 'Search PubMed for Reference',
+            title: this.labels.pubmedWindowTitle,
             url: wm.windows[0].settings.params.baseUrl + 'pubmed-window.html',
             width: 600,
         });
@@ -60,8 +62,8 @@ export class ButtonRow extends React.Component<ButtonRowProps, {}> {
                     className="btn"
                     value={
                         this.props.addManually === false
-                        ? 'Add Manually'
-                        : 'Add with Identifier'}
+                        ? this.labels.addManually
+                        : this.labels.addWithIdentifier}
                 />
                 <input
                     id="searchPubmed"
@@ -69,7 +71,7 @@ export class ButtonRow extends React.Component<ButtonRowProps, {}> {
                     onClick={this.searchPubmedClick.bind(this)}
                     type="button"
                     className="btn"
-                    value="Search Pubmed"
+                    value={this.labels.searchPubmed}
                 />
                 <span
                     style={{
@@ -83,13 +85,13 @@ export class ButtonRow extends React.Component<ButtonRowProps, {}> {
                     id="submit-btn"
                     type="submit"
                     className="submit-btn"
-                    value="Insert Reference"
+                    value={this.labels.addReference}
                 />
                 <div>
                     <label
                         htmlFor="attachInline"
                         style={{padding: '5px', whiteSpace: 'nowrap'}}
-                        children="Attach Inline"
+                        children={this.labels.attachInline}
                     />
                     <input
                         type="checkbox"

@@ -25,6 +25,7 @@ interface State {
 export class Menu extends React.Component<Props, State> {
 
     styles: {label: string, value: string}[] = citeStyles;
+    labels = ABT_i18n.referenceList.menu;
 
     constructor(props) {
         super(props);
@@ -55,7 +56,7 @@ export class Menu extends React.Component<Props, State> {
                 return this.props.submitData(kind);
             }
             default:
-                return console.error('Could not determine what menu item was selected');
+                return;
         }
     }
 
@@ -63,25 +64,25 @@ export class Menu extends React.Component<Props, State> {
         return (
             <div id="abt-reflist-menu">
                 <div className="inner">
-                    <div className="panel" style={{ background: 'white', margin: '0 -5px'}}>
+                    <div className="subpanel">
                         <PanelButton
                             id="import-ris"
                             onClick={this.handleSelect.bind(this, 'IMPORT_RIS', null)}
-                            data-tooltip="Import References from RIS File"
+                            data-tooltip={this.labels.tooltips.import}
                         >
                             <span className="dashicons dashicons-media-code"/>
                         </PanelButton>
                         <PanelButton
                             id="refresh-processor"
                             onClick={this.handleSelect.bind(this, 'REFRESH_PROCESSOR', null)}
-                            data-tooltip="Refresh Reference List"
+                            data-tooltip={this.labels.tooltips.refresh}
                         >
                             <span className="dashicons dashicons-update" />
                         </PanelButton>
                         <PanelButton
                             id="destroy-processor"
                             onClick={this.handleSelect.bind(this, 'DESTROY_PROCESSOR', null)}
-                            data-tooltip="Delete All References"
+                            data-tooltip={this.labels.tooltips.destroy}
                         >
                             <span className="dashicons dashicons-trash" />
                         </PanelButton>
@@ -91,7 +92,7 @@ export class Menu extends React.Component<Props, State> {
                             id="style-select"
                             onChange={this.handleSelect.bind(this, 'CHANGE_STYLE')}
                             value={this.state.selected}
-                            placeholder="Choose citation style..."
+                            placeholder={this.labels.stylePlaceholder}
                             options={this.styles}
                             clearable={false}
                         />

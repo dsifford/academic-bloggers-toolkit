@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { referenceWindowEvents as LocalEvents, fieldMappings } from '../../../utils/Constants';
+import { referenceWindowEvents as LocalEvents } from '../../../utils/Constants';
 
 interface PeopleProps {
     people: CSL.TypedPerson[];
@@ -9,7 +9,8 @@ interface PeopleProps {
 
 export class People extends React.Component<PeopleProps, {}> {
 
-    public fieldMaps: ABT.FieldMappings = fieldMappings;
+    fieldmaps: ABT.FieldMappings = (top as any).ABT_i18n.fieldmaps;
+    labels = (top as any).ABT_i18n.tinymce.referenceWindow.people;
 
     constructor(props) {
         super(props);
@@ -29,7 +30,7 @@ export class People extends React.Component<PeopleProps, {}> {
         );
     }
 
-    onChange(index: number, field: string, e: InputEvent) {
+    onChange(index: number, field: string, e: React.FormEvent<HTMLInputElement>) {
         this.props.eventHandler(
             new CustomEvent(LocalEvents.PERSON_CHANGE, {
                 detail: {
@@ -50,7 +51,7 @@ export class People extends React.Component<PeopleProps, {}> {
                         type="button"
                         id="add-person"
                         className="btn"
-                        value="Add Another"
+                        value={this.labels.add}
                         onClick={this.addPerson.bind(this)}
                     />
                 </div>
@@ -65,7 +66,7 @@ export class People extends React.Component<PeopleProps, {}> {
                                 value={person.type}
                                 onChange={this.onChange.bind(this, i, 'type')}
                             >
-                                { this.fieldMaps[this.props.citationType].people.map((p, j: number) =>
+                                { this.fieldmaps[this.props.citationType].people.map((p, j: number) =>
                                     <option
                                         key={`peopleSelect-${j}`}
                                         id={`peopleSelect-${j}`}
@@ -79,8 +80,8 @@ export class People extends React.Component<PeopleProps, {}> {
                             <input
                                 type="text"
                                 style={{width: '100%'}}
-                                placeholder="Surname"
-                                aria-label="Surname"
+                                placeholder={this.labels.surname}
+                                aria-label={this.labels.surname}
                                 id={`person-family-${i}`}
                                 value={person.family}
                                 onChange={this.onChange.bind(this, i, 'family')}
@@ -92,8 +93,8 @@ export class People extends React.Component<PeopleProps, {}> {
                             <input
                                 type="text"
                                 style={{width: '100%'}}
-                                placeholder="Given Name, Middleinitial"
-                                aria-label="Given Name, Middle Initial"
+                                placeholder={this.labels.given}
+                                aria-label={this.labels.given}
                                 id={`person-given-${i}`}
                                 value={person.given}
                                 onChange={this.onChange.bind(this, i, 'given')}

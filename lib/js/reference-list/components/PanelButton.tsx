@@ -22,8 +22,11 @@ export class PanelButton extends React.Component<React.HTMLProps<HTMLButtonEleme
         return container;
     }
 
-    createTooltip(e: InputEvent) {
+    createTooltip = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.stopPropagation();
+
+        if (!this.props['data-tooltip']) return;
+
         this.destroyTooltip();
 
         let tooltip = this.generateTooltip(this.props['data-tooltip']);
@@ -48,7 +51,7 @@ export class PanelButton extends React.Component<React.HTMLProps<HTMLButtonEleme
             <button
                 {...this.props}
                 className="abt-reflist-button"
-                onMouseOver={this.createTooltip.bind(this)}
+                onMouseOver={this.createTooltip}
                 onMouseLeave={this.destroyTooltip}
             />
         );

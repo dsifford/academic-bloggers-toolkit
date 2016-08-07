@@ -1,5 +1,7 @@
 <?php
 
+require_once(dirname(__FILE__) . '/i18n.php');
+
 function call_abt_reference_box() {
     new ABT_Backend();
 }
@@ -62,7 +64,7 @@ class ABT_Backend {
 
             add_meta_box(
                 'abt_reflist',
-                'Reference List',
+                __('Reference List', 'academic-bloggers-toolkit'),
                 [$this, 'render_reflist'],
                 $allTypes,
                 'side',
@@ -70,7 +72,7 @@ class ABT_Backend {
             );
             add_meta_box(
                 'abt_peer_review',
-                __('Add Peer Review(s)', 'abt-textdomain'),
+                __('Add Peer Review(s)', 'academic-bloggers-toolkit'),
                 [$this, 'renderPrMeta'],
                 $allTypes,
                 'normal',
@@ -84,6 +86,7 @@ class ABT_Backend {
      * @since 3.0.0
      */
     public function render_reflist($post) {
+        global $ABT_i18n;
         $reflist_state = json_decode(get_post_meta($post->ID, '_abt-reflist-state', true), true);
         $abt_options = get_option('abt_options');
         if (empty($reflist_state)) {
@@ -116,6 +119,7 @@ class ABT_Backend {
         }
 
         wp_localize_script('abt_reflist', 'ABT_Reflist_State', $reflist_state);
+        wp_localize_script('abt_reflist', 'ABT_i18n', $ABT_i18n);
 
         echo "<div id='abt-reflist' style='margin: 0 -12px -12px -12px;'></div>";
     }
