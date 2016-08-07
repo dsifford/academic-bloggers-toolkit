@@ -4,6 +4,8 @@ import * as React from 'react';
 import { mount } from 'enzyme';
 import * as sinon from 'sinon';
 import { MetaFields } from '../MetaFields';
+import ABT_i18n from '../../../../utils/Mocks';
+window['ABT_i18n'] = ABT_i18n;
 
 const testMeta: CSL.Data = {
     title: 'TEST',
@@ -28,10 +30,10 @@ const setup = (
 describe('<MetaFields />', () => {
     it('should render with the correct title', () => {
         const title1 = setup().title;
-        expect(title1).toBe('Journal Article Information');
+        expect(title1).toBe('Journal Article');
 
         const title2 = setup('article-magazine').title;
-        expect(title2).toBe('Magazine Article Information');
+        expect(title2).toBe('Magazine Article');
     });
 
     it('should dispatch META_FIELD_CHANGE event when fields are changed', () => {

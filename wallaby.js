@@ -1,9 +1,8 @@
 module.exports = function (wallaby) {
     return {
         files: [
-            "lib/**/*.tsx",
-            "lib/**/*.ts",
-            "vendor/*",
+            "lib/**/*.{tsx,ts}",
+            "vendor/*.ts",
             "types/**/*.d.ts",
             "!lib/**/__tests__/*",
         ],
@@ -16,30 +15,33 @@ module.exports = function (wallaby) {
             runner: 'node',
         },
         testFramework: "jest",
-        bootstrap: function (wallaby) {
+        setup: function (wallaby) {
             wallaby.testFramework.configure({
-                "scriptPreprocessor": "jestPreprocessor.js",
-                "testFileExtensions": [
-                  "ts",
-                  "tsx",
-                  "js"
-                ],
-                "moduleFileExtensions": [
-                  "js",
-                  "ts",
-                  "tsx",
-                  "json"
-                ],
-                "unmockedModulePathPatterns": [
-                  "react",
-                  "react-dom",
-                  "react-addons-test-utils",
-                  "fbjs",
-                  "enzyme",
-                  "sinon",
-                  "lib/js/utils/Constants"
-                ],
-            });
+            "scriptPreprocessor": "jestPreprocessor.js",
+            "testFileExtensions": [
+              "ts",
+              "tsx",
+              "js"
+            ],
+            "moduleFileExtensions": [
+              "js",
+              "ts",
+              "tsx",
+              "json"
+            ],
+            "unmockedModulePathPatterns": [
+              "react",
+              "react-dom",
+              "react-addons-test-utils",
+              "fbjs",
+              "enzyme",
+              "sinon",
+              "lib/js/utils/Constants",
+              "lib/js/utils/Mocks"
+            ],
+            "verbose": true,
+            "collectCoverage": true
+          });
         }
     };
 };

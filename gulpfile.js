@@ -185,7 +185,8 @@ gulp.task('build',
     gulp.series(
         'clean', 'bump',
         gulp.parallel('stylus:prod', 'static', 'webpack:prod'),
-        gulp.parallel('js', 'php')
+        gulp.parallel('js', 'php'),
+        'pot'
     )
 );
 

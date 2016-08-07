@@ -4,6 +4,8 @@ import * as React from 'react';
 import { mount } from 'enzyme';
 import * as sinon from 'sinon';
 import { ReviewRow } from '../ReviewRow';
+import ABT_i18n from '../../utils/Mocks';
+window['ABT_i18n'] = ABT_i18n;
 
 const setup = () => {
     const spy = sinon.spy();

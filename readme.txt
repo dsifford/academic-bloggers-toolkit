@@ -67,9 +67,10 @@ Yikes! I'm sorry about that. Please report all issues on the Academic Blogger's 
 
 == Changelog ==
 
-== 3.3.1 ==
+= 3.3.1 =
 
 **Bugfixes**
+
 * Only load plugin javascript on single posts, rather than on `front_page()` or any other collection of posts.
 * Fix border color on peer review boxes.
 * Stop loading plugin on media upload pages.

@@ -79,6 +79,7 @@
         "lib/js/utils/CSLFieldProcessors.ts",
         "lib/js/utils/CSLProcessor.ts",
         "lib/js/utils/HelperFunctions.ts",
+        "lib/js/utils/Mocks.ts",
         "lib/js/utils/Modal.ts",
         "lib/js/utils/PubmedAPI.ts",
         "lib/js/utils/RISParser.ts",

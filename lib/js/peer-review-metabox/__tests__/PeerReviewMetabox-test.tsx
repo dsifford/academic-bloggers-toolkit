@@ -5,6 +5,7 @@ jest.unmock('../CommonRowContent');
 import * as React from 'react';
 import { mount } from 'enzyme';
 import { PeerReviewMetabox } from '../PeerReviewMetabox';
+import ABT_i18n from '../../utils/Mocks';
 
 const generateData = (
     heading: string = '',
@@ -86,6 +87,7 @@ let wpMock = {
 };
 
 window['wp'] = wpMock;
+window['ABT_i18n'] = ABT_i18n;
 
 describe('<PeerReviewMetabox />', () => {
     it('should mount showing no rows', () => {

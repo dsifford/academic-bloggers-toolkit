@@ -187,6 +187,10 @@ describe('RISParser', () => {
         let expected: CSL.Data = [{
             id: '0',
             type: 'paper-conference',
+            issued: {
+                'date-parts': [['2011', '11', '05', ], ],
+                season: 'summer',
+            },
             title: 'The title of the paper',
             editor: [
                 { family: 'Smith', given: 'John L' },
@@ -196,11 +200,7 @@ describe('RISParser', () => {
                 { family: 'Translator', given: 'Name A' },
                 { family: 'Translator', given: 'Name B' },
             ],
-            issued: {
-                'date-parts': [['2011', '11', '05', ], ],
-                season: 'summer',
-            },
-            'event-date': {
+            accessed: {
                 'date-parts': [['2011', '11', '05', ], ],
                 season: 'summer',
             },

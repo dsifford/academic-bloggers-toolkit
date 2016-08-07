@@ -14,9 +14,10 @@ export class ManualEntryContainer extends React.Component<ManualEntryProps, {}> 
 
     constructor(props) {
         super(props);
+        this.consumeChildEvents = this.consumeChildEvents.bind(this);
     }
 
-    consumeChildEvents = (e: CustomEvent) => {
+    consumeChildEvents(e: CustomEvent) {
         this.props.eventHandler(e);
     }
 

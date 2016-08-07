@@ -1,6 +1,6 @@
 {
   "name": "academic-bloggers-toolkit",
-  "version": "3.3.1",
+  "version": "4.0.0",
   "description": "A plugin extending the functionality of WordPress for Academic Blogging.",
   "main": "index.js",
   "scripts": {
@@ -100,9 +100,11 @@
       "fbjs",
       "enzyme",
       "sinon",
-      "lib/js/utils/Constants"
+      "lib/js/utils/Constants",
+      "lib/js/utils/Mocks"
     ],
     "verbose": true,
-    "collectCoverage": true
+    "collectCoverage": true,
+    "coverageDirectory": "tmp/coverage"
   }
 }

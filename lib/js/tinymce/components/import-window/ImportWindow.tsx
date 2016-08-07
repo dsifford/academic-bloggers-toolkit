@@ -32,13 +32,14 @@ export class ImportWindow extends React.Component<Props, State> {
             filename: '',
             payload: [],
         };
+        this.handleFileUpload = this.handleFileUpload.bind(this);
     }
 
     componentDidMount() {
         this.modal.resize();
     }
 
-    handleFileUpload = (e: React.FormEvent<HTMLInputElement>) => {
+    handleFileUpload(e: React.FormEvent<HTMLInputElement>) {
         e.preventDefault();
         const reader = new FileReader();
         const file = e.target.files[0];

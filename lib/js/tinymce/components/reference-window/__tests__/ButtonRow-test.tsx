@@ -4,6 +4,8 @@ import * as React from 'react';
 import { shallow } from 'enzyme';
 import * as sinon from 'sinon';
 import { ButtonRow } from '../ButtonRow';
+import ABT_i18n from '../../../../utils/Mocks';
+window['ABT_i18n'] = ABT_i18n;
 
 const setup = (
     addManually: boolean = false,

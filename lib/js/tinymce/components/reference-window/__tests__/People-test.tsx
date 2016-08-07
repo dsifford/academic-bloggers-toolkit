@@ -4,6 +4,8 @@ import * as React from 'react';
 import { mount } from 'enzyme';
 import * as sinon from 'sinon';
 import { People } from '../People';
+import ABT_i18n from '../../../../utils/Mocks';
+window['ABT_i18n'] = ABT_i18n;
 
 const setup = (
     citationType: CSL.CitationType = 'article-journal',
