@@ -25,7 +25,7 @@ msgid "Please send your feedback!"
 msgstr ""
 
 #: dist/lib/options-page.php:90
-msgid "If you experience a bug or would like to request a new feature, please visit the <a href='%s' target='_blank'>GitHub Repository</a> and submit an issue. I'll do my best to get it handled in a timely manner. Comments can also be sent to me on twitter "
+msgid "If you experience a bug or would like to request a new feature, please visit the <a href='%s' target='_blank'>GitHub Repository</a> and submit an issue. I'll do my best to get it handled in a timely manner. Comments can also be sent to me on twitter"
 msgstr ""
 
 #: dist/lib/options-page.php:90
