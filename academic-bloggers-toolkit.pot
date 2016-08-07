@@ -93,11 +93,11 @@ msgid "Peer Review Boxes"
 msgstr ""
 
 #: dist/lib/options-page.php:95
-msgid "Citation Tooltips:"
+msgid "Citation Tooltips"
 msgstr ""
 
 #: dist/lib/options-page.php:95
-msgid "Bibliography:"
+msgid "Bibliography"
 msgstr ""
 
 #: dist/lib/options-page.php:95
