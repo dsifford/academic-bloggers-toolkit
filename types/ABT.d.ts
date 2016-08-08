@@ -10,6 +10,7 @@ declare module 'react-virtualized-select' {
 }
 
 declare const ABT_i18n: ABT.i18n;
+declare const ABT_CitationStyles: {label: string, value: string}[];
 
 declare namespace ABT {
 

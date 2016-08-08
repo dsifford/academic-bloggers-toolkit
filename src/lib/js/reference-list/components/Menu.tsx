@@ -1,12 +1,7 @@
 import * as React from 'react';
-import { citeStyles } from '../../../../vendor/citationstyles';
 import VSelect from 'react-virtualized-select';
 import { observer } from 'mobx-react';
 import { PanelButton } from './PanelButton';
-
-import 'react-virtualized-select/styles.css';
-import 'react-virtualized/styles.css';
-import 'react-select/dist/react-select.min.css';
 
 interface Props extends React.HTMLProps<HTMLDivElement> {
     cslStyle: string;
@@ -24,7 +19,7 @@ interface State {
 @observer
 export class Menu extends React.Component<Props, State> {
 
-    styles: {label: string, value: string}[] = citeStyles;
+    styles: {label: string, value: string}[] = ABT_CitationStyles;
     labels = ABT_i18n.referenceList.menu;
 
     constructor(props) {

@@ -13,7 +13,7 @@ class ABT_Options  {
      */
     public function __construct() {
         $this->get_citation_styles();
-        add_action('admin_menu', array($this, 'add_options_page'));
+        add_action('admin_menu', [$this, 'add_options_page']);
     }
 
     /**
@@ -24,7 +24,7 @@ class ABT_Options  {
      * @return void
      */
     private function get_citation_styles() {
-        include dirname(__FILE__).'/../vendor/citationstyles.php';
+        include dirname(__FILE__).'/../../vendor/citationstyles.php';
         $this->citation_styles = $citation_styles;
     }
 
@@ -39,7 +39,7 @@ class ABT_Options  {
             "Academic Blogger's Toolkit",
             'manage_options',
             'abt-options',
-            array($this, 'ABT_options_page')
+            [$this, 'ABT_options_page']
         );
     }
 

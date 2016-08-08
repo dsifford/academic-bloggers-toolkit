@@ -28,23 +28,28 @@ class ABT_Backend {
      * @version 0.1.0
      */
     public function __construct() {
-        add_action('admin_head', [$this, 'initTinymce']);
-        add_action('add_meta_boxes', [$this, 'addMetaboxes']);
-        add_action('save_post', [$this, 'saveMeta']);
-        add_action('admin_enqueue_scripts', [$this, 'enqueueJs']);
+        add_action('admin_head', [$this, 'init_tinymce']);
+        add_action('add_meta_boxes', [$this, 'add_metaboxes']);
+        add_action('save_post', [$this, 'save_meta']);
+        add_action('admin_enqueue_scripts', [$this, 'enqueue_js']);
         add_filter('mce_css', [$this, 'load_tinymce_css']);
+    }
+
+    private function get_citation_styles() {
+        include dirname(__FILE__) . '/../../vendor/citationstyles.php';
+        return $citation_styles;
     }
 
     /**
      * Loads the required stylesheet into TinyMCE (required for proper citation parsing)
-     * @param  string $mceCss  CSS string
+     * @param  string $mce_css  CSS string
      * @return string          CSS string + custom CSS appended.
      */
-    public function load_tinymce_css($mceCss) {
-        if (!empty($mceCss))
-		    $mceCss .= ',';
-        $mceCss .= plugins_url('academic-bloggers-toolkit/lib/css/collections/citations.css');
-	    return $mceCss;
+    public function load_tinymce_css($mce_css) {
+        if (!empty($mce_css))
+		    $mce_css .= ',';
+        $mce_css .= plugins_url('academic-bloggers-toolkit/lib/css/citations.css');
+	    return $mce_css;
     }
 
     /**
@@ -54,19 +59,19 @@ class ABT_Backend {
      *
      * @version 0.1.0
      *
-     * @param string $postType The post type
+     * @param string $post_type The post type
      */
-    public function addMetaboxes($postType) {
+    public function add_metaboxes($post_type) {
 
-        if ($postType === 'attachment') return;
+        if ($post_type === 'attachment') return;
 
-            $allTypes = get_post_types();
+            $all_types = get_post_types();
 
             add_meta_box(
                 'abt_reflist',
                 __('Reference List', 'academic-bloggers-toolkit'),
                 [$this, 'render_reflist'],
-                $allTypes,
+                $all_types,
                 'side',
                 'high'
             );
@@ -74,7 +79,7 @@ class ABT_Backend {
                 'abt_peer_review',
                 __('Add Peer Review(s)', 'academic-bloggers-toolkit'),
                 [$this, 'renderPrMeta'],
-                $allTypes,
+                $all_types,
                 'normal',
                 'high'
             );
@@ -91,7 +96,6 @@ class ABT_Backend {
         $abt_options = get_option('abt_options');
         if (empty($reflist_state)) {
             $reflist_state = [
-                'bibliography' => [],
                 'cache' => [
                     'style' => isset($abt_options['abt_citation_style']) ? $abt_options['abt_citation_style'] : 'american-medical-association',
                     'links' => isset($abt_options['display_options']['links']) ? $abt_options['display_options']['links'] : 'always',
@@ -120,6 +124,7 @@ class ABT_Backend {
 
         wp_localize_script('abt_reflist', 'ABT_Reflist_State', $reflist_state);
         wp_localize_script('abt_reflist', 'ABT_i18n', $ABT_i18n);
+        wp_localize_script('abt_reflist', 'ABT_CitationStyles', $this->get_citation_styles());
 
         echo "<div id='abt-reflist' style='margin: 0 -12px -12px -12px;'></div>";
     }
@@ -135,7 +140,7 @@ class ABT_Backend {
     public function renderPrMeta($post) {
         wp_nonce_field(basename(__file__), 'abt_PR_nonce');
 
-        self::refactorDepreciatedMeta($post);
+        self::refactor_depreciated_meta($post);
 
         $meta_fields = unserialize(base64_decode(get_post_meta($post->ID, '_abt-meta', true)));
         $meta_fields = stripslashes_deep($meta_fields);
@@ -182,16 +187,17 @@ class ABT_Backend {
      *
      * @since 3.0.0
      */
-    public function enqueueJs() {
+    public function enqueue_js() {
         global $post_type;
+        global $ABT_VERSION;
 
         if ($post_type === 'attachment') return;
 
         wp_enqueue_media();
         wp_dequeue_script('autosave');
-        wp_enqueue_script('abt-PR-metabox', plugins_url('academic-bloggers-toolkit/lib/js/peer-review-metabox/index.js'), [], false, true);
-        wp_enqueue_script('abt_citeproc', plugins_url('academic-bloggers-toolkit/vendor/citeproc.js'), [], false, true);
-        wp_enqueue_script('abt_reflist', plugins_url('academic-bloggers-toolkit/lib/js/reference-list/index.js'), ['abt_citeproc'], false, true);
+        wp_enqueue_script('abt-PR-metabox', plugins_url('academic-bloggers-toolkit/lib/js/peer-review-metabox/index.js'), [], $ABT_VERSION, true);
+        wp_enqueue_script('abt_citeproc', plugins_url('academic-bloggers-toolkit/vendor/citeproc.js'), [], $ABT_VERSION, true);
+        wp_enqueue_script('abt_reflist', plugins_url('academic-bloggers-toolkit/lib/js/reference-list/index.js'), ['abt_citeproc'], $ABT_VERSION, true);
     }
 
     /**
@@ -199,10 +205,10 @@ class ABT_Backend {
      *
      * @since 3.0.0
      */
-    public function initTinymce() {
+    public function init_tinymce() {
         if ('true' == get_user_option('rich_editing')) {
-            add_filter('mce_external_plugins', [$this, 'registerTinymcePlugins']);
-            add_filter('mce_buttons', [$this, 'registerTinymceButtons']);
+            add_filter('mce_external_plugins', [$this, 'register_tinymce_plugins']);
+            add_filter('mce_buttons', [$this, 'register_tinymce_buttons']);
         }
     }
 
@@ -215,13 +221,14 @@ class ABT_Backend {
      *
      * @return array Array of TinyMCE plugins with plugins added
      */
-    public function registerTinymcePlugins($pluginArray) {
-        $pluginArray['abt_main_menu'] = plugins_url('academic-bloggers-toolkit/lib/js/TinymceEntrypoint.js');
+    public function register_tinymce_plugins($pluginArray) {
+        $pluginArray['abt_main_menu'] = plugins_url('academic-bloggers-toolkit/lib/js/tinymce/index.js');
         $pluginArray['noneditable'] = plugins_url('academic-bloggers-toolkit/vendor/noneditable.js');
 
         return $pluginArray;
     }
 
+    // FIXME: Is this still needed?
     /**
      * Registers the TinyMCE button on the editor.
      *
@@ -231,7 +238,7 @@ class ABT_Backend {
      *
      * @return array Array of buttons with button added
      */
-    public function registerTinymceButtons($buttons) {
+    public function register_tinymce_buttons($buttons) {
         array_push($buttons, 'abt_main_menu');
         return $buttons;
     }
@@ -243,7 +250,7 @@ class ABT_Backend {
      *
      * @param string $post_id The post ID
      */
-    public function saveMeta($post_id) {
+    public function save_meta($post_id) {
         $is_autosave = wp_is_post_autosave($post_id);
         $is_revision = wp_is_post_revision($post_id);
         $is_valid_nonce = (isset($_POST[ 'abt_PR_nonce' ]) && wp_verify_nonce($_POST[ 'abt_PR_nonce' ], basename(__FILE__))) ? true : false;
@@ -347,7 +354,7 @@ class ABT_Backend {
      *
      * @param postObject $post WordPress post object
      */
-    public static function refactorDepreciatedMeta($post) {
+    public static function refactor_depreciated_meta($post) {
         $old_meta = get_post_custom($post->ID);
         $new_meta = unserialize(base64_decode(get_post_meta($post->ID, '_abt-meta', true)));
 
@@ -453,11 +460,11 @@ class ABT_Backend {
     }
 }
 
-function abtAppendPeerReviews($text) {
+function abt_append_peer_reviews($text) {
     if (is_single() || is_page()) {
         global $post;
 
-        ABT_Backend::refactorDepreciatedMeta($post);
+        ABT_Backend::refactor_depreciated_meta($post);
 
         $meta = unserialize(base64_decode(get_post_meta($post->ID, '_abt-meta', true)));
 
@@ -516,42 +523,42 @@ function abtAppendPeerReviews($text) {
                     $response_content = $meta['peer_review'][$i]['response']['content'];
 
                     $response_block =
-                    "<div class='abt_chat_bubble'>${response_content}</div>".
+                    "<div class='abt_chat_bubble'>$response_content</div>".
                     "<div class='abt_PR_info'>".
                         "<div class='abt_PR_headshot'>".
-                            "${response_image}".
+                            "$response_image".
                         '</div>'.
                         '<div>'.
-                            "<strong>${response_name}</strong>".
+                            "<strong>$response_name</strong>".
                         '</div>'.
                         '<div>'.
-                            "${response_background}".
+                            "$response_background".
                         '</div>'.
                         '<div>'.
-                            "${response_twitter}".
+                            "$response_twitter".
                         '</div>'.
                     '</div>';
                 }
 
                 ${'reviewer_block_'.$i} =
-                "<h3 class='abt_PR_heading noselect'>${heading}</h3>".
+                "<h3 class='abt_PR_heading noselect'>$heading</h3>".
                 '<div>'.
-                    "<div class='abt_chat_bubble'>${review_content}</div>".
+                    "<div class='abt_chat_bubble'>$review_content</div>".
                     "<div class='abt_PR_info'>".
                         "<div class='abt_PR_headshot'>".
-                            "${review_image}".
+                            "$review_image".
                         '</div>'.
                         '<div>'.
-                            "<strong>${review_name}</strong>".
+                            "<strong>$review_name</strong>".
                         '</div>'.
                         '<div>'.
-                            "${review_background}".
+                            "$review_background".
                         '</div>'.
                         '<div>'.
-                            "${review_twitter}".
+                            "$review_twitter".
                         '</div>'.
                     '</div>'.
-                    "${response_block}".
+                    "$response_block".
                 '</div>';
             }
 
@@ -568,4 +575,4 @@ function abtAppendPeerReviews($text) {
 
     return $text;
 }
-add_filter('the_content', 'abtAppendPeerReviews');
+add_filter('the_content', 'abt_append_peer_reviews');

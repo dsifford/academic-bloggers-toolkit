@@ -1,4 +1,4 @@
-import { EVENTS } from './utils/Constants';
+import { EVENTS } from '../utils/Constants';
 const { TINYMCE_READY, OPEN_REFERENCE_WINDOW } = EVENTS;
 
 declare var tinyMCE: TinyMCE.MCE;

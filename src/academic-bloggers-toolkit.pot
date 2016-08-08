@@ -1,0 +1,681 @@
+# Copyright (C) 2016 Academic Blogger's Toolkit 4.0.0
+# This file is distributed under the same license as the Academic Blogger's Toolkit 4.0.0 package.
+msgid ""
+msgstr ""
+"Project-Id-Version: Academic Blogger's Toolkit 4.0.0\n"
+"Report-Msgid-Bugs-To: https://github.com/dsifford/academic-bloggers-toolkit/issues\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2016-MO-DA HO:MI+ZONE\n"
+"Last-Translator: Derek P Sifford <dereksifford@gmail.com>\n"
+"Language-Team: Derek P Sifford <dereksifford@gmail.com>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n\n"
+
+#: dist/lib/php/options-page.php:90
+msgid "Academic Blogger's Toolkit Options"
+msgstr ""
+
+#: dist/lib/php/options-page.php:90
+msgid "Please send your feedback!"
+msgstr ""
+
+#: dist/lib/php/options-page.php:90
+msgid "If you experience a bug or would like to request a new feature, please visit the <a href='%s' target='_blank'>GitHub Repository</a> and submit an issue. I'll do my best to get it handled in a timely manner. Comments can also be sent to me on twitter"
+msgstr ""
+
+#: dist/lib/php/options-page.php:90
+msgid "Preferred Citation Style"
+msgstr ""
+
+#: dist/lib/php/options-page.php:90
+msgid "Display Options"
+msgstr ""
+
+#: dist/lib/php/options-page.php:90
+msgid "The bibliography should"
+msgstr ""
+
+#: dist/lib/php/options-page.php:90, dist/lib/php/options-page.php:92
+msgid "be fixed on the page"
+msgstr ""
+
+#: dist/lib/php/options-page.php:91, dist/lib/php/options-page.php:91
+msgid "toggle on click"
+msgstr ""
+
+#: dist/lib/php/options-page.php:91
+msgid "The peer review boxes should"
+msgstr ""
+
+#: dist/lib/php/options-page.php:92
+msgid "Clickable links should be included in the bibliography"
+msgstr ""
+
+#: dist/lib/php/options-page.php:92
+msgid "whenever possible"
+msgstr ""
+
+#: dist/lib/php/options-page.php:93
+msgid "when the citation has a visible URL"
+msgstr ""
+
+#: dist/lib/php/options-page.php:94
+msgid "never"
+msgstr ""
+
+#: dist/lib/php/options-page.php:94
+msgid "The heading for bibliographies should be"
+msgstr ""
+
+#: dist/lib/php/options-page.php:94
+msgid "Override CSS"
+msgstr ""
+
+#: dist/lib/php/options-page.php:95
+msgid "Note: If you are already using a child theme to load CSS, place your CSS overrides there. The box above is only a crutch for those who do not have any custom CSS saved yet. Loading CSS this way is very inefficient."
+msgstr ""
+
+#: dist/lib/php/options-page.php:95
+msgid "CSS Selectors used in this plugin"
+msgstr ""
+
+#: dist/lib/php/options-page.php:95
+msgid "Inline Citations"
+msgstr ""
+
+#: dist/lib/php/options-page.php:95
+msgid "Peer Review Boxes"
+msgstr ""
+
+#: dist/lib/php/options-page.php:95
+msgid "Citation Tooltips"
+msgstr ""
+
+#: dist/lib/php/options-page.php:95
+msgid "Bibliography"
+msgstr ""
+
+#: dist/lib/php/options-page.php:95
+msgid "Footnotes"
+msgstr ""
+
+#: dist/lib/php/options-page.php:95
+msgid "How do I"
+msgstr ""
+
+#: dist/lib/php/options-page.php:95
+msgid "Make my tooltips a different color?"
+msgstr ""
+
+#: dist/lib/php/options-page.php:95
+msgid "Apply style to the bibliography list?"
+msgstr ""
+
+#: dist/lib/php/options-page.php:95
+msgid "Change the style of the peer review boxes?"
+msgstr ""
+
+#: src/academic-bloggers-toolkit.php:18
+msgid "Plugin Settings"
+msgstr ""
+
+#: src/lib/php/backend.php:72
+msgid "Reference List"
+msgstr ""
+
+#: src/lib/php/backend.php:80
+msgid "Add Peer Review(s)"
+msgstr ""
+
+#: src/lib/php/fieldmaps.php:6, src/lib/php/fieldmaps.php:117
+msgid "Bill"
+msgstr ""
+
+#: src/lib/php/fieldmaps.php:11, src/lib/php/fieldmaps.php:186
+msgid "Book"
+msgstr ""
+
+#: src/lib/php/fieldmaps.php:16, src/lib/php/fieldmaps.php:281
+msgid "Book Section"
+msgstr ""
+
+#: src/lib/php/fieldmaps.php:21, src/lib/php/fieldmaps.php:473
+msgid "Case"
+msgstr ""
+
+#: src/lib/php/fieldmaps.php:26, src/lib/php/fieldmaps.php:520
+msgid "Conference Proceeding"
+msgstr ""
+
+#: src/lib/php/fieldmaps.php:31, src/lib/php/fieldmaps.php:572
+msgid "Encyclopedia Entry"
+msgstr ""
+
+#: src/lib/php/fieldmaps.php:36, src/lib/php/fieldmaps.php:680
+msgid "Film"
+msgstr ""
+
+#: src/lib/php/fieldmaps.php:41
+msgid "Hearing"
+msgstr ""
+
+#: src/lib/php/fieldmaps.php:46, src/lib/php/fieldmaps.php:789
+msgid "Journal Article"
+msgstr ""
+
+#: src/lib/php/fieldmaps.php:51, src/lib/php/fieldmaps.php:868
+msgid "Magazine Article"
+msgstr ""
+
+#: src/lib/php/fieldmaps.php:56, src/lib/php/fieldmaps.php:947
+msgid "Newspaper Article"
+msgstr ""
+
+#: src/lib/php/fieldmaps.php:61, src/lib/php/fieldmaps.php:1019
+msgid "Patent"
+msgstr ""
+
+#: src/lib/php/fieldmaps.php:66, src/lib/php/fieldmaps.php:1080
+msgid "Report"
+msgstr ""
+
+#: src/lib/php/fieldmaps.php:71, src/lib/php/fieldmaps.php:1163
+msgid "Statute"
+msgstr ""
+
+#: src/lib/php/fieldmaps.php:76, src/lib/php/fieldmaps.php:1217
+msgid "Thesis"
+msgstr ""
+
+#: src/lib/php/fieldmaps.php:81
+msgid "Television Broadcast"
+msgstr ""
+
+#: src/lib/php/fieldmaps.php:86, src/lib/php/fieldmaps.php:1271
+msgid "Web Page"
+msgstr ""
+
+#: src/lib/php/fieldmaps.php:121, src/lib/php/fieldmaps.php:190, src/lib/php/fieldmaps.php:412, src/lib/php/fieldmaps.php:524, src/lib/php/fieldmaps.php:576, src/lib/php/fieldmaps.php:684, src/lib/php/fieldmaps.php:753, src/lib/php/fieldmaps.php:793, src/lib/php/fieldmaps.php:872, src/lib/php/fieldmaps.php:951, src/lib/php/fieldmaps.php:1023, src/lib/php/fieldmaps.php:1084, src/lib/php/fieldmaps.php:1167, src/lib/php/fieldmaps.php:1221
+msgid "Title"
+msgstr ""
+
+#: src/lib/php/fieldmaps.php:128
+msgid "Bill Number"
+msgstr ""
+
+#: src/lib/php/fieldmaps.php:135
+msgid "Code Pages"
+msgstr ""
+
+#: src/lib/php/fieldmaps.php:138
+msgid "Number or Range of Numbers (e.g. 100-200)"
+msgstr ""
+
+#: src/lib/php/fieldmaps.php:142
+msgid "Code Volume"
+msgstr ""
+
+#: src/lib/php/fieldmaps.php:149, src/lib/php/fieldmaps.php:965, src/lib/php/fieldmaps.php:1181
+msgid "Section"
+msgstr ""
+
+#: src/lib/php/fieldmaps.php:156
+msgid "Legislative Body"
+msgstr ""
+
+#: src/lib/php/fieldmaps.php:163, src/lib/php/fieldmaps.php:246, src/lib/php/fieldmaps.php:369, src/lib/php/fieldmaps.php:447, src/lib/php/fieldmaps.php:498, src/lib/php/fieldmaps.php:545, src/lib/php/fieldmaps.php:646, src/lib/php/fieldmaps.php:719, src/lib/php/fieldmaps.php:849, src/lib/php/fieldmaps.php:921, src/lib/php/fieldmaps.php:993, src/lib/php/fieldmaps.php:1058, src/lib/php/fieldmaps.php:1133, src/lib/php/fieldmaps.php:1195, src/lib/php/fieldmaps.php:1249, src/lib/php/fieldmaps.php:1296
+msgid "Date"
+msgstr ""
+
+#: src/lib/php/fieldmaps.php:166, src/lib/php/fieldmaps.php:173, src/lib/php/fieldmaps.php:249, src/lib/php/fieldmaps.php:256, src/lib/php/fieldmaps.php:372, src/lib/php/fieldmaps.php:379, src/lib/php/fieldmaps.php:450, src/lib/php/fieldmaps.php:457, src/lib/php/fieldmaps.php:501, src/lib/php/fieldmaps.php:508, src/lib/php/fieldmaps.php:548, src/lib/php/fieldmaps.php:649, src/lib/php/fieldmaps.php:656, src/lib/php/fieldmaps.php:722, src/lib/php/fieldmaps.php:729, src/lib/php/fieldmaps.php:852, src/lib/php/fieldmaps.php:924, src/lib/php/fieldmaps.php:931, src/lib/php/fieldmaps.php:996, src/lib/php/fieldmaps.php:1003, src/lib/php/fieldmaps.php:1061, src/lib/php/fieldmaps.php:1068, src/lib/php/fieldmaps.php:1136, src/lib/php/fieldmaps.php:1143, src/lib/php/fieldmaps.php:1198, src/lib/php/fieldmaps.php:1205, src/lib/php/fieldmaps.php:1252, src/lib/php/fieldmaps.php:1259, src/lib/php/fieldmaps.php:1299, src/lib/php/fieldmaps.php:1306
+msgid "YYYY/MM/DD or YYYY/MM or YYYY"
+msgstr ""
+
+#: src/lib/php/fieldmaps.php:170, src/lib/php/fieldmaps.php:253, src/lib/php/fieldmaps.php:376, src/lib/php/fieldmaps.php:454, src/lib/php/fieldmaps.php:505, src/lib/php/fieldmaps.php:653, src/lib/php/fieldmaps.php:726, src/lib/php/fieldmaps.php:928, src/lib/php/fieldmaps.php:1000, src/lib/php/fieldmaps.php:1065, src/lib/php/fieldmaps.php:1140, src/lib/php/fieldmaps.php:1202, src/lib/php/fieldmaps.php:1256, src/lib/php/fieldmaps.php:1303
+msgid "Date Accessed"
+msgstr ""
+
+#: src/lib/php/fieldmaps.php:179
+msgid "Sponsor"
+msgstr ""
+
+#: src/lib/php/fieldmaps.php:197
+msgid "Series Title"
+msgstr ""
+
+#: src/lib/php/fieldmaps.php:204, src/lib/php/fieldmaps.php:313, src/lib/php/fieldmaps.php:597
+msgid "Series Number"
+msgstr ""
+
+#: src/lib/php/fieldmaps.php:211, src/lib/php/fieldmaps.php:1228
+msgid "# of Pages"
+msgstr ""
+
+#: src/lib/php/fieldmaps.php:218, src/lib/php/fieldmaps.php:320, src/lib/php/fieldmaps.php:604, src/lib/php/fieldmaps.php:814, src/lib/php/fieldmaps.php:886
+msgid "Volume"
+msgstr ""
+
+#: src/lib/php/fieldmaps.php:225, src/lib/php/fieldmaps.php:334, src/lib/php/fieldmaps.php:618
+msgid "Edition"
+msgstr ""
+
+#: src/lib/php/fieldmaps.php:232, src/lib/php/fieldmaps.php:341, src/lib/php/fieldmaps.php:625, src/lib/php/fieldmaps.php:1112
+msgid "Publisher"
+msgstr ""
+
+#: src/lib/php/fieldmaps.php:239, src/lib/php/fieldmaps.php:348, src/lib/php/fieldmaps.php:632
+msgid "Publisher Location"
+msgstr ""
+
+#: src/lib/php/fieldmaps.php:262, src/lib/php/fieldmaps.php:514, src/lib/php/fieldmaps.php:554, src/lib/php/fieldmaps.php:662, src/lib/php/fieldmaps.php:858, src/lib/php/fieldmaps.php:937, src/lib/php/fieldmaps.php:1009, src/lib/php/fieldmaps.php:1149, src/lib/php/fieldmaps.php:1211, src/lib/php/fieldmaps.php:1265, src/lib/php/fieldmaps.php:1312
+msgid "Author"
+msgstr ""
+
+#: src/lib/php/fieldmaps.php:266, src/lib/php/fieldmaps.php:393, src/lib/php/fieldmaps.php:558, src/lib/php/fieldmaps.php:666, src/lib/php/fieldmaps.php:862, src/lib/php/fieldmaps.php:941, src/lib/php/fieldmaps.php:1013
+msgid "Editor"
+msgstr ""
+
+#: src/lib/php/fieldmaps.php:270, src/lib/php/fieldmaps.php:397, src/lib/php/fieldmaps.php:562, src/lib/php/fieldmaps.php:670, src/lib/php/fieldmaps.php:1153
+msgid "Series Editor"
+msgstr ""
+
+#: src/lib/php/fieldmaps.php:274, src/lib/php/fieldmaps.php:401, src/lib/php/fieldmaps.php:566, src/lib/php/fieldmaps.php:674, src/lib/php/fieldmaps.php:1157
+msgid "Translator"
+msgstr ""
+
+#: src/lib/php/fieldmaps.php:285
+msgid "Section Title"
+msgstr ""
+
+#: src/lib/php/fieldmaps.php:292
+msgid "Book Title"
+msgstr ""
+
+#: src/lib/php/fieldmaps.php:299
+msgid "Chapter Number"
+msgstr ""
+
+#: src/lib/php/fieldmaps.php:306, src/lib/php/fieldmaps.php:590, src/lib/php/fieldmaps.php:1098
+msgid "Series"
+msgstr ""
+
+#: src/lib/php/fieldmaps.php:327, src/lib/php/fieldmaps.php:611
+msgid "# of Volumes"
+msgstr ""
+
+#: src/lib/php/fieldmaps.php:355, src/lib/php/fieldmaps.php:639, src/lib/php/fieldmaps.php:828, src/lib/php/fieldmaps.php:893, src/lib/php/fieldmaps.php:972, src/lib/php/fieldmaps.php:1044, src/lib/php/fieldmaps.php:1119, src/lib/php/fieldmaps.php:1188
+msgid "Pages"
+msgstr ""
+
+#: src/lib/php/fieldmaps.php:358, src/lib/php/fieldmaps.php:642, src/lib/php/fieldmaps.php:831, src/lib/php/fieldmaps.php:896, src/lib/php/fieldmaps.php:975, src/lib/php/fieldmaps.php:1047, src/lib/php/fieldmaps.php:1122, src/lib/php/fieldmaps.php:1191
+msgid "Number or Range of Numbers (100-200)"
+msgstr ""
+
+#: src/lib/php/fieldmaps.php:362
+msgid "ISBN"
+msgstr ""
+
+#: src/lib/php/fieldmaps.php:385
+msgid "Section Author"
+msgstr ""
+
+#: src/lib/php/fieldmaps.php:389
+msgid "Book Author"
+msgstr ""
+
+#: src/lib/php/fieldmaps.php:408
+msgid "Broadcast"
+msgstr ""
+
+#: src/lib/php/fieldmaps.php:415
+msgid "E.g. \"Chapter 1\""
+msgstr ""
+
+#: src/lib/php/fieldmaps.php:419
+msgid "Program Title"
+msgstr ""
+
+#: src/lib/php/fieldmaps.php:422
+msgid "E.g. \"House of Cards\""
+msgstr ""
+
+#: src/lib/php/fieldmaps.php:426
+msgid "Episode Number"
+msgstr ""
+
+#: src/lib/php/fieldmaps.php:433, src/lib/php/fieldmaps.php:712
+msgid "Format"
+msgstr ""
+
+#: src/lib/php/fieldmaps.php:436
+msgid "E.g. \"Television\""
+msgstr ""
+
+#: src/lib/php/fieldmaps.php:440
+msgid "Network"
+msgstr ""
+
+#: src/lib/php/fieldmaps.php:443
+msgid "E.g. \"Netflix\""
+msgstr ""
+
+#: src/lib/php/fieldmaps.php:463, src/lib/php/fieldmaps.php:743
+msgid "Producer"
+msgstr ""
+
+#: src/lib/php/fieldmaps.php:467, src/lib/php/fieldmaps.php:739
+msgid "Director"
+msgstr ""
+
+#: src/lib/php/fieldmaps.php:477
+msgid "Case Name"
+msgstr ""
+
+#: src/lib/php/fieldmaps.php:484
+msgid "Court"
+msgstr ""
+
+#: src/lib/php/fieldmaps.php:491
+msgid "Docket Number"
+msgstr ""
+
+#: src/lib/php/fieldmaps.php:531
+msgid "Conference Name"
+msgstr ""
+
+#: src/lib/php/fieldmaps.php:538
+msgid "Conference Location"
+msgstr ""
+
+#: src/lib/php/fieldmaps.php:583
+msgid "Encyclopedia Title"
+msgstr ""
+
+#: src/lib/php/fieldmaps.php:691
+msgid "Distributor"
+msgstr ""
+
+#: src/lib/php/fieldmaps.php:698
+msgid "Genre"
+msgstr ""
+
+#: src/lib/php/fieldmaps.php:705, src/lib/php/fieldmaps.php:774
+msgid "Language"
+msgstr ""
+
+#: src/lib/php/fieldmaps.php:735
+msgid "Scriptwriter"
+msgstr ""
+
+#: src/lib/php/fieldmaps.php:749
+msgid "Presentation"
+msgstr ""
+
+#: src/lib/php/fieldmaps.php:760
+msgid "Event Name"
+msgstr ""
+
+#: src/lib/php/fieldmaps.php:767
+msgid "Event Location"
+msgstr ""
+
+#: src/lib/php/fieldmaps.php:783
+msgid "Presenter"
+msgstr ""
+
+#: src/lib/php/fieldmaps.php:800
+msgid "Journal"
+msgstr ""
+
+#: src/lib/php/fieldmaps.php:807
+msgid "Journal Abbreviation"
+msgstr ""
+
+#: src/lib/php/fieldmaps.php:821, src/lib/php/fieldmaps.php:900, src/lib/php/fieldmaps.php:979
+msgid "Issue"
+msgstr ""
+
+#: src/lib/php/fieldmaps.php:835
+msgid "DOI"
+msgstr ""
+
+#: src/lib/php/fieldmaps.php:842, src/lib/php/fieldmaps.php:914, src/lib/php/fieldmaps.php:986, src/lib/php/fieldmaps.php:1126, src/lib/php/fieldmaps.php:1289
+msgid "URL"
+msgstr ""
+
+#: src/lib/php/fieldmaps.php:879
+msgid "Magazine"
+msgstr ""
+
+#: src/lib/php/fieldmaps.php:907
+msgid "ISSN"
+msgstr ""
+
+#: src/lib/php/fieldmaps.php:958, src/lib/php/fieldmaps.php:1105
+msgid "Publication"
+msgstr ""
+
+#: src/lib/php/fieldmaps.php:968
+msgid "E.g. \"Sports\", \"Politics\""
+msgstr ""
+
+#: src/lib/php/fieldmaps.php:1030, src/lib/php/fieldmaps.php:1091
+msgid "Number"
+msgstr ""
+
+#: src/lib/php/fieldmaps.php:1037
+msgid "Jurisdiction"
+msgstr ""
+
+#: src/lib/php/fieldmaps.php:1040
+msgid "E.g. \"United States\""
+msgstr ""
+
+#: src/lib/php/fieldmaps.php:1051
+msgid "Issuer"
+msgstr ""
+
+#: src/lib/php/fieldmaps.php:1074
+msgid "Inventor"
+msgstr ""
+
+#: src/lib/php/fieldmaps.php:1174
+msgid "Statute Number"
+msgstr ""
+
+#: src/lib/php/fieldmaps.php:1235
+msgid "University"
+msgstr ""
+
+#: src/lib/php/fieldmaps.php:1242
+msgid "Location"
+msgstr ""
+
+#: src/lib/php/fieldmaps.php:1275
+msgid "Content Title"
+msgstr ""
+
+#: src/lib/php/fieldmaps.php:1282
+msgid "Website Title"
+msgstr ""
+
+#: src/lib/php/i18n.php:15
+msgid "Insert selected references"
+msgstr ""
+
+#: src/lib/php/i18n.php:16
+msgid "Add reference to reference list"
+msgstr ""
+
+#: src/lib/php/i18n.php:17
+msgid "Remove selected references from reference list"
+msgstr ""
+
+#: src/lib/php/i18n.php:18
+msgid "Pin Reference List to Visible Window"
+msgstr ""
+
+#: src/lib/php/i18n.php:20
+msgid "Cited Items"
+msgstr ""
+
+#: src/lib/php/i18n.php:21
+msgid "Uncited Items"
+msgstr ""
+
+#: src/lib/php/i18n.php:25, src/lib/php/i18n.php:35
+msgid "Import References from RIS File"
+msgstr ""
+
+#: src/lib/php/i18n.php:26
+msgid "Refresh Reference List"
+msgstr ""
+
+#: src/lib/php/i18n.php:27
+msgid "Delete All References"
+msgstr ""
+
+#: src/lib/php/i18n.php:29
+msgid "Choose citation style..."
+msgstr ""
+
+#: src/lib/php/i18n.php:36
+msgid "The file could not be processed. Are you sure it's a .RIS (Refman) file?"
+msgstr ""
+
+#: src/lib/php/i18n.php:37
+msgid "The following references were unable to be processed:"
+msgstr ""
+
+#: src/lib/php/i18n.php:38
+msgid "Choose File"
+msgstr ""
+
+#: src/lib/php/i18n.php:39
+msgid "Import"
+msgstr ""
+
+#: src/lib/php/i18n.php:44, src/lib/php/i18n.php:67
+msgid "Search PubMed for Reference"
+msgstr ""
+
+#: src/lib/php/i18n.php:45
+msgid "Search"
+msgstr ""
+
+#: src/lib/php/i18n.php:46
+msgid "Next"
+msgstr ""
+
+#: src/lib/php/i18n.php:47
+msgid "Previous"
+msgstr ""
+
+#: src/lib/php/i18n.php:48, src/lib/php/i18n.php:71
+msgid "Add Reference"
+msgstr ""
+
+#: src/lib/php/i18n.php:53
+msgid "Insert Formatted Reference"
+msgstr ""
+
+#: src/lib/php/i18n.php:56
+msgid "Add another"
+msgstr ""
+
+#: src/lib/php/i18n.php:57
+msgid "Surname"
+msgstr ""
+
+#: src/lib/php/i18n.php:58
+msgid "Given Name, M.I."
+msgstr ""
+
+#: src/lib/php/i18n.php:61
+msgid "Select Citation Type"
+msgstr ""
+
+#: src/lib/php/i18n.php:64
+msgid "PMID/DOI"
+msgstr ""
+
+#: src/lib/php/i18n.php:68
+msgid "Add Manually"
+msgstr ""
+
+#: src/lib/php/i18n.php:69
+msgid "Add with Identifier"
+msgstr ""
+
+#: src/lib/php/i18n.php:70
+msgid "Search PubMed"
+msgstr ""
+
+#: src/lib/php/i18n.php:72
+msgid "Attach Inline"
+msgstr ""
+
+#: src/lib/php/i18n.php:80
+msgid "Select Number of Reviewers"
+msgstr ""
+
+#: src/lib/php/i18n.php:81
+msgid "One Reviewer"
+msgstr ""
+
+#: src/lib/php/i18n.php:82
+msgid "Two Reviewers"
+msgstr ""
+
+#: src/lib/php/i18n.php:83
+msgid "Three Reviewers"
+msgstr ""
+
+#: src/lib/php/i18n.php:85
+msgid "Review 1"
+msgstr ""
+
+#: src/lib/php/i18n.php:86
+msgid "Review 2"
+msgstr ""
+
+#: src/lib/php/i18n.php:87
+msgid "Review 3"
+msgstr ""
+
+#: src/lib/php/i18n.php:88
+msgid "Use this image"
+msgstr ""
+
+#: src/lib/php/i18n.php:89, src/lib/php/i18n.php:101
+msgid "Choose or Upload an Image"
+msgstr ""
+
+#: src/lib/php/i18n.php:92
+msgid "Review Heading"
+msgstr ""
+
+#: src/lib/php/i18n.php:93
+msgid "Toggle Author Response"
+msgstr ""
+
+#: src/lib/php/i18n.php:96
+msgid "Name"
+msgstr ""
+
+#: src/lib/php/i18n.php:97
+msgid "Twitter Handle"
+msgstr ""
+
+#: src/lib/php/i18n.php:98
+msgid "Background"
+msgstr ""
+
+#: src/lib/php/i18n.php:99
+msgid "Content"
+msgstr ""
+
+#: src/lib/php/i18n.php:100
+msgid "Photo"
+msgstr ""

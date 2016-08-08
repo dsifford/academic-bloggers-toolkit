@@ -166,7 +166,7 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
     openImportWindow() {
         MCE.importWindow(this.editor).then(data => {
             if (!data) return;
-
+            console.log(data);
             this.props.store.citations.CSL.merge(
                 data.payload.reduce((prev, curr) => {
                     prev[curr[0]] = curr[1];
