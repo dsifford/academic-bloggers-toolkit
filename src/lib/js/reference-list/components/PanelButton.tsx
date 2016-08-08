@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-export class PanelButton extends React.Component<React.HTMLProps<HTMLButtonElement>, {}> {
+export class PanelButton extends React.Component<React.HTMLProps<HTMLAnchorElement>, {}> {
 
     generateTooltip(text: string): HTMLDivElement {
         let container = document.createElement('DIV') as HTMLDivElement;
@@ -13,6 +13,7 @@ export class PanelButton extends React.Component<React.HTMLProps<HTMLButtonEleme
         container.style.visibility = 'hidden';
 
         arrow.className = 'mce-tooltip-arrow';
+        arrow.style.left = 'initial';
         tooltip.className = 'mce-tooltip-inner';
         tooltip.innerHTML = text;
 
@@ -22,21 +23,18 @@ export class PanelButton extends React.Component<React.HTMLProps<HTMLButtonEleme
         return container;
     }
 
-    createTooltip = (e: React.MouseEvent<HTMLButtonElement>) => {
+    createTooltip = (e: React.MouseEvent<HTMLAnchorElement>) => {
         e.stopPropagation();
-
-        if (!this.props['data-tooltip']) return;
-
         this.destroyTooltip();
+        const rect = e.target.getBoundingClientRect();
+        const tooltip = this.generateTooltip(this.props['data-tooltip']);
+        const arrow = tooltip.children[0] as HTMLDivElement;
 
-        let tooltip = this.generateTooltip(this.props['data-tooltip']);
         document.body.appendChild(tooltip);
 
-        let targetRect = e.target.getBoundingClientRect();
-        let tooltipRect = tooltip.getBoundingClientRect();
-
-        tooltip.style.left = (targetRect.left + 20 - (tooltipRect.width / 2)) + 'px';
-        tooltip.style.top = (targetRect.top + targetRect.height + window.scrollY) + 'px';
+        tooltip.style.left = (rect.left + 20 - (tooltip.getBoundingClientRect().width / 2)) + 'px';
+        tooltip.style.top = (rect.top + rect.height + window.scrollY) + 'px';
+        arrow.style.right = `calc(${tooltip.getBoundingClientRect().right - rect.right + 20}px - 3px)`;
         tooltip.style.visibility = '';
     }
 
@@ -48,11 +46,11 @@ export class PanelButton extends React.Component<React.HTMLProps<HTMLButtonEleme
     render() {
         this.destroyTooltip();
         return (
-            <button
+            <a
                 {...this.props}
                 className="abt-reflist-button"
-                onMouseOver={this.createTooltip}
-                onMouseLeave={this.destroyTooltip}
+                onMouseOver={this.props['data-tooltip'] ? this.createTooltip : null}
+                onMouseLeave={this.props['data-tooltip'] ? this.destroyTooltip : null}
             />
         );
     }

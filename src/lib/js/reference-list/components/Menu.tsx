@@ -81,6 +81,14 @@ export class Menu extends React.Component<Props, State> {
                         >
                             <span className="dashicons dashicons-trash" />
                         </PanelButton>
+                        <PanelButton
+                            id="usage-instructions"
+                            href="https://github.com/dsifford/academic-bloggers-toolkit/blob/master/README.md"
+                            target="_blank"
+                            data-tooltip={this.labels.tooltips.help}
+                        >
+                            <span className="dashicons dashicons-editor-help" />
+                        </PanelButton>
                     </div>
                     <div id="style-select">
                         <VSelect

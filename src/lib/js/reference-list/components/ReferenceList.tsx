@@ -35,6 +35,18 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
     @observable
     fixed = false;
 
+    @observable
+    citedListUI = {
+        isOpen: true,
+        maxHeight: '400px',
+    };
+
+    @observable
+    uncitedListUI = {
+        isOpen: false,
+        maxHeight: '400px',
+    };
+
     constructor(props) {
         super(props);
         this.processor = new CSLProcessor(this.props.store);
@@ -76,7 +88,7 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
         });
     }
 
-    insertInline(e?: React.MouseEvent<HTMLButtonElement>, data?: CSL.Data[]) {
+    insertInline(e?: React.MouseEvent<HTMLAnchorElement>, data?: CSL.Data[]) {
 
         if (e) e.preventDefault();
         this.editor.setProgressState(true);
@@ -113,7 +125,7 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
         this.clearSelection();
     }
 
-    deleteCitations(e?: React.MouseEvent<HTMLButtonElement>) {
+    deleteCitations(e?: React.MouseEvent<HTMLAnchorElement>) {
         if (e) e.preventDefault();
         if (this.selected.length === 0) return;
         this.editor.setProgressState(true);
@@ -122,7 +134,7 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
         this.initProcessor();
     }
 
-    openReferenceWindow(e: React.MouseEvent<HTMLButtonElement>) {
+    openReferenceWindow(e: React.MouseEvent<HTMLAnchorElement>) {
         e.preventDefault();
         MCE.referenceWindow(this.editor).then(payload => {
             if (!payload) return;
@@ -216,7 +228,7 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
         : this.selected.push(id);
     }
 
-    toggleMenu = (e: React.MouseEvent<HTMLButtonElement>) => {
+    toggleMenu = (e: React.MouseEvent<HTMLAnchorElement>) => {
         e.preventDefault();
         this.menuOpen = !this.menuOpen;
     }
@@ -231,17 +243,51 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
     scrollHandler = () => {
         const scrollpos = document.body.scrollTop;
         const list = document.getElementById('abt_reflist');
+        const cited = document.getElementById('cited');
+        const uncited = document.getElementById('uncited');
+        const bothOpen = this.citedListUI.isOpen && this.uncitedListUI.isOpen;
+        const topOffset = scrollpos > 134 ? 55 : (scrollpos === 0 ? 98 : 98 - (scrollpos / 3));
+        const listOffset = (200 + topOffset);
+        let citedHeight = listOffset;
+        let uncitedHeight = listOffset;
+
+        this.citedListUI.maxHeight = '400px';
+        this.uncitedListUI.maxHeight = '400px';
 
         if (!this.fixed) return list.style.top = '';
 
-        switch (true) {
-            case scrollpos === 0:
-                return list.style.top = '98px';
-            case scrollpos < 135:
-                return list.style.top = 98 - (scrollpos / 3) + 'px';
-            default:
-                return list.style.top = '55px';
+        list.style.top = `${topOffset}px`;
+        if (bothOpen) {
+            citedHeight += uncited.clientHeight > (window.innerHeight - listOffset) ? (window.innerHeight - listOffset) / 2 : uncited.clientHeight;
+            uncitedHeight += cited.clientHeight > (window.innerHeight - listOffset) ? (window.innerHeight - listOffset) / 2 : cited.clientHeight;
         }
+        this.citedListUI.maxHeight = `calc(100vh - ${citedHeight}px)`;
+        this.uncitedListUI.maxHeight = `calc(100vh - ${uncitedHeight}px)`;
+    }
+
+    listToggle = (id: string, explode: boolean = false) => {
+        switch (id) {
+            case 'cited':
+                if (explode) {
+                    this.citedListUI.isOpen = true;
+                    this.uncitedListUI.isOpen = false;
+                    break;
+                }
+                this.citedListUI.isOpen = !this.citedListUI.isOpen;
+                break;
+            case 'uncited':
+                if (explode) {
+                    this.citedListUI.isOpen = false;
+                    this.uncitedListUI.isOpen = true;
+                    break;
+                }
+                this.uncitedListUI.isOpen = !this.uncitedListUI.isOpen;
+                break;
+            default:
+                break;
+        }
+        // Required so that the DOM has enough time to apply changes
+        setTimeout(this.scrollHandler, 200);
     }
 
     render() {
@@ -324,9 +370,12 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
                 </CSSTransitionGroup>
                 { this.props.store.cited.length > 0 &&
                     <ItemList
+                        id="cited"
                         items={this.props.store.cited}
                         selectedItems={this.selected}
-                        startVisible={true}
+                        isOpen={this.citedListUI.isOpen}
+                        maxHeight={this.citedListUI.maxHeight}
+                        toggle={this.listToggle}
                         click={this.toggleSelect}
                         className={this.fixed ? 'list fixed' : 'list'}
                         children={this.labels.citedItems}
@@ -334,9 +383,12 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
                 }
                 { this.props.store.uncited.length > 0 &&
                     <ItemList
+                        id="uncited"
                         items={this.props.store.uncited}
                         selectedItems={this.selected}
-                        startVisible={false}
+                        isOpen={this.uncitedListUI.isOpen}
+                        maxHeight={this.uncitedListUI.maxHeight}
+                        toggle={this.listToggle}
                         click={this.toggleSelect}
                         className={this.fixed ? 'list uncited fixed' : 'list uncited'}
                         children={this.labels.uncitedItems}

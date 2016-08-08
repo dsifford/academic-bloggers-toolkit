@@ -25,6 +25,7 @@ $ABT_i18n->referenceList = [
             'import' => __('Import References from RIS File', 'academic-bloggers-toolkit'),
             'refresh' => __('Refresh Reference List', 'academic-bloggers-toolkit'),
             'destroy' => __('Delete All References', 'academic-bloggers-toolkit'),
+            'help' => __('View Usage Instructions', 'academic-bloggers-toolkit'),
         ],
         'stylePlaceholder' => __('Choose citation style...', 'academic-bloggers-toolkit'),
     ],

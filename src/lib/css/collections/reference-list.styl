@@ -48,7 +48,8 @@
         width 254px
     &.fixed
         position fixed
-        top 98px
+        box-shadow 0 0 5px 2px rgba(0,0,0,0.1)
+        border solid $border 1px
         z-index 555
 #abt-reflist
     .panel
@@ -62,19 +63,22 @@
         display flex
         padding 5px 0
         justify-content space-around
-    button.abt-reflist-button
+    a.abt-reflist-button
         background 0
-        border none
+        border 1px solid transparent
+        transition none
         border-radius 2px
         color $dark-gray
+        text-decoration none
+        text-align center
+        line-height 30px
         cursor pointer
-        height 30px
-        outline 0
         min-width 40px
         $selector = selector()
         &:hover
             box-shadow inset 0 1px 0 white,0 1px 0 rgba(0,0,0,.08)
             border 1px solid $dark-gray
+            transition none
         &:active
             @extend {$selector}:hover
             background darken($light-gray, 5)
@@ -82,17 +86,17 @@
         &:disabled
             color $disabled
             pointer-events none
+        &:focus
+            box-shadow none
         span
             pointer-events: none
-            height 18px
-            width 18px
+            line-height 30px
             &.insert-inline
                 transform rotateY(180deg)
                 padding-left 2px
             &.add-reference
-                line-height 22px
-                width 20px
-                padding-right 2px
+                padding-top 2px
+                padding-right 3px
             &.remove-reference
                 font-weight 900
                 padding-right 2px

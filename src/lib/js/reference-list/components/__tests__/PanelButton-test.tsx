@@ -10,7 +10,7 @@ const setup = () => {
     );
     return {
         component,
-        button: component.find('button'),
+        button: component.find('a'),
     };
 };
 

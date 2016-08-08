@@ -14,7 +14,8 @@ export default {
       "tooltips": {
         "import": "Import References from RIS File",
         "refresh": "Refresh Reference List",
-        "destroy": "Delete All References"
+        "destroy": "Delete All References",
+        "help": "View Usage Instructions",
       },
       "stylePlaceholder": "Choose citation style..."
     }

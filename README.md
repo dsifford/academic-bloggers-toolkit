@@ -4,9 +4,9 @@
 An **open source** WordPress plugin providing an all-in-one solution for effective academic blogging.
 
 ## Contents
-- [Features](#Features)
-- [Usage](#Usage)
-- [Contributing](#Contributing)
+- [Features](#features)
+- [Usage](#usage)
+- [Contributing](#contributing)
 
 ### Manifesto
 
@@ -50,4 +50,4 @@ An **open source** WordPress plugin providing an all-in-one solution for effecti
 
 ### Contributing
 
-If you'd like to contribute to this project, please read the [contributor guide](#).
+If you'd like to contribute to this project, please read the [contributor guide](https://github.com/dsifford/academic-bloggers-toolkit/blob/master/CONTRIBUTING.md).

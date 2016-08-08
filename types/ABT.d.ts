@@ -46,6 +46,7 @@ declare namespace ABT {
                     destroy: string;
                     'import': string;
                     refresh: string;
+                    help: string;
                 };
             };
             referenceList: {

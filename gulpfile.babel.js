@@ -25,26 +25,6 @@ const webpackDevConfig = Object.assign({}, webpackConfig, {
     cache: false,
 });
 
-
-gulp.task('pot', () =>
-    gulp
-        .src([
-            'src/academic-bloggers-toolkit.php',
-            'src/lib/**/*.php',
-            'dist/lib/php/options-page.php',
-        ])
-        .pipe(sort())
-        .pipe(wpPot({
-            domain: 'academic-bloggers-toolkit',
-            package: `Academic Blogger's Toolkit ${VERSION}`,
-            bugReport: 'https://github.com/dsifford/academic-bloggers-toolkit/issues',
-            lastTranslator: 'Derek P Sifford <dereksifford@gmail.com>',
-            team: 'Derek P Sifford <dereksifford@gmail.com>',
-            headers: false,
-        }))
-        .pipe(gulp.dest('./src'))
-);
-
 // ==================================================
 //                 Utility Tasks
 // ==================================================
@@ -64,6 +44,25 @@ gulp.task('bump', () =>
     .pipe(gulp.dest('./src'))
 );
 
+// Translations
+gulp.task('pot', () =>
+    gulp
+        .src([
+            'src/academic-bloggers-toolkit.php',
+            'src/lib/**/*.php',
+            'dist/lib/php/options-page.php',
+        ])
+        .pipe(sort())
+        .pipe(wpPot({
+            domain: 'academic-bloggers-toolkit',
+            package: `Academic Blogger's Toolkit ${VERSION}`,
+            bugReport: 'https://github.com/dsifford/academic-bloggers-toolkit/issues',
+            lastTranslator: 'Derek P Sifford <dereksifford@gmail.com>',
+            team: 'Derek P Sifford <dereksifford@gmail.com>',
+            headers: false,
+        }))
+        .pipe(gulp.dest('./src'))
+);
 
 // ==================================================
 //              PHP/Static Asset Tasks
