@@ -5,6 +5,7 @@ An **open source** WordPress plugin providing an all-in-one solution for effecti
 
 ## Contents
 - [Features](#features)
+- [Translations](#translations)
 - [Usage](#usage)
 - [Contributing](#contributing)
 
@@ -27,6 +28,12 @@ An **open source** WordPress plugin providing an all-in-one solution for effecti
 - **Search PubMed from the post editor** and insert references instantly.
 - Inline citations display full formatted references on the frontend when hovered with the mouse (or when tapped on mobile). No more scrolling down and losing your focus!
 - Append up to three peer reviews below your posts. Peer reviews include not only the review content, but also reviewer bios, photos, and author responses (when necessary).
+
+### Translations
+
+[**Click Here to Translate this Plugin**](https://poeditor.com/join/project/PGYLKWQM5h)
+
+Translations for this plugin can be completed and submitted [here](https://poeditor.com/join/project/PGYLKWQM5h). After submission of a translation, I'll try to update the plugin with your translations within 7 days.
 
 ### Usage
 
