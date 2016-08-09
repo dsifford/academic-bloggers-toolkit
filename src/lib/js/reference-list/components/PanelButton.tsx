@@ -48,7 +48,7 @@ export class PanelButton extends React.Component<React.HTMLProps<HTMLAnchorEleme
         return (
             <a
                 {...this.props}
-                className="abt-reflist-button"
+                className={this.props.disabled ? 'abt-reflist-button disabled' : 'abt-reflist-button'}
                 onMouseOver={this.props['data-tooltip'] ? this.createTooltip : null}
                 onMouseLeave={this.props['data-tooltip'] ? this.destroyTooltip : null}
             />
