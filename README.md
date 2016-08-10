@@ -59,7 +59,7 @@ Translations for this plugin can be completed and submitted [here](https://poedi
 (feel free to request more)
 
 PC/Linux | Mac | Action
-----|----
+----|----|----
 `ctrl-alt-r` | `cmd-alt-r` | Open the `Add References` menu
 
 #### Tips 'n Tricks
