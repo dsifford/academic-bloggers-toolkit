@@ -30,7 +30,7 @@ const webpackDevConfig = Object.assign({}, webpackConfig, {
 // ==================================================
 
 // Delete all files in dist/lib
-gulp.task('clean', (done) => del(['dist/lib/**/*'], done));
+gulp.task('clean', (done) => del(['dist/**/*'], done));
 
 // Version bump the required files according to the version in package.json
 gulp.task('bump', () =>
