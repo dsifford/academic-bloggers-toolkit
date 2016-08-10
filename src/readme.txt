@@ -17,7 +17,7 @@ Academic Blogger's toolkit is an **open source** WordPress plugin providing an a
 [youtube https://www.youtube.com/watch?v=5k72Dh8L2BA]
 
 = Note =
-**This readme file is not kept up to date**. For a detailed, updated description of this plugin and all its features, please visit the [GitHub Repository](https://github.com/dsifford/academic-bloggers-toolkit).
+**This readme file is not kept up to date!** For a detailed, updated description of this plugin and all its features, please visit the [GitHub Repository](https://github.com/dsifford/academic-bloggers-toolkit).
 
 = Features =
 * Insert formatted references on the fly using digital identifiers (**PMID** or **DOI**).
@@ -86,6 +86,8 @@ Yikes! I'm sorry about that. Please report all issues on the Academic Blogger's 
 - Processor now clears the incremental whitespace between your content and the bibliography.
 - Fix issue where some URLs were not being parsed properly. (HT @JLJu)
 - Fix issue causing the processor to sometimes go out of sync with the document.
+
+**Note:** The readme guide has been updated! [Check it out here](https://github.com/dsifford/academic-bloggers-toolkit/blob/master/README.md) for a glimpse at all the changes and a detailed set of user instructions.
 
 = 3.3.1 =
 
