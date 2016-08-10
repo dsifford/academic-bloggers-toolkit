@@ -16,6 +16,9 @@ Academic Blogger's toolkit is an **open source** WordPress plugin providing an a
 
 [youtube https://www.youtube.com/watch?v=5k72Dh8L2BA]
 
+= Note =
+**This readme file is not kept up to date**. For a detailed, updated description of this plugin and all its features, please visit the [GitHub Repository](https://github.com/dsifford/academic-bloggers-toolkit).
+
 = Features =
 * Insert formatted references on the fly using digital identifiers (**PMID** or **DOI**).
 * Manually insert formatted references from **over 15 types of references**.
@@ -37,7 +40,7 @@ This plugin generates plain, beautiful HTML and renders it at the time of insert
 
 Need to write one long blog post with lots of references? Download this plugin, write the post, and then delete the plugin if you don't need it any longer. **Freedom.**
 
-= Development =
+= Contributing =
 If you're a developer and would like to contribute, you can do so via this plugin's [GitHub Repository](https://github.com/dsifford/academic-bloggers-toolkit).
 
 = Want to learn more? =
@@ -66,6 +69,23 @@ Yikes! I'm sorry about that. Please report all issues on the Academic Blogger's 
 4. Demo of desktop citation tooltips.
 
 == Changelog ==
+
+= 3.4.0 =
+
+**Improvements**
+
+- ___Massive___ under-the-hood improvements to both speed and reliability to the reference list.
+- Plugin is now fully internationalized! Are you interested in helping translate this plugin? Visit [this link](https://poeditor.com/join/project/PGYLKWQM5h) to learn more.
+- UI Improvements.
+- Citation processor now properly parses all locales.
+- Processor now caches ~75% less data as post meta (wasn't much to begin with, but now it's less!).
+- Duplicate references are now ignored. (HT @metallikat36)
+
+**Bugfixes**
+
+- Processor now clears the incremental whitespace between your content and the bibliography.
+- Fix issue where some URLs were not being parsed properly. (HT @JLJu)
+- Fix issue causing the processor to sometimes go out of sync with the document.
 
 = 3.3.1 =
 

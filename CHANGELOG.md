@@ -1,5 +1,20 @@
 # Changelog
 
+### 3.4.0
+
+**Improvements**
+- ___Massive___ under-the-hood improvements to both speed and reliability to the reference list.
+- Plugin is now fully internationalized! Are you interested in helping translate this plugin? Visit [this link](https://poeditor.com/join/project/PGYLKWQM5h) to learn more. (Closes #53)
+- UI Improvements.
+- Citation processor now properly parses all locales.
+- Processor now caches ~75% less data as post meta (wasn't much to begin with, but now it's less!).
+- Duplicate references are now ignored. (HT @metallikat36. Closes #37)
+
+**Bugfixes**
+- Processor now clears the incremental whitespace between your content and the bibliography.
+- Fix issue where some URLs were not being parsed properly. (HT @JLJu. Closes #100)
+- Fix issue causing the processor to sometimes go out of sync with the document. (Closes #72)
+
 ### 3.3.1
 
 **Bugfixes**

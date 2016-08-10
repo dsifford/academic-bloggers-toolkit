@@ -1,5 +1,7 @@
 ## Contributing
 
+**NOTE:** This guide still needs to be updated. If you're interested in contributing and this message is still present, please file an issue and I'll get this updated.
+
 #### Requirements
 - [NodeJS](https://nodejs.org)
 - [Gulp](https://github.com/gulpjs/gulp) (global install): `npm install -g gulp-cli`
