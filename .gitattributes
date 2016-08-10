@@ -1,2 +1,2 @@
 *.tsx linguist-language=TypeScript
-vendor/* linguist-vendored
+src/vendor/* linguist-vendored
