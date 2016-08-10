@@ -69,6 +69,7 @@ declare namespace ABT {
                 upload: string;
             };
             pubmedWindow: {
+                title: string;
                 addReference: string;
                 next: string;
                 previous: string;

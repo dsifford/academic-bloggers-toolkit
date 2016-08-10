@@ -5,17 +5,17 @@ export default {
         "insert": "Insert selected references",
         "add": "Add reference to reference list",
         "remove": "Remove selected references from reference list",
-        "pin": "Pin Reference List to Visible Window"
+        "pin": "Pin reference list to visible window"
       },
       "citedItems": "Cited Items",
       "uncitedItems": "Uncited Items"
     },
     "menu": {
       "tooltips": {
-        "import": "Import References from RIS File",
-        "refresh": "Refresh Reference List",
-        "destroy": "Delete All References",
-        "help": "View Usage Instructions",
+        "import": "Import references from RIS file",
+        "refresh": "Refresh reference list",
+        "destroy": "Delete all references",
+        "help": "View usage instructions",
       },
       "stylePlaceholder": "Choose citation style..."
     }
@@ -29,7 +29,7 @@ export default {
       "import": "Import"
     },
     "pubmedWindow": {
-      "pubmedWindowTitle": "Search PubMed for Reference",
+      "title": "Search PubMed for Reference",
       "search": "Search",
       "next": "Next",
       "previous": "Previous",

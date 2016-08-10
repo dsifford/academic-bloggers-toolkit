@@ -38,8 +38,6 @@ export class Card extends React.Component<CardProps, {}> {
                     return prev += `${name}${p.length > i + 1 ? ', ' : '.'}`;
                 case 2:
                     return prev += `${name}${p.length > i + 1 ? '...' : '.'}`;
-                default:
-                    return prev;
             }
         }, '');
     }

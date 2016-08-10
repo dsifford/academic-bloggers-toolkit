@@ -1,5 +1,5 @@
 import { BaseURL }  from './Constants';
-// declare const ABT_i18n;
+declare const ABT_i18n: ABT.i18n;
 
 /**
  * Opens `reference-window.tsx` and returns a promise which resolves to either
@@ -10,7 +10,7 @@ import { BaseURL }  from './Constants';
 export function referenceWindow(editor: TinyMCE.Editor): Promise<ABT.ReferenceWindowPayload> {
     return new Promise((resolve) => {
         editor.windowManager.open({
-            title: 'Insert Formatted Reference',
+            title: ABT_i18n.tinymce.referenceWindow.referenceWindow.title,
             url: `${BaseURL}/lib/js/tinymce/views/reference-window.html`,
             width: 600,
             height: 10,
@@ -35,7 +35,7 @@ export function referenceWindow(editor: TinyMCE.Editor): Promise<ABT.ReferenceWi
 export function importWindow(editor: TinyMCE.Editor): Promise<ABT.ImportWindowPayload> {
     return new Promise((resolve) => {
         editor.windowManager.open({
-            title: 'Import References from RIS File',
+            title: ABT_i18n.tinymce.importWindow.title,
             url: `${BaseURL}/lib/js/tinymce/views/import-window.html`,
             width: 600,
             height: 10,

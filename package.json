@@ -64,7 +64,7 @@
   "dependencies": {
     "@types/enzyme": "^2.4.30",
     "@types/jest": "^0.9.28",
-    "@types/react": "^0.14.28",
+    "@types/react": "^0.14.29",
     "@types/react-addons-css-transition-group": "^0.14.14",
     "@types/react-dom": "^0.14.14",
     "@types/sinon": "^1.16.27",

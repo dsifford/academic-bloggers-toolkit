@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-export class PanelButton extends React.Component<React.HTMLProps<HTMLAnchorElement>, {}> {
+export class PanelButton extends React.PureComponent<React.HTMLProps<HTMLAnchorElement>, {}> {
 
     generateTooltip(text: string): HTMLDivElement {
         let container = document.createElement('DIV') as HTMLDivElement;

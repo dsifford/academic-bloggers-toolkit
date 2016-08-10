@@ -53,18 +53,12 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
         this.insertInline = this.insertInline.bind(this);
         this.openReferenceWindow = this.openReferenceWindow.bind(this);
         this.deleteCitations = this.deleteCitations.bind(this);
-        this.handleMenuSelection = this.handleMenuSelection.bind(this);
     }
 
     componentDidMount() {
-        addEventListener(TINYMCE_READY, this.initTinyMCE.bind(this));
+        addEventListener(TINYMCE_READY, this.initTinyMCE);
         addEventListener(OPEN_REFERENCE_WINDOW, this.openReferenceWindow.bind(this));
         addEventListener('scroll', this.scrollHandler);
-    }
-
-    initTinyMCE() {
-        this.editor = tinyMCE.activeEditor;
-        this.initProcessor().then(() => this.loading = !this.loading);
     }
 
     initProcessor() {
@@ -188,7 +182,11 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
         });
     }
 
-    handleMenuSelection(kind: string, data?) {
+    clearSelection = () => {
+        this.selected.clear();
+    }
+
+    handleMenuSelection = (kind: string, data: string) => {
         this.menuOpen = false;
         switch (kind) {
             case 'CHANGE_STYLE':
@@ -210,59 +208,9 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
         }
     }
 
-    reset = () => {
-        this.editor.setProgressState(true);
-        this.clearSelection();
-        this.props.store.reset();
-        MCE.reset(this.editor.dom.doc);
-        this.initProcessor();
-    }
-
-    clearSelection = () => {
-        this.selected.clear();
-    }
-
-    toggleSelect = (id: string, isSelected: boolean) => {
-        return isSelected
-        ? this.selected.remove(id)
-        : this.selected.push(id);
-    }
-
-    toggleMenu = (e: React.MouseEvent<HTMLAnchorElement>) => {
-        e.preventDefault();
-        this.menuOpen = !this.menuOpen;
-    }
-
-    pinReferenceList = (e) => {
-        e.preventDefault();
-        document.getElementById('abt_reflist').classList.toggle('fixed');
-        this.fixed = !this.fixed;
-        this.scrollHandler();
-    }
-
-    scrollHandler = () => {
-        const scrollpos = document.body.scrollTop;
-        const list = document.getElementById('abt_reflist');
-        const cited = document.getElementById('cited');
-        const uncited = document.getElementById('uncited');
-        const bothOpen = this.citedListUI.isOpen && this.uncitedListUI.isOpen;
-        const topOffset = scrollpos > 134 ? 55 : (scrollpos === 0 ? 98 : 98 - (scrollpos / 3));
-        const listOffset = (200 + topOffset);
-        let citedHeight = listOffset;
-        let uncitedHeight = listOffset;
-
-        this.citedListUI.maxHeight = '400px';
-        this.uncitedListUI.maxHeight = '400px';
-
-        if (!this.fixed) return list.style.top = '';
-
-        list.style.top = `${topOffset}px`;
-        if (bothOpen) {
-            citedHeight += uncited.clientHeight > (window.innerHeight - listOffset) ? (window.innerHeight - listOffset) / 2 : uncited.clientHeight;
-            uncitedHeight += cited.clientHeight > (window.innerHeight - listOffset) ? (window.innerHeight - listOffset) / 2 : cited.clientHeight;
-        }
-        this.citedListUI.maxHeight = `calc(100vh - ${citedHeight}px)`;
-        this.uncitedListUI.maxHeight = `calc(100vh - ${uncitedHeight}px)`;
+    initTinyMCE = () => {
+        this.editor = tinyMCE.activeEditor;
+        this.initProcessor().then(() => this.loading = !this.loading);
     }
 
     listToggle = (id: string, explode: boolean = false) => {
@@ -290,11 +238,103 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
         setTimeout(this.scrollHandler, 200);
     }
 
+    pinReferenceList = (e) => {
+        e.preventDefault();
+        document.getElementById('abt_reflist').classList.toggle('fixed');
+        this.fixed = !this.fixed;
+        this.scrollHandler();
+    }
+
+    reset = () => {
+        this.editor.setProgressState(true);
+        this.clearSelection();
+        this.uncitedListUI.isOpen = false;
+        this.citedListUI.isOpen = true;
+        this.props.store.reset();
+        MCE.reset(this.editor.dom.doc);
+        this.initProcessor();
+    }
+
+    scrollHandler = () => {
+        const list = document.getElementById('abt_reflist');
+
+        if (!this.fixed) {
+            this.citedListUI.maxHeight = '400px';
+            this.uncitedListUI.maxHeight = '400px';
+            list.style.top = '';
+            return;
+        };
+
+        const bothOpen: boolean =
+            this.citedListUI.isOpen
+            && this.uncitedListUI.isOpen
+            && this.props.store.cited.length > 0
+            && this.props.store.uncited.length > 0;
+
+        const scrollpos = document.body.scrollTop;
+        const topOffset = scrollpos > 134 ? 55 : (scrollpos === 0 ? 98 : 98 - (scrollpos / 3));
+        const listOffset = (200 + topOffset);
+        const remainingHeight = window.innerHeight - listOffset;
+
+        list.style.top = `${topOffset}px`;
+        if (!bothOpen) {
+            this.citedListUI.maxHeight = `calc(100vh - ${listOffset}px)`;
+            this.uncitedListUI.maxHeight = `calc(100vh - ${listOffset}px)`;
+            return;
+        }
+
+        const cited = document.getElementById('cited');
+        const uncited = document.getElementById('uncited');
+        let citedHeight = 0;
+        let uncitedHeight = 0;
+
+        for (let i = 0; i < cited.children.length; i++) {
+            citedHeight += cited.children[0].clientHeight + 1;
+            if (citedHeight > (remainingHeight / 2)) {
+                citedHeight = remainingHeight / 2;
+                break;
+            };
+        }
+
+        for (let i = 0; i < uncited.children.length; i++) {
+            uncitedHeight += uncited.children[0].clientHeight + 1;
+            if (uncitedHeight > (remainingHeight / 2)) {
+                uncitedHeight = remainingHeight / 2;
+                break;
+            };
+        }
+
+        const allocatedHeight = citedHeight + uncitedHeight;
+
+        if (allocatedHeight < remainingHeight) {
+            if (citedHeight > uncitedHeight) {
+                citedHeight += remainingHeight - allocatedHeight;
+            }
+            else {
+                uncitedHeight += remainingHeight - allocatedHeight;
+            }
+        }
+
+        this.citedListUI.maxHeight = `${citedHeight}px`;
+        this.uncitedListUI.maxHeight = `${uncitedHeight}px`;
+    }
+
+    toggleMenu = (e: React.MouseEvent<HTMLAnchorElement>) => {
+        e.preventDefault();
+        this.menuOpen = !this.menuOpen;
+    }
+
+    toggleSelect = (id: string, isSelected: boolean) => {
+        return isSelected
+        ? this.selected.remove(id)
+        : this.selected.push(id);
+    }
+
     render() {
 
         if (this.loading) {
             return(
-                <div style={{background: '#f5f5f5', marginTop: -6}}>
+                <div id="abt-loading">
                     <div className="sk-circle">
                         {
                             [...Array(13).keys()].map(k => k !== 0 ?
@@ -377,7 +417,6 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
                         maxHeight={this.citedListUI.maxHeight}
                         toggle={this.listToggle}
                         click={this.toggleSelect}
-                        className={this.fixed ? 'list fixed' : 'list'}
                         children={this.labels.citedItems}
                     />
                 }
@@ -390,7 +429,6 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
                         maxHeight={this.uncitedListUI.maxHeight}
                         toggle={this.listToggle}
                         click={this.toggleSelect}
-                        className={this.fixed ? 'list uncited fixed' : 'list uncited'}
                         children={this.labels.uncitedItems}
                     />
                 }

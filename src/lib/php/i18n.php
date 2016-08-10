@@ -15,17 +15,17 @@ $ABT_i18n->referenceList = [
             'insert' => __('Insert selected references', 'academic-bloggers-toolkit'),
             'add' => __('Add reference to reference list', 'academic-bloggers-toolkit'),
             'remove' => __('Remove selected references from reference list', 'academic-bloggers-toolkit'),
-            'pin' => __('Pin Reference List to Visible Window', 'academic-bloggers-toolkit'),
+            'pin' => __('Pin reference list to visible window', 'academic-bloggers-toolkit'),
         ],
         'citedItems' => __('Cited Items', 'academic-bloggers-toolkit'),
         'uncitedItems' => __('Uncited Items', 'academic-bloggers-toolkit'),
     ],
     'menu' => [
         'tooltips' => [
-            'import' => __('Import References from RIS File', 'academic-bloggers-toolkit'),
-            'refresh' => __('Refresh Reference List', 'academic-bloggers-toolkit'),
-            'destroy' => __('Delete All References', 'academic-bloggers-toolkit'),
-            'help' => __('View Usage Instructions', 'academic-bloggers-toolkit'),
+            'import' => __('Import references from RIS file', 'academic-bloggers-toolkit'),
+            'refresh' => __('Refresh reference list', 'academic-bloggers-toolkit'),
+            'destroy' => __('Delete all references', 'academic-bloggers-toolkit'),
+            'help' => __('View usage instructions', 'academic-bloggers-toolkit'),
         ],
         'stylePlaceholder' => __('Choose citation style...', 'academic-bloggers-toolkit'),
     ],
@@ -42,7 +42,7 @@ $ABT_i18n->tinymce->importWindow = [
 
 
 $ABT_i18n->tinymce->pubmedWindow = [
-    'pubmedWindowTitle' => __('Search PubMed for Reference', 'academic-bloggers-toolkit'),
+    'title' => __('Search PubMed for Reference', 'academic-bloggers-toolkit'),
     'search' => __('Search', 'academic-bloggers-toolkit'),
     'next' => __('Next', 'academic-bloggers-toolkit'),
     'previous' => __('Previous', 'academic-bloggers-toolkit'),

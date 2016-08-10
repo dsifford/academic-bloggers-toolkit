@@ -513,7 +513,7 @@ msgid "Remove selected references from reference list"
 msgstr ""
 
 #: src/lib/php/i18n.php:18
-msgid "Pin Reference List to Visible Window"
+msgid "Pin reference list to visible window"
 msgstr ""
 
 #: src/lib/php/i18n.php:20
@@ -524,158 +524,166 @@ msgstr ""
 msgid "Uncited Items"
 msgstr ""
 
-#: src/lib/php/i18n.php:25, src/lib/php/i18n.php:35
-msgid "Import References from RIS File"
+#: src/lib/php/i18n.php:25
+msgid "Import references from RIS file"
 msgstr ""
 
 #: src/lib/php/i18n.php:26
-msgid "Refresh Reference List"
+msgid "Refresh reference list"
 msgstr ""
 
 #: src/lib/php/i18n.php:27
-msgid "Delete All References"
+msgid "Delete all references"
 msgstr ""
 
-#: src/lib/php/i18n.php:29
+#: src/lib/php/i18n.php:28
+msgid "View usage instructions"
+msgstr ""
+
+#: src/lib/php/i18n.php:30
 msgid "Choose citation style..."
 msgstr ""
 
 #: src/lib/php/i18n.php:36
-msgid "The file could not be processed. Are you sure it's a .RIS (Refman) file?"
+msgid "Import References from RIS File"
 msgstr ""
 
 #: src/lib/php/i18n.php:37
-msgid "The following references were unable to be processed:"
+msgid "The file could not be processed. Are you sure it's a .RIS (Refman) file?"
 msgstr ""
 
 #: src/lib/php/i18n.php:38
-msgid "Choose File"
+msgid "The following references were unable to be processed:"
 msgstr ""
 
 #: src/lib/php/i18n.php:39
+msgid "Choose File"
+msgstr ""
+
+#: src/lib/php/i18n.php:40
 msgid "Import"
 msgstr ""
 
-#: src/lib/php/i18n.php:44, src/lib/php/i18n.php:67
+#: src/lib/php/i18n.php:45, src/lib/php/i18n.php:68
 msgid "Search PubMed for Reference"
 msgstr ""
 
-#: src/lib/php/i18n.php:45
+#: src/lib/php/i18n.php:46
 msgid "Search"
 msgstr ""
 
-#: src/lib/php/i18n.php:46
+#: src/lib/php/i18n.php:47
 msgid "Next"
 msgstr ""
 
-#: src/lib/php/i18n.php:47
+#: src/lib/php/i18n.php:48
 msgid "Previous"
 msgstr ""
 
-#: src/lib/php/i18n.php:48, src/lib/php/i18n.php:71
+#: src/lib/php/i18n.php:49, src/lib/php/i18n.php:72
 msgid "Add Reference"
 msgstr ""
 
-#: src/lib/php/i18n.php:53
+#: src/lib/php/i18n.php:54
 msgid "Insert Formatted Reference"
 msgstr ""
 
-#: src/lib/php/i18n.php:56
+#: src/lib/php/i18n.php:57
 msgid "Add another"
 msgstr ""
 
-#: src/lib/php/i18n.php:57
+#: src/lib/php/i18n.php:58
 msgid "Surname"
 msgstr ""
 
-#: src/lib/php/i18n.php:58
+#: src/lib/php/i18n.php:59
 msgid "Given Name, M.I."
 msgstr ""
 
-#: src/lib/php/i18n.php:61
+#: src/lib/php/i18n.php:62
 msgid "Select Citation Type"
 msgstr ""
 
-#: src/lib/php/i18n.php:64
+#: src/lib/php/i18n.php:65
 msgid "PMID/DOI"
 msgstr ""
 
-#: src/lib/php/i18n.php:68
+#: src/lib/php/i18n.php:69
 msgid "Add Manually"
 msgstr ""
 
-#: src/lib/php/i18n.php:69
+#: src/lib/php/i18n.php:70
 msgid "Add with Identifier"
 msgstr ""
 
-#: src/lib/php/i18n.php:70
+#: src/lib/php/i18n.php:71
 msgid "Search PubMed"
 msgstr ""
 
-#: src/lib/php/i18n.php:72
+#: src/lib/php/i18n.php:73
 msgid "Attach Inline"
 msgstr ""
 
-#: src/lib/php/i18n.php:80
+#: src/lib/php/i18n.php:81
 msgid "Select Number of Reviewers"
 msgstr ""
 
-#: src/lib/php/i18n.php:81
+#: src/lib/php/i18n.php:82
 msgid "One Reviewer"
 msgstr ""
 
-#: src/lib/php/i18n.php:82
+#: src/lib/php/i18n.php:83
 msgid "Two Reviewers"
 msgstr ""
 
-#: src/lib/php/i18n.php:83
+#: src/lib/php/i18n.php:84
 msgid "Three Reviewers"
 msgstr ""
 
-#: src/lib/php/i18n.php:85
+#: src/lib/php/i18n.php:86
 msgid "Review 1"
 msgstr ""
 
-#: src/lib/php/i18n.php:86
+#: src/lib/php/i18n.php:87
 msgid "Review 2"
 msgstr ""
 
-#: src/lib/php/i18n.php:87
+#: src/lib/php/i18n.php:88
 msgid "Review 3"
 msgstr ""
 
-#: src/lib/php/i18n.php:88
+#: src/lib/php/i18n.php:89
 msgid "Use this image"
 msgstr ""
 
-#: src/lib/php/i18n.php:89, src/lib/php/i18n.php:101
+#: src/lib/php/i18n.php:90, src/lib/php/i18n.php:102
 msgid "Choose or Upload an Image"
 msgstr ""
 
-#: src/lib/php/i18n.php:92
+#: src/lib/php/i18n.php:93
 msgid "Review Heading"
 msgstr ""
 
-#: src/lib/php/i18n.php:93
+#: src/lib/php/i18n.php:94
 msgid "Toggle Author Response"
 msgstr ""
 
-#: src/lib/php/i18n.php:96
+#: src/lib/php/i18n.php:97
 msgid "Name"
 msgstr ""
 
-#: src/lib/php/i18n.php:97
+#: src/lib/php/i18n.php:98
 msgid "Twitter Handle"
 msgstr ""
 
-#: src/lib/php/i18n.php:98
+#: src/lib/php/i18n.php:99
 msgid "Background"
 msgstr ""
 
-#: src/lib/php/i18n.php:99
+#: src/lib/php/i18n.php:100
 msgid "Content"
 msgstr ""
 
-#: src/lib/php/i18n.php:100
+#: src/lib/php/i18n.php:101
 msgid "Photo"
 msgstr ""
