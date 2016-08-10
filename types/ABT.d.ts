@@ -1,4 +1,4 @@
-
+// tslint:disable no-namespace
 interface Window {
   tinyMCE: TinyMCE.MCE;
   DocumentTouch?;
@@ -14,6 +14,7 @@ declare const ABT_CitationStyles: {label: string, value: string}[];
 
 declare namespace ABT {
 
+    // tslint:disable-next-line
     interface i18n {
         citationTypes: CitationTypes;
         fieldmaps: ABT.FieldMappings;
@@ -99,7 +100,7 @@ declare namespace ABT {
                     surname: string;
                 };
             };
-        }
+        };
     }
 
     type CitationTypes = {
@@ -107,47 +108,6 @@ declare namespace ABT {
         label: string;
         value: string;
     }[];
-
-    interface CSLProcessor {
-        style: string;
-        citeproc: Citeproc.Processor;
-        /**
-         * Instantiates a new CSL.Engine (either when initially constructed or when
-         *   the user changes his/her selected citation style)
-         * @param styleID CSL style filename.
-         * @return Promise that resolves to either an object containing the style XML
-         *   and the `sys` object, or an Error depending on the responses from the
-         *   network.
-         */
-        init(style: string, citationByIndex: Citeproc.CitationByIndex): Promise<Citeproc.CitationClusterData[]>
-        /**
-         * Updates the Citeproc object and the local state with new citation data.
-         * @param citations Array of CSL.Data.
-         */
-        consumeCitations(citations: CSL.Data[]): {[itemID: string]: CSL.Data};
-        /**
-         * Purges items from the local state whos ID is listed in `items`
-         * @param  items Array of item IDs to remove from the state.
-         * @return State after removing items
-         */
-        purgeCitations(items: string[]): {[itemID: string]: CSL.Data};
-        /**
-         * Transforms the CSL.Data[] into a Citeproc.Citation.
-         *
-         * @param currentIndex The current inline-citation's index.
-         * @param csl Fallback CSL.Data[].
-         * @return Citeproc.CitationByIndexSingle for the current inline citation.
-         */
-        prepareInlineCitationData(csl: CSL.Data[]): Citeproc.Citation;
-        /**
-         * Wrapper function for citeproc.makeBibliography that takes the output and
-         *   inlines CSS classes that are appropriate for the style (according to the
-         *   generated bibmeta).
-         * NOTE: This still needs to be extended further.
-         * @return {Citeproc.Bibliography} Parsed bibliography.
-         */
-        makeBibliography(links: 'always'|'urls'|'never'): Citeproc.Bibliography;
-    }
 
     type Bibliography = {id: string, html: string}[];
 
@@ -288,6 +248,7 @@ declare namespace ABT {
     }
 }
 
+// tslint:disable no-namespace
 declare namespace Citeproc {
 
     /**
@@ -341,7 +302,6 @@ declare namespace Citeproc {
         maxoffset: number;
         'second-field-align'?: 'flush'|'margin'|boolean;
     }
-
 
     interface Citation {
         citationID?: string;
@@ -402,10 +362,10 @@ declare namespace TinyMCE {
         EditorObservable;
         Env;
         WindowManager;
-        activeEditor: Editor;
-        add(editor: Editor): Editor;
         dom: Object;
         editors: Editor[];
+        activeEditor: Editor;
+        add(editor: Editor): Editor;
         remove(e?: string): void;
     }
 
@@ -450,16 +410,16 @@ declare namespace TinyMCE {
     }
 
     interface WindowManager {
+        data?: Object;
+        editor?: Editor;
+        windows?;
         alert?(message: string, callback?: Function, scope?: Object): void;
         close?(): void;
         confirm?(message: string, callback?: Function, scope?: Object): void;
-        data?: Object;
-        editor?: Editor;
         onClose?(e): void;
         onOpen?(e): void;
         open?(window: WindowMangerObject): void;
         setParams?(paramObj): void;
-        windows?;
         submit?(): () => void;
     }
 
@@ -508,7 +468,6 @@ declare namespace CSL {
         'post-weblog'|'report'|'review'|'review-book'|'song'|'speech'|'thesis'|
         'treaty'|'webpage';
 
-
     interface Citation {
         schema: 'https://github.com/citation-style-language/schema/raw/master/csl-citation.json';
         citationID: string|number;
@@ -517,7 +476,6 @@ declare namespace CSL {
             noteIndex: number
         };
     }
-
 
     interface CitationItem {
         id: string|number;
@@ -697,15 +655,18 @@ declare namespace PubMed {
         essn?: string;
         fulljournalname?: string;
         history?: {
-            date: string /** NOTE: format: 'YYYY/MM/DD HH:MM' */
-            pubstatus: string
+            /** format: 'YYYY/MM/DD HH:MM' */
+            date: string;
+            pubstatus: string;
         }[];
         issn?: string;
         issue?: string;
         lang?: string[];
-        lastauthor?: string; /** NOTE: format: 'Lastname FM' */
+        /** format: 'Lastname FM' */
+        lastauthor?: string;
         pubdate?: string;
-        sortpubdate?: string; /** NOTE: format: 'YYYY/MM/DD HH:MM' */
+        /** format: 'YYYY/MM/DD HH:MM' */
+        sortpubdate?: string;
         sorttitle?: string;
         source?: string;
         srccontriblist?: string[];

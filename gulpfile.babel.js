@@ -91,7 +91,7 @@ gulp.task('php', gulp.series('jade', () =>
 
 gulp.task('static', () => {
     const main = gulp
-        .src('src/**/*.{js,php,po,pot,mo,html}', { base: './src' })
+        .src('src/**/*.{js,php,po,pot,mo,html,txt}', { base: './src' })
         .pipe(gulp.dest('./dist'));
     const misc = gulp
         .src(['LICENSE', 'CHANGELOG.md'])

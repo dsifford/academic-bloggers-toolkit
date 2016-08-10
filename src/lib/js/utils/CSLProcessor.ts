@@ -4,7 +4,7 @@ import { Store } from '../reference-list/Store';
 
 declare var CSL;
 
-export class CSLProcessor /* FIXME implements ABT.CSLProcessor */ {
+export class CSLProcessor {
 
     /**
      * CSL.Engine instance created by this class.
@@ -69,8 +69,6 @@ export class CSLProcessor /* FIXME implements ABT.CSLProcessor */ {
      * Wrapper function for citeproc.makeBibliography that takes the output and
      *   inlines CSS classes that are appropriate for the style (according to the
      *   generated bibmeta).
-     *
-     * NOTE: This still needs to be extended further.
      *
      * @return Parsed bibliography.
      */
@@ -139,7 +137,14 @@ export class CSLProcessor /* FIXME implements ABT.CSLProcessor */ {
         return payload;
     }
 
-    /* TODO: Document */
+    /**
+     * Wrapper function around Citeproc.processCitationCluster that ensures the store
+     *   is kept in sync with the processor.
+     * @param  citation Single Citeproc.Citation
+     * @param  before   Citations before the current citation.
+     * @param  after    Citations after the current citation.
+     * @return Citeproc.CitationClusterData[]
+     */
     processCitationCluster(
         citation: Citeproc.Citation,
         before: Citeproc.CitationsPrePost,

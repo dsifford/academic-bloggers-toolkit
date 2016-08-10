@@ -228,7 +228,6 @@ class ABT_Backend {
         return $pluginArray;
     }
 
-    // FIXME: Is this still needed?
     /**
      * Registers the TinyMCE button on the editor.
      *

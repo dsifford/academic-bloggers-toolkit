@@ -7,11 +7,10 @@ import { localeConversions } from './Constants';
  *   through `getFromPMID` and `procssJSON` or just to `getFromPMID`.
  * @param {string}     query    A search string (the same you would type into
  *   the search box on pubmed)
- * @param {Function}   callback Callback function (passed into `getFromPMID`).
  * @param {boolean}    bypassJSONFormatter A boolean (default = false) which
  *   decides whether or not to send the response to be processed as CSL.
+ * @return {Promise<PubMed.SingleReference[]>}
  */
- /* TODO: Redocument this */
 export function PubmedQuery(query: string, bypassJSONFormatter: boolean = false): Promise<PubMed.SingleReference[]> {
     return new Promise<[string, boolean]>((resolve, reject) => {
         const req = new XMLHttpRequest();
@@ -38,12 +37,10 @@ export function PubmedQuery(query: string, bypassJSONFormatter: boolean = false)
  * Takes a comma-separated list of PMIDs as input and returns metadata for each
  *   paper requested.
  * @param {string}     PMIDlist A comma-separated list of PMIDs
- * @param {Function}   callback Callback function
  * @param {boolean}    bypassJSONFormatter A boolean (default = false) which
  *   decides whether or not to send the response to be processed as CSL.
+ * @return {Promise<PubMed.SingleReference[]|[CSL.Data[], string[]]>}
  */
-
-/* TODO: Redocument this */
 export function getFromPMID(
     PMIDlist: string,
     bypassJSONFormatter: boolean = false
