@@ -17,7 +17,7 @@ interface State {
 }
 
 @observer
-export class Menu extends React.Component<Props, State> {
+export class Menu extends React.PureComponent<Props, State> {
 
     styles: {label: string, value: string}[] = ABT_CitationStyles;
     labels = ABT_i18n.referenceList.menu;

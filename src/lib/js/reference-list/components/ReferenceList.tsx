@@ -6,7 +6,7 @@ import { observable, IObservableArray } from 'mobx';
 import { observer } from 'mobx-react';
 import { getRemoteData, parseManualData } from '../API';
 import * as CSSTransitionGroup from 'react-addons-css-transition-group';
-import DevTools from 'mobx-react-devtools';
+// import DevTools from 'mobx-react-devtools';
 
 import { Store } from '../Store';
 import { Menu } from './Menu';
@@ -348,7 +348,7 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
 
         return (
             <div>
-                <DevTools position={{left: 50, top: 40}} />
+                {/* <DevTools position={{left: 50, top: 40}} /> */}
                 <StorageField store={this.props.store} />
                 <div className="panel">
                     <PanelButton

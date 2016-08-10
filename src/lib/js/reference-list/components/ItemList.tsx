@@ -12,7 +12,7 @@ interface Props extends React.HTMLProps<HTMLElement> {
 }
 
 @observer
-export class ItemList extends React.Component<Props, {}> {
+export class ItemList extends React.PureComponent<Props, {}> {
 
     singleClick = () => {
         this.props.toggle(this.props.id);
