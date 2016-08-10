@@ -12,10 +12,10 @@ export function getFromDOI(doiList: string[]): Promise<[CSL.Data[], string[]]> {
 
         doiList.forEach(doi => {
             promises.push(
-                new Promise<[CSL.Data, string]>((resolveInner, rejectInner) => {
-                    const requestURL = `https://api.crossref.org/v1/works/${doi}/transform/application/vnd.citationstyles.csl+json`;
+                new Promise<[CSL.Data, string]>((resolveInner, rejectInner) => { // tslint:disable-next-line
+                    const url = `https://api.crossref.org/v1/works/${doi}/transform/application/vnd.citationstyles.csl+json`;
                     const req = new XMLHttpRequest();
-                    req.open('GET', requestURL, true);
+                    req.open('GET', url, true);
                     req.onload = () => {
                         if (req.status !== 200) resolveInner([null, doi]);
 

@@ -1,7 +1,6 @@
 import * as processor from './CSLFieldProcessors';
 import { localeConversions } from './Constants';
 
-
 /**
  * Sends a string of text to PubMed and gets a list of PMIDs for the query.
  *   Depending on the state of `bypassJSONFormatter`, the result is either sent
@@ -12,12 +11,11 @@ import { localeConversions } from './Constants';
  * @param {boolean}    bypassJSONFormatter A boolean (default = false) which
  *   decides whether or not to send the response to be processed as CSL.
  */
-
-
+ /* TODO: Redocument this */
 export function PubmedQuery(query: string, bypassJSONFormatter: boolean = false): Promise<PubMed.SingleReference[]> {
     return new Promise<[string, boolean]>((resolve, reject) => {
         const req = new XMLHttpRequest();
-        req.open('GET', `https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=pubmed&term=${encodeURI(query)}&retmode=json`);
+        req.open('GET', `https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=pubmed&term=${encodeURI(query)}&retmode=json`); // tslint:disable-line
         req.onload = () => {
 
             if (req.status !== 200)
@@ -36,7 +34,6 @@ export function PubmedQuery(query: string, bypassJSONFormatter: boolean = false)
     .then(data => getFromPMID(data[0], data[1]));
 }
 
-
 /**
  * Takes a comma-separated list of PMIDs as input and returns metadata for each
  *   paper requested.
@@ -46,11 +43,14 @@ export function PubmedQuery(query: string, bypassJSONFormatter: boolean = false)
  *   decides whether or not to send the response to be processed as CSL.
  */
 
-
-export function getFromPMID(PMIDlist: string, bypassJSONFormatter: boolean = false): Promise<PubMed.SingleReference[]|[CSL.Data[], string[]]> {
+/* TODO: Redocument this */
+export function getFromPMID(
+    PMIDlist: string,
+    bypassJSONFormatter: boolean = false
+): Promise<PubMed.SingleReference[]|[CSL.Data[], string[]]> {
     return new Promise((resolve, reject) => {
         const req = new XMLHttpRequest();
-        req.open('GET', `https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi?db=pubmed&id=${PMIDlist}&version=2.0&retmode=json`);
+        req.open('GET', `https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi?db=pubmed&id=${PMIDlist}&version=2.0&retmode=json`); // tslint:disable-line
         req.onload = () => {
 
             if (req.status !== 200)
@@ -70,7 +70,7 @@ export function getFromPMID(PMIDlist: string, bypassJSONFormatter: boolean = fal
 
             resolve([
                 processJSON(iterable),
-                PMIDlist.split(',').filter(i => res.result.uids.indexOf(i) === -1)
+                PMIDlist.split(',').filter(i => res.result.uids.indexOf(i) === -1),
             ]);
 
         };
@@ -78,7 +78,6 @@ export function getFromPMID(PMIDlist: string, bypassJSONFormatter: boolean = fal
         req.send(null);
     });
 }
-
 
 /**
  * Takes the raw response from pubmed and processes it into CSL.
@@ -189,6 +188,9 @@ function processJSON(res: PubMed.SingleReference[]): CSL.Data[] {
                     break;
                 case 'volume':
                     output.volume = ref[key];
+                    break;
+                default:
+                    break;
             }
         });
 

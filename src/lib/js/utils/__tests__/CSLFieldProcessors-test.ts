@@ -55,21 +55,21 @@ describe('CSLFieldProcessors', () => {
     });
 
     it('should process RIS dates correctly', () => {
-        expect(processor.processDate(risDates[0], 'RIS')).toEqual({ 'date-parts': [['1980', '05', '15', ], ], season: 'Spring' });
-        expect(processor.processDate(risDates[1], 'RIS')).toEqual({ 'date-parts': [['2015', ], ] });
-        expect(processor.processDate(risDates[2], 'RIS')).toEqual({ 'date-parts': [['1998', '12', ], ] });
-        expect(processor.processDate(risDates[3], 'RIS')).toEqual({ 'date-parts': [['1975', '01', '05', ], ] });
-        expect(processor.processDate(risDates[4], 'RIS')).toEqual({ 'date-parts': [[], ], season: 'fall' });
-        expect(processor.processDate(risDates[5], 'RIS')).toEqual({ 'date-parts': [[], ] });
-        expect(processor.processDate(risDates[6], 'RIS')).toEqual({ 'date-parts': [[], ] });
+        expect(processor.processDate(risDates[0], 'RIS')).toEqual({ 'date-parts': [['1980', '05', '15']], season: 'Spring' }); // tslint:disable-line
+        expect(processor.processDate(risDates[1], 'RIS')).toEqual({ 'date-parts': [['2015']] });
+        expect(processor.processDate(risDates[2], 'RIS')).toEqual({ 'date-parts': [['1998', '12']] });
+        expect(processor.processDate(risDates[3], 'RIS')).toEqual({ 'date-parts': [['1975', '01', '05']] });
+        expect(processor.processDate(risDates[4], 'RIS')).toEqual({ 'date-parts': [[]], season: 'fall' });
+        expect(processor.processDate(risDates[5], 'RIS')).toEqual({ 'date-parts': [[]] });
+        expect(processor.processDate(risDates[6], 'RIS')).toEqual({ 'date-parts': [[]] });
     });
 
     it('should process PubMed dates correctly', () => {
-        expect(processor.processDate(pubmedDates[0], 'pubmed')).toEqual({ 'date-parts': [['1979', '01', '01', ], ] });
-        expect(processor.processDate(pubmedDates[1], 'pubmed')).toEqual({ 'date-parts': [['1998', '12', '01', ], ] });
-        expect(processor.processDate(pubmedDates[2], 'pubmed')).toEqual({ 'date-parts': [['1975', '01', '05', ], ] });
-        expect(processor.processDate(pubmedDates[3], 'pubmed')).toEqual({ 'date-parts': [['2015', '11', '28', ], ] });
-        expect(processor.processDate(pubmedDates[4], 'pubmed')).toEqual({ 'date-parts': [['1980', '05', '15', ], ] });
-        expect(processor.processDate(pubmedDates[5], 'pubmed')).toEqual({ 'date-parts': [[], ] });
+        expect(processor.processDate(pubmedDates[0], 'pubmed')).toEqual({ 'date-parts': [['1979', '01', '01']] });
+        expect(processor.processDate(pubmedDates[1], 'pubmed')).toEqual({ 'date-parts': [['1998', '12', '01']] });
+        expect(processor.processDate(pubmedDates[2], 'pubmed')).toEqual({ 'date-parts': [['1975', '01', '05']] });
+        expect(processor.processDate(pubmedDates[3], 'pubmed')).toEqual({ 'date-parts': [['2015', '11', '28']] });
+        expect(processor.processDate(pubmedDates[4], 'pubmed')).toEqual({ 'date-parts': [['1980', '05', '15']] });
+        expect(processor.processDate(pubmedDates[5], 'pubmed')).toEqual({ 'date-parts': [[]] });
     });
 });

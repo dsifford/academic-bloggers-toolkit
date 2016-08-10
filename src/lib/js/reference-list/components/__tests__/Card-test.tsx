@@ -6,9 +6,46 @@ import { spy } from 'sinon';
 import { Card } from '../Card';
 
 const testData: {[id: string]: CSL.Data} = {
-    noAuthors: {
+    fourAuthors: {
+        author: [
+            {
+                family: 'Smith',
+                given: 'John',
+            },
+            {
+                given: 'Bob',
+                literal: 'Some literal name',
+            },
+            {
+                family: 'Doe',
+                given: 'Jane',
+            },
+            {
+                family: 'Brown',
+                given: 'Susan',
+            },
+        ],
         id: 'aaaaa',
+        issued: {
+            'date-parts': [
+                [
+                    '2016',
+                    '01',
+                    '01',
+                ],
+            ],
+        },
+        title: 'Two valid authors',
         type: 'article',
+    },
+    noAuthorField: {
+        id: 'aaaaa',
+        title: 'No author field, No date field',
+        type: 'article',
+    },
+    noAuthors: {
+        author: [],
+        id: 'aaaaa',
         issued: {
             'date-parts': [
                 [
@@ -19,151 +56,46 @@ const testData: {[id: string]: CSL.Data} = {
             ],
         },
         title: 'No authors',
-        author: [],
-    },
-    noAuthorField: {
-        id: 'aaaaa',
         type: 'article',
-        title: 'No author field, No date field',
     },
     singleAuthorInvalidField: {
-        id: 'aaaaa',
-        type: 'article',
-        issued: {
-            'year': 2010,
-        },
-        title: 'Single author with invalid field',
         author: [
             {
                 suffix: 'asdf',
             },
         ],
-    },
-    singleLiteralAuthor: {
         id: 'aaaaa',
-        type: 'article',
         issued: {
-            'date-parts': [
-                [
-                    '2016',
-                    '01',
-                    '01',
-                ],
-            ],
+            'year': 2010,
         },
-        title: 'Single author, literal name',
+        title: 'Single author with invalid field',
+        type: 'article',
+    },
+    singleLiteralAuthorEdgeCase: {
         author: [
             {
                 family: 'Smith',
                 literal: 'I have no given name',
             },
         ],
-    },
-    twoAuthors: {
         id: 'aaaaa',
-        type: 'article',
         issued: {
             'date-parts': [
-                [
-                    '2016',
-                    '01',
-                    '01',
-                ],
+                [],
             ],
         },
-        title: 'Two valid authors',
-        author: [
-            {
-                family: 'Smith',
-                given: 'John',
-            },
-            {
-                family: 'Doe',
-                given: 'Jane',
-            },
-        ],
-    },
-    threeAuthors: {
-        id: 'aaaaa',
+        title: 'Single author, literal name',
         type: 'article',
-        issued: {
-            'date-parts': [
-                [
-                    '2016',
-                    '01',
-                    '01',
-                ],
-            ],
-        },
-        title: 'Two valid authors',
-        author: [
-            {
-                family: 'Smith',
-                given: 'John',
-            },
-            {
-                literal: 'Some literal name',
-                given: 'Bob',
-            },
-            {
-                family: 'Doe',
-                given: 'Jane',
-            },
-        ],
-    },
-    fourAuthors: {
-        id: 'aaaaa',
-        type: 'article',
-        issued: {
-            'date-parts': [
-                [
-                    '2016',
-                    '01',
-                    '01',
-                ],
-            ],
-        },
-        title: 'Two valid authors',
-        author: [
-            {
-                family: 'Smith',
-                given: 'John',
-            },
-            {
-                literal: 'Some literal name',
-                given: 'Bob',
-            },
-            {
-                family: 'Doe',
-                given: 'Jane',
-            },
-            {
-                family: 'Brown',
-                given: 'Susan',
-            },
-        ],
     },
     sixAuthors: {
-        id: 'aaaaa',
-        type: 'article',
-        issued: {
-            'date-parts': [
-                [
-                    '2016',
-                    '01',
-                    '01',
-                ],
-            ],
-        },
-        title: 'Two valid authors',
         author: [
             {
                 family: 'Smith',
                 given: 'John',
             },
             {
-                literal: 'Some literal name',
                 given: 'Bob',
+                literal: 'Some literal name',
             },
             {
                 family: 'Doe',
@@ -182,9 +114,72 @@ const testData: {[id: string]: CSL.Data} = {
                 given: 'Susan',
             },
         ],
-    }
-}
-
+        id: 'aaaaa',
+        issued: {
+            'date-parts': [
+                [
+                    '2016',
+                    '01',
+                    '01',
+                ],
+            ],
+        },
+        title: 'Two valid authors',
+        type: 'article',
+    },
+    threeAuthors: {
+        author: [
+            {
+                family: 'Smith',
+                given: 'John',
+            },
+            {
+                given: 'Bob',
+                literal: 'Some literal name',
+            },
+            {
+                family: 'Doe',
+                given: 'Jane',
+            },
+        ],
+        id: 'aaaaa',
+        issued: {
+            'date-parts': [
+                [
+                    '2016',
+                    '01',
+                    '01',
+                ],
+            ],
+        },
+        title: 'Two valid authors',
+        type: 'article',
+    },
+    twoAuthors: {
+        author: [
+            {
+                family: 'Smith',
+                given: 'John',
+            },
+            {
+                family: 'Doe',
+                given: 'Jane',
+            },
+        ],
+        id: 'aaaaa',
+        issued: {
+            'date-parts': [
+                [
+                    '2016',
+                    '01',
+                    '01',
+                ],
+            ],
+        },
+        title: 'Two valid authors',
+        type: 'article',
+    },
+};
 
 const setup = (data: CSL.Data, selected: boolean = false) => {
     const s = spy();
@@ -192,10 +187,10 @@ const setup = (data: CSL.Data, selected: boolean = false) => {
         <Card isSelected={selected} CSL={data} click={s} id={'id'}/>
     );
     return {
-        s,
         component,
-        people: component.find('.abt-card-people'),
         date: component.find('.abt-card-date'),
+        people: component.find('.abt-card-people'),
+        s,
     };
 };
 
@@ -232,7 +227,7 @@ describe('<Card/>', () => {
     });
 
     it('should render with a single literal author', () => {
-        const { people } = setup(testData['singleLiteralAuthor']);
+        const { people } = setup(testData['singleLiteralAuthorEdgeCase']);
         expect(people.children().length).toBe(1);
         expect(people.text()).toBe('I have no given name.');
     });
@@ -271,6 +266,11 @@ describe('<Card/>', () => {
     it('should parse a "year" date correctly', () => {
         const { date } = setup(testData['singleAuthorInvalidField']);
         expect(date.text()).toBe('(2010)');
+    });
+
+    it('should handle strange edge-cases that result from upgrading from an older version', () => {
+        const { date } = setup(testData['singleLiteralAuthorEdgeCase']);
+        expect(date.text()).toBe('(n.d.)');
     });
 
 });

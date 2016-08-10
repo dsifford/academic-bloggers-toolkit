@@ -153,7 +153,7 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
                             ...prev,
                             this.props.store.citations.CSL.get(
                                 this.props.store.citations.lookup.ids[index]
-                            )
+                            ),
                         ];
                     }
                     return [...prev, curr];
@@ -172,7 +172,6 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
     openImportWindow() {
         MCE.importWindow(this.editor).then(data => {
             if (!data) return;
-            console.log(data);
             this.props.store.citations.CSL.merge(
                 data.payload.reduce((prev, curr) => {
                     prev[curr[0]] = curr[1];
@@ -263,7 +262,7 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
             this.uncitedListUI.maxHeight = '400px';
             list.style.top = '';
             return;
-        };
+        }
 
         const bothOpen: boolean =
             this.citedListUI.isOpen
@@ -293,7 +292,7 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
             if (citedHeight > (remainingHeight / 2)) {
                 citedHeight = remainingHeight / 2;
                 break;
-            };
+            }
         }
 
         for (let i = 0; i < uncited.children.length; i++) {
@@ -301,7 +300,7 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
             if (uncitedHeight > (remainingHeight / 2)) {
                 uncitedHeight = remainingHeight / 2;
                 break;
-            };
+            }
         }
 
         const allocatedHeight = citedHeight + uncitedHeight;

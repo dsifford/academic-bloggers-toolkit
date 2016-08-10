@@ -13,18 +13,19 @@ export function parseReferenceURLs(input: string): string {
     let match: RegExpExecArray;
     const replacements: [string, string][] = [];
 
-
+    // tslint:disable-next-line
     while ((match = url.exec(input)) !== null) {
         if (match[0].search(/^www./) > -1) {
-            replacements.push([match[0], `<a href="http://${match[0]}" target="_blank">${match[0]}</a>`, ]);
+            replacements.push([match[0], `<a href="http://${match[0]}" target="_blank">${match[0]}</a>`]);
         }
         else {
-            replacements.push([match[0], `<a href="${match[0]}" target="_blank">${match[0]}</a>`, ]);
+            replacements.push([match[0], `<a href="${match[0]}" target="_blank">${match[0]}</a>`]);
         }
     }
 
+    // tslint:disable-next-line
     while ((match = doi.exec(input)) !== null) {
-        replacements.push([match[1], `<a href="https://doi.org/${match[1]}" target="_blank">${match[1]}</a>`, ]);
+        replacements.push([match[1], `<a href="https://doi.org/${match[1]}" target="_blank">${match[1]}</a>`]);
     }
 
     replacements.forEach(r => input = input.replace(r[0], r[1]));

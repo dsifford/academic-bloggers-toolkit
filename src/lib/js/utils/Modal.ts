@@ -14,8 +14,8 @@ export class Modal {
         this.title = title;
         this._getModal();
         this.initialSize = {
-            outer: parseInt(this.outer.style.height.substr(0, this.outer.style.height.length - 2)),
-            inner: parseInt(this.inner.style.height.substr(0, this.inner.style.height.length - 2)),
+            inner: parseInt(this.inner.style.height.substr(0, this.inner.style.height.length - 2), 10),
+            outer: parseInt(this.outer.style.height.substr(0, this.outer.style.height.length - 2), 10),
         };
     }
 

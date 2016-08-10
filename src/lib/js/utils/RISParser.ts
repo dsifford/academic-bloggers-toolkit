@@ -1,10 +1,72 @@
 import * as processor from './CSLFieldProcessors';
 
-
+/**
+ * Used for parsing RIS files into CSL
+ */
 export class RISParser {
 
-    private refArray: string[];
+    /**
+     * On object that holds the RIS types as keys and the corresponding CSL types
+     * as values.
+     */
+    public static RISTypes: { [abbr: string]: CSL.CitationType } = {
+        ABST   : 'article',                 // 'Abstract',
+        ADVS   : 'broadcast',               // 'Audiovisual Material',
+        AGGR   : 'dataset',                 // 'Aggregated Database',
+        ART    : 'graphic',                 // 'Artwork',
+        BILL   : 'bill',                    // 'Bill',
+        BLOG   : 'post-weblog',
+        BOOK   : 'book',
+        CASE   : 'legal_case',              // 'Case',
+        CHAP   : 'chapter',
+        CHART  : 'figure',                  // 'Chart',
+        CLSWK  : 'musical_score',           // 'Classical Work',
+        COMP   : 'article',                 // 'Computer Program',
+        CONF   : 'speech',                  // 'Conference Proceeding',
+        CPAPER : 'paper-conference',        // 'Conference Paper',
+        CTLG   : 'article',                 // 'Catalog',
+        DATA   : 'dataset',                 // 'Dataset',
+        DBASE  : 'dataset',                 // 'Online Database',
+        DICT   : 'entry-dictionary',        // 'Dictionary',
+        EBOOK  : 'book',
+        ECHAP  : 'chapter',
+        EDBOOK : 'book',
+        EJOUR  : 'article-journal',
+        ELEC   : 'webpage',
+        ENCYC  : 'entry-encyclopedia',      // 'Encyclopedia',
+        EQUA   : 'figure',                  // 'Equation',
+        FIGURE : 'figure',                  // 'Figure',
+        GEN    : 'article',                 // 'Generic',
+        GOVDOC : 'legislation',             // 'Government Document',
+        HEAR   : 'legal_case',              // 'Hearing',
+        ICOMM  : 'webpage',                 // Perhaps post-weblog
+        INPR   : 'article-journal',
+        JFULL  : 'article-journal',         // 'Full Journal',
+        JOUR   : 'article-journal',
+        LEGAL  : 'legal_case',              // 'Legal Rule',
+        MANSCPT: 'manuscript',              // 'Manuscript',
+        MAP    : 'map',                     // 'Map',
+        MGZN   : 'article-magazine',        // 'Magazine Article',
+        MPCT   : 'motion_picture',          // 'Film or Broadcast',
+        MULTI  : 'graphic',                 // 'Online Multimedia',
+        MUSIC  : 'song',                    // 'Music',
+        NEWS   : 'article-newspaper',       // 'Newspaper Article',
+        PAMP   : 'pamphlet',                // 'Pamphlet',
+        PAT    : 'patent',                  // 'Patent',
+        PCOMM  : 'personal_communication',  // 'Personal Communication',
+        RPRT   : 'report',                  // 'Report',
+        SLIDE  : 'figure',                  // 'Slide',
+        SOUND  : 'song',                    // 'Sound Recording',
+        STAND  : 'article',                 // 'Standard',
+        STAT   : 'legislation',             // 'Statute',
+        THES   : 'thesis',                  // 'Thesis',
+        UNBILL : 'bill',                    // 'Unenacted Bill',
+        UNPD   : 'article',                 // 'Unpublished Work',
+        VIDEO  : 'broadcast',               // 'Video Recording'
+    };
+
     public unsupportedRefs: number[] = [];
+    private refArray: string[];
 
     /**
      * Constructor. Takes a raw string of RIS as input and process it for parsing.
@@ -61,7 +123,7 @@ export class RISParser {
         payload.id = `${id}`;
         payload.type = RISParser.RISTypes[type];
         payload.issued = {
-            'date-parts': [[], ],
+            'date-parts': [[]],
         };
 
         let pageHolder = {};
@@ -77,19 +139,19 @@ export class RISParser {
                 case 'A4':
                     payload.author =
                         !payload.author
-                        ? [processor.processName(val, 'RIS'), ]
+                        ? [processor.processName(val, 'RIS')]
                         : payload.author.concat(processor.processName(val, 'RIS'));
                     break;
                 case 'A2':
                 case 'ED':
                     payload.editor =
                         !payload.editor
-                        ? [processor.processName(val, 'RIS'), ]
+                        ? [processor.processName(val, 'RIS')]
                         : payload.editor.concat(processor.processName(val, 'RIS'));
                     break;
                 case 'A3':
                     if (typeof payload.translator === 'undefined') {
-                        payload.translator = [processor.processName(val, 'RIS'), ];
+                        payload.translator = [processor.processName(val, 'RIS')];
                     }
                     else {
                         payload.translator.push(processor.processName(val, 'RIS'));
@@ -127,7 +189,7 @@ export class RISParser {
                     payload['call-number'] = val;
                     break;
                 case 'CY': // Conference location, publish location, city of publisher (zotero)
-                    if (['paper-conference', 'speech', ].indexOf(payload.type) > -1) {
+                    if (['paper-conference', 'speech'].indexOf(payload.type) > -1) {
                         payload['event-place'] = val;
                         break;
                     }
@@ -167,7 +229,7 @@ export class RISParser {
                 case 'JF':
                 case 'T2':
                     payload['container-title'] = val;
-                    if (['paper-conference', 'speech', ].indexOf(payload.type) > -1) {
+                    if (['paper-conference', 'speech'].indexOf(payload.type) > -1) {
                         payload.event = val;
                     }
                     break;
@@ -206,76 +268,16 @@ export class RISParser {
                         payload.page = `${pageHolder['SP']}-${pageHolder['EP']}`;
                     }
                     break;
+                default:
+                    break;
             }
 
         });
-
-
         return payload;
     }
-
-    /**
-     * On object that holds the RIS types as keys and the corresponding CSL types
-     * as values.
-     */
-    public static RISTypes: { [abbr: string]: CSL.CitationType } = {
-        BLOG   : 'post-weblog',
-        BOOK   : 'book',
-        EBOOK  : 'book',
-        EDBOOK : 'book',
-        CHAP   : 'chapter',
-        ECHAP  : 'chapter',
-        EJOUR  : 'article-journal',
-        INPR   : 'article-journal',
-        ICOMM  : 'webpage',                 // Perhaps post-weblog
-        JOUR   : 'article-journal',
-        ELEC   : 'webpage',
-        GEN    : 'article',                 // 'Generic',
-        ABST   : 'article',                 // 'Abstract',
-        AGGR   : 'dataset',                 // 'Aggregated Database',
-        ART    : 'graphic',                 // 'Artwork',
-        ADVS   : 'broadcast',               // 'Audiovisual Material',
-        BILL   : 'bill',                    // 'Bill',
-        CASE   : 'legal_case',              // 'Case',
-        CTLG   : 'article',                 // 'Catalog',
-        CHART  : 'figure',                  // 'Chart',
-        CLSWK  : 'musical_score',           // 'Classical Work',
-        COMP   : 'article',                 // 'Computer Program',
-        CPAPER : 'paper-conference',        // 'Conference Paper',
-        CONF   : 'speech',                  // 'Conference Proceeding',
-        DATA   : 'dataset',                 // 'Dataset',
-        DICT   : 'entry-dictionary',        // 'Dictionary',
-        ENCYC  : 'entry-encyclopedia',      // 'Encyclopedia',
-        EQUA   : 'figure',                  // 'Equation',
-        FIGURE : 'figure',                  // 'Figure',
-        MPCT   : 'motion_picture',          // 'Film or Broadcast',
-        JFULL  : 'article-journal',         // 'Full Journal',
-        GOVDOC : 'legislation',             // 'Government Document',
-        HEAR   : 'legal_case',              // 'Hearing',
-        LEGAL  : 'legal_case',              // 'Legal Rule',
-        MGZN   : 'article-magazine',        // 'Magazine Article',
-        MANSCPT: 'manuscript',              // 'Manuscript',
-        MAP    : 'map',                     // 'Map',
-        MUSIC  : 'song',                    // 'Music',
-        NEWS   : 'article-newspaper',       // 'Newspaper Article',
-        DBASE  : 'dataset',                 // 'Online Database',
-        MULTI  : 'graphic',                 // 'Online Multimedia',
-        PAMP   : 'pamphlet',                // 'Pamphlet',
-        PAT    : 'patent',                  // 'Patent',
-        PCOMM  : 'personal_communication',  // 'Personal Communication',
-        RPRT   : 'report',                  // 'Report',
-        SLIDE  : 'figure',                  // 'Slide',
-        SOUND  : 'song',                    // 'Sound Recording',
-        STAND  : 'article',                 // 'Standard',
-        STAT   : 'legislation',             // 'Statute',
-        THES   : 'thesis',                  // 'Thesis',
-        UNBILL : 'bill',                    // 'Unenacted Bill',
-        UNPD   : 'article',                 // 'Unpublished Work',
-        VIDEO  : 'broadcast',               // 'Video Recording'
-    };
 }
 
-
+// tslint:disable
 /**
  * ========== RIS Field Notes ==========
  *

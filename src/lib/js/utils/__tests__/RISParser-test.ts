@@ -3,6 +3,7 @@ jest.unmock('../CSLFieldProcessors');
 
 import { RISParser } from '../RISParser';
 
+// tslint:disable
 const testCases = [
 `
 TY  - ICOMM
@@ -99,34 +100,33 @@ UR  - www.google.com
 ER  -
 `,
 ];
+// tslint:enable
 
 describe('RISParser', () => {
     it('should parse webpage correctly', () => {
         let parser = new RISParser(testCases[0]);
         let expected: CSL.Data[] = [{
-            id: '0',
-            type: 'webpage',
-            'container-title': 'The Skeptics Guide to Emergency Medicine',
-            title: 'ARISE Up, ARISE Up (EGDT vs. Usual Care for Sepsis)',
+            URL: 'http://thesgem.com/2014/10/sgem92-arise-up-arise-up-egdt-vs-usual-care-for-sepsis/',
             author: [
                 { family: 'Milne', given: 'W. Kenneth' },
                 { family: 'Upadhye', given: 'Suneel' },
             ],
+            'container-title': 'The Skeptics Guide to Emergency Medicine',
+            id: '0',
             issued: {
-                'date-parts': [[ '2014', ], ],
+                'date-parts': [[ '2014']],
             },
-            URL: 'http://thesgem.com/2014/10/sgem92-arise-up-arise-up-egdt-vs-usual-care-for-sepsis/',
-        }, ];
+            title: 'ARISE Up, ARISE Up (EGDT vs. Usual Care for Sepsis)',
+            type: 'webpage',
+        }];
         expect(parser.parse()).toEqual(expected);
     });
 
     it('should parse journal-article correctly', () => {
         let parser = new RISParser(testCases[1]);
         let expected: CSL.Data[] = [{
-            id: '0',
-            type: 'article-journal',
+            DOI: '10.15200/winn.144720.08769',
             'container-title': 'The Winnower',
-            title: 'The quality checklists for medical education blogs and podcasts',
             author: [
                 { family: 'Colmers', given: 'Isabelle N' },
                 { family: 'Paterson', given: 'Quinten S' },
@@ -134,39 +134,41 @@ describe('RISParser', () => {
                 { family: 'Thoma', given: 'Brent' },
                 { family: 'Chan', given: 'Teresa M' },
             ],
+            id: '0',
             issued: {
-                'date-parts': [['2015', ], ],
+                'date-parts': [['2015']],
             },
-            DOI: '10.15200/winn.144720.08769',
-        }, ];
+            title: 'The quality checklists for medical education blogs and podcasts',
+            type: 'article-journal',
+        }];
         expect(parser.parse()).toEqual(expected);
     });
 
     it('should parse books correctly', () => {
         let parser = new RISParser(testCases[2]);
         let expected: CSL.Data = [{
-            id: '0',
-            type: 'book',
-            title: 'Guide to Knowledge Translation Planning at CIHR: Integrated and End-of-Grant Approaches',
+            ISBN: '9781100205175',
+            ISSN: '9781100205175',
+            abstract: 'This guide outlines those elements that contribute to strong KT projects. It is intended to be used both bythose developing project proposals and by those who are assessing such proposals for the purposes of funding or partnership.', // tslint:disable-line
             author: [
                 { literal: 'Canadian Institutes of Health Research' },
                 { family: 'Stevens', given: 'James L' },
             ],
+            'container-title': 'CIHR Website',
             editor: [
                 { family: 'Doe', given: 'John M' },
                 { family: 'Jones', given: 'Sally P' },
             ],
-            'container-title': 'CIHR Website',
+            id: '0',
             issued: {
-                'date-parts': [['2012', ], ],
+                'date-parts': [['2012']],
             },
+            page: '1-30',
             publisher: 'Canadian Institute of Health Research',
             'publisher-place': 'Ottawa',
-            page: '1-30',
-            ISBN: '9781100205175',
-            ISSN: '9781100205175',
-            abstract: 'This guide outlines those elements that contribute to strong KT projects. It is intended to be used both bythose developing project proposals and by those who are assessing such proposals for the purposes of funding or partnership.',
-        }, ];
+            title: 'Guide to Knowledge Translation Planning at CIHR: Integrated and End-of-Grant Approaches',
+            type: 'book',
+        }];
         expect(parser.parse()).toEqual(expected);
     });
 
@@ -185,51 +187,51 @@ describe('RISParser', () => {
     it('should process an assortment of fields correctly', () => {
         let parser = new RISParser(testCases[5]);
         let expected: CSL.Data = [{
-            id: '0',
-            type: 'paper-conference',
-            issued: {
-                'date-parts': [['2011', '11', '05', ], ],
+            DOI: '10.000000thedoi',
+            PMCID: 'PMC23423',
+            PMID: '65481',
+            URL: 'www.google.com',
+            abstract: 'The abstract',
+            accessed: {
+                'date-parts': [['2011', '11', '05']],
                 season: 'summer',
             },
-            title: 'The title of the paper',
+            archive: 'the archive',
+            'call-number': '1',
+            'collection-title': 'collection title',
+            'container-title': 'conference name',
+            'container-title-short': 'shortTitle',
+            'event': 'event name',
+            edition: '1',
             editor: [
                 { family: 'Smith', given: 'John L' },
                 { family: 'Doe', given: 'Jane P' },
             ],
+            'event-place': 'United States',
+            id: '0',
+            issue: '1',
+            issued: {
+                'date-parts': [['2011', '11', '05']],
+                season: 'summer',
+            },
+            journalAbbreviation: 'shortTitle',
+            keyword: 'Keyword 1',
+            language: 'English',
+            'number-of-volumes': '1',
+            'original-title': 'the original title',
+            number: '1',
+            page: '10-20',
+            publisher: 'the publisher',
+            'shortTitle': 'shortTitle',
+            source: 'Medline',
+            title: 'The title of the paper',
             translator: [
                 { family: 'Translator', given: 'Name A' },
                 { family: 'Translator', given: 'Name B' },
             ],
-            accessed: {
-                'date-parts': [['2011', '11', '05', ], ],
-                season: 'summer',
-            },
-            keyword: 'Keyword 1',
-            journalAbbreviation: 'shortTitle',
-            'container-title-short': 'shortTitle',
-            number: '1',
-            'call-number': '1',
-            'event-place': 'United States',
-            source: 'Medline',
-            DOI: '10.000000thedoi',
-            archive: 'the archive',
-            edition: '1',
-            language: 'English',
-            issue: '1',
-            'number-of-volumes': '1',
-            PMID: '65481',
-            PMCID: 'PMC23423',
-            'original-title': 'the original title',
-            publisher: 'the publisher',
-            page: '10-20',
-            'container-title': 'conference name',
-            'event': 'event name',
-            'collection-title': 'collection title',
-            'shortTitle': 'shortTitle',
+            type: 'paper-conference',
             volume: '1',
-            abstract: 'The abstract',
-            URL: 'www.google.com',
-        }, ];
+        }];
         expect(parser.parse()).toEqual(expected);
     });
 });

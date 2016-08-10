@@ -27,6 +27,7 @@ export function processName(input: string, source: Source): CSL.Person {
             given = splitName[1];
             break;
         case 'pubmed':
+        default:
             family = input.split(' ')[0];
             given = input.split(' ')[1];
             break;
@@ -34,7 +35,6 @@ export function processName(input: string, source: Source): CSL.Person {
 
     return { family, given };
 }
-
 
 /**
  * Takes a RIS or PubMed date string as input and returns a CSL.Date object.
@@ -48,7 +48,7 @@ export function processName(input: string, source: Source): CSL.Person {
  */
 export function processDate(input: string, source: Source): CSL.Date {
 
-    let date: CSL.Date = { 'date-parts': [[], ] };
+    let date: CSL.Date = { 'date-parts': [[]] };
     if (input.length === 0) { return date; }
 
     switch (source) {
@@ -63,6 +63,7 @@ export function processDate(input: string, source: Source): CSL.Date {
             });
             break;
         case 'pubmed':
+        default:
             date['date-parts'][0] = input.substr(0, 10).split('/');
             break;
     }

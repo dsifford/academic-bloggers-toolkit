@@ -3,10 +3,10 @@
  * Global Event Types
  */
 export const EVENTS = {
-    REFERENCE_ADDED: 'REFERENCE_ADDED',
-    TINYMCE_READY: 'TINYMCE_READY',
     INSERT_REFERENCE: 'INSERT_REFERENCE',
     OPEN_REFERENCE_WINDOW: 'OPEN_REFERENCE_WINDOW',
+    REFERENCE_ADDED: 'REFERENCE_ADDED',
+    TINYMCE_READY: 'TINYMCE_READY',
 };
 
 /**
@@ -14,7 +14,7 @@ export const EVENTS = {
  * Fixes issue with Internet Explorer (shocker!)
  */
 export const BaseURL = window.location.origin
-    ? `${window.location.origin}/wp-content/plugins/academic-bloggers-toolkit`
+    ? `${window.location.origin}/wp-content/plugins/academic-bloggers-toolkit` // tslint:disable-next-line
     : `${window.location.protocol}//${window.location.hostname}${window.location.port ? ':' + window.location.port : ''}/wp-content/plugins/academic-bloggers-toolkit`
 
 /**
@@ -22,19 +22,18 @@ export const BaseURL = window.location.origin
  * @type {Object}
  */
 export const referenceWindowEvents = {
-    IDENTIFIER_FIELD_CHANGE: 'IDENTIFIER_FIELD_CHANGE',
-    PUBMED_DATA_SUBMIT: 'PUBMED_DATA_SUBMIT',
-    TOGGLE_MANUAL: 'TOGGLE_MANUAL',
-    TOGGLE_INCLUDE_LINK: 'TOGGLE_INCLUDE_LINK',
     ADD_PERSON: 'ADD_PERSON',
-    REMOVE_PERSON: 'REMOVE_PERSON',
-    PERSON_CHANGE: 'PERSON_CHANGE',
-    TOGGLE_INLINE_ATTACHMENT: 'TOGGLE_INLINE_ATTACHMENT',
     CHANGE_CITATION_STYLE: 'CHANGE_CITATION_STYLE',
     CHANGE_CITATION_TYPE: 'CHANGE_CITATION_TYPE',
+    IDENTIFIER_FIELD_CHANGE: 'IDENTIFIER_FIELD_CHANGE',
     META_FIELD_CHANGE: 'META_FIELD_CHANGE',
+    PERSON_CHANGE: 'PERSON_CHANGE',
+    PUBMED_DATA_SUBMIT: 'PUBMED_DATA_SUBMIT',
+    REMOVE_PERSON: 'REMOVE_PERSON',
+    TOGGLE_INCLUDE_LINK: 'TOGGLE_INCLUDE_LINK',
+    TOGGLE_INLINE_ATTACHMENT: 'TOGGLE_INLINE_ATTACHMENT',
+    TOGGLE_MANUAL: 'TOGGLE_MANUAL',
 };
-
 
 /**
  * Empty object for holding the field data for manual input
@@ -61,58 +60,57 @@ export const referenceWindowEvents = {
  * @type {Object}
  */
 export const manualDataObj: CSL.Data = {
-    id: '0',
-    type: 'article-journal',
-    accessed: '',
-    'event-date': '',
-    issued: '',
-    language: '',
-    journalAbbreviation: '',
-    shortTitle: '',
-    authority: '',
     'call-number': '',
     'chapter-number': '',
-    'citation-number': '',
     'citation-label': '',
+    'citation-number': '',
     'collection-number': '',
     'collection-title': '',
-    'container-title': '',
     'container-title-short': '',
-    DOI: '',
-    edition: '',
-    event: '',
+    'container-title': '',
+    'event-date': '',
     'event-place': '',
-    genre: '',
-    ISBN: '',
-    ISSN: '',
-    issue: '',
-    jurisdiction: '',
-    medium: '',
-    number: '',
     'number-of-pages': '',
     'number-of-volumes': '',
-    'original-publisher': '',
     'original-publisher-place': '',
+    'original-publisher': '',
     'original-title': '',
-    'page': '',
     'page-first': '',
+    'page': '',
+    'publisher-place': '',
+    'title-short': '',
+    'year-suffix': '',
+    DOI: '',
+    ISBN: '',
+    ISSN: '',
     PMCID: '',
     PMID: '',
+    URL: '',
+    accessed: '',
+    authority: '',
+    edition: '',
+    event: '',
+    genre: '',
+    id: '0',
+    issue: '',
+    issued: '',
+    journalAbbreviation: '',
+    jurisdiction: '',
+    language: '',
+    medium: '',
+    number: '',
     publisher: '',
-    'publisher-place': '',
     section: '',
+    shortTitle: '',
     source: '',
     status: '',
     title: '',
-    'title-short': '',
-    URL: '',
+    type: 'article-journal',
     version: '',
     volume: '',
-    'year-suffix': '',
 };
 
 export const abtPRFieldMapping: ABT.PRMetaState = {
-    selection: '0',
     1: {
         heading: {
             value: '',
@@ -175,6 +173,7 @@ export const abtPRFieldMapping: ABT.PRMetaState = {
         2: true,
         3: true,
     },
+    selection: '0',
 };
 
 /**

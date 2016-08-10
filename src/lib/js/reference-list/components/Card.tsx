@@ -9,7 +9,7 @@ interface CardProps extends React.HTMLProps<HTMLDivElement> {
 }
 
 @observer
-export class Card extends React.Component<CardProps, {}> {
+export class Card extends React.PureComponent<CardProps, {}> {
 
     constructor(props) {
         super(props);
@@ -19,10 +19,9 @@ export class Card extends React.Component<CardProps, {}> {
         this.props.click(this.props.id, this.props.isSelected);
     }
 
-    /* FIXME: Yuuuuuck! Ugly. */
     parsePeople = (p: CSL.Person[]): string => {
         if (!p) return '';
-        return p.slice(0,4).reduce((prev, curr, i) => {
+        return p.slice(0, 4).reduce((prev, curr, i) => {
             if (i > 2) return prev;
             let name: string = '';
             if (curr.family && curr.given) {
@@ -37,6 +36,7 @@ export class Card extends React.Component<CardProps, {}> {
                 case 1:
                     return prev += `${name}${p.length > i + 1 ? ', ' : '.'}`;
                 case 2:
+                default:
                     return prev += `${name}${p.length > i + 1 ? '...' : '.'}`;
             }
         }, '');
@@ -44,9 +44,10 @@ export class Card extends React.Component<CardProps, {}> {
 
     parseDate = (date: CSL.Date): string|number => {
         if (!date) return 'n.d.';
-        return date.year
-        ? date.year
-        : date['date-parts'][0][0];
+        if (date.year) return date.year;
+        if (date['date-parts'] && date['date-parts'][0].length !== 0 && typeof date['date-parts'][0][0] !== 'undefined')
+            return date['date-parts'][0][0];
+        return 'n.d.';
     }
 
     render() {
@@ -60,7 +61,9 @@ export class Card extends React.Component<CardProps, {}> {
                 <div className="abt-card-people">{this.parsePeople(CSL.author)}</div>
                 <div className="abt-card-meta-container">
                     <div className="abt-card-date">({this.parseDate(CSL.issued)})</div>
-                    <div className="abt-card-source"><em>{CSL.journalAbbreviation || CSL['container-title'] || CSL.publisher || ''}</em></div>
+                    <div className="abt-card-source">
+                        {CSL.journalAbbreviation || CSL['container-title'] || CSL.publisher || ''}
+                    </div>
                     <div className="abt-card-pages">{CSL.page || 'n.p.'}</div>
                 </div>
             </div>

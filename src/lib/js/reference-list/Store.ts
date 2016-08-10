@@ -13,17 +13,16 @@ interface SavedState {
     bibOptions: {
         heading: string;
         style: 'fixed'|'toggle';
-    }
+    };
 }
-
 
 class CitationStore {
 
     @observable
-    private byIndex: IObservableArray<Citeproc.Citation>;
+    CSL: ObservableMap<CSL.Data>;
 
     @observable
-    CSL: ObservableMap<CSL.Data>;
+    private byIndex: IObservableArray<Citeproc.Citation>;
 
     get lookup(): {ids: string[], titles: string[]} {
         return {
@@ -71,12 +70,11 @@ class CitationStore {
     }
 }
 
-
 export class Store {
 
     bibOptions = {
         heading: '',
-        style: <'fixed'|'toggle'>'fixed',
+        style: <'fixed'|'toggle'> 'fixed',
     };
 
     @observable
@@ -126,17 +124,17 @@ export class Store {
     @computed
     get persistent(): string {
         return JSON.stringify({
+            CSL: toJS(this.citations.CSL),
             cache: this.cache,
             citationByIndex: this.citations.citationByIndex,
-            CSL: toJS(this.citations.CSL),
         });
     }
 
     get cache() {
         return {
-            style: this.citationStyle,
             links: this.links,
             locale: this.locale,
+            style: this.citationStyle,
         };
     }
 

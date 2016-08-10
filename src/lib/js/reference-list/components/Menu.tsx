@@ -72,7 +72,7 @@ export class Menu extends React.Component<Props, State> {
                             <span className="dashicons dashicons-editor-help" />
                         </PanelButton>
                     </div>
-                    <div id="style-select">
+                    <div id="style-select-container">
                         <VSelect
                             id="style-select"
                             onChange={this.handleSelect}

@@ -24,7 +24,7 @@ export class ItemList extends React.Component<Props, {}> {
 
     render() {
         const { items, selectedItems, click, children, isOpen, maxHeight, id } = this.props;
-        if (!items) return;
+        if (!items) return null;
         return (
             <div>
                 <div className="group-label" onClick={this.singleClick} onDoubleClick={this.doubleClick}>

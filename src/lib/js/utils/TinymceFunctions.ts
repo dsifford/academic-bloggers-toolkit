@@ -10,21 +10,20 @@ declare const ABT_i18n: ABT.i18n;
 export function referenceWindow(editor: TinyMCE.Editor): Promise<ABT.ReferenceWindowPayload> {
     return new Promise((resolve) => {
         editor.windowManager.open({
-            title: ABT_i18n.tinymce.referenceWindow.referenceWindow.title,
-            url: `${BaseURL}/lib/js/tinymce/views/reference-window.html`,
-            width: 600,
             height: 10,
-            params: {
-                baseUrl: `${BaseURL}/lib/js/tinymce/views/`,
-            },
             onclose: (e) => {
                 if (!e.target.params.data) resolve(null);
                 resolve(e.target.params.data as ABT.ReferenceWindowPayload);
             },
+            params: {
+                baseUrl: `${BaseURL}/lib/js/tinymce/views/`,
+            },
+            title: ABT_i18n.tinymce.referenceWindow.referenceWindow.title,
+            url: `${BaseURL}/lib/js/tinymce/views/reference-window.html`,
+            width: 600,
         });
     });
 };
-
 
 /**
  * Opens `import-window.tsx` and returns a promise which resolves to
@@ -35,18 +34,17 @@ export function referenceWindow(editor: TinyMCE.Editor): Promise<ABT.ReferenceWi
 export function importWindow(editor: TinyMCE.Editor): Promise<ABT.ImportWindowPayload> {
     return new Promise((resolve) => {
         editor.windowManager.open({
-            title: ABT_i18n.tinymce.importWindow.title,
-            url: `${BaseURL}/lib/js/tinymce/views/import-window.html`,
-            width: 600,
             height: 10,
             onclose: (e) => {
                 if (!e.target.params.data) resolve(null);
                 resolve(e.target.params.data as ABT.ImportWindowPayload);
             },
+            title: ABT_i18n.tinymce.importWindow.title,
+            url: `${BaseURL}/lib/js/tinymce/views/import-window.html`,
+            width: 600,
         });
     });
 }
-
 
 interface CitationPositions {
     /** The index of the HTMLSpanElement being inserted */
@@ -89,7 +87,6 @@ export function getRelativeCitationPositions(editor: TinyMCE.Editor): CitationPo
     return payload;
 }
 
-
 /**
  * Updates the editor with inline citation data (citation clusters) generated
  *   by the processor.
@@ -118,13 +115,13 @@ export function parseInlineCitations(
             /* HACK: This is an issue with Citeproc-JS. Sometimes it serves bad data. This fixes that. */
             try {
                 sortedItems = citationByIndex[item[0]].sortedItems;
-            } catch(e) {
+            } catch (e) {
                 sortedItems = citationByIndex[item[0] - 1].sortedItems;
             }
             const idList: string = JSON.stringify(sortedItems.map(c => c[1].id));
             if (!citation) {
                 editor.insertContent(
-                    `<span id='${item[2]}' data-reflist='${idList}' class='abt_cite noselect mceNonEditable'>${inlineText}</span>`
+                    `<span id='${item[2]}' data-reflist='${idList}' class='abt_cite noselect mceNonEditable'>${inlineText}</span>` // tslint:disable-line
                 );
                 continue;
             }
@@ -156,7 +153,7 @@ export function parseInlineCitations(
 
             // Save a reference to the current cursor location
             const selection = editor.selection;
-            const cursor = editor.dom.create('span', { id: 'CURSOR', class: 'abt_cite'});
+            const cursor = editor.dom.create('span', { class: 'abt_cite', id: 'CURSOR' });
             selection.getNode().appendChild(cursor);
 
             // Do work
@@ -175,7 +172,6 @@ export function parseInlineCitations(
         resolve(true);
     });
 }
-
 
 /**
  * Replaces the current bibliography, or creates a new one if one doesn't exist
@@ -216,7 +212,7 @@ export function setBibliography(
 
     // Save a reference to the current cursor location
     const selection = editor.selection;
-    const cursor = editor.dom.create('span', { id: 'CURSOR', class: 'abt_cite'});
+    const cursor = editor.dom.create('span', { class: 'abt_cite', id: 'CURSOR' });
     selection.getNode().appendChild(cursor);
 
     // Do work
@@ -236,7 +232,6 @@ export function setBibliography(
         p.parentNode.removeChild(p);
     }
 }
-
 
 export function reset(doc: HTMLDocument) {
     const inlines = doc.querySelectorAll('.abt_cite');

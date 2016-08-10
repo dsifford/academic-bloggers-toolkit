@@ -36,7 +36,7 @@ export function getRemoteData(identifierList: string, mce: TinyMCE.WindowManager
             const combined: CSL.Data[] = data.reduce((prev, curr) => {
                 prev.push(...curr[0]);
                 return prev;
-            }, [])
+            }, []);
             combined.forEach(ref => {
                 ref.id = generateID();
             });
