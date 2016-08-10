@@ -144,12 +144,15 @@ If you find that the citation ordering is not the way that you like it, [choose 
 
 ### Visual Aids
 
-1. <p align="center"><img src="http://i.imgur.com/GHn6bhy.png?1" alt="Reference List Main Menu" /></p>
-2. <p align="center"><img src="http://i.imgur.com/DqmSRwx.png?1" alt="Secondary Menu" /></p>
-3. <p align="center"><img src="http://i.imgur.com/BYIBejN.png?1" alt="Automatic Reference Insertion" width="75%" /></p>
-4. <p align="center"><img src="http://i.imgur.com/dClo8fs.png?1" alt="Manual Reference Window" width="50%" /></p>
-5. <p align="center"><img src="http://i.imgur.com/r00LD73.png?1" alt="RIS Import Menu" width="75%" /></p>
-6. <p align="center"><img src="http://i.imgur.com/o9p5biN.png?1" alt="Cited and Uncited Lists" height="400px" /></p>
+|# |Image |
+|----|----|
+|**1.**| <p align="center"><img src="http://i.imgur.com/GHn6bhy.png?1" alt="Reference List Main Menu" /></p>
+|**2.**| <p align="center"><img src="http://i.imgur.com/DqmSRwx.png?1" alt="Secondary Menu" /></p>
+|**3.**| <p align="center"><img src="http://i.imgur.com/BYIBejN.png?1" alt="Automatic Reference Insertion" width="75%" /></p>
+|**4.**| <p align="center"><img src="http://i.imgur.com/dClo8fs.png?1" alt="Manual Reference Window" width="50%" /></p>
+|**5.**| <p align="center"><img src="http://i.imgur.com/r00LD73.png?1" alt="RIS Import Menu" width="75%" /></p>
+|**6.**| <p align="center"><img src="http://i.imgur.com/o9p5biN.png?1" alt="Cited and Uncited Lists" height="400px" /></p>
+
 
 ### Contributing
 
