@@ -9,14 +9,13 @@ declare module 'react-virtualized-select' {
     export default VSelect.defaultProps;
 }
 
-declare const ABT_i18n: ABT.i18n;
 declare const ABT_CitationStyles: {label: string, value: string}[];
 
-declare namespace ABT {
+declare namespace BackendGlobals {
 
     // tslint:disable-next-line
-    interface i18n {
-        citationTypes: CitationTypes;
+    interface ABT_i18n {
+        citationTypes: ABT.CitationTypes;
         fieldmaps: ABT.FieldMappings;
         peerReviewMetabox: {
             commonRowContent: {
@@ -103,6 +102,47 @@ declare namespace ABT {
         };
     }
 
+    // tslint:disable-next-line
+    interface ABT_Reflist_State {
+        cache: {
+            style: string;
+            links: 'always'|'urls'|'never';
+            locale: string;
+        };
+        citationByIndex: Citeproc.CitationByIndex;
+        CSL: {
+            [id: string]: CSL.Data;
+        };
+        bibOptions: {
+            heading: string;
+            style: 'fixed'|'toggle';
+        };
+    }
+
+    // tslint:disable-next-line
+    interface ABT_wp {
+        abt_url: string;
+        home_url: string;
+        plugins_url: string;
+        wp_upload_dir: {
+            /* /folder-of-wp-installation/wp-content/uploads */
+            basedir: string;
+            /* http(s)://siteurl.com/wp-content/uploads */
+            baseurl: string;
+            error: boolean;
+            /* /folder-of-wp-installation/wp-content/uploads/2016/08 */
+            path: string;
+            /* /2016/08 */
+            subdir: string;
+            /* http(s)://siteurl.com/wp-content/uploads/2016/08 */
+            url: string;
+        };
+    }
+}
+
+// tslint:disable-next-line
+declare namespace ABT {
+
     type CitationTypes = {
         inUse: boolean;
         label: string;
@@ -110,23 +150,6 @@ declare namespace ABT {
     }[];
 
     type Bibliography = {id: string, html: string}[];
-
-    interface AdminMeta {
-        /** Heading for the bibliography */
-        bibHeading: string;
-        /** Display style for the bibliography */
-        bibStyle: 'fixed'|'toggle';
-        /** URL to the `js` directory */
-        jsURL: string;
-        /** When links should be included in the bibliography */
-        links: 'always'|'urls'|'never';
-        /** URL `views` within the `tinymce` directory */
-        tinymceViewsURL: string;
-        /** CSL style filename of the user's preferred citation style (without .csl extension) */
-        style: string;
-        /** The user's locale (WordPress format) */
-        locale: string;
-    }
 
     interface PeopleProps {
         people: CSL.TypedPerson[];

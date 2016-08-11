@@ -10,14 +10,6 @@ export const EVENTS = {
 };
 
 /**
- * The URL to the root of the plugin. NO TRAILING SLASH.
- * Fixes issue with Internet Explorer (shocker!)
- */
-export const BaseURL = window.location.origin
-    ? `${window.location.origin}/wp-content/plugins/academic-bloggers-toolkit` // tslint:disable-next-line
-    : `${window.location.protocol}//${window.location.hostname}${window.location.port ? ':' + window.location.port : ''}/wp-content/plugins/academic-bloggers-toolkit`
-
-/**
  * Object containing event types that are used in the ReferenceWindow component.
  * @type {Object}
  */

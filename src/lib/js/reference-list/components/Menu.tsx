@@ -3,6 +3,8 @@ import VSelect from 'react-virtualized-select';
 import { observer } from 'mobx-react';
 import { PanelButton } from './PanelButton';
 
+declare const ABT_i18n: BackendGlobals.ABT_i18n;
+
 interface Props extends React.HTMLProps<HTMLDivElement> {
     cslStyle: string;
     submitData(kind: string, data?: string);

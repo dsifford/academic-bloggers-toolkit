@@ -1,8 +1,9 @@
-import { localeConversions, BaseURL } from './Constants';
+import { localeConversions } from './Constants';
 import { parseReferenceURLs } from './HelperFunctions';
 import { Store } from '../reference-list/Store';
 
-declare var CSL;
+declare const ABT_wp: BackendGlobals.ABT_wp;
+declare const CSL;
 
 export class CSLProcessor {
 
@@ -40,7 +41,7 @@ export class CSLProcessor {
      */
     constructor(store: Store) {
         this.store = store;
-        this.worker = new Worker(`${BaseURL}/vendor/worker.js`);
+        this.worker = new Worker(`${ABT_wp.abt_url}/vendor/worker.js`);
         this.worker.onmessage = (e) => {
             this.localeStore.set(e.data[0], e.data[1]);
         };

@@ -4,14 +4,14 @@
  *	Plugin Name: Academic Blogger's Toolkit
  *	Plugin URI: https://wordpress.org/plugins/academic-bloggers-toolkit/
  *	Description: A plugin extending the functionality of Wordpress for academic blogging
- *	Version: 3.4.0
+ *	Version: 3.4.1
  *	Author: Derek P Sifford
  *	Author URI: https://github.com/dsifford
  *	License: GPL3 or later
  *  Text Domain: academic-bloggers-toolkit
  */
 
-$ABT_VERSION = '3.4.0';
+$ABT_VERSION = '3.4.1';
 
 function abt_add_options_link ($links) {
     $url = admin_url('options-general.php?page=abt-options');

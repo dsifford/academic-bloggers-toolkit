@@ -1,21 +1,5 @@
 import { observable, ObservableMap, asMap, toJS, IObservableArray, computed, intercept } from 'mobx';
 
-interface SavedState {
-    cache: {
-        style: string;
-        links: 'always'|'urls'|'never';
-        locale: string;
-    };
-    citationByIndex: Citeproc.CitationByIndex;
-    CSL: {
-        [id: string]: CSL.Data;
-    };
-    bibOptions: {
-        heading: string;
-        style: 'fixed'|'toggle';
-    };
-}
-
 class CitationStore {
 
     @observable
@@ -138,7 +122,7 @@ export class Store {
         };
     }
 
-    constructor(savedState: SavedState) {
+    constructor(savedState: BackendGlobals.ABT_Reflist_State) {
         const { cache, citationByIndex, bibOptions, CSL } = savedState;
         this.citations = new CitationStore(citationByIndex, CSL);
         this.links = cache.links;

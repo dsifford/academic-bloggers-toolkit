@@ -1,6 +1,6 @@
 
-declare var DocumentTouch;
-declare var ABT_meta: ABT.FrontendMeta;
+declare const DocumentTouch;
+declare const ABT_meta: ABT.FrontendMeta;
 
 class Accordion {
 

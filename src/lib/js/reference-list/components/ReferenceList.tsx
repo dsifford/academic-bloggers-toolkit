@@ -14,6 +14,7 @@ import { PanelButton } from './PanelButton';
 import { ItemList } from './ItemList';
 
 declare const tinyMCE: TinyMCE.MCE;
+declare const ABT_i18n: BackendGlobals.ABT_i18n;
 const { OPEN_REFERENCE_WINDOW, TINYMCE_READY } = EVENTS;
 
 @observer
