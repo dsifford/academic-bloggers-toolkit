@@ -3,8 +3,6 @@ import { getFromDOI } from '../utils/CrossRefAPI';
 import { generateID } from '../utils/HelperFunctions';
 import { processDate } from '../utils/CSLFieldProcessors';
 
-// declare const ABT_i18n;
-
 export function getRemoteData(identifierList: string, mce: TinyMCE.WindowManager): Promise<CSL.Data[]> {
     return new Promise((resolve, reject) => {
         const pmidList: string[] = [];

@@ -1,5 +1,10 @@
 # Changelog
 
+### 3.4.1
+
+**Bugfixes**
+- Fix issue causing reference menus to fail to load in cases where WordPress plugins are installed in a non-standard directory or in multisite. (HT @floaltvater).
+
 ### 3.4.0
 
 **Improvements**

@@ -4,7 +4,7 @@ import * as ReactDOM from 'react-dom';
 import { ReferenceList } from './components/ReferenceList';
 import { Store } from './Store';
 
-declare const ABT_Reflist_State;
+declare const ABT_Reflist_State: BackendGlobals.ABT_Reflist_State;
 const store: Store = new Store(ABT_Reflist_State);
 
 ReactDOM.render(

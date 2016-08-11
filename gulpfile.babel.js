@@ -1,5 +1,6 @@
 import autoprefixer from 'autoprefixer';
 import del from 'del';
+import { exec } from 'child_process';
 import gfi from 'gulp-file-insert';
 import gulp from 'gulp';
 import jade from 'gulp-jade2php';
@@ -31,6 +32,17 @@ const webpackDevConfig = Object.assign({}, webpackConfig, {
 
 // Delete all files in dist/lib
 gulp.task('clean', (done) => del(['dist/**/*'], done));
+
+gulp.task('chown', (done) => {
+    exec("ls -l dist/ | awk '{print $3}' | tail -n -1", (err, stdout, stderr) => {
+        if (stdout.trim() === process.env.USER) {
+            return done();
+        }
+        exec(`sudo chown -R ${process.env.USER} dist/`, (err, stdout, stderr) => {
+            done();
+        });
+    });
+});
 
 // Version bump the required files according to the version in package.json
 gulp.task('bump', () =>
@@ -179,7 +191,7 @@ gulp.task('build',
 
 gulp.task('default',
     gulp.series(
-        'clean', 'static',
+        'chown', 'clean', 'static',
         gulp.parallel('php', 'stylus:dev', 'webpack:dev'), () => {
             browserSync.init({
                 proxy: 'localhost:8080',

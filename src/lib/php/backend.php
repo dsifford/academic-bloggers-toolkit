@@ -40,6 +40,15 @@ class ABT_Backend {
         return $citation_styles;
     }
 
+    private function localize_wordpress_constants() {
+        return [
+            'abt_url' => plugins_url() . '/academic-bloggers-toolkit',
+            'plugins_url' => plugins_url(),
+            'wp_upload_dir' => wp_upload_dir(),
+            'home_url' => home_url(),
+        ];
+    }
+
     /**
      * Loads the required stylesheet into TinyMCE (required for proper citation parsing)
      * @param  string $mce_css  CSS string
@@ -99,7 +108,7 @@ class ABT_Backend {
                 'cache' => [
                     'style' => isset($abt_options['abt_citation_style']) ? $abt_options['abt_citation_style'] : 'american-medical-association',
                     'links' => isset($abt_options['display_options']['links']) ? $abt_options['display_options']['links'] : 'always',
-                    'locale' => get_locale()
+                    'locale' => get_locale(),
                 ],
                 'citationByIndex' => [],
                 'CSL' => (object)[],
@@ -125,6 +134,7 @@ class ABT_Backend {
         wp_localize_script('abt_reflist', 'ABT_Reflist_State', $reflist_state);
         wp_localize_script('abt_reflist', 'ABT_i18n', $ABT_i18n);
         wp_localize_script('abt_reflist', 'ABT_CitationStyles', $this->get_citation_styles());
+        wp_localize_script('abt_reflist', 'ABT_wp', $this->localize_wordpress_constants());
 
         echo "<div id='abt-reflist' style='margin: 0 -12px -12px -12px;'></div>";
     }

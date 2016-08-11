@@ -4,7 +4,7 @@ Donate link: https://cash.me/$dsifford
 Tags: academic, pmid, doi, peer-review, pubmed, citation, bibliography, reference
 Requires at least: 4.2.2
 Tested up to: 4.6
-Stable tag: 3.4.0
+Stable tag: 3.4.1
 License: GPL3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -16,8 +16,10 @@ Academic Blogger's toolkit is an **open source** WordPress plugin providing an a
 
 [youtube https://www.youtube.com/watch?v=5k72Dh8L2BA]
 
-= Note =
-**This readme file is not kept up to date!** For a detailed, updated description of this plugin and all its features, please visit the [GitHub Repository](https://github.com/dsifford/academic-bloggers-toolkit).
+= NOTICE =
+**This readme file is not kept up to date!**
+
+For a detailed, updated description of this plugin and all its features, please visit the [GitHub Repository](https://github.com/dsifford/academic-bloggers-toolkit).
 
 = Features =
 * Insert formatted references on the fly using digital identifiers (**PMID** or **DOI**).
@@ -69,6 +71,12 @@ Yikes! I'm sorry about that. Please report all issues on the Academic Blogger's 
 4. Demo of desktop citation tooltips.
 
 == Changelog ==
+
+= 3.4.1 =
+
+**Bugfixes**
+
+- Fix issue causing reference menus to fail to load in cases where WordPress plugins are installed in a non-standard directory or in multisite. (HT @floaltvater).
 
 = 3.4.0 =
 

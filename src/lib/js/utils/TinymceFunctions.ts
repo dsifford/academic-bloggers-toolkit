@@ -1,5 +1,5 @@
-import { BaseURL }  from './Constants';
-declare const ABT_i18n: ABT.i18n;
+declare const ABT_i18n: BackendGlobals.ABT_i18n;
+declare const ABT_wp: BackendGlobals.ABT_wp;
 
 /**
  * Opens `reference-window.tsx` and returns a promise which resolves to either
@@ -16,10 +16,10 @@ export function referenceWindow(editor: TinyMCE.Editor): Promise<ABT.ReferenceWi
                 resolve(e.target.params.data as ABT.ReferenceWindowPayload);
             },
             params: {
-                baseUrl: `${BaseURL}/lib/js/tinymce/views/`,
+                baseUrl: `${ABT_wp.abt_url}/lib/js/tinymce/views/`,
             },
             title: ABT_i18n.tinymce.referenceWindow.referenceWindow.title,
-            url: `${BaseURL}/lib/js/tinymce/views/reference-window.html`,
+            url: `${ABT_wp.abt_url}/lib/js/tinymce/views/reference-window.html`,
             width: 600,
         });
     });
@@ -40,7 +40,7 @@ export function importWindow(editor: TinyMCE.Editor): Promise<ABT.ImportWindowPa
                 resolve(e.target.params.data as ABT.ImportWindowPayload);
             },
             title: ABT_i18n.tinymce.importWindow.title,
-            url: `${BaseURL}/lib/js/tinymce/views/import-window.html`,
+            url: `${ABT_wp.abt_url}/lib/js/tinymce/views/import-window.html`,
             width: 600,
         });
     });

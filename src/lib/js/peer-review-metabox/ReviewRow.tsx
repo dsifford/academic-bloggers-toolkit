@@ -1,6 +1,8 @@
 import * as React from 'react';
 import { CommonRowContent } from './CommonRowContent';
 
+declare const ABT_i18n: BackendGlobals.ABT_i18n;
+
 interface Props extends React.HTMLProps<HTMLDivElement> {
     rowData: ABT.PeerReviewTableData;
     num: '1'|'2'|'3';

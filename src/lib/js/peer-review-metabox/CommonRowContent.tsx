@@ -1,5 +1,7 @@
 import * as React from 'react';
 
+declare const ABT_i18n: BackendGlobals.ABT_i18n;
+
 interface Props extends React.HTMLProps<HTMLDivElement> {
     rowData: ABT.PeerReviewTableData;
     num: string;

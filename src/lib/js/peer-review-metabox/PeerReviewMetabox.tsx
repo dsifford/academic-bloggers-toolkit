@@ -2,6 +2,7 @@ import * as React from 'react';
 import { ReviewRow } from './ReviewRow';
 import { abtPRFieldMapping } from '../utils/Constants';
 
+declare const ABT_i18n: BackendGlobals.ABT_i18n;
 declare const wp;
 
 interface DOMEvent extends Event {
