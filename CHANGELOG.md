@@ -1,5 +1,10 @@
 # Changelog
 
+### 3.4.3
+
+**Bugfixes**
+- Fix issue where bibliographies would not be rendered with only a single reference. (HT @floaltvater)
+
 ### 3.4.2
 
 **Bugfixes**
