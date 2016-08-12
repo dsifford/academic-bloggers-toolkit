@@ -204,7 +204,7 @@ export function setBibliography(
         bib.appendChild(item);
     }
 
-    const noCitationsWithHeading: boolean = bib.children.length === 1 && options.heading !== null;
+    const noCitationsWithHeading: boolean = bib.children.length === 1 && options.heading !== '';
     const noCitationsWithoutHeading: boolean = bib.children.length === 0;
 
     if (existingBib) existingBib.parentElement.removeChild(existingBib);
