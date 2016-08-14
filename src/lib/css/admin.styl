@@ -1,5 +1,10 @@
 @require 'collections/colors'
-
-@require 'collections/react-select'
 @require 'citations'
 @require 'collections/reference-list'
+
+.is-focused:not(.is-open)>.Select-control
+    border-color $border !important
+    box-shadow none !important
+
+.VirtualizedSelectFocusedOption
+    background-color $light-gray !important

@@ -28,6 +28,10 @@ module.exports = {
                 exclude: /node_modules/,
                 loaders: ['babel', 'ts'],
             },
+            {
+                test: /\.css$/,
+                loaders: ['style', 'css'],
+            },
         ],
     },
 };

@@ -4,10 +4,7 @@ interface Window {
   DocumentTouch?;
 }
 
-declare module 'react-virtualized-select' {
-    const VSelect: any;
-    export default VSelect.defaultProps;
-}
+declare module 'react-virtualized-select';
 
 declare const ABT_CitationStyles: {label: string, value: string}[];
 

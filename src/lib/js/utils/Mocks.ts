@@ -1356,6 +1356,11 @@ export default {
       "label": "Web Page",
       "value": "webpage",
       "inUse": true
+    },
+    {
+      "label": "Test not in use",
+      "value": "testing",
+      "inUse": false
     }
   ]
 };

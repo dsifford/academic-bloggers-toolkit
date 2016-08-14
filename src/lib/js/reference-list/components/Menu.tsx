@@ -4,6 +4,10 @@ import { observable } from 'mobx';
 import { observer } from 'mobx-react';
 import { PanelButton } from './PanelButton';
 
+import 'react-virtualized-select/styles.css';
+import 'react-virtualized/styles.css';
+import 'react-select/dist/react-select.min.css';
+
 declare const ABT_i18n: BackendGlobals.ABT_i18n;
 
 interface Props extends React.HTMLProps<HTMLDivElement> {
