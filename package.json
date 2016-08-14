@@ -1,6 +1,6 @@
 {
   "name": "academic-bloggers-toolkit",
-  "version": "3.4.3",
+  "version": "4.0.0",
   "description": "A plugin extending the functionality of WordPress for Academic Blogging.",
   "main": "index.js",
   "scripts": {
@@ -104,6 +104,8 @@
       "fbjs",
       "enzyme",
       "sinon",
+      "mobx",
+      "mobx-react",
       "lib/js/utils/Constants",
       "lib/js/utils/Mocks"
     ],

@@ -1,5 +1,6 @@
 import * as React from 'react';
 import VSelect from 'react-virtualized-select';
+import { observable } from 'mobx';
 import { observer } from 'mobx-react';
 import { PanelButton } from './PanelButton';
 
@@ -7,29 +8,25 @@ declare const ABT_i18n: BackendGlobals.ABT_i18n;
 
 interface Props extends React.HTMLProps<HTMLDivElement> {
     cslStyle: string;
-    submitData(kind: string, data?: string);
-}
-
-interface State {
-    style: string;
-    selected: {
-        label: string;
-        value: string;
-    };
+    submitData(kind: string, data?: string): void;
 }
 
 @observer
-export class Menu extends React.PureComponent<Props, State> {
+export class Menu extends React.PureComponent<Props, {}> {
 
     styles: {label: string, value: string}[] = ABT_CitationStyles;
     labels = ABT_i18n.referenceList.menu;
 
+    @observable
+    selected = {
+        label: '',
+        value: '',
+    };
+
     constructor(props) {
         super(props);
-        this.state = {
-            selected: null,
-            style: this.props.cslStyle,
-        };
+        this.selected.value = this.props.cslStyle;
+        this.selected.label = this.styles.find(d => d.value === this.props.cslStyle).label;
     }
 
     handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
@@ -78,10 +75,11 @@ export class Menu extends React.PureComponent<Props, State> {
                         <VSelect
                             id="style-select"
                             onChange={this.handleSelect}
-                            value={this.state.selected}
+                            value={this.selected}
                             placeholder={this.labels.stylePlaceholder}
                             options={this.styles}
                             clearable={false}
+                            backspaceRemoves={false}
                         />
                     </div>
                 </div>

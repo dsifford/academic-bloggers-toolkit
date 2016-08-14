@@ -44,10 +44,6 @@ const setup = () => {
 };
 
 describe('<Menu />', () => {
-    it('Should render with the appropriate initial state', () => {
-        const { component } = setup();
-        expect(component.state()).toEqual({selected: null, style: 'american-medical-association'});
-    });
     it('should handle interactions', () => {
         const { component, importBtn, s } = setup();
         expect(s.callCount).toBe(0);
