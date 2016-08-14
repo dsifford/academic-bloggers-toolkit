@@ -37,14 +37,6 @@
                                                 | <option value="toggle" <?php selected($selected_bib_display, 'toggle'); ?>><?php _e('toggle on click', 'academic-bloggers-toolkit') ?></option>
                                     tr
                                         td(style='width: 25%;')
-                                            label(for='abt_PR_display')
-                                                - _e('The peer review boxes should', 'academic-bloggers-toolkit')
-                                        td(style='width: 75%;')
-                                            select(name='abt_PR_display', style='width: 100%;')
-                                                | <option value="toggle" <?php selected($selected_PR_box_display, 'toggle'); ?>><?php _e('toggle on click', 'academic-bloggers-toolkit') ?></option>
-                                                | <option value="fixed" <?php selected($selected_PR_box_display, 'fixed'); ?>><?php _e('be fixed on the page', 'academic-bloggers-toolkit') ?></option>
-                                    tr
-                                        td(style='width: 25%;')
                                             label(for='abt_link_display')
                                                 - _e('Clickable links should be included in the bibliography', 'academic-bloggers-toolkit')
                                         td(style='width: 75%;')
@@ -89,12 +81,6 @@
                                         tr
                                             td
                                                 strong
-                                                    - _e('Peer Review Boxes', 'academic-bloggers-toolkit')
-                                            td
-                                                code abt_PR_heading, .abt_PR_info, .abt_PR_headshot, .abt_chat_bubble
-                                        tr
-                                            td
-                                                strong
                                                     - _e('Citation Tooltips', 'academic-bloggers-toolkit')
                                             td
                                                 code .abt-tooltip, .abt_tooltip_arrow, .abt_tooltip_touch_close
@@ -124,7 +110,3 @@
                                     strong
                                         - _e('Apply style to the bibliography list?', 'academic-bloggers-toolkit')
                                     | <p data-height="300" data-theme-id="dark" data-slug-hash="JKjzGj" data-default-tab="result" data-user="dsifford" data-embed-version="2" class="codepen">See the Pen <a href="http://codepen.io/dsifford/pen/JKjzGj/">Bibliography</a> by Derek Sifford (<a href="http://codepen.io/dsifford">@dsifford</a>) on <a href="http://codepen.io">CodePen</a>.</p><script async src="//assets.codepen.io/assets/embed/ei.js"></script>
-                                div(style='flex: 1; min-width: 300px; padding: 0 5px;')
-                                    strong
-                                        - _e('Change the style of the peer review boxes?', 'academic-bloggers-toolkit')
-                                    | <p data-height="300" data-theme-id="dark" data-slug-hash="ezYXzX" data-default-tab="result" data-user="dsifford" data-embed-version="2" class="codepen">See the Pen <a href="http://codepen.io/dsifford/pen/ezYXzX/">Peer Review Boxes</a> by Derek Sifford (<a href="http://codepen.io/dsifford">@dsifford</a>) on <a href="http://codepen.io">CodePen</a>.</p><script async src="//assets.codepen.io/assets/embed/ei.js"></script>

@@ -157,11 +157,6 @@ declare namespace ABT {
         citationType: CSL.CitationType;
     }
 
-    interface FrontendMeta {
-        prBoxStyle: 'fixed'|'toggle';
-        bibStyle: 'fixed'|'toggle';
-    }
-
     /**
      * addManually: boolean
      * attachInline: boolean;
@@ -235,40 +230,6 @@ declare namespace ABT {
         placeholder: string;
     }
 
-    interface PRMetaPayload {
-        1: PeerReviewTableData;
-        2: PeerReviewTableData;
-        3: PeerReviewTableData;
-        selection: '0'|'1'|'2'|'3';
-    }
-
-    interface PRMetaState {
-        selection: '0'|'1'|'2'|'3';
-        1: ABT.PeerReviewTableData;
-        2: ABT.PeerReviewTableData;
-        3: ABT.PeerReviewTableData;
-        hidden: {
-            1: boolean
-            2: boolean
-            3: boolean
-        };
-    }
-
-    interface PeerReviewTableData {
-        heading: {
-            value: string;
-        };
-        response: PeerReviewSingleData;
-        review: PeerReviewSingleData;
-    }
-
-    interface PeerReviewSingleData {
-        background: string;
-        content: string;
-        image: string;
-        name: string;
-        twitter: string;
-    }
 }
 
 // tslint:disable no-namespace

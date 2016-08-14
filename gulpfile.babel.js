@@ -20,7 +20,6 @@ import { version as VERSION } from './package.json';
 
 const browserSync = require('browser-sync').create();
 
-const reload = browserSync.reload;
 const webpackDevConfig = Object.assign({}, webpackConfig, {
     devtool: 'eval',
     cache: false,
@@ -29,6 +28,8 @@ const webpackDevConfig = Object.assign({}, webpackConfig, {
 // ==================================================
 //                 Utility Tasks
 // ==================================================
+
+gulp.task('reload', (done) => { browserSync.reload(); done();});
 
 // Delete all files in dist/lib
 gulp.task('clean', (done) => del(['dist/**/*'], done));
@@ -204,14 +205,14 @@ gulp.task('default',
                 'src/lib/**/*.{ts,tsx}',
                 '!src/lib/**/__tests__/',
                 '!src/lib/**/__tests__/*',
-            ], gulp.series('webpack:dev', reload));
+            ], gulp.series('webpack:dev', 'reload'));
 
             gulp.watch([
                 'src/**/*',
                 '!src/**/*.{ts,tsx,styl}',
                 '!src/**/__tests__/',
                 '!src/**/__tests__/*',
-            ], gulp.series('static', 'php', reload));
+            ], gulp.series('static', 'php', 'reload'));
         }
     )
 );

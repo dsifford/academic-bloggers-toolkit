@@ -30,13 +30,6 @@
     },
     "files": [
         "src/lib/js/Frontend.ts",
-        "src/lib/js/peer-review-metabox/__tests__/CommonRowContent-test.tsx",
-        "src/lib/js/peer-review-metabox/__tests__/PeerReviewMetabox-test.tsx",
-        "src/lib/js/peer-review-metabox/__tests__/ReviewRow-test.tsx",
-        "src/lib/js/peer-review-metabox/CommonRowContent.tsx",
-        "src/lib/js/peer-review-metabox/index.tsx",
-        "src/lib/js/peer-review-metabox/PeerReviewMetabox.tsx",
-        "src/lib/js/peer-review-metabox/ReviewRow.tsx",
         "src/lib/js/reference-list/API.ts",
         "src/lib/js/reference-list/components/__tests__/Card-test.tsx",
         "src/lib/js/reference-list/components/__tests__/ItemList-test.tsx",

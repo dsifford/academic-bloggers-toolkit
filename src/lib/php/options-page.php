@@ -8,8 +8,6 @@ class ABT_Options  {
     /**
      * Save the array of citation styles to $this->citation_styles and add a
      *   link to the options page in the admin menu.
-     *
-     * @since 3.0.0
      */
     public function __construct() {
         $this->get_citation_styles();
@@ -19,9 +17,6 @@ class ABT_Options  {
     /**
      * Grabs the citation styles from the vendor array and saves them to
      *   $this->citation_styles
-     *
-     * @since 3.0.0
-     * @return void
      */
     private function get_citation_styles() {
         include dirname(__FILE__).'/../../vendor/citationstyles.php';
@@ -30,8 +25,6 @@ class ABT_Options  {
 
     /**
      * Instantiates the options page.
-     *
-     * @since 3.0.0
      */
     public function add_options_page() {
         add_options_page(
@@ -45,8 +38,6 @@ class ABT_Options  {
 
     /**
      * Renders the options page.
-     *
-     * @since 3.0.0
      */
     public function ABT_options_page() {
 
@@ -62,27 +53,23 @@ class ABT_Options  {
 
         if ($hidden_field_1 == 'Y') {
             $abt_options['custom_css'] = stripslashes_deep($_POST['abt_custom_css_editor']);
-            update_option('abt_options', $abt_options);
         }
 
         if ($hidden_field_2 == 'Y') {
             $abt_options['abt_citation_style'] = esc_html($_POST['abt_citation_style']);
-            update_option('abt_options', $abt_options);
         }
 
         if ($hidden_field_3 == 'Y') {
             $abt_options['display_options']['bibliography'] = esc_html($_POST['abt_bibliography_display']);
-            $abt_options['display_options']['PR_boxes'] = esc_html($_POST['abt_PR_display']);
             $abt_options['display_options']['links'] = esc_html($_POST['abt_link_display']);
             $abt_options['display_options']['bib_heading'] = esc_html($_POST['abt_bib_heading']);
-            update_option('abt_options', $abt_options);
         }
+        update_option('abt_options', $abt_options);
 
         $abt_saved_css = isset($abt_options['custom_css']) ? $abt_options['custom_css'] : '';
         $selected_style = isset($abt_options['abt_citation_style']) ? $abt_options['abt_citation_style'] : 'american-medical-association';
 
         $selected_bib_display = isset($abt_options['display_options']['bibliography']) ? $abt_options['display_options']['bibliography'] : '';
-        $selected_PR_box_display = isset($abt_options['display_options']['PR_boxes']) ? $abt_options['display_options']['PR_boxes'] : '';
         $selected_link_display = isset($abt_options['display_options']['links']) ? $abt_options['display_options']['links'] : '';
         $bib_heading = isset($abt_options['display_options']['bib_heading']) ? $abt_options['display_options']['bib_heading'] : '';
 
