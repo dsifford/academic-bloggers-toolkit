@@ -99,8 +99,9 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
             });
         }
 
-        const { locations: [citationsBefore, citationsAfter] } = MCE.getRelativeCitationPositions(this.editor);
-        const citationData = this.processor.prepareInlineCitationData(data);
+        const { locations: [citationsBefore, citationsAfter], currentIndex } =
+            MCE.getRelativeCitationPositions(this.editor);
+        const citationData = this.processor.prepareInlineCitationData(data, currentIndex);
         const clusters = this.processor.processCitationCluster(citationData, citationsBefore, citationsAfter);
 
         MCE.parseInlineCitations(
@@ -159,7 +160,6 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
                     }
                     return [...prev, curr];
                 }, []);
-
                 if (!payload.attachInline) return;
                 this.insertInline(null, data);
             })

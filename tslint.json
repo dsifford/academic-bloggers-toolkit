@@ -22,9 +22,6 @@
         "variable-name": [true,
             "ban-keywords"
         ],
-        "jsx-alignment": true,
-        "jsx-no-string-ref": true,
-        "jsx-self-close": true,
-        "jsx-no-lambda": true
+        "jsx-no-multiline-js": false
     }
 }

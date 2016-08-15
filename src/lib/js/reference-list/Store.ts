@@ -49,7 +49,7 @@ class CitationStore {
             }
             return [...prev, curr];
         }, []);
-        this.byIndex.replace(byIndex);
+        this.init(byIndex);
         idList.forEach(id => this.CSL.delete(id));
     }
 }
