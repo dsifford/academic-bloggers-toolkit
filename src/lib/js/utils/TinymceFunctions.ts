@@ -131,7 +131,7 @@ export function parseInlineCitations(
 
         if (exisingNote) exisingNote.parentElement.removeChild(exisingNote);
 
-        if (xclass === 'note') {
+        if (xclass === 'note' && clusters.length > 0) {
 
             const note = doc.createElement('DIV');
             note.id = 'abt-footnote';

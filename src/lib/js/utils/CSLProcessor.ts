@@ -2,7 +2,7 @@ import { localeConversions } from './Constants';
 import { parseReferenceURLs } from './HelperFunctions';
 import { Store } from '../reference-list/Store';
 
-declare const ABT_Custom_CSL: BackendGlobals._ABT_Custom_CSL;
+declare const ABT_Custom_CSL: BackendGlobals.ABT_Custom_CSL;
 declare const ABT_wp: BackendGlobals.ABT_wp;
 declare const CSL;
 

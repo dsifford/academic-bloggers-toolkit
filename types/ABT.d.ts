@@ -114,12 +114,11 @@ declare namespace BackendGlobals {
         };
     }
 
-    type ABT_Custom_CSL = _ABT_Custom_CSL | boolean;
-
-    interface _ABT_Custom_CSL {
-        CSL: string;
+    // tslint:disable-next-line
+    interface ABT_Custom_CSL {
+        CSL?: string;
         label: string;
-        value: string;
+        value?: string;
     }
 }
 

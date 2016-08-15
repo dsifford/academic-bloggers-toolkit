@@ -37,7 +37,7 @@ class ABT_Backend {
     }
 
     private function get_user_defined_csl($path) {
-        if (!file_exists($path)) return false;
+        if (!file_exists($path)) return [ 'value' => null ];
         $contents = file_get_contents($path);
         $xml = new SimpleXMLElement($contents);
         $label = $xml->info->title->__toString() !== ''

@@ -32,12 +32,11 @@ export class Menu extends React.PureComponent<Props, {}> {
         super(props);
 
         /**
-         * ABT_Custom_CSL is `false` if there is either no provided file path
+         * ABT_Custom_CSL.value is `null` if there is either no provided file path
          *   or if the path to the file is invalid.
          */
-        if (typeof ABT_Custom_CSL === 'boolean') {
+        if (ABT_Custom_CSL.value === null) {
             this.styles = ABT_CitationStyles;
-            return;
         }
         else {
             this.styles = [
@@ -100,7 +99,7 @@ export class Menu extends React.PureComponent<Props, {}> {
                             onChange={this.handleSelect}
                             value={this.selected}
                             optionRenderer={renderer}
-                            optionHeight={40}
+                            optionHeight={50}
                             placeholder={this.labels.stylePlaceholder}
                             options={this.styles}
                             clearable={false}
@@ -126,7 +125,7 @@ function renderer({focusedOption, focusOption, option, selectValue, valueArray})
         alignItems: 'center',
         borderBottom: '1px solid #ddd',
         display: 'flex',
-        height: 40,
+        height: 50,
         padding: '0 5px',
     };
 
