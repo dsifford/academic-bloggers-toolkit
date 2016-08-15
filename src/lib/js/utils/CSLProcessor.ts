@@ -2,6 +2,7 @@ import { localeConversions } from './Constants';
 import { parseReferenceURLs } from './HelperFunctions';
 import { Store } from '../reference-list/Store';
 
+declare const ABT_Custom_CSL: BackendGlobals._ABT_Custom_CSL;
 declare const ABT_wp: BackendGlobals.ABT_wp;
 declare const CSL;
 
@@ -58,7 +59,9 @@ export class CSLProcessor {
      *   network.
      */
     async init(): Promise<Citeproc.CitationClusterData[]> {
-        const style = await this.getCSLStyle(this.store.citationStyle);
+        const style = this.store.citationStyle === 'abt-user-defined'
+            ? ABT_Custom_CSL.CSL
+            : await this.getCSLStyle(this.store.citationStyle);
         const sys = await this.generateSys(this.store.locale);
         this.citeproc = new CSL.Engine(sys, style);
         return <[number, string, string][]>

@@ -14,28 +14,6 @@ declare namespace BackendGlobals {
     interface ABT_i18n {
         citationTypes: ABT.CitationTypes;
         fieldmaps: ABT.FieldMappings;
-        peerReviewMetabox: {
-            commonRowContent: {
-                background: string;
-                content: string;
-                imageButton: string;
-                name: string;
-                photo: string;
-                twitter: string;
-            };
-            peerReviewMetabox: {
-                mediaButton: string;
-                mediaTitle: string;
-                optionText: string[];
-                review1: string;
-                review2: string;
-                review3: string;
-            };
-            reviewRow: {
-                reviewHeading: string;
-                toggleResponse: string;
-            };
-        };
         referenceList: {
             menu: {
                 stylePlaceholder: string;
@@ -101,6 +79,10 @@ declare namespace BackendGlobals {
 
     // tslint:disable-next-line
     interface ABT_Reflist_State {
+        bibOptions: {
+            heading: string;
+            style: 'fixed'|'toggle';
+        };
         cache: {
             style: string;
             links: 'always'|'urls'|'never';
@@ -109,10 +91,6 @@ declare namespace BackendGlobals {
         citationByIndex: Citeproc.CitationByIndex;
         CSL: {
             [id: string]: CSL.Data;
-        };
-        bibOptions: {
-            heading: string;
-            style: 'fixed'|'toggle';
         };
     }
 
@@ -134,6 +112,14 @@ declare namespace BackendGlobals {
             /* http(s)://siteurl.com/wp-content/uploads/2016/08 */
             url: string;
         };
+    }
+
+    type ABT_Custom_CSL = _ABT_Custom_CSL | boolean;
+
+    interface _ABT_Custom_CSL {
+        CSL: string;
+        label: string;
+        value: string;
     }
 }
 

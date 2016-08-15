@@ -31,8 +31,22 @@ class ABT_Backend {
         return [
             'abt_url' => plugins_url() . '/academic-bloggers-toolkit',
             'plugins_url' => plugins_url(),
-            'wp_upload_dir' => wp_upload_dir(),
+            'wp_upload_dir' => wp_get_upload_dir(),
             'home_url' => home_url(),
+        ];
+    }
+
+    private function get_user_defined_csl($path) {
+        if (!file_exists($path)) return false;
+        $contents = file_get_contents($path);
+        $xml = new SimpleXMLElement($contents);
+        $label = $xml->info->title->__toString() !== ''
+            ? $xml->info->title->__toString()
+            : 'ABT Custom Style';
+        return [
+            'label' => $label,
+            'value' => 'abt-user-defined',
+            'CSL' => $contents,
         ];
     }
 
@@ -125,8 +139,11 @@ class ABT_Backend {
         if (empty($reflist_state)) {
             $reflist_state = [
                 'cache' => [
-                    'style' => isset($abt_options['abt_citation_style']) ? $abt_options['abt_citation_style'] : 'american-medical-association',
-                    'links' => isset($abt_options['display_options']['links']) ? $abt_options['display_options']['links'] : 'always',
+                    'style' => (
+                        $abt_options['citation_style']['prefer_custom'] === true
+                        && file_exists($abt_options['citation_style']['custom_url'])
+                    ) ? 'abt-user-defined' : $abt_options['citation_style']['style'],
+                    'links' => $abt_options['display_options']['links'],
                     'locale' => get_locale(),
                 ],
                 'citationByIndex' => [],
@@ -135,8 +152,8 @@ class ABT_Backend {
         }
 
         $reflist_state['bibOptions'] = [
-            'heading' => isset($abt_options['display_options']['bib_heading']) ? $abt_options['display_options']['bib_heading'] : null,
-            'style' => isset($abt_options['display_options']['bibliography']) ? $abt_options['display_options']['bibliography'] : 'fixed',
+            'heading' => $abt_options['display_options']['bib_heading'],
+            'style' => $abt_options['display_options']['bibliography'],
         ];
 
         // Fix legacy post meta
@@ -154,6 +171,7 @@ class ABT_Backend {
         wp_localize_script('abt_reflist', 'ABT_i18n', $ABT_i18n);
         wp_localize_script('abt_reflist', 'ABT_CitationStyles', $this->get_citation_styles());
         wp_localize_script('abt_reflist', 'ABT_wp', $this->localize_wordpress_constants());
+        wp_localize_script('abt_reflist', 'ABT_Custom_CSL', $this->get_user_defined_csl($abt_options['citation_style']['custom_url']));
 
         echo "<div id='abt-reflist' style='margin: 0 -12px -12px -12px;'></div>";
     }

@@ -59,7 +59,7 @@
     "source-map-loader": "^0.1.5",
     "style-loader": "^0.13.1",
     "ts-loader": "^0.8.2",
-    "tslint": "^3.14.0",
+    "tslint": "^3.14.0-dev.1",
     "tslint-react": "^0.4.0",
     "webpack-stream": "^3.2.0"
   },

@@ -20,8 +20,7 @@ function abt_update_notification() {
     global $ABT_VERSION;
     $options = get_option('abt_options');
     if ($options['VERSION'] && $options['VERSION'] === $ABT_VERSION) return;
-    $options['VERSION'] = $ABT_VERSION;
-    update_option('abt_options', $options);
+    abt_refactor_depreciated_options();
     ?>
     <div class="notice notice-warning is-dismissible">
         <h2>Warning: Breaking Changes!</h2>
@@ -39,6 +38,18 @@ add_action('admin_notices', 'abt_update_notification');
 
 
 /**
+ * Adds .csl files to the accepted mime types for WordPress
+ * @param  [array] $mimes Existing mime types
+ * @return [array]        Existing mime types + csl
+ */
+function enable_csl_mime($mimes) {
+    $mimes['csl'] = 'text/xml';
+    return $mimes;
+}
+add_filter('upload_mimes', 'enable_csl_mime');
+
+
+/**
  * Cleans up options during uninstall
  */
 function abt_uninstall() {
@@ -48,6 +59,39 @@ if (function_exists('register_uninstall_hook')) {
 	register_uninstall_hook(__FILE__, 'abt_uninstall');
 }
 
+/**
+ * Refactors the defined plugin options
+ *
+ * FIXME: This should be removed on the next update
+ *
+ * Current schema configuration can be found here:
+ *   http://www.jsoneditoronline.org/?id=8f65b4f64daaf41e5ed94c4a006ba264
+ */
+function abt_refactor_depreciated_options() {
+    global $ABT_VERSION;
+    $options = get_option('abt_options');
+    $newOptions = [
+        'display_options' => [
+            'bibliography' => isset($options['display_options']['bibliography'])
+                ? $options['display_options']['bibliography'] : 'fixed',
+            'links' => isset($options['display_options']['links'])
+                ? $options['display_options']['links'] : 'always',
+            'bib_heading' => isset($options['display_options']['bib_heading'])
+                ? $options['display_options']['bib_heading'] : '',
+        ],
+        'VERSION' => $ABT_VERSION,
+    ];
+
+    if(!isset($options['citation_style'])) {
+        $newOptions['citation_style'] = [
+            'custom_url' => '',
+            'prefer_custom' => false,
+            'style' => isset($options['abt_citation_style'])
+                ? $options['abt_citation_style'] : 'american-medical-association',
+        ];
+    }
+    update_option('abt_options', $newOptions);
+}
 
 /**
  * Adds link on the plugin page to the options page.

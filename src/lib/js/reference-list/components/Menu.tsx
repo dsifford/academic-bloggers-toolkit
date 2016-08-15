@@ -9,6 +9,7 @@ import 'react-virtualized/styles.css';
 import 'react-select/dist/react-select.min.css';
 
 declare const ABT_i18n: BackendGlobals.ABT_i18n;
+declare const ABT_Custom_CSL: BackendGlobals.ABT_Custom_CSL;
 
 interface Props extends React.HTMLProps<HTMLDivElement> {
     cslStyle: string;
@@ -18,7 +19,7 @@ interface Props extends React.HTMLProps<HTMLDivElement> {
 @observer
 export class Menu extends React.PureComponent<Props, {}> {
 
-    styles: {label: string, value: string}[] = ABT_CitationStyles;
+    styles: {label: string, value: string}[];
     labels = ABT_i18n.referenceList.menu;
 
     @observable
@@ -29,6 +30,24 @@ export class Menu extends React.PureComponent<Props, {}> {
 
     constructor(props) {
         super(props);
+
+        /**
+         * ABT_Custom_CSL is `false` if there is either no provided file path
+         *   or if the path to the file is invalid.
+         */
+        if (typeof ABT_Custom_CSL === 'boolean') {
+            this.styles = ABT_CitationStyles;
+            return;
+        }
+        else {
+            this.styles = [
+                { label: 'Custom Style', value: 'header' },
+                { label: ABT_Custom_CSL.label, value: ABT_Custom_CSL.value },
+                { label: 'Pre-defined Styles', value: 'header' },
+                ...ABT_CitationStyles,
+            ];
+        }
+
         this.selected.value = this.props.cslStyle;
         this.selected.label = this.styles.find(d => d.value === this.props.cslStyle).label;
     }
@@ -80,6 +99,8 @@ export class Menu extends React.PureComponent<Props, {}> {
                             id="style-select"
                             onChange={this.handleSelect}
                             value={this.selected}
+                            optionRenderer={renderer}
+                            optionHeight={40}
                             placeholder={this.labels.stylePlaceholder}
                             options={this.styles}
                             clearable={false}
@@ -90,4 +111,54 @@ export class Menu extends React.PureComponent<Props, {}> {
             </div>
         );
     }
+}
+
+/**
+ * Custom render function for React Virtualized Select
+ * @param  {Object} focusedOption The option currently focused in the dropdown
+ * @param  {Function} focusOption Callback to update the focused option. (on mouseover)
+ * @param  {Object} option        The option to be rendered
+ * @param  {Function} selectValue Callback to update the selected values. (on click)
+ * @param  {Object[]} valueArray  Array of currently selected options.
+ */
+function renderer({focusedOption, focusOption, option, selectValue, valueArray}) {
+    const style: React.CSSProperties = {
+        alignItems: 'center',
+        borderBottom: '1px solid #ddd',
+        display: 'flex',
+        height: 40,
+        padding: '0 5px',
+    };
+
+    if (option.value === 'header') {
+        style.backgroundColor = '#eee';
+        style.fontWeight = 'bold';
+        style.cursor = 'default';
+        return (
+            <div
+                style={style}
+                children={option.label}
+            />
+        );
+    }
+
+    if (option === focusedOption) {
+        style.backgroundColor = '#f5f5f5';
+    }
+
+    if (valueArray.indexOf(option) >= 0) {
+        style.fontWeight = 'bold';
+    }
+
+    const click = () => selectValue(option);
+    const focus = () => focusOption(option);
+
+    return (
+        <div
+            style={style}
+            onClick={click}
+            onMouseOver={focus}
+            children={option.label}
+        />
+    );
 }
