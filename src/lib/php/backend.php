@@ -210,3 +210,13 @@ class ABT_Backend {
     }
 
 }
+
+/**
+ * Appends the changelog script to the document footer on the editor pages
+ */
+function abt_append_changelog_script() {
+    global $pagenow;
+    if (!in_array($pagenow, ['post.php', 'post-new.php'])) return;
+    echo '<script type="text/javascript">var el=document.createElement("SPAN");el.id="abt_changelog",document.querySelector("#abt_reflist > h2").appendChild(el);var HW_config={selector:"#abt_changelog",account:"LJ4gE7"};</script><script async src="//cdn.headwayapp.co/widget.js"></script>';
+}
+add_action('admin_footer', 'abt_append_changelog_script');

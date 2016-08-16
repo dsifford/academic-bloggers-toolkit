@@ -16,10 +16,15 @@ interface Props extends React.HTMLProps<HTMLDivElement> {
     submitData(kind: string, data?: string): void;
 }
 
+interface StyleOption {
+    label: string;
+    value: string;
+}
+
 @observer
 export class Menu extends React.PureComponent<Props, {}> {
 
-    styles: {label: string, value: string}[];
+    styles: StyleOption[];
     labels = ABT_i18n.referenceList.menu;
 
     @observable
@@ -55,8 +60,25 @@ export class Menu extends React.PureComponent<Props, {}> {
         this.props.submitData(e.target.id);
     }
 
-    handleSelect = (data: {label: string, value: string}) => {
+    handleSelect = (data: StyleOption) => {
         this.props.submitData('CHANGE_STYLE', data.value);
+    }
+
+    dynamicOptionHeightHandler = ({option}) => {
+        switch (true) {
+            case option.label.length > 110:
+                return 90;
+            case option.label.length > 90:
+                return 70;
+            case option.label.length > 80:
+                return 60;
+            case option.label.length > 65:
+                return 50;
+            case option.label.length > 35:
+                return 40;
+            default:
+                return 30;
+        }
     }
 
     render() {
@@ -99,7 +121,7 @@ export class Menu extends React.PureComponent<Props, {}> {
                             onChange={this.handleSelect}
                             value={this.selected}
                             optionRenderer={renderer}
-                            optionHeight={50}
+                            optionHeight={this.dynamicOptionHeightHandler}
                             placeholder={this.labels.stylePlaceholder}
                             options={this.styles}
                             clearable={false}
@@ -125,13 +147,13 @@ function renderer({focusedOption, focusOption, option, selectValue, valueArray})
         alignItems: 'center',
         borderBottom: '1px solid #ddd',
         display: 'flex',
-        height: 50,
         padding: '0 5px',
     };
 
     if (option.value === 'header') {
         style.backgroundColor = '#eee';
         style.fontWeight = 'bold';
+        style.height = 30;
         style.cursor = 'default';
         return (
             <div
@@ -139,6 +161,26 @@ function renderer({focusedOption, focusOption, option, selectValue, valueArray})
                 children={option.label}
             />
         );
+    }
+
+    switch (true) {
+        case option.label.length > 110:
+            style.height = 90;
+            break;
+        case option.label.length > 90:
+            style.height = 70;
+            break;
+        case option.label.length > 80:
+            style.height = 60;
+            break;
+        case option.label.length > 65:
+            style.height = 50;
+            break;
+        case option.label.length > 35:
+            style.height = 40;
+            break;
+        default:
+            style.height = 30;
     }
 
     if (option === focusedOption) {
