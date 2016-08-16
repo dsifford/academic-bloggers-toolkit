@@ -26,8 +26,7 @@
                                             label
                                                 | <input type="radio" name="citation_style_prefer_custom" value='true' <?php checked($citation_style_prefer_custom, true) ?> />
                                                 - _e('Use custom citation style by default ', 'academic-bloggers-toolkit')
-                                                // TODO: paste link here for instructions
-                                                a(href='#', target='_blank') [?]
+                                                a(href='https://github.com/dsifford/academic-bloggers-toolkit#using-a-custom-citation-style', target='_blank') [?]
                                     tr
                                         td
                                             select#abt_citation_style(name='citation_style_style', style='width: 100%;', aria-label='select predefined citation style')
@@ -109,7 +108,7 @@
                                                 td
                                                     code #abt-footnote, .abt-footnote-heading, .abt-footnote-item, .abt-footnote-number
                                 tr
-                                    td(style='font-size: 0.8em')
+                                    td(style='font-size: 0.8em; padding-top: 0;')
                                         - _e('Note: If you are already using a child theme to load CSS, place your CSS overrides there. The box above is only a crutch for those who do not have any custom CSS saved yet. Loading CSS this way is very inefficient.', 'academic-bloggers-toolkit')
                                     td(style='text-align: right')
                                         input.button-primary(type='submit', name='custom_css_submit', value='Update', aria-label='Update custom css submit')

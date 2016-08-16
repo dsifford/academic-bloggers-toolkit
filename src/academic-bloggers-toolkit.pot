@@ -1,8 +1,8 @@
-# Copyright (C) 2016 Academic Blogger's Toolkit 3.4.3
-# This file is distributed under the same license as the Academic Blogger's Toolkit 3.4.3 package.
+# Copyright (C) 2016 Academic Blogger's Toolkit 4.0.0
+# This file is distributed under the same license as the Academic Blogger's Toolkit 4.0.0 package.
 msgid ""
 msgstr ""
-"Project-Id-Version: Academic Blogger's Toolkit 3.4.3\n"
+"Project-Id-Version: Academic Blogger's Toolkit 4.0.0\n"
 "Report-Msgid-Bugs-To: https://github.com/dsifford/academic-bloggers-toolkit/issues\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -10,122 +10,117 @@ msgstr ""
 "PO-Revision-Date: 2016-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Derek P Sifford <dereksifford@gmail.com>\n"
 "Language-Team: Derek P Sifford <dereksifford@gmail.com>\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+#: dist/lib/php/options-page.php:47, src/lib/php/options-page.php:47
+msgid "The provided URL is not a valid file in your WordPress upload directory. Please try again."
+msgstr ""
 
-#: dist/lib/php/options-page.php:90
+#: dist/lib/php/options-page.php:107
 msgid "Academic Blogger's Toolkit Options"
 msgstr ""
 
-#: dist/lib/php/options-page.php:90
+#: dist/lib/php/options-page.php:107
 msgid "Please send your feedback!"
 msgstr ""
 
-#: dist/lib/php/options-page.php:90
-msgid "If you experience a bug or would like to request a new feature, please visit the <a href='%s' target='_blank'>GitHub Repository</a> and submit an issue. I'll do my best to get it handled in a timely manner. Comments can also be sent to me on twitter"
+#: dist/lib/php/options-page.php:107
+msgid "If you experience a bug or would like to request a new feature, please visit the <a href='%s' target='_blank'>GitHub Repository</a> and submit an issue. I'll do my best to get it handled in a timely manner. Comments may also be sent to me on twitter "
 msgstr ""
 
-#: dist/lib/php/options-page.php:90
-msgid "Preferred Citation Style"
+#: dist/lib/php/options-page.php:107
+msgid "Default Citation Style"
 msgstr ""
 
-#: dist/lib/php/options-page.php:90
+#: dist/lib/php/options-page.php:107
+msgid "Use a predefined citation style by default"
+msgstr ""
+
+#: dist/lib/php/options-page.php:107
+msgid "Use custom citation style by default "
+msgstr ""
+
+#: dist/lib/php/options-page.php:107
 msgid "Display Options"
 msgstr ""
 
-#: dist/lib/php/options-page.php:90
+#: dist/lib/php/options-page.php:107
 msgid "The bibliography should"
 msgstr ""
 
-#: dist/lib/php/options-page.php:90, dist/lib/php/options-page.php:92
+#: dist/lib/php/options-page.php:107
 msgid "be fixed on the page"
 msgstr ""
 
-#: dist/lib/php/options-page.php:91, dist/lib/php/options-page.php:91
+#: dist/lib/php/options-page.php:108
 msgid "toggle on click"
 msgstr ""
 
-#: dist/lib/php/options-page.php:91
-msgid "The peer review boxes should"
-msgstr ""
-
-#: dist/lib/php/options-page.php:92
+#: dist/lib/php/options-page.php:108
 msgid "Clickable links should be included in the bibliography"
 msgstr ""
 
-#: dist/lib/php/options-page.php:92
+#: dist/lib/php/options-page.php:108
 msgid "whenever possible"
 msgstr ""
 
-#: dist/lib/php/options-page.php:93
+#: dist/lib/php/options-page.php:109
 msgid "when the citation has a visible URL"
 msgstr ""
 
-#: dist/lib/php/options-page.php:94
+#: dist/lib/php/options-page.php:110
 msgid "never"
 msgstr ""
 
-#: dist/lib/php/options-page.php:94
+#: dist/lib/php/options-page.php:110
 msgid "The heading for bibliographies should be"
 msgstr ""
 
-#: dist/lib/php/options-page.php:94
+#: dist/lib/php/options-page.php:110
 msgid "Override CSS"
 msgstr ""
 
-#: dist/lib/php/options-page.php:95
-msgid "Note: If you are already using a child theme to load CSS, place your CSS overrides there. The box above is only a crutch for those who do not have any custom CSS saved yet. Loading CSS this way is very inefficient."
-msgstr ""
-
-#: dist/lib/php/options-page.php:95
+#: dist/lib/php/options-page.php:110
 msgid "CSS Selectors used in this plugin"
 msgstr ""
 
-#: dist/lib/php/options-page.php:95
+#: dist/lib/php/options-page.php:110
 msgid "Inline Citations"
 msgstr ""
 
-#: dist/lib/php/options-page.php:95
-msgid "Peer Review Boxes"
-msgstr ""
-
-#: dist/lib/php/options-page.php:95
+#: dist/lib/php/options-page.php:110
 msgid "Citation Tooltips"
 msgstr ""
 
-#: dist/lib/php/options-page.php:95
+#: dist/lib/php/options-page.php:110
 msgid "Bibliography"
 msgstr ""
 
-#: dist/lib/php/options-page.php:95
+#: dist/lib/php/options-page.php:110
 msgid "Footnotes"
 msgstr ""
 
-#: dist/lib/php/options-page.php:95
+#: dist/lib/php/options-page.php:110
+msgid "Note: If you are already using a child theme to load CSS, place your CSS overrides there. The box above is only a crutch for those who do not have any custom CSS saved yet. Loading CSS this way is very inefficient."
+msgstr ""
+
+#: dist/lib/php/options-page.php:110
 msgid "How do I"
 msgstr ""
 
-#: dist/lib/php/options-page.php:95
+#: dist/lib/php/options-page.php:110
 msgid "Make my tooltips a different color?"
 msgstr ""
 
-#: dist/lib/php/options-page.php:95
+#: dist/lib/php/options-page.php:110
 msgid "Apply style to the bibliography list?"
 msgstr ""
 
-#: dist/lib/php/options-page.php:95
-msgid "Change the style of the peer review boxes?"
-msgstr ""
-
-#: src/academic-bloggers-toolkit.php:18
+#: src/academic-bloggers-toolkit.php:103
 msgid "Plugin Settings"
 msgstr ""
 
-#: src/lib/php/backend.php:81
+#: src/lib/php/backend.php:121
 msgid "Reference List"
-msgstr ""
-
-#: src/lib/php/backend.php:89
-msgid "Add Peer Review(s)"
 msgstr ""
 
 #: src/lib/php/fieldmaps.php:6, src/lib/php/fieldmaps.php:117
@@ -622,68 +617,4 @@ msgstr ""
 
 #: src/lib/php/i18n.php:73
 msgid "Attach Inline"
-msgstr ""
-
-#: src/lib/php/i18n.php:81
-msgid "Select Number of Reviewers"
-msgstr ""
-
-#: src/lib/php/i18n.php:82
-msgid "One Reviewer"
-msgstr ""
-
-#: src/lib/php/i18n.php:83
-msgid "Two Reviewers"
-msgstr ""
-
-#: src/lib/php/i18n.php:84
-msgid "Three Reviewers"
-msgstr ""
-
-#: src/lib/php/i18n.php:86
-msgid "Review 1"
-msgstr ""
-
-#: src/lib/php/i18n.php:87
-msgid "Review 2"
-msgstr ""
-
-#: src/lib/php/i18n.php:88
-msgid "Review 3"
-msgstr ""
-
-#: src/lib/php/i18n.php:89
-msgid "Use this image"
-msgstr ""
-
-#: src/lib/php/i18n.php:90, src/lib/php/i18n.php:102
-msgid "Choose or Upload an Image"
-msgstr ""
-
-#: src/lib/php/i18n.php:93
-msgid "Review Heading"
-msgstr ""
-
-#: src/lib/php/i18n.php:94
-msgid "Toggle Author Response"
-msgstr ""
-
-#: src/lib/php/i18n.php:97
-msgid "Name"
-msgstr ""
-
-#: src/lib/php/i18n.php:98
-msgid "Twitter Handle"
-msgstr ""
-
-#: src/lib/php/i18n.php:99
-msgid "Background"
-msgstr ""
-
-#: src/lib/php/i18n.php:100
-msgid "Content"
-msgstr ""
-
-#: src/lib/php/i18n.php:101
-msgid "Photo"
 msgstr ""

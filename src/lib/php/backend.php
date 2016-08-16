@@ -197,26 +197,15 @@ class ABT_Backend {
      */
     public function enqueue_admin_scripts() {
         global $post_type;
-        global $ABT_VERSION;
 
         if ($post_type === 'attachment') return;
 
         // wp_enqueue_media();
         wp_dequeue_script('autosave');
         wp_enqueue_style('dashicons');
-        wp_enqueue_style('abt-admin-css', plugins_url('academic-bloggers-toolkit/lib/css/admin.css'), ['dashicons'], $ABT_VERSION);
-        wp_enqueue_script('abt_citeproc', plugins_url('academic-bloggers-toolkit/vendor/citeproc.js'), [], $ABT_VERSION, true);
-        wp_enqueue_script('abt_reflist', plugins_url('academic-bloggers-toolkit/lib/js/reference-list/index.js'), ['abt_citeproc'], $ABT_VERSION, true);
+        wp_enqueue_style('abt-admin-css', plugins_url('academic-bloggers-toolkit/lib/css/admin.css'), ['dashicons'], ABT_VERSION);
+        wp_enqueue_script('abt_citeproc', plugins_url('academic-bloggers-toolkit/vendor/citeproc.js'), [], ABT_VERSION, true);
+        wp_enqueue_script('abt_reflist', plugins_url('academic-bloggers-toolkit/lib/js/reference-list/index.js'), ['abt_citeproc'], ABT_VERSION, true);
     }
 
 }
-
-/**
- * Appends the changelog script to the document footer on the editor pages
- */
-function abt_append_changelog_script() {
-    global $pagenow;
-    if (!in_array($pagenow, ['post.php', 'post-new.php'])) return;
-    echo '<script type="text/javascript">var el=document.createElement("SPAN");el.id="abt_changelog",document.querySelector("#abt_reflist > h2").appendChild(el);var HW_config={selector:"#abt_changelog",account:"LJ4gE7"};</script><script async src="//cdn.headwayapp.co/widget.js"></script>';
-}
-add_action('admin_footer', 'abt_append_changelog_script');

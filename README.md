@@ -1,4 +1,4 @@
-[![Coverage Status](https://coveralls.io/repos/github/dsifford/academic-bloggers-toolkit/badge.svg?branch=master)](https://coveralls.io/github/dsifford/academic-bloggers-toolkit?branch=master) [![Build Status](https://travis-ci.org/dsifford/academic-bloggers-toolkit.svg?branch=master)](https://travis-ci.org/dsifford/academic-bloggers-toolkit) [![WordPress](https://img.shields.io/wordpress/plugin/dt/academic-bloggers-toolkit.svg?maxAge=2592000)](https://wordpress.org/plugins/academic-bloggers-toolkit/) ![Dependencies](https://david-dm.org/dsifford/academic-bloggers-toolkit.svg)
+[![Coverage Status](https://coveralls.io/repos/github/dsifford/academic-bloggers-toolkit/badge.svg?branch=master)](https://coveralls.io/github/dsifford/academic-bloggers-toolkit?branch=master) [![Build Status](https://travis-ci.org/dsifford/academic-bloggers-toolkit.svg?branch=master)](https://travis-ci.org/dsifford/academic-bloggers-toolkit) [![WordPress](https://img.shields.io/wordpress/plugin/dt/academic-bloggers-toolkit.svg?maxAge=2592000)](https://wordpress.org/plugins/academic-bloggers-toolkit/) ![Dependencies](https://david-dm.org/dsifford/academic-bloggers-toolkit.svg) [![Changelog](https://img.shields.io/badge/changelog-academic--bloggers--toolkit-blue.svg)](https://headwayapp.co/academic-bloggers-toolkit-changelog)
 
 # Academic Blogger's Toolkit
 An **open source** WordPress plugin providing an all-in-one solution for effective academic blogging.
@@ -6,8 +6,8 @@ An **open source** WordPress plugin providing an all-in-one solution for effecti
 ## Contents
 - [Features](#features)
 - [Translations](#translations)
-- [Usage](#usage)
 - [Contributing](#contributing)
+- [Usage](#usage)
 
 ### Manifesto
 
@@ -27,13 +27,16 @@ An **open source** WordPress plugin providing an all-in-one solution for effecti
 - **Fully interactive** reference list which lives beside the post editor.
 - **Search PubMed from the post editor** and insert references instantly.
 - Inline citations display full formatted references on the frontend when hovered with the mouse (or when tapped on mobile). No more scrolling down and losing your focus!
-- Append up to three peer reviews below your posts. Peer reviews include not only the review content, but also reviewer bios, photos, and author responses (when necessary).
 
 ### Translations
 
 [**Click Here to Translate this Plugin**](https://poeditor.com/join/project/PGYLKWQM5h)
 
 Translations for this plugin can be completed and submitted [here](https://poeditor.com/join/project/PGYLKWQM5h). After submission of a translation, I'll try to update the plugin with your translations within 7 days.
+
+### Contributing
+
+If you'd like to contribute to this project, please read the [contributor guide](https://github.com/dsifford/academic-bloggers-toolkit/blob/master/CONTRIBUTING.md).
 
 ### Usage
 
@@ -50,8 +53,11 @@ Translations for this plugin can be completed and submitted [here](https://poedi
 - [Citing references at the same time the reference is added](#citing-references-at-the-same-time-the-reference-is-added)
 - [Citing references after the reference has been added](#citing-references-after-the-reference-has-been-added)
 
-#### Miscellaneous
+#### Citation Styles
 - [Changing citation style](#changing-citation-style)
+- [Using a custom citation style](#using-a-custom-citation-style)
+
+#### Miscellaneous
 - [Pinning reference list](#pinning-reference-list)
 - [Changing citation number or position](#changing-citation-number-or-position)
 
@@ -84,7 +90,7 @@ PC/Linux | Mac | Action
 6. When finished, click `Add Reference`.
 
 #### Adding References Using RIS File
-> Currently, users are able to import entire reference lists using the widely available [RIS format](http://referencemanager.com/training/ris-format). This section assumes that you have already exported a `.ris` file from your reference manager, PubMed, or some other web service.
+> **Note:** Currently, users are able to import entire reference lists using the widely available [RIS format](http://referencemanager.com/training/ris-format). This section assumes that you have already exported a `.ris` file from your reference manager, PubMed, or some other web service.
 
 1. Click the "hamburger menu" icon to open the secondary menu [[1e]](#visual-aids).
 2. Click the `Import references from RIS file` button [[2a]](#visual-aids).
@@ -109,11 +115,12 @@ PC/Linux | Mac | Action
 3. Just before clicking `Add Reference` in the final step, be sure that the `Attach Inline` checkbox [[3d]](#visual-aids) is checked.
 
 #### Citing references after the reference has been added
+> **Note:** References cited from the **Uncited List** will be brought into the cited list automatically as they are cited.
+
 1. Be sure the carat is located at the postion that you want your citation added in the document.
 2. Select all items that you'd like to cite at the current position (selected items have a blue left border [[6a,6b]](#visual-aids)).
 3. Click `Insert Selected References` [[1a]](#visual-aids).
 
-> **Note:** References cited from the **Uncited List** will be brought into the cited list automatically as they are cited.
 
 #### Changing citation style
 ##### Permanently
@@ -122,10 +129,27 @@ PC/Linux | Mac | Action
 3. Click `Update`.
 
 ##### For a single document
+> **Note:** Changing the citation style in the document will automatically adjust inline citations and the bibliography to match the newly chosen citation style.
+
+
 1. Click the "hamburger menu" button to expose the secondary menu [[1e]](#visual-aids).
 2. Choose a citation style from the dropdown menu [[2e]](#visual-aids).
 
-> **Note:** Changing the citation style in the document will automatically adjust inline citations and the bibliography to match the newly chosen citation style.
+#### Using a custom citation style
+1. Visit [this link](http://editor.citationstyles.org/about/) to create a fully custom citation style, or make tweaks to an existing style. Documentation for this service can be [found here](https://github.com/citation-style-language/csl-editor/wiki/User-guide-for-the-CSL-Editor).
+2. After creating your citation style, select `Style -> Save Style` in the toolbar.
+    ![Save CSL Style](http://i.imgur.com/OdhgxHw.png)
+3. In the next window that pops up, select `Save to Disk` to save to your computer.
+    ![CSL Save to Disk](http://i.imgur.com/nvhl3dD.png?1)
+4. Upload the file to your WordPress site using the WordPress Media Manager and copy the direct URL to the file.
+    ![Upload Custom CSL](http://i.imgur.com/cQ4mZbs.png?1)
+5. Paste the URL in the field shown below.
+    ![Paste Custom CSL URL](http://i.imgur.com/Ay1G01f.png?1)
+    > **Note:** Selecting the radio button labelled `Use custom citation style by default` is completely optional. If checked, then the style will automatically be used as default for new posts. If not, you will still be able to choose the style from the reference list.
+6. Click Update.
+    > **Note:** The URL will be verified by the plugin and converted from a URL to a path automatically. In other words, if you notice that the URL changes after clicking the Update button, that means everything worked!
+7. The custom style will now be accessible from the reference list.
+    ![Custom Style Reference List](http://i.imgur.com/SrFiimQ.png)
 
 #### Pinning reference list
 1. Click the pin icon [[1d]](#visual-aids) to toggle floating mode.
@@ -152,8 +176,3 @@ If you find that the citation ordering is not the way that you like it, [choose 
 |**4.**| <p align="center"><img src="http://i.imgur.com/dClo8fs.png?1" alt="Manual Reference Window" width="50%" /></p>
 |**5.**| <p align="center"><img src="http://i.imgur.com/r00LD73.png?1" alt="RIS Import Menu" width="75%" /></p>
 |**6.**| <p align="center"><img src="http://i.imgur.com/o9p5biN.png?1" alt="Cited and Uncited Lists" height="400px" /></p>
-
-
-### Contributing
-
-If you'd like to contribute to this project, please read the [contributor guide](https://github.com/dsifford/academic-bloggers-toolkit/blob/master/CONTRIBUTING.md).
