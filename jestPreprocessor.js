@@ -15,6 +15,7 @@ module.exports = {
 
 // Debug function to help weed out transpiled nonsense that negatively affects testing
 function transpile(src, path, debugFile) {
+    src = src.replace(/^import '.+?\.css';/gm, '');
     if (!debugFile) {
         return (
             tsc.transpile(
