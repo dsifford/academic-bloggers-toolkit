@@ -118,7 +118,7 @@ gulp.task('static', () => {
         .src('src/**/*.{js,php,po,pot,mo,html,txt}', { base: './src' })
         .pipe(gulp.dest('./dist'));
     const misc = gulp
-        .src(['LICENSE', 'CHANGELOG.md'])
+        .src(['LICENSE'])
         .pipe(gulp.dest('./dist'));
     return merge(main, misc);
 });
