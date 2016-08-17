@@ -30,7 +30,7 @@ An **open source** WordPress plugin providing an all-in-one solution for effecti
 
 ## Translations
 
-[**Click Here to Translate this Plugin**](https://poeditor.com/join/project/PGYLKWQM5h)
+<p align="center"><a href="https://poeditor.com/join/project/PGYLKWQM5h" target="_blank"><strong>Click Here to Translate this Plugin</strong></a></p>
 
 Translations for this plugin can be completed and submitted [here](https://poeditor.com/join/project/PGYLKWQM5h). After submission of a translation, I'll try to update the plugin with your translations within 7 days.
 
