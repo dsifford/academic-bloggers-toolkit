@@ -19,7 +19,7 @@ An **open source** WordPress plugin providing an all-in-one solution for effecti
 
 > Need to write one long blog post with lots of references? Download this plugin, write the post, and then delete the plugin if you don't need it any longer. **Freedom.**
 
-### Features
+## Features
 - Insert formatted references on the fly using digital identifiers (**PMID** or **DOI**).
 - Manually insert formatted references from **over 15 types of references**.
 - **Import a full bibliography from your favorite reference manager** using an exported `.ris` file.
@@ -28,58 +28,58 @@ An **open source** WordPress plugin providing an all-in-one solution for effecti
 - **Search PubMed from the post editor** and insert references instantly.
 - Inline citations display full formatted references on the frontend when hovered with the mouse (or when tapped on mobile). No more scrolling down and losing your focus!
 
-### Translations
+## Translations
 
 [**Click Here to Translate this Plugin**](https://poeditor.com/join/project/PGYLKWQM5h)
 
 Translations for this plugin can be completed and submitted [here](https://poeditor.com/join/project/PGYLKWQM5h). After submission of a translation, I'll try to update the plugin with your translations within 7 days.
 
-### Contributing
+## Contributing
 
 If you'd like to contribute to this project, please read the [contributor guide](https://github.com/dsifford/academic-bloggers-toolkit/blob/master/CONTRIBUTING.md).
 
-### Usage
+## Usage
 
-#### Adding References
+### Adding References
 - [Adding References Automatically](#adding-references-automatically)
 - [Adding References Manually](#adding-references-manually)
 - [Adding References Using RIS File](#adding-references-using-ris-file)
 
-#### Removing References
+### Removing References
 - [Removing One or More Single References](#removing-one-or-more-single-references)
 - [Removing All References](#removing-all-references)
 
-#### Citing References
+### Citing References
 - [Citing references at the same time the reference is added](#citing-references-at-the-same-time-the-reference-is-added)
 - [Citing references after the reference has been added](#citing-references-after-the-reference-has-been-added)
 
-#### Citation Styles
+### Citation Styles
 - [Changing citation style](#changing-citation-style)
 - [Using a custom citation style](#using-a-custom-citation-style)
 
-#### Miscellaneous
+### Miscellaneous
 - [Pinning reference list](#pinning-reference-list)
 - [Changing citation number or position](#changing-citation-number-or-position)
 
-#### Keyboard Shortcuts
+### Keyboard Shortcuts
 (feel free to request more)
 
 PC/Linux | Mac | Action
 ----|----|----
 `ctrl-alt-r` | `cmd-alt-r` | Open the `Add References` menu
 
-#### Tips 'n Tricks
+### Tips 'n Tricks
 - Double click the heading to either `Cited Items` or `Uncited Items` to fully expand that list and simultaneously collapse the other.
 
 ---
 
-#### Adding References Automatically
+### Adding References Automatically
 
 1. Click `Add References to Reference List` button [[1b]](#visual-aids).
 2. Type a _comma-separated_ list of one or more PMIDs or DOIs in the window that pops up [[3]](#visual-aids).
 3. Click `Add Reference` [[3c]](#visual-aids).
 
-#### Adding References Manually
+### Adding References Manually
 1. Click `Add References to Reference List` button [[1b]](#visual-aids).
 2. Click `Add Manually` button [[3a]](#visual-aids).
 3. Select your citation type from the dropdown list on the top [[4a]](#visual-aids).
@@ -89,7 +89,7 @@ PC/Linux | Mac | Action
 4. Fill out as much information about the reference as you can in the form below. Items highlighted in red are mandatory.
 6. When finished, click `Add Reference`.
 
-#### Adding References Using RIS File
+### Adding References Using RIS File
 > **Note:** Currently, users are able to import entire reference lists using the widely available [RIS format](http://referencemanager.com/training/ris-format). This section assumes that you have already exported a `.ris` file from your reference manager, PubMed, or some other web service.
 
 1. Click the "hamburger menu" icon to open the secondary menu [[1e]](#visual-aids).
@@ -97,24 +97,24 @@ PC/Linux | Mac | Action
 3. Click the `Choose File` button [[5a]](#visual-aids) and select your `.ris` file.
 4. Click `Import` [[5b]](#visual-aids) to import the references to your `uncited` list.
 
-#### Removing One or More Single References
+### Removing One or More Single References
 > **Note:** This action will delete references from your reference list, your bibliography, and all locations where it has been cited in the document. It will also adjust your inline citation numbers in your document automatically after the action has taken place.
 
 1. Click on one or more references in either the `Cited Items` or `Uncited Items` lists to select them. Selected items have a blue left border [[6a,6b]](#visual-aids)
 2. Click `Remove selected items from reference list` to remove the selected references [[1c]](#visual-aids).
 
-#### Removing All References
+### Removing All References
 > **Note:** This is the **single-most destructive action** that you can perform. Be very cautious when doing this as it will delete all traces of references that you have added to your reference list, document, and bibliography.
 
 1. Click the "hamburger menu" button to expose the secondary menu [[1e]](#visual-aids).
 2. Click the `Delete all references` button [[2c]](#visual-aids).
 
-#### Citing references at the same time the reference is added
+### Citing references at the same time the reference is added
 1. Be sure the carat is located at the postion that you want your citation added in the document.
 2. Follow the same instructions for [adding references automatically](#adding-references-automatically) or [adding references manually](#adding-references-manually).
 3. Just before clicking `Add Reference` in the final step, be sure that the `Attach Inline` checkbox [[3d]](#visual-aids) is checked.
 
-#### Citing references after the reference has been added
+### Citing references after the reference has been added
 > **Note:** References cited from the **Uncited List** will be brought into the cited list automatically as they are cited.
 
 1. Be sure the carat is located at the postion that you want your citation added in the document.
@@ -122,7 +122,7 @@ PC/Linux | Mac | Action
 3. Click `Insert Selected References` [[1a]](#visual-aids).
 
 
-#### Changing citation style
+### Changing citation style
 ##### Permanently
 1. Navigate to the Academic Blogger's Toolkit options menu by clicking `Settings -> Academic Blogger's Toolkit` in the WordPress sidebar.
 2. Choose a citation style from the dropdown menu.
@@ -135,7 +135,7 @@ PC/Linux | Mac | Action
 1. Click the "hamburger menu" button to expose the secondary menu [[1e]](#visual-aids).
 2. Choose a citation style from the dropdown menu [[2e]](#visual-aids).
 
-#### Using a custom citation style
+### Using a custom citation style
 1. Visit [this link](http://editor.citationstyles.org/about/) to create a fully custom citation style, or make tweaks to an existing style. Documentation for this service can be [found here](https://github.com/citation-style-language/csl-editor/wiki/User-guide-for-the-CSL-Editor).
 2. After creating your citation style, select `Style -> Save Style` in the toolbar.
     <p align="center"><img src="http://i.imgur.com/OdhgxHw.png" alt="Save CSL Style" width="50%" /></p>
@@ -153,12 +153,12 @@ PC/Linux | Mac | Action
 7. The custom style will now be accessible from the reference list.
     <p align="center"><img src="http://i.imgur.com/SrFiimQ.png" alt="Custom Style Reference List" width="300px" /></p>
 
-#### Pinning reference list
+### Pinning reference list
 1. Click the pin icon [[1d]](#visual-aids) to toggle floating mode.
 
 > **Note:** During floating mode, the reference list will be resized dynamically to fit within the boundaries of your screen. This is by design. Without this, you would not be able to reach items below the lower margin of your screen.
 
-#### Changing citation number or position
+### Changing citation number or position
 
 <p align="center"><img src="http://i.imgur.com/OTBmHhE.png" alt="DO NOT DO THIS" /></p>
 
@@ -166,9 +166,8 @@ The citation processor automatically sorts and inserts your citations based on h
 
 If you find that the citation ordering is not the way that you like it, [choose a different citation style](http://editor.citationstyles.org/searchByExample/).
 
----
 
-### Visual Aids
+## Visual Aids
 
 |# |Image |
 |----|----|
