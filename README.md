@@ -138,18 +138,20 @@ PC/Linux | Mac | Action
 #### Using a custom citation style
 1. Visit [this link](http://editor.citationstyles.org/about/) to create a fully custom citation style, or make tweaks to an existing style. Documentation for this service can be [found here](https://github.com/citation-style-language/csl-editor/wiki/User-guide-for-the-CSL-Editor).
 2. After creating your citation style, select `Style -> Save Style` in the toolbar.
-    ![Save CSL Style](http://i.imgur.com/OdhgxHw.png)
+    <p align="center"><img src="http://i.imgur.com/OdhgxHw.png" alt="Save CSL Style" width="50%" /></p>
 3. In the next window that pops up, select `Save to Disk` to save to your computer.
-    ![CSL Save to Disk](http://i.imgur.com/nvhl3dD.png?1)
+    <p align="center"><img src="http://i.imgur.com/nvhl3dD.png?1" alt="CSL Save to Disk" width="50%" /></p>
 4. Upload the file to your WordPress site using the WordPress Media Manager and copy the direct URL to the file.
-    ![Upload Custom CSL](http://i.imgur.com/cQ4mZbs.png?1)
+    <p align="center"><img src="http://i.imgur.com/cQ4mZbs.png?1" alt="Upload Custom CSL" width="75%" /></p>
 5. Paste the URL in the field shown below.
-    ![Paste Custom CSL URL](http://i.imgur.com/Ay1G01f.png?1)
+    <p align="center"><img src="http://i.imgur.com/Ay1G01f.png?1" alt="Paste Custom CSL URL" width="75%" /></p>
+    
     > **Note:** Selecting the radio button labelled `Use custom citation style by default` is completely optional. If checked, then the style will automatically be used as default for new posts. If not, you will still be able to choose the style from the reference list.
 6. Click Update.
+    
     > **Note:** The URL will be verified by the plugin and converted from a URL to a path automatically. In other words, if you notice that the URL changes after clicking the Update button, that means everything worked!
 7. The custom style will now be accessible from the reference list.
-    ![Custom Style Reference List](http://i.imgur.com/SrFiimQ.png)
+    <p align="center"><img src="http://i.imgur.com/SrFiimQ.png" alt="Custom Style Reference List" width="300px" /></p>
 
 #### Pinning reference list
 1. Click the pin icon [[1d]](#visual-aids) to toggle floating mode.
