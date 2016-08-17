@@ -1,43 +1,84 @@
 import * as React from 'react';
 import VSelect from 'react-virtualized-select';
+import { observable } from 'mobx';
 import { observer } from 'mobx-react';
 import { PanelButton } from './PanelButton';
 
+import 'react-virtualized-select/styles.css';
+import 'react-virtualized/styles.css';
+import 'react-select/dist/react-select.min.css';
+
 declare const ABT_i18n: BackendGlobals.ABT_i18n;
+declare const ABT_Custom_CSL: BackendGlobals.ABT_Custom_CSL;
 
 interface Props extends React.HTMLProps<HTMLDivElement> {
     cslStyle: string;
-    submitData(kind: string, data?: string);
+    submitData(kind: string, data?: string): void;
 }
 
-interface State {
-    style: string;
-    selected: {
-        label: string;
-        value: string;
-    };
+interface StyleOption {
+    label: string;
+    value: string;
 }
 
 @observer
-export class Menu extends React.PureComponent<Props, State> {
+export class Menu extends React.PureComponent<Props, {}> {
 
-    styles: {label: string, value: string}[] = ABT_CitationStyles;
+    styles: StyleOption[];
     labels = ABT_i18n.referenceList.menu;
+
+    @observable
+    selected = {
+        label: '',
+        value: '',
+    };
 
     constructor(props) {
         super(props);
-        this.state = {
-            selected: null,
-            style: this.props.cslStyle,
-        };
+
+        /**
+         * ABT_Custom_CSL.value is `null` if there is either no provided file path
+         *   or if the path to the file is invalid.
+         */
+        if (ABT_Custom_CSL.value === null) {
+            this.styles = ABT_CitationStyles;
+        }
+        else {
+            this.styles = [
+                { label: 'Custom Style', value: 'header' },
+                { label: ABT_Custom_CSL.label, value: ABT_Custom_CSL.value },
+                { label: 'Pre-defined Styles', value: 'header' },
+                ...ABT_CitationStyles,
+            ];
+        }
+
+        this.selected.value = this.props.cslStyle;
+        this.selected.label = this.styles.find(d => d.value === this.props.cslStyle).label;
     }
 
     handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
         this.props.submitData(e.target.id);
     }
 
-    handleSelect = (data: {label: string, value: string}) => {
+    handleSelect = (data: StyleOption) => {
         this.props.submitData('CHANGE_STYLE', data.value);
+    }
+
+    dynamicOptionHeightHandler = ({option}) => {
+        switch (true) {
+            case option.label.length > 110:
+                return 90;
+            case option.label.length > 90:
+                return 70;
+            case option.label.length > 80:
+                return 60;
+            case option.label.length > 65:
+                return 50;
+            case option.label.length > 35:
+                return 40;
+            default:
+                return 30;
+        }
     }
 
     render() {
@@ -78,14 +119,87 @@ export class Menu extends React.PureComponent<Props, State> {
                         <VSelect
                             id="style-select"
                             onChange={this.handleSelect}
-                            value={this.state.selected}
+                            value={this.selected}
+                            optionRenderer={renderer}
+                            optionHeight={this.dynamicOptionHeightHandler}
                             placeholder={this.labels.stylePlaceholder}
                             options={this.styles}
                             clearable={false}
+                            backspaceRemoves={false}
                         />
                     </div>
                 </div>
             </div>
         );
     }
+}
+
+/**
+ * Custom render function for React Virtualized Select
+ * @param  {Object} focusedOption The option currently focused in the dropdown
+ * @param  {Function} focusOption Callback to update the focused option. (on mouseover)
+ * @param  {Object} option        The option to be rendered
+ * @param  {Function} selectValue Callback to update the selected values. (on click)
+ * @param  {Object[]} valueArray  Array of currently selected options.
+ */
+function renderer({focusedOption, focusOption, option, selectValue, valueArray}) {
+    const style: React.CSSProperties = {
+        alignItems: 'center',
+        borderBottom: '1px solid #ddd',
+        display: 'flex',
+        padding: '0 5px',
+    };
+
+    if (option.value === 'header') {
+        style.backgroundColor = '#eee';
+        style.fontWeight = 'bold';
+        style.height = 30;
+        style.cursor = 'default';
+        return (
+            <div
+                style={style}
+                children={option.label}
+            />
+        );
+    }
+
+    switch (true) {
+        case option.label.length > 110:
+            style.height = 90;
+            break;
+        case option.label.length > 90:
+            style.height = 70;
+            break;
+        case option.label.length > 80:
+            style.height = 60;
+            break;
+        case option.label.length > 65:
+            style.height = 50;
+            break;
+        case option.label.length > 35:
+            style.height = 40;
+            break;
+        default:
+            style.height = 30;
+    }
+
+    if (option === focusedOption) {
+        style.backgroundColor = '#f5f5f5';
+    }
+
+    if (valueArray.indexOf(option) >= 0) {
+        style.fontWeight = 'bold';
+    }
+
+    const click = () => selectValue(option);
+    const focus = () => focusOption(option);
+
+    return (
+        <div
+            style={style}
+            onClick={click}
+            onMouseOver={focus}
+            children={option.label}
+        />
+    );
 }

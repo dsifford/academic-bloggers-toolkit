@@ -1,6 +1,24 @@
 @require 'collections/colors'
-
-@require 'collections/react-select'
 @require 'citations'
 @require 'collections/reference-list'
-@require 'collections/peer-review'
+
+.is-focused:not(.is-open)>.Select-control
+    border-color $border !important
+    box-shadow none !important
+
+.VirtualizedSelectFocusedOption
+    background-color $light-gray !important
+
+#wp-content-editor-tools
+    z-index 5 !important
+
+span#HW_badge_cont
+    display inline-block !important
+    height auto !important
+    top -2px
+    line-height 1.4em
+    span#HW_badge
+        position relative
+        top 0
+        &.HW_softHidden
+            top 5px

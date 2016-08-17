@@ -4,7 +4,7 @@ const { TINYMCE_READY, OPEN_REFERENCE_WINDOW } = EVENTS;
 declare const tinyMCE: TinyMCE.MCE;
 declare const wpActiveEditor: string;
 
-tinyMCE.PluginManager.add('abt_main_menu', (editor: TinyMCE.Editor) => {
+tinyMCE.PluginManager.add('academic_bloggers_toolkit', (editor: TinyMCE.Editor) => {
 
     // Fixes issues created if other plugins spawn separate TinyMCE instances
     if (editor.id !== wpActiveEditor) return;

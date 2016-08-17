@@ -6,7 +6,6 @@ module.exports = {
         'lib/js/Frontend': './src/lib/js/Frontend.ts',
         'lib/js/tinymce/index': './src/lib/js/tinymce/index.ts',
         'lib/js/reference-list/index': './src/lib/js/reference-list/',
-        'lib/js/peer-review-metabox/index': './src/lib/js/peer-review-metabox/',
         'lib/js/tinymce/components/reference-window/index': './src/lib/js/tinymce/components/reference-window/',
         'lib/js/tinymce/components/pubmed-window/index': './src/lib/js/tinymce/components/pubmed-window/',
         'lib/js/tinymce/components/import-window/index': './src/lib/js/tinymce/components/import-window/',
@@ -28,6 +27,10 @@ module.exports = {
                 include: path.resolve(__dirname, 'src'),
                 exclude: /node_modules/,
                 loaders: ['babel', 'ts'],
+            },
+            {
+                test: /\.css$/,
+                loaders: ['style', 'css'],
             },
         ],
     },

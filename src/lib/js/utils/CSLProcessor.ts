@@ -2,6 +2,7 @@ import { localeConversions } from './Constants';
 import { parseReferenceURLs } from './HelperFunctions';
 import { Store } from '../reference-list/Store';
 
+declare const ABT_Custom_CSL: BackendGlobals.ABT_Custom_CSL;
 declare const ABT_wp: BackendGlobals.ABT_wp;
 declare const CSL;
 
@@ -52,18 +53,24 @@ export class CSLProcessor {
      * Instantiates a new CSL.Engine (either when initially constructed or when
      *   the user changes his/her selected citation style)
      *
+     * NOTE: The middle (index, or 'b') value in the returned array is ignored
+     *   and the literal index is used because of an issue with Citeproc-js.
+     *   This small change seems to fix a breaking issue.
+     *
      * @param styleID CSL style filename.
      * @return Promise that resolves to either an object containing the style XML
      *   and the `sys` object, or an Error depending on the responses from the
      *   network.
      */
     async init(): Promise<Citeproc.CitationClusterData[]> {
-        const style = await this.getCSLStyle(this.store.citationStyle);
+        const style = this.store.citationStyle === 'abt-user-defined'
+            ? ABT_Custom_CSL.CSL
+            : await this.getCSLStyle(this.store.citationStyle);
         const sys = await this.generateSys(this.store.locale);
         this.citeproc = new CSL.Engine(sys, style);
         return <[number, string, string][]>
             this.citeproc.rebuildProcessorState(this.store.citations.citationByIndex)
-            .map(([a, b, c]) => [b, c, a]);
+            .map(([a, , c], i) => [i, c, a]);
     }
 
     /**
@@ -129,10 +136,10 @@ export class CSLProcessor {
      * @param csl CSL.Data[].
      * @return Citeproc.CitationByIndexSingle for the current inline citation.
      */
-    prepareInlineCitationData(csl: CSL.Data[]): Citeproc.Citation {
+    prepareInlineCitationData(csl: CSL.Data[], currentIndex: number): Citeproc.Citation {
         const payload = {
             citationItems: [],
-            properties: { noteIndex: 0 },
+            properties: { noteIndex: currentIndex },
         };
         csl.forEach((c) => payload.citationItems.push({id: c.id}));
         return payload;

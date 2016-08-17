@@ -1,10 +1,10 @@
 === Academic Blogger's Toolkit ===
 Contributors: dsifford
 Donate link: https://cash.me/$dsifford
-Tags: academic, pmid, doi, peer-review, pubmed, citation, bibliography, reference
+Tags: academic, pmid, doi, pubmed, citation, citations, bibliography, reference, references, CSL
 Requires at least: 4.2.2
 Tested up to: 4.6
-Stable tag: 3.4.3
+Stable tag: 4.0.0
 License: GPL3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -14,23 +14,23 @@ A plugin extending the functionality of Wordpress for academic blogging.
 
 Academic Blogger's toolkit is an **open source** WordPress plugin providing an all-in-one solution for effective academic blogging.
 
-[youtube https://www.youtube.com/watch?v=5k72Dh8L2BA]
-
 = NOTICE =
 **This readme file is not kept up to date!**
 
 For a detailed, updated description of this plugin and all its features, please visit the [GitHub Repository](https://github.com/dsifford/academic-bloggers-toolkit).
+
+[youtube https://www.youtube.com/watch?v=5k72Dh8L2BA]
 
 = Features =
 * Insert formatted references on the fly using digital identifiers (**PMID** or **DOI**).
 * Manually insert formatted references from **over 15 types of references**.
 * **Import a full bibliography from your favorite reference manager** using an exported `.ris` file.
 * Automatically format references for **every citation style on planet earth** (over 1300).
+* Insert citations using a custom citation style using Citation Style Language.
 * **Fully interactive** reference list which lives beside the post editor.
 * Change citation styles in realtime.
 * **Search PubMed from the post editor** and insert references instantly.
 * Inline citations display full formatted references on the frontend when hovered with the mouse (or when tapped on mobile). No more scrolling down and losing your focus!
-* Append up to three peer reviews below your posts. Peer reviews include not only the review content, but also reviewer bios, photos, and author responses (when necessary).
 
 = What makes this plugin different than `x`? Don't they offer the same thing? =
 
@@ -71,6 +71,10 @@ Yikes! I'm sorry about that. Please report all issues on the Academic Blogger's 
 4. Demo of desktop citation tooltips.
 
 == Changelog ==
+
+= 4.0.0 =
+
+[Click here](https://headwayapp.co/academic-bloggers-toolkit-changelog) to view changes.
 
 = 3.4.3 =
 

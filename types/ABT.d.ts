@@ -4,10 +4,7 @@ interface Window {
   DocumentTouch?;
 }
 
-declare module 'react-virtualized-select' {
-    const VSelect: any;
-    export default VSelect.defaultProps;
-}
+declare module 'react-virtualized-select';
 
 declare const ABT_CitationStyles: {label: string, value: string}[];
 
@@ -17,28 +14,6 @@ declare namespace BackendGlobals {
     interface ABT_i18n {
         citationTypes: ABT.CitationTypes;
         fieldmaps: ABT.FieldMappings;
-        peerReviewMetabox: {
-            commonRowContent: {
-                background: string;
-                content: string;
-                imageButton: string;
-                name: string;
-                photo: string;
-                twitter: string;
-            };
-            peerReviewMetabox: {
-                mediaButton: string;
-                mediaTitle: string;
-                optionText: string[];
-                review1: string;
-                review2: string;
-                review3: string;
-            };
-            reviewRow: {
-                reviewHeading: string;
-                toggleResponse: string;
-            };
-        };
         referenceList: {
             menu: {
                 stylePlaceholder: string;
@@ -104,6 +79,10 @@ declare namespace BackendGlobals {
 
     // tslint:disable-next-line
     interface ABT_Reflist_State {
+        bibOptions: {
+            heading: string;
+            style: 'fixed'|'toggle';
+        };
         cache: {
             style: string;
             links: 'always'|'urls'|'never';
@@ -112,10 +91,6 @@ declare namespace BackendGlobals {
         citationByIndex: Citeproc.CitationByIndex;
         CSL: {
             [id: string]: CSL.Data;
-        };
-        bibOptions: {
-            heading: string;
-            style: 'fixed'|'toggle';
         };
     }
 
@@ -138,6 +113,13 @@ declare namespace BackendGlobals {
             url: string;
         };
     }
+
+    // tslint:disable-next-line
+    interface ABT_Custom_CSL {
+        CSL?: string;
+        label: string;
+        value?: string;
+    }
 }
 
 // tslint:disable-next-line
@@ -155,11 +137,6 @@ declare namespace ABT {
         people: CSL.TypedPerson[];
         eventHandler: Function;
         citationType: CSL.CitationType;
-    }
-
-    interface FrontendMeta {
-        prBoxStyle: 'fixed'|'toggle';
-        bibStyle: 'fixed'|'toggle';
     }
 
     /**
@@ -235,40 +212,6 @@ declare namespace ABT {
         placeholder: string;
     }
 
-    interface PRMetaPayload {
-        1: PeerReviewTableData;
-        2: PeerReviewTableData;
-        3: PeerReviewTableData;
-        selection: '0'|'1'|'2'|'3';
-    }
-
-    interface PRMetaState {
-        selection: '0'|'1'|'2'|'3';
-        1: ABT.PeerReviewTableData;
-        2: ABT.PeerReviewTableData;
-        3: ABT.PeerReviewTableData;
-        hidden: {
-            1: boolean
-            2: boolean
-            3: boolean
-        };
-    }
-
-    interface PeerReviewTableData {
-        heading: {
-            value: string;
-        };
-        response: PeerReviewSingleData;
-        review: PeerReviewSingleData;
-    }
-
-    interface PeerReviewSingleData {
-        background: string;
-        content: string;
-        image: string;
-        name: string;
-        twitter: string;
-    }
 }
 
 // tslint:disable no-namespace

@@ -74,34 +74,4 @@ $ABT_i18n->tinymce->referenceWindow = [
     ],
 ];
 
-
-$ABT_i18n->peerReviewMetabox = [
-    'peerReviewMetabox' => [
-        'optionText' => [
-            __('Select Number of Reviewers', 'academic-bloggers-toolkit'),
-            __('One Reviewer', 'academic-bloggers-toolkit'),
-            __('Two Reviewers', 'academic-bloggers-toolkit'),
-            __('Three Reviewers', 'academic-bloggers-toolkit'),
-        ],
-        'review1' => __('Review 1', 'academic-bloggers-toolkit'),
-        'review2' => __('Review 2', 'academic-bloggers-toolkit'),
-        'review3' => __('Review 3', 'academic-bloggers-toolkit'),
-        'mediaButton' => __('Use this image', 'academic-bloggers-toolkit'),
-        'mediaTitle' => __('Choose or Upload an Image', 'academic-bloggers-toolkit'),
-    ],
-    'reviewRow' => [
-        'reviewHeading' => __('Review Heading', 'academic-bloggers-toolkit'),
-        'toggleResponse' => __('Toggle Author Response', 'academic-bloggers-toolkit'),
-    ],
-    'commonRowContent' => [
-        'name' => __('Name', 'academic-bloggers-toolkit'),
-        'twitter' => __('Twitter Handle', 'academic-bloggers-toolkit'),
-        'background' => __('Background', 'academic-bloggers-toolkit'),
-        'content' => __('Content', 'academic-bloggers-toolkit'),
-        'photo' => __('Photo', 'academic-bloggers-toolkit'),
-        'imageButton' => __('Choose or Upload an Image', 'academic-bloggers-toolkit'),
-    ],
-];
-
-
 require_once(dirname(__FILE__) . '/fieldmaps.php');

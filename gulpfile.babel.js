@@ -20,7 +20,6 @@ import { version as VERSION } from './package.json';
 
 const browserSync = require('browser-sync').create();
 
-const reload = browserSync.reload;
 const webpackDevConfig = Object.assign({}, webpackConfig, {
     devtool: 'eval',
     cache: false,
@@ -29,6 +28,8 @@ const webpackDevConfig = Object.assign({}, webpackConfig, {
 // ==================================================
 //                 Utility Tasks
 // ==================================================
+
+gulp.task('reload', (done) => { browserSync.reload(); done();});
 
 // Delete all files in dist/lib
 gulp.task('clean', (done) => del(['dist/**/*'], done));
@@ -44,17 +45,28 @@ gulp.task('chown', (done) => {
     });
 });
 
-// Version bump the required files according to the version in package.json
-gulp.task('bump', () =>
-    gulp.src([
-        'src/academic-bloggers-toolkit.php',
-        'src/readme.txt',
-    ], { base: './src' })
-    .pipe(replace(/Version: [\d\.]+/, `Version: ${VERSION}`))
-    .pipe(replace(/Stable tag: .+/, `Stable tag: ${VERSION}`))
-    .pipe(replace(/\$ABT_VERSION = '.+?';/, `$ABT_VERSION = '${VERSION}';`))
-    .pipe(gulp.dest('./src'))
-);
+/**
+ * Version bump the required files according to the version in package.json
+ * Append link to changelog for current version in readme.txt
+ */
+gulp.task('bump', () => {
+    const re = `== Changelog ==\n(?!\n= ${VERSION})`;
+    const repl =
+    `== Changelog ==\n\n` +
+    `= ${VERSION} =\n\n` +
+    `[Click here](https://headwayapp.co/academic-bloggers-toolkit-changelog) to view changes.\n`;
+
+    return gulp
+        .src([
+            'src/academic-bloggers-toolkit.php',
+            'src/readme.txt',
+        ], { base: './src' })
+        .pipe(replace(/Version: [\d\.]+/, `Version: ${VERSION}`))
+        .pipe(replace(/Stable tag: .+/, `Stable tag: ${VERSION}`))
+        .pipe(replace(/define\('ABT_VERSION', '.+?'\);/, `define('ABT_VERSION', '${VERSION}');`))
+        .pipe(replace(new RegExp(re), repl))
+        .pipe(gulp.dest('./src'));
+});
 
 // Translations
 gulp.task('pot', () =>
@@ -204,14 +216,14 @@ gulp.task('default',
                 'src/lib/**/*.{ts,tsx}',
                 '!src/lib/**/__tests__/',
                 '!src/lib/**/__tests__/*',
-            ], gulp.series('webpack:dev', reload));
+            ], gulp.series('webpack:dev', 'reload'));
 
             gulp.watch([
                 'src/**/*',
                 '!src/**/*.{ts,tsx,styl}',
                 '!src/**/__tests__/',
                 '!src/**/__tests__/*',
-            ], gulp.series('static', 'php', reload));
+            ], gulp.series('static', 'php', 'reload'));
         }
     )
 );
