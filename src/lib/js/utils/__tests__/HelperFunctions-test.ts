@@ -9,6 +9,7 @@ const testRefs: string[] = [
     'Colmers IN, Paterson QS, Lin M, Thoma B, Chan TM. The quality checklists for medical education blogs and podcasts. <i>The Winnower</i>. 2015. doi:10.15200/winn.144720.08769.',
     'Mathieu S. Trial of Early, Goal-Directed Resuscitation for Septic Shock. The Bottom Line. http://www.wessexics.com/The_Bottom_Line/Review/index.php?id=3665078336903245716. Published 2015.',
     'Cameron P. Pundit-Based Medicine. Emergency Physicians International.',
+    `<div class="csl-left-margin">3. </div><div class="csl-right-inline">Dunning J. Unskilled and unaware of it. <i>Journal of Personality and Social Psychology</i>. 1999;77(6):1121-1134. http://psych.colorado.edu/~vanboven/teaching/p7536_heurbias/p7536_readings/kruger_dunning.pdf.</div>`,
 ];
 
 describe('URL Parser', () => {
@@ -18,6 +19,7 @@ describe('URL Parser', () => {
         expect(helpers.parseReferenceURLs(testRefs[2])).toEqual('Colmers IN, Paterson QS, Lin M, Thoma B, Chan TM. The quality checklists for medical education blogs and podcasts. <i>The Winnower</i>. 2015. doi:<a href="https://doi.org/10.15200/winn.144720.08769" target="_blank">10.15200/winn.144720.08769</a>.');
         expect(helpers.parseReferenceURLs(testRefs[3])).toEqual('Mathieu S. Trial of Early, Goal-Directed Resuscitation for Septic Shock. The Bottom Line. <a href="http://www.wessexics.com/The_Bottom_Line/Review/index.php?id=3665078336903245716" target="_blank">http://www.wessexics.com/The_Bottom_Line/Review/index.php?id=3665078336903245716</a>. Published 2015.');
         expect(helpers.parseReferenceURLs(testRefs[4])).toEqual('Cameron P. Pundit-Based Medicine. Emergency Physicians International.');
+        expect(helpers.parseReferenceURLs(testRefs[5])).toEqual('<div class="csl-left-margin">3. </div><div class="csl-right-inline">Dunning J. Unskilled and unaware of it. <i>Journal of Personality and Social Psychology</i>. 1999;77(6):1121-1134. <a href="http://psych.colorado.edu/~vanboven/teaching/p7536_heurbias/p7536_readings/kruger_dunning.pdf" target="_blank">http://psych.colorado.edu/~vanboven/teaching/p7536_heurbias/p7536_readings/kruger_dunning.pdf</a>.</div>');
     });
 });
 

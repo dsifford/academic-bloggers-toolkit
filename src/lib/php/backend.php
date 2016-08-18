@@ -18,6 +18,7 @@ class ABT_Backend {
 
     /**
      * Returns an array of citation styles from citationstyles.php
+     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
      */
     private function get_citation_styles() {
         include dirname(__FILE__) . '/../../vendor/citationstyles.php';
@@ -113,7 +114,7 @@ class ABT_Backend {
      * @param string $post_type The post type
      */
     public function add_metaboxes($post_type) {
-        if ($post_type === 'attachment') return;
+        if (in_array($post_type, ['attachment', 'acf'])) return;
 
         $all_types = get_post_types();
         add_meta_box(
@@ -198,7 +199,7 @@ class ABT_Backend {
     public function enqueue_admin_scripts() {
         global $post_type;
 
-        if ($post_type === 'attachment') return;
+        if (in_array($post_type, ['attachment', 'acf'])) return;
 
         // wp_enqueue_media();
         wp_dequeue_script('autosave');

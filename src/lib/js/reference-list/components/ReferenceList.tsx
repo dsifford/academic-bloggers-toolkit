@@ -209,7 +209,7 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
     }
 
     initTinyMCE = () => {
-        this.editor = tinyMCE.activeEditor;
+        this.editor = tinyMCE.editors['content'];
         this.initProcessor().then(() => this.loading = !this.loading);
     }
 

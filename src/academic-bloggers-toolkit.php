@@ -114,7 +114,9 @@ add_filter('plugin_action_links_' . plugin_basename(__FILE__), 'abt_add_options_
  */
 function abt_append_changelog_script() {
     global $pagenow;
+    global $post_type;
     if (!in_array($pagenow, ['post.php', 'post-new.php'])) return;
+    if (in_array($post_type, ['attachment', 'acf'])) return;
     echo '<script type="text/javascript">var el=document.createElement("SPAN");el.id="abt_changelog",document.querySelector("#abt_reflist > h2").appendChild(el);var HW_config={selector:"#abt_changelog",account:"LJ4gE7"};</script><script async src="//cdn.headwayapp.co/widget.js"></script>';
 }
 add_action('admin_footer', 'abt_append_changelog_script');
@@ -137,7 +139,8 @@ add_action('wp_head', 'abt_css_override');
  * Enqueues frontend JS and CSS
  */
 function abt_frontend_scripts() {
-	wp_enqueue_style('abt_frontend_styles', plugins_url('academic-bloggers-toolkit/lib/css/frontend.css'), [], ABT_VERSION);
+    wp_enqueue_style('dashicons');
+	wp_enqueue_style('abt_frontend_styles', plugins_url('academic-bloggers-toolkit/lib/css/frontend.css'), ['dashicons'], ABT_VERSION);
 
     if (is_singular()) {
         wp_enqueue_script('abt_frontend_js', plugins_url('academic-bloggers-toolkit/lib/js/Frontend.js'), [], ABT_VERSION);

@@ -1,4 +1,5 @@
-[![Coverage Status](https://coveralls.io/repos/github/dsifford/academic-bloggers-toolkit/badge.svg?branch=master)](https://coveralls.io/github/dsifford/academic-bloggers-toolkit?branch=master) [![Build Status](https://travis-ci.org/dsifford/academic-bloggers-toolkit.svg?branch=master)](https://travis-ci.org/dsifford/academic-bloggers-toolkit) [![WordPress](https://img.shields.io/wordpress/plugin/dt/academic-bloggers-toolkit.svg?maxAge=2592000)](https://wordpress.org/plugins/academic-bloggers-toolkit/) ![Dependencies](https://david-dm.org/dsifford/academic-bloggers-toolkit.svg) [![Changelog](https://img.shields.io/badge/changelog-academic--bloggers--toolkit-blue.svg)](https://headwayapp.co/academic-bloggers-toolkit-changelog)
+[![Coverage Status](https://coveralls.io/repos/github/dsifford/academic-bloggers-toolkit/badge.svg?branch=master)](https://coveralls.io/github/dsifford/academic-bloggers-toolkit?branch=master) [![Build Status](https://travis-ci.org/dsifford/academic-bloggers-toolkit.svg?branch=master)](https://travis-ci.org/dsifford/academic-bloggers-toolkit) ![Dependencies](https://david-dm.org/dsifford/academic-bloggers-toolkit.svg) [![WordPress](https://img.shields.io/wordpress/plugin/dt/academic-bloggers-toolkit.svg?maxAge=2592000)](https://wordpress.org/plugins/academic-bloggers-toolkit/) [![WordPress rating](https://img.shields.io/wordpress/plugin/r/academic-bloggers-toolkit.svg?maxAge=2592000)](https://wordpress.org/plugins/academic-bloggers-toolkit/)
+[![Changelog](https://img.shields.io/badge/changelog-academic--bloggers--toolkit-blue.svg)](https://headwayapp.co/academic-bloggers-toolkit-changelog)
 
 # Academic Blogger's Toolkit
 An **open source** WordPress plugin providing an all-in-one solution for effective academic blogging.
@@ -30,7 +31,7 @@ An **open source** WordPress plugin providing an all-in-one solution for effecti
 
 ## Translations
 
-<p align="center"><a href="https://poeditor.com/join/project/PGYLKWQM5h" target="_blank"><strong>Click Here to Translate this Plugin</strong></a></p>
+<p align="center"><a href="https://poeditor.com/join/project/PGYLKWQM5h"><strong>Click Here to Translate this Plugin</strong></a></p>
 
 Translations for this plugin can be completed and submitted [here](https://poeditor.com/join/project/PGYLKWQM5h). After submission of a translation, I'll try to update the plugin with your translations within 7 days.
 
@@ -145,10 +146,10 @@ PC/Linux | Mac | Action
     <p align="center"><img src="http://i.imgur.com/cQ4mZbs.png?1" alt="Upload Custom CSL" width="75%" /></p>
 5. Paste the URL in the field shown below.
     <p align="center"><img src="http://i.imgur.com/Ay1G01f.png?1" alt="Paste Custom CSL URL" width="75%" /></p>
-    
+
     > **Note:** Selecting the radio button labelled `Use custom citation style by default` is completely optional. If checked, then the style will automatically be used as default for new posts. If not, you will still be able to choose the style from the reference list.
 6. Click Update.
-    
+
     > **Note:** The URL will be verified by the plugin and converted from a URL to a path automatically. In other words, if you notice that the URL changes after clicking the Update button, that means everything worked!
 7. The custom style will now be accessible from the reference list.
     <p align="center"><img src="http://i.imgur.com/SrFiimQ.png" alt="Custom Style Reference List" width="300px" /></p>

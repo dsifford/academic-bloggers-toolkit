@@ -4,7 +4,7 @@ import * as React from 'react';
 import { mount } from 'enzyme';
 import * as sinon from 'sinon';
 import { IdentifierInput } from '../IdentifierInput';
-import ABT_i18n from '../../../../utils/Mocks';
+import ABT_i18n from '../../../../../../../scripts/Fixtures';
 window['ABT_i18n'] = ABT_i18n;
 
 const setup = () => {

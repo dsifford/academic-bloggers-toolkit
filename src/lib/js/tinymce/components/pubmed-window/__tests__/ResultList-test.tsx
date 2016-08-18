@@ -4,7 +4,7 @@ import * as React from 'react';
 import { mount } from 'enzyme';
 import * as sinon from 'sinon';
 import { ResultList } from '../ResultList';
-import ABT_i18n from '../../../../utils/Mocks';
+import ABT_i18n from '../../../../../../../scripts/Fixtures';
 window['ABT_i18n'] = ABT_i18n;
 
 let testData: PubMed.SingleReference[] = [

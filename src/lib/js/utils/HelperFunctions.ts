@@ -8,7 +8,7 @@
  * @return {string[]}       Array of reference strings with parsed links.
  */
 export function parseReferenceURLs(input: string): string {
-    const url: RegExp = /((http:\/\/|https:\/\/|www.)(www.)?[^;\s]+[0-9a-zA-Z\/])/g;
+    const url: RegExp = /((http:\/\/|https:\/\/|www.)(www.)?[^;\s<]+[0-9a-zA-Z\/])/g;
     const doi: RegExp = /doi:(\S+)\./g;
     let match: RegExpExecArray;
     const replacements: [string, string][] = [];

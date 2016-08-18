@@ -7,7 +7,7 @@
         "ordered-imports": false,
         "member-access": false,
         "interface-name": false,
-        "one-line": [true,
+        "one-line": [false,
             "check-open-brace",
             "check-whitespace"
         ],
