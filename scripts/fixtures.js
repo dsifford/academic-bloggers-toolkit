@@ -1,5 +1,5 @@
 // tslint:disable
-export default {
+module.exports = {
   "referenceList": {
     "referenceList": {
       "tooltips": {

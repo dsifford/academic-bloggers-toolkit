@@ -3,6 +3,7 @@ module.exports = {
         'src/**/*.{tsx,ts}',
         'types/**/*.d.ts',
         './package.json',
+        'scripts/*.js',
         '!src/**/__tests__/*',
         '!src/**/index.{ts,tsx}',
         '!src/lib/js/Frontend.ts',

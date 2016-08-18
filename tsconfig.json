@@ -78,7 +78,6 @@
         "src/lib/js/utils/PubmedAPI.ts",
         "src/lib/js/utils/RISParser.ts",
         "src/lib/js/utils/TinymceFunctions.ts",
-        "scripts/Fixtures.ts",
         "node_modules/@types/enzyme/index.d.ts",
         "node_modules/@types/jest/index.d.ts",
         "node_modules/@types/node/index.d.ts",

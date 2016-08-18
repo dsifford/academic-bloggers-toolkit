@@ -4,8 +4,6 @@ import * as React from 'react';
 import { mount } from 'enzyme';
 import * as sinon from 'sinon';
 import { MetaFields } from '../MetaFields';
-import ABT_i18n from '../../../../../../../scripts/Fixtures';
-window['ABT_i18n'] = ABT_i18n;
 
 const testMeta: CSL.Data = {
     title: 'TEST',

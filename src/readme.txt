@@ -4,7 +4,7 @@ Donate link: https://cash.me/$dsifford
 Tags: academic, pmid, doi, pubmed, citation, citations, bibliography, reference, references, CSL
 Requires at least: 4.2.2
 Tested up to: 4.6
-Stable tag: 4.0.0
+Stable tag: 4.0.1
 License: GPL3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -71,6 +71,10 @@ Yikes! I'm sorry about that. Please report all issues on the Academic Blogger's 
 4. Demo of desktop citation tooltips.
 
 == Changelog ==
+
+= 4.0.1 =
+
+[Click here](https://headwayapp.co/academic-bloggers-toolkit-changelog) to view changes.
 
 = 4.0.0 =
 
