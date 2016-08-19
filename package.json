@@ -62,16 +62,16 @@
     "ts-loader": "^0.8.2",
     "tslint": "^3.14.0-dev.1",
     "tslint-react": "^1.0.0",
-    "webpack": "^1.13.1",
+    "webpack": "^1.13.2",
     "webpack-stream": "^3.2.0"
   },
   "dependencies": {
-    "@types/enzyme": "^2.4.30",
-    "@types/jest": "^0.9.28",
-    "@types/react": "^0.14.30",
-    "@types/react-addons-css-transition-group": "^0.14.14",
-    "@types/react-dom": "^0.14.14",
-    "@types/sinon": "^1.16.27",
+    "@types/enzyme": "^2.4.31",
+    "@types/jest": "^0.9.29",
+    "@types/react": "^0.14.31",
+    "@types/react-addons-css-transition-group": "^0.14.15",
+    "@types/react-dom": "^0.14.15",
+    "@types/sinon": "^1.16.28",
     "mobx": "^2.4.3",
     "mobx-react": "^3.5.5",
     "react": "^15.3.0",
@@ -123,7 +123,9 @@
       "!src/lib/js/utils/TinymceFunctions.ts"
     ],
     "coverageDirectory": "tmp/coverage",
-    "setupFiles": ["scripts/beforeTest.js"]
+    "setupFiles": [
+      "scripts/beforeTest.js"
+    ]
   },
   "eslintConfig": {
     "extends": "airbnb-base",
