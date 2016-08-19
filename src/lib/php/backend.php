@@ -37,13 +37,23 @@ class ABT_Backend {
         ];
     }
 
+    /**
+     * Checks to see if custom CSL XML is saved and available. If so, returns an
+     *   array containing the XML, label, and value. If not, returns an array
+     *   containing only the key 'value' with the value of null.
+     *
+     * @param  [string] $path Path to CSL XML file.
+     * @return [array]        Array as described above.
+     */
     private function get_user_defined_csl($path) {
         if (!file_exists($path)) return [ 'value' => null ];
+
         $contents = file_get_contents($path);
         $xml = new SimpleXMLElement($contents);
         $label = $xml->info->title->__toString() !== ''
             ? $xml->info->title->__toString()
             : 'ABT Custom Style';
+
         return [
             'label' => $label,
             'value' => 'abt-user-defined',
@@ -52,7 +62,7 @@ class ABT_Backend {
     }
 
     /**
-     * Initiates the TinyMCE plugins, adds the reference list metabox, and enqueues backend JS.
+     * Sets up all actions and filters for the backend class
      */
     public function __construct() {
         add_action('admin_head', [$this, 'init_tinymce']);
@@ -68,7 +78,6 @@ class ABT_Backend {
     public function init_tinymce() {
         if ('true' == get_user_option('rich_editing')) {
             add_filter('mce_external_plugins', [$this, 'register_tinymce_plugins']);
-            // add_filter('mce_buttons', [$this, 'register_tinymce_buttons']);
         }
     }
 
@@ -83,18 +92,6 @@ class ABT_Backend {
         $plugin_array['noneditable'] = plugins_url('academic-bloggers-toolkit/vendor/noneditable.js');
         return $plugin_array;
     }
-
-    // NOTE: This is not currently in use.
-    // /**
-    //  * Registers the TinyMCE button on the editor.
-    //  *
-    //  * @param array $buttons Array of buttons
-    //  * @return array Array of buttons with button added
-    //  */
-    // public function register_tinymce_buttons($buttons) {
-    //     array_push($buttons, 'abt_main_menu');
-    //     return $buttons;
-    // }
 
     /**
      * Loads the required stylesheet into TinyMCE (required for proper citation parsing)
@@ -114,7 +111,9 @@ class ABT_Backend {
      * @param string $post_type The post type
      */
     public function add_metaboxes($post_type) {
-        if (in_array($post_type, ['attachment', 'acf'])) return;
+        $invalid_post_type = in_array($post_type, ['attachment', 'acf']);
+
+        if ($invalid_post_type) return;
 
         $all_types = get_post_types();
         add_meta_box(
@@ -128,7 +127,7 @@ class ABT_Backend {
     }
 
     /**
-     * Renders the HTML for React to mount into.
+     * Renders the HTML for React to mount into. FIXME
      */
     public function render_reference_list($post) {
         global $ABT_i18n;
@@ -199,9 +198,10 @@ class ABT_Backend {
     public function enqueue_admin_scripts() {
         global $post_type;
 
-        if (in_array($post_type, ['attachment', 'acf'])) return;
+        $invalid_post_type = in_array($post_type, ['attachment', 'acf']);
 
-        // wp_enqueue_media();
+        if ($invalid_post_type) return;
+
         wp_dequeue_script('autosave');
         wp_enqueue_style('dashicons');
         wp_enqueue_style('abt-admin-css', plugins_url('academic-bloggers-toolkit/lib/css/admin.css'), ['dashicons'], ABT_VERSION);

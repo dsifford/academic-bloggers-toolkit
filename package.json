@@ -8,7 +8,7 @@
     "wp": "wpcmd() { docker exec $(docker ps -lq) /bin/bash -c \"sudo -u www-data wp $(echo $@)\"; };wpcmd ",
     "lint": "tslint lib/**/*{ts,tsx}",
     "gulp": "./node_modules/.bin/gulp",
-    "update-vendors": "cd vendor && curl -o 'citeproc.js' https://raw.githubusercontent.com/Juris-M/citeproc-js/master/citeproc.js"
+    "update-vendors": "cd src/vendor && curl -o 'citeproc.js' https://raw.githubusercontent.com/Juris-M/citeproc-js/master/citeproc.js"
   },
   "repository": {
     "type": "git",

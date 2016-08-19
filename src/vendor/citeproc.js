@@ -23,7 +23,7 @@
  *     <http://www.gnu.org/licenses/> respectively.
  */
 var CSL = {
-    PROCESSOR_VERSION: "1.1.113",
+    PROCESSOR_VERSION: "1.1.114",
     CONDITION_LEVEL_TOP: 1,
     CONDITION_LEVEL_BOTTOM: 2,
     PLAIN_HYPHEN_REGEX: /(?:[^\\]-|\u2013)/,
@@ -4982,10 +4982,10 @@ CSL.Engine.prototype.processCitationCluster = function (citation, citationsPre, 
         }
     }
     if (this.opt.citation_number_sort && sortedItems && sortedItems.length > 1 && this.citation_sort.tokens.length > 0) {
-        for (i = 0, ilen = sortedItems.length; i < ilen; i += 1) {
-            sortedItems[i][1].sortkeys = CSL.getSortKeys.call(this, sortedItems[i][0], "citation_sort");
-        }
         if (!citation.properties.unsorted) {
+            for (i = 0, ilen = sortedItems.length; i < ilen; i += 1) {
+                sortedItems[i][1].sortkeys = CSL.getSortKeys.call(this, sortedItems[i][0], "citation_sort");
+            }
             sortedItems.sort(this.citation.srt.compareCompositeKeys);
         }
     }
@@ -5031,6 +5031,12 @@ CSL.Engine.prototype.processCitationCluster = function (citation, citationsPre, 
                 continue;
             }
             var mycitation = this.registry.citationreg.citationById[key];
+            if (!mycitation.properties.unsorted) {
+                for (i = 0, ilen = mycitation.sortedItems.length; i < ilen; i += 1) {
+                    mycitation.sortedItems[i][1].sortkeys = CSL.getSortKeys.call(this, mycitation.sortedItems[i][0], "citation_sort");
+                }
+                mycitation.sortedItems.sort(this.citation.srt.compareCompositeKeys);
+            }
             this.tmp.citation_pos = mycitation.properties.index;
             this.tmp.citation_note_index = mycitation.properties.noteIndex;
             this.tmp.citation_id = "" + mycitation.citationID;
