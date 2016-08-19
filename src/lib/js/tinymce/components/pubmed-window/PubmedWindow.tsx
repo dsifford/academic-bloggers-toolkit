@@ -1,12 +1,8 @@
 import * as React from 'react';
 import { Modal } from '../../../utils/Modal';
-import { PubmedQuery } from '../../../utils/PubmedAPI';
+import { PubmedQuery } from '../../../utils/Externals';
 import { ResultList } from './ResultList';
 import { Paginate } from './Paginate';
-
-interface DOMEvent extends UIEvent {
-    target: HTMLInputElement;
-}
 
 interface State {
     query: string;
@@ -67,7 +63,7 @@ export class PubmedWindow extends React.Component<{}, State> {
         .catch(err => top.tinyMCE.activeEditor.windowManager.alert(err.message));
     }
 
-    handleChange(e: DOMEvent) {
+    handleChange(e: React.FormEvent<HTMLInputElement>) {
         this.setState(
             Object.assign({}, this.state, { query: e.target.value })
         );

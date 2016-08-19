@@ -1,5 +1,5 @@
-import { localeConversions } from './Constants';
-import { parseReferenceURLs } from './HelperFunctions';
+import { localeMapper } from './Constants';
+import { parseReferenceURL } from './HelperFunctions';
 import { Store } from '../reference-list/Store';
 
 declare const ABT_Custom_CSL: BackendGlobals.ABT_Custom_CSL;
@@ -18,7 +18,7 @@ export class CSLProcessor {
      *   in CSL (values). If CSL doesn't have a locale for a given WordPress locale,
      *   then false is used (which will default to en-US).
      */
-    private locales: {[wp: string]: string|boolean} = localeConversions;
+    private locales: {[wp: string]: string|boolean} = localeMapper;
 
     /**
      * Key/value store for locale XML. Locale XML is fetched off the main thread
@@ -53,7 +53,7 @@ export class CSLProcessor {
      * Instantiates a new CSL.Engine (either when initially constructed or when
      *   the user changes his/her selected citation style)
      *
-     * NOTE: The middle (index, or 'b') value in the returned array is ignored
+     *   The middle (index, or 'b') value in the returned array is ignored
      *   and the literal index is used because of an issue with Citeproc-js.
      *   This small change seems to fix a breaking issue.
      *
@@ -100,7 +100,7 @@ export class CSLProcessor {
             }
             switch (links) {
                 case 'always': {
-                    el.innerHTML = parseReferenceURLs(el.innerHTML);
+                    el.innerHTML = parseReferenceURL(el.innerHTML);
                     if (item.PMID) {
                         if (el.getElementsByClassName('csl-right-inline').length > 0) {
                             el.lastElementChild.innerHTML +=
@@ -119,7 +119,7 @@ export class CSLProcessor {
                 }
                 case 'urls':
                 default: {
-                    el.lastElementChild.innerHTML = parseReferenceURLs(el.innerHTML);
+                    el.lastElementChild.innerHTML = parseReferenceURL(el.innerHTML);
                     break;
                 }
             }

@@ -25,7 +25,7 @@ module.exports = {
     "importWindow": {
       "title": "Import References from RIS File",
       "filetypeError": "The file could not be processed. Are you sure it's a .RIS (Refman) file?",
-      "leftovers": "The following references were unable to be processed:",
+      "leftovers": "The following references were unable to be processed",
       "upload": "Choose File",
       "import": "Import"
     },

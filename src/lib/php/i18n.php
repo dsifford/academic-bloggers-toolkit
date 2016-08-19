@@ -35,7 +35,7 @@ $ABT_i18n->referenceList = [
 $ABT_i18n->tinymce->importWindow = [
     'title' => __('Import References from RIS File', 'academic-bloggers-toolkit'),
     'filetypeError' => __("The file could not be processed. Are you sure it's a .RIS (Refman) file?", 'academic-bloggers-toolkit'),
-    'leftovers' => __('The following references were unable to be processed:', 'academic-bloggers-toolkit'),
+    'leftovers' => __('The following references were unable to be processed', 'academic-bloggers-toolkit'),
     'upload' => __('Choose File', 'academic-bloggers-toolkit'),
     'import' => __('Import', 'academic-bloggers-toolkit'),
 ];

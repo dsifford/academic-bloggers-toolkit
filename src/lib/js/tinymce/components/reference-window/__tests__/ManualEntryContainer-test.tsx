@@ -38,10 +38,10 @@ describe('<ManualEntryContainer />', () => {
 
     it('should consume child events', () => {
         ManualEntryContainer.prototype.consumeChildEvents = sinon.spy();
-        const { component } = setup();
+        const { component, spy } = setup();
         component.setProps({people: [{type: 'author'}]});
         const people = component.find('People');
         people.find('select').simulate('change');
-        expect((ManualEntryContainer.prototype.consumeChildEvents as sinon.SinonSpy).callCount).toBe(1);
+        expect(spy.callCount).toBe(1);
     });
 });

@@ -7,7 +7,7 @@ import {
     ObservableMap,
     toJS,
 } from 'mobx';
-import { localeConversions as locales } from '../utils/Constants';
+import { localeMapper as locales } from '../utils/Constants';
 
 class CitationStore {
 
