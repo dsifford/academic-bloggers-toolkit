@@ -25,7 +25,7 @@ class CitationStore {
     }
 
     get citationByIndex(): Citeproc.Citation[] {
-        return this.byIndex.slice().map(i => toJS(i));
+        return toJS(this.byIndex);
     }
 
     constructor(byIndex: Citeproc.CitationByIndex, CSL: {[id: string]: CSL.Data}) {
@@ -39,7 +39,7 @@ class CitationStore {
     }
 
     init(byIndex: Citeproc.CitationByIndex) {
-        this.byIndex.replace(byIndex);
+        this.byIndex.replace(JSON.parse(JSON.stringify(byIndex)));
     }
 
     removeItems(idList: string[], doc: HTMLDocument) {

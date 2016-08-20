@@ -16,7 +16,7 @@ let testData: PubMed.SingleReference[] = [
         pubdate: '2016 May 1',
         source: 'J Test 1',
         title: 'Test Title 1',
-        uid: 11111,
+        uid: '11111',
     },
     {
         authors: [
@@ -28,7 +28,7 @@ let testData: PubMed.SingleReference[] = [
         pubdate: '2016 May 2',
         source: 'J Test 2',
         title: 'Test Title 2',
-        uid: 22222,
+        uid: '22222',
     },
 ];
 
@@ -55,11 +55,11 @@ describe('<ResultList />', () => {
         let button = results.children().find('input.btn').first();
         button.simulate('click');
         expect(spy.callCount).toBe(1);
-        expect(spy.firstCall.args[0]).toBe(11111);
+        expect(spy.firstCall.args[0]).toBe('11111');
 
         button = results.children().find('input.btn').at(1);
         button.simulate('click');
         expect(spy.callCount).toBe(2);
-        expect(spy.secondCall.args[0]).toBe(22222);
+        expect(spy.secondCall.args[0]).toBe('22222');
     });
 });

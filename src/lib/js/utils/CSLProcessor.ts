@@ -1,6 +1,7 @@
 import { localeMapper } from './Constants';
 import { parseReferenceURL } from './HelperFunctions';
 import { Store } from '../reference-list/Store';
+import { toJS } from 'mobx';
 
 declare const ABT_Custom_CSL: BackendGlobals.ABT_Custom_CSL;
 declare const ABT_wp: BackendGlobals.ABT_wp;
@@ -43,9 +44,7 @@ export class CSLProcessor {
     constructor(store: Store) {
         this.store = store;
         this.worker = new Worker(`${ABT_wp.abt_url}/vendor/worker.js`);
-        this.worker.onmessage = (e) => {
-            this.localeStore.set(e.data[0], e.data[1]);
-        };
+        this.worker.addEventListener('message', this.receiveWorkerMessage);
         this.worker.postMessage('');
     }
 
@@ -170,6 +169,13 @@ export class CSLProcessor {
     }
 
     /**
+     * Saves locales from the Worker into the localeStore
+     */
+    private receiveWorkerMessage = (e: MessageEvent) => {
+        this.localeStore.set(e.data[0], e.data[1]);
+    }
+
+    /**
      * Called exclusively from the `init` method to generate the `sys` object
      *   required by the CSL.Engine.
      *
@@ -186,7 +192,7 @@ export class CSLProcessor {
                     if (req.status !== 200) reject(new Error(req.responseText));
                     this.localeStore.set(cslLocale, req.responseText);
                     resolve({
-                        retrieveItem: (id: string) => this.store.citations.CSL.get(id),
+                        retrieveItem: (id: string) => toJS(this.store.citations.CSL.get(id)),
                         retrieveLocale: this.getRemoteLocale.bind(this),
                     });
                 }
