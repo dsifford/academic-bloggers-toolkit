@@ -3,14 +3,6 @@ import { Modal } from '../../../utils/Modal';
 import { RISParser } from '../../../utils/RISParser';
 import { generateID } from '../../../utils/HelperFunctions';
 
-interface FileReaderEvent extends Event {
-    target: FileReaderEventTarget;
-}
-
-interface FileReaderEventTarget extends EventTarget {
-    result: string;
-}
-
 interface State {
     readonly filename: string;
     readonly payload: [string, CSL.Data][];
@@ -45,31 +37,34 @@ export class ImportWindow extends React.Component<Props, State> {
         const file = e.target.files[0];
         const filename = e.target.files[0].name;
 
-        reader.onload = (upload: FileReaderEvent) => {
-            const parser = new RISParser(upload.target.result);
-
-            let payload = parser.parse();
-            if (payload.length === 0) {
-                this.wm.alert(this.labels.filetypeError);
-                return;
-            }
-
-            payload = payload.map(ref => {
-                const id = generateID();
-                ref.id = id;
-                return [id, ref];
-            });
-
-            const leftovers = parser.unsupportedRefs;
-
-            if (leftovers.length > 0) {
-                this.wm.alert(`${this.labels.leftovers}: ${leftovers.join(', ')}`);
-            }
-
-            this.setState(Object.assign({}, this.state, { payload, filename }));
-        };
+        reader.addEventListener('load', this.parseFile);
 
         reader.readAsText(file);
+        this.setState(Object.assign({}, this.state, { filename }));
+    }
+
+    parseFile = (upload) => {
+        const parser = new RISParser(upload.target.result);
+
+        let payload = parser.parse();
+        if (payload.length === 0) {
+            this.wm.alert(this.labels.filetypeError);
+            return;
+        }
+
+        payload = payload.map(ref => {
+            const id = generateID();
+            ref.id = id;
+            return [id, ref];
+        });
+
+        const leftovers = parser.unsupportedRefs;
+
+        if (leftovers.length > 0) {
+            this.wm.alert(`${this.labels.leftovers}: ${leftovers.join(', ')}`);
+        }
+
+        this.setState(Object.assign({}, this.state, { payload }));
     }
 
     handleSubmit = (e: React.MouseEvent<HTMLInputElement>) => {

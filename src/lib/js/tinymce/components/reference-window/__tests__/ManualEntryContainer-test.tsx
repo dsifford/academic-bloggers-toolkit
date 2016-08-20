@@ -6,8 +6,6 @@ import * as React from 'react';
 import { mount } from 'enzyme';
 import * as sinon from 'sinon';
 import { ManualEntryContainer } from '../ManualEntryContainer';
-import ABT_i18n from '../../../../utils/Mocks';
-window['ABT_i18n'] = ABT_i18n;
 
 const setup = (
     citationType: CSL.CitationType = 'article-journal'
@@ -40,10 +38,10 @@ describe('<ManualEntryContainer />', () => {
 
     it('should consume child events', () => {
         ManualEntryContainer.prototype.consumeChildEvents = sinon.spy();
-        const { component } = setup();
+        const { component, spy } = setup();
         component.setProps({people: [{type: 'author'}]});
         const people = component.find('People');
         people.find('select').simulate('change');
-        expect((ManualEntryContainer.prototype.consumeChildEvents as sinon.SinonSpy).callCount).toBe(1);
+        expect(spy.callCount).toBe(1);
     });
 });

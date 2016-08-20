@@ -1,4 +1,13 @@
-import { observable, ObservableMap, asMap, toJS, IObservableArray, computed, intercept } from 'mobx';
+import {
+    asMap,
+    computed,
+    intercept,
+    IObservableArray,
+    observable,
+    ObservableMap,
+    toJS,
+} from 'mobx';
+import { localeMapper as locales } from '../utils/Constants';
 
 class CitationStore {
 
@@ -16,12 +25,12 @@ class CitationStore {
     }
 
     get citationByIndex(): Citeproc.Citation[] {
-        return this.byIndex.slice().map(i => toJS(i));
+        return toJS(this.byIndex);
     }
 
     constructor(byIndex: Citeproc.CitationByIndex, CSL: {[id: string]: CSL.Data}) {
         this.byIndex = observable(byIndex);
-        this.CSL = asMap(CSL);
+        this.CSL = this.cleanCSL(CSL);
         intercept(this.CSL, (change) => {
             if (change.type !== 'add') return change;
             if (this.lookup.titles.indexOf(change.newValue.title) > -1) return null;
@@ -30,7 +39,7 @@ class CitationStore {
     }
 
     init(byIndex: Citeproc.CitationByIndex) {
-        this.byIndex.replace(byIndex);
+        this.byIndex.replace(JSON.parse(JSON.stringify(byIndex)));
     }
 
     removeItems(idList: string[], doc: HTMLDocument) {
@@ -51,6 +60,13 @@ class CitationStore {
         }, []);
         this.init(byIndex);
         idList.forEach(id => this.CSL.delete(id));
+    }
+
+    private cleanCSL(CSL: {[id: string]: CSL.Data}): ObservableMap<CSL.Data> {
+        for (const key of Object.keys(CSL)) {
+            CSL[key].language = locales[CSL[key].language] || 'en-US';
+        }
+        return asMap(CSL);
     }
 }
 

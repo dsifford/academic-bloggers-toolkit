@@ -4,10 +4,6 @@ import { observable } from 'mobx';
 import { observer } from 'mobx-react';
 import { PanelButton } from './PanelButton';
 
-import 'react-virtualized-select/styles.css';
-import 'react-virtualized/styles.css';
-import 'react-select/dist/react-select.min.css';
-
 declare const ABT_i18n: BackendGlobals.ABT_i18n;
 declare const ABT_Custom_CSL: BackendGlobals.ABT_Custom_CSL;
 
@@ -142,7 +138,7 @@ export class Menu extends React.PureComponent<Props, {}> {
  * @param  {Function} selectValue Callback to update the selected values. (on click)
  * @param  {Object[]} valueArray  Array of currently selected options.
  */
-function renderer({focusedOption, focusOption, option, selectValue, valueArray}) {
+export function renderer({focusedOption, focusOption, option, selectValue}) {
     const style: React.CSSProperties = {
         alignItems: 'center',
         borderBottom: '1px solid #ddd',
@@ -187,9 +183,9 @@ function renderer({focusedOption, focusOption, option, selectValue, valueArray})
         style.backgroundColor = '#f5f5f5';
     }
 
-    if (valueArray.indexOf(option) >= 0) {
-        style.fontWeight = 'bold';
-    }
+    // if (valueArray.indexOf(option) >= 0) {
+    //     style.fontWeight = 'bold';
+    // }
 
     const click = () => selectValue(option);
     const focus = () => focusOption(option);

@@ -4,8 +4,6 @@ import * as React from 'react';
 import { mount } from 'enzyme';
 import * as sinon from 'sinon';
 import { Paginate } from '../Paginate';
-import ABT_i18n from '../../../../utils/Mocks';
-window['ABT_i18n'] = ABT_i18n;
 
 const setup = (
     page: number,

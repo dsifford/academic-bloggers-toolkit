@@ -1,5 +1,5 @@
 jest.unmock('../RISParser');
-jest.unmock('../CSLFieldProcessors');
+jest.unmock('../HelperFunctions');
 
 import { RISParser } from '../RISParser';
 

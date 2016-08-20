@@ -7,7 +7,7 @@ declare const wpActiveEditor: string;
 tinyMCE.PluginManager.add('academic_bloggers_toolkit', (editor: TinyMCE.Editor) => {
 
     // Fixes issues created if other plugins spawn separate TinyMCE instances
-    if (editor.id !== wpActiveEditor) return;
+    if (!wpActiveEditor || editor.id !== wpActiveEditor || !tinyMCE.editors['content']) return;
 
     // Keyboard shortcuts
     editor.addShortcut(

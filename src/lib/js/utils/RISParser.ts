@@ -1,4 +1,4 @@
-import * as processor from './CSLFieldProcessors';
+import { processCSLDate, processCSLName} from './HelperFunctions';
 
 /**
  * Used for parsing RIS files into CSL
@@ -139,32 +139,32 @@ export class RISParser {
                 case 'A4':
                     payload.author =
                         !payload.author
-                        ? [processor.processName(val, 'RIS')]
-                        : payload.author.concat(processor.processName(val, 'RIS'));
+                        ? [processCSLName(val, 'RIS')]
+                        : payload.author.concat(processCSLName(val, 'RIS'));
                     break;
                 case 'A2':
                 case 'ED':
                     payload.editor =
                         !payload.editor
-                        ? [processor.processName(val, 'RIS')]
-                        : payload.editor.concat(processor.processName(val, 'RIS'));
+                        ? [processCSLName(val, 'RIS')]
+                        : payload.editor.concat(processCSLName(val, 'RIS'));
                     break;
                 case 'A3':
                     if (typeof payload.translator === 'undefined') {
-                        payload.translator = [processor.processName(val, 'RIS')];
+                        payload.translator = [processCSLName(val, 'RIS')];
                     }
                     else {
-                        payload.translator.push(processor.processName(val, 'RIS'));
+                        payload.translator.push(processCSLName(val, 'RIS'));
                     }
                     break;
                 case 'PY':
                 case 'Y1':
-                    payload.issued['date-parts'][0][0] = processor.processDate(val, 'RIS')['date-parts'][0][0];
+                    payload.issued['date-parts'][0][0] = processCSLDate(val, 'RIS')['date-parts'][0][0];
                     break;
                 case 'Y2':
-                    payload.accessed = processor.processDate(val, 'RIS');
+                    payload.accessed = processCSLDate(val, 'RIS');
                 case 'DA':
-                    payload.issued = processor.processDate(val, 'RIS');
+                    payload.issued = processCSLDate(val, 'RIS');
                     break;
                 case 'KW':
                     payload.keyword = val;
@@ -183,7 +183,7 @@ export class RISParser {
                     break;
                 case 'AN':
                 case 'C7':
-                    payload.number = val; /** NOTE: This may be incorrect */
+                    payload.number = val;
                     break;
                 case 'CN':
                     payload['call-number'] = val;
@@ -201,7 +201,7 @@ export class RISParser {
                 case 'DO':
                     payload.DOI = val;
                     break;
-                case 'DP': /** NOTE: This may be incorrect */
+                case 'DP':
                     payload.archive = val;
                     break;
                 case 'ET':
@@ -216,7 +216,7 @@ export class RISParser {
                 case 'NV':
                     payload['number-of-volumes'] = val;
                     break;
-                case 'OP': /** NOTE: This may be incorrect */
+                case 'OP':
                     payload['original-title'] = val;
                     break;
                 case 'PB':
@@ -259,9 +259,6 @@ export class RISParser {
                     break;
                 case 'VL':
                     payload.volume = val;
-                    break;
-                case 'Y2':
-                    payload['event-date'] = processor.processDate(val, 'RIS');
                     break;
                 case 'ER':
                     if (Object.keys(pageHolder).length === 2) {
