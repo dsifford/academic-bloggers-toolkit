@@ -11,36 +11,24 @@ License URI: https://www.gnu.org/licenses/gpl-3.0.html
 A plugin extending the functionality of Wordpress for academic blogging.
 
 == Description ==
-
 Academic Blogger's toolkit is an **open source** WordPress plugin providing an all-in-one solution for effective academic blogging.
 
-= NOTICE =
-**This readme file is not kept up to date!**
-
-For a detailed, updated description of this plugin and all its features, please visit the [GitHub Repository](https://github.com/dsifford/academic-bloggers-toolkit).
+= THIS README PAGE IS NOT KEPT UP TO DATE! =
+For a constaintly updated, exhaustively detailed, introduction to this plugin and all its features, please visit the plugin's [GitHub Repository](https://github.com/dsifford/academic-bloggers-toolkit).
 
 [youtube https://www.youtube.com/watch?v=5k72Dh8L2BA]
+(Version 3.0.0)
 
 = Features =
 * Insert formatted references on the fly using digital identifiers (**PMID** or **DOI**).
 * Manually insert formatted references from **over 15 types of references**.
 * **Import a full bibliography from your favorite reference manager** using an exported `.ris` file.
 * Automatically format references for **every citation style on planet earth** (over 1300).
-* Insert citations using a custom citation style using Citation Style Language.
+* Insert citations using a custom citation style using a Citation Style Language (CSL) file.
 * **Fully interactive** reference list which lives beside the post editor.
 * Change citation styles in realtime.
 * **Search PubMed from the post editor** and insert references instantly.
 * Inline citations display full formatted references on the frontend when hovered with the mouse (or when tapped on mobile). No more scrolling down and losing your focus!
-
-= What makes this plugin different than `x`? Don't they offer the same thing? =
-
-Here's the problem. To my knowledge, there is not one citation plugin that exists for WordPress that does its job the way it should. Every other citation plugin uses WordPress shortcodes to render citations. Is that a bad thing. **Yes**. Here's why:
-
-Once you commit to using a plugin that uses shortcodes to render content, you're stuck with it for the life of your website. If you uninstall that plugin, all posts which rely on the shortcodes from that plugin break. Additionally, if the person who wrote the plugin decides he/she no longer wants to support it and the shortcode API changes, all of your posts will break. **This is unacceptable for academic writing**.
-
-This plugin generates plain, beautiful HTML and renders it at the time of insertion. There are **zero** shortcodes. There is **zero** chance of your posts breaking.
-
-Need to write one long blog post with lots of references? Download this plugin, write the post, and then delete the plugin if you don't need it any longer. **Freedom.**
 
 = Contributing =
 If you're a developer and would like to contribute, you can do so via this plugin's [GitHub Repository](https://github.com/dsifford/academic-bloggers-toolkit).
@@ -347,25 +335,14 @@ A special thanks to @metallikat36 for the great suggestions that led directly to
 
 == Upgrade Notice ==
 
+= 4.0.1 =
+Major stability improvements
+
 = 3.1.3 =
 Bugfixes
 
 = 3.1.1 =
 Bugfixes and performance improvements.
-
-= 1.1.3 =
-* **Bugfix:** Fixed issue causing peer review dropdown boxes to be highlighted when clicked.
-* Allow the input of 'a', 'em', and 'br' tags in background section for peer reviews.
-
-= 1.1.2 =
-* **Bugfix:** Issue where citation anchor links were interfering with anchor links not created by this plugin.
-
-= 1.1.1 =
-* **Feature Release:** Integration with Google Tag Manager. Starting now, you can set up individual link click tracking via Google Analytics! Use this feature to track PDF downloads, page-views, form submits, or anything else you can think of!
-* **Bugfix:** Issue causing some users' Peer Review Boxes to not be formatted correctly.
-* **Bugfix:** Add default citation style.
-* Add uninstall hook to cleanup plugin files from database in the unfortunate event that you decide to uninstall the plugin.
-* General Performance Improvements.
 
 = 1.1 =
 * Fixed issue where post excerpt wouldn't show correctly. (Thanks Brent Thoma!)
