@@ -31,6 +31,7 @@
     },
     "files": [
         "src/lib/js/Frontend.ts",
+        "src/lib/js/reference-list/__tests__/Store-test.ts",
         "src/lib/js/reference-list/API.ts",
         "src/lib/js/reference-list/components/__tests__/Card-test.tsx",
         "src/lib/js/reference-list/components/__tests__/ItemList-test.tsx",

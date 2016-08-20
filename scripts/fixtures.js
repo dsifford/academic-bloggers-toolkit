@@ -1,4 +1,4 @@
-// tslint:disable
+/* eslint-disable */
 module.exports = {
   "referenceList": {
     "referenceList": {
