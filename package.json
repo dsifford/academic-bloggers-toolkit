@@ -35,7 +35,7 @@
     "babel-register": "^6.11.6",
     "browser-sync": "^2.14.0",
     "coveralls": "^2.11.12",
-    "css-loader": "^0.23.1",
+    "css-loader": "^0.24.0",
     "del": "^2.2.2",
     "enzyme": "^2.4.1",
     "eslint": "^3.3.1",
