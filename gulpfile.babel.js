@@ -1,7 +1,6 @@
 import autoprefixer from 'autoprefixer';
 import del from 'del';
 import { exec } from 'child_process';
-import gfi from 'gulp-file-insert';
 import gulp from 'gulp';
 import jade from 'gulp-jade2php';
 import merge from 'merge-stream';
@@ -71,11 +70,7 @@ gulp.task('bump', () => {
 // Translations
 gulp.task('pot', () =>
     gulp
-        .src([
-            'src/academic-bloggers-toolkit.php',
-            'src/lib/**/*.php',
-            'dist/lib/php/options-page.php',
-        ])
+        .src('dist/**/*.php')
         .pipe(sort())
         .pipe(wpPot({
             domain: 'academic-bloggers-toolkit',
@@ -92,29 +87,18 @@ gulp.task('pot', () =>
 //              PHP/Static Asset Tasks
 // ==================================================
 
-gulp.task('jade1', () =>
-    gulp.src('src/lib/php/*.jade', { base: 'src/lib/php' })
+gulp.task('jade', () =>
+    gulp.src('src/lib/php/views/*.jade', { base: './src' })
     .pipe(jade({
         omitPhpRuntime: true,
         omitPhpExtractor: true,
         arraysOnly: false,
     }))
     .pipe(rename({ extname: '.php' }))
-    .pipe(gulp.dest('tmp'))
+    .pipe(gulp.dest('dist'))
 );
 
-gulp.task('jade2', () =>
-    gulp.src('src/lib/php/options-page.php', { base: './src' })
-    .pipe(gfi({
-        '<!-- JADE -->': 'tmp/options-page.php',
-    }))
-    .pipe(gulp.dest('./dist'))
-);
-
-gulp.task('jade', gulp.series('jade1', 'jade2'));
-
-
-gulp.task('php', gulp.series('jade', () => {
+gulp.task('php', gulp.parallel('jade', () => {
     const re1 = new RegExp(/(\s=\s|\sreturn\s)((?:\(object\))|)(\[)([\W\w\s]*?)(\])(;\s?)/, 'gm');
     const re2 = new RegExp(/$(\s+)(.+?)(\s=>\s)((?:\(object\))?)(\[)/, 'gm');
     const re3 = new RegExp(/$(\s+)(\],|\[)$/, 'gm');
@@ -144,7 +128,7 @@ gulp.task('php', gulp.series('jade', () => {
         return p1 + 'array(' + p3 + ')';
     }
 
-    return gulp.src(['src/**/*.php', 'dist/lib/php/options-page.php', '!src/lib/php/options-page.php'], { base: './src' })
+    return gulp.src('src/**/*.php', { base: './src' })
     .pipe(replace(re1, rep1))
     .pipe(replace(re2, rep2))
     .pipe(replace(re3, rep3))

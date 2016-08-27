@@ -42,7 +42,6 @@
     "eslint-config-airbnb-base": "^5.0.3",
     "eslint-plugin-import": "^1.14.0",
     "gulp": "github:gulpjs/gulp#4.0",
-    "gulp-file-insert": "^1.0.2",
     "gulp-jade2php": "^1.0.3",
     "gulp-rename": "^1.2.2",
     "gulp-replace": "^0.5.4",

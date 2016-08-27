@@ -29,7 +29,7 @@ class ABT_Options  {
      *   checks out. Otherwise, it should return an empty string.
      *
      * If the sanitation fails, a dismissable notice is sent to the user.
-     * 
+     *
      * @param  [string] $url Unsanitized URL submitted with the form.
      * @return [string]      Sanitized PATH to the CSL file.
      */
@@ -103,10 +103,8 @@ class ABT_Options  {
 
 
         update_option('abt_options', $abt_options);
-        ?>
-		    <!-- JADE -->
 
-        <?php
+        include dirname(__FILE__) . '/views/options-page.php';
 
     }
 }
