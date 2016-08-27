@@ -55,7 +55,7 @@ gulp.task('bump', () => {
     `= ${VERSION} =\n\n` +
     `[Click here](https://headwayapp.co/academic-bloggers-toolkit-changelog) to view changes.\n`;
 
-    return gulp
+    const srcFiles = gulp
         .src([
             'src/academic-bloggers-toolkit.php',
             'src/readme.txt',
@@ -65,6 +65,13 @@ gulp.task('bump', () => {
         .pipe(replace(/define\('ABT_VERSION', '.+?'\);/, `define('ABT_VERSION', '${VERSION}');`))
         .pipe(replace(new RegExp(re), repl))
         .pipe(gulp.dest('./src'));
+
+    const repoFiles = gulp
+        .src('ISSUE_TEMPLATE.md', { base: './' })
+        .pipe(replace(/\*\*ABT Version:.+/, `**ABT Version:** ${VERSION}`))
+        .pipe(gulp.dest('./'));
+
+    return merge(srcFiles, repoFiles);
 });
 
 // Translations
