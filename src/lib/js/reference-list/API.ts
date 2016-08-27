@@ -55,6 +55,7 @@ export function parseManualData(payload: ABT.ReferenceWindowPayload): Promise<CS
 
         // Process date fields
         ['accessed', 'event-date', 'issued'].forEach(dateType => {
+            if (!payload.manualData[dateType]) return;
             payload.manualData[dateType] = processCSLDate(payload.manualData[dateType], 'RIS');
         });
 
