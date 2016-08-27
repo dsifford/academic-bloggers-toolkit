@@ -20,6 +20,11 @@ const manualData = {
 describe('API', () => {
 
     describe('getRemoteData()', () => {
+
+        beforeEach(() => {
+            mce.alert = stub();
+        });
+
         it('should get a single PMID', () => {
             return getRemoteData('12345', mce as any)
             .then(d => {
@@ -46,6 +51,14 @@ describe('API', () => {
                 expect(mce.alert.calledWith('The following identifiers could not be found: a823hh')).toBeTruthy();
                 expect(d[0].title).toBe('A new granulation method for compressed tablets [proceedings].');
                 expect(d[1].title).toBe('Not all prehospital time is equal');
+            });
+        });
+        it('should error appropriately when no valid identifiers are set', () => {
+            return getRemoteData(' sadfasfdg', mce as any)
+            .then(d => {
+                expect(d.length).toBe(0);
+                expect(mce.alert.callCount).toBe(1);
+                expect(mce.alert.args[0][0]).toBe('The following identifiers could not be found: sadfasfdg');
             });
         });
     });
