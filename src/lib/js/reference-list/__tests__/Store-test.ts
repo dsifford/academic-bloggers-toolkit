@@ -1,109 +1,9 @@
 jest.disableAutomock();
 
+const reflistState = require('../../../../../scripts/fixtures').reflistState;
 import { Store } from '../Store';
 
-const testState: BackendGlobals.ABT_Reflist_State = {
-    bibOptions: {
-        heading: 'Bibliography',
-        style: 'fixed',
-    },
-    cache: {
-        style: 'american-medical-association',
-        links: 'always',
-        locale: 'en-US',
-    },
-    citationByIndex: [
-        {
-            citationID: 'htmlSpanId',
-            citationItems: [
-                {
-                    id: 'citationId',
-                    item: {
-                        ISSN: '3',
-                        PMID: '12345',
-                        URL: 'http://www.test.com',
-                        author: [{ family: 'Doe', given: 'JD' }],
-                        'chapter-number': '1',
-                        'container-title-short': 'J Test',
-                        'container-title': 'Journal of Testing',
-                        edition: '2',
-                        id: 'citationId',
-                        issue: '4',
-                        issued: {'date-parts': [[ '2016', '08', '19' ]]},
-                        journalAbbreviation: 'J Test',
-                        language: 'en-US',
-                        medium: 'print',
-                        number: '5',
-                        page: '100-3',
-                        'publisher-place': 'USA',
-                        publisher: 'Test',
-                        title: 'Test Title',
-                        type: 'article-journal',
-                        volume: '6',
-                    }
-                }
-            ],
-            properties: {
-                noteIndex: 0,
-            },
-            sortedItems: [[
-                {
-                    ISSN: '3',
-                    PMID: '12345',
-                    URL: 'http://www.test.com',
-                    author: [{ family: 'Doe', given: 'JD' }],
-                    'chapter-number': '1',
-                    'container-title-short': 'J Test',
-                    'container-title': 'Journal of Testing',
-                    edition: '2',
-                    id: 'citationId',
-                    issue: '4',
-                    issued: {'date-parts': [[ '2016', '08', '19' ]]},
-                    journalAbbreviation: 'J Test',
-                    language: 'en-US',
-                    medium: 'print',
-                    number: '5',
-                    page: '100-3',
-                    'publisher-place': 'USA',
-                    publisher: 'Test',
-                    title: 'Test Title',
-                    type: 'article-journal',
-                    volume: '6',
-                },
-                {
-                    id: 'citationId',
-                    sortkeys: ['0'],
-                }
-            ]],
-        }
-    ],
-    CSL: {
-        citationId: {
-            ISSN: '3',
-            PMID: '12345',
-            URL: 'http://www.test.com',
-            author: [{ family: 'Doe', given: 'JD' }],
-            'chapter-number': '1',
-            'container-title-short': 'J Test',
-            'container-title': 'Journal of Testing',
-            edition: '2',
-            id: 'citationId',
-            issue: '4',
-            issued: {'date-parts': [[ '2016', '08', '19' ]]},
-            journalAbbreviation: 'J Test',
-            language: 'en-US',
-            medium: 'print',
-            number: '5',
-            page: '100-3',
-            'publisher-place': 'USA',
-            publisher: 'Test',
-            title: 'Test Title',
-            type: 'article-journal',
-            volume: '6',
-        },
-    },
-};
-
+const testState = reflistState;
 const stateCopy = JSON.parse(JSON.stringify(testState));
 
 describe('Reflist Store', () => {
@@ -149,7 +49,7 @@ describe('Reflist Store', () => {
 
         it('should allow non-existing CSL to be set', () => {
             const cite = JSON.parse(JSON.stringify(store.citations.CSL.get('citationId')));
-            cite.title = 'Something different'
+            cite.title = 'Something different';
             store.citations.CSL.set('sameCitation', cite);
             expect(store.citations.CSL.keys().length).toBe(2);
         });

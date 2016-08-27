@@ -34,8 +34,8 @@ export class ImportWindow extends React.Component<Props, State> {
     handleFileUpload(e: React.FormEvent<HTMLInputElement>) {
         e.preventDefault();
         const reader = new FileReader();
-        const file = e.target.files[0];
-        const filename = e.target.files[0].name;
+        const file = (e.target as HTMLInputElement).files[0];
+        const filename = (e.target as HTMLInputElement).files[0].name;
 
         reader.addEventListener('load', this.parseFile);
 

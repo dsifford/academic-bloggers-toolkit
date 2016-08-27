@@ -36,7 +36,7 @@ export class People extends React.Component<PeopleProps, {}> {
                 detail: {
                     index,
                     field,
-                    value: e.target.value,
+                    value: (e.target as HTMLInputElement).value,
                 },
             })
         );

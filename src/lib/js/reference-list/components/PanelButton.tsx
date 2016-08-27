@@ -26,7 +26,7 @@ export class PanelButton extends React.PureComponent<React.HTMLProps<HTMLAnchorE
     createTooltip = (e: React.MouseEvent<HTMLAnchorElement>) => {
         e.stopPropagation();
         this.destroyTooltip();
-        const rect = e.target.getBoundingClientRect();
+        const rect = (e.target as HTMLAnchorElement).getBoundingClientRect();
         const tooltip = this.generateTooltip(this.props['data-tooltip']);
         const arrow = tooltip.children[0] as HTMLDivElement;
 

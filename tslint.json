@@ -4,6 +4,7 @@
         "curly": false,
         "no-string-literal": false,
         "no-unused-new": false,
+        "no-var-requires": false,
         "ordered-imports": false,
         "member-access": false,
         "interface-name": false,

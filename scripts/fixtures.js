@@ -1,5 +1,109 @@
 /* eslint-disable */
-module.exports = {
+
+exports.reflistState = {
+    bibOptions: {
+        heading: 'Bibliography',
+        style: 'fixed',
+    },
+    cache: {
+        style: 'american-medical-association',
+        links: 'always',
+        locale: 'en-US',
+    },
+    citationByIndex: [
+        {
+            citationID: 'htmlSpanId',
+            citationItems: [
+                {
+                    id: 'citationId',
+                    item: {
+                        ISSN: '3',
+                        PMID: '12345',
+                        URL: 'http://www.test.com',
+                        author: [{ family: 'Doe', given: 'JD' }],
+                        'chapter-number': '1',
+                        'container-title-short': 'J Test',
+                        'container-title': 'Journal of Testing',
+                        edition: '2',
+                        id: 'citationId',
+                        issue: '4',
+                        issued: {'date-parts': [[ '2016', '08', '19' ]]},
+                        journalAbbreviation: 'J Test',
+                        language: 'en-US',
+                        medium: 'print',
+                        number: '5',
+                        page: '100-3',
+                        'publisher-place': 'USA',
+                        publisher: 'Test',
+                        title: 'Test Title',
+                        type: 'article-journal',
+                        volume: '6',
+                    }
+                }
+            ],
+            properties: {
+                noteIndex: 0,
+            },
+            sortedItems: [[
+                {
+                    ISSN: '3',
+                    PMID: '12345',
+                    URL: 'http://www.test.com',
+                    author: [{ family: 'Doe', given: 'JD' }],
+                    'chapter-number': '1',
+                    'container-title-short': 'J Test',
+                    'container-title': 'Journal of Testing',
+                    edition: '2',
+                    id: 'citationId',
+                    issue: '4',
+                    issued: {'date-parts': [[ '2016', '08', '19' ]]},
+                    journalAbbreviation: 'J Test',
+                    language: 'en-US',
+                    medium: 'print',
+                    number: '5',
+                    page: '100-3',
+                    'publisher-place': 'USA',
+                    publisher: 'Test',
+                    title: 'Test Title',
+                    type: 'article-journal',
+                    volume: '6',
+                },
+                {
+                    id: 'citationId',
+                    sortkeys: ['0'],
+                }
+            ]],
+        }
+    ],
+    CSL: {
+        citationId: {
+            ISSN: '3',
+            PMID: '12345',
+            URL: 'http://www.test.com',
+            author: [{ family: 'Doe', given: 'JD' }],
+            'chapter-number': '1',
+            'container-title-short': 'J Test',
+            'container-title': 'Journal of Testing',
+            edition: '2',
+            id: 'citationId',
+            issue: '4',
+            issued: {'date-parts': [[ '2016', '08', '19' ]]},
+            journalAbbreviation: 'J Test',
+            language: 'en-US',
+            medium: 'print',
+            number: '5',
+            page: '100-3',
+            'publisher-place': 'USA',
+            publisher: 'Test',
+            title: 'Test Title',
+            type: 'article-journal',
+            volume: '6',
+        },
+    },
+};
+
+
+exports.ABT_i18n = {
   "referenceList": {
     "referenceList": {
       "tooltips": {

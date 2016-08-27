@@ -53,7 +53,7 @@ export class Menu extends React.PureComponent<Props, {}> {
     }
 
     handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
-        this.props.submitData(e.target.id);
+        this.props.submitData((e.target as HTMLInputElement).id);
     }
 
     handleSelect = (data: StyleOption) => {

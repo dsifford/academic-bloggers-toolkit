@@ -92,7 +92,7 @@ gulp.task('pot', () =>
 //              PHP/Static Asset Tasks
 // ==================================================
 
-gulp.task('jade', () =>
+gulp.task('jade1', () =>
     gulp.src('src/lib/php/*.jade', { base: 'src/lib/php' })
     .pipe(jade({
         omitPhpRuntime: true,
@@ -103,23 +103,64 @@ gulp.task('jade', () =>
     .pipe(gulp.dest('tmp'))
 );
 
-
-gulp.task('php', gulp.series('jade', () =>
+gulp.task('jade2', () =>
     gulp.src('src/lib/php/options-page.php', { base: './src' })
     .pipe(gfi({
         '<!-- JADE -->': 'tmp/options-page.php',
     }))
     .pipe(gulp.dest('./dist'))
-));
+);
+
+gulp.task('jade', gulp.series('jade1', 'jade2'));
+
+
+gulp.task('php', gulp.series('jade', () => {
+    const re1 = new RegExp(/(\s=\s|\sreturn\s)((?:\(object\))|)(\[)([\W\w\s]*?)(\])(;\s?)/, 'gm');
+    const re2 = new RegExp(/$(\s+)(.+?)(\s=>\s)((?:\(object\))?)(\[)/, 'gm');
+    const re3 = new RegExp(/$(\s+)(\],|\[)$/, 'gm');
+    const re4 = new RegExp(/(array\()(\],)/, 'gm');
+    const re5 = new RegExp(/(,\s+)(\[)(.*)(\])/, 'gm');
+
+    function rep1(match, p1, p2, p3, p4, p5, p6) {
+        return p1 + p2 + 'array(' + p4 + ')' + p6;
+    }
+
+    function rep2(match, p1, p2, p3, p4, p5) {
+        return p1 + p2 + p3 + p4 + 'array(';
+    }
+
+    function rep3(match, p1, p2) {
+        const r = p2 === '],'
+            ? '),'
+            : 'array('
+        return p1 + r;
+    }
+
+    function rep4(match, p1, p2) {
+        return p1 + '),'
+    }
+
+    function rep5(match, p1, p2, p3, p4) {
+        return p1 + 'array(' + p3 + ')';
+    }
+
+    return gulp.src(['src/**/*.php', 'dist/lib/php/options-page.php', '!src/lib/php/options-page.php'], { base: './src' })
+    .pipe(replace(re1, rep1))
+    .pipe(replace(re2, rep2))
+    .pipe(replace(re3, rep3))
+    .pipe(replace(re4, rep4))
+    .pipe(replace(re5, rep5))
+    .pipe(gulp.dest('dist'));
+}));
 
 
 gulp.task('static', () => {
     const main = gulp
-        .src('src/**/*.{js,php,po,pot,mo,html,txt}', { base: './src' })
-        .pipe(gulp.dest('./dist'));
+        .src('src/**/*.{js,po,pot,mo,html,txt}', { base: './src' })
+        .pipe(gulp.dest('dist'));
     const misc = gulp
         .src(['LICENSE'])
-        .pipe(gulp.dest('./dist'));
+        .pipe(gulp.dest('dist'));
     return merge(main, misc);
 });
 

@@ -19,8 +19,8 @@ export class MetaFields extends React.Component<MetaFieldProps, {}> {
         this.props.eventHandler(
             new CustomEvent(LocalEvents.META_FIELD_CHANGE, {
                 detail: {
-                    field: e.target.id,
-                    value: e.target.value,
+                    field: (e.target as HTMLInputElement).id,
+                    value: (e.target as HTMLInputElement).value,
                 },
             })
         );
