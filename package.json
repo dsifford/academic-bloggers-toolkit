@@ -7,7 +7,8 @@
     "test": "jest",
     "wp": "wpcmd() { docker exec $(docker ps -lq) /bin/bash -c \"sudo -u www-data wp $(echo $@)\"; };wpcmd ",
     "lint": "tslint lib/**/*{ts,tsx}",
-    "gulp": "node --max_old_space_size=4096 node_modules/.bin/gulp",
+    "dev": "NODE_ENV=development node --max_old_space_size=8192 node_modules/.bin/gulp _dev",
+    "build": "NODE_ENV=production node_modules/.bin/gulp _build",
     "update-vendors": "cd src/vendor && curl -o 'citeproc.js' https://raw.githubusercontent.com/Juris-M/citeproc-js/master/citeproc.js"
   },
   "repository": {
@@ -61,7 +62,7 @@
     "ts-loader": "^0.8.2",
     "tslint": "^3.15.1",
     "tslint-react": "^1.0.0",
-    "webpack": "^1.13.2",
+    "webpack": "^2.1.0-beta.21",
     "webpack-stream": "^3.2.0"
   },
   "dependencies": {

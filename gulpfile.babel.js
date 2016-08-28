@@ -13,16 +13,12 @@ import stylus from 'gulp-stylus';
 import uglify from 'gulp-uglify';
 import wpPot from 'gulp-wp-pot';
 import webpack from 'webpack-stream';
+import _webpack from 'webpack';
 
 import webpackConfig from './webpack.config.js';
 import { version as VERSION } from './package.json';
 
 const browserSync = require('browser-sync').create();
-
-const webpackDevConfig = Object.assign({}, webpackConfig, {
-    devtool: 'eval-source-map',
-    cache: false,
-});
 
 // ==================================================
 //                 Utility Tasks
@@ -193,7 +189,7 @@ let firstBuildReady = false;
 gulp.task('webpack:dev', (done) =>
     gulp
         .src('src/lib/js/Frontend.ts')
-        .pipe(webpack(webpackDevConfig))
+        .pipe(webpack(webpackConfig, _webpack))
         .pipe(gulp.dest('dist/'))
         .pipe(browserSync.stream())
 );
@@ -201,7 +197,7 @@ gulp.task('webpack:dev', (done) =>
 gulp.task('webpack:prod', () =>
     gulp
         .src('src/lib/js/Frontend.ts')
-        .pipe(webpack(webpackConfig))
+        .pipe(webpack(webpackConfig, _webpack))
         .pipe(gulp.dest('dist/'))
 );
 
@@ -224,7 +220,7 @@ gulp.task('js', () =>
 //                 Compound Tasks
 // ==================================================
 
-gulp.task('build',
+gulp.task('_build',
     gulp.series(
         'clean', 'bump',
         gulp.parallel('stylus:prod', 'static', 'webpack:prod'),
@@ -234,7 +230,7 @@ gulp.task('build',
 );
 
 
-gulp.task('default',
+gulp.task('_dev',
     gulp.series(
         'chown', 'clean', 'static',
         gulp.parallel('php', 'stylus:dev', 'webpack:dev'), () => {
