@@ -1,5 +1,5 @@
 import { EVENTS } from '../utils/Constants';
-const { TINYMCE_READY, OPEN_REFERENCE_WINDOW } = EVENTS;
+const { TINYMCE_READY, TINYMCE_HIDDEN, TINYMCE_VISIBLE, OPEN_REFERENCE_WINDOW } = EVENTS;
 
 declare const tinyMCE: TinyMCE.MCE;
 declare const wpActiveEditor: string;
@@ -19,6 +19,14 @@ tinyMCE.PluginManager.add('academic_bloggers_toolkit', (editor: TinyMCE.Editor) 
     // Event Handlers
     editor.on('init', () => {
         dispatchEvent(new CustomEvent(TINYMCE_READY));
+    });
+
+    editor.on('show', () => {
+        dispatchEvent(new CustomEvent(TINYMCE_VISIBLE));
+    });
+
+    editor.on('hide', () => {
+        dispatchEvent(new CustomEvent(TINYMCE_HIDDEN));
     });
 
 });

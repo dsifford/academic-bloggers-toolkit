@@ -15,7 +15,7 @@ export class CSLProcessor {
     public citeproc: Citeproc.Processor;
 
     /**
-     * This object converts the locale names in wordpress (keys) to the locales
+     * Converts the locale names in wordpress (keys) to the locales
      *   in CSL (values). If CSL doesn't have a locale for a given WordPress locale,
      *   then false is used (which will default to en-US).
      */
@@ -73,15 +73,90 @@ export class CSLProcessor {
     }
 
     /**
+     * Wrapper function for citeproc.makeBibliography that ensures the citation store
+     *   is also kept in sync with the processor store as well as formats the
+     *   bibliography output.
+     *
+     * TODO: Remove the links param -- not needed.
+     *
+     * @return {ABT.Bibliography}
+     */
+    makeBibliography(links: 'always'|'urls'|'never'): ABT.Bibliography {
+        const rawBib = this.citeproc.makeBibliography();
+        this.store.citations.init(this.citeproc.registry.citationreg.citationByIndex);
+        return this.formatBibliography(links, rawBib);
+    }
+
+    /**
+     * Transforms the CSL.Data[] into a Citeproc.Citation.
+     *
+     * @param csl CSL.Data[].
+     * @return Citeproc.CitationByIndexSingle for the current inline citation.
+     */
+    prepareInlineCitationData(csl: CSL.Data[], currentIndex: number): Citeproc.Citation {
+        const payload = {
+            citationItems: [],
+            properties: { noteIndex: currentIndex },
+        };
+        csl.forEach((c) => payload.citationItems.push({id: c.id}));
+        return payload;
+    }
+
+    /**
+     * Wrapper function around Citeproc.processCitationCluster that ensures the store
+     *   is kept in sync with the processor.
+     *
+     * @param  citation Single Citeproc.Citation
+     * @param  before   Citations before the current citation.
+     * @param  after    Citations after the current citation.
+     * @return Citeproc.CitationClusterData[]
+     */
+    processCitationCluster(
+        citation: Citeproc.Citation,
+        before: Citeproc.CitationsPrePost,
+        after: Citeproc.CitationsPrePost,
+    ): Citeproc.CitationClusterData[] {
+        const [status, clusters] =
+            this.citeproc.processCitationCluster(
+                citation,
+                before,
+                after,
+            );
+        if (status['citation_errors'].length) console.error(status['citation_errors']);
+        this.store.citations.init(this.citeproc.registry.citationreg.citationByIndex);
+        return clusters;
+    }
+
+    /**
+     * Spawns a new temporary CSL.Engine and creates a static, untracked bibliography
+     *
+     * @param  {CSL.Data[]}                data Array of CSL.Data
+     * @return {Promise<ABT.Bibliography>}
+     */
+    async createStaticBibliography(data: CSL.Data[]): Promise<ABT.Bibliography> {
+        const style = this.store.citationStyle === 'abt-user-defined'
+            ? ABT_Custom_CSL.CSL
+            : await this.getCSLStyle(this.store.citationStyle);
+        const sys = Object.assign({}, this.citeproc.sys);
+        const citeproc = new CSL.Engine(sys, style);
+        citeproc.updateItems(toJS(data.map(d => d.id)));
+        const bib = citeproc.makeBibliography();
+        return this.formatBibliography(this.store.links, bib);
+    }
+
+    /**
      * Wrapper function for citeproc.makeBibliography that takes the output and
      *   inlines CSS classes that are appropriate for the style (according to the
      *   generated bibmeta).
      *
-     * @return Parsed bibliography.
+     * TODO: remove the links param -- not needed.
+     *
+     * @param {'always'|'urls'|'never'}  links   Link format
+     * @param {Citeproc.Bibliography}    rawBib  Raw output from citeproc.makeBibliography()
+     * @return {ABT.Bibliography}
      */
-    makeBibliography(links: 'always'|'urls'|'never'): ABT.Bibliography {
-        const [bibmeta, bibHTML]: Citeproc.Bibliography = this.citeproc.makeBibliography();
-        this.store.citations.init(this.citeproc.registry.citationreg.citationByIndex);
+    private formatBibliography = (links: 'always'|'urls'|'never', rawBib: Citeproc.Bibliography): ABT.Bibliography => {
+        const [bibmeta, bibHTML]: Citeproc.Bibliography = rawBib;
         const temp = document.createElement('DIV');
         const payload: {id: string, html: string}[] = bibHTML.map((h: string, i: number) => {
             temp.innerHTML = h;
@@ -127,45 +202,6 @@ export class CSLProcessor {
         });
         temp.remove();
         return payload;
-    }
-
-    /**
-     * Transforms the CSL.Data[] into a Citeproc.Citation.
-     *
-     * @param csl CSL.Data[].
-     * @return Citeproc.CitationByIndexSingle for the current inline citation.
-     */
-    prepareInlineCitationData(csl: CSL.Data[], currentIndex: number): Citeproc.Citation {
-        const payload = {
-            citationItems: [],
-            properties: { noteIndex: currentIndex },
-        };
-        csl.forEach((c) => payload.citationItems.push({id: c.id}));
-        return payload;
-    }
-
-    /**
-     * Wrapper function around Citeproc.processCitationCluster that ensures the store
-     *   is kept in sync with the processor.
-     * @param  citation Single Citeproc.Citation
-     * @param  before   Citations before the current citation.
-     * @param  after    Citations after the current citation.
-     * @return Citeproc.CitationClusterData[]
-     */
-    processCitationCluster(
-        citation: Citeproc.Citation,
-        before: Citeproc.CitationsPrePost,
-        after: Citeproc.CitationsPrePost,
-    ): Citeproc.CitationClusterData[] {
-        const [status, clusters] =
-            this.citeproc.processCitationCluster(
-                citation,
-                before,
-                after,
-            );
-        if (status['citation_errors'].length) console.error(status['citation_errors']);
-        this.store.citations.init(this.citeproc.registry.citationreg.citationByIndex);
-        return clusters;
     }
 
     /**

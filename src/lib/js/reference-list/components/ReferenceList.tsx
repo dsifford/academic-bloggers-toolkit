@@ -15,7 +15,7 @@ import { ItemList } from './ItemList';
 
 declare const tinyMCE: TinyMCE.MCE;
 declare const ABT_i18n: BackendGlobals.ABT_i18n;
-const { OPEN_REFERENCE_WINDOW, TINYMCE_READY } = EVENTS;
+const { OPEN_REFERENCE_WINDOW, TINYMCE_READY, TINYMCE_HIDDEN, TINYMCE_VISIBLE } = EVENTS;
 
 @observer
 export class ReferenceList extends React.Component<{store: Store}, {}> {
@@ -24,24 +24,44 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
     processor: CSLProcessor;
     labels = ABT_i18n.referenceList.referenceList;
 
+    /**
+     * Observable array of selected items
+     */
     @observable
     selected: IObservableArray<string> = observable([]);
 
+    /**
+     * Toggles the main loading spinner for the Reference List. Loading is true
+     *   until the TinyMCE instance dispatches the `init` event or after TinyMCE
+     *   dispatches the `hide` event (meaning the WYSIWYG editor is inactive)
+     */
     @observable
     loading = true;
 
+    /**
+     * Controls the visibility of the hamburger menu
+     */
     @observable
     menuOpen = false;
 
+    /**
+     * Controls the 'pinned' and 'unpinned' state of the Reference List
+     */
     @observable
     fixed = false;
 
+    /**
+     * UI state for the 'Cited Items' list
+     */
     @observable
     citedListUI = {
         isOpen: true,
         maxHeight: '400px',
     };
 
+    /**
+     * UI state for the 'Uncited Items list'
+     */
     @observable
     uncitedListUI = {
         isOpen: false,
@@ -51,18 +71,17 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
     constructor(props) {
         super(props);
         this.processor = new CSLProcessor(this.props.store);
-        this.insertInline = this.insertInline.bind(this);
-        this.openReferenceWindow = this.openReferenceWindow.bind(this);
-        this.deleteCitations = this.deleteCitations.bind(this);
     }
 
     componentDidMount() {
         addEventListener(TINYMCE_READY, this.initTinyMCE);
-        addEventListener(OPEN_REFERENCE_WINDOW, this.openReferenceWindow.bind(this));
-        addEventListener('scroll', this.scrollHandler);
+        addEventListener(TINYMCE_HIDDEN, () => this.loading = true);
+        addEventListener(TINYMCE_VISIBLE, () => this.loading = false);
+        addEventListener(OPEN_REFERENCE_WINDOW, this.openReferenceWindow);
+        addEventListener('scroll', this.handleScroll);
     }
 
-    initProcessor() {
+    initProcessor = () => {
         this.editor.setProgressState(true);
         return this.processor.init()
         .then((clusters) => {
@@ -83,7 +102,33 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
         });
     }
 
-    insertInline(e?: React.MouseEvent<HTMLAnchorElement>, data?: CSL.Data[]) {
+    initTinyMCE = () => {
+        this.editor = tinyMCE.editors['content'];
+        this.initProcessor().then(() => this.loading = !this.loading);
+    }
+
+    insertStaticBibliography = () => {
+        const data: CSL.Data[] = [];
+        this.selected.forEach(id => {
+            data.push(this.props.store.citations.CSL.get(id));
+        });
+        this.processor.createStaticBibliography(data)
+        .then(h => {
+            const margin: string = this.editor.dom.getStyle(
+                this.editor.dom.doc.querySelector('p'),
+                'margin',
+                true
+            ) || '0 0 28px';
+            this.editor.insertContent(
+                `<div class="noselect mceNonEditable abt-static-bib" style="margin: ${margin}">` +
+                    `${h.map(a => a.html).join('')}` +
+                `</div>`
+            );
+            this.clearSelection();
+        });
+    }
+
+    insertInlineCitation = (e?: React.MouseEvent<HTMLAnchorElement>, data?: CSL.Data[]) => {
 
         if (e) e.preventDefault();
         this.editor.setProgressState(true);
@@ -121,7 +166,7 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
         this.clearSelection();
     }
 
-    deleteCitations(e?: React.MouseEvent<HTMLAnchorElement>) {
+    deleteCitations = (e?: React.MouseEvent<HTMLAnchorElement>) => {
         if (e) e.preventDefault();
         if (this.selected.length === 0) return;
         this.editor.setProgressState(true);
@@ -130,12 +175,11 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
         this.initProcessor();
     }
 
-    openReferenceWindow(e: React.MouseEvent<HTMLAnchorElement>) {
-        e.preventDefault();
+    openReferenceWindow = () => {
         MCE.referenceWindow(this.editor).then(payload => {
             if (!payload) return;
 
-            let preprocess: Promise<CSL.Data[]> = payload.addManually
+            const preprocess: Promise<CSL.Data[]> = payload.addManually
                 ? parseManualData(payload)
                 : getRemoteData(payload.identifierList, this.editor.windowManager);
 
@@ -161,7 +205,7 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
                     return [...prev, curr];
                 }, []);
                 if (!payload.attachInline) return;
-                this.insertInline(null, data);
+                this.insertInlineCitation(null, data);
             })
             .catch(err => {
                 console.error(err.message);
@@ -170,7 +214,7 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
         });
     }
 
-    openImportWindow() {
+    openImportWindow = () => {
         MCE.importWindow(this.editor).then(data => {
             if (!data) return;
             this.props.store.citations.CSL.merge(
@@ -180,10 +224,6 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
                 }, {} as {[itemId: string]: CSL.Data})
             );
         });
-    }
-
-    clearSelection = () => {
-        this.selected.clear();
     }
 
     handleMenuSelection = (kind: string, data: string) => {
@@ -203,59 +243,16 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
                 this.reset();
                 return;
             }
+            case 'INSERT_STATIC_BIBLIOGRAPHY': {
+                this.insertStaticBibliography();
+                return;
+            }
             default:
                 return;
         }
     }
 
-    initTinyMCE = () => {
-        this.editor = tinyMCE.editors['content'];
-        this.initProcessor().then(() => this.loading = !this.loading);
-    }
-
-    listToggle = (id: string, explode: boolean = false) => {
-        switch (id) {
-            case 'cited':
-                if (explode) {
-                    this.citedListUI.isOpen = true;
-                    this.uncitedListUI.isOpen = false;
-                    break;
-                }
-                this.citedListUI.isOpen = !this.citedListUI.isOpen;
-                break;
-            case 'uncited':
-                if (explode) {
-                    this.citedListUI.isOpen = false;
-                    this.uncitedListUI.isOpen = true;
-                    break;
-                }
-                this.uncitedListUI.isOpen = !this.uncitedListUI.isOpen;
-                break;
-            default:
-                break;
-        }
-        // Required so that the DOM has enough time to apply changes
-        setTimeout(this.scrollHandler, 200);
-    }
-
-    pinReferenceList = (e) => {
-        e.preventDefault();
-        document.getElementById('abt_reflist').classList.toggle('fixed');
-        this.fixed = !this.fixed;
-        this.scrollHandler();
-    }
-
-    reset = () => {
-        this.editor.setProgressState(true);
-        this.clearSelection();
-        this.uncitedListUI.isOpen = false;
-        this.citedListUI.isOpen = true;
-        this.props.store.reset();
-        MCE.reset(this.editor.dom.doc);
-        this.initProcessor();
-    }
-
-    scrollHandler = () => {
+    handleScroll = () => {
         const list = document.getElementById('abt_reflist');
 
         if (!this.fixed) {
@@ -319,6 +316,38 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
         this.uncitedListUI.maxHeight = `${uncitedHeight}px`;
     }
 
+    togglePinned = (e) => {
+        e.preventDefault();
+        document.getElementById('abt_reflist').classList.toggle('fixed');
+        this.fixed = !this.fixed;
+        this.handleScroll();
+    }
+
+    toggleList = (id: string, explode: boolean = false) => {
+        switch (id) {
+            case 'cited':
+                if (explode) {
+                    this.citedListUI.isOpen = true;
+                    this.uncitedListUI.isOpen = false;
+                    break;
+                }
+                this.citedListUI.isOpen = !this.citedListUI.isOpen;
+                break;
+            case 'uncited':
+                if (explode) {
+                    this.citedListUI.isOpen = false;
+                    this.uncitedListUI.isOpen = true;
+                    break;
+                }
+                this.uncitedListUI.isOpen = !this.uncitedListUI.isOpen;
+                break;
+            default:
+                break;
+        }
+        // Required so that the DOM has enough time to apply changes
+        setTimeout(this.handleScroll, 200);
+    }
+
     toggleMenu = (e: React.MouseEvent<HTMLAnchorElement>) => {
         e.preventDefault();
         this.menuOpen = !this.menuOpen;
@@ -328,6 +357,20 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
         return isSelected
         ? this.selected.remove(id)
         : this.selected.push(id);
+    }
+
+    clearSelection = () => {
+        this.selected.clear();
+    }
+
+    reset = () => {
+        this.editor.setProgressState(true);
+        this.clearSelection();
+        this.uncitedListUI.isOpen = false;
+        this.citedListUI.isOpen = true;
+        this.props.store.reset();
+        MCE.reset(this.editor.dom.doc);
+        this.initProcessor();
     }
 
     render() {
@@ -354,7 +397,7 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
                 <div className="panel">
                     <PanelButton
                         disabled={this.selected.length === 0}
-                        onClick={this.insertInline}
+                        onClick={this.insertInlineCitation}
                         data-tooltip={this.labels.tooltips.insert}
                     >
                         <span className="dashicons dashicons-migrate insert-inline" />
@@ -374,7 +417,7 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
                         <span className="dashicons dashicons-minus remove-reference" />
                     </PanelButton>
                     <PanelButton
-                        onClick={this.pinReferenceList}
+                        onClick={this.togglePinned}
                         data-tooltip={this.labels.tooltips.pin}
                     >
                         <span
@@ -403,6 +446,7 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
                     { this.menuOpen &&
                         <Menu
                             key="menu"
+                            itemsSelected={this.selected.length > 0}
                             cslStyle={this.props.store.citationStyle}
                             submitData={this.handleMenuSelection}
                         />
@@ -415,7 +459,7 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
                         selectedItems={this.selected}
                         isOpen={this.citedListUI.isOpen}
                         maxHeight={this.citedListUI.maxHeight}
-                        toggle={this.listToggle}
+                        toggle={this.toggleList}
                         click={this.toggleSelect}
                         children={this.labels.citedItems}
                     />
@@ -427,7 +471,7 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
                         selectedItems={this.selected}
                         isOpen={this.uncitedListUI.isOpen}
                         maxHeight={this.uncitedListUI.maxHeight}
-                        toggle={this.listToggle}
+                        toggle={this.toggleList}
                         click={this.toggleSelect}
                         children={this.labels.uncitedItems}
                     />

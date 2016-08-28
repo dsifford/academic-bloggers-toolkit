@@ -343,8 +343,9 @@ declare namespace TinyMCE {
         contentWindow: Window;
         controlManager: Object;
         dom: {
-            doc: Document;
             create(tag: string, attrs: { [attr: string]: string}, children?: string): HTMLElement;
+            doc: Document;
+            getStyle(element: HTMLElement, name: string, computed: boolean): string;
         };
         selection: {
             bookmarkManager: {

@@ -9,6 +9,7 @@ declare const ABT_Custom_CSL: BackendGlobals.ABT_Custom_CSL;
 
 interface Props extends React.HTMLProps<HTMLDivElement> {
     cslStyle: string;
+    itemsSelected: boolean;
     submitData(kind: string, data?: string): void;
 }
 
@@ -104,6 +105,14 @@ export class Menu extends React.PureComponent<Props, {}> {
                             <span className="dashicons dashicons-trash" />
                         </PanelButton>
                         <PanelButton
+                            id="INSERT_STATIC_BIBLIOGRAPHY"
+                            disabled={!this.props.itemsSelected}
+                            onClick={this.handleClick}
+                            data-tooltip="Insert Static Publication List"
+                        >
+                            <span className="dashicons dashicons-list-view" />
+                        </PanelButton>
+                        <PanelButton
                             href="https://github.com/dsifford/academic-bloggers-toolkit/blob/master/README.md"
                             target="_blank"
                             data-tooltip={this.labels.tooltips.help}
@@ -182,10 +191,6 @@ export function renderer({focusedOption, focusOption, option, selectValue}) {
     if (option === focusedOption) {
         style.backgroundColor = '#f5f5f5';
     }
-
-    // if (valueArray.indexOf(option) >= 0) {
-    //     style.fontWeight = 'bold';
-    // }
 
     const click = () => selectValue(option);
     const focus = () => focusOption(option);
