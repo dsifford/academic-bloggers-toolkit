@@ -93,7 +93,7 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
             ).then(() => {
                 MCE.setBibliography(
                     this.editor,
-                    this.processor.makeBibliography(this.props.store.links),
+                    this.processor.makeBibliography(),
                     this.props.store.bibOptions
                 );
                 this.editor.setProgressState(false);
@@ -157,7 +157,7 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
         ).then(() => {
             MCE.setBibliography(
                 this.editor,
-                this.processor.makeBibliography(this.props.store.links),
+                this.processor.makeBibliography(),
                 this.props.store.bibOptions
             );
             this.editor.setProgressState(false);

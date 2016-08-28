@@ -20,7 +20,7 @@ import { version as VERSION } from './package.json';
 const browserSync = require('browser-sync').create();
 
 const webpackDevConfig = Object.assign({}, webpackConfig, {
-    devtool: 'eval',
+    devtool: 'eval-source-map',
     cache: false,
 });
 
@@ -188,14 +188,15 @@ gulp.task('stylus:prod', () =>
 // ==================================================
 //                 Javascript Tasks
 // ==================================================
+let firstBuildReady = false;
 
-gulp.task('webpack:dev', () =>
+gulp.task('webpack:dev', (done) =>
     gulp
         .src('src/lib/js/Frontend.ts')
         .pipe(webpack(webpackDevConfig))
         .pipe(gulp.dest('dist/'))
+        .pipe(browserSync.stream())
 );
-
 
 gulp.task('webpack:prod', () =>
     gulp
@@ -237,18 +238,8 @@ gulp.task('default',
     gulp.series(
         'chown', 'clean', 'static',
         gulp.parallel('php', 'stylus:dev', 'webpack:dev'), () => {
-            browserSync.init({
-                proxy: 'localhost:8080',
-                open: false,
-            });
 
             gulp.watch('src/lib/**/*.styl', gulp.series('stylus:dev'));
-
-            gulp.watch([
-                'src/lib/**/*.{ts,tsx}',
-                '!src/lib/**/__tests__/',
-                '!src/lib/**/__tests__/*',
-            ], gulp.series('webpack:dev', 'reload'));
 
             gulp.watch([
                 'src/**/*',
@@ -256,6 +247,17 @@ gulp.task('default',
                 '!src/**/__tests__/',
                 '!src/**/__tests__/*',
             ], gulp.series('static', 'php', 'reload'));
+
+            gulp.watch([
+                'src/lib/**/*.{ts,tsx}',
+                '!src/lib/**/__tests__/',
+                '!src/lib/**/__tests__/*',
+            ], gulp.series('webpack:dev'));
+
+            browserSync.init({
+                proxy: 'localhost:8080',
+                open: false,
+            });
         }
     )
 );

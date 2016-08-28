@@ -16,34 +16,20 @@ module.exports = {
 // Debug function to help weed out transpiled nonsense that negatively affects testing
 function transpile(src, path, debugFile) {
     src = src.replace(/^import '.+?\.css';/gm, '');
-    if (!debugFile) {
-        return (
-            tsc.transpile(
-                src, {
-                    module: tsc.ModuleKind.CommonJS,
-                    jsx: tsc.JsxEmit.React,
-                },
-                path, []
-            )
-            .replace(/(}\)\()(.*\|\|.*;)/g, '$1/* istanbul ignore next */$2')
-            .replace(/(var __extends = \(this && this.__extends\))/g, '$1/* istanbul ignore next */')
-            .replace(/(var __assign = \(this && this.__assign\) \|\| Object.assign)/g, '$1 /* istanbul ignore next */')
-        );
-    }
-
-    const fs = require('fs');
     const code = tsc.transpile(
-        src, {
-            module: tsc.ModuleKind.CommonJS,
-            jsx: tsc.JsxEmit.React,
-        },
+        src, require('../tsconfig.json').compilerOptions,
         path, []
     )
     .replace(/(}\)\()(.*\|\|.*;)/g, '$1/* istanbul ignore next */$2')
     .replace(/(var __extends = \(this && this.__extends\))/g, '$1/* istanbul ignore next */')
-    .replace(/(var __assign = \(this && this.__assign\) \|\| Object.assign)/g, '$1 /* istanbul ignore next */');
+    .replace(/(var __assign = \(this && this.__assign\) \|\| Object.assign)/g, '$1 /* istanbul ignore next */')
+    .replace(/(var __decorate = \(this && this.__decorate\) \|\|)/g, '$1 /* istanbul ignore next */')
+    .replace(/(^__decorate\(\[$)/gm, ' /* istanbul ignore next */\n$1');
+    // var __decorate = (this && this.__decorate) || function (decorators, target, key, desc)
 
+    if (!debugFile) return code;
 
+    const fs = require('fs');
     if (path.endsWith(debugFile)) fs.writeFileSync('DEBUG_FILE.js', code);
     return code;
 

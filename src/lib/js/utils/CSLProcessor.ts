@@ -77,14 +77,12 @@ export class CSLProcessor {
      *   is also kept in sync with the processor store as well as formats the
      *   bibliography output.
      *
-     * TODO: Remove the links param -- not needed.
-     *
      * @return {ABT.Bibliography}
      */
-    makeBibliography(links: 'always'|'urls'|'never'): ABT.Bibliography {
-        const rawBib = this.citeproc.makeBibliography();
+    makeBibliography(): ABT.Bibliography {
+        const bib = this.citeproc.makeBibliography();
         this.store.citations.init(this.citeproc.registry.citationreg.citationByIndex);
-        return this.formatBibliography(links, rawBib);
+        return this.formatBibliography(bib);
     }
 
     /**
@@ -141,7 +139,7 @@ export class CSLProcessor {
         const citeproc = new CSL.Engine(sys, style);
         citeproc.updateItems(toJS(data.map(d => d.id)));
         const bib = citeproc.makeBibliography();
-        return this.formatBibliography(this.store.links, bib);
+        return this.formatBibliography(bib);
     }
 
     /**
@@ -149,13 +147,11 @@ export class CSLProcessor {
      *   inlines CSS classes that are appropriate for the style (according to the
      *   generated bibmeta).
      *
-     * TODO: remove the links param -- not needed.
-     *
      * @param {'always'|'urls'|'never'}  links   Link format
      * @param {Citeproc.Bibliography}    rawBib  Raw output from citeproc.makeBibliography()
      * @return {ABT.Bibliography}
      */
-    private formatBibliography = (links: 'always'|'urls'|'never', rawBib: Citeproc.Bibliography): ABT.Bibliography => {
+    private formatBibliography = (rawBib: Citeproc.Bibliography): ABT.Bibliography => {
         const [bibmeta, bibHTML]: Citeproc.Bibliography = rawBib;
         const temp = document.createElement('DIV');
         const payload: {id: string, html: string}[] = bibHTML.map((h: string, i: number) => {
@@ -172,7 +168,7 @@ export class CSLProcessor {
                     el.classList.add('flush');
                     break;
             }
-            switch (links) {
+            switch (this.store.links) {
                 case 'always': {
                     el.innerHTML = parseReferenceURL(el.innerHTML);
                     if (item.PMID) {
