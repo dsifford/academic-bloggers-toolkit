@@ -10,40 +10,6 @@ export function generateID(): string {
 }
 
 /**
- * Takes an array of reference strings and makes the following replacements to each
- *   reference:
- *   - URLs => wrapped with an anchor tag (to make clickable).
- *   - DOIs => wrapped with an anchor tag (link to DOI.org resolver).
- * @param  {string} input Raw reference string.
- * @return {string}       Reference string with parsed links.
- */
-export function parseReferenceURL(input: string): string {
-    const url: RegExp = /((http:\/\/|https:\/\/|www.)(www.)?[^;\s<]+[0-9a-zA-Z\/])/g;
-    const doi: RegExp = /doi:(\S+)\./g;
-    let match: RegExpExecArray;
-    const replacements: [string, string][] = [];
-
-    // tslint:disable-next-line
-    while ((match = url.exec(input)) !== null) {
-        if (match[0].search(/^www./) > -1) {
-            replacements.push([match[0], `<a href="http://${match[0]}" target="_blank">${match[0]}</a>`]);
-        }
-        else {
-            replacements.push([match[0], `<a href="${match[0]}" target="_blank">${match[0]}</a>`]);
-        }
-    }
-
-    // tslint:disable-next-line
-    while ((match = doi.exec(input)) !== null) {
-        replacements.push([match[1], `<a href="https://doi.org/${match[1]}" target="_blank">${match[1]}</a>`]);
-    }
-
-    replacements.forEach(r => input = input.replace(r[0], r[1]));
-
-    return input;
-}
-
-/**
  * Responsible for parsing RIS or PubMed fields containing names into the correct
  *   shape for CSL.
  *
@@ -284,23 +250,23 @@ export function formatBibliography(
         const innerHTML = innerEl.innerHTML;
         switch (true) {
             case typeof item.PMID !== 'undefined': {
-                innerEl.innerHTML = parseReferenceURLNew(innerHTML, links, { type: 'PMID', value: item.PMID });
+                innerEl.innerHTML = parseReferenceURL(innerHTML, links, { type: 'PMID', value: item.PMID });
                 break;
             }
             case typeof item.DOI !== 'undefined': {
-                innerEl.innerHTML = parseReferenceURLNew(innerHTML, links, { type: 'DOI', value: item.DOI });
+                innerEl.innerHTML = parseReferenceURL(innerHTML, links, { type: 'DOI', value: item.DOI });
                 break;
             }
             case typeof item.PMCID !== 'undefined': {
-                innerEl.innerHTML = parseReferenceURLNew(innerHTML, links, { type: 'PMCID', value: item.PMCID });
+                innerEl.innerHTML = parseReferenceURL(innerHTML, links, { type: 'PMCID', value: item.PMCID });
                 break;
             }
             case typeof item.URL !== 'undefined': {
-                innerEl.innerHTML = parseReferenceURLNew(innerHTML, links, { type: 'URL', value: item.URL });
+                innerEl.innerHTML = parseReferenceURL(innerHTML, links, { type: 'URL', value: item.URL });
                 break;
             }
             default: {
-                innerEl.innerHTML = parseReferenceURLNew(innerHTML, links);
+                innerEl.innerHTML = parseReferenceURL(innerHTML, links);
                 break;
             }
         }
@@ -311,20 +277,20 @@ export function formatBibliography(
     return payload;
 }
 
-export function parseReferenceURLNew(
+export function parseReferenceURL(
     html: string,
     linkStyle: ABT.LinkStyle,
     id?: { type: 'PMID'|'DOI'|'PMCID'|'URL', value: string },
 ): string {
 
-    if (!id && linkStyle === 'never') return html;
+    if (linkStyle === 'never') return html;
 
     const url: RegExp = /((http:\/\/(?:www\.)?|https:\/\/(?:www\.)?)|www\.)([^;\s<]+[0-9a-zA-Z\/])/g;
     const doi: RegExp = /doi:(\S+)\./g;
 
     const linkedHtml = html
         .replace(url, (_match, _p1, p2 = 'http://', p3) => `<a href="${p2}${p3}" target="_blank">${p2}${p3}</a>`)
-        .replace(doi, '<a href="https://doi.org/$1" target="_blank">$1</a>');
+        .replace(doi, 'doi: <a href="https://doi.org/$1" target="_blank">$1</a>');
 
     if (!id) return linkedHtml;
 
@@ -358,7 +324,7 @@ export function parseReferenceURLNew(
                 }
             }
         }
-        case 'always-full-surround':
+        case 'always-full-surround': {
             switch (id.type) {
                 case 'PMID': {
                     return `<a href="http://www.ncbi.nlm.nih.gov/pubmed/${id.value}" target="_blank">${html}</a>`;
@@ -374,8 +340,10 @@ export function parseReferenceURLNew(
                     return `<a href="${id.value}" target="_blank">${html}</a>`;
                 }
             }
+        }
         case 'urls':
-        default:
+        default: {
             return linkedHtml;
+        }
     }
 }

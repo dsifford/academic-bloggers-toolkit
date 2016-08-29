@@ -23,6 +23,7 @@
         "variable-name": [true,
             "ban-keywords"
         ],
-        "jsx-no-multiline-js": false
+        "jsx-no-multiline-js": false,
+        "whitespace": [true, "check-branch", "check-decl", "check-module", "check-separator", "check-type", "check-operator"]
     }
 }

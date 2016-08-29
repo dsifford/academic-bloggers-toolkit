@@ -24,17 +24,18 @@ const browserSync = require('browser-sync').create();
 //                 Utility Tasks
 // ==================================================
 
-gulp.task('reload', (done) => { browserSync.reload(); done();});
+gulp.task('reload', (done) => { browserSync.reload(); done(); });
 
 // Delete all files in dist/lib
 gulp.task('clean', (done) => del(['dist/**/*'], done));
 
 gulp.task('chown', (done) => {
-    exec("ls -l dist/ | awk '{print $3}' | tail -n -1", (err, stdout, stderr) => {
+    exec("ls -l dist/ | awk '{print $3}' | tail -n -1", (err, stdout) => {
         if (stdout.trim() === process.env.USER) {
-            return done();
+            done();
+            return;
         }
-        exec(`sudo chown -R ${process.env.USER} dist/`, (err, stdout, stderr) => {
+        exec(`sudo chown -R ${process.env.USER} dist/`, () => {
             done();
         });
     });
@@ -109,26 +110,26 @@ gulp.task('php', gulp.parallel('jade', () => {
     const re5 = new RegExp(/(,\s+)(\[)(.*)(\])/, 'gm');
 
     function rep1(match, p1, p2, p3, p4, p5, p6) {
-        return p1 + p2 + 'array(' + p4 + ')' + p6;
+        return `${p1}${p2}array(${p4})${p6}`;
     }
 
-    function rep2(match, p1, p2, p3, p4, p5) {
-        return p1 + p2 + p3 + p4 + 'array(';
+    function rep2(match, p1, p2, p3, p4) {
+        return `${p1}${p2}${p3}${p4}array(`;
     }
 
     function rep3(match, p1, p2) {
         const r = p2 === '],'
             ? '),'
-            : 'array('
+            : 'array(';
         return p1 + r;
     }
 
-    function rep4(match, p1, p2) {
-        return p1 + '),'
+    function rep4(match, p1) {
+        return `${p1}),`;
     }
 
-    function rep5(match, p1, p2, p3, p4) {
-        return p1 + 'array(' + p3 + ')';
+    function rep5(match, p1, p2, p3) {
+        return `${p1}array(${p3})`;
     }
 
     return gulp.src('src/**/*.php', { base: './src' })
@@ -184,9 +185,8 @@ gulp.task('stylus:prod', () =>
 // ==================================================
 //                 Javascript Tasks
 // ==================================================
-let firstBuildReady = false;
 
-gulp.task('webpack:dev', (done) =>
+gulp.task('webpack:dev', () =>
     gulp
         .src('src/lib/js/Frontend.ts')
         .pipe(webpack(webpackConfig, _webpack))
@@ -234,7 +234,6 @@ gulp.task('_dev',
     gulp.series(
         'chown', 'clean', 'static',
         gulp.parallel('php', 'stylus:dev', 'webpack:dev'), () => {
-
             gulp.watch('src/lib/**/*.styl', gulp.series('stylus:dev'));
 
             gulp.watch([
