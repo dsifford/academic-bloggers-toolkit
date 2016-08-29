@@ -82,7 +82,6 @@ export class CSLProcessor {
     makeBibliography(): ABT.Bibliography {
         const bib = this.citeproc.makeBibliography();
         this.store.citations.init(this.citeproc.registry.citationreg.citationByIndex);
-        console.log(bib[0]);
         return formatBibliography(bib, this.store.links, this.store.citations.CSL);
     }
 

@@ -17,6 +17,31 @@ class CitationStore {
     @observable
     private byIndex: IObservableArray<Citeproc.Citation>;
 
+    @computed
+    get uncited(): CSL.Data[] {
+        return this.CSL.keys().reduce((prev, curr) => {
+            if (this.citedIDs.indexOf(curr) === -1) prev.push(this.CSL.get(curr));
+            return prev;
+        }, []).slice();
+    }
+
+    @computed
+    get cited(): CSL.Data[] {
+        return this.citedIDs.map(id => this.CSL.get(id)).slice();
+    }
+
+    @computed
+    get citedIDs(): string[] {
+        return this.citationByIndex
+        .map(i => i.citationItems.map(j => j.id))
+        .reduce((prev, curr) => [...prev, ...curr], [])
+        .reduce((p, c) =>
+            p.indexOf(c) === -1
+            ? [...p, c]
+            : p
+        , []).slice();
+    }
+
     get lookup(): {ids: string[], titles: string[]} {
         return {
             ids: this.CSL.keys(),
@@ -43,6 +68,10 @@ class CitationStore {
     }
 
     removeItems(idList: string[], doc: HTMLDocument) {
+        idList.forEach(id => {
+            if (this.citedIDs.indexOf(id) === -1)
+                this.CSL.delete(id);
+        });
         const byIndex = this.citationByIndex
         .map(i =>
             Object.assign({}, i, {
@@ -59,7 +88,6 @@ class CitationStore {
             return [...prev, curr];
         }, []);
         this.init(byIndex);
-        idList.forEach(id => this.CSL.delete(id));
     }
 
     private cleanCSL(CSL: {[id: string]: CSL.Data}): ObservableMap<CSL.Data> {
@@ -95,31 +123,6 @@ export class Store {
      */
     @observable
     citationStyle: string;
-
-    @computed
-    get uncited(): CSL.Data[] {
-        return this.citations.CSL.keys().reduce((prev, curr) => {
-            if (this.citedIDs.indexOf(curr) === -1) prev.push(this.citations.CSL.get(curr));
-            return prev;
-        }, []).slice();
-    }
-
-    @computed
-    get cited(): CSL.Data[] {
-        return this.citedIDs.map(id => this.citations.CSL.get(id)).slice();
-    }
-
-    @computed
-    get citedIDs(): string[] {
-        return this.citations.citationByIndex
-        .map(i => i.citationItems.map(j => j.id))
-        .reduce((prev, curr) => [...prev, ...curr], [])
-        .reduce((p, c) =>
-            p.indexOf(c) === -1
-            ? [...p, c]
-            : p
-        , []).slice();
-    }
 
     @computed
     get persistent(): string {

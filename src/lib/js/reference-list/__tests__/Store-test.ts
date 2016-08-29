@@ -15,11 +15,25 @@ describe('Reflist Store', () => {
             store = new Store(testState);
         });
 
+        it('should return citedIDs', () => {
+            expect(store.citations.citedIDs).toEqual(['citationId', 'otherCitationId']);
+        });
+
+        it('should return uncited CSL', () => {
+            expect(store.citations.uncited.length).toEqual(1);
+            store.citations.CSL.set('newcitation', {id: 'newcitation'});
+            expect(store.citations.uncited.length).toEqual(2);
+        });
+
+        it('should return cited CSL', () => {
+            expect(store.citations.cited.length).toEqual(2);
+        });
+
         it('should return a "lookup" correctly', () => {
             expect(store.citations.lookup).toEqual(
                 {
-                    ids: ['citationId', 'otherCitationId'],
-                    titles: ['Test Title', 'Other Test Title'],
+                    ids: ['citationId', 'otherCitationId', 'uncitedCitationId'],
+                    titles: ['Test Title', 'Other Test Title', 'Test Title Uncited'],
                 }
             );
         });
@@ -44,20 +58,19 @@ describe('Reflist Store', () => {
         it('should intercept a citation already defined', () => {
             const cite = JSON.parse(JSON.stringify(store.citations.CSL.get('citationId')));
             store.citations.CSL.set('sameCitation', cite);
-            expect(store.citations.CSL.keys().length).toBe(2);
+            expect(store.citations.CSL.keys().length).toBe(3);
         });
 
         it('should allow non-existing CSL to be set', () => {
             const cite = JSON.parse(JSON.stringify(store.citations.CSL.get('citationId')));
             cite.title = 'Something different';
             store.citations.CSL.set('sameCitation', cite);
-            expect(store.citations.CSL.keys().length).toBe(3);
+            expect(store.citations.CSL.keys().length).toBe(4);
         });
 
-        it('should remove items', () => {
-
+        it('removeItems() should remove cited items from processor state, but keep CSL (bump to uncited)', () => {
             expect(store.citations.citationByIndex.length).toBe(2);
-            expect(store.citations.CSL.keys().length).toBe(2);
+            expect(store.citations.CSL.keys().length).toBe(3);
 
             const parent = document.createElement('DIV');
             const el = document.createElement('DIV');
@@ -68,26 +81,22 @@ describe('Reflist Store', () => {
             store.citations.removeItems(['citationId'], document);
 
             expect(store.citations.citationByIndex.length).toBe(1);
-            expect(store.citations.CSL.keys().length).toBe(1);
+            expect(store.citations.CSL.keys().length).toBe(3);
+        });
+
+        it('removeItems() should completely delete all traces of uncited items', () => {
+            expect(store.citations.citationByIndex.length).toBe(2);
+            expect(store.citations.CSL.keys().length).toBe(3);
+
+            store.citations.removeItems(['uncitedCitationId'], document);
+
+            expect(store.citations.citationByIndex.length).toBe(2);
+            expect(store.citations.CSL.keys().length).toBe(2);
         });
     });
 
     beforeEach(() => {
         store = new Store(testState);
-    });
-
-    it('should return citedIDs', () => {
-        expect(store.citedIDs).toEqual(['citationId', 'otherCitationId']);
-    });
-
-    it('should return uncited CSL', () => {
-        expect(store.uncited.length).toEqual(0);
-        store.citations.CSL.set('newcitation', {id: 'newcitation'});
-        expect(store.uncited.length).toEqual(1);
-    });
-
-    it('should return cited CSL', () => {
-        expect(store.cited.length).toEqual(2);
     });
 
     it('should return persistent', () => {
@@ -97,7 +106,7 @@ describe('Reflist Store', () => {
     });
 
     it('should reset', () => {
-        expect(store.citations.CSL.keys().length).toBe(2);
+        expect(store.citations.CSL.keys().length).toBe(3);
         expect(store.citations.citationByIndex.length).toBe(2);
         store.reset();
         expect(store.citations.CSL.keys().length).toBe(0);

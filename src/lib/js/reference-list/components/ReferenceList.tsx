@@ -265,8 +265,8 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
         const bothOpen: boolean =
             this.citedListUI.isOpen
             && this.uncitedListUI.isOpen
-            && this.props.store.cited.length > 0
-            && this.props.store.uncited.length > 0;
+            && this.props.store.citations.cited.length > 0
+            && this.props.store.citations.uncited.length > 0;
 
         const scrollpos = document.body.scrollTop;
         const topOffset = scrollpos > 134 ? 55 : (scrollpos === 0 ? 98 : 98 - (scrollpos / 3));
@@ -452,10 +452,10 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
                         />
                     }
                 </CSSTransitionGroup>
-                { this.props.store.cited.length > 0 &&
+                { this.props.store.citations.cited.length > 0 &&
                     <ItemList
                         id="cited"
-                        items={this.props.store.cited}
+                        items={this.props.store.citations.cited}
                         selectedItems={this.selected}
                         isOpen={this.citedListUI.isOpen}
                         maxHeight={this.citedListUI.maxHeight}
@@ -464,10 +464,10 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
                         children={this.labels.citedItems}
                     />
                 }
-                { this.props.store.uncited.length > 0 &&
+                { this.props.store.citations.uncited.length > 0 &&
                     <ItemList
                         id="uncited"
-                        items={this.props.store.uncited}
+                        items={this.props.store.citations.uncited}
                         selectedItems={this.selected}
                         isOpen={this.uncitedListUI.isOpen}
                         maxHeight={this.uncitedListUI.maxHeight}
