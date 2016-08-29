@@ -4,7 +4,7 @@ const webpack = require('webpack');
 console.log(process.env.NODE_ENV);
 
 module.exports = {
-    devtool: process.env.NODE_ENV === 'production' ? 'hidden-source-map' : 'cheap-eval-source-map',
+    devtool: process.env.NODE_ENV === 'production' ? 'hidden-source-map' : 'eval-source-map',
     entry: {
         'lib/js/Frontend': './src/lib/js/Frontend.ts',
         'lib/js/tinymce/index': './src/lib/js/tinymce/index.ts',

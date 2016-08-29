@@ -127,23 +127,26 @@ class ABT_Backend {
     }
 
     /**
-     * Renders the HTML for React to mount into. FIXME
+     * Renders the HTML for React to mount into.
      */
     public function render_reference_list($post) {
         global $ABT_i18n;
 
         wp_nonce_field(basename(__file__), 'abt_nonce');
 
-        $reflist_state = json_decode(get_post_meta($post->ID, '_abt-reflist-state', true), true);
-        $abt_options = get_option('abt_options');
-        if (empty($reflist_state)) {
-            $reflist_state = [
+        $state = json_decode(get_post_meta($post->ID, '_abt-reflist-state', true), true);
+        $opts = get_option('abt_options');
+
+        $custom_preferred = $opts['citation_style']['prefer_custom'] === true;
+        $custom_valid = file_exists($opts['citation_style']['custom_url']);
+
+        $style = $custom_preferred && $custom_valid ? 'abt-user-defined' : $opts['citation_style']['style'];
+
+        if (empty($state)) {
+            $state = [
                 'cache' => [
-                    'style' => (
-                        $abt_options['citation_style']['prefer_custom'] === true
-                        && file_exists($abt_options['citation_style']['custom_url'])
-                    ) ? 'abt-user-defined' : $abt_options['citation_style']['style'],
-                    'links' => $abt_options['display_options']['links'],
+                    'style' => $style,
+                    'links' => $opts['display_options']['links'],
                     'locale' => get_locale(),
                 ],
                 'citationByIndex' => [],
@@ -151,27 +154,27 @@ class ABT_Backend {
             ];
         }
 
-        $reflist_state['bibOptions'] = [
-            'heading' => $abt_options['display_options']['bib_heading'],
-            'style' => $abt_options['display_options']['bibliography'],
+        $state['bibOptions'] = [
+            'heading' => $opts['display_options']['bib_heading'],
+            'style' => $opts['display_options']['bibliography'],
         ];
 
         // Fix legacy post meta
-        if (array_key_exists('processorState', $reflist_state)) {
-            $reflist_state['CSL'] = $reflist_state['processorState'];
-            unset($reflist_state['processorState']);
+        if (array_key_exists('processorState', $state)) {
+            $state['CSL'] = $state['processorState'];
+            unset($state['processorState']);
         }
 
-        if (array_key_exists('citations', $reflist_state)) {
-            $reflist_state['citationByIndex'] = $reflist_state['citations']['citationByIndex'];
-            unset($reflist_state['citations']);
+        if (array_key_exists('citations', $state)) {
+            $state['citationByIndex'] = $state['citations']['citationByIndex'];
+            unset($state['citations']);
         }
 
-        wp_localize_script('abt_reflist', 'ABT_Reflist_State', $reflist_state);
+        wp_localize_script('abt_reflist', 'ABT_Reflist_State', $state);
         wp_localize_script('abt_reflist', 'ABT_i18n', $ABT_i18n);
         wp_localize_script('abt_reflist', 'ABT_CitationStyles', $this->get_citation_styles());
         wp_localize_script('abt_reflist', 'ABT_wp', $this->localize_wordpress_constants());
-        wp_localize_script('abt_reflist', 'ABT_Custom_CSL', $this->get_user_defined_csl($abt_options['citation_style']['custom_url']));
+        wp_localize_script('abt_reflist', 'ABT_Custom_CSL', $this->get_user_defined_csl($opts['citation_style']['custom_url']));
 
         echo "<div id='abt-reflist' style='margin: 0 -12px -12px -12px;'></div>";
     }

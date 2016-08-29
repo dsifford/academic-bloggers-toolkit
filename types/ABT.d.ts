@@ -85,7 +85,7 @@ declare namespace BackendGlobals {
         };
         cache: {
             style: string;
-            links: 'always'|'urls'|'never';
+            links: ABT.LinkStyle;
             locale: string;
         };
         citationByIndex: Citeproc.CitationByIndex;
@@ -124,6 +124,8 @@ declare namespace BackendGlobals {
 
 // tslint:disable-next-line
 declare namespace ABT {
+
+    type LinkStyle = 'always'|'always-full-surround'|'urls'|'never';
 
     type CitationTypes = {
         inUse: boolean;
@@ -251,22 +253,37 @@ declare namespace Citeproc {
     ][];
 
     interface Bibmeta {
-        /** Closing div tag for bibliography. */
+        /** NOT USED - Closing div tag for bibliography. */
         bibend: string;
         /** array of strings? for errors. */
         'bibliography_errors': string[];
-        /** Opening div tag for bibliography. */
+        /** NOT USED - Opening div tag for bibliography. */
         bibstart: string;
         /** (not sure what for) */
         done: boolean;
         /** array of itemIDs */
         'entry_ids': [string][];
-        /** horizontal spacing? */
+        /** Vertical margin between each individual reference item. */
         entryspacing: number;
-        /** vertical spacing? */
+        /**
+         * Should the bibliography have hanging indents?
+         * NOTE: There is currently a bug in Citeproc-js where this value is actually
+         *   a number. This should not affect this though.
+         */
+        hangingindent: boolean;
+        /** Vertical spacing within each individual reference item. */
         linespacing: number;
+        /**
+         * NOT USED - Maximum width of the label for the bibliography. In other words,
+         *   a bibliography numbered up to 1000 will have a greater maxoffset
+         *   than one numbered up to 5.
+         */
         maxoffset: number;
-        'second-field-align'?: 'flush'|'margin'|boolean;
+        /**
+         * Too difficult to explain.
+         * See here: https://github.com/citation-style-language/styles/issues/804#issuecomment-31467854
+         */
+        'second-field-align': 'flush'|'margin'|boolean;
     }
 
     interface Citation {

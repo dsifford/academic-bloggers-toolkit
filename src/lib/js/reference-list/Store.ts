@@ -88,7 +88,7 @@ export class Store {
     /**
      * The user's selected link format.
      */
-    links: 'always'|'urls'|'never';
+    links: 'always'|'urls'|'never'|'always-full-surround';
 
     /**
      * The selected citation style

@@ -1,5 +1,5 @@
 import { localeMapper } from './Constants';
-import { parseReferenceURL } from './HelperFunctions';
+import { formatBibliography } from './HelperFunctions';
 import { Store } from '../reference-list/Store';
 import { toJS } from 'mobx';
 
@@ -82,7 +82,8 @@ export class CSLProcessor {
     makeBibliography(): ABT.Bibliography {
         const bib = this.citeproc.makeBibliography();
         this.store.citations.init(this.citeproc.registry.citationreg.citationByIndex);
-        return this.formatBibliography(bib);
+        console.log(bib[0]);
+        return formatBibliography(bib, this.store.links, this.store.citations.CSL);
     }
 
     /**
@@ -139,65 +140,7 @@ export class CSLProcessor {
         const citeproc = new CSL.Engine(sys, style);
         citeproc.updateItems(toJS(data.map(d => d.id)));
         const bib = citeproc.makeBibliography();
-        return this.formatBibliography(bib);
-    }
-
-    /**
-     * Wrapper function for citeproc.makeBibliography that takes the output and
-     *   inlines CSS classes that are appropriate for the style (according to the
-     *   generated bibmeta).
-     *
-     * @param {'always'|'urls'|'never'}  links   Link format
-     * @param {Citeproc.Bibliography}    rawBib  Raw output from citeproc.makeBibliography()
-     * @return {ABT.Bibliography}
-     */
-    private formatBibliography = (rawBib: Citeproc.Bibliography): ABT.Bibliography => {
-        const [bibmeta, bibHTML]: Citeproc.Bibliography = rawBib;
-        const temp = document.createElement('DIV');
-        const payload: {id: string, html: string}[] = bibHTML.map((h: string, i: number) => {
-            temp.innerHTML = h;
-            const el = temp.firstElementChild as HTMLDivElement;
-            const item: CSL.Data = this.store.citations.CSL.get(bibmeta.entry_ids[i][0]);
-
-            switch (bibmeta['second-field-align']) {
-                case false:
-                    el.classList.add('hanging-indent');
-                    break;
-                case 'flush':
-                default:
-                    el.classList.add('flush');
-                    break;
-            }
-            switch (this.store.links) {
-                case 'always': {
-                    el.innerHTML = parseReferenceURL(el.innerHTML);
-                    if (item.PMID) {
-                        if (el.getElementsByClassName('csl-right-inline').length > 0) {
-                            el.lastElementChild.innerHTML +=
-                                `<span class="abt-url">` + // tslint:disable-next-line
-                                    `[<a href="http://www.ncbi.nlm.nih.gov/pubmed/${item.PMID}" target="_blank">PubMed</a>]` +
-                                `</span>`;
-                        }
-                        else {
-                            el.innerHTML +=
-                                `<span class="abt-url"> ` + // tslint:disable-next-line
-                                    `[<a href="http://www.ncbi.nlm.nih.gov/pubmed/${item.PMID}" target="_blank">PubMed</a>]` +
-                                `</span>`;
-                        }
-                    }
-                    break;
-                }
-                case 'urls':
-                default: {
-                    el.lastElementChild.innerHTML = parseReferenceURL(el.innerHTML);
-                    break;
-                }
-            }
-
-            return {html: temp.innerHTML, id: bibmeta.entry_ids[i][0]};
-        });
-        temp.remove();
-        return payload;
+        return formatBibliography(bib, this.store.links, this.store.citations.CSL);
     }
 
     /**
