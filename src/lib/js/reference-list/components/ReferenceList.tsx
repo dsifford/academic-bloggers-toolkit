@@ -2,7 +2,7 @@ import * as React from 'react';
 import { EVENTS } from '../../utils/Constants';
 import * as MCE from '../../utils/TinymceFunctions';
 import { CSLProcessor } from '../../utils/CSLProcessor';
-import { observable, IObservableArray } from 'mobx';
+import { observable, IObservableArray, reaction } from 'mobx';
 import { observer } from 'mobx-react';
 import { getRemoteData, parseManualData } from '../API';
 import * as CSSTransitionGroup from 'react-addons-css-transition-group';
@@ -71,6 +71,7 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
     constructor(props) {
         super(props);
         this.processor = new CSLProcessor(this.props.store);
+        this.initReactions();
     }
 
     componentDidMount() {
@@ -79,6 +80,36 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
         addEventListener(TINYMCE_VISIBLE, () => this.loading = false);
         addEventListener(OPEN_REFERENCE_WINDOW, this.openReferenceWindow);
         addEventListener('scroll', this.handleScroll);
+    }
+
+    initReactions = () => {
+        /**
+         * React to list toggles
+         */
+        reaction(
+            () => [this.citedListUI.isOpen, this.uncitedListUI.isOpen],
+            this.handleScroll,
+            false,
+            200,
+        );
+
+        /**
+         * React to list pin/unpin
+         */
+        reaction(
+            () => this.fixed,
+            this.handleScroll,
+        );
+
+        /**
+         * React to citedlist changes
+         */
+        reaction(
+            () => this.props.store.citations.citedIDs.length,
+            this.handleScroll,
+            false,
+            200,
+        );
     }
 
     initProcessor = () => {
@@ -269,14 +300,14 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
             && this.props.store.citations.uncited.length > 0;
 
         const scrollpos = document.body.scrollTop;
-        const topOffset = scrollpos > 134 ? 55 : (scrollpos === 0 ? 98 : 98 - (scrollpos / 3));
+        const topOffset = scrollpos > 134 ? 55 : (scrollpos === 0 ? 95 : 95 - (scrollpos / 3));
         const listOffset = (200 + topOffset);
         const remainingHeight = window.innerHeight - listOffset;
 
         list.style.top = `${topOffset}px`;
         if (!bothOpen) {
-            this.citedListUI.maxHeight = `calc(100vh - ${listOffset}px)`;
-            this.uncitedListUI.maxHeight = `calc(100vh - ${listOffset}px)`;
+            this.citedListUI.maxHeight = `calc(100vh - ${listOffset}px + 38px)`;
+            this.uncitedListUI.maxHeight = `calc(100vh - ${listOffset}px + 38px)`;
             return;
         }
 
@@ -286,7 +317,7 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
         let uncitedHeight = 0;
 
         for (let i = 0; i < cited.children.length; i++) {
-            citedHeight += cited.children[0].clientHeight + 1;
+            citedHeight += cited.children[i].clientHeight + 1;
             if (citedHeight > (remainingHeight / 2)) {
                 citedHeight = remainingHeight / 2;
                 break;
@@ -294,7 +325,7 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
         }
 
         for (let i = 0; i < uncited.children.length; i++) {
-            uncitedHeight += uncited.children[0].clientHeight + 1;
+            uncitedHeight += uncited.children[i].clientHeight + 1;
             if (uncitedHeight > (remainingHeight / 2)) {
                 uncitedHeight = remainingHeight / 2;
                 break;
@@ -320,7 +351,6 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
         e.preventDefault();
         document.getElementById('abt_reflist').classList.toggle('fixed');
         this.fixed = !this.fixed;
-        this.handleScroll();
     }
 
     toggleList = (id: string, explode: boolean = false) => {
@@ -344,8 +374,6 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
             default:
                 break;
         }
-        // Required so that the DOM has enough time to apply changes
-        setTimeout(this.handleScroll, 200);
     }
 
     toggleMenu = (e: React.MouseEvent<HTMLAnchorElement>) => {
@@ -392,7 +420,7 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
 
         return (
             <div>
-                {/* <DevTools position={{left: 50, top: 40}} /> */}
+                {/*<DevTools position={{left: 50, top: 40}} />*/}
                 <StorageField store={this.props.store} />
                 <div className="panel">
                     <PanelButton
