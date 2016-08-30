@@ -101,11 +101,9 @@ class ABT_Options  {
         $display_options_links = isset($abt_options['display_options']['links']) ? $abt_options['display_options']['links'] : '';
         $display_options_bib_heading = isset($abt_options['display_options']['bib_heading']) ? $abt_options['display_options']['bib_heading'] : '';
 
-
         update_option('abt_options', $abt_options);
 
         include dirname(__FILE__) . '/views/options-page.php';
-
     }
 }
 new ABT_Options();

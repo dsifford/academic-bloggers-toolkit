@@ -2,10 +2,8 @@ import autoprefixer from 'autoprefixer';
 import del from 'del';
 import { exec } from 'child_process';
 import gulp from 'gulp';
-import jade from 'gulp-jade2php';
 import merge from 'merge-stream';
 import poststylus from 'poststylus';
-import rename from 'gulp-rename';
 import replace from 'gulp-replace';
 import sort from 'gulp-sort';
 import sourcemaps from 'gulp-sourcemaps';
@@ -27,7 +25,7 @@ const browserSync = require('browser-sync').create();
 gulp.task('reload', (done) => { browserSync.reload(); done(); });
 
 // Delete all files in dist/lib
-gulp.task('clean', (done) => del(['dist/**/*'], done));
+gulp.task('clean', () => del(['dist/**/*']));
 
 gulp.task('chown', (done) => {
     exec("ls -l dist/ | awk '{print $3}' | tail -n -1", (err, stdout) => {
@@ -91,18 +89,7 @@ gulp.task('pot', () =>
 //              PHP/Static Asset Tasks
 // ==================================================
 
-gulp.task('jade', () =>
-    gulp.src('src/lib/php/views/*.jade', { base: './src' })
-    .pipe(jade({
-        omitPhpRuntime: true,
-        omitPhpExtractor: true,
-        arraysOnly: false,
-    }))
-    .pipe(rename({ extname: '.php' }))
-    .pipe(gulp.dest('dist'))
-);
-
-gulp.task('php', gulp.parallel('jade', () => {
+gulp.task('php', () => {
     const re1 = new RegExp(/(\s=\s|\sreturn\s)((?:\(object\))|)(\[)([\W\w\s]*?)(\])(;\s?)/, 'gm');
     const re2 = new RegExp(/$(\s+)(.+?)(\s=>\s)((?:\(object\))?)(\[)/, 'gm');
     const re3 = new RegExp(/$(\s+)(\],|\[)$/, 'gm');
@@ -132,19 +119,19 @@ gulp.task('php', gulp.parallel('jade', () => {
         return `${p1}array(${p3})`;
     }
 
-    return gulp.src('src/**/*.php', { base: './src' })
+    return gulp.src(['src/**/*.php', '!**/views/*.php'], { base: './src' })
     .pipe(replace(re1, rep1))
     .pipe(replace(re2, rep2))
     .pipe(replace(re3, rep3))
     .pipe(replace(re4, rep4))
     .pipe(replace(re5, rep5))
     .pipe(gulp.dest('dist'));
-}));
+});
 
 
 gulp.task('static', () => {
     const main = gulp
-        .src('src/**/*.{js,po,pot,mo,html,txt}', { base: './src' })
+        .src(['src/**/*.{js,po,pot,mo,html,txt}', 'src/**/views/*.php'], { base: './src' })
         .pipe(gulp.dest('dist'));
     const misc = gulp
         .src(['LICENSE'])
@@ -241,7 +228,7 @@ gulp.task('_dev',
                 '!src/**/*.{ts,tsx,styl}',
                 '!src/**/__tests__/',
                 '!src/**/__tests__/*',
-            ], gulp.series('static', 'php', 'reload'));
+            ], gulp.series('php', 'static', 'reload'));
 
             gulp.watch([
                 'src/lib/**/*.{ts,tsx}',

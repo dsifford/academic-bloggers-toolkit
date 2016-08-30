@@ -63,7 +63,10 @@ export function parseManualData(payload: ABT.ReferenceWindowPayload): Promise<CS
         payload.manualData.id = generateID();
 
         Object.keys(payload.manualData).forEach(key => {
-            if (payload.manualData[key] === '') delete payload.manualData[key];
+            if (payload.manualData[key] === '') {
+                delete payload.manualData[key];
+                return;
+            }
             if (['accessed', 'event-date', 'issued'].indexOf(key) > -1) {
                 if (payload.manualData[key]['date-parts'][0].length === 0) delete payload.manualData[key];
             }
