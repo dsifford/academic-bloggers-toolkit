@@ -57,13 +57,14 @@
                                                 - _e('Clickable links should be included in the bibliography', 'academic-bloggers-toolkit')
                                         td(style='width: 75%;')
                                             select(name='display_options_links', id='display_options_links', style='width: 100%;')
-                                                | <option value="always" <?php selected($display_options_links, 'always'); ?>><?php _e('whenever possible', 'academic-bloggers-toolkit') ?></option>
+                                                | <option value="always" <?php selected($display_options_links, 'always'); ?>><?php _e('whenever possible (subtle)', 'academic-bloggers-toolkit') ?></option>
+                                                | <option value="always-full-surround" <?php selected($display_options_links, 'always-full-surround'); ?>><?php _e('whenever possible (full surround)', 'academic-bloggers-toolkit') ?></option>
                                                 | <option value="urls" <?php selected($display_options_links, 'urls'); ?>><?php _e('when the citation has a visible URL', 'academic-bloggers-toolkit') ?></option>
                                                 | <option value="never" <?php selected($display_options_links, 'never'); ?>><?php _e('never', 'academic-bloggers-toolkit') ?></option>
                                     tr
                                         td(style='width: 25%;')
                                             label(style='white-space: nowrap;', for='display_options_bib_heading')
-                                                - _e('The heading for bibliographies should be', 'academic-bloggers-toolkit')
+                                                - _e('The heading for the bibliography should be', 'academic-bloggers-toolkit')
                                         td(style='width: 75%;')
                                             input.large-text(type='text', name='display_options_bib_heading', id='display_options_bib_heading', value=!{display_options_bib_heading})
                                     tr
