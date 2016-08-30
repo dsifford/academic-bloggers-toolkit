@@ -249,19 +249,19 @@ export function formatBibliography(
         const innerEl = el.querySelector('.csl-right-inline') || el;
         const innerHTML = innerEl.innerHTML;
         switch (true) {
-            case typeof item.PMID !== 'undefined': {
+            case typeof item.PMID !== 'undefined' && !innerHTML.match(item.PMID): {
                 innerEl.innerHTML = parseReferenceURL(innerHTML, links, { type: 'PMID', value: item.PMID });
                 break;
             }
-            case typeof item.DOI !== 'undefined': {
+            case typeof item.DOI !== 'undefined' && !innerHTML.match(item.DOI): {
                 innerEl.innerHTML = parseReferenceURL(innerHTML, links, { type: 'DOI', value: item.DOI });
                 break;
             }
-            case typeof item.PMCID !== 'undefined': {
+            case typeof item.PMCID !== 'undefined' && !innerHTML.match(item.PMCID): {
                 innerEl.innerHTML = parseReferenceURL(innerHTML, links, { type: 'PMCID', value: item.PMCID });
                 break;
             }
-            case typeof item.URL !== 'undefined': {
+            case typeof item.URL !== 'undefined' && !innerHTML.match(item.URL): {
                 innerEl.innerHTML = parseReferenceURL(innerHTML, links, { type: 'URL', value: item.URL });
                 break;
             }
