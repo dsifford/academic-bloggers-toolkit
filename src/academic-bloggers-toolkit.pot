@@ -564,57 +564,61 @@ msgid "Clickable links should be included in the bibliography"
 msgstr ""
 
 #: dist/lib/php/views/options-page.php:2
-msgid "whenever possible"
+msgid "whenever possible (subtle)"
 msgstr ""
 
 #: dist/lib/php/views/options-page.php:3
+msgid "whenever possible (full surround)"
+msgstr ""
+
+#: dist/lib/php/views/options-page.php:4
 msgid "when the citation has a visible URL"
 msgstr ""
 
-#: dist/lib/php/views/options-page.php:4
+#: dist/lib/php/views/options-page.php:5
 msgid "never"
 msgstr ""
 
-#: dist/lib/php/views/options-page.php:4
-msgid "The heading for bibliographies should be"
+#: dist/lib/php/views/options-page.php:5
+msgid "The heading for the bibliography should be"
 msgstr ""
 
-#: dist/lib/php/views/options-page.php:4
+#: dist/lib/php/views/options-page.php:5
 msgid "Override CSS"
 msgstr ""
 
-#: dist/lib/php/views/options-page.php:4
+#: dist/lib/php/views/options-page.php:5
 msgid "CSS Selectors used in this plugin"
 msgstr ""
 
-#: dist/lib/php/views/options-page.php:4
+#: dist/lib/php/views/options-page.php:5
 msgid "Inline Citations"
 msgstr ""
 
-#: dist/lib/php/views/options-page.php:4
+#: dist/lib/php/views/options-page.php:5
 msgid "Citation Tooltips"
 msgstr ""
 
-#: dist/lib/php/views/options-page.php:4
+#: dist/lib/php/views/options-page.php:5
 msgid "Bibliography"
 msgstr ""
 
-#: dist/lib/php/views/options-page.php:4
+#: dist/lib/php/views/options-page.php:5
 msgid "Footnotes"
 msgstr ""
 
-#: dist/lib/php/views/options-page.php:4
+#: dist/lib/php/views/options-page.php:5
 msgid "Note: If you are already using a child theme to load CSS, place your CSS overrides there. The box above is only a crutch for those who do not have any custom CSS saved yet. Loading CSS this way is very inefficient."
 msgstr ""
 
-#: dist/lib/php/views/options-page.php:4
+#: dist/lib/php/views/options-page.php:5
 msgid "How do I"
 msgstr ""
 
-#: dist/lib/php/views/options-page.php:4
+#: dist/lib/php/views/options-page.php:5
 msgid "Make my tooltips a different color?"
 msgstr ""
 
-#: dist/lib/php/views/options-page.php:4
+#: dist/lib/php/views/options-page.php:5
 msgid "Apply style to the bibliography list?"
 msgstr ""
