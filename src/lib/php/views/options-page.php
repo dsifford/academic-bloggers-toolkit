@@ -267,7 +267,6 @@
 
         $('#demo-bib-heading-container').click(function(e) {
             e.preventDefault();
-            console.log(e);
             if (this.className === 'fixed') return;
             if (linkDemoContainer.style.display === 'none') {
                 linkDemoContainer.style.display = '';
@@ -282,19 +281,3 @@
 
     });
 </script>
-
-<!-- <div id="demo-bib" style="max-width: 80%; margin: auto;">
-    <div id="demo-bib-heading-container" class="<?php echo $display_options_bibliography ?>" style="margin: 1em 0 1em -25px;">
-        <span id="abt-demo-toggles" style="<?php echo $display_options_bibliography !== 'toggle' ? 'display: none;' : '' ?>">
-            <span id="abt-demo-toggle-open" style="cursor: pointer; position: relative; font-size: 30px; top: -3px; left: -30px;" class="dashicons dashicons-arrow-down"></span>
-            <span id="abt-demo-toggle-shut" style="display: none; cursor: pointer; position: relative; font-size: 30px; top: -3px; left: -30px;" class="dashicons dashicons-arrow-right"></span>
-        </span>
-        <div id="demo-bib-heading" style="<?php echo empty($display_options_bib_heading) ? 'display: none;' : 'display: inline-block;' ?> <?php echo $display_options_bibliography === 'toggle' ? 'margin-left: -25px; cursor: pointer;' : '' ?> font-size: 23px; line-height: 23px; font-weight: 600; color: #23282d;">Bib</div>
-    </div>
-    <div id="link-style-demo">
-        <div id="always" style="<?php echo $display_options_links != 'always' ? 'display: none;' : '' ?>"><span style="font-weight: bold; margin-right: 8px;">1.</span>Sifford D P. Academic Blogger’s Toolkit: <a href="https://wordpress.org/plugins/academic-bloggers-toolkit/" target="_blank">https://wordpress.org/plugins/academic-bloggers-toolkit/</a>. <i>J WordPress</i>. 2015;12(5):12-24.<span class="abt-url"> [<a href="https://dx.doi.org" target="_blank">Source</a>]</span></div>
-        <div id="always-full-surround" style="<?php echo $display_options_links != 'always-full-surround' ? 'display: none;' : '' ?>"><a href="https://dx.doi.org" target="_blank"><span style="font-weight: bold; margin-right: 8px;">1.</span>Sifford D P. Academic Blogger’s Toolkit: https://wordpress.org/plugins/academic-bloggers-toolkit/. <i>J WordPress</i>. 2015;12(5):12-24.</a></div>
-        <div id="urls" style="<?php echo $display_options_links != 'urls' ? 'display: none;' : '' ?>"><span style="font-weight: bold; margin-right: 8px;">1.</span>Sifford D P. Academic Blogger’s Toolkit: <a href="https://wordpress.org/plugins/academic-bloggers-toolkit/" target="_blank">https://wordpress.org/plugins/academic-bloggers-toolkit/</a>. <i>J WordPress</i>. 2015;12(5):12-24.</div>
-        <div id="never" style="<?php echo $display_options_links != 'never' ? 'display: none;' : '' ?>"><span style="font-weight: bold; margin-right: 8px;">1.</span>Sifford D P. Academic Blogger’s Toolkit: https://wordpress.org/plugins/academic-bloggers-toolkit/. <i>J WordPress</i>. 2015;12(5):12-24.</div>
-    </div>
-</div> -->

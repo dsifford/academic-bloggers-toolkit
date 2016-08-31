@@ -113,7 +113,7 @@ export class Menu extends React.PureComponent<Props, {}> {
                             <span className="dashicons dashicons-list-view" />
                         </PanelButton>
                         <PanelButton
-                            href="https://github.com/dsifford/academic-bloggers-toolkit/blob/master/README.md"
+                            href="https://github.com/dsifford/academic-bloggers-toolkit/wiki"
                             target="_blank"
                             data-tooltip={this.labels.tooltips.help}
                         >
