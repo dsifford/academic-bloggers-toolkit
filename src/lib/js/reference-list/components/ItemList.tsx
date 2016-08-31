@@ -34,7 +34,7 @@ export class ItemList extends React.PureComponent<Props, {}> {
                 { isOpen &&
                     <Items
                         id={id}
-                        style={{maxHeight: maxHeight}}
+                        style={{maxHeight}}
                         items={items}
                         selectedItems={selectedItems}
                         click={click}

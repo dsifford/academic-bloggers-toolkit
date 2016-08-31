@@ -48,7 +48,7 @@ export class ImportWindow extends React.Component<Props, State> {
 
         let payload = parser.parse();
         if (payload.length === 0) {
-            this.wm.alert(this.labels.filetypeError);
+            this.wm.alert(`𝗘𝗿𝗿𝗼𝗿: ${this.labels.filetypeError}`);
             return;
         }
 
@@ -61,7 +61,7 @@ export class ImportWindow extends React.Component<Props, State> {
         const leftovers = parser.unsupportedRefs;
 
         if (leftovers.length > 0) {
-            this.wm.alert(`${this.labels.leftovers}: ${leftovers.join(', ')}`);
+            this.wm.alert(`𝗘𝗿𝗿𝗼𝗿: ${this.labels.leftovers}: ${leftovers.join(', ')}`);
         }
 
         this.setState(Object.assign({}, this.state, { payload }));

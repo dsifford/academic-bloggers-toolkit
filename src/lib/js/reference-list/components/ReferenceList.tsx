@@ -145,6 +145,16 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
         });
         this.processor.createStaticBibliography(data)
         .then(h => {
+            this.clearSelection();
+
+            if (typeof h === 'boolean') {
+                this.editor.windowManager.alert(
+                    '𝗪𝗮𝗿𝗻𝗶𝗻𝗴: Cannot create publication list for currently selected citation style. \n\n' +
+                    '𝗥𝗲𝗮𝘀𝗼𝗻: Style does not include bibliography.'
+                );
+                return;
+            }
+
             const margin: string = this.editor.dom.getStyle(
                 this.editor.dom.doc.querySelector('p'),
                 'margin',
@@ -155,7 +165,6 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
                     `${h.map(a => a.html).join('')}` +
                 `</div>`
             );
-            this.clearSelection();
         });
     }
 

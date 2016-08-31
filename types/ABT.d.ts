@@ -325,7 +325,7 @@ declare namespace Citeproc {
         opt: {
             xclass: 'note'|'in-text';
         };
-        makeBibliography(): Bibliography;
+        makeBibliography(): Bibliography|boolean;
         processCitationCluster(
             citation: Citeproc.Citation,
             pre: Citeproc.CitationsPrePost,

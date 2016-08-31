@@ -19,7 +19,7 @@ export function getRemoteData(identifierList: string, mce: TinyMCE.WindowManager
         if (pmidList.length) promises.push(getFromPMID(pmidList.join(',')));
         if (doiList.length) promises.push(getFromDOI(doiList));
 
-        if (!promises.length) reject(new Error(`No identifiers could be found for your request.`));
+        if (!promises.length) reject(new Error(`𝗘𝗿𝗿𝗼𝗿: No identifiers could be found for your request.`));
 
         Promise.all(promises).then((data: [CSL.Data[], string[]][]) => {
             const errs: string[] = data.reduce((prev, curr) => {
@@ -27,7 +27,7 @@ export function getRemoteData(identifierList: string, mce: TinyMCE.WindowManager
                 return prev;
             }, []);
 
-            if (errs.length) mce.alert(`The following identifiers could not be found: ${errs.join(', ')}`);
+            if (errs.length) mce.alert(`𝗘𝗿𝗿𝗼𝗿: The following identifiers could not be found: ${errs.join(', ')}`);
 
             const combined: CSL.Data[] = data.reduce((prev, curr) => {
                 prev.push(...curr[0]);

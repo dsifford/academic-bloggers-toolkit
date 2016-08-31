@@ -231,16 +231,23 @@ function parseInTextCitations(
 /**
  * Replaces the current bibliography, or creates a new one if one doesn't exist
  * @param editor       Active TinyMCE editor.
- * @param bibliography Bibliography array.
+ * @param bibliography Bibliography array or `false` if current style doesn't
+ *                                    produce a bibliography.
  * @param options      Bibliography options
  */
 export function setBibliography(
     editor: TinyMCE.Editor,
-    bibliography: {id: string, html: string}[],
+    bibliography: ABT.Bibliography|boolean,
     options: {heading: string, style: 'fixed'|'toggle'}
 ): void {
     const doc = editor.dom.doc;
     const existingBib = doc.getElementById('abt-smart-bib');
+
+    if (typeof bibliography === 'boolean') {
+        if (existingBib) existingBib.parentElement.removeChild(existingBib);
+        return;
+    }
+
     const bib = doc.createElement('DIV');
     bib.id = 'abt-smart-bib';
     bib.className = 'noselect mceNonEditable';

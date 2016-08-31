@@ -77,12 +77,17 @@ export class CSLProcessor {
      *   is also kept in sync with the processor store as well as formats the
      *   bibliography output.
      *
-     * @return {ABT.Bibliography}
+     * This function returns `false` if the user is using a citation style that does
+     *   not include a bibliography (e.g. `Mercatus Center`)
+     *
+     * @return {ABT.Bibliography|boolean}
      */
-    makeBibliography(): ABT.Bibliography {
+    makeBibliography(): ABT.Bibliography|boolean {
         const bib = this.citeproc.makeBibliography();
         this.store.citations.init(this.citeproc.registry.citationreg.citationByIndex);
-        return formatBibliography(bib, this.store.links, this.store.citations.CSL);
+        return typeof bib === 'boolean'
+            ? bib
+            : formatBibliography(bib, this.store.links, this.store.citations.CSL);
     }
 
     /**
@@ -131,7 +136,7 @@ export class CSLProcessor {
      * @param  {CSL.Data[]}                data Array of CSL.Data
      * @return {Promise<ABT.Bibliography>}
      */
-    async createStaticBibliography(data: CSL.Data[]): Promise<ABT.Bibliography> {
+    async createStaticBibliography(data: CSL.Data[]): Promise<ABT.Bibliography|boolean> {
         const style = this.store.citationStyle === 'abt-user-defined'
             ? ABT_Custom_CSL.CSL
             : await this.getCSLStyle(this.store.citationStyle);
@@ -139,7 +144,9 @@ export class CSLProcessor {
         const citeproc = new CSL.Engine(sys, style);
         citeproc.updateItems(toJS(data.map(d => d.id)));
         const bib = citeproc.makeBibliography();
-        return formatBibliography(bib, this.store.links, this.store.citations.CSL);
+        return typeof bib === 'boolean'
+            ? bib
+            : formatBibliography(bib, this.store.links, this.store.citations.CSL);
     }
 
     /**
