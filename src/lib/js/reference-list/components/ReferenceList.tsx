@@ -87,7 +87,7 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
          * React to list toggles
          */
         reaction(
-            () => [this.citedListUI.isOpen, this.uncitedListUI.isOpen],
+            () => [this.citedListUI.isOpen, this.uncitedListUI.isOpen, this.menuOpen],
             this.handleScroll,
             false,
             200,
@@ -309,8 +309,17 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
             && this.props.store.citations.uncited.length > 0;
 
         const scrollpos = document.body.scrollTop;
+
+        /**
+         * Offset from top of reference list to top of viewport.
+         */
         const topOffset = scrollpos > 134 ? 55 : (scrollpos === 0 ? 95 : 95 - (scrollpos / 3));
-        const listOffset = (200 + topOffset);
+
+        /**
+         * Vertical space that is already allocated.
+         * 200 = all static, non-participating sections of the list + padding
+         */
+        const listOffset = 200 + topOffset + (this.menuOpen ? 91 : 0);
         const remainingHeight = window.innerHeight - listOffset;
 
         list.style.top = `${topOffset}px`;
