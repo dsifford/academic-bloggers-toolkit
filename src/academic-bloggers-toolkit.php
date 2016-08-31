@@ -45,6 +45,7 @@ if (function_exists('register_uninstall_hook')) {
  */
 function abt_refactor_depreciated_options() {
     $options = get_option('abt_options');
+    if ($options['VERSION'] === ABT_VERSION) return;
 
     $newOptions = [];
 
