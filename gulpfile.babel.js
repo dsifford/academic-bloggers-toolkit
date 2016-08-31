@@ -72,7 +72,7 @@ gulp.task('bump', () => {
 // Translations
 gulp.task('pot', () =>
     gulp
-        .src('dist/**/*.php')
+        .src('src/**/*.php', { base: 'dist/*' })
         .pipe(sort())
         .pipe(wpPot({
             domain: 'academic-bloggers-toolkit',
@@ -82,6 +82,7 @@ gulp.task('pot', () =>
             team: 'Derek P Sifford <dereksifford@gmail.com>',
             headers: false,
         }))
+        .pipe(replace(/(^#: )(src\/)(.+)/gm, '$1$3'))
         .pipe(gulp.dest('./src'))
 );
 
