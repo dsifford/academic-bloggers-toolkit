@@ -40,6 +40,7 @@ const setup = () => {
     const component = mount(
         <Menu
             cslStyle="american-medical-association"
+            itemsSelected={true}
             submitData={s}
         />
     );
@@ -66,8 +67,8 @@ const setupRenderer = (label: string, value = 'test', focusedOption = false) => 
         component,
         focus,
         select,
-    }
-}
+    };
+};
 
 describe('<Menu />', () => {
     it('should handle basic interactions', () => {
@@ -133,13 +134,13 @@ describe('Menu Renderer', () => {
         const { component } = setupRenderer('label', 'header');
         const style: React.CSSProperties = {
             alignItems: 'center',
-            borderBottom: '1px solid #ddd',
-            display: 'flex',
-            padding: '0 5px',
             backgroundColor: '#eee',
-            fontWeight: 'bold',
-            height: 30,
+            borderBottom: '1px solid #ddd',
             cursor: 'default',
+            display: 'flex',
+            fontWeight: 400,
+            height: 30,
+            padding: '0 5px',
         };
         expect(component.props().style).toEqual(style);
     });

@@ -1,10 +1,10 @@
 === Academic Blogger's Toolkit ===
 Contributors: dsifford
 Donate link: https://cash.me/$dsifford
-Tags: academic, pmid, doi, pubmed, citation, citations, bibliography, reference, references, CSL
+Tags: academia, academic, bibliographies, bibliography, citation, citations, cite, citing, CSL, curriculum vitae, cv, doi, endnote, footnote, footnotes, journal, mendeley, papers, pmid, publications, publish, pubmed, reference, reference list, reference manager, references, referencing, ris, scholar, scholarly, zotero
 Requires at least: 4.2.2
 Tested up to: 4.6
-Stable tag: 4.0.1
+Stable tag: 4.1.0
 License: GPL3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -14,7 +14,7 @@ A plugin extending the functionality of Wordpress for academic blogging.
 Academic Blogger's toolkit is an **open source** WordPress plugin providing an all-in-one solution for effective academic blogging.
 
 = THIS README PAGE IS NOT KEPT UP TO DATE! =
-For a constaintly updated, exhaustively detailed, introduction to this plugin and all its features, please visit the plugin's [GitHub Repository](https://github.com/dsifford/academic-bloggers-toolkit).
+For a constaintly updated, exhaustively detailed, introduction to this plugin and all its features, please visit the plugin's [GitHub Repository](https://github.com/dsifford/academic-bloggers-toolkit). To dive right into the documentation, check out the [Academic Blogger's Toolkit Wiki](https://github.com/dsifford/academic-bloggers-toolkit/wiki)!
 
 [youtube https://www.youtube.com/watch?v=5k72Dh8L2BA]
 (Version 3.0.0)
@@ -60,6 +60,10 @@ Yikes! I'm sorry about that. Please report all issues on the Academic Blogger's 
 
 == Changelog ==
 
+= 4.1.0 =
+
+[Click here](https://headwayapp.co/academic-bloggers-toolkit-changelog) to view changes.
+
 = 4.0.1 =
 
 [Click here](https://headwayapp.co/academic-bloggers-toolkit-changelog) to view changes.
@@ -102,8 +106,6 @@ Yikes! I'm sorry about that. Please report all issues on the Academic Blogger's 
 - Processor now clears the incremental whitespace between your content and the bibliography.
 - Fix issue where some URLs were not being parsed properly. (HT @JLJu)
 - Fix issue causing the processor to sometimes go out of sync with the document.
-
-**Note:** The readme guide has been updated! [Check it out here](https://github.com/dsifford/academic-bloggers-toolkit/blob/master/README.md) for a glimpse at all the changes and a detailed set of user instructions.
 
 = 3.3.1 =
 

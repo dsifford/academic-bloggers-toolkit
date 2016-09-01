@@ -1,12 +1,9 @@
 import autoprefixer from 'autoprefixer';
 import del from 'del';
 import { exec } from 'child_process';
-import gfi from 'gulp-file-insert';
 import gulp from 'gulp';
-import jade from 'gulp-jade2php';
 import merge from 'merge-stream';
 import poststylus from 'poststylus';
-import rename from 'gulp-rename';
 import replace from 'gulp-replace';
 import sort from 'gulp-sort';
 import sourcemaps from 'gulp-sourcemaps';
@@ -14,32 +11,29 @@ import stylus from 'gulp-stylus';
 import uglify from 'gulp-uglify';
 import wpPot from 'gulp-wp-pot';
 import webpack from 'webpack-stream';
+import _webpack from 'webpack';
 
 import webpackConfig from './webpack.config.js';
 import { version as VERSION } from './package.json';
 
 const browserSync = require('browser-sync').create();
 
-const webpackDevConfig = Object.assign({}, webpackConfig, {
-    devtool: 'eval',
-    cache: false,
-});
-
 // ==================================================
 //                 Utility Tasks
 // ==================================================
 
-gulp.task('reload', (done) => { browserSync.reload(); done();});
+gulp.task('reload', (done) => { browserSync.reload(); done(); });
 
 // Delete all files in dist/lib
-gulp.task('clean', (done) => del(['dist/**/*'], done));
+gulp.task('clean', () => del(['dist/**/*']));
 
 gulp.task('chown', (done) => {
-    exec("ls -l dist/ | awk '{print $3}' | tail -n -1", (err, stdout, stderr) => {
+    exec("ls -l dist/ | awk '{print $3}' | tail -n -1", (err, stdout) => {
         if (stdout.trim() === process.env.USER) {
-            return done();
+            done();
+            return;
         }
-        exec(`sudo chown -R ${process.env.USER} dist/`, (err, stdout, stderr) => {
+        exec(`sudo chown -R ${process.env.USER} dist/`, () => {
             done();
         });
     });
@@ -56,7 +50,7 @@ gulp.task('bump', () => {
     `= ${VERSION} =\n\n` +
     `[Click here](https://headwayapp.co/academic-bloggers-toolkit-changelog) to view changes.\n`;
 
-    return gulp
+    const srcFiles = gulp
         .src([
             'src/academic-bloggers-toolkit.php',
             'src/readme.txt',
@@ -66,16 +60,19 @@ gulp.task('bump', () => {
         .pipe(replace(/define\('ABT_VERSION', '.+?'\);/, `define('ABT_VERSION', '${VERSION}');`))
         .pipe(replace(new RegExp(re), repl))
         .pipe(gulp.dest('./src'));
+
+    const repoFiles = gulp
+        .src('ISSUE_TEMPLATE.md', { base: './' })
+        .pipe(replace(/\*\*ABT Version:.+/, `**ABT Version:** ${VERSION}`))
+        .pipe(gulp.dest('./'));
+
+    return merge(srcFiles, repoFiles);
 });
 
 // Translations
 gulp.task('pot', () =>
     gulp
-        .src([
-            'src/academic-bloggers-toolkit.php',
-            'src/lib/**/*.php',
-            'dist/lib/php/options-page.php',
-        ])
+        .src('src/**/*.php', { base: 'dist/*' })
         .pipe(sort())
         .pipe(wpPot({
             domain: 'academic-bloggers-toolkit',
@@ -85,6 +82,7 @@ gulp.task('pot', () =>
             team: 'Derek P Sifford <dereksifford@gmail.com>',
             headers: false,
         }))
+        .pipe(replace(/(^#: )(src\/)(.+)/gm, '$1$3'))
         .pipe(gulp.dest('./src'))
 );
 
@@ -92,34 +90,53 @@ gulp.task('pot', () =>
 //              PHP/Static Asset Tasks
 // ==================================================
 
-gulp.task('jade', () =>
-    gulp.src('src/lib/php/*.jade', { base: 'src/lib/php' })
-    .pipe(jade({
-        omitPhpRuntime: true,
-        omitPhpExtractor: true,
-        arraysOnly: false,
-    }))
-    .pipe(rename({ extname: '.php' }))
-    .pipe(gulp.dest('tmp'))
-);
+gulp.task('php', () => {
+    const re1 = new RegExp(/(\s=\s|\sreturn\s)((?:\(object\))|)(\[)([\W\w\s]*?)(\])(;\s?)/, 'gm');
+    const re2 = new RegExp(/$(\s+)(.+?)(\s=>\s)((?:\(object\))?)(\[)/, 'gm');
+    const re3 = new RegExp(/$(\s+)(\],|\[)$/, 'gm');
+    const re4 = new RegExp(/(array\()(\],)/, 'gm');
+    const re5 = new RegExp(/(,\s+)(\[)(.*)(\])/, 'gm');
 
+    function rep1(match, p1, p2, p3, p4, p5, p6) {
+        return `${p1}${p2}array(${p4})${p6}`;
+    }
 
-gulp.task('php', gulp.series('jade', () =>
-    gulp.src('src/lib/php/options-page.php', { base: './src' })
-    .pipe(gfi({
-        '<!-- JADE -->': 'tmp/options-page.php',
-    }))
-    .pipe(gulp.dest('./dist'))
-));
+    function rep2(match, p1, p2, p3, p4) {
+        return `${p1}${p2}${p3}${p4}array(`;
+    }
+
+    function rep3(match, p1, p2) {
+        const r = p2 === '],'
+            ? '),'
+            : 'array(';
+        return p1 + r;
+    }
+
+    function rep4(match, p1) {
+        return `${p1}),`;
+    }
+
+    function rep5(match, p1, p2, p3) {
+        return `${p1}array(${p3})`;
+    }
+
+    return gulp.src(['src/**/*.php', '!**/views/*.php'], { base: './src' })
+    .pipe(replace(re1, rep1))
+    .pipe(replace(re2, rep2))
+    .pipe(replace(re3, rep3))
+    .pipe(replace(re4, rep4))
+    .pipe(replace(re5, rep5))
+    .pipe(gulp.dest('dist'));
+});
 
 
 gulp.task('static', () => {
     const main = gulp
-        .src('src/**/*.{js,php,po,pot,mo,html,txt}', { base: './src' })
-        .pipe(gulp.dest('./dist'));
+        .src(['src/**/*.{js,po,pot,mo,html,txt}', 'src/**/views/*.php'], { base: './src' })
+        .pipe(gulp.dest('dist'));
     const misc = gulp
         .src(['LICENSE'])
-        .pipe(gulp.dest('./dist'));
+        .pipe(gulp.dest('dist'));
     return merge(main, misc);
 });
 
@@ -160,15 +177,15 @@ gulp.task('stylus:prod', () =>
 gulp.task('webpack:dev', () =>
     gulp
         .src('src/lib/js/Frontend.ts')
-        .pipe(webpack(webpackDevConfig))
+        .pipe(webpack(webpackConfig, _webpack))
         .pipe(gulp.dest('dist/'))
+        .pipe(browserSync.stream())
 );
-
 
 gulp.task('webpack:prod', () =>
     gulp
         .src('src/lib/js/Frontend.ts')
-        .pipe(webpack(webpackConfig))
+        .pipe(webpack(webpackConfig, _webpack))
         .pipe(gulp.dest('dist/'))
 );
 
@@ -191,7 +208,7 @@ gulp.task('js', () =>
 //                 Compound Tasks
 // ==================================================
 
-gulp.task('build',
+gulp.task('_build',
     gulp.series(
         'clean', 'bump',
         gulp.parallel('stylus:prod', 'static', 'webpack:prod'),
@@ -201,29 +218,29 @@ gulp.task('build',
 );
 
 
-gulp.task('default',
+gulp.task('_dev',
     gulp.series(
         'chown', 'clean', 'static',
         gulp.parallel('php', 'stylus:dev', 'webpack:dev'), () => {
-            browserSync.init({
-                proxy: 'localhost:8080',
-                open: false,
-            });
-
             gulp.watch('src/lib/**/*.styl', gulp.series('stylus:dev'));
-
-            gulp.watch([
-                'src/lib/**/*.{ts,tsx}',
-                '!src/lib/**/__tests__/',
-                '!src/lib/**/__tests__/*',
-            ], gulp.series('webpack:dev', 'reload'));
 
             gulp.watch([
                 'src/**/*',
                 '!src/**/*.{ts,tsx,styl}',
                 '!src/**/__tests__/',
                 '!src/**/__tests__/*',
-            ], gulp.series('static', 'php', 'reload'));
+            ], gulp.series('php', 'static', 'reload'));
+
+            gulp.watch([
+                'src/lib/**/*.{ts,tsx}',
+                '!src/lib/**/__tests__/',
+                '!src/lib/**/__tests__/*',
+            ], gulp.series('webpack:dev'));
+
+            browserSync.init({
+                proxy: 'localhost:8080',
+                open: false,
+            });
         }
     )
 );

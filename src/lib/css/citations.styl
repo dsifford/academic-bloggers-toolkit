@@ -19,16 +19,27 @@
                 font-weight 600
                 margin-right 3px
     #abt-smart-bib
+    .abt-static-bib
+        display table
         background $light-gray
         padding 10px
         > div
             font-size 12px
         h3
             font-size 1.1em
-            margin-bottom 5pxg
+            margin-bottom 5px
         .abt-url
             display inline
             margin-left 3px
+
+    // Unsets the "margin" style for tinymce since it doesn't look right
+    .csl-entry.margin
+        display table-row
+        .csl-left-margin
+            display table-cell
+            text-align right
+        .csl-right-inline
+            display table-cell
 
 
 #abt-footnote
@@ -45,9 +56,17 @@
         padding-left 25px
         text-indent -25px
     &.flush
+        display table-row
+        .csl-left-margin
+            display table-cell
+            text-align right
+        .csl-right-inline
+            display table-cell
+    &.margin
         display flex
+        justify-content flex-end
+        .csl-right-inline
+            min-width 100%
     .csl-left-margin
-        padding 0 5px 0 0
+        padding 0 8px 0 0
         font-weight 600
-    .csl-right-inline
-        max-width 98%

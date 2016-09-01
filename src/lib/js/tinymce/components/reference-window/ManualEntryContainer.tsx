@@ -19,7 +19,7 @@ export class ManualEntryContainer extends React.Component<ManualEntryProps, {}> 
     typeChange = (e: React.FormEvent<HTMLInputElement>) => {
         this.props.eventHandler(
             new CustomEvent(LocalEvents.CHANGE_CITATION_TYPE, {
-                detail: e.target.value,
+                detail: (e.target as HTMLInputElement).value,
             })
         );
     }

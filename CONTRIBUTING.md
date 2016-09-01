@@ -14,7 +14,7 @@ Fork this repo and clone locally | `git clone <your fork>`
 Navigate to the cloned directory | `cd academic-bloggers-toolkit`
 Install local node dependencies | `npm install`
 Start your dev server | `docker-compose up -d`
-Start BrowserSync | `npm run gulp`
+Start BrowserSync | `npm start`
 
 After those steps are completed, you'll be able to login to a fresh install of WordPress at `localhost:3000` (if using browser sync) or `localhost:8080`. The login credentials are:
 - Username: `root`

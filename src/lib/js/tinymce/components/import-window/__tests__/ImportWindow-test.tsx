@@ -66,7 +66,7 @@ describe('<ImportWindow />', () => {
     });
 
     it('should trigger an alert when the upload returns a length of 0 (bad file)', () => {
-        const stub = sinon.stub(parser, 'RISParser', function() {
+        const stub = sinon.stub(parser, 'RISParser', function() { // tslint:disable-line
             this.parse = () => [];
         });
         const { component, alert } = setup();
@@ -76,19 +76,21 @@ describe('<ImportWindow />', () => {
     });
 
     it('should trigger an alert when some references can\'t be parsed', () => {
-        const stub = sinon.stub(parser, 'RISParser', function() {
+        const stub = sinon.stub(parser, 'RISParser', function() { // tslint:disable-line
             this.parse = () => [{}, {}, {}];
             this.unsupportedRefs = ['one', 'two', 'three'];
         });
         const { component, alert } = setup();
         (component as any).instance().parseFile({target: {result: ''}});
         expect(alert.callCount).toBe(1);
-        expect(alert.args[0][0]).toBe('The following references were unable to be processed: one, two, three');
+        expect(alert.args[0][0]).toBe(
+            '𝗘𝗿𝗿𝗼𝗿: The following references were unable to be processed: one, two, three'
+        );
         stub.restore();
     });
 
     it('should set the state properly when references are parsed without errors', () => {
-        const stub = sinon.stub(parser, 'RISParser', function() {
+        const stub = sinon.stub(parser, 'RISParser', function() { // tslint:disable-line
             this.parse = () => [{}];
             this.unsupportedRefs = [];
         });

@@ -29,12 +29,12 @@ class ABT_Options  {
      *   checks out. Otherwise, it should return an empty string.
      *
      * If the sanitation fails, a dismissable notice is sent to the user.
-     * 
+     *
      * @param  [string] $url Unsanitized URL submitted with the form.
      * @return [string]      Sanitized PATH to the CSL file.
      */
     private function check_custom_style_url($url) {
-        if (file_exists($url) && substr($url, -4) === '.csl') {
+        if (file_exists($url) && substr($url, -4) === '.csl' || $url === '') {
             return $url;
         }
         $uploads = wp_upload_dir();
@@ -101,13 +101,9 @@ class ABT_Options  {
         $display_options_links = isset($abt_options['display_options']['links']) ? $abt_options['display_options']['links'] : '';
         $display_options_bib_heading = isset($abt_options['display_options']['bib_heading']) ? $abt_options['display_options']['bib_heading'] : '';
 
-
         update_option('abt_options', $abt_options);
-        ?>
-		    <!-- JADE -->
 
-        <?php
-
+        include dirname(__FILE__) . '/views/options-page.php';
     }
 }
 new ABT_Options();

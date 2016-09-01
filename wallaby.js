@@ -22,6 +22,6 @@ module.exports = {
     },
     testFramework: 'jest',
     setup(wallaby) {
-        wallaby.testFramework.configure(require('./package.json').jest);
+        wallaby.testFramework.configure(require('./package.json').jest); // eslint-disable-line
     },
 };

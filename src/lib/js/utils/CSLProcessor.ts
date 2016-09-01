@@ -1,5 +1,5 @@
 import { localeMapper } from './Constants';
-import { parseReferenceURL } from './HelperFunctions';
+import { formatBibliography } from './HelperFunctions';
 import { Store } from '../reference-list/Store';
 import { toJS } from 'mobx';
 
@@ -15,7 +15,7 @@ export class CSLProcessor {
     public citeproc: Citeproc.Processor;
 
     /**
-     * This object converts the locale names in wordpress (keys) to the locales
+     * Converts the locale names in wordpress (keys) to the locales
      *   in CSL (values). If CSL doesn't have a locale for a given WordPress locale,
      *   then false is used (which will default to en-US).
      */
@@ -73,60 +73,21 @@ export class CSLProcessor {
     }
 
     /**
-     * Wrapper function for citeproc.makeBibliography that takes the output and
-     *   inlines CSS classes that are appropriate for the style (according to the
-     *   generated bibmeta).
+     * Wrapper function for citeproc.makeBibliography that ensures the citation store
+     *   is also kept in sync with the processor store as well as formats the
+     *   bibliography output.
      *
-     * @return Parsed bibliography.
+     * This function returns `false` if the user is using a citation style that does
+     *   not include a bibliography (e.g. `Mercatus Center`)
+     *
+     * @return {ABT.Bibliography|boolean}
      */
-    makeBibliography(links: 'always'|'urls'|'never'): ABT.Bibliography {
-        const [bibmeta, bibHTML]: Citeproc.Bibliography = this.citeproc.makeBibliography();
+    makeBibliography(): ABT.Bibliography|boolean {
+        const bib = this.citeproc.makeBibliography();
         this.store.citations.init(this.citeproc.registry.citationreg.citationByIndex);
-        const temp = document.createElement('DIV');
-        const payload: {id: string, html: string}[] = bibHTML.map((h: string, i: number) => {
-            temp.innerHTML = h;
-            const el = temp.firstElementChild as HTMLDivElement;
-            const item: CSL.Data = this.store.citations.CSL.get(bibmeta.entry_ids[i][0]);
-
-            switch (bibmeta['second-field-align']) {
-                case false:
-                    el.classList.add('hanging-indent');
-                    break;
-                case 'flush':
-                default:
-                    el.classList.add('flush');
-                    break;
-            }
-            switch (links) {
-                case 'always': {
-                    el.innerHTML = parseReferenceURL(el.innerHTML);
-                    if (item.PMID) {
-                        if (el.getElementsByClassName('csl-right-inline').length > 0) {
-                            el.lastElementChild.innerHTML +=
-                                `<span class="abt-url">` + // tslint:disable-next-line
-                                    `[<a href="http://www.ncbi.nlm.nih.gov/pubmed/${item.PMID}" target="_blank">PubMed</a>]` +
-                                `</span>`;
-                        }
-                        else {
-                            el.innerHTML +=
-                                `<span class="abt-url"> ` + // tslint:disable-next-line
-                                    `[<a href="http://www.ncbi.nlm.nih.gov/pubmed/${item.PMID}" target="_blank">PubMed</a>]` +
-                                `</span>`;
-                        }
-                    }
-                    break;
-                }
-                case 'urls':
-                default: {
-                    el.lastElementChild.innerHTML = parseReferenceURL(el.innerHTML);
-                    break;
-                }
-            }
-
-            return {html: temp.innerHTML, id: bibmeta.entry_ids[i][0]};
-        });
-        temp.remove();
-        return payload;
+        return typeof bib === 'boolean'
+            ? bib
+            : formatBibliography(bib, this.store.links, this.store.citations.CSL);
     }
 
     /**
@@ -147,6 +108,7 @@ export class CSLProcessor {
     /**
      * Wrapper function around Citeproc.processCitationCluster that ensures the store
      *   is kept in sync with the processor.
+     *
      * @param  citation Single Citeproc.Citation
      * @param  before   Citations before the current citation.
      * @param  after    Citations after the current citation.
@@ -166,6 +128,25 @@ export class CSLProcessor {
         if (status['citation_errors'].length) console.error(status['citation_errors']);
         this.store.citations.init(this.citeproc.registry.citationreg.citationByIndex);
         return clusters;
+    }
+
+    /**
+     * Spawns a new temporary CSL.Engine and creates a static, untracked bibliography
+     *
+     * @param  {CSL.Data[]}                data Array of CSL.Data
+     * @return {Promise<ABT.Bibliography>}
+     */
+    async createStaticBibliography(data: CSL.Data[]): Promise<ABT.Bibliography|boolean> {
+        const style = this.store.citationStyle === 'abt-user-defined'
+            ? ABT_Custom_CSL.CSL
+            : await this.getCSLStyle(this.store.citationStyle);
+        const sys = Object.assign({}, this.citeproc.sys);
+        const citeproc = new CSL.Engine(sys, style);
+        citeproc.updateItems(toJS(data.map(d => d.id)));
+        const bib = citeproc.makeBibliography();
+        return typeof bib === 'boolean'
+            ? bib
+            : formatBibliography(bib, this.store.links, this.store.citations.CSL);
     }
 
     /**

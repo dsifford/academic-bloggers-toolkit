@@ -4,14 +4,14 @@
  *	Plugin Name: Academic Blogger's Toolkit
  *	Plugin URI: https://wordpress.org/plugins/academic-bloggers-toolkit/
  *	Description: A plugin extending the functionality of Wordpress for academic blogging
- *	Version: 4.0.1
+ *	Version: 4.1.0
  *	Author: Derek P Sifford
  *	Author URI: https://github.com/dsifford
  *	License: GPL3 or later
  *  Text Domain: academic-bloggers-toolkit
  */
 
-define('ABT_VERSION', '4.0.1');
+define('ABT_VERSION', '4.1.0');
 
 
 /**
@@ -45,6 +45,7 @@ if (function_exists('register_uninstall_hook')) {
  */
 function abt_refactor_depreciated_options() {
     $options = get_option('abt_options');
+    if ($options['VERSION'] === ABT_VERSION) return;
 
     $newOptions = [];
 
@@ -125,7 +126,8 @@ function abt_frontend_scripts() {
 	wp_enqueue_style('abt_frontend_styles', plugins_url('academic-bloggers-toolkit/lib/css/frontend.css'), ['dashicons'], ABT_VERSION);
 
     if (is_singular()) {
-        wp_enqueue_script('abt_frontend_js', plugins_url('academic-bloggers-toolkit/lib/js/Frontend.js'), [], ABT_VERSION);
+        wp_enqueue_script('abt-bundle', plugins_url('academic-bloggers-toolkit/vendor/vendor.bundle.js'), [], ABT_VERSION);
+        wp_enqueue_script('abt_frontend_js', plugins_url('academic-bloggers-toolkit/lib/js/Frontend.js'), ['abt-bundle'], ABT_VERSION);
     }
 }
 add_action('wp_enqueue_scripts', 'abt_frontend_scripts');

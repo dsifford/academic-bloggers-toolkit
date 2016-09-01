@@ -65,6 +65,7 @@ class ABT_Backend {
      * Sets up all actions and filters for the backend class
      */
     public function __construct() {
+        add_action('admin_notices', [$this, 'user_alert']);
         add_action('admin_head', [$this, 'init_tinymce']);
         add_filter('mce_css', [$this, 'load_tinymce_css']);
         add_action('add_meta_boxes', [$this, 'add_metaboxes']);
@@ -73,16 +74,27 @@ class ABT_Backend {
     }
 
     /**
+     * Alerts the user that the plugin will not work if he/she doesn't have 'Rich Editing' enabled
+     */
+    public function user_alert() {
+        if ('true' == get_user_option('rich_editing')) return;
+    	$class = 'notice notice-warning is-dismissible';
+    	$message = __( "<strong>Notice:</strong> Rich editing must be enabled to use the Academic Blogger's Toolkit plugin", 'academic-bloggers-toolkit' );
+    	printf( '<div class="%1$s"><p>%2$s</p></div>', $class, $message );
+    }
+
+    /**
      * Instantiates the TinyMCE plugin.
      */
     public function init_tinymce() {
         if ('true' == get_user_option('rich_editing')) {
             add_filter('mce_external_plugins', [$this, 'register_tinymce_plugins']);
+            echo '<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&subset=cyrillic,cyrillic-ext,greek,greek-ext,latin-ext,vietnamese" rel="stylesheet">';
         }
     }
 
     /**
-     * Registers the TinyMCE plugins.
+     * Registers the TinyMCE plugins + loads fonts
      *
      * @param array $plugin_array Array of TinyMCE plugins
      * @return array Array of TinyMCE plugins with plugins added
@@ -127,23 +139,26 @@ class ABT_Backend {
     }
 
     /**
-     * Renders the HTML for React to mount into. FIXME
+     * Renders the HTML for React to mount into.
      */
     public function render_reference_list($post) {
         global $ABT_i18n;
 
         wp_nonce_field(basename(__file__), 'abt_nonce');
 
-        $reflist_state = json_decode(get_post_meta($post->ID, '_abt-reflist-state', true), true);
-        $abt_options = get_option('abt_options');
-        if (empty($reflist_state)) {
-            $reflist_state = [
+        $state = json_decode(get_post_meta($post->ID, '_abt-reflist-state', true), true);
+        $opts = get_option('abt_options');
+
+        $custom_preferred = $opts['citation_style']['prefer_custom'] === true;
+        $custom_valid = file_exists($opts['citation_style']['custom_url']);
+
+        $style = $custom_preferred && $custom_valid ? 'abt-user-defined' : $opts['citation_style']['style'];
+
+        if (empty($state)) {
+            $state = [
                 'cache' => [
-                    'style' => (
-                        $abt_options['citation_style']['prefer_custom'] === true
-                        && file_exists($abt_options['citation_style']['custom_url'])
-                    ) ? 'abt-user-defined' : $abt_options['citation_style']['style'],
-                    'links' => $abt_options['display_options']['links'],
+                    'style' => $style,
+                    'links' => $opts['display_options']['links'],
                     'locale' => get_locale(),
                 ],
                 'citationByIndex' => [],
@@ -151,27 +166,27 @@ class ABT_Backend {
             ];
         }
 
-        $reflist_state['bibOptions'] = [
-            'heading' => $abt_options['display_options']['bib_heading'],
-            'style' => $abt_options['display_options']['bibliography'],
+        $state['bibOptions'] = [
+            'heading' => $opts['display_options']['bib_heading'],
+            'style' => $opts['display_options']['bibliography'],
         ];
 
         // Fix legacy post meta
-        if (array_key_exists('processorState', $reflist_state)) {
-            $reflist_state['CSL'] = $reflist_state['processorState'];
-            unset($reflist_state['processorState']);
+        if (array_key_exists('processorState', $state)) {
+            $state['CSL'] = $state['processorState'];
+            unset($state['processorState']);
         }
 
-        if (array_key_exists('citations', $reflist_state)) {
-            $reflist_state['citationByIndex'] = $reflist_state['citations']['citationByIndex'];
-            unset($reflist_state['citations']);
+        if (array_key_exists('citations', $state)) {
+            $state['citationByIndex'] = $state['citations']['citationByIndex'];
+            unset($state['citations']);
         }
 
-        wp_localize_script('abt_reflist', 'ABT_Reflist_State', $reflist_state);
+        wp_localize_script('abt_reflist', 'ABT_Reflist_State', $state);
         wp_localize_script('abt_reflist', 'ABT_i18n', $ABT_i18n);
         wp_localize_script('abt_reflist', 'ABT_CitationStyles', $this->get_citation_styles());
         wp_localize_script('abt_reflist', 'ABT_wp', $this->localize_wordpress_constants());
-        wp_localize_script('abt_reflist', 'ABT_Custom_CSL', $this->get_user_defined_csl($abt_options['citation_style']['custom_url']));
+        wp_localize_script('abt_reflist', 'ABT_Custom_CSL', $this->get_user_defined_csl($opts['citation_style']['custom_url']));
 
         echo "<div id='abt-reflist' style='margin: 0 -12px -12px -12px;'></div>";
     }
@@ -206,7 +221,8 @@ class ABT_Backend {
         wp_enqueue_style('dashicons');
         wp_enqueue_style('abt-admin-css', plugins_url('academic-bloggers-toolkit/lib/css/admin.css'), ['dashicons'], ABT_VERSION);
         wp_enqueue_script('abt_citeproc', plugins_url('academic-bloggers-toolkit/vendor/citeproc.js'), [], ABT_VERSION, true);
-        wp_enqueue_script('abt_reflist', plugins_url('academic-bloggers-toolkit/lib/js/reference-list/index.js'), ['abt_citeproc'], ABT_VERSION, true);
+        wp_enqueue_script('abt_vendors', plugins_url('academic-bloggers-toolkit/vendor/vendor.bundle.js'), [], ABT_VERSION, true);
+        wp_enqueue_script('abt_reflist', plugins_url('academic-bloggers-toolkit/lib/js/reference-list/index.js'), ['abt_citeproc', 'abt_vendors'], ABT_VERSION, true);
     }
 
 }

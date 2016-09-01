@@ -1,4 +1,5 @@
 import { localeMapper } from './Constants';
+import { ObservableMap } from 'mobx';
 
 /**
  * Creates a "unique" ID value to be used for an ID field.
@@ -6,40 +7,6 @@ import { localeMapper } from './Constants';
  */
 export function generateID(): string {
     return Math.round(Math.random() * Date.now()).toString(30);
-}
-
-/**
- * Takes an array of reference strings and makes the following replacements to each
- *   reference:
- *   - URLs => wrapped with an anchor tag (to make clickable).
- *   - DOIs => wrapped with an anchor tag (link to DOI.org resolver).
- * @param  {string} input Raw reference string.
- * @return {string}       Reference string with parsed links.
- */
-export function parseReferenceURL(input: string): string {
-    const url: RegExp = /((http:\/\/|https:\/\/|www.)(www.)?[^;\s<]+[0-9a-zA-Z\/])/g;
-    const doi: RegExp = /doi:(\S+)\./g;
-    let match: RegExpExecArray;
-    const replacements: [string, string][] = [];
-
-    // tslint:disable-next-line
-    while ((match = url.exec(input)) !== null) {
-        if (match[0].search(/^www./) > -1) {
-            replacements.push([match[0], `<a href="http://${match[0]}" target="_blank">${match[0]}</a>`]);
-        }
-        else {
-            replacements.push([match[0], `<a href="${match[0]}" target="_blank">${match[0]}</a>`]);
-        }
-    }
-
-    // tslint:disable-next-line
-    while ((match = doi.exec(input)) !== null) {
-        replacements.push([match[1], `<a href="https://doi.org/${match[1]}" target="_blank">${match[1]}</a>`]);
-    }
-
-    replacements.forEach(r => input = input.replace(r[0], r[1]));
-
-    return input;
 }
 
 /**
@@ -228,4 +195,155 @@ export function processPubmedJSON(res: PubMed.SingleReference[]): CSL.Data[] {
     });
 
     return payload;
+}
+
+/**
+ * Wrapper function for citeproc.makeBibliography that takes the output and
+ *   inlines CSS classes that are appropriate for the style (according to the
+ *   generated bibmeta).
+ *
+ * @param {'always'|'urls'|'never'}  links   Link format
+ * @param {Citeproc.Bibliography}    rawBib  Raw output from citeproc.makeBibliography()
+ * @return {ABT.Bibliography}
+ */
+export function formatBibliography(
+    rawBib: Citeproc.Bibliography,
+    links: ABT.LinkStyle,
+    CSL: ObservableMap<CSL.Data>,
+): ABT.Bibliography {
+    const [bibmeta, bibHTML] = rawBib;
+    const temp = document.createElement('DIV');
+
+    const payload: {id: string, html: string}[] = bibHTML.map((html, i) => {
+        temp.innerHTML = html;
+
+        /**
+         * The outermost <div> element -> (class="csl-entry")
+         */
+        const el = temp.firstElementChild as HTMLDivElement;
+        const item: CSL.Data = CSL.get(bibmeta.entry_ids[i][0]);
+
+        if (bibmeta.hangingindent) {
+            el.classList.add('hanging-indent');
+        }
+
+        if (bibmeta.entryspacing > 1) {
+            el.style.lineHeight = `${bibmeta.entryspacing}`;
+        }
+
+        if (bibmeta.linespacing > 1) {
+            el.style.margin = `${bibmeta.linespacing - 1}em auto`;
+        }
+
+        switch (bibmeta['second-field-align']) {
+            case 'margin':
+                el.classList.add('margin');
+                break;
+            case 'flush':
+                el.classList.add('flush');
+                break;
+            default:
+                break;
+        }
+
+        const innerEl = el.querySelector('.csl-right-inline') || el;
+        const innerHTML = innerEl.innerHTML;
+        switch (true) {
+            case typeof item.PMID !== 'undefined' && !innerHTML.match(item.PMID): {
+                innerEl.innerHTML = parseReferenceURL(innerHTML, links, { type: 'PMID', value: item.PMID });
+                break;
+            }
+            case typeof item.DOI !== 'undefined' && !innerHTML.match(item.DOI): {
+                innerEl.innerHTML = parseReferenceURL(innerHTML, links, { type: 'DOI', value: item.DOI });
+                break;
+            }
+            case typeof item.PMCID !== 'undefined' && !innerHTML.match(item.PMCID): {
+                innerEl.innerHTML = parseReferenceURL(innerHTML, links, { type: 'PMCID', value: item.PMCID });
+                break;
+            }
+            case typeof item.URL !== 'undefined' && !innerHTML.match(item.URL): {
+                innerEl.innerHTML = parseReferenceURL(innerHTML, links, { type: 'URL', value: item.URL });
+                break;
+            }
+            default: {
+                innerEl.innerHTML = parseReferenceURL(innerHTML, links);
+                break;
+            }
+        }
+
+        return { html: temp.innerHTML, id: bibmeta.entry_ids[i][0] };
+    });
+    temp.remove();
+    return payload;
+}
+
+export function parseReferenceURL(
+    html: string,
+    linkStyle: ABT.LinkStyle,
+    id?: { type: 'PMID'|'DOI'|'PMCID'|'URL', value: string },
+): string {
+
+    if (linkStyle === 'never') return html;
+
+    const url: RegExp = /((http:\/\/(?:www\.)?|https:\/\/(?:www\.)?)|www\.)([^;\s<]+[0-9a-zA-Z\/])/g;
+    const doi: RegExp = /doi:(\S+)\./g;
+
+    const linkedHtml = html
+        .replace(url, (_match, _p1, p2 = 'http://', p3) => `<a href="${p2}${p3}" target="_blank">${p2}${p3}</a>`)
+        .replace(doi, 'doi: <a href="https://doi.org/$1" target="_blank">$1</a>');
+
+    if (!id) return linkedHtml;
+
+    switch (linkStyle) {
+        case 'always': {
+            switch (id.type) {
+                case 'PMID': {
+                    return linkedHtml +
+                        `<span class="abt-url"> ` +
+                            `[<a href="http://www.ncbi.nlm.nih.gov/pubmed/${id.value}" target="_blank">PubMed</a>]` +
+                        `</span>`;
+                }
+                case 'DOI': {
+                    return linkedHtml +
+                        `<span class="abt-url"> ` +
+                            `[<a href="https://dx.doi.org/${id.value}" target="_blank">Source</a>]` +
+                        `</span>`;
+                }
+                case 'PMCID': {
+                    return linkedHtml +
+                        `<span class="abt-url"> ` + // tslint:disable-next-line
+                            `[<a href="http://www.ncbi.nlm.nih.gov/pmc/articles/${id.value}" target="_blank">PMC</a>]` +
+                        `</span>`;
+                }
+                case 'URL':
+                default: {
+                    return linkedHtml +
+                        `<span class="abt-url"> ` +
+                            `[<a href="${id.value}" target="_blank">Source</a>]` +
+                        `</span>`;
+                }
+            }
+        }
+        case 'always-full-surround': {
+            switch (id.type) {
+                case 'PMID': {
+                    return `<a href="http://www.ncbi.nlm.nih.gov/pubmed/${id.value}" target="_blank">${html}</a>`;
+                }
+                case 'DOI': {
+                    return `<a href="https://dx.doi.org/${id.value}" target="_blank">${html}</a>`;
+                }
+                case 'PMCID': {
+                    return `<a href="http://www.ncbi.nlm.nih.gov/pmc/articles/${id.value}" target="_blank">${html}</a>`;
+                }
+                case 'URL':
+                default: {
+                    return `<a href="${id.value}" target="_blank">${html}</a>`;
+                }
+            }
+        }
+        case 'urls':
+        default: {
+            return linkedHtml;
+        }
+    }
 }

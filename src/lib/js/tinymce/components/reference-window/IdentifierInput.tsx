@@ -26,7 +26,7 @@ export class IdentifierInput extends React.Component<Props, {}> {
 
     handleChange = (e: React.FormEvent<HTMLInputElement>) => {
         this.props.eventHandler(
-            new CustomEvent(IDENTIFIER_FIELD_CHANGE, { detail: e.target.value })
+            new CustomEvent(IDENTIFIER_FIELD_CHANGE, { detail: (e.target as HTMLInputElement).value })
         );
     }
 

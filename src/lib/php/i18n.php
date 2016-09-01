@@ -19,6 +19,8 @@ $ABT_i18n->referenceList = [
         ],
         'citedItems' => __('Cited Items', 'academic-bloggers-toolkit'),
         'uncitedItems' => __('Uncited Items', 'academic-bloggers-toolkit'),
+        'noBibAlertWarning' => __('Cannot create publication list for currently selected citation style.', 'academic-bloggers-toolkit'),
+        'noBibAlertReason' => __('Style does not include bibliography.', 'academic-bloggers-toolkit'),
     ],
     'menu' => [
         'tooltips' => [

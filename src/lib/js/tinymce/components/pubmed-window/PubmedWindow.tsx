@@ -65,7 +65,7 @@ export class PubmedWindow extends React.Component<{}, State> {
 
     handleChange(e: React.FormEvent<HTMLInputElement>) {
         this.setState(
-            Object.assign({}, this.state, { query: e.target.value })
+            Object.assign({}, this.state, { query: (e.target as HTMLInputElement).value })
         );
     }
 
