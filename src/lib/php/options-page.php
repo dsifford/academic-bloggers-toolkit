@@ -34,7 +34,7 @@ class ABT_Options  {
      * @return [string]      Sanitized PATH to the CSL file.
      */
     private function check_custom_style_url($url) {
-        if (file_exists($url) && substr($url, -4) === '.csl') {
+        if (file_exists($url) && substr($url, -4) === '.csl' || $url === '') {
             return $url;
         }
         $uploads = wp_upload_dir();
