@@ -138,7 +138,7 @@ describe('Menu Renderer', () => {
             borderBottom: '1px solid #ddd',
             cursor: 'default',
             display: 'flex',
-            fontWeight: 'bold',
+            fontWeight: 400,
             height: 30,
             padding: '0 5px',
         };
