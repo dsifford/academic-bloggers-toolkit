@@ -157,7 +157,7 @@ export function renderer({focusedOption, focusOption, option, selectValue}) {
 
     if (option.value === 'header') {
         style.backgroundColor = '#eee';
-        style.fontWeight = 'bold';
+        style.fontWeight = 400;
         style.height = 30;
         style.cursor = 'default';
         return (

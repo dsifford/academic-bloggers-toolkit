@@ -149,8 +149,7 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
 
             if (typeof h === 'boolean') {
                 this.editor.windowManager.alert(
-                    '𝗪𝗮𝗿𝗻𝗶𝗻𝗴: Cannot create publication list for currently selected citation style. \n\n' +
-                    '𝗥𝗲𝗮𝘀𝗼𝗻: Style does not include bibliography.'
+                    `𝗪𝗮𝗿𝗻𝗶𝗻𝗴: ${this.labels.noBibAlertWarning}\n\n𝗥𝗲𝗮𝘀𝗼𝗻: ${this.labels.noBibAlertReason}`
                 );
                 return;
             }

@@ -248,7 +248,9 @@ exports.ABT_i18n = {
         "pin": "Pin reference list to visible window"
       },
       "citedItems": "Cited Items",
-      "uncitedItems": "Uncited Items"
+      "uncitedItems": "Uncited Items",
+      "noBibAlertWarning": "Cannot create publication list for currently selected citation style.",
+      "noBibAlertReason": "Style does not include bibliography.",
     },
     "menu": {
       "tooltips": {

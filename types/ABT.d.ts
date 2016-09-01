@@ -33,6 +33,8 @@ declare namespace BackendGlobals {
                     remove: string;
                 };
                 uncitedItems: string;
+                noBibAlertWarning: string;
+                noBibAlertReason: string;
             };
         };
         tinymce: {

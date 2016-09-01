@@ -21,6 +21,7 @@
 
 // React root
 #abt-reflist
+    font-family 'Roboto', sans-serif
     .panel
         display flex
         padding 10px 0
@@ -103,14 +104,16 @@
                 display flex
                 font-size 0.8em
                 justify-content space-between
-                & > div
-                    padding 0 3px
+            .date
+                padding-right 3px
             .source
+                padding 0 3px
                 font-style italic
                 text-overflow ellipsis
                 white-space nowrap
                 overflow hidden
             .pages
+                padding-left 3px
                 white-space nowrap
     .list
         transition 0.2s

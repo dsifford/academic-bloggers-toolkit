@@ -65,6 +65,7 @@ class ABT_Backend {
      * Sets up all actions and filters for the backend class
      */
     public function __construct() {
+        add_action('admin_notices', [$this, 'user_alert']);
         add_action('admin_head', [$this, 'init_tinymce']);
         add_filter('mce_css', [$this, 'load_tinymce_css']);
         add_action('add_meta_boxes', [$this, 'add_metaboxes']);
@@ -73,16 +74,27 @@ class ABT_Backend {
     }
 
     /**
+     * Alerts the user that the plugin will not work if he/she doesn't have 'Rich Editing' enabled
+     */
+    public function user_alert() {
+        if ('true' == get_user_option('rich_editing')) return;
+    	$class = 'notice notice-warning is-dismissible';
+    	$message = __( "<strong>Notice:</strong> Rich editing must be enabled to use the Academic Blogger's Toolkit plugin", 'academic-bloggers-toolkit' );
+    	printf( '<div class="%1$s"><p>%2$s</p></div>', $class, $message );
+    }
+
+    /**
      * Instantiates the TinyMCE plugin.
      */
     public function init_tinymce() {
         if ('true' == get_user_option('rich_editing')) {
             add_filter('mce_external_plugins', [$this, 'register_tinymce_plugins']);
+            echo '<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&subset=cyrillic,cyrillic-ext,greek,greek-ext,latin-ext,vietnamese" rel="stylesheet">';
         }
     }
 
     /**
-     * Registers the TinyMCE plugins.
+     * Registers the TinyMCE plugins + loads fonts
      *
      * @param array $plugin_array Array of TinyMCE plugins
      * @return array Array of TinyMCE plugins with plugins added
