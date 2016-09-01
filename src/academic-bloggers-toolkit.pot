@@ -15,7 +15,11 @@ msgstr ""
 msgid "Plugin Settings"
 msgstr ""
 
-#: lib/php/backend.php:121
+#: lib/php/backend.php:82
+msgid "<strong>Notice:</strong> Rich editing must be enabled to use the Academic Blogger's Toolkit plugin"
+msgstr ""
+
+#: lib/php/backend.php:133
 msgid "Reference List"
 msgstr ""
 
@@ -415,103 +419,111 @@ msgstr ""
 msgid "Uncited Items"
 msgstr ""
 
-#: lib/php/i18n.php:25
-msgid "Import references from RIS file"
+#: lib/php/i18n.php:22
+msgid "Cannot create publication list for currently selected citation style."
 msgstr ""
 
-#: lib/php/i18n.php:26
-msgid "Refresh reference list"
+#: lib/php/i18n.php:23
+msgid "Style does not include bibliography."
 msgstr ""
 
 #: lib/php/i18n.php:27
-msgid "Delete all references"
+msgid "Import references from RIS file"
 msgstr ""
 
 #: lib/php/i18n.php:28
-msgid "View usage instructions"
+msgid "Refresh reference list"
+msgstr ""
+
+#: lib/php/i18n.php:29
+msgid "Delete all references"
 msgstr ""
 
 #: lib/php/i18n.php:30
+msgid "View usage instructions"
+msgstr ""
+
+#: lib/php/i18n.php:32
 msgid "Choose citation style..."
 msgstr ""
 
-#: lib/php/i18n.php:36
+#: lib/php/i18n.php:38
 msgid "Import References from RIS File"
 msgstr ""
 
-#: lib/php/i18n.php:37
+#: lib/php/i18n.php:39
 msgid "The file could not be processed. Are you sure it's a .RIS (Refman) file?"
 msgstr ""
 
-#: lib/php/i18n.php:38
+#: lib/php/i18n.php:40
 msgid "The following references were unable to be processed"
 msgstr ""
 
-#: lib/php/i18n.php:39
+#: lib/php/i18n.php:41
 msgid "Choose File"
 msgstr ""
 
-#: lib/php/i18n.php:40
+#: lib/php/i18n.php:42
 msgid "Import"
 msgstr ""
 
-#: lib/php/i18n.php:45, src/lib/php/i18n.php:68
+#: lib/php/i18n.php:47, src/lib/php/i18n.php:70
 msgid "Search PubMed for Reference"
 msgstr ""
 
-#: lib/php/i18n.php:46
+#: lib/php/i18n.php:48
 msgid "Search"
 msgstr ""
 
-#: lib/php/i18n.php:47
+#: lib/php/i18n.php:49
 msgid "Next"
 msgstr ""
 
-#: lib/php/i18n.php:48
+#: lib/php/i18n.php:50
 msgid "Previous"
 msgstr ""
 
-#: lib/php/i18n.php:49, src/lib/php/i18n.php:72
+#: lib/php/i18n.php:51, src/lib/php/i18n.php:74
 msgid "Add Reference"
 msgstr ""
 
-#: lib/php/i18n.php:54
+#: lib/php/i18n.php:56
 msgid "Insert Formatted Reference"
 msgstr ""
 
-#: lib/php/i18n.php:57
+#: lib/php/i18n.php:59
 msgid "Add another"
 msgstr ""
 
-#: lib/php/i18n.php:58
+#: lib/php/i18n.php:60
 msgid "Surname"
 msgstr ""
 
-#: lib/php/i18n.php:59
+#: lib/php/i18n.php:61
 msgid "Given Name, M.I."
 msgstr ""
 
-#: lib/php/i18n.php:62
+#: lib/php/i18n.php:64
 msgid "Select Citation Type"
 msgstr ""
 
-#: lib/php/i18n.php:65
+#: lib/php/i18n.php:67
 msgid "PMID/DOI"
 msgstr ""
 
-#: lib/php/i18n.php:69
+#: lib/php/i18n.php:71
 msgid "Add Manually"
 msgstr ""
 
-#: lib/php/i18n.php:70
+#: lib/php/i18n.php:72
 msgid "Add with Identifier"
 msgstr ""
 
-#: lib/php/i18n.php:71
+#: lib/php/i18n.php:73
 msgid "Search PubMed"
 msgstr ""
 
-#: lib/php/i18n.php:73
+#: lib/php/i18n.php:75
 msgid "Attach Inline"
 msgstr ""
 
@@ -535,51 +547,51 @@ msgstr ""
 msgid "Default Citation Style"
 msgstr ""
 
-#: lib/php/views/options-page.php:23
+#: lib/php/views/options-page.php:22
 msgid "Use a predefined citation style by default"
 msgstr ""
 
-#: lib/php/views/options-page.php:29
+#: lib/php/views/options-page.php:28
 msgid "Use custom citation style by default "
 msgstr ""
 
-#: lib/php/views/options-page.php:60
+#: lib/php/views/options-page.php:58
 msgid "Display Options"
 msgstr ""
 
-#: lib/php/views/options-page.php:65
+#: lib/php/views/options-page.php:62
 msgid "Bibliography style"
 msgstr ""
 
-#: lib/php/views/options-page.php:70
+#: lib/php/views/options-page.php:67
 msgid "Fixed"
 msgstr ""
 
-#: lib/php/views/options-page.php:76
+#: lib/php/views/options-page.php:73
 msgid "Toggle"
 msgstr ""
 
-#: lib/php/views/options-page.php:85
+#: lib/php/views/options-page.php:82
 msgid "Citation Link Style"
 msgstr ""
 
-#: lib/php/views/options-page.php:90
+#: lib/php/views/options-page.php:87
 msgid "whenever possible (subtle)"
 msgstr ""
 
-#: lib/php/views/options-page.php:96
+#: lib/php/views/options-page.php:93
 msgid "whenever possible (full surround)"
 msgstr ""
 
-#: lib/php/views/options-page.php:102
+#: lib/php/views/options-page.php:99
 msgid "when the citation has a visible URL"
 msgstr ""
 
-#: lib/php/views/options-page.php:108
+#: lib/php/views/options-page.php:105
 msgid "never"
 msgstr ""
 
-#: lib/php/views/options-page.php:131
+#: lib/php/views/options-page.php:130
 msgid "Bibliography Heading"
 msgstr ""
 
@@ -587,38 +599,38 @@ msgstr ""
 msgid "Override CSS"
 msgstr ""
 
-#: lib/php/views/options-page.php:156
+#: lib/php/views/options-page.php:155
 msgid "CSS Selectors used in this plugin"
 msgstr ""
 
-#: lib/php/views/options-page.php:159
+#: lib/php/views/options-page.php:158
 msgid "Inline Citations"
 msgstr ""
 
-#: lib/php/views/options-page.php:163
+#: lib/php/views/options-page.php:162
 msgid "Citation Tooltips"
 msgstr ""
 
-#: lib/php/views/options-page.php:167
+#: lib/php/views/options-page.php:166
 msgid "Bibliography"
 msgstr ""
 
-#: lib/php/views/options-page.php:171
+#: lib/php/views/options-page.php:170
 msgid "Footnotes"
 msgstr ""
 
-#: lib/php/views/options-page.php:179
+#: lib/php/views/options-page.php:174
 msgid "Note: If you are already using a child theme to load CSS, place your CSS overrides there. The box above is only a crutch for those who do not have any custom CSS saved yet. Loading CSS this way is very inefficient."
 msgstr ""
 
-#: lib/php/views/options-page.php:193
+#: lib/php/views/options-page.php:188
 msgid "How do I"
 msgstr ""
 
-#: lib/php/views/options-page.php:197
+#: lib/php/views/options-page.php:192
 msgid "Make my tooltips a different color?"
 msgstr ""
 
-#: lib/php/views/options-page.php:202
+#: lib/php/views/options-page.php:197
 msgid "Apply style to the bibliography list?"
 msgstr ""
