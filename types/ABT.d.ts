@@ -371,12 +371,13 @@ declare namespace TinyMCE {
                 getBookmark(type?: number, normalized?: boolean): Object;
                 moveToBookmark(bookmark: Object): boolean
             }
-            getBookmark(type?: number, normalized?: boolean): Object;
             collapse(toStart: boolean): void;
+            getBookmark(type?: number, normalized?: boolean): Object;
             getNode(): Node;
+            getContent(args: { format: 'html'|'text' }): string;
+            moveToBookmark(bookmark: Object): boolean;
             select(el: HTMLElement, content: boolean);
             setCursorLocation(a): void;
-            moveToBookmark(bookmark: Object): boolean;
         };
         settings: {
             params;

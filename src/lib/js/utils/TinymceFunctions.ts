@@ -62,10 +62,19 @@ interface CitationPositions {
  */
 export function getRelativeCitationPositions(editor: TinyMCE.Editor): CitationPositions {
     const doc: Document = editor.dom.doc;
+    const currentSelection = editor.selection.getContent({ format: 'html' });
+    const re = /<span id="([\d\w]+)" class="abt_cite .+<\/span>/;
+    const id = (currentSelection.match(re) || ['', 'CURSOR'])[1];
 
-    editor.insertContent('<span id="CURSOR" class="abt_cite"></span>');
+    if (id === 'CURSOR') {
+        editor.insertContent(
+            `<span id="CURSOR" class="abt_cite"></span>`
+        );
+    }
 
-    const citations = doc.getElementsByClassName('abt_cite');
+    // TinyMCE creates a hidden duplicate of selections - this selector ensures
+    // that we do not include that.
+    const citations = doc.querySelectorAll('*:not(.mce-offscreen-selection) > .abt_cite');
     const payload: CitationPositions = {
         currentIndex: 0,
         locations: [[], []],
@@ -74,7 +83,7 @@ export function getRelativeCitationPositions(editor: TinyMCE.Editor): CitationPo
     if (citations.length > 1) {
         let key = 0;
         Array.from(citations).forEach((el, i) => {
-            if (el.id === 'CURSOR') {
+            if (el.id === id) {
                 key = 1;
                 payload.currentIndex = i;
                 return;
@@ -82,7 +91,7 @@ export function getRelativeCitationPositions(editor: TinyMCE.Editor): CitationPo
             payload.locations[key].push([el.id, i - key]);
         });
     }
-    let el = editor.dom.doc.getElementById('CURSOR');
+    const el = editor.dom.doc.getElementById('CURSOR');
     if (el) el.parentElement.removeChild(el);
     return payload;
 }

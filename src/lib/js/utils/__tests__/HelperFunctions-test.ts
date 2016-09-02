@@ -27,6 +27,8 @@ describe('HelperFunctions', () => {
             `  <div class="csl-entry">Westreich, M. 1978. “Preventing Complications of Subclavian Vein Catheterization.” <i>JACEP</i> 7 (10): 368–71.</div>\n`,
         ];
 
+        const errorString = '\n[CSL STYLE ERROR: reference with no printed form.]';
+
         const setupArgs = (
             sfo: 'margin'|'flush'|boolean = false,
             hi: boolean = false,
@@ -102,6 +104,13 @@ describe('HelperFunctions', () => {
             temp.innerHTML = formatBibliography(rawBib, links, cslmap)[0].html;
             expect(temp.querySelector('.csl-entry').classList.toString()).toBe('csl-entry');
             expect(temp.querySelector('.csl-entry').childElementCount).toBe(2);
+        });
+
+        it('should return an error string if one exists', () => {
+            let [rawBib, links, cslmap] = setupArgs();
+            rawBib[1].push(errorString);
+            rawBib[0].entry_ids.push(['errorstring']);
+            expect(formatBibliography(rawBib, links, cslmap)[2].html).toBe(errorString);
         });
     });
 
