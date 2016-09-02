@@ -85,9 +85,10 @@ export class CSLProcessor {
     makeBibliography(): ABT.Bibliography|boolean {
         const bib = this.citeproc.makeBibliography();
         this.store.citations.init(this.citeproc.registry.citationreg.citationByIndex);
-        return typeof bib === 'boolean'
-            ? bib
-            : formatBibliography(bib, this.store.links, this.store.citations.CSL);
+        if (typeof bib === 'boolean' || /CSL STYLE ERROR/.test(bib[1][0])) {
+            return false;
+        }
+        return formatBibliography(bib, this.store.links, this.store.citations.CSL);
     }
 
     /**
