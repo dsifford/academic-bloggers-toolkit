@@ -215,6 +215,11 @@ export function formatBibliography(
     const temp = document.createElement('DIV');
 
     const payload: {id: string, html: string}[] = bibHTML.map((html, i) => {
+
+        if (/CSL STYLE ERROR/.test(html)) {
+            return { html, id: bibmeta.entry_ids[i][0] };
+        }
+
         temp.innerHTML = html;
 
         /**

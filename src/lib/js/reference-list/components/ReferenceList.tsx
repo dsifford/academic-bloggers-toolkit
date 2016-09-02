@@ -143,11 +143,21 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
         this.selected.forEach(id => {
             data.push(this.props.store.citations.CSL.get(id));
         });
+
+        const selection = this.editor.selection.getContent({ format: 'html' });
+        if (/^<div class=".*?abt-static-bib.*?".+<\/div>$/g.test(selection)) {
+            const re = /<div id="(\w{8,9})">/g;
+            let m: RegExpExecArray;
+            while ((m = re.exec(selection)) !== null) { // tslint:disable-line:no-conditional-assignment
+                data.push(this.props.store.citations.CSL.get(m[1]));
+            }
+        }
+
         this.processor.createStaticBibliography(data)
-        .then(h => {
+        .then(bibliography => {
             this.clearSelection();
 
-            if (typeof h === 'boolean') {
+            if (typeof bibliography === 'boolean') {
                 this.editor.windowManager.alert(
                     `𝗪𝗮𝗿𝗻𝗶𝗻𝗴: ${this.labels.noBibAlertWarning}\n\n𝗥𝗲𝗮𝘀𝗼𝗻: ${this.labels.noBibAlertReason}`
                 );
@@ -159,10 +169,21 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
                 'margin',
                 true
             ) || '0 0 28px';
+
+            /* FIXME: Repeating myself here from the other function... */
+            const bib = this.editor.dom.doc.createElement('DIV');
+            bib.className = 'noselect mceNonEditable abt-static-bib';
+            bib.style.margin = margin;
+
+            for (const meta of bibliography) {
+                const item = this.editor.dom.doc.createElement('DIV');
+                item.id = meta.id;
+                item.innerHTML = meta.html;
+                bib.appendChild(item);
+            }
+
             this.editor.insertContent(
-                `<div class="noselect mceNonEditable abt-static-bib" style="margin: ${margin}">` +
-                    `${h.map(a => a.html).join('')}` +
-                `</div>`
+                bib.outerHTML
             );
         });
     }
@@ -181,6 +202,19 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
             this.selected.forEach(id => {
                 data.push(this.props.store.citations.CSL.get(id));
             });
+        }
+
+        /**
+         * Checks to see if there is a inline citation selected. If so, extract the ids
+         *   from it and push it to data.
+         */
+        const selection = this.editor.selection.getContent({ format: 'html' });
+        if (/<span id="([\d\w]+)" class="abt_cite .+<\/span>/.test(selection)) {
+            const re = /&quot;(\w+?)&quot;/g;
+            let m: RegExpExecArray;
+            while ((m = re.exec(selection)) !== null) { // tslint:disable-line:no-conditional-assignment
+                data.push(this.props.store.citations.CSL.get(m[1]));
+            }
         }
 
         const { locations: [citationsBefore, citationsAfter], currentIndex } =
