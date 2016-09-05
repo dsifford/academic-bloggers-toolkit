@@ -1,6 +1,6 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import { ReferenceWindow } from './ReferenceWindow';
+import { ReferenceWindow } from './components/ReferenceWindow';
 
 ReactDOM.render(
   <ReferenceWindow />,

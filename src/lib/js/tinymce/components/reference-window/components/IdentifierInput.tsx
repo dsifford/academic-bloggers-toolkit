@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { referenceWindowEvents } from '../../../utils/Constants';
+import { referenceWindowEvents } from '../../../../utils/Constants';
 const { IDENTIFIER_FIELD_CHANGE } = referenceWindowEvents;
 
 interface Props {

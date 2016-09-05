@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { Modal } from '../../../utils/Modal';
-import { referenceWindowEvents as LocalEvents, manualDataObj } from '../../../utils/Constants';
+import { Modal } from '../../../../utils/Modal';
+import { referenceWindowEvents as LocalEvents, manualDataObj } from '../../../../utils/Constants';
 
 import { IdentifierInput } from './IdentifierInput';
 import { ManualEntryContainer } from './ManualEntryContainer';

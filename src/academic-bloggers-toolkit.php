@@ -135,5 +135,6 @@ add_action('wp_enqueue_scripts', 'abt_frontend_scripts');
 
 require_once('lib/php/backend.php');
 require_once('lib/php/options-page.php');
+require_once('lib/php/endpoints.php');
 
 ?>

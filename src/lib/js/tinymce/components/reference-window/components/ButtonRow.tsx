@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { referenceWindowEvents } from '../../../utils/Constants';
+import { referenceWindowEvents } from '../../../../utils/Constants';
 const { PUBMED_DATA_SUBMIT, TOGGLE_MANUAL, TOGGLE_INLINE_ATTACHMENT } = referenceWindowEvents;
 
 interface ButtonRowProps {

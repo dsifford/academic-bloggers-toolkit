@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { referenceWindowEvents as LocalEvents } from '../../../utils/Constants';
+import { referenceWindowEvents as LocalEvents } from '../../../../utils/Constants';
 
 interface PeopleProps {
     people: CSL.TypedPerson[];
