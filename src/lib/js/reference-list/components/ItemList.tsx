@@ -53,9 +53,31 @@ interface ItemsProps extends React.HTMLProps<HTMLElement> {
 
 @observer
 class Items extends React.Component<ItemsProps, {}> {
+
+    element: HTMLDivElement;
+
+    bindRefs = (c: HTMLDivElement) => {
+        this.element = c;
+    }
+
+    handleScroll = (e: React.WheelEvent<HTMLElement>) => {
+        const atTopAndScrollingUp: boolean = this.element.scrollTop === 0 && e.deltaY < 0;
+        const atBottomAndScollingDown: boolean =
+            ((this.element.scrollTop + this.element.offsetHeight) === this.element.scrollHeight)
+            && e.deltaY > 0;
+        if (atTopAndScrollingUp || atBottomAndScollingDown) {
+            e.stopPropagation();
+            e.preventDefault();
+            // e.returnValue = false;
+            return false;
+        }
+    }
+
     render() {
         return (
             <div
+                ref={this.bindRefs}
+                onWheel={this.handleScroll}
                 id={this.props.id}
                 className="list"
                 style={this.props.style}

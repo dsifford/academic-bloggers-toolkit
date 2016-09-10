@@ -1,20 +1,16 @@
 import * as React from 'react';
-import { referenceWindowEvents } from '../../../../utils/Constants';
-const { IDENTIFIER_FIELD_CHANGE } = referenceWindowEvents;
+import { observer } from 'mobx-react';
 
 interface Props {
     identifierList: string;
-    eventHandler: Function;
+    change: Function;
 }
 
+@observer
 export class IdentifierInput extends React.Component<Props, {}> {
 
     input: HTMLInputElement;
     labels = (top as any).ABT_i18n.tinymce.referenceWindow.identifierInput;
-
-    constructor(props) {
-        super(props);
-    }
 
     componentDidMount() {
         this.input.focus();
@@ -25,26 +21,25 @@ export class IdentifierInput extends React.Component<Props, {}> {
     }
 
     handleChange = (e: React.FormEvent<HTMLInputElement>) => {
-        this.props.eventHandler(
-            new CustomEvent(IDENTIFIER_FIELD_CHANGE, { detail: (e.target as HTMLInputElement).value })
-        );
+        this.props.change((e.target as HTMLInputElement).value);
     }
 
     render() {
         return(
-            <div className="row" style={{alignItems: 'center', display: 'flex'}}>
-                <div style={{padding: '5px'}}>
+            <div className="row">
+                <div>
                     <label htmlFor="identifierList" children={this.labels.label} />
                 </div>
-                <input
-                    type="text"
-                    id="identifierList"
-                    style={{ width: '100%' }}
-                    onChange={this.handleChange}
-                    ref={this.focusInputField}
-                    required={true}
-                    value={this.props.identifierList}
-                />
+                <div className="flex">
+                    <input
+                        type="text"
+                        id="identifierList"
+                        onChange={this.handleChange}
+                        ref={this.focusInputField}
+                        required={true}
+                        value={this.props.identifierList}
+                    />
+                </div>
             </div>
         );
     }

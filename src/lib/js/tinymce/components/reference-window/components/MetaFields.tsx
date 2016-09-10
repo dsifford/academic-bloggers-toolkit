@@ -1,64 +1,52 @@
 import * as React from 'react';
-import { referenceWindowEvents as LocalEvents } from '../../../../utils/Constants';
+import { ObservableMap } from 'mobx';
+import { observer } from 'mobx-react';
 
 interface MetaFieldProps {
-    citationType: CSL.CitationType;
-    meta: CSL.Data;
-    eventHandler: Function;
+    meta: ObservableMap<string>;
 }
 
+@observer
 export class MetaFields extends React.Component<MetaFieldProps, {}> {
 
-    public fieldmaps: ABT.FieldMappings = (top as any).ABT_i18n.fieldmaps;
+    fieldmaps: ABT.FieldMappings = (top as any).ABT_i18n.fieldmaps;
+    title: string;
+    fields;
 
     constructor(props) {
         super(props);
     }
 
     handleChange = (e: React.FormEvent<HTMLInputElement>) => {
-        this.props.eventHandler(
-            new CustomEvent(LocalEvents.META_FIELD_CHANGE, {
-                detail: {
-                    field: (e.target as HTMLInputElement).id,
-                    value: (e.target as HTMLInputElement).value,
-                },
-            })
-        );
+        const target = e.target as HTMLInputElement;
+        this.props.meta.set(target.id, target.value);
     }
 
     render() {
-        let title = this.fieldmaps[this.props.citationType].title;
-        let fields = this.fieldmaps[this.props.citationType].fields;
+        this.title = this.fieldmaps[this.props.meta.get('type')].title;
+        this.fields = this.fieldmaps[this.props.meta.get('type')].fields;
         return (
             <div>
-                <div className="row">
-                    <strong>{title}</strong>
+                <div className="row" style={{paddingBottom: 0}}>
+                    <div>
+                        <span style={{fontWeight: 400}} children={this.title} />
+                    </div>
                 </div>
-                <div style={{display: 'flex', flexDirection: 'column'}}>
-                    {fields.map((field: ABT.Field, i: number) =>
+                <div className="row column">
+                    {this.fields.map((field: ABT.Field, i: number) =>
                         <div
-                            key={`${title}-meta-${i}`}
-                            id={`${title}-meta-${i}`}
-                            style={{
-                                alignItems: 'center',
-                                display: 'flex',
-                                flexDirection: 'row',
-                            }}
+                            key={`${this.title}-meta-${i}`}
+                            className="row flex"
                         >
-                            <div style={{flex: 1, padding: '0 5px'}}>
-                                <label
-                                    htmlFor={field.value}
-                                    style={{padding: '5px'}}
-                                    children={field.label}
-                                />
+                            <div style={{minWidth: 150}}>
+                                <label htmlFor={field.value} children={field.label}/>
                             </div>
-                            <div style={{flex: 2, padding: '0 5px'}}>
+                            <div className="flex">
                                 <input
                                     type="text"
-                                    style={{width: '100%'}}
-                                    id={field.value}
                                     onChange={this.handleChange}
-                                    value={this.props.meta[field.value]}
+                                    id={field.value}
+                                    value={this.props.meta.get(field.value) || ''}
                                     required={field.required}
                                     placeholder={field.placeholder}
                                     pattern={field.pattern}

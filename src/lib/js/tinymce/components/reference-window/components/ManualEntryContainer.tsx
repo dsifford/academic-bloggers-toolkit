@@ -1,87 +1,142 @@
 import * as React from 'react';
-import { referenceWindowEvents as LocalEvents } from '../../../../utils/Constants';
+import { observable, ObservableMap } from 'mobx';
+import { observer } from 'mobx-react';
 
 import { People } from './People';
 import { MetaFields } from './MetaFields';
+import { Spinner } from '../../../../components/Spinner';
 
 interface ManualEntryProps {
-    manualData: CSL.Data;
+    loading: boolean;
+    manualData: ObservableMap<string>;
     people: CSL.TypedPerson[];
-    eventHandler: Function;
+    autoCite(query: string): void;
+    addPerson(): void;
+    changePerson(index: string, field: string, value: string): void;
+    removePerson(index: string): void;
+    typeChange(value: string): void;
 }
 
+@observer
 export class ManualEntryContainer extends React.Component<ManualEntryProps, {}> {
 
-    consumeChildEvents = (e: CustomEvent) => {
-        this.props.eventHandler(e);
-    }
+    label = (top as any).ABT_i18n.tinymce.referenceWindow.manualEntryContainer.type;
+    citationTypes = (top as any).ABT_i18n.citationTypes as ABT.CitationTypes;
 
-    typeChange = (e: React.FormEvent<HTMLInputElement>) => {
-        this.props.eventHandler(
-            new CustomEvent(LocalEvents.CHANGE_CITATION_TYPE, {
-                detail: (e.target as HTMLInputElement).value,
-            })
-        );
+    handleTypeChange = (e) => {
+        e.preventDefault();
+        this.props.typeChange((e.target as HTMLInputElement).value);
     }
 
     render() {
         return (
             <div>
-                <ManualSelection
-                    value={this.props.manualData.type}
-                    onChange={this.typeChange}
-                />
+                { this.props.loading &&
+                    <Spinner size="40px" overlay />
+                }
+                <div id="type-select-row" className="row">
+                    <div>
+                        <label htmlFor="type-select" children={this.label} />
+                    </div>
+                    <div className="flex">
+                        <select
+                            id="type-select"
+                            onChange={this.handleTypeChange}
+                            value={this.props.manualData.get('type')}
+                        >
+                            { this.citationTypes.map((item, i) =>
+                                <option key={i} value={item.value} children={item.label}/>)
+                            }
+                        </select>
+                    </div>
+                </div>
+                { this.props.manualData.get('type') === 'webpage' &&
+                    <AutoCite getter={this.props.autoCite} />
+                }
                 <People
                     people={this.props.people}
-                    eventHandler={this.consumeChildEvents}
-                    citationType={this.props.manualData.type}
+                    changePerson={this.props.changePerson}
+                    addPerson={this.props.addPerson}
+                    removePerson={this.props.removePerson}
+                    citationType={this.props.manualData.get('type') as CSL.CitationType}
                 />
                 <MetaFields
-                    citationType={this.props.manualData.type}
                     meta={this.props.manualData}
-                    eventHandler={this.consumeChildEvents}
                 />
             </div>
         );
     }
 }
 
-export const ManualSelection = ({
-    value,
-    onChange,
-}) => {
-    const commonStyle = {padding: '5px'};
-    const citationTypes = (top as any).ABT_i18n.citationTypes as ABT.CitationTypes;
-    const label = (top as any).ABT_i18n.tinymce.referenceWindow.manualEntryContainer.type;
-    return (
-        <div style={{alignItems: 'center', display: 'flex'}}>
-            <div style={commonStyle}>
-                <label
-                    htmlFor="type"
-                    style={{whiteSpace: 'nowrap'}}
-                    children={label}
-                />
+interface AutoCiteProps {
+    getter(query: string): void;
+}
+
+@observer
+class AutoCite extends React.Component<AutoCiteProps, {}> {
+
+    @observable
+    query = '';
+
+    /**
+     * Needed for handling the initial focus() of the field
+     */
+    input: HTMLInputElement;
+
+    componentDidMount() {
+        this.input.focus();
+    }
+
+    bindRefs = (c: HTMLInputElement) => {
+        this.input = c;
+    }
+
+    handleChange = (e) => {
+        this.query = e.target.value;
+    }
+
+    handleKeyDown = (e) => {
+        if (e.key === 'Enter' || e.key === 'Return') {
+            e.stopPropagation();
+            e.preventDefault();
+            this.handleQuery();
+        }
+    }
+
+    handleQuery = () => {
+        if (this.query.length === 0) return;
+        this.props.getter(this.query);
+        this.query = '';
+    }
+
+    render() {
+        return (
+            <div id="autocite" className="row">
+                <div>
+                    <label htmlFor="citequery" children="Autocite" />
+                </div>
+                <div className="flex">
+                    <input
+                        type="url"
+                        id="citequery"
+                        placeholder="URL"
+                        ref={this.bindRefs}
+                        value={this.query}
+                        onKeyDown={this.handleKeyDown}
+                        onChange={this.handleChange}
+                    />
+                </div>
+                <div>
+                    <input
+                        type="button"
+                        className="btn"
+                        aria-label="Search"
+                        disabled={this.query.length === 0}
+                        value="Search"
+                        onClick={this.handleQuery}
+                    />
+                </div>
             </div>
-            <div style={Object.assign({}, commonStyle, {flex: 1})}>
-                <select
-                    id="type"
-                    style={{ width: '100%' }}
-                    onChange={onChange}
-                    value={value}
-                >
-                    {
-                        citationTypes.map((item, i) =>
-                            item.inUse ?
-                            <option
-                                key={i}
-                                value={item.value}
-                                children={item.label}
-                            />
-                            : null
-                        )
-                    }
-                </select>
-            </div>
-        </div>
-    );
-};
+        );
+    }
+}

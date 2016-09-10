@@ -1,46 +1,42 @@
 import * as React from 'react';
+import { observable } from 'mobx';
+import { observer } from 'mobx-react';
+
 import { Modal } from '../../../utils/Modal';
 import { RISParser } from '../../../utils/RISParser';
 import { generateID } from '../../../utils/HelperFunctions';
-
-interface State {
-    readonly filename: string;
-    readonly payload: [string, CSL.Data][];
-}
 
 interface Props {
     wm: TinyMCE.WindowManager;
 }
 
-export class ImportWindow extends React.Component<Props, State> {
+@observer
+export class ImportWindow extends React.Component<Props, {}> {
 
     labels = (top as any).ABT_i18n.tinymce.importWindow;
     modal: Modal = new Modal(this.labels.title);
     wm: TinyMCE.WindowManager = this.props.wm;
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            filename: '',
-            payload: [],
-        };
-        this.handleFileUpload = this.handleFileUpload.bind(this);
-    }
+    @observable
+    filename = '';
+
+    @observable
+    payload = observable([]);
 
     componentDidMount() {
         this.modal.resize();
     }
 
-    handleFileUpload(e: React.FormEvent<HTMLInputElement>) {
+    handleFileUpload = (e: React.FormEvent<HTMLInputElement>) => {
         e.preventDefault();
         const reader = new FileReader();
         const file = (e.target as HTMLInputElement).files[0];
         const filename = (e.target as HTMLInputElement).files[0].name;
 
         reader.addEventListener('load', this.parseFile);
-
         reader.readAsText(file);
-        this.setState(Object.assign({}, this.state, { filename }));
+
+        this.filename = filename;
     }
 
     parseFile = (upload) => {
@@ -64,7 +60,7 @@ export class ImportWindow extends React.Component<Props, State> {
             this.wm.alert(`𝗘𝗿𝗿𝗼𝗿: ${this.labels.leftovers}: ${leftovers.join(', ')}`);
         }
 
-        this.setState(Object.assign({}, this.state, { payload }));
+        this.payload.replace(payload);
     }
 
     handleSubmit = (e: React.MouseEvent<HTMLInputElement>) => {
@@ -75,43 +71,30 @@ export class ImportWindow extends React.Component<Props, State> {
 
     render() {
         return (
-            <div>
-                <div style={{display: 'flex', justifyContent: 'space-between'}}>
-                    <div style={{alignItems: 'center', display: 'flex', flex: 1}}>
-                        <label className="uploadLabel">
-                            <input
-                                type="file"
-                                id="uploadField"
-                                required={true}
-                                onChange={this.handleFileUpload}
-                                accept="application/xresearch-info-systems"
-                            />
-                            <span children={this.labels.upload} />
-                        </label>
-                        <div
-                            style={{
-                                background: '#f1f1f1',
-                                border: '1px solid #ddd',
-                                borderRadius: 2,
-                                color: '#444',
-                                flex: 1,
-                                margin: '0 10px',
-                                minHeight: 20,
-                                padding: 3,
-                            }}
-                            children={this.state.filename}
-                        />
-                    </div>
-                    <div>
+            <div className="row">
+                <div>
+                    <label className="uploadLabel">
                         <input
-                            type="button"
-                            className="submit-btn"
-                            id="submitbtn"
-                            value={this.labels.import}
-                            disabled={this.state.payload.length === 0}
-                            onClick={this.handleSubmit}
+                            type="file"
+                            className="btn btn-flat"
+                            id="uploadField"
+                            required={true}
+                            onChange={this.handleFileUpload}
+                            accept="application/xresearch-info-systems"
                         />
-                    </div>
+                        <span children={this.labels.upload} />
+                    </label>
+                </div>
+                <div className="well flex" children={this.filename} />
+                <div>
+                    <input
+                        type="button"
+                        className="btn-submit"
+                        id="submitbtn"
+                        value={this.labels.import}
+                        disabled={this.payload.length === 0}
+                        onClick={this.handleSubmit}
+                    />
                 </div>
             </div>
         );

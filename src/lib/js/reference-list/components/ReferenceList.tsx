@@ -12,6 +12,7 @@ import { Store } from '../Store';
 import { Menu } from './Menu';
 import { PanelButton } from './PanelButton';
 import { ItemList } from './ItemList';
+import { Spinner } from '../../components/Spinner';
 
 declare const tinyMCE: TinyMCE.MCE;
 declare const ABT_i18n: BackendGlobals.ABT_i18n;
@@ -455,17 +456,8 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
     render() {
 
         if (this.loading) {
-            return(
-                <div id="abt-loading">
-                    <div className="sk-circle">
-                        {
-                            [...Array(13).keys()].map(k => k !== 0 ?
-                                <div key={k} className={`sk-circle${k} sk-child`} /> :
-                                null
-                            )
-                        }
-                    </div>
-                </div>
+            return (
+                <Spinner size="40px" height="52px" />
             );
         }
 

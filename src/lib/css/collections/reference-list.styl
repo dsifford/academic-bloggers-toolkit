@@ -15,13 +15,12 @@
         border solid $border 1px
         z-index 555
 
-#abt-loading
-    background $light-gray
-    box-shadow $depth-1
-
 // React root
 #abt-reflist
     font-family 'Roboto', sans-serif
+    .abt-spinner-container
+        background $light-gray
+        box-shadow $depth-1
     .panel
         display flex
         padding 10px 0
@@ -161,43 +160,3 @@
             font-weight 300
     .Select-value-label
         font-weight 300
-
-// ========== Loading Spinner ===========
-.sk-circle
-    border 5px solid $light-gray
-    margin-left auto
-    margin-right auto
-    width 40px
-    height 40px
-    position relative
-
-    .sk-child
-        width 100%
-        height 100%
-        position absolute
-        left 0
-        top 0
-
-        &:before
-            content ''
-            display block
-            margin 0 auto
-            width 15%
-            height 15%
-            background-color $dark-gray
-            border-radius 100%
-            animation sk-circleFadeDelay 1.2s infinite ease-in-out both
-
-    for num in 2..12
-        .sk-circle{num}
-            transform 'rotate(%sdeg)' % (30 * (num - 1))
-            &:before
-                animation-delay '%ss' % (-2.2 + (1 + (num - 1) * .1))
-
-@keyframes sk-circleFadeDelay
-    0%
-    39%
-    100%
-        opacity 0
-    40%
-        opacity 1

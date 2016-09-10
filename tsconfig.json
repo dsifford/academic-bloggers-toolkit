@@ -48,6 +48,7 @@
         "cacheDirectory": "tmp/tscache"
     },
     "files": [
+        "src/lib/js/components/Spinner.tsx",
         "src/lib/js/Frontend.ts",
         "src/lib/js/reference-list/__tests__/API-test.ts",
         "src/lib/js/reference-list/__tests__/Store-test.ts",
@@ -95,6 +96,7 @@
         "src/lib/js/utils/Modal.ts",
         "src/lib/js/utils/RISParser.ts",
         "src/lib/js/utils/TinymceFunctions.ts",
+        "src/lib/js/utils/Tooltips.ts",
         "node_modules/@types/enzyme/index.d.ts",
         "node_modules/@types/jest/index.d.ts",
         "node_modules/@types/node/index.d.ts",

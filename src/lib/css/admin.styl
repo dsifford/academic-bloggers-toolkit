@@ -1,6 +1,14 @@
 @require 'collections/colors'
 @require 'citations'
 @require 'collections/reference-list'
+@require 'collections/shared'
+
+.mce-window .mce-window-head .mce-title
+.mce-window-head .mce-title
+    font-weight 500 !important
+
+h1, h2, h3, h4, h5, h6
+    font-weight 500
 
 .is-focused:not(.is-open)>.Select-control
     border-color $border !important
@@ -22,3 +30,11 @@ span#HW_badge_cont
         top 0
         &.HW_softHidden
             top 5px
+
+.mce-container.mce-panel.mce-floatpanel.mce-window.mce-in
+    background transparent !important
+    box-shadow none !important
+    height 100vh !important
+
+.mce-container-body.mce-window-body.mce-abs-layout
+    height 100vh !important
