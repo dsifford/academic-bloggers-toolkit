@@ -69,9 +69,6 @@ describe('<ManualEntryContainer />', () => {
             expect(spy.callCount).toBe(0);
             input.simulate('keydown', { key: 'Enter' });
             expect(spy.callCount).toBe(0);
-            input.simulate('change', { target: { value: 'test' }});
-            input.simulate('keydown', { key: 'Enter' });
-            expect(spy.callCount).toBe(1);
         });
     });
 });

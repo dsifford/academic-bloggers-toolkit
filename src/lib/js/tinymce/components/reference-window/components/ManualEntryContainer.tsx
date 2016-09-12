@@ -159,9 +159,9 @@ class AutoCite extends React.Component<AutoCiteProps, {}> {
                 <div>
                     <input
                         type="button"
-                        className="btn"
+                        className="abt-btn abt-btn-flat"
                         aria-label="Search"
-                        disabled={this.query.length === 0}
+                        disabled={this.query.length === 0 || (this.input ? !this.input.validity.valid : true)}
                         value="Search"
                         onClick={this.handleQuery}
                     />
