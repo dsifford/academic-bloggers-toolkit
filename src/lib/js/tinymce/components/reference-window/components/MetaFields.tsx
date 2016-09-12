@@ -2,6 +2,8 @@ import * as React from 'react';
 import { ObservableMap, action } from 'mobx';
 import { observer } from 'mobx-react';
 
+window['ABT_i18n'] = require('../../../../../../../scripts/fixtures').ABT_i18n;
+
 interface MetaFieldProps {
     meta: ObservableMap<string>;
 }
@@ -13,31 +15,28 @@ export class MetaFields extends React.Component<MetaFieldProps, {}> {
     title: string;
     fields;
 
-    constructor(props) {
-        super(props);
-    }
-
     @action
-    handleFieldChange = (e: React.FormEvent<HTMLInputElement>) => {
+    updateField = (e: React.FormEvent<HTMLInputElement>) => {
         const target = e.target as HTMLInputElement;
         this.props.meta.set(target.id, target.value);
     }
 
     render() {
-        this.title = this.fieldmaps[this.props.meta.get('type')].title;
-        this.fields = this.fieldmaps[this.props.meta.get('type')].fields;
+        const type = this.props.meta.get('type');
+        this.title = this.fieldmaps[type].title;
+        this.fields = this.fieldmaps[type].fields;
         return (
             <div>
                 <div className="row" style={{paddingBottom: 0}}>
                     <div>
-                        <span style={{fontWeight: 400}} children={this.title} />
+                        <span id={`meta-${type}`} style={{fontWeight: 400}} children={this.title} />
                     </div>
                 </div>
                 <div className="row column">
                     {this.fields.map((field: ABT.Field, i: number) =>
                         <Field
                             key={`${this.title}-meta-${i}`}
-                            change={this.handleFieldChange}
+                            change={this.updateField}
                             field={field}
                             meta={this.props.meta}
                         />

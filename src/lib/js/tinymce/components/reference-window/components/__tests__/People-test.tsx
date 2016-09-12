@@ -9,50 +9,50 @@ const setup = (
     citationType: CSL.CitationType = 'article-journal',
     people: CSL.TypedPerson[] = [{family: 'Doe', given: 'John', type: 'author'}]
 ) => {
-    const eventHandler = sinon.spy();
+    const addPerson = sinon.spy();
+    const changePerson = sinon.spy();
+    const removePerson = sinon.spy();
     const component = mount(
-        <People citationType={citationType} eventHandler={eventHandler} people={people} />
+        <People
+            citationType={citationType}
+            people={people}
+            addPerson={addPerson}
+            changePerson={changePerson}
+            removePerson={removePerson}
+        />
     );
     return {
-        eventHandler,
+        addPerson,
+        changePerson,
+        removePerson,
         component,
         addButton: component.find('#add-person'),
-        removeButton: component.find('#remove-button-0'),
+        removeButton: component.find('.abt-btn.abt-btn-flat.abt-btn-icon'),
         select: component.find('select'),
     };
 };
 
 describe('<People />', () => {
 
-    it('should dispatch the ADD_PERSON event when add button is clicked', () => {
-
-        const { addButton, eventHandler } = setup();
+    it('should call addPerson on click', () => {
+        const { addButton, addPerson } = setup();
 
         addButton.simulate('click');
         addButton.simulate('click');
         addButton.simulate('click');
 
-        expect(eventHandler.callCount).toBe(3);
-        expect(eventHandler.getCall(0).args[0].type).toBe('ADD_PERSON');
-        expect(eventHandler.getCall(1).args[0].type).toBe('ADD_PERSON');
-        expect(eventHandler.getCall(2).args[0].type).toBe('ADD_PERSON');
-
+        expect(addPerson.callCount).toBe(3);
     });
 
-    it('should dispatch the REMOVE_PERSON event when remove button is clicked',  () => {
-
-        const { removeButton, eventHandler } = setup();
-
+    it('should call removePerson on remove button click',  () => {
+        const { removeButton, removePerson } = setup();
         removeButton.simulate('click');
-
-        expect(eventHandler.callCount).toBe(1);
-        expect(eventHandler.lastCall.args[0].type).toBe('REMOVE_PERSON');
-
+        expect(removePerson.callCount).toBe(1);
     });
 
-    it('should dispatch the PERSON_CHANGE event appropriately when input fields are changed', () => {
+    it('should call changePerson appropriately when input fields are changed', () => {
 
-        const { component, eventHandler } = setup();
+        const { component, changePerson } = setup();
 
         const firstNameInput = component.find('#person-given-0');
         const lastNameInput = component.find('#person-family-0');
@@ -60,36 +60,13 @@ describe('<People />', () => {
         firstNameInput.simulate('change');
         lastNameInput.simulate('change');
 
-        expect(eventHandler.callCount).toBe(2);
-        expect(eventHandler.firstCall.args[0].type).toBe('PERSON_CHANGE');
-        expect(eventHandler.secondCall.args[0].type).toBe('PERSON_CHANGE');
-
-        expect(eventHandler.firstCall.args[0].detail).toEqual({field: 'given', index: 0, value: 'John'});
-        expect(eventHandler.secondCall.args[0].detail).toEqual({field: 'family', index: 0, value: 'Doe'});
-
-    });
-
-    it('should dispatch the PERSON_CHANGE event appropriately when select fields are changed', () => {
-
-        const { component, eventHandler } = setup();
-        const select = component.find('#peopleSelect-0');
-
-        select.simulate('change');
-
-        expect(eventHandler.callCount).toBe(1);
-        expect(eventHandler.firstCall.args[0].type).toBe('PERSON_CHANGE');
-        expect(eventHandler.firstCall.args[0].detail).toEqual({field: 'type', index: 0, value: 'author'});
-
-    });
-
-    it('should display the correct label for AUTHOR in varying types', () => {
-
-        const { select, component } = setup('bill');
-        expect(select.text()).toBe('Sponsor');
-
-        component.setProps({ citationType: 'broadcast' });
-        expect(component.find('#peopleSelect-0').text()).toBe('Producer');
-
+        expect(changePerson.callCount).toBe(2);
+        expect(changePerson.firstCall.args[0]).toBe('0');
+        expect(changePerson.firstCall.args[1]).toBe('given');
+        expect(changePerson.firstCall.args[2]).toBe('John');
+        expect(changePerson.secondCall.args[0]).toBe('0');
+        expect(changePerson.secondCall.args[1]).toBe('family');
+        expect(changePerson.secondCall.args[2]).toBe('Doe');
     });
 
 });

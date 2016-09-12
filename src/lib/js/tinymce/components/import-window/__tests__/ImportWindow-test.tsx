@@ -43,26 +43,26 @@ describe('<ImportWindow />', () => {
     });
 
     it('should trigger handleFileUpload when upload field changed', () => {
-        const handleFileUpload = sinon.spy(ImportWindow.prototype, 'handleFileUpload');
-        const { upload } = setup();
+        const { upload, component } = setup();
+        const handleFileUpload = sinon.spy(component.instance(), 'handleFileUpload');
+        component.update();
         upload.simulate('change', { target: { files: [new File(['testdata'], 'test')], value: 'test.ris' } });
         expect(handleFileUpload.calledOnce).toEqual(true);
     });
 
     it('should handle form submit correctly', () => {
         const { component, submit, setParams } = setup();
-        const stateData = {
-            filename: 'test',
-            format: 'american-medical-association',
-            payload: [{}],
-        };
+        const filename = 'test';
+        const payload = [{}];
+        const instance = (component.instance() as any);
 
         expect(submit.props().disabled).toBe(true);
-        component.setState(stateData);
+        instance.setFilename(filename);
+        instance.setPayload(payload);
         expect(submit.props().disabled).toBe(false);
         submit.simulate('click');
         expect(setParams.callCount).toBe(1);
-        expect(setParams.firstCall.args[0]).toEqual({ data: stateData });
+        expect(setParams.firstCall.args[0]).toEqual({ data: payload });
     });
 
     it('should trigger an alert when the upload returns a length of 0 (bad file)', () => {
@@ -88,17 +88,4 @@ describe('<ImportWindow />', () => {
         );
         stub.restore();
     });
-
-    it('should set the state properly when references are parsed without errors', () => {
-        const stub = sinon.stub(parser, 'RISParser', function() { // tslint:disable-line
-            this.parse = () => [{}];
-            this.unsupportedRefs = [];
-        });
-        const { component, alert } = setup();
-        (component as any).instance().parseFile({target: {result: ''}});
-        expect(alert.called).toBe(false);
-        expect(component.state()).toEqual({filename: '', payload: [[undefined, {id: undefined}]]});
-        stub.restore();
-    });
-
 });

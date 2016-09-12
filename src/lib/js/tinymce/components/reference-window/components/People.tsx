@@ -18,7 +18,7 @@ export class People extends React.PureComponent<PeopleProps, {}> {
     handleChange = (e: React.FormEvent<HTMLInputElement|HTMLSelectElement>) => {
         e.preventDefault();
         const target = e.target as HTMLInputElement|HTMLSelectElement;
-        this.props.changePerson(target.dataset['index'], target.dataset['field'], target.value);
+        this.props.changePerson(target.getAttribute('data-index'), target.getAttribute('data-field'), target.value);
     }
 
     handleAddPerson = () => {
@@ -27,7 +27,7 @@ export class People extends React.PureComponent<PeopleProps, {}> {
 
     handleRemovePerson = (e: React.MouseEvent<HTMLInputElement>) => {
         e.preventDefault();
-        this.props.removePerson((e.target as HTMLInputElement).dataset['index']);
+        this.props.removePerson((e.target as HTMLInputElement).getAttribute('data-index'));
     }
 
     render() {
@@ -101,6 +101,7 @@ class Person extends React.PureComponent<PersonProps, {}> {
                 <div className="flex">
                     <input
                         type="text"
+                        id={`person-family-${this.props.index}`}
                         placeholder={this.props.labels.surname}
                         aria-label={this.props.labels.surname}
                         value={this.props.person.family}
@@ -113,6 +114,7 @@ class Person extends React.PureComponent<PersonProps, {}> {
                 <div className="flex">
                     <input
                         type="text"
+                        id={`person-given-${this.props.index}`}
                         placeholder={this.props.labels.given}
                         aria-label={this.props.labels.given}
                         value={this.props.person.given}

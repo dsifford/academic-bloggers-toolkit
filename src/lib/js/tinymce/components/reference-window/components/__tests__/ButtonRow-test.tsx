@@ -1,7 +1,7 @@
 jest.unmock('../ButtonRow');
 
 import * as React from 'react';
-import { shallow } from 'enzyme';
+import { mount } from 'enzyme';
 import * as sinon from 'sinon';
 import { ButtonRow } from '../ButtonRow';
 
@@ -10,13 +10,20 @@ const setup = (
     attachInline: boolean = false
 ) => {
     const spy = sinon.spy();
-    const component = shallow(
-        <ButtonRow addManually={addManually} attachInline={attachInline} eventHandler={spy} />
+    const component = mount(
+        <ButtonRow
+            addManually={addManually}
+            attachInline={attachInline}
+            attachInlineToggle={spy}
+            pubmedCallback={spy}
+            toggleManual={spy}
+        />
     );
     return {
         addManually: component.find('#addManually'),
-        checkbox: component.find('#attachInline'),
+        checkbox: component.find('#inline-toggle'),
         component,
+        label: component.find('label.toggle-lbl'),
         searchPubmed: component.find('#searchPubmed'),
         spy,
         submit: component.find('#submit-btn'),
@@ -77,5 +84,9 @@ describe('<ButtonRow />', () => {
         expect(spy.callCount).toBe(1);
         expect(spy.args[0][0].title).toBe('Search PubMed for Reference');
         expect(submitSpy.callCount).toBe(1);
+    });
+    it('should handle mouseover correctly', () => {
+        const { label } = setup();
+        label.simulate('mouseover');
     });
 });

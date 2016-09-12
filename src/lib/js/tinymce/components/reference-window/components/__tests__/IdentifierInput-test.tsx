@@ -8,7 +8,10 @@ import { IdentifierInput } from '../IdentifierInput';
 const setup = () => {
     const spy = sinon.spy();
     const component = mount(
-        <IdentifierInput identifierList="testing" eventHandler={spy} />
+        <IdentifierInput
+            identifierList="testing"
+            change={spy}
+        />
     );
     return {
         component,
@@ -28,6 +31,6 @@ describe('<IdentifierInput />', () => {
         expect(input.props().value).toBe('testing');
         input.simulate('change', { target: { value: 'new value'}});
         expect(spy.callCount).toBe(1);
-        expect(spy.calledWithExactly(new CustomEvent('IDENTIFIER_FIELD_CHANGE', { detail: 'new value' }))).toBe(true);
+        expect(spy.calledWithExactly('new value')).toBe(true);
     });
 });

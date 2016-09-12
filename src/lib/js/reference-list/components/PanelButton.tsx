@@ -10,7 +10,7 @@ export class PanelButton extends React.PureComponent<React.HTMLProps<HTMLAnchorE
     }
 
     createTooltip = () => {
-        createTooltip(this.element, this.element.dataset['tooltip'], 'bottom');
+        createTooltip(this.element, this.element.getAttribute('data-tooltip'), 'bottom');
     }
 
     render() {

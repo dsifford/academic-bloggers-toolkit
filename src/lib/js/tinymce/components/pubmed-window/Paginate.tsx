@@ -13,7 +13,7 @@ export class Paginate extends React.PureComponent<Props, {}> {
     labels = (top as any).ABT_i18n.tinymce.pubmedWindow;
 
     handleClick = (e) => {
-        this.props.paginate(parseInt(e.target.dataset['page'], 10));
+        this.props.paginate(parseInt(e.target.getAttribute('data-page'), 10));
     }
 
     render() {

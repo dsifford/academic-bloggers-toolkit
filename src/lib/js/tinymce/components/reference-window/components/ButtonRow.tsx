@@ -30,7 +30,7 @@ export class ButtonRow extends React.PureComponent<Props, {}> {
     }
 
     handleMouseOver = (e) => {
-        createTooltip(e.target, e.target.dataset['tooltip'], 'left');
+        createTooltip(e.target, e.target.getAttribute('data-tooltip'), 'left');
     }
 
     render() {

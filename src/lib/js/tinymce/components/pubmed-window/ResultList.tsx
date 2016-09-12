@@ -17,7 +17,7 @@ export class ResultList extends React.PureComponent<ResultListProps, {}> {
     }
 
     handleClick = (e) => {
-        this.props.select(e.target.dataset['pmid']);
+        this.props.select(e.target.getAttribute('data-pmid'));
     }
 
     handleWheel = (e: React.WheelEvent<HTMLElement>) => {
