@@ -1,11 +1,13 @@
 import * as React from 'react';
-import { observable, computed, reaction } from 'mobx';
+import { observable, computed, reaction, action } from 'mobx';
 import { observer } from 'mobx-react';
+import DevTools from 'mobx-react-devtools';
 
 import { Modal } from '../../../utils/Modal';
 import { PubmedQuery } from '../../../utils/Externals';
 import { ResultList } from './ResultList';
 import { Paginate } from './Paginate';
+import { Spinner } from '../../../components/Spinner';
 
 @observer
 export class PubmedWindow extends React.Component<{}, {}> {
@@ -15,6 +17,9 @@ export class PubmedWindow extends React.Component<{}, {}> {
     wm: TinyMCE.WindowManager = top.window.tinyMCE.activeEditor.windowManager
         .windows[top.window.tinyMCE.activeEditor.windowManager.windows.length - 1];
     placeholder = this.generatePlaceholder();
+
+    @observable
+    isLoading = false;
 
     @observable
     page = 0;
@@ -32,6 +37,45 @@ export class PubmedWindow extends React.Component<{}, {}> {
                 return true;
             }
         });
+    }
+
+    @action
+    changePage = (page: number) => {
+        this.page = page;
+    }
+
+    @action
+    consumeQueryData = (data: PubMed.SingleReference[]) => {
+        this.page = 1;
+        this.query = '';
+        this.isLoading = false;
+        this.results.replace(data);
+    }
+
+    @action
+    toggleLoadState = () => this.isLoading = !this.isLoading;
+
+    @action
+    updateQuery = (e: React.FormEvent<HTMLInputElement>) => {
+        this.query = (e.target as HTMLInputElement).value;
+    }
+
+    deliverPMID = (pmid: string) => {
+        this.wm.data['pmid'] = pmid;
+        this.wm.submit();
+    }
+
+    sendQuery = (e) => {
+        this.toggleLoadState();
+        e.preventDefault();
+        PubmedQuery(this.query, true)
+        .then(this.consumeQueryData)
+        .catch(err => top.tinyMCE.activeEditor.windowManager.alert(err.message));
+    }
+
+    preventScrollPropagation = (e: React.WheelEvent<HTMLElement>) => {
+        e.stopPropagation();
+        e.preventDefault();
     }
 
     generatePlaceholder(): string {
@@ -61,39 +105,23 @@ export class PubmedWindow extends React.Component<{}, {}> {
         );
     }
 
-    deliverPMID = (pmid: string) => {
-        this.wm.data['pmid'] = pmid;
-        this.wm.submit();
-    }
-
-    handleQuery = (e) => {
-        e.preventDefault();
-        PubmedQuery(this.query, true)
-        .then(data => {
-            this.page = 1;
-            this.query = '';
-            this.results.replace(data);
-        })
-        .catch(err => top.tinyMCE.activeEditor.windowManager.alert(err.message));
-    }
-
-    handleChange = (e: React.FormEvent<HTMLInputElement>) => {
-        this.query = (e.target as HTMLInputElement).value;
-    }
-
-    handlePagination = (page: number) => {
-        this.page = page;
-    }
-
     render() {
+
+        if (this.isLoading) {
+            return (
+                <Spinner size="40px" height="52px" bgColor="#f5f5f5" />
+            );
+        }
+
         return (
-            <div>
-                <form id="query" onSubmit={this.handleQuery}>
+            <div onWheel={this.preventScrollPropagation}>
+                <DevTools />
+                <form id="query" onSubmit={this.sendQuery}>
                     <div className="row" id="pubmed-query">
                         <div className="flex">
                             <input
                                 type="text"
-                                onChange={this.handleChange}
+                                onChange={this.updateQuery}
                                 autoFocus={true}
                                 placeholder={this.placeholder}
                                 value={this.query}
@@ -118,7 +146,7 @@ export class PubmedWindow extends React.Component<{}, {}> {
                 { this.results.length > 0 &&
                     <Paginate
                         page={this.page}
-                        paginate={this.handlePagination}
+                        paginate={this.changePage}
                         resultLength={this.results.length}
                     />
                 }

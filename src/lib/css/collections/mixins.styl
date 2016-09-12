@@ -1,0 +1,68 @@
+@require 'generics'
+@require 'variables'
+
+btn($color = false)
+    @extend .noselect
+    if $color
+        background $color
+        color white
+    else
+        background white
+        color $dark-gray
+    background-image none
+    border none
+    border-radius 2px
+    box-shadow $depth-1
+    cursor pointer
+    display inline-block
+    font-size 13px
+    font-weight 500 !important
+    height 36px
+    line-height 36px
+    min-width 64px
+    outline 0
+    padding 0 16px
+    text-align center
+    text-decoration none
+    text-transform uppercase
+    transition $shadow-transition
+    vertical-align middle
+    white-space nowrap
+    &:hover
+    &:focus
+        box-shadow $depth-2
+    &:active:hover
+        box-shadow $depth-3
+        if $color
+            background darken($color, 3)
+        else
+            background $border
+    &:disabled
+        cursor default
+        pointer-events none
+        opacity .6
+        box-shadow none
+
+    &.abt-btn-flat
+        if $color
+            color $color
+        background rgba(0, 0, 0, 0)
+        box-shadow none !important
+        &:hover
+            background rgba(158,158,158,.2)
+            &:active
+                background $border
+        &:active
+            background lighten($border, 5)
+
+    &.abt-btn-icon
+        border-radius 50%
+        font-size 24px
+        height 32px
+        margin auto 0
+        min-width 32px
+        width 32px
+        padding 0
+        overflow hidden
+        color inherit
+        line-height normal

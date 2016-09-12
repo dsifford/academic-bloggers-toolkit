@@ -24,7 +24,7 @@ export class Paginate extends React.PureComponent<Props, {}> {
                     <input
                         id="prev"
                         type="button"
-                        className="btn btn-flat"
+                        className="abt-btn abt-btn-flat"
                         disabled={page < 2}
                         data-page={page - 1}
                         onClick={this.handleClick}
@@ -35,7 +35,7 @@ export class Paginate extends React.PureComponent<Props, {}> {
                     <input
                         id="next"
                         type="button"
-                        className="btn btn-flat"
+                        className="abt-btn abt-btn-flat"
                         disabled={page > 3 || page === 0 || ((page + 1) * 5) > resultLength }
                         data-page={page + 1}
                         onClick={this.handleClick}

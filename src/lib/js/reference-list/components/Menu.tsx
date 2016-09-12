@@ -82,7 +82,7 @@ export class Menu extends React.PureComponent<Props, {}> {
         return (
             <div id="abt-reflist-menu">
                 <div className="inner">
-                    <div className="subpanel">
+                    <div className="abt-subpanel">
                         <PanelButton
                             id="IMPORT_RIS"
                             onClick={this.handleClick}

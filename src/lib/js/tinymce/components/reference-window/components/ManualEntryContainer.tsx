@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { observable, ObservableMap } from 'mobx';
+import { observable, ObservableMap, action } from 'mobx';
 import { observer } from 'mobx-react';
 
 import { People } from './People';
@@ -18,21 +18,45 @@ interface ManualEntryProps {
 }
 
 @observer
-export class ManualEntryContainer extends React.Component<ManualEntryProps, {}> {
+export class ManualEntryContainer extends React.PureComponent<ManualEntryProps, {}> {
 
     label = (top as any).ABT_i18n.tinymce.referenceWindow.manualEntryContainer.type;
     citationTypes = (top as any).ABT_i18n.citationTypes as ABT.CitationTypes;
+    element: HTMLElement;
+
+    bindRefs = (c: HTMLDivElement) => {
+        this.element = c;
+    }
 
     handleTypeChange = (e) => {
         e.preventDefault();
         this.props.typeChange((e.target as HTMLInputElement).value);
     }
 
+    handleWheel = (e: React.WheelEvent<HTMLElement>) => {
+        const atTopAndScrollingUp: boolean = this.element.scrollTop === 0 && e.deltaY < 0;
+        const atBottomAndScollingDown: boolean =
+            ((this.element.scrollTop + this.element.offsetHeight) === this.element.scrollHeight)
+            && e.deltaY > 0;
+        if (atTopAndScrollingUp || atBottomAndScollingDown) {
+            e.stopPropagation();
+            e.preventDefault();
+            return false;
+        }
+        e.stopPropagation();
+    }
+
+    getHeight() {
+        return document.getElementById('main-container').getBoundingClientRect().height;
+    }
+
     render() {
+        const type: string = this.props.manualData.get('type');
+        const renderAutocite: boolean = type === 'webpage';
         return (
             <div>
                 { this.props.loading &&
-                    <Spinner size="40px" overlay />
+                    <Spinner size="40px" height={this.getHeight} overlay />
                 }
                 <div id="type-select-row" className="row">
                     <div>
@@ -42,7 +66,7 @@ export class ManualEntryContainer extends React.Component<ManualEntryProps, {}> 
                         <select
                             id="type-select"
                             onChange={this.handleTypeChange}
-                            value={this.props.manualData.get('type')}
+                            value={type}
                         >
                             { this.citationTypes.map((item, i) =>
                                 <option key={i} value={item.value} children={item.label}/>)
@@ -50,19 +74,23 @@ export class ManualEntryContainer extends React.Component<ManualEntryProps, {}> 
                         </select>
                     </div>
                 </div>
-                { this.props.manualData.get('type') === 'webpage' &&
+                { renderAutocite &&
                     <AutoCite getter={this.props.autoCite} />
                 }
-                <People
-                    people={this.props.people}
-                    changePerson={this.props.changePerson}
-                    addPerson={this.props.addPerson}
-                    removePerson={this.props.removePerson}
-                    citationType={this.props.manualData.get('type') as CSL.CitationType}
-                />
-                <MetaFields
-                    meta={this.props.manualData}
-                />
+                <div
+                    className={renderAutocite ? 'abt-scroll-y autocite' : 'abt-scroll-y'}
+                    ref={this.bindRefs}
+                    onWheel={this.handleWheel}
+                >
+                    <People
+                        people={this.props.people}
+                        changePerson={this.props.changePerson}
+                        addPerson={this.props.addPerson}
+                        removePerson={this.props.removePerson}
+                        citationType={this.props.manualData.get('type') as CSL.CitationType}
+                    />
+                    <MetaFields meta={this.props.manualData} />
+                </div>
             </div>
         );
     }
@@ -83,16 +111,20 @@ class AutoCite extends React.Component<AutoCiteProps, {}> {
      */
     input: HTMLInputElement;
 
-    componentDidMount() {
-        this.input.focus();
+    @action
+    handleAutociteFieldChange = (e) => {
+        this.query = e.target.value;
+    }
+
+    @action
+    handleQuery = () => {
+        if (this.query.length === 0) return;
+        this.props.getter(this.query);
+        this.query = '';
     }
 
     bindRefs = (c: HTMLInputElement) => {
         this.input = c;
-    }
-
-    handleChange = (e) => {
-        this.query = e.target.value;
     }
 
     handleKeyDown = (e) => {
@@ -103,10 +135,8 @@ class AutoCite extends React.Component<AutoCiteProps, {}> {
         }
     }
 
-    handleQuery = () => {
-        if (this.query.length === 0) return;
-        this.props.getter(this.query);
-        this.query = '';
+    componentDidMount() {
+        this.input.focus();
     }
 
     render() {
@@ -123,7 +153,7 @@ class AutoCite extends React.Component<AutoCiteProps, {}> {
                         ref={this.bindRefs}
                         value={this.query}
                         onKeyDown={this.handleKeyDown}
-                        onChange={this.handleChange}
+                        onChange={this.handleAutociteFieldChange}
                     />
                 </div>
                 <div>

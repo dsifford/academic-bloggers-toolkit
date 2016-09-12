@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { ObservableMap } from 'mobx';
+import { ObservableMap, action } from 'mobx';
 import { observer } from 'mobx-react';
 
 interface MetaFieldProps {
@@ -17,7 +17,8 @@ export class MetaFields extends React.Component<MetaFieldProps, {}> {
         super(props);
     }
 
-    handleChange = (e: React.FormEvent<HTMLInputElement>) => {
+    @action
+    handleFieldChange = (e: React.FormEvent<HTMLInputElement>) => {
         const target = e.target as HTMLInputElement;
         this.props.meta.set(target.id, target.value);
     }
@@ -34,26 +35,44 @@ export class MetaFields extends React.Component<MetaFieldProps, {}> {
                 </div>
                 <div className="row column">
                     {this.fields.map((field: ABT.Field, i: number) =>
-                        <div
+                        <Field
                             key={`${this.title}-meta-${i}`}
-                            className="row flex"
-                        >
-                            <div style={{minWidth: 150}}>
-                                <label htmlFor={field.value} children={field.label}/>
-                            </div>
-                            <div className="flex">
-                                <input
-                                    type="text"
-                                    onChange={this.handleChange}
-                                    id={field.value}
-                                    value={this.props.meta.get(field.value) || ''}
-                                    required={field.required}
-                                    placeholder={field.placeholder}
-                                    pattern={field.pattern}
-                                />
-                            </div>
-                        </div>
+                            change={this.handleFieldChange}
+                            field={field}
+                            meta={this.props.meta}
+                        />
                     )}
+                </div>
+            </div>
+        );
+    }
+}
+
+interface FieldProps {
+    change: any;
+    field: ABT.Field;
+    meta: ObservableMap<string>;
+}
+
+@observer
+class Field extends React.PureComponent<FieldProps, {}> {
+    render() {
+        const { change, field, meta } = this.props;
+        return (
+            <div className="row flex">
+                <div style={{minWidth: 150}}>
+                    <label className="sublabel" htmlFor={field.value} children={field.label}/>
+                </div>
+                <div className="flex">
+                    <input
+                        type="text"
+                        onChange={change}
+                        id={field.value}
+                        value={meta.get(field.value) || ''}
+                        required={field.required}
+                        placeholder={field.placeholder}
+                        pattern={field.pattern}
+                    />
                 </div>
             </div>
         );

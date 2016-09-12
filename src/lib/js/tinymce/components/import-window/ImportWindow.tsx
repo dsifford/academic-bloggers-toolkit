@@ -1,6 +1,7 @@
 import * as React from 'react';
-import { observable } from 'mobx';
+import { observable, action, toJS } from 'mobx';
 import { observer } from 'mobx-react';
+import DevTools from 'mobx-react-devtools';
 
 import { Modal } from '../../../utils/Modal';
 import { RISParser } from '../../../utils/RISParser';
@@ -23,9 +24,11 @@ export class ImportWindow extends React.Component<Props, {}> {
     @observable
     payload = observable([]);
 
-    componentDidMount() {
-        this.modal.resize();
-    }
+    @action
+    setFilename = (filename: string) => this.filename = filename;
+
+    @action
+    setPayload = (payload: CSL.Data[]) => this.payload.replace(payload);
 
     handleFileUpload = (e: React.FormEvent<HTMLInputElement>) => {
         e.preventDefault();
@@ -36,7 +39,7 @@ export class ImportWindow extends React.Component<Props, {}> {
         reader.addEventListener('load', this.parseFile);
         reader.readAsText(file);
 
-        this.filename = filename;
+        this.setFilename(filename);
     }
 
     parseFile = (upload) => {
@@ -60,23 +63,28 @@ export class ImportWindow extends React.Component<Props, {}> {
             this.wm.alert(`𝗘𝗿𝗿𝗼𝗿: ${this.labels.leftovers}: ${leftovers.join(', ')}`);
         }
 
-        this.payload.replace(payload);
+        this.setPayload(payload);
     }
 
     handleSubmit = (e: React.MouseEvent<HTMLInputElement>) => {
         e.preventDefault();
-        this.wm.setParams({data: this.state});
+        this.wm.setParams({data: toJS(this.payload)});
         this.wm.close();
+    }
+
+    componentDidMount() {
+        this.modal.resize();
     }
 
     render() {
         return (
             <div className="row">
+                <DevTools />
                 <div>
                     <label className="uploadLabel">
                         <input
                             type="file"
-                            className="btn btn-flat"
+                            className="abt-btn abt-btn-flat"
                             id="uploadField"
                             required={true}
                             onChange={this.handleFileUpload}
@@ -89,7 +97,7 @@ export class ImportWindow extends React.Component<Props, {}> {
                 <div>
                     <input
                         type="button"
-                        className="btn-submit"
+                        className="abt-btn-submit"
                         id="submitbtn"
                         value={this.labels.import}
                         disabled={this.payload.length === 0}

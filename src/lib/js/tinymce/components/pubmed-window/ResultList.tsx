@@ -10,16 +10,43 @@ interface ResultListProps {
 export class ResultList extends React.PureComponent<ResultListProps, {}> {
 
     labels = (top as any).ABT_i18n.tinymce.pubmedWindow;
+    element: HTMLElement;
+
+    bindRefs = (c: HTMLDivElement) => {
+        this.element = c;
+    }
 
     handleClick = (e) => {
         this.props.select(e.target.dataset['pmid']);
     }
 
+    handleWheel = (e: React.WheelEvent<HTMLElement>) => {
+        const atTopAndScrollingUp: boolean = this.element.scrollTop === 0 && e.deltaY < 0;
+        const atBottomAndScollingDown: boolean =
+            ((this.element.scrollTop + this.element.offsetHeight) === this.element.scrollHeight)
+            && e.deltaY > 0;
+        if (atTopAndScrollingUp || atBottomAndScollingDown) {
+            e.stopPropagation();
+            e.preventDefault();
+            return false;
+        }
+        e.stopPropagation();
+    }
+
+    componentDidUpdate() {
+        this.element.scrollTop = 0;
+    }
+
     render() {
         return (
-            <div>
-                { this.props.results.map((result, i: number) =>
-                    <div key={`result-${i}`} className="result-item">
+            <div
+                className="abt-scroll-y"
+                style={{maxHeight: 'calc(100vh - 156px)'}}
+                onWheel={this.handleWheel}
+                ref={this.bindRefs}
+            >
+                { this.props.results.map((result) =>
+                    <div key={result.uid} className="result-item">
                         <div className="result-item--padded">
                             <div style={{fontStyle: 'italic'}} children={result.source} />
                             <div style={{fontWeight: 'normal'}} children={result.pubdate.substr(0, 4)} />
@@ -32,12 +59,12 @@ export class ResultList extends React.PureComponent<ResultListProps, {}> {
                                     href={`http://www.ncbi.nlm.nih.gov/pubmed/${result.uid}`}
                                     target="_blank"
                                     style={{paddingLeft: 8, paddingRight: 8}}
-                                    className="btn-submit btn-flat"
+                                    className="abt-btn-submit abt-btn-flat"
                                     children={this.labels.viewReference}
                                 />
                                 <input
                                     type="button"
-                                    className="btn-submit btn-flat"
+                                    className="abt-btn-submit abt-btn-flat"
                                     value={this.labels.addReference}
                                     data-pmid={result.uid}
                                     onClick={this.handleClick}

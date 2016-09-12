@@ -233,13 +233,6 @@ declare namespace ABT {
         citationStyle: string;
     }
 
-    interface ImportWindowPayload {
-        filename: string;
-        /** [itemID, CSL.Data][] */
-        payload: [string, CSL.Data][];
-        links: boolean;
-    }
-
     interface FieldMappings {
         bill: FieldMap;
         book: FieldMap;

@@ -3,7 +3,7 @@ import { observer } from 'mobx-react';
 
 import { createTooltip, destroyTooltip } from '../../../../utils/Tooltips';
 
-interface ButtonRowProps {
+interface Props {
     addManually: boolean;
     attachInline: boolean;
     attachInlineToggle: React.EventHandler<React.FormEvent<HTMLInputElement>>;
@@ -12,7 +12,7 @@ interface ButtonRowProps {
 }
 
 @observer
-export class ButtonRow extends React.Component<ButtonRowProps, {}> {
+export class ButtonRow extends React.PureComponent<Props, {}> {
 
     labels = (top as any).ABT_i18n.tinymce.referenceWindow.buttonRow;
 
@@ -41,7 +41,7 @@ export class ButtonRow extends React.Component<ButtonRowProps, {}> {
                         id="addManually"
                         onClick={this.props.toggleManual}
                         type="button"
-                        className="btn btn-flat"
+                        className="abt-btn abt-btn-flat"
                         value={
                             this.props.addManually === false
                             ? this.labels.addManually
@@ -53,7 +53,7 @@ export class ButtonRow extends React.Component<ButtonRowProps, {}> {
                         id="searchPubmed"
                         onClick={this.searchPubmedClick.bind(this)}
                         type="button"
-                        className="btn btn-flat"
+                        className="abt-btn abt-btn-flat"
                         value={this.labels.searchPubmed}
                     />
                 </div>
@@ -80,7 +80,7 @@ export class ButtonRow extends React.Component<ButtonRowProps, {}> {
                     <input
                         id="submit-btn"
                         type="submit"
-                        className="btn-submit"
+                        className="abt-btn-submit"
                         value={this.labels.addReference}
                     />
                 </div>

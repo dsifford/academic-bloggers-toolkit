@@ -292,7 +292,7 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
         MCE.importWindow(this.editor).then(data => {
             if (!data) return;
             this.props.store.citations.CSL.merge(
-                data.payload.reduce((prev, curr) => {
+                data.reduce((prev, curr) => {
                     prev[curr[0]] = curr[1];
                     return prev;
                 }, {} as {[itemId: string]: CSL.Data})
@@ -465,7 +465,7 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
             <div>
                 {/*<DevTools position={{left: 50, top: 40}} />*/}
                 <StorageField store={this.props.store} />
-                <div className="panel">
+                <div className="abt-panel">
                     <PanelButton
                         disabled={this.selected.length === 0}
                         onClick={this.insertInlineCitation}

@@ -23,7 +23,7 @@
  *     <http://www.gnu.org/licenses/> respectively.
  */
 var CSL = {
-    PROCESSOR_VERSION: "1.1.120",
+    PROCESSOR_VERSION: "1.1.125",
     CONDITION_LEVEL_TOP: 1,
     CONDITION_LEVEL_BOTTOM: 2,
     PLAIN_HYPHEN_REGEX: /(?:[^\\]-|\u2013)/,
@@ -776,7 +776,6 @@ var CSL = {
 };
 if (typeof require !== "undefined" && typeof module !== 'undefined' && "exports" in module) {
     var CSL_IS_NODEJS = true;
-    var CSL_NODEJS = require("./csl_nodejs_jsdom").CSL_NODEJS_JSDOM;
     exports.CSL = CSL;
 }
 CSL.TERMINAL_PUNCTUATION_REGEXP = new RegExp("^([" + CSL.TERMINAL_PUNCTUATION.slice(0, -1).join("") + "])(.*)");
@@ -6069,7 +6068,6 @@ CSL.localeResolve = function (langstr, defaultLocale) {
     langlst = langstr.split(/[\-_]/);
     ret.base = CSL.LANG_BASES[langlst[0]];
     if ("undefined" === typeof ret.base) {
-        CSL.debug("Warning: unknown locale "+langstr+", setting fallback to "+defaultLocale);
         return {base:defaultLocale, best:langstr, bare:langlst[0]};
     }
     if (langlst.length === 1) {
@@ -6340,6 +6338,42 @@ CSL.Engine.prototype.localeSet = function (myxml, lang_in, lang_out) {
             this.locale[lang_out].dates[myxml.getAttributeValue(date, "form")] = date;
         }
     }
+};
+CSL.getLocaleNames = function (myxml, preferredLocale) {
+    var stylexml = CSL.setupXml(myxml);
+    function extendLocaleList(localeList, locale) {
+        var forms = ["base", "best"];
+        if (locale) {
+            normalizedLocale = CSL.localeResolve(locale);
+            for (var i=0,ilen=forms.length;i<ilen;i++) {
+                if (normalizedLocale[forms[i]] && localeList.indexOf(normalizedLocale[forms[i]]) === -1) {
+                    localeList.push(normalizedLocale[forms[i]]);
+                }
+            }
+        }
+    }
+    function sniffLocaleOnOneNodeName(nodeName) {
+        var nodes = stylexml.getNodesByName(stylexml.dataObj, nodeName);
+        for (var i=0,ilen=nodes.length;i<ilen;i++) {
+            var nodeLocales = stylexml.getAttributeValue(nodes[i], "locale");
+            if (nodeLocales) {
+                nodeLocales = nodeLocales.split(/ +/);
+                for (var j=0,jlen=nodeLocales.length;j<jlen;j++) {
+                    this.extendLocaleList(localeIDs, nodeLocales[j]);
+                }
+            }
+        }
+    }
+    var localeIDs = ["en-US"];
+    extendLocaleList(localeIDs, preferredLocale);
+    var styleNode = stylexml.getNodesByName(stylexml.dataObj, "style")[0];
+    var defaultLocale = stylexml.getAttributeValue(styleNode, "default-locale");
+    extendLocaleList(localeIDs, defaultLocale);
+    var nodeNames = ["layout", "if", "else-if", "condition"];
+    for (var i=0,ilen=nodeNames.length;i<ilen;i++) {
+        sniffLocaleOnOneNodeName(stylexml, localeIDs, nodeNames[i]);
+    }
+    return localeIDs;
 };
 CSL.Node = {};
 CSL.Node.bibliography = {
@@ -11953,6 +11987,11 @@ CSL.Transform = function (state) {
         if (CSL.NUMERIC_VARIABLES.indexOf(myabbrev_family) > -1) {
             myabbrev_family = "number";
         }
+        if (myabbrev_family === "jurisdiction") {
+            if (state.opt.suppressedJurisdictions[Item.jurisdiction]) {
+                return "";
+            }
+        }
         if (["publisher-place", "event-place", "jurisdiction", "archive-place", "language-name", "language-name-original"].indexOf(myabbrev_family) > -1) {
             myabbrev_family = "place";
         }
@@ -12554,6 +12593,15 @@ CSL.Util.fixDateNode = function (parent, pos, node) {
         this.cslXml.deleteNodeByNameAttribute(datexml, 'day');
     } else if ("year-month" === this.cslXml.getAttributeValue(node, "date-parts")) {
         this.cslXml.deleteNodeByNameAttribute(datexml, 'day');
+    } else if ("month-day" === this.cslXml.getAttributeValue(node, "date-parts")) {
+        var childNodes = this.cslXml.children(datexml);
+        for (var i=1,ilen=childNodes.length;i<ilen;i++) {
+            if (this.cslXml.getAttributeValue(childNodes[i], 'name') === "year") {
+                this.cslXml.setAttribute(childNodes[i-1], "suffix", "");
+                break;
+            }
+        }
+        this.cslXml.deleteNodeByNameAttribute(datexml, 'year');
     }
     return this.cslXml.insertChildNodeAfter(parent, node, pos, datexml);
 };
@@ -15799,14 +15847,16 @@ CSL.Engine.prototype.retrieveAllStyleModules = function (jurisdictionList) {
     var ret = {};
     var preferences = this.locale[this.opt.lang].opts["jurisdiction-preference"];
     preferences = preferences ? preferences : [];
-    preferences = [null].concat(preferences);
+    preferences = [""].concat(preferences);
     for (var i=preferences.length-1;i>-1;i--) {
         var preference = preferences[i];
         for (var j=0,jlen=jurisdictionList.length;j<jlen;j++) {
             var jurisdiction = jurisdictionList[j];
             if (this.opt.jurisdictions_seen[jurisdiction]) continue;
             var res = this.sys.retrieveStyleModule(jurisdiction, preference);
-            this.opt.jurisdictions_seen[jurisdiction] = true;
+            if ((!res && !preference) || res) {
+                this.opt.jurisdictions_seen[jurisdiction] = true;
+            }
             if (!res) continue;
             ret[jurisdiction] = res;
         }

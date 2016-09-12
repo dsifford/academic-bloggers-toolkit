@@ -1,6 +1,6 @@
-@import '../../../css/collections/colors';
-@import '../../../css/collections/variables';
-@import '../../../css/collections/shared';
+@require '../../../css/collections/colors';
+@require '../../../css/collections/variables';
+@require '../../../css/collections/shared';
 
 body
     font-family "Roboto", sans-serif
@@ -13,7 +13,6 @@ body
     background-color #fff
     max-height calc(99vh - 35px)
     box-sizing border-box
-    overflow-y auto
 
 a
     color $blue
@@ -79,6 +78,16 @@ label
     white-space nowrap
     cursor pointer
     font-size 0.9em
+    font-weight normal
+    &.sublabel
+        font-weight inherit
+
+.abt-scroll-y
+    overflow-y auto
+    max-height calc(100vh - 156px)
+    &.autocite
+        max-height calc(100vh - 216px)
+
 
 .row
     padding 10px 0
@@ -101,19 +110,13 @@ label
             box-sizing border-box
             padding 1px 5px !important
 
-.btn
-    btn()
-
-.btn-submit
-    btn($blue)
-
 label.uploadLabel
     input[type="file"]
         position fixed
         top -1000px
     span
-        @extend .btn
-        @extend .btn.btn-flat
+        @extend .abt-btn
+        @extend .abt-btn.abt-btn-flat
         display inline-block
         line-height 36px
 
@@ -156,7 +159,7 @@ label.uploadLabel
     & > div:last-of-type
         padding 0 8px 4px
         text-align right
-        .btn-submit:first-of-type
+        .abt-btn-submit:first-of-type
             margin-right 8px
     .result-item--padded
         padding 0 16px
@@ -166,14 +169,14 @@ label.uploadLabel
             line-height 18px
             display flex
             justify-content space-between
-            color rgba(0, 0, 0, .54)
+            color $font-light
         &:nth-of-type(2)
             font-size 16px
             font-weight normal
             line-height 20px
             padding 8px 16px
         &:nth-of-type(3)
-            color rgba(0,0,0,0.54)
+            color $font-light
             line-height 18px
             font-size 14px
             padding-right 8px

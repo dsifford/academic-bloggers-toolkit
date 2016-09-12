@@ -68,8 +68,6 @@ class Items extends React.Component<ItemsProps, {}> {
         if (atTopAndScrollingUp || atBottomAndScollingDown) {
             e.stopPropagation();
             e.preventDefault();
-            // e.returnValue = false;
-            return false;
         }
     }
 
