@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { observable, computed, reaction, action } from 'mobx';
 import { observer } from 'mobx-react';
-import DevTools from 'mobx-react-devtools';
+// import DevTools from 'mobx-react-devtools';
 
 import { Modal } from '../../../utils/Modal';
 import { PubmedQuery } from '../../../utils/Externals';
@@ -115,7 +115,7 @@ export class PubmedWindow extends React.Component<{}, {}> {
 
         return (
             <div onWheel={this.preventScrollPropagation}>
-                <DevTools />
+                {/* <DevTools /> */}
                 <form id="query" onSubmit={this.sendQuery}>
                     <div className="row" id="pubmed-query">
                         <div className="flex">

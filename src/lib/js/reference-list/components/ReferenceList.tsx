@@ -262,6 +262,9 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
                 this.props.store.citations.CSL.merge(
                     data.reduce((prev, curr) => {
                         prev[curr.id] = curr;
+                        /* FIXME: This fixes crappy citeproc code bug. */
+                        /* See https://github.com/Juris-M/citeproc-js/issues/17 */
+                        if (!prev[curr.id].author) prev[curr.id].author = [{}];
                         return prev;
                     }, {} as {[itemId: string]: CSL.Data})
                 );
@@ -282,6 +285,7 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
                 this.insertInlineCitation(null, data);
             })
             .catch(err => {
+                Rollbar.error(err.message, err);
                 console.error(err.message);
                 this.editor.windowManager.alert(err.message);
             });

@@ -77,6 +77,15 @@ declare module 'react-virtualized-select';
 
 declare const ABT_CitationStyles: {label: string, value: string}[];
 
+declare const Rollbar: {
+    log(msg: string, e?: any): void;
+    debug(msg: string, e?: any): void;
+    info(msg: string, e?: any): void;
+    warning(msg: string, e?: any): void;
+    error(msg: string, e?: any): void;
+    critical(msg: string, e?: any): void;
+};
+
 declare namespace BackendGlobals {
 
     // tslint:disable-next-line

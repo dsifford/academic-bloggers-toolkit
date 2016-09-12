@@ -69,6 +69,12 @@ gulp.task('bump', () => {
     return merge(srcFiles, repoFiles);
 });
 
+gulp.task('rollbar', () =>
+    gulp.src('dist/academic-bloggers-toolkit.php', { base: './' })
+    .pipe(replace(/(payload: {\n.+?environment: "test"\n.+?})/, ''))
+    .pipe(gulp.dest('./'))
+);
+
 // Translations
 gulp.task('pot', () =>
     gulp
@@ -213,6 +219,7 @@ gulp.task('_build',
         'clean', 'bump',
         gulp.parallel('stylus:prod', 'static', 'webpack:prod'),
         gulp.parallel('js', 'php'),
+        'rollbar',
         'pot'
     )
 );

@@ -1,13 +1,12 @@
 import * as React from 'react';
 import { Modal } from '../../../../utils/Modal';
-import { observable, computed, IObservableArray, reaction, map, action } from 'mobx';
+import { observable, computed, IObservableArray, reaction, map, action, toJS } from 'mobx';
 import { observer } from 'mobx-react';
 import { getFromURL } from '../../../../utils/Externals';
-import DevTools, { configureDevtool } from 'mobx-react-devtools';
-
-configureDevtool({
-  logFilter: change => change.type === 'action',
-});
+// import DevTools, { configureDevtool } from 'mobx-react-devtools';
+// configureDevtool({
+//   logFilter: change => change.type === 'action',
+// });
 
 import { IdentifierInput } from './IdentifierInput';
 import { ManualEntryContainer } from './ManualEntryContainer';
@@ -45,8 +44,8 @@ export class ReferenceWindow extends React.Component<{}, {}> {
             addManually: this.addManually,
             attachInline: this.attachInline,
             identifierList: this.identifierList,
-            manualData: this.manualData.toJS(),
-            people: this.people,
+            manualData: toJS(this.manualData),
+            people: this.people.slice(),
         };
     };
 
@@ -158,7 +157,7 @@ export class ReferenceWindow extends React.Component<{}, {}> {
     render() {
         return(
             <div onWheel={this.preventScrollPropagation}>
-                <DevTools />
+                {/* <DevTools /> */}
                 <form onSubmit={this.handleSubmit}>
                     { !this.addManually &&
                         <IdentifierInput
