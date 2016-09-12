@@ -1,7 +1,5 @@
-import * as React from 'react';
 
-export function createTooltip(e: React.MouseEvent<HTMLElement>, tip: string, position: 'top'|'right'|'bottom'|'left') {
-    const target = e.target as HTMLElement;
+export function createTooltip(target: HTMLElement, tip: string, position: 'top'|'right'|'bottom'|'left') {
     const rect = target.getBoundingClientRect();
     const top = rect.top + (rect.height / 2);
     let left = rect.left + (rect.width / 2);

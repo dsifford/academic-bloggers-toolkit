@@ -15,6 +15,40 @@
         border solid $border 1px
         z-index 555
 
+
+a.abt-btn-icon
+    position relative
+    height 36px !important
+    min-width 36px !important
+    width 36px !important
+    &.disabled
+        color $disabled
+        pointer-events none
+    .dashicons
+        height 36px
+        line-height @height
+        vertical-align baseline
+        position absolute
+        top 50%
+        left 50%
+        transform translate(- (@height / 2), - (@height / 2))
+        line-height @height
+        width @height
+        &.insert-inline
+            transform translate(-20px, -18px) rotateY(180deg)
+            padding-left 2px
+        &.add-reference
+            padding-top 2px
+            padding-right 3px
+        &.remove-reference
+            font-weight 900
+            padding-right 2px
+        &.hamburger-menu
+            padding 0 8px 6px 0
+            font-size 26px
+        &.pin-reflist.fixed
+            transform translate(-17px, -18px) rotate(-45deg)
+
 // React root
 #abt-reflist
     font-family 'Roboto', sans-serif
@@ -23,7 +57,7 @@
         box-shadow $depth-1
     .abt-panel
         display flex
-        padding 10px 0
+        padding 8px 0
         background $light-gray
         box-shadow $depth-1
         justify-content space-around
@@ -31,48 +65,6 @@
         display flex
         padding 5px 0
         justify-content space-around
-    a.abt-reflist-button
-        background 0
-        border 1px solid transparent
-        transition none
-        border-radius 2px
-        color $dark-gray
-        text-decoration none
-        text-align center
-        line-height 30px
-        cursor pointer
-        min-width 40px
-        $selector = selector()
-        &:hover
-            box-shadow inset 0 1px 0 white,0 1px 0 rgba(0,0,0,.08)
-            border 1px solid $dark-gray
-            transition none
-        &:active
-            @extend {$selector}:hover
-            background darken($light-gray, 5)
-            box-shadow inset 0 2px 5px -3px rgba(0,0,0,.3)
-        &.disabled
-            color $disabled
-            pointer-events none
-        &:focus
-            box-shadow none
-        span
-            pointer-events none
-            line-height 30px
-            &.insert-inline
-                transform rotateY(180deg)
-                padding-left 2px
-            &.add-reference
-                padding-top 2px
-                padding-right 3px
-            &.remove-reference
-                font-weight 900
-                padding-right 2px
-            &.hamburger-menu
-                font-size 2em
-                padding 0 8px 6px 0
-            &.pin-reflist.fixed
-                transform translateX(-3px) rotate(-45deg)
 
     #abt-reflist-menu
         border-bottom solid $border 1px
