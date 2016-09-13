@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { observer } from 'mobx-react';
+import { preventScrollPropagation } from '../../../utils/HelperFunctions';
 
 interface ResultListProps {
     results: PubMed.SingleReference[];
@@ -11,6 +12,7 @@ export class ResultList extends React.PureComponent<ResultListProps, {}> {
 
     labels = (top as any).ABT_i18n.tinymce.pubmedWindow;
     element: HTMLElement;
+    handleWheel = preventScrollPropagation.bind(this);
 
     bindRefs = (c: HTMLDivElement) => {
         this.element = c;
@@ -18,19 +20,6 @@ export class ResultList extends React.PureComponent<ResultListProps, {}> {
 
     handleClick = (e) => {
         this.props.select(e.target.getAttribute('data-pmid'));
-    }
-
-    handleWheel = (e: React.WheelEvent<HTMLElement>) => {
-        const atTopAndScrollingUp: boolean = this.element.scrollTop === 0 && e.deltaY < 0;
-        const atBottomAndScollingDown: boolean =
-            ((this.element.scrollTop + this.element.offsetHeight) === this.element.scrollHeight)
-            && e.deltaY > 0;
-        if (atTopAndScrollingUp || atBottomAndScollingDown) {
-            e.stopPropagation();
-            e.preventDefault();
-            return false;
-        }
-        e.stopPropagation();
     }
 
     componentDidUpdate() {

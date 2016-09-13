@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { observable, ObservableMap, action } from 'mobx';
 import { observer } from 'mobx-react';
+import { preventScrollPropagation } from '../../../../utils/HelperFunctions';
 
 import { People } from './People';
 import { MetaFields } from './MetaFields';
@@ -23,6 +24,7 @@ export class ManualEntryContainer extends React.PureComponent<ManualEntryProps, 
     label = (top as any).ABT_i18n.tinymce.referenceWindow.manualEntryContainer.type;
     citationTypes = (top as any).ABT_i18n.citationTypes as ABT.CitationTypes;
     element: HTMLElement;
+    handleWheel = preventScrollPropagation.bind(this);
 
     bindRefs = (c: HTMLDivElement) => {
         this.element = c;
@@ -31,19 +33,6 @@ export class ManualEntryContainer extends React.PureComponent<ManualEntryProps, 
     handleTypeChange = (e) => {
         e.preventDefault();
         this.props.typeChange((e.target as HTMLInputElement).value);
-    }
-
-    handleWheel = (e: React.WheelEvent<HTMLElement>) => {
-        const atTopAndScrollingUp: boolean = this.element.scrollTop === 0 && e.deltaY < 0;
-        const atBottomAndScollingDown: boolean =
-            ((this.element.scrollTop + this.element.offsetHeight) === this.element.scrollHeight)
-            && e.deltaY > 0;
-        if (atTopAndScrollingUp || atBottomAndScollingDown) {
-            e.stopPropagation();
-            e.preventDefault();
-            return false;
-        }
-        e.stopPropagation();
     }
 
     getHeight() {

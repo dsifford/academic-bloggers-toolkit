@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { Card } from './Card';
 import { observer } from 'mobx-react';
+import { preventScrollPropagation } from '../../utils/HelperFunctions';
 
 interface Props extends React.HTMLProps<HTMLElement> {
     readonly items: CSL.Data[];
@@ -55,20 +56,10 @@ interface ItemsProps extends React.HTMLProps<HTMLElement> {
 class Items extends React.Component<ItemsProps, {}> {
 
     element: HTMLDivElement;
+    handleScroll = preventScrollPropagation.bind(this);
 
     bindRefs = (c: HTMLDivElement) => {
         this.element = c;
-    }
-
-    handleScroll = (e: React.WheelEvent<HTMLElement>) => {
-        const atTopAndScrollingUp: boolean = this.element.scrollTop === 0 && e.deltaY < 0;
-        const atBottomAndScollingDown: boolean =
-            ((this.element.scrollTop + this.element.offsetHeight) === this.element.scrollHeight)
-            && e.deltaY > 0;
-        if (atTopAndScrollingUp || atBottomAndScollingDown) {
-            e.stopPropagation();
-            e.preventDefault();
-        }
     }
 
     render() {
