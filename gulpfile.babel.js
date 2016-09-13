@@ -70,7 +70,7 @@ gulp.task('bump', () => {
 });
 
 gulp.task('rollbar', () =>
-    gulp.src('dist/academic-bloggers-toolkit.php', { base: './' })
+    gulp.src('dist/lib/php/dom-injects.php', { base: './' })
     .pipe(replace(/(payload: {\n.+?environment: "test"\n.+?})/, ''))
     .pipe(gulp.dest('./'))
 );
