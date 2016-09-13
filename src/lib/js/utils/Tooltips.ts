@@ -1,5 +1,11 @@
 
-export function createTooltip(target: HTMLElement, tip: string, position: 'top'|'right'|'bottom'|'left') {
+/**
+ * Utility function used to generate and append tooltips.
+ * @param  {HTMLElement}                   target   Target element.
+ * @param  {string}                        tip      Tooltip text
+ * @param  {'top'|'right'|'bottom'|'left'} position Position of tooltip
+ */
+export function createTooltip(target: HTMLElement, tip: string, position: 'top'|'right'|'bottom'|'left'): void {
     const rect = target.getBoundingClientRect();
     const top = rect.top + (rect.height / 2);
     let left = rect.left + (rect.width / 2);
@@ -10,8 +16,8 @@ export function createTooltip(target: HTMLElement, tip: string, position: 'top'|
     el.classList.add('abt-admin-tooltip');
     document.body.appendChild(el);
 
-    const marginLeft = -1 * (el.offsetWidth / 2);
-    const marginTop = -1 * (el.offsetHeight / 2);
+    const marginLeft = -1 * (el.offsetWidth / 2) || 0;
+    const marginTop = -1 * (el.offsetHeight / 2) || 0;
 
     if (position === 'left' || position === 'right') {
         left = (rect.width / 2);
@@ -53,7 +59,10 @@ export function createTooltip(target: HTMLElement, tip: string, position: 'top'|
     el.classList.add('active');
 }
 
-export function destroyTooltip() {
+/**
+ * Utility function used to destroy existing tooltips
+ */
+export function destroyTooltip(): void {
     const el = document.getElementById('abt-tooltip');
     if (el) el.parentElement.removeChild(el);
 }

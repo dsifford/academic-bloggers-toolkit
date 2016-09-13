@@ -48,6 +48,7 @@
         "cacheDirectory": "tmp/tscache"
     },
     "files": [
+        "src/lib/js/components/__tests__/Spinner-test.tsx",
         "src/lib/js/components/Spinner.tsx",
         "src/lib/js/Frontend.ts",
         "src/lib/js/reference-list/__tests__/API-test.ts",
@@ -89,6 +90,7 @@
         "src/lib/js/utils/__tests__/HelperFunctions-test.ts",
         "src/lib/js/utils/__tests__/Modal-test.ts",
         "src/lib/js/utils/__tests__/RISParser-test.ts",
+        "src/lib/js/utils/__tests__/Tooltips-test.ts",
         "src/lib/js/utils/Constants.ts",
         "src/lib/js/utils/CSLProcessor.ts",
         "src/lib/js/utils/Externals.ts",
