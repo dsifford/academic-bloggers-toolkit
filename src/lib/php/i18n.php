@@ -27,7 +27,7 @@ $ABT_i18n->referenceList = [
             'import' => __('Import references from RIS file', 'academic-bloggers-toolkit'),
             'refresh' => __('Refresh reference list', 'academic-bloggers-toolkit'),
             'destroy' => __('Delete all references', 'academic-bloggers-toolkit'),
-            'help' => __('View usage instructions', 'academic-bloggers-toolkit'),
+            'help' => __('Usage instructions', 'academic-bloggers-toolkit'),
         ],
         'stylePlaceholder' => __('Choose citation style...', 'academic-bloggers-toolkit'),
     ],
@@ -48,20 +48,22 @@ $ABT_i18n->tinymce->pubmedWindow = [
     'search' => __('Search', 'academic-bloggers-toolkit'),
     'next' => __('Next', 'academic-bloggers-toolkit'),
     'previous' => __('Previous', 'academic-bloggers-toolkit'),
-    'addReference' => __('Add Reference', 'academic-bloggers-toolkit'),
+    'addReference' => __('Select', 'academic-bloggers-toolkit'),
+    'viewReference' => __('View', 'academic-bloggers-toolkit'),
 ];
 
 $ABT_i18n->tinymce->referenceWindow = [
     'referenceWindow' => [
-        'title' => __('Insert Formatted Reference', 'academic-bloggers-toolkit'),
+        'title' => __('Add Reference', 'academic-bloggers-toolkit'),
     ],
     'people' => [
-        'add' => __('Add another', 'academic-bloggers-toolkit'),
+        'add' => __('Add Contributor', 'academic-bloggers-toolkit'),
+        'contributors' => __('Contributors', 'academic-bloggers-toolkit'),
         'surname' => __('Surname', 'academic-bloggers-toolkit'),
         'given' => __('Given Name, M.I.', 'academic-bloggers-toolkit'),
     ],
     'manualEntryContainer' => [
-        'type' => __('Select Citation Type', 'academic-bloggers-toolkit'),
+        'type' => __('Citation Type', 'academic-bloggers-toolkit'),
     ],
     'identifierInput' => [
         'label' => __('PMID/DOI', 'academic-bloggers-toolkit'),

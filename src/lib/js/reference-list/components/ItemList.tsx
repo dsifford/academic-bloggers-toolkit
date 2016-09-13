@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { Card } from './Card';
 import { observer } from 'mobx-react';
+import { preventScrollPropagation } from '../../utils/HelperFunctions';
 
 interface Props extends React.HTMLProps<HTMLElement> {
     readonly items: CSL.Data[];
@@ -53,9 +54,19 @@ interface ItemsProps extends React.HTMLProps<HTMLElement> {
 
 @observer
 class Items extends React.Component<ItemsProps, {}> {
+
+    element: HTMLDivElement;
+    handleScroll = preventScrollPropagation.bind(this);
+
+    bindRefs = (c: HTMLDivElement) => {
+        this.element = c;
+    }
+
     render() {
         return (
             <div
+                ref={this.bindRefs}
+                onWheel={this.handleScroll}
                 id={this.props.id}
                 className="list"
                 style={this.props.style}

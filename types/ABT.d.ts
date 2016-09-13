@@ -4,9 +4,87 @@ interface Window {
   DocumentTouch?;
 }
 
+interface ExternalSiteMeta {
+    authors: {
+        firstname: string;
+        lastname: string;
+    }[];
+    article: {
+        /* Facebook URL - not name */
+        author?: string;
+        /* ISO Date String */
+        modified_time?: string;
+        /* ISO Date String */
+        published_time?: string;
+        /* Facebook URL */
+        publisher?: string;
+        /* Category or section of source */
+        section?: string;
+        /* CSV list of tags */
+        tag?: string;
+    };
+    /* Published Date ISO string */
+    issued?: string;
+    og: {
+        /* Article description */
+        description?: string;
+        /* Height of main image in px */
+        image_height?: string;
+        /* Width of main image in px */
+        image_width?: string;
+        /* urlencoded image url */
+        image?: string;
+        /* Site locale */
+        locale?: string;
+        /* ISO Date String */
+        pubdate?: string;
+        /* Clean URL form of site (e.g. `social.techcrunch.com`) */
+        site?: string;
+        /* Title of website */
+        site_name?: string;
+        /* Title of Article */
+        title?: string;
+        /* Type of posting (generally article) */
+        type?: string;
+        /* ISO Date String */
+        updated_time?: string;
+        /* URL of page */
+        url?: string;
+    };
+    sailthru: {
+        /* _usually_ is `firstname lastname` */
+        author?: string;
+        /* ISO Date String (issued) */
+        date?: string;
+        /* Article description */
+        description?: string;
+        /* Full-size image URL */
+        image_full?: string;
+        /* Thumbnail image URL */
+        image_thumb?: string;
+        /* CSV list of tags */
+        tags?: string;
+        /* Title of Article */
+        title?: string;
+    };
+    /* Title of Article - last resort */
+    title?: string;
+    /* URL of page */
+    url?: string;
+}
+
 declare module 'react-virtualized-select';
 
 declare const ABT_CitationStyles: {label: string, value: string}[];
+
+declare const Rollbar: {
+    log(msg: string, e?: any): void;
+    debug(msg: string, e?: any): void;
+    info(msg: string, e?: any): void;
+    warning(msg: string, e?: any): void;
+    error(msg: string, e?: any): void;
+    critical(msg: string, e?: any): void;
+};
 
 declare namespace BackendGlobals {
 
@@ -48,6 +126,7 @@ declare namespace BackendGlobals {
             pubmedWindow: {
                 title: string;
                 addReference: string;
+                viewReference: string;
                 next: string;
                 previous: string;
                 search: string;
@@ -163,13 +242,6 @@ declare namespace ABT {
         citationStyle: string;
     }
 
-    interface ImportWindowPayload {
-        filename: string;
-        /** [itemID, CSL.Data][] */
-        payload: [string, CSL.Data][];
-        links: boolean;
-    }
-
     interface FieldMappings {
         bill: FieldMap;
         book: FieldMap;
@@ -214,6 +286,18 @@ declare namespace ABT {
         required: boolean;
         pattern: string;
         placeholder: string;
+    }
+
+    interface URLMeta {
+        accessed: string;
+        authors: {
+            firstname: string;
+            lastname: string;
+        }[];
+        content_title: string;
+        issued: string;
+        site_title: string;
+        url: string;
     }
 
 }

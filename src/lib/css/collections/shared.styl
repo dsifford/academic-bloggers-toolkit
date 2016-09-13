@@ -1,0 +1,87 @@
+@require 'mixins'
+@require 'colors'
+
+.abt-admin-tooltip
+    transform scale(0)
+    transform-origin top center
+    z-index 9999
+    background $tooltip-gray
+    border-radius 2px
+    color white
+    display inline-block
+    font-size 10px
+    font-weight 500
+    line-height 14px
+    max-width 170px
+    position fixed
+    top -500px
+    left -500px
+    padding 8px
+    text-align center
+    &.active
+        animation pulse 200ms cubic-bezier(0, 0, 0.2, 1) forwards
+
+.abt-btn
+    btn()
+
+.abt-btn-submit
+    btn($blue)
+
+.abt-spinner-container
+    display flex
+    height 100%
+    width 100%
+    pointer-events none
+    align-items center
+    justify-content center
+    &.abt-overlay
+        position absolute
+        background rgba(0, 0, 0, .2)
+
+.abt-spinner
+    animation rotator 1.4s linear infinite
+
+.abt-spinner-path
+    stroke-dasharray 187
+    stroke-dashoffset 0
+    transform-origin center
+    animation dash 1.4s ease-in-out infinite, colors (1.4s * 4) ease-in-out infinite
+
+@keyframes pulse
+    0%
+        transform scale(0)
+        opacity 0
+    50%
+        transform scale(0.99)
+    100%
+        transform scale(1)
+        opacity 1
+        visibility visible
+
+@keyframes rotator
+    0%
+        transform rotate(0deg)
+    100%
+        transform rotate(270deg)
+
+@keyframes colors
+    0%
+        stroke #4285F4
+    25%
+        stroke #DE3E35
+    50%
+        stroke #F7C223
+    75%
+        stroke #1B9A59
+    100%
+        stroke #4285F4
+
+@keyframes dash
+    0%
+        stroke-dashoffset 187
+    50%
+        stroke-dashoffset (187 / 4)
+        transform rotate(135deg)
+    100%
+        stroke-dashoffset 187
+        transform:rotate(450deg)

@@ -27,17 +27,17 @@ export function referenceWindow(editor: TinyMCE.Editor): Promise<ABT.ReferenceWi
 
 /**
  * Opens `import-window.tsx` and returns a promise which resolves to
- *   `ABT.ImportWindowPayload` or `null` on close
+ *   `CSL.Data[]` or `null` on close
  * @param  editor The active TinyMCE instance.
- * @return A Promise which resolves to ABT.ImportWindowPayload
+ * @return A Promise which resolves to CSL.Data[]
  */
-export function importWindow(editor: TinyMCE.Editor): Promise<ABT.ImportWindowPayload> {
+export function importWindow(editor: TinyMCE.Editor): Promise<CSL.Data[]> {
     return new Promise((resolve) => {
         editor.windowManager.open({
             height: 10,
             onclose: (e) => {
                 if (!e.target.params.data) resolve(null);
-                resolve(e.target.params.data as ABT.ImportWindowPayload);
+                resolve(e.target.params.data as CSL.Data[]);
             },
             title: ABT_i18n.tinymce.importWindow.title,
             url: `${ABT_wp.abt_url}/lib/js/tinymce/views/import-window.html`,

@@ -15,65 +15,57 @@
         border solid $border 1px
         z-index 555
 
-#abt-loading
-    background $light-gray
-    box-shadow $depth-1
+
+a.abt-btn-icon
+    position relative
+    height 36px !important
+    min-width 36px !important
+    width 36px !important
+    &.disabled
+        color $disabled
+        pointer-events none
+    .dashicons
+        height 36px
+        line-height @height
+        vertical-align baseline
+        position absolute
+        pointer-events none
+        top 50%
+        left 50%
+        transform translate(- (@height / 2), - (@height / 2))
+        line-height @height
+        width @height
+        &.insert-inline
+            transform translate(-20px, -18px) rotateY(180deg)
+            padding-left 2px
+        &.add-reference
+            padding-top 2px
+            padding-right 3px
+        &.remove-reference
+            font-weight 900
+            padding-right 2px
+        &.hamburger-menu
+            padding 0 8px 6px 0
+            font-size 26px
+        &.pin-reflist.fixed
+            transform translate(-17px, -18px) rotate(-45deg)
 
 // React root
 #abt-reflist
     font-family 'Roboto', sans-serif
-    .panel
+    .abt-spinner-container
+        background $light-gray
+        box-shadow $depth-1
+    .abt-panel
         display flex
-        padding 10px 0
+        padding 8px 0
         background $light-gray
         box-shadow $depth-1
         justify-content space-around
-    .subpanel
+    .abt-subpanel
         display flex
         padding 5px 0
         justify-content space-around
-    a.abt-reflist-button
-        background 0
-        border 1px solid transparent
-        transition none
-        border-radius 2px
-        color $dark-gray
-        text-decoration none
-        text-align center
-        line-height 30px
-        cursor pointer
-        min-width 40px
-        $selector = selector()
-        &:hover
-            box-shadow inset 0 1px 0 white,0 1px 0 rgba(0,0,0,.08)
-            border 1px solid $dark-gray
-            transition none
-        &:active
-            @extend {$selector}:hover
-            background darken($light-gray, 5)
-            box-shadow inset 0 2px 5px -3px rgba(0,0,0,.3)
-        &.disabled
-            color $disabled
-            pointer-events none
-        &:focus
-            box-shadow none
-        span
-            pointer-events none
-            line-height 30px
-            &.insert-inline
-                transform rotateY(180deg)
-                padding-left 2px
-            &.add-reference
-                padding-top 2px
-                padding-right 3px
-            &.remove-reference
-                font-weight 900
-                padding-right 2px
-            &.hamburger-menu
-                font-size 2em
-                padding 0 8px 6px 0
-            &.pin-reflist.fixed
-                transform translateX(-3px) rotate(-45deg)
 
     #abt-reflist-menu
         border-bottom solid $border 1px
@@ -128,10 +120,13 @@
         align-items baseline
         background $light-gray
         box-shadow $depth-1
+        transition $button-transition
         > *
             user-select none
         &:hover
-            background darken($light-gray, 5)
+            background darken($light-gray, 3)
+            &:active
+                background darken($light-gray, 8)
         .label
             padding 10px
         .badge
@@ -161,43 +156,3 @@
             font-weight 300
     .Select-value-label
         font-weight 300
-
-// ========== Loading Spinner ===========
-.sk-circle
-    border 5px solid $light-gray
-    margin-left auto
-    margin-right auto
-    width 40px
-    height 40px
-    position relative
-
-    .sk-child
-        width 100%
-        height 100%
-        position absolute
-        left 0
-        top 0
-
-        &:before
-            content ''
-            display block
-            margin 0 auto
-            width 15%
-            height 15%
-            background-color $dark-gray
-            border-radius 100%
-            animation sk-circleFadeDelay 1.2s infinite ease-in-out both
-
-    for num in 2..12
-        .sk-circle{num}
-            transform 'rotate(%sdeg)' % (30 * (num - 1))
-            &:before
-                animation-delay '%ss' % (-2.2 + (1 + (num - 1) * .1))
-
-@keyframes sk-circleFadeDelay
-    0%
-    39%
-    100%
-        opacity 0
-    40%
-        opacity 1

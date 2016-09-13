@@ -4,7 +4,7 @@ Donate link: https://cash.me/$dsifford
 Tags: academia, academic, bibliographies, bibliography, citation, citations, cite, citing, CSL, curriculum vitae, cv, doi, endnote, footnote, footnotes, journal, mendeley, papers, pmid, publications, publish, pubmed, reference, reference list, reference manager, references, referencing, ris, scholar, scholarly, zotero
 Requires at least: 4.2.2
 Tested up to: 4.6
-Stable tag: 4.2.0
+Stable tag: 4.3.0
 License: GPL3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -14,27 +14,15 @@ A plugin extending the functionality of Wordpress for academic blogging.
 Academic Blogger's toolkit is an **open source** WordPress plugin providing an all-in-one solution for effective academic blogging.
 
 = THIS README PAGE IS NOT KEPT UP TO DATE! =
-For a constaintly updated, exhaustively detailed, introduction to this plugin and all its features, please visit the plugin's [GitHub Repository](https://github.com/dsifford/academic-bloggers-toolkit). To dive right into the documentation, check out the [Academic Blogger's Toolkit Wiki](https://github.com/dsifford/academic-bloggers-toolkit/wiki)!
+For a constaintly updated, exhaustively detailed, introduction to this plugin and all its features, please visit the plugin's [GitHub Repository](https://github.com/dsifford/academic-bloggers-toolkit).
+
+To dive right into the documentation, check out the [Academic Blogger's Toolkit Wiki](https://github.com/dsifford/academic-bloggers-toolkit/wiki)!
 
 [youtube https://www.youtube.com/watch?v=5k72Dh8L2BA]
-(Version 3.0.0)
-
-= Features =
-* Insert formatted references on the fly using digital identifiers (**PMID** or **DOI**).
-* Manually insert formatted references from **over 15 types of references**.
-* **Import a full bibliography from your favorite reference manager** using an exported `.ris` file.
-* Automatically format references for **every citation style on planet earth** (over 1300).
-* Insert citations using a custom citation style using a Citation Style Language (CSL) file.
-* **Fully interactive** reference list which lives beside the post editor.
-* Change citation styles in realtime.
-* **Search PubMed from the post editor** and insert references instantly.
-* Inline citations display full formatted references on the frontend when hovered with the mouse (or when tapped on mobile). No more scrolling down and losing your focus!
+(Video above is of version 3.0.0 - Many improvements and features [were added](https://headwayapp.co/academic-bloggers-toolkit-changelog) since then)
 
 = Contributing =
 If you're a developer and would like to contribute, you can do so via this plugin's [GitHub Repository](https://github.com/dsifford/academic-bloggers-toolkit).
-
-= Want to learn more? =
-Check out this plugin's [GitHub Repository](https://github.com/dsifford/academic-bloggers-toolkit) for detailed instructions or to ask questions.
 
 == Installation ==
 
@@ -55,10 +43,14 @@ Yikes! I'm sorry about that. Please report all issues on the Academic Blogger's 
 
 1. Overview of the reference manager screen.
 2. Overview of the manual reference insertion screen.
-3. Overview of the PubMed search box (results display in same window).
+3. Overview of the PubMed search window.
 4. Demo of desktop citation tooltips.
 
 == Changelog ==
+
+= 4.3.0 =
+
+[Click here](https://headwayapp.co/academic-bloggers-toolkit-changelog) to view changes.
 
 = 4.2.0 =
 

@@ -1,35 +1,85 @@
 import * as React from 'react';
+import { observable, computed, reaction, action } from 'mobx';
+import { observer } from 'mobx-react';
+// import DevTools from 'mobx-react-devtools';
+
 import { Modal } from '../../../utils/Modal';
 import { PubmedQuery } from '../../../utils/Externals';
 import { ResultList } from './ResultList';
 import { Paginate } from './Paginate';
+import { Spinner } from '../../../components/Spinner';
 
-interface State {
-    query: string;
-    results: PubMed.SingleReference[];
-    page: number;
-}
-
-export class PubmedWindow extends React.Component<{}, State> {
+@observer
+export class PubmedWindow extends React.Component<{}, {}> {
 
     labels = (top as any).ABT_i18n.tinymce.pubmedWindow;
     modal: Modal = new Modal(this.labels.title);
     wm: TinyMCE.WindowManager = top.window.tinyMCE.activeEditor.windowManager
         .windows[top.window.tinyMCE.activeEditor.windowManager.windows.length - 1];
-    placeholder: string;
+    placeholder = this.generatePlaceholder();
 
-    constructor() {
-        super();
-        this.state = {
-            page: 0,
-            query: '',
-            results: [],
-        };
-        this.placeholder = this.generatePlaceholder();
+    @observable
+    isLoading = false;
+
+    @observable
+    page = 0;
+
+    @observable
+    query = '';
+
+    @observable
+    results = observable([]);
+
+    @computed
+    get visibleResults() {
+        return this.results.filter((_result, i) => {
+            if ( i < (this.page * 5) && ((this.page * 5) - 6) < i ) {
+                return true;
+            }
+        });
+    }
+
+    @action
+    changePage = (page: number) => {
+        this.page = page;
+    }
+
+    @action
+    consumeQueryData = (data: PubMed.SingleReference[]) => {
+        this.page = 1;
+        this.query = '';
+        this.isLoading = false;
+        this.results.replace(data);
+    }
+
+    @action
+    toggleLoadState = () => this.isLoading = !this.isLoading;
+
+    @action
+    updateQuery = (e: React.FormEvent<HTMLInputElement>) => {
+        this.query = (e.target as HTMLInputElement).value;
+    }
+
+    deliverPMID = (pmid: string) => {
+        this.wm.data['pmid'] = pmid;
+        this.wm.submit();
+    }
+
+    sendQuery = (e) => {
+        this.toggleLoadState();
+        e.preventDefault();
+        PubmedQuery(this.query, true)
+        .then(this.consumeQueryData)
+        .catch(err => top.tinyMCE.activeEditor.windowManager.alert(err.message));
+    }
+
+    preventScrollPropagation = (e: React.WheelEvent<HTMLElement>) => {
+        e.stopPropagation();
+        e.preventDefault();
     }
 
     generatePlaceholder(): string {
-        let options = [
+        const options = [
             'Ioannidis JP[Author - First] AND meta research',
             'Brohi K[Author - First] AND "acute traumatic coagulopathy"',
             'Dunning[Author] AND Kruger[Author] AND incompetence',
@@ -47,79 +97,57 @@ export class PubmedWindow extends React.Component<{}, State> {
 
     componentDidMount() {
         this.modal.resize();
-    }
-
-    handleQuery(e: Event) {
-        e.preventDefault();
-        PubmedQuery(this.state.query, true)
-        .then(data => {
-            this.setState({
-                page: 1,
-                query: '',
-                results: data,
-            });
-            this.modal.resize();
-        })
-        .catch(err => top.tinyMCE.activeEditor.windowManager.alert(err.message));
-    }
-
-    handleChange(e: React.FormEvent<HTMLInputElement>) {
-        this.setState(
-            Object.assign({}, this.state, { query: (e.target as HTMLInputElement).value })
+        reaction(
+            () => [this.page, this.results.length],
+            () => this.modal.resize(),
+            false,
+            300,
         );
-    }
-
-    handlePagination(page: number, e: Event) {
-        e.preventDefault();
-        this.setState(
-            Object.assign({}, this.state, { page })
-        );
-        this.modal.resize();
-    }
-
-    deliverPMID(pmid: string) {
-        this.wm.data['pmid'] = pmid;
-        this.wm.submit();
     }
 
     render() {
+
+        if (this.isLoading) {
+            return (
+                <Spinner size="40px" height="52px" bgColor="#f5f5f5" />
+            );
+        }
+
         return (
-            <div>
-                <form id="query" onSubmit={this.handleQuery.bind(this)} style={{margin: 0}}>
-                    <div className="row" style={{display: 'flex'}}>
-                        <input
-                            type="text"
-                            style={{flexGrow: 1}}
-                            onChange={this.handleChange.bind(this)}
-                            autoFocus={true}
-                            placeholder={this.placeholder}
-                            value={this.state.query}
-                        />
-                        <input
-                            type="submit"
-                            value={this.labels.search}
-                            className="submit-btn"
-                            disabled={!this.state.query}
-                        />
+            <div onWheel={this.preventScrollPropagation}>
+                {/* <DevTools /> */}
+                <form id="query" onSubmit={this.sendQuery}>
+                    <div className="row" id="pubmed-query">
+                        <div className="flex">
+                            <input
+                                type="text"
+                                onChange={this.updateQuery}
+                                autoFocus={true}
+                                placeholder={this.placeholder}
+                                value={this.query}
+                            />
+                        </div>
+                        <div>
+                            <input
+                                type="submit"
+                                value={this.labels.search}
+                                className="abt-btn abt-btn-flat"
+                                disabled={!this.query}
+                            />
+                        </div>
                     </div>
                 </form>
-                { this.state.results.length !== 0 &&
+                { this.results.length > 0 &&
                     <ResultList
-                        eventHandler={this.deliverPMID.bind(this)}
-                        results={
-                            this.state.results.filter((_result, i) => { // tslint:disable-line
-                                if ( i < (this.state.page * 5) && ((this.state.page * 5) - 6) < i ) {
-                                    return true;
-                                }
-                            })
-                        }
+                        select={this.deliverPMID}
+                        results={this.visibleResults}
                     />
                 }
-                { this.state.results.length !== 0 &&
+                { this.results.length > 0 &&
                     <Paginate
-                        page={this.state.page}
-                        onClick={this.handlePagination.bind(this)}
-                        resultLength={this.state.results.length}
+                        page={this.page}
+                        paginate={this.changePage}
+                        resultLength={this.results.length}
                     />
                 }
             </div>

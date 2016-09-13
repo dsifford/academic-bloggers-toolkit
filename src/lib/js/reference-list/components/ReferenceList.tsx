@@ -12,6 +12,7 @@ import { Store } from '../Store';
 import { Menu } from './Menu';
 import { PanelButton } from './PanelButton';
 import { ItemList } from './ItemList';
+import { Spinner } from '../../components/Spinner';
 
 declare const tinyMCE: TinyMCE.MCE;
 declare const ABT_i18n: BackendGlobals.ABT_i18n;
@@ -130,6 +131,11 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
                 this.editor.setProgressState(false);
             });
             this.clearSelection();
+        })
+        .catch(err => {
+            Rollbar.error('ReferenceList.tsx -> initProcessor', err);
+            console.error(err.message);
+            this.editor.windowManager.alert(err.message);
         });
     }
 
@@ -185,6 +191,11 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
             this.editor.insertContent(
                 bib.outerHTML
             );
+        })
+        .catch(err => {
+            Rollbar.error('ReferenceList.tsx -> insertStaticBibliography', err);
+            console.error(err.message);
+            this.editor.windowManager.alert(err.message);
         });
     }
 
@@ -227,13 +238,19 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
             clusters,
             this.props.store.citations.citationByIndex,
             this.processor.citeproc.opt.xclass,
-        ).then(() => {
+        )
+        .then(() => {
             MCE.setBibliography(
                 this.editor,
                 this.processor.makeBibliography(),
                 this.props.store.bibOptions
             );
             this.editor.setProgressState(false);
+        })
+        .catch(err => {
+            Rollbar.error('ReferenceList.tsx -> insertInlineCitation', err);
+            console.error(err.message);
+            this.editor.windowManager.alert(err.message);
         });
 
         this.clearSelection();
@@ -281,6 +298,7 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
                 this.insertInlineCitation(null, data);
             })
             .catch(err => {
+                Rollbar.error('ReferenceList.tsx -> openReferenceWindow', err);
                 console.error(err.message);
                 this.editor.windowManager.alert(err.message);
             });
@@ -291,11 +309,15 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
         MCE.importWindow(this.editor).then(data => {
             if (!data) return;
             this.props.store.citations.CSL.merge(
-                data.payload.reduce((prev, curr) => {
+                data.reduce((prev, curr) => {
                     prev[curr[0]] = curr[1];
                     return prev;
                 }, {} as {[itemId: string]: CSL.Data})
             );
+        }).catch(err => {
+            Rollbar.error('ReferenceList.tsx -> openImportWindow', err);
+            console.error(err.message);
+            this.editor.windowManager.alert(err.message);
         });
     }
 
@@ -455,17 +477,8 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
     render() {
 
         if (this.loading) {
-            return(
-                <div id="abt-loading">
-                    <div className="sk-circle">
-                        {
-                            [...Array(13).keys()].map(k => k !== 0 ?
-                                <div key={k} className={`sk-circle${k} sk-child`} /> :
-                                null
-                            )
-                        }
-                    </div>
-                </div>
+            return (
+                <Spinner size="40px" height="52px" />
             );
         }
 
@@ -473,7 +486,7 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
             <div>
                 {/*<DevTools position={{left: 50, top: 40}} />*/}
                 <StorageField store={this.props.store} />
-                <div className="panel">
+                <div className="abt-panel">
                     <PanelButton
                         disabled={this.selected.length === 0}
                         onClick={this.insertInlineCitation}

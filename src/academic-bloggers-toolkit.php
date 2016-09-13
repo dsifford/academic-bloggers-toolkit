@@ -4,14 +4,14 @@
  *	Plugin Name: Academic Blogger's Toolkit
  *	Plugin URI: https://wordpress.org/plugins/academic-bloggers-toolkit/
  *	Description: A plugin extending the functionality of Wordpress for academic blogging
- *	Version: 4.2.0
+ *	Version: 4.3.0
  *	Author: Derek P Sifford
  *	Author URI: https://github.com/dsifford
  *	License: GPL3 or later
  *  Text Domain: academic-bloggers-toolkit
  */
 
-define('ABT_VERSION', '4.2.0');
+define('ABT_VERSION', '4.3.0');
 
 
 /**
@@ -43,7 +43,7 @@ if (function_exists('register_uninstall_hook')) {
  * Current schema configuration can be found here:
  *   http://www.jsoneditoronline.org/?id=8f65b4f64daaf41e5ed94c4a006ba264
  */
-function abt_refactor_depreciated_options() {
+function abt_refactor_deprecated_options() {
     $options = get_option('abt_options');
     if ($options['VERSION'] === ABT_VERSION) return;
 
@@ -71,7 +71,7 @@ function abt_refactor_depreciated_options() {
 
     update_option('abt_options', $newOptions);
 }
-add_action('admin_init', 'abt_refactor_depreciated_options');
+add_action('admin_init', 'abt_refactor_deprecated_options');
 
 
 /**
@@ -88,36 +88,6 @@ function abt_add_options_link ($links) {
 }
 add_filter('plugin_action_links_' . plugin_basename(__FILE__), 'abt_add_options_link');
 
-
-/**
- * Appends the changelog script to the document footer on the editor pages
- */
-function abt_append_changelog_script() {
-    global $pagenow, $post_type;
-
-    $not_editor_page = !in_array($pagenow, ['post.php', 'post-new.php']);
-    $invalid_post_type = in_array($post_type, ['attachment', 'acf']);
-
-    if ($not_editor_page || $invalid_post_type) return;
-
-    echo '<script type="text/javascript">var el=document.createElement("SPAN");el.id="abt_changelog",document.querySelector("#abt_reflist > h2").appendChild(el);var HW_config={selector:"#abt_changelog",account:"LJ4gE7"};</script><script async src="//cdn.headwayapp.co/widget.js"></script>';
-}
-add_action('admin_footer', 'abt_append_changelog_script');
-
-
-/**
- * Adds CSS overrides
- */
-function abt_css_override(){
-	$abt_options = get_option('abt_options');
-	if (isset($abt_options['custom_css']) && !empty($abt_options['custom_css'])) {
-		$custom_css = $abt_options['custom_css'];
-		echo "<style id='custom_css'>$custom_css\r\n</style>";
-	}
-}
-add_action('wp_head', 'abt_css_override');
-
-
 /**
  * Enqueues frontend JS and CSS
  */
@@ -132,8 +102,9 @@ function abt_frontend_scripts() {
 }
 add_action('wp_enqueue_scripts', 'abt_frontend_scripts');
 
-
+require_once('lib/php/dom-injects.php');
 require_once('lib/php/backend.php');
 require_once('lib/php/options-page.php');
+require_once('lib/php/endpoints.php');
 
 ?>

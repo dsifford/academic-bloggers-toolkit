@@ -34,13 +34,16 @@ let testData: PubMed.SingleReference[] = [
 
 const setup = () => {
     const spy = sinon.spy();
-    const container = mount(
-        <ResultList results={testData} eventHandler={spy} />
+    const component = mount(
+        <ResultList
+            results={testData}
+            select={spy}
+        />
     );
     return {
         spy,
-        container,
-        results: container.find('.result-item'),
+        component,
+        results: component.find('.result-item'),
     };
 };
 
@@ -49,17 +52,25 @@ describe('<ResultList />', () => {
         const { results } = setup();
         expect(results.length).toBe(2);
     });
-    it('should bind the PMID to the event on button click', () => {
+    it('should call handleClick on addReference click', () => {
         const { results, spy } = setup();
 
-        let button = results.children().find('input.btn').first();
+        expect(spy.callCount).toBe(0);
+        const button = results.children().find('input.abt-btn-submit.abt-btn-flat').first();
         button.simulate('click');
         expect(spy.callCount).toBe(1);
         expect(spy.firstCall.args[0]).toBe('11111');
-
-        button = results.children().find('input.btn').at(1);
-        button.simulate('click');
-        expect(spy.callCount).toBe(2);
-        expect(spy.secondCall.args[0]).toBe('22222');
+    });
+    it('should scroll to the top on update', () => {
+        const spy = sinon.spy(ResultList.prototype, 'componentDidUpdate');
+        const { component } = setup();
+        component.update();
+        expect(spy.callCount).toBe(1);
+        spy.restore();
+    });
+    it('should handle scroll', () => {
+        const { component } = setup();
+        const div = component.find('.abt-scroll-y');
+        div.simulate('wheel');
     });
 });

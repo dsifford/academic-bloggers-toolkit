@@ -14,7 +14,7 @@ const setup = (
         <Paginate
             page={page}
             resultLength={resultLength}
-            onClick={(num) => { // tslint:disable-line
+            paginate={(num) => { // tslint:disable-line
                 component.setProps(
                     Object.assign({}, component.props, { page: num })
                 );

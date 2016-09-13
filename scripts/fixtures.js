@@ -257,7 +257,7 @@ exports.ABT_i18n = {
         "import": "Import references from RIS file",
         "refresh": "Refresh reference list",
         "destroy": "Delete all references",
-        "help": "View usage instructions",
+        "help": "Usage instructions",
       },
       "stylePlaceholder": "Choose citation style..."
     }
@@ -275,19 +275,21 @@ exports.ABT_i18n = {
       "search": "Search",
       "next": "Next",
       "previous": "Previous",
-      "addReference": "Add Reference"
+      "addReference": "Select",
+      "viewReference": "View",
     },
     "referenceWindow": {
       "referenceWindow": {
-        "title": "Insert Formatted Reference"
+        "title": "Add Reference"
       },
       "people": {
-        "add": "Add another",
+        "add": "Add Contributor",
+        "contributors": "Contributors",
         "surname": "Surname",
         "given": "Given Name, M.I."
       },
       "manualEntryContainer": {
-        "type": "Select Citation Type"
+        "type": "Citation Type"
       },
       "identifierInput": {
         "label": "PMID/DOI"
@@ -300,33 +302,6 @@ exports.ABT_i18n = {
         "addReference": "Add Reference",
         "attachInline": "Attach Inline"
       }
-    }
-  },
-  "peerReviewMetabox": {
-    "peerReviewMetabox": {
-      "optionText": [
-        "Select Number of Reviewers",
-        "One Reviewer",
-        "Two Reviewers",
-        "Three Reviewers"
-      ],
-      "review1": "Review 1",
-      "review2": "Review 2",
-      "review3": "Review 3",
-      "mediaButton": "Use this image",
-      "mediaTitle": "Choose or Upload an Image"
-    },
-    "reviewRow": {
-      "reviewHeading": "Review Heading",
-      "toggleResponse": "Toggle Author Response"
-    },
-    "commonRowContent": {
-      "name": "Name",
-      "twitter": "Twitter Handle",
-      "background": "Background",
-      "content": "Content",
-      "photo": "Photo",
-      "imageButton": "Choose or Upload an Image"
     }
   },
   "fieldmaps": {

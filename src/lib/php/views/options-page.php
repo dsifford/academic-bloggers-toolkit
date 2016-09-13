@@ -47,7 +47,7 @@
     </div>
 </div>
 <div style="text-align: right; position: relative; top: -15px;">
-    <input type="submit" style name="citation_style_options" value="Update" aria-label="Update citation options submit" class="button-primary" />
+    <input type="submit" style name="citation_style_options" value="<?php _e('Update', 'academic-bloggers-toolkit') ?>" aria-label="Update citation options submit" class="button-primary" />
 </div>
 </form>
 
@@ -75,7 +75,7 @@
                     </div>
                 </td>
                 <td>
-                    <div style="text-align: center;"><h3 style="margin: 0;">Interactive Demo</h3></div>
+                    <div style="text-align: center;"><h3 style="margin: 0;"><?php _e('Interactive Demo', 'academic-bloggers-toolkit') ?></h3></div>
                 </td>
             </tr>
             <tr>
@@ -134,7 +134,7 @@
     </div>
 </div>
 <div style="text-align: right; position: relative; top: -15px;">
-    <input type="submit" name="display_options_submit" value="Update" aria-label="Update display options submit" class="button-primary" />
+    <input type="submit" name="display_options_submit" value="<?php _e('Update', 'academic-bloggers-toolkit') ?>" aria-label="Update display options submit" class="button-primary" />
 </div>
 </form>
 
@@ -178,7 +178,7 @@
     </div>
 </div>
 <div style="text-align: right; position: relative; top: -15px;">
-    <input type="submit" name="custom_css_submit" value="Update" aria-label="Update custom css submit" class="button-primary" />
+    <input type="submit" name="custom_css_submit" value="<?php _e('Update', 'academic-bloggers-toolkit') ?>" aria-label="Update custom css submit" class="button-primary" />
 </div>
 </form>
 

@@ -1,40 +1,44 @@
 import * as React from 'react';
+import { observer } from 'mobx-react';
 
 interface Props {
     page: number;
     resultLength: number;
-    onClick: Function;
+    paginate(page: number): void;
 }
 
-export class Paginate extends React.Component<Props, {}> {
+@observer
+export class Paginate extends React.PureComponent<Props, {}> {
 
     labels = (top as any).ABT_i18n.tinymce.pubmedWindow;
 
-    constructor(props) {
-        super(props);
+    handleClick = (e) => {
+        this.props.paginate(parseInt(e.target.getAttribute('data-page'), 10));
     }
 
     render() {
-        const { onClick, page, resultLength } = this.props;
+        const { page, resultLength } = this.props;
         return (
-            <div style={{display: 'flex', paddingTop: '5px' }}>
-                <div style={{flex: '1'}}>
+            <div className="row" id="pagination-row">
+                <div>
                     <input
                         id="prev"
                         type="button"
-                        className="btn"
+                        className="abt-btn abt-btn-flat"
                         disabled={page < 2}
-                        onClick={onClick.bind(null, page - 1)}
+                        data-page={page - 1}
+                        onClick={this.handleClick}
                         value={this.labels.previous}
                     />
                 </div>
-                <div style={{ flex: '1', textAlign: 'right' }}>
+                <div>
                     <input
                         id="next"
                         type="button"
-                        className="btn"
+                        className="abt-btn abt-btn-flat"
                         disabled={page > 3 || page === 0 || ((page + 1) * 5) > resultLength }
-                        onClick={onClick.bind(null, page + 1)}
+                        data-page={page + 1}
+                        onClick={this.handleClick}
                         value={this.labels.next}
                     />
                 </div>

@@ -282,6 +282,14 @@ export function formatBibliography(
     return payload;
 }
 
+/**
+ * Parses and formats the bibliography links according to the user's chosen
+ *   link format.
+ * @param  {string}                     html      HTML string of a single reference
+ * @param  {ABT.LinkStyle}              linkStyle The selected link style
+ * @param  {'PMID'|'DOI'|'PMCID'|'URL'} id        Identifier for linking out
+ * @return {string}                               HTML string with formatted links
+ */
 export function parseReferenceURL(
     html: string,
     linkStyle: ABT.LinkStyle,
@@ -350,5 +358,23 @@ export function parseReferenceURL(
         default: {
             return linkedHtml;
         }
+    }
+}
+
+/**
+ * Prevents the wheel event from bubbling through to parent elements.
+ *
+ * In order for this function to work, the component of interest's "this" must
+ *   be bound and there must be an "element" property in the component.
+ * @param e React Wheel Event
+ */
+export function preventScrollPropagation(e): void {
+    e.stopPropagation();
+    const atTopAndScrollingUp: boolean = this.element.scrollTop === 0 && e.deltaY < 0;
+    const atBottomAndScollingDown: boolean =
+        ((this.element.scrollTop + this.element.offsetHeight) === this.element.scrollHeight)
+        && e.deltaY > 0;
+    if (atTopAndScrollingUp || atBottomAndScollingDown) {
+        e.preventDefault();
     }
 }

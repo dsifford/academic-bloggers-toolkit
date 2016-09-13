@@ -115,3 +115,58 @@ export function getFromDOI(doiList: string[]): Promise<[CSL.Data[], string[]]> {
         });
     });
 }
+
+/**
+ * Communicates with AJAX to the WordPress server to retrieve metadata for a given
+ *   web URL.
+ * @param  {string}               url The URL of interest
+ * @return {Promise<ABT.URLMeta>}     URL Meta returned from the server
+ */
+export function getFromURL(url: string): Promise<ABT.URLMeta> {
+    return new Promise((resolve, reject) => {
+        const req = new XMLHttpRequest();
+        const data = `action=get_website_meta&site_url=${encodeURIComponent(url)}`;
+        req.open('POST', (top as any).ajaxurl);
+        req.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        req.timeout = 5000;
+        req.addEventListener('load', () => {
+            if (req.status !== 200) reject(new Error('Error: URL returned a non-200 status code.'));
+
+            const res = JSON.parse(req.responseText) as ExternalSiteMeta;
+
+            const content_title = res.og.title
+                || res.sailthru.title
+                || res.title;
+
+            let site_title = res.og.site_name
+                || res.title;
+
+            if (site_title === content_title) {
+                site_title = url.match(/(?:(?:https?:\/\/www.)|(?:https?:\/\/)|(?:www\.))(.+?)\//)[1];
+            }
+
+            let issued = res.issued
+                || res.og.pubdate
+                || res.article.published_time
+                || res.sailthru.date
+                || '';
+
+            if (issued !== '') {
+                issued = new Date(issued).toISOString();
+            }
+
+            const payload = {
+                accessed: new Date(Date.now()).toISOString(),
+                authors: res.authors,
+                content_title,
+                issued,
+                site_title,
+                url,
+            };
+            resolve(payload);
+        });
+        req.addEventListener('error', () => reject(new Error('Error: Network Error.')));
+        req.addEventListener('timeout', () => reject(new Error('Error: Site denied request.')));
+        req.send(data);
+    });
+}
