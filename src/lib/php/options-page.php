@@ -55,8 +55,8 @@ class ABT_Options  {
      */
     public function add_options_page() {
         add_options_page(
-            "Academic Blogger's Toolkit Options",
-            "Academic Blogger's Toolkit",
+            __("Academic Blogger's Toolkit Options", "academic-bloggers-toolkit"),
+            __("Academic Blogger's Toolkit", "academic-bloggers-toolkit"),
             'manage_options',
             'abt-options',
             [$this, 'ABT_options_page']
@@ -69,7 +69,7 @@ class ABT_Options  {
     public function ABT_options_page() {
 
         if (!current_user_can('manage_options')) {
-            wp_die('You do not have sufficient permissions to access this page.');
+            wp_die(__('You do not have sufficient permissions to access this page.', 'academic-bloggers-toolkit'));
         }
 
         $abt_options = get_option('abt_options');

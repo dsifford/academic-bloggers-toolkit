@@ -131,7 +131,7 @@ export class PubmedWindow extends React.Component<{}, {}> {
                             <input
                                 type="submit"
                                 value={this.labels.search}
-                                className="btn"
+                                className="abt-btn abt-btn-flat"
                                 disabled={!this.query}
                             />
                         </div>
