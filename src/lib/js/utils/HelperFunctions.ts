@@ -1,3 +1,4 @@
+import * as React from 'react';
 import { localeMapper } from './Constants';
 import { ObservableMap } from 'mobx';
 
@@ -282,6 +283,14 @@ export function formatBibliography(
     return payload;
 }
 
+/**
+ * Parses and formats the bibliography links according to the user's chosen
+ *   link format.
+ * @param  {string}                     html      HTML string of a single reference
+ * @param  {ABT.LinkStyle}              linkStyle The selected link style
+ * @param  {'PMID'|'DOI'|'PMCID'|'URL'} id        Identifier for linking out
+ * @return {string}                               HTML string with formatted links
+ */
 export function parseReferenceURL(
     html: string,
     linkStyle: ABT.LinkStyle,
