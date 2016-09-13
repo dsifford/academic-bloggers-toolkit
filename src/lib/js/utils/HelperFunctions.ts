@@ -1,4 +1,3 @@
-import * as React from 'react';
 import { localeMapper } from './Constants';
 import { ObservableMap } from 'mobx';
 
