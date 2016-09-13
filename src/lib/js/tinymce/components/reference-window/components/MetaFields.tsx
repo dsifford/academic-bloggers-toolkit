@@ -2,8 +2,6 @@ import * as React from 'react';
 import { ObservableMap, action } from 'mobx';
 import { observer } from 'mobx-react';
 
-window['ABT_i18n'] = require('../../../../../../../scripts/fixtures').ABT_i18n;
-
 interface MetaFieldProps {
     meta: ObservableMap<string>;
 }

@@ -1,8 +1,8 @@
-# Copyright (C) 2016 Academic Blogger's Toolkit 4.2.0
-# This file is distributed under the same license as the Academic Blogger's Toolkit 4.2.0 package.
+# Copyright (C) 2016 Academic Blogger's Toolkit 4.3.0
+# This file is distributed under the same license as the Academic Blogger's Toolkit 4.3.0 package.
 msgid ""
 msgstr ""
-"Project-Id-Version: Academic Blogger's Toolkit 4.2.0\n"
+"Project-Id-Version: Academic Blogger's Toolkit 4.3.0\n"
 "Report-Msgid-Bugs-To: https://github.com/dsifford/academic-bloggers-toolkit/issues\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -440,7 +440,7 @@ msgid "Delete all references"
 msgstr ""
 
 #: lib/php/i18n.php:30
-msgid "View usage instructions"
+msgid "Usage instructions"
 msgstr ""
 
 #: lib/php/i18n.php:32
@@ -467,7 +467,7 @@ msgstr ""
 msgid "Import"
 msgstr ""
 
-#: lib/php/i18n.php:47, src/lib/php/i18n.php:70
+#: lib/php/i18n.php:47, src/lib/php/i18n.php:72
 msgid "Search PubMed for Reference"
 msgstr ""
 
@@ -483,47 +483,55 @@ msgstr ""
 msgid "Previous"
 msgstr ""
 
-#: lib/php/i18n.php:51, src/lib/php/i18n.php:74
+#: lib/php/i18n.php:51
+msgid "Select"
+msgstr ""
+
+#: lib/php/i18n.php:52
+msgid "View"
+msgstr ""
+
+#: lib/php/i18n.php:57, src/lib/php/i18n.php:76
 msgid "Add Reference"
 msgstr ""
 
-#: lib/php/i18n.php:56
-msgid "Insert Formatted Reference"
-msgstr ""
-
-#: lib/php/i18n.php:59
-msgid "Add another"
-msgstr ""
-
 #: lib/php/i18n.php:60
-msgid "Surname"
+msgid "Add Contributor"
 msgstr ""
 
 #: lib/php/i18n.php:61
+msgid "Contributors"
+msgstr ""
+
+#: lib/php/i18n.php:62
+msgid "Surname"
+msgstr ""
+
+#: lib/php/i18n.php:63
 msgid "Given Name, M.I."
 msgstr ""
 
-#: lib/php/i18n.php:64
-msgid "Select Citation Type"
+#: lib/php/i18n.php:66
+msgid "Citation Type"
 msgstr ""
 
-#: lib/php/i18n.php:67
+#: lib/php/i18n.php:69
 msgid "PMID/DOI"
 msgstr ""
 
-#: lib/php/i18n.php:71
+#: lib/php/i18n.php:73
 msgid "Add Manually"
 msgstr ""
 
-#: lib/php/i18n.php:72
+#: lib/php/i18n.php:74
 msgid "Add with Identifier"
 msgstr ""
 
-#: lib/php/i18n.php:73
+#: lib/php/i18n.php:75
 msgid "Search PubMed"
 msgstr ""
 
-#: lib/php/i18n.php:75
+#: lib/php/i18n.php:77
 msgid "Attach Inline"
 msgstr ""
 
@@ -531,8 +539,16 @@ msgstr ""
 msgid "The provided URL is not a valid file in your WordPress upload directory. Please try again."
 msgstr ""
 
-#: lib/php/views/options-page.php:1
+#: lib/php/options-page.php:58, src/lib/php/views/options-page.php:1
 msgid "Academic Blogger's Toolkit Options"
+msgstr ""
+
+#: lib/php/options-page.php:59
+msgid "Academic Blogger's Toolkit"
+msgstr ""
+
+#: lib/php/options-page.php:72
+msgid "You do not have sufficient permissions to access this page."
 msgstr ""
 
 #: lib/php/views/options-page.php:6
@@ -555,6 +571,10 @@ msgstr ""
 msgid "Use custom citation style by default "
 msgstr ""
 
+#: lib/php/views/options-page.php:50, src/lib/php/views/options-page.php:137, src/lib/php/views/options-page.php:181
+msgid "Update"
+msgstr ""
+
 #: lib/php/views/options-page.php:58
 msgid "Display Options"
 msgstr ""
@@ -569,6 +589,10 @@ msgstr ""
 
 #: lib/php/views/options-page.php:73
 msgid "Toggle"
+msgstr ""
+
+#: lib/php/views/options-page.php:78
+msgid "Interactive Demo"
 msgstr ""
 
 #: lib/php/views/options-page.php:82

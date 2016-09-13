@@ -116,7 +116,12 @@ export function getFromDOI(doiList: string[]): Promise<[CSL.Data[], string[]]> {
     });
 }
 
-/* TODO: Document */
+/**
+ * Communicates with AJAX to the WordPress server to retrieve metadata for a given
+ *   web URL.
+ * @param  {string}               url The URL of interest
+ * @return {Promise<ABT.URLMeta>}     URL Meta returned from the server
+ */
 export function getFromURL(url: string): Promise<ABT.URLMeta> {
     return new Promise((resolve, reject) => {
         const req = new XMLHttpRequest();
