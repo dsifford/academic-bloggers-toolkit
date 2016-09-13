@@ -120,10 +120,13 @@ a.abt-btn-icon
         align-items baseline
         background $light-gray
         box-shadow $depth-1
+        transition $button-transition
         > *
             user-select none
         &:hover
-            background darken($light-gray, 5)
+            background darken($light-gray, 3)
+            &:active
+                background darken($light-gray, 8)
         .label
             padding 10px
         .badge

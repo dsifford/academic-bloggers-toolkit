@@ -1,7 +1,6 @@
 jest.unmock('../PanelButton');
 
 import * as React from 'react';
-import { spy } from 'sinon';
 import { mount } from 'enzyme';
 import { PanelButton } from '../PanelButton';
 
@@ -19,7 +18,7 @@ describe('<PanelButton/>', () => {
     it('should create tooltip on mouseover', () => {
         const { button } = setup();
         expect(button.props().className).toBe('abt-btn abt-btn-flat abt-btn-icon');
-        button.simulate('mouseover');
+        button.simulate('mouseenter');
         button.simulate('mouseleave');
     });
 

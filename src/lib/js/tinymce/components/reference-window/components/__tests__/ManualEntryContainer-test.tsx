@@ -1,12 +1,11 @@
 jest.unmock('../ManualEntryContainer');
 jest.unmock('../MetaFields');
-// jest.unmock('../People');
 
 import * as React from 'react';
 import { mount } from 'enzyme';
 import * as sinon from 'sinon';
 import { map } from 'mobx';
-import { ManualEntryContainer } from '../ManualEntryContainer';
+import { ManualEntryContainer, AutoCite } from '../ManualEntryContainer';
 
 const setup = (
     citationType: CSL.CitationType = 'article-journal',
@@ -33,10 +32,25 @@ const setup = (
     };
 };
 
+const setupAutocite = () => {
+    const spy = sinon.spy();
+    const component = mount(
+        <AutoCite getter={spy} />
+    );
+    return {
+        spy,
+        component,
+    };
+};
+
 describe('<ManualEntryContainer />', () => {
     it('should render with loading spinner', () => {
+        const d = document.createElement('DIV');
+        d.id = 'main-container';
+        document.body.appendChild(d);
         const { component } = setup('article-journal', true);
         expect(component.find('Spinner')).toBeTruthy();
+        (component.instance() as any).getHeight();
     });
 
     it('should render with the correct option', () => {
@@ -62,13 +76,21 @@ describe('<ManualEntryContainer />', () => {
             expect(component.find('Autocite')).toBeTruthy();
         });
 
-        it('should call the getter on "Enter" press', () => {
+        it('should NOT call the getter on "Enter" press with an empty query', () => {
             const { component, spy } = setup('webpage');
             const input = component.find('#citequery');
             input.simulate('keydown', { key: 'j' });
             expect(spy.callCount).toBe(0);
             input.simulate('keydown', { key: 'Enter' });
             expect(spy.callCount).toBe(0);
+        });
+
+        it('should call getter on "Enter" press with a valid query', () => {
+            const { component, spy } = setupAutocite();
+            const inst = (component.instance() as any);
+            inst.handleAutociteFieldChange({ target: { value: 'http://www.google.com' }});
+            inst.handleQuery();
+            expect(spy.callCount).toBe(1);
         });
     });
 });

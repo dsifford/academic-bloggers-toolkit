@@ -131,6 +131,11 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
                 this.editor.setProgressState(false);
             });
             this.clearSelection();
+        })
+        .catch(err => {
+            Rollbar.error('ReferenceList.tsx -> initProcessor', err);
+            console.error(err.message);
+            this.editor.windowManager.alert(err.message);
         });
     }
 
@@ -186,6 +191,11 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
             this.editor.insertContent(
                 bib.outerHTML
             );
+        })
+        .catch(err => {
+            Rollbar.error('ReferenceList.tsx -> insertStaticBibliography', err);
+            console.error(err.message);
+            this.editor.windowManager.alert(err.message);
         });
     }
 
@@ -228,13 +238,19 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
             clusters,
             this.props.store.citations.citationByIndex,
             this.processor.citeproc.opt.xclass,
-        ).then(() => {
+        )
+        .then(() => {
             MCE.setBibliography(
                 this.editor,
                 this.processor.makeBibliography(),
                 this.props.store.bibOptions
             );
             this.editor.setProgressState(false);
+        })
+        .catch(err => {
+            Rollbar.error('ReferenceList.tsx -> insertInlineCitation', err);
+            console.error(err.message);
+            this.editor.windowManager.alert(err.message);
         });
 
         this.clearSelection();
@@ -262,9 +278,6 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
                 this.props.store.citations.CSL.merge(
                     data.reduce((prev, curr) => {
                         prev[curr.id] = curr;
-                        /* FIXME: This fixes crappy citeproc code bug. */
-                        /* See https://github.com/Juris-M/citeproc-js/issues/17 */
-                        if (!prev[curr.id].author) prev[curr.id].author = [{}];
                         return prev;
                     }, {} as {[itemId: string]: CSL.Data})
                 );
@@ -285,7 +298,7 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
                 this.insertInlineCitation(null, data);
             })
             .catch(err => {
-                Rollbar.error(err.message, err);
+                Rollbar.error('ReferenceList.tsx -> openReferenceWindow', err);
                 console.error(err.message);
                 this.editor.windowManager.alert(err.message);
             });
@@ -301,6 +314,10 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
                     return prev;
                 }, {} as {[itemId: string]: CSL.Data})
             );
+        }).catch(err => {
+            Rollbar.error('ReferenceList.tsx -> openImportWindow', err);
+            console.error(err.message);
+            this.editor.windowManager.alert(err.message);
         });
     }
 

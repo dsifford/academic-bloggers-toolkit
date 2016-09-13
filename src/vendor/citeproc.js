@@ -23,7 +23,7 @@
  *     <http://www.gnu.org/licenses/> respectively.
  */
 var CSL = {
-    PROCESSOR_VERSION: "1.1.125",
+    PROCESSOR_VERSION: "1.1.126",
     CONDITION_LEVEL_TOP: 1,
     CONDITION_LEVEL_BOTTOM: 2,
     PLAIN_HYPHEN_REGEX: /(?:[^\\]-|\u2013)/,
@@ -5498,6 +5498,7 @@ CSL.getCite = function (Item, item, prevItemID, blockShadowNumberReset) {
     this.parallel.StartCite(Item, item, prevItemID);
     CSL.citeStart.call(this, Item, item, blockShadowNumberReset);
     next = 0;
+    this.tmp.name_node = {};
     this.nameOutput = new CSL.NameOutput(this, Item, item);
     while (next < this[this.tmp.area].tokens.length) {
         next = CSL.tokenExec.call(this, this[this.tmp.area].tokens[next], Item, item);

@@ -90,7 +90,7 @@ interface AutoCiteProps {
 }
 
 @observer
-class AutoCite extends React.Component<AutoCiteProps, {}> {
+export class AutoCite extends React.Component<AutoCiteProps, {}> {
 
     @observable
     query = '';
@@ -150,7 +150,7 @@ class AutoCite extends React.Component<AutoCiteProps, {}> {
                         type="button"
                         className="abt-btn abt-btn-flat"
                         aria-label="Search"
-                        disabled={this.query.length === 0 || (this.input ? !this.input.validity.valid : true)}
+                        disabled={this.query.length === 0 || (this.input.validity ? !this.input.validity.valid : true)}
                         value="Search"
                         onClick={this.handleQuery}
                     />
