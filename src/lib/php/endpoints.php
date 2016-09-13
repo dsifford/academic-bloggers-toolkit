@@ -1,7 +1,8 @@
 <?php
 
-
-// TODO: Clean this up
+/**
+ * AJAX Method for getting metadata from other websites for citations
+ */
 add_action('wp_ajax_get_website_meta', 'abt_get_website_meta');
 function abt_get_website_meta() {
 
@@ -17,7 +18,6 @@ function abt_get_website_meta() {
         'og' => [],
         'sailthru' => [],
     ];
-
 
     /**
      * Stray Meta "name" Tags
@@ -152,28 +152,3 @@ function abt_get_website_meta() {
 
     wp_send_json($payload);
 }
-
-
-// TODO: Rename, clean up, and move somewhere else
-function testerr() {
-    global $post;
-    if (!$post) return;
-
-    if (function_exists('get_coauthors')) {
-        $authors = get_coauthors($post->ID);
-        foreach($authors as $author) {
-            $id = $author->data->ID;
-            $meta = get_user_meta($id);
-            ?>
-            <meta property="abt:author" content="<?php echo $meta['first_name'][0] . '|' . $meta['last_name'][0] ?>" />
-            <?php
-        }
-        return;
-    }
-
-    $meta = get_user_meta($post->post_author);
-    ?>
-    <meta property="abt:author" content="<?php echo $meta['first_name'][0] . '|' . $meta['last_name'][0] ?>" />
-    <?php
-}
-add_action('wp_head', 'testerr', 1);
