@@ -7,7 +7,7 @@ function abt_append_rollbar_script() {
     global $pagenow, $post_type, $current_user;
 
     $not_editor_page = !in_array($pagenow, ['post.php', 'post-new.php']);
-    $invalid_post_type = in_array($post_type, ['attachment', 'acf']);
+    $invalid_post_type = in_array($post_type, ['attachment', 'acf', 'um_form']);
 
     if ($not_editor_page || $invalid_post_type) return;
 
@@ -58,7 +58,7 @@ function abt_append_changelog_script() {
     global $pagenow, $post_type;
 
     $not_editor_page = !in_array($pagenow, ['post.php', 'post-new.php']);
-    $invalid_post_type = in_array($post_type, ['attachment', 'acf']);
+    $invalid_post_type = in_array($post_type, ['attachment', 'acf', 'um_form']);
 
     if ($not_editor_page || $invalid_post_type) return;
     ?>
