@@ -5,110 +5,96 @@ $ABT_i18n->citationTypes = [
     [
         'label' => __('Bill', 'academic-bloggers-toolkit'),
         'value' => 'bill',
-        'inUse' => true,
     ],
     [
         'label' => __('Book', 'academic-bloggers-toolkit'),
         'value' => 'book',
-        'inUse' => true,
     ],
     [
         'label' => __('Book Section', 'academic-bloggers-toolkit'),
         'value' => 'chapter',
-        'inUse' => true,
     ],
     [
         'label' => __('Case', 'academic-bloggers-toolkit'),
         'value' => 'legal_case',
-        'inUse' => true,
     ],
     [
         'label' => __('Conference Proceeding', 'academic-bloggers-toolkit'),
         'value' => 'paper-conference',
-        'inUse' => true,
     ],
     [
         'label' => __('Encyclopedia Entry', 'academic-bloggers-toolkit'),
         'value' => 'entry-encyclopedia',
-        'inUse' => true,
     ],
     [
         'label' => __('Film', 'academic-bloggers-toolkit'),
         'value' => 'motion_picture',
-        'inUse' => true,
+    ],
+    [
+        'label' => __('Generic (Note)', 'academic-bloggers-toolkit'),
+        'value' => 'article',
     ],
     [
         'label' => __('Hearing', 'academic-bloggers-toolkit'),
         'value' => 'speech',
-        'inUse' => true,
     ],
     [
         'label' => __('Journal Article', 'academic-bloggers-toolkit'),
         'value' => 'article-journal',
-        'inUse' => true,
     ],
     [
         'label' => __('Magazine Article', 'academic-bloggers-toolkit'),
         'value' => 'article-magazine',
-        'inUse' => true,
     ],
     [
         'label' => __('Newspaper Article', 'academic-bloggers-toolkit'),
         'value' => 'article-newspaper',
-        'inUse' => true,
     ],
     [
         'label' => __('Patent', 'academic-bloggers-toolkit'),
         'value' => 'patent',
-        'inUse' => true,
     ],
     [
         'label' => __('Report', 'academic-bloggers-toolkit'),
         'value' => 'report',
-        'inUse' => true,
     ],
     [
         'label' => __('Statute', 'academic-bloggers-toolkit'),
         'value' => 'legislation',
-        'inUse' => true,
     ],
     [
         'label' => __('Thesis', 'academic-bloggers-toolkit'),
         'value' => 'thesis',
-        'inUse' => true,
     ],
     [
         'label' => __('Television Broadcast', 'academic-bloggers-toolkit'),
         'value' => 'broadcast',
-        'inUse' => true,
     ],
     [
         'label' => __('Web Page', 'academic-bloggers-toolkit'),
         'value' => 'webpage',
-        'inUse' => true,
     ],
 ];
 
 /*
 Not currently used.
-{ label: 'Book - Review', value: 'review-book', inUse: false },
-{ label: 'Dataset', value: 'dataset', inUse: false },
-{ label: 'Entry - Generic', value: 'entry', inUse: false },
-{ label: 'Entry - Dictionary', value: 'entry-dictionary', inUse: false },
-{ label: 'Figure', value: 'figure', inUse: false },
-{ label: 'Generic', value: 'article', inUse: false },
-{ label: 'Graphic', value: 'graphic', inUse: false },
-{ label: 'Interview', value: 'interview', inUse: false },
-{ label: 'Manuscript', value: 'manuscript', inUse: false },
-{ label: 'Map', value: 'map', inUse: false },
-{ label: 'Music - Musical Score', value: 'musical_score', inUse: false },
-{ label: 'Music - Song', value: 'song', inUse: false },
-{ label: 'Pamphlet', value: 'pamphlet', inUse: false },
-{ label: 'Personal Communication', value: 'personal_communication', inUse: false },
-{ label: 'Post', value: 'post', inUse: false },
-{ label: 'Review', value: 'review', inUse: false },
-{ label: 'Treaty', value: 'treaty', inUse: false },
-{ label: 'Website - Blog', value: 'post-weblog', inUse: false },
+{ label: 'Book - Review', value: 'review-book' },
+{ label: 'Dataset', value: 'dataset' },
+{ label: 'Entry - Generic', value: 'entry' },
+{ label: 'Entry - Dictionary', value: 'entry-dictionary' },
+{ label: 'Figure', value: 'figure' },
+{ label: 'Graphic', value: 'graphic' },
+{ label: 'Interview', value: 'interview' },
+{ label: 'Manuscript', value: 'manuscript' },
+{ label: 'Map', value: 'map' },
+{ label: 'Music - Musical Score', value: 'musical_score' },
+{ label: 'Music - Song', value: 'song' },
+{ label: 'Pamphlet', value: 'pamphlet' },
+{ label: 'Personal Communication', value: 'personal_communication' },
+{ label: 'Post', value: 'post' },
+{ label: 'Review', value: 'review' },
+{ label: 'Treaty', value: 'treaty' },
+{ label: 'Website - Blog', value: 'post-weblog' },
  */
 
 
@@ -743,6 +729,20 @@ $ABT_i18n->fieldmaps->motion_picture = [
             'label' => __('Producer', 'academic-bloggers-toolkit'),
         ],
     ],
+];
+
+$ABT_i18n->fieldmaps->article = [
+    'title' => __('Generic (Note)', 'academic-bloggers-toolkit'),
+    'fields' => [
+        [
+            'value' => 'title',
+            'label' => __('Text', 'academic-bloggers-toolkit'),
+            'required' => true,
+            'pattern' => '.*',
+            'placeholder' => __('Note: This type may not work with certain citation styles', 'academic-bloggers-toolkit'),
+        ],
+    ],
+    'people' => [],
 ];
 
 $ABT_i18n->fieldmaps->speech = [

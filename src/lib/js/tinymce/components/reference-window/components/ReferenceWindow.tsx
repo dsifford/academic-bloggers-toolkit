@@ -90,6 +90,7 @@ export class ReferenceWindow extends React.Component<{}, {}> {
     changeType = (type: CSL.CitationType) => {
         this.manualData.clear();
         this.manualData.set('type', type);
+        this.people.replace([{ family: '', given: '', type: 'author' }]);
     }
 
     @action

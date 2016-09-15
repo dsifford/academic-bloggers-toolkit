@@ -3,7 +3,14 @@
 /**
  * AJAX Method for getting metadata from other websites for citations
  */
-add_action('wp_ajax_get_website_meta', 'abt_get_website_meta');
+
+if (extension_loaded('dom') && extension_loaded('libxml')) {
+    add_action('wp_ajax_get_website_meta', 'abt_get_website_meta');
+}
+else {
+    add_action('wp_ajax_get_website_meta', 'abt_get_website_meta_error');
+}
+
 function abt_get_website_meta() {
 
     $site_url = $_POST['site_url'];
@@ -151,4 +158,10 @@ function abt_get_website_meta() {
     }
 
     wp_send_json($payload);
+}
+
+function abt_get_website_meta_error() {
+    wp_send_json([
+        'error' => 'Your WordPress PHP installation is incomplete. You must have the "dom" and "libxml" PHP extensions enabled to use this feature.',
+    ]);
 }

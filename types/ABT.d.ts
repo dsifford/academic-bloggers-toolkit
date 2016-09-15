@@ -23,6 +23,8 @@ interface ExternalSiteMeta {
         /* CSV list of tags */
         tag?: string;
     };
+    /* Only used if dom and libxml extensions aren't enabled */
+    error?: string;
     /* Published Date ISO string */
     issued?: string;
     og: {
@@ -209,7 +211,6 @@ declare namespace ABT {
     type LinkStyle = 'always'|'always-full-surround'|'urls'|'never';
 
     type CitationTypes = {
-        inUse: boolean;
         label: string;
         value: string;
     }[];

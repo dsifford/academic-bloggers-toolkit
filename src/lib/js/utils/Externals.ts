@@ -130,9 +130,13 @@ export function getFromURL(url: string): Promise<ABT.URLMeta> {
         req.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
         req.timeout = 5000;
         req.addEventListener('load', () => {
-            if (req.status !== 200) reject(new Error('Error: URL returned a non-200 status code.'));
+            if (req.status !== 200) return reject(new Error('Error: URL returned a non-200 status code.'));
 
             const res = JSON.parse(req.responseText) as ExternalSiteMeta;
+
+            if (res.error) {
+                return reject(new Error(res.error));
+            }
 
             const content_title = res.og.title
                 || res.sailthru.title

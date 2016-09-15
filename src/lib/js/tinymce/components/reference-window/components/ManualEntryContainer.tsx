@@ -71,6 +71,7 @@ export class ManualEntryContainer extends React.PureComponent<ManualEntryProps, 
                     ref={this.bindRefs}
                     onWheel={this.handleWheel}
                 >
+                { this.props.manualData.get('type') !== 'article' &&
                     <People
                         people={this.props.people}
                         changePerson={this.props.changePerson}
@@ -78,6 +79,7 @@ export class ManualEntryContainer extends React.PureComponent<ManualEntryProps, 
                         removePerson={this.props.removePerson}
                         citationType={this.props.manualData.get('type') as CSL.CitationType}
                     />
+                }
                     <MetaFields meta={this.props.manualData} />
                 </div>
             </div>

@@ -926,6 +926,19 @@ exports.ABT_i18n = {
         }
       ]
     },
+    "article": {
+        "title": "Generic (Note)",
+        "fields": [
+            {
+              "value": "title",
+              "label": "Text",
+              "required": true,
+              "pattern": ".*",
+              "placeholder": "Note: This type may not work with certain citation styles"
+            },
+        ],
+        "people": [],
+    },
     "speech": {
       "title": "Presentation",
       "fields": [
@@ -1491,92 +1504,74 @@ exports.ABT_i18n = {
     {
       "label": "Bill",
       "value": "bill",
-      "inUse": true
     },
     {
       "label": "Book",
       "value": "book",
-      "inUse": true
     },
     {
       "label": "Book Section",
       "value": "chapter",
-      "inUse": true
     },
     {
       "label": "Case",
       "value": "legal_case",
-      "inUse": true
     },
     {
       "label": "Conference Proceeding",
       "value": "paper-conference",
-      "inUse": true
     },
     {
       "label": "Encyclopedia Entry",
       "value": "entry-encyclopedia",
-      "inUse": true
     },
     {
       "label": "Film",
       "value": "motion_picture",
-      "inUse": true
     },
     {
       "label": "Hearing",
       "value": "speech",
-      "inUse": true
     },
     {
       "label": "Journal Article",
       "value": "article-journal",
-      "inUse": true
     },
     {
       "label": "Magazine Article",
       "value": "article-magazine",
-      "inUse": true
     },
     {
       "label": "Newspaper Article",
       "value": "article-newspaper",
-      "inUse": true
     },
     {
       "label": "Patent",
       "value": "patent",
-      "inUse": true
     },
     {
       "label": "Report",
       "value": "report",
-      "inUse": true
     },
     {
       "label": "Statute",
       "value": "legislation",
-      "inUse": true
     },
     {
       "label": "Thesis",
       "value": "thesis",
-      "inUse": true
     },
     {
       "label": "Television Broadcast",
       "value": "broadcast",
-      "inUse": true
     },
     {
       "label": "Web Page",
       "value": "webpage",
-      "inUse": true
     },
     {
       "label": "Test not in use",
       "value": "testing",
-      "inUse": false
     }
   ]
 };
