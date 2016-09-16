@@ -16,56 +16,64 @@
 
             <!-- PHP VERSION CHECK -->
             <tr>
-                <td class="row-title">PHP Version</td>
+                <td class="row-title"><?php _e('PHP Version', 'academic-bloggers-toolkit') ?></td>
                 <td><?php echo phpversion() ?></td>
                 <td>
                     <?php if (version_compare(phpversion(), '5.4', '<')): ?>
-                        <span style="font-weight: bold; color: red;">PHP version should be > 5.4 (Recommended Version = 7.0.0)</span>
+                        <span style="font-weight: bold; color: red;"><?php _e('PHP version should be > 5.4 (Recommended Version = 7.0.0)', 'academic-bloggers-toolkit') ?></span>
                     <?php endif; ?>
                 </td>
             </tr>
 
             <!-- PHP DOM EXTENSION CHECK -->
             <tr class="alternate">
-                <td class="row-title">PHP <code>dom</code> Extension</td>
+                <td class="row-title"><?php _e('PHP <code>dom</code> Extension', 'academic-bloggers-toolkit') ?></td>
                 <td>
-                    <?php if (extension_loaded('dom')): ?>
-                        Enabled
-                    <?php else: ?>
-                        <span style="font-weight: bold; color: red;">Disabled</span>
-                    <?php endif; ?>
+                    <?php
+                        if (extension_loaded('dom')) {
+                            _e('Enabled', 'academic-bloggers-toolkit');
+                        }
+                        else {
+                            echo "<span style='font-weight: bold; color: red;'>" . __('Disabled', 'academic-bloggers-toolkit') . "</span>";
+                        }
+                    ?>
                 </td>
                 <td>
-                    <?php if (!extension_loaded('dom')): ?>
-                        The <code>dom</code> PHP extension is required for some plugin features.<br><a href="http://php.net/manual/en/intro.dom.php" target="_blank">Click here for installation instructions</a>.
-                    <?php endif; ?>
+                    <?php
+                        if (!extension_loaded('dom')) {
+                            echo __('The <code>dom</code> PHP extension is required for some plugin features.', 'academic-bloggers-toolkit') . '<br><a href="http://php.net/manual/en/intro.dom.php" target="_blank">' . __('Click here for installation instructions', 'academic-bloggers-toolkit') . '</a>.';
+                        }
+                    ?>
                 </td>
             </tr>
 
 
             <!-- PHP LIBXML EXTENSION CHECK -->
             <tr>
-                <td class="row-title">PHP <code>libxml</code> Extension</td>
+                <td class="row-title"><?php _e('PHP <code>libxml</code> Extension', 'academic-bloggers-toolkit') ?></td>
                 <td>
-                    <?php if (extension_loaded('libxml')): ?>
-                        Enabled
-                    <?php else: ?>
-                        <span style="font-weight: bold; color: red;">Disabled</span>
-                    <?php endif; ?>
+                    <?php
+                        if (extension_loaded('libxml')) {
+                            _e('Enabled', 'academic-bloggers-toolkit');
+                        }
+                        else {
+                            echo "<span style='font-weight: bold; color: red;'>" . __('Disabled', 'academic-bloggers-toolkit') . "</span>";
+                        }
+                    ?>
                 </td>
                 <td>
-                    <?php if (!extension_loaded('libxml')): ?>
-                        The <code>libxml</code> PHP extension is required for some plugin features.<br><a href="http://php.net/manual/en/intro.libxml.php" target="_blank">Click here for installation instructions</a>.
-                    <?php endif; ?>
+                    <?php
+                        if (!extension_loaded('libxml')) {
+                            echo __('The <code>libxml</code> PHP extension is required for some plugin features.', 'academic-bloggers-toolkit') . '<br><a href="http://php.net/manual/en/intro.libxml.php" target="_blank">' . __('Click here for installation instructions', 'academic-bloggers-toolkit') . '</a>.';
+                        }
+                    ?>
                 </td>
             </tr>
 
             <!-- BROWSER CHECK -->
             <tr class="alternate">
-                <td class="row-title">Recommended Browsers (in order)</td>
-                <td colspan="2">
-                    Google Chrome, Mozilla Firefox, Microsoft Edge, or Apple Safari.
-                </td>
+                <td class="row-title"><?php _e('Recommended Browsers (in order)', 'academic-bloggers-toolkit') ?></td>
+                <td colspan="2"><?php _e('Google Chrome, Mozilla Firefox, Microsoft Edge, or Apple Safari.', 'academic-bloggers-toolkit') ?></td>
             </tr>
         </table>
     </div>
