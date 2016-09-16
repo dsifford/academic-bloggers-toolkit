@@ -23,7 +23,7 @@
  *     <http://www.gnu.org/licenses/> respectively.
  */
 var CSL = {
-    PROCESSOR_VERSION: "1.1.127",
+    PROCESSOR_VERSION: "1.1.128",
     CONDITION_LEVEL_TOP: 1,
     CONDITION_LEVEL_BOTTOM: 2,
     PLAIN_HYPHEN_REGEX: /(?:[^\\]-|\u2013)/,
@@ -3654,10 +3654,15 @@ CSL.Output.Queue.prototype.string = function (state, myblobs, blob) {
         } else if (blobjr.blobs.length) {
             var addtoret = state.output.string(state, blobjr.blobs, blobjr);
             if (blob) {
-                if (addtoret.length > 1
-                    && "string" === typeof addtoret.slice(-1)[0]
-                    && "string" !== typeof addtoret.slice(-2)[0]) {
-                    addtoret[addtoret.length-1] = (blobjr.strings.delimiter + addtoret.slice(-1)[0]);
+                if ("string" !== addtoret && addtoret.length > 1 && blobjr.strings.delimiter) {
+                    var numberSeen = false;
+                    for (var j=0,jlen=addtoret.length;j<jlen;j++) {
+                        if ("string" !== typeof addtoret[j]) {
+                            numberSeen = true;
+                        } else if (numberSeen) {
+                            addtoret[j] = (blobjr.strings.delimiter + addtoret[j]);
+                        }
+                    }
                 }
             }
             ret = ret.concat(addtoret);
