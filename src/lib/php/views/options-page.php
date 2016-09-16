@@ -9,6 +9,68 @@
     </div>
 </div>
 
+<div class="postbox">
+    <h3><?php _e('Plugin Requirements Check', 'academic-bloggers-toolkit') ?></h3>
+    <div class="inside">
+        <table class="widefat">
+
+            <!-- PHP VERSION CHECK -->
+            <tr>
+                <td class="row-title">PHP Version</td>
+                <td><?php echo phpversion() ?></td>
+                <td>
+                    <?php if (version_compare(phpversion(), '5.4', '<')): ?>
+                        <span style="font-weight: bold; color: red;">PHP version should be > 5.4 (Recommended Version = 7.0.0)</span>
+                    <?php endif; ?>
+                </td>
+            </tr>
+
+            <!-- PHP DOM EXTENSION CHECK -->
+            <tr class="alternate">
+                <td class="row-title">PHP <code>dom</code> Extension</td>
+                <td>
+                    <?php if (extension_loaded('dom')): ?>
+                        Enabled
+                    <?php else: ?>
+                        <span style="font-weight: bold; color: red;">Disabled</span>
+                    <?php endif; ?>
+                </td>
+                <td>
+                    <?php if (!extension_loaded('dom')): ?>
+                        The <code>dom</code> PHP extension is required for some plugin features.<br><a href="http://php.net/manual/en/intro.dom.php" target="_blank">Click here for installation instructions</a>.
+                    <?php endif; ?>
+                </td>
+            </tr>
+
+
+            <!-- PHP LIBXML EXTENSION CHECK -->
+            <tr>
+                <td class="row-title">PHP <code>libxml</code> Extension</td>
+                <td>
+                    <?php if (extension_loaded('libxml')): ?>
+                        Enabled
+                    <?php else: ?>
+                        <span style="font-weight: bold; color: red;">Disabled</span>
+                    <?php endif; ?>
+                </td>
+                <td>
+                    <?php if (!extension_loaded('libxml')): ?>
+                        The <code>libxml</code> PHP extension is required for some plugin features.<br><a href="http://php.net/manual/en/intro.libxml.php" target="_blank">Click here for installation instructions</a>.
+                    <?php endif; ?>
+                </td>
+            </tr>
+
+            <!-- BROWSER CHECK -->
+            <tr class="alternate">
+                <td class="row-title">Recommended Browsers (in order)</td>
+                <td colspan="2">
+                    Google Chrome, Mozilla Firefox, Microsoft Edge, or Apple Safari.
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+
 <!-- Citation Style Box -->
 <form method="post" name="citation_style_form">
 <div class="postbox">
