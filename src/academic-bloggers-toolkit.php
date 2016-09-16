@@ -78,7 +78,7 @@ add_action('admin_init', 'abt_refactor_deprecated_options');
  * Adds link on the plugin page to the options page.
  * @param [array] $links Array of links
  */
-function abt_add_options_link ($links) {
+function abt_add_options_link($links) {
     $url = admin_url('options-general.php?page=abt-options');
     $text = __('Plugin Settings', 'academic-bloggers-toolkit');
 	$abt_links = [
@@ -87,6 +87,18 @@ function abt_add_options_link ($links) {
 	return array_merge($links, $abt_links);
 }
 add_filter('plugin_action_links_' . plugin_basename(__FILE__), 'abt_add_options_link');
+
+function abt_add_donate_link( $plugin_meta, $plugin_file ) {
+	if (plugin_basename( __FILE__ ) == $plugin_file) {
+		$plugin_meta[] = sprintf(
+			'&hearts; <a href="%s">%s</a>',
+			'https://cash.me/$dsifford',
+			__( 'Donate', 'academic-bloggers-toolkit' )
+		);
+	}
+	return $plugin_meta;
+}
+add_filter('plugin_row_meta', 'abt_add_donate_link', 10, 2);
 
 /**
  * Enqueues frontend JS and CSS
