@@ -1,6 +1,6 @@
 import * as React from 'react';
 import VSelect from 'react-virtualized-select';
-import { observable } from 'mobx';
+import { observable, action } from 'mobx';
 import { observer } from 'mobx-react';
 import { PanelButton } from './PanelButton';
 
@@ -49,8 +49,16 @@ export class Menu extends React.PureComponent<Props, {}> {
             ];
         }
 
-        this.selected.value = this.props.cslStyle;
-        this.selected.label = this.styles.find(d => d.value === this.props.cslStyle).label;
+        this.setSelected({
+            label: this.styles.find(d => d.value === this.props.cslStyle).label,
+            value: this.props.cslStyle,
+        });
+    }
+
+    @action
+    setSelected = (sel: { label?: string, value?: string }) => {
+        if (sel.value) this.selected.value = sel.value;
+        if (sel.label) this.selected.label = sel.label;
     }
 
     handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
@@ -145,7 +153,6 @@ export class Menu extends React.PureComponent<Props, {}> {
  * @param  {Function} focusOption Callback to update the focused option. (on mouseover)
  * @param  {Object} option        The option to be rendered
  * @param  {Function} selectValue Callback to update the selected values. (on click)
- * @param  {Object[]} valueArray  Array of currently selected options.
  */
 export function renderer({focusedOption, focusOption, option, selectValue}) {
     const style: React.CSSProperties = {

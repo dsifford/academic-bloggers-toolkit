@@ -54,7 +54,7 @@ export class ImportWindow extends React.Component<Props, {}> {
         payload = payload.map(ref => {
             const id = generateID();
             ref.id = id;
-            return [id, ref];
+            return ref;
         });
 
         const leftovers = parser.unsupportedRefs;

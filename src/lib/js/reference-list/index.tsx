@@ -3,6 +3,9 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { ReferenceList } from './components/ReferenceList';
 import { Store } from './Store';
+import { useStrict } from 'mobx';
+
+useStrict(true);
 
 import 'react-virtualized-select/styles.css';
 import 'react-virtualized/styles.css';
