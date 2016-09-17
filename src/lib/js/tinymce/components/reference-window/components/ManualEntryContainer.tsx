@@ -11,7 +11,7 @@ interface ManualEntryProps {
     loading: boolean;
     manualData: ObservableMap<string>;
     people: CSL.TypedPerson[];
-    autoCite(query: string): void;
+    autoCite(kind: 'webpage'|'book'|'chapter', query: string): void;
     addPerson(): void;
     changePerson(index: string, field: string, value: string): void;
     removePerson(index: string): void;
@@ -40,8 +40,8 @@ export class ManualEntryContainer extends React.PureComponent<ManualEntryProps, 
     }
 
     render() {
-        const type: string = this.props.manualData.get('type');
-        const renderAutocite: boolean = type === 'webpage';
+        const itemType: string = this.props.manualData.get('type');
+        const renderAutocite: boolean = ['webpage', 'book', 'chapter'].indexOf(itemType) > -1;
         return (
             <div>
                 { this.props.loading &&
@@ -55,7 +55,7 @@ export class ManualEntryContainer extends React.PureComponent<ManualEntryProps, 
                         <select
                             id="type-select"
                             onChange={this.handleTypeChange}
-                            value={type}
+                            value={itemType}
                         >
                             { this.citationTypes.map((item, i) =>
                                 <option key={i} value={item.value} children={item.label}/>)
@@ -63,8 +63,22 @@ export class ManualEntryContainer extends React.PureComponent<ManualEntryProps, 
                         </select>
                     </div>
                 </div>
-                { renderAutocite &&
-                    <AutoCite getter={this.props.autoCite} />
+                { renderAutocite && itemType === 'webpage' &&
+                    <AutoCite
+                        getter={this.props.autoCite}
+                        kind={itemType as 'webpage'}
+                        placeholder="URL"
+                        type="url"
+                    />
+                }
+                { renderAutocite && ['book', 'chapter'].indexOf(itemType) > -1 &&
+                    <AutoCite
+                        getter={this.props.autoCite}
+                        kind={itemType as 'book'|'chapter'}
+                        placeholder="ISBN"
+                        pattern="(?:[\dxX]-?){10}|(?:[\dxX]-?){13}"
+                        type="text"
+                    />
                 }
                 <div
                     className={renderAutocite ? 'abt-scroll-y autocite' : 'abt-scroll-y'}
@@ -88,7 +102,11 @@ export class ManualEntryContainer extends React.PureComponent<ManualEntryProps, 
 }
 
 interface AutoCiteProps {
-    getter(query: string): void;
+    kind: 'webpage'|'book'|'chapter';
+    type: 'text'|'url';
+    placeholder: string;
+    pattern?: string;
+    getter(kind: string, query: string): void;
 }
 
 @observer
@@ -110,7 +128,7 @@ export class AutoCite extends React.Component<AutoCiteProps, {}> {
     @action
     handleQuery = () => {
         if (this.query.length === 0) return;
-        this.props.getter(this.query);
+        this.props.getter(this.props.kind, this.query);
         this.query = '';
     }
 
@@ -131,6 +149,7 @@ export class AutoCite extends React.Component<AutoCiteProps, {}> {
     }
 
     render() {
+        const { placeholder, type } = this.props;
         return (
             <div id="autocite" className="row">
                 <div>
@@ -138,9 +157,10 @@ export class AutoCite extends React.Component<AutoCiteProps, {}> {
                 </div>
                 <div className="flex">
                     <input
-                        type="url"
+                        type={type}
                         id="citequery"
-                        placeholder="URL"
+                        placeholder={placeholder}
+                        pattern={this.props.pattern ? this.props.pattern : null}
                         ref={this.bindRefs}
                         value={this.query}
                         onKeyDown={this.handleKeyDown}

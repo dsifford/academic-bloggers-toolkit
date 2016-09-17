@@ -65,19 +65,26 @@ export class ReferenceWindow extends React.Component<{}, {}> {
     }
 
     @action
-    autocite = (meta: ABT.URLMeta) => {
-        this.manualData.merge({
-            URL: meta.url,
-            accessed: meta.accessed.split('T')[0].split('-').join('/'),
-            'container-title': meta.site_title,
-            issued: meta.issued.split('T')[0].split('-').join('/'),
-            title: meta.content_title,
-        });
-        this.people.replace(meta.authors.map(a => ({
-            family: a.lastname || '',
-            given: a.firstname || '',
-            type: 'author',
-        } as CSL.TypedPerson)));
+    autocite = (kind: 'webpage'|'book'|'chapter', meta: ABT.URLMeta) => {
+        switch (kind) {
+            case 'webpage':
+                this.manualData.merge({
+                    URL: meta.url,
+                    accessed: meta.accessed.split('T')[0].split('-').join('/'),
+                    'container-title': meta.site_title,
+                    issued: meta.issued.split('T')[0].split('-').join('/'),
+                    title: meta.content_title,
+                });
+                this.people.replace(meta.authors.map(a => ({
+                    family: a.lastname || '',
+                    given: a.firstname || '',
+                    type: 'author',
+                } as CSL.TypedPerson)));
+                break;
+            case 'book':
+            case 'chapter':
+            default:
+        }
         this.toggleLoadingState();
     }
 
@@ -139,15 +146,24 @@ export class ReferenceWindow extends React.Component<{}, {}> {
         wm.close();
     }
 
-    handleAutocite = (query: string) => {
+    handleAutocite = (kind: 'webpage'|'book'|'chapter', query: string) => {
         this.toggleLoadingState();
-        getFromURL(query)
-        .then(this.autocite)
-        .catch(e => {
-            this.toggleLoadingState();
-            top.tinyMCE.activeEditor.windowManager.alert(e.message);
-            console.error(e);
-        });
+        switch (kind) {
+            case 'webpage':
+                getFromURL(query)
+                .then((data) => this.autocite(kind, data))
+                .catch(e => {
+                    this.toggleLoadingState();
+                    top.tinyMCE.activeEditor.windowManager.alert(e.message);
+                    console.error(e);
+                });
+                return;
+            case 'book':
+            case 'chapter':
+            default:
+                this.toggleLoadingState();
+                return;
+        }
     }
 
     preventScrollPropagation = (e: React.WheelEvent<HTMLElement>) => {
