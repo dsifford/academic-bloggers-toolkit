@@ -3,7 +3,7 @@ declare const ABT_wp: BackendGlobals.ABT_wp;
 
 /**
  * Opens `reference-window.tsx` and returns a promise which resolves to either
- *   `ABT.ReferencePayload` or `null` on close.
+ *   `ABT.ReferenceWindowPayload` or `null` on close.
  * @param editor   The active TinyMCE instance.
  * @return A Promise which resolves to ABT.ReferenceWindowPayload
  */

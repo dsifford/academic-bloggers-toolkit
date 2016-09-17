@@ -132,7 +132,7 @@ export function getFromURL(url: string): Promise<ABT.URLMeta> {
         req.addEventListener('load', () => {
             if (req.status !== 200) return reject(new Error('Error: URL returned a non-200 status code.'));
 
-            const res = JSON.parse(req.responseText) as ExternalSiteMeta;
+            const res = JSON.parse(req.responseText) as ABT.ExternalSiteMeta;
 
             if (res.error) {
                 return reject(new Error(res.error));
