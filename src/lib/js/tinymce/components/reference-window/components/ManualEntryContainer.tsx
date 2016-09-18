@@ -76,7 +76,7 @@ export class ManualEntryContainer extends React.PureComponent<ManualEntryProps, 
                         getter={this.props.autoCite}
                         kind={itemType as 'book'|'chapter'}
                         placeholder="ISBN"
-                        pattern="(?:[\dxX]-?){10}|(?:[\dxX]-?){13}"
+                        pattern="(?:[\\dxX]-?){10}|(?:[\\dxX]-?){13}"
                         type="text"
                     />
                 }

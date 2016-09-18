@@ -110,11 +110,11 @@
         "node_modules/mobx/lib/mobx.d.ts",
         "node_modules/mobx-react/index.d.ts",
         "types/ABT.d.ts",
+        "types/api.d.ts",
         "types/citeproc.d.ts",
         "types/CSL.d.ts",
         "types/globals.d.ts",
         "types/modules.d.ts",
-        "types/pubmed.d.ts",
         "types/tinymce.d.ts"
     ]
 }

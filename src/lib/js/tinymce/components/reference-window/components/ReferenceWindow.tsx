@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Modal } from '../../../../utils/Modal';
 import { observable, computed, IObservableArray, reaction, map, action, toJS } from 'mobx';
 import { observer } from 'mobx-react';
-import { getFromURL } from '../../../../utils/Externals';
+import { getFromURL, getFromISBN } from '../../../../utils/Externals';
 // import DevTools, { configureDevtool } from 'mobx-react-devtools';
 // configureDevtool({
 //   logFilter: change => change.type === 'action',
@@ -65,17 +65,17 @@ export class ReferenceWindow extends React.Component<{}, {}> {
     }
 
     @action
-    autocite = (kind: 'webpage'|'book'|'chapter', meta: ABT.URLMeta) => {
+    autocite = (kind: 'webpage'|'book'|'chapter', meta: { webpage?: ABT.URLMeta, book?: GoogleBooks.Meta }) => {
         switch (kind) {
             case 'webpage':
                 this.manualData.merge({
-                    URL: meta.url,
-                    accessed: meta.accessed.split('T')[0].split('-').join('/'),
-                    'container-title': meta.site_title,
-                    issued: meta.issued.split('T')[0].split('-').join('/'),
-                    title: meta.content_title,
+                    URL: meta.webpage.url,
+                    accessed: meta.webpage.accessed.split('T')[0].split('-').join('/'),
+                    'container-title': meta.webpage.site_title,
+                    issued: meta.webpage.issued.split('T')[0].split('-').join('/'),
+                    title: meta.webpage.content_title,
                 });
-                this.people.replace(meta.authors.map(a => ({
+                this.people.replace(meta.webpage.authors.map(a => ({
                     family: a.lastname || '',
                     given: a.firstname || '',
                     type: 'author',
@@ -84,6 +84,13 @@ export class ReferenceWindow extends React.Component<{}, {}> {
             case 'book':
             case 'chapter':
             default:
+                this.manualData.merge({
+                    'number-of-pages': meta.book['number-of-pages'],
+                    issued: meta.book.issued,
+                    publisher: meta.book.publisher,
+                    title: meta.book.title,
+                });
+                this.people.replace(meta.book.authors as CSL.TypedPerson[]);
         }
         this.toggleLoadingState();
     }
@@ -151,7 +158,7 @@ export class ReferenceWindow extends React.Component<{}, {}> {
         switch (kind) {
             case 'webpage':
                 getFromURL(query)
-                .then((data) => this.autocite(kind, data))
+                .then(data => this.autocite(kind, { webpage: data }))
                 .catch(e => {
                     this.toggleLoadingState();
                     top.tinyMCE.activeEditor.windowManager.alert(e.message);
@@ -161,7 +168,13 @@ export class ReferenceWindow extends React.Component<{}, {}> {
             case 'book':
             case 'chapter':
             default:
-                this.toggleLoadingState();
+                getFromISBN(query)
+                .then(data => this.autocite(kind, { book: data }))
+                .catch(e => {
+                    this.toggleLoadingState();
+                    top.tinyMCE.activeEditor.windowManager.alert(e.message);
+                    console.error(e);
+                });
                 return;
         }
     }
