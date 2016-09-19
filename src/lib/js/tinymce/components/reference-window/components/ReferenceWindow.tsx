@@ -85,6 +85,7 @@ export class ReferenceWindow extends React.Component<{}, {}> {
             case 'chapter':
             default:
                 this.manualData.merge({
+                    accessed: new Date(Date.now()).toISOString().split('T')[0].split('-').join('/'),
                     'number-of-pages': meta.book['number-of-pages'],
                     issued: meta.book.issued,
                     publisher: meta.book.publisher,
