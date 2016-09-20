@@ -491,11 +491,7 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
 
         return (
             <div>
-<<<<<<< HEAD
-                {<DevTools position={{left: 50, top: 40}} />}
-=======
                 {/* <DevTools position={{left: 50, top: 40}} /> */}
->>>>>>> next
                 <StorageField store={this.props.store} />
                 <div className="abt-panel">
                     <PanelButton
