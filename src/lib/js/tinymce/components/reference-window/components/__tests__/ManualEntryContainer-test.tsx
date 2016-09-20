@@ -32,10 +32,15 @@ const setup = (
     };
 };
 
-const setupAutocite = () => {
+const setupAutocite = (kind: 'book'|'chapter'|'webpage' = 'webpage', type: 'text'|'url' = 'url') => {
     const spy = sinon.spy();
     const component = mount(
-        <AutoCite getter={spy} />
+        <AutoCite
+            getter={spy}
+            kind={kind}
+            placeholder="Testing"
+            type={type}
+        />
     );
     return {
         spy,
@@ -76,6 +81,11 @@ describe('<ManualEntryContainer />', () => {
             expect(component.find('Autocite')).toBeTruthy();
         });
 
+        it('should render with autocite for book type', () => {
+            const { component } = setup('book');
+            expect(component.find('Autocite')).toBeTruthy();
+        });
+
         it('should NOT call the getter on "Enter" press with an empty query', () => {
             const { component, spy } = setup('webpage');
             const input = component.find('#citequery');
@@ -89,6 +99,7 @@ describe('<ManualEntryContainer />', () => {
             const { component, spy } = setupAutocite();
             const inst = (component.instance() as any);
             inst.handleAutociteFieldChange({ target: { value: 'http://www.google.com' }});
+            inst.input.validity = { valid: true }; // Fixes test environment error
             inst.handleQuery();
             expect(spy.callCount).toBe(1);
         });
