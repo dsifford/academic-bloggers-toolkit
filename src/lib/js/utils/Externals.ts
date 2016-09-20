@@ -91,7 +91,7 @@ export function getFromDOI(doiList: string[]): Promise<[CSL.Data[], string[]]> {
                 new Promise<[CSL.Data, string]>((resolveInner, rejectInner) => { // tslint:disable-next-line
                     const url = `https://api.crossref.org/v1/works/${doi}/transform/application/vnd.citationstyles.csl+json`;
                     const req = new XMLHttpRequest();
-                    req.open('GET', url, true);
+                    req.open('GET', url);
                     req.onload = () => {
                         if (req.status !== 200) resolveInner([null, doi]);
 
@@ -130,9 +130,13 @@ export function getFromURL(url: string): Promise<ABT.URLMeta> {
         req.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
         req.timeout = 5000;
         req.addEventListener('load', () => {
-            if (req.status !== 200) reject(new Error('Error: URL returned a non-200 status code.'));
+            if (req.status !== 200) return reject(new Error('Error: URL returned a non-200 status code.'));
 
-            const res = JSON.parse(req.responseText) as ExternalSiteMeta;
+            const res = JSON.parse(req.responseText) as ABT.ExternalSiteMeta;
+
+            if (res.error) {
+                return reject(new Error(res.error));
+            }
 
             const content_title = res.og.title
                 || res.sailthru.title
@@ -168,5 +172,51 @@ export function getFromURL(url: string): Promise<ABT.URLMeta> {
         req.addEventListener('error', () => reject(new Error('Error: Network Error.')));
         req.addEventListener('timeout', () => reject(new Error('Error: Site denied request.')));
         req.send(data);
+    });
+}
+
+export function getFromISBN(ISBN: string): Promise<GoogleBooks.Meta> {
+    return new Promise((resolve, reject) => {
+        const req = new XMLHttpRequest();
+        const url = `https://www.googleapis.com/books/v1/volumes?q=isbn:${ISBN.replace('-', '')}`;
+        req.open('GET', url);
+        req.addEventListener('load', () => {
+            if (req.status !== 200) return reject(new Error('Error: URL returned a non-200 status code.'));
+            const res = JSON.parse(req.responseText) as GoogleBooks.Response;
+            const meta = res.items[0].volumeInfo;
+            const authors = meta.authors.map(y => {
+                const t = y.split(' ');
+                if (t.length > 3) {
+                    return {
+                        family: t.slice(1).join(' '),
+                        given: t[0],
+                        type: 'author' as 'author',
+                    };
+                }
+                const [a, b, c] = t;
+                if (typeof c === 'undefined') {
+                    return {
+                        family: b,
+                        given: a,
+                        type: 'author' as 'author',
+                    };
+                }
+                return {
+                    family: c,
+                    given: `${a}, ${b}`,
+                    type: 'author' as 'author',
+                };
+            });
+            const payload: GoogleBooks.Meta = {
+                authors,
+                issued: meta.publishedDate.replace(/-/g, '/'),
+                'number-of-pages': meta.pageCount.toString(),
+                publisher: meta.publisher,
+                title: meta.title,
+            };
+            resolve(payload);
+        });
+        req.addEventListener('error', () => reject(new Error('Error: Network Error.')));
+        req.send(null);
     });
 }

@@ -9,6 +9,76 @@
     </div>
 </div>
 
+<div class="postbox">
+    <h3><?php _e('Plugin Requirements Check', 'academic-bloggers-toolkit') ?></h3>
+    <div class="inside">
+        <table class="widefat">
+
+            <!-- PHP VERSION CHECK -->
+            <tr>
+                <td class="row-title"><?php _e('PHP Version', 'academic-bloggers-toolkit') ?></td>
+                <td><?php echo phpversion() ?></td>
+                <td>
+                    <?php if (version_compare(phpversion(), '5.4', '<')): ?>
+                        <span style="font-weight: bold; color: red;"><?php _e('PHP version should be > 5.4 (Recommended Version = 7.0.0)', 'academic-bloggers-toolkit') ?></span>
+                    <?php endif; ?>
+                </td>
+            </tr>
+
+            <!-- PHP DOM EXTENSION CHECK -->
+            <tr class="alternate">
+                <td class="row-title"><?php _e('PHP <code>dom</code> Extension', 'academic-bloggers-toolkit') ?></td>
+                <td>
+                    <?php
+                        if (extension_loaded('dom')) {
+                            _e('Enabled', 'academic-bloggers-toolkit');
+                        }
+                        else {
+                            echo "<span style='font-weight: bold; color: red;'>" . __('Disabled', 'academic-bloggers-toolkit') . "</span>";
+                        }
+                    ?>
+                </td>
+                <td>
+                    <?php
+                        if (!extension_loaded('dom')) {
+                            echo __('The <code>dom</code> PHP extension is required for some plugin features.', 'academic-bloggers-toolkit') . '<br><a href="http://php.net/manual/en/intro.dom.php" target="_blank">' . __('Click here for installation instructions', 'academic-bloggers-toolkit') . '</a>.';
+                        }
+                    ?>
+                </td>
+            </tr>
+
+
+            <!-- PHP LIBXML EXTENSION CHECK -->
+            <tr>
+                <td class="row-title"><?php _e('PHP <code>libxml</code> Extension', 'academic-bloggers-toolkit') ?></td>
+                <td>
+                    <?php
+                        if (extension_loaded('libxml')) {
+                            _e('Enabled', 'academic-bloggers-toolkit');
+                        }
+                        else {
+                            echo "<span style='font-weight: bold; color: red;'>" . __('Disabled', 'academic-bloggers-toolkit') . "</span>";
+                        }
+                    ?>
+                </td>
+                <td>
+                    <?php
+                        if (!extension_loaded('libxml')) {
+                            echo __('The <code>libxml</code> PHP extension is required for some plugin features.', 'academic-bloggers-toolkit') . '<br><a href="http://php.net/manual/en/intro.libxml.php" target="_blank">' . __('Click here for installation instructions', 'academic-bloggers-toolkit') . '</a>.';
+                        }
+                    ?>
+                </td>
+            </tr>
+
+            <!-- BROWSER CHECK -->
+            <tr class="alternate">
+                <td class="row-title"><?php _e('Recommended Browsers (in order)', 'academic-bloggers-toolkit') ?></td>
+                <td colspan="2"><?php _e('Google Chrome, Mozilla Firefox, Microsoft Edge, or Apple Safari.', 'academic-bloggers-toolkit') ?></td>
+            </tr>
+        </table>
+    </div>
+</div>
+
 <!-- Citation Style Box -->
 <form method="post" name="citation_style_form">
 <div class="postbox">
@@ -171,7 +241,7 @@
                             <td><code>#abt-footnote, .abt-footnote-heading, .abt-footnote-item, .abt-footnote-number</code></td>
                         </tr>
                     </table>
-                    <div style="font-size: 0.8em;"><?php _e('Note: If you are already using a child theme to load CSS, place your CSS overrides there. The box above is only a crutch for those who do not have any custom CSS saved yet. Loading CSS this way is very inefficient.', 'academic-bloggers-toolkit') ?></div>
+                    <div style="font-size: 0.8em;"><?php _e('Note: If you are already using a child theme to load CSS, place your CSS overrides there. The box on the left is only a crutch for those who do not have any custom CSS saved yet. Loading CSS this way is very inefficient.', 'academic-bloggers-toolkit') ?></div>
                 </td>
             </tr>
         </table>

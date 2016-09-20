@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Modal } from '../../../../utils/Modal';
 import { observable, computed, IObservableArray, reaction, map, action, toJS } from 'mobx';
 import { observer } from 'mobx-react';
-import { getFromURL } from '../../../../utils/Externals';
+import { getFromURL, getFromISBN } from '../../../../utils/Externals';
 // import DevTools, { configureDevtool } from 'mobx-react-devtools';
 // configureDevtool({
 //   logFilter: change => change.type === 'action',
@@ -65,19 +65,35 @@ export class ReferenceWindow extends React.Component<{}, {}> {
     }
 
     @action
-    autocite = (meta: ABT.URLMeta) => {
-        this.manualData.merge({
-            URL: meta.url,
-            accessed: meta.accessed.split('T')[0].split('-').join('/'),
-            'container-title': meta.site_title,
-            issued: meta.issued.split('T')[0].split('-').join('/'),
-            title: meta.content_title,
-        });
-        this.people.replace(meta.authors.map(a => ({
-            family: a.lastname || '',
-            given: a.firstname || '',
-            type: 'author',
-        } as CSL.TypedPerson)));
+    autocite = (kind: 'webpage'|'book'|'chapter', meta: { webpage?: ABT.URLMeta, book?: GoogleBooks.Meta }) => {
+        switch (kind) {
+            case 'webpage':
+                this.manualData.merge({
+                    URL: meta.webpage.url,
+                    accessed: meta.webpage.accessed.split('T')[0].split('-').join('/'),
+                    'container-title': meta.webpage.site_title,
+                    issued: meta.webpage.issued.split('T')[0].split('-').join('/'),
+                    title: meta.webpage.content_title,
+                });
+                this.people.replace(meta.webpage.authors.map(a => ({
+                    family: a.lastname || '',
+                    given: a.firstname || '',
+                    type: 'author',
+                } as CSL.TypedPerson)));
+                break;
+            case 'book':
+            case 'chapter':
+            default:
+                const titleKey = kind === 'chapter' ? 'container-title' : 'title';
+                this.manualData.merge({
+                    accessed: new Date(Date.now()).toISOString().split('T')[0].split('-').join('/'),
+                    'number-of-pages': meta.book['number-of-pages'],
+                    issued: meta.book.issued,
+                    publisher: meta.book.publisher,
+                    [titleKey]: meta.book.title,
+                });
+                this.people.replace(meta.book.authors as CSL.TypedPerson[]);
+        }
         this.toggleLoadingState();
     }
 
@@ -90,6 +106,7 @@ export class ReferenceWindow extends React.Component<{}, {}> {
     changeType = (type: CSL.CitationType) => {
         this.manualData.clear();
         this.manualData.set('type', type);
+        this.people.replace([{ family: '', given: '', type: 'author' }]);
     }
 
     @action
@@ -138,15 +155,30 @@ export class ReferenceWindow extends React.Component<{}, {}> {
         wm.close();
     }
 
-    handleAutocite = (query: string) => {
+    handleAutocite = (kind: 'webpage'|'book'|'chapter', query: string) => {
         this.toggleLoadingState();
-        getFromURL(query)
-        .then(this.autocite)
-        .catch(e => {
-            this.toggleLoadingState();
-            top.tinyMCE.activeEditor.windowManager.alert(e.message);
-            console.error(e);
-        });
+        switch (kind) {
+            case 'webpage':
+                getFromURL(query)
+                .then(data => this.autocite(kind, { webpage: data }))
+                .catch(e => {
+                    this.toggleLoadingState();
+                    top.tinyMCE.activeEditor.windowManager.alert(e.message);
+                    console.error(e);
+                });
+                return;
+            case 'book':
+            case 'chapter':
+            default:
+                getFromISBN(query)
+                .then(data => this.autocite(kind, { book: data }))
+                .catch(e => {
+                    this.toggleLoadingState();
+                    top.tinyMCE.activeEditor.windowManager.alert(e.message);
+                    console.error(e);
+                });
+                return;
+        }
     }
 
     preventScrollPropagation = (e: React.WheelEvent<HTMLElement>) => {

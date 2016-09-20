@@ -123,7 +123,7 @@ class ABT_Backend {
      * @param string $post_type The post type
      */
     public function add_metaboxes($post_type) {
-        $invalid_post_type = in_array($post_type, ['attachment', 'acf']);
+        $invalid_post_type = in_array($post_type, ['attachment', 'acf', 'um_form']);
 
         if ($invalid_post_type) return;
 
@@ -213,7 +213,7 @@ class ABT_Backend {
     public function enqueue_admin_scripts() {
         global $post_type;
 
-        $invalid_post_type = in_array($post_type, ['attachment', 'acf']);
+        $invalid_post_type = in_array($post_type, ['attachment', 'acf', 'um_form']);
 
         if ($invalid_post_type) return;
 

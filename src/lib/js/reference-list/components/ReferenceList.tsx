@@ -2,11 +2,14 @@ import * as React from 'react';
 import { EVENTS } from '../../utils/Constants';
 import * as MCE from '../../utils/TinymceFunctions';
 import { CSLProcessor } from '../../utils/CSLProcessor';
-import { observable, IObservableArray, reaction } from 'mobx';
+import { observable, IObservableArray, reaction, action } from 'mobx';
 import { observer } from 'mobx-react';
 import { getRemoteData, parseManualData } from '../API';
 import * as CSSTransitionGroup from 'react-addons-css-transition-group';
-// import DevTools from 'mobx-react-devtools';
+import DevTools, { configureDevtool } from 'mobx-react-devtools';
+configureDevtool({
+  logFilter: change => change.type === 'action',
+});
 
 import { Store } from '../Store';
 import { Menu } from './Menu';
@@ -77,8 +80,8 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
 
     componentDidMount() {
         addEventListener(TINYMCE_READY, this.initTinyMCE);
-        addEventListener(TINYMCE_HIDDEN, () => this.loading = true);
-        addEventListener(TINYMCE_VISIBLE, () => this.loading = false);
+        addEventListener(TINYMCE_HIDDEN, () => this.toggleLoading(true));
+        addEventListener(TINYMCE_VISIBLE, () => this.toggleLoading(false));
         addEventListener(OPEN_REFERENCE_WINDOW, this.openReferenceWindow);
         addEventListener('scroll', this.handleScroll);
     }
@@ -141,7 +144,7 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
 
     initTinyMCE = () => {
         this.editor = tinyMCE.editors['content'];
-        this.initProcessor().then(() => this.loading = !this.loading);
+        this.initProcessor().then(() => this.toggleLoading());
     }
 
     insertStaticBibliography = () => {
@@ -256,6 +259,7 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
         this.clearSelection();
     }
 
+    @action
     deleteCitations = (e?: React.MouseEvent<HTMLAnchorElement>) => {
         if (e) e.preventDefault();
         if (this.selected.length === 0) return;
@@ -265,6 +269,7 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
         this.initProcessor();
     }
 
+    @action
     openReferenceWindow = () => {
         MCE.referenceWindow(this.editor).then(payload => {
             if (!payload) return;
@@ -275,12 +280,7 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
 
             preprocess.then((data) => {
 
-                this.props.store.citations.CSL.merge(
-                    data.reduce((prev, curr) => {
-                        prev[curr.id] = curr;
-                        return prev;
-                    }, {} as {[itemId: string]: CSL.Data})
-                );
+                this.props.store.citations.addItems(data);
 
                 data = data.reduce((prev, curr) => {
                     const index = this.props.store.citations.lookup.titles.indexOf(curr.title);
@@ -308,12 +308,7 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
     openImportWindow = () => {
         MCE.importWindow(this.editor).then(data => {
             if (!data) return;
-            this.props.store.citations.CSL.merge(
-                data.reduce((prev, curr) => {
-                    prev[curr[0]] = curr[1];
-                    return prev;
-                }, {} as {[itemId: string]: CSL.Data})
-            );
+            this.props.store.citations.addItems(data);
         }).catch(err => {
             Rollbar.error('ReferenceList.tsx -> openImportWindow', err);
             console.error(err.message);
@@ -322,10 +317,10 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
     }
 
     handleMenuSelection = (kind: string, data: string) => {
-        this.menuOpen = false;
+        this.toggleMenu();
         switch (kind) {
             case 'CHANGE_STYLE':
-                this.props.store.citationStyle = data;
+                this.props.store.setStyle(data);
                 this.initProcessor();
                 return;
             case 'IMPORT_RIS':
@@ -347,6 +342,7 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
         }
     }
 
+    @action
     handleScroll = () => {
         const list = document.getElementById('abt_reflist');
 
@@ -420,12 +416,14 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
         this.uncitedListUI.maxHeight = `${uncitedHeight}px`;
     }
 
+    @action
     togglePinned = (e) => {
         e.preventDefault();
         document.getElementById('abt_reflist').classList.toggle('fixed');
         this.fixed = !this.fixed;
     }
 
+    @action
     toggleList = (id: string, explode: boolean = false) => {
         switch (id) {
             case 'cited':
@@ -449,21 +447,25 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
         }
     }
 
-    toggleMenu = (e: React.MouseEvent<HTMLAnchorElement>) => {
-        e.preventDefault();
+    @action
+    toggleMenu = (e?: React.MouseEvent<HTMLAnchorElement>) => {
+        if (e) e.preventDefault();
         this.menuOpen = !this.menuOpen;
     }
 
+    @action
     toggleSelect = (id: string, isSelected: boolean) => {
         return isSelected
         ? this.selected.remove(id)
         : this.selected.push(id);
     }
 
+    @action
     clearSelection = () => {
         this.selected.clear();
     }
 
+    @action
     reset = () => {
         this.editor.setProgressState(true);
         this.clearSelection();
@@ -472,6 +474,11 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
         this.props.store.reset();
         MCE.reset(this.editor.dom.doc);
         this.initProcessor();
+    }
+
+    @action
+    toggleLoading = (loadState?: boolean) => {
+        this.loading = loadState ? loadState : !this.loading;
     }
 
     render() {
@@ -484,7 +491,7 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
 
         return (
             <div>
-                {/*<DevTools position={{left: 50, top: 40}} />*/}
+                {<DevTools position={{left: 50, top: 40}} />}
                 <StorageField store={this.props.store} />
                 <div className="abt-panel">
                     <PanelButton

@@ -93,6 +93,14 @@ describe('Reflist Store', () => {
             expect(store.citations.citationByIndex.length).toBe(2);
             expect(store.citations.CSL.keys().length).toBe(2);
         });
+
+        it('should add CSL items with addItems()', () => {
+            expect(store.citations.CSL.keys().length).toBe(3);
+            const item: CSL.Data = {id: 'newItem'};
+            store.citations.addItems([item]);
+            expect(store.citations.CSL.keys().length).toBe(4);
+        });
+
     });
 
     beforeEach(() => {
@@ -111,6 +119,12 @@ describe('Reflist Store', () => {
         store.reset();
         expect(store.citations.CSL.keys().length).toBe(0);
         expect(store.citations.citationByIndex.length).toBe(0);
+    });
+
+    it('should set citationStyle', () => {
+        expect(store.citationStyle).toBe('american-medical-association');
+        store.setStyle('apa-5th');
+        expect(store.citationStyle).toBe('apa-5th');
     });
 
 });
