@@ -25,7 +25,7 @@ An **open source** WordPress plugin providing an all-in-one solution for effecti
 > Need to write one long blog post with lots of references? Download this plugin, write the post, and then delete the plugin if you don't need it any longer. **Freedom.**
 
 ## Features
-- Insert formatted references on the fly using digital identifiers (**PMID** or **DOI**).
+- Insert formatted references on the fly using digital identifiers (**PMID**, **DOI**, **URL**, or **ISBN**).
 - Manually insert formatted references from **over 15 types of references**.
 - **Import a full bibliography from your favorite reference manager** using an exported `.ris` file.
 - Automatically format references for **every citation style on planet earth** (over 1300).
