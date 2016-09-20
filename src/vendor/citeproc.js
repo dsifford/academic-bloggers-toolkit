@@ -23,7 +23,7 @@
  *     <http://www.gnu.org/licenses/> respectively.
  */
 var CSL = {
-    PROCESSOR_VERSION: "1.1.128",
+    PROCESSOR_VERSION: "1.1.130",
     CONDITION_LEVEL_TOP: 1,
     CONDITION_LEVEL_BOTTOM: 2,
     PLAIN_HYPHEN_REGEX: /(?:[^\\]-|\u2013)/,
@@ -13555,7 +13555,14 @@ CSL.Engine.prototype.processNumber = function (node, ItemObject, variable, type)
             var m = elems[i].match(/((?:^| )(?:[a-z]|[a-z][a-z]|[a-z][a-z][a-z]|[a-z][a-z][a-z][a-z])\. *)/g);
             if (m) {
                 var lst = elems[i].split(/(?:(?:^| )(?:[a-z]|[a-z][a-z]|[a-z][a-z][a-z]|[a-z][a-z][a-z][a-z])\. *)/);
-                if (i === 0) {
+                for (var j=lst.length-1;j>0;j--) {
+                    if (lst[j-1] && (!lst[j].match(/^[0-9]+([-,:a-zA-Z]*)$/) || !lst[j-1].match(/^[0-9]+([-,:a-zA-Z]*)$/))) {
+                        lst[j-1] = lst[j-1] + m[j-1] + lst[j];
+                        lst = lst.slice(0,j).concat(lst.slice(j+1))
+                        m = m.slice(0,j-1).concat(m.slice(j))
+                    }
+                }
+                if (m.length > 0 && i === 0) {
                     var slug = m[0].trim();
                     if (!CSL.STATUTE_SUBDIV_STRINGS[slug]
                         || !me.getTerm(CSL.STATUTE_SUBDIV_STRINGS[slug])
@@ -13826,12 +13833,16 @@ CSL.Engine.prototype.processNumber = function (node, ItemObject, variable, type)
             manglePageNumbers(values, values.length-1, currentInfo);
         }
     }
-    function setVariableParams(obj, values) {
+    function setVariableParams(shadow_numbers, variable, values) {
+        var obj = shadow_numbers[variable];
         if (values.length) {
             obj.numeric = values[0].numeric;
             obj.collapsible = values[0].collapsible;
             obj.plural = values[0].plural;
             obj.label = CSL.STATUTE_SUBDIV_STRINGS[values[0].label];
+            if (variable === "number" && obj.label === "issue" && me.getTerm("number")) {
+                obj.label = "number";
+            }
         }
     }
     if (node && this.tmp.shadow_numbers[variable] && this.tmp.shadow_numbers[variable].values.length) {
@@ -13881,7 +13892,7 @@ CSL.Engine.prototype.processNumber = function (node, ItemObject, variable, type)
             fixRanges(values);
             this.tmp.shadow_numbers[variable].masterStyling = setStyling(values)
         }
-        setVariableParams(this.tmp.shadow_numbers[variable], values);
+        setVariableParams(this.tmp.shadow_numbers, variable, values);
     }
 };
 CSL.Util.outputNumericField = function(state, varname, itemID) {
