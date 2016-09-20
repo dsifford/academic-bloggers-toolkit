@@ -84,12 +84,13 @@ export class ReferenceWindow extends React.Component<{}, {}> {
             case 'book':
             case 'chapter':
             default:
+                const titleKey = kind === 'chapter' ? 'container-title' : 'title';
                 this.manualData.merge({
                     accessed: new Date(Date.now()).toISOString().split('T')[0].split('-').join('/'),
                     'number-of-pages': meta.book['number-of-pages'],
                     issued: meta.book.issued,
                     publisher: meta.book.publisher,
-                    title: meta.book.title,
+                    [titleKey]: meta.book.title,
                 });
                 this.people.replace(meta.book.authors as CSL.TypedPerson[]);
         }

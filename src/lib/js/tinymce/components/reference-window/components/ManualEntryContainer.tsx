@@ -127,7 +127,7 @@ export class AutoCite extends React.Component<AutoCiteProps, {}> {
 
     @action
     handleQuery = () => {
-        if (this.query.length === 0) return;
+        if (this.query.length === 0 || !this.input.validity.valid) return;
         this.props.getter(this.props.kind, this.query);
         this.query = '';
     }
