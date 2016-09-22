@@ -72,6 +72,7 @@ gulp.task('bump', () => {
 gulp.task('rollbar', () =>
     gulp.src('dist/lib/php/dom-injects.php', { base: './' })
     .pipe(replace(/(payload: {\n.+?environment: "test"\n.+?})/, ''))
+    .pipe(replace(/(\s+code_version: ")[\d.]+(",)/, `$1${VERSION}$2`))
     .pipe(gulp.dest('./'))
 );
 
@@ -198,6 +199,7 @@ gulp.task('webpack:prod', () =>
 gulp.task('js', () =>
     gulp
         .src('dist/**/*.js', { base: 'dist' })
+        .pipe(sourcemaps.init())
         .pipe(uglify({
             compress: {
                 dead_code: true,
@@ -206,6 +208,7 @@ gulp.task('js', () =>
                 drop_console: true,
             },
         }))
+        .pipe(sourcemaps.write('.'))
         .pipe(gulp.dest('dist'))
 );
 

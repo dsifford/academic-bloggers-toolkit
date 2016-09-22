@@ -173,11 +173,18 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
                 return;
             }
 
-            const margin: string = this.editor.dom.getStyle(
-                this.editor.dom.doc.querySelector('p'),
-                'margin',
-                true
-            ) || '0 0 28px';
+            // Necessary for a particular edge case that throws errors when no text
+            // exists yet in the editor
+            let margin: string;
+            try {
+                margin = this.editor.dom.getStyle(
+                    this.editor.dom.doc.querySelector('p'),
+                    'margin',
+                    true
+                ) || '0 0 28px';
+            } catch (e) {
+                margin = '0 0 28px';
+            }
 
             /* FIXME: Repeating myself here from the other function... */
             const bib = this.editor.dom.doc.createElement('DIV');
