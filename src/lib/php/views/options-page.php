@@ -19,8 +19,8 @@
                 <td class="row-title"><?php _e('PHP Version', 'academic-bloggers-toolkit') ?></td>
                 <td><?php echo phpversion() ?></td>
                 <td>
-                    <?php if (version_compare(phpversion(), '5.4', '<')): ?>
-                        <span style="font-weight: bold; color: red;"><?php _e('PHP version should be > 5.4 (Recommended Version = 7.0.0)', 'academic-bloggers-toolkit') ?></span>
+                    <?php if (version_compare(phpversion(), '5.5', '<')): ?>
+                        <span style="font-weight: bold; color: red;"><?php _e('PHP version should be > 5.5 (Recommended Version = 7.0.0)', 'academic-bloggers-toolkit') ?></span>
                     <?php endif; ?>
                 </td>
             </tr>
