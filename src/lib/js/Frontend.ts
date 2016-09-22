@@ -3,7 +3,7 @@ declare const DocumentTouch;
 
 class Citations {
 
-    public static timer: NodeJS.Timer;
+    public static timer: number;
     public bibliography: HTMLDivElement;
 
     constructor() {

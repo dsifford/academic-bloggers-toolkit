@@ -66,9 +66,9 @@
     "webpack-stream": "^3.2.0"
   },
   "dependencies": {
-    "@types/enzyme": "^2.4.33",
-    "@types/jest": "^0.9.31",
-    "@types/react": "^0.14.35",
+    "@types/enzyme": "^2.4.34",
+    "@types/jest": "^15.1.32",
+    "@types/react": "^0.14.36",
     "@types/react-addons-css-transition-group": "^0.14.17",
     "@types/react-dom": "^0.14.17",
     "@types/sinon": "^1.16.30",
@@ -78,7 +78,7 @@
     "react-addons-css-transition-group": "^15.3.2",
     "react-addons-shallow-compare": "^15.3.2",
     "react-dom": "^15.3.2",
-    "react-virtualized-select": "^1.4.0",
+    "react-virtualized-select": "^2.0.0",
     "typescript": "^2.1.0-dev.20160724"
   },
   "babel": {

@@ -57,6 +57,7 @@ const setupRenderer = (label: string, value = 'test', focusedOption = false) => 
     const select = spy();
     const component = shallow(
         <Renderer
+            style={{}}
             focusOption={focus}
             focusedOption={focusedOption === true ? option : {}}
             option={option}

@@ -101,7 +101,6 @@
         "src/lib/js/utils/Tooltips.ts",
         "node_modules/@types/enzyme/index.d.ts",
         "node_modules/@types/jest/index.d.ts",
-        "node_modules/@types/node/index.d.ts",
         "node_modules/@types/react-addons-css-transition-group/index.d.ts",
         "node_modules/@types/react-addons-transition-group/index.d.ts",
         "node_modules/@types/react-dom/index.d.ts",
