@@ -67,7 +67,7 @@ describe('<ImportWindow />', () => {
 
     it('should trigger an alert when the upload returns a length of 0 (bad file)', () => {
         const stub = sinon.stub(parser, 'RISParser', function() { // tslint:disable-line
-            this.parse = () => [];
+            this.parse = () => []; // tslint:disable-line
         });
         const { component, alert } = setup();
         (component as any).instance().parseFile({target: {result: ''}});
@@ -77,8 +77,8 @@ describe('<ImportWindow />', () => {
 
     it('should trigger an alert when some references can\'t be parsed', () => {
         const stub = sinon.stub(parser, 'RISParser', function() { // tslint:disable-line
-            this.parse = () => [{}, {}, {}];
-            this.unsupportedRefs = ['one', 'two', 'three'];
+            this.parse = () => [{}, {}, {}]; // tslint:disable-line
+            this.unsupportedRefs = ['one', 'two', 'three']; // tslint:disable-line
         });
         const { component, alert } = setup();
         (component as any).instance().parseFile({target: {result: ''}});

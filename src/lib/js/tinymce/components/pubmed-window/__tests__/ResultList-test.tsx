@@ -5,7 +5,7 @@ import { mount } from 'enzyme';
 import * as sinon from 'sinon';
 import { ResultList } from '../ResultList';
 
-let testData: PubMed.SingleReference[] = [
+const testData: PubMed.SingleReference[] = [
     {
         authors: [
             { name: 'Author 1' },

@@ -3,10 +3,10 @@ import { ObservableMap } from 'mobx';
 
 /**
  * Creates a "unique" ID value to be used for an ID field.
- * @return {string}              Unique ID.
+ * @return {string}  Unique ID.
  */
 export function generateID(): string {
-    return Math.round(Math.random() * Date.now()).toString(30);
+    return Math.round(Math.random() * Date.now()).toString(30); // tslint:disable-line
 }
 
 /**
@@ -16,9 +16,9 @@ export function generateID(): string {
  * Shape of PubMed string   => Lastname FM
  * Shape of CrossRef string => Lastname, Firstname M
  *
- * @param  {string}     input  The raw, unformatted name.
- * @param  {'RIS'|'pubmed'}     source The source of the name field.
- * @return {CSL.Person}        The formatted CSL.Person object.
+ * @param  {string} input          Raw, unformatted name
+ * @param  {'RIS'|'pubmed'} source Source of the name field
+ * @return {CSL.Person}            Formatted CSL.Person object
  */
 export function processCSLName(input: string, source: 'RIS'|'pubmed'): CSL.Person {
 
@@ -50,13 +50,13 @@ export function processCSLName(input: string, source: 'RIS'|'pubmed'): CSL.Perso
  * A RIS date string has the following shape: `YYYY/MM/DD/OtherInfo`
  * A PubMed date string has the following shape: `1975/12/01 00:00`
  *
- * @param  {string}   input  Date string.
- * @param  {'RIS'|'pubmed'}   source The source of the input.
- * @return {CSL.Date}        Formatted CSL.Date object.
+ * @param  {string} input           Date string
+ * @param  {'RIS'|'pubmed'} source  Source of the input
+ * @return {CSL.Date}               Formatted CSL.Date object
  */
 export function processCSLDate(input: string, source: 'RIS'|'pubmed'): CSL.Date {
 
-    let date: CSL.Date = { 'date-parts': [[]] };
+    const date: CSL.Date = { 'date-parts': [[]] };
     if (input.length === 0) { return date; }
 
     switch (source) {
@@ -105,8 +105,8 @@ export function processCSLDate(input: string, source: 'RIS'|'pubmed'): CSL.Date 
  *   - vernaculartitle
  *   - viewcount
  *
- * @param res  The pubmed api response
- * @return     CSL.Data[]
+ * @param {PubMed.SingleReference[]} res  Pubmed api response
+ * @return CSL.Data[]
  */
 export function processPubmedJSON(res: PubMed.SingleReference[]): CSL.Data[] {
     const payload: CSL.Data[] = [];
@@ -202,8 +202,8 @@ export function processPubmedJSON(res: PubMed.SingleReference[]): CSL.Data[] {
  *   inlines CSS classes that are appropriate for the style (according to the
  *   generated bibmeta).
  *
- * @param {'always'|'urls'|'never'}  links   Link format
- * @param {Citeproc.Bibliography}    rawBib  Raw output from citeproc.makeBibliography()
+ * @param {'always'|'urls'|'never'} links   Link format
+ * @param {Citeproc.Bibliography} rawBib    Raw output from citeproc.makeBibliography()
  * @return {ABT.Bibliography}
  */
 export function formatBibliography(
@@ -225,7 +225,7 @@ export function formatBibliography(
         /**
          * The outermost <div> element -> (class="csl-entry")
          */
-        const el = temp.firstElementChild as HTMLDivElement;
+        const el = <HTMLDivElement>temp.firstElementChild;
         const item: CSL.Data = CSL.get(bibmeta.entry_ids[i][0]);
 
         if (bibmeta.hangingindent) {
@@ -254,19 +254,19 @@ export function formatBibliography(
         const innerEl = el.querySelector('.csl-right-inline') || el;
         const innerHTML = innerEl.innerHTML;
         switch (true) {
-            case typeof item.PMID !== 'undefined' && !innerHTML.match(item.PMID): {
+            case item.PMID !== undefined && !innerHTML.match(item.PMID): {
                 innerEl.innerHTML = parseReferenceURL(innerHTML, links, { type: 'PMID', value: item.PMID });
                 break;
             }
-            case typeof item.DOI !== 'undefined' && !innerHTML.match(item.DOI): {
+            case item.DOI !== undefined && !innerHTML.match(item.DOI): {
                 innerEl.innerHTML = parseReferenceURL(innerHTML, links, { type: 'DOI', value: item.DOI });
                 break;
             }
-            case typeof item.PMCID !== 'undefined' && !innerHTML.match(item.PMCID): {
+            case item.PMCID !== undefined && !innerHTML.match(item.PMCID): {
                 innerEl.innerHTML = parseReferenceURL(innerHTML, links, { type: 'PMCID', value: item.PMCID });
                 break;
             }
-            case typeof item.URL !== 'undefined' && !innerHTML.match(item.URL): {
+            case item.URL !== undefined && !innerHTML.match(item.URL): {
                 innerEl.innerHTML = parseReferenceURL(innerHTML, links, { type: 'URL', value: item.URL });
                 break;
             }
@@ -285,10 +285,10 @@ export function formatBibliography(
 /**
  * Parses and formats the bibliography links according to the user's chosen
  *   link format.
- * @param  {string}                     html      HTML string of a single reference
- * @param  {ABT.LinkStyle}              linkStyle The selected link style
- * @param  {'PMID'|'DOI'|'PMCID'|'URL'} id        Identifier for linking out
- * @return {string}                               HTML string with formatted links
+ * @param  {string} html                    HTML string of a single reference
+ * @param  {ABT.LinkStyle} linkStyle        Selected link style
+ * @param  {'PMID'|'DOI'|'PMCID'|'URL'} id  Identifier for linking out
+ * @return {string}  HTML string with formatted links
  */
 export function parseReferenceURL(
     html: string,
@@ -302,6 +302,19 @@ export function parseReferenceURL(
     const doi: RegExp = /doi:(\S+)\./g;
 
     const linkedHtml = html
+        .replace(/(&lt;|&amp;|&gt;|&quot;)/g, (match) => {
+            switch (match) {
+                case '&lt;':
+                    return '<';
+                case '&gt;':
+                    return '>';
+                case '&amp;':
+                    return '&';
+                case '&quot;':
+                default:
+                    return '"';
+            }
+        })
         .replace(url, (_match, _p1, p2 = 'http://', p3) => `<a href="${p2}${p3}" target="_blank">${p2}${p3}</a>`)
         .replace(doi, 'doi: <a href="https://doi.org/$1" target="_blank">$1</a>');
 
@@ -366,13 +379,14 @@ export function parseReferenceURL(
  *
  * In order for this function to work, the component of interest's "this" must
  *   be bound and there must be an "element" property in the component.
- * @param e React Wheel Event
+ * @param {WheelEvent} e React Wheel Event
+ * @return {void}
  */
 export function preventScrollPropagation(e): void {
     e.stopPropagation();
-    const atTopAndScrollingUp: boolean = this.element.scrollTop === 0 && e.deltaY < 0;
+    const atTopAndScrollingUp: boolean = this.element.scrollTop === 0 && e.deltaY < 0; // tslint:disable-line
     const atBottomAndScollingDown: boolean =
-        ((this.element.scrollTop + this.element.offsetHeight) === this.element.scrollHeight)
+        ((this.element.scrollTop + this.element.offsetHeight) === this.element.scrollHeight) // tslint:disable-line
         && e.deltaY > 0;
     if (atTopAndScrollingUp || atBottomAndScollingDown) {
         e.preventDefault();

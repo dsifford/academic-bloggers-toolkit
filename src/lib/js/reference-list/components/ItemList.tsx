@@ -28,7 +28,7 @@ export class ItemList extends React.PureComponent<Props, {}> {
         if (!items) return null;
         return (
             <div>
-                <div className="group-label" onClick={this.singleClick} onDoubleClick={this.doubleClick}>
+                <div className="group-label" role="menubar" onClick={this.singleClick} onDoubleClick={this.doubleClick}>
                     <div className="label" children={children} />
                     <div className="badge" children={items.length} />
                 </div>

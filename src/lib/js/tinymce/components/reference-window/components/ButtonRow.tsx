@@ -16,8 +16,8 @@ export class ButtonRow extends React.PureComponent<Props, {}> {
 
     labels = (top as any).ABT_i18n.tinymce.referenceWindow.buttonRow;
 
-    searchPubmedClick() {
-        let wm = top.tinyMCE.activeEditor.windowManager;
+    searchPubmedClick = () => {
+        const wm = top.tinyMCE.activeEditor.windowManager;
         wm.open({
             height: 100,
             onsubmit: (e) => {
@@ -51,7 +51,7 @@ export class ButtonRow extends React.PureComponent<Props, {}> {
                 <div>
                     <input
                         id="searchPubmed"
-                        onClick={this.searchPubmedClick.bind(this)}
+                        onClick={this.searchPubmedClick}
                         type="button"
                         className="abt-btn abt-btn-flat"
                         value={this.labels.searchPubmed}
@@ -66,11 +66,13 @@ export class ButtonRow extends React.PureComponent<Props, {}> {
                         id="inline-toggle"
                         className="toggle hidden"
                         checked={this.props.attachInline}
+                        aria-checked={this.props.attachInline}
                         onChange={this.props.attachInlineToggle}
                     />
                     <label
                         htmlFor="inline-toggle"
                         className="toggle-lbl"
+                        role="tooltip"
                         data-tooltip="Insert citation inline"
                         onMouseOver={this.handleMouseOver}
                         onMouseOut={destroyTooltip}

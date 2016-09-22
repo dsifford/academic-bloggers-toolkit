@@ -13,7 +13,7 @@ export function referenceWindow(editor: TinyMCE.Editor): Promise<ABT.ReferenceWi
             height: 10,
             onclose: (e) => {
                 if (!e.target.params.data) resolve(null);
-                resolve(e.target.params.data as ABT.ReferenceWindowPayload);
+                resolve(<ABT.ReferenceWindowPayload>e.target.params.data);
             },
             params: {
                 baseUrl: `${ABT_wp.abt_url}/lib/js/tinymce/views/`,
@@ -23,7 +23,7 @@ export function referenceWindow(editor: TinyMCE.Editor): Promise<ABT.ReferenceWi
             width: 600,
         });
     });
-};
+}
 
 /**
  * Opens `import-window.tsx` and returns a promise which resolves to
@@ -37,7 +37,7 @@ export function importWindow(editor: TinyMCE.Editor): Promise<CSL.Data[]> {
             height: 10,
             onclose: (e) => {
                 if (!e.target.params.data) resolve(null);
-                resolve(e.target.params.data as CSL.Data[]);
+                resolve(<CSL.Data[]>e.target.params.data);
             },
             title: ABT_i18n.tinymce.importWindow.title,
             url: `${ABT_wp.abt_url}/lib/js/tinymce/views/import-window.html`,
@@ -162,7 +162,7 @@ function parseFootnoteCitations(
         heading.innerText = 'Footnotes';
         note.appendChild(heading);
 
-        const citations = doc.getElementsByClassName('abt_cite') as HTMLCollectionOf<HTMLSpanElement>;
+        const citations = <HTMLCollectionOf<HTMLSpanElement>>doc.getElementsByClassName('abt_cite');
 
         for (let i = 0; i < citations.length; i++) {
             // Adjust the number of the inline footnote

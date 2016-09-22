@@ -25,7 +25,7 @@ const browserSync = require('browser-sync').create();
 gulp.task('reload', (done) => { browserSync.reload(); done(); });
 
 // Delete all files in dist/lib
-gulp.task('clean', () => del(['dist/**/*']));
+gulp.task('clean', () => del(['dist/**/*', 'npm-debug.log']));
 
 gulp.task('chown', (done) => {
     exec("ls -l dist/ | awk '{print $3}' | tail -n -1", (err, stdout) => {

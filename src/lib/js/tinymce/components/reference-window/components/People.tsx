@@ -92,6 +92,7 @@ class Person extends React.PureComponent<PersonProps, {}> {
                             <option
                                 key={`peopleSelect-${j}`}
                                 id={`peopleSelect-${j}`}
+                                aria-selected={this.props.person.type === p.type}
                                 value={p.type}
                                 children={p.label}
                             />

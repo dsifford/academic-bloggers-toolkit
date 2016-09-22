@@ -35,9 +35,7 @@ export class ManualEntryContainer extends React.PureComponent<ManualEntryProps, 
         this.props.typeChange((e.target as HTMLInputElement).value);
     }
 
-    getHeight() {
-        return document.getElementById('main-container').getBoundingClientRect().height;
-    }
+    getHeight = () => document.getElementById('main-container').getBoundingClientRect().height;
 
     render() {
         const itemType: string = this.props.manualData.get('type');
@@ -58,7 +56,12 @@ export class ManualEntryContainer extends React.PureComponent<ManualEntryProps, 
                             value={itemType}
                         >
                             { this.citationTypes.map((item, i) =>
-                                <option key={i} value={item.value} children={item.label}/>)
+                                <option
+                                    key={i}
+                                    value={item.value}
+                                    aria-selected={itemType === item.value}
+                                    children={item.label}
+                                />)
                             }
                         </select>
                     </div>

@@ -10,7 +10,7 @@ export class Modal {
     }
 
     public resize(): void {
-        let height = this.mainRect.getBoundingClientRect().height + 35;
+        const height = this.mainRect.getBoundingClientRect().height + 35;
         const position = (window.innerHeight / 2) - (height / 2);
         this.outer.style.top = position < 0 ? '0px' : `${position}px`;
     };

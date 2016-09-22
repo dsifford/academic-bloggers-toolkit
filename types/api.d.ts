@@ -2,8 +2,8 @@
 
 declare namespace GoogleBooks {
 
-    type industryIdentifier = 'ISBN_10'|'ISBN_13'; // TODO: Expand
-    type printType = 'BOOK'; // TODO: Expand
+    type industryIdentifier = 'ISBN_10'|'ISBN_13';
+    type printType = 'BOOK';
 
     interface Response {
         kind: string;

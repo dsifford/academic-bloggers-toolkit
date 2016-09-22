@@ -47,7 +47,7 @@ describe('Reflist Store', () => {
         });
 
         it('should handle an undefined language in cleanCSL', () => {
-            let cite = store.citations.CSL.get('citationId');
+            const cite = store.citations.CSL.get('citationId');
             cite.language = 'gibberish';
             store.citations.CSL.set('citationId', cite);
             expect(store.citations.CSL.get('citationId').language).toBe('gibberish');

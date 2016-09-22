@@ -150,7 +150,7 @@ export class ReferenceWindow extends React.Component<{}, {}> {
 
     handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        let wm = top.tinyMCE.activeEditor.windowManager;
+        const wm = top.tinyMCE.activeEditor.windowManager;
         wm.setParams({ data: this.payload });
         wm.close();
     }

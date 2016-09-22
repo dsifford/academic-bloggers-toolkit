@@ -10,23 +10,23 @@ import { processPubmedJSON } from './HelperFunctions';
  *   decides whether or not to send the response to be processed as CSL.
  * @return {Promise<PubMed.SingleReference[]>}
  */
-export function PubmedQuery(query: string, bypassJSONFormatter: boolean = false): Promise<PubMed.SingleReference[]> {
+export function pubmedQuery(query: string, bypassJSONFormatter: boolean = false): Promise<PubMed.SingleReference[]> {
     return new Promise<[string, boolean]>((resolve, reject) => {
         const req = new XMLHttpRequest();
         req.open('GET', `https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=pubmed&term=${encodeURI(query)}&retmode=json`); // tslint:disable-line
         req.onload = () => {
 
             if (req.status !== 200)
-                reject(new Error('Error: PubmedQuery => Pubmed returned a non-200 status code.'));
+                reject(new Error('Error: pubmedQuery => Pubmed returned a non-200 status code.'));
 
             const res = JSON.parse(req.responseText);
 
             if (res.error)
-                reject(new Error('Error: PubmedQuery => Request not valid.'));
+                reject(new Error('Error: pubmedQuery => Request not valid.'));
 
             resolve([res.esearchresult.idlist.join(), bypassJSONFormatter]);
         };
-        req.onerror = () => reject(new Error('Error: PubmedQuery => Network Error.'));
+        req.onerror = () => reject(new Error('Error: pubmedQuery => Network Error.'));
         req.send(null);
     })
     .then(data => getFromPMID(data[0], data[1]));

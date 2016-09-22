@@ -47,6 +47,7 @@ export class ResultList extends React.PureComponent<ResultListProps, {}> {
                                 <a
                                     href={`http://www.ncbi.nlm.nih.gov/pubmed/${result.uid}`}
                                     target="_blank"
+                                    rel="noopener noreferrer"
                                     style={{paddingLeft: 8, paddingRight: 8}}
                                     className="abt-btn-submit abt-btn-flat"
                                     children={this.labels.viewReference}

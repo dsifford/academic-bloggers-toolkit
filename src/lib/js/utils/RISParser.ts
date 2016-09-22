@@ -88,10 +88,10 @@ export class RISParser {
      */
     public parse(): CSL.Data[] {
 
-        let payload: CSL.Data[] = [];
+        const payload: CSL.Data[] = [];
 
         this.refArray.forEach((ref: string, i: number) => {
-            let refObj = this.parseSingle(ref, i);
+            const refObj = this.parseSingle(ref, i);
 
             if (typeof refObj === 'boolean') {
                 this.unsupportedRefs.push(i + 1);
@@ -112,26 +112,26 @@ export class RISParser {
      */
     private parseSingle(singleRef: string, id: number): CSL.Data|boolean {
 
-        let payload: CSL.Data = {};
-        let ref = singleRef.split(/\n/);
-        let type = ref[0].substr(6).trim();
+        const payload: CSL.Data = {};
+        const ref = singleRef.split(/\n/);
+        const citationType = ref[0].substr(6).trim();
 
-        if (!RISParser.RISTypes[type]) {
+        if (!RISParser.RISTypes[citationType]) {
             return false;
         }
 
         payload.id = `${id}`;
-        payload.type = RISParser.RISTypes[type];
+        payload.type = RISParser.RISTypes[citationType];
         payload.issued = {
             'date-parts': [[]],
         };
 
-        let pageHolder = {};
+        const pageHolder = {};
 
         ref.forEach((line: string) => {
 
-            let key = line.substr(0, 2);
-            let val = line.substr(6).trim();
+            const key = line.substr(0, 2);
+            const val = line.substr(6).trim();
 
             switch (key) {
                 case 'AU':
@@ -150,7 +150,7 @@ export class RISParser {
                         : payload.editor.concat(processCSLName(val, 'RIS'));
                     break;
                 case 'A3':
-                    if (typeof payload.translator === 'undefined') {
+                    if (payload.translator === undefined) {
                         payload.translator = [processCSLName(val, 'RIS')];
                     }
                     else {

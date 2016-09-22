@@ -64,7 +64,7 @@ describe('HelperFunctions', () => {
         });
     });
 
-    describe('formatBibliography', () => {
+    describe('formatBibliography()', () => {
 
         const temp = document.createElement('DIV');
 
@@ -158,14 +158,14 @@ describe('HelperFunctions', () => {
         });
 
         it('should return an error string if one exists', () => {
-            let [rawBib, links, cslmap] = setupArgs();
+            const [rawBib, links, cslmap] = setupArgs();
             rawBib[1].push(errorString);
             rawBib[0].entry_ids.push(['errorstring']);
             expect(formatBibliography(rawBib, links, cslmap)[2].html).toBe(errorString);
         });
     });
 
-    describe('generateID', () => {
+    describe('generateID()', () => {
         it('should generate unique IDs', () => {
             const test: string[] = [];
             for (let i = 0; i < 50; i++) {
@@ -175,7 +175,7 @@ describe('HelperFunctions', () => {
         });
     });
 
-    describe('processCSLDate', () => {
+    describe('processCSLDate()', () => {
         const risDates = [
             '1980/05/15/Spring',
             '2015///',
@@ -215,7 +215,7 @@ describe('HelperFunctions', () => {
         });
     });
 
-    describe('processCSLName', () => {
+    describe('processCSLName()', () => {
         const risNames = [
             'Paterson, Quinten S',
             'Rezaie, Salim R',
@@ -249,7 +249,7 @@ describe('HelperFunctions', () => {
         });
     });
 
-    describe('processPubmedJSON', () => {
+    describe('processPubmedJSON()', () => {
         const testData: PubMed.SingleReference[] = [{
             authors: [
                 {
@@ -323,7 +323,7 @@ describe('HelperFunctions', () => {
 
         it('should move past undefined fields', () => {
             expect(
-                processPubmedJSON([{ thisFieldDoesntExist: 'test' }] as any)
+                processPubmedJSON(<any>[{ thisFieldDoesntExist: 'test' }])
             ).toEqual(
                 [{ author: [], id: '0', type: 'article-journal' }]
             );
@@ -332,7 +332,7 @@ describe('HelperFunctions', () => {
     });
 
     // tslint:disable
-    describe('parseReferenceURL', () => {
+    describe('parseReferenceURL()', () => {
         const testRefs: string[] = [
             `Body R. The ProMISe Study: EGDT RIP? St. Emlyn’s website. http://stemlynsblog.org/the-promise-study-egdt-rip/; http://blogs.nejm.org/now/index.php/the-final-nail-in-early-goal-directed-therapys-coffin/2015/03/24/. Published 2015.`,
             `Chan T, Helman A, Davis T, Purdy E. MEdIC Series | The Case the FOAM Faux Pas – Expert Review and Curated Commentary. Academic Life in Emergency Medicine. www.aliem.com/MEdIC-Series-The-Case-the-FOAM-Faux-Pas-Expert-Review-and-Curated-Commentary. Published 2015.`,
@@ -346,6 +346,13 @@ describe('HelperFunctions', () => {
         const DOI = '10.1097/TA.0000000000001031';
         const PMCID = 'PMC12345';
         const URL = 'https://www.google.com';
+
+        it('should replace html entities if they exist', () => {
+            const testString = `This is a test. &amp; = ampersand. &gt; = greater than. &lt; = less than. &quot; = double quotes.`;
+            expect(parseReferenceURL(
+                testString, 'always'
+            )).toBe(`This is a test. & = ampersand. > = greater than. < = less than. " = double quotes.`);
+        });
 
         describe('link style: "always"', () => {
             it('should handle PMIDs', () => {

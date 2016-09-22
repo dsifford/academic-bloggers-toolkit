@@ -97,7 +97,7 @@ class CitationStore {
             data.reduce((prev, curr) => {
                 prev[curr.id] = curr;
                 return prev;
-            }, {} as {[itemId: string]: CSL.Data})
+            }, <{[itemId: string]: CSL.Data}>{})
         );
     }
 

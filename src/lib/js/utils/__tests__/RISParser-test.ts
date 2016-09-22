@@ -104,8 +104,8 @@ ER  -
 
 describe('RISParser', () => {
     it('should parse webpage correctly', () => {
-        let parser = new RISParser(testCases[0]);
-        let expected: CSL.Data[] = [{
+        const parser = new RISParser(testCases[0]);
+        const expected: CSL.Data[] = [{
             URL: 'http://thesgem.com/2014/10/sgem92-arise-up-arise-up-egdt-vs-usual-care-for-sepsis/',
             author: [
                 { family: 'Milne', given: 'W. Kenneth' },
@@ -123,8 +123,8 @@ describe('RISParser', () => {
     });
 
     it('should parse journal-article correctly', () => {
-        let parser = new RISParser(testCases[1]);
-        let expected: CSL.Data[] = [{
+        const parser = new RISParser(testCases[1]);
+        const expected: CSL.Data[] = [{
             DOI: '10.15200/winn.144720.08769',
             'container-title': 'The Winnower',
             author: [
@@ -145,8 +145,8 @@ describe('RISParser', () => {
     });
 
     it('should parse books correctly', () => {
-        let parser = new RISParser(testCases[2]);
-        let expected: CSL.Data = [{
+        const parser = new RISParser(testCases[2]);
+        const expected: CSL.Data = [{
             ISBN: '9781100205175',
             ISSN: '9781100205175',
             abstract: 'This guide outlines those elements that contribute to strong KT projects. It is intended to be used both bythose developing project proposals and by those who are assessing such proposals for the purposes of funding or partnership.', // tslint:disable-line
@@ -173,20 +173,20 @@ describe('RISParser', () => {
     });
 
     it('should keep track of unsupported reference types', () => {
-        let parser = new RISParser(testCases[3]);
-        let val = parser.parse();
+        const parser = new RISParser(testCases[3]);
+        const val = parser.parse();
         expect(parser.unsupportedRefs.length).toBe(1);
         expect(val).toEqual([]);
     });
 
     it('should be able to handle empty strings', () => {
-        let parser = new RISParser(testCases[4]);
+        const parser = new RISParser(testCases[4]);
         expect(parser.parse()).toEqual([]);
     });
 
     it('should process an assortment of fields correctly', () => {
-        let parser = new RISParser(testCases[5]);
-        let expected: CSL.Data = [{
+        const parser = new RISParser(testCases[5]);
+        const expected: CSL.Data = [{
             DOI: '10.000000thedoi',
             PMCID: 'PMC23423',
             PMID: '65481',
@@ -201,12 +201,12 @@ describe('RISParser', () => {
             'collection-title': 'collection title',
             'container-title': 'conference name',
             'container-title-short': 'shortTitle',
-            'event': 'event name',
             edition: '1',
             editor: [
                 { family: 'Smith', given: 'John L' },
                 { family: 'Doe', given: 'Jane P' },
             ],
+            event: 'event name',
             'event-place': 'United States',
             id: '0',
             issue: '1',
@@ -222,7 +222,7 @@ describe('RISParser', () => {
             number: '1',
             page: '10-20',
             publisher: 'the publisher',
-            'shortTitle': 'shortTitle',
+            shortTitle: 'shortTitle',
             source: 'Medline',
             title: 'The title of the paper',
             translator: [

@@ -25,7 +25,7 @@ declare namespace BackendGlobals {
                 stylePlaceholder: string;
                 tooltips: {
                     destroy: string;
-                    'import': string;
+                    import: string;
                     refresh: string;
                     help: string;
                 };
@@ -48,7 +48,7 @@ declare namespace BackendGlobals {
                 title: string;
                 filetypeError: string;
                 leftovers: string;
-                'import': string;
+                import: string;
                 upload: string;
             };
             pubmedWindow: {
