@@ -23,7 +23,16 @@ class CitationStore {
         this.CSL = this.cleanCSL(CSL);
         intercept(this.CSL, (change) => {
             if (change.type !== 'add') return change;
-            if (this.lookup.titles.indexOf(change.newValue.title) > -1) return null;
+            const title = change.newValue.title.toLowerCase();
+            const matchIndex: number = this.CSL.values().findIndex(v => v.title.toLowerCase() === title);
+            if (matchIndex > -1) {
+                const match = this.CSL.get(this.CSL.keys()[matchIndex]);
+                const deepMatch = Object.keys(change.newValue).some(k => {
+                    if (['title', 'type'].indexOf(k) > -1) return false;
+                    return change.newValue[k] === match[k];
+                });
+                if (deepMatch) return null;
+            }
             return change;
         });
     }
