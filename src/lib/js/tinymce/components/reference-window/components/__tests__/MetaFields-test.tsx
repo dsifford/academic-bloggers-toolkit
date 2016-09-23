@@ -3,7 +3,6 @@ jest.unmock('../MetaFields');
 import * as React from 'react';
 import { map } from 'mobx';
 import { mount } from 'enzyme';
-import * as sinon from 'sinon';
 import { MetaFields } from '../MetaFields';
 
 const setup = (

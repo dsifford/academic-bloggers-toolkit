@@ -49,7 +49,7 @@ declare namespace CSL {
 
     interface Data {
         id?: string;
-        type?: CitationType;
+        type?: CitationType; // tslint:disable-line
         categories?: string[];
         language?: string;
         journalAbbreviation?: string;
@@ -102,7 +102,7 @@ declare namespace CSL {
         locator?: string;
         medium?: string;
         note?: string;
-        number?: string|number;
+        number?: string|number; // tslint:disable-line
         'number-of-pages'?: string;
         'number-of-volumes'?: string|number;
         'original-publisher'?: string;
@@ -148,7 +148,7 @@ declare namespace CSL {
      *   - reviewed-author
      */
     interface TypedPerson extends Person {
-        type: 'author'|
+        type: 'author'| // tslint:disable-line
               'container-author'|
               'editor'|
               'director'|

@@ -32,14 +32,14 @@ const setup = (
     };
 };
 
-const setupAutocite = (kind: 'book'|'chapter'|'webpage' = 'webpage', type: 'text'|'url' = 'url') => {
+const setupAutocite = (kind: 'book'|'chapter'|'webpage' = 'webpage', inputType: 'text'|'url' = 'url') => {
     const spy = sinon.spy();
     const component = mount(
         <AutoCite
             getter={spy}
             kind={kind}
             placeholder="Testing"
-            type={type}
+            type={inputType}
         />
     );
     return {

@@ -10,7 +10,7 @@ interface ResultListProps {
 @observer
 export class ResultList extends React.PureComponent<ResultListProps, {}> {
 
-    labels = (top as any).ABT_i18n.tinymce.pubmedWindow;
+    labels = ((top as any).ABT_i18n as BackendGlobals.ABT_i18n).tinymce.pubmedWindow;
     element: HTMLElement;
     handleWheel = preventScrollPropagation.bind(this);
 
@@ -47,6 +47,7 @@ export class ResultList extends React.PureComponent<ResultListProps, {}> {
                                 <a
                                     href={`http://www.ncbi.nlm.nih.gov/pubmed/${result.uid}`}
                                     target="_blank"
+                                    rel="noopener noreferrer"
                                     style={{paddingLeft: 8, paddingRight: 8}}
                                     className="abt-btn-submit abt-btn-flat"
                                     children={this.labels.viewReference}

@@ -25,7 +25,7 @@ declare namespace BackendGlobals {
                 stylePlaceholder: string;
                 tooltips: {
                     destroy: string;
-                    'import': string;
+                    importRIS: string;
                     refresh: string;
                     help: string;
                 };
@@ -48,7 +48,7 @@ declare namespace BackendGlobals {
                 title: string;
                 filetypeError: string;
                 leftovers: string;
-                'import': string;
+                importBtn: string;
                 upload: string;
             };
             pubmedWindow: {
@@ -75,10 +75,11 @@ declare namespace BackendGlobals {
                     label: string;
                 };
                 manualEntryContainer: {
-                    type: string;
+                    citationType: string;
                 };
                 people: {
                     add: string;
+                    contributors: string;
                     given: string;
                     surname: string;
                 };

@@ -4,6 +4,7 @@ import * as React from 'react';
 import { mount } from 'enzyme';
 import * as sinon from 'sinon';
 import { ButtonRow } from '../ButtonRow';
+const before = beforeAll;
 
 const setup = (
     addManually: boolean = false,
@@ -30,31 +31,32 @@ const setup = (
     };
 };
 
-const submitSpy = sinon.spy();
-
-window['tinyMCE'] = {
-    activeEditor: {
-        windowManager: {
-            open: (a) => {
-                const e = { target: { data: { pmid: 12345 }}};
-                submitSpy(a.onsubmit(e));
-            },
-            windows: [
-                {
-                    settings: {
-                        params: {
-                            baseUrl: 'http://www.test.com/',
-                        },
-                    },
-                },
-            ],
-        },
-    },
-} as any;
-
-// wm.windows[0].settings.params.baseUrl
-
 describe('<ButtonRow />', () => {
+    let submitSpy;
+
+    before(() => {
+        submitSpy = sinon.spy();
+        window['tinyMCE'] = {
+            activeEditor: {
+                windowManager: {
+                    open: (a) => {
+                        const e = { target: { data: { pmid: 12345 }}};
+                        submitSpy(a.onsubmit(e));
+                    },
+                    windows: [
+                        {
+                            settings: {
+                                params: {
+                                    baseUrl: 'http://www.test.com/',
+                                },
+                            },
+                        },
+                    ],
+                },
+            },
+        } as any;
+    });
+
     it('should render with the correct labels for "falsy" props', () => {
         const { checkbox, addManually } = setup();
         expect(addManually.props().value).toBe('Add Manually');

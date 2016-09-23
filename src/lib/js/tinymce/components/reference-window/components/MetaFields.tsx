@@ -9,7 +9,7 @@ interface MetaFieldProps {
 @observer
 export class MetaFields extends React.Component<MetaFieldProps, {}> {
 
-    fieldmaps: ABT.FieldMappings = (top as any).ABT_i18n.fieldmaps;
+    fieldmaps: ABT.FieldMappings = ((top as any).ABT_i18n as BackendGlobals.ABT_i18n).fieldmaps;
     title: string;
     fields;
 
@@ -20,14 +20,14 @@ export class MetaFields extends React.Component<MetaFieldProps, {}> {
     }
 
     render() {
-        const type = this.props.meta.get('type');
-        this.title = this.fieldmaps[type].title;
-        this.fields = this.fieldmaps[type].fields;
+        const citationType = this.props.meta.get('type');
+        this.title = this.fieldmaps[citationType].title;
+        this.fields = this.fieldmaps[citationType].fields;
         return (
             <div>
                 <div className="row" style={{paddingBottom: 0}}>
                     <div>
-                        <span id={`meta-${type}`} style={{fontWeight: 400}} children={this.title} />
+                        <span id={`meta-${citationType}`} style={{fontWeight: 400}} children={this.title} />
                     </div>
                 </div>
                 <div className="row column">

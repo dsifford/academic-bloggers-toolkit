@@ -1,0 +1,32 @@
+#!/bin/bash
+
+[ ! "$1" ] && echo 'the first argument of this script must be the version number' && exit 1
+[[ ! "$1" =~ ^[0-9]{1,4}\.[0-9]{1,4}\.[0-9]{1,4}$ ]] && echo 'the first argument must be a valid semver number' && exit 1
+
+VERSION="$1"
+SCRIPTDIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+ROOTDIR=$(cd "$SCRIPTDIR" && cd ../ && pwd || exit)
+SVNROOT=$(cd "$ROOTDIR" && cd ../SVN && pwd || exit)
+
+# Make sure svn repo is up to date
+cd "$SVNROOT" || exit
+svn up
+
+# Delete entire trunk directory
+rm -rf trunk/*
+
+# Create tag directory
+mkdir -p "tags/$VERSION"
+
+# Copy dist over to tag and trunk directory
+cp -r "$ROOTDIR"/dist/* "$SVNROOT"/trunk/
+cp -r "$ROOTDIR"/dist/* "$SVNROOT"/tags/"$VERSION"/
+
+# Remove deleted files
+svn stat | grep -Po '^!.+' | awk '{print $2}' | xargs svn rm
+
+# Add new files
+svn stat | grep -Po '^\?.+' | awk '{print $2}' | xargs svn add
+
+# Commit the changes
+svn ci -m "Release $VERSION"

@@ -45,7 +45,7 @@ export class Card extends React.PureComponent<CardProps, {}> {
     parseDate = (date: CSL.Date): string|number => {
         if (!date) return 'n.d.';
         if (date.year) return date.year;
-        if (date['date-parts'] && date['date-parts'][0].length !== 0 && typeof date['date-parts'][0][0] !== 'undefined')
+        if (date['date-parts'] && date['date-parts'][0].length !== 0 && date['date-parts'][0][0] !== undefined)
             return date['date-parts'][0][0];
         return 'n.d.';
     }
@@ -54,6 +54,7 @@ export class Card extends React.PureComponent<CardProps, {}> {
         const { CSL, isSelected } = this.props;
         return (
             <div
+                role="menuitem"
                 className={isSelected ? 'abt-card selected' : 'abt-card'}
                 onClick={this.click}
             >

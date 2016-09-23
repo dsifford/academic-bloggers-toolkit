@@ -1,8 +1,8 @@
 
 /**
  * Utility function used to generate and append tooltips.
- * @param  {HTMLElement}                   target   Target element.
- * @param  {string}                        tip      Tooltip text
+ * @param  {HTMLElement} target                     Target element
+ * @param  {string} tip                             Tooltip text
  * @param  {'top'|'right'|'bottom'|'left'} position Position of tooltip
  */
 export function createTooltip(target: HTMLElement, tip: string, position: 'top'|'right'|'bottom'|'left'): void {

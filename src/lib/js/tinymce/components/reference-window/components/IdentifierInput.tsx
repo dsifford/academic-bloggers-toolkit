@@ -10,7 +10,7 @@ interface Props {
 export class IdentifierInput extends React.PureComponent<Props, {}> {
 
     input: HTMLInputElement;
-    labels = (top as any).ABT_i18n.tinymce.referenceWindow.identifierInput;
+    labels = ((top as any).ABT_i18n as BackendGlobals.ABT_i18n).tinymce.referenceWindow.identifierInput;
 
     componentDidMount() {
         this.input.focus();

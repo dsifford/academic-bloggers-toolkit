@@ -15,7 +15,7 @@ import { ButtonRow } from './ButtonRow';
 @observer
 export class ReferenceWindow extends React.Component<{}, {}> {
 
-    labels = (top as any).ABT_i18n.tinymce.referenceWindow.referenceWindow;
+    labels = ((top as any).ABT_i18n as BackendGlobals.ABT_i18n).tinymce.referenceWindow.referenceWindow;
     modal: Modal = new Modal(this.labels.title);
 
     @observable
@@ -103,9 +103,9 @@ export class ReferenceWindow extends React.Component<{}, {}> {
     }
 
     @action
-    changeType = (type: CSL.CitationType) => {
+    changeType = (citationType: CSL.CitationType) => {
         this.manualData.clear();
-        this.manualData.set('type', type);
+        this.manualData.set('type', citationType);
         this.people.replace([{ family: '', given: '', type: 'author' }]);
     }
 
@@ -150,7 +150,7 @@ export class ReferenceWindow extends React.Component<{}, {}> {
 
     handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        let wm = top.tinyMCE.activeEditor.windowManager;
+        const wm = top.tinyMCE.activeEditor.windowManager;
         wm.setParams({ data: this.payload });
         wm.close();
     }

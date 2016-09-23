@@ -94,7 +94,7 @@ export class Menu extends React.PureComponent<Props, {}> {
                         <PanelButton
                             id="IMPORT_RIS"
                             onClick={this.handleClick}
-                            data-tooltip={this.labels.tooltips.import}
+                            data-tooltip={this.labels.tooltips.importRIS}
                         >
                             <span className="dashicons dashicons-media-code"/>
                         </PanelButton>
@@ -147,6 +147,15 @@ export class Menu extends React.PureComponent<Props, {}> {
     }
 }
 
+interface RendererParams {
+    focusedOption: any;
+    focusOption: Function;
+    option: any;
+    selectValue: Function;
+    key?: string;
+    style: any;
+}
+
 /**
  * Custom render function for React Virtualized Select
  * @param  {Object} focusedOption The option currently focused in the dropdown
@@ -154,13 +163,11 @@ export class Menu extends React.PureComponent<Props, {}> {
  * @param  {Object} option        The option to be rendered
  * @param  {Function} selectValue Callback to update the selected values. (on click)
  */
-export function renderer({focusedOption, focusOption, option, selectValue}) {
-    const style: React.CSSProperties = {
-        alignItems: 'center',
-        borderBottom: '1px solid #ddd',
-        display: 'flex',
-        padding: '0 5px',
-    };
+export function renderer({focusedOption, focusOption, key, option, selectValue, style}: RendererParams) {
+    style.alignItems = 'center';
+    style.borderBottom = '1px solid #ddd';
+    style.display = 'flex';
+    style.padding = '0 5px';
 
     if (option.value === 'header') {
         style.backgroundColor = '#eee';
@@ -169,6 +176,7 @@ export function renderer({focusedOption, focusOption, option, selectValue}) {
         style.cursor = 'default';
         return (
             <div
+                key={key}
                 style={style}
                 children={option.label}
             />
@@ -204,7 +212,10 @@ export function renderer({focusedOption, focusOption, option, selectValue}) {
 
     return (
         <div
+            key={key}
             style={style}
+            role="option"
+            aria-selected={option === focusedOption}
             onClick={click}
             onMouseOver={focus}
             children={option.label}

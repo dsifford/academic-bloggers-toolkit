@@ -7,12 +7,12 @@ class Citations {
     public bibliography: HTMLDivElement;
 
     constructor() {
-        this.bibliography = document.getElementById('abt-smart-bib') as HTMLDivElement;
+        this.bibliography = <HTMLDivElement>document.getElementById('abt-smart-bib');
         const citationList = document.getElementsByClassName('abt_cite');
 
         for (let i = 0; i < citationList.length; i++) {
 
-            const citation = citationList[i] as HTMLSpanElement;
+            const citation = <HTMLSpanElement>citationList[i];
             const citations: string[] = JSON.parse(citation.dataset['reflist']);
             const citationHTML = citations.map((id: string): string => this.bibliography.children[id].outerHTML);
 
@@ -40,7 +40,7 @@ class Citations {
         heading.classList.toggle('abt-hidden');
 
         this.bibliography.appendChild(container);
-        for (let el of citations) {
+        for (const el of citations) {
             container.appendChild(el);
         }
 
@@ -60,25 +60,25 @@ class Citations {
         e.preventDefault();
         clearTimeout(Citations.timer);
 
-        let preExistingTooltip: HTMLElement = document.getElementById('abt_tooltip');
+        const preExistingTooltip: HTMLElement = document.getElementById('abt_tooltip');
         if (preExistingTooltip !== null) {
             preExistingTooltip.parentElement.removeChild(preExistingTooltip);
         }
 
-        let rect: ClientRect = (e.target as HTMLElement).getBoundingClientRect();
+        const rect: ClientRect = (<HTMLElement>e.target).getBoundingClientRect();
 
-        let tooltip: HTMLDivElement = document.createElement('div');
+        const tooltip: HTMLDivElement = document.createElement('div');
         tooltip.className = tooltip.id = 'abt_tooltip';
-        tooltip.innerHTML = (e.target as HTMLElement).getAttribute('data-citations');
+        tooltip.innerHTML = (<HTMLElement>e.target).getAttribute('data-citations');
         tooltip.style.visibility = 'hidden';
 
-        let tooltipArrow: HTMLDivElement = document.createElement('div');
+        const tooltipArrow: HTMLDivElement = document.createElement('div');
         tooltipArrow.className = 'abt_tooltip_arrow';
 
         if (this.isTouchDevice()) {
 
-            let closeButton: HTMLDivElement = document.createElement('div');
-            let touchContainer: HTMLDivElement = document.createElement('div');
+            const closeButton: HTMLDivElement = document.createElement('div');
+            const touchContainer: HTMLDivElement = document.createElement('div');
 
             touchContainer.className = 'abt_tooltip_touch_close-container';
             closeButton.className = 'abt_tooltip_touch_close';
@@ -128,7 +128,7 @@ class Citations {
 
     private destroyTooltip(): void {
         Citations.timer = setTimeout(() => {
-            let tip = document.getElementById('abt_tooltip');
+            const tip = document.getElementById('abt_tooltip');
             tip.parentElement.removeChild(tip);
         }, 200);
     }

@@ -24,7 +24,7 @@ $ABT_i18n->referenceList = [
     ],
     'menu' => [
         'tooltips' => [
-            'import' => __('Import references from RIS file', 'academic-bloggers-toolkit'),
+            'importRIS' => __('Import references from RIS file', 'academic-bloggers-toolkit'),
             'refresh' => __('Refresh reference list', 'academic-bloggers-toolkit'),
             'destroy' => __('Delete all references', 'academic-bloggers-toolkit'),
             'help' => __('Usage instructions', 'academic-bloggers-toolkit'),
@@ -39,7 +39,7 @@ $ABT_i18n->tinymce->importWindow = [
     'filetypeError' => __("The file could not be processed. Are you sure it's a .RIS (Refman) file?", 'academic-bloggers-toolkit'),
     'leftovers' => __('The following references were unable to be processed', 'academic-bloggers-toolkit'),
     'upload' => __('Choose File', 'academic-bloggers-toolkit'),
-    'import' => __('Import', 'academic-bloggers-toolkit'),
+    'importBtn' => __('Import', 'academic-bloggers-toolkit'),
 ];
 
 
@@ -63,7 +63,7 @@ $ABT_i18n->tinymce->referenceWindow = [
         'given' => __('Given Name, M.I.', 'academic-bloggers-toolkit'),
     ],
     'manualEntryContainer' => [
-        'type' => __('Citation Type', 'academic-bloggers-toolkit'),
+        'citationType' => __('Citation Type', 'academic-bloggers-toolkit'),
     ],
     'identifierInput' => [
         'label' => __('PMID/DOI', 'academic-bloggers-toolkit'),

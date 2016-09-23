@@ -4,7 +4,6 @@ const reflistState = require('../../../../../scripts/fixtures').reflistState;
 import { Store } from '../Store';
 
 const testState = reflistState;
-const stateCopy = JSON.parse(JSON.stringify(testState));
 
 describe('Reflist Store', () => {
 
@@ -21,7 +20,7 @@ describe('Reflist Store', () => {
 
         it('should return uncited CSL', () => {
             expect(store.citations.uncited.length).toEqual(1);
-            store.citations.CSL.set('newcitation', {id: 'newcitation'});
+            store.citations.CSL.set('newcitation', {id: 'newcitation', title: 'new citation'});
             expect(store.citations.uncited.length).toEqual(2);
         });
 
@@ -39,6 +38,7 @@ describe('Reflist Store', () => {
         });
 
         it('should return citationByIndex as JS object', () => {
+            const stateCopy = JSON.parse(JSON.stringify(testState));
             expect(store.citations.citationByIndex).toEqual(stateCopy.citationByIndex);
         });
 
@@ -47,7 +47,7 @@ describe('Reflist Store', () => {
         });
 
         it('should handle an undefined language in cleanCSL', () => {
-            let cite = store.citations.CSL.get('citationId');
+            const cite = store.citations.CSL.get('citationId');
             cite.language = 'gibberish';
             store.citations.CSL.set('citationId', cite);
             expect(store.citations.CSL.get('citationId').language).toBe('gibberish');
@@ -57,7 +57,9 @@ describe('Reflist Store', () => {
 
         it('should intercept a citation already defined', () => {
             const cite = JSON.parse(JSON.stringify(store.citations.CSL.get('citationId')));
+            const cite2 = { title: 'TEST TITLE', type: 'article-journal', PMID: '12345' }; // tslint:disable-line
             store.citations.CSL.set('sameCitation', cite);
+            store.citations.CSL.set('sameCitationAgain', cite2);
             expect(store.citations.CSL.keys().length).toBe(3);
         });
 
@@ -96,7 +98,7 @@ describe('Reflist Store', () => {
 
         it('should add CSL items with addItems()', () => {
             expect(store.citations.CSL.keys().length).toBe(3);
-            const item: CSL.Data = {id: 'newItem'};
+            const item: CSL.Data = {id: 'newItem', title: 'new item'};
             store.citations.addItems([item]);
             expect(store.citations.CSL.keys().length).toBe(4);
         });

@@ -41,12 +41,12 @@ export function getRemoteData(identifierList: string, mce: TinyMCE.WindowManager
             reject(err);
         });
     });
-};
+}
 
 export function parseManualData(payload: ABT.ReferenceWindowPayload): Promise<CSL.Data[]|Error> {
     return new Promise(resolve => {
         payload.people.forEach(person => {
-            if (typeof payload.manualData[person.type] === 'undefined') {
+            if (payload.manualData[person.type] === undefined) {
                 payload.manualData[person.type] = [{ family: person.family, given: person.given }];
                 return;
             }

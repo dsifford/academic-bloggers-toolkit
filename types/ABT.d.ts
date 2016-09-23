@@ -54,7 +54,7 @@ declare namespace ABT {
             /* Title of Article */
             title?: string;
             /* Type of posting (generally article) */
-            type?: string;
+            type?: string; // tslint:disable-line
             /* ISO Date String */
             updated_time?: string;
             /* URL of page */
@@ -95,7 +95,7 @@ declare namespace ABT {
         fields: Field[];
         people: {
             label: string;
-            type: 'author'|
+            type: 'author'| // tslint:disable-line
                 'container-author'|
                 'editor'|
                 'director'|

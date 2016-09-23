@@ -47,7 +47,8 @@ if (extension_loaded('dom') && extension_loaded('libxml')) {
          */
         $opengraph = $xpath->query('//meta[starts-with(@property, "og:")]');
         foreach ($opengraph as $node) {
-            $key = str_replace(':', '_', explode(':', $node->getAttribute('property'), 2)[1]);
+            $expl = explode(':', $node->getAttribute('property'), 2);
+            $key = str_replace(':', '_', $expl[1]);
             $value = $node->getAttribute('content');
             $payload['og'][$key] = $value;
         }
@@ -58,7 +59,8 @@ if (extension_loaded('dom') && extension_loaded('libxml')) {
          */
         $article = $xpath->query('//meta[starts-with(@property, "article:")]');
         foreach ($article as $node) {
-            $key = explode(':', $node->getAttribute('property'), 2)[1];
+            $expl = explode(':', $node->getAttribute('property'), 2);
+            $key = $expl[1];
             $value = $node->getAttribute('content');
             $payload['article'][$key] = $value;
         }
@@ -69,7 +71,8 @@ if (extension_loaded('dom') && extension_loaded('libxml')) {
          */
         $sailthru = $xpath->query('//meta[starts-with(@name, "sailthru")]');
         foreach ($sailthru as $node) {
-            $key = explode('.', $node->getAttribute('name'), 2)[1];
+            $expl = explode('.', $node->getAttribute('name'), 2);
+            $key = $expl[1];
             $value = $node->getAttribute('content');
 
             if ($key === 'author') {
@@ -130,7 +133,8 @@ if (extension_loaded('dom') && extension_loaded('libxml')) {
          */
         $abt = $xpath->query('//meta[starts-with(@property, "abt:")]');
         foreach ($abt as $node) {
-            $key = explode(':', $node->getAttribute('property'), 2)[1];
+            $expl = explode(':', $node->getAttribute('property'), 2);
+            $key = $expl[1];
             $value = $node->getAttribute('content');
             if ($key === 'author') {
                 $a = explode('|', $value, 2);
@@ -158,8 +162,8 @@ if (extension_loaded('dom') && extension_loaded('libxml')) {
 else {
     add_action('wp_ajax_get_website_meta', 'abt_get_website_meta_error');
     function abt_get_website_meta_error() {
-        wp_send_json([
+        wp_send_json(array(
             'error' => 'Your WordPress PHP installation is incomplete. You must have the "dom" and "libxml" PHP extensions enabled to use this feature.',
-        ]);
+        ));
     }
 }

@@ -254,7 +254,7 @@ exports.ABT_i18n = {
     },
     "menu": {
       "tooltips": {
-        "import": "Import references from RIS file",
+        "importRIS": "Import references from RIS file",
         "refresh": "Refresh reference list",
         "destroy": "Delete all references",
         "help": "Usage instructions",
@@ -268,7 +268,7 @@ exports.ABT_i18n = {
       "filetypeError": "The file could not be processed. Are you sure it's a .RIS (Refman) file?",
       "leftovers": "The following references were unable to be processed",
       "upload": "Choose File",
-      "import": "Import"
+      "importBtn": "Import"
     },
     "pubmedWindow": {
       "title": "Search PubMed for Reference",
@@ -289,7 +289,7 @@ exports.ABT_i18n = {
         "given": "Given Name, M.I."
       },
       "manualEntryContainer": {
-        "type": "Citation Type"
+        "citationType": "Citation Type"
       },
       "identifierInput": {
         "label": "PMID/DOI"

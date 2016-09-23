@@ -1,14 +1,15 @@
 {
   "name": "academic-bloggers-toolkit",
-  "version": "4.4.0",
+  "version": "4.4.1",
   "description": "A plugin extending the functionality of WordPress for Academic Blogging.",
   "main": "index.js",
   "scripts": {
     "test": "jest",
     "wp": "wpcmd() { docker exec $(docker ps -lq) /bin/bash -c \"sudo -u www-data wp $(echo $@)\"; };wpcmd ",
-    "lint": "tslint src/lib/**/*{ts,tsx}",
+    "lint": "./node_modules/.bin/tslint -e \"node_modules/**/*\" \"**/*.+(ts|tsx)\" -t stylish",
     "start": "NODE_ENV=development node --max_old_space_size=8192 node_modules/.bin/gulp _dev",
     "build": "NODE_ENV=production node_modules/.bin/gulp _build",
+    "deploy": "./scripts/deploy $npm_package_version",
     "update-styles": "node ./scripts/updateStyles.js",
     "update-vendors": "cd src/vendor && curl -o 'citeproc.js' https://raw.githubusercontent.com/Juris-M/citeproc-js/master/citeproc.js"
   },
@@ -43,7 +44,7 @@
     "enzyme": "^2.4.1",
     "eslint": "^3.5.0",
     "eslint-config-airbnb-base": "^7.1.0",
-    "eslint-plugin-import": "^1.15.0",
+    "eslint-plugin-import": "^1.16.0",
     "gulp": "github:gulpjs/gulp#4.0",
     "gulp-replace": "^0.5.4",
     "gulp-sort": "^2.0.0",
@@ -61,14 +62,16 @@
     "style-loader": "^0.13.1",
     "ts-loader": "^0.8.2",
     "tslint": "^3.15.1",
+    "tslint-microsoft-contrib": "^2.0.12",
     "tslint-react": "^1.0.0",
     "webpack": "^2.1.0-beta.21",
     "webpack-stream": "^3.2.0"
   },
   "dependencies": {
-    "@types/enzyme": "^2.4.33",
-    "@types/jest": "^0.9.31",
-    "@types/react": "^0.14.35",
+    "@types/enzyme": "^2.4.34",
+    "@types/jest": "^15.1.32",
+    "@types/node": "^6.0.41",
+    "@types/react": "^0.14.37",
     "@types/react-addons-css-transition-group": "^0.14.17",
     "@types/react-dom": "^0.14.17",
     "@types/sinon": "^1.16.30",
@@ -78,7 +81,7 @@
     "react-addons-css-transition-group": "^15.3.2",
     "react-addons-shallow-compare": "^15.3.2",
     "react-dom": "^15.3.2",
-    "react-virtualized-select": "^1.4.0",
+    "react-virtualized-select": "^2.0.0",
     "typescript": "^2.1.0-dev.20160724"
   },
   "babel": {

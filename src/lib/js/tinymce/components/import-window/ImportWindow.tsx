@@ -14,7 +14,7 @@ interface Props {
 @observer
 export class ImportWindow extends React.Component<Props, {}> {
 
-    labels = (top as any).ABT_i18n.tinymce.importWindow;
+    labels = ((top as any).ABT_i18n as BackendGlobals.ABT_i18n).tinymce.importWindow;
     modal: Modal = new Modal(this.labels.title);
     wm: TinyMCE.WindowManager = this.props.wm;
 
@@ -99,7 +99,7 @@ export class ImportWindow extends React.Component<Props, {}> {
                         type="button"
                         className="abt-btn-submit"
                         id="submitbtn"
-                        value={this.labels.import}
+                        value={this.labels.importBtn}
                         disabled={this.payload.length === 0}
                         onClick={this.handleSubmit}
                     />

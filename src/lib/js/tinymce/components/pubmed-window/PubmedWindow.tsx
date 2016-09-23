@@ -4,7 +4,7 @@ import { observer } from 'mobx-react';
 // import DevTools from 'mobx-react-devtools';
 
 import { Modal } from '../../../utils/Modal';
-import { PubmedQuery } from '../../../utils/Externals';
+import { pubmedQuery } from '../../../utils/Externals';
 import { ResultList } from './ResultList';
 import { Paginate } from './Paginate';
 import { Spinner } from '../../../components/Spinner';
@@ -12,7 +12,7 @@ import { Spinner } from '../../../components/Spinner';
 @observer
 export class PubmedWindow extends React.Component<{}, {}> {
 
-    labels = (top as any).ABT_i18n.tinymce.pubmedWindow;
+    labels = ((top as any).ABT_i18n as BackendGlobals.ABT_i18n).tinymce.pubmedWindow;
     modal: Modal = new Modal(this.labels.title);
     wm: TinyMCE.WindowManager = top.window.tinyMCE.activeEditor.windowManager
         .windows[top.window.tinyMCE.activeEditor.windowManager.windows.length - 1];
@@ -68,7 +68,7 @@ export class PubmedWindow extends React.Component<{}, {}> {
     sendQuery = (e) => {
         this.toggleLoadState();
         e.preventDefault();
-        PubmedQuery(this.query, true)
+        pubmedQuery(this.query, true)
         .then(this.consumeQueryData)
         .catch(err => top.tinyMCE.activeEditor.windowManager.alert(err.message));
     }
@@ -92,7 +92,7 @@ export class PubmedWindow extends React.Component<{}, {}> {
             'resident OR student AND retention',
         ];
 
-        return options[Math.ceil(Math.random() * 10) - 1];
+        return options[Math.ceil(Math.random() * 10) - 1]; // tslint:disable-line
     }
 
     componentDidMount() {
