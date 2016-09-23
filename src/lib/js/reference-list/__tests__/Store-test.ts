@@ -4,7 +4,6 @@ const reflistState = require('../../../../../scripts/fixtures').reflistState;
 import { Store } from '../Store';
 
 const testState = reflistState;
-const stateCopy = JSON.parse(JSON.stringify(testState));
 
 describe('Reflist Store', () => {
 
@@ -39,6 +38,7 @@ describe('Reflist Store', () => {
         });
 
         it('should return citationByIndex as JS object', () => {
+            const stateCopy = JSON.parse(JSON.stringify(testState));
             expect(store.citations.citationByIndex).toEqual(stateCopy.citationByIndex);
         });
 

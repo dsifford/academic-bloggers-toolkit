@@ -255,19 +255,19 @@ export function formatBibliography(
         const innerHTML = innerEl.innerHTML;
         switch (true) {
             case item.PMID !== undefined && !innerHTML.match(item.PMID): {
-                innerEl.innerHTML = parseReferenceURL(innerHTML, links, { type: 'PMID', value: item.PMID });
+                innerEl.innerHTML = parseReferenceURL(innerHTML, links, { kind: 'PMID', value: item.PMID });
                 break;
             }
             case item.DOI !== undefined && !innerHTML.match(item.DOI): {
-                innerEl.innerHTML = parseReferenceURL(innerHTML, links, { type: 'DOI', value: item.DOI });
+                innerEl.innerHTML = parseReferenceURL(innerHTML, links, { kind: 'DOI', value: item.DOI });
                 break;
             }
             case item.PMCID !== undefined && !innerHTML.match(item.PMCID): {
-                innerEl.innerHTML = parseReferenceURL(innerHTML, links, { type: 'PMCID', value: item.PMCID });
+                innerEl.innerHTML = parseReferenceURL(innerHTML, links, { kind: 'PMCID', value: item.PMCID });
                 break;
             }
             case item.URL !== undefined && !innerHTML.match(item.URL): {
-                innerEl.innerHTML = parseReferenceURL(innerHTML, links, { type: 'URL', value: item.URL });
+                innerEl.innerHTML = parseReferenceURL(innerHTML, links, { kind: 'URL', value: item.URL });
                 break;
             }
             default: {
@@ -293,7 +293,7 @@ export function formatBibliography(
 export function parseReferenceURL(
     html: string,
     linkStyle: ABT.LinkStyle,
-    id?: { type: 'PMID'|'DOI'|'PMCID'|'URL', value: string },
+    id?: { kind: 'PMID'|'DOI'|'PMCID'|'URL', value: string },
 ): string {
 
     if (linkStyle === 'never') return html;
@@ -322,7 +322,7 @@ export function parseReferenceURL(
 
     switch (linkStyle) {
         case 'always': {
-            switch (id.type) {
+            switch (id.kind) {
                 case 'PMID': {
                     return linkedHtml +
                         `<span class="abt-url"> ` +
@@ -351,7 +351,7 @@ export function parseReferenceURL(
             }
         }
         case 'always-full-surround': {
-            switch (id.type) {
+            switch (id.kind) {
                 case 'PMID': {
                     return `<a href="http://www.ncbi.nlm.nih.gov/pubmed/${id.value}" target="_blank">${html}</a>`;
                 }

@@ -1,4 +1,4 @@
-// tslint:disable no-namespace
+// tslint:disable no-namespace no-reserved-keywords
 
 declare namespace GoogleBooks {
 

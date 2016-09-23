@@ -15,14 +15,15 @@ interface ManualEntryProps {
     addPerson(): void;
     changePerson(index: string, field: string, value: string): void;
     removePerson(index: string): void;
-    typeChange(value: string): void;
+    typeChange(citationType: string): void;
 }
 
 @observer
 export class ManualEntryContainer extends React.PureComponent<ManualEntryProps, {}> {
 
-    label = (top as any).ABT_i18n.tinymce.referenceWindow.manualEntryContainer.type;
-    citationTypes = (top as any).ABT_i18n.citationTypes as ABT.CitationTypes;
+    label = ((top as any).ABT_i18n as BackendGlobals.ABT_i18n)
+        .tinymce.referenceWindow.manualEntryContainer.citationType;
+    citationTypes = ((top as any).ABT_i18n as BackendGlobals.ABT_i18n).citationTypes as ABT.CitationTypes;
     element: HTMLElement;
     handleWheel = preventScrollPropagation.bind(this);
 
@@ -71,7 +72,7 @@ export class ManualEntryContainer extends React.PureComponent<ManualEntryProps, 
                         getter={this.props.autoCite}
                         kind={itemType as 'webpage'}
                         placeholder="URL"
-                        type="url"
+                        inputType="url"
                     />
                 }
                 { renderAutocite && ['book', 'chapter'].indexOf(itemType) > -1 &&
@@ -80,7 +81,7 @@ export class ManualEntryContainer extends React.PureComponent<ManualEntryProps, 
                         kind={itemType as 'book'|'chapter'}
                         placeholder="ISBN"
                         pattern="(?:[\\dxX]-?){10}|(?:[\\dxX]-?){13}"
-                        type="text"
+                        inputType="text"
                     />
                 }
                 <div
@@ -106,7 +107,7 @@ export class ManualEntryContainer extends React.PureComponent<ManualEntryProps, 
 
 interface AutoCiteProps {
     kind: 'webpage'|'book'|'chapter';
-    type: 'text'|'url';
+    inputType: 'text'|'url';
     placeholder: string;
     pattern?: string;
     getter(kind: string, query: string): void;
@@ -152,7 +153,7 @@ export class AutoCite extends React.Component<AutoCiteProps, {}> {
     }
 
     render() {
-        const { placeholder, type } = this.props;
+        const { placeholder, inputType } = this.props;
         return (
             <div id="autocite" className="row">
                 <div>
@@ -160,7 +161,7 @@ export class AutoCite extends React.Component<AutoCiteProps, {}> {
                 </div>
                 <div className="flex">
                     <input
-                        type={type}
+                        type={inputType}
                         id="citequery"
                         placeholder={placeholder}
                         pattern={this.props.pattern ? this.props.pattern : null}

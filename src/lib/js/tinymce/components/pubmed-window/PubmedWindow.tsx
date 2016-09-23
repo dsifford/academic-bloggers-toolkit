@@ -12,7 +12,7 @@ import { Spinner } from '../../../components/Spinner';
 @observer
 export class PubmedWindow extends React.Component<{}, {}> {
 
-    labels = (top as any).ABT_i18n.tinymce.pubmedWindow;
+    labels = ((top as any).ABT_i18n as BackendGlobals.ABT_i18n).tinymce.pubmedWindow;
     modal: Modal = new Modal(this.labels.title);
     wm: TinyMCE.WindowManager = top.window.tinyMCE.activeEditor.windowManager
         .windows[top.window.tinyMCE.activeEditor.windowManager.windows.length - 1];
@@ -92,7 +92,7 @@ export class PubmedWindow extends React.Component<{}, {}> {
             'resident OR student AND retention',
         ];
 
-        return options[Math.ceil(Math.random() * 10) - 1];
+        return options[Math.ceil(Math.random() * 10) - 1]; // tslint:disable-line
     }
 
     componentDidMount() {

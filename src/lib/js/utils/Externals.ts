@@ -126,13 +126,13 @@ export function getFromURL(url: string): Promise<ABT.URLMeta> {
     return new Promise((resolve, reject) => {
         const req = new XMLHttpRequest();
         const data = `action=get_website_meta&site_url=${encodeURIComponent(url)}`;
-        req.open('POST', (top as any).ajaxurl);
+        req.open('POST', (<any>top).ajaxurl);
         req.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
         req.timeout = 5000;
         req.addEventListener('load', () => {
             if (req.status !== 200) return reject(new Error('Error: URL returned a non-200 status code.'));
 
-            const res = JSON.parse(req.responseText) as ABT.ExternalSiteMeta;
+            const res = <ABT.ExternalSiteMeta>JSON.parse(req.responseText);
 
             if (res.error) {
                 return reject(new Error(res.error));
@@ -182,7 +182,7 @@ export function getFromISBN(ISBN: string): Promise<GoogleBooks.Meta> {
         req.open('GET', url);
         req.addEventListener('load', () => {
             if (req.status !== 200) return reject(new Error('Error: URL returned a non-200 status code.'));
-            const res = JSON.parse(req.responseText) as GoogleBooks.Response;
+            const res = <GoogleBooks.Response>JSON.parse(req.responseText);
             const meta = res.items[0].volumeInfo;
             const authors = meta.authors.map(y => {
                 const t = y.split(' ');
@@ -190,21 +190,21 @@ export function getFromISBN(ISBN: string): Promise<GoogleBooks.Meta> {
                     return {
                         family: t.slice(1).join(' '),
                         given: t[0],
-                        type: 'author' as 'author',
+                        type: <'author'>'author',
                     };
                 }
                 const [a, b, c] = t;
-                if (typeof c === 'undefined') {
+                if (c === undefined) {
                     return {
                         family: b,
                         given: a,
-                        type: 'author' as 'author',
+                        type: <'author'>'author',
                     };
                 }
                 return {
                     family: c,
                     given: `${a}, ${b}`,
-                    type: 'author' as 'author',
+                    type: <'author'>'author',
                 };
             });
             const payload: GoogleBooks.Meta = {

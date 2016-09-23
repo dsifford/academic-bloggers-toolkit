@@ -14,7 +14,7 @@ interface Props {
 @observer
 export class ButtonRow extends React.PureComponent<Props, {}> {
 
-    labels = (top as any).ABT_i18n.tinymce.referenceWindow.buttonRow;
+    labels = ((top as any).ABT_i18n as BackendGlobals.ABT_i18n).tinymce.referenceWindow.buttonRow;
 
     searchPubmedClick = () => {
         const wm = top.tinyMCE.activeEditor.windowManager;

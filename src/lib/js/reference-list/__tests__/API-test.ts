@@ -1,13 +1,9 @@
 jest.disableAutomock();
 
-const testCSL = require('../../../../../scripts/fixtures.js').reflistState.CSL.citationId;
-
 import { getRemoteData, parseManualData } from '../API';
 import { stub } from 'sinon';
 
-const mce = {
-    alert: stub(),
-};
+const testCSL = require('../../../../../scripts/fixtures.js').reflistState.CSL.citationId;
 
 const manualData = {
     addManually: true,
@@ -20,9 +16,9 @@ const manualData = {
 describe('API', () => {
 
     describe('getRemoteData()', () => {
-
+        let mce;
         beforeEach(() => {
-            mce.alert = stub();
+            mce = { alert: stub() };
         });
 
         it('should get a single PMID', () => {

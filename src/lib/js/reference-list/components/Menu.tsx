@@ -94,7 +94,7 @@ export class Menu extends React.PureComponent<Props, {}> {
                         <PanelButton
                             id="IMPORT_RIS"
                             onClick={this.handleClick}
-                            data-tooltip={this.labels.tooltips.import}
+                            data-tooltip={this.labels.tooltips.importRIS}
                         >
                             <span className="dashicons dashicons-media-code"/>
                         </PanelButton>
@@ -214,6 +214,8 @@ export function renderer({focusedOption, focusOption, key, option, selectValue, 
         <div
             key={key}
             style={style}
+            role="option"
+            aria-selected={option === focusedOption}
             onClick={click}
             onMouseOver={focus}
             children={option.label}

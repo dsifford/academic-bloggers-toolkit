@@ -30,11 +30,11 @@ declare namespace TinyMCE {
         };
         selection: {
             bookmarkManager: {
-                getBookmark(type?: number, normalized?: boolean): Object;
+                getBookmark(type?: number, normalized?: boolean): Object; // tslint:disable-line
                 moveToBookmark(bookmark: Object): boolean
             }
             collapse(toStart: boolean): void;
-            getBookmark(type?: number, normalized?: boolean): Object;
+            getBookmark(type?: number, normalized?: boolean): Object; // tslint:disable-line
             getNode(): Node;
             getContent(args: { format: 'html'|'text' }): string;
             moveToBookmark(bookmark: Object): boolean;
@@ -85,7 +85,7 @@ declare namespace TinyMCE {
     }
 
     interface WindowElement {
-        type: string;
+        type: string; // tslint:disable-line
         name?: string;
         label?: string;
         value?: string;

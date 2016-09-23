@@ -12,8 +12,8 @@ interface PeopleProps {
 @observer
 export class People extends React.PureComponent<PeopleProps, {}> {
 
-    fieldmaps: ABT.FieldMappings = (top as any).ABT_i18n.fieldmaps;
-    labels = (top as any).ABT_i18n.tinymce.referenceWindow.people;
+    fieldmaps: ABT.FieldMappings = ((top as any).ABT_i18n as BackendGlobals.ABT_i18n).fieldmaps;
+    labels = ((top as any).ABT_i18n as BackendGlobals.ABT_i18n).tinymce.referenceWindow.people;
 
     handleChange = (e: React.FormEvent<HTMLInputElement|HTMLSelectElement>) => {
         e.preventDefault();

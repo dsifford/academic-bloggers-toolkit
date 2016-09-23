@@ -10,7 +10,7 @@ interface Props {
 @observer
 export class Paginate extends React.PureComponent<Props, {}> {
 
-    labels = (top as any).ABT_i18n.tinymce.pubmedWindow;
+    labels = ((top as any).ABT_i18n as BackendGlobals.ABT_i18n).tinymce.pubmedWindow;
 
     handleClick = (e) => {
         this.props.paginate(parseInt(e.target.getAttribute('data-page'), 10));

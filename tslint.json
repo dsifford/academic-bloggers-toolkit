@@ -1,5 +1,6 @@
 {
     "extends": ["tslint:latest", "tslint-react", "tslint-microsoft-contrib"],
+    "rulesDirectory": ["node_modules/tslint-microsoft-contrib"],
     "rules": {
         "curly": false,
         "interface-name": false,

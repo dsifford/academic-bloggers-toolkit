@@ -21,7 +21,11 @@ declare namespace Citeproc {
      */
     type CitationClusterData = [number, string, string];
 
-    // TODO: Document this
+    /**
+     * 0: ID of the HTMLSpanElement containing the inline citation(s)
+     * 1: 0-based index of the location of the HTMLSpanElement in the document
+     * @type {Array}
+     */
     type CitationsPrePost = [string, number][];
 
     /**
@@ -75,15 +79,16 @@ declare namespace Citeproc {
         'second-field-align': 'flush'|'margin'|boolean;
     }
 
-    // TODO: Document this
     interface Citation {
         citationID?: string;
         citationItems: {
+            /** ID of the individual CSL item */
             id: string;
             item?: CSL.Data;
         }[];
         properties: {
             index?: number;
+            /** 0-based index of the citation group in the document */
             noteIndex: number;
         };
         sortedItems?: SortedItems;
