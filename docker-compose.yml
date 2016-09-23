@@ -1,20 +1,5 @@
 version: '2'
 services:
-    selenium:
-        image: selenium/standalone-chrome-debug
-        ports:
-            - 4444:4444
-        links:
-            - wordpress
-    # chrome:
-    #     image: selenium/node-chrome
-    #     links:
-    #         - selenium
-    #     depends_on:
-    #         - selenium
-    #     environment:
-    #         - no_proxy=""
-    #         - HUB_PORT_4444_TCP_ADDR=selenium
     wordpress:
         image: dsifford/wordpress
         links:
