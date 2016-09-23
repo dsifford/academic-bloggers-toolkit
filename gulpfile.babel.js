@@ -71,7 +71,7 @@ gulp.task('bump', () => {
 
 gulp.task('rollbar', () =>
     gulp.src('dist/lib/php/dom-injects.php', { base: './' })
-    .pipe(replace(/(payload: {\n.+?environment: "test"\n.+?})/, ''))
+    .pipe(replace(/(payload: {\n.+?environment: "test"\n.+?},)/, ''))
     .pipe(replace(/(\s+code_version: ")[\d.]+(",)/, `$1${VERSION}$2`))
     .pipe(gulp.dest('./'))
 );
