@@ -492,7 +492,10 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
 
         if (this.loading) {
             return (
-                <Spinner size="40px" height="52px" />
+                <div>
+                    <Spinner size="40px" height="52px" />
+                    <StorageField store={this.props.store} />
+                </div>
             );
         }
 
