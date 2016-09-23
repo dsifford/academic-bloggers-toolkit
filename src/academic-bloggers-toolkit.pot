@@ -1,112 +1,30 @@
+# Copyright (C) 2016 Academic Blogger's Toolkit 4.4.0
+# This file is distributed under the same license as the Academic Blogger's Toolkit 4.4.0 package.
 msgid ""
 msgstr ""
+"Project-Id-Version: Academic Blogger's Toolkit 4.4.0\n"
+"Report-Msgid-Bugs-To: https://github.com/dsifford/academic-bloggers-toolkit/issues\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: POEditor.com\n"
-"Project-Id-Version: Academic Bloggers Toolkit\n"
-"Language: en-us\n"
-
+"PO-Revision-Date: 2016-MO-DA HO:MI+ZONE\n"
+"Last-Translator: Derek P Sifford <dereksifford@gmail.com>\n"
+"Language-Team: Derek P Sifford <dereksifford@gmail.com>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 #: academic-bloggers-toolkit.php:83
 msgid "Plugin Settings"
 msgstr ""
 
-#: lib/php/options-page.php:58, src/lib/php/views/options-page.php:1
-msgid "Academic Blogger's Toolkit Options"
+#: academic-bloggers-toolkit.php:96
+msgid "Donate"
 msgstr ""
 
-#: lib/php/views/options-page.php:6
-msgid "Please send your feedback!"
-msgstr ""
-
-#: dist/lib/options-page.php:90
-msgid "Preferred Citation Style"
-msgstr ""
-
-#: lib/php/views/options-page.php:128
-msgid "Display Options"
-msgstr ""
-
-#: dist/lib/php/options-page.php:107
-msgid "The bibliography should"
-msgstr ""
-
-#: dist/lib/php/options-page.php:107
-msgid "be fixed on the page"
-msgstr ""
-
-#: dist/lib/php/options-page.php:108
-msgid "toggle on click"
-msgstr ""
-
-#: dist/lib/options-page.php:91
-msgid "The peer review boxes should"
-msgstr ""
-
-#: dist/lib/php/options-page.php:108
-msgid "Clickable links should be included in the bibliography"
-msgstr ""
-
-#: dist/lib/php/options-page.php:108
-msgid "whenever possible"
-msgstr ""
-
-#: lib/php/views/options-page.php:169
-msgid "when the citation has a visible URL"
-msgstr ""
-
-#: lib/php/views/options-page.php:175
-msgid "never"
-msgstr ""
-
-#: dist/lib/php/options-page.php:110
-msgid "The heading for bibliographies should be"
-msgstr ""
-
-#: lib/php/views/options-page.php:215
-msgid "Override CSS"
-msgstr ""
-
-#: lib/php/views/options-page.php:225
-msgid "CSS Selectors used in this plugin"
-msgstr ""
-
-#: lib/php/views/options-page.php:232
-#, fuzzy
-msgid "Citation Tooltips"
-msgstr ""
-
-#: lib/php/views/options-page.php:236
-#, fuzzy
-msgid "Bibliography"
-msgstr ""
-
-#: lib/php/views/options-page.php:240
-msgid "Footnotes"
-msgstr ""
-
-#: lib/php/views/options-page.php:258
-msgid "How do I"
-msgstr ""
-
-#: lib/php/views/options-page.php:262
-msgid "Make my tooltips a different color?"
-msgstr ""
-
-#: lib/php/views/options-page.php:267
-msgid "Apply style to the bibliography list?"
-msgstr ""
-
-#: dist/lib/options-page.php:95
-msgid "Change the style of the peer review boxes?"
+#: lib/php/backend.php:82
+msgid "<strong>Notice:</strong> Rich editing must be enabled to use the Academic Blogger's Toolkit plugin"
 msgstr ""
 
 #: lib/php/backend.php:133
 msgid "Reference List"
-msgstr ""
-
-#: lib/backend.php:75
-msgid "Add Peer Review(s)"
 msgstr ""
 
 #: lib/php/fieldmaps.php:6, src/lib/php/fieldmaps.php:103
@@ -135,6 +53,10 @@ msgstr ""
 
 #: lib/php/fieldmaps.php:30, src/lib/php/fieldmaps.php:666
 msgid "Film"
+msgstr ""
+
+#: lib/php/fieldmaps.php:34, src/lib/php/fieldmaps.php:735
+msgid "Generic (Note)"
 msgstr ""
 
 #: lib/php/fieldmaps.php:38
@@ -389,6 +311,14 @@ msgstr ""
 msgid "Scriptwriter"
 msgstr ""
 
+#: lib/php/fieldmaps.php:739
+msgid "Text"
+msgstr ""
+
+#: lib/php/fieldmaps.php:742
+msgid "Note: This type may not work with certain citation styles"
+msgstr ""
+
 #: lib/php/fieldmaps.php:749
 msgid "Presentation"
 msgstr ""
@@ -493,8 +423,8 @@ msgstr ""
 msgid "Remove selected references from reference list"
 msgstr ""
 
-#: lib/i18n.php:18
-msgid "Pin Reference List to Visible Window"
+#: lib/php/i18n.php:18
+msgid "Pin reference list to visible window"
 msgstr ""
 
 #: lib/php/i18n.php:20
@@ -505,28 +435,44 @@ msgstr ""
 msgid "Uncited Items"
 msgstr ""
 
-#: lib/php/i18n.php:38
-msgid "Import References from RIS File"
+#: lib/php/i18n.php:22
+msgid "Cannot create publication list for currently selected citation style."
 msgstr ""
 
-#: lib/i18n.php:26
-msgid "Refresh Reference List"
+#: lib/php/i18n.php:23
+msgid "Style does not include bibliography."
 msgstr ""
 
-#: lib/i18n.php:27
-msgid "Delete All References"
+#: lib/php/i18n.php:27
+msgid "Import references from RIS file"
+msgstr ""
+
+#: lib/php/i18n.php:28
+msgid "Refresh reference list"
+msgstr ""
+
+#: lib/php/i18n.php:29
+msgid "Delete all references"
+msgstr ""
+
+#: lib/php/i18n.php:30
+msgid "Usage instructions"
 msgstr ""
 
 #: lib/php/i18n.php:32
 msgid "Choose citation style..."
 msgstr ""
 
+#: lib/php/i18n.php:38
+msgid "Import References from RIS File"
+msgstr ""
+
 #: lib/php/i18n.php:39
 msgid "The file could not be processed. Are you sure it's a .RIS (Refman) file?"
 msgstr ""
 
-#: src/lib/php/i18n.php:38
-msgid "The following references were unable to be processed:"
+#: lib/php/i18n.php:40
+msgid "The following references were unable to be processed"
 msgstr ""
 
 #: lib/php/i18n.php:41
@@ -553,16 +499,24 @@ msgstr ""
 msgid "Previous"
 msgstr ""
 
+#: lib/php/i18n.php:51
+msgid "Select"
+msgstr ""
+
+#: lib/php/i18n.php:52
+msgid "View"
+msgstr ""
+
 #: lib/php/i18n.php:57, src/lib/php/i18n.php:76
 msgid "Add Reference"
 msgstr ""
 
-#: src/lib/php/i18n.php:54
-msgid "Insert Formatted Reference"
+#: lib/php/i18n.php:60
+msgid "Add Contributor"
 msgstr ""
 
-#: src/lib/php/i18n.php:57
-msgid "Add another"
+#: lib/php/i18n.php:61
+msgid "Contributors"
 msgstr ""
 
 #: lib/php/i18n.php:62
@@ -573,8 +527,8 @@ msgstr ""
 msgid "Given Name, M.I."
 msgstr ""
 
-#: src/lib/php/i18n.php:62
-msgid "Select Citation Type"
+#: lib/php/i18n.php:66
+msgid "Citation Type"
 msgstr ""
 
 #: lib/php/i18n.php:69
@@ -597,180 +551,12 @@ msgstr ""
 msgid "Attach Inline"
 msgstr ""
 
-#: lib/i18n.php:80
-msgid "Select Number of Reviewers"
-msgstr ""
-
-#: lib/i18n.php:81
-msgid "One Reviewer"
-msgstr ""
-
-#: lib/i18n.php:82
-msgid "Two Reviewers"
-msgstr ""
-
-#: lib/i18n.php:83
-msgid "Three Reviewers"
-msgstr ""
-
-#: lib/i18n.php:85
-msgid "Review 1"
-msgstr ""
-
-#: lib/i18n.php:86
-msgid "Review 2"
-msgstr ""
-
-#: lib/i18n.php:87
-msgid "Review 3"
-msgstr ""
-
-#: lib/i18n.php:88
-msgid "Use this image"
-msgstr ""
-
-#: lib/i18n.php:89, lib/i18n.php:101
-msgid "Choose or Upload an Image"
-msgstr ""
-
-#: lib/i18n.php:92
-msgid "Review Heading"
-msgstr ""
-
-#: lib/i18n.php:93
-msgid "Toggle Author Response"
-msgstr ""
-
-#: lib/i18n.php:96
-msgid "Name"
-msgstr ""
-
-#: lib/i18n.php:97
-msgid "Twitter Handle"
-msgstr ""
-
-#: lib/i18n.php:98
-msgid "Background"
-msgstr ""
-
-#: lib/i18n.php:99
-msgid "Content"
-msgstr ""
-
-#: lib/i18n.php:100
-msgid "Photo"
-msgstr ""
-
-#: dist/lib/php/options-page.php:110
-msgid "Note: If you are already using a child theme to load CSS, place your CSS overrides there. The box above is only a crutch for those who do not have any custom CSS saved yet. Loading CSS this way is very inefficient."
-msgstr ""
-
-#: lib/php/views/options-page.php:228
-msgid "Inline Citations"
-msgstr ""
-
-#: dist/lib/options-page.php:95
-msgid "Peer Review Boxes"
-msgstr ""
-
-#: dist/lib/options-page.php:90
-msgid "If you experience a bug or would like to request a new feature, please visit the <a href='%s' target='_blank'>GitHub Repository</a> and submit an issue. I'll do my best to get it handled in a timely manner. Comments can also be sent to me on twitter"
-msgstr ""
-
 #: lib/php/options-page.php:47
 msgid "The provided URL is not a valid file in your WordPress upload directory. Please try again."
 msgstr ""
 
-#: lib/php/views/options-page.php:8
-msgid "If you experience a bug or would like to request a new feature, please visit the <a href='%s' target='_blank'>GitHub Repository</a> and submit an issue. I'll do my best to get it handled in a timely manner. Comments may also be sent to me on twitter "
-msgstr ""
-
-#: lib/php/views/options-page.php:85
-msgid "Default Citation Style"
-msgstr ""
-
-#: lib/php/views/options-page.php:92
-msgid "Use a predefined citation style by default"
-msgstr ""
-
-#: lib/php/views/options-page.php:98
-msgid "Use custom citation style by default "
-msgstr ""
-
-#: lib/php/i18n.php:18
-msgid "Pin reference list to visible window"
-msgstr ""
-
-#: lib/php/i18n.php:27
-msgid "Import references from RIS file"
-msgstr ""
-
-#: lib/php/i18n.php:28
-msgid "Refresh reference list"
-msgstr ""
-
-#: lib/php/i18n.php:29
-msgid "Delete all references"
-msgstr ""
-
-#: src/lib/php/i18n.php:28
-msgid "View usage instructions"
-msgstr ""
-
-#: academic-bloggers-toolkit.php:96
-msgid "Donate"
-msgstr ""
-
-#: lib/php/backend.php:82
-msgid "<strong>Notice:</strong> Rich editing must be enabled to use the Academic Blogger's Toolkit plugin"
-msgstr ""
-
-#: lib/php/fieldmaps.php:34, src/lib/php/fieldmaps.php:735
-msgid "Generic (Note)"
-msgstr ""
-
-#: lib/php/fieldmaps.php:739
-msgid "Text"
-msgstr ""
-
-#: lib/php/fieldmaps.php:742
-msgid "Note: This type may not work with certain citation styles"
-msgstr ""
-
-#: lib/php/i18n.php:22
-msgid "Cannot create publication list for currently selected citation style."
-msgstr ""
-
-#: lib/php/i18n.php:23
-msgid "Style does not include bibliography."
-msgstr ""
-
-#: lib/php/i18n.php:30
-msgid "Usage instructions"
-msgstr ""
-
-#: lib/php/i18n.php:40
-msgid "The following references were unable to be processed"
-msgstr ""
-
-#: lib/php/i18n.php:51
-msgid "Select"
-msgstr ""
-
-#: lib/php/i18n.php:52
-msgid "View"
-msgstr ""
-
-#: lib/php/i18n.php:60
-msgid "Add Contributor"
-msgstr ""
-
-#: lib/php/i18n.php:61
-msgid "Contributors"
-msgstr ""
-
-#: lib/php/i18n.php:66
-msgid "Citation Type"
+#: lib/php/options-page.php:58, src/lib/php/views/options-page.php:1
+msgid "Academic Blogger's Toolkit Options"
 msgstr ""
 
 #: lib/php/options-page.php:59
@@ -779,6 +565,14 @@ msgstr ""
 
 #: lib/php/options-page.php:72
 msgid "You do not have sufficient permissions to access this page."
+msgstr ""
+
+#: lib/php/views/options-page.php:6
+msgid "Please send your feedback!"
+msgstr ""
+
+#: lib/php/views/options-page.php:8
+msgid "If you experience a bug or would like to request a new feature, please visit the <a href='%s' target='_blank'>GitHub Repository</a> and submit an issue. I'll do my best to get it handled in a timely manner. Comments may also be sent to me on twitter "
 msgstr ""
 
 #: lib/php/views/options-page.php:13
@@ -829,8 +623,24 @@ msgstr ""
 msgid "Google Chrome, Mozilla Firefox, Microsoft Edge, or Apple Safari."
 msgstr ""
 
+#: lib/php/views/options-page.php:85
+msgid "Default Citation Style"
+msgstr ""
+
+#: lib/php/views/options-page.php:92
+msgid "Use a predefined citation style by default"
+msgstr ""
+
+#: lib/php/views/options-page.php:98
+msgid "Use custom citation style by default "
+msgstr ""
+
 #: lib/php/views/options-page.php:120, src/lib/php/views/options-page.php:207, src/lib/php/views/options-page.php:251
 msgid "Update"
+msgstr ""
+
+#: lib/php/views/options-page.php:128
+msgid "Display Options"
 msgstr ""
 
 #: lib/php/views/options-page.php:132
@@ -861,11 +671,54 @@ msgstr ""
 msgid "whenever possible (full surround)"
 msgstr ""
 
+#: lib/php/views/options-page.php:169
+msgid "when the citation has a visible URL"
+msgstr ""
+
+#: lib/php/views/options-page.php:175
+msgid "never"
+msgstr ""
+
 #: lib/php/views/options-page.php:200
 msgid "Bibliography Heading"
+msgstr ""
+
+#: lib/php/views/options-page.php:215
+msgid "Override CSS"
+msgstr ""
+
+#: lib/php/views/options-page.php:225
+msgid "CSS Selectors used in this plugin"
+msgstr ""
+
+#: lib/php/views/options-page.php:228
+msgid "Inline Citations"
+msgstr ""
+
+#: lib/php/views/options-page.php:232
+msgid "Citation Tooltips"
+msgstr ""
+
+#: lib/php/views/options-page.php:236
+msgid "Bibliography"
+msgstr ""
+
+#: lib/php/views/options-page.php:240
+msgid "Footnotes"
 msgstr ""
 
 #: lib/php/views/options-page.php:244
 msgid "Note: If you are already using a child theme to load CSS, place your CSS overrides there. The box on the left is only a crutch for those who do not have any custom CSS saved yet. Loading CSS this way is very inefficient."
 msgstr ""
 
+#: lib/php/views/options-page.php:258
+msgid "How do I"
+msgstr ""
+
+#: lib/php/views/options-page.php:262
+msgid "Make my tooltips a different color?"
+msgstr ""
+
+#: lib/php/views/options-page.php:267
+msgid "Apply style to the bibliography list?"
+msgstr ""
