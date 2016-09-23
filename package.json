@@ -9,6 +9,7 @@
     "lint": "./node_modules/.bin/tslint -e \"node_modules/**/*\" \"**/*.+(ts|tsx)\" -t stylish",
     "start": "NODE_ENV=development node --max_old_space_size=8192 node_modules/.bin/gulp _dev",
     "build": "NODE_ENV=production node_modules/.bin/gulp _build",
+    "deploy": "./scripts/deploy $npm_package_version",
     "update-styles": "node ./scripts/updateStyles.js",
     "update-vendors": "cd src/vendor && curl -o 'citeproc.js' https://raw.githubusercontent.com/Juris-M/citeproc-js/master/citeproc.js"
   },

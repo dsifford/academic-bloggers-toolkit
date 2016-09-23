@@ -23,7 +23,7 @@
  *     <http://www.gnu.org/licenses/> respectively.
  */
 var CSL = {
-    PROCESSOR_VERSION: "1.1.133",
+    PROCESSOR_VERSION: "1.1.134",
     CONDITION_LEVEL_TOP: 1,
     CONDITION_LEVEL_BOTTOM: 2,
     PLAIN_HYPHEN_REGEX: /(?:[^\\]-|\u2013)/,
@@ -13914,11 +13914,21 @@ CSL.Util.outputNumericField = function(state, varname, itemID) {
     var lastLabelName = null;
     for (var i=0,ilen=nums.length;i<ilen;i++) {
         var num = nums[i];
-        var labelName = CSL.STATUTE_SUBDIV_STRINGS[num.label];
-        if (num.label === masterLabel) {
-            label = state.getTerm(labelName, labelForm, num.plural);
-        } else {
-            label = state.getTerm(labelName, embeddedLabelForm, num.plural);
+        var label = "";
+        if (num.label) {
+            var labelName;
+            if ('var:' === num.label.slice(0,4)) {
+                labelName = num.label.slice(4);
+            } else {
+                labelName = CSL.STATUTE_SUBDIV_STRINGS[num.label];
+            }
+            if (labelName) {
+                if (num.label === masterLabel) {
+                    label = state.getTerm(labelName, labelForm, num.plural);
+                } else {
+                    label = state.getTerm(labelName, embeddedLabelForm, num.plural);
+                }
+            }
         }
         var labelPlaceholderPos = -1;
         if (label) {
