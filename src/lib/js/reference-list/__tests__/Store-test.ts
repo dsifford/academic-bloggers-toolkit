@@ -103,6 +103,22 @@ describe('Reflist Store', () => {
             expect(store.citations.CSL.keys().length).toBe(4);
         });
 
+        it('should pruneOrphanedCitations() properly', () => {
+            expect(store.citations.citationByIndex.length).toBe(2);
+            expect(store.citations.citationByIndex.map(i => i.citationID)).toEqual(['htmlSpanId', 'otherHtmlSpanId']);
+            store.citations.pruneOrphanedCitations(['htmlSpanId']);
+            expect(store.citations.citationByIndex.length).toBe(1);
+            expect(store.citations.citationByIndex.map(i => i.citationID)).toEqual(['htmlSpanId']);
+        });
+
+        it('should return early from pruneOrphanedCitations() if lengths match', () => {
+            expect(store.citations.citationByIndex.length).toBe(2);
+            expect(store.citations.citationByIndex.map(i => i.citationID)).toEqual(['htmlSpanId', 'otherHtmlSpanId']);
+            store.citations.pruneOrphanedCitations(['htmlSpanId', 'otherHtmlSpanId']);
+            expect(store.citations.citationByIndex.length).toBe(2);
+            expect(store.citations.citationByIndex.map(i => i.citationID)).toEqual(['htmlSpanId', 'otherHtmlSpanId']);
+        });
+
     });
 
     beforeEach(() => {
