@@ -101,6 +101,16 @@ class CitationStore {
         );
     }
 
+    @action
+    pruneOrphanedCitations(citationIds: string[]) {
+        if (this.byIndex.length === citationIds.length) return;
+        const index = this.byIndex.findIndex(a => citationIds.indexOf(a.citationID) === -1);
+        this.byIndex.replace([
+            ...this.byIndex.slice(0, index),
+            ...this.byIndex.slice(index + 1),
+        ]);
+    }
+
     get lookup(): {ids: string[], titles: string[]} {
         return {
             ids: this.CSL.keys(),
