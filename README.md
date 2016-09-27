@@ -1,8 +1,8 @@
 ![ABT Banner](http://i.imgur.com/UxBG7NB.png)
+[![DOI](https://zenodo.org/badge/37433718.svg)](https://zenodo.org/badge/latestdoi/37433718)
 [![Changelog](https://img.shields.io/badge/changelog-academic--bloggers--toolkit-blue.svg)](https://headwayapp.co/academic-bloggers-toolkit-changelog)
 [![Build Status](https://travis-ci.org/dsifford/academic-bloggers-toolkit.svg?branch=master)](https://travis-ci.org/dsifford/academic-bloggers-toolkit)
 [![Coveralls](https://img.shields.io/coveralls/dsifford/academic-bloggers-toolkit.svg?maxAge=2592000)](https://coveralls.io/github/dsifford/academic-bloggers-toolkit)
-![Dependencies](https://david-dm.org/dsifford/academic-bloggers-toolkit.svg)
 [![WordPress](https://img.shields.io/wordpress/plugin/dt/academic-bloggers-toolkit.svg?maxAge=2592000)](https://wordpress.org/plugins/academic-bloggers-toolkit/)
 [![WordPress rating](https://img.shields.io/wordpress/plugin/r/academic-bloggers-toolkit.svg?maxAge=2592000)](https://wordpress.org/plugins/academic-bloggers-toolkit/)
 

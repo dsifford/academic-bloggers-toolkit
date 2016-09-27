@@ -23,7 +23,8 @@ cp -r "$ROOTDIR"/dist/* "$SVNROOT"/trunk/
 cp -r "$ROOTDIR"/dist/* "$SVNROOT"/tags/"$VERSION"/
 
 # Create a zipped copy of dist in ROOTDIR/tmp/bin
-zip -r "$ROOTDIR"/tmp/bin/"$VERSION".zip "$ROOTDIR"/dist
+rm -f "$ROOTDIR"/tmp/bin/*
+zip -r "$ROOTDIR"/tmp/bin/academic-bloggers-toolkit-"$VERSION".zip "$ROOTDIR"/dist
 
 # Remove deleted files
 svn stat | grep -Po '^!.+' | awk '{print $2}' | xargs svn rm
