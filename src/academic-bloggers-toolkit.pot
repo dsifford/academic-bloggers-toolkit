@@ -1,8 +1,8 @@
-# Copyright (C) 2016 Academic Blogger's Toolkit 4.4.2
-# This file is distributed under the same license as the Academic Blogger's Toolkit 4.4.2 package.
+# Copyright (C) 2016 Academic Blogger's Toolkit 4.4.3
+# This file is distributed under the same license as the Academic Blogger's Toolkit 4.4.3 package.
 msgid ""
 msgstr ""
-"Project-Id-Version: Academic Blogger's Toolkit 4.4.2\n"
+"Project-Id-Version: Academic Blogger's Toolkit 4.4.3\n"
 "Report-Msgid-Bugs-To: https://github.com/dsifford/academic-bloggers-toolkit/issues\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
