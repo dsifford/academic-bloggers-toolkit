@@ -198,7 +198,7 @@ gulp.task('webpack:prod', () =>
 
 gulp.task('js', () =>
     gulp
-        .src('dist/**/*.js', { base: 'dist' })
+        .src('dist/lib/**/*.js', { base: 'dist' })
         .pipe(sourcemaps.init())
         .pipe(uglify({
             compress: {
@@ -219,7 +219,7 @@ gulp.task('js', () =>
 
 gulp.task('_build',
     gulp.series(
-        'clean', 'bump',
+        'chown', 'clean', 'bump',
         gulp.parallel('stylus:prod', 'static', 'webpack:prod'),
         gulp.parallel('js', 'php'),
         'rollbar',
