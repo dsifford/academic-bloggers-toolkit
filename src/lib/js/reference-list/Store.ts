@@ -37,6 +37,10 @@ class CitationStore {
         });
     }
 
+    /**
+     * Returns an array of CSL.Data for all uncited references
+     * @return {CSL.Data[]} Uncited CSL
+     */
     @computed
     get uncited(): CSL.Data[] {
         return this.CSL.keys().reduce((prev, curr) => {
@@ -45,11 +49,19 @@ class CitationStore {
         }, []).slice();
     }
 
+    /**
+     * Returns an array of CSL.Data for all cited references
+     * @return {CSL.Data[]} Cited CSL
+     */
     @computed
     get cited(): CSL.Data[] {
         return this.citedIDs.map(id => this.CSL.get(id)).slice();
     }
 
+    /**
+     * Returns an array of CSL IDs for all cited CSL
+     * @return {string[]} Array of CSL IDs
+     */
     @computed
     get citedIDs(): string[] {
         return this.citationByIndex
@@ -67,8 +79,15 @@ class CitationStore {
         this.byIndex.replace(JSON.parse(JSON.stringify(byIndex)));
     }
 
+    /**
+     * Given an array of CSL citation IDs, delete all matching CSL from this.CSL
+     *   and prune this.byIndex
+     * @param  {string[]} idList   String of CSL IDs to be removed
+     * @param  {HTMLDocument} doc  TinyMCE editor document
+     * @return {void}
+     */
     @action
-    removeItems(idList: string[], doc: HTMLDocument) {
+    removeItems(idList: string[], doc: HTMLDocument): void {
         idList.forEach(id => {
             if (this.citedIDs.indexOf(id) === -1)
                 this.CSL.delete(id);
@@ -91,8 +110,13 @@ class CitationStore {
         this.init(byIndex);
     }
 
+    /**
+     * Given an array of CSL.Data, merge the array into this.CSL
+     * @param  {CSL.Data[]} data Array of CSL.Data to be merged
+     * @return {void}
+     */
     @action
-    addItems(data: CSL.Data[]) {
+    addItems(data: CSL.Data[]): void {
         this.CSL.merge(
             data.reduce((prev, curr) => {
                 prev[curr.id] = curr;
@@ -101,8 +125,15 @@ class CitationStore {
         );
     }
 
+    /**
+     * Given an array of current citationIds, remove all elements from byIndex
+     *   where the citationId of the index does not exist in the given array of
+     *   citationIds
+     * @param  {string[]} citationIds Array of current citationIds
+     * @return {void}
+     */
     @action
-    pruneOrphanedCitations(citationIds: string[]) {
+    pruneOrphanedCitations(citationIds: string[]): void {
         if (this.byIndex.length === citationIds.length) return;
         const index = this.byIndex.findIndex(a => citationIds.indexOf(a.citationID) === -1);
         this.byIndex.replace([
@@ -111,6 +142,10 @@ class CitationStore {
         ]);
     }
 
+    /**
+     * Returns an object of ids and titles from the CSL map for easy consumption
+     * @return {{ids: string[], titles: string[]}}
+     */
     get lookup(): {ids: string[], titles: string[]} {
         return {
             ids: this.CSL.keys(),
@@ -118,6 +153,10 @@ class CitationStore {
         };
     }
 
+    /**
+     * Returns a JS object of byIndex
+     * @return {Citeproc.Citation[]}
+     */
     get citationByIndex(): Citeproc.Citation[] {
         return toJS(this.byIndex);
     }

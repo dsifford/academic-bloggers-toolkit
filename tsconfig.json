@@ -58,6 +58,7 @@
         "src/lib/js/reference-list/components/__tests__/ItemList-test.tsx",
         "src/lib/js/reference-list/components/__tests__/Menu-test.tsx",
         "src/lib/js/reference-list/components/__tests__/PanelButton-test.tsx",
+        "src/lib/js/reference-list/components/__tests__/ReferenceList-test.tsx",
         "src/lib/js/reference-list/components/Card.tsx",
         "src/lib/js/reference-list/components/ItemList.tsx",
         "src/lib/js/reference-list/components/Menu.tsx",
