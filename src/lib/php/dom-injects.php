@@ -15,7 +15,7 @@ function abt_append_rollbar_script() {
     <script id="rollbar-config" type="text/javascript">
         var _rollbarConfig = {
             accessToken: "d4a261f761fb47ecaef17670b3c59f32",
-            captureUncaught: true,
+            captureUncaught: false,
             payload: {
                 environment: "test",
                 site: {
