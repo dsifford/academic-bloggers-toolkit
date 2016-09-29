@@ -39,7 +39,7 @@ const setupAutocite = (kind: 'book'|'chapter'|'webpage' = 'webpage', inputType: 
             getter={spy}
             kind={kind}
             placeholder="Testing"
-            type={inputType}
+            inputType={inputType}
         />
     );
     return {
