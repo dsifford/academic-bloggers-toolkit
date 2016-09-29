@@ -93,8 +93,8 @@ export class RISParser {
         this.refArray.forEach((ref: string, i: number) => {
             const refObj = this.parseSingle(ref, i);
 
-            if (typeof refObj === 'boolean') {
-                this.unsupportedRefs.push(i + 1);
+            if (typeof refObj === 'boolean' || !refObj.title) {
+                this.unsupportedRefs = [...this.unsupportedRefs, i + 1];
                 return;
             }
             payload.push(refObj);

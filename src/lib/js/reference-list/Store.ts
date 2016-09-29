@@ -23,6 +23,7 @@ class CitationStore {
         this.CSL = this.cleanCSL(CSL);
         intercept(this.CSL, (change) => {
             if (change.type !== 'add') return change;
+            if (!change.newValue.title) return null;
             const title = change.newValue.title.toLowerCase();
             const matchIndex: number = this.CSL.values().findIndex(v => v.title.toLowerCase() === title);
             if (matchIndex > -1) {

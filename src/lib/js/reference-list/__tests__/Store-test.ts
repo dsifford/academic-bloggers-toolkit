@@ -63,6 +63,13 @@ describe('Reflist Store', () => {
             expect(store.citations.CSL.keys().length).toBe(3);
         });
 
+        it('should intercept a citation that has no title set', () => {
+            expect(store.citations.CSL.keys().length).toBe(3);
+            const invalidCSL = { PMID: '11223344', type: 'article-journal' };
+            store.citations.CSL.set('invalidCSL', invalidCSL);
+            expect(store.citations.CSL.keys().length).toBe(3);
+        });
+
         it('should allow non-existing CSL to be set', () => {
             const cite = JSON.parse(JSON.stringify(store.citations.CSL.get('citationId')));
             cite.title = 'Something different';
