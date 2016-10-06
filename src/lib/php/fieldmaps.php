@@ -1301,7 +1301,7 @@ $ABT_i18n->fieldmaps->webpage = [
         [
             'value' => 'issued',
             'label' => __('Date', 'academic-bloggers-toolkit'),
-            'required' => true,
+            'required' => false,
             'pattern' => '[0-9]{4}(\/[0-9]{2})?(\/[0-9]{2})?(?!\/)$',
             'placeholder' => __('YYYY/MM/DD or YYYY/MM or YYYY', 'academic-bloggers-toolkit'),
         ],

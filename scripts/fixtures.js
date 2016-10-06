@@ -1487,7 +1487,7 @@ exports.ABT_i18n = {
         {
           "value": "issued",
           "label": "Date",
-          "required": true,
+          "required": false,
           "pattern": "[0-9]{4}(\\/[0-9]{2})?(\\/[0-9]{2})?(?!\\/)$",
           "placeholder": "YYYY/MM/DD or YYYY/MM or YYYY"
         },
