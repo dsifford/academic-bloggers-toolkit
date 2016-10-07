@@ -138,7 +138,11 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
         .catch(err => {
             Rollbar.error('ReferenceList.tsx -> initProcessor', err);
             console.error(err.message);
-            this.editor.windowManager.alert(err.message);
+            this.editor.windowManager.alert(
+                `An unexpected error occurred.\n\n` +
+                `Error: ${err.message}\n\n` +
+                `Please report this here:\nhttps://github.com/dsifford/academic-bloggers-toolkit/issues`
+            );
         });
     }
 
@@ -205,7 +209,11 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
         .catch(err => {
             Rollbar.error('ReferenceList.tsx -> insertStaticBibliography', err);
             console.error(err.message);
-            this.editor.windowManager.alert(err.message);
+            this.editor.windowManager.alert(
+                `An unexpected error occurred.\n\n` +
+                `Error: ${err.message}\n\n` +
+                `Please report this here:\nhttps://github.com/dsifford/academic-bloggers-toolkit/issues`
+            );
         });
     }
 
@@ -260,7 +268,11 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
         .catch(err => {
             Rollbar.error('ReferenceList.tsx -> insertInlineCitation', err);
             console.error(err.message);
-            this.editor.windowManager.alert(err.message);
+            this.editor.windowManager.alert(
+                `An unexpected error occurred.\n\n` +
+                `Error: ${err.message}\n\n` +
+                `Please report this here:\nhttps://github.com/dsifford/academic-bloggers-toolkit/issues`
+            );
         });
 
         this.clearSelection();
@@ -307,7 +319,11 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
             .catch(err => {
                 Rollbar.error('ReferenceList.tsx -> openReferenceWindow', err);
                 console.error(err.message);
-                this.editor.windowManager.alert(err.message);
+                this.editor.windowManager.alert(
+                    `An unexpected error occurred.\n\n` +
+                    `Error: ${err.message}\n\n` +
+                    `Please report this here:\nhttps://github.com/dsifford/academic-bloggers-toolkit/issues`
+                );
             });
         });
     }
@@ -319,7 +335,11 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
         }).catch(err => {
             Rollbar.error('ReferenceList.tsx -> openImportWindow', err);
             console.error(err.message);
-            this.editor.windowManager.alert(err.message);
+            this.editor.windowManager.alert(
+                `An unexpected error occurred.\n\n` +
+                `Error: ${err.message}\n\n` +
+                `Please report this here:\nhttps://github.com/dsifford/academic-bloggers-toolkit/issues`
+            );
         });
     }
 
