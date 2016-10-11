@@ -10,7 +10,6 @@ services:
         volumes:
             - ./dist:/app/wp-content/plugins/academic-bloggers-toolkit
         environment:
-            VERBOSE: 'true'
             DB_NAME: wordpress
             DB_PASS: root
             WP_DEBUG: 'true'
@@ -18,8 +17,8 @@ services:
                 [local]academic-bloggers-toolkit,
                 co-authors-plus,
                 log-deprecated-notices,
-                piglatin,
                 query-monitor,
+            # piglatin,
     db:
         image: mysql:5.7
         ports:

@@ -30,7 +30,7 @@ export class MetaFields extends React.Component<MetaFieldProps, {}> {
                         <span id={`meta-${citationType}`} style={{fontWeight: 400}} children={this.title} />
                     </div>
                 </div>
-                <div className="row column">
+                <div className="table">
                     {this.fields.map((field: ABT.Field, i: number) =>
                         <Field
                             key={`${this.title}-meta-${i}`}
@@ -56,14 +56,15 @@ class Field extends React.PureComponent<FieldProps, {}> {
     render() {
         const { change, field, meta } = this.props;
         return (
-            <div className="row flex">
-                <div style={{minWidth: 175}}>
+            <div className="table__row">
+                <div className="table__cell" style={{paddingRight: 10}}>
                     <label className="sublabel" htmlFor={field.value} children={field.label}/>
                 </div>
-                <div className="flex">
+                <div className="table__cell" style={{width: '100%'}}>
                     <input
                         type="text"
                         onChange={change}
+                        style={{margin: '1px 0'}}
                         id={field.value}
                         value={meta.get(field.value) || ''}
                         required={field.required}
