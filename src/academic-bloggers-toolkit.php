@@ -13,6 +13,13 @@
 
 define('ABT_VERSION', '4.4.5');
 
+/**
+ * Load plugin translations
+ */
+function abt_load_plugin_textdomain() {
+    load_plugin_textdomain('academic-bloggers-toolkit', false, dirname(plugin_basename(__FILE__)) . '/languages');
+}
+add_action('plugins_loaded', 'abt_load_plugin_textdomain');
 
 /**
  * Adds .csl files to the accepted mime types for WordPress
@@ -88,6 +95,10 @@ function abt_add_options_link($links) {
 }
 add_filter('plugin_action_links_' . plugin_basename(__FILE__), 'abt_add_options_link');
 
+
+/**
+ * Adds donation link to the plugin meta
+ */
 function abt_add_donate_link( $plugin_meta, $plugin_file ) {
 	if (plugin_basename( __FILE__ ) == $plugin_file) {
 		$plugin_meta[] = sprintf(
@@ -99,6 +110,7 @@ function abt_add_donate_link( $plugin_meta, $plugin_file ) {
 	return $plugin_meta;
 }
 add_filter('plugin_row_meta', 'abt_add_donate_link', 10, 2);
+
 
 /**
  * Enqueues frontend JS and CSS
@@ -113,6 +125,7 @@ function abt_frontend_scripts() {
     }
 }
 add_action('wp_enqueue_scripts', 'abt_frontend_scripts');
+
 
 require_once('lib/php/dom-injects.php');
 require_once('lib/php/backend.php');

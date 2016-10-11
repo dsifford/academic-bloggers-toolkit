@@ -116,7 +116,7 @@ export class Menu extends React.PureComponent<Props, {}> {
                             id="INSERT_STATIC_BIBLIOGRAPHY"
                             disabled={!this.props.itemsSelected}
                             onClick={this.handleClick}
-                            data-tooltip="Insert Static Publication List"
+                            data-tooltip={this.labels.tooltips.staticPubList}
                         >
                             <span className="dashicons dashicons-list-view" />
                         </PanelButton>

@@ -12,11 +12,11 @@ msgstr ""
 "Language-Team: Derek P Sifford <dereksifford@gmail.com>\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: academic-bloggers-toolkit.php:83
+#: academic-bloggers-toolkit.php:90
 msgid "Plugin Settings"
 msgstr ""
 
-#: academic-bloggers-toolkit.php:96
+#: academic-bloggers-toolkit.php:107
 msgid "Donate"
 msgstr ""
 
@@ -28,35 +28,35 @@ msgstr ""
 msgid "Reference List"
 msgstr ""
 
-#: lib/php/fieldmaps.php:6, src/lib/php/fieldmaps.php:103
+#: lib/php/fieldmaps.php:6, lib/php/fieldmaps.php:103
 msgid "Bill"
 msgstr ""
 
-#: lib/php/fieldmaps.php:10, src/lib/php/fieldmaps.php:172
+#: lib/php/fieldmaps.php:10, lib/php/fieldmaps.php:172
 msgid "Book"
 msgstr ""
 
-#: lib/php/fieldmaps.php:14, src/lib/php/fieldmaps.php:267
+#: lib/php/fieldmaps.php:14, lib/php/fieldmaps.php:267
 msgid "Book Section"
 msgstr ""
 
-#: lib/php/fieldmaps.php:18, src/lib/php/fieldmaps.php:459
+#: lib/php/fieldmaps.php:18, lib/php/fieldmaps.php:459
 msgid "Case"
 msgstr ""
 
-#: lib/php/fieldmaps.php:22, src/lib/php/fieldmaps.php:506
+#: lib/php/fieldmaps.php:22, lib/php/fieldmaps.php:506
 msgid "Conference Proceeding"
 msgstr ""
 
-#: lib/php/fieldmaps.php:26, src/lib/php/fieldmaps.php:558
+#: lib/php/fieldmaps.php:26, lib/php/fieldmaps.php:558
 msgid "Encyclopedia Entry"
 msgstr ""
 
-#: lib/php/fieldmaps.php:30, src/lib/php/fieldmaps.php:666
+#: lib/php/fieldmaps.php:30, lib/php/fieldmaps.php:666
 msgid "Film"
 msgstr ""
 
-#: lib/php/fieldmaps.php:34, src/lib/php/fieldmaps.php:735
+#: lib/php/fieldmaps.php:34, lib/php/fieldmaps.php:735
 msgid "Generic (Note)"
 msgstr ""
 
@@ -64,31 +64,31 @@ msgstr ""
 msgid "Hearing"
 msgstr ""
 
-#: lib/php/fieldmaps.php:42, src/lib/php/fieldmaps.php:796
+#: lib/php/fieldmaps.php:42, lib/php/fieldmaps.php:796
 msgid "Journal Article"
 msgstr ""
 
-#: lib/php/fieldmaps.php:46, src/lib/php/fieldmaps.php:875
+#: lib/php/fieldmaps.php:46, lib/php/fieldmaps.php:875
 msgid "Magazine Article"
 msgstr ""
 
-#: lib/php/fieldmaps.php:50, src/lib/php/fieldmaps.php:954
+#: lib/php/fieldmaps.php:50, lib/php/fieldmaps.php:954
 msgid "Newspaper Article"
 msgstr ""
 
-#: lib/php/fieldmaps.php:54, src/lib/php/fieldmaps.php:1026
+#: lib/php/fieldmaps.php:54, lib/php/fieldmaps.php:1026
 msgid "Patent"
 msgstr ""
 
-#: lib/php/fieldmaps.php:58, src/lib/php/fieldmaps.php:1087
+#: lib/php/fieldmaps.php:58, lib/php/fieldmaps.php:1087
 msgid "Report"
 msgstr ""
 
-#: lib/php/fieldmaps.php:62, src/lib/php/fieldmaps.php:1170
+#: lib/php/fieldmaps.php:62, lib/php/fieldmaps.php:1170
 msgid "Statute"
 msgstr ""
 
-#: lib/php/fieldmaps.php:66, src/lib/php/fieldmaps.php:1224
+#: lib/php/fieldmaps.php:66, lib/php/fieldmaps.php:1224
 msgid "Thesis"
 msgstr ""
 
@@ -96,11 +96,11 @@ msgstr ""
 msgid "Television Broadcast"
 msgstr ""
 
-#: lib/php/fieldmaps.php:74, src/lib/php/fieldmaps.php:1278
+#: lib/php/fieldmaps.php:74, lib/php/fieldmaps.php:1278
 msgid "Web Page"
 msgstr ""
 
-#: lib/php/fieldmaps.php:107, src/lib/php/fieldmaps.php:176, src/lib/php/fieldmaps.php:398, src/lib/php/fieldmaps.php:510, src/lib/php/fieldmaps.php:562, src/lib/php/fieldmaps.php:670, src/lib/php/fieldmaps.php:753, src/lib/php/fieldmaps.php:800, src/lib/php/fieldmaps.php:879, src/lib/php/fieldmaps.php:958, src/lib/php/fieldmaps.php:1030, src/lib/php/fieldmaps.php:1091, src/lib/php/fieldmaps.php:1174, src/lib/php/fieldmaps.php:1228
+#: lib/php/fieldmaps.php:107, lib/php/fieldmaps.php:176, lib/php/fieldmaps.php:398, lib/php/fieldmaps.php:510, lib/php/fieldmaps.php:562, lib/php/fieldmaps.php:670, lib/php/fieldmaps.php:753, lib/php/fieldmaps.php:800, lib/php/fieldmaps.php:879, lib/php/fieldmaps.php:958, lib/php/fieldmaps.php:1030, lib/php/fieldmaps.php:1091, lib/php/fieldmaps.php:1174, lib/php/fieldmaps.php:1228
 msgid "Title"
 msgstr ""
 
@@ -120,7 +120,7 @@ msgstr ""
 msgid "Code Volume"
 msgstr ""
 
-#: lib/php/fieldmaps.php:135, src/lib/php/fieldmaps.php:972, src/lib/php/fieldmaps.php:1188
+#: lib/php/fieldmaps.php:135, lib/php/fieldmaps.php:972, lib/php/fieldmaps.php:1188
 msgid "Section"
 msgstr ""
 
@@ -128,15 +128,15 @@ msgstr ""
 msgid "Legislative Body"
 msgstr ""
 
-#: lib/php/fieldmaps.php:149, src/lib/php/fieldmaps.php:232, src/lib/php/fieldmaps.php:355, src/lib/php/fieldmaps.php:433, src/lib/php/fieldmaps.php:484, src/lib/php/fieldmaps.php:531, src/lib/php/fieldmaps.php:632, src/lib/php/fieldmaps.php:705, src/lib/php/fieldmaps.php:781, src/lib/php/fieldmaps.php:856, src/lib/php/fieldmaps.php:928, src/lib/php/fieldmaps.php:1000, src/lib/php/fieldmaps.php:1065, src/lib/php/fieldmaps.php:1140, src/lib/php/fieldmaps.php:1202, src/lib/php/fieldmaps.php:1256, src/lib/php/fieldmaps.php:1303
+#: lib/php/fieldmaps.php:149, lib/php/fieldmaps.php:232, lib/php/fieldmaps.php:355, lib/php/fieldmaps.php:433, lib/php/fieldmaps.php:484, lib/php/fieldmaps.php:531, lib/php/fieldmaps.php:632, lib/php/fieldmaps.php:705, lib/php/fieldmaps.php:781, lib/php/fieldmaps.php:856, lib/php/fieldmaps.php:928, lib/php/fieldmaps.php:1000, lib/php/fieldmaps.php:1065, lib/php/fieldmaps.php:1140, lib/php/fieldmaps.php:1202, lib/php/fieldmaps.php:1256, lib/php/fieldmaps.php:1303
 msgid "Date"
 msgstr ""
 
-#: lib/php/fieldmaps.php:152, src/lib/php/fieldmaps.php:159, src/lib/php/fieldmaps.php:235, src/lib/php/fieldmaps.php:242, src/lib/php/fieldmaps.php:358, src/lib/php/fieldmaps.php:365, src/lib/php/fieldmaps.php:436, src/lib/php/fieldmaps.php:443, src/lib/php/fieldmaps.php:487, src/lib/php/fieldmaps.php:494, src/lib/php/fieldmaps.php:534, src/lib/php/fieldmaps.php:635, src/lib/php/fieldmaps.php:642, src/lib/php/fieldmaps.php:708, src/lib/php/fieldmaps.php:715, src/lib/php/fieldmaps.php:784, src/lib/php/fieldmaps.php:859, src/lib/php/fieldmaps.php:931, src/lib/php/fieldmaps.php:938, src/lib/php/fieldmaps.php:1003, src/lib/php/fieldmaps.php:1010, src/lib/php/fieldmaps.php:1068, src/lib/php/fieldmaps.php:1075, src/lib/php/fieldmaps.php:1143, src/lib/php/fieldmaps.php:1150, src/lib/php/fieldmaps.php:1205, src/lib/php/fieldmaps.php:1212, src/lib/php/fieldmaps.php:1259, src/lib/php/fieldmaps.php:1266, src/lib/php/fieldmaps.php:1306, src/lib/php/fieldmaps.php:1313
+#: lib/php/fieldmaps.php:152, lib/php/fieldmaps.php:159, lib/php/fieldmaps.php:235, lib/php/fieldmaps.php:242, lib/php/fieldmaps.php:358, lib/php/fieldmaps.php:365, lib/php/fieldmaps.php:436, lib/php/fieldmaps.php:443, lib/php/fieldmaps.php:487, lib/php/fieldmaps.php:494, lib/php/fieldmaps.php:534, lib/php/fieldmaps.php:635, lib/php/fieldmaps.php:642, lib/php/fieldmaps.php:708, lib/php/fieldmaps.php:715, lib/php/fieldmaps.php:784, lib/php/fieldmaps.php:859, lib/php/fieldmaps.php:931, lib/php/fieldmaps.php:938, lib/php/fieldmaps.php:1003, lib/php/fieldmaps.php:1010, lib/php/fieldmaps.php:1068, lib/php/fieldmaps.php:1075, lib/php/fieldmaps.php:1143, lib/php/fieldmaps.php:1150, lib/php/fieldmaps.php:1205, lib/php/fieldmaps.php:1212, lib/php/fieldmaps.php:1259, lib/php/fieldmaps.php:1266, lib/php/fieldmaps.php:1306, lib/php/fieldmaps.php:1313
 msgid "YYYY/MM/DD or YYYY/MM or YYYY"
 msgstr ""
 
-#: lib/php/fieldmaps.php:156, src/lib/php/fieldmaps.php:239, src/lib/php/fieldmaps.php:362, src/lib/php/fieldmaps.php:440, src/lib/php/fieldmaps.php:491, src/lib/php/fieldmaps.php:639, src/lib/php/fieldmaps.php:712, src/lib/php/fieldmaps.php:935, src/lib/php/fieldmaps.php:1007, src/lib/php/fieldmaps.php:1072, src/lib/php/fieldmaps.php:1147, src/lib/php/fieldmaps.php:1209, src/lib/php/fieldmaps.php:1263, src/lib/php/fieldmaps.php:1310
+#: lib/php/fieldmaps.php:156, lib/php/fieldmaps.php:239, lib/php/fieldmaps.php:362, lib/php/fieldmaps.php:440, lib/php/fieldmaps.php:491, lib/php/fieldmaps.php:639, lib/php/fieldmaps.php:712, lib/php/fieldmaps.php:935, lib/php/fieldmaps.php:1007, lib/php/fieldmaps.php:1072, lib/php/fieldmaps.php:1147, lib/php/fieldmaps.php:1209, lib/php/fieldmaps.php:1263, lib/php/fieldmaps.php:1310
 msgid "Date Accessed"
 msgstr ""
 
@@ -148,43 +148,43 @@ msgstr ""
 msgid "Series Title"
 msgstr ""
 
-#: lib/php/fieldmaps.php:190, src/lib/php/fieldmaps.php:299, src/lib/php/fieldmaps.php:583
+#: lib/php/fieldmaps.php:190, lib/php/fieldmaps.php:299, lib/php/fieldmaps.php:583
 msgid "Series Number"
 msgstr ""
 
-#: lib/php/fieldmaps.php:197, src/lib/php/fieldmaps.php:1235
+#: lib/php/fieldmaps.php:197, lib/php/fieldmaps.php:1235
 msgid "# of Pages"
 msgstr ""
 
-#: lib/php/fieldmaps.php:204, src/lib/php/fieldmaps.php:306, src/lib/php/fieldmaps.php:590, src/lib/php/fieldmaps.php:821, src/lib/php/fieldmaps.php:893
+#: lib/php/fieldmaps.php:204, lib/php/fieldmaps.php:306, lib/php/fieldmaps.php:590, lib/php/fieldmaps.php:821, lib/php/fieldmaps.php:893
 msgid "Volume"
 msgstr ""
 
-#: lib/php/fieldmaps.php:211, src/lib/php/fieldmaps.php:320, src/lib/php/fieldmaps.php:604
+#: lib/php/fieldmaps.php:211, lib/php/fieldmaps.php:320, lib/php/fieldmaps.php:604
 msgid "Edition"
 msgstr ""
 
-#: lib/php/fieldmaps.php:218, src/lib/php/fieldmaps.php:327, src/lib/php/fieldmaps.php:611, src/lib/php/fieldmaps.php:1119
+#: lib/php/fieldmaps.php:218, lib/php/fieldmaps.php:327, lib/php/fieldmaps.php:611, lib/php/fieldmaps.php:1119
 msgid "Publisher"
 msgstr ""
 
-#: lib/php/fieldmaps.php:225, src/lib/php/fieldmaps.php:334, src/lib/php/fieldmaps.php:618
+#: lib/php/fieldmaps.php:225, lib/php/fieldmaps.php:334, lib/php/fieldmaps.php:618
 msgid "Publisher Location"
 msgstr ""
 
-#: lib/php/fieldmaps.php:248, src/lib/php/fieldmaps.php:500, src/lib/php/fieldmaps.php:540, src/lib/php/fieldmaps.php:648, src/lib/php/fieldmaps.php:865, src/lib/php/fieldmaps.php:944, src/lib/php/fieldmaps.php:1016, src/lib/php/fieldmaps.php:1156, src/lib/php/fieldmaps.php:1218, src/lib/php/fieldmaps.php:1272, src/lib/php/fieldmaps.php:1319
+#: lib/php/fieldmaps.php:248, lib/php/fieldmaps.php:500, lib/php/fieldmaps.php:540, lib/php/fieldmaps.php:648, lib/php/fieldmaps.php:865, lib/php/fieldmaps.php:944, lib/php/fieldmaps.php:1016, lib/php/fieldmaps.php:1156, lib/php/fieldmaps.php:1218, lib/php/fieldmaps.php:1272, lib/php/fieldmaps.php:1319
 msgid "Author"
 msgstr ""
 
-#: lib/php/fieldmaps.php:252, src/lib/php/fieldmaps.php:379, src/lib/php/fieldmaps.php:544, src/lib/php/fieldmaps.php:652, src/lib/php/fieldmaps.php:869, src/lib/php/fieldmaps.php:948, src/lib/php/fieldmaps.php:1020
+#: lib/php/fieldmaps.php:252, lib/php/fieldmaps.php:379, lib/php/fieldmaps.php:544, lib/php/fieldmaps.php:652, lib/php/fieldmaps.php:869, lib/php/fieldmaps.php:948, lib/php/fieldmaps.php:1020
 msgid "Editor"
 msgstr ""
 
-#: lib/php/fieldmaps.php:256, src/lib/php/fieldmaps.php:383, src/lib/php/fieldmaps.php:548, src/lib/php/fieldmaps.php:656, src/lib/php/fieldmaps.php:1160
+#: lib/php/fieldmaps.php:256, lib/php/fieldmaps.php:383, lib/php/fieldmaps.php:548, lib/php/fieldmaps.php:656, lib/php/fieldmaps.php:1160
 msgid "Series Editor"
 msgstr ""
 
-#: lib/php/fieldmaps.php:260, src/lib/php/fieldmaps.php:387, src/lib/php/fieldmaps.php:552, src/lib/php/fieldmaps.php:660, src/lib/php/fieldmaps.php:1164
+#: lib/php/fieldmaps.php:260, lib/php/fieldmaps.php:387, lib/php/fieldmaps.php:552, lib/php/fieldmaps.php:660, lib/php/fieldmaps.php:1164
 msgid "Translator"
 msgstr ""
 
@@ -200,23 +200,23 @@ msgstr ""
 msgid "Chapter Number"
 msgstr ""
 
-#: lib/php/fieldmaps.php:292, src/lib/php/fieldmaps.php:576, src/lib/php/fieldmaps.php:1105
+#: lib/php/fieldmaps.php:292, lib/php/fieldmaps.php:576, lib/php/fieldmaps.php:1105
 msgid "Series"
 msgstr ""
 
-#: lib/php/fieldmaps.php:313, src/lib/php/fieldmaps.php:597
+#: lib/php/fieldmaps.php:313, lib/php/fieldmaps.php:597
 msgid "# of Volumes"
 msgstr ""
 
-#: lib/php/fieldmaps.php:341, src/lib/php/fieldmaps.php:625, src/lib/php/fieldmaps.php:835, src/lib/php/fieldmaps.php:900, src/lib/php/fieldmaps.php:979, src/lib/php/fieldmaps.php:1051, src/lib/php/fieldmaps.php:1126, src/lib/php/fieldmaps.php:1195
+#: lib/php/fieldmaps.php:341, lib/php/fieldmaps.php:625, lib/php/fieldmaps.php:835, lib/php/fieldmaps.php:900, lib/php/fieldmaps.php:979, lib/php/fieldmaps.php:1051, lib/php/fieldmaps.php:1126, lib/php/fieldmaps.php:1195
 msgid "Pages"
 msgstr ""
 
-#: lib/php/fieldmaps.php:344, src/lib/php/fieldmaps.php:628, src/lib/php/fieldmaps.php:838, src/lib/php/fieldmaps.php:903, src/lib/php/fieldmaps.php:982, src/lib/php/fieldmaps.php:1054, src/lib/php/fieldmaps.php:1129, src/lib/php/fieldmaps.php:1198
+#: lib/php/fieldmaps.php:344, lib/php/fieldmaps.php:628, lib/php/fieldmaps.php:838, lib/php/fieldmaps.php:903, lib/php/fieldmaps.php:982, lib/php/fieldmaps.php:1054, lib/php/fieldmaps.php:1129, lib/php/fieldmaps.php:1198
 msgid "Number or Range of Numbers (100-200)"
 msgstr ""
 
-#: lib/php/fieldmaps.php:348
+#: lib/php/fieldmaps.php:348, lib/php/i18n.php:68
 msgid "ISBN"
 msgstr ""
 
@@ -248,7 +248,7 @@ msgstr ""
 msgid "Episode Number"
 msgstr ""
 
-#: lib/php/fieldmaps.php:419, src/lib/php/fieldmaps.php:698
+#: lib/php/fieldmaps.php:419, lib/php/fieldmaps.php:698
 msgid "Format"
 msgstr ""
 
@@ -264,11 +264,11 @@ msgstr ""
 msgid "E.g. \"Netflix\""
 msgstr ""
 
-#: lib/php/fieldmaps.php:449, src/lib/php/fieldmaps.php:729
+#: lib/php/fieldmaps.php:449, lib/php/fieldmaps.php:729
 msgid "Producer"
 msgstr ""
 
-#: lib/php/fieldmaps.php:453, src/lib/php/fieldmaps.php:725
+#: lib/php/fieldmaps.php:453, lib/php/fieldmaps.php:725
 msgid "Director"
 msgstr ""
 
@@ -304,7 +304,7 @@ msgstr ""
 msgid "Genre"
 msgstr ""
 
-#: lib/php/fieldmaps.php:691, src/lib/php/fieldmaps.php:774
+#: lib/php/fieldmaps.php:691, lib/php/fieldmaps.php:774
 msgid "Language"
 msgstr ""
 
@@ -344,7 +344,7 @@ msgstr ""
 msgid "Journal Abbreviation"
 msgstr ""
 
-#: lib/php/fieldmaps.php:828, src/lib/php/fieldmaps.php:907, src/lib/php/fieldmaps.php:986
+#: lib/php/fieldmaps.php:828, lib/php/fieldmaps.php:907, lib/php/fieldmaps.php:986
 msgid "Issue"
 msgstr ""
 
@@ -352,7 +352,7 @@ msgstr ""
 msgid "DOI"
 msgstr ""
 
-#: lib/php/fieldmaps.php:849, src/lib/php/fieldmaps.php:921, src/lib/php/fieldmaps.php:993, src/lib/php/fieldmaps.php:1133, src/lib/php/fieldmaps.php:1296
+#: lib/php/fieldmaps.php:849, lib/php/fieldmaps.php:921, lib/php/fieldmaps.php:993, lib/php/fieldmaps.php:1133, lib/php/fieldmaps.php:1296, lib/php/i18n.php:67
 msgid "URL"
 msgstr ""
 
@@ -364,7 +364,7 @@ msgstr ""
 msgid "ISSN"
 msgstr ""
 
-#: lib/php/fieldmaps.php:965, src/lib/php/fieldmaps.php:1112
+#: lib/php/fieldmaps.php:965, lib/php/fieldmaps.php:1112
 msgid "Publication"
 msgstr ""
 
@@ -372,7 +372,7 @@ msgstr ""
 msgid "E.g. \"Sports\", \"Politics\""
 msgstr ""
 
-#: lib/php/fieldmaps.php:1037, src/lib/php/fieldmaps.php:1098
+#: lib/php/fieldmaps.php:1037, lib/php/fieldmaps.php:1098
 msgid "Number"
 msgstr ""
 
@@ -460,7 +460,11 @@ msgstr ""
 msgid "Usage instructions"
 msgstr ""
 
-#: lib/php/i18n.php:32
+#: lib/php/i18n.php:31
+msgid "Insert Static Publication List"
+msgstr ""
+
+#: lib/php/i18n.php:33
 msgid "Choose citation style..."
 msgstr ""
 
@@ -484,79 +488,83 @@ msgstr ""
 msgid "Import"
 msgstr ""
 
-#: lib/php/i18n.php:47, src/lib/php/i18n.php:72
+#: lib/php/i18n.php:46, lib/php/i18n.php:75
 msgid "Search PubMed for Reference"
 msgstr ""
 
-#: lib/php/i18n.php:48
+#: lib/php/i18n.php:47, lib/php/i18n.php:69
 msgid "Search"
 msgstr ""
 
-#: lib/php/i18n.php:49
+#: lib/php/i18n.php:48
 msgid "Next"
 msgstr ""
 
-#: lib/php/i18n.php:50
+#: lib/php/i18n.php:49
 msgid "Previous"
 msgstr ""
 
-#: lib/php/i18n.php:51
+#: lib/php/i18n.php:50
 msgid "Select"
 msgstr ""
 
-#: lib/php/i18n.php:52
+#: lib/php/i18n.php:51
 msgid "View"
 msgstr ""
 
-#: lib/php/i18n.php:57, src/lib/php/i18n.php:76
+#: lib/php/i18n.php:56, lib/php/i18n.php:79
 msgid "Add Reference"
 msgstr ""
 
-#: lib/php/i18n.php:60
+#: lib/php/i18n.php:59
 msgid "Add Contributor"
 msgstr ""
 
-#: lib/php/i18n.php:61
+#: lib/php/i18n.php:60
 msgid "Contributors"
 msgstr ""
 
-#: lib/php/i18n.php:62
+#: lib/php/i18n.php:61
 msgid "Surname"
 msgstr ""
 
-#: lib/php/i18n.php:63
+#: lib/php/i18n.php:62
 msgid "Given Name, M.I."
 msgstr ""
 
-#: lib/php/i18n.php:66
+#: lib/php/i18n.php:65
 msgid "Citation Type"
 msgstr ""
 
-#: lib/php/i18n.php:69
+#: lib/php/i18n.php:66
+msgid "Autocite"
+msgstr ""
+
+#: lib/php/i18n.php:72
 msgid "PMID/DOI"
 msgstr ""
 
-#: lib/php/i18n.php:73
+#: lib/php/i18n.php:76
 msgid "Add Manually"
 msgstr ""
 
-#: lib/php/i18n.php:74
+#: lib/php/i18n.php:77
 msgid "Add with Identifier"
 msgstr ""
 
-#: lib/php/i18n.php:75
+#: lib/php/i18n.php:78
 msgid "Search PubMed"
 msgstr ""
 
-#: lib/php/i18n.php:77
-msgid "Attach Inline"
+#: lib/php/i18n.php:80
+msgid "Insert citation inline"
 msgstr ""
 
 #: lib/php/options-page.php:47
 msgid "The provided URL is not a valid file in your WordPress upload directory. Please try again."
 msgstr ""
 
-#: lib/php/options-page.php:58, src/lib/php/views/options-page.php:1
+#: lib/php/options-page.php:58, lib/php/views/options-page.php:1
 msgid "Academic Blogger's Toolkit Options"
 msgstr ""
 
@@ -592,11 +600,11 @@ msgstr ""
 msgid "PHP <code>dom</code> Extension"
 msgstr ""
 
-#: lib/php/views/options-page.php:34, src/lib/php/views/options-page.php:57
+#: lib/php/views/options-page.php:34, lib/php/views/options-page.php:57
 msgid "Enabled"
 msgstr ""
 
-#: lib/php/views/options-page.php:37, src/lib/php/views/options-page.php:60
+#: lib/php/views/options-page.php:37, lib/php/views/options-page.php:60
 msgid "Disabled"
 msgstr ""
 
@@ -604,7 +612,7 @@ msgstr ""
 msgid "The <code>dom</code> PHP extension is required for some plugin features."
 msgstr ""
 
-#: lib/php/views/options-page.php:44, src/lib/php/views/options-page.php:67
+#: lib/php/views/options-page.php:44, lib/php/views/options-page.php:67
 msgid "Click here for installation instructions"
 msgstr ""
 
@@ -636,7 +644,7 @@ msgstr ""
 msgid "Use custom citation style by default "
 msgstr ""
 
-#: lib/php/views/options-page.php:120, src/lib/php/views/options-page.php:207, src/lib/php/views/options-page.php:251
+#: lib/php/views/options-page.php:120, lib/php/views/options-page.php:207, lib/php/views/options-page.php:251
 msgid "Update"
 msgstr ""
 

@@ -28,6 +28,7 @@ declare namespace BackendGlobals {
                     importRIS: string;
                     refresh: string;
                     help: string;
+                    staticPubList: string;
                 };
             };
             referenceList: {
@@ -67,7 +68,7 @@ declare namespace BackendGlobals {
                     addManually: string;
                     addReference: string;
                     addWithIdentifier: string;
-                    attachInline: string;
+                    insertInline: string;
                     pubmedWindowTitle: string;
                     searchPubmed: string;
                 };
@@ -76,6 +77,10 @@ declare namespace BackendGlobals {
                 };
                 manualEntryContainer: {
                     citationType: string;
+                    autocite: string;
+                    URL: string;
+                    ISBN: string;
+                    search: string;
                 };
                 people: {
                     add: string;

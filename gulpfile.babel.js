@@ -13,7 +13,7 @@ import wpPot from 'gulp-wp-pot';
 import webpack from 'webpack-stream';
 import _webpack from 'webpack';
 
-import webpackConfig from './webpack.config.js';
+import webpackConfig from './webpack.config';
 import { version as VERSION } from './package.json';
 
 const browserSync = require('browser-sync').create();
@@ -88,7 +88,7 @@ gulp.task('pot', () =>
             team: 'Derek P Sifford <dereksifford@gmail.com>',
             headers: false,
         }))
-        .pipe(replace(/(^#: )(src\/)(.+)/gm, '$1$3'))
+        .pipe(replace(/(\s)(src\/)(\S+)/gm, '$1$3'))
         .pipe(gulp.dest('./src'))
 );
 

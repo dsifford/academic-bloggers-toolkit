@@ -57,7 +57,7 @@ class Field extends React.PureComponent<FieldProps, {}> {
         const { change, field, meta } = this.props;
         return (
             <div className="row flex">
-                <div style={{minWidth: 150}}>
+                <div style={{minWidth: 175}}>
                     <label className="sublabel" htmlFor={field.value} children={field.label}/>
                 </div>
                 <div className="flex">
