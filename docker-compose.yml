@@ -17,8 +17,8 @@ services:
                 [local]academic-bloggers-toolkit,
                 co-authors-plus,
                 log-deprecated-notices,
-                piglatin,
                 query-monitor,
+            # piglatin,
     db:
         image: mysql:5.7
         ports:

@@ -110,6 +110,21 @@ label
             box-sizing border-box
             padding 1px 5px !important
 
+.table
+    display table
+    padding 10px 0
+    width 100%
+
+.table__row
+    display table-row
+    > .table__cell:first-of-type
+        padding-left 10px
+    > .table__cell:last-of-type
+        padding-right 10px
+
+.table__cell
+    display table-cell
+
 label.uploadLabel
     input[type="file"]
         position fixed

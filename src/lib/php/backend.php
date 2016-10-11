@@ -142,7 +142,7 @@ class ABT_Backend {
      * Renders the HTML for React to mount into.
      */
     public function render_reference_list($post) {
-        global $ABT_i18n;
+        $ABT_i18n = abt_generate_translations();
 
         wp_nonce_field(basename(__file__), 'abt_nonce');
 

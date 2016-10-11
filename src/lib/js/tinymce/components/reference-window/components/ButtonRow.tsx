@@ -73,7 +73,7 @@ export class ButtonRow extends React.PureComponent<Props, {}> {
                         htmlFor="inline-toggle"
                         className="toggle-lbl"
                         role="tooltip"
-                        data-tooltip="Insert citation inline"
+                        data-tooltip={this.labels.insertInline}
                         onMouseOver={this.handleMouseOver}
                         onMouseOut={destroyTooltip}
                     />
