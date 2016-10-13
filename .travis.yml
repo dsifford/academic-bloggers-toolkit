@@ -15,6 +15,7 @@ after_success:
 branches:
     only:
         - master
+        - /^greenkeeper-.*$/
 cache:
     directories:
         - node_modules
