@@ -45,6 +45,7 @@ export function getFromPMID(
     bypassJSONFormatter: boolean = false
 ): Promise<PubMed.SingleReference[]|[CSL.Data[], string[]]> {
     return new Promise((resolve, reject) => {
+        if (PMIDlist.length === 0) return resolve([]);
         const req = new XMLHttpRequest();
         req.open('GET', `https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi?db=pubmed&id=${PMIDlist}&version=2.0&retmode=json`); // tslint:disable-line
         req.onload = () => {
@@ -62,7 +63,7 @@ export function getFromPMID(
                 iterable.push(res.result[i]);
             }
 
-            if (bypassJSONFormatter) resolve(iterable);
+            if (bypassJSONFormatter) return resolve(iterable);
 
             resolve([
                 processPubmedJSON(iterable),

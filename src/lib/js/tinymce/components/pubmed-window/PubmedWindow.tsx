@@ -46,6 +46,9 @@ export class PubmedWindow extends React.Component<{}, {}> {
 
     @action
     consumeQueryData = (data: PubMed.SingleReference[]) => {
+        if (data.length === 0) {
+            top.tinyMCE.activeEditor.windowManager.alert(this.labels.error.noResults);
+        }
         this.page = 1;
         this.query = '';
         this.isLoading = false;

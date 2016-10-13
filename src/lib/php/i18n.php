@@ -49,6 +49,9 @@ function abt_generate_translations() {
         'previous' => __('Previous', 'academic-bloggers-toolkit'),
         'addReference' => __('Select', 'academic-bloggers-toolkit'),
         'viewReference' => __('View', 'academic-bloggers-toolkit'),
+        'error' => [
+            'noResults' => __('Your search returned 0 results', 'academic-bloggers-toolkit'),
+        ],
     ];
 
     $ABT_i18n->tinymce->referenceWindow = [

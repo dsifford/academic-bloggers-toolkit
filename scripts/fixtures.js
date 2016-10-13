@@ -277,6 +277,9 @@ exports.ABT_i18n = {
             previous: 'Previous',
             addReference: 'Select',
             viewReference: 'View',
+            error: {
+                noResults: 'Your search returned 0 results',
+            },
         },
         referenceWindow: {
             referenceWindow: {

@@ -67,6 +67,8 @@
 
 .abt-btn_flat
     &.abt-btn_submit
+    &.abt-btn_submit:active
+    &.abt-btn_submit:active:hover
         color: $blue
     background: rgba(0, 0, 0, 0)
     box-shadow: none !important
@@ -76,6 +78,7 @@
             background: $border
     &:active
         background: lighten($border, 5)
+        color: $dark-gray
 
 .abt-btn_icon
     border-radius: 50%

@@ -59,6 +59,9 @@ declare namespace BackendGlobals {
                 next: string;
                 previous: string;
                 search: string;
+                error: {
+                    noResults: string;
+                }
             };
             referenceWindow: {
                 referenceWindow: {
