@@ -1,5 +1,3 @@
-jest.unmock('../Card');
-
 import * as React from 'react';
 import { shallow } from 'enzyme';
 import { spy } from 'sinon';

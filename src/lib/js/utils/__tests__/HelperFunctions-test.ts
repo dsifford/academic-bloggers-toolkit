@@ -1,5 +1,3 @@
-jest.unmock('../HelperFunctions');
-
 import { asMap, ObservableMap } from 'mobx';
 
 import {

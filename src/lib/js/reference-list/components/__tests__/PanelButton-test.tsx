@@ -1,5 +1,3 @@
-jest.unmock('../PanelButton');
-
 import * as React from 'react';
 import { mount } from 'enzyme';
 import { PanelButton } from '../PanelButton';

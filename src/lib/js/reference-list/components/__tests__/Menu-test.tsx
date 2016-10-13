@@ -1,6 +1,3 @@
-jest.unmock('../Menu');
-jest.unmock('../PanelButton');
-
 import * as React from 'react';
 import { mount, shallow } from 'enzyme';
 import { spy } from 'sinon';

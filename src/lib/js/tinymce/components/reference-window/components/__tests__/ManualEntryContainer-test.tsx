@@ -1,6 +1,3 @@
-jest.unmock('../ManualEntryContainer');
-jest.unmock('../MetaFields');
-
 import * as React from 'react';
 import { mount } from 'enzyme';
 import * as sinon from 'sinon';

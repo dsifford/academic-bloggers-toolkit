@@ -1,5 +1,4 @@
-jest.unmock('../ReferenceList.tsx');
-jest.unmock('../../Store.ts');
+jest.mock('../../../utils/CSLProcessor.ts');
 
 import * as React from 'react';
 import { mount } from 'enzyme';

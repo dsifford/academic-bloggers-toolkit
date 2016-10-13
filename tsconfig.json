@@ -49,7 +49,9 @@
     },
     "files": [
         "src/lib/js/components/__tests__/Spinner-test.tsx",
+        "src/lib/js/components/__tests__/ToggleSwitch-test.tsx",
         "src/lib/js/components/Spinner.tsx",
+        "src/lib/js/components/ToggleSwitch.tsx",
         "src/lib/js/Frontend.ts",
         "src/lib/js/reference-list/__tests__/API-test.ts",
         "src/lib/js/reference-list/__tests__/Store-test.ts",

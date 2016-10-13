@@ -91,7 +91,6 @@
     "compact": true
   },
   "jest": {
-    "automock": true,
     "scriptPreprocessor": "scripts/jestPreprocessor.js",
     "testRegex": "(/__tests__/.*\\.(ts|tsx|js))$",
     "moduleFileExtensions": [
@@ -99,18 +98,6 @@
       "ts",
       "tsx",
       "json"
-    ],
-    "unmockedModulePathPatterns": [
-      "react",
-      "react-dom",
-      "react-addons-test-utils",
-      "fbjs",
-      "enzyme",
-      "sinon",
-      "mobx",
-      "mobx-react",
-      "lib/js/utils/Constants",
-      "scripts/fixtures"
     ],
     "verbose": true,
     "collectCoverage": true,
@@ -133,7 +120,8 @@
       "indent": [
         "error",
         4
-      ]
+      ],
+      "no-use-before-define": 0
     },
     "parserOptions": {
       "ecmaVersion": 6,

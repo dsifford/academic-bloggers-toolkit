@@ -1,5 +1,3 @@
-jest.unmock('../MetaFields');
-
 import * as React from 'react';
 import { map } from 'mobx';
 import { mount } from 'enzyme';

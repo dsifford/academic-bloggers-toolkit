@@ -1,5 +1,4 @@
-jest.unmock('../ImportWindow');
-jest.mock('../../../../utils/Modal');
+jest.mock('../../../../utils/Modal.ts');
 
 import * as React from 'react';
 import { mount } from 'enzyme';

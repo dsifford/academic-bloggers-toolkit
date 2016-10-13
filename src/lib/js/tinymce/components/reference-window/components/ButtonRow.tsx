@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { observer } from 'mobx-react';
 
-import { createTooltip, destroyTooltip } from '../../../../utils/Tooltips';
+import { ToggleSwitch } from '../../../../components/ToggleSwitch';
 
 interface Props {
     addManually: boolean;
@@ -27,10 +27,6 @@ export class ButtonRow extends React.PureComponent<Props, {}> {
             url: wm.windows[0].settings.params.baseUrl + 'pubmed-window.html',
             width: 600,
         });
-    }
-
-    handleMouseOver = (e) => {
-        createTooltip(e.target, e.target.getAttribute('data-tooltip'), 'left');
     }
 
     render() {
@@ -60,26 +56,11 @@ export class ButtonRow extends React.PureComponent<Props, {}> {
                 <div>
                     <span className="separator" />
                 </div>
-                <div>
-                    { /* TODO: Turn this toggle switch into a component */ }
-                    <input
-                        type="checkbox"
-                        id="inline-toggle"
-                        className="toggle"
-                        style={{display: 'none'}}
-                        checked={this.props.attachInline}
-                        aria-checked={this.props.attachInline}
-                        onChange={this.props.attachInlineToggle}
-                    />
-                    <label
-                        htmlFor="inline-toggle"
-                        className="toggle-lbl"
-                        role="tooltip"
-                        data-tooltip={this.labels.insertInline}
-                        onMouseOver={this.handleMouseOver}
-                        onMouseOut={destroyTooltip}
-                    />
-                </div>
+                <ToggleSwitch
+                    onChange={this.props.attachInlineToggle}
+                    label={this.labels.insertInline}
+                    checked={this.props.attachInline}
+                />
                 <div>
                     <input
                         id="submit-btn"

@@ -1,5 +1,3 @@
-jest.unmock('../ItemList');
-
 import * as React from 'react';
 import { mount } from 'enzyme';
 import { spy } from 'sinon';
