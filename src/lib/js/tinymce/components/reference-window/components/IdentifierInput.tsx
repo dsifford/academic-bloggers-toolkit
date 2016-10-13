@@ -21,7 +21,7 @@ export class IdentifierInput extends React.PureComponent<Props, {}> {
     }
 
     handleChange = (e: React.FormEvent<HTMLInputElement>) => {
-        this.props.change((e.target as HTMLInputElement).value);
+        this.props.change(e.currentTarget.value);
     }
 
     render() {

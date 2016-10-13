@@ -57,7 +57,7 @@ export class PubmedWindow extends React.Component<{}, {}> {
 
     @action
     updateQuery = (e: React.FormEvent<HTMLInputElement>) => {
-        this.query = (e.target as HTMLInputElement).value;
+        this.query = e.currentTarget.value;
     }
 
     deliverPMID = (pmid: string) => {
@@ -131,8 +131,11 @@ export class PubmedWindow extends React.Component<{}, {}> {
                             <input
                                 type="submit"
                                 value={this.labels.search}
-                                className="abt-btn abt-btn-flat"
-                                disabled={!this.query}
+                                className={
+                                    this.query
+                                    ? 'abt-btn abt-btn_flat'
+                                    : 'abt-btn abt-btn_flat abt-btn_disabled'
+                                }
                             />
                         </div>
                     </div>

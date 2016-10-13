@@ -13,7 +13,7 @@ export function createTooltip(target: HTMLElement, tip: string, position: 'top'|
     const el = document.createElement('DIV');
     el.id = 'abt-tooltip';
     el.innerText = tip;
-    el.classList.add('abt-admin-tooltip');
+    el.classList.add('abt-tooltip');
     document.body.appendChild(el);
 
     const marginLeft = -1 * (el.offsetWidth / 2) || 0;
@@ -56,7 +56,7 @@ export function createTooltip(target: HTMLElement, tip: string, position: 'top'|
             el.style.left = rect.left - el.offsetWidth - 10 + 'px';
     }
 
-    el.classList.add('active');
+    el.classList.add('abt-tooltip_active');
 }
 
 /**

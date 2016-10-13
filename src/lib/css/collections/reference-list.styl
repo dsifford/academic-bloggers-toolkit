@@ -2,157 +2,122 @@
 @import 'variables'
 
 // Main metabox container
-#abt_reflist
-    transition $shadow-transition
-    h2.hndle
-        box-shadow $depth-1
-    .inside
-        margin 0
-        width 254px
-    &.fixed
-        position fixed
-        box-shadow $depth-4
-        border solid $border 1px
-        z-index 555
-
-
-a.abt-btn-icon
-    position relative
-    height 36px !important
-    min-width 36px !important
-    width 36px !important
-    &.disabled
-        color $disabled
-        pointer-events none
-    .dashicons
-        height 36px
-        line-height @height
-        vertical-align baseline
-        position absolute
-        pointer-events none
-        top 50%
-        left 50%
-        transform translate(- (@height / 2), - (@height / 2))
-        line-height @height
-        width @height
-        &.insert-inline
-            transform translate(-20px, -18px) rotateY(180deg)
-            padding-left 2px
-        &.add-reference
-            padding-top 2px
-            padding-right 3px
-        &.remove-reference
-            font-weight 900
-            padding-right 2px
-        &.hamburger-menu
-            padding 0 8px 6px 0
-            font-size 26px
-        &.pin-reflist.fixed
-            transform translate(-17px, -18px) rotate(-45deg)
-
-// React root
 #abt-reflist
-    font-family 'Roboto', sans-serif
-    .abt-spinner-container
-        background $light-gray
-        box-shadow $depth-1
-    .abt-panel
-        display flex
-        padding 8px 0
-        background $light-gray
-        box-shadow $depth-1
-        justify-content space-around
-    .abt-subpanel
-        display flex
-        padding 5px 0
-        justify-content space-around
+    transition: $shadow-transition
+    h2.hndle
+        box-shadow: $depth-1
+    .inside
+        margin: 0
+        width: 254px
+    &.fixed
+        position: fixed
+        box-shadow: $depth-4
+        border: solid $border 1px
+        z-index: 555
 
-    #abt-reflist-menu
-        border-bottom solid $border 1px
-        box-shadow inset 0 2px 5px -3px rgba(0,0,0,.3)
-        .inner
-            display flex
-            flex-direction column
-            height auto
-            #style-select-container
-                padding 2px 10px 10px 10px
-                margin 0 -5px
-    .abt-card
-        border-bottom 1px solid $border
-        padding 5px 10px
-        cursor pointer
-        font-weight 300
-        user-select none
-        &.selected
-            border-left solid darken($blue, 5) 3px
-            padding 5px 10px 5px 7px
-        &:first-of-type
-            box-shadow inset 0 2px 5px -3px rgba(0,0,0,.3)
-        +prefix-classes('abt-card-')
-            .people
-                font-size 0.8em
-                font-weight 500
-            .meta-container
-                display flex
-                font-size 0.8em
-                justify-content space-between
-            .date
-                padding-right 3px
-            .source
-                padding 0 3px
-                font-style italic
-                text-overflow ellipsis
-                white-space nowrap
-                overflow hidden
-            .pages
-                padding-left 3px
-                white-space nowrap
-    .list
-        transition 0.2s
-        overflow-y auto
-        overflow-x hidden
 
-    .group-label
-        display flex
-        justify-content space-between
-        cursor pointer
-        text-align center
-        align-items baseline
-        background $light-gray
-        box-shadow $depth-1
-        transition $button-transition
-        > *
-            user-select none
-        &:hover
-            background darken($light-gray, 3)
-            &:active
-                background darken($light-gray, 8)
-        .label
-            padding 10px
-        .badge
-            background $blue
-            color white
-            border-radius 500px
-            margin-right 10px
-            padding 2px 5px 0
+// React Root
+#abt-reflist__root .abt-spinner
+    background: $light-gray
+    box-shadow: $depth-1
 
-    .menu-enter
-        max-height 1px
-        overflow hidden
-        &.menu-enter-active
-            transition max-height .2s linear
-            max-height 400px
 
-    .menu-leave
-        max-height 400px
-        &.menu-leave-active
-            transition max-height .1s linear
-            max-height 1px
-            overflow hidden
+// Panels
+.abt-panel
+    display: flex
+    width: 100%
+    padding: 8px 0
+    background: $light-gray
+    box-shadow: $depth-1
+    justify-content: space-around
 
-    .Grid__cell
-        cursor pointer
-        div
-            font-weight 300
-    .Select-value-label
-        font-weight 300
+.abt-panel_subpanel
+    background: inherit
+    box-shadow: inherit
+    display: flex
+    padding: 5px 0
+    justify-content: space-around
+
+
+// React CSS Transition Group
+.menu-enter
+    max-height: 1px
+    overflow: hidden
+    &.menu-enter-active
+        transition: max-height .2s linear
+        max-height: 400px
+
+.menu-leave
+    max-height: 400px
+    &.menu-leave-active
+        transition: max-height .1s linear
+        max-height: 1px
+        overflow: hidden
+
+
+// Menu
+.abt-reflist-menu
+    border-bottom: solid $border 1px
+    padding: 0 5px 5px 5px
+
+
+// ItemList
+.abt-item-heading
+    display: flex
+    justify-content: space-between
+    cursor: pointer
+    background: $light-gray
+    box-shadow: $depth-1
+    padding: 10px
+    transition: $button-transition
+    align-items: baseline
+    user-select: none
+    &:hover
+        background: darken($light-gray, 3)
+        &:active
+            background: darken($light-gray, 8)
+
+.abt-item-heading__badge
+    background: $blue
+    color: white
+    height: 10px
+    border-radius: @height
+    line-height: @height
+    min-width: @height
+    text-align: center
+    border: 5px solid $blue
+
+
+// Cards
+.abt-card
+    border-bottom: 1px solid $border
+    padding: 5px 10px
+    cursor: pointer
+    font-weight: 300
+    user-select: none
+
+.abt-card_selected
+    border-left: solid darken($blue, 5) 3px
+    padding: 5px 10px 5px 7px
+
+.abt-card__people
+    font-size: 0.8em
+    font-weight: 500
+
+.abt-card__meta-container
+    display: flex
+    font-size: 0.8em
+    justify-content: space-between
+    white-space: nowrap
+
+.abt-card__date
+    padding-right: 3px
+
+.abt-card__source
+    padding: 0 3px
+    font-style: italic
+    text-overflow: ellipsis
+    overflow: hidden
+
+.abt-card__pages
+    padding-left: 3px

@@ -51,7 +51,7 @@ const setupAutocite = (kind: 'book'|'chapter'|'webpage' = 'webpage', inputType: 
 describe('<ManualEntryContainer />', () => {
     it('should render with loading spinner', () => {
         const d = document.createElement('DIV');
-        d.id = 'main-container';
+        d.id = 'abt-root';
         document.body.appendChild(d);
         const { component } = setup('article-journal', true);
         expect(component.find('Spinner')).toBeTruthy();

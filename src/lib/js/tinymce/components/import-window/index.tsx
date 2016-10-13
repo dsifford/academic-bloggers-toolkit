@@ -8,5 +8,5 @@ useStrict(true);
 
 ReactDOM.render(
     <ImportWindow wm={top.window.tinyMCE.activeEditor.windowManager} />,
-    document.getElementById('main-container')
+    document.getElementById('abt-root')
 );

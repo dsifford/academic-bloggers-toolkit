@@ -266,7 +266,7 @@ export function formatBibliography(
                 innerEl.innerHTML = parseReferenceURL(innerHTML, links, { kind: 'PMCID', value: item.PMCID });
                 break;
             }
-            case item.URL !== undefined && !innerHTML.match(item.URL): {
+            case item.URL !== undefined && !innerHTML.match(item.URL) && !item.URL.match('dx.doi.org'): {
                 innerEl.innerHTML = parseReferenceURL(innerHTML, links, { kind: 'URL', value: item.URL });
                 break;
             }
@@ -316,7 +316,7 @@ export function parseReferenceURL(
             }
         })
         .replace(url, (_match, _p1, p2 = 'http://', p3) => `<a href="${p2}${p3}" target="_blank">${p2}${p3}</a>`)
-        .replace(doi, 'doi: <a href="https://doi.org/$1" target="_blank">$1</a>');
+        .replace(doi, 'doi: <a href="https://dx.doi.org/$1" target="_blank">$1</a>');
 
     if (!id) return linkedHtml;
 

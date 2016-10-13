@@ -55,17 +55,17 @@ export class Card extends React.PureComponent<CardProps, {}> {
         return (
             <div
                 role="menuitem"
-                className={isSelected ? 'abt-card selected' : 'abt-card'}
+                className={isSelected ? 'abt-card abt-card_selected' : 'abt-card'}
                 onClick={this.click}
             >
                 <div>{CSL.title}</div>
-                <div className="abt-card-people">{this.parsePeople(CSL.author)}</div>
-                <div className="abt-card-meta-container">
-                    <div className="abt-card-date">({this.parseDate(CSL.issued)})</div>
-                    <div className="abt-card-source">
+                <div className="abt-card__people">{this.parsePeople(CSL.author)}</div>
+                <div className="abt-card__meta-container">
+                    <div className="abt-card__date">({this.parseDate(CSL.issued)})</div>
+                    <div className="abt-card__source">
                         {CSL.journalAbbreviation || CSL['container-title'] || CSL.publisher || ''}
                     </div>
-                    <div className="abt-card-pages">{CSL.page || 'n.p.'}</div>
+                    <div className="abt-card__pages">{CSL.page || 'n.p.'}</div>
                 </div>
             </div>
         );

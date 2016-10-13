@@ -26,7 +26,7 @@ export class Modal {
         const outerModalID: string = top.document.querySelector(`div.mce-floatpanel[aria-label="${this.title}"]`).id;
         this.outer = top.document.getElementById(outerModalID);
         this.inner = top.document.getElementById(`${outerModalID}-body`);
-        this.mainRect = document.getElementById('main-container');
+        this.mainRect = document.getElementById('abt-root');
         this.outer.style.transition = 'top 0.2s ease-out';
     }
 

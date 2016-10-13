@@ -374,7 +374,7 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
 
     @action
     handleScroll = () => {
-        const list = document.getElementById('abt_reflist');
+        const list = document.getElementById('abt-reflist');
 
         if (!this.fixed) {
             this.citedListUI.maxHeight = '400px';
@@ -449,7 +449,7 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
     @action
     togglePinned = (e) => {
         e.preventDefault();
-        document.getElementById('abt_reflist').classList.toggle('fixed');
+        document.getElementById('abt-reflist').classList.toggle('fixed');
         this.fixed = !this.fixed;
     }
 

@@ -56,7 +56,7 @@ describe('<ResultList />', () => {
         const { results, spy } = setup();
 
         expect(spy.callCount).toBe(0);
-        const button = results.children().find('input.abt-btn-submit.abt-btn-flat').first();
+        const button = results.children().find('input.abt-btn.abt-btn_submit.abt-btn_flat').first();
         button.simulate('click');
         expect(spy.callCount).toBe(1);
         expect(spy.firstCall.args[0]).toBe('11111');

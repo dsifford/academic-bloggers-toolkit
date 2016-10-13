@@ -363,7 +363,7 @@ describe('HelperFunctions', () => {
                 )).toBe('Chan T, Helman A, Davis T, Purdy E. MEdIC Series | The Case the FOAM Faux Pas – Expert Review and Curated Commentary. Academic Life in Emergency Medicine. <a href="http://aliem.com/MEdIC-Series-The-Case-the-FOAM-Faux-Pas-Expert-Review-and-Curated-Commentary" target="_blank">http://aliem.com/MEdIC-Series-The-Case-the-FOAM-Faux-Pas-Expert-Review-and-Curated-Commentary</a>. Published 2015.<span class="abt-url"> [<a href="http://www.ncbi.nlm.nih.gov/pubmed/12345" target="_blank">PubMed</a>]</span>');
                 expect(parseReferenceURL(
                     testRefs[2], 'always', { kind: 'PMID', value: PMID }
-                )).toBe('Colmers IN, Paterson QS, Lin M, Thoma B, Chan TM. The quality checklists for medical education blogs and podcasts. <i>The Winnower</i>. 2015. doi: <a href="https://doi.org/10.15200/winn.144720.08769\" target="_blank">10.15200/winn.144720.08769</a><span class="abt-url"> [<a href="http://www.ncbi.nlm.nih.gov/pubmed/12345" target="_blank">PubMed</a>]</span>');
+                )).toBe('Colmers IN, Paterson QS, Lin M, Thoma B, Chan TM. The quality checklists for medical education blogs and podcasts. <i>The Winnower</i>. 2015. doi: <a href="https://dx.doi.org/10.15200/winn.144720.08769\" target="_blank">10.15200/winn.144720.08769</a><span class="abt-url"> [<a href="http://www.ncbi.nlm.nih.gov/pubmed/12345" target="_blank">PubMed</a>]</span>');
                 expect(parseReferenceURL(
                     testRefs[3], 'always', { kind: 'PMID', value: PMID }
                 )).toBe('Mathieu S. Trial of Early, Goal-Directed Resuscitation for Septic Shock. The Bottom Line. <a href="http://www.wessexics.com/The_Bottom_Line/Review/index.php?id=3665078336903245716" target="_blank">http://www.wessexics.com/The_Bottom_Line/Review/index.php?id=3665078336903245716</a>. Published 2015.<span class="abt-url"> [<a href="http://www.ncbi.nlm.nih.gov/pubmed/12345" target="_blank">PubMed</a>]</span>')
@@ -383,7 +383,7 @@ describe('HelperFunctions', () => {
                 )).toBe('Chan T, Helman A, Davis T, Purdy E. MEdIC Series | The Case the FOAM Faux Pas – Expert Review and Curated Commentary. Academic Life in Emergency Medicine. <a href="http://aliem.com/MEdIC-Series-The-Case-the-FOAM-Faux-Pas-Expert-Review-and-Curated-Commentary" target="_blank">http://aliem.com/MEdIC-Series-The-Case-the-FOAM-Faux-Pas-Expert-Review-and-Curated-Commentary</a>. Published 2015.<span class="abt-url"> [<a href="https://dx.doi.org/10.1097/TA.0000000000001031" target="_blank">Source</a>]</span>');
                 expect(parseReferenceURL(
                     testRefs[2], 'always', { kind: 'DOI', value: DOI }
-                )).toBe('Colmers IN, Paterson QS, Lin M, Thoma B, Chan TM. The quality checklists for medical education blogs and podcasts. <i>The Winnower</i>. 2015. doi: <a href="https://doi.org/10.15200/winn.144720.08769\" target="_blank">10.15200/winn.144720.08769</a><span class="abt-url"> [<a href="https://dx.doi.org/10.1097/TA.0000000000001031" target="_blank">Source</a>]</span>');
+                )).toBe('Colmers IN, Paterson QS, Lin M, Thoma B, Chan TM. The quality checklists for medical education blogs and podcasts. <i>The Winnower</i>. 2015. doi: <a href="https://dx.doi.org/10.15200/winn.144720.08769\" target="_blank">10.15200/winn.144720.08769</a><span class="abt-url"> [<a href="https://dx.doi.org/10.1097/TA.0000000000001031" target="_blank">Source</a>]</span>');
                 expect(parseReferenceURL(
                     testRefs[3], 'always', { kind: 'DOI', value: DOI }
                 )).toBe('Mathieu S. Trial of Early, Goal-Directed Resuscitation for Septic Shock. The Bottom Line. <a href="http://www.wessexics.com/The_Bottom_Line/Review/index.php?id=3665078336903245716" target="_blank">http://www.wessexics.com/The_Bottom_Line/Review/index.php?id=3665078336903245716</a>. Published 2015.<span class="abt-url"> [<a href="https://dx.doi.org/10.1097/TA.0000000000001031" target="_blank">Source</a>]</span>')
@@ -403,7 +403,7 @@ describe('HelperFunctions', () => {
                 )).toBe('Chan T, Helman A, Davis T, Purdy E. MEdIC Series | The Case the FOAM Faux Pas – Expert Review and Curated Commentary. Academic Life in Emergency Medicine. <a href="http://aliem.com/MEdIC-Series-The-Case-the-FOAM-Faux-Pas-Expert-Review-and-Curated-Commentary" target="_blank">http://aliem.com/MEdIC-Series-The-Case-the-FOAM-Faux-Pas-Expert-Review-and-Curated-Commentary</a>. Published 2015.<span class="abt-url"> [<a href="http://www.ncbi.nlm.nih.gov/pmc/articles/PMC12345" target="_blank">PMC</a>]</span>');
                 expect(parseReferenceURL(
                     testRefs[2], 'always', { kind: 'PMCID', value: PMCID }
-                )).toBe('Colmers IN, Paterson QS, Lin M, Thoma B, Chan TM. The quality checklists for medical education blogs and podcasts. <i>The Winnower</i>. 2015. doi: <a href="https://doi.org/10.15200/winn.144720.08769\" target="_blank">10.15200/winn.144720.08769</a><span class="abt-url"> [<a href="http://www.ncbi.nlm.nih.gov/pmc/articles/PMC12345" target="_blank">PMC</a>]</span>');
+                )).toBe('Colmers IN, Paterson QS, Lin M, Thoma B, Chan TM. The quality checklists for medical education blogs and podcasts. <i>The Winnower</i>. 2015. doi: <a href="https://dx.doi.org/10.15200/winn.144720.08769\" target="_blank">10.15200/winn.144720.08769</a><span class="abt-url"> [<a href="http://www.ncbi.nlm.nih.gov/pmc/articles/PMC12345" target="_blank">PMC</a>]</span>');
                 expect(parseReferenceURL(
                     testRefs[3], 'always', { kind: 'PMCID', value: PMCID }
                 )).toBe('Mathieu S. Trial of Early, Goal-Directed Resuscitation for Septic Shock. The Bottom Line. <a href="http://www.wessexics.com/The_Bottom_Line/Review/index.php?id=3665078336903245716" target="_blank">http://www.wessexics.com/The_Bottom_Line/Review/index.php?id=3665078336903245716</a>. Published 2015.<span class="abt-url"> [<a href="http://www.ncbi.nlm.nih.gov/pmc/articles/PMC12345" target="_blank">PMC</a>]</span>')
@@ -423,7 +423,7 @@ describe('HelperFunctions', () => {
                 )).toBe('Chan T, Helman A, Davis T, Purdy E. MEdIC Series | The Case the FOAM Faux Pas – Expert Review and Curated Commentary. Academic Life in Emergency Medicine. <a href="http://aliem.com/MEdIC-Series-The-Case-the-FOAM-Faux-Pas-Expert-Review-and-Curated-Commentary" target="_blank">http://aliem.com/MEdIC-Series-The-Case-the-FOAM-Faux-Pas-Expert-Review-and-Curated-Commentary</a>. Published 2015.<span class="abt-url"> [<a href="https://www.google.com" target="_blank">Source</a>]</span>');
                 expect(parseReferenceURL(
                     testRefs[2], 'always', { kind: 'URL', value: URL }
-                )).toBe('Colmers IN, Paterson QS, Lin M, Thoma B, Chan TM. The quality checklists for medical education blogs and podcasts. <i>The Winnower</i>. 2015. doi: <a href="https://doi.org/10.15200/winn.144720.08769\" target="_blank">10.15200/winn.144720.08769</a><span class="abt-url"> [<a href="https://www.google.com" target="_blank">Source</a>]</span>');
+                )).toBe('Colmers IN, Paterson QS, Lin M, Thoma B, Chan TM. The quality checklists for medical education blogs and podcasts. <i>The Winnower</i>. 2015. doi: <a href="https://dx.doi.org/10.15200/winn.144720.08769\" target="_blank">10.15200/winn.144720.08769</a><span class="abt-url"> [<a href="https://www.google.com" target="_blank">Source</a>]</span>');
                 expect(parseReferenceURL(
                     testRefs[3], 'always', { kind: 'URL', value: URL }
                 )).toBe('Mathieu S. Trial of Early, Goal-Directed Resuscitation for Septic Shock. The Bottom Line. <a href="http://www.wessexics.com/The_Bottom_Line/Review/index.php?id=3665078336903245716" target="_blank">http://www.wessexics.com/The_Bottom_Line/Review/index.php?id=3665078336903245716</a>. Published 2015.<span class="abt-url"> [<a href="https://www.google.com" target="_blank">Source</a>]</span>')
@@ -443,7 +443,7 @@ describe('HelperFunctions', () => {
                 )).toBe('Chan T, Helman A, Davis T, Purdy E. MEdIC Series | The Case the FOAM Faux Pas – Expert Review and Curated Commentary. Academic Life in Emergency Medicine. <a href="http://aliem.com/MEdIC-Series-The-Case-the-FOAM-Faux-Pas-Expert-Review-and-Curated-Commentary" target="_blank">http://aliem.com/MEdIC-Series-The-Case-the-FOAM-Faux-Pas-Expert-Review-and-Curated-Commentary</a>. Published 2015.');
                 expect(parseReferenceURL(
                     testRefs[2], 'always'
-                )).toBe('Colmers IN, Paterson QS, Lin M, Thoma B, Chan TM. The quality checklists for medical education blogs and podcasts. <i>The Winnower</i>. 2015. doi: <a href="https://doi.org/10.15200/winn.144720.08769\" target="_blank">10.15200/winn.144720.08769</a>');
+                )).toBe('Colmers IN, Paterson QS, Lin M, Thoma B, Chan TM. The quality checklists for medical education blogs and podcasts. <i>The Winnower</i>. 2015. doi: <a href="https://dx.doi.org/10.15200/winn.144720.08769\" target="_blank">10.15200/winn.144720.08769</a>');
                 expect(parseReferenceURL(
                     testRefs[3], 'always'
                 )).toBe('Mathieu S. Trial of Early, Goal-Directed Resuscitation for Septic Shock. The Bottom Line. <a href="http://www.wessexics.com/The_Bottom_Line/Review/index.php?id=3665078336903245716" target="_blank">http://www.wessexics.com/The_Bottom_Line/Review/index.php?id=3665078336903245716</a>. Published 2015.')
@@ -547,7 +547,7 @@ describe('HelperFunctions', () => {
                 )).toBe('Chan T, Helman A, Davis T, Purdy E. MEdIC Series | The Case the FOAM Faux Pas – Expert Review and Curated Commentary. Academic Life in Emergency Medicine. <a href="http://aliem.com/MEdIC-Series-The-Case-the-FOAM-Faux-Pas-Expert-Review-and-Curated-Commentary" target="_blank">http://aliem.com/MEdIC-Series-The-Case-the-FOAM-Faux-Pas-Expert-Review-and-Curated-Commentary</a>. Published 2015.');
                 expect(parseReferenceURL(
                     testRefs[2], 'always-full-surround'
-                )).toBe('Colmers IN, Paterson QS, Lin M, Thoma B, Chan TM. The quality checklists for medical education blogs and podcasts. <i>The Winnower</i>. 2015. doi: <a href="https://doi.org/10.15200/winn.144720.08769\" target="_blank">10.15200/winn.144720.08769</a>');
+                )).toBe('Colmers IN, Paterson QS, Lin M, Thoma B, Chan TM. The quality checklists for medical education blogs and podcasts. <i>The Winnower</i>. 2015. doi: <a href="https://dx.doi.org/10.15200/winn.144720.08769\" target="_blank">10.15200/winn.144720.08769</a>');
                 expect(parseReferenceURL(
                     testRefs[3], 'always-full-surround'
                 )).toBe('Mathieu S. Trial of Early, Goal-Directed Resuscitation for Septic Shock. The Bottom Line. <a href="http://www.wessexics.com/The_Bottom_Line/Review/index.php?id=3665078336903245716" target="_blank">http://www.wessexics.com/The_Bottom_Line/Review/index.php?id=3665078336903245716</a>. Published 2015.')
@@ -570,7 +570,7 @@ describe('HelperFunctions', () => {
                 )).toBe('Chan T, Helman A, Davis T, Purdy E. MEdIC Series | The Case the FOAM Faux Pas – Expert Review and Curated Commentary. Academic Life in Emergency Medicine. <a href="http://aliem.com/MEdIC-Series-The-Case-the-FOAM-Faux-Pas-Expert-Review-and-Curated-Commentary" target="_blank">http://aliem.com/MEdIC-Series-The-Case-the-FOAM-Faux-Pas-Expert-Review-and-Curated-Commentary</a>. Published 2015.');
                 expect(parseReferenceURL(
                     testRefs[2], 'urls', { kind: 'PMID', value: PMID }
-                )).toBe('Colmers IN, Paterson QS, Lin M, Thoma B, Chan TM. The quality checklists for medical education blogs and podcasts. <i>The Winnower</i>. 2015. doi: <a href="https://doi.org/10.15200/winn.144720.08769\" target="_blank">10.15200/winn.144720.08769</a>');
+                )).toBe('Colmers IN, Paterson QS, Lin M, Thoma B, Chan TM. The quality checklists for medical education blogs and podcasts. <i>The Winnower</i>. 2015. doi: <a href="https://dx.doi.org/10.15200/winn.144720.08769\" target="_blank">10.15200/winn.144720.08769</a>');
                 expect(parseReferenceURL(
                     testRefs[3], 'urls', { kind: 'PMID', value: PMID }
                 )).toBe('Mathieu S. Trial of Early, Goal-Directed Resuscitation for Septic Shock. The Bottom Line. <a href="http://www.wessexics.com/The_Bottom_Line/Review/index.php?id=3665078336903245716" target="_blank">http://www.wessexics.com/The_Bottom_Line/Review/index.php?id=3665078336903245716</a>. Published 2015.')
@@ -590,7 +590,7 @@ describe('HelperFunctions', () => {
                 )).toBe('Chan T, Helman A, Davis T, Purdy E. MEdIC Series | The Case the FOAM Faux Pas – Expert Review and Curated Commentary. Academic Life in Emergency Medicine. <a href="http://aliem.com/MEdIC-Series-The-Case-the-FOAM-Faux-Pas-Expert-Review-and-Curated-Commentary" target="_blank">http://aliem.com/MEdIC-Series-The-Case-the-FOAM-Faux-Pas-Expert-Review-and-Curated-Commentary</a>. Published 2015.');
                 expect(parseReferenceURL(
                     testRefs[2], 'urls', { kind: 'DOI', value: DOI }
-                )).toBe('Colmers IN, Paterson QS, Lin M, Thoma B, Chan TM. The quality checklists for medical education blogs and podcasts. <i>The Winnower</i>. 2015. doi: <a href="https://doi.org/10.15200/winn.144720.08769\" target="_blank">10.15200/winn.144720.08769</a>');
+                )).toBe('Colmers IN, Paterson QS, Lin M, Thoma B, Chan TM. The quality checklists for medical education blogs and podcasts. <i>The Winnower</i>. 2015. doi: <a href="https://dx.doi.org/10.15200/winn.144720.08769\" target="_blank">10.15200/winn.144720.08769</a>');
                 expect(parseReferenceURL(
                     testRefs[3], 'urls', { kind: 'DOI', value: DOI }
                 )).toBe('Mathieu S. Trial of Early, Goal-Directed Resuscitation for Septic Shock. The Bottom Line. <a href="http://www.wessexics.com/The_Bottom_Line/Review/index.php?id=3665078336903245716" target="_blank">http://www.wessexics.com/The_Bottom_Line/Review/index.php?id=3665078336903245716</a>. Published 2015.')
@@ -610,7 +610,7 @@ describe('HelperFunctions', () => {
                 )).toBe('Chan T, Helman A, Davis T, Purdy E. MEdIC Series | The Case the FOAM Faux Pas – Expert Review and Curated Commentary. Academic Life in Emergency Medicine. <a href="http://aliem.com/MEdIC-Series-The-Case-the-FOAM-Faux-Pas-Expert-Review-and-Curated-Commentary" target="_blank">http://aliem.com/MEdIC-Series-The-Case-the-FOAM-Faux-Pas-Expert-Review-and-Curated-Commentary</a>. Published 2015.');
                 expect(parseReferenceURL(
                     testRefs[2], 'urls', { kind: 'PMCID', value: PMCID }
-                )).toBe('Colmers IN, Paterson QS, Lin M, Thoma B, Chan TM. The quality checklists for medical education blogs and podcasts. <i>The Winnower</i>. 2015. doi: <a href="https://doi.org/10.15200/winn.144720.08769\" target="_blank">10.15200/winn.144720.08769</a>');
+                )).toBe('Colmers IN, Paterson QS, Lin M, Thoma B, Chan TM. The quality checklists for medical education blogs and podcasts. <i>The Winnower</i>. 2015. doi: <a href="https://dx.doi.org/10.15200/winn.144720.08769\" target="_blank">10.15200/winn.144720.08769</a>');
                 expect(parseReferenceURL(
                     testRefs[3], 'urls', { kind: 'PMCID', value: PMCID }
                 )).toBe('Mathieu S. Trial of Early, Goal-Directed Resuscitation for Septic Shock. The Bottom Line. <a href="http://www.wessexics.com/The_Bottom_Line/Review/index.php?id=3665078336903245716" target="_blank">http://www.wessexics.com/The_Bottom_Line/Review/index.php?id=3665078336903245716</a>. Published 2015.')
@@ -630,7 +630,7 @@ describe('HelperFunctions', () => {
                 )).toBe('Chan T, Helman A, Davis T, Purdy E. MEdIC Series | The Case the FOAM Faux Pas – Expert Review and Curated Commentary. Academic Life in Emergency Medicine. <a href="http://aliem.com/MEdIC-Series-The-Case-the-FOAM-Faux-Pas-Expert-Review-and-Curated-Commentary" target="_blank">http://aliem.com/MEdIC-Series-The-Case-the-FOAM-Faux-Pas-Expert-Review-and-Curated-Commentary</a>. Published 2015.');
                 expect(parseReferenceURL(
                     testRefs[2], 'urls', { kind: 'URL', value: URL }
-                )).toBe('Colmers IN, Paterson QS, Lin M, Thoma B, Chan TM. The quality checklists for medical education blogs and podcasts. <i>The Winnower</i>. 2015. doi: <a href="https://doi.org/10.15200/winn.144720.08769\" target="_blank">10.15200/winn.144720.08769</a>');
+                )).toBe('Colmers IN, Paterson QS, Lin M, Thoma B, Chan TM. The quality checklists for medical education blogs and podcasts. <i>The Winnower</i>. 2015. doi: <a href="https://dx.doi.org/10.15200/winn.144720.08769\" target="_blank">10.15200/winn.144720.08769</a>');
                 expect(parseReferenceURL(
                     testRefs[3], 'urls', { kind: 'URL', value: URL }
                 )).toBe('Mathieu S. Trial of Early, Goal-Directed Resuscitation for Septic Shock. The Bottom Line. <a href="http://www.wessexics.com/The_Bottom_Line/Review/index.php?id=3665078336903245716" target="_blank">http://www.wessexics.com/The_Bottom_Line/Review/index.php?id=3665078336903245716</a>. Published 2015.')
@@ -650,7 +650,7 @@ describe('HelperFunctions', () => {
                 )).toBe('Chan T, Helman A, Davis T, Purdy E. MEdIC Series | The Case the FOAM Faux Pas – Expert Review and Curated Commentary. Academic Life in Emergency Medicine. <a href="http://aliem.com/MEdIC-Series-The-Case-the-FOAM-Faux-Pas-Expert-Review-and-Curated-Commentary" target="_blank">http://aliem.com/MEdIC-Series-The-Case-the-FOAM-Faux-Pas-Expert-Review-and-Curated-Commentary</a>. Published 2015.');
                 expect(parseReferenceURL(
                     testRefs[2], 'urls'
-                )).toBe('Colmers IN, Paterson QS, Lin M, Thoma B, Chan TM. The quality checklists for medical education blogs and podcasts. <i>The Winnower</i>. 2015. doi: <a href="https://doi.org/10.15200/winn.144720.08769\" target="_blank">10.15200/winn.144720.08769</a>');
+                )).toBe('Colmers IN, Paterson QS, Lin M, Thoma B, Chan TM. The quality checklists for medical education blogs and podcasts. <i>The Winnower</i>. 2015. doi: <a href="https://dx.doi.org/10.15200/winn.144720.08769\" target="_blank">10.15200/winn.144720.08769</a>');
                 expect(parseReferenceURL(
                     testRefs[3], 'urls'
                 )).toBe('Mathieu S. Trial of Early, Goal-Directed Resuscitation for Septic Shock. The Bottom Line. <a href="http://www.wessexics.com/The_Bottom_Line/Review/index.php?id=3665078336903245716" target="_blank">http://www.wessexics.com/The_Bottom_Line/Review/index.php?id=3665078336903245716</a>. Published 2015.')

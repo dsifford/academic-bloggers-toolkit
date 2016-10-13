@@ -16,8 +16,8 @@ export class PanelButton extends React.PureComponent<React.HTMLProps<HTMLAnchorE
     render() {
         destroyTooltip();
         const cn = this.props.disabled
-            ? 'abt-btn abt-btn-flat abt-btn-icon disabled'
-            : 'abt-btn abt-btn-flat abt-btn-icon';
+            ? 'abt-btn abt-btn_flat abt-btn_icon abt-btn_disabled'
+            : 'abt-btn abt-btn_flat abt-btn_icon';
         return (
             <a
                 {...this.props}

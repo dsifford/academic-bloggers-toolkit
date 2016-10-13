@@ -41,7 +41,7 @@ export class ButtonRow extends React.PureComponent<Props, {}> {
                         id="addManually"
                         onClick={this.props.toggleManual}
                         type="button"
-                        className="abt-btn abt-btn-flat"
+                        className="abt-btn abt-btn_flat"
                         value={
                             this.props.addManually === false
                             ? this.labels.addManually
@@ -53,7 +53,7 @@ export class ButtonRow extends React.PureComponent<Props, {}> {
                         id="searchPubmed"
                         onClick={this.searchPubmedClick}
                         type="button"
-                        className="abt-btn abt-btn-flat"
+                        className="abt-btn abt-btn_flat"
                         value={this.labels.searchPubmed}
                     />
                 </div>
@@ -61,10 +61,12 @@ export class ButtonRow extends React.PureComponent<Props, {}> {
                     <span className="separator" />
                 </div>
                 <div>
+                    { /* TODO: Turn this toggle switch into a component */ }
                     <input
                         type="checkbox"
                         id="inline-toggle"
-                        className="toggle hidden"
+                        className="toggle"
+                        style={{display: 'none'}}
                         checked={this.props.attachInline}
                         aria-checked={this.props.attachInline}
                         onChange={this.props.attachInlineToggle}
@@ -82,7 +84,7 @@ export class ButtonRow extends React.PureComponent<Props, {}> {
                     <input
                         id="submit-btn"
                         type="submit"
-                        className="abt-btn-submit"
+                        className="abt-btn abt-btn_submit"
                         value={this.labels.addReference}
                     />
                 </div>

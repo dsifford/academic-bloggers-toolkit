@@ -56,10 +56,10 @@ describe('<ImportWindow />', () => {
         const payload = [{}];
         const instance = (component.instance() as any);
 
-        expect(submit.props().disabled).toBe(true);
+        expect(submit.props().className).toBe('abt-btn abt-btn_submit abt-btn_disabled');
         instance.setFilename(filename);
         instance.setPayload(payload);
-        expect(submit.props().disabled).toBe(false);
+        expect(submit.props().className).toBe('abt-btn abt-btn_submit');
         submit.simulate('click');
         expect(setParams.callCount).toBe(1);
         expect(setParams.firstCall.args[0]).toEqual({ data: payload });

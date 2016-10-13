@@ -129,7 +129,7 @@ class ABT_Backend {
 
         $all_types = get_post_types();
         add_meta_box(
-            'abt_reflist',
+            'abt-reflist',
             __('Reference List', 'academic-bloggers-toolkit'),
             [$this, 'render_reference_list'],
             $all_types,
@@ -182,13 +182,13 @@ class ABT_Backend {
             unset($state['citations']);
         }
 
-        wp_localize_script('abt_reflist', 'ABT_Reflist_State', $state);
-        wp_localize_script('abt_reflist', 'ABT_i18n', $ABT_i18n);
-        wp_localize_script('abt_reflist', 'ABT_CitationStyles', $this->get_citation_styles());
-        wp_localize_script('abt_reflist', 'ABT_wp', $this->localize_wordpress_constants());
-        wp_localize_script('abt_reflist', 'ABT_Custom_CSL', $this->get_user_defined_csl($opts['citation_style']['custom_url']));
+        wp_localize_script('abt-reflist', 'ABT_Reflist_State', $state);
+        wp_localize_script('abt-reflist', 'ABT_i18n', $ABT_i18n);
+        wp_localize_script('abt-reflist', 'ABT_CitationStyles', $this->get_citation_styles());
+        wp_localize_script('abt-reflist', 'ABT_wp', $this->localize_wordpress_constants());
+        wp_localize_script('abt-reflist', 'ABT_Custom_CSL', $this->get_user_defined_csl($opts['citation_style']['custom_url']));
 
-        echo "<div id='abt-reflist' style='margin: 0 -12px -12px -12px;'></div>";
+        echo "<div id='abt-reflist__root' style='margin: 0 -12px -12px -12px; font-family: \"Roboto\", sans-serif;'></div>";
     }
 
     /**
@@ -220,9 +220,9 @@ class ABT_Backend {
         wp_dequeue_script('autosave');
         wp_enqueue_style('dashicons');
         wp_enqueue_style('abt-admin-css', plugins_url('academic-bloggers-toolkit/lib/css/admin.css'), ['dashicons'], ABT_VERSION);
-        wp_enqueue_script('abt_citeproc', plugins_url('academic-bloggers-toolkit/vendor/citeproc.js'), [], ABT_VERSION, true);
-        wp_enqueue_script('abt_vendors', plugins_url('academic-bloggers-toolkit/vendor/vendor.bundle.js'), [], ABT_VERSION, true);
-        wp_enqueue_script('abt_reflist', plugins_url('academic-bloggers-toolkit/lib/js/reference-list/index.js'), ['abt_citeproc', 'abt_vendors'], ABT_VERSION, true);
+        wp_enqueue_script('abt-citeproc', plugins_url('academic-bloggers-toolkit/vendor/citeproc.js'), [], ABT_VERSION, true);
+        wp_enqueue_script('abt-vendors', plugins_url('academic-bloggers-toolkit/vendor/vendor.bundle.js'), [], ABT_VERSION, true);
+        wp_enqueue_script('abt-reflist', plugins_url('academic-bloggers-toolkit/lib/js/reference-list/index.js'), ['abt-citeproc', 'abt-vendors'], ABT_VERSION, true);
     }
 
 }

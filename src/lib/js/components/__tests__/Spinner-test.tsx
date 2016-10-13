@@ -21,8 +21,8 @@ const setup = (props: SpinnerProps) => {
     );
     return {
         component,
-        root: component.find('div').first(),
-        svg: component.find('.abt-spinner'),
+        root: component.find('.abt-spinner').first(),
+        svg: component.find('svg'),
     };
 };
 
@@ -31,7 +31,7 @@ describe('<Spinner />', () => {
         const { svg, root } = setup({size: '40px'});
         expect(svg.props().height).toBe('40px');
         expect(svg.props().width).toBe('40px');
-        expect(root.props().className).toBe('abt-spinner-container');
+        expect(root.props().className).toBe('abt-spinner');
         expect(root.props().style).toEqual({});
     });
 
@@ -39,7 +39,7 @@ describe('<Spinner />', () => {
         const { svg, root } = setup({overlay: true, size: '40px'});
         expect(svg.props().height).toBe('40px');
         expect(svg.props().width).toBe('40px');
-        expect(root.props().className).toBe('abt-spinner-container abt-overlay');
+        expect(root.props().className).toBe('abt-spinner abt-spinner_overlay');
         expect(root.props().style).toEqual({});
     });
 
@@ -47,7 +47,7 @@ describe('<Spinner />', () => {
         const { svg, root } = setup({bgColor: 'magenta', size: '40px'});
         expect(svg.props().height).toBe('40px');
         expect(svg.props().width).toBe('40px');
-        expect(root.props().className).toBe('abt-spinner-container');
+        expect(root.props().className).toBe('abt-spinner');
         expect(root.props().style).toEqual({ backgroundColor: 'magenta' });
     });
 
@@ -55,7 +55,7 @@ describe('<Spinner />', () => {
         const { svg, root } = setup({height: '100px', size: '40px'});
         expect(svg.props().height).toBe('40px');
         expect(svg.props().width).toBe('40px');
-        expect(root.props().className).toBe('abt-spinner-container');
+        expect(root.props().className).toBe('abt-spinner');
         expect(root.props().style).toEqual({ height: '100px', minHeight: '100px' });
     });
 
@@ -64,7 +64,7 @@ describe('<Spinner />', () => {
         const { svg, root } = setup({height: getHeight, size: '40px'});
         expect(svg.props().height).toBe('40px');
         expect(svg.props().width).toBe('40px');
-        expect(root.props().className).toBe('abt-spinner-container');
+        expect(root.props().className).toBe('abt-spinner');
         expect(root.props().style).toEqual({ height: '250px', minHeight: '250px' });
     });
 });

@@ -55,7 +55,7 @@ function abt_append_changelog_script() {
 
     if ($not_editor_page || $invalid_post_type) return;
     ?>
-    <script type="text/javascript">var el=document.createElement("SPAN");el.id="abt_changelog",document.querySelector("#abt_reflist > h2").appendChild(el);var HW_config={selector:"#abt_changelog",account:"LJ4gE7"};</script><script async src="//cdn.headwayapp.co/widget.js"></script>
+    <script type="text/javascript">var el=document.createElement("SPAN");el.id="abt_changelog",document.querySelector("#abt-reflist > h2").appendChild(el);var HW_config={selector:"#abt_changelog",account:"LJ4gE7"};</script><script async src="//cdn.headwayapp.co/widget.js"></script>
     <?php
 }
 add_action('admin_footer', 'abt_append_changelog_script');

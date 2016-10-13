@@ -84,7 +84,7 @@ export class ImportWindow extends React.Component<Props, {}> {
                     <label className="uploadLabel">
                         <input
                             type="file"
-                            className="abt-btn abt-btn-flat"
+                            className="abt-btn abt-btn_flat"
                             id="uploadField"
                             required={true}
                             onChange={this.handleFileUpload}
@@ -97,10 +97,13 @@ export class ImportWindow extends React.Component<Props, {}> {
                 <div>
                     <input
                         type="button"
-                        className="abt-btn-submit"
+                        className={
+                            this.payload.length === 0
+                            ? 'abt-btn abt-btn_submit abt-btn_disabled'
+                            : 'abt-btn abt-btn_submit'
+                        }
                         id="submitbtn"
                         value={this.labels.importBtn}
-                        disabled={this.payload.length === 0}
                         onClick={this.handleSubmit}
                     />
                 </div>
