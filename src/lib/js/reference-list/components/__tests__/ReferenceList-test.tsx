@@ -1,4 +1,4 @@
-jest.mock('../../../utils/CSLProcessor.ts');
+jest.mock('../../../utils/CSLProcessor');
 
 import * as React from 'react';
 import { mount } from 'enzyme';

@@ -1,4 +1,4 @@
-jest.mock('../../../../utils/Modal.ts');
+jest.mock('../../../../utils/Modal');
 
 import * as React from 'react';
 import { mount } from 'enzyme';
