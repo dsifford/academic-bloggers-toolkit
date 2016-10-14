@@ -135,7 +135,6 @@ export class Menu extends React.PureComponent<Props, {}> {
                             value={this.selected}
                             optionRenderer={renderer}
                             optionHeight={this.dynamicOptionHeightHandler}
-                            placeholder={this.labels.stylePlaceholder}
                             options={this.styles}
                             style={{cursor: 'pointer', fontWeight: 300}}
                             clearable={false}

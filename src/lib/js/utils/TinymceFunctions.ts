@@ -82,7 +82,13 @@ export function getRelativeCitationPositions(editor: TinyMCE.Editor): CitationPo
 
     if (citations.length > 1) {
         let key = 0;
-        Array.from(citations).forEach((el, i) => {
+        [...citations].forEach((el, i) => {
+            if (el.id === '') {
+                el.innerHTML =
+                    `<span class="abt-broken-citation">${ABT_i18n.errors.broken} ${el.innerHTML}</span>`;
+                el.classList.remove('abt_cite');
+                return;
+            }
             if (el.id === id) {
                 key = 1;
                 payload.currentIndex = i;

@@ -1,6 +1,8 @@
 import { getFromDOI, getFromPMID } from '../utils/Externals';
 import { generateID, processCSLDate } from '../utils/HelperFunctions';
 
+declare const ABT_i18n: BackendGlobals.ABT_i18n;
+
 export function getRemoteData(identifierList: string, mce: TinyMCE.WindowManager): Promise<CSL.Data[]> {
     return new Promise((resolve, reject) => {
         const pmidList: string[] = [];
@@ -19,7 +21,10 @@ export function getRemoteData(identifierList: string, mce: TinyMCE.WindowManager
         if (pmidList.length) promises.push(getFromPMID(pmidList.join(',')));
         if (doiList.length) promises.push(getFromDOI(doiList));
 
-        if (!promises.length) reject(new Error(`𝗘𝗿𝗿𝗼𝗿: No identifiers could be found for your request.`));
+        if (!promises.length) {
+            reject(new Error(`${ABT_i18n.errors.prefix}: ${ABT_i18n.errors.identifiersNotFound.all}`));
+            return;
+        }
 
         Promise.all(promises).then((data: [CSL.Data[], string[]][]) => {
             const errs: string[] = data.reduce((prev, curr) => {
@@ -27,15 +32,17 @@ export function getRemoteData(identifierList: string, mce: TinyMCE.WindowManager
                 return prev;
             }, []);
 
-            if (errs.length) mce.alert(`𝗘𝗿𝗿𝗼𝗿: The following identifiers could not be found: ${errs.join(', ')}`);
+            if (errs.length) {
+                mce.alert(`${ABT_i18n.errors.prefix}: ${ABT_i18n.errors.identifiersNotFound.some}: ${errs.join(', ')}`);
+            }
 
+            /* FIXME: Combine this with the forEach statement below. ++perf */
             const combined: CSL.Data[] = data.reduce((prev, curr) => {
                 prev.push(...curr[0]);
                 return prev;
             }, []);
-            combined.forEach(ref => {
-                ref.id = generateID();
-            });
+
+            combined.forEach(ref => ref.id = generateID());
             resolve(combined);
         }, (err: Error) => {
             reject(err);

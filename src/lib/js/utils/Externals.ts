@@ -1,5 +1,7 @@
 import { processPubmedJSON } from './HelperFunctions';
 
+declare const ABT_i18n: BackendGlobals.ABT_i18n;
+
 /**
  * Sends a string of text to PubMed and gets a list of PMIDs for the query.
  *   Depending on the state of `bypassJSONFormatter`, the result is either sent
@@ -14,19 +16,25 @@ export function pubmedQuery(query: string, bypassJSONFormatter: boolean = false)
     return new Promise<[string, boolean]>((resolve, reject) => {
         const req = new XMLHttpRequest();
         req.open('GET', `https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=pubmed&term=${encodeURI(query)}&retmode=json`); // tslint:disable-line
-        req.onload = () => {
+        req.addEventListener('load', () => {
 
-            if (req.status !== 200)
-                reject(new Error('Error: pubmedQuery => Pubmed returned a non-200 status code.'));
+            if (req.status !== 200) {
+                reject(new Error(`${ABT_i18n.errors.prefix}: pubmedQuery => ${ABT_i18n.errors.statusError}`));
+                return;
+            }
 
             const res = JSON.parse(req.responseText);
 
-            if (res.error)
-                reject(new Error('Error: pubmedQuery => Request not valid.'));
+            if (res.error) {
+                reject(new Error(`${ABT_i18n.errors.prefix}: pubmedQuery => ${ABT_i18n.errors.badRequest}`));
+                return;
+            }
 
             resolve([res.esearchresult.idlist.join(), bypassJSONFormatter]);
-        };
-        req.onerror = () => reject(new Error('Error: pubmedQuery => Network Error.'));
+        });
+        req.addEventListener('error', () => reject(
+            new Error(`${ABT_i18n.errors.prefix}: pubmedQuery => ${ABT_i18n.errors.networkError}`)
+        ));
         req.send(null);
     })
     .then(data => getFromPMID(data[0], data[1]));
@@ -45,33 +53,44 @@ export function getFromPMID(
     bypassJSONFormatter: boolean = false
 ): Promise<PubMed.SingleReference[]|[CSL.Data[], string[]]> {
     return new Promise((resolve, reject) => {
-        if (PMIDlist.length === 0) return resolve([]);
+        if (PMIDlist.length === 0) {
+            resolve([]);
+            return;
+        }
         const req = new XMLHttpRequest();
         req.open('GET', `https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi?db=pubmed&id=${PMIDlist}&version=2.0&retmode=json`); // tslint:disable-line
-        req.onload = () => {
+        req.addEventListener('load', () => {
 
-            if (req.status !== 200)
-                reject(new Error('Error: getFromPMID => PubMed returned a non-200 status code.'));
+            if (req.status !== 200) {
+                reject(new Error(`${ABT_i18n.errors.prefix}: getFromPMID => ${ABT_i18n.errors.statusError}`));
+                return;
+            }
 
             const res = JSON.parse(req.responseText);
             const iterable: PubMed.SingleReference[] = [];
 
             for (const i of Object.keys(res.result)) {
                 if (i === 'uids') continue;
-                if (res.result[i].title)
+                if (res.result[i].title) {
                     res.result[i].title = res.result[i].title.replace(/(&amp;amp;)/g, '&');
+                }
                 iterable.push(res.result[i]);
             }
 
-            if (bypassJSONFormatter) return resolve(iterable);
+            if (bypassJSONFormatter) {
+                resolve(iterable);
+                return;
+            }
 
             resolve([
                 processPubmedJSON(iterable),
                 PMIDlist.split(',').filter(i => res.result.uids.indexOf(i) === -1),
             ]);
 
-        };
-        req.onerror = () => reject(new Error('Error: getFromPMID => Network Error.'));
+        });
+        req.addEventListener('error', () => reject(
+            new Error(`${ABT_i18n.errors.prefix}: getFromPMID => ${ABT_i18n.errors.networkError}`)
+        ));
         req.send(null);
     });
 }
@@ -93,14 +112,18 @@ export function getFromDOI(doiList: string[]): Promise<[CSL.Data[], string[]]> {
                     const url = `https://api.crossref.org/v1/works/${doi}/transform/application/vnd.citationstyles.csl+json`;
                     const req = new XMLHttpRequest();
                     req.open('GET', url);
-                    req.onload = () => {
-                        if (req.status !== 200) resolveInner([null, doi]);
-
+                    req.addEventListener('load', () => {
+                        if (req.status !== 200) {
+                            resolveInner([null, doi]);
+                            return;
+                        }
                         const res: CSL.Data = JSON.parse(req.responseText);
                         res.id = '0';
                         resolveInner([res, null]);
-                    };
-                    req.onerror = () => rejectInner(new Error('Error: getFromDOI => Network Error.'));
+                    });
+                    req.addEventListener('error', () => rejectInner(
+                        new Error(`${ABT_i18n.errors.prefix}: getFromDOI => ${ABT_i18n.errors.networkError}`)
+                    ));
                     req.send(null);
                 })
             );
@@ -131,12 +154,16 @@ export function getFromURL(url: string): Promise<ABT.URLMeta> {
         req.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
         req.timeout = 5000;
         req.addEventListener('load', () => {
-            if (req.status !== 200) return reject(new Error('Error: URL returned a non-200 status code.'));
+            if (req.status !== 200) {
+                reject(new Error(`${ABT_i18n.errors.prefix}: getFromURL => ${ABT_i18n.errors.statusError}`));
+                return;
+            }
 
             const res = <ABT.ExternalSiteMeta>JSON.parse(req.responseText);
 
             if (res.error) {
-                return reject(new Error(res.error));
+                reject(new Error(res.error));
+                return;
             }
 
             const content_title = res.og.title
@@ -170,8 +197,12 @@ export function getFromURL(url: string): Promise<ABT.URLMeta> {
             };
             resolve(payload);
         });
-        req.addEventListener('error', () => reject(new Error('Error: Network Error.')));
-        req.addEventListener('timeout', () => reject(new Error('Error: Site denied request.')));
+        req.addEventListener('error', () => reject(
+            new Error(`${ABT_i18n.errors.prefix}: ${ABT_i18n.errors.networkError}`)
+        ));
+        req.addEventListener('timeout', () => reject(
+            new Error(`${ABT_i18n.errors.prefix}: ${ABT_i18n.errors.denied}`)
+        ));
         req.send(data);
     });
 }
@@ -182,7 +213,10 @@ export function getFromISBN(ISBN: string): Promise<GoogleBooks.Meta> {
         const url = `https://www.googleapis.com/books/v1/volumes?q=isbn:${ISBN.replace('-', '')}`;
         req.open('GET', url);
         req.addEventListener('load', () => {
-            if (req.status !== 200) return reject(new Error('Error: URL returned a non-200 status code.'));
+            if (req.status !== 200) {
+                reject(new Error(`${ABT_i18n.errors.prefix}: getFromISBN => ${ABT_i18n.errors.statusError}`));
+                return;
+            }
             const res = <GoogleBooks.Response>JSON.parse(req.responseText);
             const meta = res.items[0].volumeInfo;
             const authors = meta.authors.map(y => {
@@ -217,7 +251,9 @@ export function getFromISBN(ISBN: string): Promise<GoogleBooks.Meta> {
             };
             resolve(payload);
         });
-        req.addEventListener('error', () => reject(new Error('Error: Network Error.')));
+        req.addEventListener('error', () => reject(
+            new Error(`${ABT_i18n.errors.prefix}: ${ABT_i18n.errors.networkError}`)
+        ));
         req.send(null);
     });
 }

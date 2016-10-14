@@ -26,6 +26,7 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
 
     editor: TinyMCE.Editor;
     processor: CSLProcessor;
+    errors = ABT_i18n.errors;
     labels = ABT_i18n.referenceList.referenceList;
 
     /**
@@ -137,11 +138,10 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
         })
         .catch(err => {
             Rollbar.error('ReferenceList.tsx -> initProcessor', err);
-            console.error(err.message);
             this.editor.windowManager.alert(
-                `An unexpected error occurred.\n\n` +
-                `Error: ${err.message}\n\n` +
-                `Please report this here:\nhttps://github.com/dsifford/academic-bloggers-toolkit/issues`
+                `${this.errors.unexpected.message}.\n\n` +
+                `${err.name}: ${err.message}\n\n` +
+                `${this.errors.unexpected.reportInstructions}`
             );
         });
     }
@@ -172,7 +172,8 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
 
             if (typeof bibliography === 'boolean') {
                 this.editor.windowManager.alert(
-                    `𝗪𝗮𝗿𝗻𝗶𝗻𝗴: ${this.labels.noBibAlertWarning}\n\n𝗥𝗲𝗮𝘀𝗼𝗻: ${this.labels.noBibAlertReason}`
+                    `${this.errors.warnings.warning}: ${this.errors.warnings.noBib.message}\n\n` +
+                    `${this.errors.warnings.reason}: ${this.errors.warnings.noBib.reason}`
                 );
                 return;
             }
@@ -208,11 +209,10 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
         })
         .catch(err => {
             Rollbar.error('ReferenceList.tsx -> insertStaticBibliography', err);
-            console.error(err.message);
             this.editor.windowManager.alert(
-                `An unexpected error occurred.\n\n` +
-                `Error: ${err.message}\n\n` +
-                `Please report this here:\nhttps://github.com/dsifford/academic-bloggers-toolkit/issues`
+                `${this.errors.unexpected.message}.\n\n` +
+                `${err.name}: ${err.message}\n\n` +
+                `${this.errors.unexpected.reportInstructions}`
             );
         });
     }
@@ -246,10 +246,24 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
             }
         }
 
-        const { locations: [citationsBefore, citationsAfter], currentIndex } =
-            MCE.getRelativeCitationPositions(this.editor);
-        const citationData = this.processor.prepareInlineCitationData(data, currentIndex);
-        const clusters = this.processor.processCitationCluster(citationData, citationsBefore, citationsAfter);
+        let clusters;
+        try {
+            const { locations: [citationsBefore, citationsAfter], currentIndex } =
+                MCE.getRelativeCitationPositions(this.editor);
+            const citationData = this.processor.prepareInlineCitationData(data, currentIndex);
+            clusters = this.processor.processCitationCluster(citationData, citationsBefore, citationsAfter);
+        }
+        catch (err) {
+            Rollbar.error('ReferenceList.tsx -> insertInlineCitation', err);
+            this.editor.windowManager.alert(
+                `${this.errors.unexpected.message}.\n\n` +
+                `${err.name}: ${err.message}\n\n` +
+                `${this.errors.unexpected.reportInstructions}`
+            );
+            this.editor.setProgressState(false);
+            this.clearSelection();
+            return;
+        }
 
         MCE.parseInlineCitations(
             this.editor,
@@ -267,12 +281,12 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
         })
         .catch(err => {
             Rollbar.error('ReferenceList.tsx -> insertInlineCitation', err);
-            console.error(err.message);
             this.editor.windowManager.alert(
-                `An unexpected error occurred.\n\n` +
-                `Error: ${err.message}\n\n` +
-                `Please report this here:\nhttps://github.com/dsifford/academic-bloggers-toolkit/issues`
+                `${this.errors.unexpected.message}.\n\n` +
+                `${err.name}: ${err.message}\n\n` +
+                `${this.errors.unexpected.reportInstructions}`
             );
+            this.editor.setProgressState(false);
         });
 
         this.clearSelection();
@@ -318,11 +332,10 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
             })
             .catch(err => {
                 Rollbar.error('ReferenceList.tsx -> openReferenceWindow', err);
-                console.error(err.message);
                 this.editor.windowManager.alert(
-                    `An unexpected error occurred.\n\n` +
-                    `Error: ${err.message}\n\n` +
-                    `Please report this here:\nhttps://github.com/dsifford/academic-bloggers-toolkit/issues`
+                    `${this.errors.unexpected.message}.\n\n` +
+                    `${err.name}: ${err.message}\n\n` +
+                    `${this.errors.unexpected.reportInstructions}`
                 );
             });
         });
@@ -334,11 +347,10 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
             this.props.store.citations.addItems(data);
         }).catch(err => {
             Rollbar.error('ReferenceList.tsx -> openImportWindow', err);
-            console.error(err.message);
             this.editor.windowManager.alert(
-                `An unexpected error occurred.\n\n` +
-                `Error: ${err.message}\n\n` +
-                `Please report this here:\nhttps://github.com/dsifford/academic-bloggers-toolkit/issues`
+                `${this.errors.unexpected.message}.\n\n` +
+                `${err.name}: ${err.message}\n\n` +
+                `${this.errors.unexpected.reportInstructions}`
             );
         });
     }

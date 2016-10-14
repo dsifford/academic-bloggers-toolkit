@@ -83,7 +83,7 @@ describe('<ImportWindow />', () => {
         (component as any).instance().parseFile({target: {result: ''}});
         expect(alert.callCount).toBe(1);
         expect(alert.args[0][0]).toBe(
-            '𝗘𝗿𝗿𝗼𝗿: The following references were unable to be processed: one, two, three'
+            'Error: The following references were unable to be processed: one, two, three'
         );
         stub.restore();
     });

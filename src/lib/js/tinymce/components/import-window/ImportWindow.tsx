@@ -15,6 +15,7 @@ interface Props {
 export class ImportWindow extends React.Component<Props, {}> {
 
     labels = ((top as any).ABT_i18n as BackendGlobals.ABT_i18n).tinymce.importWindow;
+    errors = ((top as any).ABT_i18n as BackendGlobals.ABT_i18n).errors;
     modal: Modal = new Modal(this.labels.title);
     wm: TinyMCE.WindowManager = this.props.wm;
 
@@ -47,7 +48,7 @@ export class ImportWindow extends React.Component<Props, {}> {
 
         let payload = parser.parse();
         if (payload.length === 0) {
-            this.wm.alert(`𝗘𝗿𝗿𝗼𝗿: ${this.labels.filetypeError}`);
+            this.wm.alert(`${this.errors.prefix}: ${this.errors.filetypeError}`);
             return;
         }
 
@@ -60,7 +61,7 @@ export class ImportWindow extends React.Component<Props, {}> {
         const leftovers = parser.unsupportedRefs;
 
         if (leftovers.length > 0) {
-            this.wm.alert(`𝗘𝗿𝗿𝗼𝗿: ${this.labels.leftovers}: ${leftovers.join(', ')}`);
+            this.wm.alert(`${this.errors.prefix}: ${this.errors.risLeftovers}: ${leftovers.join(', ')}`);
         }
 
         this.setPayload(payload);
