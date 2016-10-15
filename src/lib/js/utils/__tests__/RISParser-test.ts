@@ -1,6 +1,3 @@
-jest.unmock('../RISParser');
-jest.unmock('../HelperFunctions');
-
 import { RISParser } from '../RISParser';
 
 // tslint:disable

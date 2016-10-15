@@ -236,7 +236,6 @@ exports.reflistState = {
     },
 };
 
-
 exports.ABT_i18n = {
     referenceList: {
         referenceList: {
@@ -248,8 +247,6 @@ exports.ABT_i18n = {
             },
             citedItems: 'Cited Items',
             uncitedItems: 'Uncited Items',
-            noBibAlertWarning: 'Cannot create publication list for currently selected citation style.',
-            noBibAlertReason: 'Style does not include bibliography.',
         },
         menu: {
             tooltips: {
@@ -259,14 +256,11 @@ exports.ABT_i18n = {
                 help: 'Usage instructions',
                 staticPubList: 'Insert Static Publication List',
             },
-            stylePlaceholder: 'Choose citation style...',
         },
     },
     tinymce: {
         importWindow: {
             title: 'Import References from RIS File',
-            filetypeError: "The file could not be processed. Are you sure it's a .RIS (Refman) file?",
-            leftovers: 'The following references were unable to be processed',
             upload: 'Choose File',
             importBtn: 'Import',
         },
@@ -306,6 +300,33 @@ exports.ABT_i18n = {
                 addReference: 'Add Reference',
                 insertInline: 'Insert citation inline',
             },
+        },
+    },
+    errors: {
+        badRequest: 'Request not valid',
+        broken: 'BROKEN!',
+        denied: 'Site denied request',
+        filetypeError: "The file could not be processed. Are you sure it's a .RIS (Refman) file?",
+        identifiersNotFound: {
+            all: 'No identifiers could be found for your request',
+            some: 'The following identifiers could not be found',
+        },
+        prefix: 'Error',
+        networkError: 'Network Error',
+        noResults: 'Your search returned 0 results',
+        risLeftovers: 'The following references were unable to be processed',
+        statusError: 'Request returned a non-200 status code',
+        warnings: {
+            warning: 'Warning',
+            reason: 'Reason',
+            noBib: {
+                message: 'Cannot create publication list for currently selected citation style.',
+                reason: 'Style does not include bibliography.',
+            },
+        },
+        unexpected: {
+            message: 'An unexpected error occurred',
+            reportInstructions: 'Please report this error, including the steps taken to trigger it, here: \nhttps://github.com/dsifford/academic-bloggers-toolkit/issues',
         },
     },
     fieldmaps: {

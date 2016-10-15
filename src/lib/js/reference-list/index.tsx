@@ -16,5 +16,5 @@ const store: Store = new Store(ABT_Reflist_State);
 
 ReactDOM.render(
     <ReferenceList store={store} />,
-    document.getElementById('abt-reflist')
+    document.getElementById('abt-reflist__root')
 );

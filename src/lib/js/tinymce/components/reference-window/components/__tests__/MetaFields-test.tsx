@@ -1,5 +1,3 @@
-jest.unmock('../MetaFields');
-
 import * as React from 'react';
 import { map } from 'mobx';
 import { mount } from 'enzyme';
@@ -31,7 +29,8 @@ describe('<MetaFields />', () => {
     it('should call updateField when fields are changed', () => {
         const { component, field } = setup();
         expect(component.props().meta.get('title')).toBeUndefined();
-        field.simulate('change', { target: { id: 'title', value: 'newTitle' }});
+        component.props().meta.set('title', 'newTitle');
+        field.simulate('change');
         expect(component.props().meta.get('title')).toBe('newTitle');
     });
 });

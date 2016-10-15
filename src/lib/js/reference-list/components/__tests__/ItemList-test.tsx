@@ -1,5 +1,3 @@
-jest.unmock('../ItemList');
-
 import * as React from 'react';
 import { mount } from 'enzyme';
 import { spy } from 'sinon';
@@ -21,10 +19,10 @@ const setup = (open = true, items = [{id: 'aaa'}, {id: 'bbb'}, {id: 'ccc'}]) => 
         </ItemList>
     );
     return {
-        badge: component.find('.badge'),
+        badge: component.find('.abt-item-heading__badge'),
         component,
-        groupLabel: component.find('.group-label'),
-        label: component.find('.label'),
+        heading: component.find('.abt-item-heading'),
+        label: component.find('.abt-item-heading__label'),
         s,
     };
 };
@@ -46,12 +44,12 @@ describe('<ItemList />', () => {
     });
 
     it('should handle single clicks', () => {
-        const { groupLabel, s } = setup();
+        const { heading, s } = setup();
         expect(s.callCount).toBe(0);
-        groupLabel.simulate('click');
+        heading.simulate('click');
         expect(s.callCount).toBe(1);
         expect(s.calledWithExactly('test-id')).toBe(true);
-        groupLabel.simulate('doubleClick');
+        heading.simulate('doubleClick');
         expect(s.callCount).toBe(2);
         expect(s.secondCall.calledWithExactly('test-id', true)).toBe(true);
     });

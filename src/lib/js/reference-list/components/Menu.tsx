@@ -62,7 +62,7 @@ export class Menu extends React.PureComponent<Props, {}> {
     }
 
     handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
-        this.props.submitData((e.target as HTMLInputElement).id);
+        this.props.submitData(e.currentTarget.id);
     }
 
     handleSelect = (data: StyleOption) => {
@@ -88,9 +88,9 @@ export class Menu extends React.PureComponent<Props, {}> {
 
     render() {
         return (
-            <div id="abt-reflist-menu">
-                <div className="inner">
-                    <div className="abt-subpanel">
+            <div className="abt-reflist-menu">
+                {/* <div className="inner"> */}
+                    <div className="abt-panel abt-panel_subpanel">
                         <PanelButton
                             id="IMPORT_RIS"
                             onClick={this.handleClick}
@@ -128,20 +128,20 @@ export class Menu extends React.PureComponent<Props, {}> {
                             <span className="dashicons dashicons-editor-help" />
                         </PanelButton>
                     </div>
-                    <div id="style-select-container">
+                    <div>
                         <VSelect
                             id="style-select"
                             onChange={this.handleSelect}
                             value={this.selected}
                             optionRenderer={renderer}
                             optionHeight={this.dynamicOptionHeightHandler}
-                            placeholder={this.labels.stylePlaceholder}
                             options={this.styles}
+                            style={{cursor: 'pointer', fontWeight: 300}}
                             clearable={false}
                             backspaceRemoves={false}
                         />
                     </div>
-                </div>
+                {/* </div> */}
             </div>
         );
     }
@@ -165,6 +165,8 @@ interface RendererParams {
  */
 export function renderer({focusedOption, focusOption, key, option, selectValue, style}: RendererParams) {
     style.alignItems = 'center';
+    style.fontWeight = 300;
+    style.cursor = 'default';
     style.borderBottom = '1px solid #ddd';
     style.display = 'flex';
     style.padding = '0 5px';

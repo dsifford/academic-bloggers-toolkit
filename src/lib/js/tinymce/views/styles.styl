@@ -3,166 +3,161 @@
 @require '../../../css/collections/shared';
 
 body
-    font-family "Roboto", sans-serif
-    font-weight 300
-    color $dark-gray
-    overflow hidden
-    margin 0
+    font-family: 'Roboto', sans-serif
+    font-weight: 300
+    color: $dark-gray
+    overflow: hidden
+    margin: 0
 
-#main-container
-    background-color #fff
-    max-height calc(99vh - 35px)
-    box-sizing border-box
-
-a
-    color $blue
-    &:hover
-        color #00a0d2
+#abt-root
+    background-color: white
+    max-height: calc(99vh - 35px)
+    box-sizing: border-box
 
 form
-    margin 0
+    margin: 0
 
 input
-    border 1px solid $border
-    background white
-    box-shadow inset 0 1px 2px rgba(0,0,0,.07)
-    color $dark-gray
-    outline 0
-    transition 50ms border-color ease-in-out
-    padding 5px
-    font-size 1em
-    font-weight 300
-    font-family "Roboto", sans-serif
+    border: 1px solid $border
+    background: white
+    box-shadow: inset 0 1px 2px rgba(0,0,0,.07)
+    color: $dark-gray
+    outline: 0
+    transition: 50ms border-color ease-in-out
+    padding: 5px
+    font-size: 1em
+    font-weight: 300
+    font-family: 'Roboto', sans-serif
 
-    &[type="text"]
-    &[type="url"]
-        width 100%
-    &[type="checkbox"]
-        height 18px
-        width 18px
-        margin auto 5px
-        vertical-align middle
-        -moz-appearance none
+    &[type='text']
+    &[type='url']
+        width: 100%
+    &[type='checkbox']
+        height: 18px
+        width: 18px
+        margin: auto 5px
+        vertical-align: middle
+        -moz-appearance: none
         &:focus
-            box-shadow none
+            box-shadow: none
 
     &:focus
-        border-color #5b9dd9
-        box-shadow 0 0 2px rgba(30, 140, 190, .8)
+        border-color: #5b9dd9
+        box-shadow: 0 0 2px rgba(30, 140, 190, .8)
         &:invalid
-            box-shadow 0 0 2px rgba(204,0,0,.8)
-            border-color #dc3232 !important
+            box-shadow: 0 0 2px rgba(204,0,0,.8)
+            border-color: #dc3232 !important
 
     &:invalid
-        background #ffe1e3
-        color #dc3232
-        border solid #E58383 1px
+        background: #ffe1e3
+        color: #dc3232
+        border: solid #E58383 1px
 
     &::-moz-focus-inner
-        border 0
-        padding 0
-        margin-top -2px
-        margin-bottom -2px
+        border: 0
+        padding: 0
+        margin-top: -2px
+        margin-bottom: -2px
 
 select
     @extend input
-    vertical-align middle
-    margin 1px
-    font-size 1em
-    -moz-appearance none
-    width 100%
-    transition none
+    vertical-align: middle
+    margin: 1px
+    font-size: 1em
+    -moz-appearance: none
+    width: 100%
+    transition: none
 
 label
-    @extend .noselect
-    white-space nowrap
-    cursor pointer
-    font-size 0.9em
-    font-weight normal
+    {$noselect}
+    white-space: nowrap
+    cursor: pointer
+    font-size: 0.9em
+    font-weight: normal
     &.sublabel
-        font-weight inherit
+        font-weight: inherit
 
 .abt-scroll-y
-    overflow-y auto
-    max-height calc(100vh - 156px)
+    overflow-y: auto
+    max-height: calc(100vh - 156px)
     &.autocite
-        max-height calc(100vh - 216px)
+        max-height: calc(100vh - 216px)
 
 
 .row
-    padding 10px 0
-    display flex
-    align-items center
+    padding: 10px 0
+    display: flex
+    align-items: center
     > div
-        padding 0 5px
+        padding: 0 5px
         &:first-of-type
-            padding-left 10px
+            padding-left: 10px
         &:last-of-type
-            padding-right 10px
+            padding-right: 10px
         &.flex
-            flex auto
+            flex: auto
     &.collapse
-        padding 0
+        padding: 0
     &.column
-        flex-direction column
+        flex-direction: column
         > div
-            width 100%
-            box-sizing border-box
-            padding 1px 5px !important
+            width: 100%
+            box-sizing: border-box
+            padding: 1px 5px !important
 
 .table
-    display table
-    padding 10px 0
-    width 100%
+    display: table
+    padding: 10px 0
+    width: 100%
 
 .table__row
-    display table-row
+    display: table-row
     > .table__cell:first-of-type
-        padding-left 10px
+        padding-left: 10px
     > .table__cell:last-of-type
-        padding-right 10px
+        padding-right: 10px
 
 .table__cell
-    display table-cell
+    display: table-cell
 
 label.uploadLabel
-    input[type="file"]
-        position fixed
-        top -1000px
+    input[type='file']
+        position: fixed
+        top: -1000px
     span
         @extend .abt-btn
-        @extend .abt-btn.abt-btn-flat
-        display inline-block
-        line-height 36px
+        @extend .abt-btn_flat
+        display: inline-block
+        line-height: 36px
 
 .separator
-    border-right solid 2px $border
-    height 30px
-    display inline-block
-    margin 0 10px
+    border-right: solid 2px $border
+    height: 30px
+    display: inline-block
+    margin: 0 10px
 
 .well
-    background $light-gray
-    border 1px solid $border
-    border-radius 2px
-    margin 0 10px
-    min-height 20px
-    padding 3px !important
+    background: $light-gray
+    border: 1px solid $border
+    border-radius: 2px
+    margin: 0 10px
+    min-height: 20px
+    padding: 3px !important
 
 #button-row
-    background $light-gray
-    border-top solid 1px $border
-    margin 0
-    justify-content space-between
+    background: $light-gray
+    border-top: solid 1px $border
+    margin: 0
+    justify-content: space-between
 
 #type-select-row
 #autocite
 #pubmed-query
-#pagination-row
-    background $light-gray
-    box-shadow $depth-1
+    background: $light-gray
+    box-shadow: $depth-1
 
 #pagination-row
+    @extends #pubmed-query
     justify-content space-between
 
 // ================================
@@ -170,70 +165,70 @@ label.uploadLabel
 // ================================
 
 .result-item
-    border-bottom 1px solid $border
+    border-bottom: 1px solid $border
     & > div:last-of-type
-        padding 0 8px 4px
-        text-align right
-        .abt-btn-submit:first-of-type
-            margin-right 8px
+        padding: 0 8px 4px
+        text-align: right
+        .abt-btn_submit:first-of-type
+            margin-right: 8px
     .result-item--padded
-        padding 0 16px
+        padding: 0 16px
         &:first-of-type
-            padding-top 16px
-            font-size 14px
-            line-height 18px
-            display flex
-            justify-content space-between
-            color $font-light
+            padding-top: 16px
+            font-size: 14px
+            line-height: 18px
+            display: flex
+            justify-content: space-between
+            color: $font-light
         &:nth-of-type(2)
-            font-size 16px
-            font-weight normal
-            line-height 20px
-            padding 8px 16px
+            font-size: 16px
+            font-weight: normal
+            line-height: 20px
+            padding: 8px 16px
         &:nth-of-type(3)
-            color $font-light
-            line-height 18px
-            font-size 14px
-            padding-right 8px
-            padding-left 16px
-            display flex
-            justify-content space-between
+            color: $font-light
+            line-height: 18px
+            font-size: 14px
+            padding-right: 8px
+            padding-left: 16px
+            display: flex
+            justify-content: space-between
 
 // Toggle switch
 .toggle-lbl
-  position relative
-  display block
-  margin 0 10px
-  height 20px
-  width 44px
-  background #898989
-  border-radius 100px
-  cursor pointer
-  transition all .3s ease
+  position: relative
+  display: block
+  margin: 0 10px
+  height: 20px
+  width: 44px
+  background: #898989
+  border-radius: 100px
+  cursor: pointer
+  transition: all .3s ease
   &:after
-    position absolute
-    left -2px
-    top -3px
-    display block
-    width 26px
-    height 26px
-    border-radius 100px
-    background white
-    box-shadow 0px 3px 3px rgba(#000,.05)
-    content ''
-    transition all .3s ease
+    position: absolute
+    left: -2px
+    top: -3px
+    display: block
+    width: 26px
+    height: 26px
+    border-radius: 100px
+    background: white
+    box-shadow: 0px 3px 3px rgba(#000,.05)
+    content: ''
+    transition: all .3s ease
   &:active
     &:after
-      transform scale(1.15, .85)
+      transform: scale(1.15, .85)
 
 .toggle:checked ~ label
-  background lighten(desaturate($blue, 70%), 20)
+  background: lighten(desaturate($blue, 70%), 20)
   &:after
-    left 20px
-    background $blue
+    left: 20px
+    background: $blue
 
 .toggle:disabled ~ label
-  background #D5D5D5
-  pointer-events none
+  background: #D5D5D5
+  pointer-events: none
   &:after
-    background #BCBDBC
+    background: #BCBDBC

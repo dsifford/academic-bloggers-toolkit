@@ -1,4 +1,3 @@
-jest.unmock('../ImportWindow');
 jest.mock('../../../../utils/Modal');
 
 import * as React from 'react';
@@ -56,10 +55,10 @@ describe('<ImportWindow />', () => {
         const payload = [{}];
         const instance = (component.instance() as any);
 
-        expect(submit.props().disabled).toBe(true);
+        expect(submit.props().className).toBe('abt-btn abt-btn_submit abt-btn_disabled');
         instance.setFilename(filename);
         instance.setPayload(payload);
-        expect(submit.props().disabled).toBe(false);
+        expect(submit.props().className).toBe('abt-btn abt-btn_submit');
         submit.simulate('click');
         expect(setParams.callCount).toBe(1);
         expect(setParams.firstCall.args[0]).toEqual({ data: payload });
@@ -84,7 +83,7 @@ describe('<ImportWindow />', () => {
         (component as any).instance().parseFile({target: {result: ''}});
         expect(alert.callCount).toBe(1);
         expect(alert.args[0][0]).toBe(
-            '𝗘𝗿𝗿𝗼𝗿: The following references were unable to be processed: one, two, three'
+            'Error: The following references were unable to be processed: one, two, three'
         );
         stub.restore();
     });

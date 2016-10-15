@@ -1,5 +1,3 @@
-jest.unmock('../PanelButton');
-
 import * as React from 'react';
 import { mount } from 'enzyme';
 import { PanelButton } from '../PanelButton';
@@ -17,7 +15,7 @@ const setup = (tooltip = 'test', disabled = false) => {
 describe('<PanelButton/>', () => {
     it('should create tooltip on mouseover', () => {
         const { button } = setup();
-        expect(button.props().className).toBe('abt-btn abt-btn-flat abt-btn-icon');
+        expect(button.props().className).toBe('abt-btn abt-btn_flat abt-btn_icon');
         button.simulate('mouseenter');
         button.simulate('mouseleave');
     });
@@ -30,6 +28,6 @@ describe('<PanelButton/>', () => {
 
     it('should render disabled', () => {
         const { button } = setup(null, true);
-        expect(button.props().className).toBe('abt-btn abt-btn-flat abt-btn-icon disabled');
+        expect(button.props().className).toBe('abt-btn abt-btn_flat abt-btn_icon abt-btn_disabled');
     });
 });

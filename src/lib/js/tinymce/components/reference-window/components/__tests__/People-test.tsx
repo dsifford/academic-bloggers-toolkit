@@ -1,5 +1,3 @@
-jest.unmock('../People');
-
 import * as React from 'react';
 import { mount } from 'enzyme';
 import * as sinon from 'sinon';
@@ -27,7 +25,7 @@ const setup = (
         removePerson,
         component,
         addButton: component.find('#add-person'),
-        removeButton: component.find('.abt-btn.abt-btn-flat.abt-btn-icon'),
+        removeButton: component.find('.abt-btn.abt-btn_flat.abt-btn_icon'),
         select: component.find('select'),
     };
 };

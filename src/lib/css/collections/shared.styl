@@ -1,87 +1,128 @@
-@require 'mixins'
-@require 'colors'
+@require 'variables'
 
-.abt-admin-tooltip
-    transform scale(0)
-    transform-origin top center
-    z-index 9999
-    background $tooltip-gray
-    border-radius 2px
-    color white
-    display inline-block
-    font-size 10px
-    font-weight 500
-    line-height 14px
-    max-width 170px
-    position fixed
-    top -500px
-    left -500px
-    padding 8px
-    text-align center
-    &.active
-        animation pulse 200ms cubic-bezier(0, 0, 0.2, 1) forwards
+.abt-tooltip
+    transform: scale(0)
+    transform-origin: top center
+    z-index: 9999
+    background: $tooltip-gray
+    border-radius: 2px
+    color: white
+    display: inline-block
+    font-size: 10px
+    font-weight: 500
+    line-height: 14px
+    max-width: 170px
+    position: fixed
+    top: -500px
+    left: -500px
+    padding: 8px
+    text-align: center
+
+.abt-tooltip_active
+    animation: pulse 200ms cubic-bezier(0, 0, 0.2, 1) forwards
 
 .abt-btn
-    btn()
+    {$noselect}
+    background: white
+    color: $dark-gray
+    background-image: none
+    border: none
+    border-radius: 2px
+    box-shadow: $depth-1
+    cursor: pointer
+    display: inline-block
+    font-size: 13px
+    font-weight: 500
+    height: 36px
+    line-height: 36px
+    min-width: 64px
+    outline: 0
+    padding: 0 16px
+    text-align: center
+    text-decoration: none
+    text-transform: uppercase
+    transition: $button-transition
+    vertical-align: middle
+    white-space: nowrap
+    &:hover
+    &:focus
+        box-shadow: $depth-2
+    &:active:hover
+        box-shadow: $depth-3
+        background: $border
 
-.abt-btn-submit
-    btn($blue)
+.abt-btn_disabled
+    pointer-events: none !important
+    color: $disabled !important
+    &.abt-btn_submit
+        opacity: .6
+        box-shadow: none
+        color: white !important
 
-.abt-spinner-container
-    display flex
-    height 100%
-    width 100%
-    pointer-events none
-    align-items center
-    justify-content center
-    &.abt-overlay
-        position absolute
-        background rgba(0, 0, 0, .2)
+.abt-btn_submit
+    background: $blue
+    color: white
+    &:active:hover
+        background: darken($blue, 3)
+
+.abt-btn_flat
+    &.abt-btn_submit
+    &.abt-btn_submit:active
+    &.abt-btn_submit:active:hover
+        color: $blue
+    background: rgba(0, 0, 0, 0)
+    box-shadow: none !important
+    &:hover
+        background: rgba(158,158,158,.2)
+        &:active
+            background: $border
+    &:active
+        background: lighten($border, 5)
+        color: $dark-gray
+
+.abt-btn_icon
+    border-radius: 50%
+    font-size: 24px
+    height: 32px
+    margin: auto 0
+    min-width: 32px
+    width: 32px
+    padding: 0
+    overflow: hidden
+    line-height: normal
+    &:hover
+        color: $dark-gray
+    .dashicons
+        line-height: 32px
+        &.insert-inline
+            transform: rotateY(180deg)
+            padding-left: 5px
+        &.add-reference
+            padding-top: 2px
+        &.remove-reference
+            font-weight: 900
+        &.hamburger-menu
+            padding-right: 5px
+            font-size: 26px
+        &.pin-reflist.fixed
+            transform: translateX(-3px) rotate(-45deg)
 
 .abt-spinner
-    animation rotator 1.4s linear infinite
+    display: flex
+    height: 100%
+    width: 100%
+    pointer-events: none
+    align-items: center
+    justify-content: center
+    svg
+        animation: rotator 1.4s linear infinite
 
-.abt-spinner-path
-    stroke-dasharray 187
-    stroke-dashoffset 0
-    transform-origin center
-    animation dash 1.4s ease-in-out infinite, colors (1.4s * 4) ease-in-out infinite
+.abt-spinner_overlay
+    position: absolute
+    background: rgba(0, 0, 0, .2)
 
-@keyframes pulse
-    0%
-        transform scale(0)
-        opacity 0
-    50%
-        transform scale(0.99)
-    100%
-        transform scale(1)
-        opacity 1
-        visibility visible
-
-@keyframes rotator
-    0%
-        transform rotate(0deg)
-    100%
-        transform rotate(270deg)
-
-@keyframes colors
-    0%
-        stroke #4285F4
-    25%
-        stroke #DE3E35
-    50%
-        stroke #F7C223
-    75%
-        stroke #1B9A59
-    100%
-        stroke #4285F4
-
-@keyframes dash
-    0%
-        stroke-dashoffset 187
-    50%
-        stroke-dashoffset (187 / 4)
-        transform rotate(135deg)
-    100%
-        stroke-dashoffset 187
-        transform:rotate(450deg)
+.abt-spinner__path
+    stroke-dasharray: 187
+    stroke-dashoffset: 0
+    transform-origin: center
+    animation: dash 1.4s ease-in-out infinite, colors (1.4s * 4) ease-in-out infinite

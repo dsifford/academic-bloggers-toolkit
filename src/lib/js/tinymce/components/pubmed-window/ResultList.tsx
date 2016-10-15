@@ -49,12 +49,12 @@ export class ResultList extends React.PureComponent<ResultListProps, {}> {
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     style={{paddingLeft: 8, paddingRight: 8}}
-                                    className="abt-btn-submit abt-btn-flat"
+                                    className="abt-btn abt-btn_submit abt-btn_flat"
                                     children={this.labels.viewReference}
                                 />
                                 <input
                                     type="button"
-                                    className="abt-btn-submit abt-btn-flat"
+                                    className="abt-btn abt-btn_submit abt-btn_flat"
                                     value={this.labels.addReference}
                                     data-pmid={result.uid}
                                     onClick={this.handleClick}

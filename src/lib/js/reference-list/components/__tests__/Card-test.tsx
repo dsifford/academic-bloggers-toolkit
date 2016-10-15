@@ -1,5 +1,3 @@
-jest.unmock('../Card');
-
 import * as React from 'react';
 import { shallow } from 'enzyme';
 import { spy } from 'sinon';
@@ -188,8 +186,8 @@ const setup = (data: CSL.Data, selected: boolean = false) => {
     );
     return {
         component,
-        date: component.find('.abt-card-date'),
-        people: component.find('.abt-card-people'),
+        date: component.find('.abt-card__date'),
+        people: component.find('.abt-card__people'),
         s,
     };
 };
@@ -197,7 +195,7 @@ const setup = (data: CSL.Data, selected: boolean = false) => {
 describe('<Card/>', () => {
     it('should render selected', () => {
         const { component } = setup(testData['noAuthors'], true);
-        expect(component.first().props().className).toBe('abt-card selected');
+        expect(component.first().props().className).toBe('abt-card abt-card_selected');
     });
 
     it('should render unselected', () => {

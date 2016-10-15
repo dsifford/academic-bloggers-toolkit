@@ -3,71 +3,76 @@
 // TinyMCE editor only
 #tinymce
     .abt_cite
-        font-size 0.8em
+        font-size: 0.8em
         sup
-            display inline-block
-            top -3px
-            font-size 12px
+            display: inline-block
+            top: -3px
+            font-size: 12px
     #abt-footnote
-        margin-bottom 28px
-        background $light-gray
-        padding 10px
+        margin-bottom: 28px
+        background: $light-gray
+        padding: 10px
         .abt-footnote-heading
-            font-weight 600
+            font-weight: 600
         .abt-footnote-item
-            font-size 12px
+            font-size: 12px
             .note-number
-                font-weight 600
-                margin-right 3px
+                font-weight: 600
+                margin-right: 3px
     #abt-smart-bib
     .abt-static-bib
-        display table
-        background $light-gray
-        padding 10px
+        display: table
+        background: $light-gray
+        padding: 10px
         > div
-            font-size 12px
+            font-size: 12px
         h3
-            font-size 1.1em
-            margin-bottom 5px
+            font-size: 1.1em
+            margin-bottom: 5px
         .abt-url
-            display inline
-            margin-left 3px
+            display: inline
+            margin-left: 3px
+    .abt-broken-citation
+        color: red
+        font-weight: bold
+        sup
+            @extends #tinymce .abt_cite sup
 
     // Unsets the "margin" style for tinymce since it doesn't look right
     .csl-entry.margin
-        display table-row
+        display: table-row
         .csl-left-margin
-            display table-cell
-            text-align right
+            display: table-cell
+            text-align: right
         .csl-right-inline
-            display table-cell
+            display: table-cell
 
 
 #abt-footnote
-    margin-bottom 1em
+    margin-bottom: 1em
     .abt-footnote-heading
-        font-weight 600
+        font-weight: 600
     .abt-footnote-item
         .note-number
-            margin-right 0.5em
-            font-weight 600
+            margin-right: 0.5em
+            font-weight: 600
 
 .csl-entry
     &.hanging-indent
-        padding-left 25px
-        text-indent -25px
+        padding-left: 25px
+        text-indent: -25px
     &.flush
-        display table-row
+        display: table-row
         .csl-left-margin
-            display table-cell
-            text-align right
+            display: table-cell
+            text-align: right
         .csl-right-inline
-            display table-cell
+            display: table-cell
     &.margin
-        display flex
-        justify-content flex-end
+        display: flex
+        justify-content: flex-end
         .csl-right-inline
-            min-width 100%
+            min-width: 100%
     .csl-left-margin
-        padding 0 8px 0 0
-        font-weight 600
+        padding: 0 8px 0 0
+        font-weight: 600

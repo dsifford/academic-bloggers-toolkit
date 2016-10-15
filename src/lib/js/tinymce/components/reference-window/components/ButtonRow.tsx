@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { observer } from 'mobx-react';
 
-import { createTooltip, destroyTooltip } from '../../../../utils/Tooltips';
+import { ToggleSwitch } from '../../../../components/ToggleSwitch';
 
 interface Props {
     addManually: boolean;
@@ -29,10 +29,6 @@ export class ButtonRow extends React.PureComponent<Props, {}> {
         });
     }
 
-    handleMouseOver = (e) => {
-        createTooltip(e.target, e.target.getAttribute('data-tooltip'), 'left');
-    }
-
     render() {
         return(
             <div id="button-row" className="row">
@@ -41,7 +37,7 @@ export class ButtonRow extends React.PureComponent<Props, {}> {
                         id="addManually"
                         onClick={this.props.toggleManual}
                         type="button"
-                        className="abt-btn abt-btn-flat"
+                        className="abt-btn abt-btn_flat"
                         value={
                             this.props.addManually === false
                             ? this.labels.addManually
@@ -53,36 +49,23 @@ export class ButtonRow extends React.PureComponent<Props, {}> {
                         id="searchPubmed"
                         onClick={this.searchPubmedClick}
                         type="button"
-                        className="abt-btn abt-btn-flat"
+                        className="abt-btn abt-btn_flat"
                         value={this.labels.searchPubmed}
                     />
                 </div>
                 <div>
                     <span className="separator" />
                 </div>
-                <div>
-                    <input
-                        type="checkbox"
-                        id="inline-toggle"
-                        className="toggle hidden"
-                        checked={this.props.attachInline}
-                        aria-checked={this.props.attachInline}
-                        onChange={this.props.attachInlineToggle}
-                    />
-                    <label
-                        htmlFor="inline-toggle"
-                        className="toggle-lbl"
-                        role="tooltip"
-                        data-tooltip={this.labels.insertInline}
-                        onMouseOver={this.handleMouseOver}
-                        onMouseOut={destroyTooltip}
-                    />
-                </div>
+                <ToggleSwitch
+                    onChange={this.props.attachInlineToggle}
+                    label={this.labels.insertInline}
+                    checked={this.props.attachInline}
+                />
                 <div>
                     <input
                         id="submit-btn"
                         type="submit"
-                        className="abt-btn-submit"
+                        className="abt-btn abt-btn_submit"
                         value={this.labels.addReference}
                     />
                 </div>

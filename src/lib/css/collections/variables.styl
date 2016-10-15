@@ -1,3 +1,6 @@
+@require 'colors'
+
+// Shadows
 $depth-1 = 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24)
 $depth-2 = 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)
 $depth-3 = 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23)
@@ -13,3 +16,53 @@ $animation-curve-fast-out-linear-in = cubic-bezier(0.4, 0, 1, 1)
 $animation-curve-default = $animation-curve-fast-out-slow-in
 
 $button-transition = box-shadow 0.2s $animation-curve-fast-out-linear-in, background-color 0.2s $animation-curve-default, color 0.2s $animation-curve-default
+
+// Misc
+$noselect =
+    -webkit-appearance: none
+    -webkit-touch-callout: none
+    -webkit-user-select: none
+    -khtml-user-select: none
+    -moz-user-select: none
+    -ms-user-select: none
+    user-select: none
+
+
+@keyframes colors
+    0%
+        stroke: $spinner.first
+    25%
+        stroke: $spinner.second
+    50%
+        stroke: $spinner.third
+    75%
+        stroke: $spinner.fourth
+    100%
+        stroke: $spinner.first
+
+@keyframes dash
+    0%
+        stroke-dashoffset: 187
+    50%
+        stroke-dashoffset: (187 / 4)
+        transform: rotate(135deg)
+    100%
+        stroke-dashoffset: 187
+        transform: rotate(450deg)
+
+@keyframes pulse
+    0%
+        transform: scale(0)
+        opacity: 0
+    50%
+        transform: scale(0.99)
+    100%
+        transform: scale(1)
+        opacity: 1
+        visibility: visible
+
+@keyframes rotator
+    0%
+        transform: rotate(0deg)
+    100%
+        transform: rotate(270deg)

@@ -15,8 +15,7 @@ export class MetaFields extends React.Component<MetaFieldProps, {}> {
 
     @action
     updateField = (e: React.FormEvent<HTMLInputElement>) => {
-        const target = e.target as HTMLInputElement;
-        this.props.meta.set(target.id, target.value);
+        this.props.meta.set(e.currentTarget.id, e.currentTarget.value);
     }
 
     render() {

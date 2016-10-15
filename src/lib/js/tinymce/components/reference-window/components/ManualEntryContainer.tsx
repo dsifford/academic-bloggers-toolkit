@@ -39,12 +39,11 @@ export class ManualEntryContainer extends React.PureComponent<ManualEntryProps, 
         this.element = c;
     }
 
-    handleTypeChange = (e) => {
-        e.preventDefault();
-        this.props.typeChange((e.target as HTMLInputElement).value);
+    handleTypeChange = (e: React.FormEvent<HTMLSelectElement>) => {
+        this.props.typeChange(e.currentTarget.value);
     }
 
-    getHeight = () => document.getElementById('main-container').getBoundingClientRect().height;
+    getHeight = () => document.getElementById('abt-root').getBoundingClientRect().height;
 
     render() {
         const itemType: string = this.props.manualData.get('type');
@@ -184,9 +183,12 @@ export class AutoCite extends React.Component<AutoCiteProps, {}> {
                 <div>
                     <input
                         type="button"
-                        className="abt-btn abt-btn-flat"
                         aria-label={this.labels.search}
-                        disabled={this.query.length === 0 || (this.input.validity ? !this.input.validity.valid : true)}
+                        className={
+                            this.query.length === 0 || (this.input.validity ? !this.input.validity.valid : true)
+                            ? 'abt-btn abt-btn_flat abt-btn_disabled'
+                            : 'abt-btn abt-btn_flat'
+                        }
                         value={this.labels.search}
                         onClick={this.handleQuery}
                     />

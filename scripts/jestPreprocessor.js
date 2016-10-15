@@ -1,6 +1,8 @@
 /* eslint-env node, es6 */
 const tsc = require('typescript');
 const fs = require('fs');
+const tsconfig = require('../tsconfig.json').compilerOptions;
+
 const DEBUG_FILE = false;
 
 module.exports = {
@@ -14,10 +16,10 @@ module.exports = {
 
 
 // Debug function to help weed out transpiled nonsense that negatively affects testing
-function transpile(src, path, debugFile) {
-    src = src.replace(/^import '.+?\.css';/gm, '');
+function transpile(s, path, debugFile) {
+    const src = s.replace(/^import '.+?\.css';/gm, '');
     const code = tsc.transpile(
-        src, require('../tsconfig.json').compilerOptions,
+        src, tsconfig,
         path, []
     )
     .replace(/(}\)\()(.*\|\|.*;)/g, '$1/* istanbul ignore next */$2')
@@ -29,8 +31,6 @@ function transpile(src, path, debugFile) {
 
     if (!debugFile) return code;
 
-    const fs = require('fs');
-    if (path.endsWith(debugFile)) fs.writeFileSync('DEBUG_FILE.js', code);
+    if (path.endsWith(debugFile)) fs.writeFileSync('./tmp/DEBUG_FILE.js', code);
     return code;
-
 }

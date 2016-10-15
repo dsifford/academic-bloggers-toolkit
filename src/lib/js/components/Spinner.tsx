@@ -9,11 +9,13 @@ interface Props {
     height?: string|Function;
     /* Add this for a background overlay */
     overlay?: boolean;
+    /* Additional style properties for the containing DIV */
+    style?: React.CSSProperties;
 }
 
 export class Spinner extends React.PureComponent<Props, {}> {
 
-    style: React.CSSProperties = {};
+    style: React.CSSProperties = Object.assign({}, this.props.style);
 
     constructor(props) {
         super(props);
@@ -34,31 +36,28 @@ export class Spinner extends React.PureComponent<Props, {}> {
 
     render() {
         const cn = this.props.overlay
-            ? 'abt-spinner-container abt-overlay'
-            : 'abt-spinner-container';
+            ? 'abt-spinner abt-spinner_overlay'
+            : 'abt-spinner';
         return (
             <div
                 className={cn}
                 style={this.style}
             >
-                <div style={{lineHeight: 0}}>
-                    <svg
-                        className="abt-spinner"
-                        width={this.props.size}
-                        height={this.props.size}
-                        viewBox="0 0 66 66"
-                    >
-                        <circle
-                            className="abt-spinner-path"
-                            fill="none"
-                            strokeWidth="6"
-                            strokeLinecap="round"
-                            cx="33"
-                            cy="33"
-                            r="30"
-                        />
-                    </svg>
-                </div>
+                <svg
+                    width={this.props.size}
+                    height={this.props.size}
+                    viewBox="0 0 66 66"
+                >
+                    <circle
+                        className="abt-spinner__path"
+                        fill="none"
+                        strokeWidth="6"
+                        strokeLinecap="round"
+                        cx="33"
+                        cy="33"
+                        r="30"
+                    />
+                </svg>
             </div>
         );
     }

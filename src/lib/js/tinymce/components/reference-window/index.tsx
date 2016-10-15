@@ -7,5 +7,5 @@ useStrict(true);
 
 ReactDOM.render(
   <ReferenceWindow />,
-  document.getElementById('main-container')
+  document.getElementById('abt-root')
 );

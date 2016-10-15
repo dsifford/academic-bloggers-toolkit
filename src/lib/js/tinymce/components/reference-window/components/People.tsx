@@ -16,9 +16,11 @@ export class People extends React.PureComponent<PeopleProps, {}> {
     labels = ((top as any).ABT_i18n as BackendGlobals.ABT_i18n).tinymce.referenceWindow.people;
 
     handleChange = (e: React.FormEvent<HTMLInputElement|HTMLSelectElement>) => {
-        e.preventDefault();
-        const target = e.target as HTMLInputElement|HTMLSelectElement;
-        this.props.changePerson(target.getAttribute('data-index'), target.getAttribute('data-field'), target.value);
+        this.props.changePerson(
+            e.currentTarget.getAttribute('data-index'),
+            e.currentTarget.getAttribute('data-field'),
+            e.currentTarget.value,
+        );
     }
 
     handleAddPerson = () => {
@@ -26,8 +28,7 @@ export class People extends React.PureComponent<PeopleProps, {}> {
     }
 
     handleRemovePerson = (e: React.MouseEvent<HTMLInputElement>) => {
-        e.preventDefault();
-        this.props.removePerson((e.target as HTMLInputElement).getAttribute('data-index'));
+        this.props.removePerson(e.currentTarget.getAttribute('data-index'));
     }
 
     render() {
@@ -55,7 +56,7 @@ export class People extends React.PureComponent<PeopleProps, {}> {
                         <input
                             type="button"
                             id="add-person"
-                            className="abt-btn abt-btn-flat"
+                            className="abt-btn abt-btn_flat"
                             value={this.labels.add}
                             onClick={this.handleAddPerson}
                         />
@@ -79,20 +80,21 @@ interface PersonProps {
 @observer
 class Person extends React.PureComponent<PersonProps, {}> {
     render() {
+        const { change, index, labels, person, remove } = this.props;
         return (
             <div className="row collapse">
                 <div>
                     <select
-                        value={this.props.person.type}
-                        onChange={this.props.change}
-                        data-index={this.props.index}
+                        value={person.type}
+                        onChange={change}
+                        data-index={index}
                         data-field="type"
                     >
                         { this.props.fieldMap.people.map((p, j: number) =>
                             <option
                                 key={`peopleSelect-${j}`}
                                 id={`peopleSelect-${j}`}
-                                aria-selected={this.props.person.type === p.type}
+                                aria-selected={person.type === p.type}
                                 value={p.type}
                                 children={p.label}
                             />
@@ -102,37 +104,37 @@ class Person extends React.PureComponent<PersonProps, {}> {
                 <div className="flex">
                     <input
                         type="text"
-                        id={`person-family-${this.props.index}`}
-                        placeholder={this.props.labels.surname}
-                        aria-label={this.props.labels.surname}
-                        value={this.props.person.family}
-                        data-index={this.props.index}
+                        id={`person-family-${index}`}
+                        placeholder={labels.surname}
+                        aria-label={labels.surname}
+                        value={person.family}
+                        data-index={index}
                         data-field="family"
-                        onChange={this.props.change}
+                        onChange={change}
                         required={true}
                     />
                 </div>
                 <div className="flex">
                     <input
                         type="text"
-                        id={`person-given-${this.props.index}`}
-                        placeholder={this.props.labels.given}
-                        aria-label={this.props.labels.given}
-                        value={this.props.person.given}
+                        id={`person-given-${index}`}
+                        placeholder={labels.given}
+                        aria-label={labels.given}
+                        value={person.given}
                         data-field="given"
-                        data-index={this.props.index}
-                        onChange={this.props.change}
+                        data-index={index}
+                        onChange={change}
                         required={true}
                     />
                 </div>
                 <div>
                     <input
                         type="button"
-                        className="abt-btn abt-btn-flat abt-btn-icon"
-                        data-index={this.props.index}
+                        className="abt-btn abt-btn_flat abt-btn_icon"
+                        data-index={index}
                         style={{fontSize: '1.2em', fontWeight: 'bold'}}
                         value="⨯"
-                        onClick={this.props.remove}
+                        onClick={remove}
                     />
                 </div>
             </div>

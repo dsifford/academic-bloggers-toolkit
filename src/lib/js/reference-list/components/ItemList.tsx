@@ -28,9 +28,14 @@ export class ItemList extends React.PureComponent<Props, {}> {
         if (!items) return null;
         return (
             <div>
-                <div className="group-label" role="menubar" onClick={this.singleClick} onDoubleClick={this.doubleClick}>
-                    <div className="label" children={children} />
-                    <div className="badge" children={items.length} />
+                <div
+                    className="abt-item-heading"
+                    role="menubar"
+                    onClick={this.singleClick}
+                    onDoubleClick={this.doubleClick}
+                >
+                    <div className="abt-item-heading__label" children={children} />
+                    <div className="abt-item-heading__badge" children={items.length} />
                 </div>
                 { isOpen &&
                     <Items
@@ -68,8 +73,12 @@ class Items extends React.Component<ItemsProps, {}> {
                 ref={this.bindRefs}
                 onWheel={this.handleScroll}
                 id={this.props.id}
-                className="list"
-                style={this.props.style}
+                className="abt-items"
+                style={Object.assign({}, this.props.style, {
+                    overflowX: 'hidden',
+                    overflowY: 'auto',
+                    transition: '.2s',
+                })}
             >
                 {
                     this.props.items.map(r =>

@@ -18,75 +18,97 @@ declare namespace BackendGlobals {
 
     // tslint:disable-next-line
     interface ABT_i18n {
-        citationTypes: ABT.CitationTypes;
-        fieldmaps: ABT.FieldMappings;
-        referenceList: {
-            menu: {
-                stylePlaceholder: string;
-                tooltips: {
-                    destroy: string;
-                    importRIS: string;
-                    refresh: string;
-                    help: string;
-                    staticPubList: string;
+        readonly citationTypes: ABT.CitationTypes;
+        readonly errors: {
+            readonly badRequest: 'Request not valid';
+            readonly broken: 'BROKEN!';
+            readonly denied: 'Site denied request';
+            readonly filetypeError: 'The file could not be processed. Are you sure it\'s a .RIS (Refman) file?';
+            readonly identifiersNotFound: {
+                readonly all: 'The following identifiers could not be found';
+                readonly some: 'The following identifiers could not be found';
+            };
+            readonly networkError: 'Network Error';
+            readonly noResults: 'Your search returned 0 results';
+            readonly prefix: 'Error';
+            readonly risLeftovers: 'The following references were unable to be processed';
+            readonly statusError: 'Request returned a non-200 status code';
+            readonly warnings: {
+                readonly warning: 'Warning';
+                readonly reason: 'Reason';
+                readonly noBib: {
+                    readonly message: 'Cannot create publication list for currently selected citation style';
+                    readonly reason: 'Style does not include bibliography';
                 };
             };
-            referenceList: {
-                citedItems: string;
-                tooltips: {
-                    add: string;
-                    insert: string;
-                    pin: string;
-                    remove: string;
-                };
-                uncitedItems: string;
-                noBibAlertWarning: string;
-                noBibAlertReason: string;
+            readonly unexpected: {
+                readonly message: 'An unexpected error occurred';
+                readonly reportInstructions: 'Please report this error, including the steps taken to trigger it, here: \nhttps://github.com/dsifford/academic-bloggers-toolkit/issues'; // tslint:disable-line
             };
         };
-        tinymce: {
-            importWindow: {
-                title: string;
-                filetypeError: string;
-                leftovers: string;
-                importBtn: string;
-                upload: string;
+        readonly fieldmaps: ABT.FieldMappings;
+        readonly referenceList: {
+            readonly menu: {
+                tooltips: {
+                    readonly destroy: 'Delete all references';
+                    readonly help: 'Usage instructions';
+                    readonly importRIS: 'Import references from RIS file';
+                    readonly refresh: 'Refresh reference list';
+                    readonly staticPubList: 'Insert Static Publication List';
+                };
             };
-            pubmedWindow: {
-                title: string;
-                addReference: string;
-                viewReference: string;
-                next: string;
-                previous: string;
-                search: string;
+            readonly referenceList: {
+                readonly citedItems: 'Cited Items';
+                readonly tooltips: {
+                    readonly add: 'Add reference to reference list';
+                    readonly insert: 'Insert selected references';
+                    readonly pin: 'Pin reference list to visible window';
+                    readonly remove: 'Remove selected references from reference list';
+                };
+                readonly uncitedItems: 'Uncited Items';
             };
-            referenceWindow: {
-                referenceWindow: {
-                    title: string;
+        };
+        readonly tinymce: {
+            readonly importWindow: {
+                readonly importBtn: 'Import';
+                readonly title: 'Import References from RIS File';
+                readonly upload: 'Choose File';
+            };
+            readonly pubmedWindow: {
+                readonly addReference: 'Select';
+                readonly next: 'Next';
+                readonly previous: 'Previous';
+                readonly search: 'Search';
+                readonly title: 'Search PubMed for Reference';
+                readonly viewReference: 'View';
+            };
+            readonly referenceWindow: {
+                readonly buttonRow: {
+                    readonly addManually: 'Add Manually';
+                    readonly addReference: 'Add Reference';
+                    readonly addWithIdentifier: 'Add with Identifier';
+                    readonly insertInline: 'Insert citation inline';
+                    readonly pubmedWindowTitle: 'Search PubMed for Reference';
+                    readonly searchPubmed: 'Search PubMed';
                 };
-                buttonRow: {
-                    addManually: string;
-                    addReference: string;
-                    addWithIdentifier: string;
-                    insertInline: string;
-                    pubmedWindowTitle: string;
-                    searchPubmed: string;
+                readonly identifierInput: {
+                    readonly label: 'PMID/DOI';
                 };
-                identifierInput: {
-                    label: string;
+                readonly manualEntryContainer: {
+                    readonly autocite: 'Autocite';
+                    readonly citationType: 'Citation Type';
+                    readonly ISBN: 'ISBN';
+                    readonly search: 'Search';
+                    readonly URL: 'URL';
                 };
-                manualEntryContainer: {
-                    citationType: string;
-                    autocite: string;
-                    URL: string;
-                    ISBN: string;
-                    search: string;
+                readonly people: {
+                    readonly add: 'Add Contributor';
+                    readonly contributors: 'Contributors';
+                    readonly given: 'Given Name, M.I.';
+                    readonly surname: 'Surname';
                 };
-                people: {
-                    add: string;
-                    contributors: string;
-                    given: string;
-                    surname: string;
+                readonly referenceWindow: {
+                    readonly title: 'Add Reference';
                 };
             };
         };

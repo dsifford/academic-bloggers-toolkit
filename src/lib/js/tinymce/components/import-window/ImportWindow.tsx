@@ -15,6 +15,7 @@ interface Props {
 export class ImportWindow extends React.Component<Props, {}> {
 
     labels = ((top as any).ABT_i18n as BackendGlobals.ABT_i18n).tinymce.importWindow;
+    errors = ((top as any).ABT_i18n as BackendGlobals.ABT_i18n).errors;
     modal: Modal = new Modal(this.labels.title);
     wm: TinyMCE.WindowManager = this.props.wm;
 
@@ -47,7 +48,7 @@ export class ImportWindow extends React.Component<Props, {}> {
 
         let payload = parser.parse();
         if (payload.length === 0) {
-            this.wm.alert(`𝗘𝗿𝗿𝗼𝗿: ${this.labels.filetypeError}`);
+            this.wm.alert(`${this.errors.prefix}: ${this.errors.filetypeError}`);
             return;
         }
 
@@ -60,7 +61,7 @@ export class ImportWindow extends React.Component<Props, {}> {
         const leftovers = parser.unsupportedRefs;
 
         if (leftovers.length > 0) {
-            this.wm.alert(`𝗘𝗿𝗿𝗼𝗿: ${this.labels.leftovers}: ${leftovers.join(', ')}`);
+            this.wm.alert(`${this.errors.prefix}: ${this.errors.risLeftovers}: ${leftovers.join(', ')}`);
         }
 
         this.setPayload(payload);
@@ -84,7 +85,7 @@ export class ImportWindow extends React.Component<Props, {}> {
                     <label className="uploadLabel">
                         <input
                             type="file"
-                            className="abt-btn abt-btn-flat"
+                            className="abt-btn abt-btn_flat"
                             id="uploadField"
                             required={true}
                             onChange={this.handleFileUpload}
@@ -97,10 +98,13 @@ export class ImportWindow extends React.Component<Props, {}> {
                 <div>
                     <input
                         type="button"
-                        className="abt-btn-submit"
+                        className={
+                            this.payload.length === 0
+                            ? 'abt-btn abt-btn_submit abt-btn_disabled'
+                            : 'abt-btn abt-btn_submit'
+                        }
                         id="submitbtn"
                         value={this.labels.importBtn}
-                        disabled={this.payload.length === 0}
                         onClick={this.handleSubmit}
                     />
                 </div>

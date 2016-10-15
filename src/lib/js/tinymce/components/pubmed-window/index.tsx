@@ -8,5 +8,5 @@ useStrict(true);
 
 ReactDOM.render(
   <PubmedWindow />,
-  document.getElementById('main-container')
+  document.getElementById('abt-root')
 );
