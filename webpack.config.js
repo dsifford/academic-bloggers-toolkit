@@ -53,7 +53,7 @@ module.exports = {
     },
     resolve: {
         modules: [path.resolve(__dirname, 'src'), 'node_modules'],
-        extensions: ['', '.webpack.js', '.web.js', '.ts', '.tsx', '.js'],
+        extensions: ['*', '.webpack.js', '.web.js', '.ts', '.tsx', '.js'],
         mainFiles: ['index'],
         mainFields: ['main', 'browser'],
         descriptionFiles: ['package.json'],
