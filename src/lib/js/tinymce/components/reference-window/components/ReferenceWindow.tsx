@@ -3,10 +3,12 @@ import { Modal } from '../../../../utils/Modal';
 import { observable, computed, IObservableArray, reaction, map, action, toJS } from 'mobx';
 import { observer } from 'mobx-react';
 import { getFromURL, getFromISBN } from '../../../../utils/Externals';
-// import DevTools, { configureDevtool } from 'mobx-react-devtools';
-// configureDevtool({
-//   logFilter: change => change.type === 'action',
-// });
+import DevTools, { configureDevtool } from '../../../../utils/DevTools';
+
+const DevTool = DevTools();
+configureDevtool({
+  logFilter: change => change.type === 'action',
+});
 
 import { IdentifierInput } from './IdentifierInput';
 import { ManualEntryContainer } from './ManualEntryContainer';
@@ -189,7 +191,7 @@ export class ReferenceWindow extends React.Component<{}, {}> {
     render() {
         return(
             <div onWheel={this.preventScrollPropagation}>
-                {/* <DevTools /> */}
+                <DevTool />
                 <form onSubmit={this.handleSubmit}>
                     { !this.addManually &&
                         <IdentifierInput

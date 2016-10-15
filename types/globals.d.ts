@@ -3,6 +3,8 @@ interface Window {
   DocumentTouch?;
 }
 
+declare const __DEV__: boolean;
+
 declare const ABT_CitationStyles: {label: string, value: string}[];
 
 declare const Rollbar: {

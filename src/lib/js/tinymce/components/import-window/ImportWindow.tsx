@@ -1,11 +1,13 @@
 import * as React from 'react';
 import { observable, action, toJS } from 'mobx';
 import { observer } from 'mobx-react';
-// import DevTools from 'mobx-react-devtools';
+import DevTools from '../../../utils/DevTools';
 
 import { Modal } from '../../../utils/Modal';
 import { RISParser } from '../../../utils/RISParser';
 import { generateID } from '../../../utils/HelperFunctions';
+
+const DevTool = DevTools();
 
 interface Props {
     wm: TinyMCE.WindowManager;
@@ -80,7 +82,7 @@ export class ImportWindow extends React.Component<Props, {}> {
     render() {
         return (
             <div className="row">
-                {/* <DevTools /> */}
+                <DevTool />
                 <div>
                     <label className="uploadLabel">
                         <input

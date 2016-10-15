@@ -96,6 +96,7 @@
         "src/lib/js/utils/__tests__/Tooltips-test.ts",
         "src/lib/js/utils/Constants.ts",
         "src/lib/js/utils/CSLProcessor.ts",
+        "src/lib/js/utils/DevTools.ts",
         "src/lib/js/utils/Externals.ts",
         "src/lib/js/utils/HelperFunctions.ts",
         "src/lib/js/utils/Modal.ts",

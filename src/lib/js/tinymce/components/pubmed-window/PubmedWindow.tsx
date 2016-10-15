@@ -1,13 +1,15 @@
 import * as React from 'react';
 import { observable, computed, reaction, action } from 'mobx';
 import { observer } from 'mobx-react';
-// import DevTools from 'mobx-react-devtools';
+import DevTools from '../../../utils/DevTools';
 
 import { Modal } from '../../../utils/Modal';
 import { pubmedQuery } from '../../../utils/Externals';
 import { ResultList } from './ResultList';
 import { Paginate } from './Paginate';
 import { Spinner } from '../../../components/Spinner';
+
+const DevTool = DevTools();
 
 @observer
 export class PubmedWindow extends React.Component<{}, {}> {
@@ -119,7 +121,7 @@ export class PubmedWindow extends React.Component<{}, {}> {
 
         return (
             <div onWheel={this.preventScrollPropagation}>
-                {/* <DevTools /> */}
+                <DevTool />
                 <form id="query" onSubmit={this.sendQuery}>
                     <div className="row" id="pubmed-query">
                         <div className="flex">
