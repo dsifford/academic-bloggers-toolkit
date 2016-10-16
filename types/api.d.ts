@@ -1,5 +1,23 @@
 // tslint:disable no-namespace no-reserved-keywords
 
+declare namespace CrossRef {
+
+    interface Agency {
+        /* "ok" if response is good */
+        status: string;
+        'message-type': string;
+        'message-version': string;
+        message: {
+            DOI: string;
+            agency: {
+                id: 'crossref'|'datacite'|'medra';
+                label: string;
+            };
+        };
+    }
+
+}
+
 declare namespace GoogleBooks {
 
     type industryIdentifier = 'ISBN_10'|'ISBN_13';

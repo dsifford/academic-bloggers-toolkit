@@ -106,7 +106,8 @@
       "!**/{vendor,__tests__}/**",
       "!src/lib/js/Frontend.ts",
       "!src/**/index.{ts,tsx}",
-      "!src/lib/js/utils/{TinymceFunctions,Externals,DevTools}.ts"
+      "!src/lib/js/utils/{TinymceFunctions,DevTools}.ts",
+      "!src/lib/js/utils/resolvers/*"
     ],
     "coverageDirectory": "tmp/coverage",
     "setupFiles": [

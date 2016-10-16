@@ -16,8 +16,8 @@ interface Props {
 @observer
 export class ImportWindow extends React.Component<Props, {}> {
 
-    labels = ((top as any).ABT_i18n as BackendGlobals.ABT_i18n).tinymce.importWindow;
-    errors = ((top as any).ABT_i18n as BackendGlobals.ABT_i18n).errors;
+    labels = top.ABT_i18n.tinymce.importWindow;
+    errors = top.ABT_i18n.errors;
     modal: Modal = new Modal(this.labels.title);
     wm: TinyMCE.WindowManager = this.props.wm;
 

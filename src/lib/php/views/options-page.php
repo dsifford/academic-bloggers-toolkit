@@ -27,7 +27,7 @@
 
             <!-- PHP DOM EXTENSION CHECK -->
             <tr class="alternate">
-                <td class="row-title"><?php _e('PHP <code>dom</code> Extension', 'academic-bloggers-toolkit') ?></td>
+                <td class="row-title"><?php printf(__('PHP %s Extension', 'academic-bloggers-toolkit'), '<code>dom</code>') ?></td>
                 <td>
                     <?php
                         if (extension_loaded('dom')) {
@@ -41,7 +41,7 @@
                 <td>
                     <?php
                         if (!extension_loaded('dom')) {
-                            echo __('The <code>dom</code> PHP extension is required for some plugin features.', 'academic-bloggers-toolkit') . '<br><a href="http://php.net/manual/en/intro.dom.php" target="_blank">' . __('Click here for installation instructions', 'academic-bloggers-toolkit') . '</a>.';
+                            echo sprintf(__('The %s PHP extension is required for some plugin features.', 'academic-bloggers-toolkit'), '<code>dom</code>') . '<br><a href="http://php.net/manual/en/intro.dom.php" target="_blank">' . __('Click here for installation instructions', 'academic-bloggers-toolkit') . '</a>.';
                         }
                     ?>
                 </td>
@@ -50,7 +50,7 @@
 
             <!-- PHP LIBXML EXTENSION CHECK -->
             <tr>
-                <td class="row-title"><?php _e('PHP <code>libxml</code> Extension', 'academic-bloggers-toolkit') ?></td>
+                <td class="row-title"><?php printf(__('PHP %s Extension', 'academic-bloggers-toolkit'), '<code>libxml</code>') ?></td>
                 <td>
                     <?php
                         if (extension_loaded('libxml')) {
@@ -64,7 +64,29 @@
                 <td>
                     <?php
                         if (!extension_loaded('libxml')) {
-                            echo __('The <code>libxml</code> PHP extension is required for some plugin features.', 'academic-bloggers-toolkit') . '<br><a href="http://php.net/manual/en/intro.libxml.php" target="_blank">' . __('Click here for installation instructions', 'academic-bloggers-toolkit') . '</a>.';
+                            echo sprintf(__('The %s PHP extension is required for some plugin features.', 'academic-bloggers-toolkit'), '<code>libxml</code>') . '<br><a href="http://php.net/manual/en/intro.libxml.php" target="_blank">' . __('Click here for installation instructions', 'academic-bloggers-toolkit') . '</a>.';
+                        }
+                    ?>
+                </td>
+            </tr>
+
+            <!-- PHP LIBCURL EXTENSION CHECK -->
+            <tr>
+                <td class="row-title"><?php printf(__('PHP %s Extension', 'academic-bloggers-toolkit'), '<code>curl</code>') ?></td>
+                <td>
+                    <?php
+                        if (extension_loaded('curl')) {
+                            _e('Enabled', 'academic-bloggers-toolkit');
+                        }
+                        else {
+                            echo "<span style='font-weight: bold; color: red;'>" . __('Disabled', 'academic-bloggers-toolkit') . "</span>";
+                        }
+                    ?>
+                </td>
+                <td>
+                    <?php
+                        if (!extension_loaded('curl')) {
+                            echo sprintf(__('The %s PHP extension is required for some plugin features.', 'academic-bloggers-toolkit'), '<code>curl</code>') . '<br><a href="http://php.net/manual/en/intro.curl.php" target="_blank">' . __('Click here for installation instructions', 'academic-bloggers-toolkit') . '</a>.';
                         }
                     ?>
                 </td>
@@ -235,6 +257,10 @@
                         <tr>
                             <td><strong><?php _e('Bibliography', 'academic-bloggers-toolkit') ?></strong></td>
                             <td><code>#abt-smart-bib, #abt-smart-bib h3, #abt-smart-bib > div, .abt-url</code></td>
+                        </tr>
+                        <tr>
+                            <td><strong><?php _e('Static Publication Lists', 'academic-bloggers-toolkit') ?></strong></td>
+                            <td><code>.abt-static-bib, .abt-static-bib h3, .abt-static-bib > div, .abt-url</code></td>
                         </tr>
                         <tr>
                             <td><strong><?php _e('Footnotes', 'academic-bloggers-toolkit') ?></strong></td>

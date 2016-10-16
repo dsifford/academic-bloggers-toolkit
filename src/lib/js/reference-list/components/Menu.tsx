@@ -4,7 +4,6 @@ import { observable, action } from 'mobx';
 import { observer } from 'mobx-react';
 import { PanelButton } from './PanelButton';
 
-declare const ABT_i18n: BackendGlobals.ABT_i18n;
 declare const ABT_Custom_CSL: BackendGlobals.ABT_Custom_CSL;
 
 interface Props extends React.HTMLProps<HTMLDivElement> {
@@ -22,7 +21,7 @@ interface StyleOption {
 export class Menu extends React.PureComponent<Props, {}> {
 
     styles: StyleOption[];
-    labels = ABT_i18n.referenceList.menu;
+    labels = top.ABT_i18n.referenceList.menu;
 
     @observable
     selected = {

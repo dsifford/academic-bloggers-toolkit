@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Modal } from '../../../../utils/Modal';
 import { observable, computed, IObservableArray, reaction, map, action, toJS } from 'mobx';
 import { observer } from 'mobx-react';
-import { getFromURL, getFromISBN } from '../../../../utils/Externals';
+import { getFromURL, getFromISBN } from '../../../../utils/resolvers/';
 import DevTools, { configureDevtool } from '../../../../utils/DevTools';
 
 const DevTool = DevTools();
@@ -17,7 +17,7 @@ import { ButtonRow } from './ButtonRow';
 @observer
 export class ReferenceWindow extends React.Component<{}, {}> {
 
-    labels = ((top as any).ABT_i18n as BackendGlobals.ABT_i18n).tinymce.referenceWindow.referenceWindow;
+    labels = top.ABT_i18n.tinymce.referenceWindow.referenceWindow;
     modal: Modal = new Modal(this.labels.title);
 
     @observable
@@ -166,7 +166,6 @@ export class ReferenceWindow extends React.Component<{}, {}> {
                 .catch(e => {
                     this.toggleLoadingState();
                     top.tinyMCE.activeEditor.windowManager.alert(e.message);
-                    console.error(e);
                 });
                 return;
             case 'book':
@@ -177,7 +176,6 @@ export class ReferenceWindow extends React.Component<{}, {}> {
                 .catch(e => {
                     this.toggleLoadingState();
                     top.tinyMCE.activeEditor.windowManager.alert(e.message);
-                    console.error(e);
                 });
                 return;
         }

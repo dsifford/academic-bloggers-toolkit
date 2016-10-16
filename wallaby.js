@@ -7,6 +7,14 @@ module.exports = {
             pattern: 'scripts/*.js',
             instrument: false,
         },
+        {
+            pattern: 'src/lib/js/utils/resolvers',
+            instrument: false,
+        },
+        {
+            pattern: 'src/lib/js/utils/resolvers/*.ts',
+            instrument: false,
+        },
         '!src/**/__tests__/*',
     ],
     tests: [

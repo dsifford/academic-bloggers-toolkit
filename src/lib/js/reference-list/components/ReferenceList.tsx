@@ -20,7 +20,6 @@ import { ItemList } from './ItemList';
 import { Spinner } from '../../components/Spinner';
 
 declare const tinyMCE: TinyMCE.MCE;
-declare const ABT_i18n: BackendGlobals.ABT_i18n;
 const { OPEN_REFERENCE_WINDOW, TINYMCE_READY, TINYMCE_HIDDEN, TINYMCE_VISIBLE } = EVENTS;
 
 @observer
@@ -28,8 +27,8 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
 
     editor: TinyMCE.Editor;
     processor: CSLProcessor;
-    errors = ABT_i18n.errors;
-    labels = ABT_i18n.referenceList.referenceList;
+    errors = top.ABT_i18n.errors;
+    labels = top.ABT_i18n.referenceList.referenceList;
 
     /**
      * Observable array of selected items
@@ -193,7 +192,6 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
                 margin = '0 0 28px';
             }
 
-            /* FIXME: Repeating myself here from the other function... */
             const bib = this.editor.dom.doc.createElement('DIV');
             bib.className = 'noselect mceNonEditable abt-static-bib';
             bib.style.margin = margin;
@@ -250,8 +248,13 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
 
         let clusters;
         try {
-            const { locations: [citationsBefore, citationsAfter], currentIndex } =
-                MCE.getRelativeCitationPositions(this.editor);
+            const {
+                currentIndex,
+                locations: [citationsBefore, citationsAfter],
+            } = MCE.getRelativeCitationPositions(
+                this.editor,
+                Object.keys(this.processor.citeproc.registry.citationreg.citationById),
+            );
             const citationData = this.processor.prepareInlineCitationData(data, currentIndex);
             clusters = this.processor.processCitationCluster(citationData, citationsBefore, citationsAfter);
         }

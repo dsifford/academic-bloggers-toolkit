@@ -1,6 +1,7 @@
 interface Window {
-  tinyMCE: TinyMCE.MCE;
-  DocumentTouch?;
+    ABT_i18n: BackendGlobals.ABT_i18n;
+    tinyMCE: TinyMCE.MCE;
+    DocumentTouch?;
 }
 
 declare const __DEV__: boolean;
