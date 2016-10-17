@@ -95,7 +95,7 @@
             <!-- BROWSER CHECK -->
             <tr class="alternate">
                 <td class="row-title"><?php _e('Recommended Browsers (in order)', 'academic-bloggers-toolkit') ?></td>
-                <td colspan="2"><?php _e('Google Chrome, Mozilla Firefox, Microsoft Edge, or Apple Safari.', 'academic-bloggers-toolkit') ?></td>
+                <td colspan="2"><?php _e('Google Chrome, Mozilla Firefox, or Microsoft Edge.', 'academic-bloggers-toolkit') ?></td>
             </tr>
         </table>
     </div>

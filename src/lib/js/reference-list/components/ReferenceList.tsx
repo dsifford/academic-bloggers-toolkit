@@ -10,7 +10,7 @@ import DevTools, { configureDevtool } from '../../utils/DevTools';
 
 const DevTool = DevTools();
 configureDevtool({
-  logFilter: change => change.type === 'action',
+    logFilter: change => change.type === 'action',
 });
 
 import { Store } from '../Store';
@@ -464,8 +464,7 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
     }
 
     @action
-    togglePinned = (e) => {
-        e.preventDefault();
+    togglePinned = () => {
         document.getElementById('abt-reflist').classList.toggle('fixed');
         this.fixed = !this.fixed;
     }
@@ -495,8 +494,7 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
     }
 
     @action
-    toggleMenu = (e?: React.MouseEvent<HTMLAnchorElement>) => {
-        if (e) e.preventDefault();
+    toggleMenu = () => {
         this.menuOpen = !this.menuOpen;
     }
 
@@ -572,7 +570,7 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
                         <span
                             className={
                                 this.fixed
-                                ? 'dashicons dashicons-admin-post pin-reflist fixed'
+                                ? 'dashicons dashicons-admin-post pin-reflist_fixed'
                                 : 'dashicons dashicons-admin-post pin-reflist'
                             }
                         />
@@ -581,7 +579,7 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
                         <span
                             className={
                                 this.menuOpen
-                                ? 'dashicons dashicons-no-alt hamburger-menu open'
+                                ? 'dashicons dashicons-no-alt hamburger-menu'
                                 : 'dashicons dashicons-menu hamburger-menu'
                             }
                         />
