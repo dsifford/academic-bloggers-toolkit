@@ -21,17 +21,14 @@ interface ManualEntryProps {
 @observer
 export class ManualEntryContainer extends React.PureComponent<ManualEntryProps, {}> {
 
-    labels = ((top as any).ABT_i18n as BackendGlobals.ABT_i18n)
-        .tinymce.referenceWindow.manualEntryContainer;
-    citationTypes = (((top as any).ABT_i18n as BackendGlobals.ABT_i18n)
-        .citationTypes as ABT.CitationTypes)
-        .sort((a, b) => {
-            const strA = a.label.toUpperCase();
-            const strB = b.label.toUpperCase();
-            if (strA < strB) return -1;
-            if (strA > strB) return 1;
-            return 0;
-        });
+    labels = top.ABT_i18n.tinymce.referenceWindow.manualEntryContainer;
+    citationTypes = top.ABT_i18n.citationTypes.sort((a, b) => {
+        const strA = a.label.toUpperCase();
+        const strB = b.label.toUpperCase();
+        if (strA < strB) return -1;
+        if (strA > strB) return 1;
+        return 0;
+    });
     element: HTMLElement;
     handleWheel = preventScrollPropagation.bind(this);
 
@@ -127,8 +124,7 @@ export class AutoCite extends React.Component<AutoCiteProps, {}> {
      * Needed for handling the initial focus() of the field
      */
     input: HTMLInputElement;
-    labels = ((top as any).ABT_i18n as BackendGlobals.ABT_i18n)
-        .tinymce.referenceWindow.manualEntryContainer;
+    labels = top.ABT_i18n.tinymce.referenceWindow.manualEntryContainer;
 
     @observable
     query = '';

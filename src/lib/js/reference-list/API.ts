@@ -1,51 +1,49 @@
-import { getFromDOI, getFromPMID } from '../utils/Externals';
+import { getFromDOI, getFromPMID } from '../utils/resolvers/';
 import { generateID, processCSLDate } from '../utils/HelperFunctions';
 
-declare const ABT_i18n: BackendGlobals.ABT_i18n;
-
 export function getRemoteData(identifierList: string, mce: TinyMCE.WindowManager): Promise<CSL.Data[]> {
-    return new Promise((resolve, reject) => {
+    return new Promise(resolve => {
         const pmidList: string[] = [];
         const doiList: string[] = [];
+        const errList: string[] = [];
         const identifiers = identifierList.replace(/\s/g, '');
         const promises: Promise<[CSL.Data[], string[]]>[] = [];
 
-        identifiers.split(',').forEach(i => {
-            if (i.search(/^10\./) > -1) {
-                doiList.push(i);
+        identifiers.split(',').forEach(id => {
+            if (/^10\./.test(id)) {
+                doiList.push(id);
                 return;
             }
-            pmidList.push(i);
+            if (/^\d+$/.test(id)) {
+                pmidList.push(id);
+                return;
+            }
+            errList.push(id);
         });
 
-        if (pmidList.length) promises.push(getFromPMID(pmidList.join(',')));
-        if (doiList.length) promises.push(getFromDOI(doiList));
+        if (pmidList.length > 0) promises.push(getFromPMID(pmidList.join(',')));
+        if (doiList.length > 0) promises.push(getFromDOI(doiList));
 
-        if (!promises.length) {
-            reject(new Error(`${ABT_i18n.errors.prefix}: ${ABT_i18n.errors.identifiersNotFound.all}`));
+        if (promises.length === 0) {
+            mce.alert(`${top.ABT_i18n.errors.identifiersNotFound.all}`);
+            resolve([]);
             return;
         }
 
         Promise.all(promises).then((data: [CSL.Data[], string[]][]) => {
-            const errs: string[] = data.reduce((prev, curr) => {
-                prev.push(...curr[1].filter(d => d));
-                return prev;
-            }, []);
+            const [csl, errs] = data.reduce(([prevCSL, prevErr], [currCSL, currErr]) => {
+                currCSL.forEach(ref => ref.id = generateID());
+                return [
+                    [...prevCSL, ...currCSL],
+                    [...prevErr, ...currErr],
+                ];
+            }, [[], [...errList]]);
 
-            if (errs.length) {
-                mce.alert(`${ABT_i18n.errors.prefix}: ${ABT_i18n.errors.identifiersNotFound.some}: ${errs.join(', ')}`);
+            if (errs.length > 0) {
+                mce.alert(`${top.ABT_i18n.errors.prefix}: ${top.ABT_i18n.errors.identifiersNotFound.some}: ${errs.join(', ')}`); // tslint:disable-line
             }
 
-            /* FIXME: Combine this with the forEach statement below. ++perf */
-            const combined: CSL.Data[] = data.reduce((prev, curr) => {
-                prev.push(...curr[0]);
-                return prev;
-            }, []);
-
-            combined.forEach(ref => ref.id = generateID());
-            resolve(combined);
-        }, (err: Error) => {
-            reject(err);
+            resolve(csl);
         });
     });
 }
@@ -73,9 +71,6 @@ export function parseManualData(payload: ABT.ReferenceWindowPayload): Promise<CS
             if (payload.manualData[key] === '') {
                 delete payload.manualData[key];
                 return;
-            }
-            if (['accessed', 'event-date', 'issued'].indexOf(key) > -1) {
-                if (payload.manualData[key]['date-parts'][0].length === 0) delete payload.manualData[key];
             }
         });
 

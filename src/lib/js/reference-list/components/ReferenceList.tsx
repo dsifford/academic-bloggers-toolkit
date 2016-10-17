@@ -6,10 +6,12 @@ import { observable, IObservableArray, reaction, action } from 'mobx';
 import { observer } from 'mobx-react';
 import { getRemoteData, parseManualData } from '../API';
 import * as CSSTransitionGroup from 'react-addons-css-transition-group';
-// import DevTools, { configureDevtool } from 'mobx-react-devtools';
-// configureDevtool({
-//   logFilter: change => change.type === 'action',
-// });
+import DevTools, { configureDevtool } from '../../utils/DevTools';
+
+const DevTool = DevTools();
+configureDevtool({
+    logFilter: change => change.type === 'action',
+});
 
 import { Store } from '../Store';
 import { Menu } from './Menu';
@@ -18,7 +20,6 @@ import { ItemList } from './ItemList';
 import { Spinner } from '../../components/Spinner';
 
 declare const tinyMCE: TinyMCE.MCE;
-declare const ABT_i18n: BackendGlobals.ABT_i18n;
 const { OPEN_REFERENCE_WINDOW, TINYMCE_READY, TINYMCE_HIDDEN, TINYMCE_VISIBLE } = EVENTS;
 
 @observer
@@ -26,8 +27,8 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
 
     editor: TinyMCE.Editor;
     processor: CSLProcessor;
-    errors = ABT_i18n.errors;
-    labels = ABT_i18n.referenceList.referenceList;
+    errors = top.ABT_i18n.errors;
+    labels = top.ABT_i18n.referenceList.referenceList;
 
     /**
      * Observable array of selected items
@@ -191,7 +192,6 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
                 margin = '0 0 28px';
             }
 
-            /* FIXME: Repeating myself here from the other function... */
             const bib = this.editor.dom.doc.createElement('DIV');
             bib.className = 'noselect mceNonEditable abt-static-bib';
             bib.style.margin = margin;
@@ -248,8 +248,13 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
 
         let clusters;
         try {
-            const { locations: [citationsBefore, citationsAfter], currentIndex } =
-                MCE.getRelativeCitationPositions(this.editor);
+            const {
+                currentIndex,
+                locations: [citationsBefore, citationsAfter],
+            } = MCE.getRelativeCitationPositions(
+                this.editor,
+                Object.keys(this.processor.citeproc.registry.citationreg.citationById),
+            );
             const citationData = this.processor.prepareInlineCitationData(data, currentIndex);
             clusters = this.processor.processCitationCluster(citationData, citationsBefore, citationsAfter);
         }
@@ -459,8 +464,7 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
     }
 
     @action
-    togglePinned = (e) => {
-        e.preventDefault();
+    togglePinned = () => {
         document.getElementById('abt-reflist').classList.toggle('fixed');
         this.fixed = !this.fixed;
     }
@@ -490,8 +494,7 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
     }
 
     @action
-    toggleMenu = (e?: React.MouseEvent<HTMLAnchorElement>) => {
-        if (e) e.preventDefault();
+    toggleMenu = () => {
         this.menuOpen = !this.menuOpen;
     }
 
@@ -536,7 +539,7 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
 
         return (
             <div>
-                {/* <DevTools position={{left: 50, top: 40}} /> */}
+                <DevTool position={{left: 50, top: 40}} />
                 <StorageField store={this.props.store} />
                 <div className="abt-panel">
                     <PanelButton
@@ -567,7 +570,7 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
                         <span
                             className={
                                 this.fixed
-                                ? 'dashicons dashicons-admin-post pin-reflist fixed'
+                                ? 'dashicons dashicons-admin-post pin-reflist_fixed'
                                 : 'dashicons dashicons-admin-post pin-reflist'
                             }
                         />
@@ -576,7 +579,7 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
                         <span
                             className={
                                 this.menuOpen
-                                ? 'dashicons dashicons-no-alt hamburger-menu open'
+                                ? 'dashicons dashicons-no-alt hamburger-menu'
                                 : 'dashicons dashicons-menu hamburger-menu'
                             }
                         />

@@ -1,5 +1,48 @@
 <?php
 
+
+if (extension_loaded('curl')) {
+    function abt_get_medra_doi() {
+        $doi = $_POST['doi'];
+
+        $curl = curl_init();
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => "http://data.medra.org/$doi",
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => "",
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 30,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => "GET",
+            CURLOPT_POSTFIELDS => "",
+            CURLOPT_HTTPHEADER => array(
+                "accept: application/vnd.citationstyles.csl+json;q=1.0"
+            ),
+        ));
+
+        $response = curl_exec($curl);
+        $err = curl_error($curl);
+        curl_close($curl);
+
+        if ($err) {
+            wp_send_json(['error' => $err]);
+            return;
+        }
+        wp_send_json(json_decode($response));
+    }
+    add_action('wp_ajax_get_medra_doi', 'abt_get_medra_doi');
+}
+else {
+    function abt_get_medra_doi_error() {
+        wp_send_json(array(
+            'error' => sprintf(__('Your WordPress PHP installation is incomplete. You must have the following PHP extensions enabled to use this feature: %s', 'academic-bloggers-toolkit'), '"curl"'),
+        ));
+    }
+    add_action('wp_ajax_get_medra_doi', 'abt_get_medra_doi_error');
+}
+
+
+
 /**
  * AJAX Method for getting metadata from other websites for citations
  */
@@ -163,7 +206,7 @@ else {
     add_action('wp_ajax_get_website_meta', 'abt_get_website_meta_error');
     function abt_get_website_meta_error() {
         wp_send_json(array(
-            'error' => 'Your WordPress PHP installation is incomplete. You must have the "dom" and "libxml" PHP extensions enabled to use this feature.',
+            'error' => sprintf(__('Your WordPress PHP installation is incomplete. You must have the following PHP extensions enabled to use this feature: %s', 'academic-bloggers-toolkit'), '"dom", "libxml"'),
         ));
     }
 }

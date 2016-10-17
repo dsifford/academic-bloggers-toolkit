@@ -1,19 +1,21 @@
 import * as React from 'react';
 import { observable, computed, reaction, action } from 'mobx';
 import { observer } from 'mobx-react';
-// import DevTools from 'mobx-react-devtools';
+import DevTools from '../../../utils/DevTools';
 
 import { Modal } from '../../../utils/Modal';
-import { pubmedQuery } from '../../../utils/Externals';
+import { pubmedQuery } from '../../../utils/resolvers/';
 import { ResultList } from './ResultList';
 import { Paginate } from './Paginate';
 import { Spinner } from '../../../components/Spinner';
 
+const DevTool = DevTools();
+
 @observer
 export class PubmedWindow extends React.Component<{}, {}> {
 
-    labels = ((top as any).ABT_i18n as BackendGlobals.ABT_i18n).tinymce.pubmedWindow;
-    errors = ((top as any).ABT_i18n as BackendGlobals.ABT_i18n).errors;
+    labels = top.ABT_i18n.tinymce.pubmedWindow;
+    errors = top.ABT_i18n.errors;
     modal: Modal = new Modal(this.labels.title);
     wm: TinyMCE.WindowManager = top.window.tinyMCE.activeEditor.windowManager
         .windows[top.window.tinyMCE.activeEditor.windowManager.windows.length - 1];
@@ -119,7 +121,7 @@ export class PubmedWindow extends React.Component<{}, {}> {
 
         return (
             <div onWheel={this.preventScrollPropagation}>
-                {/* <DevTools /> */}
+                <DevTool />
                 <form id="query" onSubmit={this.sendQuery}>
                     <div className="row" id="pubmed-query">
                         <div className="flex">

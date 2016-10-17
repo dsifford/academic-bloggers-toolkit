@@ -1,12 +1,28 @@
 module.exports = {
     files: [
-        'src/**/*.{tsx,ts}',
-        'types/**/*.d.ts',
-        './package.json',
+        {
+            pattern: 'src/**/index.{ts,tsx}',
+            instrument: false,
+            load: true,
+        },
+        {
+            pattern: 'src/lib/js/utils/resolvers/*',
+            instrument: false,
+            load: true,
+        },
         {
             pattern: 'scripts/*.js',
             instrument: false,
+            load: true,
         },
+        {
+            pattern: 'src/lib/js/utils/{DevTools,TinymceFunctions}.ts',
+            instrument: false,
+            load: true,
+        },
+        'src/**/*.{ts,tsx}',
+        'types/**/*.d.ts',
+        './package.json',
         '!src/**/__tests__/*',
     ],
     tests: [

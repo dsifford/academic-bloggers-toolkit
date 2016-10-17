@@ -2,7 +2,9 @@ const path = require('path');
 const webpack = require('webpack');
 const ForkCheckerPlugin = require('awesome-typescript-loader').ForkCheckerPlugin;
 
-const devPlugins = [
+const isProduction = process.env.NODE_ENV === 'production';
+
+const sharedPlugins = [
     new webpack.LoaderOptionsPlugin({
         minimize: true,
         debug: false,
@@ -16,8 +18,15 @@ const devPlugins = [
     }),
 ];
 
+const devPlugins = [
+    ...sharedPlugins,
+    new webpack.DefinePlugin({
+        __DEV__: true,
+    }),
+];
+
 const productionPlugins = [
-    ...devPlugins,
+    ...sharedPlugins,
     new webpack.optimize.UglifyJsPlugin({
         compress: {
             warnings: false,
@@ -28,13 +37,9 @@ const productionPlugins = [
         sourceMap: false,
     }),
     new webpack.DefinePlugin({
-        'process.env': {
-            NODE_ENV: JSON.stringify('production'),
-        },
+        __DEV__: false,
     }),
 ];
-
-const isProduction = process.env.NODE_ENV === 'production';
 
 module.exports = {
     devtool: isProduction ? 'hidden-source-map' : 'eval-source-map',
@@ -53,7 +58,7 @@ module.exports = {
     },
     resolve: {
         modules: [path.resolve(__dirname, 'src'), 'node_modules'],
-        extensions: ['', '.webpack.js', '.web.js', '.ts', '.tsx', '.js'],
+        extensions: ['*', '.webpack.js', '.web.js', '.ts', '.tsx', '.js'],
         mainFiles: ['index'],
         mainFields: ['main', 'browser'],
         descriptionFiles: ['package.json'],

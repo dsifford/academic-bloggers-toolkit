@@ -1,11 +1,13 @@
 import * as React from 'react';
 import { observable, action, toJS } from 'mobx';
 import { observer } from 'mobx-react';
-// import DevTools from 'mobx-react-devtools';
+import DevTools from '../../../utils/DevTools';
 
 import { Modal } from '../../../utils/Modal';
 import { RISParser } from '../../../utils/RISParser';
 import { generateID } from '../../../utils/HelperFunctions';
+
+const DevTool = DevTools();
 
 interface Props {
     wm: TinyMCE.WindowManager;
@@ -14,8 +16,8 @@ interface Props {
 @observer
 export class ImportWindow extends React.Component<Props, {}> {
 
-    labels = ((top as any).ABT_i18n as BackendGlobals.ABT_i18n).tinymce.importWindow;
-    errors = ((top as any).ABT_i18n as BackendGlobals.ABT_i18n).errors;
+    labels = top.ABT_i18n.tinymce.importWindow;
+    errors = top.ABT_i18n.errors;
     modal: Modal = new Modal(this.labels.title);
     wm: TinyMCE.WindowManager = this.props.wm;
 
@@ -80,7 +82,7 @@ export class ImportWindow extends React.Component<Props, {}> {
     render() {
         return (
             <div className="row">
-                {/* <DevTools /> */}
+                <DevTool />
                 <div>
                     <label className="uploadLabel">
                         <input

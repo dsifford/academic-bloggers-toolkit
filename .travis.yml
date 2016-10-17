@@ -12,6 +12,7 @@ script:
     - npm run lint
 after_success:
     - cat ./tmp/coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js
+    - bash <(curl -s https://codecov.io/bash)
 branches:
     only:
         - master

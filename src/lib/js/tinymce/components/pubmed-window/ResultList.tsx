@@ -10,7 +10,7 @@ interface ResultListProps {
 @observer
 export class ResultList extends React.PureComponent<ResultListProps, {}> {
 
-    labels = ((top as any).ABT_i18n as BackendGlobals.ABT_i18n).tinymce.pubmedWindow;
+    labels = top.ABT_i18n.tinymce.pubmedWindow;
     element: HTMLElement;
     handleWheel = preventScrollPropagation.bind(this);
 

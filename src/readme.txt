@@ -4,7 +4,7 @@ Donate link: https://cash.me/$dsifford
 Tags: academia, academic, bibliographies, bibliography, citation, citations, cite, citing, CSL, curriculum vitae, cv, doi, endnote, footnote, footnotes, journal, mendeley, papers, pmid, publications, publish, pubmed, reference, reference list, reference manager, references, referencing, ris, scholar, scholarly, zotero
 Requires at least: 4.2.2
 Tested up to: 4.6
-Stable tag: 4.4.7
+Stable tag: 4.5.0
 License: GPL3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -17,6 +17,15 @@ Academic Blogger's toolkit is an **open source** WordPress plugin providing an a
 For a constaintly updated, exhaustively detailed, introduction to this plugin and all its features, please visit the plugin's [GitHub Repository](https://github.com/dsifford/academic-bloggers-toolkit).
 
 To dive right into the documentation, check out the [Academic Blogger's Toolkit Wiki](https://github.com/dsifford/academic-bloggers-toolkit/wiki)!
+
+= Features =
+* Insert formatted references on the fly using **PMID**, **DOI** (CrossRef, DataCite, & mEDRA), **URL**, or **ISBN**.
+* Manually insert formatted references from **over 15 types of references**.
+* **Import a full bibliography from your favorite reference manager** using an exported `.ris` file.
+* Automatically format references for **every citation style on planet earth** (over 1300).
+* **Fully interactive** reference list which lives beside the post editor.
+* **Search PubMed from the post editor** and insert references instantly.
+* Inline citations display full formatted references on the frontend when hovered with the mouse (or when tapped on mobile). No more scrolling down and losing your focus!
 
 [youtube https://www.youtube.com/watch?v=5k72Dh8L2BA]
 (Video above is of version 3.0.0 - Many improvements and features [were added](https://headwayapp.co/academic-bloggers-toolkit-changelog) since then)
@@ -47,6 +56,10 @@ Yikes! I'm sorry about that. Please report all issues on the Academic Blogger's 
 4. Demo of desktop citation tooltips.
 
 == Changelog ==
+
+= 4.5.0 =
+
+[Click here](https://headwayapp.co/academic-bloggers-toolkit-changelog) to view changes.
 
 = 4.4.7 =
 

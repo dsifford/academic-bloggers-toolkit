@@ -1,4 +1,3 @@
-declare const ABT_i18n: BackendGlobals.ABT_i18n;
 declare const ABT_wp: BackendGlobals.ABT_wp;
 
 /**
@@ -18,7 +17,7 @@ export function referenceWindow(editor: TinyMCE.Editor): Promise<ABT.ReferenceWi
             params: {
                 baseUrl: `${ABT_wp.abt_url}/lib/js/tinymce/views/`,
             },
-            title: ABT_i18n.tinymce.referenceWindow.referenceWindow.title,
+            title: top.ABT_i18n.tinymce.referenceWindow.referenceWindow.title,
             url: `${ABT_wp.abt_url}/lib/js/tinymce/views/reference-window.html`,
             width: 600,
         });
@@ -39,7 +38,7 @@ export function importWindow(editor: TinyMCE.Editor): Promise<CSL.Data[]> {
                 if (!e.target.params.data) resolve(null);
                 resolve(<CSL.Data[]>e.target.params.data);
             },
-            title: ABT_i18n.tinymce.importWindow.title,
+            title: top.ABT_i18n.tinymce.importWindow.title,
             url: `${ABT_wp.abt_url}/lib/js/tinymce/views/import-window.html`,
             width: 600,
         });
@@ -58,9 +57,10 @@ interface CitationPositions {
  *   citation before and one citation after the current citation, `currentIndex`
  *   will be 1).
  * @param editor The active TinyMCE instance.
+ * @param {string[]} validIds  Array of valid HTMLSpanElement IDs (citationById keys)
  * @return Parsed citation data.
  */
-export function getRelativeCitationPositions(editor: TinyMCE.Editor): CitationPositions {
+export function getRelativeCitationPositions(editor: TinyMCE.Editor, validIds: string[]): CitationPositions {
     const doc: Document = editor.dom.doc;
     const currentSelection = editor.selection.getContent({ format: 'html' });
     const re = /<span id="([\d\w]+)" class="abt_cite .+<\/span>/;
@@ -83,9 +83,9 @@ export function getRelativeCitationPositions(editor: TinyMCE.Editor): CitationPo
     if (citations.length > 1) {
         let key = 0;
         [...citations].forEach((el, i) => {
-            if (el.id === '') {
+            if (el.id === '' || validIds.indexOf(el.id) === -1) {
                 el.innerHTML =
-                    `<span class="abt-broken-citation">${ABT_i18n.errors.broken} ${el.innerHTML}</span>`;
+                    `<span class="abt-broken-citation">${top.ABT_i18n.errors.broken} ${el.innerHTML}</span>`;
                 el.classList.remove('abt_cite');
                 return;
             }
