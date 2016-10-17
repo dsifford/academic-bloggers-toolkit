@@ -18,6 +18,15 @@ For a constaintly updated, exhaustively detailed, introduction to this plugin an
 
 To dive right into the documentation, check out the [Academic Blogger's Toolkit Wiki](https://github.com/dsifford/academic-bloggers-toolkit/wiki)!
 
+= Features =
+* Insert formatted references on the fly using **PMID**, **DOI** (CrossRef, DataCite, & mEDRA), **URL**, or **ISBN**.
+* Manually insert formatted references from **over 15 types of references**.
+* **Import a full bibliography from your favorite reference manager** using an exported `.ris` file.
+* Automatically format references for **every citation style on planet earth** (over 1300).
+* **Fully interactive** reference list which lives beside the post editor.
+* **Search PubMed from the post editor** and insert references instantly.
+* Inline citations display full formatted references on the frontend when hovered with the mouse (or when tapped on mobile). No more scrolling down and losing your focus!
+
 [youtube https://www.youtube.com/watch?v=5k72Dh8L2BA]
 (Video above is of version 3.0.0 - Many improvements and features [were added](https://headwayapp.co/academic-bloggers-toolkit-changelog) since then)
 
