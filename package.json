@@ -41,7 +41,7 @@
     "coveralls": "^2.11.14",
     "css-loader": "^0.25.0",
     "del": "^2.2.2",
-    "enzyme": "^2.4.1",
+    "enzyme": "^2.5.0",
     "eslint": "^3.8.0",
     "eslint-config-airbnb-base": "^9.0.0",
     "eslint-plugin-import": "^2.0.1",
