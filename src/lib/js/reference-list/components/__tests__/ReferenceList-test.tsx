@@ -29,7 +29,6 @@ const setupDimentions = (scrollTop = 0, childHeights = [100, 100, 100]) => {
     cited1.clientHeight = childHeights[0];
     cited2.clientHeight = childHeights[1];
     uncited1.clientHeight = childHeights[2];
-    // window
 };
 
 describe('<ReferenceList />', () => {
