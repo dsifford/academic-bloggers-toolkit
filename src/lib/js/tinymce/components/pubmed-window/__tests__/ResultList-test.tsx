@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { mount } from 'enzyme';
-import * as sinon from 'sinon';
+import { spy as s } from 'sinon';
 import { ResultList } from '../ResultList';
 
 const testData: PubMed.SingleReference[] = [
@@ -31,7 +31,7 @@ const testData: PubMed.SingleReference[] = [
 ];
 
 const setup = () => {
-    const spy = sinon.spy();
+    const spy = s();
     const component = mount(
         <ResultList
             results={testData}
@@ -60,7 +60,7 @@ describe('<ResultList />', () => {
         expect(spy.firstCall.args[0]).toBe('11111');
     });
     it('should scroll to the top on update', () => {
-        const spy = sinon.spy(ResultList.prototype, 'componentDidUpdate');
+        const spy = s(ResultList.prototype, 'componentDidUpdate');
         const { component } = setup();
         component.update();
         expect(spy.callCount).toBe(1);

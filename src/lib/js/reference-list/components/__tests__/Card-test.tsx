@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { shallow } from 'enzyme';
-import { spy } from 'sinon';
 import { Card } from '../Card';
 
 const testData: {[id: string]: CSL.Data} = {
@@ -180,15 +179,15 @@ const testData: {[id: string]: CSL.Data} = {
 };
 
 const setup = (data: CSL.Data, selected: boolean = false) => {
-    const s = spy();
+    const spy = jest.fn();
     const component = shallow(
-        <Card isSelected={selected} CSL={data} click={s} id={'id'}/>
+        <Card isSelected={selected} CSL={data} click={spy} id={'id'}/>
     );
     return {
         component,
         date: component.find('.abt-card__date'),
         people: component.find('.abt-card__people'),
-        s,
+        spy,
     };
 };
 
@@ -204,9 +203,9 @@ describe('<Card/>', () => {
     });
 
     it('should call onClick when clicked', () => {
-        const { component, s } = setup(testData['noAuthors']);
+        const { component, spy } = setup(testData['noAuthors']);
         component.simulate('click');
-        expect(s.callCount).toBe(1);
+        expect(spy).toHaveBeenCalledTimes(1);
     });
 
     it('should render with no authors', () => {

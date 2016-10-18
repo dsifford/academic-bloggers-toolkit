@@ -2,14 +2,14 @@ jest.mock('../../../../utils/Modal');
 
 import * as React from 'react';
 import { mount } from 'enzyme';
-import * as sinon from 'sinon';
+import { spy as Spy, stub as Stub } from 'sinon';
 import * as parser from '../../../../utils/RISParser';
 import { ImportWindow } from '../ImportWindow';
 
 const setup = () => {
-    const alert = sinon.spy();
-    const close = sinon.spy();
-    const setParams = sinon.spy();
+    const alert = Spy();
+    const close = Spy();
+    const setParams = Spy();
     const wm: TinyMCE.WindowManager = {
         alert,
         close,
@@ -36,14 +36,14 @@ const setup = () => {
 describe('<ImportWindow />', () => {
 
     it('calls componentDidMount', () => {
-        sinon.spy(ImportWindow.prototype, 'componentDidMount');
+        Spy(ImportWindow.prototype, 'componentDidMount');
         setup();
-        expect((ImportWindow.prototype.componentDidMount as sinon.SinonSpy).calledOnce).toEqual(true);
+        expect((ImportWindow.prototype.componentDidMount as any).calledOnce).toEqual(true);
     });
 
     it('should trigger handleFileUpload when upload field changed', () => {
         const { upload, component } = setup();
-        const handleFileUpload = sinon.spy(component.instance(), 'handleFileUpload');
+        const handleFileUpload = Spy(component.instance(), 'handleFileUpload');
         component.update();
         upload.simulate('change', { target: { files: [new File(['testdata'], 'test')], value: 'test.ris' } });
         expect(handleFileUpload.calledOnce).toEqual(true);
@@ -65,7 +65,7 @@ describe('<ImportWindow />', () => {
     });
 
     it('should trigger an alert when the upload returns a length of 0 (bad file)', () => {
-        const stub = sinon.stub(parser, 'RISParser', function() { // tslint:disable-line
+        const stub = Stub(parser, 'RISParser', function() { // tslint:disable-line
             this.parse = () => []; // tslint:disable-line
         });
         const { component, alert } = setup();
@@ -75,7 +75,7 @@ describe('<ImportWindow />', () => {
     });
 
     it('should trigger an alert when some references can\'t be parsed', () => {
-        const stub = sinon.stub(parser, 'RISParser', function() { // tslint:disable-line
+        const stub = Stub(parser, 'RISParser', function() { // tslint:disable-line
             this.parse = () => [{}, {}, {}]; // tslint:disable-line
             this.unsupportedRefs = ['one', 'two', 'three']; // tslint:disable-line
         });

@@ -1,5 +1,3 @@
-jest.autoMockOff();
-
 import { createTooltip, destroyTooltip } from '../Tooltips';
 import { stub } from 'sinon';
 

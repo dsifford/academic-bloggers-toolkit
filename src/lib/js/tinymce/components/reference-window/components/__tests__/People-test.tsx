@@ -1,15 +1,14 @@
 import * as React from 'react';
 import { mount } from 'enzyme';
-import * as sinon from 'sinon';
 import { People } from '../People';
 
 const setup = (
     citationType: CSL.CitationType = 'article-journal',
     people: CSL.TypedPerson[] = [{family: 'Doe', given: 'John', type: 'author'}]
 ) => {
-    const addPerson = sinon.spy();
-    const changePerson = sinon.spy();
-    const removePerson = sinon.spy();
+    const addPerson = jest.fn();
+    const changePerson = jest.fn();
+    const removePerson = jest.fn();
     const component = mount(
         <People
             citationType={citationType}
@@ -39,13 +38,13 @@ describe('<People />', () => {
         addButton.simulate('click');
         addButton.simulate('click');
 
-        expect(addPerson.callCount).toBe(3);
+        expect(addPerson).toHaveBeenCalledTimes(3);
     });
 
     it('should call removePerson on remove button click',  () => {
         const { removeButton, removePerson } = setup();
         removeButton.simulate('click');
-        expect(removePerson.callCount).toBe(1);
+        expect(removePerson).toHaveBeenCalledTimes(1);
     });
 
     it('should call changePerson appropriately when input fields are changed', () => {
@@ -58,13 +57,9 @@ describe('<People />', () => {
         firstNameInput.simulate('change');
         lastNameInput.simulate('change');
 
-        expect(changePerson.callCount).toBe(2);
-        expect(changePerson.firstCall.args[0]).toBe('0');
-        expect(changePerson.firstCall.args[1]).toBe('given');
-        expect(changePerson.firstCall.args[2]).toBe('John');
-        expect(changePerson.secondCall.args[0]).toBe('0');
-        expect(changePerson.secondCall.args[1]).toBe('family');
-        expect(changePerson.secondCall.args[2]).toBe('Doe');
+        expect(changePerson).toHaveBeenCalledTimes(2);
+        expect(changePerson.mock.calls[0]).toEqual(['0', 'given', 'John']);
+        expect(changePerson.mock.calls[1]).toEqual(['0', 'family', 'Doe']);
     });
 
 });

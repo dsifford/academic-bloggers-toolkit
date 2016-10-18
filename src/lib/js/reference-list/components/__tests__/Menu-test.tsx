@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { mount, shallow } from 'enzyme';
-import { spy } from 'sinon';
 import { Menu, renderer as Renderer } from '../Menu';
 
 const ABT_CitationStyles = [
@@ -29,29 +28,29 @@ const ABT_Custom_CSL = {
 };
 
 window['ABT_CitationStyles'] = ABT_CitationStyles;
-window['ABT_i18n'] = ABT_i18n;
+window['ABT_i18n'] = ABT_i18n as any;
 window['ABT_Custom_CSL'] = ABT_Custom_CSL;
 
 const setup = () => {
-    const s = spy();
+    const spy = jest.fn();
     const component = mount(
         <Menu
             cslStyle="american-medical-association"
             itemsSelected={true}
-            submitData={s}
+            submitData={spy}
         />
     );
     return {
         component,
         importBtn: component.find('#IMPORT_RIS'),
-        s,
+        spy,
     };
 };
 
 const setupRenderer = (label: string, value = 'test', focusedOption = false) => {
     const option = {label, value};
-    const focus = spy();
-    const select = spy();
+    const focus = jest.fn();
+    const select = jest.fn();
     const component = shallow(
         <Renderer
             style={{}}
@@ -70,16 +69,15 @@ const setupRenderer = (label: string, value = 'test', focusedOption = false) => 
 
 describe('<Menu />', () => {
     it('should handle basic interactions', () => {
-        const { component, importBtn, s } = setup();
-        expect(s.callCount).toBe(0);
+        const { component, importBtn, spy } = setup();
+        expect(spy).toHaveBeenCalledTimes(0);
         importBtn.simulate('click');
-        expect(s.callCount).toBe(1);
-        expect(s.calledWithExactly('IMPORT_RIS')).toBe(true);
+        expect(spy).toHaveBeenCalledTimes(1);
+        expect(spy).toHaveBeenCalledWith('IMPORT_RIS');
         (component.instance() as any).handleSelect({label: 'APA 5th Edition', value: 'apa-5th'});
-        expect(s.callCount).toBe(2);
-        expect(s.secondCall.calledWithExactly('CHANGE_STYLE', 'apa-5th')).toBe(true);
+        expect(spy).toHaveBeenCalledTimes(2);
+        expect(spy.mock.calls[1]).toEqual(['CHANGE_STYLE', 'apa-5th']);
     });
-
     it('should render the appropriate heights', () => {
         window['ABT_Custom_CSL'].value = null;
         const { component } = setup();
@@ -127,7 +125,6 @@ describe('Menu Renderer', () => {
         ({ component } = setupRenderer('a'.repeat(250)));
         expect(component.props().style.height).toBe(90);
     });
-
     it('should render the header row correctly', () => {
         const { component } = setupRenderer('label', 'header');
         const style: React.CSSProperties = {
@@ -142,26 +139,22 @@ describe('Menu Renderer', () => {
         };
         expect(component.props().style).toEqual(style);
     });
-
     it('should render with darker background when focused', () => {
         const { component } = setupRenderer('test', 'test', true);
         expect(component.props().style.backgroundColor).toBe('#f5f5f5');
     });
-
     it('should call the select handler when clicked', () => {
         const { component, select } = setupRenderer('test');
-        expect(select.callCount).toBe(0);
+        expect(select).toHaveBeenCalledTimes(0);
         component.simulate('click');
-        expect(select.callCount).toBe(1);
-        expect(select.args[0][0]).toEqual({label: 'test', value: 'test'});
+        expect(select).toHaveBeenCalledTimes(1);
+        expect(select.mock.calls[0]).toEqual([{label: 'test', value: 'test'}]);
     });
-
     it('should call the focus handler when focused', () => {
         const { component, focus } = setupRenderer('test label');
-        expect(focus.callCount).toBe(0);
+        expect(focus).toHaveBeenCalledTimes(0);
         component.simulate('mouseOver');
-        expect(focus.callCount).toBe(1);
-        expect(focus.args[0][0]).toEqual({label: 'test label', value: 'test'});
+        expect(focus).toHaveBeenCalledTimes(1);
+        expect(focus.mock.calls[0]).toEqual([{label: 'test label', value: 'test'}]);
     });
-
 });

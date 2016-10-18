@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { mount } from 'enzyme';
-import * as sinon from 'sinon';
 import { map } from 'mobx';
 import { ManualEntryContainer, AutoCite } from '../ManualEntryContainer';
 
@@ -8,7 +7,7 @@ const setup = (
     citationType: CSL.CitationType = 'article-journal',
     isLoading: boolean = false
 ) => {
-    const spy = sinon.spy();
+    const spy = jest.fn();
     const component = mount(
         <ManualEntryContainer
             manualData={map([['type', citationType]])}
@@ -30,7 +29,7 @@ const setup = (
 };
 
 const setupAutocite = (kind: 'book'|'chapter'|'webpage' = 'webpage', inputType: 'text'|'url' = 'url') => {
-    const spy = sinon.spy();
+    const spy = jest.fn();
     const component = mount(
         <AutoCite
             getter={spy}
@@ -63,7 +62,7 @@ describe('<ManualEntryContainer />', () => {
     it('should call handleTypeChange when another type is selected', () => {
         const { select, spy } = setup();
         select.simulate('change', { target: { value: 'broadcast' } });
-        expect(spy.callCount).toBe(1);
+        expect(spy).toHaveBeenCalledTimes(1);
     });
 
     it('should handle mouse wheel', () => {
@@ -87,9 +86,9 @@ describe('<ManualEntryContainer />', () => {
             const { component, spy } = setup('webpage');
             const input = component.find('#citequery');
             input.simulate('keydown', { key: 'j' });
-            expect(spy.callCount).toBe(0);
+            expect(spy).toHaveBeenCalledTimes(0);
             input.simulate('keydown', { key: 'Enter' });
-            expect(spy.callCount).toBe(0);
+            expect(spy).toHaveBeenCalledTimes(0);
         });
 
         it('should call getter on "Enter" press with a valid query', () => {
@@ -98,7 +97,7 @@ describe('<ManualEntryContainer />', () => {
             inst.handleAutociteFieldChange({ target: { value: 'http://www.google.com' }});
             inst.input.validity = { valid: true }; // Fixes test environment error
             inst.handleQuery();
-            expect(spy.callCount).toBe(1);
+            expect(spy).toHaveBeenCalledTimes(1);
         });
     });
 });

@@ -1,16 +1,12 @@
-jest.disableAutomock();
-
 import { getRemoteData, parseManualData } from '../API';
-import { stub } from 'sinon';
 
 const testCSL = require('../../../../../scripts/fixtures.js').reflistState.CSL.citationId;
 
 describe('API', () => {
-
     describe('getRemoteData()', () => {
         let mce;
         beforeEach(() => {
-            mce = { alert: stub() };
+            mce = { alert: jest.fn() };
         });
 
         it('should get a single PMID', () => {
@@ -35,8 +31,8 @@ describe('API', () => {
         it('should error appropriately for invalid data', () => {
             return getRemoteData('10.1097/TA.0000000000000999,      a823hh,       12345', <any>mce)
             .then(d => {
-                expect(mce.alert.callCount).toBe(1);
-                expect(mce.alert.calledWith('Error: The following identifiers could not be found: a823hh')).toBeTruthy(); // tslint:disable-line
+                expect(mce.alert).toHaveBeenCalledTimes(1);
+                expect(mce.alert).toHaveBeenCalledWith('Error: The following identifiers could not be found: a823hh'); // tslint:disable-line
                 expect(d[0].title).toBe('A new granulation method for compressed tablets [proceedings].');
                 expect(d[1].title).toBe('Not all prehospital time is equal');
             });
@@ -45,8 +41,8 @@ describe('API', () => {
             return getRemoteData(' sadfasfdg', <any>mce)
             .then(d => {
                 expect(d.length).toBe(0);
-                expect(mce.alert.callCount).toBe(1);
-                expect(mce.alert.args[0][0]).toBe('No identifiers could be found for your request');
+                expect(mce.alert).toHaveBeenCalledTimes(1);
+                expect(mce.alert).toHaveBeenCalledWith('No identifiers could be found for your request');
             });
         });
     });

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { mount } from 'enzyme';
-import * as sinon from 'sinon';
+import { spy as s } from 'sinon';
 import { ButtonRow } from '../ButtonRow';
 const before = beforeAll;
 
@@ -8,7 +8,7 @@ const setup = (
     addManually: boolean = false,
     attachInline: boolean = false
 ) => {
-    const spy = sinon.spy();
+    const spy = s();
     const component = mount(
         <ButtonRow
             addManually={addManually}
@@ -33,7 +33,7 @@ describe('<ButtonRow />', () => {
     let submitSpy;
 
     before(() => {
-        submitSpy = sinon.spy();
+        submitSpy = s();
         window['tinyMCE'] = {
             activeEditor: {
                 windowManager: {
@@ -78,7 +78,7 @@ describe('<ButtonRow />', () => {
         expect(spy.secondCall.calledWithExactly(new CustomEvent('TOGGLE_INLINE_ATTACHMENT'))).toBeTruthy;
     });
     it('should open the pubmed window appropriately', () => {
-        const spy = sinon.spy(window.tinyMCE.activeEditor.windowManager, 'open');
+        const spy = s(window.tinyMCE.activeEditor.windowManager, 'open');
         const { searchPubmed } = setup();
         searchPubmed.simulate('click');
         expect(spy.callCount).toBe(1);

@@ -1,10 +1,10 @@
 import * as React from 'react';
 import { mount } from 'enzyme';
-import * as sinon from 'sinon';
+import { spy as s} from 'sinon';
 import { IdentifierInput } from '../IdentifierInput';
 
 const setup = () => {
-    const spy = sinon.spy();
+    const spy = s();
     const component = mount(
         <IdentifierInput
             identifierList="testing"
@@ -20,7 +20,7 @@ const setup = () => {
 
 describe('<IdentifierInput />', () => {
     it('should call componentDidMount', () => {
-        const mounted = sinon.spy(IdentifierInput.prototype, 'componentDidMount');
+        const mounted = s(IdentifierInput.prototype, 'componentDidMount');
         setup();
         expect(mounted.called).toBe(true);
     });
