@@ -1,4 +1,5 @@
 jest.mock('../../../utils/CSLProcessor');
+jest.mock('../../../utils/TinymceFunctions');
 
 import * as React from 'react';
 import { mount } from 'enzyme';
@@ -9,6 +10,14 @@ const before = beforeAll;
 
 window['ABT_Custom_CSL'] = { value: null };
 window['ABT_CitationStyles'] = [{ label: 'Test', value: 'american-medical-association' }];
+window['Rollbar'] = { error: () => null };
+window['tinyMCE'] = {
+    editors: {
+        content: {
+            setProgressState: () => null,
+        },
+    },
+} as any;
 
 const setup = () => {
     const store = new Store(reflistState as BackendGlobals.ABT_Reflist_State);
@@ -55,6 +64,81 @@ describe('<ReferenceList />', () => {
     it('should render with loading spinner', () => {
         const { component } = setup();
         expect(component.find('Spinner').length).toBe(1);
+    });
+    describe('insertStaticBibliography()', () => {
+        const setupInstance = (instance, {
+            bibBoolean = false,
+            getStyle = true,
+            getStyleUndefined = false,
+            regexMatch = false,
+            throwError = false,
+        } = {}) => {
+            instance.selected = ['12345'];
+            instance.editor = {
+                dom: { doc: document },
+                selection: {
+                    getContent: () => regexMatch ? '<div class="abt-static-bib"><div id="f7s9f7d5"></div></div>' : '',
+                },
+                windowManager: { alert: jest.fn() },
+            };
+            if (throwError) {
+                instance.processor.createStaticBibliography = () => new Promise(
+                    (_res, rej) => { rej(new Error('test error')); } // tslint:disable-line
+                );
+            }
+            else {
+                instance.processor.createStaticBibliography = () => new Promise(
+                    res => bibBoolean ? res(false) : res([{ html: '<div>test</div>', id: '11111' }])
+                );
+            }
+            if (getStyle) instance.editor.dom.getStyle = () => '0 0 28px';
+            if (getStyleUndefined) instance.editor.dom.getStyle = () => undefined;
+            instance.editor.insertContent = () => null;
+        };
+        it('should work in standard form', () => {
+            const { instance } = setup();
+            setupInstance(instance);
+            instance.insertStaticBibliography();
+        });
+        it('should default to 0 0 28px margin', () => {
+            const { instance } = setup();
+            setupInstance(instance, {getStyle: false});
+            instance.insertStaticBibliography();
+            setupInstance(instance, {getStyleUndefined: true});
+            instance.insertStaticBibliography();
+        });
+        it('should alert and exit if boolean returned from createStaticBibliography', () => {
+            const { instance } = setup();
+            setupInstance(instance, {bibBoolean: true, getStyleUndefined: true, regexMatch: true});
+            instance.insertStaticBibliography();
+        });
+        it('should throw error', () => {
+            const { instance } = setup();
+            setupInstance(instance, {throwError: true});
+            instance.insertStaticBibliography();
+        });
+    });
+    describe('insertInlineCitation()', () => {
+        const setupInstance = (instance, {
+            regexMatch = true,
+        } = {}) => {
+            instance.selected = ['jh4jhk34'];
+            instance.editor = {
+                dom: { doc: document },
+                selection: {
+                    getContent: () => regexMatch ? '<span id="5k45h3l4j" class="abt_cite" data-reflist="[&quot;3j5k4j35&quot;]">test</span>' : '', // tslint:disable-line
+                },
+                setProgressState: () => null,
+                windowManager: { alert: jest.fn() },
+            };
+            instance.processor.citeproc = { registry: { citationreg: { citationById: { tester: {}}}}};
+        };
+        it('should throw errors', () => {
+            const { instance } = setup();
+            setupInstance(instance);
+            window['MCE'] = jest.fn().mockReturnValue(1);
+            instance.insertInlineCitation();
+        });
     });
     describe('@actions', () => {
         it('toggleLoading()', () => {

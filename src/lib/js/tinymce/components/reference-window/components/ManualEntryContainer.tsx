@@ -181,7 +181,7 @@ export class AutoCite extends React.Component<AutoCiteProps, {}> {
                         type="button"
                         aria-label={this.labels.search}
                         className={
-                            this.query.length === 0 || (this.input.validity ? !this.input.validity.valid : true)
+                            this.query.length === 0 || !this.input.validity.valid
                             ? 'abt-btn abt-btn_flat abt-btn_disabled'
                             : 'abt-btn abt-btn_flat'
                         }

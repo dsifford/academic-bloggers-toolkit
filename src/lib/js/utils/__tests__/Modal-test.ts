@@ -1,5 +1,4 @@
 import { Modal } from '../Modal';
-import { stub } from 'sinon';
 
 const setup = (
     title: string
@@ -28,9 +27,7 @@ describe('Modal', () => {
         setup('test');
         const modal = new Modal('test');
         const el = document.getElementById('abt-root');
-        const x = stub(el, 'getBoundingClientRect');
-        x.returns({height: 10000});
+        spyOn(el, 'getBoundingClientRect').and.returnValue({height: 10000});
         modal.resize();
-        x.restore();
     });
 });

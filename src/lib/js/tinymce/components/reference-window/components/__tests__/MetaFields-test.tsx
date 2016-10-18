@@ -25,7 +25,6 @@ describe('<MetaFields />', () => {
         ({ title } = setup('article-magazine'));
         expect(title).toBe('Magazine Article');
     });
-
     it('should call updateField when fields are changed', () => {
         const { component, field } = setup();
         expect(component.props().meta.get('title')).toBeUndefined();

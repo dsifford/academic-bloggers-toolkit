@@ -97,7 +97,6 @@ describe('<Menu />', () => {
         expect(handler({option: {label: 'a'.repeat(250)}})).toBe(90);
     });
 });
-
 describe('Menu Renderer', () => {
     it('should render options with the correct heights', () => {
         let { component } = setupRenderer('a');

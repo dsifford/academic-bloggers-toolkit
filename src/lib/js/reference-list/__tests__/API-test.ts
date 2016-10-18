@@ -8,7 +8,6 @@ describe('API', () => {
         beforeEach(() => {
             mce = { alert: jest.fn() };
         });
-
         it('should get a single PMID', () => {
             return getRemoteData('12345', <any>mce)
             .then(d => {
@@ -46,7 +45,6 @@ describe('API', () => {
             });
         });
     });
-
     describe('parseManualData()', () => {
         let mockData;
         beforeEach(() => {

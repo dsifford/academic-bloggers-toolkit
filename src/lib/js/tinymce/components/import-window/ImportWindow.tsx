@@ -34,34 +34,31 @@ export class ImportWindow extends React.Component<Props, {}> {
     setPayload = (payload: CSL.Data[]) => this.payload.replace(payload);
 
     handleFileUpload = (e: React.FormEvent<HTMLInputElement>) => {
-        e.preventDefault();
         const reader = new FileReader();
-        const file = (e.target as HTMLInputElement).files[0];
-        const filename = (e.target as HTMLInputElement).files[0].name;
+        const file = e.currentTarget.files[0];
 
         reader.addEventListener('load', this.parseFile);
         reader.readAsText(file);
 
-        this.setFilename(filename);
+        this.setFilename(file.name);
     }
 
     parseFile = (upload) => {
         const parser = new RISParser(upload.target.result);
+        const parsed = parser.parse();
 
-        let payload = parser.parse();
-        if (payload.length === 0) {
+        if (parsed.length === 0) {
             this.wm.alert(`${this.errors.prefix}: ${this.errors.filetypeError}`);
             return;
         }
 
-        payload = payload.map(ref => {
+        const payload = parsed.map(ref => {
             const id = generateID();
             ref.id = id;
             return ref;
         });
 
         const leftovers = parser.unsupportedRefs;
-
         if (leftovers.length > 0) {
             this.wm.alert(`${this.errors.prefix}: ${this.errors.risLeftovers}: ${leftovers.join(', ')}`);
         }

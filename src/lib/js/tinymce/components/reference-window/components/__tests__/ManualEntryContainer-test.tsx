@@ -23,6 +23,7 @@ const setup = (
     return {
         spy,
         component,
+        instance: component.instance() as any,
         select: component.find('#type-select'),
         selection: component.find('#type-select').props().value,
     };
@@ -39,8 +40,9 @@ const setupAutocite = (kind: 'book'|'chapter'|'webpage' = 'webpage', inputType: 
         />
     );
     return {
-        spy,
         component,
+        instance: component.instance() as any,
+        spy,
     };
 };
 
@@ -49,39 +51,33 @@ describe('<ManualEntryContainer />', () => {
         const d = document.createElement('DIV');
         d.id = 'abt-root';
         document.body.appendChild(d);
-        const { component } = setup('article-journal', true);
+        const { component, instance } = setup('article-journal', true);
         expect(component.find('Spinner')).toBeTruthy();
-        (component.instance() as any).getHeight();
+        instance.getHeight();
     });
-
     it('should render with the correct option', () => {
         const { selection } = setup();
         expect(selection).toBe('article-journal');
     });
-
     it('should call handleTypeChange when another type is selected', () => {
         const { select, spy } = setup();
         select.simulate('change', { target: { value: 'broadcast' } });
         expect(spy).toHaveBeenCalledTimes(1);
     });
-
     it('should handle mouse wheel', () => {
         const { component } = setup();
         const scrolldiv = component.find('.abt-scroll-y');
         scrolldiv.simulate('wheel');
     });
-
     describe('<Autocite />', () => {
         it('should render with autocite for webpage type', () => {
             const { component } = setup('webpage');
             expect(component.find('Autocite')).toBeTruthy();
         });
-
         it('should render with autocite for book type', () => {
             const { component } = setup('book');
             expect(component.find('Autocite')).toBeTruthy();
         });
-
         it('should NOT call the getter on "Enter" press with an empty query', () => {
             const { component, spy } = setup('webpage');
             const input = component.find('#citequery');
@@ -90,13 +86,14 @@ describe('<ManualEntryContainer />', () => {
             input.simulate('keydown', { key: 'Enter' });
             expect(spy).toHaveBeenCalledTimes(0);
         });
-
         it('should call getter on "Enter" press with a valid query', () => {
-            const { component, spy } = setupAutocite();
-            const inst = (component.instance() as any);
-            inst.handleAutociteFieldChange({ target: { value: 'http://www.google.com' }});
-            inst.input.validity = { valid: true }; // Fixes test environment error
-            inst.handleQuery();
+            const { component, instance, spy } = setupAutocite();
+            instance.input.validity = { valid: false }; // Fixes test environment error
+            instance.handleAutociteFieldChange({ target: { value: 'http://www.google.com' }});
+            instance.query = 'http://www.google.com';
+            instance.input.validity = { valid: true }; // Fixes test environment error
+            instance.handleQuery();
+            component.update();
             expect(spy).toHaveBeenCalledTimes(1);
         });
     });

@@ -196,51 +196,42 @@ describe('<Card/>', () => {
         const { component } = setup(testData['noAuthors'], true);
         expect(component.first().props().className).toBe('abt-card abt-card_selected');
     });
-
     it('should render unselected', () => {
         const { component } = setup(testData['noAuthors']);
         expect(component.first().props().className).toBe('abt-card');
     });
-
     it('should call onClick when clicked', () => {
         const { component, spy } = setup(testData['noAuthors']);
         component.simulate('click');
         expect(spy).toHaveBeenCalledTimes(1);
     });
-
     it('should render with no authors', () => {
         const { people } = setup(testData['noAuthors']);
         expect(people.children().length).toBe(0);
     });
-
     it('should handle a situation where there are no authors, and no author field', () => {
         const { people } = setup(testData['noAuthorField']);
         expect(people.children().length).toBe(0);
     });
-
     it('should handle a single author with invalid fields', () => {
         const { people } = setup(testData['singleAuthorInvalidField']);
         expect(people.children().length).toBe(0);
     });
-
     it('should render with a single literal author', () => {
         const { people } = setup(testData['singleLiteralAuthorEdgeCase']);
         expect(people.children().length).toBe(1);
         expect(people.text()).toBe('I have no given name.');
     });
-
     it('should format two authors correctly', () => {
         const { people } = setup(testData['twoAuthors']);
         expect(people.children().length).toBe(1);
         expect(people.text()).toBe('Smith, J, Doe, J.');
     });
-
     it('should format three authors correctly', () => {
         const { people } = setup(testData['threeAuthors']);
         expect(people.children().length).toBe(1);
         expect(people.text()).toBe('Smith, J, Some literal name, Doe, J.');
     });
-
     it('should format > 3 authors correctly', () => {
         const { people: people1 } = setup(testData['fourAuthors']);
         expect(people1.children().length).toBe(1);
@@ -249,25 +240,20 @@ describe('<Card/>', () => {
         expect(people2.children().length).toBe(1);
         expect(people2.text()).toBe('Smith, J, Some literal name, Doe, J...');
     });
-
     it('should parse an item without a date correctly', () => {
         const { date } = setup(testData['noAuthorField']);
         expect(date.text()).toBe('(n.d.)');
     });
-
     it('should parse a "date-parts" date correctly', () => {
         const { date } = setup(testData['noAuthors']);
         expect(date.text()).toBe('(2016)');
     });
-
     it('should parse a "year" date correctly', () => {
         const { date } = setup(testData['singleAuthorInvalidField']);
         expect(date.text()).toBe('(2010)');
     });
-
     it('should handle strange edge-cases that result from upgrading from an older version', () => {
         const { date } = setup(testData['singleLiteralAuthorEdgeCase']);
         expect(date.text()).toBe('(n.d.)');
     });
-
 });

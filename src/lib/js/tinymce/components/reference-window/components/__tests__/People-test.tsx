@@ -30,7 +30,6 @@ const setup = (
 };
 
 describe('<People />', () => {
-
     it('should call addPerson on click', () => {
         const { addButton, addPerson } = setup();
 
@@ -40,13 +39,11 @@ describe('<People />', () => {
 
         expect(addPerson).toHaveBeenCalledTimes(3);
     });
-
     it('should call removePerson on remove button click',  () => {
         const { removeButton, removePerson } = setup();
         removeButton.simulate('click');
         expect(removePerson).toHaveBeenCalledTimes(1);
     });
-
     it('should call changePerson appropriately when input fields are changed', () => {
 
         const { component, changePerson } = setup();
@@ -61,5 +58,4 @@ describe('<People />', () => {
         expect(changePerson.mock.calls[0]).toEqual(['0', 'given', 'John']);
         expect(changePerson.mock.calls[1]).toEqual(['0', 'family', 'Doe']);
     });
-
 });

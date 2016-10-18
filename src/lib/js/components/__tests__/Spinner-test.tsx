@@ -32,7 +32,6 @@ describe('<Spinner />', () => {
         expect(root.props().className).toBe('abt-spinner');
         expect(root.props().style).toEqual({});
     });
-
     it('should render with an overlay', () => {
         const { svg, root } = setup({overlay: true, size: '40px'});
         expect(svg.props().height).toBe('40px');
@@ -40,7 +39,6 @@ describe('<Spinner />', () => {
         expect(root.props().className).toBe('abt-spinner abt-spinner_overlay');
         expect(root.props().style).toEqual({});
     });
-
     it('should render with a background color', () => {
         const { svg, root } = setup({bgColor: 'magenta', size: '40px'});
         expect(svg.props().height).toBe('40px');
@@ -48,7 +46,6 @@ describe('<Spinner />', () => {
         expect(root.props().className).toBe('abt-spinner');
         expect(root.props().style).toEqual({ backgroundColor: 'magenta' });
     });
-
     it('should render with container height set by string', () => {
         const { svg, root } = setup({height: '100px', size: '40px'});
         expect(svg.props().height).toBe('40px');
@@ -56,7 +53,6 @@ describe('<Spinner />', () => {
         expect(root.props().className).toBe('abt-spinner');
         expect(root.props().style).toEqual({ height: '100px', minHeight: '100px' });
     });
-
     it('should render with container height set by height function', () => {
         const getHeight = () => '250px';
         const { svg, root } = setup({height: getHeight, size: '40px'});
