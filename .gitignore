@@ -10,3 +10,4 @@ typings/*
 !typings/ABT.d.ts
 NOTES.md
 TODO.md
+.env
