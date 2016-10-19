@@ -258,7 +258,6 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
             clusters = this.processor.processCitationCluster(citationData, citationsBefore, citationsAfter);
         }
         catch (err) {
-            console.log(err);
             Rollbar.error('ReferenceList.tsx -> insertInlineCitation', err);
             this.editor.windowManager.alert(
                 `${this.errors.unexpected.message}.\n\n` +
@@ -298,8 +297,7 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
     }
 
     @action
-    deleteCitations = (e?: React.MouseEvent<HTMLAnchorElement>) => {
-        if (e) e.preventDefault();
+    deleteCitations = () => {
         if (this.selected.length === 0) return;
         this.editor.setProgressState(true);
         this.props.store.citations.removeItems(this.selected, this.editor.dom.doc);

@@ -70,28 +70,6 @@
                 </td>
             </tr>
 
-            <!-- PHP LIBCURL EXTENSION CHECK -->
-            <tr>
-                <td class="row-title"><?php printf(__('PHP %s Extension', 'academic-bloggers-toolkit'), '<code>curl</code>') ?></td>
-                <td>
-                    <?php
-                        if (extension_loaded('curl')) {
-                            _e('Enabled', 'academic-bloggers-toolkit');
-                        }
-                        else {
-                            echo "<span style='font-weight: bold; color: red;'>" . __('Disabled', 'academic-bloggers-toolkit') . "</span>";
-                        }
-                    ?>
-                </td>
-                <td>
-                    <?php
-                        if (!extension_loaded('curl')) {
-                            echo sprintf(__('The %s PHP extension is required for some plugin features.', 'academic-bloggers-toolkit'), '<code>curl</code>') . '<br><a href="http://php.net/manual/en/intro.curl.php" target="_blank">' . __('Click here for installation instructions', 'academic-bloggers-toolkit') . '</a>.';
-                        }
-                    ?>
-                </td>
-            </tr>
-
             <!-- BROWSER CHECK -->
             <tr class="alternate">
                 <td class="row-title"><?php _e('Recommended Browsers (in order)', 'academic-bloggers-toolkit') ?></td>
