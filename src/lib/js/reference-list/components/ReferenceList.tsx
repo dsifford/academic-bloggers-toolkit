@@ -217,7 +217,7 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
         });
     }
 
-    insertInlineCitation = (e?: React.MouseEvent<HTMLAnchorElement>, data?: CSL.Data[]) => {
+    insertInlineCitation = (e?: React.MouseEvent<HTMLAnchorElement>, data: CSL.Data[] = []) => {
 
         if (e) e.preventDefault();
         this.editor.setProgressState(true);
@@ -226,8 +226,7 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
          * If no data, then this must be a case where we're inserting from the
          *   list selection.
          */
-        if (!data || data.length === 0) {
-            data = [];
+        if (data.length === 0) {
             this.selected.forEach(id => {
                 data.push(this.props.store.citations.CSL.get(id));
             });
@@ -259,6 +258,7 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
             clusters = this.processor.processCitationCluster(citationData, citationsBefore, citationsAfter);
         }
         catch (err) {
+            console.log(err);
             Rollbar.error('ReferenceList.tsx -> insertInlineCitation', err);
             this.editor.windowManager.alert(
                 `${this.errors.unexpected.message}.\n\n` +

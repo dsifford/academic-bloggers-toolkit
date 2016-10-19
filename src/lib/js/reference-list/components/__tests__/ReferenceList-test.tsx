@@ -1,10 +1,11 @@
 jest.mock('../../../utils/CSLProcessor');
-jest.mock('../../../utils/TinymceFunctions');
+// jest.mock('../../../utils/TinymceFunctions');
 
 import * as React from 'react';
 import { mount } from 'enzyme';
 import { ReferenceList } from '../ReferenceList';
 import { Store } from '../../Store';
+import * as MCE from '../../../utils/TinymceFunctions';
 const reflistState = require('../../../../../../scripts/fixtures').reflistState;
 const before = beforeAll;
 
@@ -40,6 +41,50 @@ const setupDimentions = (scrollTop = 0, childHeights = [100, 100, 100]) => {
     uncited1.clientHeight = childHeights[2];
 };
 
+const setupInstance = (instance, {
+    staticBibReturnBool = false,
+    getStyle = 'defined',
+    content = '',
+    staticBibError = false,
+} = {}) => {
+    instance.selected = ['12345678'];
+    instance.processor.makeBibliography = () => [{ html: '<div>test</div>', id: '12345678' }];
+    instance.processor.citeproc = {
+        opt: {
+            xclass: 'in-text',
+        },
+        registry: {
+            citationreg: {
+                citationById: {
+                    tester: {},
+                },
+            },
+        },
+    };
+    instance.processor.init = () => new Promise(res => res(true))
+    instance.editor = {
+        dom: { doc: document },
+        selection: {
+            getContent: () => content,
+        },
+        setProgressState: () => null,
+        windowManager: { alert: jest.fn() },
+    };
+    instance.processor.createStaticBibliography = staticBibError
+        ? () => new Promise((_res, rej) => { rej(new Error('test error')); })
+        : () => new Promise(res => staticBibReturnBool ? res(false) : res([{ html: '<div>test</div>', id: '11111' }]));
+    switch (getStyle) {
+        case 'defined':
+            instance.editor.dom.getStyle = () => '0 0 50px';
+            break;
+        case 'undefined':
+            instance.editor.dom.getStyle = () => undefined;
+            break;
+        default:
+    }
+    instance.editor.insertContent = () => null;
+};
+
 describe('<ReferenceList />', () => {
     before(() => {
         const main = document.createElement('DIV');
@@ -61,86 +106,87 @@ describe('<ReferenceList />', () => {
         main.appendChild(uncited);
         document.body.appendChild(main);
     });
+
     it('should render with loading spinner', () => {
         const { component } = setup();
         expect(component.find('Spinner').length).toBe(1);
     });
+
     describe('insertStaticBibliography()', () => {
-        const setupInstance = (instance, {
-            bibBoolean = false,
-            getStyle = true,
-            getStyleUndefined = false,
-            regexMatch = false,
-            throwError = false,
-        } = {}) => {
-            instance.selected = ['12345'];
-            instance.editor = {
-                dom: { doc: document },
-                selection: {
-                    getContent: () => regexMatch ? '<div class="abt-static-bib"><div id="f7s9f7d5"></div></div>' : '',
-                },
-                windowManager: { alert: jest.fn() },
-            };
-            if (throwError) {
-                instance.processor.createStaticBibliography = () => new Promise(
-                    (_res, rej) => { rej(new Error('test error')); } // tslint:disable-line
-                );
-            }
-            else {
-                instance.processor.createStaticBibliography = () => new Promise(
-                    res => bibBoolean ? res(false) : res([{ html: '<div>test</div>', id: '11111' }])
-                );
-            }
-            if (getStyle) instance.editor.dom.getStyle = () => '0 0 28px';
-            if (getStyleUndefined) instance.editor.dom.getStyle = () => undefined;
-            instance.editor.insertContent = () => null;
-        };
         it('should work in standard form', () => {
             const { instance } = setup();
             setupInstance(instance);
             instance.insertStaticBibliography();
         });
-        it('should default to 0 0 28px margin', () => {
+        it('should throw/catch an error at getStyle - default margin to 0 0 28px', () => {
             const { instance } = setup();
-            setupInstance(instance, {getStyle: false});
+            setupInstance(instance, {
+                getStyle: '',
+            });
             instance.insertStaticBibliography();
-            setupInstance(instance, {getStyleUndefined: true});
+        });
+        it('should default to margin 0 0 28px if getStyle returns falsy', () => {
+            const { instance } = setup();
+            setupInstance(instance, {
+                getStyle: 'undefined',
+            });
             instance.insertStaticBibliography();
         });
         it('should alert and exit if boolean returned from createStaticBibliography', () => {
             const { instance } = setup();
-            setupInstance(instance, {bibBoolean: true, getStyleUndefined: true, regexMatch: true});
+            setupInstance(instance, {
+                content: '<div class="abt-static-bib"><div id="f7s9f7d5"></div></div>',
+                staticBibReturnBool: true,
+            });
             instance.insertStaticBibliography();
         });
         it('should throw error', () => {
+            spyOn(MCE, 'parseInlineCitations').and.returnValue(
+                new Promise(res => res(true))
+            );
             const { instance } = setup();
-            setupInstance(instance, {throwError: true});
+            setupInstance(instance, {
+                staticBibError: true,
+            });
             instance.insertStaticBibliography();
         });
     });
+
     describe('insertInlineCitation()', () => {
-        const setupInstance = (instance, {
-            regexMatch = true,
-        } = {}) => {
-            instance.selected = ['jh4jhk34'];
-            instance.editor = {
-                dom: { doc: document },
-                selection: {
-                    getContent: () => regexMatch ? '<span id="5k45h3l4j" class="abt_cite" data-reflist="[&quot;3j5k4j35&quot;]">test</span>' : '', // tslint:disable-line
-                },
-                setProgressState: () => null,
-                windowManager: { alert: jest.fn() },
-            };
-            instance.processor.citeproc = { registry: { citationreg: { citationById: { tester: {}}}}};
-        };
-        it('should throw errors', () => {
+        it('should preventDefault() and throw an error at the end', () => {
+            spyOn(MCE, 'getRelativeCitationPositions').and.returnValue({
+                currentIndex: 0,
+                locations: [
+                    [['00000000', 0], ['11111111', 1]],
+                    [['22222222', 2]],
+                ],
+            });
+            spyOn(MCE, 'parseInlineCitations').and.returnValue(new Promise(res => res(true)));
+            const spy = jest.fn();
             const { instance } = setup();
             setupInstance(instance);
-            window['MCE'] = jest.fn().mockReturnValue(1);
+            instance.insertInlineCitation({ preventDefault: spy });
+            expect(spy).toHaveBeenCalledTimes(1);
+        });
+        it('should match the regex pattern and throw an error at clusters', () => {
+            const { instance } = setup();
+            setupInstance(instance, {
+                content: '<span id="5k45h3l4j" class="abt_cite" data-reflist="[&quot;3j5k4j35&quot;]">test</span>',
+            });
+            spyOn(MCE, 'getRelativeCitationPositions').and.throwError('testing');
             instance.insertInlineCitation();
         });
     });
+
     describe('@actions', () => {
+        it('deleteCitations', () => {
+            const { instance } = setup();
+            setupInstance(instance);
+            instance.deleteCitations();
+            instance.deleteCitations({ preventDefault: () => null });
+            instance.selected = ['12345678'];
+            instance.deleteCitations();
+        });
         it('toggleLoading()', () => {
             const { instance } = setup();
 
