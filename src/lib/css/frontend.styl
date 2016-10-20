@@ -1,7 +1,11 @@
-@import 'collections/colors'
-@import 'citations'
+@require 'collections/colors'
+@require 'collections/variables'
+@require 'citations'
 
-span.abt_cite
+.abt_cite
+    {$noselect}
+    white-space: nowrap
+    cursor: pointer
     sup, sub
         font-size: 75%
         line-height: 0
@@ -12,7 +16,6 @@ span.abt_cite
     sub
         bottom: -0.25em
 
-// ======= Toggleable Bibliography Heading
 #abt-smart-bib
     &.noselect
         user-select: inherit
@@ -33,7 +36,6 @@ span.abt_cite
         display: inline
 
 
-// ======== Tooltips =========
 .abt_tooltip
     border-radius: 3px
     padding: 8px
@@ -125,24 +127,3 @@ span.abt_cite
         height: 14px
         pointer-events: none
         width: 2px
-
-
-.noselect
-    -webkit-touch-callout: none
-    -webkit-user-select: none
-    -khtml-user-select: none
-    -moz-user-select: none
-    -ms-user-select: none
-    user-select: none
-
-
-// ===== Inline Citations ========
-
-span.abt_cite > *
-    pointer-events: none
-
-.abt_cite
-    white-space: nowrap
-
-.abt_cite:hover
-    cursor: pointer

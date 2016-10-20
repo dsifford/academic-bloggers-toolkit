@@ -5,8 +5,8 @@ interface Window {
 }
 
 declare const __DEV__: boolean;
-
 declare const ABT_CitationStyles: {label: string, value: string}[];
+declare const DocumentTouch;
 
 declare const Rollbar: {
     log(msg: string, e?: any): void;

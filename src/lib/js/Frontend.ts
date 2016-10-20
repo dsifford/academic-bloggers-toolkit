@@ -1,32 +1,24 @@
 
-declare const DocumentTouch;
-
 class Citations {
 
-    public static timer: NodeJS.Timer;
+    public timer: NodeJS.Timer;
     public bibliography: HTMLDivElement;
+    public isTouchDevice: boolean = true === (
+        'ontouchstart' in window ||
+        (window.DocumentTouch && document instanceof DocumentTouch)
+    );
 
     constructor() {
         this.bibliography = <HTMLDivElement>document.getElementById('abt-smart-bib');
-        const citationList = document.getElementsByClassName('abt_cite');
+        const citationList = <NodeListOf<HTMLSpanElement>>document.querySelectorAll('.abt_cite');
 
-        for (let i = 0; i < citationList.length; i++) {
-
-            const citation = <HTMLSpanElement>citationList[i];
-            const citations: string[] = JSON.parse(citation.dataset['reflist']);
-            const citationHTML = citations.map((id: string): string => this.bibliography.children[id].outerHTML);
-
-            citation.dataset['citations'] = citationHTML.join('');
-
-            // Conditionally create tooltip based on device
-            if (this.isTouchDevice()) {
-                citationList[i].addEventListener('touchstart', this.createTooltip.bind(this));
-            } else {
-                citationList[i].addEventListener('mouseover', this.createTooltip.bind(this));
-                citationList[i].addEventListener('mouseout', this.destroyTooltip);
-            }
-
-        }
+        [...citationList].forEach(citation => {
+            const reflist: string[] = JSON.parse(citation.dataset['reflist']);
+            citation.dataset['citations'] = reflist.map(id => this.bibliography.children[id].outerHTML).join('');
+            citation.addEventListener('mouseenter', this.createTooltip);
+            citation.addEventListener('mouseleave', this.destroyTooltip);
+            if (this.isTouchDevice) citation.addEventListener('touchstart', this.createTooltip);
+        });
 
         if (document.querySelector('#abt-smart-bib>h3.toggle')) this.enableToggle();
     }
@@ -45,37 +37,29 @@ class Citations {
         }
 
         heading.addEventListener('click', () => {
-            container.style.display =
-                container.style.display === 'none' ? '' : 'none';
+            container.style.display = container.style.display === 'none' ? '' : 'none';
             heading.classList.toggle('abt-hidden');
         });
 
     }
 
-    private isTouchDevice(): boolean {
-        return true === ('ontouchstart' in window || window.DocumentTouch && document instanceof DocumentTouch);
-    }
+    private createTooltip(e): void {
+        clearTimeout(this.timer);
 
-    private createTooltip(e: Event): void {
-        e.preventDefault();
-        clearTimeout(Citations.timer);
+        const existingTooltip = document.getElementById('abt_tooltip');
+        if (existingTooltip) existingTooltip.parentElement.removeChild(existingTooltip);
 
-        const preExistingTooltip: HTMLElement = document.getElementById('abt_tooltip');
-        if (preExistingTooltip !== null) {
-            preExistingTooltip.parentElement.removeChild(preExistingTooltip);
-        }
-
-        const rect: ClientRect = (<HTMLElement>e.target).getBoundingClientRect();
+        const rect: ClientRect = e.currentTarget.getBoundingClientRect();
 
         const tooltip: HTMLDivElement = document.createElement('div');
         tooltip.className = tooltip.id = 'abt_tooltip';
-        tooltip.innerHTML = (<HTMLElement>e.target).getAttribute('data-citations');
+        tooltip.innerHTML = e.currentTarget.getAttribute('data-citations');
         tooltip.style.visibility = 'hidden';
 
         const tooltipArrow: HTMLDivElement = document.createElement('div');
         tooltipArrow.className = 'abt_tooltip_arrow';
 
-        if (this.isTouchDevice()) {
+        if (this.isTouchDevice) {
 
             const closeButton: HTMLDivElement = document.createElement('div');
             const touchContainer: HTMLDivElement = document.createElement('div');
@@ -105,8 +89,8 @@ class Citations {
                 ? (rect.left * 2) + 'px'
                 : '500px';
             tooltip.style.left = rect.left + ((rect.right - rect.left) / 2) - (tooltip.clientWidth / 2) + 'px';
-            tooltip.addEventListener('mouseover', () => clearTimeout(Citations.timer));
-            tooltip.addEventListener('mouseout', this.destroyTooltip);
+            tooltip.addEventListener('mouseenter', () => clearTimeout(this.timer));
+            tooltip.addEventListener('mouseleave', this.destroyTooltip);
 
         }
 
@@ -127,9 +111,9 @@ class Citations {
     }
 
     private destroyTooltip(): void {
-        Citations.timer = setTimeout(() => {
+        this.timer = setTimeout(() => {
             const tip = document.getElementById('abt_tooltip');
-            tip.parentElement.removeChild(tip);
+            if (tip) tip.parentElement.removeChild(tip);
         }, 200);
     }
 
