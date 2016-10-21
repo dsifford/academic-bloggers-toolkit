@@ -61,7 +61,7 @@ const setupInstance = (instance, {
             },
         },
     };
-    instance.processor.init = () => new Promise(res => res(true))
+    instance.processor.init = () => new Promise(res => res(true));
     instance.editor = {
         dom: { doc: document },
         selection: {
@@ -87,14 +87,14 @@ const setupInstance = (instance, {
 
 describe('<ReferenceList />', () => {
     before(() => {
-        const main = document.createElement('DIV');
-        const cited = document.createElement('DIV');
-        const citedChild1 = document.createElement('DIV') as any;
+        const main = document.createElement('div');
+        const cited = document.createElement('div');
+        const citedChild1 = document.createElement('div');
         citedChild1.id = 'cited1';
-        const citedChild2 = document.createElement('DIV') as any;
+        const citedChild2 = document.createElement('div');
         citedChild2.id = 'cited2';
-        const uncited = document.createElement('DIV');
-        const uncitedChild = document.createElement('DIV') as any;
+        const uncited = document.createElement('div');
+        const uncitedChild = document.createElement('div');
         uncitedChild.id = 'uncited1';
         main.id = 'abt-reflist';
         cited.id = 'cited';
@@ -171,7 +171,7 @@ describe('<ReferenceList />', () => {
         it('should match the regex pattern and throw an error at clusters', () => {
             const { instance } = setup();
             setupInstance(instance, {
-                content: '<span id="5k45h3l4j" class="abt_cite" data-reflist="[&quot;3j5k4j35&quot;]">test</span>',
+                content: '<span id="5k45h3l4j" class="abt-citation" data-reflist="[&quot;3j5k4j35&quot;]">test</span>',
             });
             spyOn(MCE, 'getRelativeCitationPositions').and.throwError('testing');
             instance.insertInlineCitation();

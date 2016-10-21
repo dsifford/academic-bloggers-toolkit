@@ -98,7 +98,7 @@ describe('HelperFunctions', () => {
         };
         // tslint:enable
         it('should handle a variety of different bibOptions', () => {
-            const temp = document.createElement('DIV');
+            const temp = document.createElement('div');
             // plain, no added options. PMID available.
             let [rawBib, links, cslmap] = setupArgs();
             temp.innerHTML = formatBibliography(rawBib, links, cslmap)[0].html;

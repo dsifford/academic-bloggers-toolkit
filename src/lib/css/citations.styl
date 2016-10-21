@@ -1,61 +1,29 @@
 @import 'collections/colors'
 
-// TinyMCE editor only
-#tinymce
-    .abt_cite
-        font-size: 0.8em
-        sup
-            display: inline-block
-            top: -3px
-            font-size: 12px
-    #abt-footnote
-        margin-bottom: 28px
-        background: $light-gray
-        padding: 10px
-        .abt-footnote-heading
-            font-weight: 600
-        .abt-footnote-item
-            font-size: 12px
-            .note-number
-                font-weight: 600
-                margin-right: 3px
-    #abt-smart-bib
-    .abt-static-bib
-        display: table
-        background: $light-gray
-        padding: 10px
-        > div
-            font-size: 12px
-        h3
-            font-size: 1.1em
-            margin-bottom: 5px
-        .abt-url
-            display: inline
-            margin-left: 3px
-    .abt-broken-citation
-        color: red
-        font-weight: bold
-        sup
-            @extends #tinymce .abt_cite sup
+.abt-citation
+    {$noselect}
+    white-space: nowrap
+    cursor: pointer
+    sup, sub
+        font-size: 75%
+        line-height: 0
+        position: relative
+        vertical-align: baseline
+    sup
+        top: -0.5em
+    sub
+        bottom: -0.25em
 
-    // Unsets the "margin" style for tinymce since it doesn't look right
-    .csl-entry.margin
-        display: table-row
-        .csl-left-margin
-            display: table-cell
-            text-align: right
-        .csl-right-inline
-            display: table-cell
-
-
-#abt-footnote
+.abt-footnote
     margin-bottom: 1em
-    .abt-footnote-heading
-        font-weight: 600
-    .abt-footnote-item
-        .note-number
-            margin-right: 0.5em
-            font-weight: 600
+.abt-footnote__heading
+    font-weight: 600
+.abt-footnote__number
+    margin-right: 0.5em
+    font-weight: 600
+
+.abt-url
+    display: inline
 
 .csl-entry
     &.hanging-indent
@@ -76,3 +44,79 @@
     .csl-left-margin
         padding: 0 8px 0 0
         font-weight: 600
+
+
+// TinyMCE editor only
+#tinymce
+    .abt-citation
+        font-size: 0.8em
+        sup
+            display: inline-block
+            top: -3px
+            font-size: 12px
+    .abt-citation__broken
+        color: red
+        font-weight: bold
+    .abt-footnote
+        margin-bottom: 28px
+        background: $light-gray
+        padding: 10px
+    .abt-footnote__item
+        font-size: 12px
+    .abt-bibliography
+    .abt-static-bib
+        display: table
+        background: $light-gray
+        padding: 10px
+        > div
+            font-size: 12px
+        .abt-bibliography__heading
+        .abt-static-bib__heading
+            font-size: 1.1em
+            margin-bottom: 5px
+        .abt-url
+            margin-left: 3px
+    // Unsets the "margin" style for tinymce since it doesn't look right
+    .csl-entry.margin
+        display: table-row
+        .csl-left-margin
+            display: table-cell
+            text-align: right
+        .csl-right-inline
+            display: table-cell
+
+body:not(#tinymce)
+    .abt-bibliography__heading_toggle
+        margin-left: -30px
+        user-select: none
+        &:hover
+            cursor: pointer
+        &:before
+            content: '\f140'
+            font-family: 'dashicons'
+            position: relative
+            font-size: 30px
+            top: 5px
+        &.abt-hidden:before
+            content: '\f139'
+
+// Deprecations
+#tinymce
+    .abt_cite
+        @extends #tinymce .abt-citation
+    #abt-smart-bib
+        @extends #tinymce .abt-bibliography
+    #abt-footnote
+        @extends #tinymce .abt-footnote
+    .abt-footnote-item
+        @extends #tinymce .abt-footnote__item
+.abt_cite
+    @extends .abt-citation
+#abt-footnote
+    @extends .abt-footnote
+.abt-footnote-heading
+    @extends .abt-footnote__heading
+.note-number
+    @extends .abt-footnote__number
+body:not(#tinymce) #abt-smart-bib > h3.toggle
+    @extends body:not(#tinymce) .abt-bibliography__heading_toggle

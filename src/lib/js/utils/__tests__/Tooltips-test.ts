@@ -3,7 +3,7 @@ import { createTooltip, destroyTooltip } from '../Tooltips';
 describe('Tooltips.ts', () => {
     describe('createTooltip', () => {
         it('should create tooltip on bottom', () => {
-            const container = document.createElement('DIV');
+            const container = document.createElement('div');
             container.id = 'main';
             createTooltip(container, 'testing', 'bottom');
             const tip = document.getElementById('abt-tooltip');
@@ -14,7 +14,7 @@ describe('Tooltips.ts', () => {
             container.remove();
         });
         it('should create tooltip on top', () => {
-            const container = document.createElement('DIV');
+            const container = document.createElement('div');
             container.id = 'main';
             spyOn(container, 'getBoundingClientRect').and.returnValue({
                 bottom: 0,
@@ -34,7 +34,7 @@ describe('Tooltips.ts', () => {
             container.remove();
         });
         it('should create tooltip on left', () => {
-            const container = document.createElement('DIV');
+            const container = document.createElement('div');
             container.id = 'main';
             spyOn(container, 'getBoundingClientRect').and.returnValue({
                 bottom: 0,
@@ -54,7 +54,7 @@ describe('Tooltips.ts', () => {
             container.remove();
         });
         it('should create tooltip on right', () => {
-            const container = document.createElement('DIV');
+            const container = document.createElement('div');
             container.id = 'main';
             spyOn(container, 'getBoundingClientRect').and.returnValue({
                 bottom: 0,

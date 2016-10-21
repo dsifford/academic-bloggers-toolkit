@@ -68,8 +68,8 @@ describe('Reflist Store', () => {
             expect(store.citations.citationByIndex.length).toBe(2);
             expect(store.citations.CSL.keys().length).toBe(3);
 
-            const parent = document.createElement('DIV');
-            const el = document.createElement('DIV');
+            const parent = document.createElement('div');
+            const el = document.createElement('div');
             el.id = 'htmlSpanId';
             parent.appendChild(el);
             document.body.appendChild(parent);

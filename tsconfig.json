@@ -48,6 +48,7 @@
         "cacheDirectory": "tmp/tscache"
     },
     "files": [
+        "src/lib/js/__tests__/Frontend-test.ts",
         "src/lib/js/components/__tests__/Spinner-test.tsx",
         "src/lib/js/components/__tests__/ToggleSwitch-test.tsx",
         "src/lib/js/components/Spinner.tsx",

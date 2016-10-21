@@ -48,7 +48,7 @@ const setupAutocite = (kind: 'book'|'chapter'|'webpage' = 'webpage', inputType: 
 
 describe('<ManualEntryContainer />', () => {
     it('should render with loading spinner', () => {
-        const d = document.createElement('DIV');
+        const d = document.createElement('div');
         d.id = 'abt-root';
         document.body.appendChild(d);
         const { component, instance } = setup('article-journal', true);

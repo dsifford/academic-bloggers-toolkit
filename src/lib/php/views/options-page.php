@@ -226,23 +226,23 @@
                         </tr>
                         <tr>
                             <td><strong><?php _e('Inline Citations', 'academic-bloggers-toolkit') ?></strong></td>
-                            <td><code>.abt_cite</code></td>
+                            <td><code>.abt-citation</code></td>
                         </tr>
                         <tr>
                             <td><strong><?php _e('Citation Tooltips', 'academic-bloggers-toolkit') ?></strong></td>
-                            <td><code>.abt-tooltip, .abt_tooltip_arrow, .abt_tooltip_touch_close</code></td>
+                            <td><code>.abt-tooltip, .abt_tooltip__callout, .abt-tooltip__close-button</code></td>
                         </tr>
                         <tr>
                             <td><strong><?php _e('Bibliography', 'academic-bloggers-toolkit') ?></strong></td>
-                            <td><code>#abt-smart-bib, #abt-smart-bib h3, #abt-smart-bib > div, .abt-url</code></td>
+                            <td><code>.abt-bibliography, .abt-bibliography__heading, .abt-bibliography__container > div, .abt-url</code></td>
                         </tr>
                         <tr>
                             <td><strong><?php _e('Static Publication Lists', 'academic-bloggers-toolkit') ?></strong></td>
-                            <td><code>.abt-static-bib, .abt-static-bib h3, .abt-static-bib > div, .abt-url</code></td>
+                            <td><code>.abt-static-bib, .abt-static-bib > div, .abt-url</code></td>
                         </tr>
                         <tr>
                             <td><strong><?php _e('Footnotes', 'academic-bloggers-toolkit') ?></strong></td>
-                            <td><code>#abt-footnote, .abt-footnote-heading, .abt-footnote-item, .abt-footnote-number</code></td>
+                            <td><code>#abt-footnote, .abt-footnote__heading, .abt-footnote__item, .abt-footnote-number</code></td>
                         </tr>
                     </table>
                     <div style="font-size: 0.8em;"><?php _e('Note: If you are already using a child theme to load CSS, place your CSS overrides there. The box on the left is only a crutch for those who do not have any custom CSS saved yet. Loading CSS this way is very inefficient.', 'academic-bloggers-toolkit') ?></div>

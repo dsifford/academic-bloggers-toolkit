@@ -212,7 +212,7 @@ export function formatBibliography(
     CSL: ObservableMap<CSL.Data>,
 ): ABT.Bibliography {
     const [bibmeta, bibHTML] = rawBib;
-    const temp = document.createElement('DIV');
+    const temp = document.createElement('div');
 
     const payload: {id: string, html: string}[] = bibHTML.map((html, i) => {
 
