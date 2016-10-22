@@ -47,7 +47,6 @@ h2 Status: "$(echo "$req" | jq -r '.response.status')"
 h3 Terms Parsed: "$(echo "$req" | jq -r '.details.terms.parsed')"
 h3 Terms Added: "$(echo "$req" | jq -r '.details.terms.added')"
 h3 Terms Deleted: "$(echo "$req" | jq -r '.details.terms.deleted')"
-exit
 
 # Make sure svn repo is up to date
 cd "$SVNROOT" || exit
