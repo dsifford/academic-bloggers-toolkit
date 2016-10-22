@@ -4,7 +4,7 @@ Please use this template for all bug reports.
 Before submitting an issue, please try disabling all other plugins to ensure issue is isolated within ABT
 -->
 
-**ABT Version:** 4.5.0
+**ABT Version:** 4.6.0
 
 <!-- Which version of PHP are you using with your WordPress installation? -->
 **PHP Version:** 5.6

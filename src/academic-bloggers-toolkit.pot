@@ -1,8 +1,8 @@
-# Copyright (C) 2016 Academic Blogger's Toolkit 4.5.0
-# This file is distributed under the same license as the Academic Blogger's Toolkit 4.5.0 package.
+# Copyright (C) 2016 Academic Blogger's Toolkit 4.6.0
+# This file is distributed under the same license as the Academic Blogger's Toolkit 4.6.0 package.
 msgid ""
 msgstr ""
-"Project-Id-Version: Academic Blogger's Toolkit 4.5.0\n"
+"Project-Id-Version: Academic Blogger's Toolkit 4.6.0\n"
 "Report-Msgid-Bugs-To: https://github.com/dsifford/academic-bloggers-toolkit/issues\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -28,7 +28,7 @@ msgstr ""
 msgid "Reference List"
 msgstr ""
 
-#: lib/php/endpoints.php:38, lib/php/endpoints.php:209
+#: lib/php/endpoints.php:166
 msgid "Your WordPress PHP installation is incomplete. You must have the following PHP extensions enabled to use this feature: %s"
 msgstr ""
 
@@ -648,134 +648,138 @@ msgstr ""
 msgid "PHP version should be > 5.5 (Recommended Version = 7.0.0)"
 msgstr ""
 
-#: lib/php/views/options-page.php:30, lib/php/views/options-page.php:53, lib/php/views/options-page.php:75
+#: lib/php/views/options-page.php:30, lib/php/views/options-page.php:53
 msgid "PHP %s Extension"
 msgstr ""
 
-#: lib/php/views/options-page.php:34, lib/php/views/options-page.php:57, lib/php/views/options-page.php:79
+#: lib/php/views/options-page.php:34, lib/php/views/options-page.php:57
 msgid "Enabled"
 msgstr ""
 
-#: lib/php/views/options-page.php:37, lib/php/views/options-page.php:60, lib/php/views/options-page.php:82
+#: lib/php/views/options-page.php:37, lib/php/views/options-page.php:60
 msgid "Disabled"
 msgstr ""
 
-#: lib/php/views/options-page.php:44, lib/php/views/options-page.php:67, lib/php/views/options-page.php:89
+#: lib/php/views/options-page.php:44, lib/php/views/options-page.php:67
 msgid "The %s PHP extension is required for some plugin features."
 msgstr ""
 
-#: lib/php/views/options-page.php:44, lib/php/views/options-page.php:67, lib/php/views/options-page.php:89
+#: lib/php/views/options-page.php:44, lib/php/views/options-page.php:67
 msgid "Click here for installation instructions"
 msgstr ""
 
-#: lib/php/views/options-page.php:97
+#: lib/php/views/options-page.php:75
 msgid "Recommended Browsers (in order)"
 msgstr ""
 
-#: lib/php/views/options-page.php:98
+#: lib/php/views/options-page.php:76
 msgid "Google Chrome, Mozilla Firefox, or Microsoft Edge."
 msgstr ""
 
-#: lib/php/views/options-page.php:107
+#: lib/php/views/options-page.php:85
 msgid "Default Citation Style"
 msgstr ""
 
-#: lib/php/views/options-page.php:114
+#: lib/php/views/options-page.php:92
 msgid "Use a predefined citation style by default"
 msgstr ""
 
-#: lib/php/views/options-page.php:120
+#: lib/php/views/options-page.php:98
 msgid "Use custom citation style by default "
 msgstr ""
 
-#: lib/php/views/options-page.php:142, lib/php/views/options-page.php:229, lib/php/views/options-page.php:277
+#: lib/php/views/options-page.php:120, lib/php/views/options-page.php:207, lib/php/views/options-page.php:255
 msgid "Update"
 msgstr ""
 
-#: lib/php/views/options-page.php:150
+#: lib/php/views/options-page.php:128
 msgid "Display Options"
 msgstr ""
 
-#: lib/php/views/options-page.php:154
+#: lib/php/views/options-page.php:132
 msgid "Bibliography style"
 msgstr ""
 
-#: lib/php/views/options-page.php:159
+#: lib/php/views/options-page.php:137
 msgid "Fixed"
 msgstr ""
 
-#: lib/php/views/options-page.php:165
+#: lib/php/views/options-page.php:143
 msgid "Toggle"
 msgstr ""
 
-#: lib/php/views/options-page.php:170
+#: lib/php/views/options-page.php:148
 msgid "Interactive Demo"
 msgstr ""
 
-#: lib/php/views/options-page.php:174
+#: lib/php/views/options-page.php:152
 msgid "Citation Link Style"
 msgstr ""
 
-#: lib/php/views/options-page.php:179
+#: lib/php/views/options-page.php:157
 msgid "whenever possible (subtle)"
 msgstr ""
 
-#: lib/php/views/options-page.php:185
+#: lib/php/views/options-page.php:163
 msgid "whenever possible (full surround)"
 msgstr ""
 
-#: lib/php/views/options-page.php:191
+#: lib/php/views/options-page.php:169
 msgid "when the citation has a visible URL"
 msgstr ""
 
-#: lib/php/views/options-page.php:197
+#: lib/php/views/options-page.php:175
 msgid "never"
 msgstr ""
 
-#: lib/php/views/options-page.php:222
+#: lib/php/views/options-page.php:200
 msgid "Bibliography Heading"
 msgstr ""
 
-#: lib/php/views/options-page.php:237
+#: lib/php/views/options-page.php:215
 msgid "Override CSS"
 msgstr ""
 
-#: lib/php/views/options-page.php:247
+#: lib/php/views/options-page.php:225
 msgid "CSS Selectors used in this plugin"
 msgstr ""
 
-#: lib/php/views/options-page.php:250
+#: lib/php/views/options-page.php:228
 msgid "Inline Citations"
 msgstr ""
 
-#: lib/php/views/options-page.php:254
+#: lib/php/views/options-page.php:232
 msgid "Citation Tooltips"
 msgstr ""
 
-#: lib/php/views/options-page.php:258
+#: lib/php/views/options-page.php:236
 msgid "Bibliography"
 msgstr ""
 
-#: lib/php/views/options-page.php:262
+#: lib/php/views/options-page.php:240
 msgid "Static Publication Lists"
 msgstr ""
 
-#: lib/php/views/options-page.php:266
+#: lib/php/views/options-page.php:244
 msgid "Footnotes"
 msgstr ""
 
-#: lib/php/views/options-page.php:270
+#: lib/php/views/options-page.php:248
 msgid "Note: If you are already using a child theme to load CSS, place your CSS overrides there. The box on the left is only a crutch for those who do not have any custom CSS saved yet. Loading CSS this way is very inefficient."
 msgstr ""
 
-#: lib/php/views/options-page.php:284
+#: lib/php/views/options-page.php:262
 msgid "How do I"
 msgstr ""
 
-#: lib/php/views/options-page.php:288
+#: lib/php/views/options-page.php:266
 msgid "Make my tooltips a different color?"
 msgstr ""
 
-#: lib/php/views/options-page.php:293
+#: lib/php/views/options-page.php:271
 msgid "Apply style to the bibliography list?"
+msgstr ""
+
+#: lib/php/views/options-page.php:276
+msgid "Apply style to the inline citations"
 msgstr ""
