@@ -101,6 +101,7 @@ body:not(#tinymce)
             content: '\f139'
 
 // Deprecations
+// @stylint off
 #tinymce
     .abt_cite
         @extends #tinymce .abt-citation
@@ -118,5 +119,6 @@ body:not(#tinymce)
     @extends .abt-footnote__heading
 .note-number
     @extends .abt-footnote__number
-body:not(#tinymce) #abt-smart-bib > h3.toggle
+body:not(#tinymce) #abt-smart-bib > h3.toggle // @stylint ignore
     @extends body:not(#tinymce) .abt-bibliography__heading_toggle
+// @stylint on
