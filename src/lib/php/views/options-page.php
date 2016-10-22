@@ -234,11 +234,11 @@
                         </tr>
                         <tr>
                             <td><strong><?php _e('Bibliography', 'academic-bloggers-toolkit') ?></strong></td>
-                            <td><code>.abt-bibliography, .abt-bibliography__heading, .abt-bibliography__container > div, .abt-url</code></td>
+                            <td><code>.abt-bibliography, .abt-bibliography__heading, .abt-bibliography__container > div</code></td>
                         </tr>
                         <tr>
                             <td><strong><?php _e('Static Publication Lists', 'academic-bloggers-toolkit') ?></strong></td>
-                            <td><code>.abt-static-bib, .abt-static-bib > div, .abt-url</code></td>
+                            <td><code>.abt-static-bib, .abt-static-bib > div</code></td>
                         </tr>
                         <tr>
                             <td><strong><?php _e('Footnotes', 'academic-bloggers-toolkit') ?></strong></td>
