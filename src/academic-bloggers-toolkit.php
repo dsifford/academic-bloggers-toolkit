@@ -103,7 +103,7 @@ function abt_add_donate_link( $plugin_meta, $plugin_file ) {
 	if (plugin_basename( __FILE__ ) == $plugin_file) {
 		$plugin_meta[] = sprintf(
 			'&hearts; <a href="%s">%s</a>',
-			'https://cash.me/$dsifford',
+			'https://donorbox.org/academic-bloggers-toolkit',
 			__( 'Donate', 'academic-bloggers-toolkit' )
 		);
 	}

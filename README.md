@@ -1,4 +1,5 @@
 ![ABT Banner](http://i.imgur.com/UxBG7NB.png)
+[![Donate](https://img.shields.io/badge/%E2%9D%A4-donate-brightgreen.svg)](https://donorbox.org/academic-bloggers-toolkit)
 [![DOI](https://zenodo.org/badge/37433718.svg)](https://zenodo.org/badge/latestdoi/37433718)
 [![Changelog](https://img.shields.io/badge/changelog-academic--bloggers--toolkit-blue.svg)](https://headwayapp.co/academic-bloggers-toolkit-changelog)
 [![Build Status](https://travis-ci.org/dsifford/academic-bloggers-toolkit.svg?branch=master)](https://travis-ci.org/dsifford/academic-bloggers-toolkit)
