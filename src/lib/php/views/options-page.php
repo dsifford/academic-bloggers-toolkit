@@ -1,4 +1,4 @@
-<div class="wrap"><h2><?php _e("Academic Blogger's Toolkit Options", 'academic-bloggers-toolkit') ?></h2><div id="poststuff"><div id="post-body" class="metabox-holder"><div id="post-body-content"><div class="meta-box-sortables ui-sortable">
+<div class="wrap"><h2><?php _e("Academic Blogger's Toolkit Options", 'academic-bloggers-toolkit') ?><span style="display: inline-block; float: right; position: relative; top: -10px;"><a class="dbox-donation-button" href="https://donorbox.org/academic-bloggers-toolkit" target="_blank" rel="noopener noreferrer" style="background:#2d81c5; color: #fff;text-decoration: none;display: inline-block;font-size: 16px;padding: 5px 15px; -webkit-border-radius: 2px; -moz-border-radius: 2px; border-radius: 2px; box-shadow: 0 1px 0 0 #1f5a89; text-shadow: 0 1px rgba(0, 0, 0, 0.3);" >&hearts; Donate</a></span></h2><div id="poststuff"><div id="post-body" class="metabox-holder"><div id="post-body-content"><div class="meta-box-sortables ui-sortable">
 
 
 <!-- Feedback Box -->
