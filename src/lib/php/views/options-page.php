@@ -272,6 +272,11 @@
                 <p data-height="300" data-theme-id="dark" data-slug-hash="JKjzGj" data-default-tab="result" data-user="dsifford" data-embed-version="2" class="codepen">See the Pen <a href="http://codepen.io/dsifford/pen/JKjzGj/">Bibliography</a> by Derek Sifford (<a href="http://codepen.io/dsifford">@dsifford</a>) on <a href="http://codepen.io">CodePen</a>.</p>
                 <script async src="//assets.codepen.io/assets/embed/ei.js"></script>
             </div>
+            <div style="flex: 1; min-width: 300px; padding: 0 5px;">
+                <strong><?php _e('Apply style to the inline citations', 'academic-bloggers-toolkit') ?></strong>
+                <p data-height="300" data-theme-id="dark" data-slug-hash="xErGdq" data-default-tab="result" data-user="dsifford" data-embed-version="2" class="codepen">See the Pen <a href="http://codepen.io/dsifford/pen/xErGdq/">Inline Citations</a> by Derek Sifford (<a href="http://codepen.io/dsifford">@dsifford</a>) on <a href="http://codepen.io">CodePen</a>.</p>
+                <script async src="//assets.codepen.io/assets/embed/ei.js"></script>
+            </div>
         </div>
     </div>
 </div>

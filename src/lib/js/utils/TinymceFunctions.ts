@@ -174,7 +174,7 @@ function parseFootnoteCitations(
         const citations = <NodeListOf<HTMLSpanElement>>doc.querySelectorAll('.abt-citation, .abt_cite');
 
         [...citations].forEach((c, i) => {
-            c.innerText = `[${i + 1}]`; /* FIXME: Not sure if this is guarenteed to be ordered */
+            c.innerText = `[${i + 1}]`;
 
             /**
              * Iterate and set a new footnote box using stored html on the inline notes.
