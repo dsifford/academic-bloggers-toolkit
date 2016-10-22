@@ -10,7 +10,7 @@ export function createTooltip(target: HTMLElement, tip: string, position: 'top'|
     const top = rect.top + (rect.height / 2);
     let left = rect.left + (rect.width / 2);
 
-    const el = document.createElement('DIV');
+    const el = document.createElement('div');
     el.id = 'abt-tooltip';
     el.innerText = tip;
     el.classList.add('abt-tooltip');

@@ -9,15 +9,10 @@ interface Props {
 @observer
 export class IdentifierInput extends React.PureComponent<Props, {}> {
 
-    input: HTMLInputElement;
     labels = top.ABT_i18n.tinymce.referenceWindow.identifierInput;
 
-    componentDidMount() {
-        this.input.focus();
-    }
-
     focusInputField = (c) => {
-        this.input = c;
+        if (c) c.focus();
     }
 
     handleChange = (e: React.FormEvent<HTMLInputElement>) => {

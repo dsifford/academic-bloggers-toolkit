@@ -1582,6 +1582,14 @@ exports.ABT_i18n = {
             value: 'patent',
         },
         {
+            label: 'Test not in use',
+            value: 'testing',
+        },
+        {
+            label: 'Test not in use',
+            value: 'testing2',
+        },
+        {
             label: 'Report',
             value: 'report',
         },
@@ -1600,10 +1608,6 @@ exports.ABT_i18n = {
         {
             label: 'Web Page',
             value: 'webpage',
-        },
-        {
-            label: 'Test not in use',
-            value: 'testing',
         },
     ],
 };

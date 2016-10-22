@@ -30,12 +30,8 @@ export function getFromURL(url: string): Promise<ABT.URLMeta> {
                 || res.sailthru.title
                 || res.title;
 
-            let site_title = res.og.site_name
-                || res.title;
-
-            if (site_title === content_title) {
-                site_title = url.match(/(?:(?:https?:\/\/www.)|(?:https?:\/\/)|(?:www\.))(.+?)\//)[1];
-            }
+            const site_title = res.og.site_name
+                || '';
 
             let issued = res.issued
                 || res.og.pubdate

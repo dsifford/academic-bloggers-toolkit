@@ -1,13 +1,11 @@
 import * as React from 'react';
 import { mount } from 'enzyme';
-import * as sinon from 'sinon';
 import { Paginate } from '../Paginate';
 
 const setup = (
     page: number,
     resultLength: number
 ) => {
-    const spy = sinon.spy();
     const component = mount(
         <Paginate
             page={page}
@@ -23,7 +21,6 @@ const setup = (
         component,
         next: component.find('#next'),
         prev: component.find('#prev'),
-        spy,
     };
 };
 

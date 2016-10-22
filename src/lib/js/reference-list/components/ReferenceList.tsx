@@ -192,12 +192,12 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
                 margin = '0 0 28px';
             }
 
-            const bib = this.editor.dom.doc.createElement('DIV');
+            const bib = this.editor.dom.doc.createElement('div');
             bib.className = 'noselect mceNonEditable abt-static-bib';
             bib.style.margin = margin;
 
             for (const meta of bibliography) {
-                const item = this.editor.dom.doc.createElement('DIV');
+                const item = this.editor.dom.doc.createElement('div');
                 item.id = meta.id;
                 item.innerHTML = meta.html;
                 bib.appendChild(item);
@@ -217,7 +217,7 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
         });
     }
 
-    insertInlineCitation = (e?: React.MouseEvent<HTMLAnchorElement>, data?: CSL.Data[]) => {
+    insertInlineCitation = (e?: React.MouseEvent<HTMLAnchorElement>, data: CSL.Data[] = []) => {
 
         if (e) e.preventDefault();
         this.editor.setProgressState(true);
@@ -226,8 +226,7 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
          * If no data, then this must be a case where we're inserting from the
          *   list selection.
          */
-        if (!data || data.length === 0) {
-            data = [];
+        if (data.length === 0) {
             this.selected.forEach(id => {
                 data.push(this.props.store.citations.CSL.get(id));
             });
@@ -238,7 +237,7 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
          *   from it and push it to data.
          */
         const selection = this.editor.selection.getContent({ format: 'html' });
-        if (/<span id="([\d\w]+)" class="abt_cite .+<\/span>/.test(selection)) {
+        if (/<span id="([\d\w]+)" class="(?:abt-citation|abt_cite) ?.+<\/span>/.test(selection)) {
             const re = /&quot;(\w+?)&quot;/g;
             let m: RegExpExecArray;
             while ((m = re.exec(selection)) !== null) { // tslint:disable-line:no-conditional-assignment
@@ -298,8 +297,7 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
     }
 
     @action
-    deleteCitations = (e?: React.MouseEvent<HTMLAnchorElement>) => {
-        if (e) e.preventDefault();
+    deleteCitations = () => {
         if (this.selected.length === 0) return;
         this.editor.setProgressState(true);
         this.props.store.citations.removeItems(this.selected, this.editor.dom.doc);
@@ -371,7 +369,7 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
                 this.openImportWindow();
                 return;
             case 'REFRESH_PROCESSOR':
-                const citations = this.editor.dom.doc.querySelectorAll('.abt_cite');
+                const citations = this.editor.dom.doc.querySelectorAll('.abt-citation, .abt_cite');
                 const IDs = [...citations].map(c => c.id);
                 this.props.store.citations.pruneOrphanedCitations(IDs);
                 this.initProcessor();

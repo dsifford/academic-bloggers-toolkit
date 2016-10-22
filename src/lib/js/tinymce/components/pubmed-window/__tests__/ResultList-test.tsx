@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { mount } from 'enzyme';
-import * as sinon from 'sinon';
 import { ResultList } from '../ResultList';
 
 const testData: PubMed.SingleReference[] = [
@@ -31,7 +30,7 @@ const testData: PubMed.SingleReference[] = [
 ];
 
 const setup = () => {
-    const spy = sinon.spy();
+    const spy = jest.fn();
     const component = mount(
         <ResultList
             results={testData}
@@ -41,6 +40,7 @@ const setup = () => {
     return {
         spy,
         component,
+        instance: component.instance() as any,
         results: component.find('.result-item'),
     };
 };
@@ -52,19 +52,17 @@ describe('<ResultList />', () => {
     });
     it('should call handleClick on addReference click', () => {
         const { results, spy } = setup();
-
-        expect(spy.callCount).toBe(0);
+        expect(spy).toHaveBeenCalledTimes(0);
         const button = results.children().find('input.abt-btn.abt-btn_submit.abt-btn_flat').first();
         button.simulate('click');
-        expect(spy.callCount).toBe(1);
-        expect(spy.firstCall.args[0]).toBe('11111');
+        expect(spy).toHaveBeenCalledTimes(1);
+        expect(spy.mock.calls[0]).toEqual(['11111']);
     });
     it('should scroll to the top on update', () => {
-        const spy = sinon.spy(ResultList.prototype, 'componentDidUpdate');
-        const { component } = setup();
+        const { component, instance } = setup();
+        instance.element.scrollTop = 150;
         component.update();
-        expect(spy.callCount).toBe(1);
-        spy.restore();
+        expect(instance.element.scrollTop).toBe(0);
     });
     it('should handle scroll', () => {
         const { component } = setup();

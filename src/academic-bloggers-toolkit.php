@@ -4,14 +4,14 @@
  *	Plugin Name: Academic Blogger's Toolkit
  *	Plugin URI: https://wordpress.org/plugins/academic-bloggers-toolkit/
  *	Description: A plugin extending the functionality of Wordpress for academic blogging
- *	Version: 4.5.0
+ *	Version: 4.6.0
  *	Author: Derek P Sifford
  *	Author URI: https://github.com/dsifford
  *	License: GPL3 or later
  *  Text Domain: academic-bloggers-toolkit
  */
 
-define('ABT_VERSION', '4.5.0');
+define('ABT_VERSION', '4.6.0');
 
 /**
  * Load plugin translations
@@ -103,7 +103,7 @@ function abt_add_donate_link( $plugin_meta, $plugin_file ) {
 	if (plugin_basename( __FILE__ ) == $plugin_file) {
 		$plugin_meta[] = sprintf(
 			'&hearts; <a href="%s">%s</a>',
-			'https://cash.me/$dsifford',
+			'https://donorbox.org/academic-bloggers-toolkit',
 			__( 'Donate', 'academic-bloggers-toolkit' )
 		);
 	}

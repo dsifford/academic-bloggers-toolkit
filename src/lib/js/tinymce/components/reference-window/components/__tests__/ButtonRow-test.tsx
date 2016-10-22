@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { mount } from 'enzyme';
-import * as sinon from 'sinon';
 import { ButtonRow } from '../ButtonRow';
 const before = beforeAll;
 
@@ -8,7 +7,7 @@ const setup = (
     addManually: boolean = false,
     attachInline: boolean = false
 ) => {
-    const spy = sinon.spy();
+    const spy = jest.fn();
     const component = mount(
         <ButtonRow
             addManually={addManually}
@@ -33,14 +32,14 @@ describe('<ButtonRow />', () => {
     let submitSpy;
 
     before(() => {
-        submitSpy = sinon.spy();
+        submitSpy = jest.fn();
         window['tinyMCE'] = {
             activeEditor: {
                 windowManager: {
-                    open: (a) => {
+                    open: jest.fn((a) => {
                         const e = { target: { data: { pmid: 12345 }}};
                         submitSpy(a.onsubmit(e));
-                    },
+                    }),
                     windows: [
                         {
                             settings: {
@@ -72,18 +71,15 @@ describe('<ButtonRow />', () => {
 
         checkbox.simulate('change');
         addManually.simulate('click');
-
-        expect(spy.callCount).toBe(2);
-        expect(spy.firstCall.calledWithExactly(new CustomEvent('TOGGLE_MANUAL'))).toBeTruthy;
-        expect(spy.secondCall.calledWithExactly(new CustomEvent('TOGGLE_INLINE_ATTACHMENT'))).toBeTruthy;
+        expect(spy).toHaveBeenCalledTimes(2);
     });
     it('should open the pubmed window appropriately', () => {
-        const spy = sinon.spy(window.tinyMCE.activeEditor.windowManager, 'open');
+        const spy = window.tinyMCE.activeEditor.windowManager.open as any;
         const { searchPubmed } = setup();
         searchPubmed.simulate('click');
-        expect(spy.callCount).toBe(1);
-        expect(spy.args[0][0].title).toBe('Search PubMed for Reference');
-        expect(submitSpy.callCount).toBe(1);
+        expect(spy).toHaveBeenCalledTimes(1);
+        expect(spy.mock.calls[0][0].title).toBe('Search PubMed for Reference');
+        expect(submitSpy).toHaveBeenCalledTimes(1);
     });
     it('should handle mouseover correctly', () => {
         const { label } = setup();

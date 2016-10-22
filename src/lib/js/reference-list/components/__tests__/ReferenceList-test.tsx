@@ -1,14 +1,24 @@
 jest.mock('../../../utils/CSLProcessor');
+// jest.mock('../../../utils/TinymceFunctions');
 
 import * as React from 'react';
 import { mount } from 'enzyme';
 import { ReferenceList } from '../ReferenceList';
 import { Store } from '../../Store';
+import * as MCE from '../../../utils/TinymceFunctions';
 const reflistState = require('../../../../../../scripts/fixtures').reflistState;
 const before = beforeAll;
 
 window['ABT_Custom_CSL'] = { value: null };
 window['ABT_CitationStyles'] = [{ label: 'Test', value: 'american-medical-association' }];
+window['Rollbar'] = { error: () => null };
+window['tinyMCE'] = {
+    editors: {
+        content: {
+            setProgressState: () => null,
+        },
+    },
+} as any;
 
 const setup = () => {
     const store = new Store(reflistState as BackendGlobals.ABT_Reflist_State);
@@ -31,16 +41,60 @@ const setupDimentions = (scrollTop = 0, childHeights = [100, 100, 100]) => {
     uncited1.clientHeight = childHeights[2];
 };
 
+const setupInstance = (instance, {
+    staticBibReturnBool = false,
+    getStyle = 'defined',
+    content = '',
+    staticBibError = false,
+} = {}) => {
+    instance.selected = ['12345678'];
+    instance.processor.makeBibliography = () => [{ html: '<div>test</div>', id: '12345678' }];
+    instance.processor.citeproc = {
+        opt: {
+            xclass: 'in-text',
+        },
+        registry: {
+            citationreg: {
+                citationById: {
+                    tester: {},
+                },
+            },
+        },
+    };
+    instance.processor.init = () => new Promise(res => res(true));
+    instance.editor = {
+        dom: { doc: document },
+        selection: {
+            getContent: () => content,
+        },
+        setProgressState: () => null,
+        windowManager: { alert: jest.fn() },
+    };
+    instance.processor.createStaticBibliography = staticBibError
+        ? () => new Promise((_res, rej) => { rej(new Error('test error')); })
+        : () => new Promise(res => staticBibReturnBool ? res(false) : res([{ html: '<div>test</div>', id: '11111' }]));
+    switch (getStyle) {
+        case 'defined':
+            instance.editor.dom.getStyle = () => '0 0 50px';
+            break;
+        case 'undefined':
+            instance.editor.dom.getStyle = () => undefined;
+            break;
+        default:
+    }
+    instance.editor.insertContent = () => null;
+};
+
 describe('<ReferenceList />', () => {
     before(() => {
-        const main = document.createElement('DIV');
-        const cited = document.createElement('DIV');
-        const citedChild1 = document.createElement('DIV') as any;
+        const main = document.createElement('div');
+        const cited = document.createElement('div');
+        const citedChild1 = document.createElement('div');
         citedChild1.id = 'cited1';
-        const citedChild2 = document.createElement('DIV') as any;
+        const citedChild2 = document.createElement('div');
         citedChild2.id = 'cited2';
-        const uncited = document.createElement('DIV');
-        const uncitedChild = document.createElement('DIV') as any;
+        const uncited = document.createElement('div');
+        const uncitedChild = document.createElement('div');
         uncitedChild.id = 'uncited1';
         main.id = 'abt-reflist';
         cited.id = 'cited';
@@ -52,11 +106,87 @@ describe('<ReferenceList />', () => {
         main.appendChild(uncited);
         document.body.appendChild(main);
     });
+
     it('should render with loading spinner', () => {
         const { component } = setup();
         expect(component.find('Spinner').length).toBe(1);
     });
+
+    describe('insertStaticBibliography()', () => {
+        it('should work in standard form', () => {
+            const { instance } = setup();
+            setupInstance(instance);
+            instance.insertStaticBibliography();
+        });
+        it('should throw/catch an error at getStyle - default margin to 0 0 28px', () => {
+            const { instance } = setup();
+            setupInstance(instance, {
+                getStyle: '',
+            });
+            instance.insertStaticBibliography();
+        });
+        it('should default to margin 0 0 28px if getStyle returns falsy', () => {
+            const { instance } = setup();
+            setupInstance(instance, {
+                getStyle: 'undefined',
+            });
+            instance.insertStaticBibliography();
+        });
+        it('should alert and exit if boolean returned from createStaticBibliography', () => {
+            const { instance } = setup();
+            setupInstance(instance, {
+                content: '<div class="abt-static-bib"><div id="f7s9f7d5"></div></div>',
+                staticBibReturnBool: true,
+            });
+            instance.insertStaticBibliography();
+        });
+        it('should throw error', () => {
+            spyOn(MCE, 'parseInlineCitations').and.returnValue(
+                new Promise(res => res(true))
+            );
+            const { instance } = setup();
+            setupInstance(instance, {
+                staticBibError: true,
+            });
+            instance.insertStaticBibliography();
+        });
+    });
+
+    describe('insertInlineCitation()', () => {
+        it('should preventDefault() and throw an error at the end', () => {
+            spyOn(MCE, 'getRelativeCitationPositions').and.returnValue({
+                currentIndex: 0,
+                locations: [
+                    [['00000000', 0], ['11111111', 1]],
+                    [['22222222', 2]],
+                ],
+            });
+            spyOn(MCE, 'parseInlineCitations').and.returnValue(new Promise(res => res(true)));
+            const spy = jest.fn();
+            const { instance } = setup();
+            setupInstance(instance);
+            instance.insertInlineCitation({ preventDefault: spy });
+            expect(spy).toHaveBeenCalledTimes(1);
+        });
+        it('should match the regex pattern and throw an error at clusters', () => {
+            const { instance } = setup();
+            setupInstance(instance, {
+                content: '<span id="5k45h3l4j" class="abt-citation" data-reflist="[&quot;3j5k4j35&quot;]">test</span>',
+            });
+            spyOn(MCE, 'getRelativeCitationPositions').and.throwError('testing');
+            instance.insertInlineCitation();
+        });
+    });
+
     describe('@actions', () => {
+        it('deleteCitations', () => {
+            const { instance } = setup();
+            setupInstance(instance);
+            instance.deleteCitations();
+            instance.deleteCitations({ preventDefault: () => null });
+            instance.selected = ['12345678'];
+            instance.deleteCitations();
+        });
         it('toggleLoading()', () => {
             const { instance } = setup();
 

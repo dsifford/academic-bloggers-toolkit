@@ -42,16 +42,16 @@ input
             box-shadow: none
 
     &:focus
-        border-color: #5b9dd9
+        border-color: rgb(91, 157, 217)
         box-shadow: 0 0 2px rgba(30, 140, 190, .8)
         &:invalid
             box-shadow: 0 0 2px rgba(204,0,0,.8)
-            border-color: #dc3232 !important
+            border-color: rgb(220, 50, 50) !important
 
     &:invalid
-        background: #ffe1e3
-        color: #dc3232
-        border: solid #E58383 1px
+        background: rgb(255, 225, 227)
+        border: solid rgb(229, 131, 131) 1px
+        color: rgb(220, 50, 50)
 
     &::-moz-focus-inner
         border: 0
@@ -69,7 +69,7 @@ select
     transition: none
 
 label
-    {$noselect}
+    {$noselect} // @stylint ignore
     white-space: nowrap
     cursor: pointer
     font-size: 0.9em
@@ -121,7 +121,7 @@ label
     display: table-cell
 
 label.uploadLabel
-    input[type='file']
+    input[type='file'] // @stylint ignore
         position: fixed
         top: -1000px
     span
@@ -201,7 +201,7 @@ label.uploadLabel
   margin: 0 10px
   height: 20px
   width: 44px
-  background: #898989
+  background: rgb(137, 137, 137)
   border-radius: 100px
   cursor: pointer
   transition: all .3s ease
@@ -214,7 +214,7 @@ label.uploadLabel
     height: 26px
     border-radius: 100px
     background: white
-    box-shadow: 0px 3px 3px rgba(#000,.05)
+    box-shadow: 0px 3px 3px rgba(black,.05)
     content: ''
     transition: all .3s ease
   &:active
@@ -228,7 +228,7 @@ label.uploadLabel
     background: $blue
 
 .toggle:disabled ~ label
-  background: #D5D5D5
+  background: rgb(213, 213, 213)
   pointer-events: none
   &:after
-    background: #BCBDBC
+    background: rgb(188, 189, 188)

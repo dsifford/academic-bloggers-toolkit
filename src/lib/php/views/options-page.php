@@ -1,4 +1,4 @@
-<div class="wrap"><h2><?php _e("Academic Blogger's Toolkit Options", 'academic-bloggers-toolkit') ?></h2><div id="poststuff"><div id="post-body" class="metabox-holder"><div id="post-body-content"><div class="meta-box-sortables ui-sortable">
+<div class="wrap"><h2><?php _e("Academic Blogger's Toolkit Options", 'academic-bloggers-toolkit') ?><span style="display: inline-block; float: right; position: relative; top: -10px;"><a class="dbox-donation-button" href="https://donorbox.org/academic-bloggers-toolkit" target="_blank" rel="noopener noreferrer" style="background:#2d81c5; color: #fff;text-decoration: none;display: inline-block;font-size: 16px;padding: 5px 15px; -webkit-border-radius: 2px; -moz-border-radius: 2px; border-radius: 2px; box-shadow: 0 1px 0 0 #1f5a89; text-shadow: 0 1px rgba(0, 0, 0, 0.3);" >&hearts; Donate</a></span></h2><div id="poststuff"><div id="post-body" class="metabox-holder"><div id="post-body-content"><div class="meta-box-sortables ui-sortable">
 
 
 <!-- Feedback Box -->
@@ -65,28 +65,6 @@
                     <?php
                         if (!extension_loaded('libxml')) {
                             echo sprintf(__('The %s PHP extension is required for some plugin features.', 'academic-bloggers-toolkit'), '<code>libxml</code>') . '<br><a href="http://php.net/manual/en/intro.libxml.php" target="_blank">' . __('Click here for installation instructions', 'academic-bloggers-toolkit') . '</a>.';
-                        }
-                    ?>
-                </td>
-            </tr>
-
-            <!-- PHP LIBCURL EXTENSION CHECK -->
-            <tr>
-                <td class="row-title"><?php printf(__('PHP %s Extension', 'academic-bloggers-toolkit'), '<code>curl</code>') ?></td>
-                <td>
-                    <?php
-                        if (extension_loaded('curl')) {
-                            _e('Enabled', 'academic-bloggers-toolkit');
-                        }
-                        else {
-                            echo "<span style='font-weight: bold; color: red;'>" . __('Disabled', 'academic-bloggers-toolkit') . "</span>";
-                        }
-                    ?>
-                </td>
-                <td>
-                    <?php
-                        if (!extension_loaded('curl')) {
-                            echo sprintf(__('The %s PHP extension is required for some plugin features.', 'academic-bloggers-toolkit'), '<code>curl</code>') . '<br><a href="http://php.net/manual/en/intro.curl.php" target="_blank">' . __('Click here for installation instructions', 'academic-bloggers-toolkit') . '</a>.';
                         }
                     ?>
                 </td>
@@ -248,23 +226,23 @@
                         </tr>
                         <tr>
                             <td><strong><?php _e('Inline Citations', 'academic-bloggers-toolkit') ?></strong></td>
-                            <td><code>.abt_cite</code></td>
+                            <td><code>.abt-citation</code></td>
                         </tr>
                         <tr>
                             <td><strong><?php _e('Citation Tooltips', 'academic-bloggers-toolkit') ?></strong></td>
-                            <td><code>.abt-tooltip, .abt_tooltip_arrow, .abt_tooltip_touch_close</code></td>
+                            <td><code>.abt-tooltip, .abt_tooltip__callout, .abt-tooltip__close-button</code></td>
                         </tr>
                         <tr>
                             <td><strong><?php _e('Bibliography', 'academic-bloggers-toolkit') ?></strong></td>
-                            <td><code>#abt-smart-bib, #abt-smart-bib h3, #abt-smart-bib > div, .abt-url</code></td>
+                            <td><code>.abt-bibliography, .abt-bibliography__heading, .abt-bibliography__container > div</code></td>
                         </tr>
                         <tr>
                             <td><strong><?php _e('Static Publication Lists', 'academic-bloggers-toolkit') ?></strong></td>
-                            <td><code>.abt-static-bib, .abt-static-bib h3, .abt-static-bib > div, .abt-url</code></td>
+                            <td><code>.abt-static-bib, .abt-static-bib > div</code></td>
                         </tr>
                         <tr>
                             <td><strong><?php _e('Footnotes', 'academic-bloggers-toolkit') ?></strong></td>
-                            <td><code>#abt-footnote, .abt-footnote-heading, .abt-footnote-item, .abt-footnote-number</code></td>
+                            <td><code>#abt-footnote, .abt-footnote__heading, .abt-footnote__item, .abt-footnote-number</code></td>
                         </tr>
                     </table>
                     <div style="font-size: 0.8em;"><?php _e('Note: If you are already using a child theme to load CSS, place your CSS overrides there. The box on the left is only a crutch for those who do not have any custom CSS saved yet. Loading CSS this way is very inefficient.', 'academic-bloggers-toolkit') ?></div>
@@ -292,6 +270,11 @@
             <div style="flex: 1; min-width: 300px; padding: 0 5px;">
                 <strong><?php _e('Apply style to the bibliography list?', 'academic-bloggers-toolkit') ?></strong>
                 <p data-height="300" data-theme-id="dark" data-slug-hash="JKjzGj" data-default-tab="result" data-user="dsifford" data-embed-version="2" class="codepen">See the Pen <a href="http://codepen.io/dsifford/pen/JKjzGj/">Bibliography</a> by Derek Sifford (<a href="http://codepen.io/dsifford">@dsifford</a>) on <a href="http://codepen.io">CodePen</a>.</p>
+                <script async src="//assets.codepen.io/assets/embed/ei.js"></script>
+            </div>
+            <div style="flex: 1; min-width: 300px; padding: 0 5px;">
+                <strong><?php _e('Apply style to the inline citations', 'academic-bloggers-toolkit') ?></strong>
+                <p data-height="300" data-theme-id="dark" data-slug-hash="xErGdq" data-default-tab="result" data-user="dsifford" data-embed-version="2" class="codepen">See the Pen <a href="http://codepen.io/dsifford/pen/xErGdq/">Inline Citations</a> by Derek Sifford (<a href="http://codepen.io/dsifford">@dsifford</a>) on <a href="http://codepen.io">CodePen</a>.</p>
                 <script async src="//assets.codepen.io/assets/embed/ei.js"></script>
             </div>
         </div>

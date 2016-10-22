@@ -1,54 +1,88 @@
-@import 'collections/colors'
-@import 'citations'
+@require 'collections/colors'
+@require 'collections/variables'
+@require 'citations'
 
-span.abt_cite
-    sup, sub
-        font-size: 75%
-        line-height: 0
-        position: relative
-        vertical-align: baseline
-    sup
-        top: -0.5em
-    sub
-        bottom: -0.25em
-
-// ======= Toggleable Bibliography Heading
-#abt-smart-bib
-    &.noselect
-        user-select: inherit
-    h3.toggle
-        margin-left: -30px
-        user-select: none
-        &:hover
-            cursor: pointer
-        &:before
-            content: '\f140'
-            font-family: 'dashicons'
-            position: relative
-            font-size: 30px
-            top: 5px
-        &.abt-hidden:before
-            content: '\f139'
-    .abt-url
-        display: inline
-
-
-// ======== Tooltips =========
-.abt_tooltip
+.abt-tooltip
     border-radius: 3px
+    box-shadow: $citation-tooltip
     padding: 8px
     position: absolute
     margin: auto
     font-size: 0.75em
+    max-width: 500px
     background-color: white
-    box-shadow: 0 0 20px rgba(0,0,0,.20)
     z-index: 20
-    animation: fadeInDown .2s
+    visibility: hidden
     p
         margin: 0 !important
-    .abt-url
-        display: inline
 
+.abt-tooltip_bottom
+    animation: fadeInUp .2s
+
+.abt-tooltip_top
+    animation: fadeInDown .2s
+
+.abt-tooltip_active
+    visibility: visible !important
+
+.abt-tooltip__callout
+    content: ''
+    position: absolute
+    border-width: 8px
+    border-style: solid
+    pointer-events: none
+
+.abt-tooltip__callout_up
+    border-color: transparent transparent white
+    top: -15px
+
+.abt-tooltip__callout_down
+    border-color: white transparent transparent
+    bottom: -15px
+
+.abt-tooltip__close-button-container
+    width: 50px
+    height: 50px
+    position: absolute
+    top: -10px
+    right: -10px
+    text-align: right
+
+.abt-tooltip__close-button
+    position: relative
+    border-radius: 50%
+    width: 26px
+    height: 26px
+    box-sizing: border-box
+    display: inline-block
+    cursor: pointer
+    vertical-align: middle
+    font-style: normal
+    color: $light-gray
+    background: $dark-gray
+    text-indent: -9999px
+    transform: rotate(45deg)
+    transition: 0.3s
+
+    &:hover
+        transform: rotate(-135deg)
+        transition: 0.3s
+
+    &:before
+        content: ''
+        left: 50%
+        top: 50%
+        box-shadow: inset 0 0 0 32px
+        pointer-events: none
+        position: absolute
+        transform: translate(-50%, -50%)
+        height: 2px
+        width: 14px
+
+    &:after
+        @extends .abt-tooltip__close-button:before
+        height: 14px
+        width: 2px
 
 @keyframes fadeInUp
     from
@@ -58,7 +92,6 @@ span.abt_cite
         opacity: 1
         transform: none
 
-
 @keyframes fadeInDown
     from
         opacity: 0
@@ -67,82 +100,18 @@ span.abt_cite
         opacity: 1
         transform: none
 
-
+// Deprecations
+// @stylint off
+.abt_tooltip
+    @extends .abt-tooltip
 .abt_tooltip_arrow
-    content: ''
-    position: absolute
-    margin-left: -8px
-    border-width: 8px
-    border-style: solid
-    pointer-events: none
-
-    &.abt_arrow_up
-        border-color: transparent transparent white
-        top: -15px
-
-    &.abt_arrow_down
-        border-color: white transparent transparent
-        bottom: -15px
-
-
+    @extends .abt-tooltip__callout
+    &.abt_tooltip_arrow_up
+        @extends .abt-tooltip__callout_up
+    &.abt_tooltip_arrow_down
+        @extends .abt-tooltip__callout_down
 .abt_tooltip_touch_close-container
-    width: 50px
-    height: 50px
-    position: absolute
-    top: -10px
-    right: -10px
-    text-align: right
-
-
+    @extends .abt-tooltip__close-button-container
 .abt_tooltip_touch_close
-    position: relative
-    border-radius: 50%
-    width: 26px
-    height: 26px
-    box-sizing: border-box
-    display: inline-block
-    vertical-align: middle
-    font-style: normal
-    color: $light-gray
-    background: $dark-gray
-    text-indent: -9999px
-    transform: rotate(45deg)
-
-    &:before, &:after
-        content: ''
-        left: 50%
-        top: 50%
-        box-shadow: inset 0 0 0 32px
-        position: absolute
-        transform: translate(-50%, -50%)
-
-    &:before
-        width: 14px
-        pointer-events: none
-        height: 2px
-
-    &:after
-        height: 14px
-        pointer-events: none
-        width: 2px
-
-
-.noselect
-    -webkit-touch-callout: none
-    -webkit-user-select: none
-    -khtml-user-select: none
-    -moz-user-select: none
-    -ms-user-select: none
-    user-select: none
-
-
-// ===== Inline Citations ========
-
-span.abt_cite > *
-    pointer-events: none
-
-.abt_cite
-    white-space: nowrap
-
-.abt_cite:hover
-    cursor: pointer
+    @extends .abt-tooltip__close-button
+// @stylint on

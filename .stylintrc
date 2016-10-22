@@ -19,7 +19,7 @@
     "maxWarnings": false,
     "maxWarningsKill": false,
     "mixed": false,
-    "namingConvention": false,
+    "namingConvention": "BEM",
     "namingConventionStrict": true,
     "parenSpace": false,
     "placeholders": false,

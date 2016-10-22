@@ -118,7 +118,6 @@ describe('RISParser', () => {
         }];
         expect(parser.parse()).toEqual(expected);
     });
-
     it('should parse journal-article correctly', () => {
         const parser = new RISParser(testCases[1]);
         const expected: CSL.Data[] = [{
@@ -140,7 +139,6 @@ describe('RISParser', () => {
         }];
         expect(parser.parse()).toEqual(expected);
     });
-
     it('should parse books correctly', () => {
         const parser = new RISParser(testCases[2]);
         const expected: CSL.Data = [{
@@ -168,19 +166,16 @@ describe('RISParser', () => {
         }];
         expect(parser.parse()).toEqual(expected);
     });
-
     it('should keep track of unsupported reference types', () => {
         const parser = new RISParser(testCases[3]);
         const val = parser.parse();
         expect(parser.unsupportedRefs.length).toBe(1);
         expect(val).toEqual([]);
     });
-
     it('should be able to handle empty strings', () => {
         const parser = new RISParser(testCases[4]);
         expect(parser.parse()).toEqual([]);
     });
-
     it('should process an assortment of fields correctly', () => {
         const parser = new RISParser(testCases[5]);
         const expected: CSL.Data = [{

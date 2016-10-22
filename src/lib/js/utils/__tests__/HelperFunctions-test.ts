@@ -11,7 +11,6 @@ import {
 } from '../HelperFunctions';
 
 describe('HelperFunctions', () => {
-
     describe('preventScrollPropagation()', () => {
 
         class Component {
@@ -46,14 +45,12 @@ describe('HelperFunctions', () => {
             expect(stopPropagation).toBeCalled();
             expect(preventDefault).toBeCalled();
         });
-
         it('should stop at bottom and scrolling down', () => {
             const { component, e, preventDefault, stopPropagation } = setup(50, 100, 50, 10);
             preventScrollPropagation.call(component, e);
             expect(stopPropagation).toBeCalled();
             expect(preventDefault).toBeCalled();
         });
-
         it('should not stop when conditions are not met', () => {
             const { component, e, preventDefault, stopPropagation } = setup(15, 10, 560, 10);
             preventScrollPropagation.call(component, e);
@@ -61,9 +58,7 @@ describe('HelperFunctions', () => {
             expect(preventDefault).not.toBeCalled();
         });
     });
-
     describe('formatBibliography()', () => {
-
         // tslint:disable
         const sansHangingIndent = [
             `  <div class="csl-entry">\n    <div class="csl-left-margin">1. </div><div class="csl-right-inline">Westreich M. Preventing complications of subclavian vein catheterization. <i>JACEP</i>. 1978;7(10):368-371.</div>\n  </div>\n`,
@@ -73,9 +68,7 @@ describe('HelperFunctions', () => {
             `  <div class="csl-entry">Manjunath, R, MA Namboodiri, and T Ramasarma. 1978. “Differential Changes in Phenylalanine Hydroxylase, Tyrosine Aminotransferase &#38; Tryptophan Pyrrolase during Hepatic Regeneration.” <i>Indian Journal of Biochemistry &#38;amp; Biophysics</i> 15 (3): 183–87.</div>\n`,
             `  <div class="csl-entry">Westreich, M. 1978. “Preventing Complications of Subclavian Vein Catheterization.” <i>JACEP</i> 7 (10): 368–71.</div>\n`,
         ];
-
         const errorString = '\n[CSL STYLE ERROR: reference with no printed form.]';
-
         const setupArgs = (
             sfo: 'margin'|'flush'|boolean = false,
             hi: boolean = false,
@@ -104,9 +97,8 @@ describe('HelperFunctions', () => {
             ];
         };
         // tslint:enable
-
         it('should handle a variety of different bibOptions', () => {
-            const temp = document.createElement('DIV');
+            const temp = document.createElement('div');
             // plain, no added options. PMID available.
             let [rawBib, links, cslmap] = setupArgs();
             temp.innerHTML = formatBibliography(rawBib, links, cslmap)[0].html;
@@ -153,7 +145,6 @@ describe('HelperFunctions', () => {
             expect(temp.querySelector('.csl-entry').classList.toString()).toBe('csl-entry');
             expect(temp.querySelector('.csl-entry').childElementCount).toBe(2);
         });
-
         it('should return an error string if one exists', () => {
             const [rawBib, links, cslmap] = setupArgs();
             rawBib[1].push(errorString);
@@ -161,7 +152,6 @@ describe('HelperFunctions', () => {
             expect(formatBibliography(rawBib, links, cslmap)[2].html).toBe(errorString);
         });
     });
-
     describe('generateID()', () => {
         it('should generate unique IDs', () => {
             const test: string[] = [];
@@ -171,7 +161,6 @@ describe('HelperFunctions', () => {
             expect(Array.from(new Set(test)).length).toBe(50);
         });
     });
-
     describe('processCSLDate()', () => {
         const risDates = [
             '1980/05/15/Spring',
@@ -182,7 +171,6 @@ describe('HelperFunctions', () => {
             '',
             '///',
         ];
-
         const pubmedDates = [
             '1979/01/01 00:00',
             '1998/12/01 00:00',
@@ -191,7 +179,6 @@ describe('HelperFunctions', () => {
             '1980/05/15 00:00',
             '',
         ];
-
         it('should process RIS dates correctly', () => {
             expect(processCSLDate(risDates[0], 'RIS')).toEqual({ 'date-parts': [['1980', '05', '15']], season: 'Spring' }); // tslint:disable-line
             expect(processCSLDate(risDates[1], 'RIS')).toEqual({ 'date-parts': [['2015']] });
@@ -201,7 +188,6 @@ describe('HelperFunctions', () => {
             expect(processCSLDate(risDates[5], 'RIS')).toEqual({ 'date-parts': [[]] });
             expect(processCSLDate(risDates[6], 'RIS')).toEqual({ 'date-parts': [[]] });
         });
-
         it('should process PubMed dates correctly', () => {
             expect(processCSLDate(pubmedDates[0], 'pubmed')).toEqual({ 'date-parts': [['1979', '01', '01']] });
             expect(processCSLDate(pubmedDates[1], 'pubmed')).toEqual({ 'date-parts': [['1998', '12', '01']] });
@@ -211,7 +197,6 @@ describe('HelperFunctions', () => {
             expect(processCSLDate(pubmedDates[5], 'pubmed')).toEqual({ 'date-parts': [[]] });
         });
     });
-
     describe('processCSLName()', () => {
         const risNames = [
             'Paterson, Quinten S',
@@ -236,7 +221,6 @@ describe('HelperFunctions', () => {
             expect(processCSLName(risNames[3], 'RIS')).toEqual({ family: 'Straus', given: 'Sharon E' });
             expect(processCSLName(risNames[4], 'RIS')).toEqual({ family: 'Chan', given: 'Teresa M' });
         });
-
         it('should process PubMed names correctly', () => {
             expect(processCSLName(pubmedNames[0], 'pubmed')).toEqual({ family: 'Giebel', given: 'W' });
             expect(processCSLName(pubmedNames[1], 'pubmed')).toEqual({ family: 'Reijula', given: 'A' });
@@ -245,7 +229,6 @@ describe('HelperFunctions', () => {
             expect(processCSLName(pubmedNames[4], 'pubmed')).toEqual({ family: 'Doe', given: 'JM' });
         });
     });
-
     describe('processPubmedJSON()', () => {
         const testData: PubMed.SingleReference[] = [{
             authors: [
@@ -301,7 +284,6 @@ describe('HelperFunctions', () => {
                 volume: '6',
             }]);
         });
-
         it('should move past empty fields', () => {
             expect(
                 processPubmedJSON([{ publishername: '' }])
@@ -309,7 +291,6 @@ describe('HelperFunctions', () => {
                 [{ author: [], id: '0', type: 'article-journal' }]
             );
         });
-
         it('should default to en-US when language can\'t be found', () => {
             expect(
                 processPubmedJSON([{ lang: ['Gibberish'] }])
@@ -317,7 +298,6 @@ describe('HelperFunctions', () => {
                 [{ author: [], id: '0', language: 'en-US', type: 'article-journal' }]
             );
         });
-
         it('should move past undefined fields', () => {
             expect(
                 processPubmedJSON(<any>[{ thisFieldDoesntExist: 'test' }])
@@ -325,9 +305,7 @@ describe('HelperFunctions', () => {
                 [{ author: [], id: '0', type: 'article-journal' }]
             );
         });
-
     });
-
     // tslint:disable
     describe('parseReferenceURL()', () => {
         const testRefs: string[] = [
@@ -350,7 +328,6 @@ describe('HelperFunctions', () => {
                 testString, 'always'
             )).toBe(`This is a test. & = ampersand. > = greater than. < = less than. " = double quotes.`);
         });
-
         describe('link style: "always"', () => {
             it('should handle PMIDs', () => {
                 expect(parseReferenceURL(
@@ -452,9 +429,7 @@ describe('HelperFunctions', () => {
                     testRefs[5], 'always'
                 )).toBe(`Dunning J. Unskilled and unaware of it. <i>Journal of Personality and Social Psychology</i>. 1999;77(6):1121-1134. <a href="http://psych.colorado.edu/~vanboven/teaching/p7536_heurbias/p7536_readings/kruger_dunning.pdf" target="_blank">http://psych.colorado.edu/~vanboven/teaching/p7536_heurbias/p7536_readings/kruger_dunning.pdf</a>.`)
             });
-
         });
-
         describe('link style: "always-full-surround"', () => {
             it('should handle PMIDs', () => {
                 expect(parseReferenceURL(
@@ -557,7 +532,6 @@ describe('HelperFunctions', () => {
                 )).toBe(`Dunning J. Unskilled and unaware of it. <i>Journal of Personality and Social Psychology</i>. 1999;77(6):1121-1134. <a href="http://psych.colorado.edu/~vanboven/teaching/p7536_heurbias/p7536_readings/kruger_dunning.pdf" target="_blank">http://psych.colorado.edu/~vanboven/teaching/p7536_heurbias/p7536_readings/kruger_dunning.pdf</a>.`)
             });
         });
-
         describe('link style: "urls"', () => {
             it('should handle PMIDs', () => {
                 expect(parseReferenceURL(
@@ -660,7 +634,6 @@ describe('HelperFunctions', () => {
                 )).toBe(`Dunning J. Unskilled and unaware of it. <i>Journal of Personality and Social Psychology</i>. 1999;77(6):1121-1134. <a href="http://psych.colorado.edu/~vanboven/teaching/p7536_heurbias/p7536_readings/kruger_dunning.pdf" target="_blank">http://psych.colorado.edu/~vanboven/teaching/p7536_heurbias/p7536_readings/kruger_dunning.pdf</a>.`)
             });
         });
-
         describe('link style: "never"', () => {
             it('should handle PMIDs', () => {
                 expect(parseReferenceURL(
