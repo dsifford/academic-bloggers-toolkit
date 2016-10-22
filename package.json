@@ -6,7 +6,7 @@
   "scripts": {
     "test": "jest",
     "wp": "wpcmd() { docker exec $(docker ps -lq) /bin/bash -c \"sudo -u www-data wp $(echo $@)\"; };wpcmd ",
-    "lint": "tslint -e \"node_modules/**/*\" \"**/*.+(ts|tsx)\" -t stylish && stylint ./src/lib/js/tinymce/views",
+    "lint": "tslint -e \"node_modules/**/*\" \"**/*.+(ts|tsx)\" -t stylish && stylint ./src/lib/css ./src/lib/js/tinymce/views",
     "start": "NODE_ENV=development node --max_old_space_size=8192 node_modules/.bin/gulp _dev",
     "build": "NODE_ENV=production node_modules/.bin/gulp _build",
     "deploy": "./scripts/deploy $npm_package_version",
