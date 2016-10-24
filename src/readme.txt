@@ -1,6 +1,6 @@
 === Academic Blogger's Toolkit ===
 Contributors: dsifford
-Donate link: https://cash.me/$dsifford
+Donate link: https://donorbox.org/academic-bloggers-toolkit
 Tags: academia, academic, bibliographies, bibliography, citation, citations, cite, citing, CSL, curriculum vitae, cv, doi, endnote, footnote, footnotes, journal, mendeley, papers, pmid, publications, publish, pubmed, reference, reference list, reference manager, references, referencing, ris, scholar, scholarly, zotero
 Requires at least: 4.2.2
 Tested up to: 4.6
