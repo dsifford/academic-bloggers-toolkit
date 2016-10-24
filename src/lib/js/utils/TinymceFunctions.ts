@@ -168,7 +168,7 @@ function parseFootnoteCitations(
 
         const heading = doc.createElement('div');
         heading.className = 'abt-footnote__heading';
-        heading.innerText = 'Footnotes';
+        heading.innerText = top.ABT_i18n.misc.footnotes;
         note.appendChild(heading);
 
         const citations = <NodeListOf<HTMLSpanElement>>doc.querySelectorAll('.abt-citation, .abt_cite');

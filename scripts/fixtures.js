@@ -237,6 +237,9 @@ exports.reflistState = {
 };
 
 exports.ABT_i18n = {
+    misc: {
+        footnotes: 'Footnotes',
+    },
     referenceList: {
         referenceList: {
             tooltips: {
