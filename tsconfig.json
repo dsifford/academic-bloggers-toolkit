@@ -11,6 +11,7 @@
         "noImplicitAny": false,
         "removeComments": true,
         "noLib": false,
+        "sourceMap": true,
         "preserveConstEnums": true,
         "suppressImplicitAnyIndexErrors": true,
         "noUnusedLocals": true,
