@@ -4,14 +4,14 @@
  *	Plugin Name: Academic Blogger's Toolkit
  *	Plugin URI: https://wordpress.org/plugins/academic-bloggers-toolkit/
  *	Description: A plugin extending the functionality of Wordpress for academic blogging
- *	Version: 4.6.0
+ *	Version: 4.6.1
  *	Author: Derek P Sifford
  *	Author URI: https://github.com/dsifford
  *	License: GPL3 or later
  *  Text Domain: academic-bloggers-toolkit
  */
 
-define('ABT_VERSION', '4.6.0');
+define('ABT_VERSION', '4.6.1');
 
 /**
  * Load plugin translations
