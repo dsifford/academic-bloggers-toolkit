@@ -476,7 +476,7 @@ $ABT_i18n->fieldmaps->legal_case = [
             'value' => 'number',
             'label' => __('Docket Number', 'academic-bloggers-toolkit'),
             'required' => false,
-            'pattern' => '[0-9]+',
+            'pattern' => '\S.*',
             'placeholder' => '',
         ],
         [
