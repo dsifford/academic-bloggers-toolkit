@@ -14,7 +14,9 @@
         "preserveConstEnums": true,
         "suppressImplicitAnyIndexErrors": true,
         "noUnusedLocals": true,
-        "noUnusedParameters": true
+        "noUnusedParameters": true,
+        "allowJs": true,
+        "sourcemap": true
     },
     "filesGlob": [
         "src/**/*.{ts,tsx}",
