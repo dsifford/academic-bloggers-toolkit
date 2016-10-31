@@ -1,15 +1,20 @@
 import * as React from 'react';
 import { observer } from 'mobx-react';
+import { createTooltip, destroyTooltip } from '../../utils/Tooltips';
 
 interface CardProps extends React.HTMLProps<HTMLDivElement> {
-    isSelected: boolean;
-    CSL: CSL.Data;
-    id: string;
+    readonly CSL: CSL.Data;
+    readonly id: string;
+    readonly index: string;
+    readonly isSelected: boolean;
+    readonly showTooltip: boolean;
     click(id: string, isSelected: boolean);
 }
 
 @observer
 export class Card extends React.PureComponent<CardProps, {}> {
+
+    timer: NodeJS.Timer;
 
     constructor(props) {
         super(props);
@@ -50,6 +55,20 @@ export class Card extends React.PureComponent<CardProps, {}> {
         return 'n.d.';
     }
 
+    tooltip = (e) => {
+        if (!this.props.showTooltip) return;
+        const t = e.currentTarget;
+        this.timer = setTimeout(() => {
+            createTooltip(t, this.props.index, 'left');
+        }, 700);
+    }
+
+    destroyTooltip = () => {
+        if (!this.props.showTooltip) return;
+        clearTimeout(this.timer);
+        destroyTooltip();
+    }
+
     render() {
         const { CSL, isSelected } = this.props;
         return (
@@ -57,6 +76,8 @@ export class Card extends React.PureComponent<CardProps, {}> {
                 role="menuitem"
                 className={isSelected ? 'abt-card abt-card_selected' : 'abt-card'}
                 onClick={this.click}
+                onMouseEnter={this.tooltip}
+                onMouseLeave={this.destroyTooltip}
             >
                 <div>{CSL.title}</div>
                 <div className="abt-card__people">{this.parsePeople(CSL.author)}</div>
