@@ -87,14 +87,14 @@ export function getRelativeCitationPositions(editor: TinyMCE.Editor, validIds: s
     if (citations.length > 1) {
         let key = 0;
         [...citations].forEach((el, i) => {
-            if (el.id === '' || validIds.indexOf(el.id) === -1) {
-                el.classList.add('abt-citation_broken');
-                el.innerHTML = `${top.ABT_i18n.errors.broken} ${el.innerHTML}`;
-                return;
-            }
             if (el.id === id) {
                 key = 1;
                 payload.currentIndex = i;
+                return;
+            }
+            if (el.id === '' || validIds.indexOf(el.id) === -1) {
+                el.classList.add('abt-citation_broken');
+                el.innerHTML = `${top.ABT_i18n.errors.broken} ${el.innerHTML}`;
                 return;
             }
             payload.locations[key].push([el.id, i - key]);
