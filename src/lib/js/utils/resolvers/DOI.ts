@@ -29,7 +29,7 @@ export function getFromDOI(doiList: string[]): Promise<[CSL.Data[], string[]]> {
  */
 function getDOIAgency(doi: string): Promise<{agency: 'crossref'|'datacite'|'medra', doi: string}> {
     return new Promise<{agency: 'crossref'|'datacite'|'medra', doi: string}>((resolve, reject) => {
-        const url = `http://api.crossref.org/works/${doi}/agency`;
+        const url = `https://api.crossref.org/works/${doi}/agency`;
         const req = new XMLHttpRequest();
         req.open('GET', url);
         req.addEventListener('load', () => {
@@ -66,7 +66,7 @@ function resolveDOI(data: {
                 url = `https://api.crossref.org/v1/works/${data.doi}/transform/application/vnd.citationstyles.csl+json`;
                 break;
             case 'datacite':
-                url = `http://data.datacite.org/application/vnd.citationstyles.csl+json/${data.doi}`;
+                url = `https://data.datacite.org/application/vnd.citationstyles.csl+json/${data.doi}`;
                 break;
             case 'medra':
                 url = `http://data.medra.org/${data.doi}`;

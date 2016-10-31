@@ -16,7 +16,7 @@
         "noUnusedLocals": true,
         "noUnusedParameters": true,
         "allowJs": true,
-        "sourcemap": true
+        "sourceMap": true
     },
     "filesGlob": [
         "src/**/*.{ts,tsx}",
