@@ -1,6 +1,8 @@
 import * as React from 'react';
 import { shallow } from 'enzyme';
 import { Card } from '../Card';
+jest.mock('../../../utils/Tooltips');
+jest.useFakeTimers();
 
 const testData: {[id: string]: CSL.Data} = {
     fourAuthors: {
@@ -178,10 +180,10 @@ const testData: {[id: string]: CSL.Data} = {
     },
 };
 
-const setup = (data: CSL.Data, selected: boolean = false) => {
+const setup = (data: CSL.Data, selected: boolean = false, tooltip: boolean = true) => {
     const spy = jest.fn();
     const component = shallow(
-        <Card isSelected={selected} CSL={data} click={spy} id={'id'}/>
+        <Card isSelected={selected} CSL={data} click={spy} id={'id'} index="1" showTooltip={tooltip}/>
     );
     return {
         component,
@@ -255,5 +257,25 @@ describe('<Card/>', () => {
     it('should handle strange edge-cases that result from upgrading from an older version', () => {
         const { date } = setup(testData['singleLiteralAuthorEdgeCase']);
         expect(date.text()).toBe('(n.d.)');
+    });
+    it('should create a tooltip on mouseEnter', () => {
+        const { component } = setup(testData['noAuthors']);
+        component.simulate('mouseEnter', { currentTarget: document.createElement('div') });
+        jest.runAllTimers();
+    });
+    it('should destroy tooltip on mouseLeave', () => {
+        const { component } = setup(testData['noAuthors']);
+        component.simulate('mouseEnter', { currentTarget: document.createElement('div') });
+        component.simulate('mouseLeave');
+    });
+    it('should not create tooltips when showTooltip is false', () => {
+        const { component } = setup(testData['noAuthors'], false, false);
+        component.simulate('mouseEnter', { currentTarget: document.createElement('div') });
+        jest.runAllTimers();
+    });
+    it('should not destroy tooltips when showTooltip is false', () => {
+        const { component } = setup(testData['noAuthors'], false, false);
+        component.simulate('mouseEnter', { currentTarget: document.createElement('div') });
+        component.simulate('mouseLeave');
     });
 });

@@ -237,6 +237,9 @@ exports.reflistState = {
 };
 
 exports.ABT_i18n = {
+    misc: {
+        footnotes: 'Footnotes',
+    },
     referenceList: {
         referenceList: {
             tooltips: {
@@ -700,7 +703,7 @@ exports.ABT_i18n = {
                     value: 'number',
                     label: 'Docket Number',
                     required: false,
-                    pattern: '[0-9]+',
+                    pattern: '\S.*', // eslint-disable-line
                     placeholder: '',
                 },
                 {

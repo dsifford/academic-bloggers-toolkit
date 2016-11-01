@@ -5,8 +5,13 @@ function abt_generate_translations() {
         'citationTypes' => [],
         'errors' => [],
         'fieldmaps' => (object)[],
+        'misc' => [],
         'referenceList' => [],
         'tinymce' => (object)[],
+    ];
+
+    $ABT_i18n->misc = [
+        'footnotes' => __('Footnotes', 'academic-bloggers-toolkit'),
     ];
 
     $ABT_i18n->errors = [

@@ -1,5 +1,11 @@
 import { EVENTS } from '../utils/Constants';
-const { TINYMCE_READY, TINYMCE_HIDDEN, TINYMCE_VISIBLE, OPEN_REFERENCE_WINDOW } = EVENTS;
+const {
+    OPEN_REFERENCE_WINDOW,
+    TINYMCE_READY,
+    TINYMCE_HIDDEN,
+    TINYMCE_VISIBLE,
+    TOGGLE_PINNED_STATE,
+} = EVENTS;
 
 declare const tinyMCE: TinyMCE.MCE;
 declare const wpActiveEditor: string;
@@ -12,8 +18,14 @@ tinyMCE.PluginManager.add('academic_bloggers_toolkit', (editor: TinyMCE.Editor) 
     // Keyboard shortcuts
     editor.addShortcut(
         'meta+alt+r',
-        'Insert Formatted Reference',
-        dispatchEvent.bind(null, new CustomEvent(OPEN_REFERENCE_WINDOW))
+        'Add Reference',
+        dispatchEvent.bind(null, new CustomEvent(OPEN_REFERENCE_WINDOW)),
+    );
+
+    editor.addShortcut(
+        'meta+alt+p',
+        'Pin Reference List',
+        dispatchEvent.bind(null, new CustomEvent(TOGGLE_PINNED_STATE)),
     );
 
     // Event Handlers

@@ -39,11 +39,12 @@ export class ItemList extends React.PureComponent<Props, {}> {
                 </div>
                 { isOpen &&
                     <Items
-                        id={id}
-                        style={{maxHeight}}
-                        items={items}
-                        selectedItems={selectedItems}
                         click={click}
+                        id={id}
+                        items={items}
+                        style={{maxHeight}}
+                        selectedItems={selectedItems}
+                        withTooltip={id === 'cited'}
                     />
                 }
             </div>
@@ -54,6 +55,7 @@ export class ItemList extends React.PureComponent<Props, {}> {
 interface ItemsProps extends React.HTMLProps<HTMLElement> {
     readonly items: CSL.Data[];
     readonly selectedItems: string[];
+    readonly withTooltip: boolean;
     readonly click: (id: string, isSelected: boolean) => void;
 }
 
@@ -81,13 +83,15 @@ class Items extends React.Component<ItemsProps, {}> {
                 })}
             >
                 {
-                    this.props.items.map(r =>
+                    this.props.items.map((r, i) =>
                         <Card
-                            key={r.id}
                             CSL={r}
-                            isSelected={this.props.selectedItems.indexOf(r.id) > -1}
-                            id={r.id}
                             click={this.props.click}
+                            id={r.id}
+                            index={`${i + 1}`}
+                            isSelected={this.props.selectedItems.indexOf(r.id) > -1}
+                            key={r.id}
+                            showTooltip={this.props.withTooltip}
                         />
                     )
                 }

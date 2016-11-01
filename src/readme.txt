@@ -1,10 +1,10 @@
 === Academic Blogger's Toolkit ===
 Contributors: dsifford
-Donate link: https://cash.me/$dsifford
+Donate link: https://donorbox.org/academic-bloggers-toolkit
 Tags: academia, academic, bibliographies, bibliography, citation, citations, cite, citing, CSL, curriculum vitae, cv, doi, endnote, footnote, footnotes, journal, mendeley, papers, pmid, publications, publish, pubmed, reference, reference list, reference manager, references, referencing, ris, scholar, scholarly, zotero
 Requires at least: 4.2.2
 Tested up to: 4.6
-Stable tag: 4.6.1
+Stable tag: 4.7.0
 License: GPL3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -56,6 +56,10 @@ Yikes! I'm sorry about that. Please report all issues on the Academic Blogger's 
 4. Demo of desktop citation tooltips.
 
 == Changelog ==
+
+= 4.7.0 =
+
+[Click here](https://headwayapp.co/academic-bloggers-toolkit-changelog) to view changes.
 
 = 4.6.1 =
 

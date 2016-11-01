@@ -50,6 +50,9 @@ declare namespace BackendGlobals {
             };
         };
         readonly fieldmaps: ABT.FieldMappings;
+        readonly misc: {
+            readonly footnotes: 'Footnotes';
+        };
         readonly referenceList: {
             readonly menu: {
                 tooltips: {

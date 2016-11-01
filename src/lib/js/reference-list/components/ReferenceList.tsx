@@ -20,7 +20,7 @@ import { ItemList } from './ItemList';
 import { Spinner } from '../../components/Spinner';
 
 declare const tinyMCE: TinyMCE.MCE;
-const { OPEN_REFERENCE_WINDOW, TINYMCE_READY, TINYMCE_HIDDEN, TINYMCE_VISIBLE } = EVENTS;
+const { OPEN_REFERENCE_WINDOW, TINYMCE_READY, TINYMCE_HIDDEN, TINYMCE_VISIBLE, TOGGLE_PINNED_STATE } = EVENTS;
 
 @observer
 export class ReferenceList extends React.Component<{store: Store}, {}> {
@@ -81,10 +81,11 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
     }
 
     componentDidMount() {
-        addEventListener(TINYMCE_READY, this.initTinyMCE);
-        addEventListener(TINYMCE_HIDDEN, () => this.toggleLoading(true));
-        addEventListener(TINYMCE_VISIBLE, () => this.toggleLoading(false));
         addEventListener(OPEN_REFERENCE_WINDOW, this.openReferenceWindow);
+        addEventListener(TINYMCE_HIDDEN, () => this.toggleLoading(true));
+        addEventListener(TINYMCE_READY, this.initTinyMCE);
+        addEventListener(TINYMCE_VISIBLE, () => this.toggleLoading(false));
+        addEventListener(TOGGLE_PINNED_STATE, this.togglePinned);
         addEventListener('scroll', this.handleScroll);
     }
 
