@@ -6199,17 +6199,9 @@ tryit@^1.0.1:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/tryit/-/tryit-1.0.3.tgz#393be730a9446fd1ead6da59a014308f36c289cb"
 
-tslint-microsoft-contrib@^2.0.13:
-  version "2.0.13"
-  resolved "https://registry.yarnpkg.com/tslint-microsoft-contrib/-/tslint-microsoft-contrib-2.0.13.tgz#30ed7e1a03261eea091354eaca3afe7b25e04ca7"
-
-tslint-react@^1.1.0:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/tslint-react/-/tslint-react-1.1.0.tgz#a068d0624a99829098059f76c19d62babb82da5a"
-
-tslint@next:
-  version "4.0.0-dev.0"
-  resolved "https://registry.yarnpkg.com/tslint/-/tslint-4.0.0-dev.0.tgz#38826e164299c0fefb024a5587d391a430e0a6be"
+tslint:
+  version "3.15.1"
+  resolved "https://registry.yarnpkg.com/tslint/-/tslint-3.15.1.tgz#da165ca93d8fdc2c086b51165ee1bacb48c98ea5"
   dependencies:
     colors "^1.1.2"
     diff "^2.2.1"
@@ -6218,6 +6210,14 @@ tslint@next:
     optimist "~0.6.0"
     resolve "^1.1.7"
     underscore.string "^3.3.4"
+
+tslint-microsoft-contrib@^2.0.13:
+  version "2.0.13"
+  resolved "https://registry.yarnpkg.com/tslint-microsoft-contrib/-/tslint-microsoft-contrib-2.0.13.tgz#30ed7e1a03261eea091354eaca3afe7b25e04ca7"
+
+tslint-react@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/tslint-react/-/tslint-react-1.1.0.tgz#a068d0624a99829098059f76c19d62babb82da5a"
 
 tty-browserify@0.0.0:
   version "0.0.0"
