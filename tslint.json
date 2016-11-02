@@ -1,5 +1,6 @@
 {
-    "extends": ["tslint:latest", "tslint-react", "tslint-microsoft-contrib"],
+    "extends": ["tslint:latest",
+        "tslint-react", "tslint-microsoft-contrib"],
     "rulesDirectory": ["node_modules/tslint-microsoft-contrib"],
     "rules": {
         "curly": false,
@@ -23,6 +24,7 @@
         "react-a11y-anchors": false,
         "react-a11y-image-button-has-alt": false,
         "no-backbone-get-set-outside-model": false,
+        "jsx-no-multiline-js": false,
         "import-name": false,
         "one-line": [false,
             "check-open-brace",
@@ -39,7 +41,13 @@
         "variable-name": [true,
             "ban-keywords"
         ],
-        "jsx-no-multiline-js": false,
-        "whitespace": [true, "check-branch", "check-decl", "check-module", "check-separator", "check-type", "check-operator"]
+        "whitespace": [true,
+            "check-branch",
+            "check-decl",
+            "check-module",
+            "check-separator",
+            "check-type",
+            "check-operator"
+        ]
     }
 }

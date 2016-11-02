@@ -18,6 +18,7 @@ services:
                 co-authors-plus,
                 log-deprecated-notices,
                 query-monitor,
+                relative-url,
             # piglatin,
     db:
         image: mysql:5.7
