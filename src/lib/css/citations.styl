@@ -1,7 +1,8 @@
-@import 'collections/colors'
+@require 'collections/variables'
+@require 'collections/colors'
 
 .abt-citation
-    {$noselect}
+    noselect()
     display: inline-block;
     white-space: nowrap
     cursor: pointer
@@ -36,11 +37,13 @@
             display: table-cell
             text-align: right
         .csl-right-inline
+            word-wrap()
             display: table-cell
     &.margin
         display: flex
         justify-content: flex-end
         .csl-right-inline
+            word-wrap()
             min-width: 100%
     .csl-left-margin
         padding: 0 8px 0 0
