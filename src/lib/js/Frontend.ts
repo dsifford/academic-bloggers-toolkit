@@ -1,3 +1,4 @@
+import 'babel-polyfill';
 // tslint:disable:export-name
 class Citations {
 
@@ -91,13 +92,13 @@ class Citations {
 
         if ((rect.top - tooltip.offsetHeight) < 0) {
             // On bottom - Upwards arrow
-            tooltip.style.top = (rect.bottom + window.scrollY + 10) + 'px';
+            tooltip.style.top = (rect.bottom + window.pageYOffset + 10) + 'px';
             tooltip.classList.add('abt-tooltip_bottom');
             callout.classList.add('abt-tooltip__callout_up');
         }
         else {
             // On top - Downwards arrow
-            tooltip.style.top = (rect.top + window.scrollY - tooltip.offsetHeight - 10) + 'px';
+            tooltip.style.top = (rect.top + window.pageYOffset - tooltip.offsetHeight - 10) + 'px';
             tooltip.classList.add('abt-tooltip_top');
             callout.classList.add('abt-tooltip__callout_down');
         }
