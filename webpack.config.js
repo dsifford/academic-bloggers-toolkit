@@ -51,7 +51,7 @@ module.exports = {
         'lib/js/tinymce/components/reference-window/index': './src/lib/js/tinymce/components/reference-window/', // eslint-disable-line
         'lib/js/tinymce/components/pubmed-window/index': './src/lib/js/tinymce/components/pubmed-window/', // eslint-disable-line
         'lib/js/tinymce/components/import-window/index': './src/lib/js/tinymce/components/import-window/', // eslint-disable-line
-        vendor: ['react', 'mobx', 'mobx-react'],
+        vendor: ['react', 'mobx', 'mobx-react', 'babel-polyfill'],
     },
     output: {
         filename: '[name].js',
