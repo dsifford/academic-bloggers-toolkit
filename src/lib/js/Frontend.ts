@@ -32,6 +32,8 @@ class Citations {
 
         const rect: ClientRect = e.currentTarget.getBoundingClientRect();
         const left = rect.left + (rect.width / 2);
+        const padding: number = 10;
+        const margin: number = 10;
 
         const tooltip = document.createElement('div');
         tooltip.id = tooltip.className = 'abt-tooltip';
@@ -52,21 +54,39 @@ class Citations {
         tooltip.appendChild(buttonContainer);
         buttonContainer.appendChild(button);
 
-        callout.style.left = tooltip.offsetWidth + 20 >= document.body.offsetWidth
-            ? `${left + 10 - (callout.offsetWidth / 2)}px`
-            : `calc(50% - ${(callout.offsetWidth / 2)}px)`;
+        const tooltipWiderThanBody: boolean = (tooltip.offsetWidth + margin + padding) >= document.body.offsetWidth;
+        const tooltipWouldOverflowLeft: boolean = (padding + tooltip.offsetWidth / 2) > left;
+        const tooltipWouldOverflowRight: boolean =
+            (left > document.body.offsetWidth / 2) &&
+            (document.body.offsetWidth - left < (padding + tooltip.offsetWidth / 2));
 
         const marginLeft = -1 * (tooltip.offsetWidth / 2) || 0;
 
-        if (left + marginLeft < 0 || tooltip.offsetWidth >= document.body.offsetWidth) {
-            tooltip.style.left = '5px';
+        if (left + marginLeft < 0 || tooltipWiderThanBody) {
+            tooltip.style.width = 'calc(100% - 25px)';
+            tooltip.style.left = '10px';
+        }
+        else if (tooltipWouldOverflowRight) {
             tooltip.style.right = '5px';
-            tooltip.style.marginLeft = '5px';
             tooltip.style.marginRight = '5px';
+        }
+        else if (tooltipWouldOverflowLeft) {
+            tooltip.style.left = left + 'px';
+            tooltip.style.marginLeft = marginLeft + margin + 'px';
         }
         else {
             tooltip.style.left = left + 'px';
             tooltip.style.marginLeft = marginLeft + 'px';
+        }
+
+        if (tooltipWiderThanBody || tooltipWouldOverflowLeft) {
+            callout.style.left = `${left - 10 - (callout.offsetWidth / 2)}px`;
+        }
+        else if (tooltipWouldOverflowRight) {
+            callout.style.right = `${document.body.offsetWidth - left - 20}px`;
+        }
+        else {
+            callout.style.left = `calc(50% - ${(callout.offsetWidth / 2)}px)`;
         }
 
         if ((rect.top - tooltip.offsetHeight) < 0) {
