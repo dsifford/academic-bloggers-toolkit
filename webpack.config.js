@@ -1,6 +1,5 @@
 const path = require('path');
 const webpack = require('webpack');
-const ForkCheckerPlugin = require('awesome-typescript-loader').ForkCheckerPlugin;
 
 const isProduction = process.env.NODE_ENV === 'production';
 
@@ -10,7 +9,6 @@ const sharedPlugins = [
         debug: false,
     }),
     new webpack.NoErrorsPlugin(),
-    new ForkCheckerPlugin(),
     new webpack.optimize.CommonsChunkPlugin({
         name: 'vendor',
         minChunks: Infinity,
@@ -69,11 +67,11 @@ module.exports = {
             {
                 test: /\.tsx?$/,
                 include: path.resolve(__dirname, 'src'),
-                loaders: ['awesome-typescript'],
+                loaders: ['babel-loader', 'ts-loader'],
             },
             {
                 test: /\.css$/,
-                loaders: ['style', 'css'],
+                loaders: ['style-loader', 'css-loader'],
             },
         ],
     },
