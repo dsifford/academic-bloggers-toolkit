@@ -209,10 +209,12 @@ function parseFootnoteCitations(
         }
 
         // Remove unnecessary &nbsp; from editor
-        const p = editor.dom.doc.getElementById('abt-footnote').previousElementSibling;
-        if (p.tagName === 'P' && p.textContent.trim() === '') {
+        const f = editor.dom.doc.getElementById('abt-footnote');
+        while (f.previousElementSibling && f.previousElementSibling.innerHTML === '<br>') {
+            const p = f.previousElementSibling;
             p.parentNode.removeChild(p);
         }
+
         resolve(true);
     });
 }
@@ -315,8 +317,9 @@ export function setBibliography(
     }
 
     // Remove unnecessary &nbsp; from editor
-    const p = editor.dom.doc.getElementById('abt-bibliography').previousElementSibling;
-    if (p.tagName === 'P' && p.textContent.trim() === '') {
+    const b = editor.dom.doc.getElementById('abt-bibliography');
+    while (b.previousElementSibling && b.previousElementSibling.innerHTML === '<br>') {
+        const p = b.previousElementSibling;
         p.parentNode.removeChild(p);
     }
 }
