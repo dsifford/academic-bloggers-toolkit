@@ -68,7 +68,6 @@ module.exports = {
                 test: /\.tsx?$/,
                 include: path.resolve(__dirname, 'src'),
                 loaders: ['awesome-typescript-loader'],
-                // loaders: ['babel-loader', 'ts-loader'],
             },
             {
                 test: /\.css$/,
