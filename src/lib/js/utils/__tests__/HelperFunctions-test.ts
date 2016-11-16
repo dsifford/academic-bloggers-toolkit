@@ -332,22 +332,22 @@ describe('HelperFunctions', () => {
             it('should handle PMIDs', () => {
                 expect(parseReferenceURL(
                     testRefs[0], 'always', { kind: 'PMID', value: PMID }
-                )).toBe('Body R. The ProMISe Study: EGDT RIP? St. Emlyn’s website. <a href="http://stemlynsblog.org/the-promise-study-egdt-rip/" target="_blank">http://stemlynsblog.org/the-promise-study-egdt-rip/</a>; <a href="http://blogs.nejm.org/now/index.php/the-final-nail-in-early-goal-directed-therapys-coffin/2015/03/24/" target="_blank">http://blogs.nejm.org/now/index.php/the-final-nail-in-early-goal-directed-therapys-coffin/2015/03/24/</a>. Published 2015.<span class="abt-url"> [<a href="http://www.ncbi.nlm.nih.gov/pubmed/12345" target="_blank">PubMed</a>]</span>')
+                )).toBe('Body R. The ProMISe Study: EGDT RIP? St. Emlyn’s website. <a href="http://stemlynsblog.org/the-promise-study-egdt-rip/" target="_blank">http://stemlynsblog.org/the-promise-study-egdt-rip/</a>; <a href="http://blogs.nejm.org/now/index.php/the-final-nail-in-early-goal-directed-therapys-coffin/2015/03/24/" target="_blank">http://blogs.nejm.org/now/index.php/the-final-nail-in-early-goal-directed-therapys-coffin/2015/03/24/</a>. Published 2015.<span class="abt-url"> [<a href="https://www.ncbi.nlm.nih.gov/pubmed/12345" target="_blank">PubMed</a>]</span>')
                 expect(parseReferenceURL(
                     testRefs[1], 'always', { kind: 'PMID', value: PMID }
-                )).toBe('Chan T, Helman A, Davis T, Purdy E. MEdIC Series | The Case the FOAM Faux Pas – Expert Review and Curated Commentary. Academic Life in Emergency Medicine. <a href="http://aliem.com/MEdIC-Series-The-Case-the-FOAM-Faux-Pas-Expert-Review-and-Curated-Commentary" target="_blank">http://aliem.com/MEdIC-Series-The-Case-the-FOAM-Faux-Pas-Expert-Review-and-Curated-Commentary</a>. Published 2015.<span class="abt-url"> [<a href="http://www.ncbi.nlm.nih.gov/pubmed/12345" target="_blank">PubMed</a>]</span>');
+                )).toBe('Chan T, Helman A, Davis T, Purdy E. MEdIC Series | The Case the FOAM Faux Pas – Expert Review and Curated Commentary. Academic Life in Emergency Medicine. <a href="http://aliem.com/MEdIC-Series-The-Case-the-FOAM-Faux-Pas-Expert-Review-and-Curated-Commentary" target="_blank">http://aliem.com/MEdIC-Series-The-Case-the-FOAM-Faux-Pas-Expert-Review-and-Curated-Commentary</a>. Published 2015.<span class="abt-url"> [<a href="https://www.ncbi.nlm.nih.gov/pubmed/12345" target="_blank">PubMed</a>]</span>');
                 expect(parseReferenceURL(
                     testRefs[2], 'always', { kind: 'PMID', value: PMID }
-                )).toBe('Colmers IN, Paterson QS, Lin M, Thoma B, Chan TM. The quality checklists for medical education blogs and podcasts. <i>The Winnower</i>. 2015. doi: <a href="https://dx.doi.org/10.15200/winn.144720.08769\" target="_blank">10.15200/winn.144720.08769</a><span class="abt-url"> [<a href="http://www.ncbi.nlm.nih.gov/pubmed/12345" target="_blank">PubMed</a>]</span>');
+                )).toBe('Colmers IN, Paterson QS, Lin M, Thoma B, Chan TM. The quality checklists for medical education blogs and podcasts. <i>The Winnower</i>. 2015. doi: <a href="https://dx.doi.org/10.15200/winn.144720.08769\" target="_blank">10.15200/winn.144720.08769</a><span class="abt-url"> [<a href="https://www.ncbi.nlm.nih.gov/pubmed/12345" target="_blank">PubMed</a>]</span>');
                 expect(parseReferenceURL(
                     testRefs[3], 'always', { kind: 'PMID', value: PMID }
-                )).toBe('Mathieu S. Trial of Early, Goal-Directed Resuscitation for Septic Shock. The Bottom Line. <a href="http://www.wessexics.com/The_Bottom_Line/Review/index.php?id=3665078336903245716" target="_blank">http://www.wessexics.com/The_Bottom_Line/Review/index.php?id=3665078336903245716</a>. Published 2015.<span class="abt-url"> [<a href="http://www.ncbi.nlm.nih.gov/pubmed/12345" target="_blank">PubMed</a>]</span>')
+                )).toBe('Mathieu S. Trial of Early, Goal-Directed Resuscitation for Septic Shock. The Bottom Line. <a href="http://www.wessexics.com/The_Bottom_Line/Review/index.php?id=3665078336903245716" target="_blank">http://www.wessexics.com/The_Bottom_Line/Review/index.php?id=3665078336903245716</a>. Published 2015.<span class="abt-url"> [<a href="https://www.ncbi.nlm.nih.gov/pubmed/12345" target="_blank">PubMed</a>]</span>')
                 expect(parseReferenceURL(
                     testRefs[4], 'always', { kind: 'PMID', value: PMID }
-                )).toBe('Cameron P. Pundit-Based Medicine. Emergency Physicians International.<span class="abt-url"> [<a href="http://www.ncbi.nlm.nih.gov/pubmed/12345" target="_blank">PubMed</a>]</span>')
+                )).toBe('Cameron P. Pundit-Based Medicine. Emergency Physicians International.<span class="abt-url"> [<a href="https://www.ncbi.nlm.nih.gov/pubmed/12345" target="_blank">PubMed</a>]</span>')
                 expect(parseReferenceURL(
                     testRefs[5], 'always', { kind: 'PMID', value: PMID }
-                )).toBe(`Dunning J. Unskilled and unaware of it. <i>Journal of Personality and Social Psychology</i>. 1999;77(6):1121-1134. <a href="http://psych.colorado.edu/~vanboven/teaching/p7536_heurbias/p7536_readings/kruger_dunning.pdf" target="_blank">http://psych.colorado.edu/~vanboven/teaching/p7536_heurbias/p7536_readings/kruger_dunning.pdf</a>.<span class="abt-url"> [<a href="http://www.ncbi.nlm.nih.gov/pubmed/12345" target="_blank">PubMed</a>]</span>`)
+                )).toBe(`Dunning J. Unskilled and unaware of it. <i>Journal of Personality and Social Psychology</i>. 1999;77(6):1121-1134. <a href="http://psych.colorado.edu/~vanboven/teaching/p7536_heurbias/p7536_readings/kruger_dunning.pdf" target="_blank">http://psych.colorado.edu/~vanboven/teaching/p7536_heurbias/p7536_readings/kruger_dunning.pdf</a>.<span class="abt-url"> [<a href="https://www.ncbi.nlm.nih.gov/pubmed/12345" target="_blank">PubMed</a>]</span>`)
             });
             it('should handle DOIs', () => {
                 expect(parseReferenceURL(
@@ -372,22 +372,22 @@ describe('HelperFunctions', () => {
             it('should handle PMCIDs', () => {
                 expect(parseReferenceURL(
                     testRefs[0], 'always', { kind: 'PMCID', value: PMCID }
-                )).toBe('Body R. The ProMISe Study: EGDT RIP? St. Emlyn’s website. <a href="http://stemlynsblog.org/the-promise-study-egdt-rip/" target="_blank">http://stemlynsblog.org/the-promise-study-egdt-rip/</a>; <a href="http://blogs.nejm.org/now/index.php/the-final-nail-in-early-goal-directed-therapys-coffin/2015/03/24/" target="_blank">http://blogs.nejm.org/now/index.php/the-final-nail-in-early-goal-directed-therapys-coffin/2015/03/24/</a>. Published 2015.<span class="abt-url"> [<a href="http://www.ncbi.nlm.nih.gov/pmc/articles/PMC12345" target="_blank">PMC</a>]</span>')
+                )).toBe('Body R. The ProMISe Study: EGDT RIP? St. Emlyn’s website. <a href="http://stemlynsblog.org/the-promise-study-egdt-rip/" target="_blank">http://stemlynsblog.org/the-promise-study-egdt-rip/</a>; <a href="http://blogs.nejm.org/now/index.php/the-final-nail-in-early-goal-directed-therapys-coffin/2015/03/24/" target="_blank">http://blogs.nejm.org/now/index.php/the-final-nail-in-early-goal-directed-therapys-coffin/2015/03/24/</a>. Published 2015.<span class="abt-url"> [<a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC12345" target="_blank">PMC</a>]</span>')
                 expect(parseReferenceURL(
                     testRefs[1], 'always', { kind: 'PMCID', value: PMCID }
-                )).toBe('Chan T, Helman A, Davis T, Purdy E. MEdIC Series | The Case the FOAM Faux Pas – Expert Review and Curated Commentary. Academic Life in Emergency Medicine. <a href="http://aliem.com/MEdIC-Series-The-Case-the-FOAM-Faux-Pas-Expert-Review-and-Curated-Commentary" target="_blank">http://aliem.com/MEdIC-Series-The-Case-the-FOAM-Faux-Pas-Expert-Review-and-Curated-Commentary</a>. Published 2015.<span class="abt-url"> [<a href="http://www.ncbi.nlm.nih.gov/pmc/articles/PMC12345" target="_blank">PMC</a>]</span>');
+                )).toBe('Chan T, Helman A, Davis T, Purdy E. MEdIC Series | The Case the FOAM Faux Pas – Expert Review and Curated Commentary. Academic Life in Emergency Medicine. <a href="http://aliem.com/MEdIC-Series-The-Case-the-FOAM-Faux-Pas-Expert-Review-and-Curated-Commentary" target="_blank">http://aliem.com/MEdIC-Series-The-Case-the-FOAM-Faux-Pas-Expert-Review-and-Curated-Commentary</a>. Published 2015.<span class="abt-url"> [<a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC12345" target="_blank">PMC</a>]</span>');
                 expect(parseReferenceURL(
                     testRefs[2], 'always', { kind: 'PMCID', value: PMCID }
-                )).toBe('Colmers IN, Paterson QS, Lin M, Thoma B, Chan TM. The quality checklists for medical education blogs and podcasts. <i>The Winnower</i>. 2015. doi: <a href="https://dx.doi.org/10.15200/winn.144720.08769\" target="_blank">10.15200/winn.144720.08769</a><span class="abt-url"> [<a href="http://www.ncbi.nlm.nih.gov/pmc/articles/PMC12345" target="_blank">PMC</a>]</span>');
+                )).toBe('Colmers IN, Paterson QS, Lin M, Thoma B, Chan TM. The quality checklists for medical education blogs and podcasts. <i>The Winnower</i>. 2015. doi: <a href="https://dx.doi.org/10.15200/winn.144720.08769\" target="_blank">10.15200/winn.144720.08769</a><span class="abt-url"> [<a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC12345" target="_blank">PMC</a>]</span>');
                 expect(parseReferenceURL(
                     testRefs[3], 'always', { kind: 'PMCID', value: PMCID }
-                )).toBe('Mathieu S. Trial of Early, Goal-Directed Resuscitation for Septic Shock. The Bottom Line. <a href="http://www.wessexics.com/The_Bottom_Line/Review/index.php?id=3665078336903245716" target="_blank">http://www.wessexics.com/The_Bottom_Line/Review/index.php?id=3665078336903245716</a>. Published 2015.<span class="abt-url"> [<a href="http://www.ncbi.nlm.nih.gov/pmc/articles/PMC12345" target="_blank">PMC</a>]</span>')
+                )).toBe('Mathieu S. Trial of Early, Goal-Directed Resuscitation for Septic Shock. The Bottom Line. <a href="http://www.wessexics.com/The_Bottom_Line/Review/index.php?id=3665078336903245716" target="_blank">http://www.wessexics.com/The_Bottom_Line/Review/index.php?id=3665078336903245716</a>. Published 2015.<span class="abt-url"> [<a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC12345" target="_blank">PMC</a>]</span>')
                 expect(parseReferenceURL(
                     testRefs[4], 'always', { kind: 'PMCID', value: PMCID }
-                )).toBe('Cameron P. Pundit-Based Medicine. Emergency Physicians International.<span class="abt-url"> [<a href="http://www.ncbi.nlm.nih.gov/pmc/articles/PMC12345" target="_blank">PMC</a>]</span>')
+                )).toBe('Cameron P. Pundit-Based Medicine. Emergency Physicians International.<span class="abt-url"> [<a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC12345" target="_blank">PMC</a>]</span>')
                 expect(parseReferenceURL(
                     testRefs[5], 'always', { kind: 'PMCID', value: PMCID }
-                )).toBe(`Dunning J. Unskilled and unaware of it. <i>Journal of Personality and Social Psychology</i>. 1999;77(6):1121-1134. <a href="http://psych.colorado.edu/~vanboven/teaching/p7536_heurbias/p7536_readings/kruger_dunning.pdf" target="_blank">http://psych.colorado.edu/~vanboven/teaching/p7536_heurbias/p7536_readings/kruger_dunning.pdf</a>.<span class="abt-url"> [<a href="http://www.ncbi.nlm.nih.gov/pmc/articles/PMC12345" target="_blank">PMC</a>]</span>`)
+                )).toBe(`Dunning J. Unskilled and unaware of it. <i>Journal of Personality and Social Psychology</i>. 1999;77(6):1121-1134. <a href="http://psych.colorado.edu/~vanboven/teaching/p7536_heurbias/p7536_readings/kruger_dunning.pdf" target="_blank">http://psych.colorado.edu/~vanboven/teaching/p7536_heurbias/p7536_readings/kruger_dunning.pdf</a>.<span class="abt-url"> [<a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC12345" target="_blank">PMC</a>]</span>`)
             });
             it('should handle URLs', () => {
                 expect(parseReferenceURL(
@@ -434,22 +434,22 @@ describe('HelperFunctions', () => {
             it('should handle PMIDs', () => {
                 expect(parseReferenceURL(
                     testRefs[0], 'always-full-surround', { kind: 'PMID', value: PMID }
-                )).toBe('<a href="http://www.ncbi.nlm.nih.gov/pubmed/12345" target="_blank">Body R. The ProMISe Study: EGDT RIP? St. Emlyn’s website. http://stemlynsblog.org/the-promise-study-egdt-rip/; http://blogs.nejm.org/now/index.php/the-final-nail-in-early-goal-directed-therapys-coffin/2015/03/24/. Published 2015.</a>')
+                )).toBe('<a href="https://www.ncbi.nlm.nih.gov/pubmed/12345" target="_blank">Body R. The ProMISe Study: EGDT RIP? St. Emlyn’s website. http://stemlynsblog.org/the-promise-study-egdt-rip/; http://blogs.nejm.org/now/index.php/the-final-nail-in-early-goal-directed-therapys-coffin/2015/03/24/. Published 2015.</a>')
                 expect(parseReferenceURL(
                     testRefs[1], 'always-full-surround', { kind: 'PMID', value: PMID }
-                )).toBe('<a href="http://www.ncbi.nlm.nih.gov/pubmed/12345" target="_blank">Chan T, Helman A, Davis T, Purdy E. MEdIC Series | The Case the FOAM Faux Pas – Expert Review and Curated Commentary. Academic Life in Emergency Medicine. www.aliem.com/MEdIC-Series-The-Case-the-FOAM-Faux-Pas-Expert-Review-and-Curated-Commentary. Published 2015.</a>');
+                )).toBe('<a href="https://www.ncbi.nlm.nih.gov/pubmed/12345" target="_blank">Chan T, Helman A, Davis T, Purdy E. MEdIC Series | The Case the FOAM Faux Pas – Expert Review and Curated Commentary. Academic Life in Emergency Medicine. www.aliem.com/MEdIC-Series-The-Case-the-FOAM-Faux-Pas-Expert-Review-and-Curated-Commentary. Published 2015.</a>');
                 expect(parseReferenceURL(
                     testRefs[2], 'always-full-surround', { kind: 'PMID', value: PMID }
-                )).toBe('<a href="http://www.ncbi.nlm.nih.gov/pubmed/12345" target="_blank">Colmers IN, Paterson QS, Lin M, Thoma B, Chan TM. The quality checklists for medical education blogs and podcasts. <i>The Winnower</i>. 2015. doi:10.15200/winn.144720.08769.</a>');
+                )).toBe('<a href="https://www.ncbi.nlm.nih.gov/pubmed/12345" target="_blank">Colmers IN, Paterson QS, Lin M, Thoma B, Chan TM. The quality checklists for medical education blogs and podcasts. <i>The Winnower</i>. 2015. doi:10.15200/winn.144720.08769.</a>');
                 expect(parseReferenceURL(
                     testRefs[3], 'always-full-surround', { kind: 'PMID', value: PMID }
-                )).toBe('<a href="http://www.ncbi.nlm.nih.gov/pubmed/12345" target="_blank">Mathieu S. Trial of Early, Goal-Directed Resuscitation for Septic Shock. The Bottom Line. http://www.wessexics.com/The_Bottom_Line/Review/index.php?id=3665078336903245716. Published 2015.</a>')
+                )).toBe('<a href="https://www.ncbi.nlm.nih.gov/pubmed/12345" target="_blank">Mathieu S. Trial of Early, Goal-Directed Resuscitation for Septic Shock. The Bottom Line. http://www.wessexics.com/The_Bottom_Line/Review/index.php?id=3665078336903245716. Published 2015.</a>')
                 expect(parseReferenceURL(
                     testRefs[4], 'always-full-surround', { kind: 'PMID', value: PMID }
-                )).toBe('<a href="http://www.ncbi.nlm.nih.gov/pubmed/12345" target="_blank">Cameron P. Pundit-Based Medicine. Emergency Physicians International.</a>')
+                )).toBe('<a href="https://www.ncbi.nlm.nih.gov/pubmed/12345" target="_blank">Cameron P. Pundit-Based Medicine. Emergency Physicians International.</a>')
                 expect(parseReferenceURL(
                     testRefs[5], 'always-full-surround', { kind: 'PMID', value: PMID }
-                )).toBe(`<a href="http://www.ncbi.nlm.nih.gov/pubmed/12345" target="_blank">Dunning J. Unskilled and unaware of it. <i>Journal of Personality and Social Psychology</i>. 1999;77(6):1121-1134. http://psych.colorado.edu/~vanboven/teaching/p7536_heurbias/p7536_readings/kruger_dunning.pdf.</a>`)
+                )).toBe(`<a href="https://www.ncbi.nlm.nih.gov/pubmed/12345" target="_blank">Dunning J. Unskilled and unaware of it. <i>Journal of Personality and Social Psychology</i>. 1999;77(6):1121-1134. http://psych.colorado.edu/~vanboven/teaching/p7536_heurbias/p7536_readings/kruger_dunning.pdf.</a>`)
             });
             it('should handle DOIs', () => {
                 expect(parseReferenceURL(
@@ -474,22 +474,22 @@ describe('HelperFunctions', () => {
             it('should handle PMCIDs', () => {
                 expect(parseReferenceURL(
                     testRefs[0], 'always-full-surround', { kind: 'PMCID', value: PMCID }
-                )).toBe('<a href="http://www.ncbi.nlm.nih.gov/pmc/articles/PMC12345" target="_blank">Body R. The ProMISe Study: EGDT RIP? St. Emlyn’s website. http://stemlynsblog.org/the-promise-study-egdt-rip/; http://blogs.nejm.org/now/index.php/the-final-nail-in-early-goal-directed-therapys-coffin/2015/03/24/. Published 2015.</a>')
+                )).toBe('<a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC12345" target="_blank">Body R. The ProMISe Study: EGDT RIP? St. Emlyn’s website. http://stemlynsblog.org/the-promise-study-egdt-rip/; http://blogs.nejm.org/now/index.php/the-final-nail-in-early-goal-directed-therapys-coffin/2015/03/24/. Published 2015.</a>')
                 expect(parseReferenceURL(
                     testRefs[1], 'always-full-surround', { kind: 'PMCID', value: PMCID }
-                )).toBe('<a href="http://www.ncbi.nlm.nih.gov/pmc/articles/PMC12345" target="_blank">Chan T, Helman A, Davis T, Purdy E. MEdIC Series | The Case the FOAM Faux Pas – Expert Review and Curated Commentary. Academic Life in Emergency Medicine. www.aliem.com/MEdIC-Series-The-Case-the-FOAM-Faux-Pas-Expert-Review-and-Curated-Commentary. Published 2015.</a>');
+                )).toBe('<a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC12345" target="_blank">Chan T, Helman A, Davis T, Purdy E. MEdIC Series | The Case the FOAM Faux Pas – Expert Review and Curated Commentary. Academic Life in Emergency Medicine. www.aliem.com/MEdIC-Series-The-Case-the-FOAM-Faux-Pas-Expert-Review-and-Curated-Commentary. Published 2015.</a>');
                 expect(parseReferenceURL(
                     testRefs[2], 'always-full-surround', { kind: 'PMCID', value: PMCID }
-                )).toBe('<a href="http://www.ncbi.nlm.nih.gov/pmc/articles/PMC12345" target="_blank">Colmers IN, Paterson QS, Lin M, Thoma B, Chan TM. The quality checklists for medical education blogs and podcasts. <i>The Winnower</i>. 2015. doi:10.15200/winn.144720.08769.</a>');
+                )).toBe('<a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC12345" target="_blank">Colmers IN, Paterson QS, Lin M, Thoma B, Chan TM. The quality checklists for medical education blogs and podcasts. <i>The Winnower</i>. 2015. doi:10.15200/winn.144720.08769.</a>');
                 expect(parseReferenceURL(
                     testRefs[3], 'always-full-surround', { kind: 'PMCID', value: PMCID }
-                )).toBe('<a href="http://www.ncbi.nlm.nih.gov/pmc/articles/PMC12345" target="_blank">Mathieu S. Trial of Early, Goal-Directed Resuscitation for Septic Shock. The Bottom Line. http://www.wessexics.com/The_Bottom_Line/Review/index.php?id=3665078336903245716. Published 2015.</a>')
+                )).toBe('<a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC12345" target="_blank">Mathieu S. Trial of Early, Goal-Directed Resuscitation for Septic Shock. The Bottom Line. http://www.wessexics.com/The_Bottom_Line/Review/index.php?id=3665078336903245716. Published 2015.</a>')
                 expect(parseReferenceURL(
                     testRefs[4], 'always-full-surround', { kind: 'PMCID', value: PMCID }
-                )).toBe('<a href="http://www.ncbi.nlm.nih.gov/pmc/articles/PMC12345" target="_blank">Cameron P. Pundit-Based Medicine. Emergency Physicians International.</a>')
+                )).toBe('<a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC12345" target="_blank">Cameron P. Pundit-Based Medicine. Emergency Physicians International.</a>')
                 expect(parseReferenceURL(
                     testRefs[5], 'always-full-surround', { kind: 'PMCID', value: PMCID }
-                )).toBe(`<a href="http://www.ncbi.nlm.nih.gov/pmc/articles/PMC12345" target="_blank">Dunning J. Unskilled and unaware of it. <i>Journal of Personality and Social Psychology</i>. 1999;77(6):1121-1134. http://psych.colorado.edu/~vanboven/teaching/p7536_heurbias/p7536_readings/kruger_dunning.pdf.</a>`)
+                )).toBe(`<a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC12345" target="_blank">Dunning J. Unskilled and unaware of it. <i>Journal of Personality and Social Psychology</i>. 1999;77(6):1121-1134. http://psych.colorado.edu/~vanboven/teaching/p7536_heurbias/p7536_readings/kruger_dunning.pdf.</a>`)
             });
             it('should handle URLs', () => {
                 expect(parseReferenceURL(
