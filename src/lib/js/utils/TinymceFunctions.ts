@@ -61,13 +61,13 @@ interface CitationPositions {
  * @return Parsed citation data.
  */
 export function getRelativeCitationPositions(editor: TinyMCE.Editor, validIds: string[]): CitationPositions {
-    const doc: Document = editor.dom.doc;
+    const doc = editor.getDoc();
     const currentSelection = editor.selection.getContent({ format: 'html' });
     const re = /<span id="([\d\w]+)" class="(?:abt-citation|abt_cite) .+<\/span>/;
     const id = (currentSelection.match(re) || ['', 'CURSOR'])[1];
 
     if (id === 'CURSOR') {
-        editor.insertContent(
+        editor.selection.setContent(
             `<span id="CURSOR" class="abt-citation"></span>`
         );
     }
@@ -132,20 +132,22 @@ function parseFootnoteCitations(
     citationByIndex: Citeproc.CitationByIndex,
 ): Promise<boolean> {
     return new Promise(resolve => {
-        const doc = editor.dom.doc;
-        const exisingNote = doc.getElementById('abt-footnote');
+        const doc = editor.getDoc();
+        const existingNote = doc.getElementById('abt-footnote');
+        const existingBib = doc.querySelector('#abt-bibliography, #abt-smart-bib');
 
-        if (exisingNote) exisingNote.parentElement.removeChild(exisingNote);
+        if (existingNote) existingNote.parentElement.removeChild(existingNote);
+        if (existingBib) existingBib.parentElement.removeChild(existingBib);
         if (clusters.length === 0) return resolve(true);
 
         for (const [index, footnote, elementID] of clusters) {
             const inlineText = `[${index + 1}]`;
-            const citation: HTMLSpanElement = editor.dom.doc.getElementById(elementID);
+            const citation: HTMLSpanElement = doc.getElementById(elementID);
             const sortedItems: Citeproc.SortedItems = citationByIndex[index].sortedItems;
             const idList: string = JSON.stringify(sortedItems.map(c => c[1].id));
 
             if (!citation) {
-                editor.insertContent(
+                editor.selection.setContent(
                     `<span
                         id='${elementID}'
                         data-reflist='${idList}'
@@ -162,60 +164,42 @@ function parseFootnoteCitations(
             citation.dataset['footnote'] = footnote;
         }
 
-        const note = doc.createElement('div');
-        note.id = 'abt-footnote';
-        note.className = 'abt-footnote noselect mceNonEditable';
+        const bm = editor.selection.getBookmark();
 
-        const heading = doc.createElement('div');
-        heading.className = 'abt-footnote__heading';
-        heading.innerText = top.ABT_i18n.misc.footnotes;
+        const note = editor.dom.create<HTMLDivElement>('div', {
+            class: 'abt-footnote noselect mceNonEditable',
+            id: 'abt-footnote',
+        });
+        const heading = editor.dom.create<HTMLDivElement>('div', {
+            class: 'abt-footnote__heading',
+        }, top.ABT_i18n.misc.footnotes);
+
         note.appendChild(heading);
 
         const citations = <NodeListOf<HTMLSpanElement>>doc.querySelectorAll('.abt-citation, .abt_cite');
-
         [...citations].forEach((c, i) => {
             c.innerText = `[${i + 1}]`;
-
-            /**
-             * Iterate and set a new footnote box using stored html on the inline notes.
-             * "Isn't this really inefficient?". Yes. It's citeproc-js's fault.
-             */
-            const div = doc.createElement('div');
-            div.className = 'abt-footnote__item';
-            div.innerHTML =
+            const noteItem = editor.dom.create<HTMLDivElement>('div', {
+                class: 'abt-footnote__item',
+            },
                 `<span class="abt-footnote__number">[${i + 1}]</span>` +
-                `<span class="abt-footnote__content">${c.dataset['footnote']}</span>`;
-            note.appendChild(div);
+                `<span class="abt-footnote__content">${c.dataset['footnote']}</span>`
+            );
+            note.appendChild(noteItem);
         });
+        editor.getBody().appendChild(note);
 
-        const bib = doc.querySelector('#abt-bibliography, #abt-smart-bib');
-
-        // Save a reference to the current cursor location
-        const selection = editor.selection;
-        const cursor = editor.dom.create('span', { class: 'abt-citation', id: 'CURSOR' });
-        selection.getNode().appendChild(cursor);
-
-        // Do work
-        if (bib) bib.parentNode.removeChild(bib);
-
-        editor.setContent(editor.getContent() + note.outerHTML);
-
-        // Move cursor back to where it was & delete reference
-        const el = doc.getElementById('CURSOR');
-        if (el) {
-            editor.selection.select(el, true);
-            editor.selection.collapse(true);
-            el.parentElement.removeChild(el);
-        }
-
-        // Remove unnecessary &nbsp; from editor
-        const f = editor.dom.doc.getElementById('abt-footnote');
-        while (f.previousElementSibling && f.previousElementSibling.innerHTML === '<br>') {
-            const p = f.previousElementSibling;
+        while (
+            note.previousElementSibling
+            && note.previousElementSibling.childNodes.length === 1
+            && note.previousElementSibling.childNodes[0].nodeName === 'BR') {
+            const p = note.previousElementSibling;
             p.parentNode.removeChild(p);
         }
+        editor.setContent(editor.getBody().innerHTML);
+        editor.selection.moveToBookmark(bm);
 
-        resolve(true);
+        return resolve(true);
     });
 }
 
@@ -226,8 +210,8 @@ function parseInTextCitations(
 ): Promise<boolean> {
     return new Promise(resolve => {
         const doc = editor.dom.doc;
-        const exisingNote = doc.getElementById('abt-footnote');
-        if (exisingNote) exisingNote.parentElement.removeChild(exisingNote);
+        const existingNote = doc.getElementById('abt-footnote');
+        if (existingNote) existingNote.parentElement.removeChild(existingNote);
 
         for (const [index, inlineText, elementID] of clusters) {
             const citation: HTMLSpanElement = editor.dom.doc.getElementById(elementID);
@@ -235,7 +219,7 @@ function parseInTextCitations(
             const idList: string = JSON.stringify(sortedItems.map(c => c[1].id));
 
             if (!citation) {
-                editor.insertContent(
+                editor.selection.setContent(
                     `<span
                         id='${elementID}'
                         data-reflist='${idList}'
@@ -265,25 +249,29 @@ export function setBibliography(
     bibliography: ABT.Bibliography|boolean,
     options: {heading: string, style: 'fixed'|'toggle'}
 ): void {
-    const doc = editor.dom.doc;
+    const doc = editor.getDoc();
     const existingBib = doc.querySelector('#abt-bibliography, #abt-smart-bib');
+    if (existingBib) existingBib.parentElement.removeChild(existingBib);
 
-    if (typeof bibliography === 'boolean') {
-        if (existingBib) existingBib.parentElement.removeChild(existingBib);
-        return;
-    }
+    if (typeof bibliography === 'boolean') return;
 
-    const bib = doc.createElement('div');
-    bib.id = 'abt-bibliography';
-    bib.className = 'abt-bibliography noselect mceNonEditable';
+    const bm = editor.selection.getBookmark();
 
-    const container = doc.createElement('div');
-    container.id = container.className = 'abt-bibliography__container';
+    const bib = editor.dom.create<HTMLDivElement>('div', {
+        class: 'abt-bibliography noselect mceNonEditable',
+        id: 'abt-bibliography',
+    });
+
+    const container = editor.dom.create<HTMLDivElement>('div', {
+        class: 'abt-bibliography__container',
+        id: 'abt-bibliography__container',
+    });
 
     if (options.heading) {
-        const heading = doc.createElement('h3');
+        const heading = editor.dom.create<HTMLHeadingElement>('h3', {
+            class: 'abt-bibliography__heading',
+        });
         heading.innerText = options.heading;
-        heading.classList.add('abt-bibliography__heading');
         if (options.style === 'toggle') heading.classList.add('abt-bibliography__heading_toggle');
         bib.appendChild(heading);
     }
@@ -291,37 +279,26 @@ export function setBibliography(
     bib.appendChild(container);
 
     for (const meta of bibliography) {
-        const item = doc.createElement('div');
-        item.id = meta.id;
-        item.innerHTML = meta.html;
+        const item = editor.dom.create<HTMLDivElement>('div', {
+            id: meta.id,
+        }, meta.html);
         container.appendChild(item);
     }
 
-    if (existingBib) existingBib.parentElement.removeChild(existingBib);
-    if (container.children.length === 0) return;
-
-    // Save a reference to the current cursor location
-    const selection = editor.selection;
-    const cursor = editor.dom.create('span', { class: 'abt-citation', id: 'CURSOR' });
-    selection.getNode().appendChild(cursor);
-
-    // Do work
-    editor.setContent(editor.getContent() + bib.outerHTML);
-
-    // Move cursor back to where it was & delete reference
-    const el = editor.dom.doc.getElementById('CURSOR');
-    if (el) {
-        editor.selection.select(el, true);
-        editor.selection.collapse(true);
-        el.parentElement.removeChild(el);
+    if (container.children.length > 0) {
+        editor.getBody().appendChild(bib);
     }
 
     // Remove unnecessary &nbsp; from editor
-    const b = editor.dom.doc.getElementById('abt-bibliography');
-    while (b.previousElementSibling && b.previousElementSibling.innerHTML === '<br>') {
-        const p = b.previousElementSibling;
+    while (
+        bib.previousElementSibling
+        && bib.previousElementSibling.childNodes.length === 1
+        && bib.previousElementSibling.childNodes[0].nodeName === 'BR') {
+        const p = bib.previousElementSibling;
         p.parentNode.removeChild(p);
     }
+    editor.setContent(editor.getBody().innerHTML);
+    editor.selection.moveToBookmark(bm);
 }
 
 export function reset(doc: HTMLDocument) {

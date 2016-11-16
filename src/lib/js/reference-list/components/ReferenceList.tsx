@@ -238,7 +238,7 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
          *   from it and push it to data.
          */
         const selection = this.editor.selection.getContent({ format: 'html' });
-        if (/<span id="([\d\w]+)" class="(?:abt-citation|abt_cite) ?.+<\/span>/.test(selection)) {
+        if (/<span.+class="(?:abt-citation|abt_cite).+?<\/span>/.test(selection)) {
             const re = /&quot;(\w+?)&quot;/g;
             let m: RegExpExecArray;
             while ((m = re.exec(selection)) !== null) { // tslint:disable-line:no-conditional-assignment
