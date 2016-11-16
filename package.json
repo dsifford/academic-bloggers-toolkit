@@ -74,7 +74,7 @@
     "mobx-react": "^3.5.8",
     "react": "^15.3.2",
     "react-addons-css-transition-group": "^15.3.2",
-    "react-addons-shallow-compare": "^15.3.2",
+    "react-addons-shallow-compare": "^15.4.0",
     "react-dom": "^15.3.2",
     "react-virtualized-select": "^2.1.0",
     "typescript": "^2.1.0-dev.20160724"
