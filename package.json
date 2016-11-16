@@ -54,7 +54,7 @@
     "merge-stream": "^1.0.0",
     "mobx-react-devtools": "^4.2.9",
     "poststylus": "^0.2.3",
-    "react-addons-test-utils": "^15.3.2",
+    "react-addons-test-utils": "^15.4.0",
     "style-loader": "^0.13.1",
     "stylint": "^1.5.7",
     "tslint": "^3.15.1",
