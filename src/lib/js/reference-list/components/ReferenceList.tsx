@@ -317,6 +317,7 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
 
             preprocess.then((data) => {
 
+                if (data.length === 0) return;
                 this.props.store.citations.addItems(data);
 
                 data = data.reduce((prev, curr) => {
