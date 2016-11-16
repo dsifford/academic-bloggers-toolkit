@@ -24,7 +24,7 @@ declare namespace TinyMCE {
         contentWindow: Window;
         controlManager: Object;
         dom: {
-            create(tag: string, attrs: { [attr: string]: string}, children?: string): HTMLElement;
+            create<T extends HTMLElement>(tag: string, attrs: { [attr: string]: string}, children?: string): T;
             doc: Document;
             getStyle(element: HTMLElement, name: string, computed: boolean): string;
         };
@@ -37,6 +37,7 @@ declare namespace TinyMCE {
             getBookmark(type?: number, normalized?: boolean): Object; // tslint:disable-line
             getNode(): Node;
             getContent(args: { format: 'html'|'text' }): string;
+            setContent(content: string, args?: { format: string }): string
             moveToBookmark(bookmark: Object): boolean;
             select(el: HTMLElement, content: boolean);
             setCursorLocation(a): void;
@@ -50,6 +51,7 @@ declare namespace TinyMCE {
         addButton(buttonID: string, buttonObj: Object): void;
         addShortcut(keys: string, title: string, func: Function): void;
         getBody(): HTMLBodyElement;
+        getDoc(): HTMLDocument;
         getContent(): string;
         setContent(content: string, args?: Object): string;
         insertContent(content: string): void;

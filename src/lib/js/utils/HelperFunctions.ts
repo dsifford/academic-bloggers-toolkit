@@ -326,7 +326,7 @@ export function parseReferenceURL(
                 case 'PMID': {
                     return linkedHtml +
                         `<span class="abt-url"> ` +
-                            `[<a href="http://www.ncbi.nlm.nih.gov/pubmed/${id.value}" target="_blank">PubMed</a>]` +
+                            `[<a href="https://www.ncbi.nlm.nih.gov/pubmed/${id.value}" target="_blank">PubMed</a>]` +
                         `</span>`;
                 }
                 case 'DOI': {
@@ -338,7 +338,7 @@ export function parseReferenceURL(
                 case 'PMCID': {
                     return linkedHtml +
                         `<span class="abt-url"> ` + // tslint:disable-next-line
-                            `[<a href="http://www.ncbi.nlm.nih.gov/pmc/articles/${id.value}" target="_blank">PMC</a>]` +
+                            `[<a href="https://www.ncbi.nlm.nih.gov/pmc/articles/${id.value}" target="_blank">PMC</a>]` +
                         `</span>`;
                 }
                 case 'URL':
@@ -353,13 +353,13 @@ export function parseReferenceURL(
         case 'always-full-surround': {
             switch (id.kind) {
                 case 'PMID': {
-                    return `<a href="http://www.ncbi.nlm.nih.gov/pubmed/${id.value}" target="_blank">${html}</a>`;
+                    return `<a href="https://www.ncbi.nlm.nih.gov/pubmed/${id.value}" target="_blank">${html}</a>`;
                 }
                 case 'DOI': {
                     return `<a href="https://dx.doi.org/${id.value}" target="_blank">${html}</a>`;
                 }
                 case 'PMCID': {
-                    return `<a href="http://www.ncbi.nlm.nih.gov/pmc/articles/${id.value}" target="_blank">${html}</a>`;
+                    return `<a href="https://www.ncbi.nlm.nih.gov/pmc/articles/${id.value}" target="_blank">${html}</a>`; // tslint:disable-line
                 }
                 case 'URL':
                 default: {
