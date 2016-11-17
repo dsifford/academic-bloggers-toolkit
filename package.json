@@ -37,7 +37,7 @@
     "babel-preset-react": "^6.16.0",
     "babel-register": "^6.16.3",
     "browser-sync": "^2.17.5",
-    "css-loader": "^0.25.0",
+    "css-loader": "^0.26.0",
     "del": "^2.2.2",
     "enzyme": "^2.5.1",
     "eslint": "^3.8.1",
