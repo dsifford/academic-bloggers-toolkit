@@ -23,6 +23,7 @@ module.exports = {
         'src/**/*.{ts,tsx}',
         'types/**/*.d.ts',
         './package.json',
+        './tsconfig.json',
         '!src/**/__tests__/*',
     ],
     tests: [
