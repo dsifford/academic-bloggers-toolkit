@@ -122,7 +122,6 @@ describe('RISParser', () => {
         const parser = new RISParser(testCases[1]);
         const expected: CSL.Data[] = [{
             DOI: '10.15200/winn.144720.08769',
-            'container-title': 'The Winnower',
             author: [
                 { family: 'Colmers', given: 'Isabelle N' },
                 { family: 'Paterson', given: 'Quinten S' },
@@ -130,6 +129,7 @@ describe('RISParser', () => {
                 { family: 'Thoma', given: 'Brent' },
                 { family: 'Chan', given: 'Teresa M' },
             ],
+            'container-title': 'The Winnower',
             id: '0',
             issued: {
                 'date-parts': [['2015']],
@@ -209,9 +209,9 @@ describe('RISParser', () => {
             journalAbbreviation: 'shortTitle',
             keyword: 'Keyword 1',
             language: 'English',
+            number: '1',
             'number-of-volumes': '1',
             'original-title': 'the original title',
-            number: '1',
             page: '10-20',
             publisher: 'the publisher',
             shortTitle: 'shortTitle',

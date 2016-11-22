@@ -89,8 +89,8 @@ export class ReferenceWindow extends React.Component<{}, {}> {
                 const titleKey = kind === 'chapter' ? 'container-title' : 'title';
                 this.manualData.merge({
                     accessed: new Date(Date.now()).toISOString().split('T')[0].split('-').join('/'),
-                    'number-of-pages': meta.book['number-of-pages'],
                     issued: meta.book.issued,
+                    'number-of-pages': meta.book['number-of-pages'],
                     publisher: meta.book.publisher,
                     [titleKey]: meta.book.title,
                 });

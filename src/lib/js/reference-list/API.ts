@@ -1,9 +1,10 @@
-import { getFromDOI, getFromPMID } from '../utils/resolvers/';
+import { getFromDOI, getFromPubmed } from '../utils/resolvers/';
 import { generateID, processCSLDate } from '../utils/HelperFunctions';
 
 export function getRemoteData(identifierList: string, mce: TinyMCE.WindowManager): Promise<CSL.Data[]> {
     return new Promise(resolve => {
         const pmidList: string[] = [];
+        const pmcidList: string[] = [];
         const doiList: string[] = [];
         const errList: string[] = [];
         const identifiers = identifierList.replace(/\s/g, '');
@@ -18,10 +19,15 @@ export function getRemoteData(identifierList: string, mce: TinyMCE.WindowManager
                 pmidList.push(id);
                 return;
             }
+            if (/^PMC\d+$/.test(id)) {
+                pmcidList.push(id.substring(3));
+                return;
+            }
             errList.push(id);
         });
 
-        if (pmidList.length > 0) promises.push(getFromPMID(pmidList.join(',')));
+        if (pmidList.length > 0) promises.push(getFromPubmed('PMID', pmidList.join(',')));
+        if (pmcidList.length > 0) promises.push(getFromPubmed('PMCID', pmcidList.join(',')));
         if (doiList.length > 0) promises.push(getFromDOI(doiList));
 
         if (promises.length === 0) {

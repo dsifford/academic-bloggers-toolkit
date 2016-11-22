@@ -3,7 +3,7 @@ import { observer } from 'mobx-react';
 import { preventScrollPropagation } from '../../../utils/HelperFunctions';
 
 interface ResultListProps {
-    results: PubMed.SingleReference[];
+    results: PubMed.DataPMID[];
     select(pmid: string): void;
 }
 

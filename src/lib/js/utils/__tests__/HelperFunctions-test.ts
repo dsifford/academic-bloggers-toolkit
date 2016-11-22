@@ -230,7 +230,7 @@ describe('HelperFunctions', () => {
         });
     });
     describe('processPubmedJSON()', () => {
-        const testData: PubMed.SingleReference[] = [{
+        const testData: PubMed.DataPMID[] = [{
             authors: [
                 {
                     authtype: 'Author',
@@ -260,14 +260,14 @@ describe('HelperFunctions', () => {
         }];
 
         it('should process PubMed JSON to CSL', () => {
-            expect(processPubmedJSON(testData)).toEqual([{
+            expect(processPubmedJSON('PMID', testData)).toEqual([{
                 ISSN: '3',
                 PMID: '12345',
                 URL: 'http://www.test.com',
                 author: [{ family: 'Doe', given: 'JD' }],
                 'chapter-number': '1',
-                'container-title-short': 'J Test',
                 'container-title': 'Journal of Testing',
+                'container-title-short': 'J Test',
                 edition: '2',
                 id: '0',
                 issue: '4',
@@ -277,8 +277,8 @@ describe('HelperFunctions', () => {
                 medium: 'print',
                 number: '5',
                 page: '100-3',
-                'publisher-place': 'USA',
                 publisher: 'Test',
+                'publisher-place': 'USA',
                 title: 'Test Title',
                 type: 'article-journal',
                 volume: '6',
@@ -286,21 +286,21 @@ describe('HelperFunctions', () => {
         });
         it('should move past empty fields', () => {
             expect(
-                processPubmedJSON([{ publishername: '' }])
+                processPubmedJSON('PMID', [{ publishername: '' }])
             ).toEqual(
                 [{ author: [], id: '0', type: 'article-journal' }]
             );
         });
         it('should default to en-US when language can\'t be found', () => {
             expect(
-                processPubmedJSON([{ lang: ['Gibberish'] }])
+                processPubmedJSON('PMID', [{ lang: ['Gibberish'] }])
             ).toEqual(
                 [{ author: [], id: '0', language: 'en-US', type: 'article-journal' }]
             );
         });
         it('should move past undefined fields', () => {
             expect(
-                processPubmedJSON(<any>[{ thisFieldDoesntExist: 'test' }])
+                processPubmedJSON('PMID', <any>[{ thisFieldDoesntExist: 'test' }])
             ).toEqual(
                 [{ author: [], id: '0', type: 'article-journal' }]
             );

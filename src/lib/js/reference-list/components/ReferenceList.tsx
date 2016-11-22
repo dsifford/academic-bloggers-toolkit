@@ -218,8 +218,9 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
         });
     }
 
-    insertInlineCitation = (e?: React.MouseEvent<HTMLAnchorElement>, data: CSL.Data[] = []) => {
-
+    /* FIXME: Fix when PR closes in the react repo */
+    insertInlineCitation = (e?: React.MouseEvent<HTMLAnchorElement>, d: CSL.Data[]|Event = []) => {
+        let data: CSL.Data[] = [];
         if (e) e.preventDefault();
         this.editor.setProgressState(true);
 
@@ -227,10 +228,13 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
          * If no data, then this must be a case where we're inserting from the
          *   list selection.
          */
-        if (data.length === 0) {
+        if (d instanceof Event || d.length === 0) {
             this.selected.forEach(id => {
                 data.push(this.props.store.citations.CSL.get(id));
             });
+        }
+        else {
+            data = d;
         }
 
         /**
@@ -415,15 +419,16 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
 
         /**
          * Vertical space that is already allocated.
-         * 200 = all static, non-participating sections of the list + padding
+         * 180 = all static, non-participating sections of the list + padding
+         * 84 = vertical height of menu when open
          */
-        const listOffset = 200 + topOffset + (this.menuOpen ? 91 : 0);
+        const listOffset = 180 + topOffset + (this.menuOpen ? 84 : 0);
         const remainingHeight = window.innerHeight - listOffset;
 
         list.style.top = `${topOffset}px`;
         if (!bothOpen) {
-            this.citedListUI.maxHeight = `calc(100vh - ${listOffset}px + 38px)`;
-            this.uncitedListUI.maxHeight = `calc(100vh - ${listOffset}px + 38px)`;
+            this.citedListUI.maxHeight = `calc(100vh - ${listOffset}px)`;
+            this.uncitedListUI.maxHeight = `calc(100vh - ${listOffset}px)`;
             return;
         }
 
@@ -432,16 +437,16 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
         let citedHeight = 0;
         let uncitedHeight = 0;
 
-        for (let i = 0; i < cited.children.length; i++) {
-            citedHeight += cited.children[i].clientHeight + 1;
+        for (const child of Array.from(cited.children)) {
+            citedHeight += child.clientHeight + 1;
             if (citedHeight > (remainingHeight / 2)) {
                 citedHeight = remainingHeight / 2;
                 break;
             }
         }
 
-        for (let i = 0; i < uncited.children.length; i++) {
-            uncitedHeight += uncited.children[i].clientHeight + 1;
+        for (const child of Array.from(uncited.children)) {
+            uncitedHeight += child.clientHeight + 1;
             if (uncitedHeight > (remainingHeight / 2)) {
                 uncitedHeight = remainingHeight / 2;
                 break;

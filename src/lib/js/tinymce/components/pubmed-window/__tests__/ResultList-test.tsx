@@ -2,13 +2,13 @@ import * as React from 'react';
 import { mount } from 'enzyme';
 import { ResultList } from '../ResultList';
 
-const testData: PubMed.SingleReference[] = [
+const testData: PubMed.DataPMID[] = [
     {
         authors: [
-            { name: 'Author 1' },
-            { name: 'Author 2' },
-            { name: 'Author 3' },
-            { name: 'NOT VISIBLE' },
+            { authtype: 'Author', name: 'Author 1' },
+            { authtype: 'Author', name: 'Author 2' },
+            { authtype: 'Author', name: 'Author 3' },
+            { authtype: 'Author', name: 'NOT VISIBLE' },
         ],
         pubdate: '2016 May 1',
         source: 'J Test 1',
@@ -17,10 +17,10 @@ const testData: PubMed.SingleReference[] = [
     },
     {
         authors: [
-            { name: 'First A' },
-            { name: 'Second A' },
-            { name: 'Third A' },
-            { name: 'NOT VISIBLE' },
+            { authtype: 'Author', name: 'First A' },
+            { authtype: 'Author', name: 'Second A' },
+            { authtype: 'Author', name: 'Third A' },
+            { authtype: 'Author', name: 'NOT VISIBLE' },
         ],
         pubdate: '2016 May 2',
         source: 'J Test 2',
@@ -59,9 +59,9 @@ describe('<ResultList />', () => {
         expect(spy.mock.calls[0]).toEqual(['11111']);
     });
     it('should scroll to the top on update', () => {
-        const { component, instance } = setup();
+        const { instance } = setup();
         instance.element.scrollTop = 150;
-        component.update();
+        instance.componentDidUpdate();
         expect(instance.element.scrollTop).toBe(0);
     });
     it('should handle scroll', () => {

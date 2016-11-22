@@ -115,45 +115,79 @@ declare namespace GoogleBooks {
 
 declare namespace PubMed {
 
-    type Data = SingleReference[]
+    /**
+     * Format: "<YYYY> <Mmm>? <DD>?"
+     * Examples: `2004`, `2014 Jun`, `2000 Nov 12`
+     */
+    type ShortDate = string;
 
-    interface SingleReference {
+    /**
+     * Format: "YYYY/MM/DD HH:MM"
+     * Example: `2014/07/01 00:00`
+     */
+    type LongDate = string;
+
+    interface Author {
+      authtype: string;
+      name: string;
+      clusterid?: string;
+    }
+
+    interface Shared {
+        authors?: Author[];
+        epubdate?: ShortDate;
+        fulljournalname?: string;
+        issue?: string;
+        pages?: string;
+        pubdate?: ShortDate;
+        /** Journal Shortname */
+        source?: string;
+        title?: string;
+        uid?: string;
+        volume?: string;
+    }
+
+    interface DataPMCID extends Shared {
+        articleids: {
+            idtype: 'doi'|'pmid'|'pmcid';
+            value: string;
+        }[];
+        pmclivedate: string;
+        printpubdate: ShortDate;
+        sortdate: LongDate;
+    }
+
+    interface DataPMID extends Shared {
         articleids?: {
-            idtype: string
-            idtypen: number
-            value: string
+            idtype: 'doi'|'eid'|'pii'|'pmc'|'pubmed'|'rid';
+            idtypeen: number;
+            value: string;
         }[];
         attributes?: string[];
-        authors?: Author[];
         availablefromurl?: string;
         bookname?: string;
         booktitle?: string;
         chapter?: string;
         doccontriblist?: string[];
-        docdate?: string;
+        docdate?: ShortDate;
         doctype?: string;
         edition?: string;
+        /** Generally = "doi: <doi-here>" */
         elocationid?: string;
-        epubdate?: string;
         essn?: string;
-        fulljournalname?: string;
         history?: {
-            /** format: 'YYYY/MM/DD HH:MM' */
-            date: string;
-            pubstatus: string;
+            date: LongDate;
+            pubstatus: 'accepted'|'entrez'|'medline'|'pubmed'|'received'|'revised';
         }[];
         issn?: string;
-        issue?: string;
         lang?: string[];
         /** format: 'Lastname FM' */
         lastauthor?: string;
         medium?: string;
         nlmuniqueid?: string;
-        pages?: string;
-        pubdate?: string;
+        pmcrefcount?: ''|number;
         publisherlocation?: string;
         publishername?: string;
-        reportnumber?: string;
         locationlabel?: string;
         /**
          * (1) received      -- date manuscript received for review
@@ -170,30 +204,21 @@ declare namespace PubMed {
          * (12) medline      -- date made a MEDLINE record
          * (255) other
          */
-        pubstatus?: '1'|'2'|'3'|'4'|'5';
-        pubtype?: string;
+        pubstatus?: '1'|'2'|'3'|'4'|'5'|'6'|'7'|'8'|'9'|'10'|'11'|'12'|'255';
+        pubtype?: string[];
         recordstatus?: string;
+        references?: {
+            refsource: string;
+            reftype: string;
+            pmid: number;
+            note: string;
+        }[];
+        reportnumber?: string;
         sortfirstauthor?: string;
-        /** format: 'YYYY/MM/DD HH:MM' */
-        sortpubdate?: string;
+        sortpubdate?: LongDate;
         sorttitle?: string;
-        source?: string;
         srccontriblist?: string[];
         srcdate?: string;
-        title?: string;
         vernaculartitle?: string;
-        viewcount?: number;
-        volume?: string;
-        uid?: string;
     }
-
-    interface Author {
-      authtype?: string;
-      clusterid?: string;
-      name?: string;
-      firstname?: string;
-      lastname?: string;
-      middleinitial?: string;
-    }
-
 }

@@ -105,14 +105,13 @@ export function processCSLDate(input: string, source: 'RIS'|'pubmed'): CSL.Date 
  *   - vernaculartitle
  *   - viewcount
  *
- * @param {PubMed.SingleReference[]} res  Pubmed api response
+ * @param {PubMed.DataPMID[]} res  Pubmed api response
  * @return CSL.Data[]
  */
-export function processPubmedJSON(res: PubMed.SingleReference[]): CSL.Data[] {
+export function processPubmedJSON(kind: 'PMID'|'PMCID', res: (PubMed.DataPMID|PubMed.DataPMCID)[]): CSL.Data[]{
     const payload: CSL.Data[] = [];
 
-    res.forEach((ref: PubMed.SingleReference, i: number) => {
-
+    res.forEach((ref: PubMed.DataPMID|PubMed.DataPMCID, i: number) => {
         const output: CSL.Data = {};
         output.id = `${i}`;
         output.type = 'article-journal';
@@ -171,6 +170,7 @@ export function processPubmedJSON(res: PubMed.SingleReference[]): CSL.Data[] {
                     output.number = ref[key];
                     break;
                 case 'sortpubdate':
+                case 'sortdate':
                     output.issued = processCSLDate(ref[key], 'pubmed');
                     break;
                 case 'source':
@@ -181,7 +181,7 @@ export function processPubmedJSON(res: PubMed.SingleReference[]): CSL.Data[] {
                     output.title = ref[key];
                     break;
                 case 'uid':
-                    output.PMID = ref[key];
+                    output[kind] = ref[key];
                     break;
                 case 'volume':
                     output.volume = ref[key];

@@ -39,13 +39,6 @@ describe('<ImportWindow />', () => {
         setup();
         expect(ImportWindow.prototype.componentDidMount).toHaveBeenCalledTimes(1);
     });
-    it('should trigger handleFileUpload when upload field changed', () => {
-        const { upload, component, instance } = setup();
-        const handleFileUpload = spyOn(instance, 'handleFileUpload');
-        component.update();
-        upload.simulate('change', { target: { files: [new File(['testdata'], 'test')], value: 'test.ris' } });
-        expect(handleFileUpload).toHaveBeenCalledTimes(1);
-    });
     it('should set filename', () => {
         spyOn(window, 'FileReader').and.returnValue({
             addEventListener: () => null,

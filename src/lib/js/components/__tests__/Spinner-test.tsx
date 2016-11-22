@@ -15,7 +15,7 @@ interface SpinnerProps {
 
 const setup = (props: SpinnerProps) => {
     const component = mount(
-        <Spinner {...props} />
+        <Spinner {...props} />,
     );
     return {
         component,
