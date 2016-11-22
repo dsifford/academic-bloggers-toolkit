@@ -425,6 +425,6 @@ CONCLUSION: There is a common and clinically important acute traumatic coagulopa
 describe('TeXParser', () => {
     it('should work', () => {
         const parser = new TeXParser(raw);
-        console.log(parser.parse());
+        expect(parser.parse()).toBeTruthy();
     });
 });
