@@ -47,10 +47,10 @@ describe('<ImportWindow />', () => {
         const { instance } = setup();
         expect(instance.filename).toBe('');
         instance.handleFileUpload({
-            currentTarget: { files: [{ name: 'testing' }] },
+            currentTarget: { files: [{ name: 'testing.ris' }] },
             preventDefault: () => null,
         });
-        expect(instance.filename).toBe('testing');
+        expect(instance.filename).toBe('testing.ris');
     });
     it('should handle form submit correctly', () => {
         const { instance, submit, setParams } = setup();
@@ -68,20 +68,7 @@ describe('<ImportWindow />', () => {
     it('should trigger an alert when the upload returns a length of 0 (bad file)', () => {
         spyOn(parser.RISParser.prototype, 'parse').and.returnValue([]);
         const { component, alert } = setup();
-        (component as any).instance().parseFile({target: {result: ''}});
+        (component as any).instance().parseFile({currentTarget: {result: ''}});
         expect(alert).toHaveBeenCalledTimes(1);
-    });
-    it('should trigger an alert when some references can\'t be parsed', () => {
-        spyOn(parser, 'RISParser').and.callFake(function() { // tslint:disable-line
-            this.parse = () => [{}, {}, {}]; // tslint:disable-line
-            this.unsupportedRefs = ['one', 'two', 'three']; // tslint:disable-line
-        });
-        const { component, alert } = setup();
-        parser.RISParser.prototype.unsupportedRefs = [0, 1, 2];
-        (component as any).instance().parseFile({target: {result: ''}});
-        expect(alert).toHaveBeenCalledTimes(1);
-        expect(alert.mock.calls[0][0]).toBe(
-            'Error: The following references were unable to be processed: one, two, three'
-        );
     });
 });

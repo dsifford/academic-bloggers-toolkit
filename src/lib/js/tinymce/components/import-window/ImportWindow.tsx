@@ -5,6 +5,7 @@ import DevTools from '../../../utils/DevTools';
 
 import { Modal } from '../../../utils/Modal';
 import { RISParser } from '../../../utils/RISParser';
+import { TeXParser } from '../../../utils/TeXParser';
 import { generateID } from '../../../utils/HelperFunctions';
 
 const DevTool = DevTools();
@@ -36,15 +37,28 @@ export class ImportWindow extends React.Component<Props, {}> {
     handleFileUpload = (e: React.FormEvent<HTMLInputElement>) => {
         const reader = new FileReader();
         const file = e.currentTarget.files[0];
-
-        reader.addEventListener('load', this.parseFile);
+        const filetype = file.name.toLowerCase().match(/\.(\w+$)/)[1] || '';
+        reader.addEventListener('load', () => {
+            this.parseFile(reader, filetype);
+        });
         reader.readAsText(file);
-
         this.setFilename(file.name);
     }
 
-    parseFile = (upload) => {
-        const parser = new RISParser(upload.target.result);
+    parseFile = (reader: FileReader, filetype: string) => {
+        let parser;
+        switch (filetype) {
+            case 'ris':
+                parser = new RISParser(reader.result);
+                break;
+            case 'bib':
+                parser = new TeXParser(reader.result);
+                break;
+            default:
+                this.wm.alert(`${this.errors.prefix}: ${this.errors.filetypeError}`);
+                return;
+        }
+
         const parsed = parser.parse();
 
         if (parsed.length === 0) {
@@ -88,7 +102,7 @@ export class ImportWindow extends React.Component<Props, {}> {
                             id="uploadField"
                             required={true}
                             onChange={this.handleFileUpload}
-                            accept="application/xresearch-info-systems"
+                            accept="application/xresearch-info-systems,application/x-bibtex"
                         />
                         <span children={this.labels.upload} />
                     </label>
