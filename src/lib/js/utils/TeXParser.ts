@@ -57,7 +57,7 @@ export class TeXParser {
                         return;
                     case 'author':
                     case 'editor':
-                        c[key] = this.parsePeople(item[key]);
+                        c[key] = parsePeople(item[key]);
                         return;
                     case 'booktitle':
                         c['collection-title'] = item[key];
@@ -127,35 +127,6 @@ export class TeXParser {
         return payload;
     }
 
-    private parsePeople(raw: string): CSL.Person[] {
-        const payload: CSL.Person[] = [];
-
-        const people = [];
-        for (const group of raw.split(/({.+})/).filter(a => a)) {
-            if (group[0] === '{') {
-                people.push(group);
-                continue;
-            }
-            people.push(...group.split(' and ').filter(a => a));
-        }
-        for (const person of people) {
-            if (person[0] === '{') {
-                payload.push({
-                    literal: person.substr(1, person.length - 2),
-                });
-                continue;
-            }
-            const nameparts = person.split(', ');
-            const family = nameparts[0];
-            const given = nameparts[1].match(/^\w+(?:\s\w)?/)[0];
-            payload.push({
-                family,
-                given,
-            });
-        }
-        return payload;
-    }
-
     private parseType(t: string): CSL.CitationType {
         switch (t) {
             case 'article':
@@ -191,4 +162,60 @@ export class TeXParser {
                 return 'article';
         }
     }
+}
+
+export function parsePeople(raw: string): CSL.Person[] {
+    const payload: CSL.Person[] = [];
+
+    const people = raw.split(/ and (?![^{]*})/g);
+
+    for (const person of people) {
+        let family = '';
+        let given = '';
+        if (person[0] === '{' && person[person.length - 1] === '}') {
+            payload.push({
+                literal: person.substring(1, person.length - 1),
+            });
+            continue;
+        }
+        let nameparts = person.split(', ');
+        if (nameparts.length === 1) {
+            nameparts = person.split(' ');
+            for (const [i, part] of nameparts.entries()) {
+                if (i === (nameparts.length - 1)) {
+                    family += part;
+                    break;
+                }
+                if (i === 0) {
+                    given += `${part}`;
+                    continue;
+                }
+                if (part[0] === part[0].toLowerCase() || nameparts[i - 1][0] === nameparts[i - 1][0].toLowerCase()) {
+                    family += `${part} `;
+                    continue;
+                }
+                given += ` ${part[0]}.`;
+            }
+        }
+        else if (nameparts.length === 2){
+            family = nameparts[0];
+            let givenBlock = nameparts[1].split(' ');
+            for (const [i, part] of givenBlock.entries()) {
+                if (i === 0) {
+                    given += part;
+                    continue;
+                }
+                // if (part[0] === part[0].toLowerCase()) {
+                //     given += ` ${part}`;
+                //     continue;
+                // }
+                given += ` ${part[0]}.`;
+            }
+        }
+        payload.push({
+            family,
+            given,
+        });
+    }
+    return payload;
 }
