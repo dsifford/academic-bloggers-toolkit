@@ -218,7 +218,6 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
         });
     }
 
-    /* FIXME: Fix when PR closes in the react repo */
     insertInlineCitation = (e?: React.MouseEvent<HTMLAnchorElement>, d: CSL.Data[]|Event = []) => {
         let data: CSL.Data[] = [];
         if (e) e.preventDefault();
@@ -324,18 +323,32 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
                 if (data.length === 0) return;
                 this.props.store.citations.addItems(data);
 
+                // FIXME: This needs to be heavily tested
                 data = data.reduce((prev, curr) => {
-                    const index = this.props.store.citations.lookup.titles.indexOf(curr.title);
-                    if (index > -1) {
-                        return [
-                            ...prev,
-                            this.props.store.citations.CSL.get(
-                                this.props.store.citations.lookup.ids[index]
-                            ),
-                        ];
+                    let matchingKey = '';
+                    const title = curr.title.toLowerCase();
+
+                    for (const [key, value] of this.props.store.citations.CSL.entries()) {
+                        if (value.title.toLowerCase() !== title) continue;
+
+                        const deepMatch = Object.keys(value).every(k => {
+                            const isComplexDataType = typeof value[k] !== 'string' && typeof value[k] !== 'number';
+                            const isVariableKey = k === 'id' || k === 'language';
+                            return (isComplexDataType || isVariableKey) ? true : value[k] === curr[k];
+                        });
+
+                        if (deepMatch) {
+                            matchingKey = key;
+                            break;
+                        }
                     }
+
+                    if (matchingKey !== '')
+                        return [...prev, this.props.store.citations.CSL.get(matchingKey)];
+
                     return [...prev, curr];
                 }, []);
+
                 if (!payload.attachInline) return;
                 this.insertInlineCitation(null, data);
             })

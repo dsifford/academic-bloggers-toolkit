@@ -46,8 +46,8 @@ describe('Reflist Store', () => {
             expect(store.citations.CSL.get('citationId').language).toBe('en-US');
         });
         it('should intercept a citation already defined', () => {
-            const cite = JSON.parse(JSON.stringify(store.citations.CSL.get('citationId')));
-            const cite2 = { title: 'TEST TITLE', type: 'article-journal', PMID: '12345' }; // tslint:disable-line
+            const cite = { PMID: '12345', title: 'Test Title', type: 'article-journal' };
+            const cite2 = { PMID: '12345', title: 'Test Title', type: 'article-journal' };
             store.citations.CSL.set('sameCitation', cite);
             store.citations.CSL.set('sameCitationAgain', cite2);
             expect(store.citations.CSL.keys().length).toBe(3);
