@@ -4,7 +4,7 @@
   "description": "A plugin extending the functionality of WordPress for Academic Blogging.",
   "main": "index.js",
   "scripts": {
-    "test": "jest && npm run lint",
+    "test": "jest --coverage && npm run lint",
     "wp": "wpcmd() { docker exec $(docker ps -lq) /bin/bash -c \"sudo -u www-data wp $(echo $@)\"; };wpcmd ",
     "lint": "tslint -e \"node_modules/**/*\" \"**/*.+(ts|tsx)\" -c \"./tslint.json\" -t stylish && stylint ./src/lib",
     "start": "NODE_ENV=development node --max_old_space_size=8192 node_modules/.bin/gulp _dev",
@@ -101,7 +101,6 @@
       "json"
     ],
     "verbose": true,
-    "collectCoverage": true,
     "collectCoverageFrom": [
       "src/**/*.{js,ts,tsx}",
       "!**/{vendor,__tests__}/**",
