@@ -242,7 +242,6 @@ gulp.task('_dev',
             browserSync.init({
                 proxy: 'localhost:8080',
                 open: false,
-                port: 3005,
             });
         }
     )

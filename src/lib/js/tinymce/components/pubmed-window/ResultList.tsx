@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { observer } from 'mobx-react';
-import { preventScrollPropagation } from '../../../utils/HelperFunctions';
+import { preventScrollPropagation } from '../../../utils/helpers/';
 
 interface ResultListProps {
     results: PubMed.DataPMID[];

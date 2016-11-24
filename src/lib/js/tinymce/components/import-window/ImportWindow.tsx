@@ -4,9 +4,8 @@ import { observer } from 'mobx-react';
 import DevTools from '../../../utils/DevTools';
 
 import { Modal } from '../../../utils/Modal';
-import { RISParser } from '../../../utils/RISParser';
-import { TeXParser } from '../../../utils/TeXParser';
-import { generateID } from '../../../utils/HelperFunctions';
+import { RISParser, TeXParser } from '../../../utils/parsers/';
+import { generateID } from '../../../utils/helpers/';
 
 const DevTool = DevTools();
 

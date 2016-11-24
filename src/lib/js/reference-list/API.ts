@@ -1,5 +1,6 @@
 import { getFromDOI, getFromPubmed } from '../utils/resolvers/';
-import { generateID, processCSLDate } from '../utils/HelperFunctions';
+import { generateID } from '../utils/helpers/';
+import { parseCSLDate } from '../utils/parsers/';
 
 export function getRemoteData(identifierList: string, mce: TinyMCE.WindowManager): Promise<CSL.Data[]> {
     return new Promise(resolve => {
@@ -67,7 +68,7 @@ export function parseManualData(payload: ABT.ReferenceWindowPayload): Promise<CS
         // Process date fields
         ['accessed', 'event-date', 'issued'].forEach(dateType => {
             if (!payload.manualData[dateType]) return;
-            payload.manualData[dateType] = processCSLDate(payload.manualData[dateType], 'RIS');
+            payload.manualData[dateType] = parseCSLDate(payload.manualData[dateType], 'RIS');
         });
 
         // Create a unique ID

@@ -1,4 +1,4 @@
-import { processCSLDate, processCSLName} from './HelperFunctions';
+import { parseCSLDate, parseCSLName} from '../parsers/';
 
 /**
  * Used for parsing RIS files into CSL
@@ -139,32 +139,32 @@ export class RISParser {
                 case 'A4':
                     payload.author =
                         !payload.author
-                        ? [processCSLName(val, 'RIS')]
-                        : payload.author.concat(processCSLName(val, 'RIS'));
+                        ? [parseCSLName(val, 'RIS')]
+                        : payload.author.concat(parseCSLName(val, 'RIS'));
                     break;
                 case 'A2':
                 case 'ED':
                     payload.editor =
                         !payload.editor
-                        ? [processCSLName(val, 'RIS')]
-                        : payload.editor.concat(processCSLName(val, 'RIS'));
+                        ? [parseCSLName(val, 'RIS')]
+                        : payload.editor.concat(parseCSLName(val, 'RIS'));
                     break;
                 case 'A3':
                     if (payload.translator === undefined) {
-                        payload.translator = [processCSLName(val, 'RIS')];
+                        payload.translator = [parseCSLName(val, 'RIS')];
                     }
                     else {
-                        payload.translator.push(processCSLName(val, 'RIS'));
+                        payload.translator.push(parseCSLName(val, 'RIS'));
                     }
                     break;
                 case 'PY':
                 case 'Y1':
-                    payload.issued['date-parts'][0][0] = processCSLDate(val, 'RIS')['date-parts'][0][0];
+                    payload.issued['date-parts'][0][0] = parseCSLDate(val, 'RIS')['date-parts'][0][0];
                     break;
                 case 'Y2':
-                    payload.accessed = processCSLDate(val, 'RIS');
+                    payload.accessed = parseCSLDate(val, 'RIS');
                 case 'DA':
-                    payload.issued = processCSLDate(val, 'RIS');
+                    payload.issued = parseCSLDate(val, 'RIS');
                     break;
                 case 'KW':
                     payload.keyword = val;

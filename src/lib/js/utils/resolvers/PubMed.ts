@@ -1,4 +1,4 @@
-import { processPubmedJSON } from '../HelperFunctions';
+import { parsePubmedJSON } from '../parsers/';
 
 /**
  * Sends a string of text to PubMed and resolves PubMed.DataPMID[] for the query.
@@ -87,7 +87,7 @@ export function getFromPubmed(kind: 'PMID'|'PMCID', idList: string): Promise<[CS
         .then(res => {
             if (res.data.length === 0) return resolve([[], []]);
             return resolve([
-                processPubmedJSON(kind, res.data),
+                parsePubmedJSON(kind, res.data),
                 res.invalid,
             ]);
         });

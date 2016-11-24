@@ -2,7 +2,7 @@ jest.mock('../../../../utils/Modal');
 
 import * as React from 'react';
 import { mount } from 'enzyme';
-import * as parser from '../../../../utils/RISParser';
+import { RISParser } from '../../../../utils/parsers/';
 import { ImportWindow } from '../ImportWindow';
 
 const setup = () => {
@@ -66,7 +66,7 @@ describe('<ImportWindow />', () => {
         expect(setParams.mock.calls[0]).toEqual([{ data: payload }]);
     });
     it('should trigger an alert when the upload returns a length of 0 (bad file)', () => {
-        spyOn(parser.RISParser.prototype, 'parse').and.returnValue([]);
+        spyOn(RISParser.prototype, 'parse').and.returnValue([]);
         const { component, alert } = setup();
         (component as any).instance().parseFile({currentTarget: {result: ''}});
         expect(alert).toHaveBeenCalledTimes(1);
