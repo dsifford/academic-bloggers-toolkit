@@ -12,9 +12,9 @@
   version "16.0.0"
   resolved "https://registry.yarnpkg.com/@types/jest/-/jest-16.0.0.tgz#5fe49adee6db194357a52438c0d80695b59a45e9"
 
-"@types/node@^6.0.50":
-  version "6.0.50"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-6.0.50.tgz#211c61ef6e0c79c466e9755a75d50496aaf94bea"
+"@types/node@^6.0.51":
+  version "6.0.51"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-6.0.51.tgz#84cbf25111516ec9304d0b61469dc0fa9d12ba32"
 
 "@types/react-addons-css-transition-group@^0.14.18":
   version "0.14.18"
@@ -4482,9 +4482,9 @@ mobx-react-devtools@^4.2.10:
   version "4.2.10"
   resolved "https://registry.yarnpkg.com/mobx-react-devtools/-/mobx-react-devtools-4.2.10.tgz#79274bd8d44ba04d950728738a144541fa2a6012"
 
-mobx-react@^4.0.2:
-  version "4.0.2"
-  resolved "https://registry.yarnpkg.com/mobx-react/-/mobx-react-4.0.2.tgz#0ac02e4d0138c5f2418b45d314e37efc4d9d92c0"
+mobx-react@^4.0.3:
+  version "4.0.3"
+  resolved "https://registry.yarnpkg.com/mobx-react/-/mobx-react-4.0.3.tgz#40eb31d25e0b8d63048eda2376cc56bfabd14f75"
   dependencies:
     hoist-non-react-statics "^1.2.0"
 
@@ -6779,9 +6779,9 @@ webidl-conversions@^3.0.0, webidl-conversions@^3.0.1:
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/webidl-conversions/-/webidl-conversions-3.0.1.tgz#24534275e2a7bc6be7bc86611cc16ae0a5654871"
 
-webpack-bundle-analyzer@^1.5.3:
-  version "1.5.3"
-  resolved "https://registry.yarnpkg.com/webpack-bundle-analyzer/-/webpack-bundle-analyzer-1.5.3.tgz#d1109bdd0a0067bba88ea6aa642533b4de926965"
+webpack-bundle-analyzer@^1.5.4:
+  version "1.5.4"
+  resolved "https://registry.yarnpkg.com/webpack-bundle-analyzer/-/webpack-bundle-analyzer-1.5.4.tgz#cec4574706aed04c14477ef77938961b4ecbf794"
   dependencies:
     acorn "^4.0.3"
     chalk "^1.1.3"
