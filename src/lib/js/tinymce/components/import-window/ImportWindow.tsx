@@ -4,8 +4,8 @@ import { observer } from 'mobx-react';
 import DevTools from '../../../utils/DevTools';
 
 import { Modal } from '../../../utils/Modal';
-import { RISParser } from '../../../utils/RISParser';
-import { generateID } from '../../../utils/HelperFunctions';
+import { RISParser, TeXParser } from '../../../utils/parsers/';
+import { generateID } from '../../../utils/helpers/';
 
 const DevTool = DevTools();
 
@@ -36,19 +36,42 @@ export class ImportWindow extends React.Component<Props, {}> {
     handleFileUpload = (e: React.FormEvent<HTMLInputElement>) => {
         const reader = new FileReader();
         const file = e.currentTarget.files[0];
-
-        reader.addEventListener('load', this.parseFile);
+        let filetype = file.name.toLowerCase().match(/\.(\w+$)/)
+            ? file.name.toLowerCase().match(/\.(\w+$)/)[1]
+            : '';
+        reader.addEventListener('load', () => {
+            this.parseFile(reader, filetype);
+        });
         reader.readAsText(file);
-
         this.setFilename(file.name);
     }
 
-    parseFile = (upload) => {
-        const parser = new RISParser(upload.target.result);
+    parseFile = (reader: FileReader, filetype: string) => {
+        let parser;
+        try {
+            switch (filetype) {
+                case 'ris':
+                    parser = new RISParser(reader.result);
+                    break;
+                case 'bib':
+                case 'bibtex':
+                    parser = new TeXParser(reader.result);
+                    break;
+                default:
+                    this.wm.alert(`${this.errors.prefix}: ${this.errors.filetypeError}`);
+                    this.setFilename('');
+                    return;
+            }
+        } catch (e) {
+            this.wm.alert(`${this.errors.prefix}: ${this.errors.filetypeError}`);
+            this.setFilename('');
+            return;
+        }
         const parsed = parser.parse();
 
         if (parsed.length === 0) {
             this.wm.alert(`${this.errors.prefix}: ${this.errors.filetypeError}`);
+            this.setFilename('');
             return;
         }
 
@@ -78,7 +101,7 @@ export class ImportWindow extends React.Component<Props, {}> {
 
     render() {
         return (
-            <div className="row">
+            <div className="row" style={{padding: '5px 0'}}>
                 <DevTool />
                 <div>
                     <label className="uploadLabel">
@@ -88,12 +111,19 @@ export class ImportWindow extends React.Component<Props, {}> {
                             id="uploadField"
                             required={true}
                             onChange={this.handleFileUpload}
-                            accept="application/xresearch-info-systems"
+                            accept="application/xresearch-info-systems,application/x-bibtex"
                         />
                         <span children={this.labels.upload} />
                     </label>
                 </div>
-                <div className="well flex" children={this.filename} />
+                <div className="flex">
+                    <div className="well" children={this.filename} />
+                    <div style={{fontSize: 10, padding: '5px 0 0 10px'}}>
+                        <span style={{fontWeight: 500}}>Supported filetypes: </span>
+                        <code>RIS</code>,&nbsp;
+                        <code>BibTeX</code>
+                    </div>
+                </div>
                 <div>
                     <input
                         type="button"

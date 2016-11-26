@@ -1,5 +1,4 @@
 jest.mock('../../../utils/CSLProcessor');
-// jest.mock('../../../utils/TinymceFunctions');
 
 import * as React from 'react';
 import { mount } from 'enzyme';
@@ -333,15 +332,15 @@ describe('<ReferenceList />', () => {
 
             // Toggle pinned state
             instance.togglePinned();
-            expect(instance.citedListUI.maxHeight).toBe('372px');
+            expect(instance.citedListUI.maxHeight).toBe('392px');
             expect(instance.uncitedListUI.maxHeight).toBe('101px');
 
             // New dimentions
             setupDimentions(100, [200, 250, 500]);
             instance.togglePinned();
             instance.togglePinned();
-            expect(instance.citedListUI.maxHeight).toBe('253.16666666666666px');
-            expect(instance.uncitedListUI.maxHeight).toBe('253.16666666666666px');
+            expect(instance.citedListUI.maxHeight).toBe('263.1666666666667px');
+            expect(instance.uncitedListUI.maxHeight).toBe('263.1666666666667px');
 
             // New dimentions
             setupDimentions(150, [50, 50, 650]);
@@ -349,7 +348,7 @@ describe('<ReferenceList />', () => {
             instance.togglePinned();
             instance.togglePinned();
             expect(instance.citedListUI.maxHeight).toBe('102px');
-            expect(instance.uncitedListUI.maxHeight).toBe('320px');
+            expect(instance.uncitedListUI.maxHeight).toBe('347px');
         });
     });
 });

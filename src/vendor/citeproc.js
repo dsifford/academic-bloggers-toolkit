@@ -23,7 +23,7 @@
  *     <http://www.gnu.org/licenses/> respectively.
  */
 var CSL = {
-    PROCESSOR_VERSION: "1.1.140",
+    PROCESSOR_VERSION: "1.1.142",
     CONDITION_LEVEL_TOP: 1,
     CONDITION_LEVEL_BOTTOM: 2,
     PLAIN_HYPHEN_REGEX: /(?:[^\\]-|\u2013)/,
@@ -7753,11 +7753,13 @@ CSL.NameOutput.prototype.init = function (names) {
     this.name = undefined;
     this.institutionpart = {};
     this.state.tmp.group_context.tip.variable_attempt = true;
+    this.labelVariable = this.variables[0];
     if (!this.state.tmp.value.length) {
         return;
     }
 };
-CSL.NameOutput.prototype.reinit = function (names) {
+CSL.NameOutput.prototype.reinit = function (names, labelVariable) {
+    this.labelVariable = labelVariable;
     if (this.state.tmp.can_substitute.value()) {
         this.nameset_offset = 0;
         this.variables = names.variables;
@@ -7911,7 +7913,7 @@ CSL.NameOutput.prototype.outputNames = function () {
 };
 CSL.NameOutput.prototype._applyLabels = function (blob, v) {
     var txt;
-    if (!this.label || !this.label[v]) {
+    if (!this.label || !this.label[this.labelVariable]) {
         return blob;
     }
     var plural = 0;
@@ -7926,24 +7928,24 @@ CSL.NameOutput.prototype._applyLabels = function (blob, v) {
             plural = 1;
         }
     }
-    if (this.label[v].before) {
-        if ("number" === typeof this.label[v].before.strings.plural) {
-            plural = this.label[v].before.strings.plural;
+    if (this.label[this.labelVariable].before) {
+        if ("number" === typeof this.label[this.labelVariable].before.strings.plural) {
+            plural = this.label[this.lableVariable].before.strings.plural;
         }
-        txt = this._buildLabel(v, plural, "before", v);
+        txt = this._buildLabel(v, plural, "before", this.labelVariable);
         this.state.output.openLevel("empty");
-        this.state.output.append(txt, this.label[v].before, true);
+        this.state.output.append(txt, this.label[this.labelVariable].before, true);
         this.state.output.append(blob, "literal", true);
         this.state.output.closeLevel("empty");
         blob = this.state.output.pop();
-    } else if (this.label[v].after) {
-        if ("number" === typeof this.label[v].after.strings.plural) {
-            plural = this.label[v].after.strings.plural;
+    } else if (this.label[this.labelVariable].after) {
+        if ("number" === typeof this.label[this.labelVariable].after.strings.plural) {
+            plural = this.label[this.labelVariable].after.strings.plural;
         }
-        txt = this._buildLabel(v, plural, "after", v);
+        txt = this._buildLabel(v, plural, "after", this.labelVariable);
         this.state.output.openLevel("empty");
         this.state.output.append(blob, "literal", true);
-        this.state.output.append(txt, this.label[v].after, true);
+        this.state.output.append(txt, this.label[this.labelVariable].after, true);
         this.state.tmp.label_blob = this.state.output.pop();
         this.state.output.append(this.state.tmp.label_blob,"literal",true);
         this.state.output.closeLevel("empty");
@@ -9854,11 +9856,9 @@ CSL.Node.names = {
         }
         if (this.tokentype === CSL.SINGLETON) {
             state.build.names_variables.push(this.variables);
-            for (var i = 0, ilen = this.variables.length; i < ilen; i += 1) {
-                state.build.name_label[this.variables[i]] = state.build.name_label[state.build.names_variables.slice(0)[0]];
-            }
             func = function (state, Item, item) {
-                state.nameOutput.reinit(this);
+                var labelVariable = state.nameOutput.labelVariable;
+                state.nameOutput.reinit(this, labelVariable);
             };
             this.execs.push(func);
         }
@@ -11442,7 +11442,9 @@ CSL.Attributes["@reverse-order"] = function (state, arg) {
     }
 };
 CSL.Attributes["@display"] = function (state, arg) {
-    state.opt.using_display = true;
+    if (state.bibliography.tokens.length === 2) {
+        state.opt.using_display = true;
+    }
     this.strings.cls = arg;
 };
 CSL.Stack = function (val, literal) {

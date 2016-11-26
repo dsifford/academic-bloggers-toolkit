@@ -48,7 +48,7 @@ export class PubmedWindow extends React.Component<{}, {}> {
     }
 
     @action
-    consumeQueryData = (data: PubMed.SingleReference[]) => {
+    consumeQueryData = (data: PubMed.DataPMID[]) => {
         if (data.length === 0) {
             top.tinyMCE.activeEditor.windowManager.alert(this.errors.noResults);
         }
@@ -74,7 +74,7 @@ export class PubmedWindow extends React.Component<{}, {}> {
     sendQuery = (e) => {
         this.toggleLoadState();
         e.preventDefault();
-        pubmedQuery(this.query, true)
+        pubmedQuery(this.query)
         .then(this.consumeQueryData)
         .catch(err => top.tinyMCE.activeEditor.windowManager.alert(err.message));
     }

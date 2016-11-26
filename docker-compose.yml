@@ -1,7 +1,7 @@
 version: '2'
 services:
     wordpress:
-        image: dsifford/wordpress:apache-next
+        image: visiblevc/wordpress
         links:
             - db
         ports:
@@ -13,13 +13,14 @@ services:
             DB_NAME: wordpress
             DB_PASS: root
             WP_DEBUG: 'true'
+            WP_VERSION: nightly
             PLUGINS: >-
                 [local]academic-bloggers-toolkit,
                 co-authors-plus,
                 log-deprecated-notices,
                 query-monitor,
-                relative-url,
             # piglatin,
+            # relative-url,
     db:
         image: mysql:5.7
         ports:

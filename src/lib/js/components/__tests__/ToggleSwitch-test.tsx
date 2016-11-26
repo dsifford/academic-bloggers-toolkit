@@ -9,7 +9,7 @@ const setup = (checked = false) => {
             checked={checked}
             label="Test Label"
             onChange={spy}
-        />
+        />,
     );
     return {
         component,

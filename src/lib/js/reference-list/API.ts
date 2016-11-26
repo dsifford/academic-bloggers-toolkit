@@ -1,9 +1,11 @@
-import { getFromDOI, getFromPMID } from '../utils/resolvers/';
-import { generateID, processCSLDate } from '../utils/HelperFunctions';
+import { getFromDOI, getFromPubmed } from '../utils/resolvers/';
+import { generateID } from '../utils/helpers/';
+import { parseCSLDate } from '../utils/parsers/';
 
 export function getRemoteData(identifierList: string, mce: TinyMCE.WindowManager): Promise<CSL.Data[]> {
     return new Promise(resolve => {
         const pmidList: string[] = [];
+        const pmcidList: string[] = [];
         const doiList: string[] = [];
         const errList: string[] = [];
         const identifiers = identifierList.replace(/\s/g, '');
@@ -18,10 +20,15 @@ export function getRemoteData(identifierList: string, mce: TinyMCE.WindowManager
                 pmidList.push(id);
                 return;
             }
+            if (/^PMC\d+$/.test(id)) {
+                pmcidList.push(id.substring(3));
+                return;
+            }
             errList.push(id);
         });
 
-        if (pmidList.length > 0) promises.push(getFromPMID(pmidList.join(',')));
+        if (pmidList.length > 0) promises.push(getFromPubmed('PMID', pmidList.join(',')));
+        if (pmcidList.length > 0) promises.push(getFromPubmed('PMCID', pmcidList.join(',')));
         if (doiList.length > 0) promises.push(getFromDOI(doiList));
 
         if (promises.length === 0) {
@@ -61,7 +68,7 @@ export function parseManualData(payload: ABT.ReferenceWindowPayload): Promise<CS
         // Process date fields
         ['accessed', 'event-date', 'issued'].forEach(dateType => {
             if (!payload.manualData[dateType]) return;
-            payload.manualData[dateType] = processCSLDate(payload.manualData[dateType], 'RIS');
+            payload.manualData[dateType] = parseCSLDate(payload.manualData[dateType], 'RIS');
         });
 
         // Create a unique ID

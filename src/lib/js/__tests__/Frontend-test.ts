@@ -22,7 +22,7 @@ describe('Frontend', () => {
         it('should render appropriately', () => {
             const citation1 = document.getElementById('citation-1');
             expect(citation1.getAttribute('data-citations')).toBe(
-                `<div id="aaaaaaaa">Test reference 1</div><div id="cccccccc">Test reference 3</div>`
+                `<div id="aaaaaaaa">Test reference 1</div><div id="cccccccc">Test reference 3</div>`,
             );
         });
         it('should create a tooltip on click', () => {

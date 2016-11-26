@@ -1,3 +1,4 @@
+// tslint:disable:adjacent-overload-signatures
 export class Modal {
 
     title: string;

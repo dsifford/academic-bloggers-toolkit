@@ -1,20 +1,20 @@
-import autoprefixer from 'autoprefixer';
-import del from 'del';
-import { exec } from 'child_process';
-import gulp from 'gulp';
-import merge from 'merge-stream';
-import poststylus from 'poststylus';
-import replace from 'gulp-replace';
-import sort from 'gulp-sort';
-import sourcemaps from 'gulp-sourcemaps';
-import stylus from 'gulp-stylus';
-import uglify from 'gulp-uglify';
-import wpPot from 'gulp-wp-pot';
-import webpack from 'webpack-stream';
-import _webpack from 'webpack';
+const autoprefixer = require('autoprefixer');
+const del = require('del');
+const exec = require('child_process').exec;
+const gulp = require('gulp');
+const merge = require('merge-stream');
+const poststylus = require('poststylus');
+const replace = require('gulp-replace');
+const sort = require('gulp-sort');
+const sourcemaps = require('gulp-sourcemaps');
+const stylus = require('gulp-stylus');
+const uglify = require('gulp-uglify');
+const wpPot = require('gulp-wp-pot');
+const webpackStream = require('webpack-stream');
+const webpack = require('webpack');
 
-import webpackConfig from './webpack.config';
-import { version as VERSION } from './package.json';
+const webpackConfig = require('./webpack.config');
+const VERSION = require('./package.json').version;
 
 const browserSync = require('browser-sync').create();
 
@@ -46,16 +46,16 @@ gulp.task('chown', (done) => {
 gulp.task('bump', () => {
     const re = `== Changelog ==\n(?!\n= ${VERSION})`;
     const repl =
-    `== Changelog ==\n\n` +
+    '== Changelog ==\n\n' +
     `= ${VERSION} =\n\n` +
-    `[Click here](https://headwayapp.co/academic-bloggers-toolkit-changelog) to view changes.\n`;
+    '[Click here](https://headwayapp.co/academic-bloggers-toolkit-changelog) to view changes.\n';
 
     const srcFiles = gulp
         .src([
             'src/academic-bloggers-toolkit.php',
             'src/readme.txt',
         ], { base: './src' })
-        .pipe(replace(/Version: [\d\.]+/, `Version: ${VERSION}`))
+        .pipe(replace(/Version: [\d.]+/, `Version: ${VERSION}`))
         .pipe(replace(/Stable tag: .+/, `Stable tag: ${VERSION}`))
         .pipe(replace(/define\('ABT_VERSION', '.+?'\);/, `define('ABT_VERSION', '${VERSION}');`))
         .pipe(replace(new RegExp(re), repl))
@@ -69,14 +69,14 @@ gulp.task('bump', () => {
     return merge(srcFiles, repoFiles);
 });
 
-gulp.task('rollbar', () =>
+gulp.task('rollbar', () => (
     gulp.src('dist/lib/php/dom-injects.php', { base: './' })
     .pipe(replace(/(^\s+environment: ")(test)(",)/gm, '$1production$3'))
     .pipe(gulp.dest('./'))
-);
+));
 
 // Translations
-gulp.task('pot', () =>
+gulp.task('pot', () => (
     gulp
         .src('src/**/*.php', { base: 'dist/*' })
         .pipe(sort())
@@ -90,18 +90,18 @@ gulp.task('pot', () =>
         }))
         .pipe(replace(/(\s)(src\/)(\S+)/gm, '$1$3'))
         .pipe(gulp.dest('./src'))
-);
+));
 
 // ==================================================
 //              PHP/Static Asset Tasks
 // ==================================================
 
 gulp.task('php', () => {
-    const re1 = new RegExp(/(\s=\s|\sreturn\s)((?:\(object\))|)(\[)([\W\w\s]*?)(\])(;\s?)/, 'gm');
+    const re1 = new RegExp(/(\s=\s|\sreturn\s)((?:\(object\))|)(\[)([\W\w\s]*?)(])(;\s?)/, 'gm');
     const re2 = new RegExp(/$(\s+)(.+?)(\s=>\s)((?:\(object\))?)(\[)/, 'gm');
-    const re3 = new RegExp(/$(\s+)(\],|\[)$/, 'gm');
-    const re4 = new RegExp(/(array\()(\],)/, 'gm');
-    const re5 = new RegExp(/(,\s+)(\[)(.*)(\])/, 'gm');
+    const re3 = new RegExp(/$(\s+)(],|\[)$/, 'gm');
+    const re4 = new RegExp(/(array\()(],)/, 'gm');
+    const re5 = new RegExp(/(,\s+)(\[)(.*)(])/, 'gm');
 
     function rep1(match, p1, p2, p3, p4, p5, p6) {
         return `${p1}${p2}array(${p4})${p6}`;
@@ -151,7 +151,7 @@ gulp.task('static', () => {
 //                 Style Tasks
 // ==================================================
 
-gulp.task('stylus:dev', () =>
+gulp.task('stylus:dev', () => (
     gulp
         .src('src/**/*.styl', { base: './src' })
         .pipe(sourcemaps.init())
@@ -162,9 +162,9 @@ gulp.task('stylus:dev', () =>
         .pipe(sourcemaps.write('.'))
         .pipe(gulp.dest('dist'))
         .pipe(browserSync.stream({ match: '**/*.css' }))
-);
+));
 
-gulp.task('stylus:prod', () =>
+gulp.task('stylus:prod', () => (
     gulp
         .src(['src/**/*.styl', '!src/lib/css/collections/*'], { base: './src' })
         .pipe(stylus({
@@ -173,29 +173,29 @@ gulp.task('stylus:prod', () =>
         }))
         .pipe(gulp.dest('dist'))
         .pipe(browserSync.stream({ match: '**/*.css' }))
-);
+));
 
 
 // ==================================================
 //                 Javascript Tasks
 // ==================================================
 
-gulp.task('webpack:dev', () =>
+gulp.task('webpack:dev', () => (
     gulp
         .src('src/lib/js/Frontend.ts')
-        .pipe(webpack(webpackConfig, _webpack))
+        .pipe(webpackStream(webpackConfig, webpack))
         .pipe(gulp.dest('dist/'))
         .pipe(browserSync.stream())
-);
+));
 
-gulp.task('webpack:prod', () =>
+gulp.task('webpack:prod', () => (
     gulp
         .src('src/lib/js/Frontend.ts')
-        .pipe(webpack(webpackConfig, _webpack))
+        .pipe(webpackStream(webpackConfig, webpack))
         .pipe(gulp.dest('dist/'))
-);
+));
 
-gulp.task('js', () =>
+gulp.task('js', () => (
     gulp
         .src('dist/**/*.js', { base: 'dist' })
         .pipe(uglify({
@@ -207,7 +207,7 @@ gulp.task('js', () =>
             },
         }))
         .pipe(gulp.dest('dist'))
-);
+));
 
 
 // ==================================================
@@ -215,19 +215,14 @@ gulp.task('js', () =>
 // ==================================================
 
 gulp.task('_build',
-    gulp.series(
-        'chown', 'clean', 'bump',
+    gulp.series('chown', 'clean', 'bump',
         gulp.parallel('stylus:prod', 'static', 'webpack:prod'),
         gulp.parallel('js', 'php'),
-        'rollbar',
-        'pot'
-    )
-);
+        'rollbar', 'pot'));
 
 
 gulp.task('_dev',
-    gulp.series(
-        'chown', 'clean', 'static',
+    gulp.series('chown', 'clean', 'static',
         gulp.parallel('php', 'stylus:dev', 'webpack:dev'), () => {
             gulp.watch('src/lib/**/*.styl', gulp.series('stylus:dev'));
 
@@ -247,7 +242,6 @@ gulp.task('_dev',
             browserSync.init({
                 proxy: 'localhost:8080',
                 open: false,
-                port: 3005,
             });
         }
     )

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { observable, ObservableMap, action } from 'mobx';
 import { observer } from 'mobx-react';
-import { preventScrollPropagation } from '../../../../utils/HelperFunctions';
+import { preventScrollPropagation } from '../../../../utils/helpers/';
 
 import { People } from './People';
 import { MetaFields } from './MetaFields';

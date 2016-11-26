@@ -1,5 +1,5 @@
 import { localeMapper } from './Constants';
-import { formatBibliography } from './HelperFunctions';
+import { formatBibliography } from './formatters/';
 import { Store } from '../reference-list/Store';
 import { toJS } from 'mobx';
 

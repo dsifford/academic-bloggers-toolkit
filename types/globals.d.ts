@@ -77,7 +77,7 @@ declare namespace BackendGlobals {
         readonly tinymce: {
             readonly importWindow: {
                 readonly importBtn: 'Import';
-                readonly title: 'Import References from RIS File';
+                readonly title: 'Import References from File';
                 readonly upload: 'Choose File';
             };
             readonly pubmedWindow: {
@@ -98,7 +98,7 @@ declare namespace BackendGlobals {
                     readonly searchPubmed: 'Search PubMed';
                 };
                 readonly identifierInput: {
-                    readonly label: 'PMID/DOI';
+                    readonly label: 'DOI/PMID/PMCID';
                 };
                 readonly manualEntryContainer: {
                     readonly autocite: 'Autocite';
