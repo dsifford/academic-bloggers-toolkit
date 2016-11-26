@@ -36,7 +36,9 @@ export class ImportWindow extends React.Component<Props, {}> {
     handleFileUpload = (e: React.FormEvent<HTMLInputElement>) => {
         const reader = new FileReader();
         const file = e.currentTarget.files[0];
-        const filetype = file.name.toLowerCase().match(/\.(\w+$)/)[1] || '';
+        let filetype = file.name.toLowerCase().match(/\.(\w+$)/)
+            ? file.name.toLowerCase().match(/\.(\w+$)/)[1]
+            : '';
         reader.addEventListener('load', () => {
             this.parseFile(reader, filetype);
         });
@@ -46,22 +48,30 @@ export class ImportWindow extends React.Component<Props, {}> {
 
     parseFile = (reader: FileReader, filetype: string) => {
         let parser;
-        switch (filetype) {
-            case 'ris':
-                parser = new RISParser(reader.result);
-                break;
-            case 'bib':
-                parser = new TeXParser(reader.result);
-                break;
-            default:
-                this.wm.alert(`${this.errors.prefix}: ${this.errors.filetypeError}`);
-                return;
+        try {
+            switch (filetype) {
+                case 'ris':
+                    parser = new RISParser(reader.result);
+                    break;
+                case 'bib':
+                case 'bibtex':
+                    parser = new TeXParser(reader.result);
+                    break;
+                default:
+                    this.wm.alert(`${this.errors.prefix}: ${this.errors.filetypeError}`);
+                    this.setFilename('');
+                    return;
+            }
+        } catch (e) {
+            this.wm.alert(`${this.errors.prefix}: ${this.errors.filetypeError}`);
+            this.setFilename('');
+            return;
         }
-
         const parsed = parser.parse();
 
         if (parsed.length === 0) {
             this.wm.alert(`${this.errors.prefix}: ${this.errors.filetypeError}`);
+            this.setFilename('');
             return;
         }
 
@@ -91,7 +101,7 @@ export class ImportWindow extends React.Component<Props, {}> {
 
     render() {
         return (
-            <div className="row">
+            <div className="row" style={{padding: '5px 0'}}>
                 <DevTool />
                 <div>
                     <label className="uploadLabel">
@@ -106,7 +116,14 @@ export class ImportWindow extends React.Component<Props, {}> {
                         <span children={this.labels.upload} />
                     </label>
                 </div>
-                <div className="well flex" children={this.filename} />
+                <div className="flex">
+                    <div className="well" children={this.filename} />
+                    <div style={{fontSize: 10, padding: '5px 0 0 10px'}}>
+                        <span style={{fontWeight: 500}}>Supported filetypes: </span>
+                        <code>RIS</code>,&nbsp;
+                        <code>BibTeX</code>
+                    </div>
+                </div>
                 <div>
                     <input
                         type="button"

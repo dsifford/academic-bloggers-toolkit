@@ -537,7 +537,7 @@ msgid "Import"
 msgstr ""
 
 #: lib/php/i18n.php:69
-msgid "Import References from RIS File"
+msgid "Import References from File"
 msgstr ""
 
 #: lib/php/i18n.php:70
@@ -589,7 +589,7 @@ msgid "Search PubMed"
 msgstr ""
 
 #: lib/php/i18n.php:92
-msgid "PMID/DOI"
+msgid "DOI/PMID/PMCID"
 msgstr ""
 
 #: lib/php/i18n.php:95

@@ -30,7 +30,7 @@
   "homepage": "https://github.com/dsifford/academic-bloggers-toolkit#readme",
   "devDependencies": {
     "autoprefixer": "^6.5.3",
-    "awesome-typescript-loader": "^3.0.0-beta.3",
+    "awesome-typescript-loader": "^3.0.0-beta.9",
     "babel-core": "^6.17.0",
     "babel-loader": "^6.2.8",
     "babel-polyfill": "^6.16.0",
@@ -41,7 +41,7 @@
     "css-loader": "^0.26.0",
     "del": "^2.2.2",
     "enzyme": "^2.6.0",
-    "eslint": "^3.10.2",
+    "eslint": "^3.11.0",
     "eslint-config-airbnb-base": "^10.0.1",
     "eslint-plugin-import": "^2.2.0",
     "gulp": "gulpjs/gulp#4.0",
@@ -52,7 +52,7 @@
     "gulp-uglify": "^2.0.0",
     "gulp-wp-pot": "^1.3.2",
     "jest": "^17.0.3",
-    "merge-stream": "^1.0.0",
+    "merge-stream": "^1.0.1",
     "mobx-react-devtools": "^4.2.10",
     "poststylus": "^0.2.3",
     "react-addons-test-utils": "^15.4.1",
@@ -63,7 +63,7 @@
     "tslint-microsoft-contrib": "^2.0.13",
     "tslint-react": "^2.0.0",
     "webpack": "^2.1.0-beta.21",
-    "webpack-bundle-analyzer": "^1.5.4",
+    "webpack-bundle-analyzer": "^2.0.1",
     "webpack-stream": "^3.2.0"
   },
   "dependencies": {

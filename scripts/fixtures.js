@@ -263,7 +263,7 @@ exports.ABT_i18n = {
     },
     tinymce: {
         importWindow: {
-            title: 'Import References from RIS File',
+            title: 'Import References from File',
             upload: 'Choose File',
             importBtn: 'Import',
         },
@@ -293,7 +293,7 @@ exports.ABT_i18n = {
                 search: 'Search',
             },
             identifierInput: {
-                label: 'PMID/DOI',
+                label: 'DOI/PMID/PMCID',
             },
             buttonRow: {
                 pubmedWindowTitle: 'Search PubMed for Reference',
@@ -309,7 +309,7 @@ exports.ABT_i18n = {
         badRequest: 'Request not valid',
         broken: 'BROKEN!',
         denied: 'Site denied request',
-        filetypeError: "The file could not be processed. Are you sure it's a .RIS (Refman) file?",
+        filetypeError: 'The selected file could not be processed.',
         identifiersNotFound: {
             all: 'No identifiers could be found for your request',
             some: 'The following identifiers could not be found',

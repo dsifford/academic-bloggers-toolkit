@@ -18,7 +18,7 @@ function abt_generate_translations() {
         'badRequest' => __('Request not valid', 'academic-bloggers-toolkit'),
         'broken' => __('BROKEN!', 'academic-bloggers-toolkit'),
         'denied' => __('Site denied request', 'academic-bloggers-toolkit'),
-        'filetypeError' => __("The file could not be processed. Are you sure it's a .RIS (Refman) file?", 'academic-bloggers-toolkit'),
+        'filetypeError' => __("The selected file could not be processed.", 'academic-bloggers-toolkit'),
         'identifiersNotFound' => [
             'all' => __('No identifiers could be found for your request', 'academic-bloggers-toolkit'),
             'some' => __('The following identifiers could not be found', 'academic-bloggers-toolkit'),
@@ -66,7 +66,7 @@ function abt_generate_translations() {
 
     $ABT_i18n->tinymce->importWindow = [
         'importBtn' => __('Import', 'academic-bloggers-toolkit'),
-        'title' => __('Import References from RIS File', 'academic-bloggers-toolkit'),
+        'title' => __('Import References from File', 'academic-bloggers-toolkit'),
         'upload' => __('Choose File', 'academic-bloggers-toolkit'),
     ];
 
@@ -89,7 +89,7 @@ function abt_generate_translations() {
             'searchPubmed' => __('Search PubMed', 'academic-bloggers-toolkit'),
         ],
         'identifierInput' => [
-            'label' => __('PMID/DOI', 'academic-bloggers-toolkit'),
+            'label' => __('DOI/PMID/PMCID', 'academic-bloggers-toolkit'),
         ],
         'manualEntryContainer' => [
             'autocite' => __('Autocite', 'academic-bloggers-toolkit'),

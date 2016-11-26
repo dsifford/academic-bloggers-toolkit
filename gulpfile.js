@@ -46,9 +46,9 @@ gulp.task('chown', (done) => {
 gulp.task('bump', () => {
     const re = `== Changelog ==\n(?!\n= ${VERSION})`;
     const repl =
-    `== Changelog ==\n\n` +
+    '== Changelog ==\n\n' +
     `= ${VERSION} =\n\n` +
-    `[Click here](https://headwayapp.co/academic-bloggers-toolkit-changelog) to view changes.\n`;
+    '[Click here](https://headwayapp.co/academic-bloggers-toolkit-changelog) to view changes.\n';
 
     const srcFiles = gulp
         .src([
