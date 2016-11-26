@@ -26,9 +26,9 @@ An **open source** WordPress plugin providing an all-in-one solution for effecti
 > Need to write one long blog post with lots of references? Download this plugin, write the post, and then delete the plugin if you don't need it any longer. **Freedom.**
 
 ## Features
-- Insert formatted references on the fly using **PMID**, **DOI** (CrossRef, DataCite, & mEDRA), **URL**, or **ISBN**.
+- Insert formatted references on the fly using **PMID**, **PMCID**, **DOI** (CrossRef, DataCite, & mEDRA), **URL**, or **ISBN**.
 - Manually insert formatted references from **over 15 types of references**.
-- **Import a full bibliography from your favorite reference manager** using an exported `.ris` file.
+- **Import a full bibliography from your favorite reference manager** using an exported `.ris` or `BibTeX` file.
 - Automatically format references for **every citation style on planet earth** (over 1300).
 - **Fully interactive** reference list which lives beside the post editor.
 - **Search PubMed from the post editor** and insert references instantly.
