@@ -1,8 +1,8 @@
-# Copyright (C) 2016 Academic Blogger's Toolkit 4.7.2
-# This file is distributed under the same license as the Academic Blogger's Toolkit 4.7.2 package.
+# Copyright (C) 2016 Academic Blogger's Toolkit 4.8.0
+# This file is distributed under the same license as the Academic Blogger's Toolkit 4.8.0 package.
 msgid ""
 msgstr ""
-"Project-Id-Version: Academic Blogger's Toolkit 4.7.2\n"
+"Project-Id-Version: Academic Blogger's Toolkit 4.8.0\n"
 "Report-Msgid-Bugs-To: https://github.com/dsifford/academic-bloggers-toolkit/issues\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -433,7 +433,7 @@ msgid "Site denied request"
 msgstr ""
 
 #: lib/php/i18n.php:21
-msgid "The file could not be processed. Are you sure it's a .RIS (Refman) file?"
+msgid "The selected file could not be processed."
 msgstr ""
 
 #: lib/php/i18n.php:23
