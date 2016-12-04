@@ -58,7 +58,7 @@ declare namespace BackendGlobals {
                 tooltips: {
                     readonly destroy: 'Delete all references';
                     readonly help: 'Usage instructions';
-                    readonly importRIS: 'Import references from RIS file';
+                    readonly importRIS: 'Import references from file';
                     readonly refresh: 'Refresh reference list';
                     readonly staticPubList: 'Insert Static Publication List';
                 };

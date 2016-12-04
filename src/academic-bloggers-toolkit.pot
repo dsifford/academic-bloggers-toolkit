@@ -497,7 +497,7 @@ msgid "Usage instructions"
 msgstr ""
 
 #: lib/php/i18n.php:50
-msgid "Import references from RIS file"
+msgid "Import references from file"
 msgstr ""
 
 #: lib/php/i18n.php:51

@@ -253,7 +253,7 @@ exports.ABT_i18n = {
         },
         menu: {
             tooltips: {
-                importRIS: 'Import references from RIS file',
+                importRIS: 'Import references from file',
                 refresh: 'Refresh reference list',
                 destroy: 'Delete all references',
                 help: 'Usage instructions',

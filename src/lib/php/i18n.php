@@ -47,7 +47,7 @@ function abt_generate_translations() {
             'tooltips' => [
                 'destroy' => __('Delete all references', 'academic-bloggers-toolkit'),
                 'help' => __('Usage instructions', 'academic-bloggers-toolkit'),
-                'importRIS' => __('Import references from RIS file', 'academic-bloggers-toolkit'),
+                'importRIS' => __('Import references from file', 'academic-bloggers-toolkit'),
                 'refresh' => __('Refresh reference list', 'academic-bloggers-toolkit'),
                 'staticPubList' => __('Insert Static Publication List', 'academic-bloggers-toolkit'),
             ],
