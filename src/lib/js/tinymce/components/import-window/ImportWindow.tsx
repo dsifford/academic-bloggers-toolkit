@@ -36,20 +36,20 @@ export class ImportWindow extends React.Component<Props, {}> {
     handleFileUpload = (e: React.FormEvent<HTMLInputElement>) => {
         const reader = new FileReader();
         const file = e.currentTarget.files[0];
-        let filetype = file.name.toLowerCase().match(/\.(\w+$)/)
+        let fileExtension = file.name.toLowerCase().match(/\.(\w+$)/)
             ? file.name.toLowerCase().match(/\.(\w+$)/)[1]
             : '';
         reader.addEventListener('load', () => {
-            this.parseFile(reader, filetype);
+            this.parseFile(reader, fileExtension);
         });
         reader.readAsText(file);
         this.setFilename(file.name);
     }
 
-    parseFile = (reader: FileReader, filetype: string) => {
+    parseFile = (reader: FileReader, fileExtension: string) => {
         let parser;
         try {
-            switch (filetype) {
+            switch (fileExtension) {
                 case 'ris':
                     parser = new RISParser(reader.result);
                     break;
@@ -58,7 +58,7 @@ export class ImportWindow extends React.Component<Props, {}> {
                     parser = new TeXParser(reader.result);
                     break;
                 default:
-                    this.wm.alert(`${this.errors.prefix}: ${this.errors.filetypeError}`);
+                    this.wm.alert(`${this.errors.prefix}: ${this.errors.fileExtensionError}`);
                     this.setFilename('');
                     return;
             }
