@@ -52,9 +52,7 @@ describe('API', () => {
                 addManually: true,
                 attachInline: true,
                 identifierList: '',
-                manualData: Object.assign({}, testCSL, {
-                    issued: '2016/08/19',
-                }),
+                manualData: {...testCSL, issued: '2016/08/19'},
                 people: [],
             });
         });

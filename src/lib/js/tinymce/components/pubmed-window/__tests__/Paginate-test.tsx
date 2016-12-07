@@ -11,9 +11,7 @@ const setup = (
             page={page}
             resultLength={resultLength}
             paginate={(num) => { // tslint:disable-line
-                component.setProps(
-                    Object.assign({}, component.props, { page: num })
-                );
+                component.setProps({...component.props, page: num});
             }}
         />
     );

@@ -262,4 +262,18 @@ describe('TeXParser', () => {
             expect(person.given).toEqual(expected[k][1]);
         }
     });
+    // it('should remove laTeX formatting', () => {
+    //     const bib = `
+    //         @article{testing,
+    //             author = {Ropohl, G{\"{u}}nter},
+    //             journal = {Techn{\{}{\'{e}}{\}}: Research in Philosophy and Technology},
+    //             number = {3}, pages = {186--194},
+    //             title = {{Philosophy of socio-technical systems}},
+    //             volume = {4}, year = {1999}
+    //         }
+    //     `;
+    //     const parsed = new TeXParser(bib).parse()[0];
+    //     console.log(parsed);
+    //     expect(true).toBe(false);
+    // });
 });

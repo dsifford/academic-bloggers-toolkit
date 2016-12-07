@@ -76,11 +76,12 @@ class Items extends React.Component<ItemsProps, {}> {
                 onWheel={this.handleScroll}
                 id={this.props.id}
                 className="abt-items"
-                style={Object.assign({}, this.props.style, {
+                style={{
+                    ...this.props.style,
                     overflowX: 'hidden',
                     overflowY: 'auto',
                     transition: '.2s',
-                })}
+                }}
             >
                 {
                     this.props.items.map((r, i) =>

@@ -140,7 +140,7 @@ export class CSLProcessor {
         const style = this.store.citationStyle === 'abt-user-defined'
             ? ABT_Custom_CSL.CSL
             : await this.getCSLStyle(this.store.citationStyle);
-        const sys = Object.assign({}, this.citeproc.sys);
+        const sys = {...this.citeproc.sys};
         const citeproc = new CSL.Engine(sys, style);
         citeproc.updateItems(toJS(data.map(d => d.id)));
         const bib = citeproc.makeBibliography();
