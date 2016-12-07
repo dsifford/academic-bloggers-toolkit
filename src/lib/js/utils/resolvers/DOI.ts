@@ -85,6 +85,9 @@ function resolveDOI(data: {
             }
             const res: CSL.Data = JSON.parse(req.responseText);
             res.id = '0';
+            if (res['short-container-title']) {
+                res['journalAbbreviation'] = res['short-container-title'][0];
+            }
             resolve([res, null]);
         });
         req.addEventListener('error', () => reject(
