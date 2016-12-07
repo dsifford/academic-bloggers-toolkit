@@ -57,11 +57,11 @@ export class TeXParser {
                         return;
                     case 'author':
                     case 'editor':
-                        c[key] = parsePeople(item[key]);
+                        c[key] = parsePeople(item[key].replace(/[{}"]/g, ''));
                         return;
                     case 'booktitle':
-                        c['collection-title'] = item[key];
-                        c['container-title'] = item[key];
+                        c['collection-title'] = item[key].replace(/[{}"]/g, '');
+                        c['container-title'] = item[key].replace(/[{}"]/g, '');
                         return;
                     case 'chapter':
                         c['title'] = item[key];

@@ -15,7 +15,7 @@ interface Props {
 
 export class Spinner extends React.PureComponent<Props, {}> {
 
-    style: React.CSSProperties = Object.assign({}, this.props.style);
+    style: React.CSSProperties = {...this.props.style};
 
     constructor(props) {
         super(props);

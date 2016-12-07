@@ -22,7 +22,7 @@
         "src/**/*.{ts,tsx}",
         "scripts/**/*.ts",
         "!node_modules",
-        "node_modules/@types/**/index.d.ts",
+        "node_modules/@types/*/index.d.ts",
         "node_modules/mobx/lib/mobx.d.ts",
         "node_modules/mobx-react/index.d.ts",
         "types/*.d.ts"
@@ -31,23 +31,6 @@
     "buildOnSave": false,
     "atom": {
         "rewriteTsconfig": true
-    },
-    "awesomeTypescriptLoaderOptions": {
-        "babelOptions": {
-            "presets": [
-                [
-                    "es2015",
-                    {
-                        "modules": false
-                    }
-                ],
-                "react"
-            ]
-        },
-        "forkChecker": true,
-        "useBabel": true,
-        "useCache": true,
-        "cacheDirectory": "tmp/tscache"
     },
     "files": [
         "src/lib/js/__tests__/Frontend-test.ts",

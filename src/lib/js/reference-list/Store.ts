@@ -99,12 +99,11 @@ class CitationStore {
                 this.CSL.delete(id);
         });
         const byIndex = this.citationByIndex
-        .map(i =>
-            Object.assign({}, i, {
-                citationItems: i.citationItems.filter(j => idList.indexOf(j.id) === -1),
-                sortedItems: i.sortedItems.filter(j => idList.indexOf(j[1].id) === -1),
-            })
-        )
+        .map(i => ({
+            ...i,
+            citationItems: i.citationItems.filter(j => idList.indexOf(j.id) === -1),
+            sortedItems: i.sortedItems.filter(j => idList.indexOf(j[1].id) === -1),
+        }))
         .reduce((prev, curr) => {
             if (curr.citationItems.length === 0) {
                 const el = doc.getElementById(curr.citationID);

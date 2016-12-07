@@ -26,7 +26,8 @@ declare namespace BackendGlobals {
             readonly badRequest: 'Request not valid';
             readonly broken: 'BROKEN!';
             readonly denied: 'Site denied request';
-            readonly filetypeError: 'The file could not be processed. Are you sure it\'s a .RIS (Refman) file?';
+            readonly fileExtensionError: 'Invalid file extension. Extension must be .ris, .bib, or .bibtex';
+            readonly filetypeError: 'The file could not be processed.';
             readonly identifiersNotFound: {
                 readonly all: 'The following identifiers could not be found';
                 readonly some: 'The following identifiers could not be found';
@@ -58,7 +59,7 @@ declare namespace BackendGlobals {
                 tooltips: {
                     readonly destroy: 'Delete all references';
                     readonly help: 'Usage instructions';
-                    readonly importRIS: 'Import references from RIS file';
+                    readonly importRIS: 'Import references from file';
                     readonly refresh: 'Refresh reference list';
                     readonly staticPubList: 'Insert Static Publication List';
                 };

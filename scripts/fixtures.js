@@ -253,7 +253,7 @@ exports.ABT_i18n = {
         },
         menu: {
             tooltips: {
-                importRIS: 'Import references from RIS file',
+                importRIS: 'Import references from file',
                 refresh: 'Refresh reference list',
                 destroy: 'Delete all references',
                 help: 'Usage instructions',
@@ -309,6 +309,7 @@ exports.ABT_i18n = {
         badRequest: 'Request not valid',
         broken: 'BROKEN!',
         denied: 'Site denied request',
+        fileExtensionError: 'Invalid file extension. Extension must be .ris, .bib, or .bibtex',
         filetypeError: 'The selected file could not be processed.',
         identifiersNotFound: {
             all: 'No identifiers could be found for your request',

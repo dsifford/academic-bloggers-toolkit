@@ -2,8 +2,6 @@ version: '2'
 services:
     wordpress:
         image: visiblevc/wordpress
-        links:
-            - db
         ports:
             - 8080:80
             - 443:443
@@ -17,12 +15,11 @@ services:
             PLUGINS: >-
                 [local]academic-bloggers-toolkit,
                 co-authors-plus,
-                log-deprecated-notices,
                 query-monitor,
             # piglatin,
             # relative-url,
     db:
-        image: mysql:5.7
+        image: mariadb:10
         ports:
             - 3306:3306
         environment:

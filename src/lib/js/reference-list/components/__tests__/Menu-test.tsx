@@ -14,7 +14,7 @@ const ABT_i18n = {
             tooltips: {
                 destroy: 'Delete all references',
                 help: 'View usage instructions',
-                import: 'Import references from RIS file',
+                import: 'Import references from file',
                 refresh: 'Refresh reference list',
             },
         },
