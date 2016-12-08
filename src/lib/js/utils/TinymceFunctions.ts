@@ -45,6 +45,23 @@ export function importWindow(editor: TinyMCE.Editor): Promise<CSL.Data[]> {
     });
 }
 
+export function editSingleReferenceWindow(editor: TinyMCE.Editor, ref: CSL.Data): Promise<CSL.Data> {
+    return new Promise(resolve => {
+        editor.windowManager.open({
+            height: 10,
+            onclose: (e) => {
+                resolve(e.target.params.data);
+            },
+            params: {
+                reference: ref,
+            },
+            title: 'Edit Reference',
+            url: `${ABT_wp.abt_url}/lib/js/tinymce/views/import-window.html`,
+            width: 600,
+        });
+    });
+}
+
 interface CitationPositions {
     /** The index of the HTMLSpanElement being inserted */
     currentIndex: number;
