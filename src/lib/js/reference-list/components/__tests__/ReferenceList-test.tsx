@@ -524,14 +524,12 @@ describe('<ReferenceList />', () => {
             expect(instance.menuOpen).toBe(false);
             expect(component.find('.dashicons.dashicons-menu.hamburger-menu').length).toBe(1);
             expect(component.find('.dashicons.dashicons-no-alt.hamburger-menu').length).toBe(0);
-            expect(component.find('Menu').length).toBe(0);
 
             // Toggle open
             instance.toggleMenu();
             expect(instance.menuOpen).toBe(true);
             expect(component.find('.dashicons.dashicons-menu.hamburger-menu').length).toBe(0);
             expect(component.find('.dashicons.dashicons-no-alt.hamburger-menu').length).toBe(1);
-            expect(component.find('Menu').length).toBe(1);
 
             // Toggle Closed (timeout due to CSS transition time)
             instance.toggleMenu();
@@ -542,7 +540,6 @@ describe('<ReferenceList />', () => {
                 expect(instance.menuOpen).toBe(false);
                 expect(component.find('.dashicons.dashicons-menu.hamburger-menu').length).toBe(1);
                 expect(component.find('.dashicons.dashicons-no-alt.hamburger-menu').length).toBe(0);
-                expect(component.find('Menu').length).toBe(0);
             });
         });
         it('toggleList()', () => {

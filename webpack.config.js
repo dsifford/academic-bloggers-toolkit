@@ -56,7 +56,6 @@ module.exports = {
             'react',
             'react-dom',
             'react-addons-shallow-compare',
-            'react-addons-css-transition-group',
             'mobx',
             'mobx-react',
             'mobx-react-devtools',

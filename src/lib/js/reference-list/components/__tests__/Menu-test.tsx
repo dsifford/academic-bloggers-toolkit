@@ -35,6 +35,7 @@ const setup = () => {
     const spy = jest.fn();
     const component = mount(
         <Menu
+            isOpen={true}
             cslStyle="american-medical-association"
             itemsSelected={true}
             submitData={spy}

@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { TransitionMotion, spring } from 'react-motion';
 import VSelect from 'react-virtualized-select';
 import { observable, action } from 'mobx';
 import { observer } from 'mobx-react';
@@ -7,6 +8,7 @@ import { PanelButton } from './PanelButton';
 declare const ABT_Custom_CSL: BackendGlobals.ABT_Custom_CSL;
 
 interface Props extends React.HTMLProps<HTMLDivElement> {
+    isOpen: boolean;
     cslStyle: string;
     itemsSelected: boolean;
     submitData(kind: string, data?: string): void;
@@ -68,6 +70,18 @@ export class Menu extends React.PureComponent<Props, {}> {
         this.props.submitData('CHANGE_STYLE', data.value);
     }
 
+    willEnter = () => ({
+        height: 0,
+        maxHeight: 0,
+        scale: 0,
+    })
+
+    willLeave = () => ({
+        height: spring(0),
+        maxHeight: spring(0),
+        scale: spring(0),
+    })
+
     dynamicOptionHeightHandler = ({option}) => {
         switch (true) {
             case option.label.length > 110:
@@ -87,8 +101,29 @@ export class Menu extends React.PureComponent<Props, {}> {
 
     render() {
         return (
-            <div className="abt-reflist-menu">
-                {/* <div className="inner"> */}
+            <TransitionMotion
+                willLeave={this.willLeave}
+                willEnter={this.willEnter}
+                styles={this.props.isOpen ? [{
+                    key: 'menu',
+                    style: {
+                        height: 85,
+                        maxHeight: spring(85),
+                        scale: spring(1),
+                    },
+                }] : []}
+            >
+            {styles => styles.length > 0 ?
+                <div
+                    key={styles[0].key}
+                    className="abt-reflist-menu"
+                    style={{
+                        height: styles[0].style.height,
+                        maxHeight: styles[0].style.maxHeight,
+                        transform: `scaleY(${styles[0].style.scale})`,
+                        transformOrigin: 'top',
+                    }}
+                >
                     <div className="abt-panel abt-panel_subpanel">
                         <PanelButton
                             id="IMPORT_RIS"
@@ -127,7 +162,7 @@ export class Menu extends React.PureComponent<Props, {}> {
                             <span className="dashicons dashicons-editor-help" />
                         </PanelButton>
                     </div>
-                    <div>
+                    <div style={{padding: '0 5px'}}>
                         <VSelect
                             id="style-select"
                             onChange={this.handleSelect}
@@ -140,8 +175,9 @@ export class Menu extends React.PureComponent<Props, {}> {
                             backspaceRemoves={false}
                         />
                     </div>
-                {/* </div> */}
-            </div>
+                </div> : null
+            }
+            </TransitionMotion>
         );
     }
 }
