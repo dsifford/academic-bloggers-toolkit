@@ -60,6 +60,10 @@ declare namespace TinyMCE {
         setProgressState(state: boolean): void;
     }
 
+    interface EditorManager {
+        get(editorId: string): TinyMCE.Editor;
+    }
+
     interface WindowManager {
         data?: Object;
         editor?: Editor;

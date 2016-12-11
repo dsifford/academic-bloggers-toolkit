@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { mount } from 'enzyme';
-import { map } from 'mobx';
+import { map, observable } from 'mobx';
 import { ManualEntryContainer, AutoCite } from '../ManualEntryContainer';
 
 const setup = (
@@ -11,12 +11,9 @@ const setup = (
     const component = mount(
         <ManualEntryContainer
             manualData={map([['type', citationType]])}
-            people={[]}
-            addPerson={spy}
+            people={observable([])}
             autoCite={spy}
-            changePerson={spy}
             loading={isLoading}
-            removePerson={spy}
             typeChange={spy}
         />
     );

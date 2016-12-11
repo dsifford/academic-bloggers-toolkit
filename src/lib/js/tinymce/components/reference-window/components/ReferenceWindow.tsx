@@ -1,14 +1,12 @@
 import * as React from 'react';
 import { Modal } from '../../../../utils/Modal';
-import { observable, computed, IObservableArray, reaction, map, action, toJS } from 'mobx';
+import { observable, computed, reaction, map, action, toJS } from 'mobx';
 import { observer } from 'mobx-react';
 import { getFromURL, getFromISBN } from '../../../../utils/resolvers/';
 import DevTools, { configureDevtool } from '../../../../utils/DevTools';
 
 const DevTool = DevTools();
-configureDevtool({
-  logFilter: change => change.type === 'action',
-});
+configureDevtool({ logFilter: change => change.type === 'action' });
 
 import { IdentifierInput } from './IdentifierInput';
 import { ManualEntryContainer } from './ManualEntryContainer';
@@ -32,11 +30,12 @@ export class ReferenceWindow extends React.Component<{}, {}> {
     @observable
     isLoading = false;
 
+    // FIXME: rename this to "primitives" in all locations
     @observable
     manualData = map([['type', 'webpage']]);
 
     @observable
-    people: IObservableArray<CSL.TypedPerson> = observable([
+    people = observable<CSL.TypedPerson>([
         { family: '', given: '', type: 'author' } as CSL.TypedPerson,
     ]);
 
@@ -50,11 +49,6 @@ export class ReferenceWindow extends React.Component<{}, {}> {
             people: this.people.slice(),
         };
     };
-
-    @action
-    addPerson = () => {
-        this.people.push({ family: '', given: '', type: 'author' });
-    }
 
     @action
     appendPMID = (pmid: string) => {
@@ -112,11 +106,6 @@ export class ReferenceWindow extends React.Component<{}, {}> {
     }
 
     @action
-    removePerson = (index: string) => {
-        this.people.remove(this.people[index]);
-    }
-
-    @action
     toggleAttachInline = () => {
         this.attachInline = !this.attachInline;
     }
@@ -133,11 +122,6 @@ export class ReferenceWindow extends React.Component<{}, {}> {
         this.addManually = !this.addManually;
         this.people.replace([{ family: '', given: '', type: 'author' } as CSL.TypedPerson]);
         this.changeType('webpage');
-    }
-
-    @action
-    updatePerson = (index: string, field: string, value: string) => {
-        this.people[index][field] = value;
     }
 
     componentDidMount() {
@@ -199,13 +183,10 @@ export class ReferenceWindow extends React.Component<{}, {}> {
                     }
                     { this.addManually &&
                         <ManualEntryContainer
-                            addPerson={this.addPerson}
                             autoCite={this.handleAutocite}
-                            changePerson={this.updatePerson}
                             loading={this.isLoading}
                             manualData={this.manualData}
                             people={this.people}
-                            removePerson={this.removePerson}
                             typeChange={this.changeType}
                         />
                     }

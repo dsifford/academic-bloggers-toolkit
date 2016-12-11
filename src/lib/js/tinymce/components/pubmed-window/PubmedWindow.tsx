@@ -76,7 +76,10 @@ export class PubmedWindow extends React.Component<{}, {}> {
         e.preventDefault();
         pubmedQuery(this.query)
         .then(this.consumeQueryData)
-        .catch(err => top.tinyMCE.activeEditor.windowManager.alert(err.message));
+        .catch(err => {
+            this.toggleLoadState();
+            top.tinyMCE.activeEditor.windowManager.alert(err.message);
+        });
     }
 
     preventScrollPropagation = (e: React.WheelEvent<HTMLElement>) => {

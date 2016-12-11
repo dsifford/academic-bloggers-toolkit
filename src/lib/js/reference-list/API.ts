@@ -55,32 +55,32 @@ export function getRemoteData(identifierList: string, mce: TinyMCE.WindowManager
     });
 }
 
-export function parseManualData(payload: ABT.ReferenceWindowPayload): Promise<CSL.Data[]|Error> {
+export function parseManualData(data: ABT.ManualData): Promise<CSL.Data[]> {
     return new Promise(resolve => {
-        payload.people.forEach(person => {
-            if (payload.manualData[person.type] === undefined) {
-                payload.manualData[person.type] = [{ family: person.family, given: person.given }];
+        data.people.forEach(person => {
+            if (data.manualData[person.type] === undefined) {
+                data.manualData[person.type] = [{ family: person.family, given: person.given }];
                 return;
             }
-            payload.manualData[person.type].push({ family: person.family, given: person.given });
+            data.manualData[person.type].push({ family: person.family, given: person.given });
         });
 
         // Process date fields
         ['accessed', 'event-date', 'issued'].forEach(dateType => {
-            if (!payload.manualData[dateType]) return;
-            payload.manualData[dateType] = parseCSLDate(payload.manualData[dateType], 'RIS');
+            if (!data.manualData[dateType]) return;
+            data.manualData[dateType] = parseCSLDate(data.manualData[dateType], 'RIS');
         });
 
-        // Create a unique ID
-        payload.manualData.id = generateID();
+        // Create a unique ID if one doesn't exist
+        if (!data.manualData.id) data.manualData.id = generateID();
 
-        Object.keys(payload.manualData).forEach(key => {
-            if (payload.manualData[key] === '') {
-                delete payload.manualData[key];
+        Object.keys(data.manualData).forEach(key => {
+            if (data.manualData[key] === '') {
+                delete data.manualData[key];
                 return;
             }
         });
 
-        resolve([payload.manualData]);
+        resolve([data.manualData]);
     });
 }

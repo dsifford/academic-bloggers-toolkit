@@ -1,6 +1,6 @@
 import { getRemoteData, parseManualData } from '../API';
 
-const testCSL = require('../../../../../scripts/fixtures.js').reflistState.CSL.citationId;
+const testCSL = require('../../../../../scripts/fixtures.js').reflistState.CSL.aaaaaaaa;
 
 describe('API', () => {
     describe('getRemoteData()', () => {

@@ -1,12 +1,10 @@
 import * as React from 'react';
+import { action, IObservableArray } from 'mobx';
 import { observer } from 'mobx-react';
 
 interface PeopleProps {
-    people: CSL.TypedPerson[];
+    people: IObservableArray<CSL.TypedPerson>;
     citationType: CSL.CitationType;
-    addPerson(): void;
-    changePerson(index: string, field: string, value: string): void;
-    removePerson(index: string): void;
 }
 
 @observer
@@ -15,20 +13,23 @@ export class People extends React.PureComponent<PeopleProps, {}> {
     fieldmaps = top.ABT_i18n.fieldmaps;
     labels = top.ABT_i18n.tinymce.referenceWindow.people;
 
-    handleChange = (e: React.FormEvent<HTMLInputElement|HTMLSelectElement>) => {
-        this.props.changePerson(
-            e.currentTarget.getAttribute('data-index'),
-            e.currentTarget.getAttribute('data-field'),
-            e.currentTarget.value,
-        );
+    @action
+    addPerson = () => {
+        this.props.people.push({ family: '', given: '', type: 'author' });
     }
 
-    handleAddPerson = () => {
-        this.props.addPerson();
+    @action
+    removePerson = (e: React.MouseEvent<HTMLInputElement>) => {
+        const index = e.currentTarget.getAttribute('data-index');
+        this.props.people.remove(this.props.people[index]);
     }
 
-    handleRemovePerson = (e: React.MouseEvent<HTMLInputElement>) => {
-        this.props.removePerson(e.currentTarget.getAttribute('data-index'));
+    @action
+    updatePerson = (e: React.FormEvent<HTMLInputElement|HTMLSelectElement>) => {
+        const index = e.currentTarget.getAttribute('data-index');
+        const field = e.currentTarget.getAttribute('data-field');
+        const value = e.currentTarget.value;
+        this.props.people[index][field] = value;
     }
 
     render() {
@@ -41,8 +42,8 @@ export class People extends React.PureComponent<PeopleProps, {}> {
                 </div>
                 {this.props.people.map((person: CSL.TypedPerson, i: number) =>
                     <Person
-                        change={this.handleChange}
-                        remove={this.handleRemovePerson}
+                        change={this.updatePerson}
+                        remove={this.removePerson}
                         citationType={this.props.citationType}
                         fieldMap={this.fieldmaps[this.props.citationType]}
                         index={i}
@@ -58,7 +59,7 @@ export class People extends React.PureComponent<PeopleProps, {}> {
                             id="add-person"
                             className="abt-btn abt-btn_flat"
                             value={this.labels.add}
-                            onClick={this.handleAddPerson}
+                            onClick={this.addPerson}
                         />
                     </div>
                 </div>
