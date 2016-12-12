@@ -1,61 +1,84 @@
 import * as React from 'react';
+import { observable, IObservableArray } from 'mobx';
 import { mount } from 'enzyme';
 import { People } from '../People';
+
+const peopleStore: IObservableArray<CSL.TypedPerson> = observable([]);
 
 const setup = (
     citationType: CSL.CitationType = 'article-journal',
     people: CSL.TypedPerson[] = [{family: 'Doe', given: 'John', type: 'author'}]
 ) => {
-    const addPerson = jest.fn();
-    const changePerson = jest.fn();
-    const removePerson = jest.fn();
+    peopleStore.replace(people);
     const component = mount(
         <People
             citationType={citationType}
-            people={people}
-            addPerson={addPerson}
-            changePerson={changePerson}
-            removePerson={removePerson}
+            people={peopleStore}
         />
     );
     return {
-        addPerson,
-        changePerson,
-        removePerson,
-        component,
         addButton: component.find('#add-person'),
-        removeButton: component.find('.abt-btn.abt-btn_flat.abt-btn_icon'),
-        select: component.find('select'),
+        component,
+        instance: component.instance(),
     };
 };
 
 describe('<People />', () => {
-    it('should call addPerson on click', () => {
-        const { addButton, addPerson } = setup();
+    it('should render with a single person', () => {
+        const { component } = setup();
+        expect(component.find('Person').length).toBe(1);
 
-        addButton.simulate('click');
-        addButton.simulate('click');
-        addButton.simulate('click');
-
-        expect(addPerson).toHaveBeenCalledTimes(3);
+        const person = component.find('Person').first();
+        expect(person.find('#person-family-0').props().value).toBe('Doe');
+        expect(person.find('#person-given-0').props().value).toBe('John');
     });
-    it('should call removePerson on remove button click',  () => {
-        const { removeButton, removePerson } = setup();
+    it('should add an empty author when "Add Contributor" is clicked', () => {
+        const { component, addButton } = setup();
+        expect(component.find('Person').length).toBe(1);
+
+        addButton.simulate('click');
+        expect(component.find('Person').length).toBe(2);
+
+        const newPerson = component.find('Person').at(1);
+        expect(newPerson.find('#person-family-1').props().value).toBe('');
+        expect(newPerson.find('#person-given-1').props().value).toBe('');
+        expect(newPerson.find('select').props().value).toBe('author');
+    });
+    it('should remove a person when remove button is clicked', () => {
+        const people = [
+            {family: 'Doe', given: 'John', type: 'author'},
+            {family: 'Smith', given: 'Jane', type: 'author'},
+        ];
+        const { component } = setup('article-journal', people as CSL.TypedPerson[]);
+        expect(component.find('Person').length).toBe(2);
+
+        const removeButton = component.find('input[type="button"][value="⨯"]').at(1);
         removeButton.simulate('click');
-        expect(removePerson).toHaveBeenCalledTimes(1);
+
+        expect(component.find('Person').length).toBe(1);
+        const person = component.find('Person').first();
+        expect(person.find('#person-family-0').props().value).toBe('Doe');
+        expect(person.find('#person-given-0').props().value).toBe('John');
     });
-    it('should call changePerson appropriately when input fields are changed', () => {
+    it('should update fields when data is changed', () => {
+        const { component } = setup();
+        const person = component.find('Person').first();
+        const familyNameInput = person.find('#person-family-0');
+        const givenNameInput = person.find('#person-given-0');
 
-        const { component, changePerson } = setup();
+        expect(familyNameInput.props().value).toBe('Doe');
+        expect(givenNameInput.props().value).toBe('John');
 
-        const firstNameInput = component.find('#person-given-0');
-        const lastNameInput = component.find('#person-family-0');
+        familyNameInput.simulate('change', {
+            currentTarget: { value: 'FAMILYNAMETEST' }
+        });
+        givenNameInput.simulate('change', {
+            currentTarget: { value: 'GIVENNAMETEST' }
+        });
 
-        firstNameInput.simulate('change');
-        lastNameInput.simulate('change');
+        peopleStore.replace([{family: 'FAMILYNAMETEST', given: 'GIVENNAMETEST', type: 'author'}]);
 
-        expect(changePerson).toHaveBeenCalledTimes(2);
-        expect(changePerson.mock.calls[0]).toEqual(['0', 'given', 'John']);
-        expect(changePerson.mock.calls[1]).toEqual(['0', 'family', 'Doe']);
+        expect(familyNameInput.props().value).toBe('FAMILYNAMETEST');
+        expect(givenNameInput.props().value).toBe('GIVENNAMETEST');
     });
 });

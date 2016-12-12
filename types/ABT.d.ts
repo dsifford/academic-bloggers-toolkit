@@ -129,12 +129,15 @@ declare namespace ABT {
         webpage: FieldMap;
     }
 
-    interface ReferenceWindowPayload {
+    interface ManualData {
+        manualData: CSL.Data;
+        people: CSL.TypedPerson[];
+    }
+
+    interface ReferenceWindowPayload extends ManualData {
         addManually: boolean;
         attachInline: boolean;
         identifierList: string;
-        manualData: CSL.Data;
-        people: CSL.TypedPerson[];
     }
 
     interface URLMeta {

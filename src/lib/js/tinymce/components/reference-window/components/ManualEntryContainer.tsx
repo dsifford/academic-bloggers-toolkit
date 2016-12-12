@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { observable, ObservableMap, action } from 'mobx';
+import { observable, ObservableMap, action, IObservableArray } from 'mobx';
 import { observer } from 'mobx-react';
 import { preventScrollPropagation } from '../../../../utils/helpers/';
 
@@ -10,11 +10,8 @@ import { Spinner } from '../../../../components/Spinner';
 interface ManualEntryProps {
     loading: boolean;
     manualData: ObservableMap<string>;
-    people: CSL.TypedPerson[];
+    people: IObservableArray<CSL.TypedPerson>;
     autoCite(kind: 'webpage'|'book'|'chapter', query: string): void;
-    addPerson(): void;
-    changePerson(index: string, field: string, value: string): void;
-    removePerson(index: string): void;
     typeChange(citationType: string): void;
 }
 
@@ -96,9 +93,6 @@ export class ManualEntryContainer extends React.PureComponent<ManualEntryProps, 
                 { this.props.manualData.get('type') !== 'article' &&
                     <People
                         people={this.props.people}
-                        changePerson={this.props.changePerson}
-                        addPerson={this.props.addPerson}
-                        removePerson={this.props.removePerson}
                         citationType={this.props.manualData.get('type') as CSL.CitationType}
                     />
                 }

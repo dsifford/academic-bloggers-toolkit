@@ -7,11 +7,11 @@ declare const ABT_wp: BackendGlobals.ABT_wp;
  * @return A Promise which resolves to ABT.ReferenceWindowPayload
  */
 export function referenceWindow(editor: TinyMCE.Editor): Promise<ABT.ReferenceWindowPayload> {
-    return new Promise((resolve) => {
+    return new Promise((resolve, reject) => {
         editor.windowManager.open({
             height: 10,
             onclose: (e) => {
-                if (!e.target.params.data) resolve(null);
+                if (!e.target.params.data) reject(null);
                 resolve(<ABT.ReferenceWindowPayload>e.target.params.data);
             },
             params: {
@@ -31,15 +31,33 @@ export function referenceWindow(editor: TinyMCE.Editor): Promise<ABT.ReferenceWi
  * @return A Promise which resolves to CSL.Data[]
  */
 export function importWindow(editor: TinyMCE.Editor): Promise<CSL.Data[]> {
-    return new Promise((resolve) => {
+    return new Promise((resolve, reject) => {
         editor.windowManager.open({
             height: 10,
             onclose: (e) => {
-                if (!e.target.params.data) resolve(null);
+                if (!e.target.params.data) reject(null);
                 resolve(<CSL.Data[]>e.target.params.data);
             },
             title: top.ABT_i18n.tinymce.importWindow.title,
             url: `${ABT_wp.abt_url}/lib/js/tinymce/views/import-window.html`,
+            width: 600,
+        });
+    });
+}
+
+export function editReferenceWindow(editor: TinyMCE.Editor, ref: CSL.Data): Promise<ABT.ManualData> {
+    return new Promise((resolve, reject) => {
+        editor.windowManager.open({
+            height: 10,
+            onclose: (e) => {
+                if (!e.target.params.data) reject(null);
+                resolve(<ABT.ManualData>e.target.params.data);
+            },
+            params: {
+                reference: ref,
+            },
+            title: top.ABT_i18n.tinymce.editReferenceWindow.title,
+            url: `${ABT_wp.abt_url}/lib/js/tinymce/views/edit-reference-window.html`,
             width: 600,
         });
     });

@@ -73,9 +73,11 @@ export class Card extends React.PureComponent<CardProps, {}> {
         const { CSL, isSelected } = this.props;
         return (
             <div
+                data-reference-id={this.props.id}
                 role="menuitem"
                 className={isSelected ? 'abt-card abt-card_selected' : 'abt-card'}
                 onClick={this.click}
+                onDoubleClick={this.props.onDoubleClick}
                 onMouseEnter={this.tooltip}
                 onMouseLeave={this.destroyTooltip}
             >

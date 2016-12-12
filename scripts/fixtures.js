@@ -14,7 +14,7 @@ exports.reflistState = {
             citationID: 'htmlSpanId',
             citationItems: [
                 {
-                    id: 'citationId',
+                    id: 'aaaaaaaa',
                     item: {
                         ISSN: '3',
                         PMID: '12345',
@@ -24,7 +24,7 @@ exports.reflistState = {
                         'container-title-short': 'J Test',
                         'container-title': 'Journal of Testing',
                         edition: '2',
-                        id: 'citationId',
+                        id: 'aaaaaaaa',
                         issue: '4',
                         issued: { 'date-parts': [['2016', '08', '19']] },
                         journalAbbreviation: 'J Test',
@@ -40,7 +40,7 @@ exports.reflistState = {
                     },
                 },
                 {
-                    id: 'citationId',
+                    id: 'bbbbbbbb',
                     item: {
                         ISSN: '3',
                         PMID: '12345',
@@ -50,7 +50,7 @@ exports.reflistState = {
                         'container-title-short': 'J Test',
                         'container-title': 'Journal of Testing',
                         edition: '2',
-                        id: 'citationId',
+                        id: 'bbbbbbbb',
                         issue: '4',
                         issued: { 'date-parts': [['2016', '08', '19']] },
                         journalAbbreviation: 'J Test',
@@ -79,7 +79,7 @@ exports.reflistState = {
                     'container-title-short': 'J Test',
                     'container-title': 'Journal of Testing',
                     edition: '2',
-                    id: 'citationId',
+                    id: 'aaaaaaaa',
                     issue: '4',
                     issued: { 'date-parts': [['2016', '08', '19']] },
                     journalAbbreviation: 'J Test',
@@ -94,7 +94,7 @@ exports.reflistState = {
                     volume: '6',
                 },
                 {
-                    id: 'citationId',
+                    id: 'aaaaaaaa',
                     sortkeys: ['0'],
                 },
             ]],
@@ -103,7 +103,7 @@ exports.reflistState = {
             citationID: 'otherHtmlSpanId',
             citationItems: [
                 {
-                    id: 'otherCitationId',
+                    id: 'bbbbbbbb',
                     item: {
                         ISSN: '3',
                         PMID: '12345',
@@ -113,7 +113,7 @@ exports.reflistState = {
                         'container-title-short': 'J Test',
                         'container-title': 'Journal of Testing',
                         edition: '2',
-                        id: 'otherCitationId',
+                        id: 'bbbbbbbb',
                         issue: '4',
                         issued: { 'date-parts': [['2016', '08', '19']] },
                         journalAbbreviation: 'J Test',
@@ -142,7 +142,7 @@ exports.reflistState = {
                     'container-title-short': 'J Test',
                     'container-title': 'Journal of Testing',
                     edition: '2',
-                    id: 'otherCitationId',
+                    id: 'bbbbbbbb',
                     issue: '4',
                     issued: { 'date-parts': [['2016', '08', '19']] },
                     journalAbbreviation: 'J Test',
@@ -157,14 +157,14 @@ exports.reflistState = {
                     volume: '6',
                 },
                 {
-                    id: 'otherCitationId',
+                    id: 'bbbbbbbb',
                     sortkeys: ['0'],
                 },
             ]],
         },
     ],
     CSL: {
-        citationId: {
+        aaaaaaaa: {
             ISSN: '3',
             PMID: '12345',
             URL: 'http://www.test.com',
@@ -173,7 +173,7 @@ exports.reflistState = {
             'container-title-short': 'J Test',
             'container-title': 'Journal of Testing',
             edition: '2',
-            id: 'citationId',
+            id: 'aaaaaaaa',
             issue: '4',
             issued: { 'date-parts': [['2016', '08', '19']] },
             journalAbbreviation: 'J Test',
@@ -187,7 +187,7 @@ exports.reflistState = {
             type: 'article-journal',
             volume: '6',
         },
-        otherCitationId: {
+        bbbbbbbb: {
             ISSN: '3',
             PMID: '12345',
             URL: 'http://www.test.com',
@@ -196,7 +196,7 @@ exports.reflistState = {
             'container-title-short': 'J Test',
             'container-title': 'Journal of Testing',
             edition: '2',
-            id: 'otherCitationId',
+            id: 'bbbbbbbb',
             issue: '4',
             issued: { 'date-parts': [['2016', '08', '19']] },
             journalAbbreviation: 'J Test',
@@ -210,7 +210,7 @@ exports.reflistState = {
             type: 'article-journal',
             volume: '6',
         },
-        uncitedCitationId: {
+        cccccccc: {
             ISSN: '3',
             PMID: '12345',
             URL: 'http://www.test.com',
@@ -219,7 +219,7 @@ exports.reflistState = {
             'container-title-short': 'J Test',
             'container-title': 'Journal of Testing',
             edition: '2',
-            id: 'uncitedCitationId',
+            id: 'cccccccc',
             issue: '4',
             issued: { 'date-parts': [['2016', '08', '19']] },
             journalAbbreviation: 'J Test',
@@ -262,6 +262,10 @@ exports.ABT_i18n = {
         },
     },
     tinymce: {
+        editReferenceWindow: {
+            title: 'Edit Reference',
+            confirm: 'Confirm',
+        },
         importWindow: {
             title: 'Import References from File',
             upload: 'Choose File',

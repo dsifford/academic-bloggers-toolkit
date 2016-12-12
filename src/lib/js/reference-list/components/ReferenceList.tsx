@@ -1,26 +1,30 @@
 import * as React from 'react';
+import { observable, IObservableArray, reaction, action } from 'mobx';
+import { observer } from 'mobx-react';
+// import { TransitionMotion, spring } from 'react-motion';
 import { EVENTS } from '../../utils/Constants';
 import * as MCE from '../../utils/TinymceFunctions';
 import { CSLProcessor } from '../../utils/CSLProcessor';
-import { observable, IObservableArray, reaction, action } from 'mobx';
-import { observer } from 'mobx-react';
 import { getRemoteData, parseManualData } from '../API';
-import * as CSSTransitionGroup from 'react-addons-css-transition-group';
 import DevTools, { configureDevtool } from '../../utils/DevTools';
-
-const DevTool = DevTools();
-configureDevtool({
-    logFilter: change => change.type === 'action',
-});
-
 import { Store } from '../Store';
 import { Menu } from './Menu';
 import { PanelButton } from './PanelButton';
 import { ItemList } from './ItemList';
 import { Spinner } from '../../components/Spinner';
 
+const DevTool = DevTools();
+configureDevtool({ logFilter: change => change.type === 'action' });
+
 declare const tinyMCE: TinyMCE.MCE;
-const { OPEN_REFERENCE_WINDOW, TINYMCE_READY, TINYMCE_HIDDEN, TINYMCE_VISIBLE, TOGGLE_PINNED_STATE } = EVENTS;
+const {
+    OPEN_REFERENCE_WINDOW,
+    REFERENCE_EDITED,
+    TINYMCE_READY,
+    TINYMCE_HIDDEN,
+    TINYMCE_VISIBLE,
+    TOGGLE_PINNED_STATE,
+} = EVENTS;
 
 @observer
 export class ReferenceList extends React.Component<{store: Store}, {}> {
@@ -82,10 +86,11 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
 
     componentDidMount() {
         addEventListener(OPEN_REFERENCE_WINDOW, this.openReferenceWindow);
-        addEventListener(TINYMCE_HIDDEN, () => this.toggleLoading(true));
+        addEventListener(TINYMCE_HIDDEN, this.toggleLoading.bind(this, true));
         addEventListener(TINYMCE_READY, this.initTinyMCE);
-        addEventListener(TINYMCE_VISIBLE, () => this.toggleLoading(false));
+        addEventListener(TINYMCE_VISIBLE, this.toggleLoading.bind(this, false));
         addEventListener(TOGGLE_PINNED_STATE, this.togglePinned);
+        addEventListener(REFERENCE_EDITED, this.initProcessor);
         addEventListener('scroll', this.handleScroll);
     }
 
@@ -288,13 +293,13 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
             this.editor.setProgressState(false);
         })
         .catch(err => {
+            this.editor.setProgressState(false);
             Rollbar.error('ReferenceList.tsx -> insertInlineCitation', err);
             this.editor.windowManager.alert(
                 `${this.errors.unexpected.message}.\n\n` +
                 `${err.name}: ${err.message}\n\n` +
                 `${this.errors.unexpected.reportInstructions}`
             );
-            this.editor.setProgressState(false);
         });
 
         this.clearSelection();
@@ -312,8 +317,6 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
     @action
     openReferenceWindow = () => {
         MCE.referenceWindow(this.editor).then(payload => {
-            if (!payload) return;
-
             const preprocess: Promise<CSL.Data[]> = payload.addManually
                 ? parseManualData(payload)
                 : getRemoteData(payload.identifierList, this.editor.windowManager);
@@ -323,7 +326,6 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
                 if (data.length === 0) return;
                 this.props.store.citations.addItems(data);
 
-                // FIXME: This needs to be heavily tested
                 data = data.reduce((prev, curr) => {
                     let matchingKey = '';
                     const title = curr.title.toLowerCase();
@@ -343,10 +345,9 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
                         }
                     }
 
-                    if (matchingKey !== '')
-                        return [...prev, this.props.store.citations.CSL.get(matchingKey)];
-
-                    return [...prev, curr];
+                    return matchingKey !== ''
+                        ? [...prev, this.props.store.citations.CSL.get(matchingKey)]
+                        : [...prev, curr];
                 }, []);
 
                 if (!payload.attachInline) return;
@@ -360,6 +361,10 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
                     `${this.errors.unexpected.reportInstructions}`
                 );
             });
+        })
+        .catch(err => {
+            if (!err) return; // User exited early
+            Rollbar.error('ReferenceList.tsx -> openReferenceWindow', err);
         });
     }
 
@@ -368,6 +373,7 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
             if (!data) return;
             this.props.store.citations.addItems(data);
         }).catch(err => {
+            if (!err) return; // User exited early
             Rollbar.error('ReferenceList.tsx -> openImportWindow', err);
             this.editor.windowManager.alert(
                 `${this.errors.unexpected.message}.\n\n` +
@@ -603,23 +609,16 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
                         />
                     </PanelButton>
                 </div>
-                <CSSTransitionGroup
-                    transitionName="menu"
-                    transitionEnterTimeout={200}
-                    transitionLeaveTimeout={200}
-                >
-                    { this.menuOpen &&
-                        <Menu
-                            key="menu"
-                            itemsSelected={this.selected.length > 0}
-                            cslStyle={this.props.store.citationStyle}
-                            submitData={this.handleMenuSelection}
-                        />
-                    }
-                </CSSTransitionGroup>
+                <Menu
+                    isOpen={this.menuOpen}
+                    itemsSelected={this.selected.length > 0}
+                    cslStyle={this.props.store.citationStyle}
+                    submitData={this.handleMenuSelection}
+                />
                 { this.props.store.citations.cited.length > 0 &&
                     <ItemList
                         id="cited"
+                        CSL={this.props.store.citations.CSL}
                         items={this.props.store.citations.cited}
                         selectedItems={this.selected}
                         isOpen={this.citedListUI.isOpen}
@@ -632,6 +631,7 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
                 { this.props.store.citations.uncited.length > 0 &&
                     <ItemList
                         id="uncited"
+                        CSL={this.props.store.citations.CSL}
                         items={this.props.store.citations.uncited}
                         selectedItems={this.selected}
                         isOpen={this.uncitedListUI.isOpen}
@@ -658,3 +658,46 @@ class StorageField extends React.Component<{store: Store}, {}> {
         );
     }
 }
+
+/*
+<TransitionMotion
+    willLeave={() => {
+        return {
+            height: spring(0),
+            maxHeight: spring(0),
+            scale: spring(0),
+        };
+    }}
+    willEnter={() => {
+        return {
+            height: 0,
+            maxHeight: 0,
+            scale: 0,
+        };
+    }}
+    styles={this.menuOpen ? [{
+        key: 'menu',
+        style: {
+            height: 85,
+            maxHeight: spring(85),
+            scale: spring(1),
+        },
+    }] : []}
+>
+    {styles =>
+        styles.length > 0 ?
+        <Menu
+            style={{
+                height: styles[0].style.height,
+                maxHeight: styles[0].style.maxHeight,
+                transform: `scaleY(${styles[0].style.scale})`,
+                transformOrigin: 'top',
+            }}
+            key={styles[0].key}
+            itemsSelected={this.selected.length > 0}
+            cslStyle={this.props.store.citationStyle}
+            submitData={this.handleMenuSelection}
+        /> : null
+    }
+</TransitionMotion>
+ */

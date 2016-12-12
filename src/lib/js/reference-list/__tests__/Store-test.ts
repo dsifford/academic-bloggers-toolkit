@@ -12,11 +12,11 @@ describe('Reflist Store', () => {
             store = new Store(testState);
         });
         it('should return citedIDs', () => {
-            expect(store.citations.citedIDs).toEqual(['citationId', 'otherCitationId']);
+            expect(store.citations.citedIDs).toEqual(['aaaaaaaa', 'bbbbbbbb']);
         });
         it('should return uncited CSL', () => {
             expect(store.citations.uncited.length).toEqual(1);
-            store.citations.CSL.set('newcitation', {id: 'newcitation', title: 'new citation'});
+            store.citations.CSL.set('newcitation', {id: 'zzzzzzzz', title: 'new citation'});
             expect(store.citations.uncited.length).toEqual(2);
         });
         it('should return cited CSL', () => {
@@ -25,7 +25,7 @@ describe('Reflist Store', () => {
         it('should return a "lookup" correctly', () => {
             expect(store.citations.lookup).toEqual(
                 {
-                    ids: ['citationId', 'otherCitationId', 'uncitedCitationId'],
+                    ids: ['aaaaaaaa', 'bbbbbbbb', 'cccccccc'],
                     titles: ['Test Title', 'Other Test Title', 'Test Title Uncited'],
                 }
             );
@@ -38,12 +38,12 @@ describe('Reflist Store', () => {
             expect(store.citations.init(store.citations.citationByIndex)).toBeUndefined();
         });
         it('should handle an undefined language in cleanCSL', () => {
-            const cite = store.citations.CSL.get('citationId');
+            const cite = store.citations.CSL.get('aaaaaaaa');
             cite.language = 'gibberish';
-            store.citations.CSL.set('citationId', cite);
-            expect(store.citations.CSL.get('citationId').language).toBe('gibberish');
+            store.citations.CSL.set('aaaaaaaa', cite);
+            expect(store.citations.CSL.get('aaaaaaaa').language).toBe('gibberish');
             store.citations.CSL = store.citations.cleanCSL(JSON.parse(JSON.stringify(store.citations.CSL)));
-            expect(store.citations.CSL.get('citationId').language).toBe('en-US');
+            expect(store.citations.CSL.get('aaaaaaaa').language).toBe('en-US');
         });
         it('should intercept a citation already defined', () => {
             const cite = { PMID: '12345', title: 'Test Title', type: 'article-journal' };
@@ -59,7 +59,7 @@ describe('Reflist Store', () => {
             expect(store.citations.CSL.keys().length).toBe(3);
         });
         it('should allow non-existing CSL to be set', () => {
-            const cite = JSON.parse(JSON.stringify(store.citations.CSL.get('citationId')));
+            const cite = JSON.parse(JSON.stringify(store.citations.CSL.get('aaaaaaaa')));
             cite.title = 'Something different';
             store.citations.CSL.set('sameCitation', cite);
             expect(store.citations.CSL.keys().length).toBe(4);
@@ -74,16 +74,16 @@ describe('Reflist Store', () => {
             parent.appendChild(el);
             document.body.appendChild(parent);
 
-            store.citations.removeItems(['citationId'], document);
+            store.citations.removeItems(['aaaaaaaa'], document);
 
-            expect(store.citations.citationByIndex.length).toBe(1);
+            expect(store.citations.citationByIndex.length).toBe(2);
             expect(store.citations.CSL.keys().length).toBe(3);
         });
         it('removeItems() should completely delete all traces of uncited items', () => {
             expect(store.citations.citationByIndex.length).toBe(2);
             expect(store.citations.CSL.keys().length).toBe(3);
 
-            store.citations.removeItems(['uncitedCitationId'], document);
+            store.citations.removeItems(['cccccccc'], document);
 
             expect(store.citations.citationByIndex.length).toBe(2);
             expect(store.citations.CSL.keys().length).toBe(2);

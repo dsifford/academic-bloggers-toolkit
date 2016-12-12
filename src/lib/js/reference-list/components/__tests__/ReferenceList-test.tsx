@@ -1,32 +1,58 @@
 jest.mock('../../../utils/CSLProcessor');
+jest.mock('../../../utils/TinymceFunctions');
+jest.mock('../../API');
 
 import * as React from 'react';
 import { mount } from 'enzyme';
 import { ReferenceList } from '../ReferenceList';
 import { Store } from '../../Store';
 import * as MCE from '../../../utils/TinymceFunctions';
+import { CSLProcessor } from '../../../utils/CSLProcessor';
+import * as API from '../../API';
 const reflistState = require('../../../../../../scripts/fixtures').reflistState;
-const before = beforeAll;
 
-window['ABT_Custom_CSL'] = { value: null };
-window['ABT_CitationStyles'] = [{ label: 'Test', value: 'american-medical-association' }];
-window['Rollbar'] = { error: () => null };
+window['Rollbar'] = { error: jest.fn() };
 window['tinyMCE'] = {
     editors: {
         content: {
-            setProgressState: () => null,
+            dom: {
+                doc: document,
+                getStyle: jest.fn(),
+            },
+            insertContent: jest.fn(),
+            selection: {
+                getContent: jest.fn(),
+            },
+            setProgressState: jest.fn(),
+            windowManager: { alert: jest.fn() },
         },
     },
 } as any;
+
+const mocks = {
+    alert: window['tinyMCE'].editors['content'].windowManager.alert as jest.Mock<any>,
+    getContent: window['tinyMCE'].editors['content'].selection.getContent as jest.Mock<any>,
+    getRemoteData: API.getRemoteData as jest.Mock<any>,
+    getStyle: window['tinyMCE'].editors['content'].dom.getStyle as jest.Mock<any>,
+    importWindow: MCE.importWindow as jest.Mock<any>,
+    insertContent: window['tinyMCE'].editors['content'].insertContent as jest.Mock<any>,
+    parseInlineCitations: MCE.parseInlineCitations as jest.Mock<any>,
+    parseManualData: API.parseManualData as jest.Mock<any>,
+    referenceWindow: MCE.referenceWindow as jest.Mock<any>,
+    rollbar: window['Rollbar'].error as jest.Mock<any>,
+    setBibliography: MCE.setBibliography as jest.Mock<any>,
+    setProgressState: window['tinyMCE'].editors['content'].setProgressState as jest.Mock<any>,
+};
 
 const setup = () => {
     const store = new Store(reflistState as BackendGlobals.ABT_Reflist_State);
     const component = mount(
         <ReferenceList store={store} />
     );
+    const instance = (component.instance() as any);
     return {
         component,
-        instance: (component.instance() as any),
+        instance,
     };
 };
 
@@ -40,119 +66,120 @@ const setupDimentions = (scrollTop = 0, childHeights = [100, 100, 100]) => {
     uncited1.clientHeight = childHeights[2];
 };
 
-const setupInstance = (instance, {
-    staticBibReturnBool = false,
-    getStyle = 'defined',
-    content = '',
-    staticBibError = false,
-} = {}) => {
-    instance.selected = ['12345678'];
-    instance.processor.makeBibliography = () => [{ html: '<div>test</div>', id: '12345678' }];
-    instance.processor.citeproc = {
-        opt: {
-            xclass: 'in-text',
-        },
-        registry: {
-            citationreg: {
-                citationById: {
-                    tester: {},
-                },
-            },
-        },
-    };
-    instance.processor.init = () => new Promise(res => res(true));
-    instance.editor = {
-        dom: { doc: document },
-        selection: {
-            getContent: () => content,
-        },
-        setProgressState: () => null,
-        windowManager: { alert: jest.fn() },
-    };
-    instance.processor.createStaticBibliography = staticBibError
-        ? () => new Promise((_res, rej) => { rej(new Error('test error')); })
-        : () => new Promise(res => staticBibReturnBool ? res(false) : res([{ html: '<div>test</div>', id: '11111' }]));
-    switch (getStyle) {
-        case 'defined':
-            instance.editor.dom.getStyle = () => '0 0 50px';
-            break;
-        case 'undefined':
-            instance.editor.dom.getStyle = () => undefined;
-            break;
-        default:
-    }
-    instance.editor.insertContent = () => null;
-};
-
 describe('<ReferenceList />', () => {
-    before(() => {
-        const main = document.createElement('div');
-        const cited = document.createElement('div');
-        const citedChild1 = document.createElement('div');
-        citedChild1.id = 'cited1';
-        const citedChild2 = document.createElement('div');
-        citedChild2.id = 'cited2';
-        const uncited = document.createElement('div');
-        const uncitedChild = document.createElement('div');
-        uncitedChild.id = 'uncited1';
-        main.id = 'abt-reflist';
-        cited.id = 'cited';
-        uncited.id = 'uncited';
-        cited.appendChild(citedChild1);
-        cited.appendChild(citedChild2);
-        uncited.appendChild(uncitedChild);
-        main.appendChild(cited);
-        main.appendChild(uncited);
-        document.body.appendChild(main);
+    beforeAll(() => {
+        window['ABT_Custom_CSL'] = { value: null };
+    });
+    beforeEach(() => {
+        (jest as any).resetAllMocks();
+        spyOn(CSLProcessor.prototype, 'makeBibliography').and.callFake(() => '');
+        window['ABT_CitationStyles'] = [{ label: 'Test', value: 'american-medical-association' }];
+        document.body.innerHTML = `
+        <span id="htmlSpanId" class="abt-citation"></span>
+        <div id="abt-reflist">
+            <div id="cited">
+                <div id="cited1"></div>
+                <div id="cited2"></div>
+            </div>
+            <div id="uncited">
+                <div id="uncited1"></div>
+            </div>
+        </div>
+        `;
     });
 
     it('should render with loading spinner', () => {
         const { component } = setup();
         expect(component.find('Spinner').length).toBe(1);
     });
-
+    describe('initProcessor', () => {
+        it('should init', () => {
+            spyOn(CSLProcessor.prototype, 'init').and.callFake(() => new Promise(res => res([[]])));
+            const { instance } = setup();
+            instance.processor.citeproc = {
+                opt: { xclass: 'in-text' },
+            };
+            mocks.parseInlineCitations.mockImplementationOnce(() => new Promise((res) => res()));
+            instance.initTinyMCE();
+            instance.initProcessor();
+            expect(instance.editor.setProgressState).toHaveBeenCalledTimes(2);
+        });
+        it('should handle errors on initialization', () => {
+            spyOn(CSLProcessor.prototype, 'init').and.callFake(() => new Promise((_, rej) => rej()));
+            const { instance } = setup();
+            instance.processor.citeproc = {
+                opt: { xclass: 'in-text' },
+            };
+            instance.initTinyMCE();
+            instance.initProcessor().catch(() => {
+                expect(mocks.rollbar).toHaveBeenCalledTimes(1);
+            });
+        });
+    });
     describe('insertStaticBibliography()', () => {
-        it('should work in standard form', () => {
-            const { instance } = setup();
-            setupInstance(instance);
-            instance.insertStaticBibliography();
+        let instance;
+        beforeEach(() => {
+            spyOn(CSLProcessor.prototype, 'createStaticBibliography')
+                .and.callFake(() => new Promise(res => res([{id: 'test-id', html: '<div>Test Bib</div>'}])));
+            spyOn(CSLProcessor.prototype, 'init').and.callFake(() => new Promise(res => res([[]])));
+            (CSLProcessor.prototype.createStaticBibliography as jasmine.Spy).calls.reset();
+            (CSLProcessor.prototype.init as jasmine.Spy).calls.reset();
+            mocks.parseInlineCitations.mockImplementationOnce(() => new Promise((res) => res()));
+            ({ instance } = setup());
+            instance.initTinyMCE();
         });
-        it('should throw/catch an error at getStyle - default margin to 0 0 28px', () => {
-            const { instance } = setup();
-            setupInstance(instance, {
-                getStyle: '',
-            });
-            instance.insertStaticBibliography();
-        });
-        it('should default to margin 0 0 28px if getStyle returns falsy', () => {
-            const { instance } = setup();
-            setupInstance(instance, {
-                getStyle: 'undefined',
-            });
-            instance.insertStaticBibliography();
-        });
-        it('should alert and exit if boolean returned from createStaticBibliography', () => {
-            const { instance } = setup();
-            setupInstance(instance, {
-                content: '<div class="abt-static-bib"><div id="f7s9f7d5"></div></div>',
-                staticBibReturnBool: true,
-            });
-            instance.insertStaticBibliography();
-        });
-        it('should throw error', () => {
-            spyOn(MCE, 'parseInlineCitations').and.returnValue(
-                new Promise(res => res(true))
+        it('should work in standard form', async () => {
+            instance.toggleSelect('citationId', false);
+            await instance.insertStaticBibliography();
+            expect(instance.editor.insertContent).toHaveBeenCalledTimes(1);
+            expect(instance.editor.insertContent).toHaveBeenCalledWith(
+                `<div class="noselect mceNonEditable abt-static-bib" style="margin: 0px 0px 28px;">` +
+                    `<div id="test-id">` +
+                        `<div>Test Bib</div>` +
+                    `</div>` +
+                `</div>`
             );
-            const { instance } = setup();
-            setupInstance(instance, {
-                staticBibError: true,
-            });
-            instance.insertStaticBibliography();
+        });
+        it('should throw/catch an error at getStyle - default margin to 0 0 28px', async () => {
+            mocks.getStyle.mockImplementationOnce(() => { throw 'error'; });
+            await instance.insertStaticBibliography();
+            expect(mocks.getStyle).toHaveBeenCalled();
+            expect(mocks.insertContent).toHaveBeenCalledWith(
+                `<div class="noselect mceNonEditable abt-static-bib" style="margin: 0px 0px 28px;">` +
+                    `<div id="test-id">` +
+                        `<div>Test Bib</div>` +
+                    `</div>` +
+                `</div>`
+            );
+        });
+        it('should alert and exit if boolean returned from createStaticBibliography', async () => {
+            (CSLProcessor.prototype.createStaticBibliography as jasmine.Spy)
+                .and.callFake(() => new Promise(res => res(false)));
+            await instance.insertStaticBibliography();
+            expect(mocks.alert).toHaveBeenCalled();
+            expect(mocks.insertContent).not.toHaveBeenCalled();
+        });
+        it('should handle errors', async () => {
+            spyOn(instance, 'clearSelection').and.throwError('test');
+            await instance.insertStaticBibliography();
+        });
+        it('should overwrite an existing static bib if selected', async () => {
+            mocks.getContent.mockImplementationOnce(
+                () => '<div class="abt-static-bib"><div id="aaaaaaaa"></div></div>'
+            );
+            await instance.insertStaticBibliography();
+            expect((CSLProcessor.prototype.createStaticBibliography as jasmine.Spy).calls.count()).toBe(1);
+            expect((CSLProcessor.prototype.createStaticBibliography as jasmine.Spy)
+                .calls.mostRecent().args[0][0].title).toBe('Test Title');
+            expect(mocks.alert).not.toHaveBeenCalled();
+            expect(mocks.insertContent).toHaveBeenCalled();
         });
     });
 
     describe('insertInlineCitation()', () => {
-        it('should preventDefault() and throw an error at the end', () => {
+        let instance;
+        beforeEach(() => {
+            spyOn(CSLProcessor.prototype, 'init').and.callFake(() => new Promise(res => res([[]])));
             spyOn(MCE, 'getRelativeCitationPositions').and.returnValue({
                 currentIndex: 0,
                 locations: [
@@ -160,31 +187,290 @@ describe('<ReferenceList />', () => {
                     [['22222222', 2]],
                 ],
             });
-            spyOn(MCE, 'parseInlineCitations').and.returnValue(new Promise(res => res(true)));
-            const spy = jest.fn();
-            const { instance } = setup();
-            setupInstance(instance);
-            instance.insertInlineCitation({ preventDefault: spy });
-            expect(spy).toHaveBeenCalledTimes(1);
+            spyOn(CSLProcessor.prototype, 'prepareInlineCitationData').and.returnValue({});
+            mocks.parseInlineCitations.mockImplementationOnce(() => new Promise((res) => res()));
+            ({ instance } = setup());
+            instance.initTinyMCE();
+            instance.processor.citeproc = {
+                opt: {
+                    xclass: 'in-text',
+                },
+                registry: {
+                    citationreg: {
+                        citationById: {
+                            citation: {},
+                        }
+                    }
+                }
+            };
+            (CSLProcessor.prototype.init as jasmine.Spy).calls.reset();
+            (CSLProcessor.prototype.prepareInlineCitationData as jasmine.Spy).calls.reset();
+            (MCE.getRelativeCitationPositions as jasmine.Spy).calls.reset();
+            (jest as any).resetAllMocks();
         });
-        it('should match the regex pattern and throw an error at clusters', () => {
+        it('should insert citation from selection', async () => {
+            spyOn(MCE, 'parseInlineCitations').and.returnValue(new Promise(res => res(true)));
+            instance.toggleSelect('aaaaaaaa', false);
+            const mockEvent = jest.fn();
+            await instance.insertInlineCitation({ preventDefault: mockEvent });
+            expect(mockEvent).toHaveBeenCalled();
+            expect(mocks.setBibliography).toHaveBeenCalled();
+            expect(mocks.alert).not.toHaveBeenCalled();
+            expect(mocks.setProgressState.mock.calls[0][0]).toBe(true);
+            expect(mocks.setProgressState.mock.calls[1][0]).toBe(false);
+            expect(mocks.rollbar).not.toHaveBeenCalled();
+        });
+        it('should insert citation from array passed to function', async () => {
+            spyOn(MCE, 'parseInlineCitations').and.returnValue(new Promise(res => res(true)));
+            const expectedData = [{id: 'fakeid', title: 'faketitle'}];
+            await instance.insertInlineCitation(null, expectedData);
+            expect((CSLProcessor.prototype.prepareInlineCitationData as jasmine.Spy).calls.count()).toBe(1);
+            expect((CSLProcessor.prototype.prepareInlineCitationData as jasmine.Spy)
+                .calls.first().args[0]).toEqual(expectedData);
+            expect(mocks.setBibliography).toHaveBeenCalled();
+            expect(mocks.alert).not.toHaveBeenCalled();
+            expect(mocks.setProgressState.mock.calls[0][0]).toBe(true);
+            expect(mocks.setProgressState.mock.calls[1][0]).toBe(false);
+            expect(mocks.rollbar).not.toHaveBeenCalled();
+        });
+        it('should merge selected citations if selected', async () => {
+            spyOn(MCE, 'parseInlineCitations').and.returnValue(new Promise(res => res(true)));
+            instance.toggleSelect('aaaaaaaa', false);
+            mocks.getContent.mockImplementationOnce(
+                () => '<span class="abt-citation" data-reflist="[&quot;bbbbbbbb&quot;]"></span>'
+            );
+            await instance.insertInlineCitation();
+            expect((CSLProcessor.prototype.prepareInlineCitationData as jasmine.Spy).calls.count()).toBe(1);
+            expect((CSLProcessor.prototype.prepareInlineCitationData as jasmine.Spy)
+                .calls.mostRecent().args[0][0].title).toBe('Test Title');
+            expect((CSLProcessor.prototype.prepareInlineCitationData as jasmine.Spy)
+                .calls.mostRecent().args[0][1].title).toBe('Other Test Title');
+            expect(mocks.setBibliography).toHaveBeenCalled();
+            expect(mocks.alert).not.toHaveBeenCalled();
+            expect(mocks.setProgressState.mock.calls[0][0]).toBe(true);
+            expect(mocks.setProgressState.mock.calls[1][0]).toBe(false);
+            expect(mocks.rollbar).not.toHaveBeenCalled();
+        });
+        it('should handle unexpected errors', async () => {
+            (CSLProcessor.prototype.prepareInlineCitationData as jasmine.Spy).and.throwError('Unexpected');
+            await instance.insertInlineCitation();
+            expect(mocks.rollbar).toHaveBeenCalled();
+            expect(mocks.alert).toHaveBeenCalled();
+            expect(mocks.setBibliography).not.toHaveBeenCalled();
+        });
+        it('should handle promise rejections', async () => {
+            spyOn(MCE, 'parseInlineCitations').and.returnValue(new Promise((_, rej) => rej()));
+            await instance.insertInlineCitation();
+        });
+    });
+
+    describe('openReferenceWindow', () => {
+        beforeEach(() => {
+            (jest as any).resetAllMocks();
+            mocks.getRemoteData.mockImplementation(
+                () => new Promise(res => res([{id: 'yyyyyyyy', title: 'New Title', author: []}]))
+            );
+            mocks.parseManualData.mockImplementation(
+                () => new Promise(res => res([{id: 'bbbbbbbb', title: 'Test Title', author: []}]))
+            );
+        });
+        afterEach(() => {
+            (jest as any).resetAllMocks();
+        });
+        it('should handle non-duplicate manual data', async () => {
             const { instance } = setup();
-            setupInstance(instance, {
-                content: '<span id="5k45h3l4j" class="abt-citation" data-reflist="[&quot;3j5k4j35&quot;]">test</span>',
-            });
-            spyOn(MCE, 'getRelativeCitationPositions').and.throwError('testing');
-            instance.insertInlineCitation();
+            instance.insertInlineCitation = jest.fn();
+            instance.editor = window['tinyMCE'].editors['content'];
+            mocks.referenceWindow.mockImplementation(
+                () => new Promise(res => res({addManually: true}))
+            );
+            await instance.openReferenceWindow();
+            expect(mocks.parseManualData).toHaveBeenCalled();
+            expect(mocks.getRemoteData).not.toHaveBeenCalled();
+        });
+        it('should handle duplicate remote data, and attach inline', async () => {
+            const { instance } = setup();
+            instance.insertInlineCitation = jest.fn();
+            instance.editor = window['tinyMCE'].editors['content'];
+            mocks.referenceWindow.mockImplementation(
+                () => new Promise(res => res({attachInline: true, addManually: false}))
+            );
+            await instance.openReferenceWindow();
+            expect(mocks.getRemoteData).toHaveBeenCalled();
+            expect(mocks.parseManualData).not.toHaveBeenCalled();
+        });
+        it('should handle errors', async () => {
+            const { instance } = setup();
+            instance.insertInlineCitation = jest.fn();
+            instance.editor = window['tinyMCE'].editors['content'];
+            mocks.referenceWindow.mockImplementation(
+                () => new Promise(res => res())
+            );
+            await instance.openReferenceWindow();
+            mocks.referenceWindow.mockImplementation(
+                () => new Promise(res => res({addManually: true}))
+            );
+            mocks.parseManualData.mockImplementation(
+                () => new Promise(res => res())
+            );
+            await instance.openReferenceWindow();
+            expect(mocks.rollbar).toHaveBeenCalled();
+        });
+        it('should exit if data has 0 length', async () => {
+            mocks.referenceWindow.mockImplementation(
+                () => new Promise(res => res({addManually: true}))
+            );
+            mocks.parseManualData.mockImplementation(
+                () => new Promise(res => res([]))
+            );
+            const { instance } = setup();
+            instance.insertInlineCitation = jest.fn();
+            instance.editor = window['tinyMCE'].editors['content'];
+            await instance.openReferenceWindow();
+        });
+        it('should exit if user exits early', async () => {
+            const { instance } = setup();
+            mocks.referenceWindow.mockImplementation(
+                () => new Promise((_, rej) => rej())
+            );
+            await instance.openReferenceWindow();
+            expect(mocks.alert).not.toHaveBeenCalled();
+        });
+    });
+
+    describe('openImportWindow', () => {
+        it('should exit if data is empty', () => {
+            mocks.importWindow.mockImplementation(() => new Promise(res => res()));
+            const { instance } = setup();
+            expect(instance.props.store.citations.CSL.keys().length).toBe(3);
+            instance.openImportWindow();
+            expect(instance.props.store.citations.CSL.keys().length).toBe(3);
+        });
+        it('should import citations', async () => {
+            mocks.importWindow.mockImplementation(
+                () => new Promise(res => res([{id: 'zzzzzzzz', title: 'Imported Citation'}]))
+            );
+            const { instance } = setup();
+            expect(instance.props.store.citations.CSL.keys().length).toBe(3);
+            await instance.openImportWindow();
+            expect(instance.props.store.citations.CSL.keys().length).toBe(4);
+        });
+        it('should handle errors', async () => {
+            mocks.importWindow.mockImplementation(
+                () => new Promise((_, rej) => rej('error'))
+            );
+            const { instance } = setup();
+            expect(mocks.alert).not.toHaveBeenCalled();
+            expect(mocks.rollbar).not.toHaveBeenCalled();
+            await instance.openImportWindow();
+            // expect(mocks.alert).toHaveBeenCalled();
+            // expect(mocks.rollbar).toHaveBeenCalled();
+        });
+        it('should handle when user exits early', async () => {
+            mocks.importWindow.mockImplementation(
+                () => new Promise((_, rej) => rej())
+            );
+            const { instance } = setup();
+            await instance.openImportWindow();
+            // expect(mocks.alert).not.toHaveBeenCalled();
+            // expect(mocks.rollbar).not.toHaveBeenCalled();
+        });
+    });
+
+    describe('handleMenuSelection', () => {
+        it('should return if "kind" is empty or invalid', () => {
+            const { instance } = setup();
+            instance.initProcessor = jest.fn();
+            instance.openImportWindow = jest.fn();
+            instance.reset = jest.fn();
+            instance.insertStaticBibliography = jest.fn();
+            instance.handleMenuSelection();
+            expect(instance.initProcessor).not.toHaveBeenCalled();
+            expect(instance.openImportWindow).not.toHaveBeenCalled();
+            expect(instance.reset).not.toHaveBeenCalled();
+            expect(instance.insertStaticBibliography).not.toHaveBeenCalled();
+        });
+        it('should change style', () => {
+            const { instance } = setup();
+            instance.initProcessor = jest.fn();
+            instance.openImportWindow = jest.fn();
+            instance.reset = jest.fn();
+            instance.insertStaticBibliography = jest.fn();
+            instance.handleMenuSelection('CHANGE_STYLE', 'apa-5th');
+            expect(instance.props.store.citationStyle).toBe('apa-5th');
+            expect(instance.initProcessor).toHaveBeenCalled();
+            expect(instance.openImportWindow).not.toHaveBeenCalled();
+            expect(instance.reset).not.toHaveBeenCalled();
+            expect(instance.insertStaticBibliography).not.toHaveBeenCalled();
+        });
+        it('should trigger import window', () => {
+            const { instance } = setup();
+            instance.initProcessor = jest.fn();
+            instance.openImportWindow = jest.fn();
+            instance.reset = jest.fn();
+            instance.insertStaticBibliography = jest.fn();
+            instance.handleMenuSelection('IMPORT_RIS');
+            expect(instance.initProcessor).not.toHaveBeenCalled();
+            expect(instance.openImportWindow).toHaveBeenCalled();
+            expect(instance.reset).not.toHaveBeenCalled();
+            expect(instance.insertStaticBibliography).not.toHaveBeenCalled();
+        });
+        it('should trigger refresh', () => {
+            const { instance } = setup();
+            instance.initProcessor = jest.fn();
+            instance.openImportWindow = jest.fn();
+            instance.reset = jest.fn();
+            instance.insertStaticBibliography = jest.fn();
+            instance.editor = window['tinyMCE'].editors['content'];
+            expect(instance.props.store.citations.byIndex.length).toBe(2);
+
+            instance.handleMenuSelection('REFRESH_PROCESSOR');
+            expect(instance.initProcessor).toHaveBeenCalled();
+            expect(instance.openImportWindow).not.toHaveBeenCalled();
+            expect(instance.reset).not.toHaveBeenCalled();
+            expect(instance.insertStaticBibliography).not.toHaveBeenCalled();
+            expect(instance.props.store.citations.byIndex.length).toBe(1);
+        });
+        it('should trigger reset', () => {
+            const { instance } = setup();
+            instance.initProcessor = jest.fn();
+            instance.openImportWindow = jest.fn();
+            instance.reset = jest.fn();
+            instance.insertStaticBibliography = jest.fn();
+            instance.handleMenuSelection('DESTROY_PROCESSOR');
+            expect(instance.initProcessor).not.toHaveBeenCalled();
+            expect(instance.openImportWindow).not.toHaveBeenCalled();
+            expect(instance.reset).toHaveBeenCalled();
+            expect(instance.insertStaticBibliography).not.toHaveBeenCalled();
+        });
+        it('should trigger insertStaticBibliography', () => {
+            const { instance } = setup();
+            instance.initProcessor = jest.fn();
+            instance.openImportWindow = jest.fn();
+            instance.reset = jest.fn();
+            instance.insertStaticBibliography = jest.fn();
+            instance.handleMenuSelection('INSERT_STATIC_BIBLIOGRAPHY');
+            expect(instance.initProcessor).not.toHaveBeenCalled();
+            expect(instance.openImportWindow).not.toHaveBeenCalled();
+            expect(instance.reset).not.toHaveBeenCalled();
+            expect(instance.insertStaticBibliography).toHaveBeenCalled();
         });
     });
 
     describe('@actions', () => {
+        beforeEach(() => {
+            (jest as any).resetAllMocks();
+        });
         it('deleteCitations', () => {
             const { instance } = setup();
-            setupInstance(instance);
+            instance.editor = window['tinyMCE'].editors['content'];
+            instance.initProcessor = jest.fn();
+            instance.toggleSelect('aaaaaaaa', false);
+            expect(instance.props.store.citations.cited.length).toBe(2);
             instance.deleteCitations();
-            instance.deleteCitations({ preventDefault: () => null });
-            instance.selected = ['12345678'];
             instance.deleteCitations();
+            expect(instance.props.store.citations.cited.length).toBe(1);
+            expect(instance.initProcessor).toHaveBeenCalledTimes(1);
         });
         it('toggleLoading()', () => {
             const { instance } = setup();
@@ -238,14 +524,12 @@ describe('<ReferenceList />', () => {
             expect(instance.menuOpen).toBe(false);
             expect(component.find('.dashicons.dashicons-menu.hamburger-menu').length).toBe(1);
             expect(component.find('.dashicons.dashicons-no-alt.hamburger-menu').length).toBe(0);
-            expect(component.find('Menu').length).toBe(0);
 
             // Toggle open
             instance.toggleMenu();
             expect(instance.menuOpen).toBe(true);
             expect(component.find('.dashicons.dashicons-menu.hamburger-menu').length).toBe(0);
             expect(component.find('.dashicons.dashicons-no-alt.hamburger-menu').length).toBe(1);
-            expect(component.find('Menu').length).toBe(1);
 
             // Toggle Closed (timeout due to CSS transition time)
             instance.toggleMenu();
@@ -256,7 +540,6 @@ describe('<ReferenceList />', () => {
                 expect(instance.menuOpen).toBe(false);
                 expect(component.find('.dashicons.dashicons-menu.hamburger-menu').length).toBe(1);
                 expect(component.find('.dashicons.dashicons-no-alt.hamburger-menu').length).toBe(0);
-                expect(component.find('Menu').length).toBe(0);
             });
         });
         it('toggleList()', () => {
@@ -349,6 +632,16 @@ describe('<ReferenceList />', () => {
             instance.togglePinned();
             expect(instance.citedListUI.maxHeight).toBe('102px');
             expect(instance.uncitedListUI.maxHeight).toBe('347px');
+        });
+        it('reset()', () => {
+            (MCE.reset as jest.Mock<any>).mockImplementationOnce(() => null);
+            const { instance } = setup();
+            instance.editor = window['tinyMCE'].editors['content'];
+            instance.initProcessor = jest.fn();
+            instance.reset();
+            expect((MCE.reset) as jest.Mock<any>).toHaveBeenCalled();
+            expect(mocks.setProgressState).toHaveBeenCalled();
+            expect(instance.initProcessor).toHaveBeenCalled();
         });
     });
 });

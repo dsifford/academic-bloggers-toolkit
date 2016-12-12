@@ -21,6 +21,11 @@
     background: $light-gray
     box-shadow: $depth-1
 
+// Menu
+.abt-reflist-menu
+    position: relative
+    z-index: 555
+
 
 // Panels
 .abt-panel
@@ -37,29 +42,6 @@
     display: flex
     padding: 5px 0
     justify-content: space-around
-
-
-// React CSS Transition Group
-.menu-enter
-    max-height: 1px
-    overflow: hidden
-    &.menu-enter-active
-        transition: max-height .2s linear
-        max-height: 400px
-
-.menu-leave
-    max-height: 400px
-    &.menu-leave-active
-        transition: max-height .1s linear
-        max-height: 1px
-        overflow: hidden
-
-
-// Menu
-.abt-reflist-menu
-    border-bottom: solid $border 1px
-    padding: 0 5px 5px 5px
-
 
 // ItemList
 .abt-item-heading

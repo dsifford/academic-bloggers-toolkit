@@ -5,7 +5,7 @@
 export const EVENTS = {
     INSERT_REFERENCE: 'INSERT_REFERENCE',
     OPEN_REFERENCE_WINDOW: 'OPEN_REFERENCE_WINDOW',
-    REFERENCE_ADDED: 'REFERENCE_ADDED',
+    REFERENCE_EDITED: 'REFERENCE_EDITED',
     TINYMCE_HIDDEN: 'TINYMCE_HIDDEN',
     TINYMCE_READY: 'TINYMCE_READY',
     TINYMCE_VISIBLE: 'TINYMCE_VISIBLE',
@@ -29,6 +29,27 @@ export const referenceWindowEvents = {
     TOGGLE_INLINE_ATTACHMENT: 'TOGGLE_INLINE_ATTACHMENT',
     TOGGLE_MANUAL: 'TOGGLE_MANUAL',
 };
+
+export const PERSON_TYPE_KEYS = [
+    'author',
+    'container-author',
+    'editor',
+    'director',
+    'interviewer',
+    'illustrator',
+    'composer',
+    'translator',
+    'recipient',
+];
+
+export const DATE_TYPE_KEYS = [
+    'accessed',
+    'container',
+    'event-date',
+    'issued',
+    'original-date',
+    'submitted',
+];
 
 /**
  * Empty object for holding the field data for manual input

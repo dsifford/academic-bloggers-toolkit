@@ -1,11 +1,18 @@
 import * as React from 'react';
 import { Card } from './Card';
+import { toJS, ObservableMap, action } from 'mobx';
 import { observer } from 'mobx-react';
+import { editReferenceWindow } from '../../utils/TinymceFunctions';
+import { parseManualData } from '../API';
 import { preventScrollPropagation } from '../../utils/helpers/';
+import { EVENTS } from '../../utils/Constants';
+
+declare const tinyMCE: TinyMCE.MCE;
 
 interface Props extends React.HTMLProps<HTMLElement> {
     readonly items: CSL.Data[];
     readonly selectedItems: string[];
+    CSL: ObservableMap<CSL.Data>;
     click: (id: string, isSelected: boolean) => void;
     toggle: (id: string, explode?: boolean) => void;
     isOpen: boolean;
@@ -24,7 +31,7 @@ export class ItemList extends React.PureComponent<Props, {}> {
     }
 
     render() {
-        const { items, selectedItems, click, children, isOpen, maxHeight, id } = this.props;
+        const { items, selectedItems, click, children, isOpen, maxHeight, id, CSL } = this.props;
         if (!items) return null;
         return (
             <div>
@@ -40,6 +47,7 @@ export class ItemList extends React.PureComponent<Props, {}> {
                 { isOpen &&
                     <Items
                         click={click}
+                        CSL={CSL}
                         id={id}
                         items={items}
                         style={{maxHeight}}
@@ -53,6 +61,7 @@ export class ItemList extends React.PureComponent<Props, {}> {
 }
 
 interface ItemsProps extends React.HTMLProps<HTMLElement> {
+    CSL: ObservableMap<CSL.Data>;
     readonly items: CSL.Data[];
     readonly selectedItems: string[];
     readonly withTooltip: boolean;
@@ -67,6 +76,28 @@ class Items extends React.Component<ItemsProps, {}> {
 
     bindRefs = (c: HTMLDivElement) => {
         this.element = c;
+    }
+
+    editSingleReference = (e: React.MouseEvent<HTMLDivElement>) => {
+        const refId = e.currentTarget.getAttribute('data-reference-id');
+        editReferenceWindow(
+            tinyMCE.EditorManager.get('content'),
+            toJS(this.props.items.find(i => i.id === refId))
+        )
+        .then(parseManualData)
+        .then(m => [refId, m[0]])
+        .then(this.finalizeEdits)
+        .catch(err => {
+            if (!err) return; // User exited early
+            Rollbar.error('itemList.tsx -> editSingleReference', err);
+        });
+    }
+
+    @action
+    finalizeEdits = (d: [string, CSL.Data]) => {
+        this.props.CSL.delete(d[0]);
+        this.props.CSL.set(d[0], d[1]);
+        dispatchEvent(new CustomEvent(EVENTS.REFERENCE_EDITED));
     }
 
     render() {
@@ -88,6 +119,7 @@ class Items extends React.Component<ItemsProps, {}> {
                         <Card
                             CSL={r}
                             click={this.props.click}
+                            onDoubleClick={this.editSingleReference}
                             id={r.id}
                             index={`${i + 1}`}
                             isSelected={this.props.selectedItems.indexOf(r.id) > -1}

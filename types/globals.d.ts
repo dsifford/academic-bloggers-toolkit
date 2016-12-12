@@ -21,101 +21,105 @@ declare namespace BackendGlobals {
 
     // tslint:disable-next-line
     interface ABT_i18n {
-        readonly citationTypes: ABT.CitationTypes;
-        readonly errors: {
-            readonly badRequest: 'Request not valid';
-            readonly broken: 'BROKEN!';
-            readonly denied: 'Site denied request';
-            readonly fileExtensionError: 'Invalid file extension. Extension must be .ris, .bib, or .bibtex';
-            readonly filetypeError: 'The file could not be processed.';
-            readonly identifiersNotFound: {
-                readonly all: 'The following identifiers could not be found';
-                readonly some: 'The following identifiers could not be found';
+        citationTypes: ABT.CitationTypes;
+        errors: {
+            badRequest: 'Request not valid';
+            broken: 'BROKEN!';
+            denied: 'Site denied request';
+            fileExtensionError: 'Invalid file extension. Extension must be .ris, .bib, or .bibtex';
+            filetypeError: 'The file could not be processed.';
+            identifiersNotFound: {
+                all: 'The following identifiers could not be found';
+                some: 'The following identifiers could not be found';
             };
-            readonly networkError: 'Network Error';
-            readonly noResults: 'Your search returned 0 results';
-            readonly prefix: 'Error';
-            readonly risLeftovers: 'The following references were unable to be processed';
-            readonly statusError: 'Request returned a non-200 status code';
-            readonly warnings: {
-                readonly warning: 'Warning';
-                readonly reason: 'Reason';
-                readonly noBib: {
-                    readonly message: 'Cannot create publication list for currently selected citation style';
-                    readonly reason: 'Style does not include bibliography';
+            networkError: 'Network Error';
+            noResults: 'Your search returned 0 results';
+            prefix: 'Error';
+            risLeftovers: 'The following references were unable to be processed';
+            statusError: 'Request returned a non-200 status code';
+            warnings: {
+                warning: 'Warning';
+                reason: 'Reason';
+                noBib: {
+                    message: 'Cannot create publication list for currently selected citation style';
+                    reason: 'Style does not include bibliography';
                 };
             };
-            readonly unexpected: {
-                readonly message: 'An unexpected error occurred';
-                readonly reportInstructions: 'Please report this error, including the steps taken to trigger it, here: \nhttps://github.com/dsifford/academic-bloggers-toolkit/issues'; // tslint:disable-line
+            unexpected: {
+                message: 'An unexpected error occurred';
+                reportInstructions: 'Please report this error, including the steps taken to trigger it, here: \nhttps://github.com/dsifford/academic-bloggers-toolkit/issues'; // tslint:disable-line
             };
         };
-        readonly fieldmaps: ABT.FieldMappings;
-        readonly misc: {
-            readonly footnotes: 'Footnotes';
+        fieldmaps: ABT.FieldMappings;
+        misc: {
+            footnotes: 'Footnotes';
         };
-        readonly referenceList: {
-            readonly menu: {
+        referenceList: {
+            menu: {
                 tooltips: {
-                    readonly destroy: 'Delete all references';
-                    readonly help: 'Usage instructions';
-                    readonly importRIS: 'Import references from file';
-                    readonly refresh: 'Refresh reference list';
-                    readonly staticPubList: 'Insert Static Publication List';
+                    destroy: 'Delete all references';
+                    help: 'Usage instructions';
+                    importRIS: 'Import references from file';
+                    refresh: 'Refresh reference list';
+                    staticPubList: 'Insert Static Publication List';
                 };
             };
-            readonly referenceList: {
-                readonly citedItems: 'Cited Items';
-                readonly tooltips: {
-                    readonly add: 'Add reference to reference list';
-                    readonly insert: 'Insert selected references';
-                    readonly pin: 'Pin reference list to visible window';
-                    readonly remove: 'Remove selected references from reference list';
+            referenceList: {
+                citedItems: 'Cited Items';
+                tooltips: {
+                    add: 'Add reference to reference list';
+                    insert: 'Insert selected references';
+                    pin: 'Pin reference list to visible window';
+                    remove: 'Remove selected references from reference list';
                 };
-                readonly uncitedItems: 'Uncited Items';
+                uncitedItems: 'Uncited Items';
             };
         };
-        readonly tinymce: {
-            readonly importWindow: {
-                readonly importBtn: 'Import';
-                readonly title: 'Import References from File';
-                readonly upload: 'Choose File';
+        tinymce: {
+            editReferenceWindow: {
+                title: 'Edit Reference',
+                confirm: 'Confirm',
             };
-            readonly pubmedWindow: {
-                readonly addReference: 'Select';
-                readonly next: 'Next';
-                readonly previous: 'Previous';
-                readonly search: 'Search';
-                readonly title: 'Search PubMed for Reference';
-                readonly viewReference: 'View';
+            importWindow: {
+                importBtn: 'Import';
+                title: 'Import References from File';
+                upload: 'Choose File';
             };
-            readonly referenceWindow: {
-                readonly buttonRow: {
-                    readonly addManually: 'Add Manually';
-                    readonly addReference: 'Add Reference';
-                    readonly addWithIdentifier: 'Add with Identifier';
-                    readonly insertInline: 'Insert citation inline';
-                    readonly pubmedWindowTitle: 'Search PubMed for Reference';
-                    readonly searchPubmed: 'Search PubMed';
+            pubmedWindow: {
+                addReference: 'Select';
+                next: 'Next';
+                previous: 'Previous';
+                search: 'Search';
+                title: 'Search PubMed for Reference';
+                viewReference: 'View';
+            };
+            referenceWindow: {
+                buttonRow: {
+                    addManually: 'Add Manually';
+                    addReference: 'Add Reference';
+                    addWithIdentifier: 'Add with Identifier';
+                    insertInline: 'Insert citation inline';
+                    pubmedWindowTitle: 'Search PubMed for Reference';
+                    searchPubmed: 'Search PubMed';
                 };
-                readonly identifierInput: {
-                    readonly label: 'DOI/PMID/PMCID';
+                identifierInput: {
+                    label: 'DOI/PMID/PMCID';
                 };
-                readonly manualEntryContainer: {
-                    readonly autocite: 'Autocite';
-                    readonly citationType: 'Citation Type';
-                    readonly ISBN: 'ISBN';
-                    readonly search: 'Search';
-                    readonly URL: 'URL';
+                manualEntryContainer: {
+                    autocite: 'Autocite';
+                    citationType: 'Citation Type';
+                    ISBN: 'ISBN';
+                    search: 'Search';
+                    URL: 'URL';
                 };
-                readonly people: {
-                    readonly add: 'Add Contributor';
-                    readonly contributors: 'Contributors';
-                    readonly given: 'Given Name, M.I.';
-                    readonly surname: 'Surname';
+                people: {
+                    add: 'Add Contributor';
+                    contributors: 'Contributors';
+                    given: 'Given Name, M.I.';
+                    surname: 'Surname';
                 };
-                readonly referenceWindow: {
-                    readonly title: 'Add Reference';
+                referenceWindow: {
+                    title: 'Add Reference';
                 };
             };
         };

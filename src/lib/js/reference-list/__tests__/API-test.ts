@@ -1,6 +1,6 @@
 import { getRemoteData, parseManualData } from '../API';
 
-const testCSL = require('../../../../../scripts/fixtures.js').reflistState.CSL.citationId;
+const testCSL = require('../../../../../scripts/fixtures.js').reflistState.CSL.aaaaaaaa;
 
 describe('API', () => {
     describe('getRemoteData()', () => {
@@ -18,6 +18,12 @@ describe('API', () => {
             return getRemoteData('10.1097/TA.0000000000000999', <any>mce)
             .then(d => {
                 expect(d[0].title).toBe('Not all prehospital time is equal');
+            });
+        });
+        it('should get a single PMCID', () => {
+            return getRemoteData('PMC2837541', <any>mce)
+            .then(d => {
+                expect(d[0].title).toBe('Trauma Patients without a Trauma Diagnosis: The Data Gap');
             });
         });
         it('should get a combination of DOIs and PMIDs', () => {
@@ -80,6 +86,14 @@ describe('API', () => {
             .then(d => {
                 expect(d[0].author.length).toBe(2);
                 expect(d[0].editor.length).toBe(1);
+            });
+        });
+        it('should generateId() if an ID does not already exists', () => {
+            mockData.manualData.id = '';
+            return parseManualData(mockData)
+            .then(d => {
+                expect(d[0].id).not.toBe('');
+                expect(d[0].id).not.toBeUndefined();
             });
         });
     });

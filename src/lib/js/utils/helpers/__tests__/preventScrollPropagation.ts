@@ -1,7 +1,7 @@
-import { preventScrollPropagation } from '../preventScrollPropagation';
+import { preventScrollPropagation } from '../';
 
 describe('preventScrollPropagation()', () => {
-    class Component {
+    class TestComponent {
         element;
         constructor(o, h, t) {
             this.element = {
@@ -16,7 +16,7 @@ describe('preventScrollPropagation()', () => {
         const stopPropagation = jest.fn();
         const preventDefault = jest.fn();
         return {
-            component: new Component(o, h, t),
+            component: new TestComponent(o, h, t),
             e: {
                 stopPropagation,
                 preventDefault,
