@@ -65,6 +65,11 @@ function abt_generate_translations() {
         ],
     ];
 
+    $ABT_i18n->tinymce->editReferenceWindow = [
+        'title' => __('Edit Reference', 'academic-bloggers-toolkit'),
+        'confirm' => __('Confirm', 'academic-bloggers-toolkit'),
+    ];
+
     $ABT_i18n->tinymce->importWindow = [
         'importBtn' => __('Import', 'academic-bloggers-toolkit'),
         'title' => __('Import References from File', 'academic-bloggers-toolkit'),

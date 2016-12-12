@@ -262,6 +262,10 @@ exports.ABT_i18n = {
         },
     },
     tinymce: {
+        editReferenceWindow: {
+            title: 'Edit Reference',
+            confirm: 'Confirm',
+        },
         importWindow: {
             title: 'Import References from File',
             upload: 'Choose File',

@@ -11,7 +11,9 @@ const DevTool = DevTools();
 
 @observer
 export class EditReferenceWindow extends React.Component<{}, {}> {
-    modal: Modal = new Modal('Edit Reference'); // FIXME: i18n here
+
+    labels = top.ABT_i18n.tinymce.editReferenceWindow;
+    modal: Modal = new Modal(this.labels.title); // FIXME: i18n here
     params = top.tinyMCE.activeEditor.windowManager.windows[0].settings.params;
 
     @observable
@@ -80,13 +82,13 @@ export class EditReferenceWindow extends React.Component<{}, {}> {
                     people={this.people}
                 />
                 <MetaFields meta={this.primitives} />
-                <div className="row" style={{justifyContent: 'flex-end'}}>
+                <div id="button-row" className="row" style={{justifyContent: 'flex-end'}}>
                     <div>
                         <input
                             id="submit-btn"
                             type="submit"
                             className="abt-btn abt-btn_submit"
-                            value="Confirm"
+                            value={this.labels.confirm}
                         />
                     </div>
                 </div>
