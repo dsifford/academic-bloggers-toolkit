@@ -72,13 +72,13 @@ export class Menu extends React.PureComponent<Props, {}> {
 
     willEnter = () => ({
         height: 0,
-        maxHeight: 0,
+        opacity: 0,
         scale: 0,
     })
 
     willLeave = () => ({
         height: spring(0),
-        maxHeight: spring(0),
+        opacity: spring(0),
         scale: spring(0),
     })
 
@@ -107,8 +107,8 @@ export class Menu extends React.PureComponent<Props, {}> {
                 styles={this.props.isOpen ? [{
                     key: 'menu',
                     style: {
-                        height: 85,
-                        maxHeight: spring(85),
+                        height: spring(85),
+                        opacity: spring(1),
                         scale: spring(1),
                     },
                 }] : []}
@@ -119,7 +119,8 @@ export class Menu extends React.PureComponent<Props, {}> {
                     className="abt-reflist-menu"
                     style={{
                         height: styles[0].style.height,
-                        maxHeight: styles[0].style.maxHeight,
+                        maxHeight: styles[0].style.height,
+                        opacity: styles[0].style.opacity,
                         transform: `scaleY(${styles[0].style.scale})`,
                         transformOrigin: 'top',
                     }}
