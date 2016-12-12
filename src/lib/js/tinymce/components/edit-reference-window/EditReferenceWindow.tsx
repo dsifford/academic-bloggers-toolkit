@@ -13,7 +13,7 @@ const DevTool = DevTools();
 export class EditReferenceWindow extends React.Component<{}, {}> {
 
     labels = top.ABT_i18n.tinymce.editReferenceWindow;
-    modal: Modal = new Modal(this.labels.title); // FIXME: i18n here
+    modal: Modal = new Modal(this.labels.title);
     params = top.tinyMCE.activeEditor.windowManager.windows[0].settings.params;
 
     @observable

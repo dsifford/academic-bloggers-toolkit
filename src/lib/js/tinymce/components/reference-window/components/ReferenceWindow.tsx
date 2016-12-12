@@ -30,7 +30,6 @@ export class ReferenceWindow extends React.Component<{}, {}> {
     @observable
     isLoading = false;
 
-    // FIXME: rename this to "primitives" in all locations
     @observable
     manualData = map([['type', 'webpage']]);
 

@@ -56,7 +56,7 @@ export function editReferenceWindow(editor: TinyMCE.Editor, ref: CSL.Data): Prom
             params: {
                 reference: ref,
             },
-            title: 'Edit Reference',
+            title: top.ABT_i18n.tinymce.editReferenceWindow.title,
             url: `${ABT_wp.abt_url}/lib/js/tinymce/views/edit-reference-window.html`,
             width: 600,
         });
