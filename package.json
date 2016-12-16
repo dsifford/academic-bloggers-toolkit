@@ -59,7 +59,7 @@
     "ts-loader": "^1.3.2",
     "tslint": "^4.0.2",
     "tslint-microsoft-contrib": "^2.0.14",
-    "tslint-react": "^2.0.0",
+    "tslint-react": "^2.2.0",
     "typescript": "next",
     "webpack": "beta",
     "webpack-bundle-analyzer": "^2.1.1",
