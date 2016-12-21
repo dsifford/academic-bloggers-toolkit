@@ -33,14 +33,14 @@ window['ABT_Custom_CSL'] = ABT_Custom_CSL;
 
 const setup = () => {
     const spy = jest.fn();
-    const component = mount(
+    const component = mount((
         <Menu
             isOpen={true}
             cslStyle="american-medical-association"
             itemsSelected={true}
             submitData={spy}
         />
-    );
+    ));
     return {
         component,
         importBtn: component.find('#IMPORT_RIS'),
@@ -52,7 +52,7 @@ const setupRenderer = (label: string, value = 'test', focusedOption = false) => 
     const option = {label, value};
     const focus = jest.fn();
     const select = jest.fn();
-    const component = shallow(
+    const component = shallow((
         <Renderer
             style={{}}
             focusOption={focus}
@@ -60,7 +60,7 @@ const setupRenderer = (label: string, value = 'test', focusedOption = false) => 
             option={option}
             selectValue={select}
         />
-    );
+    ));
     return {
         component,
         focus,

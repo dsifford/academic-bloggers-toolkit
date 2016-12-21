@@ -57,26 +57,26 @@ export class ManualEntryContainer extends React.PureComponent<ManualEntryProps, 
                             onChange={this.handleTypeChange}
                             value={itemType}
                         >
-                            { this.citationTypes.map((item, i) =>
+                            { this.citationTypes.map((item, i) => (
                                 <option
                                     key={i}
                                     value={item.value}
                                     aria-selected={itemType === item.value}
                                     children={item.label}
-                                />)
-                            }
+                                />
+                            ))}
                         </select>
                     </div>
                 </div>
-                { renderAutocite && itemType === 'webpage' &&
+                { renderAutocite && itemType === 'webpage' && (
                     <AutoCite
                         getter={this.props.autoCite}
                         kind={itemType as 'webpage'}
                         placeholder={this.labels.URL}
                         inputType="url"
                     />
-                }
-                { renderAutocite && ['book', 'chapter'].indexOf(itemType) > -1 &&
+                )}
+                { renderAutocite && ['book', 'chapter'].indexOf(itemType) > -1 && (
                     <AutoCite
                         getter={this.props.autoCite}
                         kind={itemType as 'book'|'chapter'}
@@ -84,18 +84,18 @@ export class ManualEntryContainer extends React.PureComponent<ManualEntryProps, 
                         pattern="(?:[\\dxX]-?){10}|(?:[\\dxX]-?){13}"
                         inputType="text"
                     />
-                }
+                )}
                 <div
                     className={renderAutocite ? 'abt-scroll-y autocite' : 'abt-scroll-y'}
                     ref={this.bindRefs}
                     onWheel={this.handleWheel}
                 >
-                { this.props.manualData.get('type') !== 'article' &&
+                { this.props.manualData.get('type') !== 'article' && (
                     <People
                         people={this.props.people}
                         citationType={this.props.manualData.get('type') as CSL.CitationType}
                     />
-                }
+                )}
                     <MetaFields meta={this.props.manualData} />
                 </div>
             </div>

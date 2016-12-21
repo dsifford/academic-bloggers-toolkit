@@ -31,12 +31,12 @@ const testData: PubMed.DataPMID[] = [
 
 const setup = () => {
     const spy = jest.fn();
-    const component = mount(
+    const component = mount((
         <ResultList
             results={testData}
             select={spy}
         />
-    );
+    ));
     return {
         spy,
         component,

@@ -28,14 +28,14 @@ export class MetaFields extends React.Component<MetaFieldProps, {}> {
                     </div>
                 </div>
                 <div className="table">
-                    {fields.map((field: ABT.Field, i: number) =>
+                    {fields.map((field: ABT.Field, i: number) => (
                         <Field
                             key={`${title}-meta-${i}`}
                             change={this.updateField}
                             field={field}
                             meta={this.props.meta}
                         />
-                    )}
+                    ))}
                 </div>
             </div>
         );

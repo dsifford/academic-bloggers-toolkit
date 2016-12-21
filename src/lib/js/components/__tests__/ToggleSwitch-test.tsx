@@ -4,13 +4,13 @@ import { ToggleSwitch } from '../ToggleSwitch';
 
 const setup = (checked = false) => {
     const spy = jest.fn();
-    const component = mount(
+    const component = mount((
         <ToggleSwitch
             checked={checked}
             label="Test Label"
             onChange={spy}
-        />,
-    );
+        />
+    ));
     return {
         component,
         input: component.find('input'),

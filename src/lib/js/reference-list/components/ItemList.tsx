@@ -44,7 +44,7 @@ export class ItemList extends React.PureComponent<Props, {}> {
                     <div className="abt-item-heading__label" children={children} />
                     <div className="abt-item-heading__badge" children={items.length} />
                 </div>
-                { isOpen &&
+                { isOpen && (
                     <Items
                         click={click}
                         CSL={CSL}
@@ -54,7 +54,7 @@ export class ItemList extends React.PureComponent<Props, {}> {
                         selectedItems={selectedItems}
                         withTooltip={id === 'cited'}
                     />
-                }
+                )}
             </div>
         );
     }
@@ -114,20 +114,18 @@ class Items extends React.Component<ItemsProps, {}> {
                     transition: '.2s',
                 }}
             >
-                {
-                    this.props.items.map((r, i) =>
-                        <Card
-                            CSL={r}
-                            click={this.props.click}
-                            onDoubleClick={this.editSingleReference}
-                            id={r.id}
-                            index={`${i + 1}`}
-                            isSelected={this.props.selectedItems.indexOf(r.id) > -1}
-                            key={r.id}
-                            showTooltip={this.props.withTooltip}
-                        />
-                    )
-                }
+                { this.props.items.map((r, i) => (
+                    <Card
+                        CSL={r}
+                        click={this.props.click}
+                        onDoubleClick={this.editSingleReference}
+                        id={r.id}
+                        index={`${i + 1}`}
+                        isSelected={this.props.selectedItems.indexOf(r.id) > -1}
+                        key={r.id}
+                        showTooltip={this.props.withTooltip}
+                    />
+                ))}
             </div>
         );
     }

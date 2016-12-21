@@ -174,13 +174,13 @@ export class ReferenceWindow extends React.Component<{}, {}> {
             <div onWheel={this.preventScrollPropagation}>
                 <DevTool />
                 <form onSubmit={this.handleSubmit}>
-                    { !this.addManually &&
+                    { !this.addManually && (
                         <IdentifierInput
                             identifierList={this.identifierList}
                             change={this.changeIdentifiers}
                         />
-                    }
-                    { this.addManually &&
+                    )}
+                    { this.addManually && (
                         <ManualEntryContainer
                             autoCite={this.handleAutocite}
                             loading={this.isLoading}
@@ -188,7 +188,7 @@ export class ReferenceWindow extends React.Component<{}, {}> {
                             people={this.people}
                             typeChange={this.changeType}
                         />
-                    }
+                    )}
                     <ButtonRow
                         addManually={this.addManually}
                         pubmedCallback={this.appendPMID}

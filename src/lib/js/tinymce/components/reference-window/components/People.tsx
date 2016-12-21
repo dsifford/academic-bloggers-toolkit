@@ -40,7 +40,7 @@ export class People extends React.PureComponent<PeopleProps, {}> {
                         <span style={{fontWeight: 400}} children={this.labels.contributors}/>
                     </div>
                 </div>
-                {this.props.people.map((person: CSL.TypedPerson, i: number) =>
+                {this.props.people.map((person: CSL.TypedPerson, i: number) => (
                     <Person
                         change={this.updatePerson}
                         remove={this.removePerson}
@@ -51,7 +51,7 @@ export class People extends React.PureComponent<PeopleProps, {}> {
                         person={person}
                         key={`person-${i}`}
                     />
-                )}
+                ))}
                 <div className="row collapse">
                     <div className="flex" style={{paddingTop: 5, textAlign: 'center'}}>
                         <input
@@ -91,7 +91,7 @@ class Person extends React.PureComponent<PersonProps, {}> {
                         data-index={index}
                         data-field="type"
                     >
-                        { this.props.fieldMap.people.map((p, j: number) =>
+                        { this.props.fieldMap.people.map((p, j: number) => (
                             <option
                                 key={`peopleSelect-${j}`}
                                 id={`peopleSelect-${j}`}
@@ -99,7 +99,7 @@ class Person extends React.PureComponent<PersonProps, {}> {
                                 value={p.type}
                                 children={p.label}
                             />
-                        )}
+                        ))}
                     </select>
                 </div>
                 <div className="flex">

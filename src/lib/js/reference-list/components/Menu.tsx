@@ -113,7 +113,7 @@ export class Menu extends React.PureComponent<Props, {}> {
                     },
                 }] : []}
             >
-            {styles => styles.length > 0 ?
+            {styles => styles.length > 0 ? (
                 <div
                     key={styles[0].key}
                     className="abt-reflist-menu"
@@ -176,7 +176,8 @@ export class Menu extends React.PureComponent<Props, {}> {
                             backspaceRemoves={false}
                         />
                     </div>
-                </div> : null
+                </div>
+                ) : null
             }
             </TransitionMotion>
         );

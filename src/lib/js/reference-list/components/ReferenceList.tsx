@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { observable, IObservableArray, reaction, action } from 'mobx';
 import { observer } from 'mobx-react';
-// import { TransitionMotion, spring } from 'react-motion';
 import { EVENTS } from '../../utils/Constants';
 import * as MCE from '../../utils/TinymceFunctions';
 import { CSLProcessor } from '../../utils/CSLProcessor';
@@ -615,7 +614,7 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
                     cslStyle={this.props.store.citationStyle}
                     submitData={this.handleMenuSelection}
                 />
-                { this.props.store.citations.cited.length > 0 &&
+                { this.props.store.citations.cited.length > 0 && (
                     <ItemList
                         id="cited"
                         CSL={this.props.store.citations.CSL}
@@ -627,8 +626,8 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
                         click={this.toggleSelect}
                         children={this.labels.citedItems}
                     />
-                }
-                { this.props.store.citations.uncited.length > 0 &&
+                )}
+                { this.props.store.citations.uncited.length > 0 && (
                     <ItemList
                         id="uncited"
                         CSL={this.props.store.citations.CSL}
@@ -640,7 +639,7 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
                         click={this.toggleSelect}
                         children={this.labels.uncitedItems}
                     />
-                }
+                )}
             </div>
         );
     }
@@ -658,46 +657,3 @@ class StorageField extends React.Component<{store: Store}, {}> {
         );
     }
 }
-
-/*
-<TransitionMotion
-    willLeave={() => {
-        return {
-            height: spring(0),
-            maxHeight: spring(0),
-            scale: spring(0),
-        };
-    }}
-    willEnter={() => {
-        return {
-            height: 0,
-            maxHeight: 0,
-            scale: 0,
-        };
-    }}
-    styles={this.menuOpen ? [{
-        key: 'menu',
-        style: {
-            height: 85,
-            maxHeight: spring(85),
-            scale: spring(1),
-        },
-    }] : []}
->
-    {styles =>
-        styles.length > 0 ?
-        <Menu
-            style={{
-                height: styles[0].style.height,
-                maxHeight: styles[0].style.maxHeight,
-                transform: `scaleY(${styles[0].style.scale})`,
-                transformOrigin: 'top',
-            }}
-            key={styles[0].key}
-            itemsSelected={this.selected.length > 0}
-            cslStyle={this.props.store.citationStyle}
-            submitData={this.handleMenuSelection}
-        /> : null
-    }
-</TransitionMotion>
- */

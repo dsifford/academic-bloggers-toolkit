@@ -8,7 +8,7 @@ const setup = (
     attachInline: boolean = false
 ) => {
     const spy = jest.fn();
-    const component = mount(
+    const component = mount((
         <ButtonRow
             addManually={addManually}
             attachInline={attachInline}
@@ -16,7 +16,7 @@ const setup = (
             pubmedCallback={spy}
             toggleManual={spy}
         />
-    );
+    ));
     return {
         addManually: component.find('#addManually'),
         checkbox: component.find('#inline-toggle'),

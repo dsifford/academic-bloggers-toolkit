@@ -8,7 +8,7 @@ const setup = (
     isLoading: boolean = false
 ) => {
     const spy = jest.fn();
-    const component = mount(
+    const component = mount((
         <ManualEntryContainer
             manualData={map([['type', citationType]])}
             people={observable([])}
@@ -16,7 +16,7 @@ const setup = (
             loading={isLoading}
             typeChange={spy}
         />
-    );
+    ));
     return {
         spy,
         component,
@@ -28,14 +28,14 @@ const setup = (
 
 const setupAutocite = (kind: 'book'|'chapter'|'webpage' = 'webpage', inputType: 'text'|'url' = 'url') => {
     const spy = jest.fn();
-    const component = mount(
+    const component = mount((
         <AutoCite
             getter={spy}
             kind={kind}
             placeholder="Testing"
             inputType={inputType}
         />
-    );
+    ));
     return {
         component,
         instance: component.instance() as any,

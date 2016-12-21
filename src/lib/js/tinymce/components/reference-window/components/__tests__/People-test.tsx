@@ -10,12 +10,12 @@ const setup = (
     people: CSL.TypedPerson[] = [{family: 'Doe', given: 'John', type: 'author'}]
 ) => {
     peopleStore.replace(people);
-    const component = mount(
+    const component = mount((
         <People
             citationType={citationType}
             people={peopleStore}
         />
-    );
+    ));
     return {
         addButton: component.find('#add-person'),
         component,

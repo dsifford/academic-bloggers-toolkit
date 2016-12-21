@@ -149,19 +149,19 @@ export class PubmedWindow extends React.Component<{}, {}> {
                         </div>
                     </div>
                 </form>
-                { this.results.length > 0 &&
+                { this.results.length > 0 && (
                     <ResultList
                         select={this.deliverPMID}
                         results={this.visibleResults}
                     />
-                }
-                { this.results.length > 0 &&
+                )}
+                { this.results.length > 0 && (
                     <Paginate
                         page={this.page}
                         paginate={this.changePage}
                         resultLength={this.results.length}
                     />
-                }
+                )}
             </div>
         );
     }
