@@ -170,7 +170,7 @@ export class CSLProcessor {
             const cslLocale = <string> this.locales[locale] || 'en-US';
             req.onreadystatechange = () => {
                 if (req.readyState === 4) {
-                    if (req.status !== 200) reject(new Error(req.responseText));
+                    if (req.status !== 200) return reject(new Error(req.responseText));
                     this.localeStore.set(cslLocale, req.responseText);
                     resolve({
                         retrieveItem: (id: string) => toJS(this.store.citations.CSL.get(id)),

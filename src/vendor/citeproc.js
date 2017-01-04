@@ -23,7 +23,7 @@
  *     <http://www.gnu.org/licenses/> respectively.
  */
 var CSL = {
-    PROCESSOR_VERSION: "1.1.142",
+    PROCESSOR_VERSION: "1.1.143",
     CONDITION_LEVEL_TOP: 1,
     CONDITION_LEVEL_BOTTOM: 2,
     PLAIN_HYPHEN_REGEX: /(?:[^\\]-|\u2013)/,
@@ -195,6 +195,37 @@ var CSL = {
         this.classic = {};
         this["container-phrase"] = {};
         this["title-phrase"] = {};
+    },
+    FIELD_CATEGORY_REMAP: {
+        "title": "title",
+        "container-title": "container-title",
+        "collection-title": "collection-title",
+        "number": "number",
+        "place": "place",
+        "archive": "collection-title",
+        "title-short": "title",
+        "genre": "title",
+        "event": "title",
+        "medium": "title",
+		"archive-place": "place",
+		"publisher-place": "place",
+		"event-place": "place",
+		"jurisdiction": "place",
+		"language-name": "place",
+		"language-name-original": "place",
+        "call-number": "number",
+        "chapter-number": "number",
+        "collection-number": "number",
+        "edition": "number",
+        "page": "number",
+        "issue": "number",
+        "locator": "number",
+        "number-of-pages": "number",
+        "number-of-volumes": "number",
+        "volume": "number",
+        "citation-number": "number",
+        "publisher": "institution-part",
+        "authority": "institution-part"
     },
     parseLocator: function(item) {
         if (this.opt.development_extensions.locator_date_and_revision) {
@@ -12030,37 +12061,19 @@ CSL.Transform = function (state) {
     this.getTextSubField = getTextSubField;
     function abbreviate(state, Item, altvar, basevalue, myabbrev_family, use_field) {
         var value;
-        if (!myabbrev_family) {
-            return basevalue;
-        }
-        var variable = myabbrev_family;
-        var noHints = false;
-        if (["title", "title-short"].indexOf(variable) > -1 && !Item.jurisdiction) {
-            noHints = true;
-        }
-        if (CSL.NUMERIC_VARIABLES.indexOf(myabbrev_family) > -1) {
-            myabbrev_family = "number";
-        }
         if (myabbrev_family === "jurisdiction") {
             if (state.opt.suppressedJurisdictions[Item.jurisdiction]) {
                 return "";
             }
         }
-        if (["publisher-place", "event-place", "jurisdiction", "archive-place", "language-name", "language-name-original"].indexOf(myabbrev_family) > -1) {
-            myabbrev_family = "place";
+        myabbrev_family = CSL.FIELD_CATEGORY_REMAP[myabbrev_family];
+        if (!myabbrev_family) {
+            return basevalue;
         }
-        if (["publisher", "authority"].indexOf(myabbrev_family) > -1) {
-            myabbrev_family = "institution-part";
-        }
-        if (["genre", "event", "medium", "title-short"].indexOf(myabbrev_family) > -1) {
-            myabbrev_family = "title";
-        }
-        if (["archive"].indexOf(myabbrev_family) > -1) {
-            myabbrev_family = "collection-title";
-        }
+        var variable = myabbrev_family;
         value = "";
         if (state.sys.getAbbreviation) {
-            var jurisdiction = state.transform.loadAbbreviation(Item.jurisdiction, myabbrev_family, basevalue, Item.type, noHints);
+            var jurisdiction = state.transform.loadAbbreviation(Item.jurisdiction, myabbrev_family, basevalue, Item.type, true);
             if (state.transform.abbrevs[jurisdiction][myabbrev_family] && basevalue && state.sys.getAbbreviation) {
                 if (state.transform.abbrevs[jurisdiction][myabbrev_family][basevalue]) {
                     value = state.transform.abbrevs[jurisdiction][myabbrev_family][basevalue].replace("{stet}",basevalue);
@@ -12160,7 +12173,7 @@ CSL.Transform = function (state) {
         }
         return ret;
     }
-    function loadAbbreviation(jurisdiction, category, orig, itemType, noHints) {
+    function loadAbbreviation(jurisdiction, category, orig, itemType) {
         var pos, len;
         if (!jurisdiction) {
             jurisdiction = "default";
@@ -12185,7 +12198,7 @@ CSL.Transform = function (state) {
                     state.transform.abbrevs[tryList[i]] = new state.sys.AbbreviationSegments();
                 }
                 if (!state.transform.abbrevs[tryList[i]][category][orig]) {
-                    state.sys.getAbbreviation(state.opt.styleID, state.transform.abbrevs, tryList[i], category, orig, itemType, noHints);
+                    state.sys.getAbbreviation(state.opt.styleID, state.transform.abbrevs, tryList[i], category, orig, itemType, true);
                 }
                 if (!found && state.transform.abbrevs[tryList[i]][category][orig]) {
                     if (i < tryList.length) {
@@ -12649,7 +12662,7 @@ CSL.Util.fixDateNode = function (parent, pos, node) {
         this.cslXml.deleteNodeByNameAttribute(datexml, 'day');
     } else if ("month-day" === this.cslXml.getAttributeValue(node, "date-parts")) {
         var childNodes = this.cslXml.children(datexml);
-        for (var i=1,ilen=childNodes.length;i<ilen;i++) {
+        for (var i=1,ilen=this.cslXml.numberofnodes(childNodes);i<ilen;i++) {
             if (this.cslXml.getAttributeValue(childNodes[i], 'name') === "year") {
                 this.cslXml.setAttribute(childNodes[i-1], "suffix", "");
                 break;

@@ -13,7 +13,9 @@
         "no-unused-new": false,
         "no-var-requires": false,
         "ordered-imports": false,
-        "object-literal-key-quotes": [true, "as-needed"],
+        // temporarely trurned off due to https://github.com/palantir/tslint/issues/1918
+        // "object-literal-key-quotes": [true, "as-needed"],
+        "object-literal-key-quotes": false,
         "restrict-plus-operands": false,
         "jsx-no-multiline-js": false,
         "jsx-curly-spacing": false,

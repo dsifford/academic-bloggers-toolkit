@@ -78,7 +78,7 @@ gulp.task('rollbar', () => (
 // Translations
 gulp.task('pot', () => (
     gulp
-        .src('src/**/*.php', { base: 'dist/*' })
+        .src('./src/**/*.php', { base: 'dist/*' })
         .pipe(sort())
         .pipe(wpPot({
             domain: 'academic-bloggers-toolkit',
@@ -89,7 +89,7 @@ gulp.task('pot', () => (
             headers: false,
         }))
         .pipe(replace(/(\s)(src\/)(\S+)/gm, '$1$3'))
-        .pipe(gulp.dest('./src'))
+        .pipe(gulp.dest('./src/academic-bloggers-toolkit.pot'))
 ));
 
 // ==================================================
