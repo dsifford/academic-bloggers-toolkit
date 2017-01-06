@@ -1059,7 +1059,7 @@ exports.ABT_i18n = {
                 {
                     value: 'page',
                     label: 'Pages',
-                    required: true,
+                    required: false,
                     pattern: '^[0-9]+-?[0-9]*$',
                     placeholder: 'Number or Range of Numbers (100-200)',
                 },
