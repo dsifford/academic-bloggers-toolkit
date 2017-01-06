@@ -45,8 +45,11 @@ Translations for this plugin can be completed and submitted [here](https://poedi
 
 Language | Locale | Translator
 ---------|--------|----------
+German (Germany) | `de_DE` :star: | Mathias Micheel
+German (Switzerland) | `de_CH` | Mathias Micheel
 Spanish (Argentina) | `es_AR` :star: | Lucas Semelin
 Spanish (Chile) | `es_CL` | Lucas Semelin
+Spanish (Columbia) | `es_CO` | Lucas Semelin
 Spanish (Spain) | `es_ES` | Lucas Semelin
 Spanish (Guatemala) | `es_GT` | Lucas Semelin
 Spanish (Mexico) | `es_MX` | Lucas Semelin

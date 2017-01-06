@@ -1,9 +1,8 @@
-const autoprefixer = require('autoprefixer');
+const autoprefixer = require('autoprefixer-stylus');
 const del = require('del');
 const exec = require('child_process').exec;
 const gulp = require('gulp');
 const merge = require('merge-stream');
-const poststylus = require('poststylus');
 const replace = require('gulp-replace');
 const sort = require('gulp-sort');
 const sourcemaps = require('gulp-sourcemaps');
@@ -156,7 +155,7 @@ gulp.task('stylus:dev', () => (
         .src('src/**/*.styl', { base: './src' })
         .pipe(sourcemaps.init())
         .pipe(stylus({
-            use: [poststylus([autoprefixer({ browsers: ['last 2 versions'] })])],
+            use: [autoprefixer({ browsers: ['last 2 versions'] })],
             compress: false,
         }))
         .pipe(sourcemaps.write('.'))
@@ -168,7 +167,7 @@ gulp.task('stylus:prod', () => (
     gulp
         .src(['src/**/*.styl', '!src/lib/css/collections/*'], { base: './src' })
         .pipe(stylus({
-            use: [poststylus([autoprefixer({ browsers: ['last 2 versions'] })])],
+            use: [autoprefixer({ browsers: ['last 2 versions'] })],
             compress: true,
         }))
         .pipe(gulp.dest('dist'))

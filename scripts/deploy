@@ -8,9 +8,6 @@ SCRIPTDIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 ROOTDIR=$(cd "$SCRIPTDIR" && cd ../ && pwd || exit)
 SVNROOT=$(cd "$ROOTDIR" && cd ../SVN && pwd || exit)
 
-# shellcheck source=../.env
-source "$ROOTDIR/.env"
-
 # Helpers
 TERM=${TERM:-xterm}
 RED='\033[0;31m'

@@ -55,7 +55,6 @@ module.exports = {
         vendor: [
             'react',
             'react-dom',
-            'react-addons-shallow-compare',
             'mobx',
             'mobx-react',
             'mobx-react-devtools',

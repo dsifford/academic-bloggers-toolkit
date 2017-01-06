@@ -833,7 +833,7 @@ $ABT_i18n->fieldmaps->{'article-journal'} = [
         [
             'value' => 'page',
             'label' => __('Pages', 'academic-bloggers-toolkit'),
-            'required' => true,
+            'required' => false,
             'pattern' => '^[0-9]+-?[0-9]*$',
             'placeholder' => __('Number or Range of Numbers (100-200)', 'academic-bloggers-toolkit'),
         ],

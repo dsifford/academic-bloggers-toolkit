@@ -2,9 +2,9 @@
 # yarn lockfile v1
 
 
-"@types/enzyme@^2.5.39":
-  version "2.5.39"
-  resolved "https://registry.yarnpkg.com/@types/enzyme/-/enzyme-2.5.39.tgz#735efab43a93285aae169ea968ea0fb259fa8d68"
+"@types/enzyme@^2.7.1":
+  version "2.7.1"
+  resolved "https://registry.yarnpkg.com/@types/enzyme/-/enzyme-2.7.1.tgz#c49059fa84dd127dc61660fde90b3e5be3985a09"
   dependencies:
     "@types/react" "*"
 
@@ -12,9 +12,9 @@
   version "16.0.3"
   resolved "https://registry.yarnpkg.com/@types/jest/-/jest-16.0.3.tgz#28a465586cd37d2638043ebcca91010ed89fc284"
 
-"@types/node@^6.0.56":
-  version "6.0.56"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-6.0.56.tgz#12bc7fff825e72807f55dcbce17e9db6177713dd"
+"@types/node@^6.0.57":
+  version "6.0.57"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-6.0.57.tgz#100f9d4390331297bc3b6160ac4805b46de6e752"
 
 "@types/react-dom@^0.14.20":
   version "0.14.20"
@@ -28,9 +28,9 @@
   dependencies:
     "@types/react" "*"
 
-"@types/react@*", "@types/react@^0.14.55":
-  version "0.14.55"
-  resolved "https://registry.yarnpkg.com/@types/react/-/react-0.14.55.tgz#f7f7a6ad0c94780531e95632435b2798c5dad11b"
+"@types/react@*", "@types/react@^0.14.56":
+  version "0.14.56"
+  resolved "https://registry.yarnpkg.com/@types/react/-/react-0.14.56.tgz#abc8da95be997f4fcf0aab9ce79afaa96f2f33dc"
 
 Base64@~0.2.0:
   version "0.2.1"
@@ -314,7 +314,15 @@ asynckit@^0.4.0:
   version "0.4.0"
   resolved "https://registry.yarnpkg.com/asynckit/-/asynckit-0.4.0.tgz#c79ed97f7f34cb8f2ba1bc9790bcc366474b4b79"
 
-autoprefixer@^6.3.1, autoprefixer@^6.6.1:
+autoprefixer-stylus@^0.13.0:
+  version "0.13.0"
+  resolved "https://registry.yarnpkg.com/autoprefixer-stylus/-/autoprefixer-stylus-0.13.0.tgz#cc2a864e121fad691421c82d9f3e4328137b7df4"
+  dependencies:
+    autoprefixer "6.6.1"
+    multi-stage-sourcemap "0.2.1"
+    postcss "5.2.8"
+
+autoprefixer@6.6.1, autoprefixer@^6.3.1:
   version "6.6.1"
   resolved "https://registry.yarnpkg.com/autoprefixer/-/autoprefixer-6.6.1.tgz#11a4077abb4b313253ec2f6e1adb91ad84253519"
   dependencies:
@@ -785,7 +793,7 @@ babel-preset-react@^6.16.0:
     babel-plugin-transform-react-jsx-self "^6.11.0"
     babel-plugin-transform-react-jsx-source "^6.3.13"
 
-babel-register@^6.16.3, babel-register@^6.18.0:
+babel-register@^6.18.0:
   version "6.18.0"
   resolved "https://registry.yarnpkg.com/babel-register/-/babel-register-6.18.0.tgz#892e2e03865078dd90ad2c715111ec4449b32a68"
   dependencies:
@@ -4482,7 +4490,7 @@ ms@0.7.2:
   version "0.7.2"
   resolved "https://registry.yarnpkg.com/ms/-/ms-0.7.2.tgz#ae25cf2512b3885a1d95d7f037868d8431124765"
 
-multi-stage-sourcemap@^0.2.1:
+multi-stage-sourcemap@0.2.1:
   version "0.2.1"
   resolved "https://registry.yarnpkg.com/multi-stage-sourcemap/-/multi-stage-sourcemap-0.2.1.tgz#b09fc8586eaa17f81d575c4ad02e0f7a3f6b1105"
   dependencies:
@@ -4970,13 +4978,6 @@ path-type@^1.0.0:
     pify "^2.0.0"
     pinkie-promise "^2.0.0"
 
-path@^0.12.0:
-  version "0.12.7"
-  resolved "https://registry.yarnpkg.com/path/-/path-0.12.7.tgz#d4dc2a506c4ce2197eb481ebfcd5b36c0140b10f"
-  dependencies:
-    process "^0.11.1"
-    util "^0.10.3"
-
 pbkdf2-compat@2.0.1:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/pbkdf2-compat/-/pbkdf2-compat-2.0.1.tgz#b6e0c8fa99494d94e0511575802a59a5c142f288"
@@ -5265,7 +5266,7 @@ postcss-zindex@^2.0.1:
     postcss "^5.0.4"
     uniqs "^2.0.0"
 
-postcss@^5.0, postcss@^5.0.10, postcss@^5.0.11, postcss@^5.0.12, postcss@^5.0.13, postcss@^5.0.14, postcss@^5.0.16, postcss@^5.0.2, postcss@^5.0.4, postcss@^5.0.5, postcss@^5.0.6, postcss@^5.0.8, postcss@^5.2.8:
+postcss@5.2.8, postcss@^5.0.10, postcss@^5.0.11, postcss@^5.0.12, postcss@^5.0.13, postcss@^5.0.14, postcss@^5.0.16, postcss@^5.0.2, postcss@^5.0.4, postcss@^5.0.5, postcss@^5.0.6, postcss@^5.0.8, postcss@^5.2.8:
   version "5.2.8"
   resolved "https://registry.yarnpkg.com/postcss/-/postcss-5.2.8.tgz#05720c49df23c79bda51fd01daeb1e9222e94390"
   dependencies:
@@ -5273,14 +5274,6 @@ postcss@^5.0, postcss@^5.0.10, postcss@^5.0.11, postcss@^5.0.12, postcss@^5.0.13
     js-base64 "^2.1.9"
     source-map "^0.5.6"
     supports-color "^3.1.2"
-
-poststylus@^0.2.3:
-  version "0.2.3"
-  resolved "https://registry.yarnpkg.com/poststylus/-/poststylus-0.2.3.tgz#104a9176edf89ed5dc56355004f1d8107a8e51e9"
-  dependencies:
-    multi-stage-sourcemap "^0.2.1"
-    path "^0.12.0"
-    postcss "^5.0"
 
 prelude-ls@~1.1.2:
   version "1.1.2"
@@ -5312,7 +5305,7 @@ process-nextick-args@~1.0.6:
   version "1.0.7"
   resolved "https://registry.yarnpkg.com/process-nextick-args/-/process-nextick-args-1.0.7.tgz#150e20b756590ad3f91093f25a4f2ad8bff30ba3"
 
-process@^0.11.0, process@^0.11.1, process@~0.11.0:
+process@^0.11.0, process@~0.11.0:
   version "0.11.9"
   resolved "https://registry.yarnpkg.com/process/-/process-0.11.9.tgz#7bd5ad21aa6253e7da8682264f1e11d11c0318c1"
 
@@ -6468,8 +6461,8 @@ typedarray@~0.0.5:
   resolved "https://registry.yarnpkg.com/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
 
 typescript@next:
-  version "2.2.0-dev.20170103"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-2.2.0-dev.20170103.tgz#0a67020f9b01ca6f97c4f08fc007d314dda1d701"
+  version "2.2.0-dev.20170105"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-2.2.0-dev.20170105.tgz#43e93d2c506788764333cca13caca53a9c7f8405"
 
 ua-parser-js@0.7.12, ua-parser-js@^0.7.9:
   version "0.7.12"
