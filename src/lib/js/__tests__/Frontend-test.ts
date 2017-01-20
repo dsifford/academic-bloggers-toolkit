@@ -47,11 +47,15 @@ describe('Frontend', () => {
         });
         it('should toggle on click', () => {
             const heading = <HTMLHeadingElement>document.querySelector('.abt-bibliography__heading');
-            expect(heading.classList.contains('abt-hidden')).toBe(true);
+            const bibContainer = <HTMLHeadingElement>document.querySelector('.abt-bibliography__container');
+            expect(heading.classList.contains('abt-bibliography__heading_toggle--closed')).toBe(true);
+            expect(bibContainer.classList.contains('abt-bibligraphy__container--hidden')).toBe(true);
             heading.click();
-            expect(heading.classList.contains('abt-hidden')).toBe(false);
+            expect(heading.classList.contains('abt-bibliography__heading_toggle--closed')).toBe(false);
+            expect(bibContainer.classList.contains('abt-bibligraphy__container--hidden')).toBe(false);
             heading.click();
-            expect(heading.classList.contains('abt-hidden')).toBe(true);
+            expect(heading.classList.contains('abt-bibliography__heading_toggle--closed')).toBe(true);
+            expect(bibContainer.classList.contains('abt-bibligraphy__container--hidden')).toBe(true);
         });
     });
 });
