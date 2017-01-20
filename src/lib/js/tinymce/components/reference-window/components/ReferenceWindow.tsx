@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Modal } from '../../../../utils/Modal';
-import { observable, computed, reaction, map, action, toJS } from 'mobx';
+import { observable, computed, reaction, action, toJS } from 'mobx';
 import { observer } from 'mobx-react';
 import { getFromURL, getFromISBN } from '../../../../utils/resolvers/';
 import DevTools, { configureDevtool } from '../../../../utils/DevTools';
@@ -31,7 +31,7 @@ export class ReferenceWindow extends React.Component<{}, {}> {
     isLoading = false;
 
     @observable
-    manualData = map([['type', 'webpage']]);
+    manualData = observable.map(new Map([['type', 'webpage']]));
 
     @observable
     people = observable<CSL.TypedPerson>([
@@ -128,8 +128,7 @@ export class ReferenceWindow extends React.Component<{}, {}> {
         reaction(
             () => [this.people.length, this.manualData.get('type'), this.addManually],
             () => this.modal.resize(),
-            false,
-            100
+            { fireImmediately: false, delay: 100 },
         );
     }
 

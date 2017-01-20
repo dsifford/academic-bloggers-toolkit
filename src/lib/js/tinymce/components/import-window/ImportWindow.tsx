@@ -36,7 +36,7 @@ export class ImportWindow extends React.Component<Props, {}> {
     handleFileUpload = (e: React.FormEvent<HTMLInputElement>) => {
         const reader = new FileReader();
         const file = e.currentTarget.files[0];
-        let fileExtension = file.name.toLowerCase().match(/\.(\w+$)/)
+        const fileExtension = file.name.toLowerCase().match(/\.(\w+$)/)
             ? file.name.toLowerCase().match(/\.(\w+$)/)[1]
             : '';
         reader.addEventListener('load', () => {

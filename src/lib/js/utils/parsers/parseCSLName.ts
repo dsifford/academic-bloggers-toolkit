@@ -17,7 +17,7 @@ export function parseCSLName(input: string, source: 'RIS'|'pubmed'): CSL.Person 
 
     switch (source) {
         case 'RIS':
-            let splitName = input.split(', ');
+            const splitName = input.split(', ');
             if (splitName.length === 1) {
                 return { literal: input };
             }

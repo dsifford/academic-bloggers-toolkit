@@ -1,7 +1,7 @@
 jest.mock('../../../utils/TinymceFunctions');
 jest.mock('../../API');
 import * as React from 'react';
-import { map } from 'mobx';
+import { observable } from 'mobx';
 import { mount } from 'enzyme';
 import { ItemList } from '../ItemList';
 import { editReferenceWindow } from '../../../utils/TinymceFunctions';
@@ -15,7 +15,7 @@ const setup = (open = true, items = [{id: 'aaa'}, {id: 'bbb'}, {id: 'ccc'}]) => 
     const component = mount((
         <ItemList
             id="test-id"
-            CSL={map()}
+            CSL={observable.map()}
             items={items}
             selectedItems={['aaa']}
             click={spy}

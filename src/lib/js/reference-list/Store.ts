@@ -1,5 +1,4 @@
 import {
-    asMap,
     computed,
     intercept,
     IObservableArray,
@@ -170,7 +169,7 @@ class CitationStore {
         for (const key of Object.keys(CSL)) {
             CSL[key].language = locales[CSL[key].language] || 'en-US';
         }
-        return asMap(CSL);
+        return observable.map(CSL);
     }
 }
 

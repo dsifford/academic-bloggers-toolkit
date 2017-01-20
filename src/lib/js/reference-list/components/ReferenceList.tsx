@@ -100,8 +100,7 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
         reaction(
             () => [this.citedListUI.isOpen, this.uncitedListUI.isOpen, this.menuOpen],
             this.handleScroll,
-            false,
-            200,
+            { fireImmediately: false, delay: 200 },
         );
 
         /**
@@ -118,8 +117,7 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
         reaction(
             () => this.props.store.citations.citedIDs.length,
             this.handleScroll,
-            false,
-            200,
+            { fireImmediately: false, delay: 200 },
         );
     }
 

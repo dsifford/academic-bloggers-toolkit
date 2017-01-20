@@ -109,8 +109,7 @@ export class PubmedWindow extends React.Component<{}, {}> {
         reaction(
             () => [this.page, this.results.length],
             () => this.modal.resize(),
-            false,
-            300,
+            { fireImmediately: false, delay: 300 },
         );
     }
 

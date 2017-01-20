@@ -1,5 +1,5 @@
 import { formatBibliography } from '../formatBibliography';
-import { ObservableMap, asMap } from 'mobx';
+import { ObservableMap, observable } from 'mobx';
 
 describe('formatBibliography()', () => {
     // tslint:disable
@@ -36,7 +36,7 @@ describe('formatBibliography()', () => {
                 hi ? hangingIndent : sansHangingIndent,
             ],
             'never',
-            asMap(JSON.parse(`{"1btbi6t45":{"id":"1btbi6t45","type":"article-journal","author":[{"family":"Manjunath","given":"R"},{"family":"Namboodiri","given":"MA"},{"family":"Ramasarma","given":"T"}],"PMID":"34563","journalAbbreviation":"Indian J Biochem Biophys","container-title-short":"Indian J Biochem Biophys","title":"Differential changes in phenylalanine hydroxylase, tyrosine aminotransferase & tryptophan pyrrolase during hepatic regeneration.","volume":"15","issue":"3","page":"183-7","language":"en-US","ISSN":"0301-1208","container-title":"Indian journal of biochemistry &amp; biophysics","issued":{"date-parts":[["1978","06","01"]]}},"r1hn0qg7":{"id":"r1hn0qg7","type":"article-journal","author":[{"family":"Westreich","given":"M"}],"PMID":"45674","journalAbbreviation":"JACEP","container-title-short":"JACEP","title":"Preventing complications of subclavian vein catheterization.","volume":"7","issue":"10","page":"368-71","language":"en-US","ISSN":"0361-1124","container-title":"JACEP","issued":{"date-parts":[["1978","10","01"]]}}}`)),
+            observable.map(JSON.parse(`{"1btbi6t45":{"id":"1btbi6t45","type":"article-journal","author":[{"family":"Manjunath","given":"R"},{"family":"Namboodiri","given":"MA"},{"family":"Ramasarma","given":"T"}],"PMID":"34563","journalAbbreviation":"Indian J Biochem Biophys","container-title-short":"Indian J Biochem Biophys","title":"Differential changes in phenylalanine hydroxylase, tyrosine aminotransferase & tryptophan pyrrolase during hepatic regeneration.","volume":"15","issue":"3","page":"183-7","language":"en-US","ISSN":"0301-1208","container-title":"Indian journal of biochemistry &amp; biophysics","issued":{"date-parts":[["1978","06","01"]]}},"r1hn0qg7":{"id":"r1hn0qg7","type":"article-journal","author":[{"family":"Westreich","given":"M"}],"PMID":"45674","journalAbbreviation":"JACEP","container-title-short":"JACEP","title":"Preventing complications of subclavian vein catheterization.","volume":"7","issue":"10","page":"368-71","language":"en-US","ISSN":"0361-1124","container-title":"JACEP","issued":{"date-parts":[["1978","10","01"]]}}}`)),
         ];
     };
     // tslint:enable

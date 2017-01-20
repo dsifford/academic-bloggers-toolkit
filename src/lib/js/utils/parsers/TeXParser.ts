@@ -199,16 +199,12 @@ export function parsePeople(raw: string): CSL.Person[] {
         }
         else if (nameparts.length === 2){
             family = nameparts[0];
-            let givenBlock = nameparts[1].split(' ');
+            const givenBlock = nameparts[1].split(' ');
             for (const [i, part] of givenBlock.entries()) {
                 if (i === 0) {
                     given += part;
                     continue;
                 }
-                // if (part[0] === part[0].toLowerCase()) {
-                //     given += ` ${part}`;
-                //     continue;
-                // }
                 given += ` ${part[0]}.`;
             }
         }

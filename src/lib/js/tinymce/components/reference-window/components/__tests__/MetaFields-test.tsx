@@ -1,12 +1,12 @@
 import * as React from 'react';
-import { map } from 'mobx';
+import { observable } from 'mobx';
 import { mount } from 'enzyme';
 import { MetaFields } from '../MetaFields';
 
 const setup = (
     title = 'article-journal'
 ) => {
-    const meta = map([['type', title]]);
+    const meta = observable.map<string>([['type', title]]);
     const component = mount(
         <MetaFields meta={meta} />
     );
