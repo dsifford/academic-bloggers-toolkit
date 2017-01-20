@@ -109,22 +109,23 @@ class Citations {
     private enableToggle(): void {
         const citations = document.querySelectorAll('#abt-bibliography>div, #abt-smart-bib>div');
         const heading = document.querySelector('.abt-bibliography__heading_toggle, #abt-smart-bib>h3.toggle');
-        let container = document.getElementById('abt-bibibliography__container');
+        let container = document.getElementById('abt-bibliography__container');
 
         if (!container) {
             container = document.createElement('div');
-            container.id = 'abt-bibibliography__container';
+            container.id = 'abt-bibliography__container';
             this.bibliography.appendChild(container);
             for (const el of citations) {
                 container.appendChild(el);
             }
         }
-        container.style.display = 'none';
-        heading.classList.toggle('abt-hidden');
+
+        container.classList.toggle('abt-bibligraphy__container--hidden');
+        heading.classList.toggle('abt-bibliography__heading_toggle--closed');
 
         heading.addEventListener('click', () => {
-            container.style.display = container.style.display === 'none' ? '' : 'none';
-            heading.classList.toggle('abt-hidden');
+            container.classList.toggle('abt-bibligraphy__container--hidden');
+            heading.classList.toggle('abt-bibliography__heading_toggle--closed');
         });
     }
 }
