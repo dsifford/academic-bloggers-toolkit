@@ -16,7 +16,7 @@
 
             <!-- PHP VERSION CHECK -->
             <tr>
-                <td class="row-title"><?php _e('PHP Version', 'academic-bloggers-toolkit') ?></td>
+                <th style="font-weight: bold;"><?php _e('PHP Version', 'academic-bloggers-toolkit') ?></th>
                 <td><?php echo phpversion() ?></td>
                 <td>
                     <?php if (version_compare(phpversion(), '5.5', '<')): ?>
@@ -27,7 +27,7 @@
 
             <!-- PHP DOM EXTENSION CHECK -->
             <tr class="alternate">
-                <td class="row-title"><?php printf(__('PHP %s Extension', 'academic-bloggers-toolkit'), '<code>dom</code>') ?></td>
+                <th style="font-weight: bold;"><?php printf(__('PHP %s Extension', 'academic-bloggers-toolkit'), '<code>dom</code>') ?></th>
                 <td>
                     <?php
                         if (extension_loaded('dom')) {
@@ -50,7 +50,7 @@
 
             <!-- PHP LIBXML EXTENSION CHECK -->
             <tr>
-                <td class="row-title"><?php printf(__('PHP %s Extension', 'academic-bloggers-toolkit'), '<code>libxml</code>') ?></td>
+                <th style="font-weight: bold;"><?php printf(__('PHP %s Extension', 'academic-bloggers-toolkit'), '<code>libxml</code>') ?></th>
                 <td>
                     <?php
                         if (extension_loaded('libxml')) {
@@ -72,7 +72,7 @@
 
             <!-- BROWSER CHECK -->
             <tr class="alternate">
-                <td class="row-title"><?php _e('Recommended Browsers (in order)', 'academic-bloggers-toolkit') ?></td>
+                <th style="font-weight: bold;"><?php _e('Recommended Browsers (in order)', 'academic-bloggers-toolkit') ?></th>
                 <td colspan="2"><?php _e('Google Chrome, Mozilla Firefox, or Microsoft Edge.', 'academic-bloggers-toolkit') ?></td>
             </tr>
         </table>
@@ -95,7 +95,7 @@
                 <th style="width: 50%;">
                     <label>
                         <input type="radio" name="citation_style_prefer_custom" value='true' <?php checked($citation_style_prefer_custom, true) ?> />
-                        <?php _e('Use custom citation style by default ', 'academic-bloggers-toolkit') ?><a href="https://github.com/dsifford/academic-bloggers-toolkit#using-a-custom-citation-style" target="_blank">[?]</a>
+                        <?php _e('Use custom citation style by default ', 'academic-bloggers-toolkit') ?><a href="https://github.com/dsifford/academic-bloggers-toolkit#using-a-custom-citation-style" target="_blank" title="View Instructions" aria-label="See instructions for how to use custom styles">[?]</a>
                     </label>
                 </th>
             </tr>
@@ -129,7 +129,7 @@
     <div class="inside">
         <table style="width: 100%; height: 100%;">
             <tr>
-                <td><label for="display_options_bibliography" style="font-weight: bold;"><?php _e('Bibliography style', 'academic-bloggers-toolkit') ?></label></td>
+                <th style="font-weight: bold; text-align: left;"><label for="display_options_bibliography"><?php _e('Bibliography Style', 'academic-bloggers-toolkit') ?></label></th>
                 <td>
                     <div>
                         <label style="white-space: nowrap; padding: 0 5px;">
@@ -149,7 +149,7 @@
                 </td>
             </tr>
             <tr>
-                <td style="padding: 15px 0;"><label for="display_options_links" style="font-weight: bold;"><?php _e('Citation Link Style', 'academic-bloggers-toolkit') ?></label></td>
+                <th style="padding: 15px 0; font-weight: bold; text-align: left;"><label for="display_options_links"><?php _e('Citation Link Style', 'academic-bloggers-toolkit') ?></label></th>
                 <td style="padding: 15px 0;">
                     <div>
                         <label style="white-space: nowrap; padding: 0 5px;">
@@ -197,11 +197,11 @@
                 </td>
             </tr>
             <tr>
-                <td><label style="white-space: nowrap; font-weight: bold;" for="display_options_bib_heading"><?php _e('Bibliography Heading', 'academic-bloggers-toolkit') ?></label></td>
+                <th style="font-weight: bold; text-align: left;"><label style="white-space: nowrap;" for="display_options_bib_heading"><?php _e('Bibliography Heading', 'academic-bloggers-toolkit') ?></label></th>
                 <td><input type="text" name="display_options_bib_heading" id="display_options_bib_heading" value="<?php echo $display_options_bib_heading ?>" style="margin: 0 5px; width: calc(100% - 10px)" /></td>
             </tr>
             <tr>
-                <td><label style="white-space: nowrap; font-weight: bold;" for="display_options_bib_heading_level"><?php _e('Bibliography Heading Level', 'academic-bloggers-toolkit') ?></label></td>
+                <th style="font-weight: bold; text-align: left;"><label style="white-space: nowrap;" for="display_options_bib_heading_level"><?php _e('Bibliography Heading Level', 'academic-bloggers-toolkit') ?></label></th>
                 <td>
                     <select id="display_options_bib_heading_level" name="display_options_bib_heading_level" style="margin: 0 5px; width: calc(100% - 10px);">
                         <?php for ($i = 1; $i < 7; $i++): ?>
@@ -237,23 +237,23 @@
                             <th colspan="2"><?php _e('CSS Selectors used in this plugin', 'academic-bloggers-toolkit') ?></th>
                         </tr>
                         <tr>
-                            <td><strong><?php _e('Inline Citations', 'academic-bloggers-toolkit') ?></strong></td>
+                            <th><strong><?php _e('Inline Citations', 'academic-bloggers-toolkit') ?></strong></th>
                             <td><code>.abt-citation</code></td>
                         </tr>
                         <tr>
-                            <td><strong><?php _e('Citation Tooltips', 'academic-bloggers-toolkit') ?></strong></td>
+                            <th><strong><?php _e('Citation Tooltips', 'academic-bloggers-toolkit') ?></strong></th>
                             <td><code>.abt-tooltip, .abt_tooltip__callout, .abt-tooltip__close-button</code></td>
                         </tr>
                         <tr>
-                            <td><strong><?php _e('Bibliography', 'academic-bloggers-toolkit') ?></strong></td>
+                            <th><strong><?php _e('Bibliography', 'academic-bloggers-toolkit') ?></strong></th>
                             <td><code>.abt-bibliography, .abt-bibliography__heading, .abt-bibliography__container > div</code></td>
                         </tr>
                         <tr>
-                            <td><strong><?php _e('Static Publication Lists', 'academic-bloggers-toolkit') ?></strong></td>
+                            <th><strong><?php _e('Static Publication Lists', 'academic-bloggers-toolkit') ?></strong></th>
                             <td><code>.abt-static-bib, .abt-static-bib > div</code></td>
                         </tr>
                         <tr>
-                            <td><strong><?php _e('Footnotes', 'academic-bloggers-toolkit') ?></strong></td>
+                            <th><strong><?php _e('Footnotes', 'academic-bloggers-toolkit') ?></strong></th>
                             <td><code>#abt-footnote, .abt-footnote__heading, .abt-footnote__item, .abt-footnote-number</code></td>
                         </tr>
                     </table>
