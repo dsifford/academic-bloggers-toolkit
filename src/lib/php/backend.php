@@ -78,9 +78,9 @@ class ABT_Backend {
      */
     public function user_alert() {
         if ('true' == get_user_option('rich_editing')) return;
-    	$class = 'notice notice-warning is-dismissible';
-    	$message = __( "<strong>Notice:</strong> Rich editing must be enabled to use the Academic Blogger's Toolkit plugin", 'academic-bloggers-toolkit' );
-    	printf( '<div class="%1$s"><p>%2$s</p></div>', $class, $message );
+        $class = 'notice notice-warning is-dismissible';
+        $message = __( "<strong>Notice:</strong> Rich editing must be enabled to use the Academic Blogger's Toolkit plugin", 'academic-bloggers-toolkit' );
+        printf( '<div class="%1$s"><p>%2$s</p></div>', $class, $message );
     }
 
     /**
@@ -112,9 +112,9 @@ class ABT_Backend {
      */
     public function load_tinymce_css($mce_css) {
         if (!empty($mce_css))
-		    $mce_css .= ',';
+            $mce_css .= ',';
         $mce_css .= plugins_url('academic-bloggers-toolkit/lib/css/citations.css');
-	    return $mce_css;
+        return $mce_css;
     }
 
     /**
@@ -168,6 +168,7 @@ class ABT_Backend {
 
         $state['bibOptions'] = [
             'heading' => $opts['display_options']['bib_heading'],
+            'headingLevel' => $opts['display_options']['bib_heading_level'],
             'style' => $opts['display_options']['bibliography'],
         ];
 

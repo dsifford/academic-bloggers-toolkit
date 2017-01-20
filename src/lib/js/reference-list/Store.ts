@@ -177,6 +177,7 @@ export class Store {
 
     bibOptions = {
         heading: '',
+        headingLevel: <'h1'|'h2'|'h3'|'h4'|'h5'|'h6'> 'h3',
         style: <'fixed'|'toggle'> 'fixed',
     };
 

@@ -176,7 +176,7 @@
                         </label>
                     </div>
                 </td>
-                <td rowspan="2" width="100%" valign="top">
+                <td rowspan="3" width="100%" valign="top">
                     <div style="background: #f5f5f5; box-shadow: 0 1px 1px rgba(0,0,0,.04); border: 1px solid #e5e5e5;">
                     <div id="demo-bib" style="user-select: none; padding: 10px 10px 10px 30px;">
                         <div id="demo-bib-heading-container" class="<?php echo $display_options_bibliography ?>" style="margin-bottom: 1em; <?php echo empty($display_options_bib_heading) ? 'display: none;' : '' ?>">
@@ -199,6 +199,18 @@
             <tr>
                 <td><label style="white-space: nowrap; font-weight: bold;" for="display_options_bib_heading"><?php _e('Bibliography Heading', 'academic-bloggers-toolkit') ?></label></td>
                 <td><input type="text" name="display_options_bib_heading" id="display_options_bib_heading" value="<?php echo $display_options_bib_heading ?>" style="margin: 0 5px; width: calc(100% - 10px)" /></td>
+            </tr>
+            <tr>
+                <td><label style="white-space: nowrap; font-weight: bold;" for="display_options_bib_heading_level"><?php _e('Bibliography Heading Level', 'academic-bloggers-toolkit') ?></label></td>
+                <td>
+                    <select id="display_options_bib_heading_level" name="display_options_bib_heading_level" style="margin: 0 5px; width: calc(100% - 10px);">
+                        <?php for ($i = 1; $i < 7; $i++): ?>
+                            <option value="h<?php echo $i ?>" <?php selected($display_options_bib_heading_level, "h$i"); ?>>
+                                <?php echo "h$i" ?>
+                            </option>
+                        <?php endfor; ?>
+                    </select>
+                </td>
             </tr>
         </table>
     </div>

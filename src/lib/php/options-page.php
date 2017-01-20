@@ -96,10 +96,12 @@ class ABT_Options  {
             $abt_options['display_options']['bibliography'] = esc_html($_POST['display_options_bibliography']);
             $abt_options['display_options']['links'] = esc_html($_POST['display_options_links']);
             $abt_options['display_options']['bib_heading'] = esc_html($_POST['display_options_bib_heading']);
+            $abt_options['display_options']['bib_heading_level'] = esc_html($_POST['display_options_bib_heading_level']);
         }
         $display_options_bibliography = isset($abt_options['display_options']['bibliography']) ? $abt_options['display_options']['bibliography'] : '';
         $display_options_links = isset($abt_options['display_options']['links']) ? $abt_options['display_options']['links'] : '';
         $display_options_bib_heading = isset($abt_options['display_options']['bib_heading']) ? $abt_options['display_options']['bib_heading'] : '';
+        $display_options_bib_heading_level = isset($abt_options['display_options']['bib_heading_level']) ? $abt_options['display_options']['bib_heading_level'] : '';
 
         update_option('abt_options', $abt_options);
 

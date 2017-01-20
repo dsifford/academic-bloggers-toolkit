@@ -129,6 +129,7 @@ declare namespace BackendGlobals {
     interface ABT_Reflist_State {
         bibOptions: {
             heading: string;
+            headingLevel: 'h1'|'h2'|'h3'|'h4'|'h5'|'h6';
             style: 'fixed'|'toggle';
         };
         cache: {
