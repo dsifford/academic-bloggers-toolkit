@@ -1,8 +1,8 @@
-# Copyright (C) 2017 Academic Blogger's Toolkit 4.9.2
-# This file is distributed under the same license as the Academic Blogger's Toolkit 4.9.2 package.
+# Copyright (C) 2017 Academic Blogger's Toolkit 4.10.0
+# This file is distributed under the same license as the Academic Blogger's Toolkit 4.10.0 package.
 msgid ""
 msgstr ""
-"Project-Id-Version: Academic Blogger's Toolkit 4.9.2\n"
+"Project-Id-Version: Academic Blogger's Toolkit 4.10.0\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -11,11 +11,11 @@ msgstr ""
 "Language-Team: Derek P Sifford <dereksifford@gmail.com>\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: academic-bloggers-toolkit.php:90
+#: academic-bloggers-toolkit.php:91
 msgid "Plugin Settings"
 msgstr ""
 
-#: academic-bloggers-toolkit.php:107
+#: academic-bloggers-toolkit.php:108
 msgid "Donate"
 msgstr ""
 
@@ -415,7 +415,7 @@ msgstr ""
 msgid "Website Title"
 msgstr ""
 
-#: lib/php/i18n.php:14, lib/php/views/options-page.php:244
+#: lib/php/i18n.php:14, lib/php/views/options-page.php:256
 msgid "Footnotes"
 msgstr ""
 
@@ -703,7 +703,7 @@ msgstr ""
 msgid "Use custom citation style by default "
 msgstr ""
 
-#: lib/php/views/options-page.php:120, lib/php/views/options-page.php:207, lib/php/views/options-page.php:255
+#: lib/php/views/options-page.php:120, lib/php/views/options-page.php:219, lib/php/views/options-page.php:267
 msgid "Update"
 msgstr ""
 
@@ -712,7 +712,7 @@ msgid "Display Options"
 msgstr ""
 
 #: lib/php/views/options-page.php:132
-msgid "Bibliography style"
+msgid "Bibliography Style"
 msgstr ""
 
 #: lib/php/views/options-page.php:137
@@ -751,46 +751,50 @@ msgstr ""
 msgid "Bibliography Heading"
 msgstr ""
 
-#: lib/php/views/options-page.php:215
+#: lib/php/views/options-page.php:204
+msgid "Bibliography Heading Level"
+msgstr ""
+
+#: lib/php/views/options-page.php:227
 msgid "Override CSS"
 msgstr ""
 
-#: lib/php/views/options-page.php:225
+#: lib/php/views/options-page.php:237
 msgid "CSS Selectors used in this plugin"
 msgstr ""
 
-#: lib/php/views/options-page.php:228
+#: lib/php/views/options-page.php:240
 msgid "Inline Citations"
 msgstr ""
 
-#: lib/php/views/options-page.php:232
+#: lib/php/views/options-page.php:244
 msgid "Citation Tooltips"
 msgstr ""
 
-#: lib/php/views/options-page.php:236
+#: lib/php/views/options-page.php:248
 msgid "Bibliography"
 msgstr ""
 
-#: lib/php/views/options-page.php:240
+#: lib/php/views/options-page.php:252
 msgid "Static Publication Lists"
 msgstr ""
 
-#: lib/php/views/options-page.php:248
+#: lib/php/views/options-page.php:260
 msgid "Note: If you are already using a child theme to load CSS, place your CSS overrides there. The box on the left is only a crutch for those who do not have any custom CSS saved yet. Loading CSS this way is very inefficient."
 msgstr ""
 
-#: lib/php/views/options-page.php:262
+#: lib/php/views/options-page.php:274
 msgid "How do I"
 msgstr ""
 
-#: lib/php/views/options-page.php:266
+#: lib/php/views/options-page.php:278
 msgid "Make my tooltips a different color?"
 msgstr ""
 
-#: lib/php/views/options-page.php:271
+#: lib/php/views/options-page.php:283
 msgid "Apply style to the bibliography list?"
 msgstr ""
 
-#: lib/php/views/options-page.php:276
+#: lib/php/views/options-page.php:288
 msgid "Apply style to the inline citations"
 msgstr ""
