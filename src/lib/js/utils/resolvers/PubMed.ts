@@ -32,7 +32,7 @@ export function pubmedQuery(query: string): Promise<PubMed.DataPMID[]> {
         req.send(null);
     })
     .then(idList => resolvePubmedData('PMID', idList)
-    .then(res => res.data));
+    .then(res => res.data || []));
 }
 
 function resolvePubmedData(

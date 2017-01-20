@@ -265,7 +265,11 @@ function parseInTextCitations(
 export function setBibliography(
     editor: TinyMCE.Editor,
     bibliography: ABT.Bibliography|boolean,
-    options: {heading: string, style: 'fixed'|'toggle'}
+    options: {
+        heading: string,
+        headingLevel: 'h1'|'h2'|'h3'|'h4'|'h5'|'h6',
+        style: 'fixed'|'toggle',
+    },
 ): void {
     const doc = editor.getDoc();
     const existingBib = doc.querySelector('#abt-bibliography, #abt-smart-bib');
@@ -286,7 +290,7 @@ export function setBibliography(
     });
 
     if (options.heading) {
-        const heading = editor.dom.create<HTMLHeadingElement>('h3', {
+        const heading = editor.dom.create<HTMLHeadingElement>(options.headingLevel, {
             class: 'abt-bibliography__heading',
         });
         heading.innerText = options.heading;

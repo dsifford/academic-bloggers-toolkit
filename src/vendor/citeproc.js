@@ -23,7 +23,7 @@
  *     <http://www.gnu.org/licenses/> respectively.
  */
 var CSL = {
-    PROCESSOR_VERSION: "1.1.143",
+    PROCESSOR_VERSION: "1.1.145",
     CONDITION_LEVEL_TOP: 1,
     CONDITION_LEVEL_BOTTOM: 2,
     PLAIN_HYPHEN_REGEX: /(?:[^\\]-|\u2013)/,
@@ -1784,10 +1784,10 @@ CSL.setupXml = function(xmlObject) {
             parser = new CSL.XmlJSON(xmlObject);
         }
     } else {
-        print("OUCH!");
+        CSL.error("unable to parse XML input");
     }
     if (!parser) {
-        throw "citeproc-js error: unable to parse style or locale object";
+        throw "citeproc-js error: unable to parse CSL style or locale object";
     }
     return parser;
 }
@@ -10280,7 +10280,7 @@ CSL.Node.text = {
                     func = function (state, Item, item) {
                         var gender = state.opt.gender[Item.type];
                         var term = this.strings.term;
-                        term = state.getTerm(term, form, plural, gender, false, this.default_locale);
+                        term = state.getTerm(term, form, plural, gender, CSL.TOLERANT, this.default_locale);
                         var myterm;
                         if (term !== "") {
                             state.tmp.group_context.tip.term_intended = true;
@@ -12197,14 +12197,16 @@ CSL.Transform = function (state) {
                 if (!state.transform.abbrevs[tryList[i]]) {
                     state.transform.abbrevs[tryList[i]] = new state.sys.AbbreviationSegments();
                 }
-                if (!state.transform.abbrevs[tryList[i]][category][orig]) {
-                    state.sys.getAbbreviation(state.opt.styleID, state.transform.abbrevs, tryList[i], category, orig, itemType, true);
-                }
-                if (!found && state.transform.abbrevs[tryList[i]][category][orig]) {
-                    if (i < tryList.length) {
-                        state.transform.abbrevs[jurisdiction][category][orig] = state.transform.abbrevs[tryList[i]][category][orig];
+                if (state.transform.abbrevs[tryList[i]][category]) {
+                    if (!state.transform.abbrevs[tryList[i]][category][orig]) {
+                        state.sys.getAbbreviation(state.opt.styleID, state.transform.abbrevs, tryList[i], category, orig, itemType, true);
                     }
-                    found = true;
+                    if (!found && state.transform.abbrevs[tryList[i]][category][orig]) {
+                        if (i < tryList.length) {
+                            state.transform.abbrevs[jurisdiction][category][orig] = state.transform.abbrevs[tryList[i]][category][orig];
+                        }
+                        found = true;
+                    }
                 }
             }
         }
@@ -13917,11 +13919,13 @@ CSL.Engine.prototype.processNumber = function (node, ItemObject, variable, type)
     }
     if (val && this.sys.getAbbreviation) {
         var jurisdiction = this.transform.loadAbbreviation(ItemObject.jurisdiction, "number", val);
-        if (this.transform.abbrevs[jurisdiction].number[val]) {
-            val = this.transform.abbrevs[jurisdiction].number[val];
-        } else {
-            if ("undefined" !== typeof this.transform.abbrevs[jurisdiction].number[val]) {
-                delete this.transform.abbrevs[jurisdiction].number[val];
+        if (this.transform.abbrevs[jurisdiction].number) {
+            if (this.transform.abbrevs[jurisdiction].number[val]) {
+                val = this.transform.abbrevs[jurisdiction].number[val];
+            } else {
+                if ("undefined" !== typeof this.transform.abbrevs[jurisdiction].number[val]) {
+                    delete this.transform.abbrevs[jurisdiction].number[val];
+                }
             }
         }
     }

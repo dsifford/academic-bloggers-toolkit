@@ -29,8 +29,9 @@
 
 .csl-entry
     &.hanging-indent
-        padding-left: 25px
-        text-indent: -25px
+        .csl-right-inline
+            padding-left: 25px
+            text-indent: -25px
     &.flush
         display: table-row
         .csl-left-margin
@@ -101,8 +102,8 @@ body:not(#tinymce)
             position: relative
             font-size: 30px
             top: 5px
-        &.abt-hidden:before
-            content: '\f139'
+    .abt-bibliography__heading_toggle--closed:before
+        content: '\f139'
 
 // Deprecations
 // @stylint off

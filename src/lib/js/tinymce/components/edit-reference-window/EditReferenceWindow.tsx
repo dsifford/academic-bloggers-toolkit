@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { observable, map, action, reaction } from 'mobx';
+import { observable, action, reaction } from 'mobx';
 import { observer } from 'mobx-react';
 import { People } from '../reference-window/components/People';
 import { MetaFields } from '../reference-window/components/MetaFields';
@@ -20,7 +20,7 @@ export class EditReferenceWindow extends React.Component<{}, {}> {
     people = observable<CSL.TypedPerson>([]);
 
     @observable
-    primitives = map<string>();
+    primitives = observable.map<string>();
 
     @observable
     loading = true;
@@ -35,8 +35,7 @@ export class EditReferenceWindow extends React.Component<{}, {}> {
         reaction(
             () => [this.people.length, this.loading],
             () => this.modal.resize(),
-            false,
-            100
+            { fireImmediately: false, delay: 100 },
         );
     }
 

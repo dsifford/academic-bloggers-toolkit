@@ -141,7 +141,7 @@ describe('<ReferenceList />', () => {
             );
         });
         it('should throw/catch an error at getStyle - default margin to 0 0 28px', async () => {
-            mocks.getStyle.mockImplementationOnce(() => { throw 'error'; });
+            mocks.getStyle.mockImplementationOnce(() => { throw new Error('error'); });
             await instance.insertStaticBibliography();
             expect(mocks.getStyle).toHaveBeenCalled();
             expect(mocks.insertContent).toHaveBeenCalledWith(

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { mount } from 'enzyme';
-import { map, observable } from 'mobx';
+import { observable } from 'mobx';
 import { ManualEntryContainer, AutoCite } from '../ManualEntryContainer';
 
 const setup = (
@@ -10,7 +10,7 @@ const setup = (
     const spy = jest.fn();
     const component = mount((
         <ManualEntryContainer
-            manualData={map([['type', citationType]])}
+            manualData={observable.map<string>([['type', citationType]])}
             people={observable([])}
             autoCite={spy}
             loading={isLoading}

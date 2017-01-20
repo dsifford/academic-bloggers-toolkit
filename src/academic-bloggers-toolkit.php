@@ -4,14 +4,14 @@
  *	Plugin Name: Academic Blogger's Toolkit
  *	Plugin URI: https://wordpress.org/plugins/academic-bloggers-toolkit/
  *	Description: A plugin extending the functionality of Wordpress for academic blogging
- *	Version: 4.9.2
+ *	Version: 4.10.0
  *	Author: Derek P Sifford
  *	Author URI: https://github.com/dsifford
  *	License: GPL3 or later
  *  Text Domain: academic-bloggers-toolkit
  */
 
-define('ABT_VERSION', '4.9.2');
+define('ABT_VERSION', '4.10.0');
 
 /**
  * Load plugin translations
@@ -37,10 +37,10 @@ add_filter('upload_mimes', 'enable_csl_mime');
  * Cleans up options during uninstall
  */
 function abt_uninstall() {
-	delete_option('abt_options');
+    delete_option('abt_options');
 }
 if (function_exists('register_uninstall_hook')) {
-	register_uninstall_hook(__FILE__, 'abt_uninstall');
+    register_uninstall_hook(__FILE__, 'abt_uninstall');
 }
 
 
@@ -71,6 +71,7 @@ function abt_refactor_deprecated_options() {
         'bibliography' => isset($options['display_options']['bibliography']) ? $options['display_options']['bibliography'] : 'fixed',
         'links'        => isset($options['display_options']['links']) ? $options['display_options']['links'] : 'always',
         'bib_heading'  => isset($options['display_options']['bib_heading']) ? $options['display_options']['bib_heading'] : '',
+        'bib_heading_level' => isset($options['display_options']['bib_heading_level']) ? $options['display_options']['bib_heading_level'] : 'h3',
     ];
 
     $newOptions
@@ -88,10 +89,10 @@ add_action('admin_init', 'abt_refactor_deprecated_options');
 function abt_add_options_link($links) {
     $url = admin_url('options-general.php?page=abt-options');
     $text = __('Plugin Settings', 'academic-bloggers-toolkit');
-	$abt_links = [
+    $abt_links = [
         "<a href='$url'>$text</a>",
-	];
-	return array_merge($links, $abt_links);
+    ];
+    return array_merge($links, $abt_links);
 }
 add_filter('plugin_action_links_' . plugin_basename(__FILE__), 'abt_add_options_link');
 
@@ -100,14 +101,14 @@ add_filter('plugin_action_links_' . plugin_basename(__FILE__), 'abt_add_options_
  * Adds donation link to the plugin meta
  */
 function abt_add_donate_link( $plugin_meta, $plugin_file ) {
-	if (plugin_basename( __FILE__ ) == $plugin_file) {
-		$plugin_meta[] = sprintf(
-			'&hearts; <a href="%s">%s</a>',
-			'https://donorbox.org/academic-bloggers-toolkit',
-			__( 'Donate', 'academic-bloggers-toolkit' )
-		);
-	}
-	return $plugin_meta;
+    if (plugin_basename( __FILE__ ) == $plugin_file) {
+        $plugin_meta[] = sprintf(
+            '&hearts; <a href="%s">%s</a>',
+            'https://donorbox.org/academic-bloggers-toolkit',
+            __( 'Donate', 'academic-bloggers-toolkit' )
+        );
+    }
+    return $plugin_meta;
 }
 add_filter('plugin_row_meta', 'abt_add_donate_link', 10, 2);
 
@@ -117,7 +118,7 @@ add_filter('plugin_row_meta', 'abt_add_donate_link', 10, 2);
  */
 function abt_frontend_scripts() {
     wp_enqueue_style('dashicons');
-	wp_enqueue_style('abt_frontend_styles', plugins_url('academic-bloggers-toolkit/lib/css/frontend.css'), ['dashicons'], ABT_VERSION);
+    wp_enqueue_style('abt_frontend_styles', plugins_url('academic-bloggers-toolkit/lib/css/frontend.css'), ['dashicons'], ABT_VERSION);
 
     if (is_singular()) {
         wp_enqueue_script('abt-bundle', plugins_url('academic-bloggers-toolkit/vendor/vendor.bundle.js'), [], ABT_VERSION, true);
