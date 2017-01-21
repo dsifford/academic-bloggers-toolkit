@@ -69,7 +69,7 @@ function resolveDOI(data: {
                 url = `https://data.datacite.org/application/vnd.citationstyles.csl+json/${data.doi}`;
                 break;
             case 'medra':
-                url = `http://data.medra.org/${data.doi}`;
+                url = `https://data.medra.org/${data.doi}`;
                 headers.push(['accept', 'application/vnd.citationstyles.csl+json;q=1.0']);
                 break;
             default:
