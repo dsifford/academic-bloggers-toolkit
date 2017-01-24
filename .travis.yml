@@ -6,7 +6,6 @@ branches:
     only:
         - master
         - /^greenkeeper-.*$/
-        - /^greenkeeper/.*$/
 cache: yarn
 after_success:
     - bash <(curl -s https://codecov.io/bash)

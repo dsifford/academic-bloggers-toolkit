@@ -5,13 +5,12 @@
 [![Build Status](https://travis-ci.org/dsifford/academic-bloggers-toolkit.svg?branch=master)](https://travis-ci.org/dsifford/academic-bloggers-toolkit)
 [![codecov](https://codecov.io/gh/dsifford/academic-bloggers-toolkit/branch/master/graph/badge.svg)](https://codecov.io/gh/dsifford/academic-bloggers-toolkit)
 [![WordPress](https://img.shields.io/wordpress/plugin/dt/academic-bloggers-toolkit.svg?maxAge=2592000)](https://wordpress.org/plugins/academic-bloggers-toolkit/)
-[![WordPress rating](https://img.shields.io/wordpress/plugin/r/academic-bloggers-toolkit.svg?maxAge=2592000)](https://wordpress.org/plugins/academic-bloggers-toolkit/)
+[![WordPress rating](https://img.shields.io/wordpress/plugin/r/academic-bloggers-toolkit.svg?maxAge=2592000)](https://wordpress.org/plugins/academic-bloggers-toolkit/) [![Greenkeeper badge](https://badges.greenkeeper.io/dsifford/academic-bloggers-toolkit.svg)](https://greenkeeper.io/)
 
 An **open source** WordPress plugin providing an all-in-one solution for effective academic blogging.
 
 ## Contents
 
-[![Greenkeeper badge](https://badges.greenkeeper.io/dsifford/academic-bloggers-toolkit.svg)](https://greenkeeper.io/)
 - [Features](#features)
 - [Translations](#translations)
 - [Contributing](#contributing)
