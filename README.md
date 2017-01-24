@@ -10,6 +10,8 @@
 An **open source** WordPress plugin providing an all-in-one solution for effective academic blogging.
 
 ## Contents
+
+[![Greenkeeper badge](https://badges.greenkeeper.io/dsifford/academic-bloggers-toolkit.svg)](https://greenkeeper.io/)
 - [Features](#features)
 - [Translations](#translations)
 - [Contributing](#contributing)
