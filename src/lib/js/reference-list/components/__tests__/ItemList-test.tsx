@@ -1,11 +1,11 @@
 jest.mock('../../../utils/TinymceFunctions');
 jest.mock('../../API');
-import * as React from 'react';
-import { observable } from 'mobx';
 import { mount } from 'enzyme';
-import { ItemList } from '../ItemList';
+import { observable } from 'mobx';
+import * as React from 'react';
 import { editReferenceWindow } from '../../../utils/TinymceFunctions';
 import { parseManualData } from '../../API';
+import { ItemList } from '../ItemList';
 
 const ERW = editReferenceWindow as jest.Mock<any>;
 const PMD = parseManualData as jest.Mock<any>;

@@ -1,4 +1,4 @@
-import { TeXParser, parsePeople } from '../TeXParser';
+import { parsePeople, TeXParser } from '../TeXParser';
 
 describe('parsePeople()', () => {
     it('Last, First MI', () => {

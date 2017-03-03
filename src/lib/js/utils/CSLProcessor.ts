@@ -1,7 +1,7 @@
+import { toJS } from 'mobx';
+import { Store } from '../reference-list/Store';
 import { localeMapper } from './Constants';
 import { formatBibliography } from './formatters/';
-import { Store } from '../reference-list/Store';
-import { toJS } from 'mobx';
 
 declare const ABT_Custom_CSL: BackendGlobals.ABT_Custom_CSL;
 declare const ABT_wp: BackendGlobals.ABT_wp;

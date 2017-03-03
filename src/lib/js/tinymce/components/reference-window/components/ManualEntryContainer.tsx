@@ -1,11 +1,11 @@
-import * as React from 'react';
-import { observable, ObservableMap, action, IObservableArray } from 'mobx';
+import { action, IObservableArray, observable, ObservableMap } from 'mobx';
 import { observer } from 'mobx-react';
+import * as React from 'react';
 import { preventScrollPropagation } from '../../../../utils/helpers/';
 
-import { People } from './People';
-import { MetaFields } from './MetaFields';
 import { Spinner } from '../../../../components/Spinner';
+import { MetaFields } from './MetaFields';
+import { People } from './People';
 
 interface ManualEntryProps {
     loading: boolean;

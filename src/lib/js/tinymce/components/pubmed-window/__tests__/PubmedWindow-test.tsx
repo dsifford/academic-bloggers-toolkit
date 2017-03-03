@@ -2,10 +2,10 @@ jest.mock('../../../../utils/Modal');
 jest.mock('../../../../utils/resolvers/');
 jest.mock('../ResultList');
 
-import * as React from 'react';
 import { mount } from 'enzyme';
-import { PubmedWindow} from '../PubmedWindow';
+import * as React from 'react';
 import { pubmedQuery } from '../../../../utils/resolvers/';
+import { PubmedWindow} from '../PubmedWindow';
 
 window['tinyMCE'] = {
     activeEditor: {

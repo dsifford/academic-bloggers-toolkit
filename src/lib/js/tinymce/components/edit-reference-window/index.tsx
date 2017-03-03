@@ -1,7 +1,7 @@
 import 'babel-polyfill';
+import { useStrict } from 'mobx';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import { useStrict } from 'mobx';
 import { EditReferenceWindow } from './EditReferenceWindow';
 
 useStrict(true);

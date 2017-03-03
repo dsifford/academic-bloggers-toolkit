@@ -1,6 +1,6 @@
-import * as React from 'react';
-import { observable, IObservableArray } from 'mobx';
 import { mount } from 'enzyme';
+import { IObservableArray, observable } from 'mobx';
+import * as React from 'react';
 import { People } from '../People';
 
 const peopleStore: IObservableArray<CSL.TypedPerson> = observable([]);

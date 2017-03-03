@@ -1,5 +1,5 @@
-import * as React from 'react';
 import { mount } from 'enzyme';
+import * as React from 'react';
 import { ButtonRow } from '../ButtonRow';
 const before = beforeAll;
 

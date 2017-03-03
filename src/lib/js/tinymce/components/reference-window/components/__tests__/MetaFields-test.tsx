@@ -1,6 +1,6 @@
-import * as React from 'react';
-import { observable } from 'mobx';
 import { mount } from 'enzyme';
+import { observable } from 'mobx';
+import * as React from 'react';
 import { MetaFields } from '../MetaFields';
 
 const setup = (

@@ -1,7 +1,7 @@
 jest.mock('../../../../utils/Modal');
 
-import * as React from 'react';
 import { mount } from 'enzyme';
+import * as React from 'react';
 import { RISParser } from '../../../../utils/parsers/';
 import { ImportWindow } from '../ImportWindow';
 

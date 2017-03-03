@@ -1,7 +1,7 @@
-import * as React from 'react';
 import { mount } from 'enzyme';
 import { observable } from 'mobx';
-import { ManualEntryContainer, AutoCite } from '../ManualEntryContainer';
+import * as React from 'react';
+import { AutoCite, ManualEntryContainer } from '../ManualEntryContainer';
 
 const setup = (
     citationType: CSL.CitationType = 'article-journal',

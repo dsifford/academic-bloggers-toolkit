@@ -1,6 +1,6 @@
-import * as React from 'react';
 import { action, IObservableArray } from 'mobx';
 import { observer } from 'mobx-react';
+import * as React from 'react';
 
 interface PeopleProps {
     people: IObservableArray<CSL.TypedPerson>;

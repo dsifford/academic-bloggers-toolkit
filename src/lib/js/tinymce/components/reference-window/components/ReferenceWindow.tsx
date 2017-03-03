@@ -1,16 +1,16 @@
-import * as React from 'react';
-import { Modal } from '../../../../utils/Modal';
-import { observable, computed, reaction, action, toJS } from 'mobx';
+import { action, computed, observable, reaction, toJS } from 'mobx';
 import { observer } from 'mobx-react';
-import { getFromURL, getFromISBN } from '../../../../utils/resolvers/';
+import * as React from 'react';
 import DevTools, { configureDevtool } from '../../../../utils/DevTools';
+import { Modal } from '../../../../utils/Modal';
+import { getFromISBN, getFromURL } from '../../../../utils/resolvers/';
 
 const DevTool = DevTools();
 configureDevtool({ logFilter: change => change.type === 'action' });
 
+import { ButtonRow } from './ButtonRow';
 import { IdentifierInput } from './IdentifierInput';
 import { ManualEntryContainer } from './ManualEntryContainer';
-import { ButtonRow } from './ButtonRow';
 
 @observer
 export class ReferenceWindow extends React.Component<{}, {}> {

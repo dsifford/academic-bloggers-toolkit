@@ -1,11 +1,11 @@
-import * as React from 'react';
-import { observable, action, reaction } from 'mobx';
+import { action, observable, reaction } from 'mobx';
 import { observer } from 'mobx-react';
-import { People } from '../reference-window/components/People';
-import { MetaFields } from '../reference-window/components/MetaFields';
-import { Modal } from '../../../utils/Modal';
-import { PERSON_TYPE_KEYS, DATE_TYPE_KEYS } from '../../../utils/Constants';
+import * as React from 'react';
+import { DATE_TYPE_KEYS, PERSON_TYPE_KEYS } from '../../../utils/Constants';
 import DevTools from '../../../utils/DevTools';
+import { Modal } from '../../../utils/Modal';
+import { MetaFields } from '../reference-window/components/MetaFields';
+import { People } from '../reference-window/components/People';
 
 const DevTool = DevTools();
 

@@ -1,6 +1,6 @@
-import * as React from 'react';
-import { ObservableMap, action } from 'mobx';
+import { action, ObservableMap } from 'mobx';
 import { observer } from 'mobx-react';
+import * as React from 'react';
 
 interface MetaFieldProps {
     meta: ObservableMap<string>;

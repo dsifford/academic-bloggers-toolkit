@@ -1,16 +1,16 @@
-import * as React from 'react';
-import { observable, IObservableArray, reaction, action } from 'mobx';
+import { action, IObservableArray, observable, reaction } from 'mobx';
 import { observer } from 'mobx-react';
+import * as React from 'react';
+import { Spinner } from '../../components/Spinner';
 import { EVENTS } from '../../utils/Constants';
-import * as MCE from '../../utils/TinymceFunctions';
 import { CSLProcessor } from '../../utils/CSLProcessor';
-import { getRemoteData, parseManualData } from '../API';
 import DevTools, { configureDevtool } from '../../utils/DevTools';
+import * as MCE from '../../utils/TinymceFunctions';
+import { getRemoteData, parseManualData } from '../API';
 import { Store } from '../Store';
+import { ItemList } from './ItemList';
 import { Menu } from './Menu';
 import { PanelButton } from './PanelButton';
-import { ItemList } from './ItemList';
-import { Spinner } from '../../components/Spinner';
 
 const DevTool = DevTools();
 configureDevtool({ logFilter: change => change.type === 'action' });

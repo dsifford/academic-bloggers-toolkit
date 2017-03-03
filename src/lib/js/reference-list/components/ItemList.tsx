@@ -1,11 +1,11 @@
-import * as React from 'react';
-import { Card } from './Card';
-import { toJS, ObservableMap, action } from 'mobx';
+import { action, ObservableMap, toJS } from 'mobx';
 import { observer } from 'mobx-react';
+import * as React from 'react';
+import { EVENTS } from '../../utils/Constants';
+import { preventScrollPropagation } from '../../utils/helpers/';
 import { editReferenceWindow } from '../../utils/TinymceFunctions';
 import { parseManualData } from '../API';
-import { preventScrollPropagation } from '../../utils/helpers/';
-import { EVENTS } from '../../utils/Constants';
+import { Card } from './Card';
 
 declare const tinyMCE: TinyMCE.MCE;
 

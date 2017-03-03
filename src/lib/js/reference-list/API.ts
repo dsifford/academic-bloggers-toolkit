@@ -1,6 +1,6 @@
-import { getFromDOI, getFromPubmed } from '../utils/resolvers/';
 import { generateID } from '../utils/helpers/';
 import { parseCSLDate } from '../utils/parsers/';
+import { getFromDOI, getFromPubmed } from '../utils/resolvers/';
 
 export function getRemoteData(identifierList: string, mce: TinyMCE.WindowManager): Promise<CSL.Data[]> {
     return new Promise(resolve => {

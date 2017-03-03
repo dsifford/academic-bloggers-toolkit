@@ -1,6 +1,6 @@
 jest.mock('../../../../utils/Modal');
-import * as React from 'react';
 import { mount } from 'enzyme';
+import * as React from 'react';
 import { EditReferenceWindow } from '../EditReferenceWindow';
 
 describe('<EditReferenceWindow />', () => {

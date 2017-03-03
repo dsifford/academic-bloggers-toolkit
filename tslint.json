@@ -1,11 +1,8 @@
 {
     "extends": ["tslint:latest", "tslint-react"],
-    "rulesDirectory": [
-        "./node_modules/tslint/lib/rules"
-    ],
     "rules": {
         "curly": false,
-        "interface-name": false,
+        "interface-name": [false],
         "member-access": false,
         "no-for-in-array": false,
         "no-require-imports": false,
@@ -14,17 +11,15 @@
         "no-angle-bracket-type-assertion": false,
         "space-before-function-paren": false,
         "no-var-requires": false,
-        "ordered-imports": false,
-        // temporarely trurned off due to https://github.com/palantir/tslint/issues/1918
+        "ordered-imports": [ true ],
         "object-literal-key-quotes": [true, "as-needed"],
-        "object-literal-key-quotes": false,
         "restrict-plus-operands": false,
         "jsx-no-multiline-js": false,
         "jsx-curly-spacing": false,
         "trailing-comma": [false, {"multiline": "always", "singleline": "never"}],
         "array-type": [true, "array"],
         "arrow-parens": false,
-        "max-classes-per-file": false,
+        "max-classes-per-file": [false],
         "one-line": [false,
             "check-open-brace",
             "check-whitespace"

@@ -1,10 +1,10 @@
 jest.mock('../../../../../utils/Modal');
 jest.mock('../../../../../utils/resolvers/');
 
-import * as React from 'react';
 import { mount } from 'enzyme';
+import * as React from 'react';
+import { getFromISBN, getFromURL } from '../../../../../utils/resolvers/';
 import { ReferenceWindow } from '../ReferenceWindow';
-import { getFromURL, getFromISBN } from '../../../../../utils/resolvers/';
 
 const setup = () => {
     const component = mount(

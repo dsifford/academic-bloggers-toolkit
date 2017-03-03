@@ -1,5 +1,5 @@
-import { parseCSLName, parseCSLDate } from './';
 import { localeMapper } from '../Constants';
+import { parseCSLDate, parseCSLName } from './';
 
 /**
  * Takes the raw response from pubmed and processes it into CSL.

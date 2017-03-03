@@ -1,8 +1,8 @@
-import * as React from 'react';
-import { TransitionMotion, spring } from 'react-motion';
-import VSelect from 'react-virtualized-select';
-import { observable, action } from 'mobx';
+import { action, observable } from 'mobx';
 import { observer } from 'mobx-react';
+import * as React from 'react';
+import { spring, TransitionMotion } from 'react-motion';
+import VSelect from 'react-virtualized-select';
 import { PanelButton } from './PanelButton';
 
 declare const ABT_Custom_CSL: BackendGlobals.ABT_Custom_CSL;

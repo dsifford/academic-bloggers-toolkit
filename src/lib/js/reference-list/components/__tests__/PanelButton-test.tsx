@@ -1,5 +1,5 @@
-import * as React from 'react';
 import { mount } from 'enzyme';
+import * as React from 'react';
 import { PanelButton } from '../PanelButton';
 
 const setup = (tooltip = 'test', disabled = false) => {

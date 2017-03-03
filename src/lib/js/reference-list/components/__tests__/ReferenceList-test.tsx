@@ -2,13 +2,13 @@ jest.mock('../../../utils/CSLProcessor');
 jest.mock('../../../utils/TinymceFunctions');
 jest.mock('../../API');
 
-import * as React from 'react';
 import { mount } from 'enzyme';
-import { ReferenceList } from '../ReferenceList';
-import { Store } from '../../Store';
-import * as MCE from '../../../utils/TinymceFunctions';
+import * as React from 'react';
 import { CSLProcessor } from '../../../utils/CSLProcessor';
+import * as MCE from '../../../utils/TinymceFunctions';
 import * as API from '../../API';
+import { Store } from '../../Store';
+import { ReferenceList } from '../ReferenceList';
 const reflistState = require('../../../../../../scripts/fixtures').reflistState;
 
 window['Rollbar'] = { error: jest.fn() };

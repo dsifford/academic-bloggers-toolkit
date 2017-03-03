@@ -1,11 +1,11 @@
 import {
+    action,
     computed,
     intercept,
     IObservableArray,
     observable,
     ObservableMap,
     toJS,
-    action,
 } from 'mobx';
 import { localeMapper as locales } from '../utils/Constants';
 
