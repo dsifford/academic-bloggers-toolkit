@@ -3,13 +3,13 @@
 declare namespace TinyMCE {
 
     interface MCE {
-        DOM: Object;
+        DOM: object;
         EditorManager;
         PluginManager: PluginManager;
         EditorObservable;
         Env;
         WindowManager;
-        dom: Object;
+        dom: object;
         editors: Editor[];
         activeEditor: Editor;
         add(editor: Editor): Editor;
@@ -18,44 +18,44 @@ declare namespace TinyMCE {
 
     interface Editor {
         id: string;
-        buttons: Object;
+        buttons: object;
         container: HTMLDivElement;
         contentDocument: HTMLDocument;
         contentWindow: Window;
-        controlManager: Object;
+        controlManager: object;
         dom: {
-            create<T extends HTMLElement>(tag: string, attrs: { [attr: string]: string}, children?: string): T;
             doc: Document;
+            create<T extends HTMLElement>(tag: string, attrs: { [attr: string]: string}, children?: string): T;
             getStyle(element: HTMLElement, name: string, computed: boolean): string;
         };
         selection: {
             bookmarkManager: {
-                getBookmark(type?: number, normalized?: boolean): Object; // tslint:disable-line
-                moveToBookmark(bookmark: Object): boolean
+                getBookmark(type?: number, normalized?: boolean): object; // tslint:disable-line
+                moveToBookmark(bookmark: object): boolean
             }
             collapse(toStart: boolean): void;
-            getBookmark(type?: number, normalized?: boolean): Object; // tslint:disable-line
+            getBookmark(type?: number, normalized?: boolean): object; // tslint:disable-line
             getNode(): Node;
             getContent(args: { format: 'html'|'text' }): string;
             setContent(content: string, args?: { format: string }): string
-            moveToBookmark(bookmark: Object): boolean;
+            moveToBookmark(bookmark: object): boolean;
             select(el: HTMLElement, content: boolean);
             setCursorLocation(a): void;
         };
         settings: {
             params;
         };
-        target: Object;
+        target: object;
         windowManager: WindowManager;
-        wp: Object;
-        addButton(buttonID: string, buttonObj: Object): void;
-        addShortcut(keys: string, title: string, func: Function): void;
+        wp: object;
+        addButton(buttonID: string, buttonObj: object): void;
+        addShortcut(keys: string, title: string, func: () => void): void;
         getBody(): HTMLBodyElement;
         getDoc(): HTMLDocument;
         getContent(): string;
-        setContent(content: string, args?: Object): string;
+        setContent(content: string, args?: object): string;
         insertContent(content: string): void;
-        on(eventString: string, callback: Function): void;
+        on(eventString: string, callback: () => void): void;
         /** true = loading; false = not loading */
         setProgressState(state: boolean): void;
     }
@@ -65,12 +65,12 @@ declare namespace TinyMCE {
     }
 
     interface WindowManager {
-        data?: Object;
+        data?: object;
         editor?: Editor;
         windows?;
-        alert?(message: string, callback?: Function, scope?: Object): void;
+        alert?(message: string, callback?: () => void, scope?: object): void;
         close?(): void;
-        confirm?(message: string, callback?: Function, scope?: Object): void;
+        confirm?(message: string, callback?: () => void, scope?: object): void;
         onClose?(e): void;
         onOpen?(e): void;
         open?(window: WindowMangerObject): void;
@@ -79,7 +79,7 @@ declare namespace TinyMCE {
     }
 
     interface PluginManager {
-        add(pluginName: string, callback: Function);
+        add(pluginName: string, callback: () => void);
     }
 
     interface MenuItem {
@@ -105,8 +105,8 @@ declare namespace TinyMCE {
         height?: number;
         body?: WindowElement[];
         url?: string;
-        buttons?: Object;
-        params?: Object;
+        buttons?: object;
+        params?: object;
         onclose?(e);
         onsubmit?(e);
     }

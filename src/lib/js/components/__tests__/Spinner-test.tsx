@@ -8,7 +8,7 @@ interface SpinnerProps {
     /* Set background color of container */
     bgColor?: string;
     /* If not in a containing element, this is minimum height */
-    height?: string|Function;
+    height?: string | number | (() => string | number);
     /* Add this for a background overlay */
     overlay?: boolean;
 }

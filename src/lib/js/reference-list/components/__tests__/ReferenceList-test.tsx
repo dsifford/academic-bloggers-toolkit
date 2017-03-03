@@ -61,6 +61,9 @@ const setupDimentions = (scrollTop = 0, childHeights = [100, 100, 100]) => {
     const cited1 = document.getElementById('cited1') as any;
     const cited2 = document.getElementById('cited2') as any;
     const uncited1 = document.getElementById('uncited1') as any;
+    Object.defineProperty(uncited1, 'clientHeight', { writable: true });
+    Object.defineProperty(cited1, 'clientHeight', { writable: true });
+    Object.defineProperty(cited2, 'clientHeight', { writable: true });
     cited1.clientHeight = childHeights[0];
     cited2.clientHeight = childHeights[1];
     uncited1.clientHeight = childHeights[2];

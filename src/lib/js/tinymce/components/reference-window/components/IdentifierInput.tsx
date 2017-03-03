@@ -3,7 +3,7 @@ import { observer } from 'mobx-react';
 
 interface Props {
     identifierList: string;
-    change: Function;
+    change: (p?: any) => void;
 }
 
 @observer

@@ -186,9 +186,9 @@ export class Menu extends React.PureComponent<Props, {}> {
 
 interface RendererParams {
     focusedOption: any;
-    focusOption: Function;
+    focusOption: (p?: any) => void;
     option: any;
-    selectValue: Function;
+    selectValue: (p?: any) => void;
     key?: string;
     style: any;
 }
