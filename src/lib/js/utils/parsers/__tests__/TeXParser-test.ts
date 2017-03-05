@@ -8,10 +8,14 @@ describe('parsePeople()', () => {
             ['Smith', 'Bob D.'],
             ['de Camp', 'Catherine C.'],
         ];
-        for (const [k, p] of people.entries()) {
-            expect(p.family).toEqual(expected[k][0]);
-            expect(p.given).toEqual(expected[k][1]);
-        }
+        expected.forEach((e, i) => {
+            expect(people[i].family).toEqual(e[0]);
+            expect(people[i].given).toEqual(e[1]);
+        });
+        // for (const [k, p] of people.entries()) {
+        //     expect(p.family).toEqual(expected[k][0]);
+        //     expect(p.given).toEqual(expected[k][1]);
+        // }
     });
     it('First Middle Last', () => {
         const people = parsePeople('Kim Stanley Robinson and Raymond Edward Carrington and James von Issac and Jean de La Fontaine'); // tslint:disable-line
@@ -21,10 +25,14 @@ describe('parsePeople()', () => {
             ['von Issac', 'James'],
             ['de La Fontaine', 'Jean'],
         ];
-        for (const [k, p] of people.entries()) {
-            expect(p.family).toEqual(expected[k][0]);
-            expect(p.given).toEqual(expected[k][1]);
-        }
+        expected.forEach((e, i) => {
+            expect(people[i].family).toEqual(e[0]);
+            expect(people[i].given).toEqual(e[1]);
+        });
+        // for (const [k, p] of people.entries()) {
+        //     expect(p.family).toEqual(expected[k][0]);
+        //     expect(p.given).toEqual(expected[k][1]);
+        // }
     });
     it('should handle a mixture', () => {
         const people = parsePeople('Lacroix, Jacques and Hébert, Paul C. and Fergusson, Dean A. and Tinmouth, Alan and Cook, Deborah J. and Marshall, John C. and Clayton, Lucy and McIntyre, Lauralyn and Callum, Jeannie and Turgeon, Alexis F. and Blajchman, Morris A. and Walsh, Timothy S. and Stanworth, Simon J. and Campbell, Helen and Capellier, Gilles and Tiberghien, Pierre and Bardiaux, Laurent and van de Watering, Leo and van der Meer, Nardo J. and Sabri, Elham and Vo, Dong and {ABLE Investigators and the Canadian Critical Care Trials Group}'); // tslint:disable-line
@@ -52,14 +60,14 @@ describe('parsePeople()', () => {
             ['Vo', 'Dong'],
             ['ABLE Investigators and the Canadian Critical Care Trials Group'],
         ];
-        for (const [k, p] of people.entries()) {
-            if (k === expected.length - 1) {
-                expect(p.literal).toEqual(expected[k][0]);
-                continue;
+        expected.forEach((e, i) => {
+            if (i === expected.length - 1) {
+                expect(people[i].literal).toEqual(e[0]);
+                return;
             }
-            expect(p.family).toEqual(expected[k][0]);
-            expect(p.given).toEqual(expected[k][1]);
-        }
+            expect(people[i].family).toEqual(e[0]);
+            expect(people[i].given).toEqual(e[1]);
+        });
     });
 });
 
@@ -201,9 +209,9 @@ describe('TeXParser', () => {
             '5',
         ];
         const parsed = new TeXParser(bib).parse();
-        for (const [k, v] of parsed.entries()) {
-            expect(v.page).toEqual(expected[k]);
-        }
+        expected.forEach((e, i) => {
+            expect(parsed[i].page).toEqual(e);
+        });
     });
     it('should parse citation types correctly', () => {
         const bib = `
@@ -237,9 +245,9 @@ describe('TeXParser', () => {
             'article',
         ];
         const parsed = new TeXParser(bib).parse();
-        for (const [k, v] of parsed.entries()) {
-            expect(v.type).toEqual(expected[k]);
-        }
+        expected.forEach((e, i) => {
+            expect(parsed[i].type).toEqual(e);
+        });
     });
     it('should parse a simple collection of authors/editors', () => {
         const bib = `
@@ -253,13 +261,13 @@ describe('TeXParser', () => {
             ['Doe', 'John'],
             ['Smith', 'Bob D.'],
         ];
-        for (const [k, person] of parsed.author.entries()) {
-            expect(person.family).toEqual(expected[k][0]);
-            expect(person.given).toEqual(expected[k][1]);
-        }
-        for (const [k, person] of parsed.editor.entries()) {
-            expect(person.family).toEqual(expected[k][0]);
-            expect(person.given).toEqual(expected[k][1]);
-        }
+        expected.forEach((e, i) => {
+            expect(parsed.author[i].family).toEqual(e[0]);
+            expect(parsed.author[i].given).toEqual(e[1]);
+        });
+        expected.forEach((e, i) => {
+            expect(parsed.editor[i].family).toEqual(e[0]);
+            expect(parsed.editor[i].given).toEqual(e[1]);
+        });
     });
 });

@@ -172,6 +172,7 @@ export function parsePeople(raw: string): CSL.Person[] {
     for (const person of people) {
         let family = '';
         let given = '';
+        let i = 0;
         if (person[0] === '{' && person[person.length - 1] === '}') {
             payload.push({
                 literal: person.substring(1, person.length - 1),
@@ -181,31 +182,37 @@ export function parsePeople(raw: string): CSL.Person[] {
         let nameparts = person.split(', ');
         if (nameparts.length === 1) {
             nameparts = person.split(' ');
-            for (const [i, part] of nameparts.entries()) {
+            for (const part of nameparts) {
                 if (i === (nameparts.length - 1)) {
                     family += part;
+                    i = 0;
                     break;
                 }
                 if (i === 0) {
                     given += `${part}`;
+                    i++;
                     continue;
                 }
                 if (part[0] === part[0].toLowerCase() || nameparts[i - 1][0] === nameparts[i - 1][0].toLowerCase()) {
                     family += `${part} `;
+                    i++;
                     continue;
                 }
                 given += ` ${part[0]}.`;
+                i++;
             }
         }
         else if (nameparts.length === 2){
             family = nameparts[0];
             const givenBlock = nameparts[1].split(' ');
-            for (const [i, part] of givenBlock.entries()) {
+            for (const part of givenBlock) {
                 if (i === 0) {
                     given += part;
+                    i++;
                     continue;
                 }
                 given += ` ${part[0]}.`;
+                i++;
             }
         }
         payload.push({

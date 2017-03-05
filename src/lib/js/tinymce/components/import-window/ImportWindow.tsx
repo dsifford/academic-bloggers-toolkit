@@ -24,8 +24,7 @@ export class ImportWindow extends React.Component<Props, {}> {
     @observable
     filename = '';
 
-    @observable
-    payload = observable([]);
+    payload = observable<CSL.Data>([]);
 
     @action
     setFilename = (filename: string) => this.filename = filename;

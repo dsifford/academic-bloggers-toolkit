@@ -49,23 +49,24 @@
     "gulp-stylus": "^2.5.0",
     "gulp-uglify": "^2.0.0",
     "gulp-wp-pot": "^2.0.3",
-    "jest": "^18.1.0",
+    "jest": "^19.0.2",
     "merge-stream": "^1.0.1",
     "mobx-react-devtools": "^4.2.11",
     "react-addons-test-utils": "^15.4.2",
     "style-loader": "^0.13.1",
     "stylint": "^1.5.9",
+    "ts-jest": "^19.0.0",
     "ts-loader": "^2.0.0",
     "tslint": "^4.3.1",
     "tslint-microsoft-contrib": "^4.0.0",
     "tslint-react": "^2.3.0",
-    "webpack": "beta",
+    "webpack": "^2.2.1",
     "webpack-bundle-analyzer": "^2.2.1",
     "webpack-stream": "^3.2.0"
   },
   "dependencies": {
     "@types/enzyme": "^2.7.1",
-    "@types/jest": "^16.0.4",
+    "@types/jest": "^18.1.1",
     "@types/node": "^7.0.0",
     "@types/react": "^15.0.1",
     "@types/react-dom": "^0.14.20",
@@ -82,14 +83,14 @@
   },
   "jest": {
     "transform": {
-      ".*": "./scripts/jestPreprocessor.js"
+      ".(ts|tsx)": "<rootDir>/node_modules/ts-jest/preprocessor.js"
     },
-    "testRegex": "(/__tests__/.*\\.(ts|tsx|js))$",
+    "testResultsProcessor": "<rootDir>/node_modules/ts-jest/coverageprocessor.js",
+    "testRegex": "(/__tests__/.*|\\.(test|spec))\\.(ts|tsx|js)$",
     "moduleFileExtensions": [
-      "js",
       "ts",
       "tsx",
-      "json"
+      "js"
     ],
     "verbose": true,
     "collectCoverageFrom": [

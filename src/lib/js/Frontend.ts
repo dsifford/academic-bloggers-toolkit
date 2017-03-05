@@ -15,7 +15,7 @@ class Citations {
             ? document.getElementById('abt-bibliography__container')
             : this.bibliography;
 
-        [...citationList].forEach(citation => {
+        Array.from(citationList).forEach(citation => {
             const reflist: string[] = JSON.parse(citation.getAttribute('data-reflist'));
             citation.setAttribute(
                 'data-citations',
@@ -115,7 +115,7 @@ class Citations {
             container = document.createElement('div');
             container.id = 'abt-bibliography__container';
             this.bibliography.appendChild(container);
-            for (const el of citations) {
+            for (const el of Array.from(citations)) {
                 container.appendChild(el);
             }
         }

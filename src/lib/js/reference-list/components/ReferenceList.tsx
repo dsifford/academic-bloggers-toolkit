@@ -392,7 +392,7 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
                 return;
             case 'REFRESH_PROCESSOR':
                 const citations = this.editor.dom.doc.querySelectorAll('.abt-citation, .abt_cite');
-                const IDs = [...citations].map(c => c.id);
+                const IDs = Array.from(citations).map(c => c.id);
                 this.props.store.citations.pruneOrphanedCitations(IDs);
                 this.initProcessor();
                 return;
