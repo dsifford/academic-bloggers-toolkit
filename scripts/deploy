@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 [ ! "$1" ] && echo 'the first argument of this script must be the version number' && exit 1
 [[ ! "$1" =~ ^[0-9]{1,4}\.[0-9]{1,4}\.[0-9]{1,4}$ ]] && echo 'the first argument must be a valid semver number' && exit 1

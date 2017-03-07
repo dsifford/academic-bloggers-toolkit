@@ -23,8 +23,8 @@ add_action('plugins_loaded', 'abt_load_plugin_textdomain');
 
 /**
  * Adds .csl files to the accepted mime types for WordPress
- * @param  [array] $mimes Existing mime types
- * @return [array]        Existing mime types + csl
+ * @param  string[] $mimes Existing mime types
+ * @return string[]        Existing mime types + csl
  */
 function enable_csl_mime($mimes) {
     $mimes['csl'] = 'text/xml';
@@ -84,7 +84,7 @@ add_action('admin_init', 'abt_refactor_deprecated_options');
 
 /**
  * Adds link on the plugin page to the options page.
- * @param [array] $links Array of links
+ * @param string[] $links Array of links
  */
 function abt_add_options_link($links) {
     $url = admin_url('options-general.php?page=abt-options');

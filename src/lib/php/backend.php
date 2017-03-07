@@ -42,8 +42,8 @@ class ABT_Backend {
      *   array containing the XML, label, and value. If not, returns an array
      *   containing only the key 'value' with the value of null.
      *
-     * @param  [string] $path Path to CSL XML file.
-     * @return [array]        Array as described above.
+     * @param  string  $path Path to CSL XML file.
+     * @return mixed[]       Array as described above.
      */
     private function get_user_defined_csl($path) {
         if (!file_exists($path)) return [ 'value' => null ];

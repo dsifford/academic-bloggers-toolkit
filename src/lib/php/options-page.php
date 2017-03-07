@@ -30,8 +30,8 @@ class ABT_Options  {
      *
      * If the sanitation fails, a dismissable notice is sent to the user.
      *
-     * @param  [string] $url Unsanitized URL submitted with the form.
-     * @return [string]      Sanitized PATH to the CSL file.
+     * @param  string  $url Unsanitized URL submitted with the form.
+     * @return string       Sanitized PATH to the CSL file.
      */
     private function check_custom_style_url($url) {
         if (file_exists($url) && substr($url, -4) === '.csl' || $url === '') {
