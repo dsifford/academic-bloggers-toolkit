@@ -65,7 +65,7 @@
   },
   "dependencies": {
     "@types/enzyme": "^2.7.1",
-    "@types/jest": "^16.0.4",
+    "@types/jest": "^19.2.0",
     "@types/node": "^7.0.0",
     "@types/react": "^15.0.1",
     "@types/react-dom": "^0.14.20",
