@@ -68,7 +68,7 @@
     "@types/jest": "^16.0.4",
     "@types/node": "^7.0.0",
     "@types/react": "^15.0.1",
-    "@types/react-dom": "^0.14.20",
+    "@types/react-dom": "^15.5.0",
     "@types/react-motion": "^0.0.21",
     "bibtex-parse-js": "^0.0.23",
     "mobx": "^3.0.2",
