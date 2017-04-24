@@ -58,7 +58,7 @@
     "ts-loader": "^2.0.0",
     "tslint": "^4.3.1",
     "tslint-microsoft-contrib": "^4.0.0",
-    "tslint-react": "^2.3.0",
+    "tslint-react": "^3.0.0",
     "webpack": "beta",
     "webpack-bundle-analyzer": "^2.2.1",
     "webpack-stream": "^3.2.0"
