@@ -30,7 +30,7 @@
   },
   "homepage": "https://github.com/dsifford/academic-bloggers-toolkit#readme",
   "devDependencies": {
-    "autoprefixer-stylus": "^0.13.0",
+    "autoprefixer-stylus": "^0.14.0",
     "babel-core": "^6.22.1",
     "babel-loader": "^6.2.10",
     "babel-polyfill": "^6.22.0",
