@@ -44,7 +44,7 @@
     "eslint-config-airbnb-base": "^11.0.1",
     "eslint-plugin-import": "^2.2.0",
     "gulp": "gulpjs/gulp#4.0",
-    "gulp-replace": "^0.5.4",
+    "gulp-replace": "^0.6.0",
     "gulp-sort": "^2.0.0",
     "gulp-stylus": "^2.5.0",
     "gulp-uglify": "^2.0.0",
