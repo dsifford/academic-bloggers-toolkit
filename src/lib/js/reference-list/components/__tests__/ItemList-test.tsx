@@ -42,6 +42,7 @@ describe('<ItemList />', () => {
     beforeAll(() => {
         window.tinyMCE = {
             EditorManager: {
+                // tslint:disable-next-line
                 get() {
                     return null;
                 },
@@ -82,12 +83,7 @@ describe('<ItemList />', () => {
         card.simulate('doubleClick');
     });
     it('should handle errors on submit', () => {
-        ERW.mockImplementation(
-            () =>
-                new Promise((_, __) => {
-                    throw new Error('Some unhandled error');
-                })
-        );
+        ERW.mockImplementation(() => Promise.reject('Some unhandled error'));
         const { component } = setup();
         const card = component.find('Card').first();
         card.simulate('doubleClick');

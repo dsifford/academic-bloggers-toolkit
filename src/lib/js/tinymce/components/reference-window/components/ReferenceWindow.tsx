@@ -29,7 +29,7 @@ export class ReferenceWindow extends React.Component<{}, {}> {
 
     @observable
     people = observable<CSL.TypedPerson>([
-        { family: '', given: '', type: 'author' } as CSL.TypedPerson,
+        { family: '', given: '', type: 'author' },
     ]);
 
     @computed
@@ -74,14 +74,11 @@ export class ReferenceWindow extends React.Component<{}, {}> {
                     title: meta.webpage.content_title,
                 });
                 this.people.replace(
-                    meta.webpage.authors.map(
-                        a =>
-                            ({
-                                family: a.lastname || '',
-                                given: a.firstname || '',
-                                type: 'author',
-                            } as CSL.TypedPerson)
-                    )
+                    meta.webpage.authors.map(a => ({
+                        family: a.lastname || '',
+                        given: a.firstname || '',
+                        type: 'author',
+                    }))
                 );
                 break;
             case 'book':
@@ -130,9 +127,7 @@ export class ReferenceWindow extends React.Component<{}, {}> {
     @action
     toggleAddManual = () => {
         this.addManually = !this.addManually;
-        this.people.replace([
-            { family: '', given: '', type: 'author' } as CSL.TypedPerson,
-        ]);
+        this.people.replace([{ family: '', given: '', type: 'author' }]);
         this.changeType('webpage');
     };
 

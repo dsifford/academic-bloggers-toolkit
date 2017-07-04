@@ -32,7 +32,7 @@ import { parseCSLDate, parseCSLName } from './';
  */
 export function parsePubmedJSON(
     kind: 'PMID' | 'PMCID',
-    res: (PubMed.DataPMID | PubMed.DataPMCID)[]
+    res: Array<PubMed.DataPMID | PubMed.DataPMCID>
 ): CSL.Data[] {
     const payload: CSL.Data[] = [];
 

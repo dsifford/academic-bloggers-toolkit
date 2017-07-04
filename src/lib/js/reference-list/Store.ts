@@ -134,7 +134,7 @@ class CitationStore {
             data.reduce((prev, curr) => {
                 prev[curr.id] = curr;
                 return prev;
-            }, <{ [itemId: string]: CSL.Data }>{})
+            }, {})
         );
     }
 

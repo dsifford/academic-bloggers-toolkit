@@ -9,7 +9,7 @@
  */
 export function getFromDOI(doiList: string[]): Promise<[CSL.Data[], string[]]> {
     return new Promise((resolve, reject) => {
-        const promises: Promise<[CSL.Data, string]>[] = [];
+        const promises: Array<Promise<[CSL.Data, string]>> = [];
         doiList.forEach(doi =>
             promises.push(getDOIAgency(doi).then(resolveDOI))
         );
@@ -74,7 +74,7 @@ function resolveDOI(data: {
 }): Promise<[CSL.Data, string]> {
     return new Promise<[CSL.Data, string]>((resolve, reject) => {
         const req = new XMLHttpRequest();
-        const headers: [string, string][] = [];
+        const headers: Array<[string, string]> = [];
         let url: string;
         switch (data.agency) {
             case 'crossref':

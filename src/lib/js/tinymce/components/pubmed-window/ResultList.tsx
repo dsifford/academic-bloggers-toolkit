@@ -63,6 +63,7 @@ export class ResultList extends React.PureComponent<ResultListProps, {}> {
                                     rel="noopener noreferrer"
                                     style={{ paddingLeft: 8, paddingRight: 8 }}
                                     className="abt-btn abt-btn_submit abt-btn_flat"
+                                    role="button"
                                     children={this.labels.viewReference}
                                 />
                                 <input

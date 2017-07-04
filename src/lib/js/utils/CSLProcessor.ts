@@ -67,7 +67,7 @@ export class CSLProcessor {
                 : await this.getCSLStyle(this.store.citationStyle);
         const sys = await this.generateSys(this.store.locale);
         this.citeproc = new CSL.Engine(sys, style);
-        return <[number, string, string][]>this.citeproc
+        return <Array<[number, string, string]>>this.citeproc
             .rebuildProcessorState(this.store.citations.citationByIndex)
             .map(([a, , c], i) => [i, c, a]);
     }
@@ -133,8 +133,10 @@ export class CSLProcessor {
             before,
             after
         );
-        if (status['citation_errors'].length)
+        if (status['citation_errors'].length) {
+            // tslint:disable-next-line
             console.error(status['citation_errors']);
+        }
         this.store.citations.init(
             this.citeproc.registry.citationreg.citationByIndex
         );

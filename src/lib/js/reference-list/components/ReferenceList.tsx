@@ -161,7 +161,8 @@ export class ReferenceList extends React.Component<{ store: Store }, {}> {
         const selection = this.editor.selection.getContent({ format: 'html' });
         if (/^<div class=".*?abt-static-bib.*?".+<\/div>$/g.test(selection)) {
             const re = /<div id="(\w{8,9})">/g;
-            let m: RegExpExecArray;
+            let m: RegExpExecArray | null;
+            // tslint:disable-next-line
             while ((m = re.exec(selection)) !== null) {
                 // tslint:disable-line:no-conditional-assignment
                 data.push(this.props.store.citations.CSL.get(m[1]));
@@ -223,10 +224,8 @@ export class ReferenceList extends React.Component<{ store: Store }, {}> {
             });
     };
 
-    insertInlineCitation = (
-        e?: React.MouseEvent<HTMLAnchorElement>,
-        d: CSL.Data[] | Event = []
-    ) => {
+    // prettier-ignore
+    insertInlineCitation = ( e?: React.MouseEvent<HTMLAnchorElement>, d: CSL.Data[] | Event = []) => {
         let data: CSL.Data[] = [];
         if (e) e.preventDefault();
         this.editor.setProgressState(true);
@@ -252,9 +251,9 @@ export class ReferenceList extends React.Component<{ store: Store }, {}> {
             /<span.+class="(?:abt-citation|abt_cite).+?<\/span>/.test(selection)
         ) {
             const re = /&quot;(\w+?)&quot;/g;
-            let m: RegExpExecArray;
+            let m: RegExpExecArray | null;
+            // tslint:disable-next-line
             while ((m = re.exec(selection)) !== null) {
-                // tslint:disable-line:no-conditional-assignment
                 data.push(this.props.store.citations.CSL.get(m[1]));
             }
         }

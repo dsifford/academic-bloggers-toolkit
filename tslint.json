@@ -17,11 +17,12 @@
         "object-literal-sort-keys": false,
         "object-literal-key-quotes": [false],
         "max-classes-per-file": [false],
+        "max-line-length": [false],
         "no-var-requires": false,
         "no-angle-bracket-type-assertion": false,
         "no-string-literal": false,
         "no-unused-expression": [false],
-        "quotemark": [true, "single", "jsx-double"],
+        "quotemark": [false],
         "whitespace": [false],
 
         "no-banned-terms": true,

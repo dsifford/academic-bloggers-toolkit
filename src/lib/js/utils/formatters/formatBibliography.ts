@@ -18,7 +18,7 @@ export function formatBibliography(
     const [bibmeta, bibHTML] = rawBib;
     const temp = document.createElement('div');
 
-    const payload: { id: string; html: string }[] = bibHTML.map((html, i) => {
+    const payload: Array<{ id: string; html: string }> = bibHTML.map((html, i) => {
         if (/CSL STYLE ERROR/.test(html)) {
             return { html, id: bibmeta.entry_ids[i][0] };
         }
