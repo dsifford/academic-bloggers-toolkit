@@ -6,7 +6,7 @@ import { parsePubmedJSON } from '../parsers/';
  *   the search box on pubmed)
  * @return {Promise<PubMed.DataPMID[]>}
  */
-export function pubmedQuery(query: string): Promise<PubMed.DataPMID[]> {
+export function pubmedQuery(query: string): Promise<PubMed.DataPMID[]|PubMed.DataPMCID[]> {
     return new Promise<string>((resolve, reject) => {
         const req = new XMLHttpRequest();
         req.open('GET', `https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=pubmed&term=${encodeURI(query)}&retmode=json`); // tslint:disable-line
@@ -38,10 +38,10 @@ export function pubmedQuery(query: string): Promise<PubMed.DataPMID[]> {
 function resolvePubmedData(
     kind: 'PMID'|'PMCID',
     idList: string,
-): Promise<{data: PubMed.DataPMID[]|PubMed.DataPMCID[], invalid: string[]}> {
+): Promise<{data: PubMed.DataPMID[]|PubMed.DataPMCID[], invalid: string[]}|undefined> {
     const database = kind === 'PMID' ? 'pubmed' : 'pmc';
     return new Promise((resolve, reject) => {
-        if (idList.length === 0) return resolve([]);
+        if (idList.length === 0) return resolve(undefined);
 
         const req = new XMLHttpRequest();
         req.open('GET', `https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi?tool=academic-bloggers-toolkit&email=dereksifford%40gmail.com&db=${database}&id=${idList}&version=2.0&retmode=json`); // tslint:disable-line

@@ -104,7 +104,7 @@ export function getRelativeCitationPositions(editor: TinyMCE.Editor, validIds: s
 
     if (citations.length > 1) {
         let key = 0;
-        [...citations].forEach((el, i) => {
+        Array.from(citations).forEach((el, i) => {
             if (el.id === id) {
                 key = 1;
                 payload.currentIndex = i;
@@ -195,7 +195,7 @@ function parseFootnoteCitations(
         note.appendChild(heading);
 
         const citations = <NodeListOf<HTMLSpanElement>>doc.querySelectorAll('.abt-citation, .abt_cite');
-        [...citations].forEach((c, i) => {
+        Array.from(citations).forEach((c, i) => {
             c.innerText = `[${i + 1}]`;
             const noteItem = editor.dom.create<HTMLDivElement>('div', {
                 class: 'abt-footnote__item',
@@ -326,7 +326,7 @@ export function setBibliography(
 export function reset(doc: HTMLDocument) {
     const inlines = doc.querySelectorAll('.abt-citation, .abt_cite');
     const bib = doc.getElementById('abt-bibliography');
-    for (const cite of inlines) {
+    for (const cite of Array.from(inlines)) {
         cite.parentNode.removeChild(cite);
     }
     if (bib) bib.parentNode.removeChild(bib);

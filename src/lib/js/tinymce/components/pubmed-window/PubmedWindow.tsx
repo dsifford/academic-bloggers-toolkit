@@ -39,6 +39,7 @@ export class PubmedWindow extends React.Component<{}, {}> {
             if ( i < (this.page * 5) && ((this.page * 5) - 6) < i ) {
                 return true;
             }
+            return false;
         });
     }
 
@@ -59,7 +60,7 @@ export class PubmedWindow extends React.Component<{}, {}> {
     }
 
     @action
-    toggleLoadState = () => this.isLoading = !this.isLoading;
+    toggleLoadState = () => this.isLoading = !this.isLoading
 
     @action
     updateQuery = (e: React.FormEvent<HTMLInputElement>) => {

@@ -1,7 +1,7 @@
 version: '2'
 services:
     wordpress:
-        image: visiblevc/wordpress
+        image: visiblevc/wordpress:0.15.2-php7.1
         ports:
             - 8080:80
             - 443:443
@@ -13,7 +13,6 @@ services:
             WP_DEBUG: 'true'
             WP_VERSION: nightly
             PLUGINS: >-
-                [local]academic-bloggers-toolkit,
                 co-authors-plus,
                 query-monitor,
             # piglatin,

@@ -27,7 +27,7 @@ gulp.task('reload', (done) => { browserSync.reload(); done(); });
 gulp.task('clean', () => del(['dist/**/*', 'npm-debug.log']));
 
 gulp.task('chown', (done) => {
-    exec("ls -l dist/ | awk '{print $3}' | tail -n -1", (err, stdout) => {
+    exec('ls -l dist/ | awk \'{print $3}\' | tail -n -1', (_err, stdout) => {
         if (stdout.trim() === process.env.USER) {
             done();
             return;
@@ -46,6 +46,7 @@ gulp.task('bump', () => {
     const re = `== Changelog ==\n(?!\n= ${VERSION})`;
     const repl =
     '== Changelog ==\n\n' +
+
     `= ${VERSION} =\n\n` +
     '[Click here](https://headwayapp.co/academic-bloggers-toolkit-changelog) to view changes.\n';
 
@@ -102,26 +103,26 @@ gulp.task('php', () => {
     const re4 = new RegExp(/(array\()(],)/, 'gm');
     const re5 = new RegExp(/(,\s+)(\[)(.*)(])/, 'gm');
 
-    function rep1(match, p1, p2, p3, p4, p5, p6) {
+    function rep1(_match, p1, p2, _p3, p4, _p5, p6) {
         return `${p1}${p2}array(${p4})${p6}`;
     }
 
-    function rep2(match, p1, p2, p3, p4) {
+    function rep2(_match, p1, p2, p3, p4) {
         return `${p1}${p2}${p3}${p4}array(`;
     }
 
-    function rep3(match, p1, p2) {
+    function rep3(_match, p1, p2) {
         const r = p2 === '],'
             ? '),'
             : 'array(';
         return p1 + r;
     }
 
-    function rep4(match, p1) {
+    function rep4(_match, p1) {
         return `${p1}),`;
     }
 
-    function rep5(match, p1, p2, p3) {
+    function rep5(_match, p1, _p2, p3) {
         return `${p1}array(${p3})`;
     }
 
@@ -134,7 +135,6 @@ gulp.task('php', () => {
     .pipe(gulp.dest('dist'));
 });
 
-
 gulp.task('static', () => {
     const main = gulp
         .src(['src/**/*.{js,po,pot,mo,html,txt}', 'src/**/views/*.php'], { base: './src' })
@@ -144,7 +144,6 @@ gulp.task('static', () => {
         .pipe(gulp.dest('dist'));
     return merge(main, misc);
 });
-
 
 // ==================================================
 //                 Style Tasks
@@ -173,7 +172,6 @@ gulp.task('stylus:prod', () => (
         .pipe(gulp.dest('dist'))
         .pipe(browserSync.stream({ match: '**/*.css' }))
 ));
-
 
 // ==================================================
 //                 Javascript Tasks
@@ -208,7 +206,6 @@ gulp.task('js', () => (
         .pipe(gulp.dest('dist'))
 ));
 
-
 // ==================================================
 //                 Compound Tasks
 // ==================================================
@@ -218,7 +215,6 @@ gulp.task('_build',
         gulp.parallel('stylus:prod', 'static', 'webpack:prod'),
         gulp.parallel('js', 'php'),
         'rollbar', 'pot'));
-
 
 gulp.task('_dev',
     gulp.series('chown', 'clean', 'static',

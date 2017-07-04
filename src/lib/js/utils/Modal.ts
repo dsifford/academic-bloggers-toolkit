@@ -21,7 +21,7 @@ export class Modal {
         this.inner.style.width = `${width}px`;
         this.outer.style.top = position < 0 ? '0px' : `${position}px`;
         this.outer.style.left = `calc(${top.document.body.clientWidth / 2}px - ${width / 2}px)`;
-    };
+    }
 
     private getModal(): void {
         const outerModalID: string = top.document.querySelector(`div.mce-floatpanel[aria-label="${this.title}"]`).id;

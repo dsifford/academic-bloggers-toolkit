@@ -48,10 +48,14 @@ module.exports = {
         'lib/js/Frontend': './src/lib/js/Frontend.ts',
         'lib/js/tinymce/index': './src/lib/js/tinymce/index.ts',
         'lib/js/reference-list/index': './src/lib/js/reference-list/',
-        'lib/js/tinymce/components/reference-window/index': './src/lib/js/tinymce/components/reference-window/', // eslint-disable-line
-        'lib/js/tinymce/components/pubmed-window/index': './src/lib/js/tinymce/components/pubmed-window/', // eslint-disable-line
-        'lib/js/tinymce/components/edit-reference-window/index': './src/lib/js/tinymce/components/edit-reference-window/', // eslint-disable-line
-        'lib/js/tinymce/components/import-window/index': './src/lib/js/tinymce/components/import-window/', // eslint-disable-line
+        'lib/js/tinymce/components/reference-window/index':
+            './src/lib/js/tinymce/components/reference-window/', // eslint-disable-line
+        'lib/js/tinymce/components/pubmed-window/index':
+            './src/lib/js/tinymce/components/pubmed-window/', // eslint-disable-line
+        'lib/js/tinymce/components/edit-reference-window/index':
+            './src/lib/js/tinymce/components/edit-reference-window/', // eslint-disable-line
+        'lib/js/tinymce/components/import-window/index':
+            './src/lib/js/tinymce/components/import-window/', // eslint-disable-line
         vendor: [
             'react',
             'react-dom',

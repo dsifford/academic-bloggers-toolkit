@@ -67,10 +67,10 @@ declare namespace CSL {
         recipient?: Person[];
         'reviewed-author'?: Person[];
         translator?: Person[];
-        accessed?: Date;
+        accessed?: Date | '';
         container?: Date;
-        'event-date'?: Date;
-        'issued'?: Date;
+        'event-date'?: Date | '';
+        'issued'?: Date | '';
         'original-date'?: Date;
         submitted?: Date;
         abstract?: string;

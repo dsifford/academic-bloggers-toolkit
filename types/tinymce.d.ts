@@ -79,7 +79,7 @@ declare namespace TinyMCE {
     }
 
     interface PluginManager {
-        add(pluginName: string, callback: () => void);
+        add(pluginName: string, callback: (editor: Editor) => void);
     }
 
     interface MenuItem {

@@ -47,7 +47,7 @@ export class Card extends React.PureComponent<CardProps, {}> {
         }, '');
     }
 
-    parseDate = (date: CSL.Date): string|number => {
+    parseDate = (date: CSL.Date | ''): string|number => {
         if (!date) return 'n.d.';
         if (date.year) return date.year;
         if (date['date-parts'] && date['date-parts'][0].length !== 0 && date['date-parts'][0][0] !== undefined)

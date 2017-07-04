@@ -1,3 +1,5 @@
+/// <reference types="jest" />
+
 import { RISParser } from '../RISParser';
 
 // tslint:disable
@@ -141,7 +143,7 @@ describe('RISParser', () => {
     });
     it('should parse books correctly', () => {
         const parser = new RISParser(testCases[2]);
-        const expected: CSL.Data = [{
+        const expected: any = [{
             ISBN: '9781100205175',
             ISSN: '9781100205175',
             abstract: 'This guide outlines those elements that contribute to strong KT projects. It is intended to be used both bythose developing project proposals and by those who are assessing such proposals for the purposes of funding or partnership.', // tslint:disable-line
@@ -178,7 +180,7 @@ describe('RISParser', () => {
     });
     it('should process an assortment of fields correctly', () => {
         const parser = new RISParser(testCases[5]);
-        const expected: CSL.Data = [{
+        const expected: any = [{
             DOI: '10.000000thedoi',
             PMCID: 'PMC23423',
             PMID: '65481',
