@@ -9,38 +9,42 @@ interface PeopleProps {
 
 @observer
 export class People extends React.PureComponent<PeopleProps, {}> {
-
     fieldmaps = top.ABT_i18n.fieldmaps;
     labels = top.ABT_i18n.tinymce.referenceWindow.people;
 
     @action
     addPerson = () => {
         this.props.people.push({ family: '', given: '', type: 'author' });
-    }
+    };
 
     @action
     removePerson = (e: React.MouseEvent<HTMLInputElement>) => {
-        const index = e.currentTarget.getAttribute('data-index');
+        const index = e.currentTarget.getAttribute('data-index')!;
         this.props.people.remove(this.props.people[index]);
-    }
+    };
 
     @action
-    updatePerson = (e: React.FormEvent<HTMLInputElement|HTMLSelectElement>) => {
-        const index = e.currentTarget.getAttribute('data-index');
-        const field = e.currentTarget.getAttribute('data-field');
+    updatePerson = (
+        e: React.FormEvent<HTMLInputElement | HTMLSelectElement>
+    ) => {
+        const index = e.currentTarget.getAttribute('data-index')!;
+        const field = e.currentTarget.getAttribute('data-field')!;
         const value = e.currentTarget.value;
         this.props.people[index][field] = value;
-    }
+    };
 
     render() {
         return (
             <div>
                 <div className="row">
                     <div>
-                        <span style={{fontWeight: 400}} children={this.labels.contributors}/>
+                        <span
+                            style={{ fontWeight: 400 }}
+                            children={this.labels.contributors}
+                        />
                     </div>
                 </div>
-                {this.props.people.map((person: CSL.TypedPerson, i: number) => (
+                {this.props.people.map((person: CSL.TypedPerson, i: number) =>
                     <Person
                         change={this.updatePerson}
                         remove={this.removePerson}
@@ -51,9 +55,12 @@ export class People extends React.PureComponent<PeopleProps, {}> {
                         person={person}
                         key={`person-${i}`}
                     />
-                ))}
+                )}
                 <div className="row collapse">
-                    <div className="flex" style={{paddingTop: 5, textAlign: 'center'}}>
+                    <div
+                        className="flex"
+                        style={{ paddingTop: 5, textAlign: 'center' }}
+                    >
                         <input
                             type="button"
                             id="add-person"
@@ -91,7 +98,7 @@ class Person extends React.PureComponent<PersonProps, {}> {
                         data-index={index}
                         data-field="type"
                     >
-                        { this.props.fieldMap.people.map((p, j: number) => (
+                        {this.props.fieldMap.people.map((p, j: number) =>
                             <option
                                 key={`peopleSelect-${j}`}
                                 id={`peopleSelect-${j}`}
@@ -99,7 +106,7 @@ class Person extends React.PureComponent<PersonProps, {}> {
                                 value={p.type}
                                 children={p.label}
                             />
-                        ))}
+                        )}
                     </select>
                 </div>
                 <div className="flex">
@@ -133,7 +140,7 @@ class Person extends React.PureComponent<PersonProps, {}> {
                         type="button"
                         className="abt-btn abt-btn_flat abt-btn_icon"
                         data-index={index}
-                        style={{fontSize: '1.2em', fontWeight: 'bold'}}
+                        style={{ fontSize: '1.2em', fontWeight: 'bold' }}
                         value="⨯"
                         onClick={remove}
                     />

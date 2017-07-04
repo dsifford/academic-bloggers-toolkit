@@ -30,18 +30,22 @@ import { parseCSLDate, parseCSLName } from './';
  * @param {PubMed.DataPMID[]} res  Pubmed api response
  * @return CSL.Data[]
  */
-export function parsePubmedJSON(kind: 'PMID'|'PMCID', res: (PubMed.DataPMID|PubMed.DataPMCID)[]): CSL.Data[]{
+export function parsePubmedJSON(
+    kind: 'PMID' | 'PMCID',
+    res: (PubMed.DataPMID | PubMed.DataPMCID)[]
+): CSL.Data[] {
     const payload: CSL.Data[] = [];
 
-    res.forEach((ref: PubMed.DataPMID|PubMed.DataPMCID, i: number) => {
+    res.forEach((ref: PubMed.DataPMID | PubMed.DataPMCID, i: number) => {
         const output: CSL.Data = {};
         output.id = `${i}`;
         output.type = 'article-journal';
         output.author = [];
 
         Object.keys(ref).forEach(key => {
-
-            if (typeof ref[key] === 'string' && ref[key] === '') { return; }
+            if (typeof ref[key] === 'string' && ref[key] === '') {
+                return;
+            }
 
             switch (key) {
                 case 'authors':

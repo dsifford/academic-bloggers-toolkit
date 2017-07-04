@@ -1,14 +1,14 @@
-import { parseCSLDate, parseCSLName} from '../parsers/';
+import { parseCSLDate, parseCSLName } from '../parsers/';
 
 /**
  * Used for parsing RIS files into CSL
  */
 export class RISParser {
-
     /**
      * On object that holds the RIS types as keys and the corresponding CSL types
      * as values.
      */
+    // prettier-ignore
     public static RISTypes: { [abbr: string]: CSL.CitationType } = {
         ABST   : 'article',                 // 'Abstract',
         ADVS   : 'broadcast',               // 'Audiovisual Material',
@@ -74,10 +74,9 @@ export class RISParser {
      * @return {void}
      */
     constructor(risText: string) {
-        this.refArray =
-            risText
-                .split(/(^TY\s\s-(.|\n|\r)+?ER\s\s-?)/gm)
-                .filter(i => i.trim() !== '');
+        this.refArray = risText
+            .split(/(^TY\s\s-(.|\n|\r)+?ER\s\s-?)/gm)
+            .filter(i => i.trim() !== '');
     }
 
     /**
@@ -87,7 +86,6 @@ export class RISParser {
      * @return {CSL.Data[]} Array of CSL.Data
      */
     public parse(): CSL.Data[] {
-
         const payload: CSL.Data[] = [];
 
         this.refArray.forEach((ref: string, i: number) => {
@@ -110,8 +108,7 @@ export class RISParser {
      * @param  {number}   id        The ID to be used for the CSL.Data object.
      * @return {CSL.Data}           Parsed CSL.Data.
      */
-    private parseSingle(singleRef: string, id: number): CSL.Data|boolean {
-
+    private parseSingle(singleRef: string, id: number): CSL.Data | boolean {
         const payload: CSL.Data = {};
         const ref = singleRef.split(/\n/);
         const citationType = ref[0].substr(6).trim();
@@ -129,7 +126,6 @@ export class RISParser {
         const pageHolder = {};
 
         ref.forEach((line: string) => {
-
             const key = line.substr(0, 2);
             const val = line.substr(6).trim();
 
@@ -137,29 +133,29 @@ export class RISParser {
                 case 'AU':
                 case 'A1':
                 case 'A4':
-                    payload.author =
-                        !payload.author
+                    payload.author = !payload.author
                         ? [parseCSLName(val, 'RIS')]
                         : payload.author.concat(parseCSLName(val, 'RIS'));
                     break;
                 case 'A2':
                 case 'ED':
-                    payload.editor =
-                        !payload.editor
+                    payload.editor = !payload.editor
                         ? [parseCSLName(val, 'RIS')]
                         : payload.editor.concat(parseCSLName(val, 'RIS'));
                     break;
                 case 'A3':
                     if (payload.translator === undefined) {
                         payload.translator = [parseCSLName(val, 'RIS')];
-                    }
-                    else {
+                    } else {
                         payload.translator.push(parseCSLName(val, 'RIS'));
                     }
                     break;
                 case 'PY':
                 case 'Y1':
-                    payload.issued['date-parts'][0][0] = parseCSLDate(val, 'RIS')['date-parts'][0][0];
+                    payload.issued['date-parts'][0][0] = parseCSLDate(
+                        val,
+                        'RIS'
+                    )['date-parts'][0][0];
                     break;
                 case 'Y2':
                     payload.accessed = parseCSLDate(val, 'RIS');
@@ -189,7 +185,10 @@ export class RISParser {
                     payload['call-number'] = val;
                     break;
                 case 'CY': // Conference location, publish location, city of publisher (zotero)
-                    if (['paper-conference', 'speech'].indexOf(payload.type) > -1) {
+                    if (
+                        ['paper-conference', 'speech'].indexOf(payload.type) >
+                        -1
+                    ) {
                         payload['event-place'] = val;
                         break;
                     }
@@ -229,7 +228,10 @@ export class RISParser {
                 case 'JF':
                 case 'T2':
                     payload['container-title'] = val;
-                    if (['paper-conference', 'speech'].indexOf(payload.type) > -1) {
+                    if (
+                        ['paper-conference', 'speech'].indexOf(payload.type) >
+                        -1
+                    ) {
                         payload.event = val;
                     }
                     break;
@@ -262,13 +264,14 @@ export class RISParser {
                     break;
                 case 'ER':
                     if (Object.keys(pageHolder).length === 2) {
-                        payload.page = `${pageHolder['SP']}-${pageHolder['EP']}`;
+                        payload.page = `${pageHolder['SP']}-${pageHolder[
+                            'EP'
+                        ]}`;
                     }
                     break;
                 default:
                     break;
             }
-
         });
         return payload;
     }

@@ -10,9 +10,12 @@ import { ItemList } from '../ItemList';
 const ERW = editReferenceWindow as jest.Mock<any>;
 const PMD = parseManualData as jest.Mock<any>;
 
-const setup = (open = true, items = [{id: 'aaa'}, {id: 'bbb'}, {id: 'ccc'}]) => {
+const setup = (
+    open = true,
+    items = [{ id: 'aaa' }, { id: 'bbb' }, { id: 'ccc' }]
+) => {
     const spy = jest.fn();
-    const component = mount((
+    const component = mount(
         <ItemList
             id="test-id"
             CSL={observable.map()}
@@ -25,7 +28,7 @@ const setup = (open = true, items = [{id: 'aaa'}, {id: 'bbb'}, {id: 'ccc'}]) => 
         >
             Test List
         </ItemList>
-    ));
+    );
     return {
         badge: component.find('.abt-item-heading__badge'),
         component,
@@ -41,13 +44,15 @@ describe('<ItemList />', () => {
             EditorManager: {
                 get() {
                     return null;
-                }
-            }
+                },
+            },
         } as any;
     });
     beforeEach(() => {
         ERW.mockImplementation(() => new Promise(res => res()));
-        PMD.mockImplementation(() => [{id: 'test-id', type: 'article-journal'}]);
+        PMD.mockImplementation(() => [
+            { id: 'test-id', type: 'article-journal' },
+        ]);
     });
     it('should not render with no items', () => {
         const { component } = setup(true, null);
@@ -77,7 +82,12 @@ describe('<ItemList />', () => {
         card.simulate('doubleClick');
     });
     it('should handle errors on submit', () => {
-        ERW.mockImplementation(() => new Promise((_, __) => { throw new Error('Some unhandled error'); }));
+        ERW.mockImplementation(
+            () =>
+                new Promise((_, __) => {
+                    throw new Error('Some unhandled error');
+                })
+        );
         const { component } = setup();
         const card = component.find('Card').first();
         card.simulate('doubleClick');

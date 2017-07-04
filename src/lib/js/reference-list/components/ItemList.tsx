@@ -21,17 +21,25 @@ interface Props extends React.HTMLProps<HTMLElement> {
 
 @observer
 export class ItemList extends React.PureComponent<Props, {}> {
-
     singleClick = () => {
         this.props.toggle(this.props.id);
-    }
+    };
 
     doubleClick = () => {
         this.props.toggle(this.props.id, true);
-    }
+    };
 
     render() {
-        const { items, selectedItems, click, children, isOpen, maxHeight, id, CSL } = this.props;
+        const {
+            items,
+            selectedItems,
+            click,
+            children,
+            isOpen,
+            maxHeight,
+            id,
+            CSL,
+        } = this.props;
         if (!items) return null;
         return (
             <div>
@@ -41,20 +49,25 @@ export class ItemList extends React.PureComponent<Props, {}> {
                     onClick={this.singleClick}
                     onDoubleClick={this.doubleClick}
                 >
-                    <div className="abt-item-heading__label" children={children} />
-                    <div className="abt-item-heading__badge" children={items.length} />
+                    <div
+                        className="abt-item-heading__label"
+                        children={children}
+                    />
+                    <div
+                        className="abt-item-heading__badge"
+                        children={items.length}
+                    />
                 </div>
-                { isOpen && (
+                {isOpen &&
                     <Items
                         click={click}
                         CSL={CSL}
                         id={id}
                         items={items}
-                        style={{maxHeight}}
+                        style={{ maxHeight }}
                         selectedItems={selectedItems}
                         withTooltip={id === 'cited'}
-                    />
-                )}
+                    />}
             </div>
         );
     }
@@ -70,13 +83,12 @@ interface ItemsProps extends React.HTMLProps<HTMLElement> {
 
 @observer
 class Items extends React.Component<ItemsProps, {}> {
-
     element: HTMLDivElement;
     handleScroll = preventScrollPropagation.bind(this);
 
     bindRefs = (c: HTMLDivElement) => {
         this.element = c;
-    }
+    };
 
     editSingleReference = (e: React.MouseEvent<HTMLDivElement>) => {
         const refId = e.currentTarget.getAttribute('data-reference-id');
@@ -84,21 +96,21 @@ class Items extends React.Component<ItemsProps, {}> {
             tinyMCE.EditorManager.get('content'),
             toJS(this.props.items.find(i => i.id === refId))
         )
-        .then(parseManualData)
-        .then(m => [refId, m[0]])
-        .then(this.finalizeEdits)
-        .catch(err => {
-            if (!err) return; // User exited early
-            Rollbar.error('itemList.tsx -> editSingleReference', err);
-        });
-    }
+            .then(parseManualData)
+            .then(m => [refId, m[0]])
+            .then(this.finalizeEdits)
+            .catch(err => {
+                if (!err) return; // User exited early
+                Rollbar.error('itemList.tsx -> editSingleReference', err);
+            });
+    };
 
     @action
     finalizeEdits = (d: [string, CSL.Data]) => {
         this.props.CSL.delete(d[0]);
         this.props.CSL.set(d[0], d[1]);
         dispatchEvent(new CustomEvent(EVENTS.REFERENCE_EDITED));
-    }
+    };
 
     render() {
         return (
@@ -114,7 +126,7 @@ class Items extends React.Component<ItemsProps, {}> {
                     transition: '.2s',
                 }}
             >
-                { this.props.items.map((r, i) => (
+                {this.props.items.map((r, i) =>
                     <Card
                         CSL={r}
                         click={this.props.click}
@@ -125,7 +137,7 @@ class Items extends React.Component<ItemsProps, {}> {
                         key={r.id}
                         showTooltip={this.props.withTooltip}
                     />
-                ))}
+                )}
             </div>
         );
     }

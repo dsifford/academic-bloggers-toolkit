@@ -5,7 +5,7 @@ interface Window {
 }
 
 declare const __DEV__: boolean;
-declare const ABT_CitationStyles: {label: string, value: string}[];
+declare const ABT_CitationStyles: { label: string; value: string }[];
 declare const DocumentTouch;
 
 declare const Rollbar: {
@@ -18,7 +18,6 @@ declare const Rollbar: {
 };
 
 declare namespace BackendGlobals {
-
     // tslint:disable-next-line
     interface ABT_i18n {
         citationTypes: ABT.CitationTypes;
@@ -77,8 +76,8 @@ declare namespace BackendGlobals {
         };
         tinymce: {
             editReferenceWindow: {
-                title: 'Edit Reference',
-                confirm: 'Confirm',
+                title: 'Edit Reference';
+                confirm: 'Confirm';
             };
             importWindow: {
                 importBtn: 'Import';
@@ -129,8 +128,8 @@ declare namespace BackendGlobals {
     interface ABT_Reflist_State {
         bibOptions: {
             heading: string;
-            headingLevel: 'h1'|'h2'|'h3'|'h4'|'h5'|'h6';
-            style: 'fixed'|'toggle';
+            headingLevel: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
+            style: 'fixed' | 'toggle';
         };
         cache: {
             style: string;

@@ -1,14 +1,17 @@
-
 /**
  * Utility function used to generate and append tooltips.
  * @param  {HTMLElement} target                     Target element
  * @param  {string} tip                             Tooltip text
  * @param  {'top'|'right'|'bottom'|'left'} position Position of tooltip
  */
-export function createTooltip(target: HTMLElement, tip: string, position: 'top'|'right'|'bottom'|'left'): void {
+export function createTooltip(
+    target: HTMLElement,
+    tip: string,
+    position: 'top' | 'right' | 'bottom' | 'left'
+): void {
     const rect = target.getBoundingClientRect();
-    const top = rect.top + (rect.height / 2);
-    let left = rect.left + (rect.width / 2);
+    const top = rect.top + rect.height / 2;
+    let left = rect.left + rect.width / 2;
 
     const el = document.createElement('div');
     el.id = 'abt-tooltip';
@@ -20,22 +23,19 @@ export function createTooltip(target: HTMLElement, tip: string, position: 'top'|
     const marginTop = -1 * (el.offsetHeight / 2) || 0;
 
     if (position === 'left' || position === 'right') {
-        left = (rect.width / 2);
+        left = rect.width / 2;
         if (top + marginTop < 0) {
             el.style.top = '0';
             el.style.marginTop = '0';
-        }
-        else {
+        } else {
             el.style.top = top + 'px';
             el.style.marginTop = marginTop + 'px';
         }
-    }
-    else {
+    } else {
         if (left + marginLeft < 0) {
             el.style.left = '0';
             el.style.marginLeft = '0';
-        }
-        else {
+        } else {
             el.style.left = left + 'px';
             el.style.marginLeft = marginLeft + 'px';
         }

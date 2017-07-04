@@ -1,17 +1,23 @@
 import * as React from 'react';
 import { createTooltip, destroyTooltip } from '../../utils/Tooltips';
 
-export class PanelButton extends React.PureComponent<React.HTMLProps<HTMLAnchorElement>, {}> {
-
+export class PanelButton extends React.PureComponent<
+    React.HTMLProps<HTMLAnchorElement>,
+    {}
+> {
     element: HTMLAnchorElement;
 
     bindRefs = (c: HTMLAnchorElement) => {
         this.element = c;
-    }
+    };
 
     createTooltip = () => {
-        createTooltip(this.element, this.element.getAttribute('data-tooltip'), 'bottom');
-    }
+        createTooltip(
+            this.element,
+            this.element.getAttribute('data-tooltip'),
+            'bottom'
+        );
+    };
 
     render() {
         destroyTooltip();
@@ -23,8 +29,12 @@ export class PanelButton extends React.PureComponent<React.HTMLProps<HTMLAnchorE
                 {...this.props}
                 ref={this.bindRefs}
                 className={cn}
-                onMouseEnter={this.props['data-tooltip'] ? this.createTooltip : null}
-                onMouseLeave={this.props['data-tooltip'] ? destroyTooltip : null}
+                onMouseEnter={
+                    this.props['data-tooltip'] ? this.createTooltip : null
+                }
+                onMouseLeave={
+                    this.props['data-tooltip'] ? destroyTooltip : null
+                }
             />
         );
     }

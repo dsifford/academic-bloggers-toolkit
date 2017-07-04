@@ -10,30 +10,35 @@ import {
 import { localeMapper as locales } from '../utils/Constants';
 
 class CitationStore {
+    @observable CSL: ObservableMap<CSL.Data>;
 
-    @observable
-    CSL: ObservableMap<CSL.Data>;
+    @observable private byIndex: IObservableArray<Citeproc.Citation>;
 
-    @observable
-    private byIndex: IObservableArray<Citeproc.Citation>;
-
-    constructor(byIndex: Citeproc.CitationByIndex, CSL: {[id: string]: CSL.Data}) {
+    constructor(
+        byIndex: Citeproc.CitationByIndex,
+        CSL: { [id: string]: CSL.Data }
+    ) {
         this.byIndex = observable(byIndex);
         this.CSL = this.cleanCSL(CSL);
-        intercept(this.CSL, (change) => {
+        intercept(this.CSL, change => {
             if (change.type !== 'add') return change;
             if (!change.newValue.title) return null;
 
             const title = change.newValue.title.toLowerCase();
-            const matchIndex: number = this.CSL.values().findIndex(v => v.title.toLowerCase() === title);
+            const matchIndex: number = this.CSL
+                .values()
+                .findIndex(v => v.title.toLowerCase() === title);
 
             if (matchIndex > -1) {
                 const match = toJS(this.CSL.get(this.CSL.keys()[matchIndex]));
                 const deepMatch = Object.keys(change.newValue).every(k => {
                     const isComplexDataType =
-                        typeof change.newValue[k] !== 'string' && typeof change.newValue[k] !== 'number';
+                        typeof change.newValue[k] !== 'string' &&
+                        typeof change.newValue[k] !== 'number';
                     const isVariableKey = k === 'id' || k === 'language';
-                    return (isComplexDataType || isVariableKey) ? true : change.newValue[k] === match[k];
+                    return isComplexDataType || isVariableKey
+                        ? true
+                        : change.newValue[k] === match[k];
                 });
                 if (deepMatch) return null;
             }
@@ -48,10 +53,14 @@ class CitationStore {
      */
     @computed
     get uncited(): CSL.Data[] {
-        return this.CSL.keys().reduce((prev, curr) => {
-            if (this.citedIDs.indexOf(curr) === -1) prev.push(this.CSL.get(curr));
-            return prev;
-        }, []).slice();
+        return this.CSL
+            .keys()
+            .reduce((prev, curr) => {
+                if (this.citedIDs.indexOf(curr) === -1)
+                    prev.push(this.CSL.get(curr));
+                return prev;
+            }, [])
+            .slice();
     }
 
     /**
@@ -70,13 +79,10 @@ class CitationStore {
     @computed
     get citedIDs(): string[] {
         return this.citationByIndex
-        .map(i => i.citationItems.map(j => j.id))
-        .reduce((prev, curr) => [...prev, ...curr], [])
-        .reduce((p, c) =>
-            p.indexOf(c) === -1
-            ? [...p, c]
-            : p
-        , []).slice();
+            .map(i => i.citationItems.map(j => j.id))
+            .reduce((prev, curr) => [...prev, ...curr], [])
+            .reduce((p, c) => (p.indexOf(c) === -1 ? [...p, c] : p), [])
+            .slice();
     }
 
     @action
@@ -94,23 +100,26 @@ class CitationStore {
     @action
     removeItems(idList: string[], doc: HTMLDocument): void {
         idList.forEach(id => {
-            if (this.citedIDs.indexOf(id) === -1)
-                this.CSL.delete(id);
+            if (this.citedIDs.indexOf(id) === -1) this.CSL.delete(id);
         });
         const byIndex = this.citationByIndex
-        .map(i => ({
-            ...i,
-            citationItems: i.citationItems.filter(j => idList.indexOf(j.id) === -1),
-            sortedItems: i.sortedItems.filter(j => idList.indexOf(j[1].id) === -1),
-        }))
-        .reduce((prev, curr) => {
-            if (curr.citationItems.length === 0) {
-                const el = doc.getElementById(curr.citationID);
-                el.parentNode.removeChild(el);
-                return prev;
-            }
-            return [...prev, curr];
-        }, []);
+            .map(i => ({
+                ...i,
+                citationItems: i.citationItems.filter(
+                    j => idList.indexOf(j.id) === -1
+                ),
+                sortedItems: i.sortedItems.filter(
+                    j => idList.indexOf(j[1].id) === -1
+                ),
+            }))
+            .reduce((prev, curr) => {
+                if (curr.citationItems.length === 0) {
+                    const el = doc.getElementById(curr.citationID);
+                    el.parentNode.removeChild(el);
+                    return prev;
+                }
+                return [...prev, curr];
+            }, []);
         this.init(byIndex);
     }
 
@@ -125,7 +134,7 @@ class CitationStore {
             data.reduce((prev, curr) => {
                 prev[curr.id] = curr;
                 return prev;
-            }, <{[itemId: string]: CSL.Data}>{})
+            }, <{ [itemId: string]: CSL.Data }>{})
         );
     }
 
@@ -139,7 +148,9 @@ class CitationStore {
     @action
     pruneOrphanedCitations(citationIds: string[]): void {
         if (this.byIndex.length === citationIds.length) return;
-        const index = this.byIndex.findIndex(a => citationIds.indexOf(a.citationID) === -1);
+        const index = this.byIndex.findIndex(
+            a => citationIds.indexOf(a.citationID) === -1
+        );
         this.byIndex.replace([
             ...this.byIndex.slice(0, index),
             ...this.byIndex.slice(index + 1),
@@ -150,7 +161,7 @@ class CitationStore {
      * Returns an object of ids and titles from the CSL map for easy consumption
      * @return {{ids: string[], titles: string[]}}
      */
-    get lookup(): {ids: string[], titles: string[]} {
+    get lookup(): { ids: string[]; titles: string[] } {
         return {
             ids: this.CSL.keys(),
             titles: this.CSL.values().map(v => v.title),
@@ -165,7 +176,7 @@ class CitationStore {
         return toJS(this.byIndex);
     }
 
-    private cleanCSL(CSL: {[id: string]: CSL.Data}): ObservableMap<CSL.Data> {
+    private cleanCSL(CSL: { [id: string]: CSL.Data }): ObservableMap<CSL.Data> {
         for (const key of Object.keys(CSL)) {
             CSL[key].language = locales[CSL[key].language] || 'en-US';
         }
@@ -174,15 +185,13 @@ class CitationStore {
 }
 
 export class Store {
-
     bibOptions = {
         heading: '',
-        headingLevel: <'h1'|'h2'|'h3'|'h4'|'h5'|'h6'> 'h3',
-        style: <'fixed'|'toggle'> 'fixed',
+        headingLevel: <'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6'>'h3',
+        style: <'fixed' | 'toggle'>'fixed',
     };
 
-    @observable
-    citations: CitationStore;
+    @observable citations: CitationStore;
 
     /**
      * The user's locale provided by WordPress.
@@ -192,13 +201,12 @@ export class Store {
     /**
      * The user's selected link format.
      */
-    links: 'always'|'urls'|'never'|'always-full-surround';
+    links: 'always' | 'urls' | 'never' | 'always-full-surround';
 
     /**
      * The selected citation style
      */
-    @observable
-    citationStyle: string;
+    @observable citationStyle: string;
 
     constructor(savedState: BackendGlobals.ABT_Reflist_State) {
         const { cache, citationByIndex, bibOptions, CSL } = savedState;

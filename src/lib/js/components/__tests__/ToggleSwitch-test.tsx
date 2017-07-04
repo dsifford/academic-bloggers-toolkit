@@ -4,13 +4,9 @@ import { ToggleSwitch } from '../ToggleSwitch';
 
 const setup = (checked = false) => {
     const spy = jest.fn();
-    const component = mount((
-        <ToggleSwitch
-            checked={checked}
-            label="Test Label"
-            onChange={spy}
-        />
-    ));
+    const component = mount(
+        <ToggleSwitch checked={checked} label="Test Label" onChange={spy} />
+    );
     return {
         component,
         input: component.find('input'),
@@ -32,7 +28,9 @@ describe('<ToggleSwitch />', () => {
         const { label } = setup();
         expect(document.getElementById('abt-tooltip')).toBeNull();
         label.simulate('mouseover');
-        expect(document.getElementById('abt-tooltip').innerText).toBe('Test Label');
+        expect(document.getElementById('abt-tooltip')!.innerText).toBe(
+            'Test Label'
+        );
         label.simulate('mouseout');
         expect(document.getElementById('abt-tooltip')).toBeNull();
     });

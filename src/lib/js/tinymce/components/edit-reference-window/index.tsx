@@ -6,7 +6,4 @@ import { EditReferenceWindow } from './EditReferenceWindow';
 
 useStrict(true);
 
-ReactDOM.render(
-  <EditReferenceWindow />,
-  document.getElementById('abt-root')
-);
+ReactDOM.render(<EditReferenceWindow />, document.getElementById('abt-root'));

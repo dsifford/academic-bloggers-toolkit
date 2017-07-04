@@ -30,26 +30,30 @@ window['tinyMCE'] = {
 } as any;
 
 const mocks = {
-    alert: window['tinyMCE'].editors['content'].windowManager.alert as jest.Mock<any>,
-    getContent: window['tinyMCE'].editors['content'].selection.getContent as jest.Mock<any>,
+    alert: window['tinyMCE'].editors['content'].windowManager
+        .alert as jest.Mock<any>,
+    getContent: window['tinyMCE'].editors['content'].selection
+        .getContent as jest.Mock<any>,
     getRemoteData: API.getRemoteData as jest.Mock<any>,
-    getStyle: window['tinyMCE'].editors['content'].dom.getStyle as jest.Mock<any>,
+    getStyle: window['tinyMCE'].editors['content'].dom.getStyle as jest.Mock<
+        any
+    >,
     importWindow: MCE.importWindow as jest.Mock<any>,
-    insertContent: window['tinyMCE'].editors['content'].insertContent as jest.Mock<any>,
+    insertContent: window['tinyMCE'].editors['content']
+        .insertContent as jest.Mock<any>,
     parseInlineCitations: MCE.parseInlineCitations as jest.Mock<any>,
     parseManualData: API.parseManualData as jest.Mock<any>,
     referenceWindow: MCE.referenceWindow as jest.Mock<any>,
     rollbar: window['Rollbar'].error as jest.Mock<any>,
     setBibliography: MCE.setBibliography as jest.Mock<any>,
-    setProgressState: window['tinyMCE'].editors['content'].setProgressState as jest.Mock<any>,
+    setProgressState: window['tinyMCE'].editors['content']
+        .setProgressState as jest.Mock<any>,
 };
 
 const setup = () => {
     const store = new Store(reflistState as BackendGlobals.ABT_Reflist_State);
-    const component = mount(
-        <ReferenceList store={store} />
-    );
-    const instance = (component.instance() as any);
+    const component = mount(<ReferenceList store={store} />);
+    const instance = component.instance() as any;
     return {
         component,
         instance,
@@ -75,8 +79,12 @@ describe('<ReferenceList />', () => {
     });
     beforeEach(() => {
         (jest as any).resetAllMocks();
-        spyOn(CSLProcessor.prototype, 'makeBibliography').and.callFake(() => '');
-        window['ABT_CitationStyles'] = [{ label: 'Test', value: 'american-medical-association' }];
+        spyOn(CSLProcessor.prototype, 'makeBibliography').and.callFake(
+            () => ''
+        );
+        window['ABT_CitationStyles'] = [
+            { label: 'Test', value: 'american-medical-association' },
+        ];
         document.body.innerHTML = `
         <span id="htmlSpanId" class="abt-citation"></span>
         <div id="abt-reflist">
@@ -97,18 +105,24 @@ describe('<ReferenceList />', () => {
     });
     describe('initProcessor', () => {
         it('should init', () => {
-            spyOn(CSLProcessor.prototype, 'init').and.callFake(() => new Promise(res => res([[]])));
+            spyOn(CSLProcessor.prototype, 'init').and.callFake(
+                () => new Promise(res => res([[]]))
+            );
             const { instance } = setup();
             instance.processor.citeproc = {
                 opt: { xclass: 'in-text' },
             };
-            mocks.parseInlineCitations.mockImplementationOnce(() => new Promise((res) => res()));
+            mocks.parseInlineCitations.mockImplementationOnce(
+                () => new Promise(res => res())
+            );
             instance.initTinyMCE();
             instance.initProcessor();
             expect(instance.editor.setProgressState).toHaveBeenCalledTimes(2);
         });
         it('should handle errors on initialization', () => {
-            spyOn(CSLProcessor.prototype, 'init').and.callFake(() => new Promise((_, rej) => rej()));
+            spyOn(CSLProcessor.prototype, 'init').and.callFake(
+                () => new Promise((_, rej) => rej())
+            );
             const { instance } = setup();
             instance.processor.citeproc = {
                 opt: { xclass: 'in-text' },
@@ -122,12 +136,24 @@ describe('<ReferenceList />', () => {
     describe('insertStaticBibliography()', () => {
         let instance;
         beforeEach(() => {
-            spyOn(CSLProcessor.prototype, 'createStaticBibliography')
-                .and.callFake(() => new Promise(res => res([{id: 'test-id', html: '<div>Test Bib</div>'}])));
-            spyOn(CSLProcessor.prototype, 'init').and.callFake(() => new Promise(res => res([[]])));
-            (CSLProcessor.prototype.createStaticBibliography as jasmine.Spy).calls.reset();
+            spyOn(
+                CSLProcessor.prototype,
+                'createStaticBibliography'
+            ).and.callFake(
+                () =>
+                    new Promise(res =>
+                        res([{ id: 'test-id', html: '<div>Test Bib</div>' }])
+                    )
+            );
+            spyOn(CSLProcessor.prototype, 'init').and.callFake(
+                () => new Promise(res => res([[]]))
+            );
+            (CSLProcessor.prototype
+                .createStaticBibliography as jasmine.Spy).calls.reset();
             (CSLProcessor.prototype.init as jasmine.Spy).calls.reset();
-            mocks.parseInlineCitations.mockImplementationOnce(() => new Promise((res) => res()));
+            mocks.parseInlineCitations.mockImplementationOnce(
+                () => new Promise(res => res())
+            );
             ({ instance } = setup());
             instance.initTinyMCE();
         });
@@ -138,26 +164,30 @@ describe('<ReferenceList />', () => {
             expect(instance.editor.insertContent).toHaveBeenCalledWith(
                 `<div class="noselect mceNonEditable abt-static-bib" style="margin: 0px 0px 28px;">` +
                     `<div id="test-id">` +
-                        `<div>Test Bib</div>` +
+                    `<div>Test Bib</div>` +
                     `</div>` +
-                `</div>`
+                    `</div>`
             );
         });
         it('should throw/catch an error at getStyle - default margin to 0 0 28px', async () => {
-            mocks.getStyle.mockImplementationOnce(() => { throw new Error('error'); });
+            mocks.getStyle.mockImplementationOnce(() => {
+                throw new Error('error');
+            });
             await instance.insertStaticBibliography();
             expect(mocks.getStyle).toHaveBeenCalled();
             expect(mocks.insertContent).toHaveBeenCalledWith(
                 `<div class="noselect mceNonEditable abt-static-bib" style="margin: 0px 0px 28px;">` +
                     `<div id="test-id">` +
-                        `<div>Test Bib</div>` +
+                    `<div>Test Bib</div>` +
                     `</div>` +
-                `</div>`
+                    `</div>`
             );
         });
         it('should alert and exit if boolean returned from createStaticBibliography', async () => {
-            (CSLProcessor.prototype.createStaticBibliography as jasmine.Spy)
-                .and.callFake(() => new Promise(res => res(false)));
+            (CSLProcessor.prototype
+                .createStaticBibliography as jasmine.Spy).and.callFake(
+                () => new Promise(res => res(false))
+            );
             await instance.insertStaticBibliography();
             expect(mocks.alert).toHaveBeenCalled();
             expect(mocks.insertContent).not.toHaveBeenCalled();
@@ -168,12 +198,19 @@ describe('<ReferenceList />', () => {
         });
         it('should overwrite an existing static bib if selected', async () => {
             mocks.getContent.mockImplementationOnce(
-                () => '<div class="abt-static-bib"><div id="aaaaaaaa"></div></div>'
+                () =>
+                    '<div class="abt-static-bib"><div id="aaaaaaaa"></div></div>'
             );
             await instance.insertStaticBibliography();
-            expect((CSLProcessor.prototype.createStaticBibliography as jasmine.Spy).calls.count()).toBe(1);
-            expect((CSLProcessor.prototype.createStaticBibliography as jasmine.Spy)
-                .calls.mostRecent().args[0][0].title).toBe('Test Title');
+            expect(
+                (CSLProcessor.prototype
+                    .createStaticBibliography as jasmine.Spy).calls.count()
+            ).toBe(1);
+            expect(
+                (CSLProcessor.prototype
+                    .createStaticBibliography as jasmine.Spy).calls.mostRecent()
+                    .args[0][0].title
+            ).toBe('Test Title');
             expect(mocks.alert).not.toHaveBeenCalled();
             expect(mocks.insertContent).toHaveBeenCalled();
         });
@@ -182,7 +219,9 @@ describe('<ReferenceList />', () => {
     describe('insertInlineCitation()', () => {
         let instance;
         beforeEach(() => {
-            spyOn(CSLProcessor.prototype, 'init').and.callFake(() => new Promise(res => res([[]])));
+            spyOn(CSLProcessor.prototype, 'init').and.callFake(
+                () => new Promise(res => res([[]]))
+            );
             spyOn(MCE, 'getRelativeCitationPositions').and.returnValue({
                 currentIndex: 0,
                 locations: [
@@ -190,8 +229,13 @@ describe('<ReferenceList />', () => {
                     [['22222222', 2]],
                 ],
             });
-            spyOn(CSLProcessor.prototype, 'prepareInlineCitationData').and.returnValue({});
-            mocks.parseInlineCitations.mockImplementationOnce(() => new Promise((res) => res()));
+            spyOn(
+                CSLProcessor.prototype,
+                'prepareInlineCitationData'
+            ).and.returnValue({});
+            mocks.parseInlineCitations.mockImplementationOnce(
+                () => new Promise(res => res())
+            );
             ({ instance } = setup());
             instance.initTinyMCE();
             instance.processor.citeproc = {
@@ -202,17 +246,20 @@ describe('<ReferenceList />', () => {
                     citationreg: {
                         citationById: {
                             citation: {},
-                        }
-                    }
-                }
+                        },
+                    },
+                },
             };
             (CSLProcessor.prototype.init as jasmine.Spy).calls.reset();
-            (CSLProcessor.prototype.prepareInlineCitationData as jasmine.Spy).calls.reset();
+            (CSLProcessor.prototype
+                .prepareInlineCitationData as jasmine.Spy).calls.reset();
             (MCE.getRelativeCitationPositions as jasmine.Spy).calls.reset();
             (jest as any).resetAllMocks();
         });
         it('should insert citation from selection', async () => {
-            spyOn(MCE, 'parseInlineCitations').and.returnValue(new Promise(res => res(true)));
+            spyOn(MCE, 'parseInlineCitations').and.returnValue(
+                new Promise(res => res(true))
+            );
             instance.toggleSelect('aaaaaaaa', false);
             const mockEvent = jest.fn();
             await instance.insertInlineCitation({ preventDefault: mockEvent });
@@ -224,12 +271,20 @@ describe('<ReferenceList />', () => {
             expect(mocks.rollbar).not.toHaveBeenCalled();
         });
         it('should insert citation from array passed to function', async () => {
-            spyOn(MCE, 'parseInlineCitations').and.returnValue(new Promise(res => res(true)));
-            const expectedData = [{id: 'fakeid', title: 'faketitle'}];
+            spyOn(MCE, 'parseInlineCitations').and.returnValue(
+                new Promise(res => res(true))
+            );
+            const expectedData = [{ id: 'fakeid', title: 'faketitle' }];
             await instance.insertInlineCitation(null, expectedData);
-            expect((CSLProcessor.prototype.prepareInlineCitationData as jasmine.Spy).calls.count()).toBe(1);
-            expect((CSLProcessor.prototype.prepareInlineCitationData as jasmine.Spy)
-                .calls.first().args[0]).toEqual(expectedData);
+            expect(
+                (CSLProcessor.prototype
+                    .prepareInlineCitationData as jasmine.Spy).calls.count()
+            ).toBe(1);
+            expect(
+                (CSLProcessor.prototype
+                    .prepareInlineCitationData as jasmine.Spy).calls.first()
+                    .args[0]
+            ).toEqual(expectedData);
             expect(mocks.setBibliography).toHaveBeenCalled();
             expect(mocks.alert).not.toHaveBeenCalled();
             expect(mocks.setProgressState.mock.calls[0][0]).toBe(true);
@@ -237,17 +292,29 @@ describe('<ReferenceList />', () => {
             expect(mocks.rollbar).not.toHaveBeenCalled();
         });
         it('should merge selected citations if selected', async () => {
-            spyOn(MCE, 'parseInlineCitations').and.returnValue(new Promise(res => res(true)));
+            spyOn(MCE, 'parseInlineCitations').and.returnValue(
+                new Promise(res => res(true))
+            );
             instance.toggleSelect('aaaaaaaa', false);
             mocks.getContent.mockImplementationOnce(
-                () => '<span class="abt-citation" data-reflist="[&quot;bbbbbbbb&quot;]"></span>'
+                () =>
+                    '<span class="abt-citation" data-reflist="[&quot;bbbbbbbb&quot;]"></span>'
             );
             await instance.insertInlineCitation();
-            expect((CSLProcessor.prototype.prepareInlineCitationData as jasmine.Spy).calls.count()).toBe(1);
-            expect((CSLProcessor.prototype.prepareInlineCitationData as jasmine.Spy)
-                .calls.mostRecent().args[0][0].title).toBe('Test Title');
-            expect((CSLProcessor.prototype.prepareInlineCitationData as jasmine.Spy)
-                .calls.mostRecent().args[0][1].title).toBe('Other Test Title');
+            expect(
+                (CSLProcessor.prototype
+                    .prepareInlineCitationData as jasmine.Spy).calls.count()
+            ).toBe(1);
+            expect(
+                (CSLProcessor.prototype
+                    .prepareInlineCitationData as jasmine.Spy).calls.mostRecent()
+                    .args[0][0].title
+            ).toBe('Test Title');
+            expect(
+                (CSLProcessor.prototype
+                    .prepareInlineCitationData as jasmine.Spy).calls.mostRecent()
+                    .args[0][1].title
+            ).toBe('Other Test Title');
             expect(mocks.setBibliography).toHaveBeenCalled();
             expect(mocks.alert).not.toHaveBeenCalled();
             expect(mocks.setProgressState.mock.calls[0][0]).toBe(true);
@@ -255,14 +322,19 @@ describe('<ReferenceList />', () => {
             expect(mocks.rollbar).not.toHaveBeenCalled();
         });
         it('should handle unexpected errors', async () => {
-            (CSLProcessor.prototype.prepareInlineCitationData as jasmine.Spy).and.throwError('Unexpected');
+            (CSLProcessor.prototype
+                .prepareInlineCitationData as jasmine.Spy).and.throwError(
+                'Unexpected'
+            );
             await instance.insertInlineCitation();
             expect(mocks.rollbar).toHaveBeenCalled();
             expect(mocks.alert).toHaveBeenCalled();
             expect(mocks.setBibliography).not.toHaveBeenCalled();
         });
         it('should handle promise rejections', async () => {
-            spyOn(MCE, 'parseInlineCitations').and.returnValue(new Promise((_, rej) => rej()));
+            spyOn(MCE, 'parseInlineCitations').and.returnValue(
+                new Promise((_, rej) => rej())
+            );
             await instance.insertInlineCitation();
         });
     });
@@ -271,10 +343,20 @@ describe('<ReferenceList />', () => {
         beforeEach(() => {
             (jest as any).resetAllMocks();
             mocks.getRemoteData.mockImplementation(
-                () => new Promise(res => res([{id: 'yyyyyyyy', title: 'New Title', author: []}]))
+                () =>
+                    new Promise(res =>
+                        res([
+                            { id: 'yyyyyyyy', title: 'New Title', author: [] },
+                        ])
+                    )
             );
             mocks.parseManualData.mockImplementation(
-                () => new Promise(res => res([{id: 'bbbbbbbb', title: 'Test Title', author: []}]))
+                () =>
+                    new Promise(res =>
+                        res([
+                            { id: 'bbbbbbbb', title: 'Test Title', author: [] },
+                        ])
+                    )
             );
         });
         afterEach(() => {
@@ -285,7 +367,7 @@ describe('<ReferenceList />', () => {
             instance.insertInlineCitation = jest.fn();
             instance.editor = window['tinyMCE'].editors['content'];
             mocks.referenceWindow.mockImplementation(
-                () => new Promise(res => res({addManually: true}))
+                () => new Promise(res => res({ addManually: true }))
             );
             await instance.openReferenceWindow();
             expect(mocks.parseManualData).toHaveBeenCalled();
@@ -296,7 +378,10 @@ describe('<ReferenceList />', () => {
             instance.insertInlineCitation = jest.fn();
             instance.editor = window['tinyMCE'].editors['content'];
             mocks.referenceWindow.mockImplementation(
-                () => new Promise(res => res({attachInline: true, addManually: false}))
+                () =>
+                    new Promise(res =>
+                        res({ attachInline: true, addManually: false })
+                    )
             );
             await instance.openReferenceWindow();
             expect(mocks.getRemoteData).toHaveBeenCalled();
@@ -311,7 +396,7 @@ describe('<ReferenceList />', () => {
             );
             await instance.openReferenceWindow();
             mocks.referenceWindow.mockImplementation(
-                () => new Promise(res => res({addManually: true}))
+                () => new Promise(res => res({ addManually: true }))
             );
             mocks.parseManualData.mockImplementation(
                 () => new Promise(res => res())
@@ -321,7 +406,7 @@ describe('<ReferenceList />', () => {
         });
         it('should exit if data has 0 length', async () => {
             mocks.referenceWindow.mockImplementation(
-                () => new Promise(res => res({addManually: true}))
+                () => new Promise(res => res({ addManually: true }))
             );
             mocks.parseManualData.mockImplementation(
                 () => new Promise(res => res([]))
@@ -343,7 +428,9 @@ describe('<ReferenceList />', () => {
 
     describe('openImportWindow', () => {
         it('should exit if data is empty', () => {
-            mocks.importWindow.mockImplementation(() => new Promise(res => res()));
+            mocks.importWindow.mockImplementation(
+                () => new Promise(res => res())
+            );
             const { instance } = setup();
             expect(instance.props.store.citations.CSL.keys().length).toBe(3);
             instance.openImportWindow();
@@ -351,7 +438,10 @@ describe('<ReferenceList />', () => {
         });
         it('should import citations', async () => {
             mocks.importWindow.mockImplementation(
-                () => new Promise(res => res([{id: 'zzzzzzzz', title: 'Imported Citation'}]))
+                () =>
+                    new Promise(res =>
+                        res([{ id: 'zzzzzzzz', title: 'Imported Citation' }])
+                    )
             );
             const { instance } = setup();
             expect(instance.props.store.citations.CSL.keys().length).toBe(3);
@@ -502,22 +592,43 @@ describe('<ReferenceList />', () => {
 
             // Default to unpinned
             expect(instance.fixed).toBe(false);
-            expect(component.find('.dashicons.dashicons-admin-post.pin-reflist').length).toBe(1);
-            expect(component.find('.dashicons.dashicons-admin-post.pin-reflist_fixed').length).toBe(0);
+            expect(
+                component.find('.dashicons.dashicons-admin-post.pin-reflist')
+                    .length
+            ).toBe(1);
+            expect(
+                component.find(
+                    '.dashicons.dashicons-admin-post.pin-reflist_fixed'
+                ).length
+            ).toBe(0);
 
             // Toggle pinned
             instance.togglePinned();
             expect(instance.fixed).toBe(true);
             expect(d.classList.contains('fixed')).toBe(true);
-            expect(component.find('.dashicons.dashicons-admin-post.pin-reflist').length).toBe(0);
-            expect(component.find('.dashicons.dashicons-admin-post.pin-reflist_fixed').length).toBe(1);
+            expect(
+                component.find('.dashicons.dashicons-admin-post.pin-reflist')
+                    .length
+            ).toBe(0);
+            expect(
+                component.find(
+                    '.dashicons.dashicons-admin-post.pin-reflist_fixed'
+                ).length
+            ).toBe(1);
 
             // Toggle unpinned
             instance.togglePinned();
             expect(instance.fixed).toBe(false);
             expect(d.classList.contains('fixed')).toBe(false);
-            expect(component.find('.dashicons.dashicons-admin-post.pin-reflist').length).toBe(1);
-            expect(component.find('.dashicons.dashicons-admin-post.pin-reflist_fixed').length).toBe(0);
+            expect(
+                component.find('.dashicons.dashicons-admin-post.pin-reflist')
+                    .length
+            ).toBe(1);
+            expect(
+                component.find(
+                    '.dashicons.dashicons-admin-post.pin-reflist_fixed'
+                ).length
+            ).toBe(0);
         });
         it('toggleMenu()', () => {
             const { component, instance } = setup();
@@ -525,24 +636,41 @@ describe('<ReferenceList />', () => {
 
             // Starts closed
             expect(instance.menuOpen).toBe(false);
-            expect(component.find('.dashicons.dashicons-menu.hamburger-menu').length).toBe(1);
-            expect(component.find('.dashicons.dashicons-no-alt.hamburger-menu').length).toBe(0);
+            expect(
+                component.find('.dashicons.dashicons-menu.hamburger-menu')
+                    .length
+            ).toBe(1);
+            expect(
+                component.find('.dashicons.dashicons-no-alt.hamburger-menu')
+                    .length
+            ).toBe(0);
 
             // Toggle open
             instance.toggleMenu();
             expect(instance.menuOpen).toBe(true);
-            expect(component.find('.dashicons.dashicons-menu.hamburger-menu').length).toBe(0);
-            expect(component.find('.dashicons.dashicons-no-alt.hamburger-menu').length).toBe(1);
+            expect(
+                component.find('.dashicons.dashicons-menu.hamburger-menu')
+                    .length
+            ).toBe(0);
+            expect(
+                component.find('.dashicons.dashicons-no-alt.hamburger-menu')
+                    .length
+            ).toBe(1);
 
             // Toggle Closed (timeout due to CSS transition time)
             instance.toggleMenu();
             return new Promise(resolve => {
                 setTimeout(resolve, 500); // tslint:disable-line
-            })
-            .then(() => {
+            }).then(() => {
                 expect(instance.menuOpen).toBe(false);
-                expect(component.find('.dashicons.dashicons-menu.hamburger-menu').length).toBe(1);
-                expect(component.find('.dashicons.dashicons-no-alt.hamburger-menu').length).toBe(0);
+                expect(
+                    component.find('.dashicons.dashicons-menu.hamburger-menu')
+                        .length
+                ).toBe(1);
+                expect(
+                    component.find('.dashicons.dashicons-no-alt.hamburger-menu')
+                        .length
+                ).toBe(0);
             });
         });
         it('toggleList()', () => {
@@ -626,7 +754,9 @@ describe('<ReferenceList />', () => {
             instance.togglePinned();
             instance.togglePinned();
             expect(instance.citedListUI.maxHeight).toBe('263.1666666666667px');
-            expect(instance.uncitedListUI.maxHeight).toBe('263.1666666666667px');
+            expect(instance.uncitedListUI.maxHeight).toBe(
+                '263.1666666666667px'
+            );
 
             // New dimentions
             setupDimentions(150, [50, 50, 650]);
@@ -642,7 +772,7 @@ describe('<ReferenceList />', () => {
             instance.editor = window['tinyMCE'].editors['content'];
             instance.initProcessor = jest.fn();
             instance.reset();
-            expect((MCE.reset) as jest.Mock<any>).toHaveBeenCalled();
+            expect(MCE.reset as jest.Mock<any>).toHaveBeenCalled();
             expect(mocks.setProgressState).toHaveBeenCalled();
             expect(instance.initProcessor).toHaveBeenCalled();
         });

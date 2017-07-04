@@ -26,8 +26,7 @@ const {
 } = EVENTS;
 
 @observer
-export class ReferenceList extends React.Component<{store: Store}, {}> {
-
+export class ReferenceList extends React.Component<{ store: Store }, {}> {
     editor: TinyMCE.Editor;
     processor: CSLProcessor;
     errors = top.ABT_i18n.errors;
@@ -36,28 +35,24 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
     /**
      * Observable array of selected items
      */
-    @observable
-    selected: IObservableArray<string> = observable([]);
+    @observable selected: IObservableArray<string> = observable([]);
 
     /**
      * Toggles the main loading spinner for the Reference List. Loading is true
      *   until the TinyMCE instance dispatches the `init` event or after TinyMCE
      *   dispatches the `hide` event (meaning the WYSIWYG editor is inactive)
      */
-    @observable
-    loading = true;
+    @observable loading = true;
 
     /**
      * Controls the visibility of the hamburger menu
      */
-    @observable
-    menuOpen = false;
+    @observable menuOpen = false;
 
     /**
      * Controls the 'pinned' and 'unpinned' state of the Reference List
      */
-    @observable
-    fixed = false;
+    @observable fixed = false;
 
     /**
      * UI state for the 'Cited Items' list
@@ -98,18 +93,19 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
          * React to list toggles
          */
         reaction(
-            () => [this.citedListUI.isOpen, this.uncitedListUI.isOpen, this.menuOpen],
+            () => [
+                this.citedListUI.isOpen,
+                this.uncitedListUI.isOpen,
+                this.menuOpen,
+            ],
             this.handleScroll,
-            { fireImmediately: false, delay: 200 },
+            { fireImmediately: false, delay: 200 }
         );
 
         /**
          * React to list pin/unpin
          */
-        reaction(
-            () => this.fixed,
-            this.handleScroll,
-        );
+        reaction(() => this.fixed, this.handleScroll);
 
         /**
          * React to citedlist changes
@@ -117,43 +113,44 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
         reaction(
             () => this.props.store.citations.citedIDs.length,
             this.handleScroll,
-            { fireImmediately: false, delay: 200 },
+            { fireImmediately: false, delay: 200 }
         );
-    }
+    };
 
     initProcessor = () => {
         this.editor.setProgressState(true);
-        return this.processor.init()
-        .then((clusters) => {
-            MCE.parseInlineCitations(
-                this.editor,
-                clusters,
-                this.props.store.citations.citationByIndex,
-                this.processor.citeproc.opt.xclass
-            ).then(() => {
-                MCE.setBibliography(
+        return this.processor
+            .init()
+            .then(clusters => {
+                MCE.parseInlineCitations(
                     this.editor,
-                    this.processor.makeBibliography(),
-                    this.props.store.bibOptions
+                    clusters,
+                    this.props.store.citations.citationByIndex,
+                    this.processor.citeproc.opt.xclass
+                ).then(() => {
+                    MCE.setBibliography(
+                        this.editor,
+                        this.processor.makeBibliography(),
+                        this.props.store.bibOptions
+                    );
+                    this.editor.setProgressState(false);
+                });
+                this.clearSelection();
+            })
+            .catch(err => {
+                Rollbar.error('ReferenceList.tsx -> initProcessor', err);
+                this.editor.windowManager.alert(
+                    `${this.errors.unexpected.message}.\n\n` +
+                        `${err.name}: ${err.message}\n\n` +
+                        `${this.errors.unexpected.reportInstructions}`
                 );
-                this.editor.setProgressState(false);
             });
-            this.clearSelection();
-        })
-        .catch(err => {
-            Rollbar.error('ReferenceList.tsx -> initProcessor', err);
-            this.editor.windowManager.alert(
-                `${this.errors.unexpected.message}.\n\n` +
-                `${err.name}: ${err.message}\n\n` +
-                `${this.errors.unexpected.reportInstructions}`
-            );
-        });
-    }
+    };
 
     initTinyMCE = () => {
         this.editor = tinyMCE.editors['content'];
         this.initProcessor().then(() => this.toggleLoading());
-    }
+    };
 
     insertStaticBibliography = () => {
         const data: CSL.Data[] = [];
@@ -165,62 +162,71 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
         if (/^<div class=".*?abt-static-bib.*?".+<\/div>$/g.test(selection)) {
             const re = /<div id="(\w{8,9})">/g;
             let m: RegExpExecArray;
-            while ((m = re.exec(selection)) !== null) { // tslint:disable-line:no-conditional-assignment
+            while ((m = re.exec(selection)) !== null) {
+                // tslint:disable-line:no-conditional-assignment
                 data.push(this.props.store.citations.CSL.get(m[1]));
             }
         }
 
-        this.processor.createStaticBibliography(data)
-        .then(bibliography => {
-            this.clearSelection();
+        this.processor
+            .createStaticBibliography(data)
+            .then(bibliography => {
+                this.clearSelection();
 
-            if (typeof bibliography === 'boolean') {
-                this.editor.windowManager.alert(
-                    `${this.errors.warnings.warning}: ${this.errors.warnings.noBib.message}\n\n` +
-                    `${this.errors.warnings.reason}: ${this.errors.warnings.noBib.reason}`
+                if (typeof bibliography === 'boolean') {
+                    this.editor.windowManager.alert(
+                        `${this.errors.warnings.warning}: ${this.errors.warnings
+                            .noBib.message}\n\n` +
+                            `${this.errors.warnings.reason}: ${this.errors
+                                .warnings.noBib.reason}`
+                    );
+                    return;
+                }
+
+                // Necessary for a particular edge case that throws errors when no text
+                // exists yet in the editor
+                let margin: string;
+                try {
+                    margin =
+                        this.editor.dom.getStyle(
+                            this.editor.dom.doc.querySelector('p'),
+                            'margin',
+                            true
+                        ) || '0 0 28px';
+                } catch (e) {
+                    margin = '0 0 28px';
+                }
+
+                const bib = this.editor.dom.doc.createElement('div');
+                bib.className = 'noselect mceNonEditable abt-static-bib';
+                bib.style.margin = margin;
+
+                for (const meta of bibliography) {
+                    const item = this.editor.dom.doc.createElement('div');
+                    item.id = meta.id;
+                    item.innerHTML = meta.html;
+                    bib.appendChild(item);
+                }
+
+                this.editor.insertContent(bib.outerHTML);
+            })
+            .catch(err => {
+                Rollbar.error(
+                    'ReferenceList.tsx -> insertStaticBibliography',
+                    err
                 );
-                return;
-            }
+                this.editor.windowManager.alert(
+                    `${this.errors.unexpected.message}.\n\n` +
+                        `${err.name}: ${err.message}\n\n` +
+                        `${this.errors.unexpected.reportInstructions}`
+                );
+            });
+    };
 
-            // Necessary for a particular edge case that throws errors when no text
-            // exists yet in the editor
-            let margin: string;
-            try {
-                margin = this.editor.dom.getStyle(
-                    this.editor.dom.doc.querySelector('p'),
-                    'margin',
-                    true
-                ) || '0 0 28px';
-            } catch (e) {
-                margin = '0 0 28px';
-            }
-
-            const bib = this.editor.dom.doc.createElement('div');
-            bib.className = 'noselect mceNonEditable abt-static-bib';
-            bib.style.margin = margin;
-
-            for (const meta of bibliography) {
-                const item = this.editor.dom.doc.createElement('div');
-                item.id = meta.id;
-                item.innerHTML = meta.html;
-                bib.appendChild(item);
-            }
-
-            this.editor.insertContent(
-                bib.outerHTML
-            );
-        })
-        .catch(err => {
-            Rollbar.error('ReferenceList.tsx -> insertStaticBibliography', err);
-            this.editor.windowManager.alert(
-                `${this.errors.unexpected.message}.\n\n` +
-                `${err.name}: ${err.message}\n\n` +
-                `${this.errors.unexpected.reportInstructions}`
-            );
-        });
-    }
-
-    insertInlineCitation = (e?: React.MouseEvent<HTMLAnchorElement>, d: CSL.Data[]|Event = []) => {
+    insertInlineCitation = (
+        e?: React.MouseEvent<HTMLAnchorElement>,
+        d: CSL.Data[] | Event = []
+    ) => {
         let data: CSL.Data[] = [];
         if (e) e.preventDefault();
         this.editor.setProgressState(true);
@@ -233,8 +239,7 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
             this.selected.forEach(id => {
                 data.push(this.props.store.citations.CSL.get(id));
             });
-        }
-        else {
+        } else {
             data = d;
         }
 
@@ -243,10 +248,13 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
          *   from it and push it to data.
          */
         const selection = this.editor.selection.getContent({ format: 'html' });
-        if (/<span.+class="(?:abt-citation|abt_cite).+?<\/span>/.test(selection)) {
+        if (
+            /<span.+class="(?:abt-citation|abt_cite).+?<\/span>/.test(selection)
+        ) {
             const re = /&quot;(\w+?)&quot;/g;
             let m: RegExpExecArray;
-            while ((m = re.exec(selection)) !== null) { // tslint:disable-line:no-conditional-assignment
+            while ((m = re.exec(selection)) !== null) {
+                // tslint:disable-line:no-conditional-assignment
                 data.push(this.props.store.citations.CSL.get(m[1]));
             }
         }
@@ -258,17 +266,25 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
                 locations: [citationsBefore, citationsAfter],
             } = MCE.getRelativeCitationPositions(
                 this.editor,
-                Object.keys(this.processor.citeproc.registry.citationreg.citationById),
+                Object.keys(
+                    this.processor.citeproc.registry.citationreg.citationById
+                )
             );
-            const citationData = this.processor.prepareInlineCitationData(data, currentIndex);
-            clusters = this.processor.processCitationCluster(citationData, citationsBefore, citationsAfter);
-        }
-        catch (err) {
+            const citationData = this.processor.prepareInlineCitationData(
+                data,
+                currentIndex
+            );
+            clusters = this.processor.processCitationCluster(
+                citationData,
+                citationsBefore,
+                citationsAfter
+            );
+        } catch (err) {
             Rollbar.error('ReferenceList.tsx -> insertInlineCitation', err);
             this.editor.windowManager.alert(
                 `${this.errors.unexpected.message}.\n\n` +
-                `${err.name}: ${err.message}\n\n` +
-                `${this.errors.unexpected.reportInstructions}`
+                    `${err.name}: ${err.message}\n\n` +
+                    `${this.errors.unexpected.reportInstructions}`
             );
             this.editor.setProgressState(false);
             this.clearSelection();
@@ -279,106 +295,134 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
             this.editor,
             clusters,
             this.props.store.citations.citationByIndex,
-            this.processor.citeproc.opt.xclass,
+            this.processor.citeproc.opt.xclass
         )
-        .then(() => {
-            MCE.setBibliography(
-                this.editor,
-                this.processor.makeBibliography(),
-                this.props.store.bibOptions
-            );
-            this.editor.setProgressState(false);
-        })
-        .catch(err => {
-            this.editor.setProgressState(false);
-            Rollbar.error('ReferenceList.tsx -> insertInlineCitation', err);
-            this.editor.windowManager.alert(
-                `${this.errors.unexpected.message}.\n\n` +
-                `${err.name}: ${err.message}\n\n` +
-                `${this.errors.unexpected.reportInstructions}`
-            );
-        });
+            .then(() => {
+                MCE.setBibliography(
+                    this.editor,
+                    this.processor.makeBibliography(),
+                    this.props.store.bibOptions
+                );
+                this.editor.setProgressState(false);
+            })
+            .catch(err => {
+                this.editor.setProgressState(false);
+                Rollbar.error('ReferenceList.tsx -> insertInlineCitation', err);
+                this.editor.windowManager.alert(
+                    `${this.errors.unexpected.message}.\n\n` +
+                        `${err.name}: ${err.message}\n\n` +
+                        `${this.errors.unexpected.reportInstructions}`
+                );
+            });
 
         this.clearSelection();
-    }
+    };
 
     @action
     deleteCitations = () => {
         if (this.selected.length === 0) return;
         this.editor.setProgressState(true);
-        this.props.store.citations.removeItems(this.selected, this.editor.dom.doc);
+        this.props.store.citations.removeItems(
+            this.selected,
+            this.editor.dom.doc
+        );
         this.clearSelection();
         this.initProcessor();
-    }
+    };
 
     @action
     openReferenceWindow = () => {
-        MCE.referenceWindow(this.editor).then(payload => {
-            const preprocess: Promise<CSL.Data[]> = payload.addManually
-                ? parseManualData(payload)
-                : getRemoteData(payload.identifierList, this.editor.windowManager);
+        MCE.referenceWindow(this.editor)
+            .then(payload => {
+                const preprocess: Promise<CSL.Data[]> = payload.addManually
+                    ? parseManualData(payload)
+                    : getRemoteData(
+                          payload.identifierList,
+                          this.editor.windowManager
+                      );
 
-            preprocess.then((data) => {
+                preprocess
+                    .then(data => {
+                        if (data.length === 0) return;
+                        this.props.store.citations.addItems(data);
 
-                if (data.length === 0) return;
-                this.props.store.citations.addItems(data);
+                        data = data.reduce((prev, curr) => {
+                            let matchingKey = '';
+                            const title = curr.title.toLowerCase();
 
-                data = data.reduce((prev, curr) => {
-                    let matchingKey = '';
-                    const title = curr.title.toLowerCase();
+                            for (const [
+                                key,
+                                value,
+                            ] of this.props.store.citations.CSL.entries()) {
+                                if (value.title.toLowerCase() !== title)
+                                    continue;
 
-                    for (const [key, value] of this.props.store.citations.CSL.entries()) {
-                        if (value.title.toLowerCase() !== title) continue;
+                                const deepMatch = Object.keys(
+                                    value
+                                ).every(k => {
+                                    const isComplexDataType =
+                                        typeof value[k] !== 'string' &&
+                                        typeof value[k] !== 'number';
+                                    const isVariableKey =
+                                        k === 'id' || k === 'language';
+                                    return isComplexDataType || isVariableKey
+                                        ? true
+                                        : value[k] === curr[k];
+                                });
 
-                        const deepMatch = Object.keys(value).every(k => {
-                            const isComplexDataType = typeof value[k] !== 'string' && typeof value[k] !== 'number';
-                            const isVariableKey = k === 'id' || k === 'language';
-                            return (isComplexDataType || isVariableKey) ? true : value[k] === curr[k];
-                        });
+                                if (deepMatch) {
+                                    matchingKey = key;
+                                    break;
+                                }
+                            }
 
-                        if (deepMatch) {
-                            matchingKey = key;
-                            break;
-                        }
-                    }
+                            return matchingKey !== ''
+                                ? [
+                                      ...prev,
+                                      this.props.store.citations.CSL.get(
+                                          matchingKey
+                                      ),
+                                  ]
+                                : [...prev, curr];
+                        }, []);
 
-                    return matchingKey !== ''
-                        ? [...prev, this.props.store.citations.CSL.get(matchingKey)]
-                        : [...prev, curr];
-                }, []);
-
-                if (!payload.attachInline) return;
-                this.insertInlineCitation(null, data);
+                        if (!payload.attachInline) return;
+                        this.insertInlineCitation(null, data);
+                    })
+                    .catch(err => {
+                        Rollbar.error(
+                            'ReferenceList.tsx -> openReferenceWindow',
+                            err
+                        );
+                        this.editor.windowManager.alert(
+                            `${this.errors.unexpected.message}.\n\n` +
+                                `${err.name}: ${err.message}\n\n` +
+                                `${this.errors.unexpected.reportInstructions}`
+                        );
+                    });
             })
             .catch(err => {
+                if (!err) return; // User exited early
                 Rollbar.error('ReferenceList.tsx -> openReferenceWindow', err);
-                this.editor.windowManager.alert(
-                    `${this.errors.unexpected.message}.\n\n` +
-                    `${err.name}: ${err.message}\n\n` +
-                    `${this.errors.unexpected.reportInstructions}`
-                );
             });
-        })
-        .catch(err => {
-            if (!err) return; // User exited early
-            Rollbar.error('ReferenceList.tsx -> openReferenceWindow', err);
-        });
-    }
+    };
 
     openImportWindow = () => {
-        MCE.importWindow(this.editor).then(data => {
-            if (!data) return;
-            this.props.store.citations.addItems(data);
-        }).catch(err => {
-            if (!err) return; // User exited early
-            Rollbar.error('ReferenceList.tsx -> openImportWindow', err);
-            this.editor.windowManager.alert(
-                `${this.errors.unexpected.message}.\n\n` +
-                `${err.name}: ${err.message}\n\n` +
-                `${this.errors.unexpected.reportInstructions}`
-            );
-        });
-    }
+        MCE.importWindow(this.editor)
+            .then(data => {
+                if (!data) return;
+                this.props.store.citations.addItems(data);
+            })
+            .catch(err => {
+                if (!err) return; // User exited early
+                Rollbar.error('ReferenceList.tsx -> openImportWindow', err);
+                this.editor.windowManager.alert(
+                    `${this.errors.unexpected.message}.\n\n` +
+                        `${err.name}: ${err.message}\n\n` +
+                        `${this.errors.unexpected.reportInstructions}`
+                );
+            });
+    };
 
     handleMenuSelection = (kind: string, data: string) => {
         this.toggleMenu();
@@ -391,7 +435,9 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
                 this.openImportWindow();
                 return;
             case 'REFRESH_PROCESSOR':
-                const citations = this.editor.dom.doc.querySelectorAll('.abt-citation, .abt_cite');
+                const citations = this.editor.dom.doc.querySelectorAll(
+                    '.abt-citation, .abt_cite'
+                );
                 const IDs = Array.from(citations).map(c => c.id);
                 this.props.store.citations.pruneOrphanedCitations(IDs);
                 this.initProcessor();
@@ -407,7 +453,7 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
             default:
                 return;
         }
-    }
+    };
 
     @action
     handleScroll = () => {
@@ -421,17 +467,18 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
         }
 
         const bothOpen: boolean =
-            this.citedListUI.isOpen
-            && this.uncitedListUI.isOpen
-            && this.props.store.citations.cited.length > 0
-            && this.props.store.citations.uncited.length > 0;
+            this.citedListUI.isOpen &&
+            this.uncitedListUI.isOpen &&
+            this.props.store.citations.cited.length > 0 &&
+            this.props.store.citations.uncited.length > 0;
 
         const scrollpos = document.body.scrollTop;
 
         /**
          * Offset from top of reference list to top of viewport.
          */
-        const topOffset = scrollpos > 134 ? 55 : (scrollpos === 0 ? 95 : 95 - (scrollpos / 3));
+        const topOffset =
+            scrollpos > 134 ? 55 : scrollpos === 0 ? 95 : 95 - scrollpos / 3;
 
         /**
          * Vertical space that is already allocated.
@@ -455,7 +502,7 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
 
         for (const child of Array.from(cited.children)) {
             citedHeight += child.clientHeight + 1;
-            if (citedHeight > (remainingHeight / 2)) {
+            if (citedHeight > remainingHeight / 2) {
                 citedHeight = remainingHeight / 2;
                 break;
             }
@@ -463,7 +510,7 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
 
         for (const child of Array.from(uncited.children)) {
             uncitedHeight += child.clientHeight + 1;
-            if (uncitedHeight > (remainingHeight / 2)) {
+            if (uncitedHeight > remainingHeight / 2) {
                 uncitedHeight = remainingHeight / 2;
                 break;
             }
@@ -474,21 +521,20 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
         if (allocatedHeight < remainingHeight) {
             if (citedHeight > uncitedHeight) {
                 citedHeight += remainingHeight - allocatedHeight;
-            }
-            else {
+            } else {
                 uncitedHeight += remainingHeight - allocatedHeight;
             }
         }
 
         this.citedListUI.maxHeight = `${citedHeight}px`;
         this.uncitedListUI.maxHeight = `${uncitedHeight}px`;
-    }
+    };
 
     @action
     togglePinned = () => {
         document.getElementById('abt-reflist').classList.toggle('fixed');
         this.fixed = !this.fixed;
-    }
+    };
 
     @action
     toggleList = (id: string, explode: boolean = false) => {
@@ -512,24 +558,22 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
             default:
                 break;
         }
-    }
+    };
 
     @action
     toggleMenu = () => {
         this.menuOpen = !this.menuOpen;
-    }
+    };
 
     @action
     toggleSelect = (id: string, isSelected: boolean) => {
-        return isSelected
-        ? this.selected.remove(id)
-        : this.selected.push(id);
-    }
+        return isSelected ? this.selected.remove(id) : this.selected.push(id);
+    };
 
     @action
     clearSelection = () => {
         this.selected.clear();
-    }
+    };
 
     @action
     reset = () => {
@@ -540,15 +584,14 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
         this.props.store.reset();
         MCE.reset(this.editor.dom.doc);
         this.initProcessor();
-    }
+    };
 
     @action
     toggleLoading = (loadState?: boolean) => {
         this.loading = loadState ? loadState : !this.loading;
-    }
+    };
 
     render() {
-
         if (this.loading) {
             return (
                 <div>
@@ -560,7 +603,7 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
 
         return (
             <div>
-                <DevTool position={{left: 50, top: 40}} />
+                <DevTool position={{ left: 50, top: 40 }} />
                 <StorageField store={this.props.store} />
                 <div className="abt-panel">
                     <PanelButton
@@ -591,8 +634,8 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
                         <span
                             className={
                                 this.fixed
-                                ? 'dashicons dashicons-admin-post pin-reflist_fixed'
-                                : 'dashicons dashicons-admin-post pin-reflist'
+                                    ? 'dashicons dashicons-admin-post pin-reflist_fixed'
+                                    : 'dashicons dashicons-admin-post pin-reflist'
                             }
                         />
                     </PanelButton>
@@ -600,8 +643,8 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
                         <span
                             className={
                                 this.menuOpen
-                                ? 'dashicons dashicons-no-alt hamburger-menu'
-                                : 'dashicons dashicons-menu hamburger-menu'
+                                    ? 'dashicons dashicons-no-alt hamburger-menu'
+                                    : 'dashicons dashicons-menu hamburger-menu'
                             }
                         />
                     </PanelButton>
@@ -612,7 +655,7 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
                     cslStyle={this.props.store.citationStyle}
                     submitData={this.handleMenuSelection}
                 />
-                { this.props.store.citations.cited.length > 0 && (
+                {this.props.store.citations.cited.length > 0 &&
                     <ItemList
                         id="cited"
                         CSL={this.props.store.citations.CSL}
@@ -623,9 +666,8 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
                         toggle={this.toggleList}
                         click={this.toggleSelect}
                         children={this.labels.citedItems}
-                    />
-                )}
-                { this.props.store.citations.uncited.length > 0 && (
+                    />}
+                {this.props.store.citations.uncited.length > 0 &&
                     <ItemList
                         id="uncited"
                         CSL={this.props.store.citations.CSL}
@@ -636,15 +678,14 @@ export class ReferenceList extends React.Component<{store: Store}, {}> {
                         toggle={this.toggleList}
                         click={this.toggleSelect}
                         children={this.labels.uncitedItems}
-                    />
-                )}
+                    />}
             </div>
         );
     }
 }
 
 @observer
-class StorageField extends React.Component<{store: Store}, {}> {
+class StorageField extends React.Component<{ store: Store }, {}> {
     render() {
         return (
             <input

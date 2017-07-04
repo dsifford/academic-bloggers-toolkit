@@ -1,7 +1,6 @@
 // tslint:disable no-namespace no-reserved-keywords
 
 declare namespace CrossRef {
-
     interface Agency {
         /* "ok" if response is good */
         status: string;
@@ -10,17 +9,15 @@ declare namespace CrossRef {
         message: {
             DOI: string;
             agency: {
-                id: 'crossref'|'datacite'|'medra';
+                id: 'crossref' | 'datacite' | 'medra';
                 label: string;
             };
         };
     }
-
 }
 
 declare namespace GoogleBooks {
-
-    type industryIdentifier = 'ISBN_10'|'ISBN_13';
+    type industryIdentifier = 'ISBN_10' | 'ISBN_13';
     type printType = 'BOOK';
 
     interface Response {
@@ -36,7 +33,7 @@ declare namespace GoogleBooks {
         /** 2012-06-07 */
         issued: string;
         authors: {
-            type: 'author',
+            type: 'author';
             family: string;
             given: string;
         }[];
@@ -71,7 +68,7 @@ declare namespace GoogleBooks {
             printType: printType;
             averageRating: number;
             ratingsCount: number;
-            maturityRating: 'NOT_MATURE'|'MATURE';
+            maturityRating: 'NOT_MATURE' | 'MATURE';
             allowAnonLogging: boolean;
             contentVersion: string;
             imageLinks: {
@@ -95,7 +92,7 @@ declare namespace GoogleBooks {
             viewability: string;
             embeddable: boolean;
             publicDomain: boolean;
-            textToSpeechPermission: 'ALLOWED'|'NOT_ALLOWED';
+            textToSpeechPermission: 'ALLOWED' | 'NOT_ALLOWED';
             epub: {
                 isAvailable: boolean;
             };
@@ -110,11 +107,9 @@ declare namespace GoogleBooks {
             textSnippet: string;
         };
     }
-
 }
 
 declare namespace PubMed {
-
     /**
      * Format: "<YYYY> <Mmm>? <DD>?"
      * Examples: `2004`, `2014 Jun`, `2000 Nov 12`
@@ -128,9 +123,9 @@ declare namespace PubMed {
     type LongDate = string;
 
     interface Author {
-      authtype: string;
-      name: string;
-      clusterid?: string;
+        authtype: string;
+        name: string;
+        clusterid?: string;
     }
 
     interface Shared {
@@ -149,7 +144,7 @@ declare namespace PubMed {
 
     interface DataPMCID extends Shared {
         articleids: {
-            idtype: 'doi'|'pmid'|'pmcid';
+            idtype: 'doi' | 'pmid' | 'pmcid';
             value: string;
         }[];
         pmclivedate: string;
@@ -159,7 +154,7 @@ declare namespace PubMed {
 
     interface DataPMID extends Shared {
         articleids?: {
-            idtype: 'doi'|'eid'|'pii'|'pmc'|'pubmed'|'rid';
+            idtype: 'doi' | 'eid' | 'pii' | 'pmc' | 'pubmed' | 'rid';
             idtypeen: number;
             value: string;
         }[];
@@ -177,7 +172,13 @@ declare namespace PubMed {
         essn?: string;
         history?: {
             date: LongDate;
-            pubstatus: 'accepted'|'entrez'|'medline'|'pubmed'|'received'|'revised';
+            pubstatus:
+                | 'accepted'
+                | 'entrez'
+                | 'medline'
+                | 'pubmed'
+                | 'received'
+                | 'revised';
         }[];
         issn?: string;
         lang?: string[];
@@ -185,7 +186,7 @@ declare namespace PubMed {
         lastauthor?: string;
         medium?: string;
         nlmuniqueid?: string;
-        pmcrefcount?: ''|number;
+        pmcrefcount?: '' | number;
         publisherlocation?: string;
         publishername?: string;
         locationlabel?: string;
@@ -204,7 +205,20 @@ declare namespace PubMed {
          * (12) medline      -- date made a MEDLINE record
          * (255) other
          */
-        pubstatus?: '1'|'2'|'3'|'4'|'5'|'6'|'7'|'8'|'9'|'10'|'11'|'12'|'255';
+        pubstatus?:
+            | '1'
+            | '2'
+            | '3'
+            | '4'
+            | '5'
+            | '6'
+            | '7'
+            | '8'
+            | '9'
+            | '10'
+            | '11'
+            | '12'
+            | '255';
         pubtype?: string[];
         recordstatus?: string;
         references?: {

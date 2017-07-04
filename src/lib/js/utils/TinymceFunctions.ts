@@ -6,11 +6,13 @@ declare const ABT_wp: BackendGlobals.ABT_wp;
  * @param editor   The active TinyMCE instance.
  * @return A Promise which resolves to ABT.ReferenceWindowPayload
  */
-export function referenceWindow(editor: TinyMCE.Editor): Promise<ABT.ReferenceWindowPayload> {
+export function referenceWindow(
+    editor: TinyMCE.Editor
+): Promise<ABT.ReferenceWindowPayload> {
     return new Promise((resolve, reject) => {
         editor.windowManager.open({
             height: 10,
-            onclose: (e) => {
+            onclose: e => {
                 if (!e.target.params.data) reject(null);
                 resolve(<ABT.ReferenceWindowPayload>e.target.params.data);
             },
@@ -34,7 +36,7 @@ export function importWindow(editor: TinyMCE.Editor): Promise<CSL.Data[]> {
     return new Promise((resolve, reject) => {
         editor.windowManager.open({
             height: 10,
-            onclose: (e) => {
+            onclose: e => {
                 if (!e.target.params.data) reject(null);
                 resolve(<CSL.Data[]>e.target.params.data);
             },
@@ -45,11 +47,14 @@ export function importWindow(editor: TinyMCE.Editor): Promise<CSL.Data[]> {
     });
 }
 
-export function editReferenceWindow(editor: TinyMCE.Editor, ref: CSL.Data): Promise<ABT.ManualData> {
+export function editReferenceWindow(
+    editor: TinyMCE.Editor,
+    ref: CSL.Data
+): Promise<ABT.ManualData> {
     return new Promise((resolve, reject) => {
         editor.windowManager.open({
             height: 10,
-            onclose: (e) => {
+            onclose: e => {
                 if (!e.target.params.data) reject(null);
                 resolve(<ABT.ManualData>e.target.params.data);
             },
@@ -78,7 +83,10 @@ interface CitationPositions {
  * @param {string[]} validIds  Array of valid HTMLSpanElement IDs (citationById keys)
  * @return Parsed citation data.
  */
-export function getRelativeCitationPositions(editor: TinyMCE.Editor, validIds: string[]): CitationPositions {
+export function getRelativeCitationPositions(
+    editor: TinyMCE.Editor,
+    validIds: string[]
+): CitationPositions {
     const doc = editor.getDoc();
     const currentSelection = editor.selection.getContent({ format: 'html' });
     const re = /<span id="([\d\w]+)" class="(?:abt-citation|abt_cite) .+<\/span>/;
@@ -137,7 +145,7 @@ export function parseInlineCitations(
     editor: TinyMCE.Editor,
     clusters: Citeproc.CitationClusterData[],
     citationByIndex: Citeproc.CitationByIndex,
-    xclass: 'in-text'|'note',
+    xclass: 'in-text' | 'note'
 ): Promise<boolean> {
     return xclass === 'note'
         ? parseFootnoteCitations(editor, clusters, citationByIndex)
@@ -147,12 +155,14 @@ export function parseInlineCitations(
 function parseFootnoteCitations(
     editor: TinyMCE.Editor,
     clusters: Citeproc.CitationClusterData[],
-    citationByIndex: Citeproc.CitationByIndex,
+    citationByIndex: Citeproc.CitationByIndex
 ): Promise<boolean> {
     return new Promise(resolve => {
         const doc = editor.getDoc();
         const existingNote = doc.getElementById('abt-footnote');
-        const existingBib = doc.querySelector('#abt-bibliography, #abt-smart-bib');
+        const existingBib = doc.querySelector(
+            '#abt-bibliography, #abt-smart-bib'
+        );
 
         if (existingNote) existingNote.parentElement.removeChild(existingNote);
         if (existingBib) existingBib.parentElement.removeChild(existingBib);
@@ -161,8 +171,11 @@ function parseFootnoteCitations(
         for (const [index, footnote, elementID] of clusters) {
             const inlineText = `[${index + 1}]`;
             const citation: HTMLSpanElement = doc.getElementById(elementID);
-            const sortedItems: Citeproc.SortedItems = citationByIndex[index].sortedItems;
-            const idList: string = JSON.stringify(sortedItems.map(c => c[1].id));
+            const sortedItems: Citeproc.SortedItems =
+                citationByIndex[index].sortedItems;
+            const idList: string = JSON.stringify(
+                sortedItems.map(c => c[1].id)
+            );
 
             if (!citation) {
                 editor.selection.setContent(
@@ -188,29 +201,40 @@ function parseFootnoteCitations(
             class: 'abt-footnote noselect mceNonEditable',
             id: 'abt-footnote',
         });
-        const heading = editor.dom.create<HTMLDivElement>('div', {
-            class: 'abt-footnote__heading',
-        }, top.ABT_i18n.misc.footnotes);
+        const heading = editor.dom.create<HTMLDivElement>(
+            'div',
+            {
+                class: 'abt-footnote__heading',
+            },
+            top.ABT_i18n.misc.footnotes
+        );
 
         note.appendChild(heading);
 
-        const citations = <NodeListOf<HTMLSpanElement>>doc.querySelectorAll('.abt-citation, .abt_cite');
+        const citations = <NodeListOf<HTMLSpanElement>>doc.querySelectorAll(
+            '.abt-citation, .abt_cite'
+        );
         Array.from(citations).forEach((c, i) => {
             c.innerText = `[${i + 1}]`;
-            const noteItem = editor.dom.create<HTMLDivElement>('div', {
-                class: 'abt-footnote__item',
-            },
+            const noteItem = editor.dom.create<HTMLDivElement>(
+                'div',
+                {
+                    class: 'abt-footnote__item',
+                },
                 `<span class="abt-footnote__number">[${i + 1}]</span>` +
-                `<span class="abt-footnote__content">${c.dataset['footnote']}</span>`
+                    `<span class="abt-footnote__content">${c.dataset[
+                        'footnote'
+                    ]}</span>`
             );
             note.appendChild(noteItem);
         });
         editor.getBody().appendChild(note);
 
         while (
-            note.previousElementSibling
-            && note.previousElementSibling.childNodes.length === 1
-            && note.previousElementSibling.childNodes[0].nodeName === 'BR') {
+            note.previousElementSibling &&
+            note.previousElementSibling.childNodes.length === 1 &&
+            note.previousElementSibling.childNodes[0].nodeName === 'BR'
+        ) {
             const p = note.previousElementSibling;
             p.parentNode.removeChild(p);
         }
@@ -224,7 +248,7 @@ function parseFootnoteCitations(
 function parseInTextCitations(
     editor: TinyMCE.Editor,
     clusters: Citeproc.CitationClusterData[],
-    citationByIndex: Citeproc.CitationByIndex,
+    citationByIndex: Citeproc.CitationByIndex
 ): Promise<boolean> {
     return new Promise(resolve => {
         const doc = editor.dom.doc;
@@ -232,9 +256,14 @@ function parseInTextCitations(
         if (existingNote) existingNote.parentElement.removeChild(existingNote);
 
         for (const [index, inlineText, elementID] of clusters) {
-            const citation: HTMLSpanElement = editor.dom.doc.getElementById(elementID);
-            const sortedItems: Citeproc.SortedItems = citationByIndex[index].sortedItems;
-            const idList: string = JSON.stringify(sortedItems.map(c => c[1].id));
+            const citation: HTMLSpanElement = editor.dom.doc.getElementById(
+                elementID
+            );
+            const sortedItems: Citeproc.SortedItems =
+                citationByIndex[index].sortedItems;
+            const idList: string = JSON.stringify(
+                sortedItems.map(c => c[1].id)
+            );
 
             if (!citation) {
                 editor.selection.setContent(
@@ -264,12 +293,12 @@ function parseInTextCitations(
  */
 export function setBibliography(
     editor: TinyMCE.Editor,
-    bibliography: ABT.Bibliography|boolean,
+    bibliography: ABT.Bibliography | boolean,
     options: {
-        heading: string,
-        headingLevel: 'h1'|'h2'|'h3'|'h4'|'h5'|'h6',
-        style: 'fixed'|'toggle',
-    },
+        heading: string;
+        headingLevel: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
+        style: 'fixed' | 'toggle';
+    }
 ): void {
     const doc = editor.getDoc();
     const existingBib = doc.querySelector('#abt-bibliography, #abt-smart-bib');
@@ -290,20 +319,27 @@ export function setBibliography(
     });
 
     if (options.heading) {
-        const heading = editor.dom.create<HTMLHeadingElement>(options.headingLevel, {
+        const heading = editor.dom.create<
+            HTMLHeadingElement
+        >(options.headingLevel, {
             class: 'abt-bibliography__heading',
         });
         heading.innerText = options.heading;
-        if (options.style === 'toggle') heading.classList.add('abt-bibliography__heading_toggle');
+        if (options.style === 'toggle')
+            heading.classList.add('abt-bibliography__heading_toggle');
         bib.appendChild(heading);
     }
 
     bib.appendChild(container);
 
     for (const meta of bibliography) {
-        const item = editor.dom.create<HTMLDivElement>('div', {
-            id: meta.id,
-        }, meta.html);
+        const item = editor.dom.create<HTMLDivElement>(
+            'div',
+            {
+                id: meta.id,
+            },
+            meta.html
+        );
         container.appendChild(item);
     }
 
@@ -313,9 +349,10 @@ export function setBibliography(
 
     // Remove unnecessary &nbsp; from editor
     while (
-        bib.previousElementSibling
-        && bib.previousElementSibling.childNodes.length === 1
-        && bib.previousElementSibling.childNodes[0].nodeName === 'BR') {
+        bib.previousElementSibling &&
+        bib.previousElementSibling.childNodes.length === 1 &&
+        bib.previousElementSibling.childNodes[0].nodeName === 'BR'
+    ) {
         const p = bib.previousElementSibling;
         p.parentNode.removeChild(p);
     }

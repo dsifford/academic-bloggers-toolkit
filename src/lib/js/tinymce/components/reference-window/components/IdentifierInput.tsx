@@ -8,22 +8,24 @@ interface Props {
 
 @observer
 export class IdentifierInput extends React.PureComponent<Props, {}> {
-
     labels = top.ABT_i18n.tinymce.referenceWindow.identifierInput;
 
-    focusInputField = (c) => {
+    focusInputField = c => {
         if (c) c.focus();
-    }
+    };
 
     handleChange = (e: React.FormEvent<HTMLInputElement>) => {
         this.props.change(e.currentTarget.value);
-    }
+    };
 
     render() {
-        return(
+        return (
             <div className="row">
                 <div>
-                    <label htmlFor="identifierList" children={this.labels.label} />
+                    <label
+                        htmlFor="identifierList"
+                        children={this.labels.label}
+                    />
                 </div>
                 <div className="flex">
                     <input

@@ -7,9 +7,7 @@ import { getFromISBN, getFromURL } from '../../../../../utils/resolvers/';
 import { ReferenceWindow } from '../ReferenceWindow';
 
 const setup = () => {
-    const component = mount(
-        <ReferenceWindow />
-    );
+    const component = mount(<ReferenceWindow />);
     const instance = component.instance() as any;
     return {
         component,
@@ -23,8 +21,8 @@ window['tinyMCE'] = {
             alert: jest.fn(),
             close: jest.fn(),
             setParams: jest.fn(),
-        }
-    }
+        },
+    },
 } as any;
 
 const mocks = {
@@ -82,7 +80,9 @@ describe('<ReferenceWindow />', () => {
         const { component } = setup();
         const stopPropagation = jest.fn();
         const preventDefault = jest.fn();
-        component.first().simulate('wheel', { stopPropagation, preventDefault });
+        component
+            .first()
+            .simulate('wheel', { stopPropagation, preventDefault });
         expect(stopPropagation).toHaveBeenCalled();
         expect(preventDefault).toHaveBeenCalled();
     });
@@ -97,16 +97,17 @@ describe('<ReferenceWindow />', () => {
     describe('handleAutocite()', () => {
         it('should handle a webpage with one author', async () => {
             mocks.getFromURL.mockImplementation(
-                () => new Promise(res => res({
-                    accessed: '2016-12-10T',
-                    authors: [
-                        { firstname: 'John', lastname: 'Doe' },
-                    ],
-                    content_title: 'Google Website',
-                    issued: '2016-12-10T',
-                    site_title: 'Google',
-                    url: 'https://google.com',
-                }))
+                () =>
+                    new Promise(res =>
+                        res({
+                            accessed: '2016-12-10T',
+                            authors: [{ firstname: 'John', lastname: 'Doe' }],
+                            content_title: 'Google Website',
+                            issued: '2016-12-10T',
+                            site_title: 'Google',
+                            url: 'https://google.com',
+                        })
+                    )
             );
             const { instance } = setup();
             expect(instance.manualData.get('title')).toBeUndefined();
@@ -119,16 +120,17 @@ describe('<ReferenceWindow />', () => {
         });
         it('should handle a webpage with no authors', async () => {
             mocks.getFromURL.mockImplementation(
-                () => new Promise(res => res({
-                    accessed: '2016-12-10T',
-                    authors: [
-                        {},
-                    ],
-                    content_title: 'Google Website',
-                    issued: '2016-12-10T',
-                    site_title: 'Google',
-                    url: 'https://google.com',
-                }))
+                () =>
+                    new Promise(res =>
+                        res({
+                            accessed: '2016-12-10T',
+                            authors: [{}],
+                            content_title: 'Google Website',
+                            issued: '2016-12-10T',
+                            site_title: 'Google',
+                            url: 'https://google.com',
+                        })
+                    )
             );
             const { instance } = setup();
             expect(instance.manualData.get('title')).toBeUndefined();
@@ -148,15 +150,16 @@ describe('<ReferenceWindow />', () => {
         });
         it('should handle book autocites', async () => {
             mocks.getFromISBN.mockImplementation(
-                () => new Promise(res => res({
-                    authors: [
-                        {},
-                    ],
-                    issued: '2016-12-10T',
-                    'number-of-pages': 155,
-                    publisher: 'Test Publisher',
-                    title: 'Test Book',
-                }))
+                () =>
+                    new Promise(res =>
+                        res({
+                            authors: [{}],
+                            issued: '2016-12-10T',
+                            'number-of-pages': 155,
+                            publisher: 'Test Publisher',
+                            title: 'Test Book',
+                        })
+                    )
             );
             const { instance } = setup();
             expect(instance.manualData.get('title')).toBeUndefined();
@@ -165,20 +168,23 @@ describe('<ReferenceWindow />', () => {
         });
         it('should handle book section autocites', async () => {
             mocks.getFromISBN.mockImplementation(
-                () => new Promise(res => res({
-                    authors: [
-                        {},
-                    ],
-                    issued: '2016-12-10T',
-                    'number-of-pages': 155,
-                    publisher: 'Test Publisher',
-                    title: 'Test Book Section',
-                }))
+                () =>
+                    new Promise(res =>
+                        res({
+                            authors: [{}],
+                            issued: '2016-12-10T',
+                            'number-of-pages': 155,
+                            publisher: 'Test Publisher',
+                            title: 'Test Book Section',
+                        })
+                    )
             );
             const { instance } = setup();
             expect(instance.manualData.get('title')).toBeUndefined();
             await instance.handleAutocite('chapter', 'testing');
-            expect(instance.manualData.get('container-title')).toBe('Test Book Section');
+            expect(instance.manualData.get('container-title')).toBe(
+                'Test Book Section'
+            );
         });
         it('should handle book-type errors', () => {
             mocks.getFromISBN.mockImplementation(

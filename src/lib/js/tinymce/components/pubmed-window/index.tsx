@@ -7,7 +7,4 @@ import { useStrict } from 'mobx';
 
 useStrict(true);
 
-ReactDOM.render(
-  <PubmedWindow />,
-  document.getElementById('abt-root')
-);
+ReactDOM.render(<PubmedWindow />, document.getElementById('abt-root'));

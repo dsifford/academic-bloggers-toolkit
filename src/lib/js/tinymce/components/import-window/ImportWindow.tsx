@@ -15,22 +15,18 @@ interface Props {
 
 @observer
 export class ImportWindow extends React.Component<Props, {}> {
-
     labels = top.ABT_i18n.tinymce.importWindow;
     errors = top.ABT_i18n.errors;
     modal: Modal = new Modal(this.labels.title);
     wm: TinyMCE.WindowManager = this.props.wm;
 
-    @observable
-    filename = '';
+    @observable filename = '';
 
     payload = observable<CSL.Data>([]);
 
-    @action
-    setFilename = (filename: string) => this.filename = filename;
+    @action setFilename = (filename: string) => (this.filename = filename);
 
-    @action
-    setPayload = (payload: CSL.Data[]) => this.payload.replace(payload);
+    @action setPayload = (payload: CSL.Data[]) => this.payload.replace(payload);
 
     handleFileUpload = (e: React.FormEvent<HTMLInputElement>) => {
         const reader = new FileReader();
@@ -43,7 +39,7 @@ export class ImportWindow extends React.Component<Props, {}> {
         });
         reader.readAsText(file);
         this.setFilename(file.name);
-    }
+    };
 
     parseFile = (reader: FileReader, fileExtension: string) => {
         let parser;
@@ -57,19 +53,26 @@ export class ImportWindow extends React.Component<Props, {}> {
                     parser = new TeXParser(reader.result);
                     break;
                 default:
-                    this.wm.alert(`${this.errors.prefix}: ${this.errors.fileExtensionError}`);
+                    this.wm.alert(
+                        `${this.errors.prefix}: ${this.errors
+                            .fileExtensionError}`
+                    );
                     this.setFilename('');
                     return;
             }
         } catch (e) {
-            this.wm.alert(`${this.errors.prefix}: ${this.errors.filetypeError}`);
+            this.wm.alert(
+                `${this.errors.prefix}: ${this.errors.filetypeError}`
+            );
             this.setFilename('');
             return;
         }
         const parsed = parser.parse();
 
         if (parsed.length === 0) {
-            this.wm.alert(`${this.errors.prefix}: ${this.errors.filetypeError}`);
+            this.wm.alert(
+                `${this.errors.prefix}: ${this.errors.filetypeError}`
+            );
             this.setFilename('');
             return;
         }
@@ -82,17 +85,20 @@ export class ImportWindow extends React.Component<Props, {}> {
 
         const leftovers = parser.unsupportedRefs;
         if (leftovers.length > 0) {
-            this.wm.alert(`${this.errors.prefix}: ${this.errors.risLeftovers}: ${leftovers.join(', ')}`);
+            this.wm.alert(
+                `${this.errors.prefix}: ${this.errors
+                    .risLeftovers}: ${leftovers.join(', ')}`
+            );
         }
 
         this.setPayload(payload);
-    }
+    };
 
     handleSubmit = (e: React.MouseEvent<HTMLInputElement>) => {
         e.preventDefault();
-        this.wm.setParams({data: toJS(this.payload)});
+        this.wm.setParams({ data: toJS(this.payload) });
         this.wm.close();
-    }
+    };
 
     componentDidMount() {
         this.modal.resize();
@@ -100,7 +106,7 @@ export class ImportWindow extends React.Component<Props, {}> {
 
     render() {
         return (
-            <div className="row" style={{padding: '5px 0'}}>
+            <div className="row" style={{ padding: '5px 0' }}>
                 <DevTool />
                 <div>
                     <label className="uploadLabel">
@@ -117,8 +123,10 @@ export class ImportWindow extends React.Component<Props, {}> {
                 </div>
                 <div className="flex">
                     <div className="well" children={this.filename} />
-                    <div style={{fontSize: 10, padding: '5px 0 0 10px'}}>
-                        <span style={{fontWeight: 500}}>Supported filetypes: </span>
+                    <div style={{ fontSize: 10, padding: '5px 0 0 10px' }}>
+                        <span style={{ fontWeight: 500 }}>
+                            Supported filetypes:{' '}
+                        </span>
                         <code>RIS</code>,&nbsp;
                         <code>BibTeX</code>
                     </div>
@@ -128,8 +136,8 @@ export class ImportWindow extends React.Component<Props, {}> {
                         type="button"
                         className={
                             this.payload.length === 0
-                            ? 'abt-btn abt-btn_submit abt-btn_disabled'
-                            : 'abt-btn abt-btn_submit'
+                                ? 'abt-btn abt-btn_submit abt-btn_disabled'
+                                : 'abt-btn abt-btn_submit'
                         }
                         id="submitbtn"
                         value={this.labels.importBtn}

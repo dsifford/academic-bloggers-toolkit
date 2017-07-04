@@ -1,15 +1,11 @@
 // tslint:disable no-namespace
 
 declare namespace Citeproc {
-
     /**
      * 1: Bibmeta
      * 2: Array of raw citation HTML.
      */
-    type Bibliography = [
-        Bibmeta,
-        string[]
-    ];
+    type Bibliography = [Bibmeta, string[]];
 
     type CitationByIndex = Citation[];
 
@@ -76,7 +72,7 @@ declare namespace Citeproc {
          * Too difficult to explain.
          * See here: https://github.com/citation-style-language/styles/issues/804#issuecomment-31467854
          */
-        'second-field-align': 'flush'|'margin'|boolean;
+        'second-field-align': 'flush' | 'margin' | boolean;
     }
 
     interface Citation {
@@ -109,7 +105,7 @@ declare namespace Citeproc {
 
     interface SystemObj {
         retrieveLocale(lang: string): string;
-        retrieveItem(id: string|number): CSL.Data;
+        retrieveItem(id: string | number): CSL.Data;
     }
 
     interface Processor {
@@ -118,15 +114,19 @@ declare namespace Citeproc {
         };
         sys: SystemObj;
         opt: {
-            xclass: 'note'|'in-text';
+            xclass: 'note' | 'in-text';
         };
-        makeBibliography(): Bibliography|boolean;
+        makeBibliography(): Bibliography | boolean;
         processCitationCluster(
             citation: Citeproc.Citation,
             pre: Citeproc.CitationsPrePost,
             post: Citeproc.CitationsPrePost
-        ): [{ bibchange: boolean; 'citation_errors': string[]}, CitationClusterData[]];
-        rebuildProcessorState(citationByIndex: Citation[]): RebuildProcessorStateData[];
+        ): [
+            { bibchange: boolean; 'citation_errors': string[] },
+            CitationClusterData[]
+        ];
+        rebuildProcessorState(
+            citationByIndex: Citation[]
+        ): RebuildProcessorStateData[];
     }
-
 }

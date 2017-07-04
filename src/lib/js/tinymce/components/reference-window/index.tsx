@@ -6,7 +6,4 @@ import { ReferenceWindow } from './components/ReferenceWindow';
 
 useStrict(true);
 
-ReactDOM.render(
-  <ReferenceWindow />,
-  document.getElementById('abt-root')
-);
+ReactDOM.render(<ReferenceWindow />, document.getElementById('abt-root'));

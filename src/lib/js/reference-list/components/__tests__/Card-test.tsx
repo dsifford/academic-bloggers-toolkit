@@ -4,7 +4,7 @@ import { Card } from '../Card';
 jest.mock('../../../utils/Tooltips');
 jest.useFakeTimers();
 
-const testData: {[id: string]: CSL.Data} = {
+const testData: { [id: string]: CSL.Data } = {
     fourAuthors: {
         author: [
             {
@@ -26,13 +26,7 @@ const testData: {[id: string]: CSL.Data} = {
         ],
         id: 'aaaaa',
         issued: {
-            'date-parts': [
-                [
-                    '2016',
-                    '01',
-                    '01',
-                ],
-            ],
+            'date-parts': [['2016', '01', '01']],
         },
         title: 'Two valid authors',
         type: 'article',
@@ -46,13 +40,7 @@ const testData: {[id: string]: CSL.Data} = {
         author: [],
         id: 'aaaaa',
         issued: {
-            'date-parts': [
-                [
-                    '2016',
-                    '01',
-                    '01',
-                ],
-            ],
+            'date-parts': [['2016', '01', '01']],
         },
         title: 'No authors',
         type: 'article',
@@ -79,9 +67,7 @@ const testData: {[id: string]: CSL.Data} = {
         ],
         id: 'aaaaa',
         issued: {
-            'date-parts': [
-                [],
-            ],
+            'date-parts': [[]],
         },
         title: 'Single author, literal name',
         type: 'article',
@@ -115,13 +101,7 @@ const testData: {[id: string]: CSL.Data} = {
         ],
         id: 'aaaaa',
         issued: {
-            'date-parts': [
-                [
-                    '2016',
-                    '01',
-                    '01',
-                ],
-            ],
+            'date-parts': [['2016', '01', '01']],
         },
         title: 'Two valid authors',
         type: 'article',
@@ -143,13 +123,7 @@ const testData: {[id: string]: CSL.Data} = {
         ],
         id: 'aaaaa',
         issued: {
-            'date-parts': [
-                [
-                    '2016',
-                    '01',
-                    '01',
-                ],
-            ],
+            'date-parts': [['2016', '01', '01']],
         },
         title: 'Two valid authors',
         type: 'article',
@@ -167,23 +141,28 @@ const testData: {[id: string]: CSL.Data} = {
         ],
         id: 'aaaaa',
         issued: {
-            'date-parts': [
-                [
-                    '2016',
-                    '01',
-                    '01',
-                ],
-            ],
+            'date-parts': [['2016', '01', '01']],
         },
         title: 'Two valid authors',
         type: 'article',
     },
 };
 
-const setup = (data: CSL.Data, selected: boolean = false, tooltip: boolean = true) => {
+const setup = (
+    data: CSL.Data,
+    selected: boolean = false,
+    tooltip: boolean = true
+) => {
     const spy = jest.fn();
     const component = shallow(
-        <Card isSelected={selected} CSL={data} click={spy} id={'id'} index="1" showTooltip={tooltip}/>
+        <Card
+            isSelected={selected}
+            CSL={data}
+            click={spy}
+            id={'id'}
+            index="1"
+            showTooltip={tooltip}
+        />
     );
     return {
         component,
@@ -196,7 +175,9 @@ const setup = (data: CSL.Data, selected: boolean = false, tooltip: boolean = tru
 describe('<Card/>', () => {
     it('should render selected', () => {
         const { component } = setup(testData['noAuthors'], true);
-        expect(component.first().props().className).toBe('abt-card abt-card_selected');
+        expect(component.first().props().className).toBe(
+            'abt-card abt-card_selected'
+        );
     });
     it('should render unselected', () => {
         const { component } = setup(testData['noAuthors']);
@@ -260,22 +241,30 @@ describe('<Card/>', () => {
     });
     it('should create a tooltip on mouseEnter', () => {
         const { component } = setup(testData['noAuthors']);
-        component.simulate('mouseEnter', { currentTarget: document.createElement('div') });
+        component.simulate('mouseEnter', {
+            currentTarget: document.createElement('div'),
+        });
         jest.runAllTimers();
     });
     it('should destroy tooltip on mouseLeave', () => {
         const { component } = setup(testData['noAuthors']);
-        component.simulate('mouseEnter', { currentTarget: document.createElement('div') });
+        component.simulate('mouseEnter', {
+            currentTarget: document.createElement('div'),
+        });
         component.simulate('mouseLeave');
     });
     it('should not create tooltips when showTooltip is false', () => {
         const { component } = setup(testData['noAuthors'], false, false);
-        component.simulate('mouseEnter', { currentTarget: document.createElement('div') });
+        component.simulate('mouseEnter', {
+            currentTarget: document.createElement('div'),
+        });
         jest.runAllTimers();
     });
     it('should not destroy tooltips when showTooltip is false', () => {
         const { component } = setup(testData['noAuthors'], false, false);
-        component.simulate('mouseEnter', { currentTarget: document.createElement('div') });
+        component.simulate('mouseEnter', {
+            currentTarget: document.createElement('div'),
+        });
         component.simulate('mouseLeave');
     });
 });

@@ -1,15 +1,14 @@
 // tslint:disable no-namespace
 
 declare namespace ABT {
-
-    type Bibliography = {id: string, html: string}[];
+    type Bibliography = { id: string; html: string }[];
 
     type CitationTypes = {
         label: string;
         value: string;
     }[];
 
-    type LinkStyle = 'always'|'always-full-surround'|'urls'|'never';
+    type LinkStyle = 'always' | 'always-full-surround' | 'urls' | 'never';
 
     interface ExternalSiteMeta {
         authors: {
@@ -95,16 +94,17 @@ declare namespace ABT {
         fields: Field[];
         people: {
             label: string;
-            type: 'author'| // tslint:disable-line
-                'container-author'|
-                'editor'|
-                'director'|
-                'interviewer'|
-                'illustrator'|
-                'composer'|
-                'translator'|
-                'recipient'|
-                'collection-editor'
+            type:
+                | 'author' // tslint:disable-line
+                | 'container-author'
+                | 'editor'
+                | 'director'
+                | 'interviewer'
+                | 'illustrator'
+                | 'composer'
+                | 'translator'
+                | 'recipient'
+                | 'collection-editor';
         }[];
     }
 
@@ -151,5 +151,4 @@ declare namespace ABT {
         site_title: string;
         url: string;
     }
-
 }

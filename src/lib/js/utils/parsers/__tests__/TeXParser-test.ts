@@ -2,7 +2,9 @@ import { parsePeople, TeXParser } from '../TeXParser';
 
 describe('parsePeople()', () => {
     it('Last, First MI', () => {
-        const people = parsePeople('Doe, John Q and Smith, Bob D and de Camp, Catherine C');
+        const people = parsePeople(
+            'Doe, John Q and Smith, Bob D and de Camp, Catherine C'
+        );
         const expected = [
             ['Doe', 'John Q.'],
             ['Smith', 'Bob D.'],
@@ -18,7 +20,9 @@ describe('parsePeople()', () => {
         // }
     });
     it('First Middle Last', () => {
-        const people = parsePeople('Kim Stanley Robinson and Raymond Edward Carrington and James von Issac and Jean de La Fontaine'); // tslint:disable-line
+        const people = parsePeople(
+            'Kim Stanley Robinson and Raymond Edward Carrington and James von Issac and Jean de La Fontaine'
+        ); // tslint:disable-line
         const expected = [
             ['Robinson', 'Kim S.'],
             ['Carrington', 'Raymond E.'],
@@ -35,7 +39,9 @@ describe('parsePeople()', () => {
         // }
     });
     it('should handle a mixture', () => {
-        const people = parsePeople('Lacroix, Jacques and Hébert, Paul C. and Fergusson, Dean A. and Tinmouth, Alan and Cook, Deborah J. and Marshall, John C. and Clayton, Lucy and McIntyre, Lauralyn and Callum, Jeannie and Turgeon, Alexis F. and Blajchman, Morris A. and Walsh, Timothy S. and Stanworth, Simon J. and Campbell, Helen and Capellier, Gilles and Tiberghien, Pierre and Bardiaux, Laurent and van de Watering, Leo and van der Meer, Nardo J. and Sabri, Elham and Vo, Dong and {ABLE Investigators and the Canadian Critical Care Trials Group}'); // tslint:disable-line
+        const people = parsePeople(
+            'Lacroix, Jacques and Hébert, Paul C. and Fergusson, Dean A. and Tinmouth, Alan and Cook, Deborah J. and Marshall, John C. and Clayton, Lucy and McIntyre, Lauralyn and Callum, Jeannie and Turgeon, Alexis F. and Blajchman, Morris A. and Walsh, Timothy S. and Stanworth, Simon J. and Campbell, Helen and Capellier, Gilles and Tiberghien, Pierre and Bardiaux, Laurent and van de Watering, Leo and van der Meer, Nardo J. and Sabri, Elham and Vo, Dong and {ABLE Investigators and the Canadian Critical Care Trials Group}'
+        ); // tslint:disable-line
         const expected = [
             ['Lacroix', 'Jacques'],
             ['Hébert', 'Paul C.'],
@@ -202,12 +208,7 @@ describe('TeXParser', () => {
                 pages = {5}
             }
         `;
-        const expected = [
-            '250-51',
-            '250-51',
-            '95-105',
-            '5',
-        ];
+        const expected = ['250-51', '250-51', '95-105', '5'];
         const parsed = new TeXParser(bib).parse();
         expected.forEach((e, i) => {
             expect(parsed[i].page).toEqual(e);
@@ -257,10 +258,7 @@ describe('TeXParser', () => {
             }
         `;
         const parsed = new TeXParser(bib).parse()[0];
-        const expected = [
-            ['Doe', 'John'],
-            ['Smith', 'Bob D.'],
-        ];
+        const expected = [['Doe', 'John'], ['Smith', 'Bob D.']];
         expected.forEach((e, i) => {
             expect(parsed.author[i].family).toEqual(e[0]);
             expect(parsed.author[i].given).toEqual(e[1]);

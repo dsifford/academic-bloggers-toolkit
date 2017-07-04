@@ -20,19 +20,19 @@ describe('Frontend', () => {
             frontendJS();
         });
         it('should render appropriately', () => {
-            const citation1 = document.getElementById('citation-1');
+            const citation1 = document.getElementById('citation-1')!;
             expect(citation1.getAttribute('data-citations')).toBe(
                 `<div id="aaaaaaaa">Test reference 1</div><div id="cccccccc">Test reference 3</div>`,
             );
         });
         it('should create a tooltip on click', () => {
             expect(document.getElementById('abt-tooltip')).toBeNull;
-            const citation3 = document.getElementById('citation-3');
+            const citation3 = document.getElementById('citation-3')!;
             citation3.click();
             expect(document.getElementById('abt-tooltip')).not.toBeNull;
         });
         it('should destroy tooltips on close button click', () => {
-            const citation2 = document.getElementById('citation-2');
+            const citation2 = document.getElementById('citation-2')!;
             citation2.click();
             const closeBtn = <HTMLDivElement>document.querySelector('.abt-tooltip__close-button-container');
             expect(document.getElementById('abt-tooltip')).not.toBeNull;
@@ -42,7 +42,7 @@ describe('Frontend', () => {
     });
     describe('Toggle Enabled', () => {
         before(() => {
-            document.querySelector('.abt-bibliography__heading').classList.add('abt-bibliography__heading_toggle');
+            document.querySelector('.abt-bibliography__heading')!.classList.add('abt-bibliography__heading_toggle');
             frontendJS();
         });
         it('should toggle on click', () => {

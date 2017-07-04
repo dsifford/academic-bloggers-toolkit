@@ -1,11 +1,9 @@
 import * as parser from 'bibtex-parse-js';
 
 export class TeXParser {
-
     public bibJSON: parser.BibJSON[];
     public unsupportedRefs = [];
 
-    // tslint:disable:object-literal-sort-keys
     private months = {
         jan: '01',
         feb: '02',
@@ -20,7 +18,6 @@ export class TeXParser {
         nov: '11',
         dec: '12',
     };
-    // tslint:enable:object-literal-sort-keys
 
     constructor(raw: string) {
         this.bibJSON = parser.toJSON(raw);
@@ -95,10 +92,15 @@ export class TeXParser {
                         c.issue = item[key];
                         return;
                     case 'pages':
-                        c.page = item[key].replace(/(^[\d\w]+)(-{1,2})?([\d\w]+)?/, (_, p1, p2, p3) => {
-                            if (!p2) return p1;
-                            return `${p1}-${p3}`;
-                        });
+                        c.page = item[
+                            key
+                        ].replace(
+                            /(^[\d\w]+)(-{1,2})?([\d\w]+)?/,
+                            (_, p1, p2, p3) => {
+                                if (!p2) return p1;
+                                return `${p1}-${p3}`;
+                            }
+                        );
                         return;
                     case 'pagetotal':
                         c['number-of-pages'] = item[key];
@@ -183,7 +185,7 @@ export function parsePeople(raw: string): CSL.Person[] {
         if (nameparts.length === 1) {
             nameparts = person.split(' ');
             for (const part of nameparts) {
-                if (i === (nameparts.length - 1)) {
+                if (i === nameparts.length - 1) {
                     family += part;
                     i = 0;
                     break;
@@ -193,7 +195,10 @@ export function parsePeople(raw: string): CSL.Person[] {
                     i++;
                     continue;
                 }
-                if (part[0] === part[0].toLowerCase() || nameparts[i - 1][0] === nameparts[i - 1][0].toLowerCase()) {
+                if (
+                    part[0] === part[0].toLowerCase() ||
+                    nameparts[i - 1][0] === nameparts[i - 1][0].toLowerCase()
+                ) {
                     family += `${part} `;
                     i++;
                     continue;
@@ -201,8 +206,7 @@ export function parsePeople(raw: string): CSL.Person[] {
                 given += ` ${part[0]}.`;
                 i++;
             }
-        }
-        else if (nameparts.length === 2){
+        } else if (nameparts.length === 2) {
             family = nameparts[0];
             const givenBlock = nameparts[1].split(' ');
             for (const part of givenBlock) {

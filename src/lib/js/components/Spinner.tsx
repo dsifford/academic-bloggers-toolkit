@@ -14,8 +14,7 @@ interface Props {
 }
 
 export class Spinner extends React.PureComponent<Props, {}> {
-
-    style: React.CSSProperties = {...this.props.style};
+    style: React.CSSProperties = { ...this.props.style };
 
     constructor(props) {
         super(props);
@@ -23,8 +22,7 @@ export class Spinner extends React.PureComponent<Props, {}> {
             if (typeof this.props.height === 'function') {
                 this.style.height = this.props.height();
                 this.style.minHeight = this.props.height();
-            }
-            else {
+            } else {
                 this.style.height = this.props.height;
                 this.style.minHeight = this.props.height;
             }
@@ -39,10 +37,7 @@ export class Spinner extends React.PureComponent<Props, {}> {
             ? 'abt-spinner abt-spinner_overlay'
             : 'abt-spinner';
         return (
-            <div
-                className={cn}
-                style={this.style}
-            >
+            <div className={cn} style={this.style}>
                 <svg
                     width={this.props.size}
                     height={this.props.size}

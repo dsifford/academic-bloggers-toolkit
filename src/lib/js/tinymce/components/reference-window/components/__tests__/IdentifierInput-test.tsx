@@ -4,12 +4,9 @@ import { IdentifierInput } from '../IdentifierInput';
 
 const setup = () => {
     const spy = jest.fn();
-    const component = mount((
-        <IdentifierInput
-            identifierList="testing"
-            change={spy}
-        />
-    ));
+    const component = mount(
+        <IdentifierInput identifierList="testing" change={spy} />
+    );
     return {
         component,
         spy,

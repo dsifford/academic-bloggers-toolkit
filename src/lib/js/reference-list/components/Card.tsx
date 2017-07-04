@@ -13,7 +13,6 @@ interface CardProps extends React.HTMLProps<HTMLDivElement> {
 
 @observer
 export class Card extends React.PureComponent<CardProps, {}> {
-
     timer: NodeJS.Timer;
 
     constructor(props) {
@@ -22,7 +21,7 @@ export class Card extends React.PureComponent<CardProps, {}> {
 
     click = () => {
         this.props.click(this.props.id, this.props.isSelected);
-    }
+    };
 
     parsePeople = (p: CSL.Person[]): string => {
         if (!p) return '';
@@ -39,35 +38,39 @@ export class Card extends React.PureComponent<CardProps, {}> {
             switch (i) {
                 case 0:
                 case 1:
-                    return prev += `${name}${p.length > i + 1 ? ', ' : '.'}`;
+                    return (prev += `${name}${p.length > i + 1 ? ', ' : '.'}`);
                 case 2:
                 default:
-                    return prev += `${name}${p.length > i + 1 ? '...' : '.'}`;
+                    return (prev += `${name}${p.length > i + 1 ? '...' : '.'}`);
             }
         }, '');
-    }
+    };
 
-    parseDate = (date: CSL.Date | ''): string|number => {
+    parseDate = (date: CSL.Date | ''): string | number => {
         if (!date) return 'n.d.';
         if (date.year) return date.year;
-        if (date['date-parts'] && date['date-parts'][0].length !== 0 && date['date-parts'][0][0] !== undefined)
+        if (
+            date['date-parts'] &&
+            date['date-parts'][0].length !== 0 &&
+            date['date-parts'][0][0] !== undefined
+        )
             return date['date-parts'][0][0];
         return 'n.d.';
-    }
+    };
 
-    tooltip = (e) => {
+    tooltip = e => {
         if (!this.props.showTooltip) return;
         const t = e.currentTarget;
         this.timer = setTimeout(() => {
             createTooltip(t, this.props.index, 'left');
         }, 700);
-    }
+    };
 
     destroyTooltip = () => {
         if (!this.props.showTooltip) return;
         clearTimeout(this.timer);
         destroyTooltip();
-    }
+    };
 
     render() {
         const { CSL, isSelected } = this.props;
@@ -75,23 +78,35 @@ export class Card extends React.PureComponent<CardProps, {}> {
             <div
                 data-reference-id={this.props.id}
                 role="menuitem"
-                className={isSelected ? 'abt-card abt-card_selected' : 'abt-card'}
+                className={
+                    isSelected ? 'abt-card abt-card_selected' : 'abt-card'
+                }
                 onClick={this.click}
                 onDoubleClick={this.props.onDoubleClick}
                 onMouseEnter={this.tooltip}
                 onMouseLeave={this.destroyTooltip}
             >
-                <div>{CSL.title}</div>
-                <div className="abt-card__people">{this.parsePeople(CSL.author)}</div>
+                <div>
+                    {CSL.title}
+                </div>
+                <div className="abt-card__people">
+                    {this.parsePeople(CSL.author)}
+                </div>
                 <div className="abt-card__meta-container">
-                    <div className="abt-card__date">({this.parseDate(CSL.issued)})</div>
-                    <div className="abt-card__source">
-                        {CSL.journalAbbreviation || CSL['container-title'] || CSL.publisher || ''}
+                    <div className="abt-card__date">
+                        ({this.parseDate(CSL.issued)})
                     </div>
-                    <div className="abt-card__pages">{CSL.page || 'n.p.'}</div>
+                    <div className="abt-card__source">
+                        {CSL.journalAbbreviation ||
+                            CSL['container-title'] ||
+                            CSL.publisher ||
+                            ''}
+                    </div>
+                    <div className="abt-card__pages">
+                        {CSL.page || 'n.p.'}
+                    </div>
                 </div>
             </div>
         );
     }
-
 }

@@ -13,24 +13,23 @@ interface Props {
 
 @observer
 export class ButtonRow extends React.PureComponent<Props, {}> {
-
     labels = top.ABT_i18n.tinymce.referenceWindow.buttonRow;
 
     searchPubmedClick = () => {
         const wm = top.tinyMCE.activeEditor.windowManager;
         wm.open({
             height: 100,
-            onsubmit: (e) => {
+            onsubmit: e => {
                 this.props.pubmedCallback(e.target.data.pmid);
             },
             title: this.labels.pubmedWindowTitle,
             url: wm.windows[0].settings.params.baseUrl + 'pubmed-window.html',
             width: 600,
         });
-    }
+    };
 
     render() {
-        return(
+        return (
             <div id="button-row" className="row">
                 <div>
                     <input
@@ -40,8 +39,9 @@ export class ButtonRow extends React.PureComponent<Props, {}> {
                         className="abt-btn abt-btn_flat"
                         value={
                             this.props.addManually === false
-                            ? this.labels.addManually
-                            : this.labels.addWithIdentifier}
+                                ? this.labels.addManually
+                                : this.labels.addWithIdentifier
+                        }
                     />
                 </div>
                 <div>

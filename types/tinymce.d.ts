@@ -1,7 +1,6 @@
 // tslint:disable no-namespace
 
 declare namespace TinyMCE {
-
     interface MCE {
         DOM: object;
         EditorManager;
@@ -25,19 +24,27 @@ declare namespace TinyMCE {
         controlManager: object;
         dom: {
             doc: Document;
-            create<T extends HTMLElement>(tag: string, attrs: { [attr: string]: string}, children?: string): T;
-            getStyle(element: HTMLElement, name: string, computed: boolean): string;
+            create<T extends HTMLElement>(
+                tag: string,
+                attrs: { [attr: string]: string },
+                children?: string
+            ): T;
+            getStyle(
+                element: HTMLElement,
+                name: string,
+                computed: boolean
+            ): string;
         };
         selection: {
             bookmarkManager: {
                 getBookmark(type?: number, normalized?: boolean): object; // tslint:disable-line
-                moveToBookmark(bookmark: object): boolean
-            }
+                moveToBookmark(bookmark: object): boolean;
+            };
             collapse(toStart: boolean): void;
             getBookmark(type?: number, normalized?: boolean): object; // tslint:disable-line
             getNode(): Node;
-            getContent(args: { format: 'html'|'text' }): string;
-            setContent(content: string, args?: { format: string }): string
+            getContent(args: { format: 'html' | 'text' }): string;
+            setContent(content: string, args?: { format: string }): string;
             moveToBookmark(bookmark: object): boolean;
             select(el: HTMLElement, content: boolean);
             setCursorLocation(a): void;
@@ -68,7 +75,7 @@ declare namespace TinyMCE {
         data?: object;
         editor?: Editor;
         windows?;
-        alert?(message: string, callback?: () => void, scope?: object): void;
+        alert(message: string, callback?: () => void, scope?: object): void;
         close?(): void;
         confirm?(message: string, callback?: () => void, scope?: object): void;
         onClose?(e): void;

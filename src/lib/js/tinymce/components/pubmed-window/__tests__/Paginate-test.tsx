@@ -2,16 +2,14 @@ import { mount } from 'enzyme';
 import * as React from 'react';
 import { Paginate } from '../Paginate';
 
-const setup = (
-    page: number,
-    resultLength: number
-) => {
+const setup = (page: number, resultLength: number) => {
     const component = mount(
         <Paginate
             page={page}
             resultLength={resultLength}
-            paginate={(num) => { // tslint:disable-line
-                component.setProps({...component.props, page: num});
+            paginate={num => {
+                // tslint:disable-line
+                component.setProps({ ...component.props, page: num });
             }}
         />
     );
@@ -26,12 +24,18 @@ describe('<Paginate />', () => {
     it('should render with "next" enabled and "previous" disabled', () => {
         const { next, prev } = setup(1, 50);
         expect(next.props().className).toBe('abt-btn abt-btn_flat');
-        expect(prev.props().className).toBe('abt-btn abt-btn_flat abt-btn_disabled');
+        expect(prev.props().className).toBe(
+            'abt-btn abt-btn_flat abt-btn_disabled'
+        );
     });
     it('should render with both "next" and "previous" disabled', () => {
         const { next, prev } = setup(1, 3);
-        expect(next.props().className).toBe('abt-btn abt-btn_flat abt-btn_disabled');
-        expect(prev.props().className).toBe('abt-btn abt-btn_flat abt-btn_disabled');
+        expect(next.props().className).toBe(
+            'abt-btn abt-btn_flat abt-btn_disabled'
+        );
+        expect(prev.props().className).toBe(
+            'abt-btn abt-btn_flat abt-btn_disabled'
+        );
     });
     it('should paginate to the next page when "next" is clicked', () => {
         const { component, next } = setup(1, 25);
@@ -52,7 +56,9 @@ describe('<Paginate />', () => {
         next.simulate('click');
         next.simulate('click');
         next.simulate('click');
-        expect(next.props().className).toBe('abt-btn abt-btn_flat abt-btn_disabled');
+        expect(next.props().className).toBe(
+            'abt-btn abt-btn_flat abt-btn_disabled'
+        );
         expect(component.props().page).toBe(4);
     });
 });

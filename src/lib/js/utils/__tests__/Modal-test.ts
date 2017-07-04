@@ -1,8 +1,6 @@
 import { Modal } from '../Modal';
 
-const setup = (
-    title: string
-) => {
+const setup = (title: string) => {
     document.body.innerHTML = `
         <div class="mce-floatpanel" aria-label="${title}" id="test" style="height: 100px; width: 100px;">
             <div id="mce-reset"></div>
@@ -27,7 +25,7 @@ describe('Modal', () => {
         setup('test');
         const modal = new Modal('test');
         const el = document.getElementById('abt-root');
-        spyOn(el, 'getBoundingClientRect').and.returnValue({height: 10000});
+        spyOn(el, 'getBoundingClientRect').and.returnValue({ height: 10000 });
         modal.resize();
     });
 });

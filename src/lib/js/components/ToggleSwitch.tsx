@@ -8,33 +8,32 @@ interface Props {
 }
 
 export class ToggleSwitch extends React.PureComponent<Props, {}> {
-
-    handleMouseOver = (e) => {
+    handleMouseOver = e => {
         createTooltip(e.target, e.target.getAttribute('data-tooltip'), 'left');
-    }
+    };
 
     render() {
         const { checked, onChange, label } = this.props;
         return (
             <div>
-                    <input
-                        type="checkbox"
-                        id="inline-toggle"
-                        className="toggle"
-                        style={{display: 'none'}}
-                        checked={checked}
-                        aria-checked={checked}
-                        onChange={onChange}
-                    />
-                    <label
-                        htmlFor="inline-toggle"
-                        className="toggle-lbl"
-                        role="tooltip"
-                        data-tooltip={label}
-                        onMouseOver={this.handleMouseOver}
-                        onMouseOut={destroyTooltip}
-                    />
-                </div>
+                <input
+                    type="checkbox"
+                    id="inline-toggle"
+                    className="toggle"
+                    style={{ display: 'none' }}
+                    checked={checked}
+                    aria-checked={checked}
+                    onChange={onChange}
+                />
+                <label
+                    htmlFor="inline-toggle"
+                    className="toggle-lbl"
+                    role="tooltip"
+                    data-tooltip={label}
+                    onMouseOver={this.handleMouseOver}
+                    onMouseOut={destroyTooltip}
+                />
+            </div>
         );
     }
 }

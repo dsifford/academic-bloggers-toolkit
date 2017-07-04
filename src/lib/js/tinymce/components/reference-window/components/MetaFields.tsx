@@ -8,13 +8,12 @@ interface MetaFieldProps {
 
 @observer
 export class MetaFields extends React.Component<MetaFieldProps, {}> {
-
     fieldmaps = top.ABT_i18n.fieldmaps;
 
     @action
     updateField = (e: React.FormEvent<HTMLInputElement>) => {
         this.props.meta.set(e.currentTarget.id, e.currentTarget.value);
-    }
+    };
 
     render() {
         const citationType = this.props.meta.get('type');
@@ -22,20 +21,24 @@ export class MetaFields extends React.Component<MetaFieldProps, {}> {
         const fields = this.fieldmaps[citationType].fields;
         return (
             <div>
-                <div className="row" style={{paddingBottom: 0}}>
+                <div className="row" style={{ paddingBottom: 0 }}>
                     <div>
-                        <span id={`meta-${citationType}`} style={{fontWeight: 400}} children={title} />
+                        <span
+                            id={`meta-${citationType}`}
+                            style={{ fontWeight: 400 }}
+                            children={title}
+                        />
                     </div>
                 </div>
                 <div className="table">
-                    {fields.map((field: ABT.Field, i: number) => (
+                    {fields.map((field: ABT.Field, i: number) =>
                         <Field
                             key={`${title}-meta-${i}`}
                             change={this.updateField}
                             field={field}
                             meta={this.props.meta}
                         />
-                    ))}
+                    )}
                 </div>
             </div>
         );
@@ -54,14 +57,18 @@ class Field extends React.PureComponent<FieldProps, {}> {
         const { change, field, meta } = this.props;
         return (
             <div className="table__row">
-                <div className="table__cell" style={{paddingRight: 10}}>
-                    <label className="sublabel" htmlFor={field.value} children={field.label}/>
+                <div className="table__cell" style={{ paddingRight: 10 }}>
+                    <label
+                        className="sublabel"
+                        htmlFor={field.value}
+                        children={field.label}
+                    />
                 </div>
-                <div className="table__cell" style={{width: '100%'}}>
+                <div className="table__cell" style={{ width: '100%' }}>
                     <input
                         type="text"
                         onChange={change}
-                        style={{margin: '1px 0'}}
+                        style={{ margin: '1px 0' }}
                         id={field.value}
                         value={meta.get(field.value) || ''}
                         required={field.required}

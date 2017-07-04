@@ -3,5 +3,8 @@
  * @return {string}  Unique ID.
  */
 export function generateID(): string {
-    return String.fromCharCode(97 + Math.floor(Math.random() * 26)) + Math.round(Math.random() * Date.now()).toString(30); // tslint:disable-line
+    return (
+        String.fromCharCode(97 + Math.floor(Math.random() * 26)) +
+        Math.round(Math.random() * Date.now()).toString(30)
+    );
 }

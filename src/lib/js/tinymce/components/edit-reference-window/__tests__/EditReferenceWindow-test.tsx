@@ -23,24 +23,22 @@ describe('<EditReferenceWindow />', () => {
                                         issued: {
                                             'date-parts': [
                                                 ['2016', '05', '23'],
-                                            ]
+                                            ],
                                         },
                                         title: 'Test Title',
                                         type: 'article-journal',
                                     },
-                                }
-                            }
-                        }
+                                },
+                            },
+                        },
                     ],
-                }
-            }
+                },
+            },
         } as any;
     });
 
     const setup = () => {
-        const component = mount(
-            <EditReferenceWindow />
-        );
+        const component = mount(<EditReferenceWindow />);
         return {
             component,
             instance: component.instance() as any,
@@ -71,7 +69,7 @@ describe('<EditReferenceWindow />', () => {
                     { family: 'Doe', given: 'John', type: 'author' },
                     { family: 'Smith', given: 'Jane', type: 'author' },
                 ],
-            }
+            },
         };
 
         const { component, wm } = setup();

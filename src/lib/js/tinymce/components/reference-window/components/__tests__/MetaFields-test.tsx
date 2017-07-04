@@ -3,13 +3,9 @@ import { observable } from 'mobx';
 import * as React from 'react';
 import { MetaFields } from '../MetaFields';
 
-const setup = (
-    title = 'article-journal'
-) => {
+const setup = (title = 'article-journal') => {
     const meta = observable.map<string>([['type', title]]);
-    const component = mount(
-        <MetaFields meta={meta} />
-    );
+    const component = mount(<MetaFields meta={meta} />);
     return {
         component,
         field: component.find(`#title`),

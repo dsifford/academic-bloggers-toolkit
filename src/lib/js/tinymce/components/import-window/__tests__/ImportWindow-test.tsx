@@ -19,9 +19,7 @@ const setup = () => {
             },
         ],
     };
-    const component = mount(
-        <ImportWindow wm={wm} />
-    );
+    const component = mount(<ImportWindow wm={wm} />);
     return {
         alert,
         close,
@@ -37,7 +35,9 @@ describe('<ImportWindow />', () => {
     it('calls componentDidMount', () => {
         spyOn(ImportWindow.prototype, 'componentDidMount');
         setup();
-        expect(ImportWindow.prototype.componentDidMount).toHaveBeenCalledTimes(1);
+        expect(ImportWindow.prototype.componentDidMount).toHaveBeenCalledTimes(
+            1
+        );
     });
     it('should set filename', () => {
         spyOn(window, 'FileReader').and.returnValue({
@@ -70,7 +70,9 @@ describe('<ImportWindow />', () => {
         const filename = 'test.ris';
         const payload = [{}];
 
-        expect(submit.props().className).toBe('abt-btn abt-btn_submit abt-btn_disabled');
+        expect(submit.props().className).toBe(
+            'abt-btn abt-btn_submit abt-btn_disabled'
+        );
         instance.setFilename(filename);
         instance.setPayload(payload);
         expect(submit.props().className).toBe('abt-btn abt-btn_submit');
@@ -81,7 +83,7 @@ describe('<ImportWindow />', () => {
     it('should trigger an alert when the upload returns a length of 0 (bad file)', () => {
         spyOn(RISParser.prototype, 'parse').and.returnValue([]);
         const { instance, alert } = setup();
-        instance.parseFile({currentTarget: {result: ''}});
+        instance.parseFile({ currentTarget: { result: '' } });
         expect(alert).toHaveBeenCalledTimes(1);
     });
     it('should handle a RIS file', () => {
@@ -89,22 +91,22 @@ describe('<ImportWindow />', () => {
         spyOn(instance, 'setPayload');
         const mockFile = {
             result:
-            `TY  - ICOMM\n` +
-            `T1  - Faked peer reviews prompt 64 retractions\n` +
-            `A1  - Callaway, Ewen\n` +
-            `Y1  - 2015///\n` +
-            `JF  - Nature: News Section2\n` +
-            `VL  - 785\n` +
-            `SP  - 23\n` +
-            `EP  - 25\n` +
-            `DO  - 10.1038/nature.2015.18202\n` +
-            `ER  - `,
+                `TY  - ICOMM\n` +
+                `T1  - Faked peer reviews prompt 64 retractions\n` +
+                `A1  - Callaway, Ewen\n` +
+                `Y1  - 2015///\n` +
+                `JF  - Nature: News Section2\n` +
+                `VL  - 785\n` +
+                `SP  - 23\n` +
+                `EP  - 25\n` +
+                `DO  - 10.1038/nature.2015.18202\n` +
+                `ER  - `,
         };
         instance.parseFile(mockFile, 'ris');
         expect(instance.setPayload.calls.mostRecent().args[0].length).toBe(1);
-        expect(
-            instance.setPayload.calls.mostRecent().args[0][0].title
-        ).toBe('Faked peer reviews prompt 64 retractions');
+        expect(instance.setPayload.calls.mostRecent().args[0][0].title).toBe(
+            'Faked peer reviews prompt 64 retractions'
+        );
     });
     it('should handle a BibTeX file', () => {
         const { instance } = setup();
@@ -114,9 +116,9 @@ describe('<ImportWindow />', () => {
         };
         instance.parseFile(mockFile, 'bib');
         expect(instance.setPayload.calls.mostRecent().args[0].length).toBe(1);
-        expect(
-            instance.setPayload.calls.mostRecent().args[0][0].title
-        ).toBe('This is a test');
+        expect(instance.setPayload.calls.mostRecent().args[0][0].title).toBe(
+            'This is a test'
+        );
     });
     it('should alert and set filename to empty string on error', () => {
         const { instance, alert } = setup();
@@ -143,28 +145,28 @@ describe('<ImportWindow />', () => {
         spyOn(instance, 'setPayload');
         const mockFile = {
             result:
-            `TY  - ICOMM\n` +
-            `T1  - Faked peer reviews prompt 64 retractions\n` +
-            `A1  - Callaway, Ewen\n` +
-            `Y1  - 2015///\n` +
-            `JF  - Nature: News Section2\n` +
-            `VL  - 785\n` +
-            `SP  - 23\n` +
-            `EP  - 25\n` +
-            `DO  - 10.1038/nature.2015.18202\n` +
-            `ER  - ` +
-            `TY  - GIBBERISH\n` +
-            `T1  - Faked peer reviews prompt 64 retractions\n` +
-            `A1  - Callaway, Ewen\n` +
-            `Y1  - 2015///\n` +
-            `ER  -`,
+                `TY  - ICOMM\n` +
+                `T1  - Faked peer reviews prompt 64 retractions\n` +
+                `A1  - Callaway, Ewen\n` +
+                `Y1  - 2015///\n` +
+                `JF  - Nature: News Section2\n` +
+                `VL  - 785\n` +
+                `SP  - 23\n` +
+                `EP  - 25\n` +
+                `DO  - 10.1038/nature.2015.18202\n` +
+                `ER  - ` +
+                `TY  - GIBBERISH\n` +
+                `T1  - Faked peer reviews prompt 64 retractions\n` +
+                `A1  - Callaway, Ewen\n` +
+                `Y1  - 2015///\n` +
+                `ER  -`,
         };
         instance.parseFile(mockFile, 'ris');
         expect(alert).toHaveBeenCalled();
         expect(instance.setPayload.calls.mostRecent().args[0].length).toBe(1);
-        expect(
-            instance.setPayload.calls.mostRecent().args[0][0].title
-        ).toBe('Faked peer reviews prompt 64 retractions');
+        expect(instance.setPayload.calls.mostRecent().args[0][0].title).toBe(
+            'Faked peer reviews prompt 64 retractions'
+        );
     });
     it('should alert and set filename to empty string on parse errors', () => {
         const { instance, alert } = setup();

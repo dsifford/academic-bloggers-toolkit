@@ -10,15 +10,20 @@
 export function getFromDOI(doiList: string[]): Promise<[CSL.Data[], string[]]> {
     return new Promise((resolve, reject) => {
         const promises: Promise<[CSL.Data, string]>[] = [];
-        doiList.forEach(doi => promises.push(getDOIAgency(doi).then(resolveDOI)));
-        Promise.all(promises).then(data => {
-            resolve([
-                data.map(d => d[0]).filter(d => d),
-                data.map(d => d[1]).filter(d => d),
-            ]);
-        }, (err: Error) => {
-            reject(err);
-        });
+        doiList.forEach(doi =>
+            promises.push(getDOIAgency(doi).then(resolveDOI))
+        );
+        Promise.all(promises).then(
+            data => {
+                resolve([
+                    data.map(d => d[0]).filter(d => d),
+                    data.map(d => d[1]).filter(d => d),
+                ]);
+            },
+            (err: Error) => {
+                reject(err);
+            }
+        );
     });
 }
 
@@ -27,8 +32,13 @@ export function getFromDOI(doiList: string[]): Promise<[CSL.Data[], string[]]> {
  * @param  {string}  doi DOI string
  * @return {Promise<{agency: 'crossref'|'datacite'|'medra', doi: string}>}
  */
-function getDOIAgency(doi: string): Promise<{agency: 'crossref'|'datacite'|'medra', doi: string}> {
-    return new Promise<{agency: 'crossref'|'datacite'|'medra', doi: string}>((resolve, reject) => {
+function getDOIAgency(
+    doi: string
+): Promise<{ agency: 'crossref' | 'datacite' | 'medra'; doi: string }> {
+    return new Promise<{
+        agency: 'crossref' | 'datacite' | 'medra';
+        doi: string;
+    }>((resolve, reject) => {
         const url = `https://api.crossref.org/works/${doi}/agency`;
         const req = new XMLHttpRequest();
         req.open('GET', url);
@@ -40,9 +50,14 @@ function getDOIAgency(doi: string): Promise<{agency: 'crossref'|'datacite'|'medr
             const res: CrossRef.Agency = JSON.parse(req.responseText);
             resolve({ agency: res.message.agency.id, doi });
         });
-        req.addEventListener('error', () => reject(
-            new Error(`${top.ABT_i18n.errors.prefix}: getDOIAgency => ${top.ABT_i18n.errors.networkError}`)
-        ));
+        req.addEventListener('error', () =>
+            reject(
+                new Error(
+                    `${top.ABT_i18n.errors.prefix}: getDOIAgency => ${top
+                        .ABT_i18n.errors.networkError}`
+                )
+            )
+        );
         req.send(null);
     });
 }
@@ -54,8 +69,8 @@ function getDOIAgency(doi: string): Promise<{agency: 'crossref'|'datacite'|'medr
  * @return {Promise}  Promise which resolves to a tuple of valid CSL.Data and invalid DOIs
  */
 function resolveDOI(data: {
-    agency: ('crossref'|'datacite'|'medra') & string,
-    doi: string,
+    agency: ('crossref' | 'datacite' | 'medra') & string;
+    doi: string;
 }): Promise<[CSL.Data, string]> {
     return new Promise<[CSL.Data, string]>((resolve, reject) => {
         const req = new XMLHttpRequest();
@@ -70,7 +85,10 @@ function resolveDOI(data: {
                 break;
             case 'medra':
                 url = `https://data.medra.org/${data.doi}`;
-                headers.push(['accept', 'application/vnd.citationstyles.csl+json;q=1.0']);
+                headers.push([
+                    'accept',
+                    'application/vnd.citationstyles.csl+json;q=1.0',
+                ]);
                 break;
             default:
                 resolve([null, data.doi]);
@@ -90,9 +108,14 @@ function resolveDOI(data: {
             }
             resolve([res, null]);
         });
-        req.addEventListener('error', () => reject(
-            new Error(`${top.ABT_i18n.errors.prefix}: resolveDOI => ${top.ABT_i18n.errors.networkError}`)
-        ));
+        req.addEventListener('error', () =>
+            reject(
+                new Error(
+                    `${top.ABT_i18n.errors.prefix}: resolveDOI => ${top.ABT_i18n
+                        .errors.networkError}`
+                )
+            )
+        );
         req.send(null);
     });
 }

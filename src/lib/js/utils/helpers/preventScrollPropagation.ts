@@ -8,10 +8,11 @@
  */
 export function preventScrollPropagation(e): void {
     e.stopPropagation();
-    const atTopAndScrollingUp: boolean = this.element.scrollTop === 0 && e.deltaY < 0; // tslint:disable-line
+    const atTopAndScrollingUp: boolean =
+        this.element.scrollTop === 0 && e.deltaY < 0; // tslint:disable-line
     const atBottomAndScollingDown: boolean =
-        (Math.floor(this.element.scrollTop + this.element.offsetHeight) === this.element.scrollHeight) // tslint:disable-line
-        && e.deltaY > 0;
+        Math.floor(this.element.scrollTop + this.element.offsetHeight) ===
+            this.element.scrollHeight && e.deltaY > 0; // tslint:disable-line
     if (atTopAndScrollingUp || atBottomAndScollingDown) {
         e.preventDefault();
     }

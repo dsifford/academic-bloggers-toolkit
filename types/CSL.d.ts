@@ -1,49 +1,77 @@
 // tslint:disable no-namespace
 
 declare namespace CSL {
-
     type CitationType =
-        'article'|'article-journal'|'article-magazine'|'article-newspaper'|
-        'bill'|'book'|'broadcast'|'chapter'|'dataset'|'entry'|'entry-dictionary'|
-        'entry-encyclopedia'|'figure'|'graphic'|'interview'|'legal_case'|
-        'legislation'|'manuscript'|'map'|'motion_picture'|'musical_score'|
-        'pamphlet'|'paper-conference'|'patent'|'personal_communication'|'post'|
-        'post-weblog'|'report'|'review'|'review-book'|'song'|'speech'|'thesis'|
-        'treaty'|'webpage';
+        | 'article'
+        | 'article-journal'
+        | 'article-magazine'
+        | 'article-newspaper'
+        | 'bill'
+        | 'book'
+        | 'broadcast'
+        | 'chapter'
+        | 'dataset'
+        | 'entry'
+        | 'entry-dictionary'
+        | 'entry-encyclopedia'
+        | 'figure'
+        | 'graphic'
+        | 'interview'
+        | 'legal_case'
+        | 'legislation'
+        | 'manuscript'
+        | 'map'
+        | 'motion_picture'
+        | 'musical_score'
+        | 'pamphlet'
+        | 'paper-conference'
+        | 'patent'
+        | 'personal_communication'
+        | 'post'
+        | 'post-weblog'
+        | 'report'
+        | 'review'
+        | 'review-book'
+        | 'song'
+        | 'speech'
+        | 'thesis'
+        | 'treaty'
+        | 'webpage';
 
     interface Citation {
         schema: 'https://github.com/citation-style-language/schema/raw/master/csl-citation.json';
-        citationID: string|number;
+        citationID: string | number;
         citationItems?: CitationItem[];
         properties?: {
-            noteIndex: number
+            noteIndex: number;
         };
     }
 
     interface CitationItem {
-        id: string|number;
+        id: string | number;
         itemData?: string;
         prefix?: string;
         suffix?: string;
         locator?: string;
-        label?: 'book'|
-            'chapter'|
-            'column'|
-            'figure'|
-            'folio'|
-            'issue'|
-            'line'|
-            'note'|
-            'opus'|
-            'page'|
-            'paragraph'|
-            'part'|
-            'section'|
-            'sub verbo'|
-            'verse'|
-            'volume';
-        'suppress-author'?: string|number|boolean;
-        'author-only'?: string|number|boolean;
+        label?:
+            | 'book'
+            | 'chapter'
+            | 'column'
+            | 'figure'
+            | 'folio'
+            | 'issue'
+            | 'line'
+            | 'note'
+            | 'opus'
+            | 'page'
+            | 'paragraph'
+            | 'part'
+            | 'section'
+            | 'sub verbo'
+            | 'verse'
+            | 'volume';
+        'suppress-author'?: string | number | boolean;
+        'author-only'?: string | number | boolean;
         uris?: string[];
     }
 
@@ -89,22 +117,22 @@ declare namespace CSL {
         'container-title-short'?: string;
         dimensions?: string;
         DOI?: string;
-        edition?: string|number;
+        edition?: string | number;
         event?: string;
         'event-place'?: string;
         'first-reference-note-number'?: string;
         genre?: string;
         ISBN?: string;
         ISSN?: string;
-        issue?: string|number;
+        issue?: string | number;
         jurisdiction?: string;
         keyword?: string;
         locator?: string;
         medium?: string;
         note?: string;
-        number?: string|number; // tslint:disable-line
+        number?: string | number; // tslint:disable-line
         'number-of-pages'?: string;
-        'number-of-volumes'?: string|number;
+        'number-of-volumes'?: string | number;
         'original-publisher'?: string;
         'original-publisher-place'?: string;
         'original-title'?: string;
@@ -124,7 +152,7 @@ declare namespace CSL {
         'title-short'?: string;
         URL?: string;
         version?: string;
-        volume?: string|number;
+        volume?: string | number;
         'year-suffix'?: string;
     }
 
@@ -134,10 +162,10 @@ declare namespace CSL {
         'dropping-particle'?: string;
         'non-dropping-particle'?: string;
         suffix?: string;
-        'comma-suffix'?: string|number|boolean;
-        'static-ordering'?: string|number|boolean;
+        'comma-suffix'?: string | number | boolean;
+        'static-ordering'?: string | number | boolean;
         literal?: string;
-        'parse-names'?: string|number|boolean;
+        'parse-names'?: string | number | boolean;
     }
 
     /**
@@ -148,21 +176,22 @@ declare namespace CSL {
      *   - reviewed-author
      */
     interface TypedPerson extends Person {
-        type: 'author'| // tslint:disable-line
-              'container-author'|
-              'editor'|
-              'director'|
-              'interviewer'|
-              'illustrator'|
-              'composer'|
-              'translator'|
-              'recipient';
+        type:
+            | 'author' // tslint:disable-line
+            | 'container-author'
+            | 'editor'
+            | 'director'
+            | 'interviewer'
+            | 'illustrator'
+            | 'composer'
+            | 'translator'
+            | 'recipient';
     }
 
     interface Date {
-        'date-parts'?: [ (number|string)[] ];
-        season?: string|number;
-        circa?: string|number|boolean;
+        'date-parts'?: [(number | string)[]];
+        season?: string | number;
+        circa?: string | number | boolean;
         literal?: string;
         raw?: string;
         /* Not part of CSL spec - Added by Citeproc */
@@ -170,5 +199,4 @@ declare namespace CSL {
         month?: number;
         year?: number;
     }
-
 }

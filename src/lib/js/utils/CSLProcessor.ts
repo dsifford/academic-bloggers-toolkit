@@ -8,7 +8,6 @@ declare const ABT_wp: BackendGlobals.ABT_wp;
 declare const CSL;
 
 export class CSLProcessor {
-
     /**
      * CSL.Engine instance created by this class.
      */
@@ -19,7 +18,7 @@ export class CSLProcessor {
      *   in CSL (values). If CSL doesn't have a locale for a given WordPress locale,
      *   then false is used (which will default to en-US).
      */
-    private locales: {[wp: string]: string|boolean} = localeMapper;
+    private locales: { [wp: string]: string | boolean } = localeMapper;
 
     /**
      * Key/value store for locale XML. Locale XML is fetched off the main thread
@@ -62,13 +61,14 @@ export class CSLProcessor {
      *   network.
      */
     async init(): Promise<Citeproc.CitationClusterData[]> {
-        const style = this.store.citationStyle === 'abt-user-defined'
-            ? ABT_Custom_CSL.CSL
-            : await this.getCSLStyle(this.store.citationStyle);
+        const style =
+            this.store.citationStyle === 'abt-user-defined'
+                ? ABT_Custom_CSL.CSL
+                : await this.getCSLStyle(this.store.citationStyle);
         const sys = await this.generateSys(this.store.locale);
         this.citeproc = new CSL.Engine(sys, style);
-        return <[number, string, string][]>
-            this.citeproc.rebuildProcessorState(this.store.citations.citationByIndex)
+        return <[number, string, string][]>this.citeproc
+            .rebuildProcessorState(this.store.citations.citationByIndex)
             .map(([a, , c], i) => [i, c, a]);
     }
 
@@ -82,12 +82,18 @@ export class CSLProcessor {
      *
      * @return {ABT.Bibliography|boolean}
      */
-    makeBibliography(): ABT.Bibliography|boolean {
+    makeBibliography(): ABT.Bibliography | boolean {
         const bib = this.citeproc.makeBibliography();
-        this.store.citations.init(this.citeproc.registry.citationreg.citationByIndex);
+        this.store.citations.init(
+            this.citeproc.registry.citationreg.citationByIndex
+        );
         return typeof bib === 'boolean'
             ? bib
-            : formatBibliography(bib, this.store.links, this.store.citations.CSL);
+            : formatBibliography(
+                  bib,
+                  this.store.links,
+                  this.store.citations.CSL
+              );
     }
 
     /**
@@ -96,12 +102,15 @@ export class CSLProcessor {
      * @param csl CSL.Data[].
      * @return Citeproc.CitationByIndexSingle for the current inline citation.
      */
-    prepareInlineCitationData(csl: CSL.Data[], currentIndex: number): Citeproc.Citation {
+    prepareInlineCitationData(
+        csl: CSL.Data[],
+        currentIndex: number
+    ): Citeproc.Citation {
         const payload = {
             citationItems: [],
             properties: { noteIndex: currentIndex },
         };
-        csl.forEach((c) => payload.citationItems.push({id: c.id}));
+        csl.forEach(c => payload.citationItems.push({ id: c.id }));
         return payload;
     }
 
@@ -117,16 +126,18 @@ export class CSLProcessor {
     processCitationCluster(
         citation: Citeproc.Citation,
         before: Citeproc.CitationsPrePost,
-        after: Citeproc.CitationsPrePost,
+        after: Citeproc.CitationsPrePost
     ): Citeproc.CitationClusterData[] {
-        const [status, clusters] =
-            this.citeproc.processCitationCluster(
-                citation,
-                before,
-                after,
-            );
-        if (status['citation_errors'].length) console.error(status['citation_errors']);
-        this.store.citations.init(this.citeproc.registry.citationreg.citationByIndex);
+        const [status, clusters] = this.citeproc.processCitationCluster(
+            citation,
+            before,
+            after
+        );
+        if (status['citation_errors'].length)
+            console.error(status['citation_errors']);
+        this.store.citations.init(
+            this.citeproc.registry.citationreg.citationByIndex
+        );
         return clusters;
     }
 
@@ -136,17 +147,24 @@ export class CSLProcessor {
      * @param  {CSL.Data[]}                data Array of CSL.Data
      * @return {Promise<ABT.Bibliography>}
      */
-    async createStaticBibliography(data: CSL.Data[]): Promise<ABT.Bibliography|boolean> {
-        const style = this.store.citationStyle === 'abt-user-defined'
-            ? ABT_Custom_CSL.CSL
-            : await this.getCSLStyle(this.store.citationStyle);
-        const sys = {...this.citeproc.sys};
+    async createStaticBibliography(
+        data: CSL.Data[]
+    ): Promise<ABT.Bibliography | boolean> {
+        const style =
+            this.store.citationStyle === 'abt-user-defined'
+                ? ABT_Custom_CSL.CSL
+                : await this.getCSLStyle(this.store.citationStyle);
+        const sys = { ...this.citeproc.sys };
         const citeproc = new CSL.Engine(sys, style);
         citeproc.updateItems(toJS(data.map(d => d.id)));
         const bib = citeproc.makeBibliography();
         return typeof bib === 'boolean'
             ? bib
-            : formatBibliography(bib, this.store.links, this.store.citations.CSL);
+            : formatBibliography(
+                  bib,
+                  this.store.links,
+                  this.store.citations.CSL
+              );
     }
 
     /**
@@ -154,7 +172,7 @@ export class CSLProcessor {
      */
     private receiveWorkerMessage = (e: MessageEvent) => {
         this.localeStore.set(e.data[0], e.data[1]);
-    }
+    };
 
     /**
      * Called exclusively from the `init` method to generate the `sys` object
@@ -167,21 +185,25 @@ export class CSLProcessor {
     private generateSys(locale: string): Promise<Citeproc.SystemObj> {
         return new Promise((resolve, reject) => {
             const req = new XMLHttpRequest();
-            const cslLocale = <string> this.locales[locale] || 'en-US';
+            const cslLocale = (<string>this.locales[locale]) || 'en-US';
             req.onreadystatechange = () => {
                 if (req.readyState === 4) {
-                    if (req.status !== 200) return reject(new Error(req.responseText));
+                    if (req.status !== 200)
+                        return reject(new Error(req.responseText));
                     this.localeStore.set(cslLocale, req.responseText);
                     resolve({
-                        retrieveItem: (id: string) => toJS(this.store.citations.CSL.get(id)),
+                        retrieveItem: (id: string) =>
+                            toJS(this.store.citations.CSL.get(id)),
                         retrieveLocale: this.getRemoteLocale.bind(this),
                     });
                 }
             }; // tslint:disable-next-line
-            req.open('GET', `https://raw.githubusercontent.com/citation-style-language/locales/master/locales-${cslLocale}.xml`);
+            req.open(
+                'GET',
+                `https://raw.githubusercontent.com/citation-style-language/locales/master/locales-${cslLocale}.xml`
+            );
             req.send(null);
-        })
-        .catch(e => e);
+        }).catch(e => e);
     }
 
     /**
@@ -195,7 +217,10 @@ export class CSLProcessor {
     private getCSLStyle(style: string): Promise<string> {
         return new Promise((resolve, reject) => {
             const req = new XMLHttpRequest();
-            req.open('GET', `https://raw.githubusercontent.com/citation-style-language/styles/master/${style}.csl`);
+            req.open(
+                'GET',
+                `https://raw.githubusercontent.com/citation-style-language/styles/master/${style}.csl`
+            );
             req.onreadystatechange = () => {
                 if (req.readyState === 4) {
                     if (req.status !== 200) reject(new Error(req.responseText));
@@ -203,8 +228,7 @@ export class CSLProcessor {
                 }
             };
             req.send(null);
-        })
-        .catch(e => e);
+        }).catch(e => e);
     }
 
     /**
@@ -218,11 +242,10 @@ export class CSLProcessor {
      * @return      Locale XML (as a string)
      */
     private getRemoteLocale(loc: string): string {
-        const normalizedLocale = <string> this.locales[loc] || 'en-US';
-        const fallback = <string> this.locales[this.store.locale] || 'en-US';
+        const normalizedLocale = (<string>this.locales[loc]) || 'en-US';
+        const fallback = (<string>this.locales[this.store.locale]) || 'en-US';
         return this.localeStore.has(normalizedLocale)
             ? this.localeStore.get(normalizedLocale)
             : this.localeStore.get(fallback);
     }
-
 }

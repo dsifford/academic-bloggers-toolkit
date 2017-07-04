@@ -13,30 +13,27 @@ const DevTool = DevTools();
 
 @observer
 export class PubmedWindow extends React.Component<{}, {}> {
-
     labels = top.ABT_i18n.tinymce.pubmedWindow;
     errors = top.ABT_i18n.errors;
     modal: Modal = new Modal(this.labels.title);
     wm: TinyMCE.WindowManager = top.window.tinyMCE.activeEditor.windowManager
-        .windows[top.window.tinyMCE.activeEditor.windowManager.windows.length - 1];
+        .windows[
+        top.window.tinyMCE.activeEditor.windowManager.windows.length - 1
+    ];
     placeholder = this.generatePlaceholder();
 
-    @observable
-    isLoading = false;
+    @observable isLoading = false;
 
-    @observable
-    page = 0;
+    @observable page = 0;
 
-    @observable
-    query = '';
+    @observable query = '';
 
-    @observable
-    results = observable([]);
+    @observable results = observable([]);
 
     @computed
     get visibleResults() {
         return this.results.filter((_result, i) => {
-            if ( i < (this.page * 5) && ((this.page * 5) - 6) < i ) {
+            if (i < this.page * 5 && this.page * 5 - 6 < i) {
                 return true;
             }
             return false;
@@ -46,7 +43,7 @@ export class PubmedWindow extends React.Component<{}, {}> {
     @action
     changePage = (page: number) => {
         this.page = page;
-    }
+    };
 
     @action
     consumeQueryData = (data: PubMed.DataPMID[]) => {
@@ -57,36 +54,33 @@ export class PubmedWindow extends React.Component<{}, {}> {
         this.query = '';
         this.isLoading = false;
         this.results.replace(data);
-    }
+    };
 
-    @action
-    toggleLoadState = () => this.isLoading = !this.isLoading
+    @action toggleLoadState = () => (this.isLoading = !this.isLoading);
 
     @action
     updateQuery = (e: React.FormEvent<HTMLInputElement>) => {
         this.query = e.currentTarget.value;
-    }
+    };
 
     deliverPMID = (pmid: string) => {
         this.wm.data['pmid'] = pmid;
         this.wm.submit();
-    }
+    };
 
-    sendQuery = (e) => {
+    sendQuery = e => {
         this.toggleLoadState();
         e.preventDefault();
-        pubmedQuery(this.query)
-        .then(this.consumeQueryData)
-        .catch(err => {
+        pubmedQuery(this.query).then(this.consumeQueryData).catch(err => {
             this.toggleLoadState();
             top.tinyMCE.activeEditor.windowManager.alert(err.message);
         });
-    }
+    };
 
     preventScrollPropagation = (e: React.WheelEvent<HTMLElement>) => {
         e.stopPropagation();
         e.preventDefault();
-    }
+    };
 
     generatePlaceholder(): string {
         const options = [
@@ -110,16 +104,13 @@ export class PubmedWindow extends React.Component<{}, {}> {
         reaction(
             () => [this.page, this.results.length],
             () => this.modal.resize(),
-            { fireImmediately: false, delay: 300 },
+            { fireImmediately: false, delay: 300 }
         );
     }
 
     render() {
-
         if (this.isLoading) {
-            return (
-                <Spinner size="40px" height="52px" bgColor="#f5f5f5" />
-            );
+            return <Spinner size="40px" height="52px" bgColor="#f5f5f5" />;
         }
 
         return (
@@ -142,26 +133,24 @@ export class PubmedWindow extends React.Component<{}, {}> {
                                 value={this.labels.search}
                                 className={
                                     this.query
-                                    ? 'abt-btn abt-btn_flat'
-                                    : 'abt-btn abt-btn_flat abt-btn_disabled'
+                                        ? 'abt-btn abt-btn_flat'
+                                        : 'abt-btn abt-btn_flat abt-btn_disabled'
                                 }
                             />
                         </div>
                     </div>
                 </form>
-                { this.results.length > 0 && (
+                {this.results.length > 0 &&
                     <ResultList
                         select={this.deliverPMID}
                         results={this.visibleResults}
-                    />
-                )}
-                { this.results.length > 0 && (
+                    />}
+                {this.results.length > 0 &&
                     <Paginate
                         page={this.page}
                         paginate={this.changePage}
                         resultLength={this.results.length}
-                    />
-                )}
+                    />}
             </div>
         );
     }

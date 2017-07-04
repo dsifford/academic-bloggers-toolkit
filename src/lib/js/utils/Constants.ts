@@ -1,4 +1,3 @@
-
 /**
  * Global Event Types
  */

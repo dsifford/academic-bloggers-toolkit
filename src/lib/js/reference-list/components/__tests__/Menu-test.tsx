@@ -3,8 +3,11 @@ import * as React from 'react';
 import { Menu, renderer as Renderer } from '../Menu';
 
 const ABT_CitationStyles = [
-    {label: 'American Medical Association', value: 'american-medical-association'},
-    {label: 'APA 5th Edition', value: 'apa-5th'},
+    {
+        label: 'American Medical Association',
+        value: 'american-medical-association',
+    },
+    { label: 'APA 5th Edition', value: 'apa-5th' },
 ];
 
 const ABT_i18n = {
@@ -33,14 +36,14 @@ window['ABT_Custom_CSL'] = ABT_Custom_CSL;
 
 const setup = () => {
     const spy = jest.fn();
-    const component = mount((
+    const component = mount(
         <Menu
             isOpen={true}
             cslStyle="american-medical-association"
             itemsSelected={true}
             submitData={spy}
         />
-    ));
+    );
     return {
         component,
         importBtn: component.find('#IMPORT_RIS'),
@@ -48,11 +51,15 @@ const setup = () => {
     };
 };
 
-const setupRenderer = (label: string, value = 'test', focusedOption = false) => {
-    const option = {label, value};
+const setupRenderer = (
+    label: string,
+    value = 'test',
+    focusedOption = false
+) => {
+    const option = { label, value };
     const focus = jest.fn();
     const select = jest.fn();
-    const component = shallow((
+    const component = shallow(
         <Renderer
             style={{}}
             focusOption={focus}
@@ -60,7 +67,7 @@ const setupRenderer = (label: string, value = 'test', focusedOption = false) => 
             option={option}
             selectValue={select}
         />
-    ));
+    );
     return {
         component,
         focus,
@@ -75,7 +82,10 @@ describe('<Menu />', () => {
         importBtn.simulate('click');
         expect(spy).toHaveBeenCalledTimes(1);
         expect(spy).toHaveBeenCalledWith('IMPORT_RIS');
-        (component.instance() as any).handleSelect({label: 'APA 5th Edition', value: 'apa-5th'});
+        (component.instance() as any).handleSelect({
+            label: 'APA 5th Edition',
+            value: 'apa-5th',
+        });
         expect(spy).toHaveBeenCalledTimes(2);
         expect(spy.mock.calls[1]).toEqual(['CHANGE_STYLE', 'apa-5th']);
     });
@@ -84,18 +94,18 @@ describe('<Menu />', () => {
         const { component } = setup();
         const inst = component.instance() as any;
         const handler = inst.dynamicOptionHeightHandler;
-        expect(handler({option: {label: 'aaa'}})).toBe(30);
-        expect(handler({option: {label: 'a'.repeat(35)}})).toBe(30);
-        expect(handler({option: {label: 'a'.repeat(36)}})).toBe(40);
-        expect(handler({option: {label: 'a'.repeat(65)}})).toBe(40);
-        expect(handler({option: {label: 'a'.repeat(66)}})).toBe(50);
-        expect(handler({option: {label: 'a'.repeat(80)}})).toBe(50);
-        expect(handler({option: {label: 'a'.repeat(81)}})).toBe(60);
-        expect(handler({option: {label: 'a'.repeat(90)}})).toBe(60);
-        expect(handler({option: {label: 'a'.repeat(91)}})).toBe(70);
-        expect(handler({option: {label: 'a'.repeat(110)}})).toBe(70);
-        expect(handler({option: {label: 'a'.repeat(111)}})).toBe(90);
-        expect(handler({option: {label: 'a'.repeat(250)}})).toBe(90);
+        expect(handler({ option: { label: 'aaa' } })).toBe(30);
+        expect(handler({ option: { label: 'a'.repeat(35) } })).toBe(30);
+        expect(handler({ option: { label: 'a'.repeat(36) } })).toBe(40);
+        expect(handler({ option: { label: 'a'.repeat(65) } })).toBe(40);
+        expect(handler({ option: { label: 'a'.repeat(66) } })).toBe(50);
+        expect(handler({ option: { label: 'a'.repeat(80) } })).toBe(50);
+        expect(handler({ option: { label: 'a'.repeat(81) } })).toBe(60);
+        expect(handler({ option: { label: 'a'.repeat(90) } })).toBe(60);
+        expect(handler({ option: { label: 'a'.repeat(91) } })).toBe(70);
+        expect(handler({ option: { label: 'a'.repeat(110) } })).toBe(70);
+        expect(handler({ option: { label: 'a'.repeat(111) } })).toBe(90);
+        expect(handler({ option: { label: 'a'.repeat(250) } })).toBe(90);
     });
 });
 describe('Menu Renderer', () => {
@@ -148,13 +158,17 @@ describe('Menu Renderer', () => {
         expect(select).toHaveBeenCalledTimes(0);
         component.simulate('click');
         expect(select).toHaveBeenCalledTimes(1);
-        expect(select.mock.calls[0]).toEqual([{label: 'test', value: 'test'}]);
+        expect(select.mock.calls[0]).toEqual([
+            { label: 'test', value: 'test' },
+        ]);
     });
     it('should call the focus handler when focused', () => {
         const { component, focus } = setupRenderer('test label');
         expect(focus).toHaveBeenCalledTimes(0);
         component.simulate('mouseOver');
         expect(focus).toHaveBeenCalledTimes(1);
-        expect(focus.mock.calls[0]).toEqual([{label: 'test label', value: 'test'}]);
+        expect(focus.mock.calls[0]).toEqual([
+            { label: 'test label', value: 'test' },
+        ]);
     });
 });
