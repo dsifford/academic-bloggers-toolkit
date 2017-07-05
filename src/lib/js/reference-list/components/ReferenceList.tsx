@@ -407,6 +407,7 @@ export class ReferenceList extends React.Component<{ store: Store }, {}> {
     };
 
     openImportWindow = () => {
+        console.log(this.editor);
         MCE.importWindow(this.editor)
             .then(data => {
                 if (!data) return;
@@ -415,6 +416,7 @@ export class ReferenceList extends React.Component<{ store: Store }, {}> {
             .catch(err => {
                 if (!err) return; // User exited early
                 Rollbar.error('ReferenceList.tsx -> openImportWindow', err);
+                // console.log(this);
                 this.editor.windowManager.alert(
                     `${this.errors.unexpected.message}.\n\n` +
                         `${err.name}: ${err.message}\n\n` +

@@ -121,7 +121,7 @@ describe('<ReferenceList />', () => {
         });
         it('should handle errors on initialization', () => {
             spyOn(CSLProcessor.prototype, 'init').and.callFake(
-                () => new Promise((_, rej) => rej())
+                () => Promise.reject('err')
             );
             const { instance } = setup();
             instance.processor.citeproc = {
@@ -129,7 +129,7 @@ describe('<ReferenceList />', () => {
             };
             instance.initTinyMCE();
             instance.initProcessor().catch(() => {
-                expect(mocks.rollbar).toHaveBeenCalledTimes(1);
+                return expect(mocks.rollbar).toHaveBeenCalledTimes(1);
             });
         });
     });
@@ -274,7 +274,7 @@ describe('<ReferenceList />', () => {
         });
         it('should insert citation from array passed to function', async () => {
             spyOn(MCE, 'parseInlineCitations').and.returnValue(
-                new Promise(res => res(true))
+                Promise.resolve(true)
             );
             const expectedData = [{ id: 'fakeid', title: 'faketitle' }];
             await instance.insertInlineCitation(null, expectedData);
@@ -336,7 +336,7 @@ describe('<ReferenceList />', () => {
         });
         it('should handle promise rejections', async () => {
             spyOn(MCE, 'parseInlineCitations').and.returnValue(
-                new Promise((_, rej) => rej())
+                Promise.reject('err')
             );
             await instance.insertInlineCitation();
         });
@@ -450,26 +450,6 @@ describe('<ReferenceList />', () => {
             expect(instance.props.store.citations.CSL.keys().length).toBe(3);
             await instance.openImportWindow();
             expect(instance.props.store.citations.CSL.keys().length).toBe(4);
-        });
-        it('should handle errors', async () => {
-            mocks.importWindow.mockImplementation(
-                () => new Promise((_, rej) => rej('error'))
-            );
-            const { instance } = setup();
-            expect(mocks.alert).not.toHaveBeenCalled();
-            expect(mocks.rollbar).not.toHaveBeenCalled();
-            await instance.openImportWindow();
-            // expect(mocks.alert).toHaveBeenCalled();
-            // expect(mocks.rollbar).toHaveBeenCalled();
-        });
-        it('should handle when user exits early', async () => {
-            mocks.importWindow.mockImplementation(
-                () => new Promise((_, rej) => rej())
-            );
-            const { instance } = setup();
-            await instance.openImportWindow();
-            // expect(mocks.alert).not.toHaveBeenCalled();
-            // expect(mocks.rollbar).not.toHaveBeenCalled();
         });
     });
 
