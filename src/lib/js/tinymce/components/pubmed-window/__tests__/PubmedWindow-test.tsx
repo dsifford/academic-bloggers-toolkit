@@ -81,7 +81,7 @@ describe('<PubmedWindow />', () => {
         expect(mocks.submit).toHaveBeenCalled();
     });
     it('should handle errors', async () => {
-        mocks.pmq.mockImplementation(() => new Promise((_, rej) => rej()));
+        mocks.pmq.mockImplementation(() => Promise.reject('error'));
         const { component, instance } = setup();
         const form = component.find('form');
         await form.simulate('submit');
