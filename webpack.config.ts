@@ -1,10 +1,10 @@
-const path = require('path');
-const webpack = require('webpack');
+import { resolve } from 'path';
+import * as webpack from 'webpack';
 // const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 const isProduction = process.env.NODE_ENV === 'production';
 
-const sharedPlugins = [
+const sharedPlugins: webpack.Plugin[] = [
     new webpack.LoaderOptionsPlugin({
         minimize: true,
         debug: false,
@@ -17,10 +17,11 @@ const sharedPlugins = [
     }),
     new webpack.DefinePlugin({
         __DEV__: JSON.stringify(!isProduction),
+        'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
     }),
 ];
 
-const devPlugins = [
+const devPlugins: webpack.Plugin[] = [
     ...sharedPlugins,
     // new BundleAnalyzerPlugin({
     //     analyzerMode: 'server',
@@ -31,17 +32,10 @@ const devPlugins = [
 
 const productionPlugins = [
     ...sharedPlugins,
-    new webpack.optimize.UglifyJsPlugin({
-        compress: {
-            warnings: false,
-            unused: true,
-            dead_code: true,
-        },
-        screw_ie8: true,
-    }),
+    new webpack.optimize.UglifyJsPlugin(),
 ];
 
-module.exports = {
+const config: webpack.Configuration = {
     devtool: 'eval-source-map',
     cache: true,
     entry: {
@@ -49,13 +43,13 @@ module.exports = {
         'lib/js/tinymce/index': './src/lib/js/tinymce/index.ts',
         'lib/js/reference-list/index': './src/lib/js/reference-list/',
         'lib/js/tinymce/components/reference-window/index':
-            './src/lib/js/tinymce/components/reference-window/', // eslint-disable-line
+            './src/lib/js/tinymce/components/reference-window/',
         'lib/js/tinymce/components/pubmed-window/index':
-            './src/lib/js/tinymce/components/pubmed-window/', // eslint-disable-line
+            './src/lib/js/tinymce/components/pubmed-window/',
         'lib/js/tinymce/components/edit-reference-window/index':
-            './src/lib/js/tinymce/components/edit-reference-window/', // eslint-disable-line
+            './src/lib/js/tinymce/components/edit-reference-window/',
         'lib/js/tinymce/components/import-window/index':
-            './src/lib/js/tinymce/components/import-window/', // eslint-disable-line
+            './src/lib/js/tinymce/components/import-window/',
         vendor: [
             'react',
             'react-dom',
@@ -69,7 +63,7 @@ module.exports = {
         filename: '[name].js',
     },
     resolve: {
-        modules: [path.resolve(__dirname, 'src'), 'node_modules'],
+        modules: [resolve(__dirname, 'src'), 'node_modules'],
         extensions: ['*', '.webpack.js', '.web.js', '.ts', '.tsx', '.js'],
         mainFiles: ['index'],
         mainFields: ['main', 'browser'],
@@ -80,7 +74,7 @@ module.exports = {
         loaders: [
             {
                 test: /\.tsx?$/,
-                include: path.resolve(__dirname, 'src'),
+                include: resolve(__dirname, 'src'),
                 exclude: /__tests__/,
                 loaders: ['babel-loader', 'ts-loader'],
             },
@@ -91,3 +85,5 @@ module.exports = {
         ],
     },
 };
+
+export default config;

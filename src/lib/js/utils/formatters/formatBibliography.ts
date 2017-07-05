@@ -29,7 +29,7 @@ export function formatBibliography(
          * The outermost <div> element -> (class="csl-entry")
          */
         const el = <HTMLDivElement>temp.firstElementChild;
-        const item: CSL.Data = CSL.get(bibmeta.entry_ids[i][0]);
+        const item: CSL.Data = CSL.get(bibmeta.entry_ids[i][0])!;
 
         if (bibmeta.hangingindent) {
             el.classList.add('hanging-indent');
@@ -61,7 +61,7 @@ export function formatBibliography(
                 !new RegExp(item.PMID).test(innerHTML): {
                 innerEl.innerHTML = formatReferenceLinks(innerHTML, links, {
                     kind: 'PMID',
-                    value: item.PMID,
+                    value: item.PMID!,
                 });
                 break;
             }
@@ -69,7 +69,7 @@ export function formatBibliography(
                 !new RegExp(item.DOI).test(innerHTML): {
                 innerEl.innerHTML = formatReferenceLinks(innerHTML, links, {
                     kind: 'DOI',
-                    value: item.DOI,
+                    value: item.DOI!,
                 });
                 break;
             }
@@ -77,17 +77,16 @@ export function formatBibliography(
                 !new RegExp(item.PMCID).test(innerHTML): {
                 innerEl.innerHTML = formatReferenceLinks(innerHTML, links, {
                     kind: 'PMCID',
-                    value: item.PMCID,
+                    value: item.PMCID!,
                 });
                 break;
             }
             case item.URL !== undefined &&
                 !new RegExp(item.URL).test(innerHTML) &&
                 !/https?:\/\/(?:www\.)?(?:dx\.)?doi.org\//.test(item.URL): {
-                // tslint:disable-line
                 innerEl.innerHTML = formatReferenceLinks(innerHTML, links, {
                     kind: 'URL',
-                    value: item.URL,
+                    value: item.URL!,
                 });
                 break;
             }

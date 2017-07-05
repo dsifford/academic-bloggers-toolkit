@@ -1,3 +1,7 @@
+interface HasElement {
+    element: HTMLElement;
+}
+
 /**
  * Prevents the wheel event from bubbling through to parent elements.
  *
@@ -6,7 +10,7 @@
  * @param {WheelEvent} e React Wheel Event
  * @return {void}
  */
-export function preventScrollPropagation(e): void {
+export function preventScrollPropagation(this: HasElement, e): void {
     e.stopPropagation();
     const atTopAndScrollingUp: boolean =
         this.element.scrollTop === 0 && e.deltaY < 0; // tslint:disable-line

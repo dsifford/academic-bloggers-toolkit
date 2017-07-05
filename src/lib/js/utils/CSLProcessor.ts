@@ -107,10 +107,10 @@ export class CSLProcessor {
         currentIndex: number
     ): Citeproc.Citation {
         const payload = {
-            citationItems: [],
+            citationItems: <Array<{ id: string }>>[],
             properties: { noteIndex: currentIndex },
         };
-        csl.forEach(c => payload.citationItems.push({ id: c.id }));
+        csl.forEach(c => payload.citationItems.push({ id: c.id! }));
         return payload;
     }
 
@@ -247,7 +247,7 @@ export class CSLProcessor {
         const normalizedLocale = (<string>this.locales[loc]) || 'en-US';
         const fallback = (<string>this.locales[this.store.locale]) || 'en-US';
         return this.localeStore.has(normalizedLocale)
-            ? this.localeStore.get(normalizedLocale)
-            : this.localeStore.get(fallback);
+            ? this.localeStore.get(normalizedLocale)!
+            : this.localeStore.get(fallback)!;
     }
 }

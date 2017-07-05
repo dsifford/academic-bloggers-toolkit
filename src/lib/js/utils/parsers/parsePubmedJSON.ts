@@ -49,8 +49,8 @@ export function parsePubmedJSON(
 
             switch (key) {
                 case 'authors':
-                    ref[key].forEach(author => {
-                        output.author.push(parseCSLName(author.name, 'pubmed'));
+                    ref[key]!.forEach(author => {
+                        output.author!.push(parseCSLName(author.name, 'pubmed'));
                     });
                     break;
                 case 'availablefromurl':

@@ -55,8 +55,8 @@ describe('<ItemList />', () => {
             { id: 'test-id', type: 'article-journal' },
         ]);
     });
-    it('should not render with no items', () => {
-        const { component } = setup(true, null);
+    it('should not render without items', () => {
+        const { component } = setup(true, []);
         expect(component.isEmptyRender()).toBe(true);
     });
     it('should render with the correct label', () => {

@@ -61,24 +61,25 @@ export class ReferenceWindow extends React.Component<{}, {}> {
         switch (kind) {
             case 'webpage':
                 this.manualData.merge({
-                    URL: meta.webpage.url,
-                    accessed: meta.webpage.accessed
+                    URL: meta.webpage!.url,
+                    accessed: meta.webpage!.accessed
                         .split('T')[0]
                         .split('-')
                         .join('/'),
-                    'container-title': meta.webpage.site_title,
-                    issued: meta.webpage.issued
+                    'container-title': meta.webpage!.site_title,
+                    issued: meta.webpage!.issued
                         .split('T')[0]
                         .split('-')
                         .join('/'),
-                    title: meta.webpage.content_title,
+                    title: meta.webpage!.content_title,
                 });
                 this.people.replace(
-                    meta.webpage.authors.map(a => ({
+                    // tslint:disable-next-line
+                    meta.webpage!.authors.map(a => ({
                         family: a.lastname || '',
                         given: a.firstname || '',
                         type: 'author',
-                    }))
+                    } as CSL.TypedPerson))
                 );
                 break;
             case 'book':
@@ -92,12 +93,12 @@ export class ReferenceWindow extends React.Component<{}, {}> {
                         .split('T')[0]
                         .split('-')
                         .join('/'),
-                    issued: meta.book.issued,
-                    'number-of-pages': meta.book['number-of-pages'],
-                    publisher: meta.book.publisher,
-                    [titleKey]: meta.book.title,
+                    issued: meta.book!.issued,
+                    'number-of-pages': meta.book!['number-of-pages'],
+                    publisher: meta.book!.publisher,
+                    [titleKey]: meta.book!.title,
                 });
-                this.people.replace(meta.book.authors as CSL.TypedPerson[]);
+                this.people.replace(meta.book!.authors as CSL.TypedPerson[]);
         }
         this.toggleLoadingState();
     };

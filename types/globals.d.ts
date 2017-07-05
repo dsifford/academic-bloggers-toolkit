@@ -1,11 +1,11 @@
 interface Window {
     ABT_i18n: BackendGlobals.ABT_i18n;
     tinyMCE: TinyMCE.MCE;
-    DocumentTouch?;
+    DocumentTouch?: any;
 }
 
 declare const __DEV__: boolean;
-declare const ABT_CitationStyles: { label: string; value: string }[];
+declare const ABT_CitationStyles: Array<{ label: string; value: string }>;
 declare const DocumentTouch;
 
 declare const Rollbar: {

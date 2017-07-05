@@ -189,7 +189,7 @@ declare namespace CSL {
     }
 
     interface Date {
-        'date-parts'?: [(number | string)[]];
+        'date-parts'?: [Array<number | string>];
         season?: string | number;
         circa?: string | number | boolean;
         literal?: string;

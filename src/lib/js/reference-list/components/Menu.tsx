@@ -42,14 +42,14 @@ export class Menu extends React.PureComponent<Props, {}> {
         } else {
             this.styles = [
                 { label: 'Custom Style', value: 'header' },
-                { label: ABT_Custom_CSL.label, value: ABT_Custom_CSL.value },
+                { label: ABT_Custom_CSL.label, value: ABT_Custom_CSL.value! },
                 { label: 'Pre-defined Styles', value: 'header' },
                 ...ABT_CitationStyles,
             ];
         }
 
         this.setSelected({
-            label: this.styles.find(d => d.value === this.props.cslStyle).label,
+            label: this.styles.find(d => d.value === this.props.cslStyle)!.label,
             value: this.props.cslStyle,
         });
     }
@@ -194,7 +194,7 @@ export class Menu extends React.PureComponent<Props, {}> {
                                       backspaceRemoves={false}
                                   />
                               </div>
-                          </div>
+                          </div> as any
                         : null}
             </TransitionMotion>
         );

@@ -30,12 +30,12 @@ export function parseCSLDate(
                     date.season = part;
                     return;
                 }
-                date['date-parts'][0][i] = part;
+                date['date-parts']![0][i] = part;
             });
             break;
         case 'pubmed':
         default:
-            date['date-parts'][0] = input.substr(0, 10).split('/');
+            date['date-parts']![0] = input.substr(0, 10).split('/');
             break;
     }
 

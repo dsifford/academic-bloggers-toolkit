@@ -152,13 +152,15 @@ export class RISParser {
                     break;
                 case 'PY':
                 case 'Y1':
-                    payload.issued['date-parts'][0][0] = parseCSLDate(
+                    payload.issued!['date-parts'][0][0] = parseCSLDate(
                         val,
                         'RIS'
-                    )['date-parts'][0][0];
+                    )['date-parts']![0][0];
                     break;
                 case 'Y2':
                     payload.accessed = parseCSLDate(val, 'RIS');
+                    payload.issued = parseCSLDate(val, 'RIS');
+                    break;
                 case 'DA':
                     payload.issued = parseCSLDate(val, 'RIS');
                     break;
@@ -186,7 +188,7 @@ export class RISParser {
                     break;
                 case 'CY': // Conference location, publish location, city of publisher (zotero)
                     if (
-                        ['paper-conference', 'speech'].indexOf(payload.type) >
+                        ['paper-conference', 'speech'].indexOf(payload.type!) >
                         -1
                     ) {
                         payload['event-place'] = val;
@@ -229,7 +231,7 @@ export class RISParser {
                 case 'T2':
                     payload['container-title'] = val;
                     if (
-                        ['paper-conference', 'speech'].indexOf(payload.type) >
+                        ['paper-conference', 'speech'].indexOf(payload.type!) >
                         -1
                     ) {
                         payload.event = val;

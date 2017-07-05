@@ -14,7 +14,7 @@ export class PanelButton extends React.PureComponent<
     createTooltip = () => {
         createTooltip(
             this.element,
-            this.element.getAttribute('data-tooltip'),
+            this.element.getAttribute('data-tooltip')!,
             'bottom'
         );
     };
@@ -30,10 +30,10 @@ export class PanelButton extends React.PureComponent<
                 ref={this.bindRefs}
                 className={cn}
                 onMouseEnter={
-                    this.props['data-tooltip'] ? this.createTooltip : null
+                    this.props['data-tooltip'] ? this.createTooltip : undefined
                 }
                 onMouseLeave={
-                    this.props['data-tooltip'] ? destroyTooltip : null
+                    this.props['data-tooltip'] ? destroyTooltip : undefined
                 }
             />
         );

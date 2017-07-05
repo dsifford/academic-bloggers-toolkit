@@ -6,9 +6,9 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Report-Msgid-Bugs-To: https://github.com/dsifford/academic-bloggers-toolkit/issues\n"
-"Last-Translator: Derek P Sifford <dereksifford@gmail.com>\n"
 "Language-Team: Derek P Sifford <dereksifford@gmail.com>\n"
+"Last-Translator: Derek P Sifford <dereksifford@gmail.com>\n"
+"Report-Msgid-Bugs-To: https://github.com/dsifford/academic-bloggers-toolkit/issues\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: academic-bloggers-toolkit.php:91

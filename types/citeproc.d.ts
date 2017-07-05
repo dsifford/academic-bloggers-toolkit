@@ -22,7 +22,7 @@ declare namespace Citeproc {
      * 1: 0-based index of the location of the HTMLSpanElement in the document
      * @type {Array}
      */
-    type CitationsPrePost = [string, number][];
+    type CitationsPrePost = Array<[string, number]>;
 
     /**
      * 0: A string containing a unique ID which should be used for the span
@@ -33,13 +33,13 @@ declare namespace Citeproc {
      */
     type RebuildProcessorStateData = [string, number, string];
 
-    type SortedItems = [
+    type SortedItems = Array<[
         CSL.Data,
         {
             id: string;
             sortkeys: [string];
         }
-    ][];
+    ]>;
 
     interface Bibmeta {
         /** NOT USED - Closing div tag for bibliography. */
@@ -51,7 +51,7 @@ declare namespace Citeproc {
         /** (not sure what for) */
         done: boolean;
         /** array of itemIDs */
-        'entry_ids': [string][];
+        'entry_ids': Array<[string]>;
         /** Vertical margin between each individual reference item. */
         entryspacing: number;
         /**
@@ -77,11 +77,11 @@ declare namespace Citeproc {
 
     interface Citation {
         citationID?: string;
-        citationItems: {
+        citationItems: Array<{
             /** ID of the individual CSL item */
             id: string;
             item?: CSL.Data;
-        }[];
+        }>;
         properties: {
             index?: number;
             /** 0-based index of the citation group in the document */

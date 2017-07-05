@@ -1,20 +1,19 @@
-// tslint:disable no-namespace
 
 declare namespace ABT {
-    type Bibliography = { id: string; html: string }[];
+    type Bibliography = Array<{ id: string; html: string }>;
 
-    type CitationTypes = {
+    type CitationTypes = Array<{
         label: string;
         value: string;
-    }[];
+    }>;
 
     type LinkStyle = 'always' | 'always-full-surround' | 'urls' | 'never';
 
     interface ExternalSiteMeta {
-        authors: {
+        authors: Array<{
             firstname: string;
             lastname: string;
-        }[];
+        }>;
         article: {
             /* Facebook URL - not name */
             author?: string;
@@ -92,10 +91,10 @@ declare namespace ABT {
     interface FieldMap {
         title: string;
         fields: Field[];
-        people: {
+        people: Array<{
             label: string;
-            type:
-                | 'author' // tslint:disable-line
+            kind:
+                | 'author'
                 | 'container-author'
                 | 'editor'
                 | 'director'
@@ -105,7 +104,7 @@ declare namespace ABT {
                 | 'translator'
                 | 'recipient'
                 | 'collection-editor';
-        }[];
+        }>;
     }
 
     interface FieldMappings {
@@ -142,10 +141,10 @@ declare namespace ABT {
 
     interface URLMeta {
         accessed: string;
-        authors: {
+        authors: Array<{
             firstname: string;
             lastname: string;
-        }[];
+        }>;
         content_title: string;
         issued: string;
         site_title: string;

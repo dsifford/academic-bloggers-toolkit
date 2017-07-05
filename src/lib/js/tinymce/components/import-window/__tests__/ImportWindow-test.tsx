@@ -9,8 +9,9 @@ const setup = () => {
     const alert = jest.fn();
     const close = jest.fn();
     const setParams = jest.fn();
-    const wm: TinyMCE.WindowManager = {
+    const wm: Partial<TinyMCE.WindowManager> = {
         alert,
+        confirm,
         close,
         setParams,
         windows: [
@@ -19,7 +20,7 @@ const setup = () => {
             },
         ],
     };
-    const component = mount(<ImportWindow wm={wm} />);
+    const component = mount(<ImportWindow wm={wm as TinyMCE.WindowManager} />);
     return {
         alert,
         close,

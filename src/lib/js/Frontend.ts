@@ -14,12 +14,12 @@ class Citations {
             HTMLSpanElement
         >>document.querySelectorAll('.abt-citation, .abt_cite');
         const container = document.getElementById('abt-bibliography__container')
-            ? document.getElementById('abt-bibliography__container')
+            ? document.getElementById('abt-bibliography__container')!
             : this.bibliography;
 
         Array.from(citationList).forEach(citation => {
             const reflist: string[] = JSON.parse(
-                citation.getAttribute('data-reflist')
+                citation.getAttribute('data-reflist')!
             );
             citation.setAttribute(
                 'data-citations',
@@ -39,7 +39,7 @@ class Citations {
     private createTooltip(e): void {
         const existingTooltip = document.getElementById('abt-tooltip');
         if (existingTooltip)
-            existingTooltip.parentElement.removeChild(existingTooltip);
+            existingTooltip.parentElement!.removeChild(existingTooltip);
 
         const rect: ClientRect = e.currentTarget.getBoundingClientRect();
         const left = rect.left + rect.width / 2;
@@ -56,7 +56,7 @@ class Citations {
         const buttonContainer = document.createElement('div');
         buttonContainer.className = 'abt-tooltip__close-button-container';
         buttonContainer.addEventListener('click', () =>
-            tooltip.parentElement.removeChild(tooltip)
+            tooltip.parentElement!.removeChild(tooltip)
         );
 
         const button = document.createElement('div');
@@ -126,8 +126,8 @@ class Citations {
         );
         const heading = document.querySelector(
             '.abt-bibliography__heading_toggle, #abt-smart-bib>h3.toggle'
-        );
-        let container = document.getElementById('abt-bibliography__container');
+        )!;
+        let container = document.getElementById('abt-bibliography__container')!;
 
         if (!container) {
             container = document.createElement('div');

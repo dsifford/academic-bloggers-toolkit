@@ -155,7 +155,7 @@ export class ReferenceList extends React.Component<{ store: Store }, {}> {
     insertStaticBibliography = () => {
         const data: CSL.Data[] = [];
         this.selected.forEach(id => {
-            data.push(this.props.store.citations.CSL.get(id));
+            data.push(this.props.store.citations.CSL.get(id)!);
         });
 
         const selection = this.editor.selection.getContent({ format: 'html' });
@@ -165,7 +165,7 @@ export class ReferenceList extends React.Component<{ store: Store }, {}> {
             // tslint:disable-next-line
             while ((m = re.exec(selection)) !== null) {
                 // tslint:disable-line:no-conditional-assignment
-                data.push(this.props.store.citations.CSL.get(m[1]));
+                data.push(this.props.store.citations.CSL.get(m[1])!);
             }
         }
 
@@ -190,7 +190,7 @@ export class ReferenceList extends React.Component<{ store: Store }, {}> {
                 try {
                     margin =
                         this.editor.dom.getStyle(
-                            this.editor.dom.doc.querySelector('p'),
+                            this.editor.dom.doc.querySelector('p')!,
                             'margin',
                             true
                         ) || '0 0 28px';
@@ -236,7 +236,7 @@ export class ReferenceList extends React.Component<{ store: Store }, {}> {
          */
         if (d instanceof Event || d.length === 0) {
             this.selected.forEach(id => {
-                data.push(this.props.store.citations.CSL.get(id));
+                data.push(this.props.store.citations.CSL.get(id)!);
             });
         } else {
             data = d;
@@ -254,7 +254,7 @@ export class ReferenceList extends React.Component<{ store: Store }, {}> {
             let m: RegExpExecArray | null;
             // tslint:disable-next-line
             while ((m = re.exec(selection)) !== null) {
-                data.push(this.props.store.citations.CSL.get(m[1]));
+                data.push(this.props.store.citations.CSL.get(m[1])!);
             }
         }
 
@@ -347,13 +347,13 @@ export class ReferenceList extends React.Component<{ store: Store }, {}> {
 
                         data = data.reduce((prev, curr) => {
                             let matchingKey = '';
-                            const title = curr.title.toLowerCase();
+                            const title = curr.title!.toLowerCase();
 
                             for (const [
                                 key,
                                 value,
                             ] of this.props.store.citations.CSL.entries()) {
-                                if (value.title.toLowerCase() !== title)
+                                if (value.title!.toLowerCase() !== title)
                                     continue;
 
                                 const deepMatch = Object.keys(
@@ -383,10 +383,10 @@ export class ReferenceList extends React.Component<{ store: Store }, {}> {
                                       ),
                                   ]
                                 : [...prev, curr];
-                        }, []);
+                        }, []) as CSL.Data[];
 
                         if (!payload.attachInline) return;
-                        this.insertInlineCitation(null, data);
+                        this.insertInlineCitation(undefined, data);
                     })
                     .catch(err => {
                         Rollbar.error(
@@ -456,7 +456,7 @@ export class ReferenceList extends React.Component<{ store: Store }, {}> {
 
     @action
     handleScroll = () => {
-        const list = document.getElementById('abt-reflist');
+        const list = document.getElementById('abt-reflist')!;
 
         if (!this.fixed) {
             this.citedListUI.maxHeight = '400px';
@@ -494,8 +494,8 @@ export class ReferenceList extends React.Component<{ store: Store }, {}> {
             return;
         }
 
-        const cited = document.getElementById('cited');
-        const uncited = document.getElementById('uncited');
+        const cited = document.getElementById('cited')!;
+        const uncited = document.getElementById('uncited')!;
         let citedHeight = 0;
         let uncitedHeight = 0;
 
@@ -531,7 +531,7 @@ export class ReferenceList extends React.Component<{ store: Store }, {}> {
 
     @action
     togglePinned = () => {
-        document.getElementById('abt-reflist').classList.toggle('fixed');
+        document.getElementById('abt-reflist')!.classList.toggle('fixed');
         this.fixed = !this.fixed;
     };
 

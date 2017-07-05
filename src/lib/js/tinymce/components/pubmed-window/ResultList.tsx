@@ -42,7 +42,7 @@ export class ResultList extends React.PureComponent<ResultListProps, {}> {
                             />
                             <div
                                 style={{ fontWeight: 'normal' }}
-                                children={result.pubdate.substr(0, 4)}
+                                children={result.pubdate!.substr(0, 4)}
                             />
                         </div>
                         <div
@@ -51,7 +51,7 @@ export class ResultList extends React.PureComponent<ResultListProps, {}> {
                         />
                         <div className="result-item--padded">
                             <div
-                                children={result.authors
+                                children={result.authors!
                                     .slice(0, 3)
                                     .map(el => el.name)
                                     .join(', ') /* tslint:disable-line */}

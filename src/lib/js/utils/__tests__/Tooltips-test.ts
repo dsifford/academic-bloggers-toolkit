@@ -6,7 +6,7 @@ describe('Tooltips.ts', () => {
             const container = document.createElement('div');
             container.id = 'main';
             createTooltip(container, 'testing', 'bottom');
-            const tip = document.getElementById('abt-tooltip');
+            const tip = document.getElementById('abt-tooltip')!;
             expect(tip.style.top).toBe('10px');
             expect(tip.style.left).toBe('0px');
             expect(tip.style.marginLeft).toBe('0px');
@@ -27,7 +27,7 @@ describe('Tooltips.ts', () => {
                 y: 0,
             });
             createTooltip(container, 'testing', 'top');
-            const tip = document.getElementById('abt-tooltip');
+            const tip = document.getElementById('abt-tooltip')!;
             expect(tip.style.left).toBe('0px');
             expect(tip.style.marginLeft).toBe('0px');
             destroyTooltip();
@@ -47,7 +47,7 @@ describe('Tooltips.ts', () => {
                 y: 0,
             });
             createTooltip(container, 'testing', 'left');
-            const tip = document.getElementById('abt-tooltip');
+            const tip = document.getElementById('abt-tooltip')!;
             expect(tip.style.top).toBe('0px');
             expect(tip.style.marginTop).toBe('0px');
             destroyTooltip();
@@ -67,7 +67,7 @@ describe('Tooltips.ts', () => {
                 y: 0,
             });
             createTooltip(container, 'testing', 'right');
-            const tip = document.getElementById('abt-tooltip');
+            const tip = document.getElementById('abt-tooltip')!;
             expect(tip.style.top).toBe('0px');
             expect(tip.style.marginTop).toBe('0px');
             destroyTooltip();

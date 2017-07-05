@@ -64,5 +64,5 @@ export function createTooltip(
  */
 export function destroyTooltip(): void {
     const el = document.getElementById('abt-tooltip');
-    if (el) el.parentElement.removeChild(el);
+    if (el) el.parentElement!.removeChild(el);
 }

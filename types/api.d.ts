@@ -32,11 +32,11 @@ declare namespace GoogleBooks {
         publisher: string;
         /** 2012-06-07 */
         issued: string;
-        authors: {
+        authors: Array<{
             type: 'author';
             family: string;
             given: string;
-        }[];
+        }>;
     }
 
     interface Item {
@@ -56,10 +56,10 @@ declare namespace GoogleBooks {
             /** "2016-07-31" */
             publishedDate: string;
             description: string;
-            industryIdentifiers: {
+            industryIdentifiers: Array<{
                 type: industryIdentifier;
                 identifier: string;
-            }[];
+            }>;
             readingModes: {
                 text: boolean;
                 image: boolean;
@@ -143,21 +143,21 @@ declare namespace PubMed {
     }
 
     interface DataPMCID extends Shared {
-        articleids: {
+        articleids: Array<{
             idtype: 'doi' | 'pmid' | 'pmcid';
             value: string;
-        }[];
+        }>;
         pmclivedate: string;
         printpubdate: ShortDate;
         sortdate: LongDate;
     }
 
     interface DataPMID extends Shared {
-        articleids?: {
+        articleids?: Array<{
             idtype: 'doi' | 'eid' | 'pii' | 'pmc' | 'pubmed' | 'rid';
             idtypeen: number;
             value: string;
-        }[];
+        }>;
         attributes?: string[];
         availablefromurl?: string;
         bookname?: string;
@@ -170,7 +170,7 @@ declare namespace PubMed {
         /** Generally = "doi: <doi-here>" */
         elocationid?: string;
         essn?: string;
-        history?: {
+        history?: Array<{
             date: LongDate;
             pubstatus:
                 | 'accepted'
@@ -179,7 +179,7 @@ declare namespace PubMed {
                 | 'pubmed'
                 | 'received'
                 | 'revised';
-        }[];
+        }>;
         issn?: string;
         lang?: string[];
         /** format: 'Lastname FM' */
@@ -221,12 +221,12 @@ declare namespace PubMed {
             | '255';
         pubtype?: string[];
         recordstatus?: string;
-        references?: {
+        references?: Array<{
             refsource: string;
             reftype: string;
             pmid: number;
             note: string;
-        }[];
+        }>;
         reportnumber?: string;
         sortfirstauthor?: string;
         sortpubdate?: LongDate;

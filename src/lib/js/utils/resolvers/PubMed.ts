@@ -52,7 +52,12 @@ export function pubmedQuery(
         );
         req.send(null);
     }).then(idList =>
-        resolvePubmedData('PMID', idList).then(res => res.data || [])
+        resolvePubmedData('PMID', idList).then(res => {
+            if (!res) {
+                return [];
+            }
+            return res.data;
+        })
     );
 }
 
@@ -71,7 +76,7 @@ function resolvePubmedData(
         req.open(
             'GET',
             `https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi?tool=academic-bloggers-toolkit&email=dereksifford%40gmail.com&db=${database}&id=${idList}&version=2.0&retmode=json`
-        ); // tslint:disable-line
+        );
         req.addEventListener('load', () => {
             if (req.status !== 200) {
                 reject(
@@ -85,7 +90,7 @@ function resolvePubmedData(
             }
 
             const res = JSON.parse(req.responseText);
-            const iterable = [];
+            const iterable: any = [];
 
             for (const i of Object.keys(res.result)) {
                 if (i === 'uids') continue;
@@ -102,7 +107,7 @@ function resolvePubmedData(
                 iterable.push(res.result[i]);
             }
 
-            return resolve({
+            resolve({
                 data: iterable,
                 invalid: idList
                     .split(',')
@@ -127,7 +132,7 @@ export function getFromPubmed(
 ): Promise<[CSL.Data[], string[]]> {
     return new Promise<[CSL.Data[], string[]]>(resolve => {
         resolvePubmedData(kind, idList).then(res => {
-            if (res.data.length === 0) return resolve([[], []]);
+            if (!res || res.data.length === 0) return resolve([[], []]);
             return resolve([parsePubmedJSON(kind, res.data), res.invalid]);
         });
     });

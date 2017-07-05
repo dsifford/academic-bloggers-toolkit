@@ -12,6 +12,7 @@ declare const tinyMCE: TinyMCE.MCE;
 interface Props extends React.HTMLProps<HTMLElement> {
     readonly items: CSL.Data[];
     readonly selectedItems: string[];
+    id: string;
     CSL: ObservableMap<CSL.Data>;
     click: (id: string, isSelected: boolean) => void;
     toggle: (id: string, explode?: boolean) => void;
@@ -40,7 +41,7 @@ export class ItemList extends React.PureComponent<Props, {}> {
             id,
             CSL,
         } = this.props;
-        if (!items) return null;
+        if (!items || items.length === 0) return null;
         return (
             <div>
                 <div
@@ -94,7 +95,7 @@ class Items extends React.Component<ItemsProps, {}> {
         const refId = e.currentTarget.getAttribute('data-reference-id');
         editReferenceWindow(
             tinyMCE.EditorManager.get('content'),
-            toJS(this.props.items.find(i => i.id === refId))
+            toJS(this.props.items.find(i => i.id === refId)!)
         )
             .then(parseManualData)
             .then(m => [refId, m[0]])
@@ -131,9 +132,9 @@ class Items extends React.Component<ItemsProps, {}> {
                         CSL={r}
                         click={this.props.click}
                         onDoubleClick={this.editSingleReference}
-                        id={r.id}
+                        id={r.id!}
                         index={`${i + 1}`}
-                        isSelected={this.props.selectedItems.indexOf(r.id) > -1}
+                        isSelected={this.props.selectedItems.indexOf(r.id!) > -1}
                         key={r.id}
                         showTooltip={this.props.withTooltip}
                     />

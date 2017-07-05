@@ -1,4 +1,3 @@
-// tslint:disable:export-name
 
 /**
  * Communicates with AJAX to the WordPress server to retrieve metadata for a given
@@ -36,8 +35,8 @@ export function getFromURL(url: string): Promise<ABT.URLMeta> {
                 return;
             }
 
-            const content_title =
-                res.og.title || res.sailthru.title || res.title;
+            const content_title: string =
+                res.og.title || res.sailthru.title || res.title!;
 
             const site_title = res.og.site_name || '';
 
@@ -52,7 +51,7 @@ export function getFromURL(url: string): Promise<ABT.URLMeta> {
                 issued = new Date(issued).toISOString();
             }
 
-            const payload = {
+            const payload: ABT.URLMeta = {
                 accessed: new Date(Date.now()).toISOString(),
                 authors: res.authors,
                 content_title,

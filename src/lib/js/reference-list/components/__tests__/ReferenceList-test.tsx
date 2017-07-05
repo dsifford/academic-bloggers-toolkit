@@ -78,7 +78,7 @@ describe('<ReferenceList />', () => {
         window['ABT_Custom_CSL'] = { value: null };
     });
     beforeEach(() => {
-        (jest as any).resetAllMocks();
+        jest.resetAllMocks();
         spyOn(CSLProcessor.prototype, 'makeBibliography').and.callFake(
             () => ''
         );
@@ -136,6 +136,7 @@ describe('<ReferenceList />', () => {
     describe('insertStaticBibliography()', () => {
         let instance;
         beforeEach(() => {
+            jest.resetAllMocks();
             spyOn(
                 CSLProcessor.prototype,
                 'createStaticBibliography'
@@ -197,6 +198,7 @@ describe('<ReferenceList />', () => {
             await instance.insertStaticBibliography();
         });
         it('should overwrite an existing static bib if selected', async () => {
+            jest.resetAllMocks();
             mocks.getContent.mockImplementationOnce(
                 () =>
                     '<div class="abt-static-bib"><div id="aaaaaaaa"></div></div>'
@@ -219,6 +221,7 @@ describe('<ReferenceList />', () => {
     describe('insertInlineCitation()', () => {
         let instance;
         beforeEach(() => {
+            jest.resetAllMocks();
             spyOn(CSLProcessor.prototype, 'init').and.callFake(
                 () => new Promise(res => res([[]]))
             );
@@ -254,7 +257,6 @@ describe('<ReferenceList />', () => {
             (CSLProcessor.prototype
                 .prepareInlineCitationData as jasmine.Spy).calls.reset();
             (MCE.getRelativeCitationPositions as jasmine.Spy).calls.reset();
-            (jest as any).resetAllMocks();
         });
         it('should insert citation from selection', async () => {
             spyOn(MCE, 'parseInlineCitations').and.returnValue(
@@ -322,6 +324,7 @@ describe('<ReferenceList />', () => {
             expect(mocks.rollbar).not.toHaveBeenCalled();
         });
         it('should handle unexpected errors', async () => {
+            jest.resetAllMocks();
             (CSLProcessor.prototype
                 .prepareInlineCitationData as jasmine.Spy).and.throwError(
                 'Unexpected'
@@ -586,7 +589,7 @@ describe('<ReferenceList />', () => {
             expect(instance.loading).toBe(false);
         });
         it('togglePinned()', () => {
-            const d = document.getElementById('abt-reflist');
+            const d = document.getElementById('abt-reflist')!;
             const { component, instance } = setup();
             instance.toggleLoading();
 

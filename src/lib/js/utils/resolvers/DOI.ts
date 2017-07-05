@@ -9,16 +9,29 @@
  */
 export function getFromDOI(doiList: string[]): Promise<[CSL.Data[], string[]]> {
     return new Promise((resolve, reject) => {
-        const promises: Array<Promise<[CSL.Data, string]>> = [];
+        const promises: Array<Promise<CSL.Data | string>> = [];
         doiList.forEach(doi =>
-            promises.push(getDOIAgency(doi).then(resolveDOI))
+            promises.push(
+                getDOIAgency(doi).then(resolveDOI).catch(e => {
+                    if (typeof e === 'string') {
+                        return e;
+                    }
+                    throw e;
+                })
+            )
         );
         Promise.all(promises).then(
             data => {
-                resolve([
-                    data.map(d => d[0]).filter(d => d),
-                    data.map(d => d[1]).filter(d => d),
-                ]);
+                let csl: CSL.Data[] = [];
+                let errs: string[] = [];
+                for (const i of data) {
+                    if (typeof i === 'string') {
+                        errs = [...errs, i];
+                    } else {
+                        csl = [...csl, i];
+                    }
+                }
+                resolve([csl, errs]);
             },
             (err: Error) => {
                 reject(err);
@@ -44,7 +57,7 @@ function getDOIAgency(
         req.open('GET', url);
         req.addEventListener('load', () => {
             if (req.status !== 200) {
-                resolve({ agency: null, doi });
+                reject(doi);
                 return;
             }
             const res: CrossRef.Agency = JSON.parse(req.responseText);
@@ -69,10 +82,10 @@ function getDOIAgency(
  * @return {Promise}  Promise which resolves to a tuple of valid CSL.Data and invalid DOIs
  */
 function resolveDOI(data: {
-    agency: ('crossref' | 'datacite' | 'medra') & string;
+    agency: 'crossref' | 'datacite' | 'medra';
     doi: string;
-}): Promise<[CSL.Data, string]> {
-    return new Promise<[CSL.Data, string]>((resolve, reject) => {
+}): Promise<CSL.Data> {
+    return new Promise<CSL.Data>((resolve, reject) => {
         const req = new XMLHttpRequest();
         const headers: Array<[string, string]> = [];
         let url: string;
@@ -91,14 +104,14 @@ function resolveDOI(data: {
                 ]);
                 break;
             default:
-                resolve([null, data.doi]);
+                reject(data.doi);
                 return;
         }
         req.open('GET', url);
         headers.forEach(h => req.setRequestHeader(h[0], h[1]));
         req.addEventListener('load', () => {
             if (req.status !== 200) {
-                resolve([null, data.doi]);
+                reject(data.doi);
                 return;
             }
             const res: CSL.Data = JSON.parse(req.responseText);
@@ -106,7 +119,7 @@ function resolveDOI(data: {
             if (res['short-container-title']) {
                 res['journalAbbreviation'] = res['short-container-title'][0];
             }
-            resolve([res, null]);
+            resolve(res);
         });
         req.addEventListener('error', () =>
             reject(

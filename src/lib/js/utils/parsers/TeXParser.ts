@@ -24,7 +24,7 @@ export class TeXParser {
     }
 
     public parse(): CSL.Data[] {
-        const payload = [];
+        const payload: CSL.Data[] = [];
         for (const citation of this.bibJSON) {
             const c: CSL.Data = {};
             const date = {

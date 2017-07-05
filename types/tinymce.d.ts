@@ -74,15 +74,15 @@ declare namespace TinyMCE {
     interface WindowManager {
         data?: object;
         editor?: Editor;
-        windows?;
+        windows: any;
         alert(message: string, callback?: () => void, scope?: object): void;
-        close?(): void;
-        confirm?(message: string, callback?: () => void, scope?: object): void;
-        onClose?(e): void;
-        onOpen?(e): void;
-        open?(window: WindowMangerObject): void;
-        setParams?(paramObj): void;
-        submit?(): () => void;
+        close(): void;
+        confirm(message: string, callback?: () => void, scope?: object): void;
+        onClose(e): void;
+        onOpen(e): void;
+        open(window: WindowMangerObject): void;
+        setParams(paramObj): void;
+        submit(): () => void;
     }
 
     interface PluginManager {

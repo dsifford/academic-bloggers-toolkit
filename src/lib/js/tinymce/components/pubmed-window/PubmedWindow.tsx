@@ -28,7 +28,7 @@ export class PubmedWindow extends React.Component<{}, {}> {
 
     @observable query = '';
 
-    @observable results = observable([]);
+    @observable results = observable([] as PubMed.DataPMID[]);
 
     @computed
     get visibleResults() {
@@ -64,7 +64,7 @@ export class PubmedWindow extends React.Component<{}, {}> {
     };
 
     deliverPMID = (pmid: string) => {
-        this.wm.data['pmid'] = pmid;
+        this.wm.data!['pmid'] = pmid;
         this.wm.submit();
     };
 

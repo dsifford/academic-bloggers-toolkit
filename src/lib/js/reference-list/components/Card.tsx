@@ -51,10 +51,10 @@ export class Card extends React.PureComponent<CardProps, {}> {
         if (date.year) return date.year;
         if (
             date['date-parts'] &&
-            date['date-parts'][0].length !== 0 &&
-            date['date-parts'][0][0] !== undefined
+            date['date-parts']![0].length !== 0 &&
+            date['date-parts']![0][0] !== undefined
         )
-            return date['date-parts'][0][0];
+            return date['date-parts']![0][0];
         return 'n.d.';
     };
 
@@ -90,11 +90,11 @@ export class Card extends React.PureComponent<CardProps, {}> {
                     {CSL.title}
                 </div>
                 <div className="abt-card__people">
-                    {this.parsePeople(CSL.author)}
+                    {this.parsePeople(CSL.author!)}
                 </div>
                 <div className="abt-card__meta-container">
                     <div className="abt-card__date">
-                        ({this.parseDate(CSL.issued)})
+                        ({this.parseDate(CSL.issued!)})
                     </div>
                     <div className="abt-card__source">
                         {CSL.journalAbbreviation ||

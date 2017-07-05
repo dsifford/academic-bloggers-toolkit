@@ -1,4 +1,3 @@
-// tslint:disable:adjacent-overload-signatures
 export class Modal {
     title: string;
     outer: HTMLElement;
@@ -26,10 +25,10 @@ export class Modal {
     private getModal(): void {
         const outerModalID: string = top.document.querySelector(
             `div.mce-floatpanel[aria-label="${this.title}"]`
-        ).id;
-        this.outer = top.document.getElementById(outerModalID);
-        this.inner = top.document.getElementById(`${outerModalID}-body`);
-        this.mainRect = document.getElementById('abt-root');
+        )!.id;
+        this.outer = top.document.getElementById(outerModalID)!;
+        this.inner = top.document.getElementById(`${outerModalID}-body`)!;
+        this.mainRect = document.getElementById('abt-root')!;
         this.outer.style.transition = 'top 0.2s ease-out';
     }
 }

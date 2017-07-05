@@ -49,22 +49,22 @@ describe('formatBibliography()', () => {
         // plain, no added options. PMID available.
         let [rawBib, links, cslmap] = setupArgs();
         temp.innerHTML = formatBibliography(rawBib, links, cslmap)[0].html;
-        expect(temp.querySelector('.csl-entry').classList.toString()).toBe(
+        expect(temp.querySelector('.csl-entry')!.classList.toString()).toBe(
             'csl-entry'
         );
-        expect(temp.querySelector('.csl-entry').childElementCount).toBe(2);
+        expect(temp.querySelector('.csl-entry')!.childElementCount).toBe(2);
 
         // hanging indent, with entryspacing and linespacing. DOI available
-        [rawBib, links, cslmap] = setupArgs(null, true, 3, 3);
+        [rawBib, links, cslmap] = setupArgs(undefined, true, 3, 3);
         let item = cslmap.get('1btbi6t45');
-        item.PMID = undefined;
-        item.DOI = '10.000/100.1';
+        item!.PMID = undefined;
+        item!.DOI = '10.000/100.1';
         cslmap.set('1btbi6t45', item);
         temp.innerHTML = formatBibliography(rawBib, links, cslmap)[0].html;
-        expect(temp.querySelector('.csl-entry').classList.toString()).toBe(
+        expect(temp.querySelector('.csl-entry')!.classList.toString()).toBe(
             'csl-entry hanging-indent'
         );
-        expect(temp.querySelector('.csl-entry').childElementCount).toBe(1);
+        expect(temp.querySelector('.csl-entry')!.childElementCount).toBe(1);
         expect(
             (<HTMLDivElement>temp.querySelector('.csl-entry')).style.cssText
         ).toBe('line-height: 3; margin: 2em auto;'); // tslint:disable-line
@@ -72,37 +72,37 @@ describe('formatBibliography()', () => {
         // second-field-align: margin. PMCID available
         [rawBib, links, cslmap] = setupArgs('margin');
         item = cslmap.get('1btbi6t45');
-        item.PMID = undefined;
-        item.PMCID = 'PMC12345';
+        item!.PMID = undefined;
+        item!.PMCID = 'PMC12345';
         cslmap.set('1btbi6t45', item);
         temp.innerHTML = formatBibliography(rawBib, links, cslmap)[0].html;
-        expect(temp.querySelector('.csl-entry').classList.toString()).toBe(
+        expect(temp.querySelector('.csl-entry')!.classList.toString()).toBe(
             'csl-entry margin'
         );
-        expect(temp.querySelector('.csl-entry').childElementCount).toBe(2);
+        expect(temp.querySelector('.csl-entry')!.childElementCount).toBe(2);
 
         // second-field-align: flush, hanging-indent. URL available
         [rawBib, links, cslmap] = setupArgs('flush', true);
         item = cslmap.get('1btbi6t45');
-        item.PMID = undefined;
-        item.URL = 'https://www.google.com';
+        item!.PMID = undefined;
+        item!.URL = 'https://www.google.com';
         cslmap.set('1btbi6t45', item);
         temp.innerHTML = formatBibliography(rawBib, links, cslmap)[0].html;
-        expect(temp.querySelector('.csl-entry').classList.toString()).toBe(
+        expect(temp.querySelector('.csl-entry')!.classList.toString()).toBe(
             'csl-entry hanging-indent flush'
         );
-        expect(temp.querySelector('.csl-entry').childElementCount).toBe(1);
+        expect(temp.querySelector('.csl-entry')!.childElementCount).toBe(1);
 
         // plain, no added options. No identifiers available
         [rawBib, links, cslmap] = setupArgs();
         item = cslmap.get('1btbi6t45');
-        item.PMID = undefined;
+        item!.PMID = undefined;
         cslmap.set('1btbi6t45', item);
         temp.innerHTML = formatBibliography(rawBib, links, cslmap)[0].html;
-        expect(temp.querySelector('.csl-entry').classList.toString()).toBe(
+        expect(temp.querySelector('.csl-entry')!.classList.toString()).toBe(
             'csl-entry'
         );
-        expect(temp.querySelector('.csl-entry').childElementCount).toBe(2);
+        expect(temp.querySelector('.csl-entry')!.childElementCount).toBe(2);
     });
     it('should return an error string if one exists', () => {
         const [rawBib, links, cslmap] = setupArgs();

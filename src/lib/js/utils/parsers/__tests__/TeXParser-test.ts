@@ -188,10 +188,10 @@ describe('TeXParser', () => {
             }
         `;
         const parsed = new TeXParser(bib).parse()[0];
-        expect(parsed.issued['date-parts'][0][0]).toBe('2016');
-        expect(parsed.issued['date-parts'][0][0]).toBe('2016');
-        expect(parsed['event-date']['date-parts'][0][1]).toBe('11');
-        expect(parsed['event-date']['date-parts'][0][1]).toBe('11');
+        expect(parsed.issued!['date-parts'][0][0]).toBe('2016');
+        expect(parsed.issued!['date-parts'][0][0]).toBe('2016');
+        expect(parsed['event-date']!['date-parts'][0][1]).toBe('11');
+        expect(parsed['event-date']!['date-parts'][0][1]).toBe('11');
     });
     it('should handle various forms of page ranges', () => {
         const bib = `
@@ -260,12 +260,12 @@ describe('TeXParser', () => {
         const parsed = new TeXParser(bib).parse()[0];
         const expected = [['Doe', 'John'], ['Smith', 'Bob D.']];
         expected.forEach((e, i) => {
-            expect(parsed.author[i].family).toEqual(e[0]);
-            expect(parsed.author[i].given).toEqual(e[1]);
+            expect(parsed.author![i].family).toEqual(e[0]);
+            expect(parsed.author![i].given).toEqual(e[1]);
         });
         expected.forEach((e, i) => {
-            expect(parsed.editor[i].family).toEqual(e[0]);
-            expect(parsed.editor[i].given).toEqual(e[1]);
+            expect(parsed.editor![i].family).toEqual(e[0]);
+            expect(parsed.editor![i].given).toEqual(e[1]);
         });
     });
 });

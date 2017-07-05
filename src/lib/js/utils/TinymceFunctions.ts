@@ -127,7 +127,7 @@ export function getRelativeCitationPositions(
         });
     }
     const el = editor.dom.doc.getElementById('CURSOR');
-    if (el) el.parentElement.removeChild(el);
+    if (el) el.parentElement!.removeChild(el);
     return payload;
 }
 
@@ -164,15 +164,15 @@ function parseFootnoteCitations(
             '#abt-bibliography, #abt-smart-bib'
         );
 
-        if (existingNote) existingNote.parentElement.removeChild(existingNote);
-        if (existingBib) existingBib.parentElement.removeChild(existingBib);
+        if (existingNote) existingNote.parentElement!.removeChild(existingNote);
+        if (existingBib) existingBib.parentElement!.removeChild(existingBib);
         if (clusters.length === 0) return resolve(true);
 
         for (const [index, footnote, elementID] of clusters) {
             const inlineText = `[${index + 1}]`;
-            const citation: HTMLSpanElement = doc.getElementById(elementID);
+            const citation: HTMLSpanElement = doc.getElementById(elementID)!;
             const sortedItems: Citeproc.SortedItems =
-                citationByIndex[index].sortedItems;
+                citationByIndex[index].sortedItems!;
             const idList: string = JSON.stringify(
                 sortedItems.map(c => c[1].id)
             );
@@ -236,7 +236,7 @@ function parseFootnoteCitations(
             note.previousElementSibling.childNodes[0].nodeName === 'BR'
         ) {
             const p = note.previousElementSibling;
-            p.parentNode.removeChild(p);
+            p.parentNode!.removeChild(p);
         }
         editor.setContent(editor.getBody().innerHTML);
         editor.selection.moveToBookmark(bm);
@@ -253,14 +253,14 @@ function parseInTextCitations(
     return new Promise(resolve => {
         const doc = editor.dom.doc;
         const existingNote = doc.getElementById('abt-footnote');
-        if (existingNote) existingNote.parentElement.removeChild(existingNote);
+        if (existingNote) existingNote.parentElement!.removeChild(existingNote);
 
         for (const [index, inlineText, elementID] of clusters) {
             const citation: HTMLSpanElement = editor.dom.doc.getElementById(
                 elementID
-            );
+            )!;
             const sortedItems: Citeproc.SortedItems =
-                citationByIndex[index].sortedItems;
+                citationByIndex[index].sortedItems!;
             const idList: string = JSON.stringify(
                 sortedItems.map(c => c[1].id)
             );
@@ -302,7 +302,7 @@ export function setBibliography(
 ): void {
     const doc = editor.getDoc();
     const existingBib = doc.querySelector('#abt-bibliography, #abt-smart-bib');
-    if (existingBib) existingBib.parentElement.removeChild(existingBib);
+    if (existingBib) existingBib.parentElement!.removeChild(existingBib);
 
     if (typeof bibliography === 'boolean') return;
 
@@ -354,7 +354,7 @@ export function setBibliography(
         bib.previousElementSibling.childNodes[0].nodeName === 'BR'
     ) {
         const p = bib.previousElementSibling;
-        p.parentNode.removeChild(p);
+        p.parentNode!.removeChild(p);
     }
     editor.setContent(editor.getBody().innerHTML);
     editor.selection.moveToBookmark(bm);
@@ -364,7 +364,7 @@ export function reset(doc: HTMLDocument) {
     const inlines = doc.querySelectorAll('.abt-citation, .abt_cite');
     const bib = doc.getElementById('abt-bibliography');
     for (const cite of Array.from(inlines)) {
-        cite.parentNode.removeChild(cite);
+        cite.parentNode!.removeChild(cite);
     }
-    if (bib) bib.parentNode.removeChild(bib);
+    if (bib) bib.parentNode!.removeChild(bib);
 }

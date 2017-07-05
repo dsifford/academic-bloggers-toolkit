@@ -40,10 +40,10 @@ export class ManualEntryContainer extends React.PureComponent<
     };
 
     getHeight = () =>
-        document.getElementById('abt-root').getBoundingClientRect().height;
+        document.getElementById('abt-root')!.getBoundingClientRect().height;
 
     render() {
-        const itemType: string = this.props.manualData.get('type');
+        const itemType: string = this.props.manualData.get('type')!;
         const renderAutocite: boolean =
             ['webpage', 'book', 'chapter'].indexOf(itemType) > -1;
         return (
@@ -177,7 +177,7 @@ export class AutoCite extends React.Component<AutoCiteProps, {}> {
                         type={inputType}
                         id="citequery"
                         placeholder={placeholder}
-                        pattern={this.props.pattern ? this.props.pattern : null}
+                        pattern={this.props.pattern ? this.props.pattern : undefined}
                         ref={this.bindRefs}
                         value={this.query}
                         onKeyDown={this.handleKeyDown}

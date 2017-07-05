@@ -97,8 +97,8 @@ describe('API', () => {
                 { family: 'Brown', given: 'Susan', type: 'editor' },
             ];
             return parseManualData(mockData).then(d => {
-                expect(d[0].author.length).toBe(2);
-                expect(d[0].editor.length).toBe(1);
+                expect(d[0].author!.length).toBe(2);
+                expect(d[0].editor!.length).toBe(1);
             });
         });
         it('should generateId() if an ID does not already exists', () => {
