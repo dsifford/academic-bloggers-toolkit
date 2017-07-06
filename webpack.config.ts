@@ -9,7 +9,7 @@ const sharedPlugins: webpack.Plugin[] = [
         minimize: true,
         debug: false,
     }),
-    new webpack.NoErrorsPlugin(),
+    new webpack.NoEmitOnErrorsPlugin(),
     new webpack.optimize.CommonsChunkPlugin({
         name: 'vendor',
         minChunks: Infinity,
@@ -55,8 +55,6 @@ const config: webpack.Configuration = {
             'react-dom',
             'mobx',
             'mobx-react',
-            'mobx-react-devtools',
-            'babel-polyfill',
         ],
     },
     output: {

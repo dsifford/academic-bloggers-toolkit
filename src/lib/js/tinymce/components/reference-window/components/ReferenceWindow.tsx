@@ -3,7 +3,7 @@ import { observer } from 'mobx-react';
 import * as React from 'react';
 import DevTools, { configureDevtool } from '../../../../utils/DevTools';
 import { Modal } from '../../../../utils/Modal';
-import { getFromISBN, getFromURL } from '../../../../utils/resolvers/';
+import { BookMeta, getFromISBN, getFromURL } from '../../../../utils/resolvers/';
 
 const DevTool = DevTools();
 configureDevtool({ logFilter: change => change.type === 'action' });
@@ -56,7 +56,7 @@ export class ReferenceWindow extends React.Component<{}, {}> {
     @action
     autocite = (
         kind: 'webpage' | 'book' | 'chapter',
-        meta: { webpage?: ABT.URLMeta; book?: GoogleBooks.Meta }
+        meta: { webpage?: ABT.URLMeta; book?: BookMeta }
     ) => {
         switch (kind) {
             case 'webpage':

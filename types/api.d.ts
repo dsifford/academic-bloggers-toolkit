@@ -1,113 +1,3 @@
-// tslint:disable no-namespace no-reserved-keywords
-
-declare namespace CrossRef {
-    interface Agency {
-        /* "ok" if response is good */
-        status: string;
-        'message-type': string;
-        'message-version': string;
-        message: {
-            DOI: string;
-            agency: {
-                id: 'crossref' | 'datacite' | 'medra';
-                label: string;
-            };
-        };
-    }
-}
-
-declare namespace GoogleBooks {
-    type industryIdentifier = 'ISBN_10' | 'ISBN_13';
-    type printType = 'BOOK';
-
-    interface Response {
-        kind: string;
-        totalItems: number;
-        items: Item[];
-    }
-
-    interface Meta {
-        title: string;
-        'number-of-pages': string;
-        publisher: string;
-        /** 2012-06-07 */
-        issued: string;
-        authors: Array<{
-            type: 'author';
-            family: string;
-            given: string;
-        }>;
-    }
-
-    interface Item {
-        /** "books#volume" */
-        kind: string;
-        /** "Jx1ojwEACAAJ" */
-        id: string;
-        /** "uISZ7b1XOlc" */
-        etag: string;
-        /** "https://www.googleapis.com/books/v1/volumes/Jx1ojwEACAAJ" */
-        selfLink: string;
-        volumeInfo: {
-            title: string;
-            subtitle: string;
-            authors: string[];
-            publisher: string;
-            /** "2016-07-31" */
-            publishedDate: string;
-            description: string;
-            industryIdentifiers: Array<{
-                type: industryIdentifier;
-                identifier: string;
-            }>;
-            readingModes: {
-                text: boolean;
-                image: boolean;
-            };
-            pageCount: number;
-            printType: printType;
-            averageRating: number;
-            ratingsCount: number;
-            maturityRating: 'NOT_MATURE' | 'MATURE';
-            allowAnonLogging: boolean;
-            contentVersion: string;
-            imageLinks: {
-                smallThumbnail: string;
-                thumbnail: string;
-            };
-            /** en */
-            language: string;
-            previewLink: string;
-            /** use this one */
-            infoLink: string;
-            canonicalVolumeLink: string;
-        };
-        saleInfo: {
-            country: string;
-            saleability: string;
-            isEbook: boolean;
-        };
-        accessInfo: {
-            country: string;
-            viewability: string;
-            embeddable: boolean;
-            publicDomain: boolean;
-            textToSpeechPermission: 'ALLOWED' | 'NOT_ALLOWED';
-            epub: {
-                isAvailable: boolean;
-            };
-            pdf: {
-                isAvailable: boolean;
-            };
-            webReaderLink: string;
-            accessViewStatus: string;
-            quoteSharingAllowed: boolean;
-        };
-        searchInfo: {
-            textSnippet: string;
-        };
-    }
-}
 
 declare namespace PubMed {
     /**
@@ -121,6 +11,8 @@ declare namespace PubMed {
      * Example: `2014/07/01 00:00`
      */
     type LongDate = string;
+
+    type Response = DataPMID | DataPMCID;
 
     interface Author {
         authtype: string;

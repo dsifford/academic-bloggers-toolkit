@@ -1,4 +1,4 @@
 export { getFromDOI } from './DOI';
 export { getFromPubmed, pubmedQuery } from './PubMed';
-export { getFromISBN } from './ISBN';
+export { getFromISBN, BookMeta } from './ISBN';
 export { getFromURL } from './URL';

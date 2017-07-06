@@ -1,15 +1,20 @@
+interface IDType {
+    kind: 'PMID' | 'DOI' | 'PMCID' | 'URL';
+    value: string;
+}
+
 /**
  * Parses and formats the bibliography links according to the user's chosen
- *   link format.
- * @param  {string} html                    HTML string of a single reference
- * @param  {ABT.LinkStyle} linkStyle        Selected link style
- * @param  {'PMID'|'DOI'|'PMCID'|'URL'} id  Identifier for linking out
- * @return {string}  HTML string with formatted links
+ * link format
+ * @param html      - HTML string of a single reference
+ * @param linkStyle - Selected link style
+ * @param id        - Identifier for linking out
+ * @returns HTML string with formatted links
  */
 export function formatReferenceLinks(
     html: string,
     linkStyle: ABT.LinkStyle,
-    id?: { kind: 'PMID' | 'DOI' | 'PMCID' | 'URL'; value: string }
+    id?: IDType
 ): string {
     if (linkStyle === 'never') return html;
 
@@ -64,7 +69,7 @@ export function formatReferenceLinks(
                 case 'PMCID': {
                     return (
                         linkedHtml +
-                        `<span class="abt-url"> ` + // tslint:disable-next-line
+                        `<span class="abt-url"> ` +
                         `[<a href="https://www.ncbi.nlm.nih.gov/pmc/articles/${id.value}" target="_blank">PMC</a>]` +
                         `</span>`
                     );

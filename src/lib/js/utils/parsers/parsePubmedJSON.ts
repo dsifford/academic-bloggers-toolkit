@@ -27,30 +27,31 @@ import { parseCSLDate, parseCSLName } from './';
  *   - vernaculartitle
  *   - viewcount
  *
- * @param {PubMed.DataPMID[]} res  Pubmed api response
- * @return CSL.Data[]
+ * @param kind - PubMed reference kind
+ * @param res  - Pubmed api response
  */
 export function parsePubmedJSON(
     kind: 'PMID' | 'PMCID',
-    res: Array<PubMed.DataPMID | PubMed.DataPMCID>
+    res: PubMed.Response[]
 ): CSL.Data[] {
     const payload: CSL.Data[] = [];
 
-    res.forEach((ref: PubMed.DataPMID | PubMed.DataPMCID, i: number) => {
-        const output: CSL.Data = {};
-        output.id = `${i}`;
-        output.type = 'article-journal';
-        output.author = [];
+    res.forEach((ref: PubMed.Response, i: number) => {
+        const output: CSL.Data = {
+            id: `${i}`,
+            type: 'article-journal',
+            author: [],
+        };
 
         Object.keys(ref).forEach(key => {
-            if (typeof ref[key] === 'string' && ref[key] === '') {
-                return;
-            }
+            if (typeof ref[key] === 'string' && ref[key] === '') return;
 
             switch (key) {
                 case 'authors':
                     ref[key]!.forEach(author => {
-                        output.author!.push(parseCSLName(author.name, 'pubmed'));
+                        output.author!.push(
+                            parseCSLName(author.name, 'pubmed')
+                        );
                     });
                     break;
                 case 'availablefromurl':

@@ -15,6 +15,7 @@ services:
             PLUGINS: >-
                 co-authors-plus,
                 query-monitor,
+                gutenberg,
             # piglatin,
             # relative-url,
     db:

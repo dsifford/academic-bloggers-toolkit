@@ -1,4 +1,36 @@
-export function getFromISBN(ISBN: string): Promise<GoogleBooks.Meta> {
+export interface BookMeta {
+    title: string;
+    'number-of-pages': string;
+    publisher: string;
+    /** 2012-06-07 */
+    issued: string;
+    authors: Array<{
+        // tslint:disable-next-line
+        type: 'author';
+        family: string;
+        given: string;
+    }>;
+}
+
+interface Item {
+    volumeInfo: {
+        title: string;
+        // subtitle: string;
+        authors: string[];
+        publisher: string;
+        /** "2016-07-31" */
+        publishedDate: string;
+        pageCount: number;
+    };
+}
+
+interface APIResponse {
+    kind: string;
+    totalItems: number;
+    items: Item[];
+}
+
+export function getFromISBN(ISBN: string): Promise<BookMeta> {
     return new Promise((resolve, reject) => {
         const req = new XMLHttpRequest();
         const url = `https://www.googleapis.com/books/v1/volumes?q=isbn:${ISBN.replace(
@@ -16,10 +48,9 @@ export function getFromISBN(ISBN: string): Promise<GoogleBooks.Meta> {
                 );
                 return;
             }
-            const res = <GoogleBooks.Response>JSON.parse(req.responseText);
+            const res = <APIResponse>JSON.parse(req.responseText);
             if (res.totalItems === 0) {
-                reject(new Error(`${top.ABT_i18n.errors.noResults}`));
-                return;
+                return reject(new Error(`${top.ABT_i18n.errors.noResults}`));
             }
 
             const meta = res.items[0].volumeInfo;
@@ -46,7 +77,7 @@ export function getFromISBN(ISBN: string): Promise<GoogleBooks.Meta> {
                     type: <'author'>'author',
                 };
             });
-            const payload: GoogleBooks.Meta = {
+            const payload: BookMeta = {
                 authors,
                 issued: meta.publishedDate.replace(/-/g, '/'),
                 'number-of-pages': meta.pageCount.toString(),

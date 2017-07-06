@@ -1,11 +1,9 @@
-// tslint:disable:export-name
-
 /**
  * Retrieves CSL.Data from CrossRef using DOI identifiers and resolves a tuple
  *   in the form of [validCSLData[], invalidDOIStrings[]].
  *
- * @param  doiList Array of DOI strings
- * @return Promise tuple in the form described above
+ * @param doiList - Array of DOI strings
+ * @return Tuple in the form described above
  */
 export function getFromDOI(doiList: string[]): Promise<[CSL.Data[], string[]]> {
     return new Promise((resolve, reject) => {
@@ -40,18 +38,18 @@ export function getFromDOI(doiList: string[]): Promise<[CSL.Data[], string[]]> {
     });
 }
 
+interface AgencyResponse {
+    agency: 'crossref' | 'datacite' | 'medra';
+    doi: string;
+}
+
 /**
  * Takes a DOI string as input and resolves the DOI agency
- * @param  {string}  doi DOI string
- * @return {Promise<{agency: 'crossref'|'datacite'|'medra', doi: string}>}
+ * @param doi - DOI string
+ * @return Promise with AgencyResponse interface
  */
-function getDOIAgency(
-    doi: string
-): Promise<{ agency: 'crossref' | 'datacite' | 'medra'; doi: string }> {
-    return new Promise<{
-        agency: 'crossref' | 'datacite' | 'medra';
-        doi: string;
-    }>((resolve, reject) => {
+function getDOIAgency(doi: string): Promise<AgencyResponse> {
+    return new Promise<AgencyResponse>((resolve, reject) => {
         const url = `https://api.crossref.org/works/${doi}/agency`;
         const req = new XMLHttpRequest();
         req.open('GET', url);
@@ -60,7 +58,7 @@ function getDOIAgency(
                 reject(doi);
                 return;
             }
-            const res: CrossRef.Agency = JSON.parse(req.responseText);
+            const res = JSON.parse(req.responseText);
             resolve({ agency: res.message.agency.id, doi });
         });
         req.addEventListener('error', () =>
@@ -77,48 +75,44 @@ function getDOIAgency(
 
 /**
  * Takes a DOI agency and DOI string as input and resolves it to CSL using the respective API
- * @param  {'crossref'|'datacite'|'medra'} data.agency  A valid DOI agency
- * @param  {string} data.doi  DOI string
- * @return {Promise}  Promise which resolves to a tuple of valid CSL.Data and invalid DOIs
+ * @param data.agency - A valid DOI agency
+ * @param data.doi    - DOI string
+ * @return Promise which resolves to a tuple of valid CSL.Data and invalid DOIs
  */
-function resolveDOI(data: {
-    agency: 'crossref' | 'datacite' | 'medra';
-    doi: string;
-}): Promise<CSL.Data> {
+function resolveDOI({ agency, doi }: AgencyResponse): Promise<CSL.Data> {
     return new Promise<CSL.Data>((resolve, reject) => {
         const req = new XMLHttpRequest();
         const headers: Array<[string, string]> = [];
         let url: string;
-        switch (data.agency) {
+        switch (agency) {
             case 'crossref':
-                url = `https://api.crossref.org/v1/works/${data.doi}/transform/application/vnd.citationstyles.csl+json`;
+                url = `https://api.crossref.org/v1/works/${doi}/transform/application/vnd.citationstyles.csl+json`;
                 break;
             case 'datacite':
-                url = `https://data.datacite.org/application/vnd.citationstyles.csl+json/${data.doi}`;
+                url = `https://data.datacite.org/application/vnd.citationstyles.csl+json/${doi}`;
                 break;
             case 'medra':
-                url = `https://data.medra.org/${data.doi}`;
+                url = `https://data.medra.org/${doi}`;
                 headers.push([
                     'accept',
                     'application/vnd.citationstyles.csl+json;q=1.0',
                 ]);
                 break;
             default:
-                reject(data.doi);
+                reject(doi);
                 return;
         }
         req.open('GET', url);
         headers.forEach(h => req.setRequestHeader(h[0], h[1]));
         req.addEventListener('load', () => {
-            if (req.status !== 200) {
-                reject(data.doi);
-                return;
-            }
-            const res: CSL.Data = JSON.parse(req.responseText);
-            res.id = '0';
+            if (req.status !== 200) return reject(doi);
+
+            const res: CSL.Data = { ...JSON.parse(req.responseText), id: '0' };
+
             if (res['short-container-title']) {
                 res['journalAbbreviation'] = res['short-container-title'][0];
             }
+
             resolve(res);
         });
         req.addEventListener('error', () =>

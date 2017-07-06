@@ -70,7 +70,8 @@
     "react-dom": "^15.6.1",
     "react-motion": "^0.5.0",
     "react-virtualized-select": "^3.0.1",
-    "typescript": "^2.4.1"
+    "typescript": "^2.4.1",
+    "whatwg-fetch": "^2.0.3"
   },
   "jest": {
     "transform": {

@@ -3,12 +3,11 @@ import { formatReferenceLinks } from './formatReferenceLinks';
 
 /**
  * Wrapper function for citeproc.makeBibliography that takes the output and
- *   inlines CSS classes that are appropriate for the style (according to the
- *   generated bibmeta).
+ * inlines CSS classes that are appropriate for the style (according to the
+ * generated bibmeta)
  *
- * @param {'always'|'urls'|'never'} links   Link format
- * @param {Citeproc.Bibliography} rawBib    Raw output from citeproc.makeBibliography()
- * @return {ABT.Bibliography}
+ * @param links  - Link format
+ * @param rawBib - Raw output from citeproc.makeBibliography()
  */
 export function formatBibliography(
     rawBib: Citeproc.Bibliography,

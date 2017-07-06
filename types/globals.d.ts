@@ -1,5 +1,6 @@
 interface Window {
     ABT_i18n: BackendGlobals.ABT_i18n;
+    ajaxurl: string;
     tinyMCE: TinyMCE.MCE;
     DocumentTouch?: any;
 }
@@ -124,7 +125,6 @@ declare namespace BackendGlobals {
         };
     }
 
-    // tslint:disable-next-line
     interface ABT_Reflist_State {
         bibOptions: {
             heading: string;
@@ -142,7 +142,6 @@ declare namespace BackendGlobals {
         };
     }
 
-    // tslint:disable-next-line
     interface ABT_wp {
         abt_url: string;
         home_url: string;
@@ -162,7 +161,6 @@ declare namespace BackendGlobals {
         };
     }
 
-    // tslint:disable-next-line
     interface ABT_Custom_CSL {
         CSL?: string;
         label: string;

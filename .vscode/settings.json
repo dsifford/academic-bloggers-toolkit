@@ -2,6 +2,7 @@
 {
     "files.associations": {
         "deploy": "shellscript",
-        "update-translations": "shellscript"
+        "update-translations": "shellscript",
+        ".stylintrc": "json"
     }
 }

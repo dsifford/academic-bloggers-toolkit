@@ -70,8 +70,7 @@ export class RISParser {
 
     /**
      * Constructor. Takes a raw string of RIS as input and process it for parsing.
-     * @param  {string} risText Raw RIS string.
-     * @return {void}
+     * @param risText - Raw RIS string
      */
     constructor(risText: string) {
         this.refArray = risText
@@ -81,9 +80,9 @@ export class RISParser {
 
     /**
      * Wrapper function that is called after constructing a new RISParser that
-     *   returns an array of CSL.Data. If any single RIS object can't be processed,
-     *   its index is pushed to unsupportedRefs.
-     * @return {CSL.Data[]} Array of CSL.Data
+     * returns an array of CSL.Data. If any single RIS object can't be processed,
+     * its index is pushed to unsupportedRefs.
+     * @return Array of CSL.Data
      */
     public parse(): CSL.Data[] {
         const payload: CSL.Data[] = [];
@@ -103,13 +102,12 @@ export class RISParser {
 
     /**
      * Parses a single RIS Object and returns its CSL.Data or false (if it can't
-     *   be processed).
-     * @param  {string}   singleRef A single RIS string.
-     * @param  {number}   id        The ID to be used for the CSL.Data object.
-     * @return {CSL.Data}           Parsed CSL.Data.
+     * be processed)
+     * @param singleRef - A single RIS string
+     * @param id        - The ID to be used for the CSL.Data object
+     * @return Parsed CSL.Data
      */
     private parseSingle(singleRef: string, id: number): CSL.Data | boolean {
-        const payload: CSL.Data = {};
         const ref = singleRef.split(/\n/);
         const citationType = ref[0].substr(6).trim();
 
@@ -117,10 +115,12 @@ export class RISParser {
             return false;
         }
 
-        payload.id = `${id}`;
-        payload.type = RISParser.RISTypes[citationType];
-        payload.issued = {
-            'date-parts': [[]],
+        const payload: CSL.Data = {
+            id: `${id}`,
+            type: RISParser.RISTypes[citationType],
+            issued: {
+                'date-parts': [[]],
+            },
         };
 
         const pageHolder = {};
@@ -279,7 +279,6 @@ export class RISParser {
     }
 }
 
-// tslint:disable
 /**
  * ========== RIS Field Notes ==========
  *

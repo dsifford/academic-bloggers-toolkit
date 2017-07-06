@@ -2,13 +2,11 @@ import { parsePubmedJSON } from '../parsers/';
 
 /**
  * Sends a string of text to PubMed and resolves PubMed.DataPMID[] for the query.
- * @param {string}     query    A search string (the same you would type into
+ * @param query - A search string (the same you would type into
  *   the search box on pubmed)
- * @return {Promise<PubMed.DataPMID[]>}
+ * @return Promise that resolves to an array of PubMed Response
  */
-export function pubmedQuery(
-    query: string
-): Promise<PubMed.DataPMID[] | PubMed.DataPMCID[]> {
+export function pubmedQuery(query: string): Promise<PubMed.Response[]> {
     return new Promise<string>((resolve, reject) => {
         const req = new XMLHttpRequest();
         req.open(
@@ -16,28 +14,26 @@ export function pubmedQuery(
             `https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=pubmed&term=${encodeURI(
                 query
             )}&retmode=json`
-        ); // tslint:disable-line
+        );
         req.addEventListener('load', () => {
             if (req.status !== 200) {
-                reject(
+                return reject(
                     new Error(
                         `${top.ABT_i18n.errors.prefix}: pubmedQuery => ${top
                             .ABT_i18n.errors.statusError}`
                     )
                 );
-                return;
             }
 
             const res = JSON.parse(req.responseText);
 
             if (res.error) {
-                reject(
+                return reject(
                     new Error(
                         `${top.ABT_i18n.errors.prefix}: pubmedQuery => ${top
                             .ABT_i18n.errors.badRequest}`
                     )
                 );
-                return;
             }
 
             resolve(res.esearchresult.idlist.join());
@@ -52,25 +48,45 @@ export function pubmedQuery(
         );
         req.send(null);
     }).then(idList =>
-        resolvePubmedData('PMID', idList).then(res => {
-            if (!res) {
+        resolvePubmedData('PMID', idList).then(res => res.data).catch(e => {
+            if (typeof e === 'string') {
                 return [];
             }
-            return res.data;
+            throw e;
         })
     );
+}
+
+export function getFromPubmed(
+    kind: 'PMID' | 'PMCID',
+    idList: string
+): Promise<[CSL.Data[], string[]]> {
+    return new Promise<[CSL.Data[], string[]]>(resolve => {
+        resolvePubmedData(kind, idList)
+            .then(res =>
+                resolve([parsePubmedJSON(kind, res.data), res.invalid])
+            )
+            .catch(e => {
+                if (typeof e === 'string') {
+                    return [[], []];
+                }
+                throw e;
+            });
+    });
+}
+
+interface ResolvedData {
+    data: PubMed.Response[];
+    invalid: string[];
 }
 
 function resolvePubmedData(
     kind: 'PMID' | 'PMCID',
     idList: string
-): Promise<
-    | { data: PubMed.DataPMID[] | PubMed.DataPMCID[]; invalid: string[] }
-    | undefined
-> {
+): Promise<ResolvedData> {
     const database = kind === 'PMID' ? 'pubmed' : 'pmc';
     return new Promise((resolve, reject) => {
-        if (idList.length === 0) return resolve(undefined);
+        if (idList.length === 0) return reject('No ids to resolve');
 
         const req = new XMLHttpRequest();
         req.open(
@@ -79,14 +95,13 @@ function resolvePubmedData(
         );
         req.addEventListener('load', () => {
             if (req.status !== 200) {
-                reject(
+                return reject(
                     new Error(
                         `${top.ABT_i18n.errors
                             .prefix}: resolvePubmedData => ${top.ABT_i18n.errors
                             .statusError}`
                     )
                 );
-                return;
             }
 
             const res = JSON.parse(req.responseText);
@@ -123,17 +138,5 @@ function resolvePubmedData(
             )
         );
         req.send(null);
-    });
-}
-
-export function getFromPubmed(
-    kind: 'PMID' | 'PMCID',
-    idList: string
-): Promise<[CSL.Data[], string[]]> {
-    return new Promise<[CSL.Data[], string[]]>(resolve => {
-        resolvePubmedData(kind, idList).then(res => {
-            if (!res || res.data.length === 0) return resolve([[], []]);
-            return resolve([parsePubmedJSON(kind, res.data), res.invalid]);
-        });
     });
 }
