@@ -36,7 +36,7 @@ const productionPlugins = [
 ];
 
 const config: webpack.Configuration = {
-    devtool: 'eval-source-map',
+    // devtool: 'eval-source-map',
     cache: true,
     entry: {
         'js/Frontend': './src/js/Frontend.ts',
@@ -50,12 +50,7 @@ const config: webpack.Configuration = {
             './src/js/tinymce/components/edit-reference-window/',
         'js/tinymce/components/import-window/index':
             './src/js/tinymce/components/import-window/',
-        vendor: [
-            'react',
-            'react-dom',
-            'mobx',
-            'mobx-react',
-        ],
+        vendor: ['react', 'react-dom', 'mobx', 'mobx-react'],
     },
     output: {
         filename: '[name].js',
@@ -69,16 +64,20 @@ const config: webpack.Configuration = {
     },
     plugins: isProduction ? productionPlugins : devPlugins,
     module: {
-        loaders: [
+        rules: [
             {
                 test: /\.tsx?$/,
-                include: resolve(__dirname, 'src'),
-                exclude: /__tests__/,
-                loaders: ['babel-loader', 'ts-loader'],
+                exclude: /(?:__tests__|node_modules)/,
+                use: ['babel-loader', 'ts-loader'],
+            },
+            {
+                test: /\.jsx?$/,
+                exclude: /node_modules/,
+                use: ['babel-loader'],
             },
             {
                 test: /\.css$/,
-                loaders: ['style-loader', 'css-loader'],
+                use: ['style-loader', 'css-loader'],
             },
         ],
     },

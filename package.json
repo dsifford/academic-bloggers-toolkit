@@ -70,6 +70,7 @@
     "react-dom": "^15.6.1",
     "react-motion": "^0.5.0",
     "react-virtualized-select": "^3.1.0",
+    "styled-jsx": "^1.0.8",
     "typescript": "^2.4.1",
     "whatwg-fetch": "^2.0.3"
   },
