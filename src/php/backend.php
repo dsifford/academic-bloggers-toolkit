@@ -21,7 +21,7 @@ class ABT_Backend {
      * @SuppressWarnings(PHPMD.UnusedLocalVariable)
      */
     private function get_citation_styles() {
-        include dirname(__FILE__) . '/../../vendor/citationstyles.php';
+        include __DIR__ . '/../vendor/citationstyles.php';
         return $citation_styles;
     }
 
@@ -100,7 +100,7 @@ class ABT_Backend {
      * @return array Array of TinyMCE plugins with plugins added
      */
     public function register_tinymce_plugins($plugin_array) {
-        $plugin_array['academic_bloggers_toolkit'] = plugins_url('academic-bloggers-toolkit/lib/js/tinymce/index.js');
+        $plugin_array['academic_bloggers_toolkit'] = plugins_url('academic-bloggers-toolkit/js/tinymce/index.js');
         $plugin_array['noneditable'] = plugins_url('academic-bloggers-toolkit/vendor/noneditable.js');
         return $plugin_array;
     }
@@ -113,7 +113,7 @@ class ABT_Backend {
     public function load_tinymce_css($mce_css) {
         if (!empty($mce_css))
             $mce_css .= ',';
-        $mce_css .= plugins_url('academic-bloggers-toolkit/lib/css/citations.css');
+        $mce_css .= plugins_url('academic-bloggers-toolkit/css/citations.css');
         return $mce_css;
     }
 
@@ -220,10 +220,10 @@ class ABT_Backend {
 
         wp_dequeue_script('autosave');
         wp_enqueue_style('dashicons');
-        wp_enqueue_style('abt-admin-css', plugins_url('academic-bloggers-toolkit/lib/css/admin.css'), ['dashicons'], ABT_VERSION);
+        wp_enqueue_style('abt-admin-css', plugins_url('academic-bloggers-toolkit/css/admin.css'), ['dashicons'], ABT_VERSION);
         wp_enqueue_script('abt-citeproc', plugins_url('academic-bloggers-toolkit/vendor/citeproc.js'), [], ABT_VERSION, true);
         wp_enqueue_script('abt-vendors', plugins_url('academic-bloggers-toolkit/vendor/vendor.bundle.js'), [], ABT_VERSION, true);
-        wp_enqueue_script('abt-reflist', plugins_url('academic-bloggers-toolkit/lib/js/reference-list/index.js'), ['abt-citeproc', 'abt-vendors'], ABT_VERSION, true);
+        wp_enqueue_script('abt-reflist', plugins_url('academic-bloggers-toolkit/js/reference-list/index.js'), ['abt-citeproc', 'abt-vendors'], ABT_VERSION, true);
     }
 
 }

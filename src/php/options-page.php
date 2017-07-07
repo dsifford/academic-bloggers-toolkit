@@ -18,7 +18,7 @@ class ABT_Options  {
      *   $this->citation_styles
      */
     private function get_citation_styles() {
-        include dirname(__FILE__).'/../../vendor/citationstyles.php';
+        include __DIR__ . '/../vendor/citationstyles.php';
         $this->citation_styles = $citation_styles;
     }
 

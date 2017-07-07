@@ -63,7 +63,7 @@ export class Card extends React.PureComponent<CardProps, {}> {
         const t = e.currentTarget;
         this.timer = setTimeout(() => {
             createTooltip(t, this.props.index, 'left');
-        }, 700);
+        }, 700) as any;
     };
 
     destroyTooltip = () => {

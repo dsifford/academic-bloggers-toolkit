@@ -17,10 +17,10 @@ export function referenceWindow(
                 resolve(<ABT.ReferenceWindowPayload>e.target.params.data);
             },
             params: {
-                baseUrl: `${ABT_wp.abt_url}/lib/js/tinymce/views/`,
+                baseUrl: `${ABT_wp.abt_url}/js/tinymce/views/`,
             },
             title: top.ABT_i18n.tinymce.referenceWindow.referenceWindow.title,
-            url: `${ABT_wp.abt_url}/lib/js/tinymce/views/reference-window.html`,
+            url: `${ABT_wp.abt_url}/js/tinymce/views/reference-window.html`,
             width: 600,
         });
     });
@@ -41,7 +41,7 @@ export function importWindow(editor: TinyMCE.Editor): Promise<CSL.Data[]> {
                 resolve(<CSL.Data[]>e.target.params.data);
             },
             title: top.ABT_i18n.tinymce.importWindow.title,
-            url: `${ABT_wp.abt_url}/lib/js/tinymce/views/import-window.html`,
+            url: `${ABT_wp.abt_url}/js/tinymce/views/import-window.html`,
             width: 600,
         });
     });
@@ -62,7 +62,7 @@ export function editReferenceWindow(
                 reference: ref,
             },
             title: top.ABT_i18n.tinymce.editReferenceWindow.title,
-            url: `${ABT_wp.abt_url}/lib/js/tinymce/views/edit-reference-window.html`,
+            url: `${ABT_wp.abt_url}/js/tinymce/views/edit-reference-window.html`,
             width: 600,
         });
     });
@@ -126,8 +126,8 @@ export function getRelativeCitationPositions(
             payload.locations[key].push([el.id, i - key]);
         });
     }
-    const el = editor.dom.doc.getElementById('CURSOR');
-    if (el) el.parentElement!.removeChild(el);
+    const cursor = editor.dom.doc.getElementById('CURSOR');
+    if (cursor) cursor.parentElement!.removeChild(cursor);
     return payload;
 }
 

@@ -66,7 +66,7 @@ gulp.task('bump', () => {
 // FIXME:
 gulp.task('rollbar', () =>
     gulp
-        .src('dist/lib/php/dom-injects.php', { base: './' })
+        .src('dist/php/dom-injects.php', { base: './' })
         .pipe(replace(/(^\s+environment: ")(test)(",)/gm, '$1production$3'))
         .pipe(gulp.dest('./'))
 );
@@ -137,13 +137,13 @@ export function php() {
 }
 
 export function staticFiles() {
-    const main = gulp
+    const misc = gulp
         .src(['src/**/*.{po,pot,mo,html,txt}', 'src/**/views/*.php'], {
             base: './src',
         })
         .pipe(gulp.dest('dist'));
-    const misc = gulp.src(['LICENSE']).pipe(gulp.dest('dist'));
-    return merge(main, misc);
+    const license = gulp.src(['LICENSE']).pipe(gulp.dest('dist'));
+    return merge(misc, license);
 }
 
 // ==================================================
@@ -183,8 +183,9 @@ export function styles() {
 
 export function bundle() {
     let stream = gulp
-        .src('src/lib/js/Frontend.ts')
-        .pipe(webpackStream(webpackConfig, webpack))
+        .src('src/js/Frontend.ts')
+        // tslint:disable-next-line:prefer-object-spread
+        .pipe(webpackStream(Object.assign({}, webpackConfig, { watch: !IS_PRODUCTION }), webpack))
         .pipe(gulp.dest('dist/'));
     if (!IS_PRODUCTION) {
         stream = stream.pipe(browserSync.stream());
@@ -203,11 +204,15 @@ export function js() {
 
 const main = gulp.series(
     clean,
-    gulp.parallel(styles, staticFiles, bundle, js, php, pot),
+    gulp.parallel(styles, staticFiles, js, php, pot),
+    bundle,
     cb => {
         if (IS_PRODUCTION) return cb();
 
-        gulp.watch('src/lib/**/*.styl', gulp.series(styles));
+        // tslint:disable-next-line:no-console
+        console.log('FOOOO');
+
+        gulp.watch('src/**/*.styl', gulp.series(styles));
 
         gulp.watch(
             [
@@ -219,19 +224,19 @@ const main = gulp.series(
             gulp.series(php, staticFiles, reload)
         );
 
-        gulp.watch(
-            [
-                'src/lib/**/*.{ts,tsx}',
-                '!src/lib/**/__tests__/',
-                '!src/lib/**/__tests__/*',
-            ],
-            gulp.series(bundle)
-        );
+        // gulp.watch(
+        //     [
+        //         'src/lib/**/*.{ts,tsx}',
+        //         '!src/lib/**/__tests__/',
+        //         '!src/lib/**/__tests__/*',
+        //     ],
+        //     gulp.series(bundle)
+        // );
 
-        browserSync.init({
-            proxy: 'localhost:8080',
-            open: false,
-        });
+        // browserSync.init({
+        //     proxy: 'localhost:8080',
+        //     open: false,
+        // });
     }
 );
 

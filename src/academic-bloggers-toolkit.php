@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  *	Plugin Name: Academic Blogger's Toolkit
  *	Plugin URI: https://wordpress.org/plugins/academic-bloggers-toolkit/
  *	Description: A plugin extending the functionality of Wordpress for academic blogging
@@ -118,19 +118,18 @@ add_filter('plugin_row_meta', 'abt_add_donate_link', 10, 2);
  */
 function abt_frontend_scripts() {
     wp_enqueue_style('dashicons');
-    wp_enqueue_style('abt_frontend_styles', plugins_url('academic-bloggers-toolkit/lib/css/frontend.css'), ['dashicons'], ABT_VERSION);
+    wp_enqueue_style('abt_frontend_styles', __DIR__ . '/css/frontend.css', ['dashicons'], ABT_VERSION);
 
     if (is_singular()) {
-        wp_enqueue_script('abt-bundle', plugins_url('academic-bloggers-toolkit/vendor/vendor.bundle.js'), [], ABT_VERSION, true);
-        wp_enqueue_script('abt_frontend_js', plugins_url('academic-bloggers-toolkit/lib/js/Frontend.js'), ['abt-bundle'], ABT_VERSION, true);
+        wp_enqueue_script('abt-bundle', __DIR__ . '/vendor/vendor.bundle.js', [], ABT_VERSION, true);
+        wp_enqueue_script('abt_frontend_js', __DIR__ . '/js/Frontend.js', ['abt-bundle'], ABT_VERSION, true);
     }
 }
 add_action('wp_enqueue_scripts', 'abt_frontend_scripts');
 
-
-require_once('lib/php/dom-injects.php');
-require_once('lib/php/backend.php');
-require_once('lib/php/options-page.php');
-require_once('lib/php/endpoints.php');
+require_once(__DIR__ . '/php/dom-injects.php');
+require_once(__DIR__ . '/php/backend.php');
+require_once(__DIR__ . '/php/options-page.php');
+require_once(__DIR__ . '/php/endpoints.php');
 
 ?>

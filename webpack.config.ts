@@ -39,17 +39,17 @@ const config: webpack.Configuration = {
     devtool: 'eval-source-map',
     cache: true,
     entry: {
-        'lib/js/Frontend': './src/lib/js/Frontend.ts',
-        'lib/js/tinymce/index': './src/lib/js/tinymce/index.ts',
-        'lib/js/reference-list/index': './src/lib/js/reference-list/',
-        'lib/js/tinymce/components/reference-window/index':
-            './src/lib/js/tinymce/components/reference-window/',
-        'lib/js/tinymce/components/pubmed-window/index':
-            './src/lib/js/tinymce/components/pubmed-window/',
-        'lib/js/tinymce/components/edit-reference-window/index':
-            './src/lib/js/tinymce/components/edit-reference-window/',
-        'lib/js/tinymce/components/import-window/index':
-            './src/lib/js/tinymce/components/import-window/',
+        'js/Frontend': './src/js/Frontend.ts',
+        'js/tinymce/index': './src/js/tinymce/index.ts',
+        'js/reference-list/index': './src/js/reference-list/',
+        'js/tinymce/components/reference-window/index':
+            './src/js/tinymce/components/reference-window/',
+        'js/tinymce/components/pubmed-window/index':
+            './src/js/tinymce/components/pubmed-window/',
+        'js/tinymce/components/edit-reference-window/index':
+            './src/js/tinymce/components/edit-reference-window/',
+        'js/tinymce/components/import-window/index':
+            './src/js/tinymce/components/import-window/',
         vendor: [
             'react',
             'react-dom',
