@@ -16,10 +16,7 @@ interface ManualEntryProps {
 }
 
 @observer
-export class ManualEntryContainer extends React.PureComponent<
-    ManualEntryProps,
-    {}
-> {
+export class ManualEntryContainer extends React.PureComponent<ManualEntryProps, {}> {
     labels = top.ABT_i18n.tinymce.referenceWindow.manualEntryContainer;
     citationTypes = top.ABT_i18n.citationTypes.sort((a, b) => {
         const strA = a.label.toUpperCase();
@@ -39,30 +36,20 @@ export class ManualEntryContainer extends React.PureComponent<
         this.props.typeChange(e.currentTarget.value);
     };
 
-    getHeight = () =>
-        document.getElementById('abt-root')!.getBoundingClientRect().height;
+    getHeight = () => document.getElementById('abt-root')!.getBoundingClientRect().height;
 
     render() {
         const itemType: string = this.props.manualData.get('type')!;
-        const renderAutocite: boolean =
-            ['webpage', 'book', 'chapter'].indexOf(itemType) > -1;
+        const renderAutocite: boolean = ['webpage', 'book', 'chapter'].indexOf(itemType) > -1;
         return (
             <div>
-                {this.props.loading &&
-                    <Spinner size="40px" height={this.getHeight} overlay />}
+                {this.props.loading && <Spinner size="40px" height={this.getHeight} overlay />}
                 <div id="type-select-row" className="row">
                     <div>
-                        <label
-                            htmlFor="type-select"
-                            children={this.labels.citationType}
-                        />
+                        <label htmlFor="type-select" children={this.labels.citationType} />
                     </div>
                     <div className="flex">
-                        <select
-                            id="type-select"
-                            onChange={this.handleTypeChange}
-                            value={itemType}
-                        >
+                        <select id="type-select" onChange={this.handleTypeChange} value={itemType}>
                             {this.citationTypes.map((item, i) =>
                                 <option
                                     key={i}
@@ -88,26 +75,18 @@ export class ManualEntryContainer extends React.PureComponent<
                         getter={this.props.autoCite}
                         kind={itemType as 'book' | 'chapter'}
                         placeholder={this.labels.ISBN}
-                        pattern="(?:[\\dxX]-?){10}|(?:[\\dxX]-?){13}"
+                        pattern="(?:[\dxX]-?){10}|(?:[\dxX]-?){13}"
                         inputType="text"
                     />}
                 <div
-                    className={
-                        renderAutocite
-                            ? 'abt-scroll-y autocite'
-                            : 'abt-scroll-y'
-                    }
+                    className={renderAutocite ? 'abt-scroll-y autocite' : 'abt-scroll-y'}
                     ref={this.bindRefs}
                     onWheel={this.handleWheel}
                 >
                     {this.props.manualData.get('type') !== 'article' &&
                         <People
                             people={this.props.people}
-                            citationType={
-                                this.props.manualData.get(
-                                    'type'
-                                ) as CSL.CitationType
-                            }
+                            citationType={this.props.manualData.get('type') as CSL.CitationType}
                         />}
                     <MetaFields meta={this.props.manualData} />
                 </div>
@@ -167,10 +146,7 @@ export class AutoCite extends React.Component<AutoCiteProps, {}> {
         return (
             <div id="autocite" className="row">
                 <div>
-                    <label
-                        htmlFor="citequery"
-                        children={this.labels.autocite}
-                    />
+                    <label htmlFor="citequery" children={this.labels.autocite} />
                 </div>
                 <div className="flex">
                     <input
@@ -189,8 +165,7 @@ export class AutoCite extends React.Component<AutoCiteProps, {}> {
                         type="button"
                         aria-label={this.labels.search}
                         className={
-                            this.query.length === 0 ||
-                            !this.input.validity.valid
+                            this.query.length === 0 || !this.input.validity.valid
                                 ? 'abt-btn abt-btn_flat abt-btn_disabled'
                                 : 'abt-btn abt-btn_flat'
                         }

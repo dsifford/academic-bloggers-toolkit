@@ -2,25 +2,22 @@ import 'babel-polyfill';
 
 class Citations {
     public static isTouchDevice: boolean = true ===
-        ('ontouchstart' in window ||
-            (window.DocumentTouch && document instanceof DocumentTouch));
+        ('ontouchstart' in window || (window.DocumentTouch && document instanceof DocumentTouch));
     public bibliography: HTMLDivElement;
 
     constructor() {
         this.bibliography = <HTMLDivElement>document.querySelector(
             '#abt-bibliography, #abt-smart-bib'
         );
-        const citationList = <NodeListOf<
-            HTMLSpanElement
-        >>document.querySelectorAll('.abt-citation, .abt_cite');
+        const citationList = <NodeListOf<HTMLSpanElement>>document.querySelectorAll(
+            '.abt-citation, .abt_cite'
+        );
         const container = document.getElementById('abt-bibliography__container')
             ? document.getElementById('abt-bibliography__container')!
             : this.bibliography;
 
         Array.from(citationList).forEach(citation => {
-            const reflist: string[] = JSON.parse(
-                citation.getAttribute('data-reflist')!
-            );
+            const reflist: string[] = JSON.parse(citation.getAttribute('data-reflist')!);
             citation.setAttribute(
                 'data-citations',
                 reflist.map(id => container.children[id].outerHTML).join('')
@@ -28,18 +25,13 @@ class Citations {
             citation.addEventListener('click', this.createTooltip);
         });
 
-        if (
-            document.querySelector(
-                '.abt-bibliography__heading_toggle, #abt-smart-bib>h3.toggle'
-            )
-        )
+        if (document.querySelector('.abt-bibliography__heading_toggle, #abt-smart-bib>h3.toggle'))
             this.enableToggle();
     }
 
     private createTooltip(e): void {
         const existingTooltip = document.getElementById('abt-tooltip');
-        if (existingTooltip)
-            existingTooltip.parentElement!.removeChild(existingTooltip);
+        if (existingTooltip) existingTooltip.parentElement!.removeChild(existingTooltip);
 
         const rect: ClientRect = e.currentTarget.getBoundingClientRect();
         const left = rect.left + rect.width / 2;
@@ -69,12 +61,10 @@ class Citations {
 
         const tooltipWiderThanBody: boolean =
             tooltip.offsetWidth + margin + padding >= document.body.offsetWidth;
-        const tooltipWouldOverflowLeft: boolean =
-            padding + tooltip.offsetWidth / 2 > left;
+        const tooltipWouldOverflowLeft: boolean = padding + tooltip.offsetWidth / 2 > left;
         const tooltipWouldOverflowRight: boolean =
             left > document.body.offsetWidth / 2 &&
-            document.body.offsetWidth - left <
-                padding + tooltip.offsetWidth / 2;
+            document.body.offsetWidth - left < padding + tooltip.offsetWidth / 2;
 
         const marginLeft = -1 * (tooltip.offsetWidth / 2) || 0;
 
@@ -107,12 +97,7 @@ class Citations {
             callout.classList.add('abt-tooltip__callout_up');
         } else {
             // On top - Downwards arrow
-            tooltip.style.top =
-                rect.top +
-                window.pageYOffset -
-                tooltip.offsetHeight -
-                10 +
-                'px';
+            tooltip.style.top = rect.top + window.pageYOffset - tooltip.offsetHeight - 10 + 'px';
             tooltip.classList.add('abt-tooltip_top');
             callout.classList.add('abt-tooltip__callout_down');
         }
@@ -121,9 +106,7 @@ class Citations {
     }
 
     private enableToggle(): void {
-        const citations = document.querySelectorAll(
-            '#abt-bibliography>div, #abt-smart-bib>div'
-        );
+        const citations = document.querySelectorAll('#abt-bibliography>div, #abt-smart-bib>div');
         const heading = document.querySelector(
             '.abt-bibliography__heading_toggle, #abt-smart-bib>h3.toggle'
         )!;
@@ -143,9 +126,7 @@ class Citations {
 
         heading.addEventListener('click', () => {
             container.classList.toggle('abt-bibligraphy__container--hidden');
-            heading.classList.toggle(
-                'abt-bibliography__heading_toggle--closed'
-            );
+            heading.classList.toggle('abt-bibliography__heading_toggle--closed');
         });
     }
 }

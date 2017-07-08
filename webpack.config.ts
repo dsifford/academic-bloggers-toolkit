@@ -10,11 +10,11 @@ const sharedPlugins: webpack.Plugin[] = [
         debug: false,
     }),
     new webpack.NoEmitOnErrorsPlugin(),
-    new webpack.optimize.CommonsChunkPlugin({
-        name: 'vendor',
-        minChunks: Infinity,
-        filename: 'vendor/vendor.bundle.js',
-    }),
+    // new webpack.optimize.CommonsChunkPlugin({
+    //     name: 'vendor',
+    //     minChunks: Infinity,
+    //     filename: 'vendor/vendor.bundle.js',
+    // }),
     new webpack.DefinePlugin({
         __DEV__: JSON.stringify(!isProduction),
         'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
@@ -36,12 +36,12 @@ const productionPlugins = [
 ];
 
 const config: webpack.Configuration = {
-    // devtool: 'eval-source-map',
+    devtool: 'source-map',
     cache: true,
     entry: {
         'js/Frontend': './src/js/Frontend.ts',
+        'js/reference-list/index': ['whatwg-fetch', './src/js/reference-list/'],
         'js/tinymce/index': './src/js/tinymce/index.ts',
-        'js/reference-list/index': './src/js/reference-list/',
         'js/tinymce/components/reference-window/index':
             './src/js/tinymce/components/reference-window/',
         'js/tinymce/components/pubmed-window/index':
@@ -68,7 +68,7 @@ const config: webpack.Configuration = {
             {
                 test: /\.tsx?$/,
                 exclude: /(?:__tests__|node_modules)/,
-                use: ['babel-loader', 'ts-loader'],
+                use: ['awesome-typescript-loader'],
             },
             {
                 test: /\.jsx?$/,

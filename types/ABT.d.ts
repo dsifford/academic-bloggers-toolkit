@@ -138,16 +138,4 @@ declare namespace ABT {
         attachInline: boolean;
         identifierList: string;
     }
-
-    interface URLMeta {
-        accessed: string;
-        authors: Array<{
-            firstname: string;
-            lastname: string;
-        }>;
-        content_title: string;
-        issued: string;
-        site_title: string;
-        url: string;
-    }
 }

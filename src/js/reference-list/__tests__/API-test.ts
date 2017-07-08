@@ -1,70 +1,70 @@
-import { getRemoteData, parseManualData } from '../API';
+import { parseManualData } from '../API';
 
-const testCSL = require('../../../../../scripts/fixtures.js').reflistState.CSL
+const testCSL = require('../../../../scripts/fixtures.js').reflistState.CSL
     .aaaaaaaa;
 
 describe('API', () => {
-    describe('getRemoteData()', () => {
-        let mce;
-        beforeEach(() => {
-            mce = { alert: jest.fn() };
-        });
-        it('should get a single PMID', () => {
-            return getRemoteData('12345', <any>mce).then(d => {
-                expect(d[0].title).toBe(
-                    'A new granulation method for compressed tablets [proceedings].'
-                );
-            });
-        });
-        it('should get a single DOI', () => {
-            return getRemoteData(
-                '10.1097/TA.0000000000000999',
-                <any>mce
-            ).then(d => {
-                expect(d[0].title).toBe('Not all prehospital time is equal');
-            });
-        });
-        it('should get a single PMCID', () => {
-            return getRemoteData('PMC2837541', <any>mce).then(d => {
-                expect(d[0].title).toBe(
-                    'Trauma Patients without a Trauma Diagnosis: The Data Gap'
-                );
-            });
-        });
-        it('should get a combination of DOIs and PMIDs', () => {
-            return getRemoteData(
-                '10.1097/TA.0000000000000999,12345',
-                <any>mce
-            ).then(d => {
-                expect(d[0].title).toBe(
-                    'A new granulation method for compressed tablets [proceedings].'
-                );
-                expect(d[1].title).toBe('Not all prehospital time is equal');
-            });
-        });
-        it('should error appropriately for invalid data', async () => {
-            const d = await getRemoteData(
-                '10.1097/TA.0000000000000999,      a823hh,       12345',
-                <any>mce
-            );
-            expect(mce.alert).toHaveBeenCalledTimes(1);
-            expect(mce.alert).toHaveBeenCalledWith(
-                'Error: The following identifiers could not be found: a823hh'
-            );
-            expect(d[0].title).toBe(
-                'A new granulation method for compressed tablets [proceedings].'
-            );
-            expect(d[1].title).toBe('Not all prehospital time is equal');
-        });
-        it('should error appropriately when no valid identifiers are set', async () => {
-            const d = await getRemoteData(' sadfasfdg', <any>mce);
-            expect(d.length).toBe(0);
-            expect(mce.alert).toHaveBeenCalledTimes(1);
-            expect(mce.alert).toHaveBeenCalledWith(
-                'No identifiers could be found for your request'
-            );
-        });
-    });
+    // describe('getRemoteData()', () => {
+    //     let mce;
+    //     beforeEach(() => {
+    //         mce = { alert: jest.fn() };
+    //     });
+    //     it('should get a single PMID', () => {
+    //         return getRemoteData('12345', <any>mce).then(d => {
+    //             expect(d[0].title).toBe(
+    //                 'A new granulation method for compressed tablets [proceedings].'
+    //             );
+    //         });
+    //     });
+    //     it('should get a single DOI', () => {
+    //         return getRemoteData(
+    //             '10.1097/TA.0000000000000999',
+    //             <any>mce
+    //         ).then(d => {
+    //             expect(d[0].title).toBe('Not all prehospital time is equal');
+    //         });
+    //     });
+    //     it('should get a single PMCID', () => {
+    //         return getRemoteData('PMC2837541', <any>mce).then(d => {
+    //             expect(d[0].title).toBe(
+    //                 'Trauma Patients without a Trauma Diagnosis: The Data Gap'
+    //             );
+    //         });
+    //     });
+    //     it('should get a combination of DOIs and PMIDs', () => {
+    //         return getRemoteData(
+    //             '10.1097/TA.0000000000000999,12345',
+    //             <any>mce
+    //         ).then(d => {
+    //             expect(d[0].title).toBe(
+    //                 'A new granulation method for compressed tablets [proceedings].'
+    //             );
+    //             expect(d[1].title).toBe('Not all prehospital time is equal');
+    //         });
+    //     });
+    //     it('should error appropriately for invalid data', async () => {
+    //         const d = await getRemoteData(
+    //             '10.1097/TA.0000000000000999,      a823hh,       12345',
+    //             <any>mce
+    //         );
+    //         expect(mce.alert).toHaveBeenCalledTimes(1);
+    //         expect(mce.alert).toHaveBeenCalledWith(
+    //             'Error: The following identifiers could not be found: a823hh'
+    //         );
+    //         expect(d[0].title).toBe(
+    //             'A new granulation method for compressed tablets [proceedings].'
+    //         );
+    //         expect(d[1].title).toBe('Not all prehospital time is equal');
+    //     });
+    //     it('should error appropriately when no valid identifiers are set', async () => {
+    //         const d = await getRemoteData(' sadfasfdg', <any>mce);
+    //         expect(d.length).toBe(0);
+    //         expect(mce.alert).toHaveBeenCalledTimes(1);
+    //         expect(mce.alert).toHaveBeenCalledWith(
+    //             'No identifiers could be found for your request'
+    //         );
+    //     });
+    // });
     describe('parseManualData()', () => {
         let mockData;
         beforeEach(() => {

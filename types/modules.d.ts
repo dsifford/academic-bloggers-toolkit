@@ -1,5 +1,13 @@
-// tslint:disable:no-reserved-keywords
-declare module 'react-virtualized-select';
+import 'bibtex-parse-js';
+import 'react';
+
+declare module 'react' {
+    interface HTMLProps<T> {
+        jsx?: any;
+        global?: any;
+    }
+}
+
 declare module 'bibtex-parse-js' {
     interface BibJSON {
         citationKey: string;
@@ -20,6 +28,7 @@ declare module 'bibtex-parse-js' {
             location: string;
             /** 3-letter month - lowercase */
             month: string;
+            // tslint:disable-next-line
             number: string;
             /** Number or Range separated with two dashes:  */
             pages: string;

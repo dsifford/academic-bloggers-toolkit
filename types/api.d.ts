@@ -1,4 +1,4 @@
-
+/* tslint:disable: no-namespace */
 declare namespace PubMed {
     /**
      * Format: "<YYYY> <Mmm>? <DD>?"

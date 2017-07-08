@@ -3,7 +3,7 @@ import * as React from 'react';
 import { preventScrollPropagation } from '../../../utils/helpers/';
 
 interface ResultListProps {
-    results: PubMed.DataPMID[];
+    results: PubMed.Response[];
     select(pmid: string): void;
 }
 

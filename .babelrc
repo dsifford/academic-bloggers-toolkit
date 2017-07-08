@@ -1,3 +1,4 @@
 {
-    "presets": [["env", { "loose": true, "modules": false }], "react"]
+    "presets": [["env", { "loose": true }], "react"],
+    "plugins": ["styled-jsx/babel"]
 }

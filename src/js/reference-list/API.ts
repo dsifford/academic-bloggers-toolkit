@@ -2,78 +2,72 @@ import { generateID } from '../utils/helpers/';
 import { parseCSLDate } from '../utils/parsers/';
 import { getFromDOI, getFromPubmed } from '../utils/resolvers/';
 
-export function getRemoteData(
+export async function getRemoteData(
     identifierList: string,
     mce: TinyMCE.WindowManager
 ): Promise<CSL.Data[]> {
-    return new Promise(resolve => {
-        const pmidList: string[] = [];
-        const pmcidList: string[] = [];
-        const doiList: string[] = [];
-        const errList: string[] = [];
-        const identifiers = identifierList.replace(/\s/g, '');
-        const promises: Array<Promise<[CSL.Data[], string[]]>> = [];
+    let pmidList: string[] = [];
+    let pmcidList: string[] = [];
+    let doiList: string[] = [];
+    let errList: string[] = [];
+    let promises: Array<Promise<[CSL.Data[], string[]]>> = [];
+    const identifiers = identifierList.replace(/\s/g, '');
 
-        identifiers.split(',').forEach(id => {
-            if (/^10\./.test(id)) {
-                doiList.push(id);
-                return;
-            }
-            if (/^\d+$/.test(id)) {
-                pmidList.push(id);
-                return;
-            }
-            if (/^PMC\d+$/.test(id)) {
-                pmcidList.push(id.substring(3));
-                return;
-            }
-            errList.push(id);
-        });
-
-        if (pmidList.length > 0) {
-            promises.push(getFromPubmed('PMID', pmidList.join(',')));
+    identifiers.split(',').forEach(id => {
+        switch (true) {
+            case /^10\./.test(id):
+                doiList = [...doiList, id];
+                break;
+            case /^\d+$/.test(id):
+                pmidList = [...pmidList, id];
+                break;
+            case /^PMC\d+$/.test(id):
+                pmcidList = [...pmcidList, id];
+                break;
+            default:
+                errList = [...errList, id];
         }
-        if (pmcidList.length > 0) {
-            promises.push(getFromPubmed('PMCID', pmcidList.join(',')));
-        }
-        if (doiList.length > 0) {
-            promises.push(getFromDOI(doiList));
-        }
-
-        if (promises.length === 0) {
-            mce.alert(`${top.ABT_i18n.errors.identifiersNotFound.all}`);
-            resolve([]);
-            return;
-        }
-
-        Promise.all(promises).then((data: Array<[CSL.Data[], string[]]>) => {
-            const [csl, errs] = data.reduce(
-                ([prevCSL, prevErr], [currCSL, currErr]) => {
-                    currCSL.forEach(ref => (ref.id = generateID()));
-                    return [[...prevCSL, ...currCSL], [...prevErr, ...currErr]];
-                },
-                [[], [...errList]]
-            );
-
-            if (errs.length > 0) {
-                mce.alert(
-                    `${top.ABT_i18n.errors.prefix}: ${top.ABT_i18n.errors
-                        .identifiersNotFound.some}: ${errs.join(', ')}`
-                );
-            }
-
-            resolve(csl);
-        });
     });
+
+    if (pmidList.length > 0) {
+        promises = [...promises, getFromPubmed('PMID', pmidList.join(','))];
+    }
+    if (pmcidList.length > 0) {
+        promises = [...promises, getFromPubmed('PMCID', pmcidList.join(','))];
+    }
+    if (doiList.length > 0) {
+        promises = [...promises, getFromDOI(doiList)];
+    }
+
+    if (promises.length === 0) {
+        mce.alert(`${top.ABT_i18n.errors.identifiersNotFound.all}`);
+        return [];
+    }
+
+    const data = await Promise.all(promises);
+    const [csl, errs] = data.reduce(
+        ([prevCSL, prevErr], [currCSL, currErr]) => {
+            currCSL.forEach(ref => (ref.id = generateID()));
+            return [[...prevCSL, ...currCSL], [...prevErr, ...currErr]];
+        },
+        [[], [...errList]]
+    );
+
+    if (errs.length > 0) {
+        mce.alert(
+            `${top.ABT_i18n.errors.prefix}: ${top.ABT_i18n.errors.identifiersNotFound
+                .some}: ${errs.join(', ')}`
+        );
+    }
+    return csl;
 }
 
+// FIXME: This should not be asyncronous
 export function parseManualData(data: ABT.ManualData): Promise<CSL.Data[]> {
     return new Promise(resolve => {
         data.people.forEach(person => {
             if (data.manualData[person.type] === undefined) {
-                data.manualData[person.type] = [
-                    { family: person.family, given: person.given },
-                ];
+                data.manualData[person.type] = [{ family: person.family, given: person.given }];
                 return;
             }
             data.manualData[person.type]!.push({
@@ -85,10 +79,7 @@ export function parseManualData(data: ABT.ManualData): Promise<CSL.Data[]> {
         // Process date fields
         ['accessed', 'event-date', 'issued'].forEach(dateType => {
             if (!data.manualData[dateType]) return;
-            data.manualData[dateType] = parseCSLDate(
-                data.manualData[dateType],
-                'RIS'
-            );
+            data.manualData[dateType] = parseCSLDate(data.manualData[dateType], 'RIS');
         });
 
         // Create a unique ID if one doesn't exist

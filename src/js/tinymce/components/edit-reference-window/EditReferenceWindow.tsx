@@ -10,7 +10,7 @@ import { People } from '../reference-window/components/People';
 const DevTool = DevTools();
 
 @observer
-export class EditReferenceWindow extends React.Component<{}, {}> {
+export class EditReferenceWindow extends React.Component {
     labels = top.ABT_i18n.tinymce.editReferenceWindow;
     modal: Modal = new Modal(this.labels.title);
     params = top.tinyMCE.activeEditor.windowManager.windows[0].settings.params;

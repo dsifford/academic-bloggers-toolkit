@@ -3,7 +3,7 @@ import { observer } from 'mobx-react';
 import * as React from 'react';
 import DevTools, { configureDevtool } from '../../../../utils/DevTools';
 import { Modal } from '../../../../utils/Modal';
-import { BookMeta, getFromISBN, getFromURL } from '../../../../utils/resolvers/';
+import { BookMeta, getFromISBN, getFromURL, URLMeta } from '../../../../utils/resolvers/';
 
 const DevTool = DevTools();
 configureDevtool({ logFilter: change => change.type === 'action' });
@@ -13,7 +13,7 @@ import { IdentifierInput } from './IdentifierInput';
 import { ManualEntryContainer } from './ManualEntryContainer';
 
 @observer
-export class ReferenceWindow extends React.Component<{}, {}> {
+export class ReferenceWindow extends React.Component {
     labels = top.ABT_i18n.tinymce.referenceWindow.referenceWindow;
     modal: Modal = new Modal(this.labels.title);
 
@@ -56,7 +56,7 @@ export class ReferenceWindow extends React.Component<{}, {}> {
     @action
     autocite = (
         kind: 'webpage' | 'book' | 'chapter',
-        meta: { webpage?: ABT.URLMeta; book?: BookMeta }
+        meta: { webpage?: URLMeta; book?: BookMeta }
     ) => {
         switch (kind) {
             case 'webpage':
@@ -100,7 +100,6 @@ export class ReferenceWindow extends React.Component<{}, {}> {
                 });
                 this.people.replace(meta.book!.authors as CSL.TypedPerson[]);
         }
-        this.toggleLoadingState();
     };
 
     @action
@@ -152,28 +151,26 @@ export class ReferenceWindow extends React.Component<{}, {}> {
         wm.close();
     };
 
-    handleAutocite = (kind: 'webpage' | 'book' | 'chapter', query: string) => {
+    handleAutocite = async (kind: 'webpage' | 'book' | 'chapter', query: string) => {
         this.toggleLoadingState();
-        switch (kind) {
-            case 'webpage':
-                getFromURL(query)
-                    .then(data => this.autocite(kind, { webpage: data }))
-                    .catch(e => {
-                        this.toggleLoadingState();
-                        top.tinyMCE.activeEditor.windowManager.alert(e.message);
-                    });
-                return;
-            case 'book':
-            case 'chapter':
-            default:
-                getFromISBN(query)
-                    .then(data => this.autocite(kind, { book: data }))
-                    .catch(e => {
-                        this.toggleLoadingState();
-                        top.tinyMCE.activeEditor.windowManager.alert(e.message);
-                    });
-                return;
+        try {
+            switch (kind) {
+                case 'webpage': {
+                    const data = await getFromURL(query);
+                    this.autocite(kind, { webpage: data });
+                    break;
+                }
+                case 'book':
+                case 'chapter':
+                default: {
+                    const data: BookMeta =  await getFromISBN(query);
+                    this.autocite(kind, { book: data });
+                }
+            }
+        } catch (e) {
+            top.tinyMCE.activeEditor.windowManager.alert(e.message);
         }
+        this.toggleLoadingState();
     };
 
     preventScrollPropagation = (e: React.WheelEvent<HTMLElement>) => {

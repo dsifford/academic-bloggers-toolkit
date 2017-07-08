@@ -1,46 +1,21 @@
-import { mount } from 'enzyme';
 import * as React from 'react';
+import * as renderer from 'react-test-renderer';
 import { ToggleSwitch } from '../ToggleSwitch';
 
-const setup = (checked = false) => {
-    const spy = jest.fn();
-    const component = mount(
-        <ToggleSwitch checked={checked} label="Test Label" onChange={spy} />
-    );
-    return {
-        component,
-        input: component.find('input'),
-        label: component.find('label'),
-        spy,
-    };
-};
+const changeFn = () => void 0;
 
 describe('<ToggleSwitch />', () => {
-    it('should render unchecked', () => {
-        const { component } = setup();
-        expect(component.find('#inline-toggle').props().checked).toBe(false);
-    });
-    it('should render checked', () => {
-        const { component } = setup(true);
-        expect(component.find('#inline-toggle').props().checked).toBe(true);
-    });
-    it('should create and destroy tooltips on mouseover/mouseout', () => {
-        const { label } = setup();
-        expect(document.getElementById('abt-tooltip')).toBeNull();
-        label.simulate('mouseover');
-        expect(document.getElementById('abt-tooltip')!.innerText).toBe(
-            'Test Label'
+    it('should match snapshots', () => {
+        let component = renderer.create(
+            <ToggleSwitch checked={false} label="Test 1" onChange={changeFn} />
         );
-        label.simulate('mouseout');
-        expect(document.getElementById('abt-tooltip')).toBeNull();
-    });
-    it('should call onChange function on click', () => {
-        const { input, spy } = setup();
-        expect(spy).not.toHaveBeenCalled();
-        input.simulate('change');
-        expect(spy).toHaveBeenCalled();
-        input.simulate('change');
-        input.simulate('change');
-        expect(spy).toHaveBeenCalledTimes(3);
+        let tree = component.toJSON();
+        expect(tree).toMatchSnapshot();
+
+        component = renderer.create(
+            <ToggleSwitch checked={true} label="Test 2" onChange={changeFn} />
+        );
+        tree = component.toJSON();
+        expect(tree).toMatchSnapshot();
     });
 });

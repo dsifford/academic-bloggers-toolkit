@@ -12,12 +12,11 @@ import { ResultList } from './ResultList';
 const DevTool = DevTools();
 
 @observer
-export class PubmedWindow extends React.Component<{}, {}> {
+export class PubmedWindow extends React.Component {
     labels = top.ABT_i18n.tinymce.pubmedWindow;
     errors = top.ABT_i18n.errors;
     modal: Modal = new Modal(this.labels.title);
-    wm: TinyMCE.WindowManager = top.window.tinyMCE.activeEditor.windowManager
-        .windows[
+    wm: TinyMCE.WindowManager = top.window.tinyMCE.activeEditor.windowManager.windows[
         top.window.tinyMCE.activeEditor.windowManager.windows.length - 1
     ];
     placeholder = this.generatePlaceholder();
@@ -28,7 +27,7 @@ export class PubmedWindow extends React.Component<{}, {}> {
 
     @observable query = '';
 
-    @observable results = observable([] as PubMed.DataPMID[]);
+    @observable results = observable([] as PubMed.Response[]);
 
     @computed
     get visibleResults() {
@@ -46,13 +45,12 @@ export class PubmedWindow extends React.Component<{}, {}> {
     };
 
     @action
-    consumeQueryData = (data: PubMed.DataPMID[]) => {
+    consumeQueryData = (data: PubMed.Response[]) => {
         if (data.length === 0) {
             top.tinyMCE.activeEditor.windowManager.alert(this.errors.noResults);
         }
         this.page = 1;
         this.query = '';
-        this.isLoading = false;
         this.results.replace(data);
     };
 
@@ -68,13 +66,16 @@ export class PubmedWindow extends React.Component<{}, {}> {
         this.wm.submit();
     };
 
-    sendQuery = e => {
-        this.toggleLoadState();
+    sendQuery = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        pubmedQuery(this.query).then(this.consumeQueryData).catch(err => {
-            this.toggleLoadState();
-            top.tinyMCE.activeEditor.windowManager.alert(err.message);
-        });
+        this.toggleLoadState();
+        try {
+            const data = await pubmedQuery(this.query);
+            this.consumeQueryData(data);
+        } catch (e) {
+            top.tinyMCE.activeEditor.windowManager.alert(e.message);
+        }
+        this.toggleLoadState();
     };
 
     preventScrollPropagation = (e: React.WheelEvent<HTMLElement>) => {
@@ -101,11 +102,10 @@ export class PubmedWindow extends React.Component<{}, {}> {
 
     componentDidMount() {
         this.modal.resize();
-        reaction(
-            () => [this.page, this.results.length],
-            () => this.modal.resize(),
-            { fireImmediately: false, delay: 300 }
-        );
+        reaction(() => [this.page, this.results.length], () => this.modal.resize(), {
+            fireImmediately: false,
+            delay: 300,
+        });
     }
 
     render() {
@@ -141,10 +141,7 @@ export class PubmedWindow extends React.Component<{}, {}> {
                     </div>
                 </form>
                 {this.results.length > 0 &&
-                    <ResultList
-                        select={this.deliverPMID}
-                        results={this.visibleResults}
-                    />}
+                    <ResultList select={this.deliverPMID} results={this.visibleResults} />}
                 {this.results.length > 0 &&
                     <Paginate
                         page={this.page}

@@ -93,11 +93,7 @@ export class ReferenceList extends React.Component<{ store: Store }, {}> {
          * React to list toggles
          */
         reaction(
-            () => [
-                this.citedListUI.isOpen,
-                this.uncitedListUI.isOpen,
-                this.menuOpen,
-            ],
+            () => [this.citedListUI.isOpen, this.uncitedListUI.isOpen, this.menuOpen],
             this.handleScroll,
             { fireImmediately: false, delay: 200 }
         );
@@ -110,49 +106,46 @@ export class ReferenceList extends React.Component<{ store: Store }, {}> {
         /**
          * React to citedlist changes
          */
-        reaction(
-            () => this.props.store.citations.citedIDs.length,
-            this.handleScroll,
-            { fireImmediately: false, delay: 200 }
-        );
+        reaction(() => this.props.store.citations.citedIDs.length, this.handleScroll, {
+            fireImmediately: false,
+            delay: 200,
+        });
     };
 
-    initProcessor = () => {
+    initProcessor = async () => {
         this.editor.setProgressState(true);
-        return this.processor
-            .init()
-            .then(clusters => {
-                MCE.parseInlineCitations(
-                    this.editor,
-                    clusters,
-                    this.props.store.citations.citationByIndex,
-                    this.processor.citeproc.opt.xclass
-                ).then(() => {
-                    MCE.setBibliography(
-                        this.editor,
-                        this.processor.makeBibliography(),
-                        this.props.store.bibOptions
-                    );
-                    this.editor.setProgressState(false);
-                });
-                this.clearSelection();
-            })
-            .catch(err => {
-                Rollbar.error('ReferenceList.tsx -> initProcessor', err);
-                this.editor.windowManager.alert(
-                    `${this.errors.unexpected.message}.\n\n` +
-                        `${err.name}: ${err.message}\n\n` +
-                        `${this.errors.unexpected.reportInstructions}`
-                );
-            });
+        try {
+            const clusters = await this.processor.init();
+            await MCE.parseInlineCitations(
+                this.editor,
+                clusters,
+                this.props.store.citations.citationByIndex,
+                this.processor.citeproc.opt.xclass
+            );
+            await MCE.setBibliography(
+                this.editor,
+                this.processor.makeBibliography(),
+                this.props.store.bibOptions
+            );
+            this.clearSelection();
+        } catch (err) {
+            Rollbar.error('ReferenceList.tsx -> initProcessor', err);
+            this.editor.windowManager.alert(
+                `${this.errors.unexpected.message}.\n\n` +
+                    `${err.name}: ${err.message}\n\n` +
+                    `${this.errors.unexpected.reportInstructions}`
+            );
+        }
+        this.editor.setProgressState(false);
     };
 
-    initTinyMCE = () => {
+    initTinyMCE = async () => {
         this.editor = tinyMCE.editors['content'];
-        this.initProcessor().then(() => this.toggleLoading());
+        await this.initProcessor();
+        this.toggleLoading();
     };
 
-    insertStaticBibliography = () => {
+    insertStaticBibliography = async () => {
         const data: CSL.Data[] = [];
         this.selected.forEach(id => {
             data.push(this.props.store.citations.CSL.get(id)!);
@@ -164,68 +157,59 @@ export class ReferenceList extends React.Component<{ store: Store }, {}> {
             let m: RegExpExecArray | null;
             // tslint:disable-next-line
             while ((m = re.exec(selection)) !== null) {
-                // tslint:disable-line:no-conditional-assignment
                 data.push(this.props.store.citations.CSL.get(m[1])!);
             }
         }
 
-        this.processor
-            .createStaticBibliography(data)
-            .then(bibliography => {
-                this.clearSelection();
-
-                if (typeof bibliography === 'boolean') {
-                    this.editor.windowManager.alert(
-                        `${this.errors.warnings.warning}: ${this.errors.warnings
-                            .noBib.message}\n\n` +
-                            `${this.errors.warnings.reason}: ${this.errors
-                                .warnings.noBib.reason}`
-                    );
-                    return;
-                }
-
-                // Necessary for a particular edge case that throws errors when no text
-                // exists yet in the editor
-                let margin: string;
-                try {
-                    margin =
-                        this.editor.dom.getStyle(
-                            this.editor.dom.doc.querySelector('p')!,
-                            'margin',
-                            true
-                        ) || '0 0 28px';
-                } catch (e) {
-                    margin = '0 0 28px';
-                }
-
-                const bib = this.editor.dom.doc.createElement('div');
-                bib.className = 'noselect mceNonEditable abt-static-bib';
-                bib.style.margin = margin;
-
-                for (const meta of bibliography) {
-                    const item = this.editor.dom.doc.createElement('div');
-                    item.id = meta.id;
-                    item.innerHTML = meta.html;
-                    bib.appendChild(item);
-                }
-
-                this.editor.insertContent(bib.outerHTML);
-            })
-            .catch(err => {
-                Rollbar.error(
-                    'ReferenceList.tsx -> insertStaticBibliography',
-                    err
-                );
+        try {
+            const bibliography = await this.processor.createStaticBibliography(data);
+            this.clearSelection();
+            if (typeof bibliography === 'boolean') {
                 this.editor.windowManager.alert(
-                    `${this.errors.unexpected.message}.\n\n` +
-                        `${err.name}: ${err.message}\n\n` +
-                        `${this.errors.unexpected.reportInstructions}`
+                    `${this.errors.warnings.warning}: ${this.errors.warnings.noBib.message}\n\n` +
+                        `${this.errors.warnings.reason}: ${this.errors.warnings.noBib.reason}`
                 );
-            });
+                return;
+            }
+
+            // Necessary for a particular edge case that throws errors when no text
+            // exists yet in the editor
+            let margin: string;
+            try {
+                margin =
+                    this.editor.dom.getStyle(
+                        this.editor.dom.doc.querySelector('p')!,
+                        'margin',
+                        true
+                    ) || '0 0 28px';
+            } catch (e) {
+                margin = '0 0 28px';
+            }
+
+            const bib = this.editor.dom.doc.createElement('div');
+            bib.className = 'noselect mceNonEditable abt-static-bib';
+            bib.style.margin = margin;
+
+            for (const meta of bibliography) {
+                const item = this.editor.dom.doc.createElement('div');
+                item.id = meta.id;
+                item.innerHTML = meta.html;
+                bib.appendChild(item);
+            }
+
+            this.editor.insertContent(bib.outerHTML);
+        } catch (err) {
+            Rollbar.error('ReferenceList.tsx -> insertStaticBibliography', err);
+            this.editor.windowManager.alert(
+                `${this.errors.unexpected.message}.\n\n` +
+                    `${err.name}: ${err.message}\n\n` +
+                    `${this.errors.unexpected.reportInstructions}`
+            );
+        }
     };
 
     // prettier-ignore
-    insertInlineCitation = ( e?: React.MouseEvent<HTMLAnchorElement>, d: CSL.Data[] | Event = []) => {
+    insertInlineCitation = async (e?: React.MouseEvent<HTMLAnchorElement>, d: CSL.Data[] | Event = []) => {
         let data: CSL.Data[] = [];
         if (e) e.preventDefault();
         this.editor.setProgressState(true);
@@ -247,9 +231,7 @@ export class ReferenceList extends React.Component<{ store: Store }, {}> {
          *   from it and push it to data.
          */
         const selection = this.editor.selection.getContent({ format: 'html' });
-        if (
-            /<span.+class="(?:abt-citation|abt_cite).+?<\/span>/.test(selection)
-        ) {
+        if (/<span.+class="(?:abt-citation|abt_cite).+?<\/span>/.test(selection)) {
             const re = /&quot;(\w+?)&quot;/g;
             let m: RegExpExecArray | null;
             // tslint:disable-next-line
@@ -290,30 +272,27 @@ export class ReferenceList extends React.Component<{ store: Store }, {}> {
             return;
         }
 
-        MCE.parseInlineCitations(
-            this.editor,
-            clusters,
-            this.props.store.citations.citationByIndex,
-            this.processor.citeproc.opt.xclass
-        )
-            .then(() => {
-                MCE.setBibliography(
-                    this.editor,
-                    this.processor.makeBibliography(),
-                    this.props.store.bibOptions
-                );
-                this.editor.setProgressState(false);
-            })
-            .catch(err => {
-                this.editor.setProgressState(false);
-                Rollbar.error('ReferenceList.tsx -> insertInlineCitation', err);
-                this.editor.windowManager.alert(
-                    `${this.errors.unexpected.message}.\n\n` +
-                        `${err.name}: ${err.message}\n\n` +
-                        `${this.errors.unexpected.reportInstructions}`
-                );
-            });
-
+        try {
+            await MCE.parseInlineCitations(
+                this.editor,
+                clusters,
+                this.props.store.citations.citationByIndex,
+                this.processor.citeproc.opt.xclass
+            );
+            MCE.setBibliography(
+                this.editor,
+                this.processor.makeBibliography(),
+                this.props.store.bibOptions
+            );
+        } catch (err) {
+            Rollbar.error('ReferenceList.tsx -> insertInlineCitation', err);
+            this.editor.windowManager.alert(
+                `${this.errors.unexpected.message}.\n\n` +
+                    `${err.name}: ${err.message}\n\n` +
+                    `${this.errors.unexpected.reportInstructions}`
+            );
+        }
+        this.editor.setProgressState(false);
         this.clearSelection();
     };
 
@@ -321,106 +300,84 @@ export class ReferenceList extends React.Component<{ store: Store }, {}> {
     deleteCitations = () => {
         if (this.selected.length === 0) return;
         this.editor.setProgressState(true);
-        this.props.store.citations.removeItems(
-            this.selected,
-            this.editor.dom.doc
-        );
+        this.props.store.citations.removeItems(this.selected, this.editor.dom.doc);
         this.clearSelection();
         this.initProcessor();
     };
 
     @action
-    openReferenceWindow = () => {
-        MCE.referenceWindow(this.editor)
-            .then(payload => {
-                const preprocess: Promise<CSL.Data[]> = payload.addManually
-                    ? parseManualData(payload)
-                    : getRemoteData(
-                          payload.identifierList,
-                          this.editor.windowManager
-                      );
+    openReferenceWindow = async () => {
+        let payload: ABT.ReferenceWindowPayload;
+        let data: CSL.Data[];
 
-                preprocess
-                    .then(data => {
-                        if (data.length === 0) return;
-                        this.props.store.citations.addItems(data);
+        try {
+            payload = await MCE.referenceWindow(this.editor);
+        } catch (e) {
+            if (!e) return; // User exited early
+            return Rollbar.error('ReferenceList.tsx -> openReferenceWindow', e);
+        }
 
-                        data = data.reduce((prev, curr) => {
-                            let matchingKey = '';
-                            const title = curr.title!.toLowerCase();
+        try {
+            data = payload.addManually
+                ? await parseManualData(payload)
+                : await getRemoteData(payload.identifierList, this.editor.windowManager);
+        } catch (e) {
+            Rollbar.error('ReferenceList.tsx -> openReferenceWindow', e);
+            this.editor.windowManager.alert(
+                `${this.errors.unexpected.message}.\n\n` +
+                    `${e.name}: ${e.message}\n\n` +
+                    `${this.errors.unexpected.reportInstructions}`
+            );
+            return;
+        }
 
-                            for (const [
-                                key,
-                                value,
-                            ] of this.props.store.citations.CSL.entries()) {
-                                if (value.title!.toLowerCase() !== title)
-                                    continue;
+        if (data.length === 0) return;
+        this.props.store.citations.addItems(data);
 
-                                const deepMatch = Object.keys(
-                                    value
-                                ).every(k => {
-                                    const isComplexDataType =
-                                        typeof value[k] !== 'string' &&
-                                        typeof value[k] !== 'number';
-                                    const isVariableKey =
-                                        k === 'id' || k === 'language';
-                                    return isComplexDataType || isVariableKey
-                                        ? true
-                                        : value[k] === curr[k];
-                                });
+        data = data.reduce((prev, curr) => {
+            let matchingKey = '';
+            const title = curr.title!.toLowerCase();
 
-                                if (deepMatch) {
-                                    matchingKey = key;
-                                    break;
-                                }
-                            }
+            for (const [key, value] of this.props.store.citations.CSL.entries()) {
+                if (value.title!.toLowerCase() !== title) continue;
 
-                            return matchingKey !== ''
-                                ? [
-                                      ...prev,
-                                      this.props.store.citations.CSL.get(
-                                          matchingKey
-                                      ),
-                                  ]
-                                : [...prev, curr];
-                        }, []) as CSL.Data[];
+                const deepMatch = Object.keys(value).every(k => {
+                    const isComplexDataType =
+                        typeof value[k] !== 'string' && typeof value[k] !== 'number';
+                    const isVariableKey = k === 'id' || k === 'language';
+                    return isComplexDataType || isVariableKey ? true : value[k] === curr[k];
+                });
 
-                        if (!payload.attachInline) return;
-                        this.insertInlineCitation(undefined, data);
-                    })
-                    .catch(err => {
-                        Rollbar.error(
-                            'ReferenceList.tsx -> openReferenceWindow',
-                            err
-                        );
-                        this.editor.windowManager.alert(
-                            `${this.errors.unexpected.message}.\n\n` +
-                                `${err.name}: ${err.message}\n\n` +
-                                `${this.errors.unexpected.reportInstructions}`
-                        );
-                    });
-            })
-            .catch(err => {
-                if (!err) return; // User exited early
-                Rollbar.error('ReferenceList.tsx -> openReferenceWindow', err);
-            });
+                if (deepMatch) {
+                    matchingKey = key;
+                    break;
+                }
+            }
+
+            return matchingKey !== ''
+                ? [...prev, this.props.store.citations.CSL.get(matchingKey)]
+                : [...prev, curr];
+        }, []) as CSL.Data[];
+
+        return payload.attachInline ? this.insertInlineCitation(undefined, data) : void 0;
     };
 
-    openImportWindow = () => {
-        MCE.importWindow(this.editor)
-            .then(data => {
-                if (!data) return;
-                this.props.store.citations.addItems(data);
-            })
-            .catch(err => {
-                if (!err) return; // User exited early
-                Rollbar.error('ReferenceList.tsx -> openImportWindow', err);
-                this.editor.windowManager.alert(
-                    `${this.errors.unexpected.message}.\n\n` +
-                        `${err.name}: ${err.message}\n\n` +
-                        `${this.errors.unexpected.reportInstructions}`
-                );
-            });
+    openImportWindow = async () => {
+        let data: CSL.Data[];
+        try {
+            data = await MCE.importWindow(this.editor);
+        } catch (e) {
+            if (!e) return; // User exited early
+            Rollbar.error('ReferenceList.tsx -> openImportWindow', e);
+            this.editor.windowManager.alert(
+                `${this.errors.unexpected.message}.\n\n` +
+                    `${e.name}: ${e.message}\n\n` +
+                    `${this.errors.unexpected.reportInstructions}`
+            );
+            return;
+        }
+        if (!data) return;
+        this.props.store.citations.addItems(data);
     };
 
     handleMenuSelection = (kind: string, data: string) => {
@@ -434,9 +391,7 @@ export class ReferenceList extends React.Component<{ store: Store }, {}> {
                 this.openImportWindow();
                 return;
             case 'REFRESH_PROCESSOR':
-                const citations = this.editor.dom.doc.querySelectorAll(
-                    '.abt-citation, .abt_cite'
-                );
+                const citations = this.editor.dom.doc.querySelectorAll('.abt-citation, .abt_cite');
                 const IDs = Array.from(citations).map(c => c.id);
                 this.props.store.citations.pruneOrphanedCitations(IDs);
                 this.initProcessor();
@@ -476,8 +431,7 @@ export class ReferenceList extends React.Component<{ store: Store }, {}> {
         /**
          * Offset from top of reference list to top of viewport.
          */
-        const topOffset =
-            scrollpos > 134 ? 55 : scrollpos === 0 ? 95 : 95 - scrollpos / 3;
+        const topOffset = scrollpos > 134 ? 55 : scrollpos === 0 ? 95 : 95 - scrollpos / 3;
 
         /**
          * Vertical space that is already allocated.
@@ -686,12 +640,6 @@ export class ReferenceList extends React.Component<{ store: Store }, {}> {
 @observer
 class StorageField extends React.Component<{ store: Store }, {}> {
     render() {
-        return (
-            <input
-                type="hidden"
-                name="abt-reflist-state"
-                value={this.props.store.persistent}
-            />
-        );
+        return <input type="hidden" name="abt-reflist-state" value={this.props.store.persistent} />;
     }
 }

@@ -157,7 +157,7 @@ export class CSLProcessor {
                 ? ABT_Custom_CSL.CSL
                 : await this.getCSLStyle(this.store.citationStyle);
         const sys = { ...this.citeproc.sys };
-        const citeproc = new CSL.Engine(sys, style);
+        const citeproc: Citeproc.Processor = new CSL.Engine(sys, style);
         citeproc.updateItems(toJS(data.map(d => d.id)));
         const bib = citeproc.makeBibliography();
         return typeof bib === 'boolean'
@@ -184,28 +184,18 @@ export class CSLProcessor {
      * @return Promise that resolves either to a Citeproc.SystemObj or Error,
      *   depending on the response from the network request.
      */
-    private generateSys(locale: string): Promise<Citeproc.SystemObj> {
-        return new Promise((resolve, reject) => {
-            const req = new XMLHttpRequest();
-            const cslLocale = (<string>this.locales[locale]) || 'en-US';
-            req.onreadystatechange = () => {
-                if (req.readyState === 4) {
-                    if (req.status !== 200)
-                        return reject(new Error(req.responseText));
-                    this.localeStore.set(cslLocale, req.responseText);
-                    resolve({
-                        retrieveItem: (id: string) =>
-                            toJS(this.store.citations.CSL.get(id)),
-                        retrieveLocale: this.getRemoteLocale.bind(this),
-                    });
-                }
-            }; // tslint:disable-next-line
-            req.open(
-                'GET',
-                `https://raw.githubusercontent.com/citation-style-language/locales/master/locales-${cslLocale}.xml`
-            );
-            req.send(null);
-        }).catch(e => e);
+    private async generateSys(locale: string): Promise<Citeproc.SystemObj> {
+        const cslLocale = <string>this.locales[locale] || 'en-US';
+        const req = await fetch(`https://raw.githubusercontent.com/citation-style-language/locales/master/locales-${cslLocale}.xml`);
+        if (!req.ok) {
+            throw new Error(req.statusText);
+        }
+        const res = await req.text();
+        this.localeStore.set(cslLocale, res);
+        return {
+            retrieveItem: (id: string) => toJS(this.store.citations.CSL.get(id)!),
+            retrieveLocale: this.getRemoteLocale.bind(this),
+        };
     }
 
     /**
@@ -216,21 +206,12 @@ export class CSLProcessor {
      * @return Promise that resolves to a string of CSL XML or an Error, depending
      *   on the response from the network request.
      */
-    private getCSLStyle(style: string): Promise<string> {
-        return new Promise((resolve, reject) => {
-            const req = new XMLHttpRequest();
-            req.open(
-                'GET',
-                `https://raw.githubusercontent.com/citation-style-language/styles/master/${style}.csl`
-            );
-            req.onreadystatechange = () => {
-                if (req.readyState === 4) {
-                    if (req.status !== 200) reject(new Error(req.responseText));
-                    resolve(req.responseText);
-                }
-            };
-            req.send(null);
-        }).catch(e => e);
+    private async getCSLStyle(style: string): Promise<string> {
+        const req = await fetch(`https://raw.githubusercontent.com/citation-style-language/styles/master/${style}.csl`);
+        if (!req.ok) {
+            throw new Error(req.statusText);
+        }
+        return req.text();
     }
 
     /**

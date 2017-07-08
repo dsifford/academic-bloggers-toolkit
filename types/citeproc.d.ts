@@ -116,6 +116,7 @@ declare namespace Citeproc {
         opt: {
             xclass: 'note' | 'in-text';
         };
+        updateItems: any; // FIXME:
         makeBibliography(): Bibliography | boolean;
         processCitationCluster(
             citation: Citeproc.Citation,

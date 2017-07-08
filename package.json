@@ -5,8 +5,8 @@
   "license": "GPL-3.0",
   "main": "index.js",
   "scripts": {
-    "test": "jest --coverage && npm run lint",
-    "lint": "tslint -p . -t codeFrame && tslint types/* -t codeFrame && stylint ./src/lib",
+    "test": "NODE_ENV=production jest --coverage && npm run lint",
+    "lint": "tslint -p . -t codeFrame && tslint types/* -t codeFrame && stylint ./src/",
     "start": "node --max_old_space_size=8192 ./node_modules/.bin/gulp",
     "build": "NODE_ENV=production ./node_modules/.bin/gulp _build && npm run update-translations",
     "deploy": "npm run build && torus run ./scripts/deploy $npm_package_version",
@@ -30,6 +30,7 @@
     "@types/react-motion": "^0.0.23",
     "@types/webpack": "^3.0.1",
     "autoprefixer-stylus": "^0.14.0",
+    "awesome-typescript-loader": "^3.2.1",
     "babel-core": "^6.25.0",
     "babel-loader": "^7.1.1",
     "babel-polyfill": "^6.22.0",
@@ -53,7 +54,6 @@
     "style-loader": "^0.18.2",
     "stylint": "^1.5.9",
     "ts-jest": "^20.0.7",
-    "ts-loader": "^2.2.2",
     "ts-node": "^3.2.0",
     "tslint": "^5.5.0",
     "tslint-microsoft-contrib": "^5.0.1",
@@ -79,6 +79,11 @@
       ".(ts|tsx)": "<rootDir>/node_modules/ts-jest/preprocessor.js"
     },
     "testRegex": "(/__tests__/.*|\\.(test|spec))\\.(ts|tsx|js)$",
+    "globals": {
+      "ts-jest": {
+        "tsConfigFile": "scripts/tsconfig-tests.json"
+      }
+    },
     "moduleFileExtensions": [
       "ts",
       "tsx",
@@ -88,10 +93,10 @@
     "collectCoverageFrom": [
       "src/**/*.{js,ts,tsx}",
       "!**/{vendor,__tests__}/**",
-      "!src/lib/js/Frontend.ts",
+      "!src/js/Frontend.ts",
       "!src/**/index.{ts,tsx}",
-      "!src/lib/js/utils/{TinymceFunctions,DevTools}.ts",
-      "!src/lib/js/utils/resolvers/*"
+      "!src/js/utils/{TinymceFunctions,DevTools}.ts",
+      "!src/js/utils/resolvers/*"
     ],
     "coverageDirectory": "tmp/coverage",
     "setupFiles": [

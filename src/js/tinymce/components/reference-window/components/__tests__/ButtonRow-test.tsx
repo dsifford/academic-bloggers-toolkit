@@ -18,7 +18,7 @@ const setup = (addManually: boolean = false, attachInline: boolean = false) => {
         addManually: component.find('#addManually'),
         checkbox: component.find('#inline-toggle'),
         component,
-        label: component.find('label.toggle-lbl'),
+        label: component.find('label'),
         searchPubmed: component.find('#searchPubmed'),
         spy,
         submit: component.find('#submit-btn'),

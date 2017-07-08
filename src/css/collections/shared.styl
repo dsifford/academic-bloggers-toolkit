@@ -1,7 +1,7 @@
 @require 'variables'
 
 .abt-tooltip // @stylint ignore
-    transform: scale(0)
+    // transform: scale(0)
     transform-origin: top center
     z-index: 9999
     background: $tooltip-gray
@@ -106,23 +106,3 @@
             font-size: 26px
         &.pin-reflist_fixed
             transform: translateX(-3px) rotate(-45deg)
-
-.abt-spinner
-    display: flex
-    height: 100%
-    width: 100%
-    pointer-events: none
-    align-items: center
-    justify-content: center
-    svg
-        animation: rotator 1.4s linear infinite
-
-.abt-spinner_overlay
-    position: absolute
-    background: rgba(0, 0, 0, .2)
-
-.abt-spinner__path
-    stroke-dasharray: 187
-    stroke-dashoffset: 0
-    transform-origin: center
-    animation: dash 1.4s ease-in-out infinite, colors (1.4s * 4) ease-in-out infinite

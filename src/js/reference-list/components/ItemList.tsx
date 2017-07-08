@@ -91,19 +91,18 @@ class Items extends React.Component<ItemsProps, {}> {
         this.element = c;
     };
 
-    editSingleReference = (e: React.MouseEvent<HTMLDivElement>) => {
-        const refId = e.currentTarget.getAttribute('data-reference-id');
-        editReferenceWindow(
-            tinyMCE.EditorManager.get('content'),
-            toJS(this.props.items.find(i => i.id === refId)!)
-        )
-            .then(parseManualData)
-            .then(m => [refId, m[0]])
-            .then(this.finalizeEdits)
-            .catch(err => {
-                if (!err) return; // User exited early
-                Rollbar.error('itemList.tsx -> editSingleReference', err);
-            });
+    editSingleReference = async (e: React.MouseEvent<HTMLDivElement>) => {
+        const refId = e.currentTarget.getAttribute('data-reference-id')!;
+        let data: ABT.ManualData;
+        try {
+            data = await editReferenceWindow(tinyMCE.EditorManager.get('content'), toJS(this.props.items.find(i => i.id === refId)!));
+        } catch (e) {
+            if (!e) return; // user exited early
+            return Rollbar.error('itemList.tsx -> editSingleReference', e);
+        }
+
+        const csl = await parseManualData(data);
+        return this.finalizeEdits([refId, csl[0]]);
     };
 
     @action
