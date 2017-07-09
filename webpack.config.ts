@@ -1,3 +1,4 @@
+import { TsConfigPathsPlugin } from 'awesome-typescript-loader';
 import { resolve } from 'path';
 import * as webpack from 'webpack';
 // const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
@@ -30,26 +31,31 @@ const devPlugins: webpack.Plugin[] = [
     // }),
 ];
 
-const productionPlugins = [
-    ...sharedPlugins,
-    new webpack.optimize.UglifyJsPlugin(),
-];
+const productionPlugins = [...sharedPlugins, new webpack.optimize.UglifyJsPlugin()];
 
 const config: webpack.Configuration = {
-    devtool: 'source-map',
+    devtool: isProduction ? undefined : 'source-map',
     cache: true,
     entry: {
-        'js/Frontend': './src/js/Frontend.ts',
-        'js/reference-list/index': ['whatwg-fetch', './src/js/reference-list/'],
-        'js/tinymce/index': './src/js/tinymce/index.ts',
-        'js/tinymce/components/reference-window/index':
+        'js/Frontend': ['babel-polyfill', './src/js/Frontend'],
+        'js/reference-list/index': ['babel-polyfill', 'whatwg-fetch', './src/js/reference-list/'],
+        'js/tinymce/index': ['./src/js/tinymce/'],
+        'js/tinymce/components/reference-window/index': [
+            'babel-polyfill',
             './src/js/tinymce/components/reference-window/',
-        'js/tinymce/components/pubmed-window/index':
+        ],
+        'js/tinymce/components/pubmed-window/index': [
+            'babel-polyfill',
             './src/js/tinymce/components/pubmed-window/',
-        'js/tinymce/components/edit-reference-window/index':
+        ],
+        'js/tinymce/components/edit-reference-window/index': [
+            'babel-polyfill',
             './src/js/tinymce/components/edit-reference-window/',
-        'js/tinymce/components/import-window/index':
+        ],
+        'js/tinymce/components/import-window/index': [
+            'babel-polyfill',
             './src/js/tinymce/components/import-window/',
+        ],
         vendor: ['react', 'react-dom', 'mobx', 'mobx-react'],
     },
     output: {
@@ -58,9 +64,7 @@ const config: webpack.Configuration = {
     resolve: {
         modules: [resolve(__dirname, 'src'), 'node_modules'],
         extensions: ['*', '.webpack.js', '.web.js', '.ts', '.tsx', '.js'],
-        mainFiles: ['index'],
-        mainFields: ['main', 'browser'],
-        descriptionFiles: ['package.json'],
+        plugins: [new TsConfigPathsPlugin()],
     },
     plugins: isProduction ? productionPlugins : devPlugins,
     module: {

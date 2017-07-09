@@ -25,7 +25,7 @@ const IS_PRODUCTION = process.env.NODE_ENV === 'production';
 // ==================================================
 
 // prettier-ignore
-const reload = cb => { browserSync.reload(); cb(); }
+const reload = (cb: () => void) => { browserSync.reload(); cb(); }
 const clean = () => exec(`rm -rf ${__dirname}/dist/*`);
 export { clean, reload };
 
@@ -46,12 +46,7 @@ gulp.task('bump', () => {
         })
         .pipe(replace(/Version: [\d.]+/, `Version: ${VERSION}`))
         .pipe(replace(/Stable tag: .+/, `Stable tag: ${VERSION}`))
-        .pipe(
-            replace(
-                /define\('ABT_VERSION', '.+?'\);/,
-                `define('ABT_VERSION', '${VERSION}');`
-            )
-        )
+        .pipe(replace(/define\('ABT_VERSION', '.+?'\);/, `define('ABT_VERSION', '${VERSION}');`))
         .pipe(replace(new RegExp(re), repl))
         .pipe(gulp.dest('./src'));
 
@@ -80,8 +75,7 @@ export function pot() {
             wpPot({
                 domain: 'academic-bloggers-toolkit',
                 package: `Academic Blogger's Toolkit ${VERSION}`,
-                bugReport:
-                    'https://github.com/dsifford/academic-bloggers-toolkit/issues',
+                bugReport: 'https://github.com/dsifford/academic-bloggers-toolkit/issues',
                 lastTranslator: 'Derek P Sifford <dereksifford@gmail.com>',
                 team: 'Derek P Sifford <dereksifford@gmail.com>',
                 headers: false,
@@ -95,36 +89,23 @@ export function pot() {
 //              PHP/Static Asset Tasks
 // ==================================================
 
+type Replacer = (match: string, ...submatches: string[]) => string;
+
 export function php() {
-    const re1 = new RegExp(
-        /(\s=\s|\sreturn\s)((?:\(object\))|)(\[)([\W\w\s]*?)(])(;\s?)/,
-        'gm'
-    );
+    const re1 = new RegExp(/(\s=\s|\sreturn\s)((?:\(object\))|)(\[)([\W\w\s]*?)(])(;\s?)/, 'gm');
     const re2 = new RegExp(/$(\s+)(.+?)(\s=>\s)((?:\(object\))?)(\[)/, 'gm');
     const re3 = new RegExp(/$(\s+)(],|\[)$/, 'gm');
     const re4 = new RegExp(/(array\()(],)/, 'gm');
     const re5 = new RegExp(/(,\s+)(\[)(.*)(])/, 'gm');
 
-    function rep1(_match, p1, p2, _p3, p4, _p5, p6) {
-        return `${p1}${p2}array(${p4})${p6}`;
-    }
-
-    function rep2(_match, p1, p2, p3, p4) {
-        return `${p1}${p2}${p3}${p4}array(`;
-    }
-
-    function rep3(_match, p1, p2) {
+    const rep1: Replacer = (_match, p1, p2, _p3, p4, _p5, p6) => `${p1}${p2}array(${p4})${p6}`;
+    const rep2: Replacer = (_match, p1, p2, p3, p4) => `${p1}${p2}${p3}${p4}array(`;
+    const rep3: Replacer = (_match, p1, p2) => {
         const r = p2 === '],' ? '),' : 'array(';
         return p1 + r;
-    }
-
-    function rep4(_match, p1) {
-        return `${p1}),`;
-    }
-
-    function rep5(_match, p1, _p2, p3) {
-        return `${p1}array(${p3})`;
-    }
+    };
+    const rep4: Replacer = (_match, p1) => `${p1}),`;
+    const rep5: Replacer = (_match, p1, _p2, p3) => `${p1}array(${p3})`;
 
     return gulp
         .src(['src/**/*.php', '!**/views/*.php'], { base: './src' })
@@ -165,7 +146,7 @@ export function styles() {
     );
 
     if (!IS_PRODUCTION) {
-        stream = stream.pipe(sourcemaps.write('.'));
+        stream = stream.pipe(sourcemaps.write('.', undefined));
     }
 
     stream = stream.pipe(gulp.dest('dist'));
@@ -184,8 +165,7 @@ export function styles() {
 export function bundle() {
     let stream = gulp
         .src('src/js/Frontend.ts')
-        // tslint:disable-next-line:prefer-object-spread
-        .pipe(webpackStream(Object.assign({}, webpackConfig, { watch: !IS_PRODUCTION }), webpack))
+        .pipe(webpackStream({ ...webpackConfig, watch: !IS_PRODUCTION }, webpack))
         .pipe(gulp.dest('dist/'));
     if (!IS_PRODUCTION) {
         stream = stream.pipe(browserSync.stream());
@@ -206,7 +186,7 @@ const main = gulp.series(
     clean,
     gulp.parallel(styles, staticFiles, js, php, pot),
     bundle,
-    cb => {
+    (cb: () => void) => {
         if (IS_PRODUCTION) return cb();
 
         // tslint:disable-next-line:no-console
@@ -215,12 +195,7 @@ const main = gulp.series(
         gulp.watch('src/**/*.styl', gulp.series(styles));
 
         gulp.watch(
-            [
-                'src/**/*',
-                '!src/**/*.{ts,tsx,styl}',
-                '!src/**/__tests__/',
-                '!src/**/__tests__/*',
-            ],
+            ['src/**/*', '!src/**/*.{ts,tsx,styl}', '!src/**/__tests__/', '!src/**/__tests__/*'],
             gulp.series(php, staticFiles, reload)
         );
 

@@ -146,6 +146,7 @@ declare namespace CSL {
         'reviewed-title'?: string;
         scale?: string;
         section?: string;
+        'short-container-title'?: string[]; // Non-standard. Only appears when resolving DOIs
         source?: string;
         status?: string;
         title?: string;
@@ -154,6 +155,7 @@ declare namespace CSL {
         version?: string;
         volume?: string | number;
         'year-suffix'?: string;
+        [key: string]: any;
     }
 
     interface Person {
@@ -198,5 +200,6 @@ declare namespace CSL {
         day?: number;
         month?: number;
         year?: number;
+        [k: string]: any;
     }
 }

@@ -1,7 +1,7 @@
 import { observer } from 'mobx-react';
 import * as React from 'react';
 
-import { ToggleSwitch } from '../../../../components/ToggleSwitch';
+import { ToggleSwitch } from 'components/ToggleSwitch';
 
 interface Props {
     addManually: boolean;

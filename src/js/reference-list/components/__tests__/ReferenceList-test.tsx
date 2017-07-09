@@ -9,7 +9,7 @@ import * as MCE from '../../../utils/TinymceFunctions';
 import * as API from '../../API';
 import { Store } from '../../Store';
 import { ReferenceList } from '../ReferenceList';
-const reflistState = require('../../../../../scripts/fixtures').reflistState;
+const reflistState = require('../../../../../lib/fixtures').reflistState;
 
 window['Rollbar'] = { error: jest.fn() };
 window['tinyMCE'] = {

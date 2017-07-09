@@ -12,6 +12,7 @@
  */
 
 define('ABT_VERSION', '4.10.0');
+define('ABT_ROOT_URI', plugin_dir_url(__FILE__));
 
 /**
  * Load plugin translations
@@ -118,11 +119,11 @@ add_filter('plugin_row_meta', 'abt_add_donate_link', 10, 2);
  */
 function abt_frontend_scripts() {
     wp_enqueue_style('dashicons');
-    wp_enqueue_style('abt_frontend_styles', __DIR__ . '/css/frontend.css', ['dashicons'], ABT_VERSION);
+    wp_enqueue_style('abt_frontend_styles', ABT_ROOT_URI . '/css/frontend.css', ['dashicons'], ABT_VERSION);
 
     if (is_singular()) {
-        wp_enqueue_script('abt-bundle', __DIR__ . '/vendor/vendor.bundle.js', [], ABT_VERSION, true);
-        wp_enqueue_script('abt_frontend_js', __DIR__ . '/js/Frontend.js', ['abt-bundle'], ABT_VERSION, true);
+        // wp_enqueue_script('abt-bundle', __DIR__ . '/vendor/vendor.bundle.js', [], ABT_VERSION, true);
+        wp_enqueue_script('abt_frontend_js', ABT_ROOT_URI . '/js/Frontend.js', [/*'abt-bundle'*/], ABT_VERSION, true);
     }
 }
 add_action('wp_enqueue_scripts', 'abt_frontend_scripts');

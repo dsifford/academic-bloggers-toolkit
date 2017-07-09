@@ -1,6 +1,6 @@
 import { parseManualData } from '../API';
 
-const testCSL = require('../../../../scripts/fixtures.js').reflistState.CSL
+const testCSL = require('../../../../lib/fixtures.js').reflistState.CSL
     .aaaaaaaa;
 
 describe('API', () => {

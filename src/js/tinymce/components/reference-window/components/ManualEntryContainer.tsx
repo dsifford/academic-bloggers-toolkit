@@ -1,9 +1,10 @@
 import { action, IObservableArray, observable, ObservableMap } from 'mobx';
 import { observer } from 'mobx-react';
 import * as React from 'react';
-import { preventScrollPropagation } from '../../../../utils/helpers/';
 
-import { Spinner } from '../../../../components/Spinner';
+import { preventScrollPropagation } from 'utils/helpers/';
+
+import { Spinner } from 'components/Spinner';
 import { MetaFields } from './MetaFields';
 import { People } from './People';
 
@@ -114,7 +115,7 @@ export class AutoCite extends React.Component<AutoCiteProps, {}> {
     @observable query = '';
 
     @action
-    handleAutociteFieldChange = e => {
+    handleAutociteFieldChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         this.query = e.target.value;
     };
 
@@ -129,7 +130,7 @@ export class AutoCite extends React.Component<AutoCiteProps, {}> {
         this.input = c;
     };
 
-    handleKeyDown = e => {
+    handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
         if (e.key === 'Enter' || e.key === 'Return') {
             e.stopPropagation();
             e.preventDefault();

@@ -5,7 +5,7 @@ import { formatBibliography } from './formatters/';
 
 declare const ABT_Custom_CSL: BackendGlobals.ABT_Custom_CSL;
 declare const ABT_wp: BackendGlobals.ABT_wp;
-declare const CSL;
+declare const CSL: any;
 
 export class CSLProcessor {
     /**
@@ -18,7 +18,7 @@ export class CSLProcessor {
      *   in CSL (values). If CSL doesn't have a locale for a given WordPress locale,
      *   then false is used (which will default to en-US).
      */
-    private locales: { [wp: string]: string | boolean } = localeMapper;
+    private locales = localeMapper;
 
     /**
      * Key/value store for locale XML. Locale XML is fetched off the main thread
@@ -84,16 +84,10 @@ export class CSLProcessor {
      */
     makeBibliography(): ABT.Bibliography | boolean {
         const bib = this.citeproc.makeBibliography();
-        this.store.citations.init(
-            this.citeproc.registry.citationreg.citationByIndex
-        );
+        this.store.citations.init(this.citeproc.registry.citationreg.citationByIndex);
         return typeof bib === 'boolean'
             ? bib
-            : formatBibliography(
-                  bib,
-                  this.store.links,
-                  this.store.citations.CSL
-              );
+            : formatBibliography(bib, this.store.links, this.store.citations.CSL);
     }
 
     /**
@@ -102,10 +96,7 @@ export class CSLProcessor {
      * @param csl CSL.Data[].
      * @return Citeproc.CitationByIndexSingle for the current inline citation.
      */
-    prepareInlineCitationData(
-        csl: CSL.Data[],
-        currentIndex: number
-    ): Citeproc.Citation {
+    prepareInlineCitationData(csl: CSL.Data[], currentIndex: number): Citeproc.Citation {
         const payload = {
             citationItems: <Array<{ id: string }>>[],
             properties: { noteIndex: currentIndex },
@@ -128,18 +119,12 @@ export class CSLProcessor {
         before: Citeproc.CitationsPrePost,
         after: Citeproc.CitationsPrePost
     ): Citeproc.CitationClusterData[] {
-        const [status, clusters] = this.citeproc.processCitationCluster(
-            citation,
-            before,
-            after
-        );
+        const [status, clusters] = this.citeproc.processCitationCluster(citation, before, after);
         if (status['citation_errors'].length) {
             // tslint:disable-next-line
             console.error(status['citation_errors']);
         }
-        this.store.citations.init(
-            this.citeproc.registry.citationreg.citationByIndex
-        );
+        this.store.citations.init(this.citeproc.registry.citationreg.citationByIndex);
         return clusters;
     }
 
@@ -149,9 +134,7 @@ export class CSLProcessor {
      * @param  {CSL.Data[]}                data Array of CSL.Data
      * @return {Promise<ABT.Bibliography>}
      */
-    async createStaticBibliography(
-        data: CSL.Data[]
-    ): Promise<ABT.Bibliography | boolean> {
+    async createStaticBibliography(data: CSL.Data[]): Promise<ABT.Bibliography | boolean> {
         const style =
             this.store.citationStyle === 'abt-user-defined'
                 ? ABT_Custom_CSL.CSL
@@ -162,11 +145,7 @@ export class CSLProcessor {
         const bib = citeproc.makeBibliography();
         return typeof bib === 'boolean'
             ? bib
-            : formatBibliography(
-                  bib,
-                  this.store.links,
-                  this.store.citations.CSL
-              );
+            : formatBibliography(bib, this.store.links, this.store.citations.CSL);
     }
 
     /**
@@ -185,8 +164,10 @@ export class CSLProcessor {
      *   depending on the response from the network request.
      */
     private async generateSys(locale: string): Promise<Citeproc.SystemObj> {
-        const cslLocale = <string>this.locales[locale] || 'en-US';
-        const req = await fetch(`https://raw.githubusercontent.com/citation-style-language/locales/master/locales-${cslLocale}.xml`);
+        const cslLocale = this.locales[locale] || 'en-US';
+        const req = await fetch(
+            `https://raw.githubusercontent.com/citation-style-language/locales/master/locales-${cslLocale}.xml`
+        );
         if (!req.ok) {
             throw new Error(req.statusText);
         }
@@ -207,7 +188,9 @@ export class CSLProcessor {
      *   on the response from the network request.
      */
     private async getCSLStyle(style: string): Promise<string> {
-        const req = await fetch(`https://raw.githubusercontent.com/citation-style-language/styles/master/${style}.csl`);
+        const req = await fetch(
+            `https://raw.githubusercontent.com/citation-style-language/styles/master/${style}.csl`
+        );
         if (!req.ok) {
             throw new Error(req.statusText);
         }

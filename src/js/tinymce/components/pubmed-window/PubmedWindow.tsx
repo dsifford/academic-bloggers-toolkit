@@ -1,11 +1,11 @@
 import { action, computed, observable, reaction } from 'mobx';
 import { observer } from 'mobx-react';
 import * as React from 'react';
-import DevTools from '../../../utils/DevTools';
 
-import { Spinner } from '../../../components/Spinner';
-import { Modal } from '../../../utils/Modal';
-import { pubmedQuery } from '../../../utils/resolvers/';
+import { Spinner } from 'components/Spinner';
+import DevTools from 'utils/DevTools';
+import { Modal } from 'utils/Modal';
+import { pubmedQuery } from 'utils/resolvers/';
 import { Paginate } from './Paginate';
 import { ResultList } from './ResultList';
 

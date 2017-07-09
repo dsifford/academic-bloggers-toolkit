@@ -1,11 +1,11 @@
 import { action, observable, toJS } from 'mobx';
 import { observer } from 'mobx-react';
 import * as React from 'react';
-import DevTools from '../../../utils/DevTools';
 
-import { generateID } from '../../../utils/helpers/';
-import { Modal } from '../../../utils/Modal';
-import { RISParser, TeXParser } from '../../../utils/parsers/';
+import DevTools from 'utils/DevTools';
+import { generateID } from 'utils/helpers/';
+import { Modal } from 'utils/Modal';
+import { RISParser, TeXParser } from 'utils/parsers/';
 
 const DevTool = DevTools();
 

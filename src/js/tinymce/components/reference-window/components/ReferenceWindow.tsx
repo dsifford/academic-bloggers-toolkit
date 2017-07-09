@@ -1,9 +1,10 @@
 import { action, computed, observable, reaction, toJS } from 'mobx';
 import { observer } from 'mobx-react';
 import * as React from 'react';
-import DevTools, { configureDevtool } from '../../../../utils/DevTools';
-import { Modal } from '../../../../utils/Modal';
-import { BookMeta, getFromISBN, getFromURL, URLMeta } from '../../../../utils/resolvers/';
+
+import DevTools, { configureDevtool } from 'utils/DevTools';
+import { Modal } from 'utils/Modal';
+import { BookMeta, getFromISBN, getFromURL, URLMeta } from 'utils/resolvers/';
 
 const DevTool = DevTools();
 configureDevtool({ logFilter: change => change.type === 'action' });

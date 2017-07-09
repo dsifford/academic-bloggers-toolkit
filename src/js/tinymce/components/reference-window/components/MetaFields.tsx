@@ -16,7 +16,7 @@ export class MetaFields extends React.Component<MetaFieldProps, {}> {
     };
 
     render() {
-        const citationType = this.props.meta.get('type')!;
+        const citationType = this.props.meta.get('type')! as keyof ABT.FieldMappings;
         const title = this.fieldmaps[citationType].title;
         const fields = this.fieldmaps[citationType].fields;
         return (

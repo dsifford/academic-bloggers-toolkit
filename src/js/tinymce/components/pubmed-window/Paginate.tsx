@@ -10,16 +10,13 @@ interface Props {
 @observer
 export class Paginate extends React.PureComponent<Props, {}> {
     labels = top.ABT_i18n.tinymce.pubmedWindow;
-    handleClick = e => {
-        this.props.paginate(parseInt(e.target.getAttribute('data-page'), 10));
+    handleClick = (e: React.MouseEvent<HTMLInputElement>) => {
+        this.props.paginate(parseInt(e.currentTarget.getAttribute('data-page')!, 10));
     };
 
     render() {
         const { page, resultLength } = this.props;
-        const prevCls =
-            page < 2
-                ? 'abt-btn abt-btn_flat abt-btn_disabled'
-                : 'abt-btn abt-btn_flat';
+        const prevCls = page < 2 ? 'abt-btn abt-btn_flat abt-btn_disabled' : 'abt-btn abt-btn_flat';
         const nextCls =
             page > 3 || page === 0 || (page + 1) * 5 > resultLength
                 ? 'abt-btn abt-btn_flat abt-btn_disabled'

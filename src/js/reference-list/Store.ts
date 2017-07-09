@@ -7,7 +7,7 @@ import {
     ObservableMap,
     toJS,
 } from 'mobx';
-import { localeMapper as locales } from '../utils/Constants';
+import { localeMapper as locales } from 'utils/Constants';
 
 class CitationStore {
     @observable CSL: ObservableMap<CSL.Data>;

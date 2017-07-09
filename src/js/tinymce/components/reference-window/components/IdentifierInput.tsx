@@ -10,7 +10,7 @@ interface Props {
 export class IdentifierInput extends React.PureComponent<Props, {}> {
     labels = top.ABT_i18n.tinymce.referenceWindow.identifierInput;
 
-    focusInputField = c => {
+    focusInputField = (c: any) => {
         if (c) c.focus();
     };
 

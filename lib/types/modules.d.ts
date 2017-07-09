@@ -47,6 +47,7 @@ declare module 'bibtex-parse-js' {
             volume: string;
             volumes: string;
             year: string;
+            [k: string]: string;
         };
         entryType: string;
     }

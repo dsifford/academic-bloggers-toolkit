@@ -32,6 +32,7 @@ declare namespace PubMed {
         title?: string;
         uid?: string;
         volume?: string;
+        [k: string]: any;
     }
 
     interface DataPMCID extends Shared {

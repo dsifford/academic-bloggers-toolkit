@@ -1,10 +1,11 @@
 import * as parser from 'bibtex-parse-js';
 
-export class TeXParser {
-    public bibJSON: parser.BibJSON[];
-    public unsupportedRefs = [];
+interface Months {
+    [k: string]: string;
+}
 
-    private months = {
+export class TeXParser {
+    private static months: Months = {
         jan: '01',
         feb: '02',
         mar: '03',
@@ -18,6 +19,9 @@ export class TeXParser {
         nov: '11',
         dec: '12',
     };
+
+    public bibJSON: parser.BibJSON[];
+    public unsupportedRefs = [];
 
     constructor(raw: string) {
         this.bibJSON = parser.toJSON(raw);
@@ -82,7 +86,7 @@ export class TeXParser {
                         c.keyword = item[key];
                         return;
                     case 'month':
-                        date[key] = this.months[item[key]];
+                        date[key] = TeXParser.months[item[key]];
                         return;
                     case 'year':
                         date[key] = item[key];

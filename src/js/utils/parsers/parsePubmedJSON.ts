@@ -43,7 +43,7 @@ export function parsePubmedJSON(
             author: [],
         };
 
-        Object.keys(ref).forEach(key => {
+        Object.keys(ref).forEach((key: keyof PubMed.Response) => {
             if (typeof ref[key] === 'string' && ref[key] === '') return;
 
             switch (key) {

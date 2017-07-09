@@ -1,5 +1,3 @@
-import 'babel-polyfill';
-
 class Citations {
     public static isTouchDevice: boolean = true ===
         ('ontouchstart' in window || (window.DocumentTouch && document instanceof DocumentTouch));
@@ -20,7 +18,8 @@ class Citations {
             const reflist: string[] = JSON.parse(citation.getAttribute('data-reflist')!);
             citation.setAttribute(
                 'data-citations',
-                reflist.map(id => container.children[id].outerHTML).join('')
+                reflist.map(id => container.children.namedItem(id)!.outerHTML).join('')
+                // reflist.map(id => container.children[id].outerHTML).join('')
             );
             citation.addEventListener('click', this.createTooltip);
         });
@@ -29,7 +28,7 @@ class Citations {
             this.enableToggle();
     }
 
-    private createTooltip(e): void {
+    private createTooltip(e: any): void {
         const existingTooltip = document.getElementById('abt-tooltip');
         if (existingTooltip) existingTooltip.parentElement!.removeChild(existingTooltip);
 

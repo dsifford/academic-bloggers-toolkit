@@ -3,11 +3,11 @@
 declare namespace TinyMCE {
     interface MCE {
         DOM: object;
-        EditorManager;
+        EditorManager: any;
         PluginManager: PluginManager;
-        EditorObservable;
-        Env;
-        WindowManager;
+        // EditorObservable;
+        // Env;
+        // WindowManager;
         dom: object;
         editors: Editor[];
         activeEditor: Editor;
@@ -29,11 +29,7 @@ declare namespace TinyMCE {
                 attrs: { [attr: string]: string },
                 children?: string
             ): T;
-            getStyle(
-                element: HTMLElement,
-                name: string,
-                computed: boolean
-            ): string;
+            getStyle(element: HTMLElement, name: string, computed: boolean): string;
         };
         selection: {
             bookmarkManager: {
@@ -46,12 +42,12 @@ declare namespace TinyMCE {
             getContent(args: { format: 'html' | 'text' }): string;
             setContent(content: string, args?: { format: string }): string;
             moveToBookmark(bookmark: object): boolean;
-            select(el: HTMLElement, content: boolean);
-            setCursorLocation(a): void;
+            // select(el: HTMLElement, content: boolean);
+            // setCursorLocation(a): void;
         };
-        settings: {
-            params;
-        };
+        // settings: {
+        //     params: any;
+        // };
         target: object;
         windowManager: WindowManager;
         wp: object;
@@ -72,21 +68,23 @@ declare namespace TinyMCE {
     }
 
     interface WindowManager {
-        data?: object;
+        data?: {
+            [k: string]: any;
+        };
         editor?: Editor;
         windows: any;
         alert(message: string, callback?: () => void, scope?: object): void;
         close(): void;
         confirm(message: string, callback?: () => void, scope?: object): void;
-        onClose(e): void;
-        onOpen(e): void;
+        onClose(e: Event): void;
+        onOpen(e: Event): void;
         open(window: WindowMangerObject): void;
-        setParams(paramObj): void;
+        setParams(paramObj: object): void;
         submit(): () => void;
     }
 
     interface PluginManager {
-        add(pluginName: string, callback: (editor: Editor) => void);
+        add(pluginName: string, callback: (editor: Editor) => void): void;
     }
 
     interface MenuItem {
@@ -106,6 +104,19 @@ declare namespace TinyMCE {
         tooltip?: string;
     }
 
+    interface MCEEventTarget extends EventTarget {
+        params: {
+            [k: string]: any;
+        };
+        data: {
+            [k: string]: any;
+        };
+    }
+
+    interface MCEEvent extends Event {
+        target: MCEEventTarget;
+    }
+
     interface WindowMangerObject {
         title: string;
         width?: number;
@@ -114,7 +125,7 @@ declare namespace TinyMCE {
         url?: string;
         buttons?: object;
         params?: object;
-        onclose?(e);
-        onsubmit?(e);
+        onclose?(e: MCEEvent): void;
+        onsubmit?(e: MCEEvent): void;
     }
 }

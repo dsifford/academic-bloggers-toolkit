@@ -1,9 +1,9 @@
 import { action, ObservableMap, toJS } from 'mobx';
 import { observer } from 'mobx-react';
 import * as React from 'react';
-import { EVENTS } from '../../utils/Constants';
-import { preventScrollPropagation } from '../../utils/helpers/';
-import { editReferenceWindow } from '../../utils/TinymceFunctions';
+import { EVENTS } from 'utils/Constants';
+import { preventScrollPropagation } from 'utils/helpers/';
+import { editReferenceWindow } from 'utils/TinymceFunctions';
 import { parseManualData } from '../API';
 import { Card } from './Card';
 

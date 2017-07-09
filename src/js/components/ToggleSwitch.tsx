@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { createTooltip, destroyTooltip } from '../utils/Tooltips';
+import { createTooltip, destroyTooltip } from 'utils/Tooltips';
 
 interface Props {
     checked: boolean;
@@ -8,8 +8,8 @@ interface Props {
 }
 
 export class ToggleSwitch extends React.PureComponent<Props, {}> {
-    handleMouseOver = e => {
-        createTooltip(e.target, e.target.getAttribute('data-tooltip'), 'left');
+    handleMouseOver = (e: React.MouseEvent<HTMLLabelElement>) => {
+        createTooltip(e.currentTarget, e.currentTarget.getAttribute('data-tooltip')!, 'left');
     };
 
     render() {

@@ -1,6 +1,6 @@
-import { generateID } from '../utils/helpers/';
-import { parseCSLDate } from '../utils/parsers/';
-import { getFromDOI, getFromPubmed } from '../utils/resolvers/';
+import { generateID } from 'utils/helpers/';
+import { parseCSLDate } from 'utils/parsers/';
+import { getFromDOI, getFromPubmed } from 'utils/resolvers/';
 
 export async function getRemoteData(
     identifierList: string,

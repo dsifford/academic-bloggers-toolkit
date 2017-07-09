@@ -1,7 +1,8 @@
 /* tslint:disable: class-name */
+
 declare const __DEV__: boolean;
 declare const ABT_CitationStyles: Array<{ label: string; value: string }>;
-declare const DocumentTouch;
+declare const DocumentTouch: any;
 
 interface Window {
     ABT_i18n: BackendGlobals.ABT_i18n;
@@ -169,4 +170,15 @@ declare namespace BackendGlobals {
     }
 }
 
+declare module 'autoprefixer-stylus';
+declare module 'gulp';
+declare module 'gulp-replace';
+declare module 'gulp-sort';
+declare module 'gulp-sourcemaps';
+declare module 'gulp-stylus';
+declare module 'gulp-uglify';
+declare module 'gulp-wp-pot';
+declare module 'merge-stream';
+declare module 'webpack-stream';
 declare module 'bibtex-parse-js';
+declare module 'react-virtualized-select';

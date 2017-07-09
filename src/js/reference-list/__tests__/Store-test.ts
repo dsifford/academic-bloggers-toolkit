@@ -1,6 +1,6 @@
 jest.disableAutomock();
 
-const reflistState = require('../../../../scripts/fixtures').reflistState;
+const reflistState = require('../../../../lib/fixtures').reflistState;
 import { Store } from '../Store';
 
 const testState = reflistState;

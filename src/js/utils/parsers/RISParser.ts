@@ -123,7 +123,7 @@ export class RISParser {
             },
         };
 
-        const pageHolder = {};
+        const pageHolder: any = {};
 
         ref.forEach((line: string) => {
             const key = line.substr(0, 2);
@@ -152,7 +152,7 @@ export class RISParser {
                     break;
                 case 'PY':
                 case 'Y1':
-                    payload.issued!['date-parts'][0][0] = parseCSLDate(
+                    (<any>payload).issued!['date-parts'][0][0] = parseCSLDate(
                         val,
                         'RIS'
                     )['date-parts']![0][0];

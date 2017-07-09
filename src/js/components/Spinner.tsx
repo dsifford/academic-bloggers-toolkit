@@ -16,7 +16,7 @@ interface Props {
 export class Spinner extends React.PureComponent<Props, {}> {
     style: React.CSSProperties = { ...this.props.style };
 
-    constructor(props) {
+    constructor(props: Props) {
         super(props);
         if (this.props.height) {
             if (typeof this.props.height === 'function') {

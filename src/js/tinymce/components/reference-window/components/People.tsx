@@ -19,7 +19,7 @@ export class People extends React.PureComponent<PeopleProps, {}> {
 
     @action
     removePerson = (e: React.MouseEvent<HTMLInputElement>) => {
-        const index = e.currentTarget.getAttribute('data-index')!;
+        const index = parseInt(e.currentTarget.getAttribute('data-index')!, 10);
         this.props.people.remove(this.props.people[index]);
     };
 
@@ -27,8 +27,8 @@ export class People extends React.PureComponent<PeopleProps, {}> {
     updatePerson = (
         e: React.FormEvent<HTMLInputElement | HTMLSelectElement>
     ) => {
-        const index = e.currentTarget.getAttribute('data-index')!;
-        const field = e.currentTarget.getAttribute('data-field')!;
+        const index = parseInt(e.currentTarget.getAttribute('data-index')!, 10);
+        const field = e.currentTarget.getAttribute('data-field')! as keyof CSL.Person;
         const value = e.currentTarget.value;
         this.props.people[index][field] = value;
     };
@@ -49,7 +49,7 @@ export class People extends React.PureComponent<PeopleProps, {}> {
                         change={this.updatePerson}
                         remove={this.removePerson}
                         citationType={this.props.citationType}
-                        fieldMap={this.fieldmaps[this.props.citationType]}
+                        fieldMap={this.fieldmaps[this.props.citationType as keyof ABT.FieldMappings]}
                         index={i}
                         labels={this.labels}
                         person={person}

@@ -59,12 +59,12 @@ mkdir -p "tags/$VERSION"
 cp -r "$ROOTDIR"/dist/* "$SVNROOT"/trunk/
 cp -r "$ROOTDIR"/dist/* "$SVNROOT"/tags/"$VERSION"/
 
-# Create a zipped copy of dist in ROOTDIR/tmp/bin
-rm -f "$ROOTDIR"/tmp/bin/*
-mkdir -p "$ROOTDIR"/tmp/bin/academic-bloggers-toolkit
-cp -r "$ROOTDIR"/dist/* "$ROOTDIR"/tmp/bin/academic-bloggers-toolkit
-cd "$ROOTDIR"/tmp/bin || exit
-zip -r "$ROOTDIR"/tmp/bin/academic-bloggers-toolkit-"$VERSION".zip academic-bloggers-toolkit
+# Create a zipped copy of dist in ROOTDIR/lib/tmp/bin
+rm -f "$ROOTDIR"/lib/tmp/bin/*
+mkdir -p "$ROOTDIR"/lib/tmp/bin/academic-bloggers-toolkit
+cp -r "$ROOTDIR"/dist/* "$ROOTDIR"/lib/tmp/bin/academic-bloggers-toolkit
+cd "$ROOTDIR"/lib/tmp/bin || exit
+zip -r "$ROOTDIR"/lib/tmp/bin/academic-bloggers-toolkit-"$VERSION".zip academic-bloggers-toolkit
 rm -r academic-bloggers-toolkit
 cd "$SVNROOT" || exit
 

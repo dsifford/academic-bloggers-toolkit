@@ -1,106 +1,109 @@
 {
-  "name": "academic-bloggers-toolkit",
-  "version": "4.10.0",
-  "description": "A plugin extending the functionality of WordPress for Academic Blogging",
-  "license": "GPL-3.0",
-  "main": "index.js",
-  "scripts": {
-    "test": "NODE_ENV=production jest --coverage && npm run lint",
-    "lint": "tslint -p . -t codeFrame && tslint types/* -t codeFrame && stylint ./src/",
-    "start": "node --max_old_space_size=8192 ./node_modules/.bin/gulp",
-    "build": "NODE_ENV=production ./node_modules/.bin/gulp _build && npm run update-translations",
-    "deploy": "npm run build && torus run ./scripts/deploy $npm_package_version",
-    "update-translations": "torus run ./scripts/update-translations",
-    "update-styles": "node ./scripts/updateStyles.js",
-    "update-vendors": "curl -o 'src/vendor/citeproc.js' https://raw.githubusercontent.com/Juris-M/citeproc-js/master/citeproc.js"
-  },
-  "repository": "dsifford/academic-bloggers-toolkit",
-  "author": "Derek P Sifford",
-  "contributors": [
-    {
-      "name": "Frank Bennett"
+    "name": "academic-bloggers-toolkit",
+    "version": "4.10.0",
+    "description": "A plugin extending the functionality of WordPress for Academic Blogging",
+    "license": "GPL-3.0",
+    "scripts": {
+        "test": "NODE_ENV=production jest --coverage && yarn lint",
+        "lint": "tslint -p . -t codeFrame && tslint types/* -t codeFrame && stylint ./src/",
+        "start": "node --max_old_space_size=8192 ./node_modules/.bin/gulp",
+        "build": "NODE_ENV=production ./node_modules/.bin/gulp _build && yarn update-translations",
+        "deploy": "yarn build && torus run ./lib/deploy $npm_package_version",
+        "update-translations": "torus run ./lib/update-translations",
+        "update-styles": "node ./lib/updateStyles.js",
+        "update-vendors": "curl -o 'src/vendor/citeproc.js' https://raw.githubusercontent.com/Juris-M/citeproc-js/master/citeproc.js"
+    },
+    "repository": "dsifford/academic-bloggers-toolkit",
+    "author": "Derek P Sifford",
+    "contributors": [
+        {
+            "name": "Frank Bennett"
+        }
+    ],
+    "devDependencies": {
+        "@types/enzyme": "^2.8.1",
+        "@types/jest": "^20.0.2",
+        "@types/node": "^8.0.9",
+        "@types/react": "^15.0.35",
+        "@types/react-dom": "^15.5.1",
+        "@types/react-motion": "^0.0.23",
+        "@types/webpack": "^3.0.2",
+        "autoprefixer-stylus": "^0.14.0",
+        "awesome-typescript-loader": "^3.2.1",
+        "babel-core": "^6.25.0",
+        "babel-loader": "^7.1.1",
+        "babel-polyfill": "^6.22.0",
+        "babel-preset-env": "^1.6.0",
+        "babel-preset-react": "^6.24.1",
+        "browser-sync": "^2.18.12",
+        "css-loader": "^0.28.4",
+        "enzyme": "^2.9.1",
+        "gulp": "gulpjs/gulp#4.0",
+        "gulp-replace": "^0.6.1",
+        "gulp-sort": "^2.0.0",
+        "gulp-sourcemaps": "^2.6.0",
+        "gulp-stylus": "^2.5.0",
+        "gulp-uglify": "^3.0.0",
+        "gulp-wp-pot": "^2.0.6",
+        "jest": "^20.0.4",
+        "merge-stream": "^1.0.1",
+        "mobx-react-devtools": "^4.2.15",
+        "react-addons-test-utils": "^15.6.0",
+        "react-test-renderer": "^15.6.1",
+        "style-loader": "^0.18.2",
+        "stylint": "^1.5.9",
+        "ts-jest": "^20.0.7",
+        "ts-node": "^3.2.0",
+        "tslint": "^5.5.0",
+        "tslint-microsoft-contrib": "^5.0.1",
+        "tslint-react": "^3.0.0",
+        "webpack": "^3.1.0",
+        "webpack-bundle-analyzer": "^2.8.2",
+        "webpack-stream": "^3.2.0"
+    },
+    "dependencies": {
+        "bibtex-parse-js": "^0.0.23",
+        "mobx": "^3.2.0",
+        "mobx-react": "^4.2.2",
+        "react": "^15.6.1",
+        "react-dom": "^15.6.1",
+        "react-motion": "^0.5.0",
+        "react-virtualized-select": "^3.1.0",
+        "styled-jsx": "^1.0.8",
+        "typescript": "^2.4.1",
+        "whatwg-fetch": "^2.0.3"
+    },
+    "jest": {
+        "collectCoverageFrom": [
+            "src/**/*.{js,ts,tsx}",
+            "!**/{vendor,__tests__}/**",
+            "!src/js/Frontend.ts",
+            "!src/**/index.{ts,tsx}",
+            "!src/js/utils/{TinymceFunctions,DevTools}.ts",
+            "!src/js/utils/resolvers/*"
+        ],
+        "coverageDirectory": "lib/tmp/coverage",
+        "globals": {
+            "ts-jest": {
+                "tsConfigFile": "lib/tsconfig-tests.json"
+            }
+        },
+        "moduleDirectories": [
+            "node_modules",
+            "./src/js"
+        ],
+        "moduleFileExtensions": [
+            "ts",
+            "tsx",
+            "js"
+        ],
+        "setupFiles": [
+            "./lib/beforeTest.js"
+        ],
+        "testRegex": "(/__tests__/.*|\\.(test|spec))\\.(ts|tsx|js)$",
+        "transform": {
+            ".(ts|tsx)": "<rootDir>/node_modules/ts-jest/preprocessor.js"
+        },
+        "verbose": true
     }
-  ],
-  "devDependencies": {
-    "@types/enzyme": "^2.8.1",
-    "@types/jest": "^20.0.2",
-    "@types/node": "^8.0.8",
-    "@types/react": "^15.0.35",
-    "@types/react-dom": "^15.5.1",
-    "@types/react-motion": "^0.0.23",
-    "@types/webpack": "^3.0.1",
-    "autoprefixer-stylus": "^0.14.0",
-    "awesome-typescript-loader": "^3.2.1",
-    "babel-core": "^6.25.0",
-    "babel-loader": "^7.1.1",
-    "babel-polyfill": "^6.22.0",
-    "babel-preset-env": "^1.6.0",
-    "babel-preset-react": "^6.24.1",
-    "browser-sync": "^2.18.12",
-    "css-loader": "^0.28.4",
-    "enzyme": "^2.9.1",
-    "gulp": "gulpjs/gulp#4.0",
-    "gulp-replace": "^0.6.1",
-    "gulp-sort": "^2.0.0",
-    "gulp-sourcemaps": "^2.6.0",
-    "gulp-stylus": "^2.5.0",
-    "gulp-uglify": "^3.0.0",
-    "gulp-wp-pot": "^2.0.6",
-    "jest": "^20.0.4",
-    "merge-stream": "^1.0.1",
-    "mobx-react-devtools": "^4.2.15",
-    "react-addons-test-utils": "^15.6.0",
-    "react-test-renderer": "^15.6.1",
-    "style-loader": "^0.18.2",
-    "stylint": "^1.5.9",
-    "ts-jest": "^20.0.7",
-    "ts-node": "^3.2.0",
-    "tslint": "^5.5.0",
-    "tslint-microsoft-contrib": "^5.0.1",
-    "tslint-react": "^3.0.0",
-    "webpack": "^3.1.0",
-    "webpack-bundle-analyzer": "^2.8.2",
-    "webpack-stream": "^3.2.0"
-  },
-  "dependencies": {
-    "bibtex-parse-js": "^0.0.23",
-    "mobx": "^3.2.0",
-    "mobx-react": "^4.2.2",
-    "react": "^15.6.1",
-    "react-dom": "^15.6.1",
-    "react-motion": "^0.5.0",
-    "react-virtualized-select": "^3.1.0",
-    "styled-jsx": "^1.0.8",
-    "typescript": "^2.4.1",
-    "whatwg-fetch": "^2.0.3"
-  },
-  "jest": {
-    "transform": {
-      ".(ts|tsx)": "<rootDir>/node_modules/ts-jest/preprocessor.js"
-    },
-    "testRegex": "(/__tests__/.*|\\.(test|spec))\\.(ts|tsx|js)$",
-    "globals": {
-      "ts-jest": {
-        "tsConfigFile": "scripts/tsconfig-tests.json"
-      }
-    },
-    "moduleFileExtensions": [
-      "ts",
-      "tsx",
-      "js"
-    ],
-    "verbose": true,
-    "collectCoverageFrom": [
-      "src/**/*.{js,ts,tsx}",
-      "!**/{vendor,__tests__}/**",
-      "!src/js/Frontend.ts",
-      "!src/**/index.{ts,tsx}",
-      "!src/js/utils/{TinymceFunctions,DevTools}.ts",
-      "!src/js/utils/resolvers/*"
-    ],
-    "coverageDirectory": "tmp/coverage",
-    "setupFiles": [
-      "./scripts/beforeTest.js"
-    ]
-  }
 }

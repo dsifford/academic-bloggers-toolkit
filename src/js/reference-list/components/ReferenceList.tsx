@@ -1,11 +1,12 @@
 import { action, IObservableArray, observable, reaction } from 'mobx';
 import { observer } from 'mobx-react';
 import * as React from 'react';
-import { Spinner } from '../../components/Spinner';
-import { EVENTS } from '../../utils/Constants';
-import { CSLProcessor } from '../../utils/CSLProcessor';
-import DevTools, { configureDevtool } from '../../utils/DevTools';
-import * as MCE from '../../utils/TinymceFunctions';
+
+import { Spinner } from 'components/Spinner';
+import { EVENTS } from 'utils/Constants';
+import { CSLProcessor } from 'utils/CSLProcessor';
+import DevTools, { configureDevtool } from 'utils/DevTools';
+import * as MCE from 'utils/TinymceFunctions';
 import { getRemoteData, parseManualData } from '../API';
 import { Store } from '../Store';
 import { ItemList } from './ItemList';
@@ -25,8 +26,12 @@ const {
     TOGGLE_PINNED_STATE,
 } = EVENTS;
 
+interface Props {
+    store: Store;
+}
+
 @observer
-export class ReferenceList extends React.Component<{ store: Store }, {}> {
+export class ReferenceList extends React.Component<Props, {}> {
     editor: TinyMCE.Editor;
     processor: CSLProcessor;
     errors = top.ABT_i18n.errors;
@@ -72,7 +77,7 @@ export class ReferenceList extends React.Component<{ store: Store }, {}> {
         maxHeight: '400px',
     };
 
-    constructor(props) {
+    constructor(props: Props) {
         super(props);
         this.processor = new CSLProcessor(this.props.store);
         this.initReactions();
@@ -140,7 +145,7 @@ export class ReferenceList extends React.Component<{ store: Store }, {}> {
     };
 
     initTinyMCE = async () => {
-        this.editor = tinyMCE.editors['content'];
+        this.editor = (tinyMCE.editors as any)['content'];
         await this.initProcessor();
         this.toggleLoading();
     };

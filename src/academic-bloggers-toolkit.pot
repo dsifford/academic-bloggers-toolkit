@@ -11,11 +11,11 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://github.com/dsifford/academic-bloggers-toolkit/issues\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: academic-bloggers-toolkit.php:91
+#: academic-bloggers-toolkit.php:92
 msgid "Plugin Settings"
 msgstr ""
 
-#: academic-bloggers-toolkit.php:108
+#: academic-bloggers-toolkit.php:109
 msgid "Donate"
 msgstr ""
 

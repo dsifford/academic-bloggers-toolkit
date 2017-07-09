@@ -1,6 +1,6 @@
 import { observer } from 'mobx-react';
 import * as React from 'react';
-import { preventScrollPropagation } from '../../../utils/helpers/';
+import { preventScrollPropagation } from 'utils/helpers/';
 
 interface ResultListProps {
     results: PubMed.Response[];
@@ -17,8 +17,8 @@ export class ResultList extends React.PureComponent<ResultListProps, {}> {
         this.element = c;
     };
 
-    handleClick = e => {
-        this.props.select(e.target.getAttribute('data-pmid'));
+    handleClick = (e: React.MouseEvent<HTMLInputElement>) => {
+        this.props.select(e.currentTarget.getAttribute('data-pmid')!);
     };
 
     componentDidUpdate() {

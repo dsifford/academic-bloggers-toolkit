@@ -61,7 +61,7 @@ async function resolvePubmedData(kind: 'PMID' | 'PMCID', idList: string): Promis
     for (const i of Object.keys(res.result)) {
         if (i === 'uids') continue;
         if (res.result[i].error) {
-            res.result.uids = res.result.uids.filter(id => id !== i);
+            res.result.uids = res.result.uids.filter((id: string) => id !== i);
             continue;
         }
         if (res.result[i].title) {

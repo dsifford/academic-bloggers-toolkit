@@ -30,7 +30,7 @@ export class Menu extends React.PureComponent<Props, {}> {
         value: '',
     };
 
-    constructor(props) {
+    constructor(props: Props) {
         super(props);
 
         /**
@@ -80,7 +80,7 @@ export class Menu extends React.PureComponent<Props, {}> {
         scale: spring(0),
     });
 
-    dynamicOptionHeightHandler = ({ option }) => {
+    dynamicOptionHeightHandler = ({ option }: { option: StyleOption }) => {
         switch (true) {
             case option.label.length > 110:
                 return 90;
@@ -119,82 +119,74 @@ export class Menu extends React.PureComponent<Props, {}> {
             >
                 {styles =>
                     styles.length > 0
-                        ? <div
-                              key={styles[0].key}
-                              className="abt-reflist-menu"
-                              style={{
-                                  height: styles[0].style.height,
-                                  maxHeight: styles[0].style.height,
-                                  opacity: styles[0].style.opacity,
-                                  transform: `scaleY(${styles[0].style.scale})`,
-                                  transformOrigin: 'top',
-                              }}
-                          >
-                              <div className="abt-panel abt-panel_subpanel">
-                                  <PanelButton
-                                      id="IMPORT_RIS"
-                                      onClick={this.handleClick}
-                                      data-tooltip={
-                                          this.labels.tooltips.importRIS
-                                      }
-                                  >
-                                      <span className="dashicons dashicons-media-code" />
-                                  </PanelButton>
-                                  <PanelButton
-                                      id="REFRESH_PROCESSOR"
-                                      onClick={this.handleClick}
-                                      data-tooltip={
-                                          this.labels.tooltips.refresh
-                                      }
-                                  >
-                                      <span className="dashicons dashicons-update" />
-                                  </PanelButton>
-                                  <PanelButton
-                                      id="DESTROY_PROCESSOR"
-                                      onClick={this.handleClick}
-                                      data-tooltip={
-                                          this.labels.tooltips.destroy
-                                      }
-                                  >
-                                      <span className="dashicons dashicons-trash" />
-                                  </PanelButton>
-                                  <PanelButton
-                                      id="INSERT_STATIC_BIBLIOGRAPHY"
-                                      disabled={!this.props.itemsSelected}
-                                      onClick={this.handleClick}
-                                      data-tooltip={
-                                          this.labels.tooltips.staticPubList
-                                      }
-                                  >
-                                      <span className="dashicons dashicons-list-view" />
-                                  </PanelButton>
-                                  <PanelButton
-                                      href="https://github.com/dsifford/academic-bloggers-toolkit/wiki"
-                                      target="_blank"
-                                      data-tooltip={this.labels.tooltips.help}
-                                  >
-                                      <span className="dashicons dashicons-editor-help" />
-                                  </PanelButton>
+                        ? (
+                              <div
+                                  key={styles[0].key}
+                                  className="abt-reflist-menu"
+                                  style={{
+                                      height: styles[0].style.height,
+                                      maxHeight: styles[0].style.height,
+                                      opacity: styles[0].style.opacity,
+                                      transform: `scaleY(${styles[0].style.scale})`,
+                                      transformOrigin: 'top',
+                                  }}
+                              >
+                                  <div className="abt-panel abt-panel_subpanel">
+                                      <PanelButton
+                                          id="IMPORT_RIS"
+                                          onClick={this.handleClick}
+                                          data-tooltip={this.labels.tooltips.importRIS}
+                                      >
+                                          <span className="dashicons dashicons-media-code" />
+                                      </PanelButton>
+                                      <PanelButton
+                                          id="REFRESH_PROCESSOR"
+                                          onClick={this.handleClick}
+                                          data-tooltip={this.labels.tooltips.refresh}
+                                      >
+                                          <span className="dashicons dashicons-update" />
+                                      </PanelButton>
+                                      <PanelButton
+                                          id="DESTROY_PROCESSOR"
+                                          onClick={this.handleClick}
+                                          data-tooltip={this.labels.tooltips.destroy}
+                                      >
+                                          <span className="dashicons dashicons-trash" />
+                                      </PanelButton>
+                                      <PanelButton
+                                          id="INSERT_STATIC_BIBLIOGRAPHY"
+                                          disabled={!this.props.itemsSelected}
+                                          onClick={this.handleClick}
+                                          data-tooltip={this.labels.tooltips.staticPubList}
+                                      >
+                                          <span className="dashicons dashicons-list-view" />
+                                      </PanelButton>
+                                      <PanelButton
+                                          href="https://github.com/dsifford/academic-bloggers-toolkit/wiki"
+                                          target="_blank"
+                                          data-tooltip={this.labels.tooltips.help}
+                                      >
+                                          <span className="dashicons dashicons-editor-help" />
+                                      </PanelButton>
+                                  </div>
+                                  <div style={{ padding: '0 5px' }}>
+                                      <VSelect
+                                          id="style-select"
+                                          onChange={this.handleSelect}
+                                          value={this.selected}
+                                          optionRenderer={renderer}
+                                          optionHeight={this.dynamicOptionHeightHandler}
+                                          options={this.styles}
+                                          style={{
+                                              cursor: 'pointer',
+                                              fontWeight: 300,
+                                          }}
+                                          clearable={false}
+                                          backspaceRemoves={false}
+                                      />
+                                  </div>
                               </div>
-                              <div style={{ padding: '0 5px' }}>
-                                  <VSelect
-                                      id="style-select"
-                                      onChange={this.handleSelect}
-                                      value={this.selected}
-                                      optionRenderer={renderer}
-                                      optionHeight={
-                                          this.dynamicOptionHeightHandler
-                                      }
-                                      options={this.styles}
-                                      style={{
-                                          cursor: 'pointer',
-                                          fontWeight: 300,
-                                      }}
-                                      clearable={false}
-                                      backspaceRemoves={false}
-                                  />
-                              </div>
-                          </div> as any
+                          ) as any
                         : null}
             </TransitionMotion>
         );
