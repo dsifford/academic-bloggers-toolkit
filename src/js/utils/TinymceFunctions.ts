@@ -26,27 +26,6 @@ export function referenceWindow(
     });
 }
 
-/**
- * Opens `import-window.tsx` and returns a promise which resolves to
- *   `CSL.Data[]` or `null` on close
- * @param  editor The active TinyMCE instance.
- * @return A Promise which resolves to CSL.Data[]
- */
-export function importWindow(editor: TinyMCE.Editor): Promise<CSL.Data[]> {
-    return new Promise((resolve, reject) => {
-        editor.windowManager.open({
-            height: 10,
-            onclose: e => {
-                if (!e.target.params.data) reject(null);
-                resolve(<CSL.Data[]>e.target.params.data);
-            },
-            title: top.ABT_i18n.tinymce.importWindow.title,
-            url: `${ABT_wp.abt_url}/js/tinymce/views/import-window.html`,
-            width: 600,
-        });
-    });
-}
-
 export function editReferenceWindow(
     editor: TinyMCE.Editor,
     ref: CSL.Data

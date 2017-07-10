@@ -1,4 +1,4 @@
-import { action, IObservableArray, observable, reaction } from 'mobx';
+import { action, IObservableArray, IObservableValue, observable, reaction } from 'mobx';
 import { observer } from 'mobx-react';
 import * as React from 'react';
 
@@ -12,6 +12,8 @@ import { Store } from '../Store';
 import { ItemList } from './ItemList';
 import { Menu } from './Menu';
 import { PanelButton } from './PanelButton';
+
+import Dialog from 'dialogs';
 
 const DevTool = DevTools();
 configureDevtool({ logFilter: change => change.type === 'action' });
@@ -36,6 +38,11 @@ export class ReferenceList extends React.Component<Props, {}> {
     processor: CSLProcessor;
     errors = top.ABT_i18n.errors;
     labels = top.ABT_i18n.referenceList.referenceList;
+
+    /**
+     * The id of the currently opened modal
+     */
+    @observable currentDialog: IObservableValue<string> = observable('foo');
 
     /**
      * Observable array of selected items
@@ -367,24 +374,26 @@ export class ReferenceList extends React.Component<Props, {}> {
         return payload.attachInline ? this.insertInlineCitation(undefined, data) : void 0;
     };
 
-    openImportWindow = async () => {
-        let data: CSL.Data[];
-        try {
-            data = await MCE.importWindow(this.editor);
-        } catch (e) {
-            if (!e) return; // User exited early
-            Rollbar.error('ReferenceList.tsx -> openImportWindow', e);
-            this.editor.windowManager.alert(
-                `${this.errors.unexpected.message}.\n\n` +
-                    `${e.name}: ${e.message}\n\n` +
-                    `${this.errors.unexpected.reportInstructions}`
-            );
-            return;
-        }
-        if (!data) return;
-        this.props.store.citations.addItems(data);
-    };
+    // TODO:
+    // openImportWindow = async () => {
+    //     let data: CSL.Data[];
+    //     try {
+    //         data = await MCE.importWindow(this.editor);
+    //     } catch (e) {
+    //         if (!e) return; // User exited early
+    //         Rollbar.error('ReferenceList.tsx -> openImportWindow', e);
+    //         this.editor.windowManager.alert(
+    //             `${this.errors.unexpected.message}.\n\n` +
+    //                 `${e.name}: ${e.message}\n\n` +
+    //                 `${this.errors.unexpected.reportInstructions}`
+    //         );
+    //         return;
+    //     }
+    //     if (!data) return;
+    //     this.props.store.citations.addItems(data);
+    // };
 
+    @action
     handleMenuSelection = (kind: string, data: string) => {
         this.toggleMenu();
         switch (kind) {
@@ -393,7 +402,8 @@ export class ReferenceList extends React.Component<Props, {}> {
                 this.initProcessor();
                 return;
             case 'IMPORT_RIS':
-                this.openImportWindow();
+                // this.openImportWindow();
+                this.currentDialog.set('IMPORT');
                 return;
             case 'REFRESH_PROCESSOR':
                 const citations = this.editor.dom.doc.querySelectorAll('.abt-citation, .abt_cite');
@@ -549,6 +559,13 @@ export class ReferenceList extends React.Component<Props, {}> {
         this.loading = loadState ? loadState : !this.loading;
     };
 
+    @action
+    handleDialogSubmit = (data: any) => {
+        // tslint:disable-next-line:no-console
+        console.log(data);
+        this.currentDialog.set('');
+    }
+
     render() {
         if (this.loading) {
             return (
@@ -562,6 +579,7 @@ export class ReferenceList extends React.Component<Props, {}> {
         return (
             <div>
                 <DevTool position={{ left: 50, top: 40 }} />
+                <Dialog currentDialog={this.currentDialog} onSubmit={this.handleDialogSubmit} />
                 <StorageField store={this.props.store} />
                 <div className="abt-panel">
                     <PanelButton

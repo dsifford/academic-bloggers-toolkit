@@ -38,7 +38,6 @@ const mocks = {
     getStyle: window['tinyMCE'].editors['content'].dom.getStyle as jest.Mock<
         any
     >,
-    importWindow: MCE.importWindow as jest.Mock<any>,
     insertContent: window['tinyMCE'].editors['content']
         .insertContent as jest.Mock<any>,
     parseInlineCitations: MCE.parseInlineCitations as jest.Mock<any>,
@@ -430,30 +429,6 @@ describe('<ReferenceList />', () => {
         });
     });
 
-    describe('openImportWindow', () => {
-        it('should exit if data is empty', () => {
-            mocks.importWindow.mockImplementation(
-                () => new Promise(res => res())
-            );
-            const { instance } = setup();
-            expect(instance.props.store.citations.CSL.keys().length).toBe(3);
-            instance.openImportWindow();
-            expect(instance.props.store.citations.CSL.keys().length).toBe(3);
-        });
-        it('should import citations', async () => {
-            mocks.importWindow.mockImplementation(
-                () =>
-                    new Promise(res =>
-                        res([{ id: 'zzzzzzzz', title: 'Imported Citation' }])
-                    )
-            );
-            const { instance } = setup();
-            expect(instance.props.store.citations.CSL.keys().length).toBe(3);
-            await instance.openImportWindow();
-            expect(instance.props.store.citations.CSL.keys().length).toBe(4);
-        });
-    });
-
     describe('handleMenuSelection', () => {
         it('should return if "kind" is empty or invalid', () => {
             const { instance } = setup();
@@ -480,18 +455,18 @@ describe('<ReferenceList />', () => {
             expect(instance.reset).not.toHaveBeenCalled();
             expect(instance.insertStaticBibliography).not.toHaveBeenCalled();
         });
-        it('should trigger import window', () => {
-            const { instance } = setup();
-            instance.initProcessor = jest.fn();
-            instance.openImportWindow = jest.fn();
-            instance.reset = jest.fn();
-            instance.insertStaticBibliography = jest.fn();
-            instance.handleMenuSelection('IMPORT_RIS');
-            expect(instance.initProcessor).not.toHaveBeenCalled();
-            expect(instance.openImportWindow).toHaveBeenCalled();
-            expect(instance.reset).not.toHaveBeenCalled();
-            expect(instance.insertStaticBibliography).not.toHaveBeenCalled();
-        });
+        // it('should trigger import window', () => {
+        //     const { instance } = setup();
+        //     instance.initProcessor = jest.fn();
+        //     instance.openImportWindow = jest.fn();
+        //     instance.reset = jest.fn();
+        //     instance.insertStaticBibliography = jest.fn();
+        //     instance.handleMenuSelection('IMPORT_RIS');
+        //     expect(instance.initProcessor).not.toHaveBeenCalled();
+        //     expect(instance.openImportWindow).toHaveBeenCalled();
+        //     expect(instance.reset).not.toHaveBeenCalled();
+        //     expect(instance.insertStaticBibliography).not.toHaveBeenCalled();
+        // });
         it('should trigger refresh', () => {
             const { instance } = setup();
             instance.initProcessor = jest.fn();

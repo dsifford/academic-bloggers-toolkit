@@ -11,13 +11,9 @@ import { localeMapper as locales } from 'utils/Constants';
 
 class CitationStore {
     @observable CSL: ObservableMap<CSL.Data>;
-
     @observable private byIndex: IObservableArray<Citeproc.Citation>;
 
-    constructor(
-        byIndex: Citeproc.CitationByIndex,
-        CSL: { [id: string]: CSL.Data }
-    ) {
+    constructor(byIndex: Citeproc.CitationByIndex, CSL: { [id: string]: CSL.Data }) {
         this.byIndex = observable(byIndex);
         this.CSL = this.cleanCSL(CSL);
         intercept(this.CSL, change => {
@@ -56,8 +52,7 @@ class CitationStore {
         return this.CSL
             .keys()
             .reduce((prev, curr) => {
-                if (this.citedIDs.indexOf(curr) === -1)
-                    prev.push(this.CSL.get(curr)!);
+                if (this.citedIDs.indexOf(curr) === -1) prev.push(this.CSL.get(curr)!);
                 return prev;
             }, <CSL.Data[]>[])
             .slice();
@@ -105,12 +100,8 @@ class CitationStore {
         const byIndex = this.citationByIndex
             .map(i => ({
                 ...i,
-                citationItems: i.citationItems.filter(
-                    j => idList.indexOf(j.id) === -1
-                ),
-                sortedItems: i.sortedItems!.filter(
-                    j => idList.indexOf(j[1].id) === -1
-                ),
+                citationItems: i.citationItems.filter(j => idList.indexOf(j.id) === -1),
+                sortedItems: i.sortedItems!.filter(j => idList.indexOf(j[1].id) === -1),
             }))
             .reduce((prev, curr) => {
                 if (curr.citationItems.length === 0) {
@@ -148,13 +139,8 @@ class CitationStore {
     @action
     pruneOrphanedCitations(citationIds: string[]): void {
         if (this.byIndex.length === citationIds.length) return;
-        const index = this.byIndex.findIndex(
-            a => citationIds.indexOf(a.citationID!) === -1
-        );
-        this.byIndex.replace([
-            ...this.byIndex.slice(0, index),
-            ...this.byIndex.slice(index + 1),
-        ]);
+        const index = this.byIndex.findIndex(a => citationIds.indexOf(a.citationID!) === -1);
+        this.byIndex.replace([...this.byIndex.slice(0, index), ...this.byIndex.slice(index + 1)]);
     }
 
     /**

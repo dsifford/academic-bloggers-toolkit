@@ -52,10 +52,6 @@ const config: webpack.Configuration = {
             'babel-polyfill',
             './src/js/tinymce/components/edit-reference-window/',
         ],
-        'js/tinymce/components/import-window/index': [
-            'babel-polyfill',
-            './src/js/tinymce/components/import-window/',
-        ],
         vendor: ['react', 'react-dom', 'mobx', 'mobx-react'],
     },
     output: {
