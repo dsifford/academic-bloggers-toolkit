@@ -4,11 +4,11 @@
     "description": "A plugin extending the functionality of WordPress for Academic Blogging",
     "license": "GPL-3.0",
     "scripts": {
-        "test": "NODE_ENV=production jest --coverage && yarn lint",
+        "test": "NODE_ENV=production jest --coverage && npm run lint",
         "lint": "tslint -p . -t codeFrame && tslint types/* -t codeFrame && stylint ./src/",
         "start": "node --max_old_space_size=8192 ./node_modules/.bin/gulp",
-        "build": "NODE_ENV=production ./node_modules/.bin/gulp _build && yarn update-translations",
-        "deploy": "yarn build && torus run ./lib/deploy $npm_package_version",
+        "build": "NODE_ENV=production ./node_modules/.bin/gulp _build && npm run update-translations",
+        "deploy": "npm run build && torus run ./lib/deploy $npm_package_version",
         "update-translations": "torus run ./lib/update-translations",
         "update-styles": "node ./lib/updateStyles.js",
         "update-vendors": "curl -o 'src/vendor/citeproc.js' https://raw.githubusercontent.com/Juris-M/citeproc-js/master/citeproc.js"
