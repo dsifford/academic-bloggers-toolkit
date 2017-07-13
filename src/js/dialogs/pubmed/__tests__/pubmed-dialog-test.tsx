@@ -2,7 +2,7 @@ jest.mock('../result-list');
 jest.mock('../paginate');
 jest.mock('../../../utils/resolvers/');
 
-import { shallow as mount } from 'enzyme';
+import { shallow } from 'enzyme';
 import * as React from 'react';
 import PubmedDialog from '../';
 import { pubmedQuery } from '../../../utils/resolvers/';
@@ -13,7 +13,7 @@ const mocks = {
 
 const setup = () => {
     const spy = jest.fn();
-    const component = mount(<PubmedDialog onSubmit={spy} />);
+    const component = shallow(<PubmedDialog onSubmit={spy} />);
     const instance = component.instance() as any;
     return {
         component,
