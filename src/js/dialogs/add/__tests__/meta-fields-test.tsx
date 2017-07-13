@@ -1,15 +1,15 @@
 import { mount } from 'enzyme';
 import { observable } from 'mobx';
 import * as React from 'react';
-import { MetaFields } from '../MetaFields';
+import { MetaFields } from '../meta-fields';
 
 const setup = (title = 'article-journal') => {
     const meta = observable.map<string>([['type', title]]);
     const component = mount(<MetaFields meta={meta} />);
     return {
         component,
-        field: component.find(`#title`),
-        title: component.find(`#meta-${title}`).text(),
+        field: component.find(`input`).first(),
+        title: component.find(`h2`).text(),
     };
 };
 

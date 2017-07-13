@@ -2,12 +2,11 @@ import 'bibtex-parse-js';
 import 'react';
 
 declare module 'react' {
-    interface HTMLProps<T> {
-        jsx?: any;
-        global?: any;
+    interface StyleHTMLAttributes<T> extends HTMLAttributes<T> {
+        jsx?: boolean;
+        global?: boolean;
     }
 }
-
 declare module 'bibtex-parse-js' {
     interface BibJSON {
         citationKey: string;

@@ -1,12 +1,12 @@
 import { mount } from 'enzyme';
+import { observable } from 'mobx';
 import * as React from 'react';
-import { IdentifierInput } from '../IdentifierInput';
+import { IdentifierInput } from '../identifier-input';
 
 const setup = () => {
     const spy = jest.fn();
-    const component = mount(
-        <IdentifierInput identifierList="testing" change={spy} />
-    );
+    const identifiers = observable('testing');
+    const component = mount(<IdentifierInput identifierList={identifiers} onChange={spy} />);
     return {
         component,
         spy,

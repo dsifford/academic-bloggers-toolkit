@@ -6,10 +6,6 @@ import * as webpack from 'webpack';
 const isProduction = process.env.NODE_ENV === 'production';
 
 const sharedPlugins: webpack.Plugin[] = [
-    new webpack.LoaderOptionsPlugin({
-        minimize: true,
-        debug: false,
-    }),
     new webpack.NoEmitOnErrorsPlugin(),
     // new webpack.optimize.CommonsChunkPlugin({
     //     name: 'vendor',
@@ -31,30 +27,47 @@ const devPlugins: webpack.Plugin[] = [
     // }),
 ];
 
-const productionPlugins = [...sharedPlugins, new webpack.optimize.UglifyJsPlugin()];
+const productionPlugins = [
+    ...sharedPlugins,
+    new webpack.optimize.UglifyJsPlugin({
+        beautify: false,
+        mangle: {
+            screw_ie8: true,
+            keep_fnames: true,
+        },
+        compress: {
+            screw_ie8: true,
+        },
+        comments: false,
+    }),
+    new webpack.LoaderOptionsPlugin({
+        minimize: true,
+        debug: false,
+    }),
+];
 
 const config: webpack.Configuration = {
-    devtool: isProduction ? undefined : 'source-map',
-    cache: true,
+    watch: !isProduction,
+    watchOptions: {
+        ignored: /(node_modules|gulpfile|dist|lib|webpack.config)/,
+    },
+    devtool: isProduction ? 'cheap-module-source-map' : 'source-map',
     entry: {
         'js/Frontend': ['babel-polyfill', './src/js/Frontend'],
         'js/reference-list/index': ['babel-polyfill', 'whatwg-fetch', './src/js/reference-list/'],
         'js/tinymce/index': ['./src/js/tinymce/'],
-        'js/tinymce/components/reference-window/index': [
-            'babel-polyfill',
-            './src/js/tinymce/components/reference-window/',
-        ],
         'js/tinymce/components/pubmed-window/index': [
             'babel-polyfill',
             './src/js/tinymce/components/pubmed-window/',
         ],
-        'js/tinymce/components/edit-reference-window/index': [
-            'babel-polyfill',
-            './src/js/tinymce/components/edit-reference-window/',
-        ],
-        vendor: ['react', 'react-dom', 'mobx', 'mobx-react'],
+        // 'js/tinymce/components/edit-reference-window/index': [
+        //     'babel-polyfill',
+        //     './src/js/tinymce/components/edit-reference-window/',
+        // ],
+        // vendor: ['react', 'react-dom', 'mobx', 'mobx-react'],
     },
     output: {
+        path: resolve(__dirname, 'dist'),
         filename: '[name].js',
     },
     resolve: {

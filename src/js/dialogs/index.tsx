@@ -3,6 +3,8 @@ import { observer } from 'mobx-react';
 import * as React from 'react';
 
 import Container from './container';
+
+import AddDialog from './add/';
 import ImportDialog from './import/';
 
 interface Props {
@@ -11,14 +13,14 @@ interface Props {
 }
 
 @observer
-export default class extends React.PureComponent<Props, {}> {
+export default class DialogRouter extends React.PureComponent<Props, {}> {
     render() {
         const { currentDialog, onSubmit } = this.props;
         switch (currentDialog.get()) {
-            case 'foo':
+            case 'ADD':
                 return (
-                    <Container currentDialog={currentDialog} title="Foo Modal">
-                        <div>FOO</div>
+                    <Container currentDialog={currentDialog} title="Add References">
+                        <AddDialog onSubmit={onSubmit} />
                     </Container>
                 );
             case 'IMPORT':

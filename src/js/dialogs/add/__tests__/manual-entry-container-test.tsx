@@ -1,12 +1,9 @@
 import { mount } from 'enzyme';
 import { observable } from 'mobx';
 import * as React from 'react';
-import { AutoCite, ManualEntryContainer } from '../ManualEntryContainer';
+import { AutoCite, ManualEntryContainer } from '../manual-entry-container';
 
-const setup = (
-    citationType: CSL.CitationType = 'article-journal',
-    isLoading: boolean = false
-) => {
+const setup = (citationType = 'article-journal', isLoading: boolean = false) => {
     const spy = jest.fn();
     const component = mount(
         <ManualEntryContainer
@@ -32,12 +29,7 @@ const setupAutocite = (
 ) => {
     const spy = jest.fn();
     const component = mount(
-        <AutoCite
-            getter={spy}
-            kind={kind}
-            placeholder="Testing"
-            inputType={inputType}
-        />
+        <AutoCite getter={spy} kind={kind} placeholder="Testing" inputType={inputType} />
     );
     return {
         component,
@@ -66,7 +58,7 @@ describe('<ManualEntryContainer />', () => {
     });
     it('should handle mouse wheel', () => {
         const { component } = setup();
-        const scrolldiv = component.find('.abt-scroll-y');
+        const scrolldiv = component.find('.bounded-rect');
         scrolldiv.simulate('wheel');
     });
     describe('<Autocite />', () => {

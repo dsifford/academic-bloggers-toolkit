@@ -1,42 +1,30 @@
-jest.mock('../../../../../utils/Modal');
-jest.mock('../../../../../utils/resolvers/');
+jest.mock('../../../utils/resolvers/');
 
 import { mount } from 'enzyme';
 import * as React from 'react';
-import { getFromISBN, getFromURL } from '../../../../../utils/resolvers/';
-import { ReferenceWindow } from '../ReferenceWindow';
+import ReferenceWindow from '../';
+import { getFromISBN, getFromURL } from '../../../utils/resolvers/';
 
 const setup = () => {
-    const component = mount(<ReferenceWindow />);
+    const spy = jest.fn();
+    const component = mount(<ReferenceWindow onSubmit={spy} />);
     const instance = component.instance() as any;
     return {
         component,
         instance,
+        spy,
     };
 };
 
-window['tinyMCE'] = {
-    activeEditor: {
-        windowManager: {
-            alert: jest.fn(),
-            close: jest.fn(),
-            setParams: jest.fn(),
-        },
-    },
-} as any;
-
 const mocks = {
-    alert: window['tinyMCE'].activeEditor.windowManager.alert,
-    close: window['tinyMCE'].activeEditor.windowManager.close,
     getFromISBN: getFromISBN as jest.Mock<any>,
     getFromURL: getFromURL as jest.Mock<any>,
-    setParams: window['tinyMCE'].activeEditor.windowManager.setParams,
 };
 
 describe('<ReferenceWindow />', () => {
     it('should render with manual reference input hidden', () => {
         const { component, instance } = setup();
-        expect(instance.addManually).toBe(false);
+        expect(instance.addManually.get()).toBe(false);
         expect(component.find('ManualEntryContainer').length).toBe(0);
     });
     it('should toggle manual reference input when "addManually" is true', () => {
@@ -44,55 +32,44 @@ describe('<ReferenceWindow />', () => {
         expect(component.find('ManualEntryContainer').length).toBe(0);
         instance.toggleAddManual();
 
-        expect(instance.addManually).toBe(true);
+        expect(instance.addManually.get()).toBe(true);
         expect(instance.manualData.get('type')).toBe('webpage');
         expect(component.find('ManualEntryContainer').length).toBe(1);
     });
     it('should handle text field change', () => {
         const { instance } = setup();
-        expect(instance.identifierList).toBe('');
-        instance.changeIdentifiers('12345');
-        expect(instance.identifierList).toBe('12345');
+        expect(instance.identifierList.get()).toBe('');
+        instance.changeIdentifiers({ currentTarget: { value: '12345' } });
+        expect(instance.identifierList.get()).toBe('12345');
     });
     it('should toggle attachInline', () => {
         const { instance } = setup();
-        expect(instance.attachInline).toBe(true);
+        expect(instance.attachInline.get()).toBe(true);
         instance.toggleAttachInline();
-        expect(instance.attachInline).toBe(false);
+        expect(instance.attachInline.get()).toBe(false);
     });
     it('appendPMID()', () => {
         const { instance } = setup();
-        expect(instance.identifierList).toBe('');
+        expect(instance.identifierList.get()).toBe('');
         instance.appendPMID('12345');
-        expect(instance.identifierList).toBe('12345');
+        expect(instance.identifierList.get()).toBe('12345');
     });
     it('should toggle loading state', () => {
         const { instance } = setup();
-        expect(instance.isLoading).toBe(false);
+        expect(instance.isLoading.get()).toBe(false);
         instance.toggleLoadingState();
-        expect(instance.isLoading).toBe(true);
+        expect(instance.isLoading.get()).toBe(true);
         instance.toggleLoadingState(true);
-        expect(instance.isLoading).toBe(true);
+        expect(instance.isLoading.get()).toBe(true);
         instance.toggleLoadingState(false);
-        expect(instance.isLoading).toBe(false);
-    });
-    it('should handle scroll events', () => {
-        const { component } = setup();
-        const stopPropagation = jest.fn();
-        const preventDefault = jest.fn();
-        component
-            .first()
-            .simulate('wheel', { stopPropagation, preventDefault });
-        expect(stopPropagation).toHaveBeenCalled();
-        expect(preventDefault).toHaveBeenCalled();
+        expect(instance.isLoading.get()).toBe(false);
     });
     it('should handle submit', () => {
-        const { instance } = setup();
+        const { instance, spy } = setup();
         const preventDefault = jest.fn();
         instance.handleSubmit({ preventDefault });
-        expect(preventDefault).toHaveBeenCalled();
-        expect(mocks.setParams).toHaveBeenCalled();
-        expect(mocks.close).toHaveBeenCalled();
+        expect(preventDefault).toHaveBeenCalledTimes(1);
+        expect(spy).toHaveBeenCalledTimes(1);
     });
     describe('handleAutocite()', () => {
         it('should handle a webpage with one author', async () => {
@@ -142,9 +119,7 @@ describe('<ReferenceWindow />', () => {
             expect(instance.people[0].family).toBe('');
         });
         it('should handle webpage type errors', async () => {
-            mocks.getFromURL.mockImplementation(
-                () => new Promise((_, rej) => rej())
-            );
+            mocks.getFromURL.mockImplementation(() => new Promise((_, rej) => rej()));
             const { instance } = setup();
             instance.handleAutocite('webpage', 'testing');
         });
@@ -182,14 +157,10 @@ describe('<ReferenceWindow />', () => {
             const { instance } = setup();
             expect(instance.manualData.get('title')).toBeUndefined();
             await instance.handleAutocite('chapter', 'testing');
-            expect(instance.manualData.get('container-title')).toBe(
-                'Test Book Section'
-            );
+            expect(instance.manualData.get('container-title')).toBe('Test Book Section');
         });
         it('should handle book-type errors', () => {
-            mocks.getFromISBN.mockImplementation(
-                () => new Promise((_, rej) => rej())
-            );
+            mocks.getFromISBN.mockImplementation(() => new Promise((_, rej) => rej()));
             const { instance } = setup();
             instance.handleAutocite('chapter', 'testing');
         });

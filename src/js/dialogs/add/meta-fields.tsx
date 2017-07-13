@@ -21,15 +21,9 @@ export class MetaFields extends React.Component<MetaFieldProps, {}> {
         const fields = this.fieldmaps[citationType].fields;
         return (
             <div>
-                <div className="row" style={{ paddingBottom: 0 }}>
-                    <div>
-                        <span
-                            id={`meta-${citationType}`}
-                            style={{ fontWeight: 400 }}
-                            children={title}
-                        />
-                    </div>
-                </div>
+                <h2>
+                    {title}
+                </h2>
                 <div className="table">
                     {fields.map((field: ABT.Field, i: number) =>
                         <Field
@@ -40,6 +34,16 @@ export class MetaFields extends React.Component<MetaFieldProps, {}> {
                         />
                     )}
                 </div>
+                <style jsx>{`
+                    .table {
+                        display: table;
+                        padding: 10px;
+                        width: 100%;
+                    }
+                    h2 {
+                        font-size: 16px !important;
+                    }
+                `}</style>
             </div>
         );
     }
@@ -57,25 +61,32 @@ class Field extends React.PureComponent<FieldProps, {}> {
         const { change, field, meta } = this.props;
         return (
             <div className="table__row">
-                <div className="table__cell" style={{ paddingRight: 10 }}>
-                    <label
-                        className="sublabel"
-                        htmlFor={field.value}
-                        children={field.label}
-                    />
-                </div>
-                <div className="table__cell" style={{ width: '100%' }}>
-                    <input
-                        type="text"
-                        onChange={change}
-                        style={{ margin: '1px 0' }}
-                        id={field.value}
-                        value={meta.get(field.value) || ''}
-                        required={field.required}
-                        placeholder={field.placeholder}
-                        pattern={field.pattern}
-                    />
-                </div>
+                <label htmlFor={field.value} children={field.label} />
+                <input
+                    type="text"
+                    onChange={change}
+                    id={field.value}
+                    value={meta.get(field.value) || ''}
+                    required={field.required}
+                    placeholder={field.placeholder}
+                    pattern={field.pattern}
+                />
+                <style jsx>{`
+                    div {
+                        display: table-row;
+                        width: 100%;
+                    }
+                    label {
+                        display: table-cell;
+                        width: auto;
+                    }
+                    input {
+                        width: 95%;
+                        height: 28px;
+                        line-height: 28px;
+                        font-size: 14px;
+                    }
+                `}</style>
             </div>
         );
     }

@@ -4,16 +4,16 @@ import * as React from 'react';
 
 import { generateID } from 'utils/helpers/';
 import { RISParser, TeXParser } from 'utils/parsers/';
-import { colors } from 'utils/Styles';
+import { colors } from 'utils/styles';
 
 interface Props {
     onSubmit(data: any): void;
 }
 
 @observer
-export default class extends React.Component<Props, {}> {
-    labels = top.ABT_i18n.tinymce.importWindow;
-    errors = top.ABT_i18n.errors;
+export default class ImportDialog extends React.Component<Props, {}> {
+    static readonly labels = top.ABT_i18n.tinymce.importWindow;
+    static readonly errors = top.ABT_i18n.errors;
 
     @observable filename = '';
 
@@ -103,7 +103,7 @@ export default class extends React.Component<Props, {}> {
                     />
                     <span
                         className="abt-btn abt-btn_flat upload-btn"
-                        children={this.labels.upload}
+                        children={ImportDialog.labels.upload}
                     />
                 </label>
                 <div className="well" children={this.filename} />
@@ -114,7 +114,7 @@ export default class extends React.Component<Props, {}> {
                             ? 'abt-btn abt-btn_submit abt-btn_disabled'
                             : 'abt-btn abt-btn_submit'
                     }
-                    value={this.labels.importBtn}
+                    value={ImportDialog.labels.importBtn}
                     onClick={this.handleSubmit}
                 />
                 <style jsx>{`

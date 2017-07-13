@@ -123,7 +123,7 @@ function abt_frontend_scripts() {
 
     if (is_singular()) {
         // wp_enqueue_script('abt-bundle', __DIR__ . '/vendor/vendor.bundle.js', [], ABT_VERSION, true);
-        wp_enqueue_script('abt_frontend_js', ABT_ROOT_URI . '/js/Frontend.js', [/*'abt-bundle'*/], ABT_VERSION, true);
+        wp_enqueue_script('abt_frontend_js', ABT_ROOT_URI . '/js/frontend.js', [/*'abt-bundle'*/], ABT_VERSION, true);
     }
 }
 add_action('wp_enqueue_scripts', 'abt_frontend_scripts');

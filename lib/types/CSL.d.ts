@@ -38,6 +38,24 @@ declare namespace CSL {
         | 'treaty'
         | 'webpage';
 
+    /**
+     * Skipped Person Types:
+     *   - collection-editor
+     *   - editorial-director
+     *   - original-author
+     *   - reviewed-author
+     */
+    type PersonType =
+        | 'author'
+        | 'container-author'
+        | 'editor'
+        | 'director'
+        | 'interviewer'
+        | 'illustrator'
+        | 'composer'
+        | 'translator'
+        | 'recipient';
+
     interface Citation {
         schema: 'https://github.com/citation-style-language/schema/raw/master/csl-citation.json';
         citationID: string | number;
@@ -170,24 +188,8 @@ declare namespace CSL {
         'parse-names'?: string | number | boolean;
     }
 
-    /**
-     * Skipped Person Types:
-     *   - collection-editor
-     *   - editorial-director
-     *   - original-author
-     *   - reviewed-author
-     */
     interface TypedPerson extends Person {
-        type:
-            | 'author' // tslint:disable-line
-            | 'container-author'
-            | 'editor'
-            | 'director'
-            | 'interviewer'
-            | 'illustrator'
-            | 'composer'
-            | 'translator'
-            | 'recipient';
+        type: PersonType;
     }
 
     interface Date {

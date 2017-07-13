@@ -1,4 +1,4 @@
-import { frontendJS } from '../Frontend';
+import { frontendJS } from '../frontend';
 const before = beforeAll;
 document.body.innerHTML =
 `

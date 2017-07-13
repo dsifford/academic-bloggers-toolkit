@@ -1,31 +1,31 @@
+// tslint:disable:no-console
 import * as autoprefixer from 'autoprefixer-stylus';
-import { exec as cp_exec } from 'child_process';
+import { exec as cp_exec, spawn } from 'child_process';
 import * as gulp from 'gulp';
 import * as replace from 'gulp-replace';
 import * as sort from 'gulp-sort';
 import * as sourcemaps from 'gulp-sourcemaps';
 import * as stylus from 'gulp-stylus';
-import * as uglify from 'gulp-uglify';
+import * as composer from 'gulp-uglify/composer';
 import * as wpPot from 'gulp-wp-pot';
 import * as merge from 'merge-stream';
+import * as uglifyEs from 'uglify-es';
 import { promisify } from 'util';
-import * as webpack from 'webpack';
-import * as webpackStream from 'webpack-stream';
-
-import webpackConfig from './webpack.config';
-const VERSION = require('./package.json').version;
 
 const browserSync = require('browser-sync').create();
+const uglify = composer(uglifyEs, console);
 const exec = promisify(cp_exec);
 
+const VERSION = require('./package.json').version;
 const IS_PRODUCTION = process.env.NODE_ENV === 'production';
 
-// ==================================================
-//                 Utility Tasks
-// ==================================================
+process.env.FORCE_COLOR = '1';
+
+type Replacer = (match: string, ...submatches: string[]) => string;
+type Callback = () => void;
 
 // prettier-ignore
-const reload = (cb: () => void) => { browserSync.reload(); cb(); }
+const reload = (cb: Callback) => { browserSync.reload(); cb(); }
 const clean = () => exec(`rm -rf ${__dirname}/dist/*`);
 export { clean, reload };
 
@@ -89,9 +89,7 @@ export function pot() {
 //              PHP/Static Asset Tasks
 // ==================================================
 
-type Replacer = (match: string, ...submatches: string[]) => string;
-
-export function php() {
+export function php(): NodeJS.ReadWriteStream {
     const re1 = new RegExp(/(\s=\s|\sreturn\s)((?:\(object\))|)(\[)([\W\w\s]*?)(])(;\s?)/, 'gm');
     const re2 = new RegExp(/$(\s+)(.+?)(\s=>\s)((?:\(object\))?)(\[)/, 'gm');
     const re3 = new RegExp(/$(\s+)(],|\[)$/, 'gm');
@@ -124,7 +122,8 @@ export function staticFiles() {
         })
         .pipe(gulp.dest('dist'));
     const license = gulp.src(['LICENSE']).pipe(gulp.dest('dist'));
-    return merge(misc, license);
+    const PHP = php();
+    return merge(misc, license, PHP);
 }
 
 // ==================================================
@@ -162,15 +161,34 @@ export function styles() {
 //                 Javascript Tasks
 // ==================================================
 
-export function bundle() {
-    let stream = gulp
-        .src('src/js/Frontend.ts')
-        .pipe(webpackStream({ ...webpackConfig, watch: !IS_PRODUCTION }, webpack))
-        .pipe(gulp.dest('dist/'));
-    if (!IS_PRODUCTION) {
-        stream = stream.pipe(browserSync.stream());
-    }
-    return stream;
+export function bundle(cb: Callback) {
+    const child = spawn(`${__dirname}/node_modules/.bin/webpack`, undefined, {
+        env: process.env,
+    });
+    child.on('error', err => {
+        console.error(err);
+        process.exit(1);
+    });
+    child.on('exit', (code, signal) => {
+        if (code !== 0) {
+            console.error(`Exited with non-zero exit code (${code}): ${signal}`);
+            process.exit(1);
+        }
+        cb();
+    });
+    child.on('disconnect', () => child.kill());
+    child.stdout.on('data', data => {
+        const msg = data.toString();
+        console.log(msg.trim());
+        if (msg.indexOf('[at-loader] Ok') > -1) {
+            browserSync.reload();
+        }
+    });
+    child.stderr.on('data', data => {
+        const msg = data.toString();
+        console.error(msg.trim());
+    });
+    if (!IS_PRODUCTION) return cb();
 }
 
 export function js() {
@@ -184,34 +202,24 @@ export function js() {
 
 const main = gulp.series(
     clean,
-    gulp.parallel(styles, staticFiles, js, php, pot),
+    gulp.parallel(styles, staticFiles, js, pot),
     bundle,
-    (cb: () => void) => {
+    (cb: Callback) => {
         if (IS_PRODUCTION) return cb();
-
-        // tslint:disable-next-line:no-console
-        console.log('FOOOO');
 
         gulp.watch('src/**/*.styl', gulp.series(styles));
 
         gulp.watch(
             ['src/**/*', '!src/**/*.{ts,tsx,styl}', '!src/**/__tests__/', '!src/**/__tests__/*'],
-            gulp.series(php, staticFiles, reload)
+            gulp.series(staticFiles, reload)
         );
 
-        // gulp.watch(
-        //     [
-        //         'src/lib/**/*.{ts,tsx}',
-        //         '!src/lib/**/__tests__/',
-        //         '!src/lib/**/__tests__/*',
-        //     ],
-        //     gulp.series(bundle)
-        // );
-
-        // browserSync.init({
-        //     proxy: 'localhost:8080',
-        //     open: false,
-        // });
+        browserSync.init({
+            proxy: 'localhost:8080',
+            open: false,
+            reloadDebounce: 2000,
+            port: 3005,
+        });
     }
 );
 

@@ -2,14 +2,23 @@ import { action, IObservableValue } from 'mobx';
 import { observer } from 'mobx-react';
 import * as React from 'react';
 
+import { shadows } from 'utils/styles';
+
 interface Props {
     title: string;
     children: React.ReactElement<any>;
     currentDialog: IObservableValue<string>;
+    overlayOpacity?: number;
 }
 
 @observer
-export default class extends React.Component<Props, {}> {
+export default class Container extends React.Component<Props> {
+    static defaultProps: Partial<Props> = {
+        overlayOpacity: 0.7,
+    };
+
+    element: HTMLDivElement;
+
     @action
     close = () => {
         this.props.currentDialog.set('');
@@ -19,20 +28,33 @@ export default class extends React.Component<Props, {}> {
     handleKeyEvent = (e: KeyboardEvent) => {
         switch (e.key) {
             case 'Escape':
+                e.stopPropagation();
+                this.element.removeEventListener('keydown', this.handleKeyEvent);
                 return this.close();
             default:
                 return;
         }
+    };
+
+    bindRefs = (el: HTMLDivElement) => this.element = el;
+
+    preventScrollPropagation = (e: React.WheelEvent<HTMLDivElement>) => {
+        if (e.cancelable) {
+            e.preventDefault();
+        }
     }
 
     componentDidMount() {
-        addEventListener('keydown', this.handleKeyEvent);
+        this.element.addEventListener('keydown', this.handleKeyEvent);
     }
 
     render() {
+        const overlayStyle = {
+            background: `rgba(0, 0, 0, ${this.props.overlayOpacity})`,
+        };
         return (
-            <div className="dialog" role="dialog" aria-labelledby="dialog-label">
-                <div role="document" className="dialog__main">
+            <div ref={this.bindRefs} className="dialog" style={overlayStyle} onWheel={this.preventScrollPropagation}>
+                <div role="dialog" aria-labelledby="dialog-label" className="dialog__main">
                     <header className="dialog__header">
                         <span id="dialog-label">
                             {this.props.title}
@@ -73,14 +95,14 @@ export default class extends React.Component<Props, {}> {
                         flex-direction: column;
                         justify-content: center;
                         align-items: center;
-                        background: rgba(0, 0, 0, .7);
                     }
                     .dialog__main {
                         width: 600px;
                         height: auto;
-                        min-height: 100px;
+                        margin-bottom: -32px;
                         border-radius: 4px;
                         background: white;
+                        box-shadow: ${ shadows.depth_3 };
                     }
                     .dialog__header {
                         height: 40px;

@@ -10,7 +10,7 @@ export const colors = {
     tooltip_gray: `rgba(66, 66, 66, .9)`,
 }
 
-export const shadow = {
+export const shadows = {
     depth_1: `0 1px 3px rgba(0, 0, 0, .12), 0 1px 2px rgba(0, 0, 0, .24)`,
     depth_2: `0 3px 6px rgba(0, 0, 0, .16), 0 3px 6px rgba(0, 0, 0, .23)`,
     depth_3: `0 10px 20px rgba(0, 0, 0, .19), 0 6px 6px rgba(0, 0, 0, .23)`,
@@ -18,4 +18,5 @@ export const shadow = {
     depth_5: `0 19px 38px rgba(0, 0, 0, .30), 0 15px 12px rgba(0, 0, 0, .22)`,
     citation_tooltip: `0 0 20px rgba(0, 0, 0, .19), 0 6px 6px rgba(0, 0, 0, .23)`,
     transition: `all .3s cubic-bezier(.25, .8, .25, 1)`,
+    top_border: `0 -1px 0 rgba(16, 22, 26, .15)`,
 };

@@ -1,16 +1,13 @@
 import { mount } from 'enzyme';
+import { observable } from 'mobx';
 import * as React from 'react';
-import { Paginate } from '../Paginate';
+import { Paginate } from '../paginate';
 
 const setup = (page: number, resultLength: number) => {
     const component = mount(
         <Paginate
-            page={page}
-            resultLength={resultLength}
-            paginate={num => {
-                // tslint:disable-line
-                component.setProps({ ...component.props, page: num });
-            }}
+            page={observable(page)}
+            totalPages={Math.ceil(resultLength / 5)}
         />
     );
     return {
@@ -40,25 +37,22 @@ describe('<Paginate />', () => {
     it('should paginate to the next page when "next" is clicked', () => {
         const { component, next } = setup(1, 25);
         next.simulate('click');
-        expect(component.props().page).toBe(2);
+        expect(component.props().page.get()).toBe(2);
     });
     it('should paginate to the previous page when "prev" is clicked', () => {
         const { component, prev } = setup(2, 25);
         expect(prev.props().className).toBe('abt-btn abt-btn_flat');
-        expect(component.props().page).toBe(2);
+        expect(component.props().page.get()).toBe(2);
         prev.simulate('click');
-        expect(component.props().page).toBe(1);
+        expect(component.props().page.get()).toBe(1);
     });
     it('should only be able to paginate to 4 pages', () => {
         const { component, next } = setup(1, 50);
-        expect(component.props().page).toBe(1);
+        expect(component.props().page.get()).toBe(1);
         expect(next.props().className).toBe('abt-btn abt-btn_flat');
         next.simulate('click');
         next.simulate('click');
         next.simulate('click');
-        expect(next.props().className).toBe(
-            'abt-btn abt-btn_flat abt-btn_disabled'
-        );
-        expect(component.props().page).toBe(4);
+        expect(component.props().page.get()).toBe(4);
     });
 });

@@ -42,7 +42,7 @@ export class ReferenceList extends React.Component<Props, {}> {
     /**
      * The id of the currently opened modal
      */
-    @observable currentDialog: IObservableValue<string> = observable('foo');
+    @observable currentDialog: IObservableValue<string> = observable('');
 
     /**
      * Observable array of selected items
@@ -97,7 +97,7 @@ export class ReferenceList extends React.Component<Props, {}> {
         addEventListener(TINYMCE_VISIBLE, this.toggleLoading.bind(this, false));
         addEventListener(TOGGLE_PINNED_STATE, this.togglePinned);
         addEventListener(REFERENCE_EDITED, this.initProcessor);
-        addEventListener('scroll', this.handleScroll);
+        document.addEventListener('scroll', this.handleScroll);
     }
 
     initReactions = () => {
@@ -560,6 +560,12 @@ export class ReferenceList extends React.Component<Props, {}> {
     };
 
     @action
+    openDialog = (e: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>) => {
+        const dialog = e.currentTarget.dataset.dialog || '';
+        this.currentDialog.set(dialog);
+    }
+
+    @action
     handleDialogSubmit = (data: any) => {
         // tslint:disable-next-line:no-console
         console.log(data);
@@ -591,7 +597,8 @@ export class ReferenceList extends React.Component<Props, {}> {
                     </PanelButton>
                     <PanelButton
                         disabled={this.selected.length !== 0}
-                        onClick={this.openReferenceWindow}
+                        onClick={this.openDialog}
+                        data-dialog="ADD"
                         data-tooltip={this.labels.tooltips.add}
                     >
                         <span className="dashicons dashicons-plus add-reference" />

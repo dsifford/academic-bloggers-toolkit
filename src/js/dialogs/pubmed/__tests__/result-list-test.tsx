@@ -1,8 +1,8 @@
 import { mount } from 'enzyme';
 import * as React from 'react';
-import { ResultList } from '../ResultList';
+import { ResultList } from '../result-list';
 
-const testData: PubMed.DataPMID[] = [
+const testData = [
     {
         authors: [
             { authtype: 'Author', name: 'Author 1' },
@@ -31,7 +31,7 @@ const testData: PubMed.DataPMID[] = [
 
 const setup = () => {
     const spy = jest.fn();
-    const component = mount(<ResultList results={testData} select={spy} />);
+    const component = mount(<ResultList results={testData} onSelect={spy} />);
     return {
         spy,
         component,
@@ -64,7 +64,6 @@ describe('<ResultList />', () => {
     });
     it('should handle scroll', () => {
         const { component } = setup();
-        const div = component.find('.abt-scroll-y');
-        div.simulate('wheel');
+        component.simulate('wheel');
     });
 });

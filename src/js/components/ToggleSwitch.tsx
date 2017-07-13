@@ -1,12 +1,15 @@
+import { IObservableValue } from 'mobx';
+import { observer } from 'mobx-react';
 import * as React from 'react';
 import { createTooltip, destroyTooltip } from 'utils/Tooltips';
 
 interface Props {
-    checked: boolean;
+    checked: IObservableValue<boolean>;
     label: string;
     onChange(e: React.FormEvent<HTMLInputElement>): void;
 }
 
+@observer
 export class ToggleSwitch extends React.PureComponent<Props, {}> {
     handleMouseOver = (e: React.MouseEvent<HTMLLabelElement>) => {
         createTooltip(e.currentTarget, e.currentTarget.getAttribute('data-tooltip')!, 'left');
@@ -20,8 +23,8 @@ export class ToggleSwitch extends React.PureComponent<Props, {}> {
                     type="checkbox"
                     id="inline-toggle"
                     style={{ display: 'none' }}
-                    checked={checked}
-                    aria-checked={checked}
+                    checked={checked.get()}
+                    aria-checked={checked.get()}
                     onChange={onChange}
                 />
                 <label

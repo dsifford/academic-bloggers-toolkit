@@ -171,14 +171,10 @@ declare namespace BackendGlobals {
 }
 
 declare module 'autoprefixer-stylus';
-declare module 'gulp';
-declare module 'gulp-replace';
-declare module 'gulp-sort';
-declare module 'gulp-sourcemaps';
+declare module 'bibtex-parse-js';
 declare module 'gulp-stylus';
-declare module 'gulp-uglify';
+declare module 'gulp-uglify/composer';
 declare module 'gulp-wp-pot';
 declare module 'merge-stream';
-declare module 'webpack-stream';
-declare module 'bibtex-parse-js';
 declare module 'react-virtualized-select';
+declare module 'uglify-es';

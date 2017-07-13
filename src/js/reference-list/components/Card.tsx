@@ -1,7 +1,7 @@
 import { observer } from 'mobx-react';
 import * as React from 'react';
 
-import { colors } from 'utils/Styles';
+import { colors } from 'utils/styles';
 import { createTooltip, destroyTooltip } from 'utils/Tooltips';
 
 interface CardProps extends React.HTMLProps<HTMLDivElement> {

@@ -1,37 +1,32 @@
-import { action, computed, observable, reaction, toJS } from 'mobx';
+import { action, computed, observable, toJS } from 'mobx';
 import { observer } from 'mobx-react';
 import * as React from 'react';
 
-import DevTools, { configureDevtool } from 'utils/DevTools';
-import { Modal } from 'utils/Modal';
 import { BookMeta, getFromISBN, getFromURL, URLMeta } from 'utils/resolvers/';
 
-const DevTool = DevTools();
-configureDevtool({ logFilter: change => change.type === 'action' });
+import { ButtonRow } from './button-row';
+import { IdentifierInput } from './identifier-input';
+import { ManualEntryContainer } from './manual-entry-container';
 
-import { ButtonRow } from './ButtonRow';
-import { IdentifierInput } from './IdentifierInput';
-import { ManualEntryContainer } from './ManualEntryContainer';
+interface Props {
+    onSubmit(data: any): void;
+}
 
 @observer
-export class ReferenceWindow extends React.Component {
-    labels = top.ABT_i18n.tinymce.referenceWindow.referenceWindow;
-    modal: Modal = new Modal(this.labels.title);
+export default class AddDialog extends React.Component<Props> {
+    static readonly labels = top.ABT_i18n.tinymce.referenceWindow.referenceWindow;
 
-    @observable addManually = false;
+    addManually = observable(false);
 
-    @observable attachInline = true;
+    attachInline = observable(true);
 
-    @observable identifierList = '';
+    identifierList = observable('');
 
-    @observable isLoading = false;
+    isLoading = observable(false);
 
-    @observable manualData = observable.map(new Map([['type', 'webpage']]));
+    manualData = observable.map(new Map([['type', 'webpage']]));
 
-    @observable
-    people = observable<CSL.TypedPerson>([
-        { family: '', given: '', type: 'author' },
-    ]);
+    people = observable<CSL.TypedPerson>([{ family: '', given: '', type: 'author' }]);
 
     @computed
     get payload() {
@@ -46,12 +41,15 @@ export class ReferenceWindow extends React.Component {
 
     @action
     appendPMID = (pmid: string) => {
-        this.identifierList = this.identifierList
-            .split(',')
-            .map(i => i.trim())
-            .concat(pmid)
-            .filter(Boolean)
-            .join(',');
+        this.identifierList.set(
+            this.identifierList
+                .get()
+                .split(',')
+                .map(i => i.trim())
+                .concat(pmid)
+                .filter(Boolean)
+                .join(',')
+        );
     };
 
     @action
@@ -63,49 +61,37 @@ export class ReferenceWindow extends React.Component {
             case 'webpage':
                 this.manualData.merge({
                     URL: meta.webpage!.url,
-                    accessed: meta.webpage!.accessed
-                        .split('T')[0]
-                        .split('-')
-                        .join('/'),
+                    accessed: meta.webpage!.accessed.split('T')[0].split('-').join('/'),
                     'container-title': meta.webpage!.site_title,
-                    issued: meta.webpage!.issued
-                        .split('T')[0]
-                        .split('-')
-                        .join('/'),
+                    issued: meta.webpage!.issued.split('T')[0].split('-').join('/'),
                     title: meta.webpage!.content_title,
                 });
                 this.people.replace(
-                    // tslint:disable-next-line
                     meta.webpage!.authors.map(a => ({
                         family: a.lastname || '',
                         given: a.firstname || '',
-                        type: 'author',
-                    } as CSL.TypedPerson))
+                        type: 'author' as CSL.PersonType,
+                    }))
                 );
                 break;
             case 'book':
             case 'chapter':
             default:
-                const titleKey =
-                    kind === 'chapter' ? 'container-title' : 'title';
+                const titleKey = kind === 'chapter' ? 'container-title' : 'title';
                 this.manualData.merge({
-                    accessed: new Date(Date.now())
-                        .toISOString()
-                        .split('T')[0]
-                        .split('-')
-                        .join('/'),
+                    accessed: new Date(Date.now()).toISOString().split('T')[0].split('-').join('/'),
                     issued: meta.book!.issued,
                     'number-of-pages': meta.book!['number-of-pages'],
                     publisher: meta.book!.publisher,
                     [titleKey]: meta.book!.title,
                 });
-                this.people.replace(meta.book!.authors as CSL.TypedPerson[]);
+                this.people.replace(meta.book!.authors);
         }
     };
 
     @action
-    changeIdentifiers = (value: string) => {
-        this.identifierList = value;
+    changeIdentifiers = (e: React.FormEvent<HTMLInputElement>) => {
+        this.identifierList.set(e.currentTarget.value);
     };
 
     @action
@@ -117,39 +103,25 @@ export class ReferenceWindow extends React.Component {
 
     @action
     toggleAttachInline = () => {
-        this.attachInline = !this.attachInline;
+        this.attachInline.set(!this.attachInline.get());
     };
 
     @action
     toggleLoadingState = (state?: boolean) => {
-        this.isLoading = state ? state : !this.isLoading;
+        const loadingState: boolean = state ? state : !this.isLoading.get();
+        this.isLoading.set(loadingState);
     };
 
     @action
     toggleAddManual = () => {
-        this.addManually = !this.addManually;
+        this.addManually.set(!this.addManually.get());
         this.people.replace([{ family: '', given: '', type: 'author' }]);
         this.changeType('webpage');
     };
 
-    componentDidMount() {
-        this.modal.resize();
-        reaction(
-            () => [
-                this.people.length,
-                this.manualData.get('type'),
-                this.addManually,
-            ],
-            () => this.modal.resize(),
-            { fireImmediately: false, delay: 100 }
-        );
-    }
-
     handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        const wm = top.tinyMCE.activeEditor.windowManager;
-        wm.setParams({ data: this.payload });
-        wm.close();
+        this.props.onSubmit(toJS(this.payload));
     };
 
     handleAutocite = async (kind: 'webpage' | 'book' | 'chapter', query: string) => {
@@ -164,7 +136,7 @@ export class ReferenceWindow extends React.Component {
                 case 'book':
                 case 'chapter':
                 default: {
-                    const data: BookMeta =  await getFromISBN(query);
+                    const data: BookMeta = await getFromISBN(query);
                     this.autocite(kind, { book: data });
                 }
             }
@@ -174,29 +146,24 @@ export class ReferenceWindow extends React.Component {
         this.toggleLoadingState();
     };
 
-    preventScrollPropagation = (e: React.WheelEvent<HTMLElement>) => {
-        e.stopPropagation();
-        e.preventDefault();
-    };
-
     render() {
         return (
-            <div onWheel={this.preventScrollPropagation}>
-                <DevTool />
-                <form onSubmit={this.handleSubmit}>
-                    {!this.addManually &&
+            <div>
+                <form id="add-reference" onSubmit={this.handleSubmit}>
+                    {!this.addManually.get() &&
                         <IdentifierInput
                             identifierList={this.identifierList}
-                            change={this.changeIdentifiers}
+                            onChange={this.changeIdentifiers}
                         />}
-                    {this.addManually &&
+                    {this.addManually.get() &&
                         <ManualEntryContainer
                             autoCite={this.handleAutocite}
-                            loading={this.isLoading}
+                            loading={this.isLoading.get()}
                             manualData={this.manualData}
                             people={this.people}
                             typeChange={this.changeType}
                         />}
+                </form>
                     <ButtonRow
                         addManually={this.addManually}
                         pubmedCallback={this.appendPMID}
@@ -204,7 +171,6 @@ export class ReferenceWindow extends React.Component {
                         attachInlineToggle={this.toggleAttachInline}
                         toggleManual={this.toggleAddManual}
                     />
-                </form>
             </div>
         );
     }
