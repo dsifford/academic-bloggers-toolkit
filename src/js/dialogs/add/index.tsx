@@ -31,9 +31,9 @@ export default class AddDialog extends React.Component<Props> {
     @computed
     get payload() {
         return {
-            addManually: this.addManually,
-            attachInline: this.attachInline,
-            identifierList: this.identifierList,
+            addManually: toJS(this.addManually),
+            attachInline: toJS(this.attachInline),
+            identifierList: toJS(this.identifierList),
             manualData: toJS(this.manualData),
             people: this.people.slice(),
         };
@@ -121,7 +121,7 @@ export default class AddDialog extends React.Component<Props> {
 
     handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        this.props.onSubmit(toJS(this.payload));
+        this.props.onSubmit(this.payload);
     };
 
     handleAutocite = async (kind: 'webpage' | 'book' | 'chapter', query: string) => {
@@ -141,7 +141,8 @@ export default class AddDialog extends React.Component<Props> {
                 }
             }
         } catch (e) {
-            top.tinyMCE.activeEditor.windowManager.alert(e.message);
+            // FIXME:
+            // top.tinyMCE.activeEditor.windowManager.alert(e.message);
         }
         this.toggleLoadingState();
     };

@@ -161,8 +161,8 @@ describe('Reflist Store', () => {
         expect(store.citations.citationByIndex.length).toBe(0);
     });
     it('should set citationStyle', () => {
-        expect(store.citationStyle).toBe('american-medical-association');
+        expect(store.citationStyle.get()).toBe('american-medical-association');
         store.setStyle('apa-5th');
-        expect(store.citationStyle).toBe('apa-5th');
+        expect(store.citationStyle.get()).toBe('apa-5th');
     });
 });

@@ -9,36 +9,36 @@ declare const CSL: any;
 
 export class CSLProcessor {
     /**
-     * CSL.Engine instance created by this class.
+     * CSL.Engine instance created by this class
      */
     public citeproc: Citeproc.Processor;
 
     /**
      * Converts the locale names in wordpress (keys) to the locales
-     *   in CSL (values). If CSL doesn't have a locale for a given WordPress locale,
-     *   then false is used (which will default to en-US).
+     * in CSL (values). If CSL doesn't have a locale for a given WordPress locale,
+     * then false is used (which will default to en-US)
      */
     private locales = localeMapper;
 
     /**
      * Key/value store for locale XML. Locale XML is fetched off the main thread
-     *   and then saved to this Map for Citeproc to consume as needed.
+     * and then saved to this Map for Citeproc to consume as needed
      */
     private localeStore: Map<string, string> = new Map();
 
     /**
-     * The main store for the reference list.
+     * The main store for the reference list
      */
     private store: Store;
 
     /**
      * Worker used to fetch locale XML off thread and save it into the localeStore.
-     *   After all locales are fetched, this worker destroys itself.
+     * After all locales are fetched, this worker destroys itself
      */
     private worker: Worker;
 
     /**
-     * @param store The main store for the reference list.
+     * @param store The main store for the reference list
      */
     constructor(store: Store) {
         this.store = store;
@@ -49,22 +49,21 @@ export class CSLProcessor {
 
     /**
      * Instantiates a new CSL.Engine (either when initially constructed or when
-     *   the user changes his/her selected citation style)
+     * the user changes his/her selected citation style)
      *
-     *   The middle (index, or 'b') value in the returned array is ignored
-     *   and the literal index is used because of an issue with Citeproc-js.
-     *   This small change seems to fix a breaking issue.
+     * The middle (index, or 'b') value in the returned array is ignored
+     * and the literal index is used because of an issue with Citeproc-js.
+     * This small change seems to fix a breaking issue
      *
-     * @param styleID CSL style filename.
+     * @param styleID - CSL style filename
      * @return Promise that resolves to either an object containing the style XML
-     *   and the `sys` object, or an Error depending on the responses from the
-     *   network.
+     * and the `sys` object, or an Error depending on the responses from the network
      */
-    async init(): Promise<Citeproc.CitationClusterData[]> {
+    async init(): Promise<Citeproc.CitationCluster[]> {
         const style =
-            this.store.citationStyle === 'abt-user-defined'
+            this.store.citationStyle.get() === 'abt-user-defined'
                 ? ABT_Custom_CSL.CSL
-                : await this.getCSLStyle(this.store.citationStyle);
+                : await this.getCSLStyle(this.store.citationStyle.get());
         const sys = await this.generateSys(this.store.locale);
         this.citeproc = new CSL.Engine(sys, style);
         return <Array<[number, string, string]>>this.citeproc
@@ -74,13 +73,11 @@ export class CSLProcessor {
 
     /**
      * Wrapper function for citeproc.makeBibliography that ensures the citation store
-     *   is also kept in sync with the processor store as well as formats the
-     *   bibliography output.
+     * is also kept in sync with the processor store as well as formats the
+     * bibliography output
      *
      * This function returns `false` if the user is using a citation style that does
-     *   not include a bibliography (e.g. `Mercatus Center`)
-     *
-     * @return {ABT.Bibliography|boolean}
+     * not include a bibliography (e.g. `Mercatus Center`)
      */
     makeBibliography(): ABT.Bibliography | boolean {
         const bib = this.citeproc.makeBibliography();
@@ -94,7 +91,6 @@ export class CSLProcessor {
      * Transforms the CSL.Data[] into a Citeproc.Citation.
      *
      * @param csl CSL.Data[].
-     * @return Citeproc.CitationByIndexSingle for the current inline citation.
      */
     prepareInlineCitationData(csl: CSL.Data[], currentIndex: number): Citeproc.Citation {
         const payload = {
@@ -107,18 +103,17 @@ export class CSLProcessor {
 
     /**
      * Wrapper function around Citeproc.processCitationCluster that ensures the store
-     *   is kept in sync with the processor.
+     * is kept in sync with the processor
      *
-     * @param  citation Single Citeproc.Citation
-     * @param  before   Citations before the current citation.
-     * @param  after    Citations after the current citation.
-     * @return Citeproc.CitationClusterData[]
+     * @param  citation - Single Citeproc.Citation
+     * @param  before   - Citations before the current citation
+     * @param  after    - Citations after the current citation
      */
     processCitationCluster(
         citation: Citeproc.Citation,
         before: Citeproc.CitationsPrePost,
         after: Citeproc.CitationsPrePost
-    ): Citeproc.CitationClusterData[] {
+    ): Citeproc.CitationCluster[] {
         const [status, clusters] = this.citeproc.processCitationCluster(citation, before, after);
         if (status['citation_errors'].length) {
             // tslint:disable-next-line
@@ -131,14 +126,13 @@ export class CSLProcessor {
     /**
      * Spawns a new temporary CSL.Engine and creates a static, untracked bibliography
      *
-     * @param  {CSL.Data[]}                data Array of CSL.Data
-     * @return {Promise<ABT.Bibliography>}
+     * @param data - Array of CSL.Data
      */
     async createStaticBibliography(data: CSL.Data[]): Promise<ABT.Bibliography | boolean> {
         const style =
-            this.store.citationStyle === 'abt-user-defined'
+            this.store.citationStyle.get() === 'abt-user-defined'
                 ? ABT_Custom_CSL.CSL
-                : await this.getCSLStyle(this.store.citationStyle);
+                : await this.getCSLStyle(this.store.citationStyle.get());
         const sys = { ...this.citeproc.sys };
         const citeproc: Citeproc.Processor = new CSL.Engine(sys, style);
         citeproc.updateItems(toJS(data.map(d => d.id)));
@@ -157,11 +151,10 @@ export class CSLProcessor {
 
     /**
      * Called exclusively from the `init` method to generate the `sys` object
-     *   required by the CSL.Engine.
+     * required by the CSL.Engine
      *
      * @param locale The locale string from this.locales (handled in constructor)
-     * @return Promise that resolves either to a Citeproc.SystemObj or Error,
-     *   depending on the response from the network request.
+     * @return Promise that resolves to a Citeproc.SystemObj
      */
     private async generateSys(locale: string): Promise<Citeproc.SystemObj> {
         const cslLocale = this.locales[locale] || 'en-US';
@@ -181,11 +174,11 @@ export class CSLProcessor {
 
     /**
      * Called exclusively from the `init` method to get the CSL style file over
-     *   the air from the Github repo.
+     *   the air from the Github repo
      *
      * @param style CSL style filename
      * @return Promise that resolves to a string of CSL XML or an Error, depending
-     *   on the response from the network request.
+     * on the response from the network request
      */
     private async getCSLStyle(style: string): Promise<string> {
         const req = await fetch(
@@ -198,14 +191,14 @@ export class CSLProcessor {
     }
 
     /**
-     * Acts as the retrieveLocale function for the Citeproc.SystemObj.
+     * Acts as the retrieveLocale function for the Citeproc.SystemObj
      *
      * First, this function checks too see if there is the desired locale available
-     *   in the localeStore. If there is, it returns that. If not, it returns the
-     *   fallback locale (the primary locale for the current user).
+     * in the localeStore. If there is, it returns that. If not, it returns the
+     * fallback locale (the primary locale for the current user)
      *
-     * @param  loc  The locale name.
-     * @return      Locale XML (as a string)
+     * @param loc - The locale name
+     * @return Locale XML (as a string)
      */
     private getRemoteLocale(loc: string): string {
         const normalizedLocale = (<string>this.locales[loc]) || 'en-US';

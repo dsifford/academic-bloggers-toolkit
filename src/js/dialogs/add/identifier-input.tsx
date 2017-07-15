@@ -27,7 +27,7 @@ export class IdentifierInput extends React.PureComponent<Props, {}> {
                 />
                 <style jsx>{`
                     div {
-                        padding: 10px;
+                        padding: 0 10px 10px;
                         display: flex;
                         align-items: center;
                     }

@@ -108,7 +108,7 @@ export class ManualEntryContainer extends React.PureComponent<ManualEntryProps, 
                     }
                     #type-select-row {
                         display: flex;
-                        padding: 10px;
+                        padding: 0 10px 10px;
                         align-items: center;
                     }
                     .bounded-rect {

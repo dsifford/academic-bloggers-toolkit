@@ -1,3 +1,9 @@
+export enum DialogType {
+    ADD = 'ADD',
+    IMPORT = 'IMPORT',
+    NONE = '',
+}
+
 /**
  * Global Event Types
  */
@@ -10,24 +16,6 @@ export const EVENTS = {
     TINYMCE_VISIBLE: 'TINYMCE_VISIBLE',
     TOGGLE_PINNED_STATE: 'TOGGLE_PINNED_STATE',
 };
-
-/**
- * Object containing event types that are used in the ReferenceWindow component.
- * @type {Object}
- */
-// export const referenceWindowEvents = {
-//     ADD_PERSON: 'ADD_PERSON',
-//     CHANGE_CITATION_STYLE: 'CHANGE_CITATION_STYLE',
-//     CHANGE_CITATION_TYPE: 'CHANGE_CITATION_TYPE',
-//     IDENTIFIER_FIELD_CHANGE: 'IDENTIFIER_FIELD_CHANGE',
-//     META_FIELD_CHANGE: 'META_FIELD_CHANGE',
-//     PERSON_CHANGE: 'PERSON_CHANGE',
-//     PUBMED_DATA_SUBMIT: 'PUBMED_DATA_SUBMIT',
-//     REMOVE_PERSON: 'REMOVE_PERSON',
-//     TOGGLE_INCLUDE_LINK: 'TOGGLE_INCLUDE_LINK',
-//     TOGGLE_INLINE_ATTACHMENT: 'TOGGLE_INLINE_ATTACHMENT',
-//     TOGGLE_MANUAL: 'TOGGLE_MANUAL',
-// };
 
 export const PERSON_TYPE_KEYS = [
     'author',
@@ -71,8 +59,6 @@ export const DATE_TYPE_KEYS = [
  *   - references
  *   - reviewed-title
  *   - scale
- *
- * @type {Object}
  */
 export const manualDataObj: CSL.Data = {
     DOI: '',
@@ -131,8 +117,8 @@ interface LocaleMapper {
 
 /**
  * This object converts the locale names in wordpress or PubMed (keys) to the locales
- *   in CSL (values). If CSL doesn't have a locale for a given WordPress locale,
- *   then undefined is used (which will default to en-US).
+ * in CSL (values). If CSL doesn't have a locale for a given WordPress locale,
+ * then undefined is used (which will default to en-US)
  */
 export const localeMapper: LocaleMapper = {
     af: 'af-ZA',

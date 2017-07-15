@@ -2,10 +2,7 @@ import { generateID } from 'utils/helpers/';
 import { parseCSLDate } from 'utils/parsers/';
 import { getFromDOI, getFromPubmed } from 'utils/resolvers/';
 
-export async function getRemoteData(
-    identifierList: string,
-    mce: TinyMCE.WindowManager
-): Promise<CSL.Data[]> {
+export async function getRemoteData(identifierList: string): Promise<CSL.Data[]> {
     let pmidList: string[] = [];
     let pmcidList: string[] = [];
     let doiList: string[] = [];
@@ -40,7 +37,8 @@ export async function getRemoteData(
     }
 
     if (promises.length === 0) {
-        mce.alert(`${top.ABT_i18n.errors.identifiersNotFound.all}`);
+        // FIXME:
+        // mce.alert(`${top.ABT_i18n.errors.identifiersNotFound.all}`);
         return [];
     }
 
@@ -54,10 +52,11 @@ export async function getRemoteData(
     );
 
     if (errs.length > 0) {
-        mce.alert(
-            `${top.ABT_i18n.errors.prefix}: ${top.ABT_i18n.errors.identifiersNotFound
-                .some}: ${errs.join(', ')}`
-        );
+        // FIXME:
+        // mce.alert(
+        //     `${top.ABT_i18n.errors.prefix}: ${top.ABT_i18n.errors.identifiersNotFound
+        //         .some}: ${errs.join(', ')}`
+        // );
     }
     return csl;
 }

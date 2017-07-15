@@ -28,7 +28,7 @@
         "@types/gulp-sourcemaps": "0.0.31",
         "@types/he": "^0.5.29",
         "@types/jest": "^20.0.2",
-        "@types/node": "^8.0.11",
+        "@types/node": "^8.0.13",
         "@types/react": "^15.0.38",
         "@types/react-dom": "^15.5.1",
         "@types/react-motion": "^0.0.23",
@@ -63,8 +63,8 @@
         "tslint-microsoft-contrib": "^5.0.1",
         "tslint-react": "^3.0.0",
         "uglify-es": "^3.0.24",
-        "webpack": "^3.2.0",
-        "webpack-bundle-analyzer": "^2.8.2"
+        "webpack": "^3.3.0",
+        "webpack-bundle-analyzer": "^2.8.3"
     },
     "dependencies": {
         "bibtex-parse-js": "^0.0.23",

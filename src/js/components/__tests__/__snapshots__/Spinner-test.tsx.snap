@@ -3,7 +3,11 @@
 exports[`<Spinner /> should match snapshots 1`] = `
 <div
   className="abt-spinner"
-  style={Object {}}
+  style={
+    Object {
+      "backgroundColor": "transparent",
+    }
+  }
 >
   <svg
     height="50px"

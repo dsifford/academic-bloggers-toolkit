@@ -9,12 +9,14 @@ interface Props {
     children: React.ReactElement<any>;
     currentDialog: IObservableValue<string>;
     overlayOpacity?: number;
+    width?: number;
 }
 
 @observer
 export default class Container extends React.Component<Props> {
     static defaultProps: Partial<Props> = {
         overlayOpacity: 0.7,
+        width: 600,
     };
 
     element: HTMLDivElement;
@@ -52,9 +54,12 @@ export default class Container extends React.Component<Props> {
         const overlayStyle = {
             background: `rgba(0, 0, 0, ${this.props.overlayOpacity})`,
         };
+        const dialogStyle: React.CSSProperties = {
+            width: this.props.width,
+        };
         return (
             <div ref={this.bindRefs} className="dialog" style={overlayStyle} onWheel={this.preventScrollPropagation}>
-                <div role="dialog" aria-labelledby="dialog-label" className="dialog__main">
+                <div style={dialogStyle} role="dialog" aria-labelledby="dialog-label" className="dialog__main">
                     <header className="dialog__header">
                         <span id="dialog-label">
                             {this.props.title}
@@ -97,7 +102,6 @@ export default class Container extends React.Component<Props> {
                         align-items: center;
                     }
                     .dialog__main {
-                        width: 600px;
                         height: auto;
                         margin-bottom: -32px;
                         border-radius: 4px;
@@ -112,6 +116,7 @@ export default class Container extends React.Component<Props> {
                         display: flex;
                         justify-content: space-between;
                         padding: 0 15px;
+                        margin-bottom: 10px;
                         line-height: 40px;
                         background: #f5f5f5;
                         border-radius: 4px 4px 0 0;

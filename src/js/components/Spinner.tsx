@@ -13,7 +13,11 @@ interface Props {
     style?: React.CSSProperties;
 }
 
-export class Spinner extends React.PureComponent<Props, {}> {
+export class Spinner extends React.PureComponent<Props> {
+    static defaultProps: Partial<Props> = {
+        bgColor: 'transparent',
+    };
+
     style: React.CSSProperties = { ...this.props.style };
 
     constructor(props: Props) {
@@ -27,9 +31,7 @@ export class Spinner extends React.PureComponent<Props, {}> {
                 this.style.minHeight = this.props.height;
             }
         }
-        if (this.props.bgColor) {
-            this.style.backgroundColor = this.props.bgColor;
-        }
+        this.style.backgroundColor = this.props.bgColor;
     }
 
     render() {

@@ -1,6 +1,7 @@
 import { mount, shallow } from 'enzyme';
+import { observable } from 'mobx';
 import * as React from 'react';
-import { Menu, renderer as Renderer } from '../Menu';
+import { dynamicOptionHeightHandler, Menu, renderer as Renderer } from '../Menu';
 
 const ABT_CitationStyles = [
     {
@@ -38,8 +39,8 @@ const setup = () => {
     const spy = jest.fn();
     const component = mount(
         <Menu
-            isOpen={true}
-            cslStyle="american-medical-association"
+            isOpen={observable(true)}
+            cslStyle={observable('american-medical-association')}
             itemsSelected={true}
             submitData={spy}
         />
@@ -89,23 +90,21 @@ describe('<Menu />', () => {
         expect(spy).toHaveBeenCalledTimes(2);
         expect(spy.mock.calls[1]).toEqual(['CHANGE_STYLE', 'apa-5th']);
     });
+});
+describe('dynamicOptionHeightHandler()', () => {
     it('should render the appropriate heights', () => {
-        window['ABT_Custom_CSL'].value = null;
-        const { component } = setup();
-        const inst = component.instance() as any;
-        const handler = inst.dynamicOptionHeightHandler;
-        expect(handler({ option: { label: 'aaa' } })).toBe(30);
-        expect(handler({ option: { label: 'a'.repeat(35) } })).toBe(30);
-        expect(handler({ option: { label: 'a'.repeat(36) } })).toBe(40);
-        expect(handler({ option: { label: 'a'.repeat(65) } })).toBe(40);
-        expect(handler({ option: { label: 'a'.repeat(66) } })).toBe(50);
-        expect(handler({ option: { label: 'a'.repeat(80) } })).toBe(50);
-        expect(handler({ option: { label: 'a'.repeat(81) } })).toBe(60);
-        expect(handler({ option: { label: 'a'.repeat(90) } })).toBe(60);
-        expect(handler({ option: { label: 'a'.repeat(91) } })).toBe(70);
-        expect(handler({ option: { label: 'a'.repeat(110) } })).toBe(70);
-        expect(handler({ option: { label: 'a'.repeat(111) } })).toBe(90);
-        expect(handler({ option: { label: 'a'.repeat(250) } })).toBe(90);
+        expect(dynamicOptionHeightHandler({ option: { label: 'aaa', value: '' } })).toBe(30);
+        expect(dynamicOptionHeightHandler({ option: { label: 'a'.repeat(35), value: '' } })).toBe(30);
+        expect(dynamicOptionHeightHandler({ option: { label: 'a'.repeat(36), value: '' } })).toBe(40);
+        expect(dynamicOptionHeightHandler({ option: { label: 'a'.repeat(65), value: '' } })).toBe(40);
+        expect(dynamicOptionHeightHandler({ option: { label: 'a'.repeat(66), value: '' } })).toBe(50);
+        expect(dynamicOptionHeightHandler({ option: { label: 'a'.repeat(80), value: '' } })).toBe(50);
+        expect(dynamicOptionHeightHandler({ option: { label: 'a'.repeat(81), value: '' } })).toBe(60);
+        expect(dynamicOptionHeightHandler({ option: { label: 'a'.repeat(90), value: '' } })).toBe(60);
+        expect(dynamicOptionHeightHandler({ option: { label: 'a'.repeat(91), value: '' } })).toBe(70);
+        expect(dynamicOptionHeightHandler({ option: { label: 'a'.repeat(110), value: '' } })).toBe(70);
+        expect(dynamicOptionHeightHandler({ option: { label: 'a'.repeat(111), value: '' } })).toBe(90);
+        expect(dynamicOptionHeightHandler({ option: { label: 'a'.repeat(250), value: '' } })).toBe(90);
     });
 });
 describe('Menu Renderer', () => {

@@ -9,7 +9,7 @@ declare namespace TinyMCE {
         // Env;
         // WindowManager;
         dom: object;
-        editors: Editor[];
+        editors: Editor[] & { [editorId: string]: Editor };
         activeEditor: Editor;
         add(editor: Editor): Editor;
         remove(e?: string): void;
@@ -22,6 +22,10 @@ declare namespace TinyMCE {
         contentDocument: HTMLDocument;
         contentWindow: Window;
         controlManager: object;
+        initialized: boolean;
+        target: object;
+        windowManager: WindowManager;
+        wp: object;
         dom: {
             doc: Document;
             create<T extends HTMLElement>(
@@ -48,9 +52,6 @@ declare namespace TinyMCE {
         // settings: {
         //     params: any;
         // };
-        target: object;
-        windowManager: WindowManager;
-        wp: object;
         addButton(buttonID: string, buttonObj: object): void;
         addShortcut(keys: string, title: string, func: () => void): void;
         getBody(): HTMLBodyElement;

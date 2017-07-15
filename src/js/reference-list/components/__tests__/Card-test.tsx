@@ -158,7 +158,7 @@ const setup = (
         <Card
             isSelected={selected}
             CSL={data}
-            click={spy}
+            onClick={spy}
             id={'id'}
             index="1"
             showTooltip={tooltip}

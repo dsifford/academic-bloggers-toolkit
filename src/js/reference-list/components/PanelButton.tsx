@@ -5,7 +5,7 @@ interface Props extends React.HTMLProps<HTMLAnchorElement> {
     'data-tooltip'?: string;
 }
 
-export class PanelButton extends React.PureComponent<Props, {}> {
+export class PanelButton extends React.PureComponent<Props> {
     element: HTMLAnchorElement;
 
     bindRefs = (c: HTMLAnchorElement) => {
@@ -26,6 +26,7 @@ export class PanelButton extends React.PureComponent<Props, {}> {
                 {...this.props}
                 ref={this.bindRefs}
                 className={cn}
+                aria-label={this.props['data-tooltip']}
                 onMouseEnter={this.props['data-tooltip'] ? this.createTooltip : undefined}
                 onMouseLeave={this.props['data-tooltip'] ? destroyTooltip : undefined}
             />

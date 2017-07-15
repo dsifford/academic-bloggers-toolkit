@@ -6,27 +6,20 @@ import { createTooltip, destroyTooltip } from 'utils/Tooltips';
 
 interface CardProps extends React.HTMLProps<HTMLDivElement> {
     readonly CSL: CSL.Data;
-    readonly id: string;
     readonly index: string;
     readonly isSelected: boolean;
     readonly showTooltip: boolean;
-    click(id: string, isSelected: boolean): void;
 }
 
 @observer
-export class Card extends React.PureComponent<CardProps, {}> {
+export class Card extends React.PureComponent<CardProps> {
     timer: NodeJS.Timer;
 
     constructor(props: CardProps) {
         super(props);
     }
 
-    click = () => {
-        this.props.click(this.props.id, this.props.isSelected);
-    };
-
-    tooltip = (e: React.MouseEvent<HTMLDivElement>) => {
-        if (!this.props.showTooltip) return;
+    createTooltip = (e: React.MouseEvent<HTMLDivElement>) => {
         const t = e.currentTarget;
         this.timer = setTimeout(() => {
             createTooltip(t, this.props.index, 'left');
@@ -34,22 +27,21 @@ export class Card extends React.PureComponent<CardProps, {}> {
     };
 
     destroyTooltip = () => {
-        if (!this.props.showTooltip) return;
         clearTimeout(this.timer);
         destroyTooltip();
     };
 
     render() {
-        const { CSL, isSelected } = this.props;
+        const { CSL, isSelected, showTooltip } = this.props;
         return (
             <div
-                data-reference-id={this.props.id}
+                id={CSL.id}
                 role="menuitem"
                 className={isSelected ? 'abt-card abt-card_selected' : 'abt-card'}
-                onClick={this.click}
+                onClick={this.props.onClick}
                 onDoubleClick={this.props.onDoubleClick}
-                onMouseEnter={this.tooltip}
-                onMouseLeave={this.destroyTooltip}
+                onMouseEnter={showTooltip ? this.createTooltip : undefined}
+                onMouseLeave={showTooltip ? this.destroyTooltip : undefined}
             >
                 <div>
                     {CSL.title}

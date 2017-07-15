@@ -7,6 +7,9 @@ declare namespace Citeproc {
      */
     type Bibliography = [Bibmeta, string[]];
 
+    /**
+     * Array of `Citation` ordered ascending by use in the document.
+     */
     type CitationByIndex = Citation[];
 
     /**
@@ -15,12 +18,11 @@ declare namespace Citeproc {
      * 2: A string containing a unique ID which should be used for the span
      *    element's ID.
      */
-    type CitationClusterData = [number, string, string];
+    type CitationCluster = [number, string, string];
 
     /**
      * 0: ID of the HTMLSpanElement containing the inline citation(s)
      * 1: 0-based index of the location of the HTMLSpanElement in the document
-     * @type {Array}
      */
     type CitationsPrePost = Array<[string, number]>;
 
@@ -29,9 +31,10 @@ declare namespace Citeproc {
      *    element's ID.
      * 1: The index of the HTMLSpanElement within the document
      * 2: An HTML string of the inline citation.
-     * @type {Array}
      */
     type RebuildProcessorStateData = [string, number, string];
+
+    type CitationKind = 'in-text' | 'note';
 
     type SortedItems = Array<[
         CSL.Data,
@@ -114,7 +117,7 @@ declare namespace Citeproc {
         };
         sys: SystemObj;
         opt: {
-            xclass: 'note' | 'in-text';
+            xclass: CitationKind;
         };
         updateItems: any; // FIXME:
         makeBibliography(): Bibliography | boolean;
@@ -124,7 +127,7 @@ declare namespace Citeproc {
             post: Citeproc.CitationsPrePost
         ): [
             { bibchange: boolean; 'citation_errors': string[] },
-            CitationClusterData[]
+            CitationCluster[]
         ];
         rebuildProcessorState(
             citationByIndex: Citation[]

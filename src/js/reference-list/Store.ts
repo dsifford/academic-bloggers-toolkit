@@ -45,7 +45,6 @@ class CitationStore {
 
     /**
      * Returns an array of CSL.Data for all uncited references
-     * @return {CSL.Data[]} Uncited CSL
      */
     @computed
     get uncited(): CSL.Data[] {
@@ -60,7 +59,6 @@ class CitationStore {
 
     /**
      * Returns an array of CSL.Data for all cited references
-     * @return {CSL.Data[]} Cited CSL
      */
     @computed
     get cited(): CSL.Data[] {
@@ -69,7 +67,6 @@ class CitationStore {
 
     /**
      * Returns an array of CSL IDs for all cited CSL
-     * @return {string[]} Array of CSL IDs
      */
     @computed
     get citedIDs(): string[] {
@@ -86,11 +83,9 @@ class CitationStore {
     }
 
     /**
-     * Given an array of CSL citation IDs, delete all matching CSL from this.CSL
-     *   and prune this.byIndex
-     * @param  {string[]} idList   String of CSL IDs to be removed
-     * @param  {HTMLDocument} doc  TinyMCE editor document
-     * @return {void}
+     * Given an array of CSL citation IDs, delete all matching CSL from this.CSL and prune this.byIndex
+     * @param idList - String of CSL IDs to be removed
+     * @param doc    - TinyMCE editor document
      */
     @action
     removeItems(idList: string[], doc: HTMLDocument): void {
@@ -116,8 +111,7 @@ class CitationStore {
 
     /**
      * Given an array of CSL.Data, merge the array into this.CSL
-     * @param  {CSL.Data[]} data Array of CSL.Data to be merged
-     * @return {void}
+     * @param data - Array of CSL.Data to be merged
      */
     @action
     addItems(data: CSL.Data[]): void {
@@ -130,11 +124,9 @@ class CitationStore {
     }
 
     /**
-     * Given an array of current citationIds, remove all elements from byIndex
-     *   where the citationId of the index does not exist in the given array of
-     *   citationIds
-     * @param  {string[]} citationIds Array of current citationIds
-     * @return {void}
+     * Given an array of current citationIds, remove all elements from byIndex where
+     * the citationId of the index does not exist in the given array of citationIds
+     * @param citationIds - Array of current citationIds
      */
     @action
     pruneOrphanedCitations(citationIds: string[]): void {
@@ -145,7 +137,6 @@ class CitationStore {
 
     /**
      * Returns an object of ids and titles from the CSL map for easy consumption
-     * @return {{ids: string[], titles: string[]}}
      */
     get lookup(): { ids: string[]; titles: string[] } {
         return {
@@ -156,9 +147,8 @@ class CitationStore {
 
     /**
      * Returns a JS object of byIndex
-     * @return {Citeproc.Citation[]}
      */
-    get citationByIndex(): Citeproc.Citation[] {
+    get citationByIndex(): Citeproc.CitationByIndex {
         return toJS(this.byIndex);
     }
 
@@ -192,14 +182,14 @@ export class Store {
     /**
      * The selected citation style
      */
-    @observable citationStyle: string;
+    citationStyle = observable('');
 
     constructor(savedState: BackendGlobals.ABT_Reflist_State) {
         const { cache, citationByIndex, bibOptions, CSL } = savedState;
         this.citations = new CitationStore(citationByIndex, CSL);
         this.links = cache.links;
         this.locale = cache.locale;
-        this.citationStyle = cache.style;
+        this.citationStyle.set(cache.style);
         this.bibOptions = bibOptions;
     }
 
@@ -219,7 +209,7 @@ export class Store {
 
     @action
     setStyle(style: string) {
-        this.citationStyle = style;
+        this.citationStyle.set(style);
     }
 
     get cache() {

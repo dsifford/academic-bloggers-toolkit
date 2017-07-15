@@ -53,17 +53,9 @@ const config: webpack.Configuration = {
     },
     devtool: isProduction ? 'cheap-module-source-map' : 'source-map',
     entry: {
-        'js/Frontend': ['babel-polyfill', './src/js/Frontend'],
+        'js/frontend': ['babel-polyfill', './src/js/frontend'],
         'js/reference-list/index': ['babel-polyfill', 'whatwg-fetch', './src/js/reference-list/'],
         'js/tinymce/index': ['./src/js/tinymce/'],
-        'js/tinymce/components/pubmed-window/index': [
-            'babel-polyfill',
-            './src/js/tinymce/components/pubmed-window/',
-        ],
-        // 'js/tinymce/components/edit-reference-window/index': [
-        //     'babel-polyfill',
-        //     './src/js/tinymce/components/edit-reference-window/',
-        // ],
         // vendor: ['react', 'react-dom', 'mobx', 'mobx-react'],
     },
     output: {

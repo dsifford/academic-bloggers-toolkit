@@ -1,15 +1,16 @@
-import { action, observable } from 'mobx';
+import { action, IObservableValue, observable } from 'mobx';
 import { observer } from 'mobx-react';
 import * as React from 'react';
 import { spring, TransitionMotion } from 'react-motion';
 import VSelect from 'react-virtualized-select';
+
 import { PanelButton } from './PanelButton';
 
 declare const ABT_Custom_CSL: BackendGlobals.ABT_Custom_CSL;
 
 interface Props extends React.HTMLProps<HTMLDivElement> {
-    isOpen: boolean;
-    cslStyle: string;
+    isOpen: IObservableValue<boolean>;
+    cslStyle: IObservableValue<string>;
     itemsSelected: boolean;
     submitData(kind: string, data?: string): void;
 }
@@ -19,23 +20,33 @@ interface StyleOption {
     value: string;
 }
 
+const openedStyle = [
+    {
+        key: 'menu',
+        style: {
+            height: spring(85),
+            opacity: spring(1),
+            scale: spring(1),
+        },
+    },
+];
+
 @observer
 export class Menu extends React.PureComponent<Props, {}> {
+    static labels = top.ABT_i18n.referenceList.menu;
     styles: StyleOption[];
-    labels = top.ABT_i18n.referenceList.menu;
 
-    @observable
-    selected = {
+    selected = observable({
         label: '',
         value: '',
-    };
+    });
 
     constructor(props: Props) {
         super(props);
 
         /**
          * ABT_Custom_CSL.value is `null` if there is either no provided file path
-         *   or if the path to the file is invalid.
+         * or if the path to the file is invalid.
          */
         if (ABT_Custom_CSL.value === null) {
             this.styles = ABT_CitationStyles;
@@ -49,74 +60,33 @@ export class Menu extends React.PureComponent<Props, {}> {
         }
 
         this.setSelected({
-            label: this.styles.find(d => d.value === this.props.cslStyle)!.label,
-            value: this.props.cslStyle,
+            label: this.styles.find(d => d.value === this.props.cslStyle.get())!.label,
+            value: this.props.cslStyle.get(),
         });
     }
 
     @action
-    setSelected = (sel: { label?: string; value?: string }) => {
-        if (sel.value) this.selected.value = sel.value;
-        if (sel.label) this.selected.label = sel.label;
+    setSelected = ({ label, value }: Partial<StyleOption>) => {
+        if (value) this.selected.value = value;
+        if (label) this.selected.label = label;
     };
 
+    @action toggleMenu = () => this.props.isOpen.set(false);
+
     handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+        this.toggleMenu();
         this.props.submitData(e.currentTarget.id);
     };
 
     handleSelect = (data: StyleOption) => {
+        this.toggleMenu();
         this.props.submitData('CHANGE_STYLE', data.value);
     };
 
-    willEnter = () => ({
-        height: 0,
-        opacity: 0,
-        scale: 0,
-    });
-
-    willLeave = () => ({
-        height: spring(0),
-        opacity: spring(0),
-        scale: spring(0),
-    });
-
-    dynamicOptionHeightHandler = ({ option }: { option: StyleOption }) => {
-        switch (true) {
-            case option.label.length > 110:
-                return 90;
-            case option.label.length > 90:
-                return 70;
-            case option.label.length > 80:
-                return 60;
-            case option.label.length > 65:
-                return 50;
-            case option.label.length > 35:
-                return 40;
-            default:
-                return 30;
-        }
-    };
-
     render() {
+        const transitionStyle = this.props.isOpen.get() ? openedStyle : [];
         return (
-            <TransitionMotion
-                willLeave={this.willLeave}
-                willEnter={this.willEnter}
-                styles={
-                    this.props.isOpen
-                        ? [
-                              {
-                                  key: 'menu',
-                                  style: {
-                                      height: spring(85),
-                                      opacity: spring(1),
-                                      scale: spring(1),
-                                  },
-                              },
-                          ]
-                        : []
-                }
-            >
+            <TransitionMotion willLeave={willLeave} willEnter={willEnter} styles={transitionStyle}>
                 {styles =>
                     styles.length > 0
                         ? (
@@ -135,21 +105,21 @@ export class Menu extends React.PureComponent<Props, {}> {
                                       <PanelButton
                                           id="IMPORT_RIS"
                                           onClick={this.handleClick}
-                                          data-tooltip={this.labels.tooltips.importRIS}
+                                          data-tooltip={Menu.labels.tooltips.importRIS}
                                       >
                                           <span className="dashicons dashicons-media-code" />
                                       </PanelButton>
                                       <PanelButton
                                           id="REFRESH_PROCESSOR"
                                           onClick={this.handleClick}
-                                          data-tooltip={this.labels.tooltips.refresh}
+                                          data-tooltip={Menu.labels.tooltips.refresh}
                                       >
                                           <span className="dashicons dashicons-update" />
                                       </PanelButton>
                                       <PanelButton
                                           id="DESTROY_PROCESSOR"
                                           onClick={this.handleClick}
-                                          data-tooltip={this.labels.tooltips.destroy}
+                                          data-tooltip={Menu.labels.tooltips.destroy}
                                       >
                                           <span className="dashicons dashicons-trash" />
                                       </PanelButton>
@@ -157,14 +127,14 @@ export class Menu extends React.PureComponent<Props, {}> {
                                           id="INSERT_STATIC_BIBLIOGRAPHY"
                                           disabled={!this.props.itemsSelected}
                                           onClick={this.handleClick}
-                                          data-tooltip={this.labels.tooltips.staticPubList}
+                                          data-tooltip={Menu.labels.tooltips.staticPubList}
                                       >
                                           <span className="dashicons dashicons-list-view" />
                                       </PanelButton>
                                       <PanelButton
                                           href="https://github.com/dsifford/academic-bloggers-toolkit/wiki"
                                           target="_blank"
-                                          data-tooltip={this.labels.tooltips.help}
+                                          data-tooltip={Menu.labels.tooltips.help}
                                       >
                                           <span className="dashicons dashicons-editor-help" />
                                       </PanelButton>
@@ -175,7 +145,7 @@ export class Menu extends React.PureComponent<Props, {}> {
                                           onChange={this.handleSelect}
                                           value={this.selected}
                                           optionRenderer={renderer}
-                                          optionHeight={this.dynamicOptionHeightHandler}
+                                          optionHeight={dynamicOptionHeightHandler}
                                           options={this.styles}
                                           style={{
                                               cursor: 'pointer',
@@ -190,6 +160,39 @@ export class Menu extends React.PureComponent<Props, {}> {
                         : null}
             </TransitionMotion>
         );
+    }
+}
+
+function willEnter() {
+    return {
+        height: 0,
+        opacity: 0,
+        scale: 0,
+    };
+}
+
+function willLeave() {
+    return {
+        height: spring(0),
+        opacity: spring(0),
+        scale: spring(0),
+    };
+}
+
+export function dynamicOptionHeightHandler({ option }: { option: StyleOption }) {
+    switch (true) {
+        case option.label.length > 110:
+            return 90;
+        case option.label.length > 90:
+            return 70;
+        case option.label.length > 80:
+            return 60;
+        case option.label.length > 65:
+            return 50;
+        case option.label.length > 35:
+            return 40;
+        default:
+            return 30;
     }
 }
 
@@ -209,14 +212,7 @@ interface RendererParams {
  * @param  {Object} option        The option to be rendered
  * @param  {Function} selectValue Callback to update the selected values. (on click)
  */
-export function renderer({
-    focusedOption,
-    focusOption,
-    key,
-    option,
-    selectValue,
-    style,
-}: RendererParams) {
+export function renderer({ focusedOption, focusOption, key, option, selectValue, style }: RendererParams) {
     style.alignItems = 'center';
     style.fontWeight = 300;
     style.cursor = 'default';

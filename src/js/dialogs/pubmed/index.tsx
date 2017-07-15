@@ -2,8 +2,9 @@ import { action, computed, observable, runInAction } from 'mobx';
 import { observer } from 'mobx-react';
 import * as React from 'react';
 
+import Callout from 'components/callout';
 import { Spinner } from 'components/Spinner';
-import { colors, shadows } from 'utils/styles';
+import { shadows } from 'utils/styles';
 
 import { pubmedQuery } from 'utils/resolvers/';
 import { Paginate } from './paginate';
@@ -19,6 +20,8 @@ const ph = placeholderGenerator();
 export default class PubmedDialog extends React.Component<Props> {
     static readonly labels = top.ABT_i18n.tinymce.pubmedWindow;
     static readonly errors = top.ABT_i18n.errors;
+
+    errorMessage = observable('');
 
     isLoading = observable(false);
 
@@ -39,8 +42,8 @@ export default class PubmedDialog extends React.Component<Props> {
     }
 
     @action
-    updateQuery = (e: React.FormEvent<HTMLInputElement>) => {
-        this.query.set(e.currentTarget.value);
+    updateQuery = (e?: React.FormEvent<HTMLInputElement>) => {
+        this.query.set(e ? e.currentTarget.value : '');
     };
 
     @action
@@ -50,33 +53,38 @@ export default class PubmedDialog extends React.Component<Props> {
             : this.isLoading.set(state);
     };
 
+    @action
+    setError = (msg: string | React.MouseEvent<HTMLDivElement> = '') =>
+        this.errorMessage.set(typeof msg === 'string' ? msg : '');
+
     sendQuery = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         this.toggleLoading(true);
         try {
             const data = await pubmedQuery(this.query.get());
             if (data.length === 0) {
-                // top.tinyMCE.activeEditor.windowManager.alert(Dialog.errors.noResults);
+                this.setError(PubmedDialog.errors.noResults);
+            } else {
+                runInAction('update state after fetching data', () => {
+                    this.page.set(1);
+                    this.results.replace(data);
+                });
             }
-            runInAction('update state after fetching data', () => {
-                this.page.set(1);
-                this.query.set('');
-                this.results.replace(data);
-            });
         } catch (e) {
-            // FIXME:
-            // top.tinyMCE.activeEditor.windowManager.alert(e.message);
+            this.setError(e.message);
         }
+        this.updateQuery();
         this.toggleLoading(false);
     };
 
     render() {
         if (this.isLoading.get()) {
-            return <Spinner size="40px" height="52px" bgColor="#f5f5f5" />;
+            return <Spinner size="40px" height="52px" />;
         }
         const placeholder = ph.next().value;
         return (
             <div>
+                <Callout dismiss={this.setError} children={this.errorMessage.get()} />
                 <form id="query" onSubmit={this.sendQuery}>
                     <input
                         type="text"
@@ -103,10 +111,9 @@ export default class PubmedDialog extends React.Component<Props> {
                 <style jsx>{`
                     form {
                         display: flex;
-                        padding: 10px;
+                        padding: 0 10px 10px;
                         align-items: center;
-                        background: ${colors.light_gray};
-                        box-shadow: ${shadows.depth_1}, ${shadows.top_border};
+                        box-shadow: ${shadows.depth_1};
                     }
                     input[type="text"] {
                         flex: auto;
@@ -114,7 +121,8 @@ export default class PubmedDialog extends React.Component<Props> {
                         height: 35px;
                         font-size: 16px;
                     }
-                    div, form {
+                    div,
+                    form {
                         border-radius: 0 0 2px 2px;
                     }
                 `}</style>
