@@ -83,15 +83,16 @@ class CitationStore {
     }
 
     /**
-     * Given an array of CSL citation IDs, delete all matching CSL from this.CSL and prune this.byIndex
+     * Given an array of CSL citation IDs, delete all matching CSL from this.CSL and prune this.byIndex.
      * @param idList - String of CSL IDs to be removed
-     * @param doc    - TinyMCE editor document
+     * @return Array of HTML element IDs to remove from the document
      */
     @action
-    removeItems(idList: string[], doc: HTMLDocument): void {
+    removeItems(idList: string[]): string[] {
         idList.forEach(id => {
             if (this.citedIDs.indexOf(id) === -1) this.CSL.delete(id);
         });
+        let toRemove: string[] = [];
         const byIndex = this.citationByIndex
             .map(i => ({
                 ...i,
@@ -99,14 +100,14 @@ class CitationStore {
                 sortedItems: i.sortedItems!.filter(j => idList.indexOf(j[1].id) === -1),
             }))
             .reduce((prev, curr) => {
-                if (curr.citationItems.length === 0) {
-                    const el = doc.getElementById(curr.citationID!)!;
-                    el.parentNode!.removeChild(el);
+                if (curr.citationItems.length === 0 && curr.citationID) {
+                    toRemove = [...toRemove, curr.citationID];
                     return prev;
                 }
                 return [...prev, curr];
             }, []);
         this.init(byIndex);
+        return toRemove;
     }
 
     /**

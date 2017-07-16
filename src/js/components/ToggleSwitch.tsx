@@ -10,7 +10,7 @@ interface Props {
 }
 
 @observer
-export class ToggleSwitch extends React.PureComponent<Props, {}> {
+export class ToggleSwitch extends React.PureComponent<Props> {
     handleMouseOver = (e: React.MouseEvent<HTMLLabelElement>) => {
         createTooltip(e.currentTarget, e.currentTarget.getAttribute('data-tooltip')!, 'left');
     };

@@ -13,7 +13,7 @@ interface Props {
 }
 
 @observer
-export default class ImportDialog extends React.Component<Props, {}> {
+export default class ImportDialog extends React.Component<Props> {
     static readonly labels = top.ABT_i18n.tinymce.importWindow;
     static readonly errors = top.ABT_i18n.errors;
 

@@ -3,7 +3,7 @@ import { observer } from 'mobx-react';
 import * as React from 'react';
 
 import EditorDriver from 'drivers/base';
-import { DialogType, EVENTS } from 'utils/Constants';
+import { DialogType } from 'utils/Constants';
 import { CSLProcessor } from 'utils/CSLProcessor';
 import DevTools, { configureDevtool } from 'utils/DevTools';
 import { getRemoteData, parseManualData } from '../API';
@@ -18,14 +18,6 @@ import { PanelButton } from './PanelButton';
 const DevTool = DevTools();
 configureDevtool({ logFilter: change => change.type === 'action' });
 
-// FIXME:
-const {
-    REFERENCE_EDITED,
-    TINYMCE_HIDDEN,
-    TINYMCE_VISIBLE,
-    TOGGLE_PINNED_STATE,
-} = EVENTS;
-
 interface Props {
     editor: EditorDriver;
     store: Store;
@@ -33,8 +25,8 @@ interface Props {
 
 @observer
 export class ReferenceList extends React.Component<Props> {
-    static errors = top.ABT_i18n.errors;
-    static labels = top.ABT_i18n.referenceList.referenceList;
+    static readonly errors = top.ABT_i18n.errors;
+    static readonly labels = top.ABT_i18n.referenceList.referenceList;
 
     processor: CSLProcessor;
 
@@ -50,8 +42,8 @@ export class ReferenceList extends React.Component<Props> {
 
     /**
      * Toggles the main loading spinner for the Reference List. Loading is true
-     * until the TinyMCE instance dispatches the `init` event or after TinyMCE
-     * dispatches the `hide` event (meaning the WYSIWYG editor is inactive)
+     * until the editor driver's `init()` method resolves and also during any
+     * circumstance where the editor becomes hidden or unavailable.
      */
     loading = observable(true);
 
@@ -77,18 +69,14 @@ export class ReferenceList extends React.Component<Props> {
         this.processor = new CSLProcessor(this.props.store);
         this.init();
 
-        /**
-         * React to list toggles
-         */
+        /** React to list toggles */
         reaction(
             () => [this.ui.cited.isOpen, this.ui.uncited.isOpen, this.ui.menuOpen.get()],
             this.handleScroll,
             { fireImmediately: false, delay: 200 }
         );
 
-        /**
-         * React to list pin/unpin
-         */
+        /** React to list pin/unpin */
         reaction(
             () => this.ui.pinned.get(),
             () => {
@@ -97,9 +85,7 @@ export class ReferenceList extends React.Component<Props> {
             }
         );
 
-        /**
-         * React to citedlist changes
-         */
+        /** React to cited list changes */
         reaction(() => this.props.store.citations.citedIDs.length, this.handleScroll, {
             fireImmediately: false,
             delay: 200,
@@ -107,13 +93,20 @@ export class ReferenceList extends React.Component<Props> {
     }
 
     componentDidMount() {
+        // FIXME:
         // addEventListener(OPEN_REFERENCE_WINDOW, this.openReferenceWindow);
-        addEventListener(TINYMCE_HIDDEN, this.toggleLoading.bind(this, true));
         // addEventListener(TINYMCE_READY, this.initTinyMCE);
-        addEventListener(TINYMCE_VISIBLE, this.toggleLoading.bind(this, false));
-        addEventListener(TOGGLE_PINNED_STATE, this.togglePinned);
-        addEventListener(REFERENCE_EDITED, this.initProcessor);
+        // addEventListener(REFERENCE_EDITED, this.initProcessor);
+        // addEventListener(TOGGLE_PINNED_STATE, this.togglePinned);
+        addEventListener(EditorDriver.events.HIDE, this.toggleLoading.bind(this, true));
+        addEventListener(EditorDriver.events.SHOW, this.toggleLoading.bind(this, false));
         document.addEventListener('scroll', this.handleScroll);
+    }
+
+    componentWillUnmount() {
+        removeEventListener(EditorDriver.events.HIDE, this.toggleLoading.bind(this, true));
+        removeEventListener(EditorDriver.events.SHOW, this.toggleLoading.bind(this, false));
+        document.removeEventListener('scroll', this.handleScroll);
     }
 
     init = async () => {
@@ -161,8 +154,8 @@ export class ReferenceList extends React.Component<Props> {
     deleteCitations = () => {
         if (this.selected.length === 0) return;
         this.props.editor.setLoadingState(true);
-        // FIXME: Get the editor removal out of the store
-        // this.props.store.citations.removeItems(this.selected, this.editor.dom.doc);
+        const toRemove = this.props.store.citations.removeItems(this.selected);
+        this.props.editor.removeItems(toRemove);
         this.clearSelection();
         this.initProcessor();
     };
@@ -170,10 +163,14 @@ export class ReferenceList extends React.Component<Props> {
     @action
     addReferences = async (payload: any) => {
         let data: CSL.Data[];
+        let err: string;
         try {
-            data = payload.addManually
-                ? await parseManualData(payload)
+            [data, err] = payload.addManually
+                ? parseManualData(payload)
                 : await getRemoteData(payload.identifierList);
+            if (err) {
+                this.props.editor.alert(err);
+            }
         } catch (e) {
             // tslint:disable-next-line:no-console
             Rollbar.error('ReferenceList.tsx -> openReferenceWindow', e);

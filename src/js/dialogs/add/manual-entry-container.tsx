@@ -18,7 +18,9 @@ interface ManualEntryProps {
 
 @observer
 export class ManualEntryContainer extends React.PureComponent<ManualEntryProps, {}> {
-    labels = top.ABT_i18n.tinymce.referenceWindow.manualEntryContainer;
+    static readonly labels = top.ABT_i18n.tinymce.referenceWindow.manualEntryContainer;
+
+    // FIXME: Should this be done server-side?
     citationTypes = top.ABT_i18n.citationTypes.sort((a, b) => {
         const strA = a.label.toUpperCase();
         const strB = b.label.toUpperCase();
@@ -59,7 +61,10 @@ export class ManualEntryContainer extends React.PureComponent<ManualEntryProps, 
             <div>
                 {this.props.loading && <Spinner size="40px" overlay />}
                 <div id="type-select-row">
-                    <label htmlFor="type-select" children={this.labels.citationType} />
+                    <label
+                        htmlFor="type-select"
+                        children={ManualEntryContainer.labels.citationType}
+                    />
                     <select id="type-select" onChange={this.handleTypeChange} value={itemType}>
                         {this.citationTypes.map((item, i) =>
                             <option
@@ -76,7 +81,7 @@ export class ManualEntryContainer extends React.PureComponent<ManualEntryProps, 
                     <AutoCite
                         getter={this.props.autoCite}
                         kind={itemType as 'webpage'}
-                        placeholder={this.labels.URL}
+                        placeholder={ManualEntryContainer.labels.URL}
                         inputType="url"
                     />}
                 {renderAutocite &&
@@ -84,7 +89,7 @@ export class ManualEntryContainer extends React.PureComponent<ManualEntryProps, 
                     <AutoCite
                         getter={this.props.autoCite}
                         kind={itemType as 'book' | 'chapter'}
-                        placeholder={this.labels.ISBN}
+                        placeholder={ManualEntryContainer.labels.ISBN}
                         pattern="(?:[\dxX]-?){10}|(?:[\dxX]-?){13}"
                         inputType="text"
                     />}
@@ -135,11 +140,11 @@ interface AutoCiteProps {
 
 @observer
 export class AutoCite extends React.Component<AutoCiteProps, {}> {
+    static readonly labels = top.ABT_i18n.tinymce.referenceWindow.manualEntryContainer;
     /**
      * Needed for handling the initial focus() of the field
      */
     input: HTMLInputElement;
-    labels = top.ABT_i18n.tinymce.referenceWindow.manualEntryContainer;
 
     @observable query = '';
 
@@ -175,7 +180,7 @@ export class AutoCite extends React.Component<AutoCiteProps, {}> {
         const { placeholder, inputType } = this.props;
         return (
             <div id="autocite" className="row">
-                <label htmlFor="citequery" children={this.labels.autocite} />
+                <label htmlFor="citequery" children={AutoCite.labels.autocite} />
                 <input
                     type={inputType}
                     id="citequery"
@@ -188,13 +193,13 @@ export class AutoCite extends React.Component<AutoCiteProps, {}> {
                 />
                 <input
                     type="button"
-                    aria-label={this.labels.search}
+                    aria-label={AutoCite.labels.search}
                     className={
                         this.query.length === 0 || !this.input.validity.valid
                             ? 'abt-btn abt-btn_flat abt-btn_disabled'
                             : 'abt-btn abt-btn_flat'
                     }
-                    value={this.labels.search}
+                    value={AutoCite.labels.search}
                     onClick={this.handleQuery}
                 />
                 <style jsx>{`

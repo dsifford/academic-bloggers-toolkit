@@ -14,7 +14,7 @@ interface Props {
 }
 
 @observer
-export default class DialogRouter extends React.PureComponent<Props, {}> {
+export default class DialogRouter extends React.PureComponent<Props> {
     render() {
         const { currentDialog, onSubmit } = this.props;
         switch (currentDialog.get()) {

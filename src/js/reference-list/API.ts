@@ -2,7 +2,7 @@ import { generateID } from 'utils/helpers/';
 import { parseCSLDate } from 'utils/parsers/';
 import { getFromDOI, getFromPubmed } from 'utils/resolvers/';
 
-export async function getRemoteData(identifierList: string): Promise<CSL.Data[]> {
+export async function getRemoteData(identifierList: string): Promise<[CSL.Data[], string]> {
     let pmidList: string[] = [];
     let pmcidList: string[] = [];
     let doiList: string[] = [];
@@ -37,9 +37,7 @@ export async function getRemoteData(identifierList: string): Promise<CSL.Data[]>
     }
 
     if (promises.length === 0) {
-        // FIXME:
-        // mce.alert(`${top.ABT_i18n.errors.identifiersNotFound.all}`);
-        return [];
+        return [[], top.ABT_i18n.errors.identifiersNotFound.all];
     }
 
     const data = await Promise.all(promises);
@@ -51,46 +49,41 @@ export async function getRemoteData(identifierList: string): Promise<CSL.Data[]>
         [[], [...errList]]
     );
 
-    if (errs.length > 0) {
-        // FIXME:
-        // mce.alert(
-        //     `${top.ABT_i18n.errors.prefix}: ${top.ABT_i18n.errors.identifiersNotFound
-        //         .some}: ${errs.join(', ')}`
-        // );
-    }
-    return csl;
+    return [
+        csl,
+        errs.length > 0
+            ? `${top.ABT_i18n.errors.identifiersNotFound.some}: ${errs.join(', ')}`
+            : '',
+    ];
 }
 
-// FIXME: This should not be asyncronous
-export function parseManualData(data: ABT.ManualData): Promise<CSL.Data[]> {
-    return new Promise(resolve => {
-        data.people.forEach(person => {
-            if (data.manualData[person.type] === undefined) {
-                data.manualData[person.type] = [{ family: person.family, given: person.given }];
-                return;
-            }
-            data.manualData[person.type]!.push({
-                family: person.family,
-                given: person.given,
-            });
+export function parseManualData(data: ABT.ManualData): [CSL.Data[], string] {
+    data.people.forEach(person => {
+        if (data.manualData[person.type] === undefined) {
+            data.manualData[person.type] = [{ family: person.family, given: person.given }];
+            return;
+        }
+        data.manualData[person.type]!.push({
+            family: person.family,
+            given: person.given,
         });
-
-        // Process date fields
-        ['accessed', 'event-date', 'issued'].forEach(dateType => {
-            if (!data.manualData[dateType]) return;
-            data.manualData[dateType] = parseCSLDate(data.manualData[dateType], 'RIS');
-        });
-
-        // Create a unique ID if one doesn't exist
-        if (!data.manualData.id) data.manualData.id = generateID();
-
-        Object.keys(data.manualData).forEach(key => {
-            if (data.manualData[key] === '') {
-                delete data.manualData[key];
-                return;
-            }
-        });
-
-        resolve([data.manualData]);
     });
+
+    // Process date fields
+    ['accessed', 'event-date', 'issued'].forEach(dateType => {
+        if (!data.manualData[dateType]) return;
+        data.manualData[dateType] = parseCSLDate(data.manualData[dateType], 'RIS');
+    });
+
+    // Create a unique ID if one doesn't exist
+    if (!data.manualData.id) data.manualData.id = generateID();
+
+    Object.keys(data.manualData).forEach(key => {
+        if (data.manualData[key] === '') {
+            delete data.manualData[key];
+            return;
+        }
+    });
+
+    return [[data.manualData], ''];
 }

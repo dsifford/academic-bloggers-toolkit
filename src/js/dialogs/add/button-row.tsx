@@ -17,7 +17,7 @@ interface Props {
 }
 
 @observer
-export class ButtonRow extends React.PureComponent<Props, {}> {
+export class ButtonRow extends React.PureComponent<Props> {
     static readonly labels = top.ABT_i18n.tinymce.referenceWindow.buttonRow;
 
     currentDialog = observable('');

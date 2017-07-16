@@ -100,7 +100,6 @@ class ABT_Backend {
      * @return array Array of TinyMCE plugins with plugins added
      */
     public function register_tinymce_plugins($plugin_array) {
-        $plugin_array['academic_bloggers_toolkit'] = plugins_url('academic-bloggers-toolkit/js/tinymce/index.js');
         $plugin_array['noneditable'] = plugins_url('academic-bloggers-toolkit/vendor/noneditable.js');
         return $plugin_array;
     }

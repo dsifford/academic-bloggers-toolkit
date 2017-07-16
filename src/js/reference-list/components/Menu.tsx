@@ -24,17 +24,31 @@ const openedStyle = [
     {
         key: 'menu',
         style: {
-            height: spring(85),
-            opacity: spring(1),
-            scale: spring(1),
+            height: spring(85, { stiffness: 300, damping: 20 }),
+            scale: spring(1, { stiffness: 300, damping: 20 }),
         },
     },
 ];
 
 @observer
-export class Menu extends React.PureComponent<Props, {}> {
-    static labels = top.ABT_i18n.referenceList.menu;
-    styles: StyleOption[];
+export class Menu extends React.PureComponent<Props> {
+    static readonly labels = top.ABT_i18n.referenceList.menu;
+
+    static willEnter() {
+        return {
+            height: 0,
+            scale: 0,
+        };
+    }
+
+    static willLeave() {
+        return {
+            height: spring(0, { stiffness: 300, damping: 25 }),
+            scale: spring(0, { stiffness: 300, damping: 25 }),
+        };
+    }
+
+    readonly styles: StyleOption[];
 
     selected = observable({
         label: '',
@@ -86,7 +100,7 @@ export class Menu extends React.PureComponent<Props, {}> {
     render() {
         const transitionStyle = this.props.isOpen.get() ? openedStyle : [];
         return (
-            <TransitionMotion willLeave={willLeave} willEnter={willEnter} styles={transitionStyle}>
+            <TransitionMotion willLeave={Menu.willLeave} willEnter={Menu.willEnter} styles={transitionStyle}>
                 {styles =>
                     styles.length > 0
                         ? (
@@ -161,22 +175,6 @@ export class Menu extends React.PureComponent<Props, {}> {
             </TransitionMotion>
         );
     }
-}
-
-function willEnter() {
-    return {
-        height: 0,
-        opacity: 0,
-        scale: 0,
-    };
-}
-
-function willLeave() {
-    return {
-        height: spring(0),
-        opacity: spring(0),
-        scale: spring(0),
-    };
 }
 
 export function dynamicOptionHeightHandler({ option }: { option: StyleOption }) {

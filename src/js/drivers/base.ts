@@ -14,14 +14,27 @@ export interface RelativeCitationPositions {
     locations: [Citeproc.CitationsPrePost, Citeproc.CitationsPrePost];
 }
 
+enum EditorEvents {
+    SHOW = 'EDITOR_SHOW',
+    HIDE = 'EDITOR_HIDE',
+}
+
 /**
  * Base class from which all editor drivers must be derived
  */
 export default abstract class EditorDriver {
+    public static readonly events = EditorEvents;
+
     protected readonly citationClass = 'abt-citation';
     protected readonly bibliographyId = 'abt-bibliography';
     protected readonly staticBibClass = 'abt-static-bib';
     protected readonly footnoteId = 'abt-footnote';
+
+    /** Retrieve an array of every citationId currently existing in the editor. */
+    public abstract get citationIds(): string[];
+
+    /** Retrive the currently selected content in the editor as a raw HTML string. */
+    public abstract get selection(): string;
 
     /**
      * Called when the window is loaded. Should resolve when the editor is
@@ -72,11 +85,12 @@ export default abstract class EditorDriver {
      */
     public abstract getRelativeCitationPositions(validIds: string[]): RelativeCitationPositions;
 
-    /** Retrieve an array of every citationId currently existing in the editor. */
-    public abstract get citationIds(): string[];
-
-    /** Retrive the currently selected content in the editor as a raw HTML string. */
-    public abstract get selection(): string;
+    /**
+     * Responsible for finding and removing elements from the editor that have
+     * the given HTML Element IDs.
+     * @param idList Array of HTML element IDs to remove from the document
+     */
+    public abstract removeItems(idList: string[]): void;
 
     /**
      * If the editor supports a 'loading' state which shows a spinner or some
@@ -99,4 +113,12 @@ export default abstract class EditorDriver {
     public alert(message: string): void {
         window.alert(message);
     }
+
+    /**
+     * Should be used for binding all `EditorEvents` to the appropriate
+     * handlers for the editor. Must be called internally (ideally should be
+     * done directly before promise resolution in the `init()` method).
+     * @emits EditorEvents
+     */
+    protected abstract bindEvents(): void;
 }

@@ -55,7 +55,6 @@ const config: webpack.Configuration = {
     entry: {
         'js/frontend': ['babel-polyfill', './src/js/frontend'],
         'js/reference-list/index': ['babel-polyfill', 'whatwg-fetch', './src/js/reference-list/'],
-        'js/tinymce/index': ['./src/js/tinymce/'],
         // vendor: ['react', 'react-dom', 'mobx', 'mobx-react'],
     },
     output: {

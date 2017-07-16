@@ -2,7 +2,6 @@ import { action, IObservableArray, IObservableObject, ObservableMap, /*toJS*/ } 
 import { observer } from 'mobx-react';
 import * as React from 'react';
 
-import { EVENTS } from 'utils/Constants';
 import { preventScrollPropagation } from 'utils/helpers/';
 // import { parseManualData } from '../API';
 
@@ -22,7 +21,7 @@ interface Props {
 }
 
 @observer
-export class ItemList extends React.PureComponent<Props, {}> {
+export class ItemList extends React.PureComponent<Props> {
     singleClick = () => {
         this.props.toggle(this.props.id);
     };
@@ -108,7 +107,8 @@ class Items extends React.Component<ItemsProps, {}> {
     finalizeEdits = (d: [string, CSL.Data]) => {
         this.props.CSL.delete(d[0]);
         this.props.CSL.set(d[0], d[1]);
-        dispatchEvent(new CustomEvent(EVENTS.REFERENCE_EDITED));
+        // FIXME:
+        // dispatchEvent(new CustomEvent(EVENTS.REFERENCE_EDITED));
     };
 
     render() {

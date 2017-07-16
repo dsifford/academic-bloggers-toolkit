@@ -32,6 +32,7 @@ export default class TinyMCEDriver extends EditorDriver {
                 }
                 this.editor = top.tinyMCE.editors.content;
                 clearInterval(interval);
+                this.bindEvents();
                 return resolve();
             }, 500);
         });
@@ -51,6 +52,19 @@ export default class TinyMCEDriver extends EditorDriver {
             .querySelectorAll(`#${this.bibliographyId}, .${this.citationClass}`);
         for (const element of elements) {
             element.parentNode!.removeChild(element);
+        }
+    }
+
+    public removeItems(itemIds: string[]) {
+        const doc = this.editor.getDoc();
+        for (const id of itemIds) {
+            const item = doc.getElementById(id);
+            if (!item) {
+                throw new Error(`Item with id ${id} could not be found.`);
+            }
+            if (item && item.parentElement) {
+                item.parentElement.removeChild(item);
+            }
         }
     }
 
@@ -120,6 +134,11 @@ export default class TinyMCEDriver extends EditorDriver {
         return staticBib
             ? this.setStaticBibliography(bibliography)
             : this.setStandardBibliography(options, bibliography);
+    }
+
+    protected bindEvents() {
+        this.editor.on('show', () => dispatchEvent(new CustomEvent(EditorDriver.events.SHOW)));
+        this.editor.on('hide', () => dispatchEvent(new CustomEvent(EditorDriver.events.HIDE)));
     }
 
     private setStandardBibliography(options: BibOptions, bibliography: ABT.Bibliography | boolean) {

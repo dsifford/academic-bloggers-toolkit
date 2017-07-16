@@ -78,33 +78,27 @@ describe('API', () => {
         });
         it('should parse manual data', () => {
             const beforeDate = { 'date-parts': [['2016', '08', '19']] };
-            return parseManualData(mockData).then(d => {
-                expect(d[0].issued).toEqual(beforeDate);
-            });
+            expect(parseManualData(mockData)[0][0].issued).toEqual(beforeDate)
         });
         it('should drop empty fields', () => {
             mockData.manualData.abstract = '';
             expect(Object.keys(mockData.manualData).length).toBe(22);
-            return parseManualData(mockData).then(d => {
-                expect(Object.keys(d[0]).length).toBe(21);
-            });
+            expect(Object.keys(parseManualData(mockData)[0][0]).length).toBe(21);
         });
         it('should add "Person" types appropriately', () => {
             mockData.people = [
                 { family: 'Smith', given: 'Robert', type: 'author' },
                 { family: 'Brown', given: 'Susan', type: 'editor' },
             ];
-            return parseManualData(mockData).then(d => {
-                expect(d[0].author!.length).toBe(2);
-                expect(d[0].editor!.length).toBe(1);
-            });
+            const data = parseManualData(mockData)[0][0];
+            expect(data.author.length).toBe(2);
+            expect(data.editor.length).toBe(1);
         });
         it('should generateId() if an ID does not already exists', () => {
             mockData.manualData.id = '';
-            return parseManualData(mockData).then(d => {
-                expect(d[0].id).not.toBe('');
-                expect(d[0].id).not.toBeUndefined();
-            });
+            const data = parseManualData(mockData)[0][0];
+            expect(data.id).not.toBe('');
+            expect(data.id).not.toBeUndefined();
         });
     });
 });
