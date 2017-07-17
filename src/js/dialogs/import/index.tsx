@@ -8,12 +8,10 @@ import { colors } from 'utils/styles';
 
 import Callout from 'components/callout';
 
-interface Props {
-    onSubmit(data: any): void;
-}
+import { DialogProps } from 'dialogs/';
 
 @observer
-export default class ImportDialog extends React.Component<Props> {
+export default class ImportDialog extends React.Component<DialogProps> {
     static readonly labels = top.ABT_i18n.tinymce.importWindow;
     static readonly errors = top.ABT_i18n.errors;
 

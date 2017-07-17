@@ -4,16 +4,13 @@ import * as React from 'react';
 
 import { BookMeta, getFromISBN, getFromURL, URLMeta } from 'utils/resolvers/';
 
+import { DialogProps } from 'dialogs/';
 import { ButtonRow } from './button-row';
 import { IdentifierInput } from './identifier-input';
 import { ManualEntryContainer } from './manual-entry-container';
 
-interface Props {
-    onSubmit(data: any): void;
-}
-
 @observer
-export default class AddDialog extends React.Component<Props> {
+export default class AddDialog extends React.Component<DialogProps> {
     static readonly labels = top.ABT_i18n.tinymce.referenceWindow.referenceWindow;
 
     addManually = observable(false);
@@ -23,6 +20,8 @@ export default class AddDialog extends React.Component<Props> {
     identifierList = observable('');
 
     isLoading = observable(false);
+
+    errorMessage = observable('');
 
     manualData = observable.map(new Map([['type', 'webpage']]));
 
@@ -102,6 +101,9 @@ export default class AddDialog extends React.Component<Props> {
     };
 
     @action
+    setErrorMessage = (msg?: string) => this.errorMessage.set(msg || '');
+
+    @action
     toggleAttachInline = () => {
         this.attachInline.set(!this.attachInline.get());
     };
@@ -141,8 +143,7 @@ export default class AddDialog extends React.Component<Props> {
                 }
             }
         } catch (e) {
-            // FIXME:
-            // top.tinyMCE.activeEditor.windowManager.alert(e.message);
+            this.setErrorMessage(e.message);
         }
         this.toggleLoadingState();
     };
@@ -160,6 +161,7 @@ export default class AddDialog extends React.Component<Props> {
                         <ManualEntryContainer
                             autoCite={this.handleAutocite}
                             loading={this.isLoading.get()}
+                            errorMessage={this.errorMessage}
                             manualData={this.manualData}
                             people={this.people}
                             typeChange={this.changeType}

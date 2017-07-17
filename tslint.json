@@ -13,6 +13,7 @@
         "member-access": [false],
         "no-angle-bracket-type-assertion": false,
         "no-default-export": false,
+        "no-object-literal-type-assertion": false,
         "no-string-literal": false,
         "no-string-throw": false,
         "no-unused-expression": [false],

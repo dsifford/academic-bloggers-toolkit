@@ -1,3 +1,4 @@
+// FIXME: check out https://github.com/fiduswriter/biblatex-csl-converter
 import * as parser from 'bibtex-parse-js';
 
 interface Months {

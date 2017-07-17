@@ -4,5 +4,7 @@
         "deploy": "shellscript",
         "update-translations": "shellscript",
         ".stylintrc": "json"
-    }
+    },
+    "lcov.path": "lib/tmp/coverage/lcov.info",
+    "lcov.branchCoverage": "full"
 }

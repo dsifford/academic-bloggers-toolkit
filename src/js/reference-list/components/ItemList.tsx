@@ -1,33 +1,43 @@
-import { action, IObservableArray, IObservableObject, ObservableMap, /*toJS*/ } from 'mobx';
+import { action, IObservableArray, IObservableObject, IObservableValue, ObservableMap } from 'mobx';
 import { observer } from 'mobx-react';
 import * as React from 'react';
 
-import { preventScrollPropagation } from 'utils/helpers/';
-// import { parseManualData } from '../API';
-
 import { Card } from './Card';
+
+interface UI {
+    cited: {
+        readonly maxHeight: string;
+        isOpen: IObservableValue<boolean>;
+    } & IObservableObject;
+    uncited: {
+        readonly maxHeight: string;
+        isOpen: IObservableValue<boolean>;
+    } & IObservableObject;
+    readonly [k: string]: any;
+}
 
 interface Props {
     readonly items: CSL.Data[];
-    readonly id: string;
-    readonly ui: {
-        readonly isOpen: boolean;
-        readonly maxHeight: string;
-    } & IObservableObject;
+    readonly id: 'cited' | 'uncited';
     readonly children: string;
+    ui: UI;
     selectedItems: IObservableArray<string>;
     CSL: ObservableMap<CSL.Data>;
-    toggle(id: string, explode?: boolean): void;
+    onEditReference(referenceId: string): void;
 }
 
 @observer
 export class ItemList extends React.PureComponent<Props> {
+    @action
     singleClick = () => {
-        this.props.toggle(this.props.id);
+        this.props.ui[this.props.id].isOpen.set(!this.props.ui[this.props.id].isOpen.get());
     };
 
+    @action
     doubleClick = () => {
-        this.props.toggle(this.props.id, true);
+        this.props.ui.cited.isOpen.set(false);
+        this.props.ui.uncited.isOpen.set(false);
+        this.props.ui[this.props.id].isOpen.set(true);
     };
 
     @action
@@ -37,7 +47,7 @@ export class ItemList extends React.PureComponent<Props> {
     };
 
     render() {
-        const { items, selectedItems, children, ui, id, CSL } = this.props;
+        const { CSL, children, id, items, onEditReference, selectedItems, ui } = this.props;
         if (!items || items.length === 0) return null;
         return (
             <div>
@@ -50,15 +60,16 @@ export class ItemList extends React.PureComponent<Props> {
                     <div className="abt-item-heading__label" children={children} />
                     <div className="abt-item-heading__badge" children={items.length} />
                 </div>
-                {ui.isOpen &&
+                {ui[id].isOpen.get() &&
                     <Items
-                        onClick={this.toggleSelect}
-                        CSL={CSL}
-                        id={id}
                         items={items}
-                        style={{ maxHeight: ui.maxHeight }}
                         selectedItems={selectedItems}
                         withTooltip={id === 'cited'}
+                        CSL={CSL}
+                        onEditReference={onEditReference}
+                        id={id}
+                        style={{ maxHeight: ui.maxHeight }}
+                        onClick={this.toggleSelect}
                     />}
             </div>
         );
@@ -66,55 +77,35 @@ export class ItemList extends React.PureComponent<Props> {
 }
 
 interface ItemsProps extends React.HTMLProps<HTMLElement> {
-    CSL: ObservableMap<CSL.Data>;
     readonly items: CSL.Data[];
     readonly selectedItems: string[];
     readonly withTooltip: boolean;
+    CSL: ObservableMap<CSL.Data>;
+    onEditReference(referenceId: string): void;
 }
 
 @observer
 class Items extends React.Component<ItemsProps, {}> {
-    element: HTMLDivElement;
-    handleScroll = preventScrollPropagation.bind(this);
-
-    bindRefs = (c: HTMLDivElement) => {
-        this.element = c;
-    };
-
-    // FIXME:
-    editSingleReference = (e: React.MouseEvent<HTMLDivElement>) => {
-        // tslint:disable-next-line:no-console
-        console.log(e);
-        return;
-        // const refId = e.currentTarget.id;
-        // let data: ABT.ManualData = {};
-        // try {
-        //     data = {}
-        //     // data = await editReferenceWindow(
-        //     //     tinyMCE.EditorManager.get('content'),
-        //     //     toJS(this.props.items.find(i => i.id === refId)!)
-        //     // );
-        // } catch (e) {
-        //     if (!e) return; // user exited early
-        //     return Rollbar.error('itemList.tsx -> editSingleReference', e);
-        // }
-
-        // const csl = await parseManualData(data);
-        // return this.finalizeEdits([refId, csl[0]]);
+    handleScroll = (e: React.WheelEvent<HTMLDivElement>) => {
+        e.stopPropagation();
+        const atTopAndScrollingUp: boolean = e.currentTarget.scrollTop === 0 && e.deltaY < 0;
+        const atBottomAndScollingDown: boolean =
+            Math.floor(e.currentTarget.scrollTop + e.currentTarget.offsetHeight) ===
+                e.currentTarget.scrollHeight && e.deltaY > 0;
+        if (atTopAndScrollingUp || atBottomAndScollingDown) {
+            e.preventDefault();
+        }
     };
 
     @action
-    finalizeEdits = (d: [string, CSL.Data]) => {
-        this.props.CSL.delete(d[0]);
-        this.props.CSL.set(d[0], d[1]);
-        // FIXME:
-        // dispatchEvent(new CustomEvent(EVENTS.REFERENCE_EDITED));
+    editSingleReference = (e: React.MouseEvent<HTMLDivElement>) => {
+        const referenceId = e.currentTarget.id;
+        this.props.onEditReference(referenceId);
     };
 
     render() {
         return (
             <div
-                ref={this.bindRefs}
                 onWheel={this.handleScroll}
                 id={this.props.id}
                 className="abt-items"

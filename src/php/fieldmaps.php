@@ -1,5 +1,11 @@
 <?php
 
+function sort_by_label($a, $b) {
+    $a = strtolower($a['label']);
+    $b = strtolower($b['label']);
+    if ($a == $b) return 0;
+    return ($a < $b) ? -1 : 1;
+}
 
 $ABT_i18n->citationTypes = [
     [
@@ -75,6 +81,8 @@ $ABT_i18n->citationTypes = [
         'value' => 'webpage',
     ],
 ];
+
+usort($ABT_i18n->citationTypes, 'sort_by_label');
 
 /*
 Not currently used.

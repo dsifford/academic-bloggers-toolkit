@@ -1,5 +1,6 @@
 export enum DialogType {
     ADD = 'ADD',
+    EDIT = 'EDIT',
     IMPORT = 'IMPORT',
     NONE = '',
 }

@@ -1,3 +1,4 @@
+import { stripIndents } from 'common-tags';
 import { action, observable, reaction } from 'mobx';
 import { observer } from 'mobx-react';
 import * as React from 'react';
@@ -47,6 +48,8 @@ export class ReferenceList extends React.Component<Props> {
      */
     loading = observable(true);
 
+    dialogProps = observable.box<any>();
+
     /**
      * UI State
      */
@@ -55,11 +58,11 @@ export class ReferenceList extends React.Component<Props> {
         pinned: observable(false),
         menuOpen: observable(false),
         cited: observable({
-            isOpen: true,
+            isOpen: observable(true),
             maxHeight: '400px',
         }),
         uncited: observable({
-            isOpen: false,
+            isOpen: observable(false),
             maxHeight: '400px',
         }),
     };
@@ -98,14 +101,14 @@ export class ReferenceList extends React.Component<Props> {
         // addEventListener(TINYMCE_READY, this.initTinyMCE);
         // addEventListener(REFERENCE_EDITED, this.initProcessor);
         // addEventListener(TOGGLE_PINNED_STATE, this.togglePinned);
-        addEventListener(EditorDriver.events.HIDE, this.toggleLoading.bind(this, true));
-        addEventListener(EditorDriver.events.SHOW, this.toggleLoading.bind(this, false));
+        addEventListener(EditorDriver.events.UNAVAILABLE, this.toggleLoading.bind(this, true));
+        addEventListener(EditorDriver.events.AVAILABLE, this.toggleLoading.bind(this, false));
         document.addEventListener('scroll', this.handleScroll);
     }
 
     componentWillUnmount() {
-        removeEventListener(EditorDriver.events.HIDE, this.toggleLoading.bind(this, true));
-        removeEventListener(EditorDriver.events.SHOW, this.toggleLoading.bind(this, false));
+        removeEventListener(EditorDriver.events.UNAVAILABLE, this.toggleLoading.bind(this, true));
+        removeEventListener(EditorDriver.events.AVAILABLE, this.toggleLoading.bind(this, false));
         document.removeEventListener('scroll', this.handleScroll);
     }
 
@@ -141,11 +144,13 @@ export class ReferenceList extends React.Component<Props> {
             this.clearSelection();
         } catch (err) {
             Rollbar.error('ReferenceLissett.tsx -> initProcessor', err);
-            this.props.editor.alert(
-                `${ReferenceList.errors.unexpected.message}.\n\n` +
-                    `${err.name}: ${err.message}\n\n` +
-                    `${ReferenceList.errors.unexpected.reportInstructions}`
-            );
+            this.props.editor.alert(stripIndents`
+                ${ReferenceList.errors.unexpected.message}
+
+                ${err.name}: ${err.message}
+
+                ${ReferenceList.errors.unexpected.reportInstructions}
+            `);
         }
         this.props.editor.setLoadingState(false);
     };
@@ -154,7 +159,7 @@ export class ReferenceList extends React.Component<Props> {
     deleteCitations = () => {
         if (this.selected.length === 0) return;
         this.props.editor.setLoadingState(true);
-        const toRemove = this.props.store.citations.removeItems(this.selected);
+        const toRemove = this.props.store.citations.removeItems(this.selected.slice());
         this.props.editor.removeItems(toRemove);
         this.clearSelection();
         this.initProcessor();
@@ -174,11 +179,13 @@ export class ReferenceList extends React.Component<Props> {
         } catch (e) {
             // tslint:disable-next-line:no-console
             Rollbar.error('ReferenceList.tsx -> openReferenceWindow', e);
-            this.props.editor.alert(
-                `${ReferenceList.errors.unexpected.message}.\n\n` +
-                    `${e.name}: ${e.message}\n\n` +
-                    `${ReferenceList.errors.unexpected.reportInstructions}`
-            );
+            this.props.editor.alert(stripIndents`
+                ${ReferenceList.errors.unexpected.message}
+
+                ${e.name}: ${e.message}
+
+                ${ReferenceList.errors.unexpected.reportInstructions}
+            `);
             return;
         }
 
@@ -246,39 +253,46 @@ export class ReferenceList extends React.Component<Props> {
         }
     };
 
-    @action
-    toggleList = (id: string, explode: boolean = false) => {
-        switch (id) {
-            case 'cited':
-                if (explode) {
-                    this.ui.cited.isOpen = true;
-                    this.ui.uncited.isOpen = false;
-                    break;
-                }
-                this.ui.cited.isOpen = !this.ui.cited.isOpen;
-                break;
-            case 'uncited':
-                if (explode) {
-                    this.ui.cited.isOpen = false;
-                    this.ui.uncited.isOpen = true;
-                    break;
-                }
-                this.ui.uncited.isOpen = !this.ui.uncited.isOpen;
-                break;
-            default:
-                break;
-        }
-    };
+    // @action
+    // toggleList = (id: string, explode: boolean = false) => {
+    //     switch (id) {
+    //         case 'cited':
+    //             if (explode) {
+    //                 this.ui.cited.isOpen = true;
+    //                 this.ui.uncited.isOpen = false;
+    //                 break;
+    //             }
+    //             this.ui.cited.isOpen = !this.ui.cited.isOpen;
+    //             break;
+    //         case 'uncited':
+    //             if (explode) {
+    //                 this.ui.cited.isOpen = false;
+    //                 this.ui.uncited.isOpen = true;
+    //                 break;
+    //             }
+    //             this.ui.uncited.isOpen = !this.ui.uncited.isOpen;
+    //             break;
+    //         default:
+    //             break;
+    //     }
+    // };
 
     @action
     reset = () => {
         this.props.editor.setLoadingState(true);
         this.clearSelection();
-        this.ui.uncited.isOpen = false;
-        this.ui.cited.isOpen = true;
+        this.ui.uncited.isOpen.set(false);
+        this.ui.cited.isOpen.set(true)
         this.props.store.reset();
         this.props.editor.reset();
         this.initProcessor();
+    };
+
+    @action
+    editReference = (referenceId: string) => {
+        const data = this.props.store.citations.CSL.get(referenceId)!;
+        this.dialogProps.set(data);
+        this.currentDialog.set(DialogType.EDIT);
     };
 
     @action
@@ -295,10 +309,11 @@ export class ReferenceList extends React.Component<Props> {
                 break;
             case DialogType.IMPORT:
                 this.props.store.citations.addItems(data);
+                break;
+            case DialogType.EDIT:
+                this.props.store.citations.CSL.set(data.id, data);
+                this.initProcessor();
         }
-        // FIXME:
-        // tslint:disable-next-line:no-console
-        console.log(data);
         this.currentDialog.set(DialogType.NONE);
     };
 
@@ -315,7 +330,11 @@ export class ReferenceList extends React.Component<Props> {
         return (
             <div>
                 <DevTool position={{ left: 50, top: 40 }} />
-                <Dialog currentDialog={this.currentDialog} onSubmit={this.handleDialogSubmit} />
+                <Dialog
+                    data={this.dialogProps.get()}
+                    currentDialog={this.currentDialog}
+                    onSubmit={this.handleDialogSubmit}
+                />
                 <StorageField store={this.props.store} />
                 <div className="abt-panel">
                     <PanelButton
@@ -373,9 +392,9 @@ export class ReferenceList extends React.Component<Props> {
                         id="cited"
                         CSL={this.props.store.citations.CSL}
                         items={this.props.store.citations.cited}
+                        onEditReference={this.editReference}
                         selectedItems={this.selected}
-                        ui={this.ui.cited}
-                        toggle={this.toggleList}
+                        ui={this.ui}
                         children={ReferenceList.labels.citedItems}
                     />}
                 {this.props.store.citations.uncited.length > 0 &&
@@ -383,9 +402,9 @@ export class ReferenceList extends React.Component<Props> {
                         id="uncited"
                         CSL={this.props.store.citations.CSL}
                         items={this.props.store.citations.uncited}
+                        onEditReference={this.editReference}
                         selectedItems={this.selected}
-                        ui={this.ui.uncited}
-                        toggle={this.toggleList}
+                        ui={this.ui}
                         children={ReferenceList.labels.uncitedItems}
                     />}
             </div>
@@ -443,13 +462,15 @@ export class ReferenceList extends React.Component<Props> {
                     citationsBefore,
                     citationsAfter
                 );
-            } catch (err) {
-                Rollbar.error('ReferenceList.tsx -> insertInlineCitation', err);
-                this.props.editor.alert(
-                    `${ReferenceList.errors.unexpected.message}.\n\n` +
-                        `${err.name}: ${err.message}\n\n` +
-                        `${ReferenceList.errors.unexpected.reportInstructions}`
-                );
+            } catch (e) {
+                Rollbar.error('ReferenceList.tsx -> insertInlineCitation', e);
+                this.props.editor.alert(stripIndents`
+                    ${ReferenceList.errors.unexpected.message}
+
+                    ${e.name}: ${e.message}
+
+                    ${ReferenceList.errors.unexpected.reportInstructions}
+                `);
                 this.props.editor.setLoadingState(false);
                 this.clearSelection();
                 return;
@@ -458,13 +479,15 @@ export class ReferenceList extends React.Component<Props> {
             try {
                 this.props.editor.composeCitations(clusters, this.props.store.citations.citationByIndex, this.processor.citeproc.opt.xclass);
                 this.props.editor.setBibliography(this.props.store.bibOptions, this.processor.makeBibliography());
-            } catch (err) {
-                Rollbar.error('ReferenceList.tsx -> insertInlineCitation', err);
-                this.props.editor.alert(
-                    `${ReferenceList.errors.unexpected.message}.\n\n` +
-                        `${err.name}: ${err.message}\n\n` +
-                        `${ReferenceList.errors.unexpected.reportInstructions}`
-                );
+            } catch (e) {
+                Rollbar.error('ReferenceList.tsx -> insertInlineCitation', e);
+                this.props.editor.alert(stripIndents`
+                    ${ReferenceList.errors.unexpected.message}
+
+                    ${e.name}: ${e.message}
+
+                    ${ReferenceList.errors.unexpected.reportInstructions}
+                `);
             }
             this.props.editor.setLoadingState(false);
             this.clearSelection();
@@ -490,16 +513,19 @@ export class ReferenceList extends React.Component<Props> {
             const bibliography = await this.processor.createStaticBibliography(data);
             this.clearSelection();
             this.props.editor.setBibliography(this.props.store.bibOptions, bibliography, true);
-        } catch (err) {
-            Rollbar.error('ReferenceList.tsx -> insertStaticBibliography', err);
-            this.props.editor.alert(
-                `${ReferenceList.errors.unexpected.message}.\n\n` +
-                    `${err.name}: ${err.message}\n\n` +
-                    `${ReferenceList.errors.unexpected.reportInstructions}`
-            );
+        } catch (e) {
+            Rollbar.error('ReferenceList.tsx -> insertStaticBibliography', e);
+            this.props.editor.alert(stripIndents`
+                ${ReferenceList.errors.unexpected.message}
+
+                ${e.name}: ${e.message}
+
+                ${ReferenceList.errors.unexpected.reportInstructions}
+            `);
         }
     };
 
+    // FIXME: height adjustment doesn't seem to be working
     @action
     handleScroll = () => {
         const list = document.getElementById('abt-reflist')!;
@@ -517,7 +543,7 @@ export class ReferenceList extends React.Component<Props> {
             this.props.store.citations.cited.length > 0 &&
             this.props.store.citations.uncited.length > 0;
 
-        const scrollpos = document.body.scrollTop;
+        const scrollpos = Math.ceil(window.scrollY);
 
         /**
          * Offset from top of reference list to top of viewport.

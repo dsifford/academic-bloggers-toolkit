@@ -15,8 +15,15 @@ export interface RelativeCitationPositions {
 }
 
 enum EditorEvents {
-    SHOW = 'EDITOR_SHOW',
-    HIDE = 'EDITOR_HIDE',
+    /**
+     * Emit this any time the editor becomes available again after being
+     * unavailable (excluding the initial initialization).
+     */
+    AVAILABLE = 'EDITOR_AVAILABLE',
+    /**
+     * Emit this any time the editor goes unavailable or becomes hidden.
+     */
+    UNAVAILABLE = 'EDITOR_UNAVAILABLE',
 }
 
 /**
@@ -29,6 +36,7 @@ export default abstract class EditorDriver {
     protected readonly bibliographyId = 'abt-bibliography';
     protected readonly staticBibClass = 'abt-static-bib';
     protected readonly footnoteId = 'abt-footnote';
+    protected readonly brokenPrefix = top.ABT_i18n.errors.broken;
 
     /** Retrieve an array of every citationId currently existing in the editor. */
     public abstract get citationIds(): string[];

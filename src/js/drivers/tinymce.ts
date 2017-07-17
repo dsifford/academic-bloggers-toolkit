@@ -4,7 +4,9 @@ export default class TinyMCEDriver extends EditorDriver {
     private editor: TinyMCE.Editor;
 
     public get citationIds() {
-        const citations = this.editor.getDoc().querySelectorAll(`.${this.citationClass}`);
+        const citations = this.editor.getDoc().querySelectorAll(
+            `*:not(.mce-offscreen-selection) > .${this.citationClass}`
+        );
         return [...citations].map(c => c.id);
     }
 
@@ -70,50 +72,44 @@ export default class TinyMCEDriver extends EditorDriver {
 
     public getRelativeCitationPositions(validIds: string[]) {
         const doc = this.editor.getDoc();
-        const currentSelection = this.selection;
-        // FIXME: Consider making this a static property to avoid creating it repeatedly
-        const re = new RegExp(`<span id="([\d\w]+)" class="${this.citationClass} .+<\/span>`);
-        // const re = /<span id="([\d\w]+)" class="(?:abt-citation|abt_cite) .+<\/span>/;
-        // FIXME: Should I use bookmarks instead here?
-        const id = (currentSelection.match(re) || ['', 'CURSOR'])[1];
+        const bm = this.editor.selection.getBookmark();
+        const bookmarkIds = [`${bm.id}_start`, `${bm.id}_end`];
+        validIds = [...validIds, ...bookmarkIds];
 
-        if (id === 'CURSOR') {
-            this.editor.selection.setContent(`<span id="CURSOR" class="abt-citation"></span>`);
-        }
-
-        // TinyMCE creates a hidden duplicate of selections - this selector ensures
-        // that we do not include that.
-        const citations = doc.querySelectorAll(`
+        const nodes = [
+            ...doc.querySelectorAll(`
             *:not(.mce-offscreen-selection) >
-                .${this.citationClass}:not(.${this.citationClass}_broken)
-        `);
-        const payload: RelativeCitationPositions = {
-            currentIndex: 0,
-            locations: [[], []],
-        };
+                .${this.citationClass}:not(${this.citationClass}_broken),
+                #${bm.id}_start,
+                #${bm.id}_end
+        `),
+        ];
+        const citations = nodes.filter(citation => validIds.indexOf(citation.id) > -1);
+        const invalidCitations = nodes.filter(citation => validIds.indexOf(citation.id) === -1);
 
-        if (citations.length > 1) {
-            let key = 0;
-            for (const [index, citation] of citations.entries()) {
-                if (citation.id === id) {
-                    key = 1;
-                    payload.currentIndex = index;
-                } else if (citation.id === '' || validIds.indexOf(citation.id) === -1) {
-                    citation.classList.add(`${this.citationClass}_broken`);
-                    citation.innerHTML = `${top.ABT_i18n.errors.broken} ${citation.innerHTML}`;
-                } else {
-                    payload.locations[key] = [
-                        ...payload.locations[key],
-                        [citation.id, index - key],
-                    ];
-                }
-            }
+        const startIndex = citations.findIndex(el => el.id === `${bm.id}_start`);
+        const endIndex = citations.findIndex(el => el.id === `${bm.id}_end`);
+
+        const before = citations
+            .slice(0, startIndex)
+            .filter(citation => bookmarkIds.indexOf(citation.id) === -1)
+            .map((citation, i) => <[string, number]>[citation.id, i]);
+        const after = citations
+            .slice(endIndex + 1)
+            .filter(citation => bookmarkIds.indexOf(citation.id) === -1)
+            .map((citation, i) => <[string, number]>[citation.id, startIndex + i]);
+
+        for (const invalid of invalidCitations) {
+            invalid.classList.add(`${this.citationClass}_broken`);
+            invalid.innerHTML = `${this.brokenPrefix} ${invalid.innerHTML}`;
         }
-        const cursor = doc.getElementById('CURSOR');
-        if (cursor && cursor.parentElement) {
-            cursor.parentElement.removeChild(cursor);
-        }
-        return payload;
+
+        this.editor.selection.moveToBookmark(bm);
+
+        return <RelativeCitationPositions>{
+            currentIndex: startIndex,
+            locations: [before, after],
+        };
     }
 
     public composeCitations(
@@ -137,8 +133,10 @@ export default class TinyMCEDriver extends EditorDriver {
     }
 
     protected bindEvents() {
-        this.editor.on('show', () => dispatchEvent(new CustomEvent(EditorDriver.events.SHOW)));
-        this.editor.on('hide', () => dispatchEvent(new CustomEvent(EditorDriver.events.HIDE)));
+        this.editor.on('show', () => dispatchEvent(new CustomEvent(EditorDriver.events.AVAILABLE)));
+        this.editor.on('hide', () =>
+            dispatchEvent(new CustomEvent(EditorDriver.events.UNAVAILABLE))
+        );
     }
 
     private setStandardBibliography(options: BibOptions, bibliography: ABT.Bibliography | boolean) {

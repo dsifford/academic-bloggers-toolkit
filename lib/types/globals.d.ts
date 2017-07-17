@@ -171,6 +171,7 @@ declare namespace BackendGlobals {
 }
 
 declare module 'autoprefixer-stylus';
+declare module 'common-tags';
 declare module 'bibtex-parse-js';
 declare module 'gulp-stylus';
 declare module 'gulp-uglify/composer';

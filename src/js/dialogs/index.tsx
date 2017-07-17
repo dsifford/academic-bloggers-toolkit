@@ -6,17 +6,22 @@ import { DialogType } from 'utils/Constants';
 import Container from './container';
 
 import AddDialog from './add/';
+import EditDialog from './edit/';
 import ImportDialog from './import/';
 
-interface Props {
+export interface DialogProps {
+    onSubmit(data: any): void;
+}
+
+interface Props extends DialogProps {
     currentDialog: IObservableValue<string>;
-    onSubmit(data: any): void; // FIXME:
+    data?: CSL.Data;
 }
 
 @observer
 export default class DialogRouter extends React.PureComponent<Props> {
     render() {
-        const { currentDialog, onSubmit } = this.props;
+        const { currentDialog, data, onSubmit } = this.props;
         switch (currentDialog.get()) {
             case DialogType.ADD:
                 return (
@@ -24,6 +29,12 @@ export default class DialogRouter extends React.PureComponent<Props> {
                         <AddDialog onSubmit={onSubmit} />
                     </Container>
                 );
+            case DialogType.EDIT:
+                return (
+                    <Container currentDialog={currentDialog} title="Edit Reference">
+                        <EditDialog data={data!} onSubmit={onSubmit} />
+                    </Container>
+                )
             case DialogType.IMPORT:
                 return (
                     <Container currentDialog={currentDialog} title="Import References">

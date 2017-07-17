@@ -9,6 +9,7 @@ const setup = (citationType = 'article-journal', isLoading: boolean = false) => 
         <ManualEntryContainer
             manualData={observable.map<string>([['type', citationType]])}
             people={observable([])}
+            errorMessage={observable('')}
             autoCite={spy}
             loading={isLoading}
             typeChange={spy}
@@ -19,7 +20,7 @@ const setup = (citationType = 'article-journal', isLoading: boolean = false) => 
         component,
         instance: component.instance() as any,
         select: component.find('#type-select'),
-        selection: component.find('#type-select').props().value,
+        selection: (component as any).find('#type-select').props().value,
     };
 };
 
@@ -39,14 +40,6 @@ const setupAutocite = (
 };
 
 describe('<ManualEntryContainer />', () => {
-    it('should render with loading spinner', () => {
-        const d = document.createElement('div');
-        d.id = 'abt-root';
-        document.body.appendChild(d);
-        const { component, instance } = setup('article-journal', true);
-        expect(component.find('Spinner')).toBeTruthy();
-        instance.getHeight();
-    });
     it('should render with the correct option', () => {
         const { selection } = setup();
         expect(selection).toBe('article-journal');

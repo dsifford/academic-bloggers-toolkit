@@ -2,22 +2,20 @@ import { action, computed, observable, runInAction } from 'mobx';
 import { observer } from 'mobx-react';
 import * as React from 'react';
 
-import Callout from 'components/callout';
-import { Spinner } from 'components/Spinner';
+import { pubmedQuery } from 'utils/resolvers/';
 import { shadows } from 'utils/styles';
 
-import { pubmedQuery } from 'utils/resolvers/';
+import Callout from 'components/callout';
+import { Spinner } from 'components/Spinner';
+
+import { DialogProps } from 'dialogs/';
 import { Paginate } from './paginate';
 import { ResultList } from './result-list';
-
-interface Props {
-    onSubmit(data: any): void;
-}
 
 const ph = placeholderGenerator();
 
 @observer
-export default class PubmedDialog extends React.Component<Props> {
+export default class PubmedDialog extends React.Component<DialogProps> {
     static readonly labels = top.ABT_i18n.tinymce.pubmedWindow;
     static readonly errors = top.ABT_i18n.errors;
 

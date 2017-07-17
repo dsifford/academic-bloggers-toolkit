@@ -68,6 +68,7 @@
     },
     "dependencies": {
         "bibtex-parse-js": "^0.0.23",
+        "common-tags": "^1.4.0",
         "he": "^1.1.1",
         "mobx": "^3.2.1",
         "mobx-react": "^4.2.2",

@@ -1,9 +1,10 @@
-import { action, IObservableArray, observable, ObservableMap } from 'mobx';
+import { action, IObservableArray, IObservableValue, observable, ObservableMap } from 'mobx';
 import { observer } from 'mobx-react';
 import * as React from 'react';
 
 import { colors, shadows } from 'utils/styles';
 
+import Callout from 'components/callout';
 import { Spinner } from 'components/Spinner';
 import { MetaFields } from './meta-fields';
 import { People } from './people';
@@ -12,6 +13,7 @@ interface ManualEntryProps {
     loading: boolean;
     manualData: ObservableMap<string>;
     people: IObservableArray<CSL.TypedPerson>;
+    errorMessage: IObservableValue<string>
     autoCite(kind: 'webpage' | 'book' | 'chapter', query: string): void;
     typeChange(citationType: string): void;
 }
@@ -19,15 +21,10 @@ interface ManualEntryProps {
 @observer
 export class ManualEntryContainer extends React.PureComponent<ManualEntryProps, {}> {
     static readonly labels = top.ABT_i18n.tinymce.referenceWindow.manualEntryContainer;
+    static readonly citationTypes = top.ABT_i18n.citationTypes;
 
-    // FIXME: Should this be done server-side?
-    citationTypes = top.ABT_i18n.citationTypes.sort((a, b) => {
-        const strA = a.label.toUpperCase();
-        const strB = b.label.toUpperCase();
-        if (strA < strB) return -1;
-        if (strA > strB) return 1;
-        return 0;
-    });
+    @action
+    dismissError = () => this.props.errorMessage.set('');
 
     handleTypeChange = (e: React.FormEvent<HTMLSelectElement>) => {
         this.props.typeChange(e.currentTarget.value);
@@ -39,7 +36,7 @@ export class ManualEntryContainer extends React.PureComponent<ManualEntryProps, 
         const isScrollable = e.currentTarget.scrollHeight > e.currentTarget.clientHeight;
         const atBottom =
             e.currentTarget.scrollHeight <=
-            e.currentTarget.clientHeight + e.currentTarget.scrollTop;
+            e.currentTarget.clientHeight + Math.ceil(e.currentTarget.scrollTop);
         const atTop = e.currentTarget.scrollTop === 0;
 
         if (isScrollable && !atBottom && isScrollingDown) {
@@ -50,9 +47,6 @@ export class ManualEntryContainer extends React.PureComponent<ManualEntryProps, 
             e.cancelable = false;
         }
     };
-
-    // FIXME:
-    getHeight = () => document.getElementById('abt-root')!.getBoundingClientRect().height;
 
     render() {
         const itemType: string = this.props.manualData.get('type')!;
@@ -66,7 +60,7 @@ export class ManualEntryContainer extends React.PureComponent<ManualEntryProps, 
                         children={ManualEntryContainer.labels.citationType}
                     />
                     <select id="type-select" onChange={this.handleTypeChange} value={itemType}>
-                        {this.citationTypes.map((item, i) =>
+                        {ManualEntryContainer.citationTypes.map((item, i) =>
                             <option
                                 key={i}
                                 value={item.value}
@@ -97,6 +91,7 @@ export class ManualEntryContainer extends React.PureComponent<ManualEntryProps, 
                     onWheel={this.handleWheel}
                     className={renderAutocite ? 'bounded-rect autocite' : 'bounded-rect'}
                 >
+                    <Callout children={this.props.errorMessage.get()} dismiss={this.dismissError} />
                     {this.props.manualData.get('type') !== 'article' &&
                         <People
                             people={this.props.people}
@@ -179,7 +174,7 @@ export class AutoCite extends React.Component<AutoCiteProps, {}> {
     render() {
         const { placeholder, inputType } = this.props;
         return (
-            <div id="autocite" className="row">
+            <div>
                 <label htmlFor="citequery" children={AutoCite.labels.autocite} />
                 <input
                     type={inputType}
@@ -206,6 +201,7 @@ export class AutoCite extends React.Component<AutoCiteProps, {}> {
                     div {
                         display: flex;
                         padding: 10px;
+                        margin-bottom: 10px;
                         align-items: center;
                         background: ${colors.light_gray};
                         box-shadow: ${shadows.depth_1}, ${shadows.top_border};

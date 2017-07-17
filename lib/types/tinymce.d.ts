@@ -41,11 +41,13 @@ declare namespace TinyMCE {
                 moveToBookmark(bookmark: object): boolean;
             };
             collapse(toStart: boolean): void;
-            getBookmark(type?: number, normalized?: boolean): object; // tslint:disable-line
+            getBookmark(type?: number, normalized?: boolean): { id: string };
             getNode(): Node;
             getContent(args: { format: 'html' | 'text' }): string;
             setContent(content: string, args?: { format: string }): string;
             moveToBookmark(bookmark: object): boolean;
+            /** Is the the current selection completely empty? */
+            isCollapsed(): boolean;
             // select(el: HTMLElement, content: boolean);
             // setCursorLocation(a): void;
         };
