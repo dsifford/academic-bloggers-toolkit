@@ -1,4 +1,4 @@
-import { action, IObservableArray, IObservableObject, IObservableValue, ObservableMap } from 'mobx';
+import { action, IObservableArray, IObservableValue, ObservableMap } from 'mobx';
 import { observer } from 'mobx-react';
 import * as React from 'react';
 
@@ -6,13 +6,13 @@ import { Card } from './Card';
 
 interface UI {
     cited: {
-        readonly maxHeight: string;
+        readonly maxHeight: IObservableValue<string>;
         isOpen: IObservableValue<boolean>;
-    } & IObservableObject;
+    };
     uncited: {
-        readonly maxHeight: string;
+        readonly maxHeight: IObservableValue<string>;
         isOpen: IObservableValue<boolean>;
-    } & IObservableObject;
+    };
     readonly [k: string]: any;
 }
 
@@ -68,7 +68,7 @@ export class ItemList extends React.PureComponent<Props> {
                         CSL={CSL}
                         onEditReference={onEditReference}
                         id={id}
-                        style={{ maxHeight: ui.maxHeight }}
+                        style={{ maxHeight: ui[id].maxHeight.get() }}
                         onClick={this.toggleSelect}
                     />}
             </div>

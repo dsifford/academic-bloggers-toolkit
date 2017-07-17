@@ -4,9 +4,9 @@ export default class TinyMCEDriver extends EditorDriver {
     private editor: TinyMCE.Editor;
 
     public get citationIds() {
-        const citations = this.editor.getDoc().querySelectorAll(
-            `*:not(.mce-offscreen-selection) > .${this.citationClass}`
-        );
+        const citations = this.editor
+            .getDoc()
+            .querySelectorAll(`*:not(.mce-offscreen-selection) > .${this.citationClass}`);
         return [...citations].map(c => c.id);
     }
 
@@ -61,9 +61,6 @@ export default class TinyMCEDriver extends EditorDriver {
         const doc = this.editor.getDoc();
         for (const id of itemIds) {
             const item = doc.getElementById(id);
-            if (!item) {
-                throw new Error(`Item with id ${id} could not be found.`);
-            }
             if (item && item.parentElement) {
                 item.parentElement.removeChild(item);
             }
@@ -136,6 +133,12 @@ export default class TinyMCEDriver extends EditorDriver {
         this.editor.on('show', () => dispatchEvent(new CustomEvent(EditorDriver.events.AVAILABLE)));
         this.editor.on('hide', () =>
             dispatchEvent(new CustomEvent(EditorDriver.events.UNAVAILABLE))
+        );
+        this.editor.addShortcut('meta+alt+r', 'Add Reference', () =>
+            dispatchEvent(new CustomEvent(EditorDriver.events.ADD_REFERENCE))
+        );
+        this.editor.addShortcut('meta+alt+p', 'Pin Reference List', () =>
+            dispatchEvent(new CustomEvent(EditorDriver.events.TOGGLE_PINNED))
         );
     }
 

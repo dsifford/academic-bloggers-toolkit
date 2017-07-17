@@ -24,6 +24,16 @@ enum EditorEvents {
      * Emit this any time the editor goes unavailable or becomes hidden.
      */
     UNAVAILABLE = 'EDITOR_UNAVAILABLE',
+    /**
+     * Bind and emit to this if the editor supports keyboard shortcuts.
+     * Keyboard shortcut for this should be cmd/ctrl+alt+p
+     */
+    TOGGLE_PINNED = 'TOGGLE_PINNED',
+    /**
+     * Bind and emit this if the editor supports keyboard shortcuts. Keyboard
+     * shortcut for this should be cmd/ctrl+alt+r
+     */
+    ADD_REFERENCE = 'ADD_REFERENCE',
 }
 
 /**

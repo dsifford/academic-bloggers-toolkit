@@ -92,7 +92,7 @@ class CitationStore {
         idList.forEach(id => {
             if (this.citedIDs.indexOf(id) === -1) this.CSL.delete(id);
         });
-        let toRemove: string[] = [];
+        const toRemove: Set<string> = new Set();
         const byIndex = this.citationByIndex
             .map(i => ({
                 ...i,
@@ -101,13 +101,13 @@ class CitationStore {
             }))
             .reduce((prev, curr) => {
                 if (curr.citationItems.length === 0 && curr.citationID) {
-                    toRemove = [...toRemove, curr.citationID];
+                    toRemove.add(curr.citationID);
                     return prev;
                 }
                 return [...prev, curr];
             }, []);
         this.init(byIndex);
-        return toRemove;
+        return [...toRemove];
     }
 
     /**
@@ -115,13 +115,27 @@ class CitationStore {
      * @param data - Array of CSL.Data to be merged
      */
     @action
-    addItems(data: CSL.Data[]): void {
+    addItems(data: CSL.Data[]): CSL.Data[] {
         this.CSL.merge(
             data.reduce((prev, curr) => {
                 prev[curr.id!] = curr;
                 return prev;
             }, {})
         );
+        // This is necessary in case one of the values is a duplicate and gets
+        // intercepted.
+        let payload: CSL.Data[] = [];
+        for (const item of data) {
+            const csl = this.CSL.values().find(val => {
+                for (const key of Object.keys(item)) {
+                    if (typeof item[key] === 'object' || key === 'id') continue;
+                    if (item[key] !== val[key]) return false;
+                }
+                return true;
+            });
+            payload = [...payload, toJS(csl!)];
+        }
+        return payload;
     }
 
     /**

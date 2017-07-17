@@ -17,7 +17,9 @@ import { Menu } from './Menu';
 import { PanelButton } from './PanelButton';
 
 const DevTool = DevTools();
-configureDevtool({ logFilter: change => change.type === 'action' });
+configureDevtool({
+    logFilter: change => change.type === 'action' && change.name !== 'handleScroll',
+});
 
 interface Props {
     editor: EditorDriver;
@@ -48,6 +50,9 @@ export class ReferenceList extends React.Component<Props> {
      */
     loading = observable(true);
 
+    /**
+     * A boxed observable that can contain anything that a dialog might need.
+     */
     dialogProps = observable.box<any>();
 
     /**
@@ -57,14 +62,14 @@ export class ReferenceList extends React.Component<Props> {
         loading: observable(true),
         pinned: observable(false),
         menuOpen: observable(false),
-        cited: observable({
+        cited: {
             isOpen: observable(true),
-            maxHeight: '400px',
-        }),
-        uncited: observable({
+            maxHeight: observable('400px'),
+        },
+        uncited: {
             isOpen: observable(false),
-            maxHeight: '400px',
-        }),
+            maxHeight: observable('400px'),
+        },
     };
 
     constructor(props: Props) {
@@ -74,7 +79,11 @@ export class ReferenceList extends React.Component<Props> {
 
         /** React to list toggles */
         reaction(
-            () => [this.ui.cited.isOpen, this.ui.uncited.isOpen, this.ui.menuOpen.get()],
+            () => [
+                this.ui.cited.isOpen.get(),
+                this.ui.uncited.isOpen.get(),
+                this.ui.menuOpen.get(),
+            ],
             this.handleScroll,
             { fireImmediately: false, delay: 200 }
         );
@@ -96,19 +105,18 @@ export class ReferenceList extends React.Component<Props> {
     }
 
     componentDidMount() {
-        // FIXME:
-        // addEventListener(OPEN_REFERENCE_WINDOW, this.openReferenceWindow);
-        // addEventListener(TINYMCE_READY, this.initTinyMCE);
-        // addEventListener(REFERENCE_EDITED, this.initProcessor);
-        // addEventListener(TOGGLE_PINNED_STATE, this.togglePinned);
         addEventListener(EditorDriver.events.UNAVAILABLE, this.toggleLoading.bind(this, true));
         addEventListener(EditorDriver.events.AVAILABLE, this.toggleLoading.bind(this, false));
+        addEventListener(EditorDriver.events.ADD_REFERENCE, this.openDialog.bind(this, 'ADD'));
+        addEventListener(EditorDriver.events.TOGGLE_PINNED, this.togglePinned.bind(this));
         document.addEventListener('scroll', this.handleScroll);
     }
 
     componentWillUnmount() {
         removeEventListener(EditorDriver.events.UNAVAILABLE, this.toggleLoading.bind(this, true));
         removeEventListener(EditorDriver.events.AVAILABLE, this.toggleLoading.bind(this, false));
+        removeEventListener(EditorDriver.events.ADD_REFERENCE, this.openDialog.bind(this, 'ADD'));
+        addEventListener(EditorDriver.events.TOGGLE_PINNED, this.togglePinned.bind(this));
         document.removeEventListener('scroll', this.handleScroll);
     }
 
@@ -190,38 +198,7 @@ export class ReferenceList extends React.Component<Props> {
         }
 
         if (data.length === 0) return;
-        this.props.store.citations.addItems(data);
-
-        // FIXME: Maybe hash the key or something instead of doing all this work
-        // to check for duplicates.
-
-        /*
-            data = data.reduce((prev, curr) => {
-                let matchingKey = '';
-                const title = curr.title!.toLowerCase();
-
-                for (const [key, value] of this.props.store.citations.CSL.entries()) {
-                    if (value.title!.toLowerCase() !== title) continue;
-
-                    const deepMatch = Object.keys(value).every(k => {
-                        const isComplexDataType =
-                            typeof value[k] !== 'string' && typeof value[k] !== 'number';
-                        const isVariableKey = k === 'id' || k === 'language';
-                        return isComplexDataType || isVariableKey ? true : value[k] === curr[k];
-                    });
-
-                    if (deepMatch) {
-                        matchingKey = key;
-                        break;
-                    }
-                }
-
-                return matchingKey !== ''
-                    ? [...prev, this.props.store.citations.CSL.get(matchingKey)]
-                    : [...prev, curr];
-            }, []) as CSL.Data[];
-        */
-
+        data = this.props.store.citations.addItems(data);
         return payload.attachInline ? this.insertInlineCitation(undefined, data) : void 0;
     };
 
@@ -253,36 +230,12 @@ export class ReferenceList extends React.Component<Props> {
         }
     };
 
-    // @action
-    // toggleList = (id: string, explode: boolean = false) => {
-    //     switch (id) {
-    //         case 'cited':
-    //             if (explode) {
-    //                 this.ui.cited.isOpen = true;
-    //                 this.ui.uncited.isOpen = false;
-    //                 break;
-    //             }
-    //             this.ui.cited.isOpen = !this.ui.cited.isOpen;
-    //             break;
-    //         case 'uncited':
-    //             if (explode) {
-    //                 this.ui.cited.isOpen = false;
-    //                 this.ui.uncited.isOpen = true;
-    //                 break;
-    //             }
-    //             this.ui.uncited.isOpen = !this.ui.uncited.isOpen;
-    //             break;
-    //         default:
-    //             break;
-    //     }
-    // };
-
     @action
     reset = () => {
         this.props.editor.setLoadingState(true);
         this.clearSelection();
         this.ui.uncited.isOpen.set(false);
-        this.ui.cited.isOpen.set(true)
+        this.ui.cited.isOpen.set(true);
         this.props.store.reset();
         this.props.editor.reset();
         this.initProcessor();
@@ -296,7 +249,10 @@ export class ReferenceList extends React.Component<Props> {
     };
 
     @action
-    openDialog = (e: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>) => {
+    openDialog = (e: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement> | string) => {
+        if (typeof e === 'string') {
+            return this.currentDialog.set(e);
+        }
         const dialog = e.currentTarget.dataset.dialog || '';
         this.currentDialog.set(dialog);
     };
@@ -417,10 +373,8 @@ export class ReferenceList extends React.Component<Props> {
             if (e) e.preventDefault();
             this.props.editor.setLoadingState(true);
 
-            /**
-             * If no data, then this must be a case where we're inserting from the
-             *   list selection.
-             */
+            // If no data, then this must be a case where we're inserting from
+            // the list selection.
             if (d instanceof Event || d.length === 0) {
                 this.selected.forEach(id => {
                     data.push(this.props.store.citations.CSL.get(id)!);
@@ -429,10 +383,8 @@ export class ReferenceList extends React.Component<Props> {
                 data = d;
             }
 
-            /**
-             * Checks to see if there is a inline citation selected. If so, extract the ids
-             *   from it and push it to data.
-             */
+            // Checks to see if there is a inline citation selected. If so,
+            // extract the ids from it and push it to data.
             const selection = this.props.editor.selection;
             if (/<span.+class="(?:abt-citation|abt_cite).+?<\/span>/.test(selection)) {
                 const re = /&quot;(\w+?)&quot;/g;
@@ -525,14 +477,13 @@ export class ReferenceList extends React.Component<Props> {
         }
     };
 
-    // FIXME: height adjustment doesn't seem to be working
     @action
     handleScroll = () => {
         const list = document.getElementById('abt-reflist')!;
 
         if (!this.ui.pinned.get()) {
-            this.ui.cited.maxHeight = '400px';
-            this.ui.uncited.maxHeight = '400px';
+            this.ui.cited.maxHeight.set('400px');
+            this.ui.uncited.maxHeight.set('400px');
             list.style.top = '';
             return;
         }
@@ -560,29 +511,33 @@ export class ReferenceList extends React.Component<Props> {
 
         list.style.top = `${topOffset}px`;
         if (!bothOpen) {
-            this.ui.cited.maxHeight = `calc(100vh - ${listOffset}px)`;
-            this.ui.uncited.maxHeight = `calc(100vh - ${listOffset}px)`;
+            this.ui.cited.maxHeight.set(`calc(100vh - ${listOffset}px)`);
+            this.ui.uncited.maxHeight.set(`calc(100vh - ${listOffset}px)`);
             return;
         }
 
-        const cited = document.getElementById('cited')!;
-        const uncited = document.getElementById('uncited')!;
+        const cited = document.getElementById('cited');
+        const uncited = document.getElementById('uncited');
         let citedHeight = 0;
         let uncitedHeight = 0;
 
-        for (const child of Array.from(cited.children)) {
-            citedHeight += child.clientHeight + 1;
-            if (citedHeight > remainingHeight / 2) {
-                citedHeight = remainingHeight / 2;
-                break;
+        if (cited) {
+            for (const child of Array.from(cited.children)) {
+                citedHeight += child.clientHeight + 1;
+                if (citedHeight > remainingHeight / 2) {
+                    citedHeight = remainingHeight / 2;
+                    break;
+                }
             }
         }
 
-        for (const child of Array.from(uncited.children)) {
-            uncitedHeight += child.clientHeight + 1;
-            if (uncitedHeight > remainingHeight / 2) {
-                uncitedHeight = remainingHeight / 2;
-                break;
+        if (uncited) {
+            for (const child of Array.from(uncited.children)) {
+                uncitedHeight += child.clientHeight + 1;
+                if (uncitedHeight > remainingHeight / 2) {
+                    uncitedHeight = remainingHeight / 2;
+                    break;
+                }
             }
         }
 
@@ -596,8 +551,8 @@ export class ReferenceList extends React.Component<Props> {
             }
         }
 
-        this.ui.cited.maxHeight = `${citedHeight}px`;
-        this.ui.uncited.maxHeight = `${uncitedHeight}px`;
+        this.ui.cited.maxHeight.set(`${citedHeight}px`);
+        this.ui.uncited.maxHeight.set(`${uncitedHeight}px`);
     };
 }
 
