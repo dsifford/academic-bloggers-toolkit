@@ -3,7 +3,7 @@ import { action, observable, reaction } from 'mobx';
 import { observer } from 'mobx-react';
 import * as React from 'react';
 
-import EditorDriver from 'drivers/base';
+import EditorDriver, { EditorDriverConstructor } from 'drivers/base';
 import { DialogType } from 'utils/Constants';
 import { CSLProcessor } from 'utils/CSLProcessor';
 import DevTools, { configureDevtool } from 'utils/DevTools';
@@ -22,7 +22,7 @@ configureDevtool({
 });
 
 interface Props {
-    editor: EditorDriver;
+    editor: Promise<typeof EditorDriver & EditorDriverConstructor>;
     store: Store;
 }
 
@@ -32,6 +32,7 @@ export class ReferenceList extends React.Component<Props> {
     static readonly labels = top.ABT_i18n.referenceList.referenceList;
 
     processor: CSLProcessor;
+    editor: EditorDriver;
 
     /**
      * The id of the currently opened modal
@@ -121,7 +122,8 @@ export class ReferenceList extends React.Component<Props> {
     }
 
     init = async () => {
-        await this.props.editor.init();
+        this.editor = await this.props.editor.then(driver => new driver());
+        await this.editor.init();
         this.initProcessor();
         this.toggleLoading(false);
     };
@@ -137,22 +139,22 @@ export class ReferenceList extends React.Component<Props> {
         this.loading.set(loadState !== undefined ? loadState : !this.loading.get());
 
     initProcessor = async () => {
-        this.props.editor.setLoadingState(true);
+        this.editor.setLoadingState(true);
         try {
             const clusters = await this.processor.init();
-            await this.props.editor.composeCitations(
+            await this.editor.composeCitations(
                 clusters,
                 this.props.store.citations.citationByIndex,
                 this.processor.citeproc.opt.xclass
             );
-            await this.props.editor.setBibliography(
+            await this.editor.setBibliography(
                 this.props.store.bibOptions,
                 this.processor.makeBibliography()
             );
             this.clearSelection();
         } catch (err) {
             Rollbar.error('ReferenceLissett.tsx -> initProcessor', err);
-            this.props.editor.alert(stripIndents`
+            this.editor.alert(stripIndents`
                 ${ReferenceList.errors.unexpected.message}
 
                 ${err.name}: ${err.message}
@@ -160,15 +162,15 @@ export class ReferenceList extends React.Component<Props> {
                 ${ReferenceList.errors.unexpected.reportInstructions}
             `);
         }
-        this.props.editor.setLoadingState(false);
+        this.editor.setLoadingState(false);
     };
 
     @action
     deleteCitations = () => {
         if (this.selected.length === 0) return;
-        this.props.editor.setLoadingState(true);
+        this.editor.setLoadingState(true);
         const toRemove = this.props.store.citations.removeItems(this.selected.slice());
-        this.props.editor.removeItems(toRemove);
+        this.editor.removeItems(toRemove);
         this.clearSelection();
         this.initProcessor();
     };
@@ -182,12 +184,12 @@ export class ReferenceList extends React.Component<Props> {
                 ? parseManualData(payload)
                 : await getRemoteData(payload.identifierList);
             if (err) {
-                this.props.editor.alert(err);
+                this.editor.alert(err);
             }
         } catch (e) {
             // tslint:disable-next-line:no-console
             Rollbar.error('ReferenceList.tsx -> openReferenceWindow', e);
-            this.props.editor.alert(stripIndents`
+            this.editor.alert(stripIndents`
                 ${ReferenceList.errors.unexpected.message}
 
                 ${e.name}: ${e.message}
@@ -213,7 +215,7 @@ export class ReferenceList extends React.Component<Props> {
                 this.currentDialog.set(DialogType.IMPORT);
                 return;
             case 'REFRESH_PROCESSOR':
-                const IDs = this.props.editor.citationIds;
+                const IDs = this.editor.citationIds;
                 this.props.store.citations.pruneOrphanedCitations(IDs);
                 this.initProcessor();
                 return;
@@ -232,12 +234,12 @@ export class ReferenceList extends React.Component<Props> {
 
     @action
     reset = () => {
-        this.props.editor.setLoadingState(true);
+        this.editor.setLoadingState(true);
         this.clearSelection();
         this.ui.uncited.isOpen.set(false);
         this.ui.cited.isOpen.set(true);
         this.props.store.reset();
-        this.props.editor.reset();
+        this.editor.reset();
         this.initProcessor();
     };
 
@@ -371,7 +373,7 @@ export class ReferenceList extends React.Component<Props> {
     insertInlineCitation = async (e?: React.MouseEvent<HTMLAnchorElement>, d: CSL.Data[] | Event = []) => {
             let data: CSL.Data[] = [];
             if (e) e.preventDefault();
-            this.props.editor.setLoadingState(true);
+            this.editor.setLoadingState(true);
 
             // If no data, then this must be a case where we're inserting from
             // the list selection.
@@ -385,7 +387,7 @@ export class ReferenceList extends React.Component<Props> {
 
             // Checks to see if there is a inline citation selected. If so,
             // extract the ids from it and push it to data.
-            const selection = this.props.editor.selection;
+            const selection = this.editor.selection;
             if (/<span.+class="(?:abt-citation|abt_cite).+?<\/span>/.test(selection)) {
                 const re = /&quot;(\w+?)&quot;/g;
                 let m: RegExpExecArray | null;
@@ -400,7 +402,7 @@ export class ReferenceList extends React.Component<Props> {
                 const {
                     currentIndex,
                     locations: [citationsBefore, citationsAfter],
-                } = this.props.editor.getRelativeCitationPositions(
+                } = this.editor.getRelativeCitationPositions(
                     Object.keys(
                         this.processor.citeproc.registry.citationreg.citationById
                     )
@@ -416,24 +418,24 @@ export class ReferenceList extends React.Component<Props> {
                 );
             } catch (e) {
                 Rollbar.error('ReferenceList.tsx -> insertInlineCitation', e);
-                this.props.editor.alert(stripIndents`
+                this.editor.alert(stripIndents`
                     ${ReferenceList.errors.unexpected.message}
 
                     ${e.name}: ${e.message}
 
                     ${ReferenceList.errors.unexpected.reportInstructions}
                 `);
-                this.props.editor.setLoadingState(false);
+                this.editor.setLoadingState(false);
                 this.clearSelection();
                 return;
             }
 
             try {
-                this.props.editor.composeCitations(clusters, this.props.store.citations.citationByIndex, this.processor.citeproc.opt.xclass);
-                this.props.editor.setBibliography(this.props.store.bibOptions, this.processor.makeBibliography());
+                this.editor.composeCitations(clusters, this.props.store.citations.citationByIndex, this.processor.citeproc.opt.xclass);
+                this.editor.setBibliography(this.props.store.bibOptions, this.processor.makeBibliography());
             } catch (e) {
                 Rollbar.error('ReferenceList.tsx -> insertInlineCitation', e);
-                this.props.editor.alert(stripIndents`
+                this.editor.alert(stripIndents`
                     ${ReferenceList.errors.unexpected.message}
 
                     ${e.name}: ${e.message}
@@ -441,7 +443,7 @@ export class ReferenceList extends React.Component<Props> {
                     ${ReferenceList.errors.unexpected.reportInstructions}
                 `);
             }
-            this.props.editor.setLoadingState(false);
+            this.editor.setLoadingState(false);
             this.clearSelection();
         };
 
@@ -451,7 +453,7 @@ export class ReferenceList extends React.Component<Props> {
             data.push(this.props.store.citations.CSL.get(id)!);
         });
 
-        const selection = this.props.editor.selection;
+        const selection = this.editor.selection;
         if (/^<div class=".*?abt-static-bib.*?".+<\/div>$/g.test(selection)) {
             const re = /<div id="(\w{8,9})">/g;
             let m: RegExpExecArray | null;
@@ -464,10 +466,10 @@ export class ReferenceList extends React.Component<Props> {
         try {
             const bibliography = await this.processor.createStaticBibliography(data);
             this.clearSelection();
-            this.props.editor.setBibliography(this.props.store.bibOptions, bibliography, true);
+            this.editor.setBibliography(this.props.store.bibOptions, bibliography, true);
         } catch (e) {
             Rollbar.error('ReferenceList.tsx -> insertStaticBibliography', e);
-            this.props.editor.alert(stripIndents`
+            this.editor.alert(stripIndents`
                 ${ReferenceList.errors.unexpected.message}
 
                 ${e.name}: ${e.message}

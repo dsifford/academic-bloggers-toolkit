@@ -36,6 +36,10 @@ enum EditorEvents {
     ADD_REFERENCE = 'ADD_REFERENCE',
 }
 
+export interface EditorDriverConstructor {
+    new (): EditorDriver;
+}
+
 /**
  * Base class from which all editor drivers must be derived
  */
