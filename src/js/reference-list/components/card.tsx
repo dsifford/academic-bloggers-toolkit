@@ -2,7 +2,7 @@ import { observer } from 'mobx-react';
 import * as React from 'react';
 
 import { colors } from 'utils/styles';
-import { createTooltip, destroyTooltip } from 'utils/Tooltips';
+import { createTooltip, destroyTooltip } from 'utils/tooltips';
 
 interface CardProps extends React.HTMLProps<HTMLDivElement> {
     readonly CSL: CSL.Data;
@@ -12,7 +12,7 @@ interface CardProps extends React.HTMLProps<HTMLDivElement> {
 }
 
 @observer
-export class Card extends React.PureComponent<CardProps> {
+export default class Card extends React.PureComponent<CardProps> {
     timer: NodeJS.Timer;
 
     constructor(props: CardProps) {

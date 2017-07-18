@@ -2,7 +2,7 @@ import { action, IObservableArray, IObservableValue, ObservableMap } from 'mobx'
 import { observer } from 'mobx-react';
 import * as React from 'react';
 
-import { Card } from './Card';
+import Card from './card';
 
 interface UI {
     cited: {
@@ -27,7 +27,7 @@ interface Props {
 }
 
 @observer
-export class ItemList extends React.PureComponent<Props> {
+export default class ItemList extends React.PureComponent<Props> {
     @action
     singleClick = () => {
         this.props.ui[this.props.id].isOpen.set(!this.props.ui[this.props.id].isOpen.get());

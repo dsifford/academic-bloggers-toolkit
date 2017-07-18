@@ -8,10 +8,7 @@
  * @param source - Source of the input
  * @return Formatted CSL.Date object
  */
-export function parseCSLDate(
-    input: string,
-    source: 'RIS' | 'pubmed'
-): CSL.Date {
+export function parseCSLDate(input: string, source: 'RIS' | 'pubmed'): CSL.Date {
     const date: CSL.Date = { 'date-parts': [[]] };
     if (input.length === 0) return date;
 
@@ -19,10 +16,7 @@ export function parseCSLDate(
         case 'RIS':
             input.split('/').forEach((part: string, i: number) => {
                 if (!part) return;
-                if (
-                    i === 3 &&
-                    part.search(/(winter|spring|summer|fall)/i) > -1
-                ) {
+                if (i === 3 && part.search(/(winter|spring|summer|fall)/i) > -1) {
                     date.season = part;
                     return;
                 }

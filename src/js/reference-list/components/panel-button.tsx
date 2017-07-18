@@ -1,11 +1,11 @@
 import * as React from 'react';
-import { createTooltip, destroyTooltip } from 'utils/Tooltips';
+import { createTooltip, destroyTooltip } from 'utils/tooltips';
 
 interface Props extends React.HTMLProps<HTMLAnchorElement> {
     'data-tooltip'?: string;
 }
 
-export class PanelButton extends React.PureComponent<Props> {
+export default class PanelButton extends React.PureComponent<Props> {
     element: HTMLAnchorElement;
 
     bindRefs = (c: HTMLAnchorElement) => {

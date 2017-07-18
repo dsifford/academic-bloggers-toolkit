@@ -1,10 +1,12 @@
 import { toJS } from 'mobx';
-import { Store } from '../reference-list/Store';
-import { localeMapper } from './Constants';
+
+import Store from 'reference-list/store';
+import { localeMapper } from './constants';
 import { formatBibliography } from './formatters/';
 
 declare const ABT_Custom_CSL: BackendGlobals.ABT_Custom_CSL;
 declare const ABT_wp: BackendGlobals.ABT_wp;
+// FIXME:
 declare const CSL: any;
 
 export class CSLProcessor {

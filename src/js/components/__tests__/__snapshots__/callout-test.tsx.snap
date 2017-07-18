@@ -1,0 +1,282 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Callout /> should match snapshots 1`] = `
+<div
+  className="callout danger"
+>
+  <div
+    className="callout__heading"
+  >
+    <h5>
+      Error
+    </h5>
+  </div>
+  Hello world
+  <style
+    jsx={true}
+  >
+    
+                        .callout {
+                            border-radius: 3px;
+                            padding: 10px 12px 9px;
+                            line-height: 1.5;
+                            position: relative;
+                            font-weight: 500;
+                            font-size: 14px;
+                            margin: 0 10px 10px;
+                        }
+                        .callout__heading {
+                            display: flex;
+                            justify-content: space-between;
+                        }
+                        h5 {
+                            margin: 0 0 5px 0;
+                            line-height: 20px;
+                            font-weight: 600;
+                            padding: 0;
+                            font-size: 17px;
+                        }
+                        button {
+                            font-size: 20px;
+                            cursor: pointer;
+                            border: 0;
+                            outline: 0;
+                            padding: 0;
+                            background: transparent;
+                            color: #555d66;
+                            position: relative;
+                            top: -5px;
+                            right: -5px;
+                        }
+                        button:hover {
+                            color: black;
+                        }
+                        .danger {
+                            background-color: rgba(219, 55, 55, 0.15);
+                        }
+                        .danger h5 {
+                            color: #c23030;
+                        }
+                        .warning {
+                            background-color: rgba(217, 130, 43, 0.15);
+                        }
+                        .warning h5 {
+                            color: #bf7326;
+                        }
+                    
+  </style>
+</div>
+`;
+
+exports[`<Callout /> should match snapshots 2`] = `
+<div
+  className="callout danger"
+>
+  <div
+    className="callout__heading"
+  >
+    <h5>
+      Hello!
+    </h5>
+  </div>
+  Hello world
+  <style
+    jsx={true}
+  >
+    
+                        .callout {
+                            border-radius: 3px;
+                            padding: 10px 12px 9px;
+                            line-height: 1.5;
+                            position: relative;
+                            font-weight: 500;
+                            font-size: 14px;
+                            margin: 0 10px 10px;
+                        }
+                        .callout__heading {
+                            display: flex;
+                            justify-content: space-between;
+                        }
+                        h5 {
+                            margin: 0 0 5px 0;
+                            line-height: 20px;
+                            font-weight: 600;
+                            padding: 0;
+                            font-size: 17px;
+                        }
+                        button {
+                            font-size: 20px;
+                            cursor: pointer;
+                            border: 0;
+                            outline: 0;
+                            padding: 0;
+                            background: transparent;
+                            color: #555d66;
+                            position: relative;
+                            top: -5px;
+                            right: -5px;
+                        }
+                        button:hover {
+                            color: black;
+                        }
+                        .danger {
+                            background-color: rgba(219, 55, 55, 0.15);
+                        }
+                        .danger h5 {
+                            color: #c23030;
+                        }
+                        .warning {
+                            background-color: rgba(217, 130, 43, 0.15);
+                        }
+                        .warning h5 {
+                            color: #bf7326;
+                        }
+                    
+  </style>
+</div>
+`;
+
+exports[`<Callout /> should match snapshots 3`] = `null`;
+
+exports[`<Callout /> should match snapshots 4`] = `null`;
+
+exports[`<Callout /> should match snapshots 5`] = `
+<div
+  className="callout warning"
+>
+  <div
+    className="callout__heading"
+  >
+    <h5>
+      Warning
+    </h5>
+  </div>
+  Hello world
+  <style
+    jsx={true}
+  >
+    
+                        .callout {
+                            border-radius: 3px;
+                            padding: 10px 12px 9px;
+                            line-height: 1.5;
+                            position: relative;
+                            font-weight: 500;
+                            font-size: 14px;
+                            margin: 0 10px 10px;
+                        }
+                        .callout__heading {
+                            display: flex;
+                            justify-content: space-between;
+                        }
+                        h5 {
+                            margin: 0 0 5px 0;
+                            line-height: 20px;
+                            font-weight: 600;
+                            padding: 0;
+                            font-size: 17px;
+                        }
+                        button {
+                            font-size: 20px;
+                            cursor: pointer;
+                            border: 0;
+                            outline: 0;
+                            padding: 0;
+                            background: transparent;
+                            color: #555d66;
+                            position: relative;
+                            top: -5px;
+                            right: -5px;
+                        }
+                        button:hover {
+                            color: black;
+                        }
+                        .danger {
+                            background-color: rgba(219, 55, 55, 0.15);
+                        }
+                        .danger h5 {
+                            color: #c23030;
+                        }
+                        .warning {
+                            background-color: rgba(217, 130, 43, 0.15);
+                        }
+                        .warning h5 {
+                            color: #bf7326;
+                        }
+                    
+  </style>
+</div>
+`;
+
+exports[`<Callout /> should match snapshots 6`] = `
+<div
+  className="callout danger"
+>
+  <div
+    className="callout__heading"
+  >
+    <h5>
+      Error
+    </h5>
+    <button
+      aria-label="dismiss"
+      className="dashicons dashicons-no-alt"
+      onClick={[Function]}
+    />
+  </div>
+  Hello world
+  <style
+    jsx={true}
+  >
+    
+                        .callout {
+                            border-radius: 3px;
+                            padding: 10px 12px 9px;
+                            line-height: 1.5;
+                            position: relative;
+                            font-weight: 500;
+                            font-size: 14px;
+                            margin: 0 10px 10px;
+                        }
+                        .callout__heading {
+                            display: flex;
+                            justify-content: space-between;
+                        }
+                        h5 {
+                            margin: 0 0 5px 0;
+                            line-height: 20px;
+                            font-weight: 600;
+                            padding: 0;
+                            font-size: 17px;
+                        }
+                        button {
+                            font-size: 20px;
+                            cursor: pointer;
+                            border: 0;
+                            outline: 0;
+                            padding: 0;
+                            background: transparent;
+                            color: #555d66;
+                            position: relative;
+                            top: -5px;
+                            right: -5px;
+                        }
+                        button:hover {
+                            color: black;
+                        }
+                        .danger {
+                            background-color: rgba(219, 55, 55, 0.15);
+                        }
+                        .danger h5 {
+                            color: #c23030;
+                        }
+                        .warning {
+                            background-color: rgba(217, 130, 43, 0.15);
+                        }
+                        .warning h5 {
+                            color: #bf7326;
+                        }
+                    
+  </style>
+</div>
+`;

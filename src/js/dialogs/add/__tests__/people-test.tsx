@@ -3,18 +3,15 @@ import { IObservableArray, observable } from 'mobx';
 import * as React from 'react';
 import { People } from '../people';
 
+const defaultPeople = [{ family: 'Doe', given: 'John', type: 'author' }];
 const peopleStore = observable([]);
 
-const setup = (
-    citationType = 'article-journal',
-    people = [{ family: 'Doe', given: 'John', type: 'author' }]
-) => {
+const setup = (citationType = 'article-journal', people = defaultPeople) => {
     peopleStore.replace(people);
     const component = mount(<People citationType={citationType} people={peopleStore} />);
     return {
         addButton: component.find('#add-person'),
         component,
-        instance: component.instance(),
     };
 };
 
@@ -24,8 +21,8 @@ describe('<People />', () => {
         expect(component.find('Person').length).toBe(1);
 
         const person = component.find('Person').first();
-        expect(person.find('#person-family-0').props().value).toBe('Doe');
-        expect(person.find('#person-given-0').props().value).toBe('John');
+        expect(person.find('#person-family-0').prop('value')).toBe('Doe');
+        expect(person.find('#person-given-0').prop('value')).toBe('John');
     });
     it('should add an empty author when "Add Contributor" is clicked', () => {
         const { component, addButton } = setup();
@@ -35,9 +32,9 @@ describe('<People />', () => {
         expect(component.find('Person').length).toBe(2);
 
         const newPerson = component.find('Person').at(1);
-        expect(newPerson.find('#person-family-1').props().value).toBe('');
-        expect(newPerson.find('#person-given-1').props().value).toBe('');
-        expect(newPerson.find('select').props().value).toBe('author');
+        expect(newPerson.find('#person-family-1').prop('value')).toBe('');
+        expect(newPerson.find('#person-given-1').prop('value')).toBe('');
+        expect(newPerson.find('select').prop('value')).toBe('author');
     });
     it('should remove a person when remove button is clicked', () => {
         const people = [
@@ -52,8 +49,8 @@ describe('<People />', () => {
 
         expect(component.find('Person').length).toBe(1);
         const person = component.find('Person').first();
-        expect(person.find('#person-family-0').props().value).toBe('Doe');
-        expect(person.find('#person-given-0').props().value).toBe('John');
+        expect(person.find('#person-family-0').prop('value')).toBe('Doe');
+        expect(person.find('#person-given-0').prop('value')).toBe('John');
     });
     it('should update fields when data is changed', () => {
         const { component } = setup();
@@ -61,8 +58,8 @@ describe('<People />', () => {
         const familyNameInput = person.find('#person-family-0');
         const givenNameInput = person.find('#person-given-0');
 
-        expect(familyNameInput.props().value).toBe('Doe');
-        expect(givenNameInput.props().value).toBe('John');
+        expect(familyNameInput.prop('value')).toBe('Doe');
+        expect(givenNameInput.prop('value')).toBe('John');
 
         familyNameInput.simulate('change', {
             currentTarget: { value: 'FAMILYNAMETEST' },
@@ -79,7 +76,7 @@ describe('<People />', () => {
             },
         ]);
 
-        expect(familyNameInput.props().value).toBe('FAMILYNAMETEST');
-        expect(givenNameInput.props().value).toBe('GIVENNAMETEST');
+        expect(familyNameInput.prop('value')).toBe('FAMILYNAMETEST');
+        expect(givenNameInput.prop('value')).toBe('GIVENNAMETEST');
     });
 });

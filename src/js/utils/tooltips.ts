@@ -1,14 +1,12 @@
+type Position = 'top' | 'right' | 'bottom' | 'left';
+
 /**
  * Utility function used to generate and append tooltips.
- * @param  {HTMLElement} target                     Target element
- * @param  {string} tip                             Tooltip text
- * @param  {'top'|'right'|'bottom'|'left'} position Position of tooltip
+ * @param target Target element
+ * @param tip Tooltip text
+ * @param position Position of tooltip
  */
-export function createTooltip(
-    target: HTMLElement,
-    tip: string,
-    position: 'top' | 'right' | 'bottom' | 'left'
-): void {
+export function createTooltip(target: HTMLElement, tip: string, position: Position): void {
     const rect = target.getBoundingClientRect();
     const top = rect.top + rect.height / 2;
     let left = rect.left + rect.width / 2;

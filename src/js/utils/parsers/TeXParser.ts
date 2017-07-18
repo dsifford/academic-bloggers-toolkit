@@ -99,13 +99,10 @@ export class TeXParser {
                     case 'pages':
                         c.page = item[
                             key
-                        ].replace(
-                            /(^[\d\w]+)(-{1,2})?([\d\w]+)?/,
-                            (_, p1, p2, p3) => {
-                                if (!p2) return p1;
-                                return `${p1}-${p3}`;
-                            }
-                        );
+                        ].replace(/(^[\d\w]+)(-{1,2})?([\d\w]+)?/, (_, p1, p2, p3) => {
+                            if (!p2) return p1;
+                            return `${p1}-${p3}`;
+                        });
                         return;
                     case 'pagetotal':
                         c['number-of-pages'] = item[key];

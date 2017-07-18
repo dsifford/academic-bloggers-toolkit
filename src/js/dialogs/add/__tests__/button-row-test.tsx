@@ -1,86 +1,53 @@
-import { mount } from 'enzyme';
+import { shallow } from 'enzyme';
 import { observable } from 'mobx';
 import * as React from 'react';
-import { ButtonRow } from '../button-row';
-const before = beforeAll;
+import * as renderer from 'react-test-renderer';
+import ButtonRow from '../button-row';
 
-const setup = (addManually: boolean = false, attachInline: boolean = false) => {
-    const spy = jest.fn();
-    const component = mount(
-        <ButtonRow
-            addManually={observable(addManually)}
-            attachInline={observable(attachInline)}
-            attachInlineToggle={spy}
-            pubmedCallback={spy}
-            toggleManual={spy}
-        />
-    );
+const observables = {
+    addManually: observable(true),
+    attachInline: observable(false),
+};
+
+const spies = {
+    attachInlineToggle: jest.fn(),
+    toggleManual: jest.fn(),
+    pubmedCallback: jest.fn(),
+};
+
+const setup = (addManually: boolean = true, attachInline: boolean = false) => {
+    observables.addManually.set(addManually);
+    observables.attachInline.set(attachInline);
+    const component = shallow(<ButtonRow {...observables} {...spies} />);
     return {
-        addManually: component.find('#addManually'),
-        checkbox: component.find('#inline-toggle'),
-        component,
-        label: component.find('label'),
-        searchPubmed: component.find('#searchPubmed'),
-        spy,
-        submit: component.find('#submit-btn'),
+        component
     };
 };
 
 describe('<ButtonRow />', () => {
-    let submitSpy;
-
-    before(() => {
-        submitSpy = jest.fn();
-        window['tinyMCE'] = {
-            activeEditor: {
-                windowManager: {
-                    open: jest.fn(a => {
-                        const e = { target: { data: { pmid: 12345 } } };
-                        submitSpy(a.onsubmit(e));
-                    }),
-                    windows: [
-                        {
-                            settings: {
-                                params: {
-                                    baseUrl: 'http://www.test.com/',
-                                },
-                            },
-                        },
-                    ],
-                },
-            },
-        } as any;
+    beforeEach(() => {
+        jest.resetAllMocks();
+    })
+    it('should match snapshots', () => {
+        const component = renderer.create(
+            <ButtonRow {...observables} {...spies} />
+        )
+        const tree = component.toJSON();
+        expect(tree).toMatchSnapshot();
     });
-
-    it('should render with the correct labels for "falsy" props', () => {
-        const { checkbox, addManually } = setup();
-        expect(addManually.props().value).toBe('Add Manually');
-        expect(checkbox.props().checked).toBe(false);
+    it('should toggle the pubmed dialog', () => {
+        const { component } = setup(false, true);
+        const pubmedBtn = component.find('#searchPubmed');
+        expect(component.find('Container').length).toBe(0);
+        pubmedBtn.simulate('click');
+        expect(component.find('Container').length).toBe(1);
     });
-    it('should render with the correct labels for "truthy" props', () => {
-        const { checkbox, addManually } = setup(true, true);
-        expect(addManually.props().value).toBe('Add with Identifier');
-        expect(checkbox.props().checked).toBe(true);
-    });
-    it('should handle toggles correctly', () => {
-        const { checkbox, addManually, spy } = setup();
-        expect(addManually.props().value).toBe('Add Manually');
-        expect(checkbox.props().checked).toBe(false);
-
-        checkbox.simulate('change');
-        addManually.simulate('click');
-        expect(spy).toHaveBeenCalledTimes(2);
-    });
-    // it('should open the pubmed window appropriately', () => {
-    //     const spy = window.tinyMCE.activeEditor.windowManager.open as any;
-    //     const { searchPubmed } = setup();
-    //     searchPubmed.simulate('click');
-    //     expect(spy).toHaveBeenCalledTimes(1);
-    //     expect(spy.mock.calls[0][0].title).toBe('Search PubMed for Reference');
-    //     expect(submitSpy).toHaveBeenCalledTimes(1);
-    // });
-    it('should handle mouseover correctly', () => {
-        const { label } = setup();
-        label.simulate('mouseover');
+    it('should handle pubmed dialog submit', () => {
+        const { component } = setup();
+        const pubmedBtn = component.find('#searchPubmed');
+        pubmedBtn.simulate('click');
+        const submitBtn = component.find('PubmedDialog');
+        submitBtn.simulate('submit');
+        expect(spies.pubmedCallback).toHaveBeenCalledTimes(1);
     });
 });

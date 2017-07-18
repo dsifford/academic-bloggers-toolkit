@@ -1,4 +1,4 @@
-import { localeMapper } from '../Constants';
+import { localeMapper } from '../constants';
 import { parseCSLDate, parseCSLName } from './';
 
 /**
@@ -30,10 +30,7 @@ import { parseCSLDate, parseCSLName } from './';
  * @param kind - PubMed reference kind
  * @param res  - Pubmed api response
  */
-export function parsePubmedJSON(
-    kind: 'PMID' | 'PMCID',
-    res: PubMed.Response[]
-): CSL.Data[] {
+export function parsePubmedJSON(kind: 'PMID' | 'PMCID', res: PubMed.Response[]): CSL.Data[] {
     const payload: CSL.Data[] = [];
 
     res.forEach((ref: PubMed.Response, i: number) => {
@@ -49,9 +46,7 @@ export function parsePubmedJSON(
             switch (key) {
                 case 'authors':
                     ref[key]!.forEach(author => {
-                        output.author!.push(
-                            parseCSLName(author.name, 'pubmed')
-                        );
+                        output.author!.push(parseCSLName(author.name, 'pubmed'));
                     });
                     break;
                 case 'availablefromurl':

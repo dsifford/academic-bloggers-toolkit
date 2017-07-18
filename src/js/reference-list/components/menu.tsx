@@ -4,7 +4,7 @@ import * as React from 'react';
 import { spring, TransitionMotion } from 'react-motion';
 import VSelect from 'react-virtualized-select';
 
-import { PanelButton } from './PanelButton';
+import PanelButton from './panel-button';
 
 declare const ABT_Custom_CSL: BackendGlobals.ABT_Custom_CSL;
 
@@ -31,7 +31,7 @@ const openedStyle = [
 ];
 
 @observer
-export class Menu extends React.PureComponent<Props> {
+export default class Menu extends React.PureComponent<Props> {
     static readonly labels = top.ABT_i18n.referenceList.menu;
 
     static willEnter() {

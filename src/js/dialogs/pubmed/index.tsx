@@ -6,7 +6,7 @@ import { pubmedQuery } from 'utils/resolvers/';
 import { shadows } from 'utils/styles';
 
 import Callout from 'components/callout';
-import { Spinner } from 'components/Spinner';
+import Spinner from 'components/spinner';
 
 import { DialogProps } from 'dialogs/';
 import { Paginate } from './paginate';

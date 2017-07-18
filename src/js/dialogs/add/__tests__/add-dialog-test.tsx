@@ -1,3 +1,4 @@
+// FIXME: rewrite this test suite
 jest.mock('../../../utils/resolvers/');
 
 import { mount } from 'enzyme';

@@ -2,7 +2,7 @@ import { IObservableValue } from 'mobx';
 import { observer } from 'mobx-react';
 import * as React from 'react';
 
-import { DialogType } from 'utils/Constants';
+import { DialogType } from 'utils/constants';
 import Container from './container';
 
 import AddDialog from './add/';

@@ -7,7 +7,7 @@ import {
     ObservableMap,
     toJS,
 } from 'mobx';
-import { localeMapper as locales } from 'utils/Constants';
+import { localeMapper as locales } from 'utils/constants';
 
 class CitationStore {
     @observable CSL: ObservableMap<CSL.Data>;
@@ -107,7 +107,7 @@ class CitationStore {
                 return [...prev, curr];
             }, []);
         this.init(byIndex);
-        return [...toRemove];
+        return Array.from(toRemove);
     }
 
     /**
@@ -175,7 +175,7 @@ class CitationStore {
     }
 }
 
-export class Store {
+export default class Store {
     bibOptions = {
         heading: '',
         headingLevel: <'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6'>'h3',

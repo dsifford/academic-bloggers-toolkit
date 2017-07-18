@@ -4,7 +4,7 @@ import * as React from 'react';
 
 import { colors, shadows } from 'utils/styles';
 
-import { ToggleSwitch } from 'components/ToggleSwitch';
+import ToggleSwitch from 'components/toggle-switch';
 import Container from '../container';
 import PubmedDialog from '../pubmed/';
 
@@ -17,7 +17,7 @@ interface Props {
 }
 
 @observer
-export class ButtonRow extends React.PureComponent<Props> {
+export default class ButtonRow extends React.PureComponent<Props> {
     static readonly labels = top.ABT_i18n.tinymce.referenceWindow.buttonRow;
 
     currentDialog = observable('');

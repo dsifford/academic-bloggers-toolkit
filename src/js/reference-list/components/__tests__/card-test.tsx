@@ -1,8 +1,9 @@
+/// <reference path="../../../../../lib/types/CSL.d.ts" />
+jest.mock('../../../utils/tooltips');
+jest.useFakeTimers();
 import { shallow } from 'enzyme';
 import * as React from 'react';
-import { Card } from '../Card';
-jest.mock('../../../utils/Tooltips');
-jest.useFakeTimers();
+import Card from '../card';
 
 const testData: { [id: string]: CSL.Data } = {
     fourAuthors: {

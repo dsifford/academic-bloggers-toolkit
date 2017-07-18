@@ -4,17 +4,17 @@ import { observer } from 'mobx-react';
 import * as React from 'react';
 
 import EditorDriver, { EditorDriverConstructor } from 'drivers/base';
-import { DialogType } from 'utils/Constants';
+import { DialogType } from 'utils/constants';
 import { CSLProcessor } from 'utils/CSLProcessor';
-import DevTools, { configureDevtool } from 'utils/DevTools';
-import { getRemoteData, parseManualData } from '../API';
-import { Store } from '../Store';
+import DevTools, { configureDevtool } from 'utils/devtools';
+import { getRemoteData, parseManualData } from '../api';
+import Store from '../store';
 
-import { Spinner } from 'components/Spinner';
+import Spinner from 'components/spinner';
 import Dialog from 'dialogs';
-import { ItemList } from './ItemList';
-import { Menu } from './Menu';
-import { PanelButton } from './PanelButton';
+import ItemList from './item-list';
+import Menu from './menu';
+import PanelButton from './panel-button';
 
 const DevTool = DevTools();
 configureDevtool({
@@ -27,7 +27,7 @@ interface Props {
 }
 
 @observer
-export class ReferenceList extends React.Component<Props> {
+export default class ReferenceList extends React.Component<Props> {
     static readonly errors = top.ABT_i18n.errors;
     static readonly labels = top.ABT_i18n.referenceList.referenceList;
 

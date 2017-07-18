@@ -152,10 +152,9 @@ export class RISParser {
                     break;
                 case 'PY':
                 case 'Y1':
-                    (<any>payload).issued!['date-parts'][0][0] = parseCSLDate(
-                        val,
-                        'RIS'
-                    )['date-parts']![0][0];
+                    (<any>payload).issued!['date-parts'][0][0] = parseCSLDate(val, 'RIS')[
+                        'date-parts'
+                    ]![0][0];
                     break;
                 case 'Y2':
                     payload.accessed = parseCSLDate(val, 'RIS');
@@ -187,10 +186,7 @@ export class RISParser {
                     payload['call-number'] = val;
                     break;
                 case 'CY': // Conference location, publish location, city of publisher (zotero)
-                    if (
-                        ['paper-conference', 'speech'].indexOf(payload.type!) >
-                        -1
-                    ) {
+                    if (['paper-conference', 'speech'].indexOf(payload.type!) > -1) {
                         payload['event-place'] = val;
                         break;
                     }
@@ -230,10 +226,7 @@ export class RISParser {
                 case 'JF':
                 case 'T2':
                     payload['container-title'] = val;
-                    if (
-                        ['paper-conference', 'speech'].indexOf(payload.type!) >
-                        -1
-                    ) {
+                    if (['paper-conference', 'speech'].indexOf(payload.type!) > -1) {
                         payload.event = val;
                     }
                     break;
@@ -266,9 +259,7 @@ export class RISParser {
                     break;
                 case 'ER':
                     if (Object.keys(pageHolder).length === 2) {
-                        payload.page = `${pageHolder['SP']}-${pageHolder[
-                            'EP'
-                        ]}`;
+                        payload.page = `${pageHolder['SP']}-${pageHolder['EP']}`;
                     }
                     break;
                 default:

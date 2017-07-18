@@ -27,8 +27,8 @@
         "@types/gulp-sort": "0.0.30",
         "@types/gulp-sourcemaps": "0.0.31",
         "@types/he": "^0.5.29",
-        "@types/jest": "^20.0.2",
-        "@types/node": "^8.0.13",
+        "@types/jest": "^20.0.4",
+        "@types/node": "^8.0.14",
         "@types/react": "^15.0.38",
         "@types/react-dom": "^15.5.1",
         "@types/react-motion": "^0.0.23",
@@ -84,9 +84,10 @@
         "collectCoverageFrom": [
             "src/**/*.{js,ts,tsx}",
             "!**/{vendor,__tests__}/**",
+            "!src/js/{dialogs,reference-list}/index.tsx",
             "!src/js/Frontend.ts",
-            "!src/**/index.{ts,tsx}",
-            "!src/js/utils/{TinymceFunctions,DevTools}.ts",
+            "!src/js/utils/devtools.ts",
+            "!src/js/utils/**/index.ts",
             "!src/js/utils/resolvers/*"
         ],
         "coverageDirectory": "lib/tmp/coverage",
@@ -95,6 +96,7 @@
                 "tsConfigFile": "lib/tsconfig-tests.json"
             }
         },
+        "mapCoverage": true,
         "moduleDirectories": [
             "node_modules",
             "./src/js"
@@ -111,6 +113,6 @@
         "transform": {
             ".(ts|tsx)": "<rootDir>/node_modules/ts-jest/preprocessor.js"
         },
-        "verbose": true
+        "verbose": false
     }
 }

@@ -2,8 +2,8 @@ import { useStrict } from 'mobx';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 
-import { ReferenceList } from './components/ReferenceList';
-import { Store } from './Store';
+import ReferenceList from './components/reference-list';
+import Store from './store';
 
 import 'react-select/dist/react-select.min.css';
 import 'react-virtualized-select/styles.css';

@@ -24,31 +24,23 @@ export default class Container extends React.Component<Props> {
     @action
     close = () => {
         this.props.currentDialog.set('');
-        removeEventListener('keydown', this.handleKeyEvent);
     };
 
-    handleKeyEvent = (e: KeyboardEvent) => {
+    handleKeyEvent = (e: React.KeyboardEvent<HTMLDivElement>) => {
         switch (e.key) {
             case 'Escape':
                 e.stopPropagation();
-                this.element.removeEventListener('keydown', this.handleKeyEvent);
                 return this.close();
             default:
                 return;
         }
     };
 
-    bindRefs = (el: HTMLDivElement) => this.element = el;
-
     preventScrollPropagation = (e: React.WheelEvent<HTMLDivElement>) => {
         if (e.cancelable) {
             e.preventDefault();
         }
-    }
-
-    componentDidMount() {
-        this.element.addEventListener('keydown', this.handleKeyEvent);
-    }
+    };
 
     render() {
         const overlayStyle = {
@@ -58,8 +50,21 @@ export default class Container extends React.Component<Props> {
             width: this.props.width,
         };
         return (
-            <div ref={this.bindRefs} className="dialog" style={overlayStyle} onWheel={this.preventScrollPropagation}>
-                <div style={dialogStyle} role="dialog" aria-labelledby="dialog-label" className="dialog__main">
+            // Disabled `react-a11y-event-has-role` because the div is a background
+            // overlay. The "dialog" role is instead given to the first child.
+            // tslint:disable-next-line
+            <div
+                className="dialog"
+                style={overlayStyle}
+                onWheel={this.preventScrollPropagation}
+                onKeyDown={this.handleKeyEvent}
+            >
+                <div
+                    style={dialogStyle}
+                    role="dialog"
+                    aria-labelledby="dialog-label"
+                    className="dialog__main"
+                >
                     <header className="dialog__header">
                         <span id="dialog-label">
                             {this.props.title}
@@ -106,7 +111,7 @@ export default class Container extends React.Component<Props> {
                         margin-bottom: -32px;
                         border-radius: 4px;
                         background: white;
-                        box-shadow: ${ shadows.depth_3 };
+                        box-shadow: ${shadows.depth_3};
                     }
                     .dialog__header {
                         height: 40px;

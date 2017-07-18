@@ -1,8 +1,9 @@
-import { parseManualData } from '../API';
+import { parseManualData } from '../api';
 
 const testCSL = require('../../../../lib/fixtures.js').reflistState.CSL
     .aaaaaaaa;
 
+// FIXME:
 describe('API', () => {
     // describe('getRemoteData()', () => {
     //     let mce;

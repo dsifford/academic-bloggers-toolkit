@@ -9,10 +9,7 @@
  * @param source - Source of the name field
  * @return Formatted CSL.Person object
  */
-export function parseCSLName(
-    input: string,
-    source: 'RIS' | 'pubmed'
-): CSL.Person {
+export function parseCSLName(input: string, source: 'RIS' | 'pubmed'): CSL.Person {
     let family: string;
     let given: string;
 

@@ -1,7 +1,6 @@
-jest.disableAutomock();
-
+/// <reference path="../../../../lib/types/CSL.d.ts" />
 const reflistState = require('../../../../lib/fixtures').reflistState;
-import { Store } from '../Store';
+import Store from '../store';
 
 const testState = reflistState;
 

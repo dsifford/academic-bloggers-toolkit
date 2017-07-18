@@ -13,7 +13,7 @@ interface Props {
     style?: React.CSSProperties;
 }
 
-export class Spinner extends React.PureComponent<Props> {
+export default class Spinner extends React.PureComponent<Props> {
     static defaultProps: Partial<Props> = {
         bgColor: 'transparent',
     };

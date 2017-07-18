@@ -5,7 +5,7 @@ import * as React from 'react';
 import { colors, shadows } from 'utils/styles';
 
 import Callout from 'components/callout';
-import { Spinner } from 'components/Spinner';
+import Spinner from 'components/spinner';
 import { MetaFields } from './meta-fields';
 import { People } from './people';
 

@@ -1,3 +1,4 @@
+// FIXME: rewrite this test suite
 import { mount } from 'enzyme';
 import { observable } from 'mobx';
 import * as React from 'react';

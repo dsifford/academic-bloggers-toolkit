@@ -1,7 +1,7 @@
 import { mount, shallow } from 'enzyme';
 import { observable } from 'mobx';
 import * as React from 'react';
-import { dynamicOptionHeightHandler, Menu, renderer as Renderer } from '../Menu';
+import Menu, { dynamicOptionHeightHandler, renderer as Renderer } from '../menu';
 
 const ABT_CitationStyles = [
     {

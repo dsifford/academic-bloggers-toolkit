@@ -5,7 +5,7 @@ import * as React from 'react';
 import { BookMeta, getFromISBN, getFromURL, URLMeta } from 'utils/resolvers/';
 
 import { DialogProps } from 'dialogs/';
-import { ButtonRow } from './button-row';
+import ButtonRow from './button-row';
 import { IdentifierInput } from './identifier-input';
 import { ManualEntryContainer } from './manual-entry-container';
 
