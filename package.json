@@ -4,7 +4,10 @@
     "description": "A plugin extending the functionality of WordPress for Academic Blogging",
     "license": "GPL-3.0",
     "scripts": {
-        "test": "NODE_ENV=production jest --coverage && npm run lint",
+        "precommit": "lint-staged",
+        "prepush": "npm test",
+        "test": "NODE_ENV=production jest --coverage",
+        "posttest": "npm run lint",
         "lint": "tslint -p . -t codeFrame && tslint types/* -t codeFrame && stylint ./src/",
         "start": "gulp",
         "build": "NODE_ENV=production gulp",
@@ -12,6 +15,9 @@
         "update-translations": "torus run ./lib/update-translations",
         "update-styles": "node ./lib/updateStyles.js",
         "update-vendors": "curl -o 'src/vendor/citeproc.js' https://raw.githubusercontent.com/Juris-M/citeproc-js/master/citeproc.js"
+    },
+    "lint-staged": {
+        "*.{ts,tsx}": ["prettier --write --print-width 100 --single-quote --tab-width 4 --trailing-comma all", "git add"]
     },
     "repository": "dsifford/academic-bloggers-toolkit",
     "author": "Derek P Sifford",
@@ -50,9 +56,12 @@
         "gulp-stylus": "^2.5.0",
         "gulp-uglify": "^3.0.0",
         "gulp-wp-pot": "^2.0.6",
+        "husky": "^0.14.3",
         "jest": "^20.0.4",
+        "lint-staged": "^4.0.2",
         "merge-stream": "^1.0.1",
         "mobx-react-devtools": "^4.2.15",
+        "prettier": "^1.5.3",
         "react-addons-test-utils": "^15.6.0",
         "react-test-renderer": "^15.6.1",
         "style-loader": "^0.18.2",
@@ -97,18 +106,9 @@
             }
         },
         "mapCoverage": true,
-        "moduleDirectories": [
-            "node_modules",
-            "./src/js"
-        ],
-        "moduleFileExtensions": [
-            "ts",
-            "tsx",
-            "js"
-        ],
-        "setupFiles": [
-            "./lib/beforeTest.js"
-        ],
+        "moduleDirectories": ["node_modules", "./src/js"],
+        "moduleFileExtensions": ["ts", "tsx", "js"],
+        "setupFiles": ["./lib/beforeTest.js"],
         "testRegex": "(/__tests__/.*|\\.(test|spec))\\.(ts|tsx|js)$",
         "transform": {
             ".(ts|tsx)": "<rootDir>/node_modules/ts-jest/preprocessor.js"
