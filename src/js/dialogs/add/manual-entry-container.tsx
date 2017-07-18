@@ -1,11 +1,10 @@
-import { action, IObservableArray, IObservableValue, observable, ObservableMap } from 'mobx';
+import { action, IObservableArray, IObservableValue, ObservableMap } from 'mobx';
 import { observer } from 'mobx-react';
 import * as React from 'react';
 
-import { colors, shadows } from 'utils/styles';
-
 import Callout from 'components/callout';
 import Spinner from 'components/spinner';
+import AutoCite from './autocite';
 import { MetaFields } from './meta-fields';
 import { People } from './people';
 
@@ -13,18 +12,17 @@ interface ManualEntryProps {
     loading: boolean;
     manualData: ObservableMap<string>;
     people: IObservableArray<CSL.TypedPerson>;
-    errorMessage: IObservableValue<string>
+    errorMessage: IObservableValue<string>;
     autoCite(kind: 'webpage' | 'book' | 'chapter', query: string): void;
     typeChange(citationType: string): void;
 }
 
 @observer
-export class ManualEntryContainer extends React.PureComponent<ManualEntryProps, {}> {
+export default class ManualEntryContainer extends React.PureComponent<ManualEntryProps, {}> {
     static readonly labels = top.ABT_i18n.tinymce.referenceWindow.manualEntryContainer;
     static readonly citationTypes = top.ABT_i18n.citationTypes;
 
-    @action
-    dismissError = () => this.props.errorMessage.set('');
+    @action dismissError = () => this.props.errorMessage.set('');
 
     handleTypeChange = (e: React.FormEvent<HTMLSelectElement>) => {
         this.props.typeChange(e.currentTarget.value);
@@ -66,7 +64,7 @@ export class ManualEntryContainer extends React.PureComponent<ManualEntryProps, 
                                 value={item.value}
                                 aria-selected={itemType === item.value}
                                 children={item.label}
-                            />
+                            />,
                         )}
                     </select>
                 </div>
@@ -118,99 +116,6 @@ export class ManualEntryContainer extends React.PureComponent<ManualEntryProps, 
                     }
                     .autocite {
                         max-height: calc(100vh - 250px);
-                    }
-                `}</style>
-            </div>
-        );
-    }
-}
-
-interface AutoCiteProps {
-    kind: 'webpage' | 'book' | 'chapter';
-    inputType: 'text' | 'url';
-    placeholder: string;
-    pattern?: string;
-    getter(kind: string, query: string): void;
-}
-
-@observer
-export class AutoCite extends React.Component<AutoCiteProps, {}> {
-    static readonly labels = top.ABT_i18n.tinymce.referenceWindow.manualEntryContainer;
-    /**
-     * Needed for handling the initial focus() of the field
-     */
-    input: HTMLInputElement;
-
-    @observable query = '';
-
-    @action
-    handleAutociteFieldChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        this.query = e.target.value;
-    };
-
-    @action
-    handleQuery = () => {
-        if (this.query.length === 0 || !this.input.validity.valid) return;
-        this.props.getter(this.props.kind, this.query);
-        this.query = '';
-    };
-
-    handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-        if (e.key === 'Enter' || e.key === 'Return') {
-            e.stopPropagation();
-            e.preventDefault();
-            this.handleQuery();
-        }
-    };
-
-    bindRefs = (c: HTMLInputElement) => {
-        this.input = c;
-    };
-
-    componentDidMount() {
-        this.input.focus();
-    }
-
-    render() {
-        const { placeholder, inputType } = this.props;
-        return (
-            <div>
-                <label htmlFor="citequery" children={AutoCite.labels.autocite} />
-                <input
-                    type={inputType}
-                    id="citequery"
-                    placeholder={placeholder}
-                    pattern={this.props.pattern ? this.props.pattern : undefined}
-                    ref={this.bindRefs}
-                    value={this.query}
-                    onKeyDown={this.handleKeyDown}
-                    onChange={this.handleAutociteFieldChange}
-                />
-                <input
-                    type="button"
-                    aria-label={AutoCite.labels.search}
-                    className={
-                        this.query.length === 0 || !this.input.validity.valid
-                            ? 'abt-btn abt-btn_flat abt-btn_disabled'
-                            : 'abt-btn abt-btn_flat'
-                    }
-                    value={AutoCite.labels.search}
-                    onClick={this.handleQuery}
-                />
-                <style jsx>{`
-                    div {
-                        display: flex;
-                        padding: 10px;
-                        margin-bottom: 10px;
-                        align-items: center;
-                        background: ${colors.light_gray};
-                        box-shadow: ${shadows.depth_1}, ${shadows.top_border};
-                    }
-                    #citequery {
-                        margin: 0 10px;
-                        flex: auto;
-                        height: 28px;
-                        font-size: 14px;
                     }
                 `}</style>
             </div>

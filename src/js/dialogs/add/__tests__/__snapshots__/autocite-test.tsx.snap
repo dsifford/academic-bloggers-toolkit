@@ -1,0 +1,107 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<AutoCite /> should match snapshots 1`] = `
+<AutoCite
+  getter={[Function]}
+  inputType="url"
+  kind="webpage"
+  placeholder="Test"
+>
+  <div>
+    <label
+      htmlFor="citequery"
+    >
+      Autocite
+    </label>
+    <input
+      id="citequery"
+      onChange={[Function]}
+      onKeyDown={[Function]}
+      placeholder="Test"
+      type="url"
+      value=""
+    />
+    <input
+      aria-label="Search"
+      className="abt-btn abt-btn_flat abt-btn_disabled"
+      onClick={[Function]}
+      type="button"
+      value="Search"
+    />
+    <style
+      jsx={true}
+    >
+      
+                          div {
+                              display: flex;
+                              padding: 10px;
+                              margin-bottom: 10px;
+                              align-items: center;
+                              background: #f5f5f5;
+                              box-shadow: 0 1px 3px rgba(0, 0, 0, .12), 0 1px 2px rgba(0, 0, 0, .24), 0 -1px 0 rgba(16, 22, 26, .15);
+                          }
+                          #citequery {
+                              margin: 0 10px;
+                              flex: auto;
+                              height: 28px;
+                              font-size: 14px;
+                          }
+                      
+    </style>
+  </div>
+</AutoCite>
+`;
+
+exports[`<AutoCite /> should match snapshots 2`] = `
+<AutoCite
+  getter={[Function]}
+  inputType="text"
+  kind="book"
+  pattern="[0-9]+"
+  placeholder="Test"
+>
+  <div>
+    <label
+      htmlFor="citequery"
+    >
+      Autocite
+    </label>
+    <input
+      id="citequery"
+      onChange={[Function]}
+      onKeyDown={[Function]}
+      pattern="[0-9]+"
+      placeholder="Test"
+      type="text"
+      value=""
+    />
+    <input
+      aria-label="Search"
+      className="abt-btn abt-btn_flat abt-btn_disabled"
+      onClick={[Function]}
+      type="button"
+      value="Search"
+    />
+    <style
+      jsx={true}
+    >
+      
+                          div {
+                              display: flex;
+                              padding: 10px;
+                              margin-bottom: 10px;
+                              align-items: center;
+                              background: #f5f5f5;
+                              box-shadow: 0 1px 3px rgba(0, 0, 0, .12), 0 1px 2px rgba(0, 0, 0, .24), 0 -1px 0 rgba(16, 22, 26, .15);
+                          }
+                          #citequery {
+                              margin: 0 10px;
+                              flex: auto;
+                              height: 28px;
+                              font-size: 14px;
+                          }
+                      
+    </style>
+  </div>
+</AutoCite>
+`;

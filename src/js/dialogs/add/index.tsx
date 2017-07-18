@@ -7,7 +7,7 @@ import { BookMeta, getFromISBN, getFromURL, URLMeta } from 'utils/resolvers/';
 import { DialogProps } from 'dialogs/';
 import ButtonRow from './button-row';
 import { IdentifierInput } from './identifier-input';
-import { ManualEntryContainer } from './manual-entry-container';
+import ManualEntryContainer from './manual-entry-container';
 
 @observer
 export default class AddDialog extends React.Component<DialogProps> {
@@ -47,14 +47,14 @@ export default class AddDialog extends React.Component<DialogProps> {
                 .map(i => i.trim())
                 .concat(pmid)
                 .filter(Boolean)
-                .join(',')
+                .join(','),
         );
     };
 
     @action
     autocite = (
         kind: 'webpage' | 'book' | 'chapter',
-        meta: { webpage?: URLMeta; book?: BookMeta }
+        meta: { webpage?: URLMeta; book?: BookMeta },
     ) => {
         switch (kind) {
             case 'webpage':
@@ -70,7 +70,7 @@ export default class AddDialog extends React.Component<DialogProps> {
                         family: a.lastname || '',
                         given: a.firstname || '',
                         type: 'author' as CSL.PersonType,
-                    }))
+                    })),
                 );
                 break;
             case 'book':
@@ -100,8 +100,7 @@ export default class AddDialog extends React.Component<DialogProps> {
         this.people.replace([{ family: '', given: '', type: 'author' }]);
     };
 
-    @action
-    setErrorMessage = (msg?: string) => this.errorMessage.set(msg || '');
+    @action setErrorMessage = (msg?: string) => this.errorMessage.set(msg || '');
 
     @action
     toggleAttachInline = () => {
@@ -167,13 +166,13 @@ export default class AddDialog extends React.Component<DialogProps> {
                             typeChange={this.changeType}
                         />}
                 </form>
-                    <ButtonRow
-                        addManually={this.addManually}
-                        pubmedCallback={this.appendPMID}
-                        attachInline={this.attachInline}
-                        attachInlineToggle={this.toggleAttachInline}
-                        toggleManual={this.toggleAddManual}
-                    />
+                <ButtonRow
+                    addManually={this.addManually}
+                    pubmedCallback={this.appendPMID}
+                    attachInline={this.attachInline}
+                    attachInlineToggle={this.toggleAttachInline}
+                    toggleManual={this.toggleAddManual}
+                />
             </div>
         );
     }

@@ -1,0 +1,765 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<ManualEntryContainer /> should match snapshots 1`] = `
+<div>
+  <div
+    id="type-select-row"
+  >
+    <label
+      htmlFor="type-select"
+    >
+      Citation Type
+    </label>
+    <select
+      id="type-select"
+      onChange={[Function]}
+      value="webpage"
+    >
+      <option
+        aria-selected={false}
+        value="bill"
+      >
+        Bill
+      </option>
+      <option
+        aria-selected={false}
+        value="book"
+      >
+        Book
+      </option>
+      <option
+        aria-selected={false}
+        value="chapter"
+      >
+        Book Section
+      </option>
+      <option
+        aria-selected={false}
+        value="legal_case"
+      >
+        Case
+      </option>
+      <option
+        aria-selected={false}
+        value="paper-conference"
+      >
+        Conference Proceeding
+      </option>
+      <option
+        aria-selected={false}
+        value="entry-encyclopedia"
+      >
+        Encyclopedia Entry
+      </option>
+      <option
+        aria-selected={false}
+        value="motion_picture"
+      >
+        Film
+      </option>
+      <option
+        aria-selected={false}
+        value="speech"
+      >
+        Hearing
+      </option>
+      <option
+        aria-selected={false}
+        value="article-journal"
+      >
+        Journal Article
+      </option>
+      <option
+        aria-selected={false}
+        value="article-magazine"
+      >
+        Magazine Article
+      </option>
+      <option
+        aria-selected={false}
+        value="article-newspaper"
+      >
+        Newspaper Article
+      </option>
+      <option
+        aria-selected={false}
+        value="patent"
+      >
+        Patent
+      </option>
+      <option
+        aria-selected={false}
+        value="testing"
+      >
+        Test not in use
+      </option>
+      <option
+        aria-selected={false}
+        value="testing2"
+      >
+        Test not in use
+      </option>
+      <option
+        aria-selected={false}
+        value="report"
+      >
+        Report
+      </option>
+      <option
+        aria-selected={false}
+        value="legislation"
+      >
+        Statute
+      </option>
+      <option
+        aria-selected={false}
+        value="thesis"
+      >
+        Thesis
+      </option>
+      <option
+        aria-selected={false}
+        value="broadcast"
+      >
+        Television Broadcast
+      </option>
+      <option
+        aria-selected={true}
+        value="webpage"
+      >
+        Web Page
+      </option>
+    </select>
+  </div>
+  <AutoCite
+    getter={[Function]}
+    inputType="url"
+    kind="webpage"
+    placeholder="URL"
+  />
+  <div
+    className="bounded-rect autocite"
+    onWheel={[Function]}
+  >
+    <Callout
+      dismiss={[Function]}
+      intent="danger"
+      isVisible={true}
+    />
+    <People
+      citationType="webpage"
+      people={
+        Array [
+          Object {
+            "family": "",
+            "given": "",
+            "type": "author",
+          },
+        ]
+      }
+    />
+    <MetaFields
+      meta={
+        Object {
+          "type": "webpage",
+        }
+      }
+    />
+  </div>
+  <style
+    jsx={true}
+  >
+    
+                        label {
+                            margin-right: 10px;
+                        }
+                        select {
+                            flex: auto;
+                        }
+                        #type-select-row {
+                            display: flex;
+                            padding: 0 10px 10px;
+                            align-items: center;
+                        }
+                        .bounded-rect {
+                            max-height: calc(100vh - 200px);
+                            overflow-y: auto;
+                            overflow-x: hidden;
+                        }
+                        .autocite {
+                            max-height: calc(100vh - 250px);
+                        }
+                    
+  </style>
+</div>
+`;
+
+exports[`<ManualEntryContainer /> should match snapshots 2`] = `
+<div>
+  <Spinner
+    bgColor="transparent"
+    overlay={true}
+    size="40px"
+  />
+  <div
+    id="type-select-row"
+  >
+    <label
+      htmlFor="type-select"
+    >
+      Citation Type
+    </label>
+    <select
+      id="type-select"
+      onChange={[Function]}
+      value="webpage"
+    >
+      <option
+        aria-selected={false}
+        value="bill"
+      >
+        Bill
+      </option>
+      <option
+        aria-selected={false}
+        value="book"
+      >
+        Book
+      </option>
+      <option
+        aria-selected={false}
+        value="chapter"
+      >
+        Book Section
+      </option>
+      <option
+        aria-selected={false}
+        value="legal_case"
+      >
+        Case
+      </option>
+      <option
+        aria-selected={false}
+        value="paper-conference"
+      >
+        Conference Proceeding
+      </option>
+      <option
+        aria-selected={false}
+        value="entry-encyclopedia"
+      >
+        Encyclopedia Entry
+      </option>
+      <option
+        aria-selected={false}
+        value="motion_picture"
+      >
+        Film
+      </option>
+      <option
+        aria-selected={false}
+        value="speech"
+      >
+        Hearing
+      </option>
+      <option
+        aria-selected={false}
+        value="article-journal"
+      >
+        Journal Article
+      </option>
+      <option
+        aria-selected={false}
+        value="article-magazine"
+      >
+        Magazine Article
+      </option>
+      <option
+        aria-selected={false}
+        value="article-newspaper"
+      >
+        Newspaper Article
+      </option>
+      <option
+        aria-selected={false}
+        value="patent"
+      >
+        Patent
+      </option>
+      <option
+        aria-selected={false}
+        value="testing"
+      >
+        Test not in use
+      </option>
+      <option
+        aria-selected={false}
+        value="testing2"
+      >
+        Test not in use
+      </option>
+      <option
+        aria-selected={false}
+        value="report"
+      >
+        Report
+      </option>
+      <option
+        aria-selected={false}
+        value="legislation"
+      >
+        Statute
+      </option>
+      <option
+        aria-selected={false}
+        value="thesis"
+      >
+        Thesis
+      </option>
+      <option
+        aria-selected={false}
+        value="broadcast"
+      >
+        Television Broadcast
+      </option>
+      <option
+        aria-selected={true}
+        value="webpage"
+      >
+        Web Page
+      </option>
+    </select>
+  </div>
+  <AutoCite
+    getter={[Function]}
+    inputType="url"
+    kind="webpage"
+    placeholder="URL"
+  />
+  <div
+    className="bounded-rect autocite"
+    onWheel={[Function]}
+  >
+    <Callout
+      dismiss={[Function]}
+      intent="danger"
+      isVisible={true}
+    />
+    <People
+      citationType="webpage"
+      people={
+        Array [
+          Object {
+            "family": "",
+            "given": "",
+            "type": "author",
+          },
+        ]
+      }
+    />
+    <MetaFields
+      meta={
+        Object {
+          "type": "webpage",
+        }
+      }
+    />
+  </div>
+  <style
+    jsx={true}
+  >
+    
+                        label {
+                            margin-right: 10px;
+                        }
+                        select {
+                            flex: auto;
+                        }
+                        #type-select-row {
+                            display: flex;
+                            padding: 0 10px 10px;
+                            align-items: center;
+                        }
+                        .bounded-rect {
+                            max-height: calc(100vh - 200px);
+                            overflow-y: auto;
+                            overflow-x: hidden;
+                        }
+                        .autocite {
+                            max-height: calc(100vh - 250px);
+                        }
+                    
+  </style>
+</div>
+`;
+
+exports[`<ManualEntryContainer /> should match snapshots 3`] = `
+<div>
+  <div
+    id="type-select-row"
+  >
+    <label
+      htmlFor="type-select"
+    >
+      Citation Type
+    </label>
+    <select
+      id="type-select"
+      onChange={[Function]}
+      value="book"
+    >
+      <option
+        aria-selected={false}
+        value="bill"
+      >
+        Bill
+      </option>
+      <option
+        aria-selected={true}
+        value="book"
+      >
+        Book
+      </option>
+      <option
+        aria-selected={false}
+        value="chapter"
+      >
+        Book Section
+      </option>
+      <option
+        aria-selected={false}
+        value="legal_case"
+      >
+        Case
+      </option>
+      <option
+        aria-selected={false}
+        value="paper-conference"
+      >
+        Conference Proceeding
+      </option>
+      <option
+        aria-selected={false}
+        value="entry-encyclopedia"
+      >
+        Encyclopedia Entry
+      </option>
+      <option
+        aria-selected={false}
+        value="motion_picture"
+      >
+        Film
+      </option>
+      <option
+        aria-selected={false}
+        value="speech"
+      >
+        Hearing
+      </option>
+      <option
+        aria-selected={false}
+        value="article-journal"
+      >
+        Journal Article
+      </option>
+      <option
+        aria-selected={false}
+        value="article-magazine"
+      >
+        Magazine Article
+      </option>
+      <option
+        aria-selected={false}
+        value="article-newspaper"
+      >
+        Newspaper Article
+      </option>
+      <option
+        aria-selected={false}
+        value="patent"
+      >
+        Patent
+      </option>
+      <option
+        aria-selected={false}
+        value="testing"
+      >
+        Test not in use
+      </option>
+      <option
+        aria-selected={false}
+        value="testing2"
+      >
+        Test not in use
+      </option>
+      <option
+        aria-selected={false}
+        value="report"
+      >
+        Report
+      </option>
+      <option
+        aria-selected={false}
+        value="legislation"
+      >
+        Statute
+      </option>
+      <option
+        aria-selected={false}
+        value="thesis"
+      >
+        Thesis
+      </option>
+      <option
+        aria-selected={false}
+        value="broadcast"
+      >
+        Television Broadcast
+      </option>
+      <option
+        aria-selected={false}
+        value="webpage"
+      >
+        Web Page
+      </option>
+    </select>
+  </div>
+  <AutoCite
+    getter={[Function]}
+    inputType="text"
+    kind="book"
+    pattern="(?:[dxX]-?){10}|(?:[dxX]-?){13}"
+    placeholder="ISBN"
+  />
+  <div
+    className="bounded-rect autocite"
+    onWheel={[Function]}
+  >
+    <Callout
+      dismiss={[Function]}
+      intent="danger"
+      isVisible={true}
+    />
+    <People
+      citationType="book"
+      people={
+        Array [
+          Object {
+            "family": "",
+            "given": "",
+            "type": "author",
+          },
+        ]
+      }
+    />
+    <MetaFields
+      meta={
+        Object {
+          "type": "book",
+        }
+      }
+    />
+  </div>
+  <style
+    jsx={true}
+  >
+    
+                        label {
+                            margin-right: 10px;
+                        }
+                        select {
+                            flex: auto;
+                        }
+                        #type-select-row {
+                            display: flex;
+                            padding: 0 10px 10px;
+                            align-items: center;
+                        }
+                        .bounded-rect {
+                            max-height: calc(100vh - 200px);
+                            overflow-y: auto;
+                            overflow-x: hidden;
+                        }
+                        .autocite {
+                            max-height: calc(100vh - 250px);
+                        }
+                    
+  </style>
+</div>
+`;
+
+exports[`<ManualEntryContainer /> should match snapshots 4`] = `
+<div>
+  <div
+    id="type-select-row"
+  >
+    <label
+      htmlFor="type-select"
+    >
+      Citation Type
+    </label>
+    <select
+      id="type-select"
+      onChange={[Function]}
+      value="article"
+    >
+      <option
+        aria-selected={false}
+        value="bill"
+      >
+        Bill
+      </option>
+      <option
+        aria-selected={false}
+        value="book"
+      >
+        Book
+      </option>
+      <option
+        aria-selected={false}
+        value="chapter"
+      >
+        Book Section
+      </option>
+      <option
+        aria-selected={false}
+        value="legal_case"
+      >
+        Case
+      </option>
+      <option
+        aria-selected={false}
+        value="paper-conference"
+      >
+        Conference Proceeding
+      </option>
+      <option
+        aria-selected={false}
+        value="entry-encyclopedia"
+      >
+        Encyclopedia Entry
+      </option>
+      <option
+        aria-selected={false}
+        value="motion_picture"
+      >
+        Film
+      </option>
+      <option
+        aria-selected={false}
+        value="speech"
+      >
+        Hearing
+      </option>
+      <option
+        aria-selected={false}
+        value="article-journal"
+      >
+        Journal Article
+      </option>
+      <option
+        aria-selected={false}
+        value="article-magazine"
+      >
+        Magazine Article
+      </option>
+      <option
+        aria-selected={false}
+        value="article-newspaper"
+      >
+        Newspaper Article
+      </option>
+      <option
+        aria-selected={false}
+        value="patent"
+      >
+        Patent
+      </option>
+      <option
+        aria-selected={false}
+        value="testing"
+      >
+        Test not in use
+      </option>
+      <option
+        aria-selected={false}
+        value="testing2"
+      >
+        Test not in use
+      </option>
+      <option
+        aria-selected={false}
+        value="report"
+      >
+        Report
+      </option>
+      <option
+        aria-selected={false}
+        value="legislation"
+      >
+        Statute
+      </option>
+      <option
+        aria-selected={false}
+        value="thesis"
+      >
+        Thesis
+      </option>
+      <option
+        aria-selected={false}
+        value="broadcast"
+      >
+        Television Broadcast
+      </option>
+      <option
+        aria-selected={false}
+        value="webpage"
+      >
+        Web Page
+      </option>
+    </select>
+  </div>
+  <div
+    className="bounded-rect"
+    onWheel={[Function]}
+  >
+    <Callout
+      dismiss={[Function]}
+      intent="danger"
+      isVisible={true}
+    />
+    <MetaFields
+      meta={
+        Object {
+          "type": "article",
+        }
+      }
+    />
+  </div>
+  <style
+    jsx={true}
+  >
+    
+                        label {
+                            margin-right: 10px;
+                        }
+                        select {
+                            flex: auto;
+                        }
+                        #type-select-row {
+                            display: flex;
+                            padding: 0 10px 10px;
+                            align-items: center;
+                        }
+                        .bounded-rect {
+                            max-height: calc(100vh - 200px);
+                            overflow-y: auto;
+                            overflow-x: hidden;
+                        }
+                        .autocite {
+                            max-height: calc(100vh - 250px);
+                        }
+                    
+  </style>
+</div>
+`;

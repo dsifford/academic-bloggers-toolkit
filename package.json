@@ -17,7 +17,10 @@
         "update-vendors": "curl -o 'src/vendor/citeproc.js' https://raw.githubusercontent.com/Juris-M/citeproc-js/master/citeproc.js"
     },
     "lint-staged": {
-        "*.{ts,tsx}": ["prettier --write --print-width 100 --single-quote --tab-width 4 --trailing-comma all", "git add"]
+        "*.{ts,tsx}": [
+            "prettier --write --print-width 100 --single-quote --tab-width 4 --trailing-comma all",
+            "git add"
+        ]
     },
     "repository": "dsifford/academic-bloggers-toolkit",
     "author": "Derek P Sifford",
@@ -38,6 +41,7 @@
         "@types/react": "^15.0.38",
         "@types/react-dom": "^15.5.1",
         "@types/react-motion": "^0.0.23",
+        "@types/react-test-renderer": "^15.5.2",
         "@types/webpack": "^3.0.4",
         "autoprefixer-stylus": "^0.14.0",
         "awesome-typescript-loader": "^3.2.1",
@@ -49,6 +53,7 @@
         "browser-sync": "^2.18.12",
         "css-loader": "^0.28.4",
         "enzyme": "^2.9.1",
+        "enzyme-to-json": "^1.5.1",
         "gulp": "gulpjs/gulp#4.0",
         "gulp-replace": "^0.6.1",
         "gulp-sort": "^2.0.0",
@@ -106,9 +111,18 @@
             }
         },
         "mapCoverage": true,
-        "moduleDirectories": ["node_modules", "./src/js"],
-        "moduleFileExtensions": ["ts", "tsx", "js"],
-        "setupFiles": ["./lib/beforeTest.js"],
+        "moduleDirectories": [
+            "node_modules",
+            "./src/js"
+        ],
+        "moduleFileExtensions": [
+            "ts",
+            "tsx",
+            "js"
+        ],
+        "setupFiles": [
+            "./lib/beforeTest.js"
+        ],
         "testRegex": "(/__tests__/.*|\\.(test|spec))\\.(ts|tsx|js)$",
         "transform": {
             ".(ts|tsx)": "<rootDir>/node_modules/ts-jest/preprocessor.js"
