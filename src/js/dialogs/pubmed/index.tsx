@@ -129,7 +129,7 @@ export default class PubmedDialog extends React.Component<DialogProps> {
     }
 }
 
-function* placeholderGenerator() {
+export function* placeholderGenerator() {
     const options = [
         'Ioannidis JP[Author - First] AND meta research',
         'Brohi K[Author - First] AND "acute traumatic coagulopathy"',

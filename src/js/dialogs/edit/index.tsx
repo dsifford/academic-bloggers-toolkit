@@ -29,6 +29,7 @@ const DATE_TYPE_KEYS = [
 
 interface Props extends DialogProps {
     data: CSL.Data;
+    onSubmit(data: any): void;
 }
 
 @observer
@@ -63,8 +64,8 @@ export default class EditDialog extends React.PureComponent<Props> {
         const people = toJS(this.people);
         const fields = toJS<CSL.Data>(this.fields);
         for (const person of people) {
-            const { type: personType, ...rest } = person
-            fields[personType] = [...fields[personType] || [], rest];
+            const { type: personType, ...rest } = person;
+            fields[personType] = [...(fields[personType] || []), rest];
         }
         this.props.onSubmit(fields);
     };

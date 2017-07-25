@@ -24,28 +24,30 @@ export default class ImportDialog extends React.Component<DialogProps> {
     };
 
     @action
-    setErrorMessage = (msg: string = '') =>
-        this.errorMessage.set(typeof msg === 'string' ? msg : '');
+    setErrorMessage = (msg: any = '') => this.errorMessage.set(typeof msg === 'string' ? msg : '');
     @action setPayload = (payload: CSL.Data[]) => this.payload.replace(payload);
 
     @action
-    setFile = ({ name = '', value = ''} = {}) => {
+    setFile = ({ name = '', value = '' } = {}) => {
         this.file.name.set(name);
         this.file.value.set(value);
-    }
+    };
 
     @action
     handleFileUpload = (e: React.FormEvent<HTMLInputElement>) => {
-        const reader = new FileReader();
-        const file = e.currentTarget.files![0];
-        const fileExtension = file.name.toLowerCase().match(/\.(\w+$)/)
-            ? file.name.toLowerCase().match(/\.(\w+$)/)![1]
-            : '';
-        reader.addEventListener('load', () => {
-            this.parseFile(reader, fileExtension);
+        return new Promise(resolve => {
+            const reader = new FileReader();
+            const file = e.currentTarget.files![0];
+            const fileExtension = file.name.toLowerCase().match(/\.(\w+$)/)
+                ? file.name.toLowerCase().match(/\.(\w+$)/)![1]
+                : '';
+            reader.addEventListener('load', () => {
+                this.parseFile(reader, fileExtension);
+                resolve();
+            });
+            reader.readAsText(file);
+            this.setFile({ name: file.name, value: e.currentTarget.value });
         });
-        reader.readAsText(file);
-        this.setFile({ name: file.name, value: e.currentTarget.value });
     };
 
     parseFile = (reader: FileReader, fileExtension: string) => {

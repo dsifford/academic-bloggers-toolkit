@@ -1,0 +1,70 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<ImportDialog /> should match snapshot 1`] = `
+<div>
+  <div
+    className="import-dialog"
+  >
+    <label>
+      <input
+        accept=".ris,.bib,.bibtex,application/xresearch-info-systems,application/x-bibtex"
+        id="uploadField"
+        onChange={[Function]}
+        required={true}
+        type="file"
+        value=""
+      />
+      <span
+        className="abt-btn abt-btn_flat upload-btn"
+      >
+        Choose File
+      </span>
+    </label>
+    <div
+      className="well"
+    />
+    <input
+      className="abt-btn abt-btn_submit abt-btn_disabled"
+      onClick={[Function]}
+      type="button"
+      value="Import"
+    />
+  </div>
+  <Callout
+    dismiss={[Function]}
+    intent="danger"
+    isVisible={true}
+    title="Error!"
+  />
+  <style
+    jsx={true}
+  >
+    
+                        .import-dialog {
+                            display: flex;
+                            align-items: center;
+                            padding: 0 10px 10px;
+                        }
+                        input[type='file'] {
+                            position: fixed;
+                            top: -1000px;
+                        }
+                        .upload-btn {
+                            display: inline-block;
+                            line-height: 36px;
+                        }
+                        .well {
+                            background: #f5f5f5;
+                            border: 1px solid rgba(0, 0, 0, .12);
+                            border-radius: 2px;
+                            flex: auto;
+                            font-size: 16px;
+                            line-height: 25px;
+                            margin: 0 15px 0 5px;
+                            min-height: 20px;
+                            padding: 5px;
+                        }
+                    
+  </style>
+</div>
+`;

@@ -37,7 +37,7 @@ export class ResultList extends React.PureComponent<ResultListProps, {}> {
                         </div>
                         {/* tslint:disable-next-line:react-no-dangerous-html */}
                         <div
-                            dangerouslySetInnerHTML={{ __html: decode(result.title || '') }}
+                            dangerouslySetInnerHTML={{ __html: decode(result.title!) }}
                             className="result-title"
                         />
                         <div className="author-row">
@@ -62,7 +62,7 @@ export class ResultList extends React.PureComponent<ResultListProps, {}> {
                                 />
                             </div>
                         </div>
-                    </div>
+                    </div>,
                 )}
                 <style jsx>{`
                     .bounded-rect {

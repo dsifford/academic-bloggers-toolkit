@@ -5,10 +5,7 @@ import { Paginate } from '../paginate';
 
 const setup = (page: number, resultLength: number) => {
     const component = mount(
-        <Paginate
-            page={observable(page)}
-            totalPages={Math.ceil(resultLength / 5)}
-        />
+        <Paginate page={observable(page)} totalPages={Math.ceil(resultLength / 5)} />,
     );
     return {
         component,
@@ -21,18 +18,12 @@ describe('<Paginate />', () => {
     it('should render with "next" enabled and "previous" disabled', () => {
         const { next, prev } = setup(1, 50);
         expect(next.props().className).toBe('abt-btn abt-btn_flat');
-        expect(prev.props().className).toBe(
-            'abt-btn abt-btn_flat abt-btn_disabled'
-        );
+        expect(prev.props().className).toBe('abt-btn abt-btn_flat abt-btn_disabled');
     });
     it('should render with both "next" and "previous" disabled', () => {
         const { next, prev } = setup(1, 3);
-        expect(next.props().className).toBe(
-            'abt-btn abt-btn_flat abt-btn_disabled'
-        );
-        expect(prev.props().className).toBe(
-            'abt-btn abt-btn_flat abt-btn_disabled'
-        );
+        expect(next.props().className).toBe('abt-btn abt-btn_flat abt-btn_disabled');
+        expect(prev.props().className).toBe('abt-btn abt-btn_flat abt-btn_disabled');
     });
     it('should paginate to the next page when "next" is clicked', () => {
         const { component, next } = setup(1, 25);
@@ -54,5 +45,12 @@ describe('<Paginate />', () => {
         next.simulate('click');
         next.simulate('click');
         expect(component.props().page.get()).toBe(4);
+    });
+    it('should handle invalid pager ids', () => {
+        const { component } = setup(1, 50);
+        const instance = component.instance() as Paginate;
+        expect(component.prop('page').get()).toBe(1);
+        instance.handleClick({ currentTarget: { id: 'foo' } } as any);
+        expect(component.prop('page').get()).toBe(1);
     });
 });

@@ -1,0 +1,38 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<EditDialog /> should match snapshot 1`] = `
+<form
+  onSubmit={[Function]}
+>
+  <People
+    citationType="article-journal"
+    people={Array []}
+  />
+  <MetaFields
+    meta={
+      Object {
+        "id": "12345",
+        "title": "Test Title",
+        "type": "article-journal",
+      }
+    }
+  />
+  <div>
+    <input
+      className="abt-btn abt-btn_flat abt-btn_submit"
+      type="submit"
+      value="Confirm"
+    />
+  </div>
+  <style
+    jsx={true}
+  >
+    
+                        div {
+                            padding-bottom: 10px;
+                            text-align: center;
+                        }
+                    
+  </style>
+</form>
+`;

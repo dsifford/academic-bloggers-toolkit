@@ -1,0 +1,258 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<ResultList /> should match snapshots 1`] = `
+<ResultList
+  onSelect={[Function]}
+  results={
+    Array [
+      Object {
+        "authors": Array [
+          Object {
+            "authtype": "Author",
+            "name": "Author 1",
+          },
+          Object {
+            "authtype": "Author",
+            "name": "Author 2",
+          },
+          Object {
+            "authtype": "Author",
+            "name": "Author 3",
+          },
+          Object {
+            "authtype": "Author",
+            "name": "NOT VISIBLE",
+          },
+        ],
+        "pubdate": "2016 May 1",
+        "source": "J Test 1",
+        "title": "Test Title 1",
+        "uid": "1",
+      },
+      Object {
+        "authors": Array [
+          Object {
+            "authtype": "Author",
+            "name": "Author 1",
+          },
+          Object {
+            "authtype": "Author",
+            "name": "Author 2",
+          },
+          Object {
+            "authtype": "Author",
+            "name": "Author 3",
+          },
+          Object {
+            "authtype": "Author",
+            "name": "NOT VISIBLE",
+          },
+        ],
+        "pubdate": "2016 May 1",
+        "source": "J Test 2",
+        "title": "Test Title 2",
+        "uid": "2",
+      },
+    ]
+  }
+>
+  <div
+    className="bounded-rect"
+  >
+    <div
+      className="result-item"
+    >
+      <div
+        className="source-row"
+      >
+        <div
+          className="source-row__source"
+        >
+          J Test 1
+        </div>
+        <div>
+          2016
+        </div>
+      </div>
+      <div
+        className="result-title"
+        dangerouslySetInnerHTML={
+          Object {
+            "__html": "Test Title 1",
+          }
+        }
+      />
+      <div
+        className="author-row"
+      >
+        <div>
+          Author 1, Author 2, Author 3
+        </div>
+        <div>
+          <a
+            className="abt-btn abt-btn_submit abt-btn_flat"
+            href="https://www.ncbi.nlm.nih.gov/pubmed/1"
+            rel="noopener noreferrer"
+            role="button"
+            target="_blank"
+          >
+            View
+          </a>
+          <input
+            className="abt-btn abt-btn_submit abt-btn_flat"
+            id="1"
+            onClick={[Function]}
+            type="button"
+            value="Select"
+          />
+        </div>
+      </div>
+    </div>
+    <div
+      className="result-item"
+    >
+      <div
+        className="source-row"
+      >
+        <div
+          className="source-row__source"
+        >
+          J Test 2
+        </div>
+        <div>
+          2016
+        </div>
+      </div>
+      <div
+        className="result-title"
+        dangerouslySetInnerHTML={
+          Object {
+            "__html": "Test Title 2",
+          }
+        }
+      />
+      <div
+        className="author-row"
+      >
+        <div>
+          Author 1, Author 2, Author 3
+        </div>
+        <div>
+          <a
+            className="abt-btn abt-btn_submit abt-btn_flat"
+            href="https://www.ncbi.nlm.nih.gov/pubmed/2"
+            rel="noopener noreferrer"
+            role="button"
+            target="_blank"
+          >
+            View
+          </a>
+          <input
+            className="abt-btn abt-btn_submit abt-btn_flat"
+            id="2"
+            onClick={[Function]}
+            type="button"
+            value="Select"
+          />
+        </div>
+      </div>
+    </div>
+    <style
+      jsx={true}
+    >
+      
+                          .bounded-rect {
+                              max-height: calc(100vh - 240px);
+                              overflow-y: auto;
+                              overflow-x: hidden;
+                          }
+                          .result-item {
+                              border-bottom: 1px solid rgba(0, 0, 0, .12);
+                          }
+                          .source-row {
+                              padding: 0 16px;
+                              padding-top: 16px;
+                              font-size: 14px;
+                              line-height: 18px;
+                              display: flex;
+                              justify-content: space-between;
+                              color: rgba(0, 0, 0, .54);
+                          }
+                          .source-row__source {
+                              font-style: italic;
+                          }
+                          .result-title {
+                              padding: 0 16px;
+                              font-size: 16px;
+                              line-height: 20px;
+                              padding: 8px 16px;
+                          }
+                          .author-row {
+                              padding: 0 8px 4px;
+                              color: rgba(0, 0, 0, .54);
+                              line-height: 18px;
+                              font-size: 14px;
+                              padding-right: 8px;
+                              padding-left: 16px;
+                              display: flex;
+                              justify-content: space-between;
+                          }
+                      
+    </style>
+  </div>
+</ResultList>
+`;
+
+exports[`<ResultList /> should match snapshots 2`] = `
+<ResultList
+  onSelect={[Function]}
+  results={Array []}
+>
+  <div
+    className="bounded-rect"
+  >
+    <style
+      jsx={true}
+    >
+      
+                          .bounded-rect {
+                              max-height: calc(100vh - 240px);
+                              overflow-y: auto;
+                              overflow-x: hidden;
+                          }
+                          .result-item {
+                              border-bottom: 1px solid rgba(0, 0, 0, .12);
+                          }
+                          .source-row {
+                              padding: 0 16px;
+                              padding-top: 16px;
+                              font-size: 14px;
+                              line-height: 18px;
+                              display: flex;
+                              justify-content: space-between;
+                              color: rgba(0, 0, 0, .54);
+                          }
+                          .source-row__source {
+                              font-style: italic;
+                          }
+                          .result-title {
+                              padding: 0 16px;
+                              font-size: 16px;
+                              line-height: 20px;
+                              padding: 8px 16px;
+                          }
+                          .author-row {
+                              padding: 0 8px 4px;
+                              color: rgba(0, 0, 0, .54);
+                              line-height: 18px;
+                              font-size: 14px;
+                              padding-right: 8px;
+                              padding-left: 16px;
+                              display: flex;
+                              justify-content: space-between;
+                          }
+                      
+    </style>
+  </div>
+</ResultList>
+`;
