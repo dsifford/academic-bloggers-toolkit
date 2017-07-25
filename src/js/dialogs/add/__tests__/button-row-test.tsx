@@ -10,9 +10,9 @@ const observables = {
 };
 
 const spies = {
-    attachInlineToggle: jest.fn(),
-    toggleManual: jest.fn(),
-    pubmedCallback: jest.fn(),
+    onAttachInlineToggle: jest.fn(),
+    onToggleManual: jest.fn(),
+    onPubmedDialogSubmit: jest.fn(),
 };
 
 const setup = (addManually: boolean = true, attachInline: boolean = false) => {
@@ -20,18 +20,16 @@ const setup = (addManually: boolean = true, attachInline: boolean = false) => {
     observables.attachInline.set(attachInline);
     const component = shallow(<ButtonRow {...observables} {...spies} />);
     return {
-        component
+        component,
     };
 };
 
 describe('<ButtonRow />', () => {
     beforeEach(() => {
         jest.resetAllMocks();
-    })
+    });
     it('should match snapshots', () => {
-        const component = renderer.create(
-            <ButtonRow {...observables} {...spies} />
-        )
+        const component = renderer.create(<ButtonRow {...observables} {...spies} />);
         const tree = component.toJSON();
         expect(tree).toMatchSnapshot();
     });
@@ -48,6 +46,6 @@ describe('<ButtonRow />', () => {
         pubmedBtn.simulate('click');
         const submitBtn = component.find('PubmedDialog');
         submitBtn.simulate('submit');
-        expect(spies.pubmedCallback).toHaveBeenCalledTimes(1);
+        expect(spies.onPubmedDialogSubmit).toHaveBeenCalledTimes(1);
     });
 });

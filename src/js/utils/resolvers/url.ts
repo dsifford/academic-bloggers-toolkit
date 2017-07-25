@@ -1,4 +1,5 @@
 export interface URLMeta {
+    /** Date in ISO format */
     accessed: string;
     authors: Array<{
         firstname: string;
@@ -41,7 +42,7 @@ export async function getFromURL(url: string): Promise<URLMeta> {
     }
 
     return {
-        accessed: new Date(Date.now()).toISOString(),
+        accessed: new Date().toISOString(),
         authors: res.authors,
         content_title,
         issued,

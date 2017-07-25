@@ -1,0 +1,59 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<AddDialog /> should match snapshot 1`] = `
+<div>
+  <form
+    id="add-reference"
+    onSubmit={[Function]}
+  >
+    <IdentifierInput
+      identifierList={""}
+      onChange={[Function]}
+    />
+  </form>
+  <ButtonRow
+    addManually={false}
+    attachInline={true}
+    onAttachInlineToggle={[Function]}
+    onPubmedDialogSubmit={[Function]}
+    onToggleManual={[Function]}
+  />
+</div>
+`;
+
+exports[`<AddDialog /> should match snapshot 2`] = `
+<div>
+  <form
+    id="add-reference"
+    onSubmit={[Function]}
+  >
+    <ManualEntryContainer
+      errorMessage={""}
+      loading={false}
+      manualData={
+        Object {
+          "type": "webpage",
+        }
+      }
+      onAutoCite={[Function]}
+      onTypeChange={[Function]}
+      people={
+        Array [
+          Object {
+            "family": "",
+            "given": "",
+            "type": "author",
+          },
+        ]
+      }
+    />
+  </form>
+  <ButtonRow
+    addManually={true}
+    attachInline={true}
+    onAttachInlineToggle={[Function]}
+    onPubmedDialogSubmit={[Function]}
+    onToggleManual={[Function]}
+  />
+</div>
+`;

@@ -13,8 +13,8 @@ interface ManualEntryProps {
     manualData: ObservableMap<string>;
     people: IObservableArray<CSL.TypedPerson>;
     errorMessage: IObservableValue<string>;
-    autoCite(kind: 'webpage' | 'book' | 'chapter', query: string): void;
-    typeChange(citationType: string): void;
+    onAutoCite(kind: 'webpage' | 'book' | 'chapter', query: string): void;
+    onTypeChange(citationType: string): void;
 }
 
 @observer
@@ -25,7 +25,7 @@ export default class ManualEntryContainer extends React.PureComponent<ManualEntr
     @action dismissError = () => this.props.errorMessage.set('');
 
     handleTypeChange = (e: React.FormEvent<HTMLSelectElement>) => {
-        this.props.typeChange(e.currentTarget.value);
+        this.props.onTypeChange(e.currentTarget.value);
     };
 
     handleWheel = (e: React.WheelEvent<HTMLDivElement>) => {
@@ -71,7 +71,7 @@ export default class ManualEntryContainer extends React.PureComponent<ManualEntr
                 {renderAutocite &&
                     itemType === 'webpage' &&
                     <AutoCite
-                        getter={this.props.autoCite}
+                        getter={this.props.onAutoCite}
                         kind={itemType as 'webpage'}
                         placeholder={ManualEntryContainer.labels.URL}
                         inputType="url"
@@ -79,7 +79,7 @@ export default class ManualEntryContainer extends React.PureComponent<ManualEntr
                 {renderAutocite &&
                     ['book', 'chapter'].indexOf(itemType) > -1 &&
                     <AutoCite
-                        getter={this.props.autoCite}
+                        getter={this.props.onAutoCite}
                         kind={itemType as 'book' | 'chapter'}
                         placeholder={ManualEntryContainer.labels.ISBN}
                         pattern="(?:[\dxX]-?){10}|(?:[\dxX]-?){13}"

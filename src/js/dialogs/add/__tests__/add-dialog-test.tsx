@@ -1,169 +1,237 @@
-// FIXME: rewrite this test suite
 jest.mock('../../../utils/resolvers/');
-
-import { mount } from 'enzyme';
+import { shallow } from 'enzyme';
+import toJSON from 'enzyme-to-json';
 import * as React from 'react';
-import ReferenceWindow from '../';
-import { getFromISBN, getFromURL } from '../../../utils/resolvers/';
+
+import AddDialog from '../';
+import { BookMeta, getFromISBN, getFromURL, URLMeta } from '../../../utils/resolvers/';
+
+const mocks = {
+    getFromURL: getFromURL as jest.Mock<{}>,
+    getFromISBN: getFromISBN as jest.Mock<{}>,
+    onSubmit: jest.fn(),
+};
 
 const setup = () => {
-    const spy = jest.fn();
-    const component = mount(<ReferenceWindow onSubmit={spy} />);
-    const instance = component.instance() as any;
+    const component = shallow(<AddDialog onSubmit={mocks.onSubmit} />);
+    const instance = component.instance() as AddDialog;
     return {
         component,
         instance,
-        spy,
     };
 };
 
-const mocks = {
-    getFromISBN: getFromISBN as jest.Mock<any>,
-    getFromURL: getFromURL as jest.Mock<any>,
-};
-
-describe('<ReferenceWindow />', () => {
-    it('should render with manual reference input hidden', () => {
+describe('<AddDialog />', () => {
+    it('should match snapshot', () => {
         const { component, instance } = setup();
-        expect(instance.addManually.get()).toBe(false);
-        expect(component.find('ManualEntryContainer').length).toBe(0);
-    });
-    it('should toggle manual reference input when "addManually" is true', () => {
-        const { component, instance } = setup();
-        expect(component.find('ManualEntryContainer').length).toBe(0);
-        instance.toggleAddManual();
 
-        expect(instance.addManually.get()).toBe(true);
-        expect(instance.manualData.get('type')).toBe('webpage');
-        expect(component.find('ManualEntryContainer').length).toBe(1);
+        // Add with identifiers
+        expect(toJSON(component)).toMatchSnapshot();
+
+        // Add manually
+        instance.addManually.set(true);
+        component.update().render();
+        expect(toJSON(component)).toMatchSnapshot();
     });
-    it('should handle text field change', () => {
-        const { instance } = setup();
+    it('should handle pubmed dialog submit', () => {
+        const { component, instance } = setup();
         expect(instance.identifierList.get()).toBe('');
-        instance.changeIdentifiers({ currentTarget: { value: '12345' } });
+        const ButtonRow = component.find('ButtonRow');
+
+        ButtonRow.simulate('pubmedDialogSubmit', '12345');
         expect(instance.identifierList.get()).toBe('12345');
+
+        ButtonRow.simulate('pubmedDialogSubmit', '54321');
+        expect(instance.identifierList.get()).toBe('12345,54321');
+
+        // TODO: Handle duplicates
     });
-    it('should toggle attachInline', () => {
-        const { instance } = setup();
+    it('should handle identifier change', () => {
+        const { component, instance } = setup();
+        expect(instance.identifierList.get()).toBe('');
+        const input = component.find('IdentifierInput');
+        input.simulate('change', { currentTarget: { value: 'foo' } });
+        expect(instance.identifierList.get()).toBe('foo');
+    });
+    it('should handle type change', () => {
+        const { component, instance } = setup();
+        instance.addManually.set(true);
+        instance.manualData.set('randomThing', 'random value');
+        instance.people.push({ family: 'Smith', given: 'Bob', type: 'editor' });
+        expect([...instance.manualData.entries()]).toEqual([
+            ['type', 'webpage'],
+            ['randomThing', 'random value'],
+        ]);
+        expect(instance.people.length).toBe(2);
+        const manualEntryContainer = component.find('ManualEntryContainer');
+        manualEntryContainer.simulate('typeChange', 'book');
+        expect([...instance.manualData.entries()]).toEqual([['type', 'book']]);
+        expect(instance.people.length).toBe(1);
+    });
+    it('should toggle attach inline', () => {
+        const { component, instance } = setup();
         expect(instance.attachInline.get()).toBe(true);
-        instance.toggleAttachInline();
+
+        const buttonRow = component.find('ButtonRow');
+        buttonRow.simulate('attachInlineToggle');
         expect(instance.attachInline.get()).toBe(false);
-    });
-    it('appendPMID()', () => {
-        const { instance } = setup();
-        expect(instance.identifierList.get()).toBe('');
-        instance.appendPMID('12345');
-        expect(instance.identifierList.get()).toBe('12345');
     });
     it('should toggle loading state', () => {
         const { instance } = setup();
         expect(instance.isLoading.get()).toBe(false);
+
         instance.toggleLoadingState();
         expect(instance.isLoading.get()).toBe(true);
+
         instance.toggleLoadingState(true);
         expect(instance.isLoading.get()).toBe(true);
-        instance.toggleLoadingState(false);
+
+        instance.toggleLoadingState();
         expect(instance.isLoading.get()).toBe(false);
     });
-    it('should handle submit', () => {
-        const { instance, spy } = setup();
-        const preventDefault = jest.fn();
-        instance.handleSubmit({ preventDefault });
-        expect(preventDefault).toHaveBeenCalledTimes(1);
-        expect(spy).toHaveBeenCalledTimes(1);
+    it('should toggle add manually state', () => {
+        const { component, instance } = setup();
+        expect(instance.addManually.get()).toBe(false);
+
+        const buttonRow = component.find('ButtonRow');
+        buttonRow.simulate('toggleManual');
+
+        expect(instance.addManually.get()).toBe(true);
     });
-    describe('handleAutocite()', () => {
-        it('should handle a webpage with one author', async () => {
-            mocks.getFromURL.mockImplementation(
-                () =>
-                    new Promise(res =>
-                        res({
-                            accessed: '2016-12-10T',
-                            authors: [{ firstname: 'John', lastname: 'Doe' }],
-                            content_title: 'Google Website',
-                            issued: '2016-12-10T',
-                            site_title: 'Google',
-                            url: 'https://google.com',
-                        })
-                    )
-            );
-            const { instance } = setup();
-            expect(instance.manualData.get('title')).toBeUndefined();
-            expect(instance.manualData.get('issued')).toBeUndefined();
-            expect(instance.people[0].family).toBe('');
-            await instance.handleAutocite('webpage', 'testing');
-            expect(instance.manualData.get('title')).toBe('Google Website');
-            expect(instance.manualData.get('issued')).toBe('2016/12/10');
-            expect(instance.people[0].family).toBe('Doe');
+    it('should handle submit', () => {
+        const { component } = setup();
+        const form = component.find('form');
+        const preventDefault = jest.fn();
+        form.simulate('submit', { preventDefault });
+        expect(preventDefault).toHaveBeenCalledTimes(1);
+        expect(mocks.onSubmit).toHaveBeenCalledTimes(1);
+    });
+    describe('autocite handler tests', () => {
+        let component: any;
+        let instance: any;
+        let manualEntryContainer: any;
+        beforeEach(() => {
+            jest.resetAllMocks();
+
+            ({ component, instance } = setup());
+            expect([...instance.manualData.entries()]).toEqual([['type', 'webpage']]);
+
+            instance.addManually.set(true);
+            component.update();
+
+            manualEntryContainer = component.find('ManualEntryContainer');
         });
-        it('should handle a webpage with no authors', async () => {
-            mocks.getFromURL.mockImplementation(
-                () =>
-                    new Promise(res =>
-                        res({
-                            accessed: '2016-12-10T',
-                            authors: [{}],
-                            content_title: 'Google Website',
-                            issued: '2016-12-10T',
-                            site_title: 'Google',
-                            url: 'https://google.com',
-                        })
-                    )
-            );
-            const { instance } = setup();
-            expect(instance.manualData.get('title')).toBeUndefined();
-            expect(instance.manualData.get('issued')).toBeUndefined();
-            expect(instance.people[0].family).toBe('');
-            await instance.handleAutocite('webpage', 'testing');
-            expect(instance.manualData.get('title')).toBe('Google Website');
-            expect(instance.manualData.get('issued')).toBe('2016/12/10');
-            expect(instance.people[0].family).toBe('');
+        test('webpage', async () => {
+            const data: URLMeta = {
+                accessed: '2003-01-02T05:00:00.000Z​​​​​',
+                authors: [
+                    {
+                        firstname: 'John',
+                        lastname: 'Doe',
+                    },
+                    {
+                        firstname: 'Jane',
+                        lastname: 'Smith',
+                    },
+                    {
+                        firstname: undefined,
+                        lastname: undefined,
+                    },
+                ],
+                content_title: 'Test Title',
+                issued: '2003-01-02T05:00:00.000Z​​​​​',
+                site_title: 'Google',
+                url: 'www.google.com',
+            };
+            const expected = [
+                [
+                    ['type', 'webpage'],
+                    ['URL', 'www.google.com'],
+                    ['accessed', '2003/01/02'],
+                    ['container-title', 'Google'],
+                    ['issued', '2003/01/02'],
+                    ['title', 'Test Title'],
+                ],
+            ];
+            mocks.getFromURL.mockReturnValueOnce(Promise.resolve(data));
+            await manualEntryContainer.simulate('autoCite', 'webpage', 'www.google.com');
+            expect([instance.manualData.entries()]).toEqual(expected);
         });
-        it('should handle webpage type errors', async () => {
-            mocks.getFromURL.mockImplementation(() => new Promise((_, rej) => rej()));
-            const { instance } = setup();
-            instance.handleAutocite('webpage', 'testing');
+        test('book', async () => {
+            instance.manualData.set('type', 'book');
+            const data: BookMeta = {
+                title: 'Test Title',
+                'number-of-pages': '100',
+                publisher: 'Test Publisher',
+                issued: '2003/01/02',
+                authors: [
+                    {
+                        family: 'Smith',
+                        given: 'John',
+                        type: 'author',
+                    },
+                    {
+                        family: 'Doe',
+                        given: 'Jane',
+                        type: 'author',
+                    },
+                ],
+            };
+            const expected = [
+                [
+                    ['type', 'book'],
+                    ['accessed', '2017/07/25'],
+                    ['issued', '2003/01/02'],
+                    ['number-of-pages', '100'],
+                    ['publisher', 'Test Publisher'],
+                    ['title', 'Test Title'],
+                ],
+            ];
+            mocks.getFromISBN.mockReturnValueOnce(Promise.resolve(data));
+            await manualEntryContainer.simulate('autoCite', 'book', '1234567890');
+            expect([instance.manualData.entries()]).toEqual(expected);
         });
-        it('should handle book autocites', async () => {
-            mocks.getFromISBN.mockImplementation(
-                () =>
-                    new Promise(res =>
-                        res({
-                            authors: [{}],
-                            issued: '2016-12-10T',
-                            'number-of-pages': 155,
-                            publisher: 'Test Publisher',
-                            title: 'Test Book',
-                        })
-                    )
-            );
-            const { instance } = setup();
-            expect(instance.manualData.get('title')).toBeUndefined();
-            await instance.handleAutocite('book', 'testing');
-            expect(instance.manualData.get('title')).toBe('Test Book');
+        test('chapter', async () => {
+            instance.manualData.set('type', 'chapter');
+            const data: BookMeta = {
+                title: 'Test Title',
+                'number-of-pages': '100',
+                publisher: 'Test Publisher',
+                issued: '2003/01/02',
+                authors: [
+                    {
+                        family: 'Smith',
+                        given: 'John',
+                        type: 'author',
+                    },
+                    {
+                        family: 'Doe',
+                        given: 'Jane',
+                        type: 'author',
+                    },
+                ],
+            };
+            const expected = [
+                [
+                    ['type', 'chapter'],
+                    ['accessed', '2017/07/25'],
+                    ['issued', '2003/01/02'],
+                    ['number-of-pages', '100'],
+                    ['publisher', 'Test Publisher'],
+                    ['container-title', 'Test Title'],
+                ],
+            ];
+            mocks.getFromISBN.mockReturnValueOnce(Promise.resolve(data));
+            await manualEntryContainer.simulate('autoCite', 'chapter', '1234567890');
+            expect([instance.manualData.entries()]).toEqual(expected);
         });
-        it('should handle book section autocites', async () => {
-            mocks.getFromISBN.mockImplementation(
-                () =>
-                    new Promise(res =>
-                        res({
-                            authors: [{}],
-                            issued: '2016-12-10T',
-                            'number-of-pages': 155,
-                            publisher: 'Test Publisher',
-                            title: 'Test Book Section',
-                        })
-                    )
-            );
-            const { instance } = setup();
-            expect(instance.manualData.get('title')).toBeUndefined();
-            await instance.handleAutocite('chapter', 'testing');
-            expect(instance.manualData.get('container-title')).toBe('Test Book Section');
-        });
-        it('should handle book-type errors', () => {
-            mocks.getFromISBN.mockImplementation(() => new Promise((_, rej) => rej()));
-            const { instance } = setup();
-            instance.handleAutocite('chapter', 'testing');
+        it('should handle errors', async () => {
+            const msg = instance.errorMessage;
+            mocks.getFromURL.mockReturnValueOnce(Promise.reject(new Error('Test error handling')));
+            await manualEntryContainer.simulate('autoCite', 'webpage', 'www.google.com');
+            mocks.getFromURL.mockReturnValueOnce(Promise.reject({}));
+            await manualEntryContainer.simulate('autoCite', 'webpage', 'www.google.com');
+            expect(true).toBe(true);
         });
     });
 });

@@ -10,8 +10,8 @@ const people = observable<CSL.TypedPerson>([]);
 const manualData = observable.map<string>();
 const errorMessage = observable('');
 const mocks = {
-    autoCite: jest.fn(),
-    typeChange: jest.fn(),
+    onAutoCite: jest.fn(),
+    onTypeChange: jest.fn(),
 };
 
 const setup = ({ loading = false, itemType = 'webpage' } = {}) => {
@@ -53,7 +53,7 @@ describe('<ManualEntryContainer />', () => {
         const { component } = setup();
         const select = component.find('select');
         select.simulate('change', { currentTarget: { value: 'book' } });
-        expect(mocks.typeChange).toHaveBeenCalledTimes(1);
+        expect(mocks.onTypeChange).toHaveBeenCalledTimes(1);
     });
     describe('wheel event tests', () => {
         const { component } = setup();

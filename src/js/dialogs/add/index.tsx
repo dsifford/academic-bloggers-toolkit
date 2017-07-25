@@ -158,20 +158,20 @@ export default class AddDialog extends React.Component<DialogProps> {
                         />}
                     {this.addManually.get() &&
                         <ManualEntryContainer
-                            autoCite={this.handleAutocite}
                             loading={this.isLoading.get()}
                             errorMessage={this.errorMessage}
                             manualData={this.manualData}
                             people={this.people}
-                            typeChange={this.changeType}
+                            onAutoCite={this.handleAutocite}
+                            onTypeChange={this.changeType}
                         />}
                 </form>
                 <ButtonRow
                     addManually={this.addManually}
-                    pubmedCallback={this.appendPMID}
+                    onPubmedDialogSubmit={this.appendPMID}
                     attachInline={this.attachInline}
-                    attachInlineToggle={this.toggleAttachInline}
-                    toggleManual={this.toggleAddManual}
+                    onAttachInlineToggle={this.toggleAttachInline}
+                    onToggleManual={this.toggleAddManual}
                 />
             </div>
         );

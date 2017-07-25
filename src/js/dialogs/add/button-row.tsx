@@ -11,9 +11,9 @@ import PubmedDialog from '../pubmed/';
 interface Props {
     addManually: IObservableValue<boolean>;
     attachInline: IObservableValue<boolean>;
-    attachInlineToggle: React.EventHandler<React.FormEvent<HTMLInputElement>>;
-    toggleManual: React.EventHandler<React.MouseEvent<HTMLInputElement>>;
-    pubmedCallback(pmid: string): void;
+    onToggleManual: React.EventHandler<React.MouseEvent<HTMLInputElement>>;
+    onAttachInlineToggle: React.EventHandler<React.FormEvent<HTMLInputElement>>;
+    onPubmedDialogSubmit(pmid: string): void;
 }
 
 @observer
@@ -30,7 +30,7 @@ export default class ButtonRow extends React.PureComponent<Props> {
     @action
     handleSubmit = (data: string) => {
         this.currentDialog.set('');
-        this.props.pubmedCallback(data);
+        this.props.onPubmedDialogSubmit(data);
     };
 
     render() {
@@ -46,7 +46,7 @@ export default class ButtonRow extends React.PureComponent<Props> {
                     </Container>}
                 <input
                     id="addManually"
-                    onClick={this.props.toggleManual}
+                    onClick={this.props.onToggleManual}
                     type="button"
                     className="abt-btn abt-btn_flat"
                     value={
@@ -68,7 +68,7 @@ export default class ButtonRow extends React.PureComponent<Props> {
                 />
                 <span className="separator" />
                 <ToggleSwitch
-                    onChange={this.props.attachInlineToggle}
+                    onChange={this.props.onAttachInlineToggle}
                     label={ButtonRow.labels.insertInline}
                     checked={this.props.attachInline}
                 />

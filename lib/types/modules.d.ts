@@ -7,6 +7,7 @@ declare module 'react' {
         global?: boolean;
     }
 }
+
 declare module 'bibtex-parse-js' {
     interface BibJSON {
         citationKey: string;
