@@ -110,6 +110,7 @@ describe('<AddDialog />', () => {
         let component: any;
         let instance: any;
         let manualEntryContainer: any;
+        const today = new Date().toISOString().substr(0, 10).replace(/-/g, '/');
         beforeEach(() => {
             jest.resetAllMocks();
 
@@ -180,7 +181,7 @@ describe('<AddDialog />', () => {
             const expected = [
                 [
                     ['type', 'book'],
-                    ['accessed', '2017/07/25'],
+                    ['accessed', today],
                     ['issued', '2003/01/02'],
                     ['number-of-pages', '100'],
                     ['publisher', 'Test Publisher'],
@@ -214,7 +215,7 @@ describe('<AddDialog />', () => {
             const expected = [
                 [
                     ['type', 'chapter'],
-                    ['accessed', '2017/07/25'],
+                    ['accessed', today],
                     ['issued', '2003/01/02'],
                     ['number-of-pages', '100'],
                     ['publisher', 'Test Publisher'],
