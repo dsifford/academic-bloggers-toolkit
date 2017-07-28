@@ -1,4 +1,4 @@
-jest.mock('../../utils/tooltips');
+jest.mock('utils/tooltips');
 import { shallow } from 'enzyme';
 import { observable } from 'mobx';
 import * as React from 'react';
@@ -13,21 +13,21 @@ describe('<ToggleSwitch />', () => {
     it('should match snapshots', () => {
         const checked = observable(false);
         let component = renderer.create(
-            <ToggleSwitch checked={checked} label="Test 1" onChange={changeFn} />
+            <ToggleSwitch checked={checked} label="Test 1" onChange={changeFn} />,
         );
         let tree = component.toJSON();
         expect(tree).toMatchSnapshot();
 
         checked.set(true);
         component = renderer.create(
-            <ToggleSwitch checked={checked} label="Test 2" onChange={changeFn} />
+            <ToggleSwitch checked={checked} label="Test 2" onChange={changeFn} />,
         );
         tree = component.toJSON();
         expect(tree).toMatchSnapshot();
     });
     it('should create tooltip on mouseover', () => {
         const component = shallow(
-            <ToggleSwitch checked={observable(false)} label="Test 3" onChange={changeFn} />
+            <ToggleSwitch checked={observable(false)} label="Test 3" onChange={changeFn} />,
         );
         const label = component.find('label');
         expect(createTooltip).not.toHaveBeenCalled();

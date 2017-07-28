@@ -67,6 +67,7 @@ ED  - Doe, Jane P
 A3  - Translator, Name A
 A3  - Translator, Name B
 Y1  - 2011///
+PY  - 2011///
 DA  - 2011/11/05/summer
 Y2  - 2011/11/05/summer
 KW  - Keyword 1
@@ -140,8 +141,7 @@ describe('RISParser', () => {
                 issued: {
                     'date-parts': [['2015']],
                 },
-                title:
-                    'The quality checklists for medical education blogs and podcasts',
+                title: 'The quality checklists for medical education blogs and podcasts',
                 type: 'article-journal',
             },
         ];
@@ -160,10 +160,7 @@ describe('RISParser', () => {
                     { family: 'Stevens', given: 'James L' },
                 ],
                 'container-title': 'CIHR Website',
-                editor: [
-                    { family: 'Doe', given: 'John M' },
-                    { family: 'Jones', given: 'Sally P' },
-                ],
+                editor: [{ family: 'Doe', given: 'John M' }, { family: 'Jones', given: 'Sally P' }],
                 id: '0',
                 issued: {
                     'date-parts': [['2012']],
@@ -207,10 +204,7 @@ describe('RISParser', () => {
                 'container-title': 'conference name',
                 'container-title-short': 'shortTitle',
                 edition: '1',
-                editor: [
-                    { family: 'Smith', given: 'John L' },
-                    { family: 'Doe', given: 'Jane P' },
-                ],
+                editor: [{ family: 'Smith', given: 'John L' }, { family: 'Doe', given: 'Jane P' }],
                 event: 'event name',
                 'event-place': 'United States',
                 id: '0',

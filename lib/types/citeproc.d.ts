@@ -37,13 +37,15 @@ declare namespace Citeproc {
 
     type CitationKind = 'in-text' | 'note';
 
-    type SortedItems = Array<[
-        CSL.Data,
-        {
-            id: string;
-            sortkeys: [string];
-        }
-    ]>;
+    type SortedItems = Array<
+        [
+            CSL.Data,
+            {
+                id: string;
+                sortkeys: [string];
+            }
+        ]
+    >;
 
     interface Bibmeta {
         /** NOT USED - Closing div tag for bibliography. */
@@ -125,13 +127,14 @@ declare namespace Citeproc {
         processCitationCluster(
             citation: Citeproc.Citation,
             pre: Citeproc.CitationsPrePost,
-            post: Citeproc.CitationsPrePost
-        ): [
-            { bibchange: boolean; 'citation_errors': string[] },
-            CitationCluster[]
-        ];
-        rebuildProcessorState(
-            citationByIndex: Citation[]
-        ): RebuildProcessorStateData[];
+            post: Citeproc.CitationsPrePost,
+        ): [{ bibchange: boolean; 'citation_errors': string[] }, CitationCluster[]];
+        rebuildProcessorState(citationByIndex: Citation[]): RebuildProcessorStateData[];
+    }
+
+    interface EngineConstructor {
+        Engine: {
+            new (sys: SystemObj, style?: string): Processor;
+        };
     }
 }

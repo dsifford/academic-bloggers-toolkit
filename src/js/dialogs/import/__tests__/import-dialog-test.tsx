@@ -1,9 +1,9 @@
-jest.mock('../../../utils/parsers/');
+jest.mock('utils/parsers/');
 import { shallow } from 'enzyme';
 import toJSON from 'enzyme-to-json';
 import * as React from 'react';
+import { RISParser, TeXParser } from 'utils/parsers/';
 import ImportDialog from '../';
-import { RISParser, TeXParser } from '../../../utils/parsers/';
 
 const mocks = {
     ris: (RISParser as any) as jest.Mock<{}>,
@@ -116,7 +116,6 @@ describe('<ImportDialog />', () => {
         });
         test('invalid file type', async () => {
             const { instance } = setup();
-            const parse = jest.fn().mockReturnValue([{ title: 'title 1' }]);
             await instance.handleFileUpload(
                 {
                     currentTarget: { files: [createFile('test', 'testing')] },

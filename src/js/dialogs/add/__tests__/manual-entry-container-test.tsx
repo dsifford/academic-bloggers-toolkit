@@ -27,6 +27,7 @@ const setup = ({ loading = false, itemType = 'webpage' } = {}) => {
     );
     return {
         component,
+        instance: component.instance() as ManualEntryContainer,
     };
 };
 
@@ -48,6 +49,13 @@ describe('<ManualEntryContainer />', () => {
 
         ({ component } = setup({ itemType: 'article' }));
         expect(toJSON(component)).toMatchSnapshot();
+    });
+    it('should show and hide error callout', () => {
+        errorMessage.set('Hello World');
+        const { component, instance } = setup();
+        expect(component.find('Callout').children().length).toBe(1);
+        instance.dismissError();
+        expect(component.find('Callout').children().length).toBe(0);
     });
     it('should handle type change', () => {
         const { component } = setup();

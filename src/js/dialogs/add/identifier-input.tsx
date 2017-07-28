@@ -11,7 +11,7 @@ interface Props {
 export class IdentifierInput extends React.PureComponent<Props> {
     labels = top.ABT_i18n.tinymce.referenceWindow.identifierInput;
 
-    focusInputField = (el: HTMLInputElement | null) => (el ? el.focus() : void 0);
+    focusInputField = (el: HTMLInputElement) => el.focus();
 
     render() {
         return (

@@ -1,4 +1,4 @@
-import { shallow } from 'enzyme';
+import { mount } from 'enzyme';
 import { observable } from 'mobx';
 import * as React from 'react';
 import { IdentifierInput } from '../identifier-input';
@@ -6,7 +6,7 @@ import { IdentifierInput } from '../identifier-input';
 const setup = () => {
     const spy = jest.fn();
     const identifiers = observable('testing');
-    const component = shallow(<IdentifierInput identifierList={identifiers} onChange={spy} />);
+    const component = mount(<IdentifierInput identifierList={identifiers} onChange={spy} />);
     return {
         component,
         spy,

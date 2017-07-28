@@ -31,11 +31,10 @@ export default class PubmedDialog extends React.Component<DialogProps> {
 
     @computed
     get visibleResults() {
+        const end = this.page.get() * 5;
+        const start = end - 6;
         return this.results.filter((_result, i) => {
-            if (i < this.page.get() * 5 && this.page.get() * 5 - 6 < i) {
-                return true;
-            }
-            return false;
+            return start < i && i < end;
         });
     }
 
@@ -143,6 +142,7 @@ export function* placeholderGenerator() {
         'resident OR student AND retention',
     ];
     let i = 0;
+    /* istanbul ignore next */
     while (true) {
         if (i === options.length) i = 0;
         yield options[i];

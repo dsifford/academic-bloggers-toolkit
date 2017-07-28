@@ -2,14 +2,8 @@ import { parsePeople, TeXParser } from '../TeXParser';
 
 describe('parsePeople()', () => {
     it('Last, First MI', () => {
-        const people = parsePeople(
-            'Doe, John Q and Smith, Bob D and de Camp, Catherine C'
-        );
-        const expected = [
-            ['Doe', 'John Q.'],
-            ['Smith', 'Bob D.'],
-            ['de Camp', 'Catherine C.'],
-        ];
+        const people = parsePeople('Doe, John Q and Smith, Bob D and de Camp, Catherine C');
+        const expected = [['Doe', 'John Q.'], ['Smith', 'Bob D.'], ['de Camp', 'Catherine C.']];
         expected.forEach((e, i) => {
             expect(people[i].family).toEqual(e[0]);
             expect(people[i].given).toEqual(e[1]);
@@ -21,7 +15,7 @@ describe('parsePeople()', () => {
     });
     it('First Middle Last', () => {
         const people = parsePeople(
-            'Kim Stanley Robinson and Raymond Edward Carrington and James von Issac and Jean de La Fontaine'
+            'Kim Stanley Robinson and Raymond Edward Carrington and James von Issac and Jean de La Fontaine',
         ); // tslint:disable-line
         const expected = [
             ['Robinson', 'Kim S.'],
@@ -40,7 +34,7 @@ describe('parsePeople()', () => {
     });
     it('should handle a mixture', () => {
         const people = parsePeople(
-            'Lacroix, Jacques and Hébert, Paul C. and Fergusson, Dean A. and Tinmouth, Alan and Cook, Deborah J. and Marshall, John C. and Clayton, Lucy and McIntyre, Lauralyn and Callum, Jeannie and Turgeon, Alexis F. and Blajchman, Morris A. and Walsh, Timothy S. and Stanworth, Simon J. and Campbell, Helen and Capellier, Gilles and Tiberghien, Pierre and Bardiaux, Laurent and van de Watering, Leo and van der Meer, Nardo J. and Sabri, Elham and Vo, Dong and {ABLE Investigators and the Canadian Critical Care Trials Group}'
+            'Lacroix, Jacques and Hébert, Paul C. and Fergusson, Dean A. and Tinmouth, Alan and Cook, Deborah J. and Marshall, John C. and Clayton, Lucy and McIntyre, Lauralyn and Callum, Jeannie and Turgeon, Alexis F. and Blajchman, Morris A. and Walsh, Timothy S. and Stanworth, Simon J. and Campbell, Helen and Capellier, Gilles and Tiberghien, Pierre and Bardiaux, Laurent and van de Watering, Leo and van der Meer, Nardo J. and Sabri, Elham and Vo, Dong and {ABLE Investigators and the Canadian Critical Care Trials Group}',
         ); // tslint:disable-line
         const expected = [
             ['Lacroix', 'Jacques'],
@@ -229,6 +223,8 @@ describe('TeXParser', () => {
             @standard{test11, title = {test}}
             @unpublished{test12, title = {test}}
             @gibberish{test13, title = {test}}
+            @proceedings{test14, title = {test}}
+            @inproceedings{test15, title = {test}}
         `;
         const expected = [
             'article-journal',
@@ -244,6 +240,8 @@ describe('TeXParser', () => {
             'legislation',
             'manuscript',
             'article',
+            'book',
+            'paper-conference',
         ];
         const parsed = new TeXParser(bib).parse();
         expected.forEach((e, i) => {

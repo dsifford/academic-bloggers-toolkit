@@ -1,5 +1,4 @@
-/// <reference path="../../../../../lib/types/CSL.d.ts" />
-jest.mock('../../../utils/tooltips');
+jest.mock('utils/tooltips');
 jest.useFakeTimers();
 import { shallow } from 'enzyme';
 import * as React from 'react';
@@ -149,11 +148,7 @@ const testData: { [id: string]: CSL.Data } = {
     },
 };
 
-const setup = (
-    data: CSL.Data,
-    selected: boolean = false,
-    tooltip: boolean = true
-) => {
+const setup = (data: CSL.Data, selected: boolean = false, tooltip: boolean = true) => {
     const spy = jest.fn();
     const component = shallow(
         <Card
@@ -163,7 +158,7 @@ const setup = (
             id={'id'}
             index="1"
             showTooltip={tooltip}
-        />
+        />,
     );
     return {
         component,
@@ -176,9 +171,7 @@ const setup = (
 describe('<Card/>', () => {
     it('should render selected', () => {
         const { component } = setup(testData['noAuthors'], true);
-        expect(component.first().props().className).toBe(
-            'abt-card abt-card_selected'
-        );
+        expect(component.first().props().className).toBe('abt-card abt-card_selected');
     });
     it('should render unselected', () => {
         const { component } = setup(testData['noAuthors']);

@@ -1,10 +1,10 @@
-jest.mock('../../../utils/resolvers/');
+jest.mock('utils/resolvers/');
 import { shallow } from 'enzyme';
 import toJSON from 'enzyme-to-json';
 import * as React from 'react';
 
+import { BookMeta, getFromISBN, getFromURL } from 'utils/resolvers/';
 import AddDialog from '../';
-import { BookMeta, getFromISBN, getFromURL, URLMeta } from '../../../utils/resolvers/';
 
 const mocks = {
     getFromURL: getFromURL as jest.Mock<{}>,
@@ -123,7 +123,7 @@ describe('<AddDialog />', () => {
             manualEntryContainer = component.find('ManualEntryContainer');
         });
         test('webpage', async () => {
-            const data: URLMeta = {
+            const data: any = {
                 accessed: '2003-01-02T05:00:00.000Z​​​​​',
                 authors: [
                     {
@@ -227,7 +227,6 @@ describe('<AddDialog />', () => {
             expect([instance.manualData.entries()]).toEqual(expected);
         });
         it('should handle errors', async () => {
-            const msg = instance.errorMessage;
             mocks.getFromURL.mockReturnValueOnce(Promise.reject(new Error('Test error handling')));
             await manualEntryContainer.simulate('autoCite', 'webpage', 'www.google.com');
             mocks.getFromURL.mockReturnValueOnce(Promise.reject({}));

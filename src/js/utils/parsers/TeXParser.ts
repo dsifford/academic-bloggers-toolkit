@@ -208,7 +208,9 @@ export function parsePeople(raw: string): CSL.Person[] {
                 given += ` ${part[0]}.`;
                 i++;
             }
-        } else if (nameparts.length === 2) {
+        } else {
+            // FIXME: Is this branch needed?
+            // } else if (nameparts.length === 2) {
             family = nameparts[0];
             const givenBlock = nameparts[1].split(' ');
             for (const part of givenBlock) {

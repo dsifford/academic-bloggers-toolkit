@@ -38,13 +38,13 @@
         "@types/he": "^0.5.29",
         "@types/jest": "^20.0.5",
         "@types/node": "^8.0.17",
-        "@types/react": "^15.0.39",
+        "@types/react": "^15.6.0",
         "@types/react-dom": "^15.5.1",
         "@types/react-motion": "^0.0.23",
         "@types/react-test-renderer": "^15.5.2",
         "@types/webpack": "^3.0.5",
         "autoprefixer-stylus": "^0.14.0",
-        "awesome-typescript-loader": "^3.2.1",
+        "awesome-typescript-loader": "^3.2.2",
         "babel-core": "^6.25.0",
         "babel-loader": "^7.1.1",
         "babel-polyfill": "^6.22.0",
@@ -84,7 +84,7 @@
         "bibtex-parse-js": "^0.0.23",
         "common-tags": "^1.4.0",
         "he": "^1.1.1",
-        "mobx": "^3.2.1",
+        "mobx": "^3.2.2",
         "mobx-react": "^4.2.2",
         "react": "^15.6.1",
         "react-dom": "^15.6.1",
@@ -107,7 +107,8 @@
         "coverageDirectory": "lib/tmp/coverage",
         "globals": {
             "ts-jest": {
-                "tsConfigFile": "lib/tsconfig-tests.json"
+                "tsConfigFile": "lib/tsconfig-tests.json",
+                "useBabelrc": true
             }
         },
         "mapCoverage": true,

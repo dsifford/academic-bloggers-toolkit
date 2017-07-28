@@ -6,8 +6,7 @@ import { formatBibliography } from './formatters/';
 
 declare const ABT_Custom_CSL: BackendGlobals.ABT_Custom_CSL;
 declare const ABT_wp: BackendGlobals.ABT_wp;
-// FIXME:
-declare const CSL: any;
+declare const CSL: Citeproc.EngineConstructor;
 
 export class CSLProcessor {
     /**
@@ -114,7 +113,7 @@ export class CSLProcessor {
     processCitationCluster(
         citation: Citeproc.Citation,
         before: Citeproc.CitationsPrePost,
-        after: Citeproc.CitationsPrePost
+        after: Citeproc.CitationsPrePost,
     ): Citeproc.CitationCluster[] {
         const [status, clusters] = this.citeproc.processCitationCluster(citation, before, after);
         if (status['citation_errors'].length) {
@@ -161,7 +160,7 @@ export class CSLProcessor {
     private async generateSys(locale: string): Promise<Citeproc.SystemObj> {
         const cslLocale = this.locales[locale] || 'en-US';
         const req = await fetch(
-            `https://raw.githubusercontent.com/citation-style-language/locales/master/locales-${cslLocale}.xml`
+            `https://raw.githubusercontent.com/citation-style-language/locales/master/locales-${cslLocale}.xml`,
         );
         if (!req.ok) {
             throw new Error(req.statusText);
@@ -184,7 +183,7 @@ export class CSLProcessor {
      */
     private async getCSLStyle(style: string): Promise<string> {
         const req = await fetch(
-            `https://raw.githubusercontent.com/citation-style-language/styles/master/${style}.csl`
+            `https://raw.githubusercontent.com/citation-style-language/styles/master/${style}.csl`,
         );
         if (!req.ok) {
             throw new Error(req.statusText);
