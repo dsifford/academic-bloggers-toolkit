@@ -184,7 +184,6 @@ export default class ReferenceList extends React.Component<Props> {
                 this.editor.alert(err);
             }
         } catch (e) {
-            // tslint:disable-next-line:no-console
             Rollbar.error('ReferenceList.tsx -> addReferences', e);
             this.editor.alert(stripIndents`
                 ${ReferenceList.errors.unexpected.message}
