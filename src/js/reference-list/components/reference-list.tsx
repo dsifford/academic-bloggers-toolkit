@@ -6,7 +6,7 @@ import * as React from 'react';
 import EditorDriver, { EditorDriverConstructor } from 'drivers/base';
 import { DialogType } from 'utils/constants';
 import { CSLProcessor } from 'utils/CSLProcessor';
-import DevTools, { configureDevtool } from 'utils/devtools';
+import DevTools from 'utils/devtools';
 import { getRemoteData, parseManualData } from '../api';
 import Store from '../store';
 
@@ -17,9 +17,6 @@ import Menu from './menu';
 import PanelButton from './panel-button';
 
 const DevTool = DevTools();
-configureDevtool({
-    logFilter: change => change.type === 'action' && change.name !== 'handleScroll',
-});
 
 interface Props {
     editor: Promise<typeof EditorDriver & EditorDriverConstructor>;
@@ -86,7 +83,7 @@ export default class ReferenceList extends React.Component<Props> {
                 this.ui.menuOpen.get(),
             ],
             this.handleScroll,
-            { fireImmediately: false, delay: 200 }
+            { fireImmediately: false, delay: 200 },
         );
 
         /** React to list pin/unpin */
@@ -95,7 +92,7 @@ export default class ReferenceList extends React.Component<Props> {
             () => {
                 document.getElementById('abt-reflist')!.classList.toggle('fixed');
                 this.handleScroll();
-            }
+            },
         );
 
         /** React to cited list changes */
@@ -117,7 +114,7 @@ export default class ReferenceList extends React.Component<Props> {
         removeEventListener(EditorDriver.events.UNAVAILABLE, this.toggleLoading.bind(this, true));
         removeEventListener(EditorDriver.events.AVAILABLE, this.toggleLoading.bind(this, false));
         removeEventListener(EditorDriver.events.ADD_REFERENCE, this.openDialog.bind(this, 'ADD'));
-        addEventListener(EditorDriver.events.TOGGLE_PINNED, this.togglePinned.bind(this));
+        removeEventListener(EditorDriver.events.TOGGLE_PINNED, this.togglePinned.bind(this));
         document.removeEventListener('scroll', this.handleScroll);
     }
 
@@ -145,11 +142,11 @@ export default class ReferenceList extends React.Component<Props> {
             await this.editor.composeCitations(
                 clusters,
                 this.props.store.citations.citationByIndex,
-                this.processor.citeproc.opt.xclass
+                this.processor.citeproc.opt.xclass,
             );
             await this.editor.setBibliography(
                 this.props.store.bibOptions,
-                this.processor.makeBibliography()
+                this.processor.makeBibliography(),
             );
             this.clearSelection();
         } catch (err) {
@@ -188,7 +185,7 @@ export default class ReferenceList extends React.Component<Props> {
             }
         } catch (e) {
             // tslint:disable-next-line:no-console
-            Rollbar.error('ReferenceList.tsx -> openReferenceWindow', e);
+            Rollbar.error('ReferenceList.tsx -> addReferences', e);
             this.editor.alert(stripIndents`
                 ${ReferenceList.errors.unexpected.message}
 
@@ -198,7 +195,6 @@ export default class ReferenceList extends React.Component<Props> {
             `);
             return;
         }
-
         if (data.length === 0) return;
         data = this.props.store.citations.addItems(data);
         return payload.attachInline ? this.insertInlineCitation(undefined, data) : void 0;
@@ -343,7 +339,7 @@ export default class ReferenceList extends React.Component<Props> {
                     isOpen={this.ui.menuOpen}
                     itemsSelected={this.selected.length > 0}
                     cslStyle={this.props.store.citationStyle}
-                    submitData={this.handleMenuSelection}
+                    onSubmit={this.handleMenuSelection}
                 />
                 {this.props.store.citations.cited.length > 0 &&
                     <ItemList
@@ -371,80 +367,80 @@ export default class ReferenceList extends React.Component<Props> {
 
     // prettier-ignore
     insertInlineCitation = async (e?: React.MouseEvent<HTMLAnchorElement>, d: CSL.Data[] | Event = []) => {
-            let data: CSL.Data[] = [];
-            if (e) e.preventDefault();
-            this.editor.setLoadingState(true);
+        let data: CSL.Data[] = [];
+        if (e) e.preventDefault();
+        this.editor.setLoadingState(true);
 
-            // If no data, then this must be a case where we're inserting from
-            // the list selection.
-            if (d instanceof Event || d.length === 0) {
-                this.selected.forEach(id => {
-                    data.push(this.props.store.citations.CSL.get(id)!);
-                });
-            } else {
-                data = d;
+        // If no data, then this must be a case where we're inserting from
+        // the list selection.
+        if (d instanceof Event || d.length === 0) {
+            this.selected.forEach(id => {
+                data.push(this.props.store.citations.CSL.get(id)!);
+            });
+        } else {
+            data = d;
+        }
+
+        // Checks to see if there is a inline citation selected. If so,
+        // extract the ids from it and push it to data.
+        const selection = this.editor.selection;
+        if (/<span.+class="(?:abt-citation|abt_cite).+?<\/span>/.test(selection)) {
+            const re = /&quot;(\w+?)&quot;/g;
+            let m: RegExpExecArray | null;
+            // tslint:disable-next-line
+            while ((m = re.exec(selection)) !== null) {
+                data.push(this.props.store.citations.CSL.get(m[1])!);
             }
+        }
 
-            // Checks to see if there is a inline citation selected. If so,
-            // extract the ids from it and push it to data.
-            const selection = this.editor.selection;
-            if (/<span.+class="(?:abt-citation|abt_cite).+?<\/span>/.test(selection)) {
-                const re = /&quot;(\w+?)&quot;/g;
-                let m: RegExpExecArray | null;
-                // tslint:disable-next-line
-                while ((m = re.exec(selection)) !== null) {
-                    data.push(this.props.store.citations.CSL.get(m[1])!);
-                }
-            }
+        let clusters;
+        try {
+            const {
+                currentIndex,
+                locations: [citationsBefore, citationsAfter],
+            } = this.editor.getRelativeCitationPositions(
+                Object.keys(
+                    this.processor.citeproc.registry.citationreg.citationById
+                )
+            );
+            const citationData = this.processor.prepareInlineCitationData(
+                data,
+                currentIndex
+            );
+            clusters = this.processor.processCitationCluster(
+                citationData,
+                citationsBefore,
+                citationsAfter
+            );
+        } catch (e) {
+            Rollbar.error('ReferenceList.tsx -> insertInlineCitation', e);
+            this.editor.alert(stripIndents`
+                ${ReferenceList.errors.unexpected.message}
 
-            let clusters;
-            try {
-                const {
-                    currentIndex,
-                    locations: [citationsBefore, citationsAfter],
-                } = this.editor.getRelativeCitationPositions(
-                    Object.keys(
-                        this.processor.citeproc.registry.citationreg.citationById
-                    )
-                );
-                const citationData = this.processor.prepareInlineCitationData(
-                    data,
-                    currentIndex
-                );
-                clusters = this.processor.processCitationCluster(
-                    citationData,
-                    citationsBefore,
-                    citationsAfter
-                );
-            } catch (e) {
-                Rollbar.error('ReferenceList.tsx -> insertInlineCitation', e);
-                this.editor.alert(stripIndents`
-                    ${ReferenceList.errors.unexpected.message}
+                ${e.name}: ${e.message}
 
-                    ${e.name}: ${e.message}
-
-                    ${ReferenceList.errors.unexpected.reportInstructions}
-                `);
-                this.editor.setLoadingState(false);
-                this.clearSelection();
-                return;
-            }
-
-            try {
-                this.editor.composeCitations(clusters, this.props.store.citations.citationByIndex, this.processor.citeproc.opt.xclass);
-                this.editor.setBibliography(this.props.store.bibOptions, this.processor.makeBibliography());
-            } catch (e) {
-                Rollbar.error('ReferenceList.tsx -> insertInlineCitation', e);
-                this.editor.alert(stripIndents`
-                    ${ReferenceList.errors.unexpected.message}
-
-                    ${e.name}: ${e.message}
-
-                    ${ReferenceList.errors.unexpected.reportInstructions}
-                `);
-            }
+                ${ReferenceList.errors.unexpected.reportInstructions}
+            `);
             this.editor.setLoadingState(false);
             this.clearSelection();
+            return;
+        }
+
+        try {
+            this.editor.composeCitations(clusters, this.props.store.citations.citationByIndex, this.processor.citeproc.opt.xclass);
+            this.editor.setBibliography(this.props.store.bibOptions, this.processor.makeBibliography());
+        } catch (e) {
+            Rollbar.error('ReferenceList.tsx -> insertInlineCitation', e);
+            this.editor.alert(stripIndents`
+                ${ReferenceList.errors.unexpected.message}
+
+                ${e.name}: ${e.message}
+
+                ${ReferenceList.errors.unexpected.reportInstructions}
+            `);
+        }
+        this.editor.setLoadingState(false);
+        this.clearSelection();
         };
 
     insertStaticBibliography = async () => {
@@ -454,7 +450,7 @@ export default class ReferenceList extends React.Component<Props> {
         });
 
         const selection = this.editor.selection;
-        if (/^<div class=".*?abt-static-bib.*?".+<\/div>$/g.test(selection)) {
+        if (/^<div class=".*?abt-static-bib.*?"[\s\S]+<\/div>$/g.test(selection)) {
             const re = /<div id="(\w{8,9})">/g;
             let m: RegExpExecArray | null;
             // tslint:disable-next-line
@@ -491,8 +487,8 @@ export default class ReferenceList extends React.Component<Props> {
         }
 
         const bothOpen: boolean =
-            this.ui.cited.isOpen &&
-            this.ui.uncited.isOpen &&
+            this.ui.cited.isOpen.get() &&
+            this.ui.uncited.isOpen.get() &&
             this.props.store.citations.cited.length > 0 &&
             this.props.store.citations.uncited.length > 0;
 

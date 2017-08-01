@@ -170,10 +170,12 @@ declare namespace BackendGlobals {
     }
 }
 
+// ==============
+
 declare module 'autoprefixer-stylus';
 declare module 'common-tags';
-declare module 'enzyme-to-json';
 declare module 'bibtex-parse-js';
+// declare module 'enzyme-to-json';
 declare module 'gulp-stylus';
 declare module 'gulp-uglify/composer';
 declare module 'gulp-wp-pot';

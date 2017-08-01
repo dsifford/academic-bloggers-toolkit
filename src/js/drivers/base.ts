@@ -52,7 +52,7 @@ export default abstract class EditorDriver {
     protected readonly footnoteId = 'abt-footnote';
     protected readonly brokenPrefix = top.ABT_i18n.errors.broken;
 
-    /** Retrieve an array of every citationId currently existing in the editor. */
+    /** Retrieve an array of every HTMLElement ID for all citations currently existing in the editor. */
     public abstract get citationIds(): string[];
 
     /** Retrive the currently selected content in the editor as a raw HTML string. */
@@ -74,7 +74,7 @@ export default abstract class EditorDriver {
     public abstract composeCitations(
         clusters: Citeproc.CitationCluster[],
         citationByIndex: Citeproc.CitationByIndex,
-        kind: Citeproc.CitationKind
+        kind: Citeproc.CitationKind,
     ): void;
 
     /**
@@ -89,7 +89,7 @@ export default abstract class EditorDriver {
     public abstract setBibliography(
         options: BibOptions,
         bibliography: ABT.Bibliography | boolean,
-        staticBib?: boolean
+        staticBib?: boolean,
     ): void;
 
     /**

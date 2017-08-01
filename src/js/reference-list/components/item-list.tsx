@@ -17,7 +17,7 @@ interface UI {
 }
 
 interface Props {
-    readonly items: CSL.Data[];
+    readonly items?: CSL.Data[];
     readonly id: 'cited' | 'uncited';
     readonly children: string;
     ui: UI;
@@ -85,7 +85,7 @@ interface ItemsProps extends React.HTMLProps<HTMLElement> {
 }
 
 @observer
-class Items extends React.Component<ItemsProps, {}> {
+export class Items extends React.Component<ItemsProps, {}> {
     handleScroll = (e: React.WheelEvent<HTMLDivElement>) => {
         e.stopPropagation();
         const atTopAndScrollingUp: boolean = e.currentTarget.scrollTop === 0 && e.deltaY < 0;
@@ -126,7 +126,7 @@ class Items extends React.Component<ItemsProps, {}> {
                         index={`${i + 1}`}
                         isSelected={this.props.selectedItems.indexOf(r.id!) > -1}
                         showTooltip={this.props.withTooltip}
-                    />
+                    />,
                 )}
             </div>
         );

@@ -1,0 +1,424 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Menu /> should match snapshots 1`] = `
+<Menu
+  cslStyle={"american-medical-association"}
+  isOpen={true}
+  itemsSelected={true}
+  onSubmit={[Function]}
+>
+  <TransitionMotion
+    didLeave={[Function]}
+    styles={
+      Array [
+        Object {
+          "key": "menu",
+          "style": Object {
+            "height": Object {
+              "damping": 20,
+              "precision": 0.01,
+              "stiffness": 300,
+              "val": 85,
+            },
+            "scale": Object {
+              "damping": 20,
+              "precision": 0.01,
+              "stiffness": 300,
+              "val": 1,
+            },
+          },
+        },
+      ]
+    }
+    willEnter={[Function]}
+    willLeave={[Function]}
+  >
+    <div
+      className="abt-reflist-menu"
+      style={
+        Object {
+          "height": 85,
+          "maxHeight": 85,
+          "opacity": undefined,
+          "transform": "scaleY(1)",
+          "transformOrigin": "top",
+        }
+      }
+    >
+      <div
+        className="abt-panel abt-panel_subpanel"
+      >
+        <PanelButton
+          data-tooltip="Import references from file"
+          id="IMPORT_RIS"
+          onClick={[Function]}
+        >
+          <a
+            aria-label="Import references from file"
+            className="abt-btn abt-btn_flat abt-btn_icon"
+            data-tooltip="Import references from file"
+            id="IMPORT_RIS"
+            onClick={[Function]}
+            onMouseEnter={[Function]}
+            onMouseLeave={[Function]}
+          >
+            <span
+              className="dashicons dashicons-media-code"
+            />
+          </a>
+        </PanelButton>
+        <PanelButton
+          data-tooltip="Refresh reference list"
+          id="REFRESH_PROCESSOR"
+          onClick={[Function]}
+        >
+          <a
+            aria-label="Refresh reference list"
+            className="abt-btn abt-btn_flat abt-btn_icon"
+            data-tooltip="Refresh reference list"
+            id="REFRESH_PROCESSOR"
+            onClick={[Function]}
+            onMouseEnter={[Function]}
+            onMouseLeave={[Function]}
+          >
+            <span
+              className="dashicons dashicons-update"
+            />
+          </a>
+        </PanelButton>
+        <PanelButton
+          data-tooltip="Delete all references"
+          id="DESTROY_PROCESSOR"
+          onClick={[Function]}
+        >
+          <a
+            aria-label="Delete all references"
+            className="abt-btn abt-btn_flat abt-btn_icon"
+            data-tooltip="Delete all references"
+            id="DESTROY_PROCESSOR"
+            onClick={[Function]}
+            onMouseEnter={[Function]}
+            onMouseLeave={[Function]}
+          >
+            <span
+              className="dashicons dashicons-trash"
+            />
+          </a>
+        </PanelButton>
+        <PanelButton
+          data-tooltip="Insert Static Publication List"
+          disabled={false}
+          id="INSERT_STATIC_BIBLIOGRAPHY"
+          onClick={[Function]}
+        >
+          <a
+            aria-label="Insert Static Publication List"
+            className="abt-btn abt-btn_flat abt-btn_icon"
+            data-tooltip="Insert Static Publication List"
+            disabled={false}
+            id="INSERT_STATIC_BIBLIOGRAPHY"
+            onClick={[Function]}
+            onMouseEnter={[Function]}
+            onMouseLeave={[Function]}
+          >
+            <span
+              className="dashicons dashicons-list-view"
+            />
+          </a>
+        </PanelButton>
+        <PanelButton
+          data-tooltip="Usage instructions"
+          href="https://github.com/dsifford/academic-bloggers-toolkit/wiki"
+          target="_blank"
+        >
+          <a
+            aria-label="Usage instructions"
+            className="abt-btn abt-btn_flat abt-btn_icon"
+            data-tooltip="Usage instructions"
+            href="https://github.com/dsifford/academic-bloggers-toolkit/wiki"
+            onMouseEnter={[Function]}
+            onMouseLeave={[Function]}
+            target="_blank"
+          >
+            <span
+              className="dashicons dashicons-editor-help"
+            />
+          </a>
+        </PanelButton>
+      </div>
+      <div
+        style={
+          Object {
+            "padding": "0 5px",
+          }
+        }
+      >
+        <VirtualizedSelect
+          async={false}
+          backspaceRemoves={false}
+          clearable={false}
+          id="style-select"
+          maxHeight={200}
+          onChange={[Function]}
+          optionHeight={[Function]}
+          optionRenderer={[Function]}
+          options={
+            Array [
+              Object {
+                "label": "Custom Style",
+                "value": "header",
+              },
+              Object {
+                "label": "Test Label",
+                "value": "test-value",
+              },
+              Object {
+                "label": "Pre-defined Styles",
+                "value": "header",
+              },
+              Object {
+                "label": "American Medical Association",
+                "value": "american-medical-association",
+              },
+              Object {
+                "label": "APA 5th Edition",
+                "value": "apa-5th",
+              },
+            ]
+          }
+          style={
+            Object {
+              "cursor": "pointer",
+              "fontWeight": 300,
+            }
+          }
+          value={
+            Object {
+              "label": "American Medical Association",
+              "value": "american-medical-association",
+            }
+          }
+        >
+          <Select
+            addLabelText="Add \\"{label}\\"?"
+            arrowRenderer={[Function]}
+            async={false}
+            autosize={true}
+            backspaceRemoves={false}
+            backspaceToRemoveMessage="Press backspace to remove {label}"
+            clearAllText="Clear all"
+            clearRenderer={[Function]}
+            clearValueText="Clear value"
+            clearable={false}
+            deleteRemoves={true}
+            delimiter=","
+            disabled={false}
+            escapeClearsValue={true}
+            filterOptions={[Function]}
+            id="style-select"
+            ignoreAccents={true}
+            ignoreCase={true}
+            inputProps={Object {}}
+            isLoading={false}
+            joinValues={false}
+            labelKey="label"
+            matchPos="any"
+            matchProp="any"
+            maxHeight={200}
+            menuBuffer={0}
+            menuRenderer={[Function]}
+            menuStyle={
+              Object {
+                "overflow": "hidden",
+              }
+            }
+            multi={false}
+            noResultsText="No results found"
+            onBlurResetsInput={true}
+            onChange={[Function]}
+            onCloseResetsInput={true}
+            optionComponent={[Function]}
+            optionHeight={[Function]}
+            optionRenderer={[Function]}
+            options={
+              Array [
+                Object {
+                  "label": "Custom Style",
+                  "value": "header",
+                },
+                Object {
+                  "label": "Test Label",
+                  "value": "test-value",
+                },
+                Object {
+                  "label": "Pre-defined Styles",
+                  "value": "header",
+                },
+                Object {
+                  "label": "American Medical Association",
+                  "value": "american-medical-association",
+                },
+                Object {
+                  "label": "APA 5th Edition",
+                  "value": "apa-5th",
+                },
+              ]
+            }
+            pageSize={5}
+            placeholder="Select..."
+            required={false}
+            scrollMenuIntoView={true}
+            searchable={true}
+            simpleValue={false}
+            style={
+              Object {
+                "cursor": "pointer",
+                "fontWeight": 300,
+              }
+            }
+            tabSelectsValue={true}
+            value={
+              Object {
+                "label": "American Medical Association",
+                "value": "american-medical-association",
+              }
+            }
+            valueComponent={[Function]}
+            valueKey="value"
+          >
+            <div
+              className="Select Select--single is-searchable has-value"
+            >
+              <div
+                className="Select-control"
+                onKeyDown={[Function]}
+                onMouseDown={[Function]}
+                onTouchEnd={[Function]}
+                onTouchMove={[Function]}
+                onTouchStart={[Function]}
+                style={
+                  Object {
+                    "cursor": "pointer",
+                    "fontWeight": 300,
+                  }
+                }
+              >
+                <span
+                  className="Select-multi-value-wrapper"
+                  id="react-select-2--value"
+                >
+                  <Value
+                    disabled={false}
+                    id="react-select-2--value-item"
+                    instancePrefix="react-select-2-"
+                    onClick={null}
+                    value={
+                      Object {
+                        "label": "American Medical Association",
+                        "value": "american-medical-association",
+                      }
+                    }
+                  >
+                    <div
+                      className="Select-value"
+                    >
+                      <span
+                        aria-selected="true"
+                        className="Select-value-label"
+                        id="react-select-2--value-item"
+                        role="option"
+                      >
+                        American Medical Association
+                      </span>
+                    </div>
+                  </Value>
+                  <Component
+                    aria-activedescendant="react-select-2--value"
+                    aria-expanded="false"
+                    aria-haspopup="false"
+                    aria-owns=""
+                    className="Select-input"
+                    minWidth="5"
+                    onBlur={[Function]}
+                    onChange={[Function]}
+                    onFocus={[Function]}
+                    required={false}
+                    role="combobox"
+                    value=""
+                  >
+                    <div
+                      className="Select-input"
+                      style={
+                        Object {
+                          "display": "inline-block",
+                        }
+                      }
+                    >
+                      <input
+                        aria-activedescendant="react-select-2--value"
+                        aria-expanded="false"
+                        aria-haspopup="false"
+                        aria-owns=""
+                        onBlur={[Function]}
+                        onChange={[Function]}
+                        onFocus={[Function]}
+                        required={false}
+                        role="combobox"
+                        style={
+                          Object {
+                            "boxSizing": "content-box",
+                            "width": "5px",
+                          }
+                        }
+                        value=""
+                      />
+                      <div
+                        style={
+                          Object {
+                            "height": 0,
+                            "left": 0,
+                            "overflow": "scroll",
+                            "position": "absolute",
+                            "top": 0,
+                            "visibility": "hidden",
+                            "whiteSpace": "pre",
+                          }
+                        }
+                      />
+                    </div>
+                  </Component>
+                </span>
+                <span
+                  className="Select-arrow-zone"
+                  onMouseDown={[Function]}
+                >
+                  <span
+                    className="Select-arrow"
+                    onMouseDown={[Function]}
+                  />
+                </span>
+              </div>
+            </div>
+          </Select>
+        </VirtualizedSelect>
+      </div>
+    </div>
+  </TransitionMotion>
+</Menu>
+`;
+
+exports[`<Menu /> should match snapshots 2`] = `
+<Menu
+  cslStyle={"american-medical-association"}
+  isOpen={false}
+  itemsSelected={true}
+  onSubmit={[Function]}
+>
+  <TransitionMotion
+    didLeave={[Function]}
+    styles={Array []}
+    willEnter={[Function]}
+    willLeave={[Function]}
+  />
+</Menu>
+`;

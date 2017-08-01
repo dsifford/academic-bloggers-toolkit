@@ -21,78 +21,11 @@ exports[`<ButtonRow /> should match snapshots 1`] = `
   <span
     className="separator"
   />
-  <div>
-    <input
-      aria-checked={false}
-      checked={false}
-      id="inline-toggle"
-      onChange={[Function]}
-      style={
-        Object {
-          "display": "none",
-        }
-      }
-      type="checkbox"
-    />
-    <label
-      data-tooltip="Insert citation inline"
-      htmlFor="inline-toggle"
-      onMouseOut={[Function]}
-      onMouseOver={[Function]}
-      role="tooltip"
-    />
-    <style
-      jsx={true}
-    >
-      
-                          label {
-                              position: relative;
-                              display: block;
-                              margin: 0 10px;
-                              height: 20px;
-                              width: 44px;
-                              background: #898989;
-                              border-radius: 100px;
-                              cursor: pointer;
-                              -webkit-transition: all 0.3s ease;
-                              transition: all 0.3s ease;
-                          }
-                          label:after {
-                              position: absolute;
-                              left: -2px;
-                              top: -3px;
-                              display: block;
-                              width: 26px;
-                              height: 26px;
-                              border-radius: 100px;
-                              background: #fff;
-                              -webkit-box-shadow: 0px 3px 3px rgba(0, 0, 0, 0.05);
-                              box-shadow: 0px 3px 3px rgba(0, 0, 0, 0.05);
-                              content: '';
-                              -webkit-transition: all 0.3s ease;
-                              transition: all 0.3s ease;
-                          }
-                          label:active:after {
-                              -webkit-transform: scale(1.15, 0.85);
-                              transform: scale(1.15, 0.85);
-                          }
-                          input:checked ~ label {
-                              background: #6f9eb1;
-                          }
-                          input:checked ~ label:after {
-                              left: 20px;
-                              background: #0085ba;
-                          }
-                          input:disabled ~ label {
-                              background: #d5d5d5;
-                              pointer-events: none;
-                          }
-                          input:disabled ~ label:after {
-                              background: #bcbdbc;
-                          }
-                      
-    </style>
-  </div>
+  <ToggleSwitch
+    checked={false}
+    label="Insert citation inline"
+    onChange={[Function]}
+  />
   <input
     className="abt-btn abt-btn_submit"
     form="add-reference"

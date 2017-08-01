@@ -1,0 +1,245 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<ItemList /> should match snapshot 1`] = `
+<div>
+  <div
+    className="abt-item-heading"
+    onClick={[Function]}
+    onDoubleClick={[Function]}
+    role="menubar"
+  >
+    <div
+      className="abt-item-heading__label"
+    >
+      Hello World
+    </div>
+    <div
+      className="abt-item-heading__badge"
+    >
+      3
+    </div>
+  </div>
+  <Items
+    CSL={
+      Object {
+        "1": Object {
+          "id": "1",
+          "title": "Test item 1",
+        },
+        "2": Object {
+          "id": "2",
+          "title": "Test item 2",
+        },
+        "3": Object {
+          "id": "3",
+          "title": "Test item 3",
+        },
+      }
+    }
+    id="cited"
+    items={
+      Array [
+        Object {
+          "id": "1",
+          "title": "Test item 1",
+        },
+        Object {
+          "id": "2",
+          "title": "Test item 2",
+        },
+        Object {
+          "id": "3",
+          "title": "Test item 3",
+        },
+      ]
+    }
+    onClick={[Function]}
+    onEditReference={[Function]}
+    selectedItems={Array []}
+    style={
+      Object {
+        "maxHeight": "300px",
+      }
+    }
+    withTooltip={true}
+  />
+</div>
+`;
+
+exports[`<ItemList /> should match snapshot 2`] = `
+<div>
+  <div
+    className="abt-item-heading"
+    onClick={[Function]}
+    onDoubleClick={[Function]}
+    role="menubar"
+  >
+    <div
+      className="abt-item-heading__label"
+    >
+      Hello World
+    </div>
+    <div
+      className="abt-item-heading__badge"
+    >
+      3
+    </div>
+  </div>
+  <Items
+    CSL={
+      Object {
+        "1": Object {
+          "id": "1",
+          "title": "Test item 1",
+        },
+        "2": Object {
+          "id": "2",
+          "title": "Test item 2",
+        },
+        "3": Object {
+          "id": "3",
+          "title": "Test item 3",
+        },
+      }
+    }
+    id="cited"
+    items={
+      Array [
+        Object {
+          "id": "1",
+          "title": "Test item 1",
+        },
+        Object {
+          "id": "2",
+          "title": "Test item 2",
+        },
+        Object {
+          "id": "3",
+          "title": "Test item 3",
+        },
+      ]
+    }
+    onClick={[Function]}
+    onEditReference={[Function]}
+    selectedItems={
+      Array [
+        "1",
+      ]
+    }
+    style={
+      Object {
+        "maxHeight": "300px",
+      }
+    }
+    withTooltip={true}
+  />
+</div>
+`;
+
+exports[`<Items /> should match snapshot 1`] = `
+<div
+  className="abt-items"
+  onWheel={[Function]}
+  style={
+    Object {
+      "overflowX": "hidden",
+      "overflowY": "auto",
+      "transition": ".2s",
+    }
+  }
+>
+  <Card
+    CSL={
+      Object {
+        "id": "1",
+        "title": "Test item 1",
+      }
+    }
+    id="1"
+    index="1"
+    isSelected={false}
+    onDoubleClick={[Function]}
+    showTooltip={true}
+  />
+  <Card
+    CSL={
+      Object {
+        "id": "2",
+        "title": "Test item 2",
+      }
+    }
+    id="2"
+    index="2"
+    isSelected={false}
+    onDoubleClick={[Function]}
+    showTooltip={true}
+  />
+  <Card
+    CSL={
+      Object {
+        "id": "3",
+        "title": "Test item 3",
+      }
+    }
+    id="3"
+    index="3"
+    isSelected={false}
+    onDoubleClick={[Function]}
+    showTooltip={true}
+  />
+</div>
+`;
+
+exports[`<Items /> should match snapshot 2`] = `
+<div
+  className="abt-items"
+  onWheel={[Function]}
+  style={
+    Object {
+      "overflowX": "hidden",
+      "overflowY": "auto",
+      "transition": ".2s",
+    }
+  }
+>
+  <Card
+    CSL={
+      Object {
+        "id": "1",
+        "title": "Test item 1",
+      }
+    }
+    id="1"
+    index="1"
+    isSelected={true}
+    onDoubleClick={[Function]}
+    showTooltip={true}
+  />
+  <Card
+    CSL={
+      Object {
+        "id": "2",
+        "title": "Test item 2",
+      }
+    }
+    id="2"
+    index="2"
+    isSelected={false}
+    onDoubleClick={[Function]}
+    showTooltip={true}
+  />
+  <Card
+    CSL={
+      Object {
+        "id": "3",
+        "title": "Test item 3",
+      }
+    }
+    id="3"
+    index="3"
+    isSelected={false}
+    onDoubleClick={[Function]}
+    showTooltip={true}
+  />
+</div>
+`;

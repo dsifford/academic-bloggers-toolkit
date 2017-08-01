@@ -1,7 +1,7 @@
 import { shallow } from 'enzyme';
+import toJSON from 'enzyme-to-json';
 import { observable } from 'mobx';
 import * as React from 'react';
-import * as renderer from 'react-test-renderer';
 import ButtonRow from '../button-row';
 
 const observables = {
@@ -29,9 +29,8 @@ describe('<ButtonRow />', () => {
         jest.resetAllMocks();
     });
     it('should match snapshots', () => {
-        const component = renderer.create(<ButtonRow {...observables} {...spies} />);
-        const tree = component.toJSON();
-        expect(tree).toMatchSnapshot();
+        const { component } = setup();
+        expect(toJSON(component)).toMatchSnapshot();
     });
     it('should toggle the pubmed dialog', () => {
         const { component } = setup(false, true);

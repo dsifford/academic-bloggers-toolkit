@@ -8,11 +8,11 @@ import PanelButton from './panel-button';
 
 declare const ABT_Custom_CSL: BackendGlobals.ABT_Custom_CSL;
 
-interface Props extends React.HTMLProps<HTMLDivElement> {
+interface Props {
     isOpen: IObservableValue<boolean>;
     cslStyle: IObservableValue<string>;
     itemsSelected: boolean;
-    submitData(kind: string, data?: string): void;
+    onSubmit(kind: string, data?: string): void;
 }
 
 interface StyleOption {
@@ -80,7 +80,7 @@ export default class Menu extends React.PureComponent<Props> {
     }
 
     @action
-    setSelected = ({ label, value }: Partial<StyleOption>) => {
+    setSelected = ({ label, value }: Partial<StyleOption> = {}) => {
         if (value) this.selected.value = value;
         if (label) this.selected.label = label;
     };
@@ -89,18 +89,22 @@ export default class Menu extends React.PureComponent<Props> {
 
     handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
         this.toggleMenu();
-        this.props.submitData(e.currentTarget.id);
+        this.props.onSubmit(e.currentTarget.id);
     };
 
     handleSelect = (data: StyleOption) => {
         this.toggleMenu();
-        this.props.submitData('CHANGE_STYLE', data.value);
+        this.props.onSubmit('CHANGE_STYLE', data.value);
     };
 
     render() {
         const transitionStyle = this.props.isOpen.get() ? openedStyle : [];
         return (
-            <TransitionMotion willLeave={Menu.willLeave} willEnter={Menu.willEnter} styles={transitionStyle}>
+            <TransitionMotion
+                willLeave={Menu.willLeave}
+                willEnter={Menu.willEnter}
+                styles={transitionStyle}
+            >
                 {styles =>
                     styles.length > 0
                         ? (
@@ -210,7 +214,14 @@ interface RendererParams {
  * @param  {Object} option        The option to be rendered
  * @param  {Function} selectValue Callback to update the selected values. (on click)
  */
-export function renderer({ focusedOption, focusOption, key, option, selectValue, style }: RendererParams) {
+export function renderer({
+    focusedOption,
+    focusOption,
+    key,
+    option,
+    selectValue,
+    style,
+}: RendererParams) {
     style.alignItems = 'center';
     style.fontWeight = 300;
     style.cursor = 'default';

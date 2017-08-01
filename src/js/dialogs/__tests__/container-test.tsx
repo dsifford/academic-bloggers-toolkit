@@ -1,7 +1,7 @@
 import { shallow } from 'enzyme';
+import toJSON from 'enzyme-to-json';
 import { observable } from 'mobx';
 import * as React from 'react';
-import * as renderer from 'react-test-renderer';
 import Container from '../container';
 
 const setup = () => {
@@ -9,7 +9,7 @@ const setup = () => {
     const component = shallow(
         <Container title="Hello World" currentDialog={currentDialog}>
             <h1>Hello World</h1>
-        </Container>
+        </Container>,
     );
     return {
         component,
@@ -19,13 +19,8 @@ const setup = () => {
 
 describe('<Container />', () => {
     it('should match snapshot', () => {
-        const component = renderer.create(
-            <Container title="Hello World" currentDialog={observable('hello')}>
-                <h1>Hello World</h1>
-            </Container>
-        );
-        const tree = component.toJSON();
-        expect(tree).toMatchSnapshot();
+        const { component } = setup();
+        expect(toJSON(component)).toMatchSnapshot();
     });
     it('should render', () => {
         const { component } = setup();

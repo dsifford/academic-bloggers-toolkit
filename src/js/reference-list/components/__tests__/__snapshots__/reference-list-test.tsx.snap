@@ -1,0 +1,578 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<ReferenceList /> snapshots cited and uncited list populated 1`] = `
+<div>
+  <Component
+    position={
+      Object {
+        "left": 50,
+        "top": 40,
+      }
+    }
+  />
+  <DialogRouter
+    currentDialog={""}
+    onSubmit={[Function]}
+  />
+  <StorageField
+    store={
+      Store {
+        "bibOptions": Object {
+          "heading": "",
+          "headingLevel": "h3",
+          "style": "fixed",
+        },
+        "citationStyle": "american-medical-association",
+        "citations": CitationStore {
+          "CSL": Object {
+            "1": Object {
+              "id": "3",
+              "title": "citation 3",
+            },
+          },
+          "byIndex": Array [],
+        },
+        "links": "always",
+        "locale": "en_US",
+      }
+    }
+  />
+  <div
+    className="abt-panel"
+  >
+    <PanelButton
+      data-tooltip="Insert selected references"
+      disabled={true}
+      onClick={[Function]}
+    >
+      <span
+        className="dashicons dashicons-migrate insert-inline"
+      />
+    </PanelButton>
+    <PanelButton
+      data-dialog="ADD"
+      data-tooltip="Add reference to reference list"
+      disabled={false}
+      onClick={[Function]}
+    >
+      <span
+        className="dashicons dashicons-plus add-reference"
+      />
+    </PanelButton>
+    <PanelButton
+      data-tooltip="Remove selected references from reference list"
+      disabled={true}
+      onClick={[Function]}
+    >
+      <span
+        className="dashicons dashicons-minus remove-reference"
+      />
+    </PanelButton>
+    <PanelButton
+      data-tooltip="Pin reference list to visible window"
+      onClick={[Function]}
+    >
+      <span
+        className="dashicons dashicons-admin-post pin-reflist"
+      />
+    </PanelButton>
+    <PanelButton
+      onClick={[Function]}
+    >
+      <span
+        className="dashicons dashicons-menu hamburger-menu"
+      />
+    </PanelButton>
+  </div>
+  <Menu
+    cslStyle={"american-medical-association"}
+    isOpen={false}
+    itemsSelected={false}
+    onSubmit={[Function]}
+  />
+  <ItemList
+    CSL={
+      Object {
+        "1": Object {
+          "id": "3",
+          "title": "citation 3",
+        },
+      }
+    }
+    id="uncited"
+    items={
+      Array [
+        Object {
+          "id": "3",
+          "title": "citation 3",
+        },
+      ]
+    }
+    onEditReference={[Function]}
+    selectedItems={Array []}
+    ui={
+      Object {
+        "cited": Object {
+          "isOpen": true,
+          "maxHeight": "400px",
+        },
+        "loading": true,
+        "menuOpen": false,
+        "pinned": false,
+        "uncited": Object {
+          "isOpen": false,
+          "maxHeight": "400px",
+        },
+      }
+    }
+  >
+    Uncited Items
+  </ItemList>
+</div>
+`;
+
+exports[`<ReferenceList /> snapshots cited and uncited list populated 2`] = `
+<div>
+  <Component
+    position={
+      Object {
+        "left": 50,
+        "top": 40,
+      }
+    }
+  />
+  <DialogRouter
+    currentDialog={""}
+    onSubmit={[Function]}
+  />
+  <StorageField
+    store={
+      Store {
+        "bibOptions": Object {
+          "heading": "",
+          "headingLevel": "h3",
+          "style": "fixed",
+        },
+        "citationStyle": "american-medical-association",
+        "citations": CitationStore {
+          "CSL": Object {
+            "1": Object {
+              "id": "3",
+              "title": "citation 3",
+            },
+          },
+          "byIndex": Array [
+            Object {
+              "citationItems": Array [
+                Object {
+                  "id": "1",
+                  "item": Object {
+                    "id": "1",
+                    "title": "citation 1",
+                  },
+                },
+                Object {
+                  "id": "2",
+                  "item": Object {
+                    "id": "2",
+                    "title": "citation 2",
+                  },
+                },
+              ],
+              "properties": Object {
+                "noteIndex": 0,
+              },
+            },
+          ],
+        },
+        "links": "always",
+        "locale": "en_US",
+      }
+    }
+  />
+  <div
+    className="abt-panel"
+  >
+    <PanelButton
+      data-tooltip="Insert selected references"
+      disabled={true}
+      onClick={[Function]}
+    >
+      <span
+        className="dashicons dashicons-migrate insert-inline"
+      />
+    </PanelButton>
+    <PanelButton
+      data-dialog="ADD"
+      data-tooltip="Add reference to reference list"
+      disabled={false}
+      onClick={[Function]}
+    >
+      <span
+        className="dashicons dashicons-plus add-reference"
+      />
+    </PanelButton>
+    <PanelButton
+      data-tooltip="Remove selected references from reference list"
+      disabled={true}
+      onClick={[Function]}
+    >
+      <span
+        className="dashicons dashicons-minus remove-reference"
+      />
+    </PanelButton>
+    <PanelButton
+      data-tooltip="Pin reference list to visible window"
+      onClick={[Function]}
+    >
+      <span
+        className="dashicons dashicons-admin-post pin-reflist"
+      />
+    </PanelButton>
+    <PanelButton
+      onClick={[Function]}
+    >
+      <span
+        className="dashicons dashicons-menu hamburger-menu"
+      />
+    </PanelButton>
+  </div>
+  <Menu
+    cslStyle={"american-medical-association"}
+    isOpen={false}
+    itemsSelected={false}
+    onSubmit={[Function]}
+  />
+  <ItemList
+    CSL={
+      Object {
+        "1": Object {
+          "id": "3",
+          "title": "citation 3",
+        },
+      }
+    }
+    id="cited"
+    items={
+      Array [
+        Object {
+          "id": "3",
+          "title": "citation 3",
+        },
+        undefined,
+      ]
+    }
+    onEditReference={[Function]}
+    selectedItems={Array []}
+    ui={
+      Object {
+        "cited": Object {
+          "isOpen": true,
+          "maxHeight": "400px",
+        },
+        "loading": true,
+        "menuOpen": false,
+        "pinned": false,
+        "uncited": Object {
+          "isOpen": false,
+          "maxHeight": "400px",
+        },
+      }
+    }
+  >
+    Cited Items
+  </ItemList>
+</div>
+`;
+
+exports[`<ReferenceList /> snapshots initial mount with empty state 1`] = `
+<div>
+  <Spinner
+    bgColor="#f5f5f5"
+    height="52px"
+    size="40px"
+  />
+  <StorageField
+    store={
+      Store {
+        "bibOptions": Object {
+          "heading": "",
+          "headingLevel": "h3",
+          "style": "fixed",
+        },
+        "citationStyle": "american-medical-association",
+        "citations": CitationStore {
+          "CSL": Object {},
+          "byIndex": Array [],
+        },
+        "links": "always",
+        "locale": "en_US",
+      }
+    }
+  />
+</div>
+`;
+
+exports[`<ReferenceList /> snapshots initial mount with empty state 2`] = `
+<div>
+  <Component
+    position={
+      Object {
+        "left": 50,
+        "top": 40,
+      }
+    }
+  />
+  <DialogRouter
+    currentDialog={""}
+    onSubmit={[Function]}
+  />
+  <StorageField
+    store={
+      Store {
+        "bibOptions": Object {
+          "heading": "",
+          "headingLevel": "h3",
+          "style": "fixed",
+        },
+        "citationStyle": "american-medical-association",
+        "citations": CitationStore {
+          "CSL": Object {},
+          "byIndex": Array [],
+        },
+        "links": "always",
+        "locale": "en_US",
+      }
+    }
+  />
+  <div
+    className="abt-panel"
+  >
+    <PanelButton
+      data-tooltip="Insert selected references"
+      disabled={true}
+      onClick={[Function]}
+    >
+      <span
+        className="dashicons dashicons-migrate insert-inline"
+      />
+    </PanelButton>
+    <PanelButton
+      data-dialog="ADD"
+      data-tooltip="Add reference to reference list"
+      disabled={false}
+      onClick={[Function]}
+    >
+      <span
+        className="dashicons dashicons-plus add-reference"
+      />
+    </PanelButton>
+    <PanelButton
+      data-tooltip="Remove selected references from reference list"
+      disabled={true}
+      onClick={[Function]}
+    >
+      <span
+        className="dashicons dashicons-minus remove-reference"
+      />
+    </PanelButton>
+    <PanelButton
+      data-tooltip="Pin reference list to visible window"
+      onClick={[Function]}
+    >
+      <span
+        className="dashicons dashicons-admin-post pin-reflist"
+      />
+    </PanelButton>
+    <PanelButton
+      onClick={[Function]}
+    >
+      <span
+        className="dashicons dashicons-menu hamburger-menu"
+      />
+    </PanelButton>
+  </div>
+  <Menu
+    cslStyle={"american-medical-association"}
+    isOpen={false}
+    itemsSelected={false}
+    onSubmit={[Function]}
+  />
+</div>
+`;
+
+exports[`<ReferenceList /> snapshots menu toggled open 1`] = `
+<div>
+  <Component
+    position={
+      Object {
+        "left": 50,
+        "top": 40,
+      }
+    }
+  />
+  <DialogRouter
+    currentDialog={""}
+    onSubmit={[Function]}
+  />
+  <StorageField
+    store={
+      Store {
+        "bibOptions": Object {
+          "heading": "",
+          "headingLevel": "h3",
+          "style": "fixed",
+        },
+        "citationStyle": "american-medical-association",
+        "citations": CitationStore {
+          "CSL": Object {},
+          "byIndex": Array [],
+        },
+        "links": "always",
+        "locale": "en_US",
+      }
+    }
+  />
+  <div
+    className="abt-panel"
+  >
+    <PanelButton
+      data-tooltip="Insert selected references"
+      disabled={true}
+      onClick={[Function]}
+    >
+      <span
+        className="dashicons dashicons-migrate insert-inline"
+      />
+    </PanelButton>
+    <PanelButton
+      data-dialog="ADD"
+      data-tooltip="Add reference to reference list"
+      disabled={false}
+      onClick={[Function]}
+    >
+      <span
+        className="dashicons dashicons-plus add-reference"
+      />
+    </PanelButton>
+    <PanelButton
+      data-tooltip="Remove selected references from reference list"
+      disabled={true}
+      onClick={[Function]}
+    >
+      <span
+        className="dashicons dashicons-minus remove-reference"
+      />
+    </PanelButton>
+    <PanelButton
+      data-tooltip="Pin reference list to visible window"
+      onClick={[Function]}
+    >
+      <span
+        className="dashicons dashicons-admin-post pin-reflist"
+      />
+    </PanelButton>
+    <PanelButton
+      onClick={[Function]}
+    >
+      <span
+        className="dashicons dashicons-no-alt hamburger-menu"
+      />
+    </PanelButton>
+  </div>
+  <Menu
+    cslStyle={"american-medical-association"}
+    isOpen={true}
+    itemsSelected={false}
+    onSubmit={[Function]}
+  />
+</div>
+`;
+
+exports[`<ReferenceList /> snapshots pinned state toggled 1`] = `
+<div>
+  <Component
+    position={
+      Object {
+        "left": 50,
+        "top": 40,
+      }
+    }
+  />
+  <DialogRouter
+    currentDialog={""}
+    onSubmit={[Function]}
+  />
+  <StorageField
+    store={
+      Store {
+        "bibOptions": Object {
+          "heading": "",
+          "headingLevel": "h3",
+          "style": "fixed",
+        },
+        "citationStyle": "american-medical-association",
+        "citations": CitationStore {
+          "CSL": Object {},
+          "byIndex": Array [],
+        },
+        "links": "always",
+        "locale": "en_US",
+      }
+    }
+  />
+  <div
+    className="abt-panel"
+  >
+    <PanelButton
+      data-tooltip="Insert selected references"
+      disabled={true}
+      onClick={[Function]}
+    >
+      <span
+        className="dashicons dashicons-migrate insert-inline"
+      />
+    </PanelButton>
+    <PanelButton
+      data-dialog="ADD"
+      data-tooltip="Add reference to reference list"
+      disabled={false}
+      onClick={[Function]}
+    >
+      <span
+        className="dashicons dashicons-plus add-reference"
+      />
+    </PanelButton>
+    <PanelButton
+      data-tooltip="Remove selected references from reference list"
+      disabled={true}
+      onClick={[Function]}
+    >
+      <span
+        className="dashicons dashicons-minus remove-reference"
+      />
+    </PanelButton>
+    <PanelButton
+      data-tooltip="Pin reference list to visible window"
+      onClick={[Function]}
+    >
+      <span
+        className="dashicons dashicons-admin-post pin-reflist_fixed"
+      />
+    </PanelButton>
+    <PanelButton
+      onClick={[Function]}
+    >
+      <span
+        className="dashicons dashicons-menu hamburger-menu"
+      />
+    </PanelButton>
+  </div>
+  <Menu
+    cslStyle={"american-medical-association"}
+    isOpen={false}
+    itemsSelected={false}
+    onSubmit={[Function]}
+  />
+</div>
+`;

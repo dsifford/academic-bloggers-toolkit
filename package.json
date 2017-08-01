@@ -67,7 +67,6 @@
         "merge-stream": "^1.0.1",
         "mobx-react-devtools": "^4.2.15",
         "prettier": "^1.5.3",
-        "react-addons-test-utils": "^15.6.0",
         "react-test-renderer": "^15.6.1",
         "style-loader": "^0.18.2",
         "stylint": "^1.5.9",
@@ -76,7 +75,7 @@
         "tslint": "^5.5.0",
         "tslint-microsoft-contrib": "^5.0.1",
         "tslint-react": "^3.1.0",
-        "uglify-es": "^3.0.26",
+        "uglify-es": "^3.0.27",
         "webpack": "^3.4.1",
         "webpack-bundle-analyzer": "^2.8.3"
     },
@@ -127,7 +126,6 @@
         "testRegex": "(/__tests__/.*|\\.(test|spec))\\.(ts|tsx|js)$",
         "transform": {
             ".(ts|tsx)": "<rootDir>/node_modules/ts-jest/preprocessor.js"
-        },
-        "verbose": false
+        }
     }
 }

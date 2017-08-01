@@ -1,24 +1,18 @@
+import { shallow } from 'enzyme';
+import toJSON from 'enzyme-to-json';
 import * as React from 'react';
-import * as renderer from 'react-test-renderer';
 import Spinner from '../spinner';
 
 describe('<Spinner />', () => {
     it('should match snapshots', () => {
-        let component = renderer.create(<Spinner size="50px" />);
-        let tree = component.toJSON();
-        expect(tree).toMatchSnapshot();
+        let component = shallow(<Spinner size="50px" />);
+        expect(toJSON(component)).toMatchSnapshot();
 
-        component = renderer.create(
-            <Spinner size="100px" bgColor="magenta" height={100} overlay />
-        );
-        tree = component.toJSON();
-        expect(tree).toMatchSnapshot();
+        component = shallow(<Spinner size="100px" bgColor="magenta" height={100} overlay />);
+        expect(toJSON(component)).toMatchSnapshot();
 
         const heightFn = () => '100px';
-        component = renderer.create(
-            <Spinner size="100px" height={heightFn} />
-        )
-        tree = component.toJSON();
-        expect(tree).toMatchSnapshot();
+        component = shallow(<Spinner size="100px" height={heightFn} />);
+        expect(toJSON(component)).toMatchSnapshot();
     });
 });
