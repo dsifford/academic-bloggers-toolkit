@@ -4,7 +4,7 @@ import * as React from 'react';
 import { ResultList } from '../result-list';
 
 const generateData = (n: number) => {
-    let data = [];
+    let data: CSL.Data[] = [];
     for (let i = 0; i < n; i++) {
         data = [
             ...data,
@@ -40,7 +40,7 @@ const setup = (data: any = defaltData) => {
 
 describe('<ResultList />', () => {
     it('should render with two children', () => {
-        const { component, results } = setup();
+        const { results } = setup();
         expect(results.length).toBe(2);
     });
     it('should call handleClick on addReference click', () => {

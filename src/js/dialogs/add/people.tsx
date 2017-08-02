@@ -9,8 +9,8 @@ interface PeopleProps {
 
 @observer
 export class People extends React.PureComponent<PeopleProps, {}> {
-    fieldmaps = top.ABT_i18n.fieldmaps;
-    labels = top.ABT_i18n.tinymce.referenceWindow.people;
+    static readonly fieldmaps = top.ABT_i18n.fieldmaps;
+    static readonly labels = top.ABT_i18n.tinymce.referenceWindow.people;
 
     @action
     addPerson = () => {
@@ -34,27 +34,27 @@ export class People extends React.PureComponent<PeopleProps, {}> {
     render() {
         return (
             <div>
-                <h2 children={this.labels.contributors} />
+                <h2 children={People.labels.contributors} />
                 {this.props.people.map((person: CSL.TypedPerson, i: number) =>
                     <Person
                         change={this.updatePerson}
                         remove={this.removePerson}
                         citationType={this.props.citationType}
                         fieldMap={
-                            this.fieldmaps[this.props.citationType as keyof ABT.FieldMappings]
+                            People.fieldmaps[this.props.citationType as keyof ABT.FieldMappings]
                         }
                         index={i}
-                        labels={this.labels}
+                        labels={People.labels}
                         person={person}
                         key={`person-${i}`}
-                    />
+                    />,
                 )}
                 <div className="btn-row">
                     <input
                         type="button"
                         id="add-person"
                         className="abt-btn abt-btn_flat"
-                        value={this.labels.add}
+                        value={People.labels.add}
                         onClick={this.addPerson}
                     />
                 </div>
@@ -96,7 +96,7 @@ class Person extends React.PureComponent<PersonProps, {}> {
                             aria-selected={person.type === p.kind}
                             value={p.kind}
                             children={p.label}
-                        />
+                        />,
                     )}
                 </select>
                 <input

@@ -8,7 +8,7 @@ import * as React from 'react';
 import EditorDriver from 'drivers/base';
 import { getRemoteData, parseManualData } from '../../api';
 import Store from '../../store';
-import ReferenceList from '../reference-list';
+import ReferenceList, { StorageField } from '../reference-list';
 
 const mocks = {
     parseManualData: parseManualData as jest.Mock<any>,
@@ -162,6 +162,11 @@ describe('<ReferenceList />', async () => {
                 },
             ]);
             component.update();
+            expect(toJSON(component)).toMatchSnapshot();
+        });
+        it('should match StorageField snapshot', () => {
+            store = new Store({ ...blankState });
+            const component = shallow(<StorageField store={store} />);
             expect(toJSON(component)).toMatchSnapshot();
         });
     });

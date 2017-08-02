@@ -8,10 +8,6 @@ describe('parsePeople()', () => {
             expect(people[i].family).toEqual(e[0]);
             expect(people[i].given).toEqual(e[1]);
         });
-        // for (const [k, p] of people.entries()) {
-        //     expect(p.family).toEqual(expected[k][0]);
-        //     expect(p.given).toEqual(expected[k][1]);
-        // }
     });
     it('First Middle Last', () => {
         const people = parsePeople(
@@ -27,10 +23,6 @@ describe('parsePeople()', () => {
             expect(people[i].family).toEqual(e[0]);
             expect(people[i].given).toEqual(e[1]);
         });
-        // for (const [k, p] of people.entries()) {
-        //     expect(p.family).toEqual(expected[k][0]);
-        //     expect(p.given).toEqual(expected[k][1]);
-        // }
     });
     it('should handle a mixture', () => {
         const people = parsePeople(
@@ -89,7 +81,7 @@ describe('TeXParser', () => {
                 volume = {test volume}
             }
         `;
-        const expected = {
+        const expected: CSL.Data = {
             abstract: 'test abstract',
             annote: 'test annote',
             edition: 'test edition',
@@ -131,7 +123,7 @@ describe('TeXParser', () => {
                 invalid = {should be skipped}
             }
         `;
-        const expected = {
+        const expected: CSL.Data = {
             'collection-title': 'testing collection title',
             'container-title': 'testing container title',
             'event-place': 'testing place',
@@ -161,7 +153,7 @@ describe('TeXParser', () => {
                 url = {https://www.google.com}
             }
         `;
-        const expected = {
+        const expected: CSL.Data = {
             DOI: '10.10000/1',
             ISBN: '1234567890',
             ISSN: '12345',
@@ -181,8 +173,8 @@ describe('TeXParser', () => {
                 year = {2016}
             }
         `;
-        const parsed = new TeXParser(bib).parse()[0];
-        expect(parsed.issued!['date-parts'][0][0]).toBe('2016');
+        const parsed: any = new TeXParser(bib).parse()[0];
+        expect(parsed.issued['date-parts'][0][0]).toBe('2016');
         expect(parsed.issued!['date-parts'][0][0]).toBe('2016');
         expect(parsed['event-date']!['date-parts'][0][1]).toBe('11');
         expect(parsed['event-date']!['date-parts'][0][1]).toBe('11');

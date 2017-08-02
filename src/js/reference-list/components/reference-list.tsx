@@ -554,7 +554,7 @@ export default class ReferenceList extends React.Component<Props> {
 }
 
 @observer
-class StorageField extends React.Component<{ store: Store }> {
+export class StorageField extends React.Component<{ store: Store }> {
     render() {
         return <input type="hidden" name="abt-reflist-state" value={this.props.store.persistent} />;
     }

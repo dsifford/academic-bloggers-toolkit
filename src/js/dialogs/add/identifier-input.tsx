@@ -4,24 +4,23 @@ import * as React from 'react';
 
 interface Props {
     identifierList: IObservableValue<string>;
+    fieldRef: any;
     onChange(e: React.FormEvent<HTMLInputElement>): void;
 }
 
 @observer
 export class IdentifierInput extends React.PureComponent<Props> {
-    labels = top.ABT_i18n.tinymce.referenceWindow.identifierInput;
-
-    focusInputField = (el: HTMLInputElement) => el.focus();
+    static readonly labels = top.ABT_i18n.tinymce.referenceWindow.identifierInput;
 
     render() {
         return (
             <div>
-                <label htmlFor="identifierList" children={this.labels.label} />
+                <label htmlFor="identifierList" children={IdentifierInput.labels.label} />
                 <input
                     type="text"
                     id="identifierList"
                     onChange={this.props.onChange}
-                    ref={this.focusInputField}
+                    ref={this.props.fieldRef}
                     required={true}
                     value={this.props.identifierList.get()}
                 />

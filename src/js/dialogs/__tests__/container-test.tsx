@@ -13,6 +13,7 @@ const setup = () => {
     );
     return {
         component,
+        instance: component.instance() as Container,
         currentDialog,
     };
 };
@@ -43,5 +44,12 @@ describe('<Container />', () => {
         component.simulate('keyDown', { key: 'Escape', stopPropagation });
         expect(currentDialog.get()).toBe('');
         expect(stopPropagation).toHaveBeenCalledTimes(1);
+    });
+    it('should close with and without an associated event', () => {
+        const { instance } = setup();
+        expect(instance.close).not.toThrow();
+        const preventDefault = jest.fn();
+        instance.close({ preventDefault } as any);
+        expect(preventDefault).toHaveBeenCalled();
     });
 });

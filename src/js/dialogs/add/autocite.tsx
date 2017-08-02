@@ -15,9 +15,8 @@ interface Props {
 @observer
 export default class AutoCite extends React.PureComponent<Props> {
     static readonly labels = top.ABT_i18n.tinymce.referenceWindow.manualEntryContainer;
-    /**
-     * Needed for handling the initial focus() of the field
-     */
+
+    // Needed for handling the initial focus() of the field
     input: HTMLInputElement;
 
     query = observable('');

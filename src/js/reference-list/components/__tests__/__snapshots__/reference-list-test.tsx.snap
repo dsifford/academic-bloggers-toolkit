@@ -576,3 +576,11 @@ exports[`<ReferenceList /> snapshots pinned state toggled 1`] = `
   />
 </div>
 `;
+
+exports[`<ReferenceList /> snapshots should match StorageField snapshot 1`] = `
+<input
+  name="abt-reflist-state"
+  type="hidden"
+  value="{\\"CSL\\":{},\\"cache\\":{\\"links\\":\\"always\\",\\"locale\\":\\"en_US\\",\\"style\\":\\"american-medical-association\\"},\\"citationByIndex\\":[]}"
+/>
+`;

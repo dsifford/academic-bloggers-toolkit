@@ -5,7 +5,7 @@ import AutoCite from '../autocite';
 
 const getter = jest.fn();
 
-const setup = ({ kind = 'webpage', inputType = 'url' } = {}, pattern?) => {
+const setup = ({ kind = 'webpage', inputType = 'url' } = {}, pattern?: any) => {
     const component = mount(
         <AutoCite
             kind={kind as any}

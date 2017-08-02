@@ -1,12 +1,15 @@
 import { mount } from 'enzyme';
-import { IObservableArray, observable } from 'mobx';
+import { observable } from 'mobx';
 import * as React from 'react';
 import { People } from '../people';
 
-const defaultPeople = [{ family: 'Doe', given: 'John', type: 'author' }];
-const peopleStore = observable([]);
+const defaultPeople: CSL.TypedPerson[] = [{ family: 'Doe', given: 'John', type: 'author' }];
+const peopleStore = observable<CSL.TypedPerson>([]);
 
-const setup = (citationType = 'article-journal', people = defaultPeople) => {
+const setup = (
+    citationType: CSL.CitationType = 'article-journal',
+    people: CSL.TypedPerson[] = defaultPeople,
+) => {
     peopleStore.replace(people);
     const component = mount(<People citationType={citationType} people={peopleStore} />);
     return {
@@ -37,7 +40,7 @@ describe('<People />', () => {
         expect(newPerson.find('select').prop('value')).toBe('author');
     });
     it('should remove a person when remove button is clicked', () => {
-        const people = [
+        const people: CSL.TypedPerson[] = [
             { family: 'Doe', given: 'John', type: 'author' },
             { family: 'Smith', given: 'Jane', type: 'author' },
         ];

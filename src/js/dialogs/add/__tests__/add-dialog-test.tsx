@@ -22,6 +22,7 @@ const setup = () => {
 };
 
 describe('<AddDialog />', () => {
+    beforeEach(() => jest.resetAllMocks());
     it('should match snapshot', () => {
         const { component, instance } = setup();
 
@@ -105,6 +106,20 @@ describe('<AddDialog />', () => {
         form.simulate('submit', { preventDefault });
         expect(preventDefault).toHaveBeenCalledTimes(1);
         expect(mocks.onSubmit).toHaveBeenCalledTimes(1);
+    });
+    it('should capture input field', () => {
+        const { instance } = setup();
+        const input = document.createElement('input');
+        const focusMock = jest.fn();
+        input.focus = focusMock;
+        instance.captureInputField(input);
+        instance.appendPMID('12345');
+        expect(focusMock).toHaveBeenCalled();
+    });
+    it('should skip capture of input field if null', () => {
+        const { instance } = setup();
+        instance.captureInputField(null);
+        expect(instance.appendPMID).not.toThrow();
     });
     describe('autocite handler tests', () => {
         let component: any;

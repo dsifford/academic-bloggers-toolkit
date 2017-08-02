@@ -6,7 +6,9 @@ import { IdentifierInput } from '../identifier-input';
 const setup = () => {
     const spy = jest.fn();
     const identifiers = observable('testing');
-    const component = mount(<IdentifierInput identifierList={identifiers} onChange={spy} />);
+    const component = mount(
+        <IdentifierInput fieldRef={jest.fn()} identifierList={identifiers} onChange={spy} />,
+    );
     return {
         component,
         spy,

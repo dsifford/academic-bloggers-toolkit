@@ -13,6 +13,8 @@ import ManualEntryContainer from './manual-entry-container';
 export default class AddDialog extends React.Component<DialogProps> {
     static readonly labels = top.ABT_i18n.tinymce.referenceWindow.referenceWindow;
 
+    identifierInputField: HTMLInputElement | null | undefined;
+
     addManually = observable(false);
 
     attachInline = observable(true);
@@ -49,6 +51,7 @@ export default class AddDialog extends React.Component<DialogProps> {
                 .filter(Boolean)
                 .join(','),
         );
+        if (this.identifierInputField) this.identifierInputField.focus();
     };
 
     @action
@@ -125,6 +128,11 @@ export default class AddDialog extends React.Component<DialogProps> {
         this.props.onSubmit(this.payload);
     };
 
+    captureInputField = (el: HTMLInputElement | null) => {
+        this.identifierInputField = el;
+        if (el) el.focus();
+    };
+
     handleAutocite = async (kind: 'webpage' | 'book' | 'chapter', query: string) => {
         this.toggleLoadingState();
         try {
@@ -153,6 +161,7 @@ export default class AddDialog extends React.Component<DialogProps> {
                 <form id="add-reference" onSubmit={this.handleSubmit}>
                     {!this.addManually.get() &&
                         <IdentifierInput
+                            fieldRef={this.captureInputField}
                             identifierList={this.identifierList}
                             onChange={this.changeIdentifiers}
                         />}

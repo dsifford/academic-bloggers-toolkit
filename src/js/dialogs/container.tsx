@@ -22,7 +22,8 @@ export default class Container extends React.Component<Props> {
     element: HTMLDivElement;
 
     @action
-    close = () => {
+    close = (e?: React.MouseEvent<HTMLButtonElement>) => {
+        if (e) e.preventDefault();
         this.props.currentDialog.set('');
     };
 

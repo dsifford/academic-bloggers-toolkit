@@ -8,7 +8,7 @@ interface MetaFieldProps {
 
 @observer
 export class MetaFields extends React.Component<MetaFieldProps, {}> {
-    fieldmaps = top.ABT_i18n.fieldmaps;
+    static readonly fieldmaps = top.ABT_i18n.fieldmaps;
 
     @action
     updateField = (e: React.FormEvent<HTMLInputElement>) => {
@@ -17,8 +17,8 @@ export class MetaFields extends React.Component<MetaFieldProps, {}> {
 
     render() {
         const citationType = this.props.meta.get('type')! as keyof ABT.FieldMappings;
-        const title = this.fieldmaps[citationType].title;
-        const fields = this.fieldmaps[citationType].fields;
+        const title = MetaFields.fieldmaps[citationType].title;
+        const fields = MetaFields.fieldmaps[citationType].fields;
         return (
             <div>
                 <h2>
@@ -31,7 +31,7 @@ export class MetaFields extends React.Component<MetaFieldProps, {}> {
                             change={this.updateField}
                             field={field}
                             meta={this.props.meta}
-                        />
+                        />,
                     )}
                 </div>
                 <style jsx>{`
