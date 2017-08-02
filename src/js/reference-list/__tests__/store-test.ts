@@ -1,14 +1,12 @@
-// FIXME: Remove fixtures
-const reflistState = require('../../../../lib/fixtures').reflistState;
 import Store from '../store';
 
-const testState = reflistState;
+declare const ABT_Reflist_State: BackendGlobals.ABT_Reflist_State;
 
-describe('Reflist Store', () => {
+describe('Store', () => {
     let store: Store;
     describe('Citation Store', () => {
         beforeEach(() => {
-            store = new Store(testState);
+            store = new Store(ABT_Reflist_State);
         });
         it('should return citedIDs', () => {
             expect(store.citations.citedIDs).toEqual(['aaaaaaaa', 'bbbbbbbb']);
@@ -31,7 +29,7 @@ describe('Reflist Store', () => {
             });
         });
         it('should return citationByIndex as JS object', () => {
-            const stateCopy = JSON.parse(JSON.stringify(testState));
+            const stateCopy = JSON.parse(JSON.stringify(ABT_Reflist_State));
             expect(store.citations.citationByIndex).toEqual(stateCopy.citationByIndex);
         });
         it('should call init', () => {
@@ -42,7 +40,7 @@ describe('Reflist Store', () => {
             cite.language = 'gibberish';
             store.citations.CSL.set('aaaaaaaa', cite);
             expect(store.citations.CSL.get('aaaaaaaa')!.language).toBe('gibberish');
-            store.citations.CSL = store.citations.cleanCSL(
+            store.citations.CSL = (<any>store.citations).cleanCSL(
                 JSON.parse(JSON.stringify(store.citations.CSL)),
             );
             expect(store.citations.CSL.get('aaaaaaaa')!.language).toBe('en-US');
@@ -199,7 +197,7 @@ describe('Reflist Store', () => {
         });
     });
     beforeEach(() => {
-        store = new Store(testState);
+        store = new Store(ABT_Reflist_State);
     });
     it('should return persistent', () => {
         expect(JSON.parse(store.persistent).CSL).not.toBeUndefined();
