@@ -43,9 +43,11 @@ describe('<AddDialog />', () => {
         expect(instance.identifierList.get()).toBe('12345');
 
         ButtonRow.simulate('pubmedDialogSubmit', '54321');
-        expect(instance.identifierList.get()).toBe('12345,54321');
+        expect(instance.identifierList.get()).toBe('12345, 54321');
 
-        // TODO: Handle duplicates
+        // Handle duplicates
+        ButtonRow.simulate('pubmedDialogSubmit', '12345');
+        expect(instance.identifierList.get()).toBe('12345, 54321');
     });
     it('should handle identifier change', () => {
         const { component, instance } = setup();

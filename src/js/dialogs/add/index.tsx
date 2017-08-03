@@ -42,15 +42,10 @@ export default class AddDialog extends React.Component<DialogProps> {
 
     @action
     appendPMID = (pmid: string) => {
-        this.identifierList.set(
-            this.identifierList
-                .get()
-                .split(',')
-                .map(i => i.trim())
-                .concat(pmid)
-                .filter(Boolean)
-                .join(','),
+        const ids = new Set(
+            this.identifierList.get().split(',').map(i => i.trim()).concat(pmid).filter(Boolean),
         );
+        this.identifierList.set(Array.from(ids).join(', '));
         if (this.identifierInputField) this.identifierInputField.focus();
     };
 

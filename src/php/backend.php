@@ -220,6 +220,7 @@ class ABT_Backend {
         wp_dequeue_script('autosave');
         wp_enqueue_style('dashicons');
         wp_enqueue_style('abt-admin-css', plugins_url('academic-bloggers-toolkit/css/admin.css'), ['dashicons'], ABT_VERSION);
+        // FIXME:
         wp_enqueue_script('abt-citeproc', plugins_url('academic-bloggers-toolkit/vendor/citeproc.js'), [], ABT_VERSION, true);
         // wp_enqueue_script('abt-vendors', plugins_url('academic-bloggers-toolkit/vendor/vendor.bundle.js'), [], ABT_VERSION, true);
         wp_enqueue_script('abt-reflist', plugins_url('academic-bloggers-toolkit/js/reference-list/index.js'), ['abt-citeproc', /*'abt-vendors'*/], ABT_VERSION, true);
