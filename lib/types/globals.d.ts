@@ -161,6 +161,20 @@ declare namespace BackendGlobals {
             /* http(s)://siteurl.com/wp-content/uploads/2016/08 */
             url: string;
         };
+        info: {
+            site: {
+                language: string;
+                name: string;
+                plugins: string[];
+                theme: string;
+                url: string;
+            };
+            versions: {
+                abt: string;
+                php: string;
+                wordpress: string;
+            };
+        };
     }
 
     interface ABT_Custom_CSL {
@@ -175,7 +189,7 @@ declare namespace BackendGlobals {
 declare module 'autoprefixer-stylus';
 declare module 'common-tags';
 declare module 'bibtex-parse-js';
-// declare module 'enzyme-to-json';
+declare module 'rollbar/dist/rollbar.umd';
 declare module 'gulp-stylus';
 declare module 'gulp-uglify/composer';
 declare module 'gulp-wp-pot';

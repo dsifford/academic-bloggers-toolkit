@@ -5,6 +5,8 @@ import * as webpack from 'webpack';
 
 const isProduction = process.env.NODE_ENV === 'production';
 
+// TODO: Add rollbar sourcemap plugin
+
 const sharedPlugins: webpack.Plugin[] = [
     new webpack.NoEmitOnErrorsPlugin(),
     // new webpack.optimize.CommonsChunkPlugin({
@@ -55,7 +57,7 @@ const config: webpack.Configuration = {
     entry: {
         'js/frontend': ['babel-polyfill', './src/js/frontend'],
         'js/reference-list/index': ['babel-polyfill', 'whatwg-fetch', './src/js/reference-list/'],
-        'js/drivers/tinymce': ['babel-polyfill', './src/js/drivers/tinymce']
+        'js/drivers/tinymce': ['babel-polyfill', './src/js/drivers/tinymce'],
         // vendor: ['react', 'react-dom', 'mobx', 'mobx-react'],
     },
     output: {

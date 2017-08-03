@@ -34,6 +34,20 @@ class ABT_Backend {
             'home_url' => home_url(),
             'plugins_url' => plugins_url(),
             'wp_upload_dir' => wp_get_upload_dir(),
+            'info' => [
+                'site' => [
+                    'language' => get_bloginfo('language'),
+                    'name' => get_bloginfo('name'),
+                    'plugins' => get_option('active_plugins'),
+                    'theme' => get_template(),
+                    'url' => get_bloginfo('url'),
+                ],
+                'versions' => [
+                    'abt' => ABT_VERSION,
+                    'php' => phpversion(),
+                    'wordpress' => get_bloginfo('version'),
+                ],
+            ],
         ];
     }
 
