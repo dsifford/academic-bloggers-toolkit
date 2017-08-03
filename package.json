@@ -101,6 +101,7 @@
             "!src/js/{dialogs,reference-list}/index.tsx",
             "!src/js/Frontend.ts",
             "!src/js/utils/devtools.ts",
+            "!src/js/utils/logger.ts",
             "!src/js/utils/**/index.ts",
             "!src/js/utils/resolvers/*",
             "!src/js/drivers/**"
