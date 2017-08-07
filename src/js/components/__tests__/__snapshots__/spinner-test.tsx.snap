@@ -89,8 +89,7 @@ exports[`<Spinner /> should match snapshots 1`] = `
                             stroke-dasharray: 187;
                             stroke-dashoffset: 0;
                             transform-origin: center;
-                            animation: dash 1.4s ease-in-out infinite,
-                                colors 5.6s ease-in-out infinite;
+                            animation: dash 1.4s ease-in-out infinite, colors 5.6s ease-in-out infinite;
                         }
                     
   </style>
@@ -188,8 +187,7 @@ exports[`<Spinner /> should match snapshots 2`] = `
                             stroke-dasharray: 187;
                             stroke-dashoffset: 0;
                             transform-origin: center;
-                            animation: dash 1.4s ease-in-out infinite,
-                                colors 5.6s ease-in-out infinite;
+                            animation: dash 1.4s ease-in-out infinite, colors 5.6s ease-in-out infinite;
                         }
                     
   </style>
@@ -287,8 +285,7 @@ exports[`<Spinner /> should match snapshots 3`] = `
                             stroke-dasharray: 187;
                             stroke-dashoffset: 0;
                             transform-origin: center;
-                            animation: dash 1.4s ease-in-out infinite,
-                                colors 5.6s ease-in-out infinite;
+                            animation: dash 1.4s ease-in-out infinite, colors 5.6s ease-in-out infinite;
                         }
                     
   </style>

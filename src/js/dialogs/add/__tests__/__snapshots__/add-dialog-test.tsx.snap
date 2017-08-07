@@ -24,9 +24,9 @@ exports[`<AddDialog /> should match snapshot 1`] = `
     jsx={true}
   >
     
-                            div {
-                                position: relative;
-                            }
+                        div {
+                            position: relative;
+                        }
                     
   </style>
 </div>
@@ -70,9 +70,9 @@ exports[`<AddDialog /> should match snapshot 2`] = `
     jsx={true}
   >
     
-                            div {
-                                position: relative;
-                            }
+                        div {
+                            position: relative;
+                        }
                     
   </style>
 </div>
@@ -102,9 +102,9 @@ exports[`<AddDialog /> should open pubmed dialog 1`] = `
     jsx={true}
   >
     
-                            div {
-                                position: relative;
-                            }
+                        div {
+                            position: relative;
+                        }
                     
   </style>
 </div>
@@ -145,9 +145,9 @@ exports[`<AddDialog /> should open pubmed dialog 2`] = `
     jsx={true}
   >
     
-                            div {
-                                position: relative;
-                            }
+                        div {
+                            position: relative;
+                        }
                     
   </style>
 </div>
@@ -188,9 +188,9 @@ exports[`<AddDialog /> should open pubmed dialog 3`] = `
     jsx={true}
   >
     
-                            div {
-                                position: relative;
-                            }
+                        div {
+                            position: relative;
+                        }
                     
   </style>
 </div>

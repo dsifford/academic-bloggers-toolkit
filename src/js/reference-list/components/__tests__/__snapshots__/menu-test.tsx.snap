@@ -1333,7 +1333,7 @@ exports[`<Menu /> should match snapshots 1`] = `
                                                   justify-content: space-around;
                                               }
                                               .style-row {
-                                                padding: 0 5px;
+                                                  padding: 0 5px;
                                               }
                                           
       </style>
