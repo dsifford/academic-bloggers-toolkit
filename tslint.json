@@ -56,7 +56,6 @@
         "react-a11y-anchors": true,
         "react-a11y-aria-unsupported-elements": true,
         "react-a11y-event-has-role": true,
-        // "react-a11y-image-button-has-alt": true, FIXME: rule is broken
         "react-a11y-lang": true,
         "react-a11y-meta": true,
         "react-a11y-props": true,
