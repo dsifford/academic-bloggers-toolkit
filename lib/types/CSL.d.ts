@@ -56,6 +56,14 @@ declare namespace CSL {
         | 'translator'
         | 'recipient';
 
+    type DateType =
+        | 'accessed'
+        | 'container'
+        | 'event-date'
+        | 'issued'
+        | 'original-date'
+        | 'submitted';
+
     interface Citation {
         schema: 'https://github.com/citation-style-language/schema/raw/master/csl-citation.json';
         citationID: string | number;

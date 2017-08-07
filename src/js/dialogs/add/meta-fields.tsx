@@ -3,11 +3,12 @@ import { observer } from 'mobx-react';
 import * as React from 'react';
 
 interface MetaFieldProps {
+    /** Observable map of `ABT.FieldMappings` */
     meta: ObservableMap<string>;
 }
 
 @observer
-export class MetaFields extends React.Component<MetaFieldProps, {}> {
+export default class MetaFields extends React.Component<MetaFieldProps, {}> {
     static readonly fieldmaps = top.ABT_i18n.fieldmaps;
 
     @action
@@ -28,7 +29,7 @@ export class MetaFields extends React.Component<MetaFieldProps, {}> {
                     {fields.map((field: ABT.Field, i: number) =>
                         <Field
                             key={`${title}-meta-${i}`}
-                            change={this.updateField}
+                            onChange={this.updateField}
                             field={field}
                             meta={this.props.meta}
                         />,
@@ -50,21 +51,24 @@ export class MetaFields extends React.Component<MetaFieldProps, {}> {
 }
 
 interface FieldProps {
-    change: any;
+    /** Field descriptor */
     field: ABT.Field;
+    /** Observable map of `ABT.FieldMappings` */
     meta: ObservableMap<string>;
+    /** onChange handler for input element */
+    onChange(e: React.FormEvent<HTMLInputElement>): void;
 }
 
 @observer
 class Field extends React.PureComponent<FieldProps, {}> {
     render() {
-        const { change, field, meta } = this.props;
+        const { onChange, field, meta } = this.props;
         return (
             <div className="table__row">
                 <label htmlFor={field.value} children={field.label} />
                 <input
                     type="text"
-                    onChange={change}
+                    onChange={onChange}
                     id={field.value}
                     value={meta.get(field.value) || ''}
                     required={field.required}

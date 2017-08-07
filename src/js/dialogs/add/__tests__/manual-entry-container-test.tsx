@@ -1,6 +1,4 @@
-/// <reference path="../../../../../lib/types/CSL.d.ts" />
-
-import { shallow } from 'enzyme';
+import { mount, shallow } from 'enzyme';
 import toJSON from 'enzyme-to-json';
 import { observable } from 'mobx';
 import * as React from 'react';
@@ -14,17 +12,25 @@ const mocks = {
     onTypeChange: jest.fn(),
 };
 
-const setup = ({ loading = false, itemType = 'webpage' } = {}) => {
+const setup = ({ itemType = 'webpage', fullMount = true } = {}) => {
     manualData.replace(new Map([['type', itemType]]));
-    const component = shallow(
-        <ManualEntryContainer
-            loading={loading}
-            manualData={manualData}
-            errorMessage={errorMessage}
-            people={people}
-            {...mocks}
-        />,
-    );
+    const component = fullMount
+        ? mount(
+              <ManualEntryContainer
+                  manualData={manualData}
+                  errorMessage={errorMessage}
+                  people={people}
+                  {...mocks}
+              />,
+          )
+        : shallow(
+              <ManualEntryContainer
+                  manualData={manualData}
+                  errorMessage={errorMessage}
+                  people={people}
+                  {...mocks}
+              />,
+          );
     return {
         component,
         instance: component.instance() as ManualEntryContainer,
@@ -41,9 +47,6 @@ describe('<ManualEntryContainer />', () => {
         let { component } = setup();
         expect(toJSON(component)).toMatchSnapshot();
 
-        ({ component } = setup({ loading: true }));
-        expect(toJSON(component)).toMatchSnapshot();
-
         ({ component } = setup({ itemType: 'book' }));
         expect(toJSON(component)).toMatchSnapshot();
 
@@ -53,18 +56,18 @@ describe('<ManualEntryContainer />', () => {
     it('should show and hide error callout', () => {
         errorMessage.set('Hello World');
         const { component, instance } = setup();
-        expect(component.find('Callout').children().length).toBe(1);
+        expect(component.find('Callout').children().length).toBeGreaterThan(0);
         instance.dismissError();
         expect(component.find('Callout').children().length).toBe(0);
     });
     it('should handle type change', () => {
         const { component } = setup();
-        const select = component.find('select');
+        const select = component.find('#type-select');
         select.simulate('change', { currentTarget: { value: 'book' } });
         expect(mocks.onTypeChange).toHaveBeenCalledTimes(1);
     });
     describe('wheel event tests', () => {
-        const { component } = setup();
+        const { component } = setup({ fullMount: false });
         const wheelDiv = component.find('.bounded-rect');
         let atTop: any = {};
         let inMiddle: any = {};

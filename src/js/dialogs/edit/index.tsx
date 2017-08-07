@@ -3,10 +3,11 @@ import { observer } from 'mobx-react';
 import * as React from 'react';
 
 import { DialogProps } from 'dialogs/';
-import { MetaFields } from 'dialogs/add/meta-fields';
-import { People } from 'dialogs/add/people';
 
-const PERSON_TYPE_KEYS = [
+import MetaFields from 'dialogs/add/meta-fields';
+import People from 'dialogs/add/people';
+
+const PERSON_TYPE_KEYS: ReadonlyArray<CSL.PersonType> = [
     'author',
     'container-author',
     'editor',
@@ -18,7 +19,7 @@ const PERSON_TYPE_KEYS = [
     'recipient',
 ];
 
-const DATE_TYPE_KEYS = [
+const DATE_TYPE_KEYS: ReadonlyArray<CSL.DateType> = [
     'accessed',
     'container',
     'event-date',
@@ -34,9 +35,12 @@ interface Props extends DialogProps {
 
 @observer
 export default class EditDialog extends React.PureComponent<Props> {
-    static readonly labels = top.ABT_i18n.tinymce.editReferenceWindow;
+    static readonly labels = top.ABT_i18n.dialogs.edit;
 
+    /** Controls state of all people fields */
     people = observable<CSL.TypedPerson>([]);
+
+    /** Controls state of all fields besides people fields */
     fields = observable.map<string>();
 
     constructor(props: Props) {
@@ -46,11 +50,11 @@ export default class EditDialog extends React.PureComponent<Props> {
                 this.fields.set(fieldId, props.data[fieldId]);
                 continue;
             }
-            if (DATE_TYPE_KEYS.indexOf(fieldId) > -1) {
+            if (DATE_TYPE_KEYS.includes(fieldId as CSL.DateType)) {
                 this.fields.set(fieldId, props.data[fieldId]['date-parts'][0].join('/'));
                 continue;
             }
-            if (PERSON_TYPE_KEYS.indexOf(fieldId) > -1) {
+            if (PERSON_TYPE_KEYS.includes(fieldId as CSL.PersonType)) {
                 for (const person of props.data[fieldId]) {
                     const p: CSL.TypedPerson = { ...person, type: fieldId };
                     this.people.push(p);

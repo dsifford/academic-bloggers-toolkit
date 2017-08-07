@@ -17,7 +17,6 @@ services:
                 query-monitor,
                 gutenberg,
             # piglatin,
-            # relative-url,
     db:
         image: mariadb:10
         ports:

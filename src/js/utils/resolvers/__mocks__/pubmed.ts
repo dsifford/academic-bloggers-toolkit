@@ -869,7 +869,7 @@ export function getFromPubmed(
                     reject(new Error('Some error occurred'));
                 }
                 if (id.startsWith('PMC')) {
-                    id = id.substr(3);
+                    id = id.slice(3);
                 }
                 return data[id]
                     ? [[...prev[0], parsePubmedJSON(kind, [data[id]])], [...prev[1]]]

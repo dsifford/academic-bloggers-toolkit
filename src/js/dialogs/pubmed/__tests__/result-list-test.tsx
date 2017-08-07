@@ -46,7 +46,7 @@ describe('<ResultList />', () => {
     it('should call handleClick on addReference click', () => {
         const { results, spy } = setup();
         expect(spy).toHaveBeenCalledTimes(0);
-        const button = results.children().find('input.abt-btn.abt-btn_submit.abt-btn_flat').first();
+        const button = results.children().find('Button').at(1).find('button');
         button.simulate('click');
         expect(spy).toHaveBeenCalledTimes(1);
         expect(spy.mock.calls[0]).toEqual(['1']);

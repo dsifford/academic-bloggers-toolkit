@@ -3,29 +3,36 @@ import { observer } from 'mobx-react';
 import * as React from 'react';
 
 import Callout from 'components/callout';
-import Spinner from 'components/spinner';
-import AutoCite from './autocite';
-import { MetaFields } from './meta-fields';
-import { People } from './people';
+import AutoCite, { AutociteKind } from './autocite';
+import MetaFields from './meta-fields';
+import People from './people';
 
 interface ManualEntryProps {
-    loading: boolean;
+    /** Error message to display in callout. If none, this should be an empty string */
+    errorMessage: IObservableValue<string>;
+    /** Observable map of `CSL.Data` for manual entry fields */
     manualData: ObservableMap<string>;
     people: IObservableArray<CSL.TypedPerson>;
-    errorMessage: IObservableValue<string>;
-    onAutoCite(kind: 'webpage' | 'book' | 'chapter', query: string): void;
-    onTypeChange(citationType: string): void;
+    /** "Getter" callback for `AutoCite` component */
+    onAutoCite(kind: AutociteKind, query: string): void;
+    /** Callback with new `CSL.CitationType` to call when type is changed */
+    onTypeChange(citationType: CSL.CitationType): void;
 }
 
 @observer
 export default class ManualEntryContainer extends React.PureComponent<ManualEntryProps, {}> {
-    static readonly labels = top.ABT_i18n.tinymce.referenceWindow.manualEntryContainer;
+    static readonly labels = top.ABT_i18n.dialogs.add.manualEntryContainer;
     static readonly citationTypes = top.ABT_i18n.citationTypes;
 
-    @action dismissError = () => this.props.errorMessage.set('');
+    @action
+    dismissError = () => {
+        this.props.errorMessage.set('');
+    };
+
+    focusTypeSelect = (e: HTMLSelectElement | null) => e && e.focus();
 
     handleTypeChange = (e: React.FormEvent<HTMLSelectElement>) => {
-        this.props.onTypeChange(e.currentTarget.value);
+        this.props.onTypeChange(e.currentTarget.value as CSL.CitationType);
     };
 
     handleWheel = (e: React.WheelEvent<HTMLDivElement>) => {
@@ -48,16 +55,20 @@ export default class ManualEntryContainer extends React.PureComponent<ManualEntr
 
     render() {
         const itemType: string = this.props.manualData.get('type')!;
-        const renderAutocite: boolean = ['webpage', 'book', 'chapter'].indexOf(itemType) > -1;
+        const renderAutocite: boolean = ['webpage', 'book', 'chapter'].includes(itemType);
         return (
             <div>
-                {this.props.loading && <Spinner size="40px" overlay />}
                 <div id="type-select-row">
                     <label
                         htmlFor="type-select"
                         children={ManualEntryContainer.labels.citationType}
                     />
-                    <select id="type-select" onChange={this.handleTypeChange} value={itemType}>
+                    <select
+                        id="type-select"
+                        ref={this.focusTypeSelect}
+                        onChange={this.handleTypeChange}
+                        value={itemType}
+                    >
                         {ManualEntryContainer.citationTypes.map((item, i) =>
                             <option
                                 key={i}
@@ -74,22 +85,23 @@ export default class ManualEntryContainer extends React.PureComponent<ManualEntr
                         getter={this.props.onAutoCite}
                         kind={itemType as 'webpage'}
                         placeholder={ManualEntryContainer.labels.URL}
-                        inputType="url"
                     />}
                 {renderAutocite &&
-                    ['book', 'chapter'].indexOf(itemType) > -1 &&
+                    ['book', 'chapter'].includes(itemType) &&
                     <AutoCite
                         getter={this.props.onAutoCite}
                         kind={itemType as 'book' | 'chapter'}
                         placeholder={ManualEntryContainer.labels.ISBN}
                         pattern="(?:[\dxX]-?){10}|(?:[\dxX]-?){13}"
-                        inputType="text"
                     />}
                 <div
                     onWheel={this.handleWheel}
                     className={renderAutocite ? 'bounded-rect autocite' : 'bounded-rect'}
                 >
-                    <Callout children={this.props.errorMessage.get()} dismiss={this.dismissError} />
+                    <Callout
+                        children={this.props.errorMessage.get()}
+                        onDismiss={this.dismissError}
+                    />
                     {this.props.manualData.get('type') !== 'article' &&
                         <People
                             people={this.props.people}
@@ -106,7 +118,7 @@ export default class ManualEntryContainer extends React.PureComponent<ManualEntr
                     }
                     #type-select-row {
                         display: flex;
-                        padding: 0 10px 10px;
+                        padding: 10px;
                         align-items: center;
                     }
                     .bounded-rect {

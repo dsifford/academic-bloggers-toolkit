@@ -5,15 +5,9 @@ import AutoCite from '../autocite';
 
 const getter = jest.fn();
 
-const setup = ({ kind = 'webpage', inputType = 'url' } = {}, pattern?: any) => {
+const setup = ({ kind = 'webpage' } = {}, pattern?: any) => {
     const component = mount(
-        <AutoCite
-            kind={kind as any}
-            inputType={inputType as any}
-            placeholder="Test"
-            pattern={pattern}
-            getter={getter}
-        />,
+        <AutoCite kind={kind as any} placeholder="Test" pattern={pattern} getter={getter} />,
     );
     return {
         component,
@@ -22,28 +16,30 @@ const setup = ({ kind = 'webpage', inputType = 'url' } = {}, pattern?: any) => {
 
 describe('<AutoCite />', () => {
     beforeEach(() => jest.resetAllMocks());
-    it('should match snapshots', () => {
+    test('should match snapshots', () => {
         let { component } = setup();
         expect(toJSON(component)).toMatchSnapshot();
 
-        ({ component } = setup({ kind: 'book', inputType: 'text' }, '[0-9]+'));
+        ({ component } = setup({ kind: 'book' }, '[0-9]+'));
         expect(toJSON(component)).toMatchSnapshot();
     });
-    it('should handle field change', () => {
+    test('should handle field change', () => {
         const { component } = setup();
         const query = component.find('#citequery');
         query.simulate('change', { currentTarget: { value: 'hello' } });
     });
-    it('should call handleQuery', () => {
+    test('should call handleQuery', () => {
         const { component } = setup();
         const instance = (component as any).instance();
-        instance.input.validity = {
-            valid: true,
+        const button = component.find('button');
+        instance.input = {
+            validity: {
+                valid: true,
+            },
         };
         instance.query.set('testing');
-        const button = component.find('input[type="button"]');
-
         button.simulate('click');
+
         expect(instance.query.get()).toBe('');
         expect(getter).toHaveBeenCalledTimes(1);
 
@@ -56,7 +52,7 @@ describe('<AutoCite />', () => {
         expect(instance.query.get()).toBe('foo');
         expect(getter).toHaveBeenCalledTimes(1);
     });
-    it('should call handleKeyDown', () => {
+    test('should call handleKeyDown', () => {
         const { component } = setup();
         const input = component.find('#citequery');
         const stopPropagation = jest.fn();

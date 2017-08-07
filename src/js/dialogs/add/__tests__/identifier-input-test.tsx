@@ -1,7 +1,7 @@
 import { mount } from 'enzyme';
 import { observable } from 'mobx';
 import * as React from 'react';
-import { IdentifierInput } from '../identifier-input';
+import IdentifierInput from '../identifier-input';
 
 const setup = () => {
     const spy = jest.fn();

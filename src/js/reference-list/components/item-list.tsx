@@ -2,6 +2,9 @@ import { action, IObservableArray, IObservableValue, ObservableMap } from 'mobx'
 import { observer } from 'mobx-react';
 import * as React from 'react';
 
+import { colors, shadows, transitions } from 'utils/styles';
+
+import Badge from 'components/badge';
 import Card from './card';
 
 interface UI {
@@ -52,13 +55,13 @@ export default class ItemList extends React.PureComponent<Props> {
         return (
             <div>
                 <div
-                    className="abt-item-heading"
+                    className="item-list-heading"
                     role="menubar"
                     onClick={this.singleClick}
                     onDoubleClick={this.doubleClick}
                 >
-                    <div className="abt-item-heading__label" children={children} />
-                    <div className="abt-item-heading__badge" children={items.length} />
+                    <div className="item-list-heading__label" children={children} />
+                    <Badge count={items.length} />
                 </div>
                 {ui[id].isOpen.get() &&
                     <Items
@@ -71,6 +74,25 @@ export default class ItemList extends React.PureComponent<Props> {
                         style={{ maxHeight: ui[id].maxHeight.get() }}
                         onClick={this.toggleSelect}
                     />}
+                <style jsx>{`
+                    .item-list-heading {
+                        display: flex;
+                        justify-content: space-between;
+                        cursor: pointer;
+                        background: ${colors.light_gray};
+                        box-shadow: ${shadows.depth_1}, ${shadows.top_border};
+                        padding: 10px;
+                        transition: ${transitions.buttons};
+                        align-items: baseline;
+                        user-select: none;
+                    }
+                    .item-list-heading:hover {
+                        background: ${colors.light_gray.darken(3)};
+                    }
+                    .item-list-heading:active {
+                        background: ${colors.light_gray.darken(8)};
+                    }
+                `}</style>
             </div>
         );
     }
@@ -123,9 +145,9 @@ export class Items extends React.Component<ItemsProps, {}> {
                         CSL={r}
                         onClick={this.props.onClick}
                         onDoubleClick={this.editSingleReference}
-                        index={`${i + 1}`}
-                        isSelected={this.props.selectedItems.indexOf(r.id!) > -1}
-                        showTooltip={this.props.withTooltip}
+                        index={i + 1}
+                        isSelected={this.props.selectedItems.includes(r.id!)}
+                        indexOnHover={this.props.withTooltip}
                     />,
                 )}
             </div>

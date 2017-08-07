@@ -103,7 +103,7 @@ describe('<ItemList />', () => {
     it('should handle click', () => {
         const { component } = setup();
         expect(UI.cited.isOpen.get()).toBeTruthy();
-        component.find('.abt-item-heading').simulate('click');
+        component.find('.item-list-heading').simulate('click');
         expect(UI.cited.isOpen.get()).toBeFalsy();
     });
     it('should handle double click', () => {
@@ -111,7 +111,7 @@ describe('<ItemList />', () => {
         UI.uncited.isOpen.set(true);
         expect(UI.cited.isOpen.get()).toBeTruthy();
         expect(UI.uncited.isOpen.get()).toBeTruthy();
-        component.find('.abt-item-heading').simulate('doubleClick');
+        component.find('.item-list-heading').simulate('doubleClick');
         expect(UI.cited.isOpen.get()).toBeTruthy();
         expect(UI.uncited.isOpen.get()).toBeFalsy();
     });

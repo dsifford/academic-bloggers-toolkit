@@ -1,37 +1,43 @@
-jest.mock('utils/tooltips');
-
 import { shallow } from 'enzyme';
 import toJSON from 'enzyme-to-json';
-import { observable } from 'mobx';
 import * as React from 'react';
 
-import { createTooltip, destroyTooltip } from 'utils/tooltips';
 import ToggleSwitch from '../toggle-switch';
 
 const changeFn = () => void 0;
 
 describe('<ToggleSwitch />', () => {
     it('should match snapshots', () => {
-        const checked = observable(false);
         let component = shallow(
-            <ToggleSwitch checked={checked} label="Test 1" onChange={changeFn} />,
+            <ToggleSwitch
+                checked={false}
+                tooltip={{ text: 'Test 1', position: 'left' }}
+                onChange={changeFn}
+            />,
         );
         expect(toJSON(component)).toMatchSnapshot();
 
-        checked.set(true);
-        component = shallow(<ToggleSwitch checked={checked} label="Test 2" onChange={changeFn} />);
+        component = shallow(
+            <ToggleSwitch
+                checked={true}
+                tooltip={{ text: 'Test 2', position: 'left' }}
+                onChange={changeFn}
+            />,
+        );
         expect(toJSON(component)).toMatchSnapshot();
     });
     it('should create tooltip on mouseover', () => {
         const component = shallow(
-            <ToggleSwitch checked={observable(false)} label="Test 3" onChange={changeFn} />,
+            <ToggleSwitch
+                checked={false}
+                tooltip={{ text: 'Test 3', position: 'left' }}
+                onChange={changeFn}
+            />,
         );
-        const label = component.find('label');
-        expect(createTooltip).not.toHaveBeenCalled();
-        expect(destroyTooltip).not.toHaveBeenCalled();
-        label.simulate('mouseOver', { currentTarget: { dataset: { tooltip: 'test' } } });
-        label.simulate('mouseOut');
-        expect(createTooltip).toHaveBeenCalledTimes(1);
-        expect(destroyTooltip).toHaveBeenCalledTimes(1);
+        const toggle = component.find('span');
+        const getBoundingClientRect = jest.fn().mockReturnValue({ top: 100, left: 100 });
+        toggle.simulate('mouseOver', { currentTarget: { getBoundingClientRect } });
+        toggle.simulate('mouseOut');
+        expect(getBoundingClientRect).toHaveBeenCalled();
     });
 });

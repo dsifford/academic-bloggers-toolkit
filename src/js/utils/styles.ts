@@ -1,14 +1,28 @@
+import * as tinycolor from 'tinycolor2';
 
 export const colors = {
-    blue: `#0085ba`,
-    border: `rgba(0, 0, 0, .12)`,
-    dark_gray: `#555`,
-    disabled: `#a0a5aa`,
-    font: `#444`,
-    font_light: `rgba(0, 0, 0, .54)`,
-    light_gray: `#f5f5f5`,
-    tooltip_gray: `rgba(66, 66, 66, .9)`,
-}
+    get blue() {
+        return tinycolor('#0085ba');
+    },
+    get border() {
+        return tinycolor('rgba(0, 0, 0, .12)');
+    },
+    get dark_gray() {
+        return tinycolor('#555');
+    },
+    get disabled() {
+        return tinycolor('#a0a5aa');
+    },
+    get font_light() {
+        return tinycolor('rgba(0, 0, 0, .54)');
+    },
+    get light_gray() {
+        return tinycolor('#f5f5f5');
+    },
+    get tooltip_gray() {
+        return tinycolor('rgba(66, 66, 66, .9)');
+    },
+};
 
 export const shadows = {
     depth_1: `0 1px 3px rgba(0, 0, 0, .12), 0 1px 2px rgba(0, 0, 0, .24)`,
@@ -18,5 +32,35 @@ export const shadows = {
     depth_5: `0 19px 38px rgba(0, 0, 0, .30), 0 15px 12px rgba(0, 0, 0, .22)`,
     citation_tooltip: `0 0 20px rgba(0, 0, 0, .19), 0 6px 6px rgba(0, 0, 0, .23)`,
     transition: `all .3s cubic-bezier(.25, .8, .25, 1)`,
-    top_border: `0 -1px 0 rgba(16, 22, 26, .15)`,
+    top_border: `0 -1px 0 rgba(16, 22, 26, .10)`,
 };
+
+class Transitions {
+    shadows: string;
+    buttons: string;
+    private curves: {
+        fast_out_slow_in: string;
+        linear_out_slow_in: string;
+        fast_out_linear_in: string;
+        default: string; // tslint:disable-line
+    };
+    constructor() {
+        this.curves = {
+            fast_out_slow_in: `cubic-bezier(0.4, 0, 0.2, 1)`,
+            linear_out_slow_in: `cubic-bezier(0, 0, 0.2, 1)`,
+            fast_out_linear_in: `cubic-bezier(0.4, 0, 1, 1)`,
+            default: '',
+        };
+        this.curves.default = this.curves.fast_out_slow_in;
+        this.shadows = `all 0.3s cubic-bezier(.25,.8,.25,1)`;
+        this.buttons = `
+            box-shadow .2s ${this.curves.fast_out_linear_in},
+            background-color .2s ${this.curves.default},
+            color .2s ${this.curves.default}
+        `;
+    }
+}
+
+export const transitions = new Transitions();
+
+export const outline = '1.1px auto rgba(19, 124, 189, 0.5)';

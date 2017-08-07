@@ -1,83 +1,74 @@
-import { action, IObservableValue, observable } from 'mobx';
+import { IObservableValue } from 'mobx';
 import { observer } from 'mobx-react';
 import * as React from 'react';
 
 import { colors, shadows } from 'utils/styles';
 
+import Button from 'components/button';
 import ToggleSwitch from 'components/toggle-switch';
-import Container from '../container';
-import PubmedDialog from '../pubmed/';
 
 interface Props {
+    /** Loading state of parent. Used to control disabled state of toggle switch. */
+    readonly isLoading: boolean;
+    /** Describes whether or not ManualEntryContainer is currently active */
     addManually: IObservableValue<boolean>;
+    /** Describes the checked state of the toggle switch */
     attachInline: IObservableValue<boolean>;
-    onToggleManual: React.EventHandler<React.MouseEvent<HTMLInputElement>>;
-    onAttachInlineToggle: React.EventHandler<React.FormEvent<HTMLInputElement>>;
-    onPubmedDialogSubmit(pmid: string): void;
+    /** Function to call when attach inline toggle switch is toggled */
+    onAttachInlineToggle(): void;
+    /** Function to call when Search Pubmed button is clicked */
+    onSearchPubmedClick(): void;
+    /** Function to call when Add Manually button is clicked */
+    onToggleManual(e: React.MouseEvent<HTMLButtonElement>): void;
 }
 
 @observer
 export default class ButtonRow extends React.PureComponent<Props> {
-    static readonly labels = top.ABT_i18n.tinymce.referenceWindow.buttonRow;
-
-    currentDialog = observable('');
-
-    @action
-    searchPubmedClick = () => {
-        this.currentDialog.set('PUBMED');
-    };
-
-    @action
-    handleSubmit = (data: string) => {
-        this.currentDialog.set('');
-        this.props.onPubmedDialogSubmit(data);
-    };
-
+    static readonly labels = top.ABT_i18n.dialogs.add.buttonRow;
     render() {
+        const {
+            addManually,
+            attachInline,
+            isLoading,
+            onAttachInlineToggle,
+            onSearchPubmedClick,
+            onToggleManual,
+        } = this.props;
         return (
             <div className="btn-row">
-                {this.currentDialog.get() === 'PUBMED' &&
-                    <Container
-                        overlayOpacity={0.2}
-                        currentDialog={this.currentDialog}
-                        title="Search PubMed"
-                    >
-                        <PubmedDialog onSubmit={this.handleSubmit} />
-                    </Container>}
-                <input
-                    id="addManually"
-                    onClick={this.props.onToggleManual}
-                    type="button"
-                    className="abt-btn abt-btn_flat"
-                    value={
-                        this.props.addManually.get()
+                <Button
+                    flat
+                    focusable
+                    label={
+                        addManually.get()
                             ? ButtonRow.labels.addWithIdentifier
                             : ButtonRow.labels.addManually
                     }
+                    onClick={onToggleManual}
                 />
-                <input
-                    id="searchPubmed"
-                    onClick={this.searchPubmedClick}
-                    type="button"
-                    className={
-                        this.props.addManually.get()
-                            ? 'abt-btn abt-btn_flat abt-btn_disabled'
-                            : 'abt-btn abt-btn_flat'
-                    }
-                    value={ButtonRow.labels.searchPubmed}
+                <Button
+                    flat
+                    focusable
+                    disabled={addManually.get()}
+                    label={ButtonRow.labels.searchPubmed}
+                    onClick={onSearchPubmedClick}
                 />
                 <span className="separator" />
                 <ToggleSwitch
-                    onChange={this.props.onAttachInlineToggle}
-                    label={ButtonRow.labels.insertInline}
-                    checked={this.props.attachInline}
+                    disabled={isLoading}
+                    onChange={onAttachInlineToggle}
+                    tooltip={{
+                        text: ButtonRow.labels.insertInline,
+                        position: 'left',
+                    }}
+                    checked={attachInline.get()}
                 />
-                <input
+                <Button
+                    primary
+                    focusable
                     form="add-reference"
-                    id="submit-btn"
                     type="submit"
-                    className="abt-btn abt-btn_submit"
-                    value={ButtonRow.labels.addReference}
+                    label={ButtonRow.labels.addReference}
                 />
                 <style jsx>{`
                     .btn-row {

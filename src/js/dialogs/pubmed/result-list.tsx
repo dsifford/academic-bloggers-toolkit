@@ -4,14 +4,20 @@ import * as React from 'react';
 
 import { colors } from 'utils/styles';
 
+import Button from 'components/button';
+
 interface ResultListProps {
+    /** List of results returned from pubmed search */
     results: PubMed.Response[];
+    /** Callback to be performed when a result is chosen */
     onSelect(pmid: string): void;
 }
 
 @observer
 export class ResultList extends React.PureComponent<ResultListProps, {}> {
-    static readonly labels = top.ABT_i18n.tinymce.pubmedWindow;
+    static readonly labels = top.ABT_i18n.dialogs.pubmed;
+
+    /** Required so that result list can be scrolled to top after each new search */
     element: HTMLElement;
 
     bindRefs = (c: HTMLDivElement) => {
@@ -28,36 +34,35 @@ export class ResultList extends React.PureComponent<ResultListProps, {}> {
 
     render() {
         return (
-            <div className="bounded-rect" ref={this.bindRefs}>
+            <div className="result-list" ref={this.bindRefs}>
                 {this.props.results.map(result =>
                     <div key={result.uid} className="result-item">
-                        <div className="source-row">
-                            <div className="source-row__source" children={result.source} />
-                            <div children={result.pubdate!.substr(0, 4)} />
+                        <div className="result-item__row-1">
+                            <div className="result-item__source" children={result.source} />
+                            <div children={result.pubdate!.slice(0, 4)} />
                         </div>
                         {/* tslint:disable-next-line:react-no-dangerous-html */}
                         <div
                             dangerouslySetInnerHTML={{ __html: decode(result.title!) }}
-                            className="result-title"
+                            className="result-item__row-2"
                         />
-                        <div className="author-row">
+                        <div className="result-item__row-3">
                             <div
                                 children={result.authors!.slice(0, 3).map(el => el.name).join(', ')}
                             />
-                            <div>
-                                <a
+                            <div className="result-item__buttons">
+                                <Button
+                                    flat
+                                    focusable
                                     href={`https://www.ncbi.nlm.nih.gov/pubmed/${result.uid}`}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="abt-btn abt-btn_submit abt-btn_flat"
-                                    role="button"
-                                    children={ResultList.labels.viewReference}
+                                    label={ResultList.labels.viewReference}
                                 />
-                                <input
-                                    type="button"
-                                    className="abt-btn abt-btn_submit abt-btn_flat"
-                                    value={ResultList.labels.addReference}
+                                <Button
+                                    flat
+                                    primary
+                                    focusable
                                     id={result.uid}
+                                    label={ResultList.labels.addReference}
                                     onClick={this.handleClick}
                                 />
                             </div>
@@ -65,7 +70,7 @@ export class ResultList extends React.PureComponent<ResultListProps, {}> {
                     </div>,
                 )}
                 <style jsx>{`
-                    .bounded-rect {
+                    .result-list {
                         max-height: calc(100vh - 240px);
                         overflow-y: auto;
                         overflow-x: hidden;
@@ -73,7 +78,13 @@ export class ResultList extends React.PureComponent<ResultListProps, {}> {
                     .result-item {
                         border-bottom: 1px solid ${colors.border};
                     }
-                    .source-row {
+                    .result-item__source {
+                        font-style: italic;
+                    }
+                    .result-item__buttons {
+                        display: flex;
+                    }
+                    .result-item__row-1 {
                         padding: 0 16px;
                         padding-top: 16px;
                         font-size: 14px;
@@ -82,16 +93,13 @@ export class ResultList extends React.PureComponent<ResultListProps, {}> {
                         justify-content: space-between;
                         color: ${colors.font_light};
                     }
-                    .source-row__source {
-                        font-style: italic;
-                    }
-                    .result-title {
+                    .result-item__row-2 {
                         padding: 0 16px;
                         font-size: 16px;
                         line-height: 20px;
                         padding: 8px 16px;
                     }
-                    .author-row {
+                    .result-item__row-3 {
                         padding: 0 8px 4px;
                         color: ${colors.font_light};
                         line-height: 18px;

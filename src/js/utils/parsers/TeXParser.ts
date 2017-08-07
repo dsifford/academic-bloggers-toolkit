@@ -1,4 +1,3 @@
-// FIXME: check out https://github.com/fiduswriter/biblatex-csl-converter
 import * as parser from 'bibtex-parse-js';
 
 interface Months {
@@ -179,7 +178,7 @@ export function parsePeople(raw: string): CSL.Person[] {
         let i = 0;
         if (person[0] === '{' && person[person.length - 1] === '}') {
             payload.push({
-                literal: person.substring(1, person.length - 1),
+                literal: person.slice(1, -1),
             });
             continue;
         }

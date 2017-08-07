@@ -7,14 +7,15 @@ import EditorDriver, { EditorDriverConstructor } from 'drivers/base';
 import { DialogType } from 'utils/constants';
 import { CSLProcessor } from 'utils/CSLProcessor';
 import DevTools from 'utils/devtools';
+import { colors, shadows } from 'utils/styles';
 import { getRemoteData, parseManualData } from '../api';
 import Store from '../store';
 
+import Button from 'components/button';
 import Spinner from 'components/spinner';
 import Dialog from 'dialogs';
 import ItemList from './item-list';
 import Menu from './menu';
-import PanelButton from './panel-button';
 
 const DevTool = DevTools();
 
@@ -26,7 +27,7 @@ interface Props {
 @observer
 export default class ReferenceList extends React.Component<Props> {
     static readonly errors = top.ABT_i18n.errors;
-    static readonly labels = top.ABT_i18n.referenceList.referenceList;
+    static readonly labels = top.ABT_i18n.referenceList;
 
     processor: CSLProcessor;
     editor: EditorDriver;
@@ -276,6 +277,11 @@ export default class ReferenceList extends React.Component<Props> {
                 <div>
                     <Spinner size="40px" height="52px" bgColor="#f5f5f5" />
                     <StorageField store={this.props.store} />
+                    <style jsx>{`
+                        div {
+                            box-shadow: ${shadows.depth_1}, ${shadows.top_border};
+                        }
+                    `}</style>
                 </div>
             );
         }
@@ -289,50 +295,47 @@ export default class ReferenceList extends React.Component<Props> {
                     onSubmit={this.handleDialogSubmit}
                 />
                 <StorageField store={this.props.store} />
-                <div className="abt-panel">
-                    <PanelButton
+                <div className="panel">
+                    <Button
+                        flat
+                        label={ReferenceList.labels.tooltips.insert}
+                        icon="migrate"
                         disabled={this.selected.length === 0}
                         onClick={this.insertInlineCitation}
-                        data-tooltip={ReferenceList.labels.tooltips.insert}
-                    >
-                        <span className="dashicons dashicons-migrate insert-inline" />
-                    </PanelButton>
-                    <PanelButton
-                        disabled={this.selected.length !== 0}
-                        onClick={this.openDialog}
+                        tooltip={{ text: ReferenceList.labels.tooltips.insert, position: 'bottom' }}
+                    />
+                    <Button
+                        flat
                         data-dialog="ADD"
-                        data-tooltip={ReferenceList.labels.tooltips.add}
-                    >
-                        <span className="dashicons dashicons-plus add-reference" />
-                    </PanelButton>
-                    <PanelButton
+                        disabled={this.selected.length !== 0}
+                        icon="plus"
+                        label={ReferenceList.labels.tooltips.add}
+                        onClick={this.openDialog}
+                        tooltip={{ text: ReferenceList.labels.tooltips.add, position: 'bottom' }}
+                    />
+                    <Button
+                        flat
                         disabled={this.selected.length === 0}
+                        icon="minus"
+                        label={ReferenceList.labels.tooltips.remove}
                         onClick={this.deleteCitations}
-                        data-tooltip={ReferenceList.labels.tooltips.remove}
-                    >
-                        <span className="dashicons dashicons-minus remove-reference" />
-                    </PanelButton>
-                    <PanelButton
+                        tooltip={{ text: ReferenceList.labels.tooltips.remove, position: 'bottom' }}
+                    />
+                    <Button
+                        flat
+                        label={ReferenceList.labels.tooltips.pin}
+                        icon={this.ui.pinned.get() ? 'sticky' : 'admin-post'}
                         onClick={this.togglePinned}
-                        data-tooltip={ReferenceList.labels.tooltips.pin}
-                    >
-                        <span
-                            className={
-                                this.ui.pinned.get()
-                                    ? 'dashicons dashicons-admin-post pin-reflist_fixed'
-                                    : 'dashicons dashicons-admin-post pin-reflist'
-                            }
-                        />
-                    </PanelButton>
-                    <PanelButton onClick={this.toggleMenu}>
-                        <span
-                            className={
-                                this.ui.menuOpen.get()
-                                    ? 'dashicons dashicons-no-alt hamburger-menu'
-                                    : 'dashicons dashicons-menu hamburger-menu'
-                            }
-                        />
-                    </PanelButton>
+                        tooltip={{ text: ReferenceList.labels.tooltips.pin, position: 'bottom' }}
+                    />
+                    <Button
+                        flat
+                        aria-haspopup={true}
+                        aria-expanded={this.ui.menuOpen.get()}
+                        label={ReferenceList.labels.menu.toggleLabel}
+                        icon={this.ui.menuOpen.get() ? 'no-alt' : 'menu'}
+                        onClick={this.toggleMenu}
+                    />
                 </div>
                 <Menu
                     isOpen={this.ui.menuOpen}
@@ -360,12 +363,22 @@ export default class ReferenceList extends React.Component<Props> {
                         ui={this.ui}
                         children={ReferenceList.labels.uncitedItems}
                     />}
+                <style jsx>{`
+                    .panel {
+                        display: flex;
+                        width: 100%;
+                        padding: 8px 0;
+                        background: ${colors.light_gray};
+                        box-shadow: ${shadows.depth_1}, ${shadows.top_border};
+                        justify-content: space-around;
+                    }
+                `}</style>
             </div>
         );
     }
 
     // prettier-ignore
-    insertInlineCitation = async (e?: React.MouseEvent<HTMLAnchorElement>, d: CSL.Data[] | Event = []) => {
+    insertInlineCitation = async (e?: React.MouseEvent<HTMLButtonElement>, d: CSL.Data[] | Event = []) => {
         let data: CSL.Data[] = [];
         if (e) e.preventDefault();
         this.editor.setLoadingState(true);

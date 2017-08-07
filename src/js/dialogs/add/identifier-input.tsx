@@ -3,14 +3,17 @@ import { observer } from 'mobx-react';
 import * as React from 'react';
 
 interface Props {
+    /** Controls the value of the input field */
     identifierList: IObservableValue<string>;
-    fieldRef: any;
+    /** Handler to capture reference to input field */
+    fieldRef(el: HTMLInputElement | null): void;
+    /** onChange handler for input field */
     onChange(e: React.FormEvent<HTMLInputElement>): void;
 }
 
 @observer
-export class IdentifierInput extends React.PureComponent<Props> {
-    static readonly labels = top.ABT_i18n.tinymce.referenceWindow.identifierInput;
+export default class IdentifierInput extends React.PureComponent<Props> {
+    static readonly labels = top.ABT_i18n.dialogs.add.identifierInput;
 
     render() {
         return (
@@ -26,7 +29,7 @@ export class IdentifierInput extends React.PureComponent<Props> {
                 />
                 <style jsx>{`
                     div {
-                        padding: 0 10px 10px;
+                        padding: 10px;
                         display: flex;
                         align-items: center;
                     }

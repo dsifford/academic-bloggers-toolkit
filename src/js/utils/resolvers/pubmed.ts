@@ -9,15 +9,15 @@ import { parsePubmedJSON } from '../parsers/';
 export async function pubmedQuery(query: string): Promise<PubMed.Response[]> {
     const req = await fetch(
         `https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=pubmed&term=${encodeURI(
-            query
-        )}&retmode=json`
+            query,
+        )}&retmode=json`,
     );
     if (!req.ok) throw new Error(req.statusText);
     const res = await req.json();
 
     if (res.error) {
         throw new Error(
-            `${top.ABT_i18n.errors.prefix}: pubmedQuery => ${top.ABT_i18n.errors.badRequest}`
+            `${top.ABT_i18n.errors.prefix}: pubmedQuery => ${top.ABT_i18n.errors.badRequest}`,
         );
     }
 
@@ -32,7 +32,7 @@ export async function pubmedQuery(query: string): Promise<PubMed.Response[]> {
 
 export async function getFromPubmed(
     kind: 'PMID' | 'PMCID',
-    idList: string
+    idList: string,
 ): Promise<[CSL.Data[], string[]]> {
     try {
         const { data, invalid }: ResolvedData = await resolvePubmedData(kind, idList);
@@ -52,7 +52,7 @@ async function resolvePubmedData(kind: 'PMID' | 'PMCID', idList: string): Promis
     if (idList.length === 0) throw 'No ids to resolve';
     const database = kind === 'PMID' ? 'pubmed' : 'pmc';
     const req = await fetch(
-        `https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi?tool=academic-bloggers-toolkit&email=dereksifford%40gmail.com&db=${database}&id=${idList}&version=2.0&retmode=json`
+        `https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi?tool=academic-bloggers-toolkit&email=dereksifford%40gmail.com&db=${database}&id=${idList}&version=2.0&retmode=json`,
     );
     if (!req.ok) throw new Error(req.statusText);
     const res = await req.json();
@@ -72,6 +72,6 @@ async function resolvePubmedData(kind: 'PMID' | 'PMCID', idList: string): Promis
 
     return {
         data: iterable,
-        invalid: idList.split(',').filter(i => res.result.uids.indexOf(i) === -1),
+        invalid: idList.split(',').filter(i => !res.result.uids.includes(i)),
     };
 }

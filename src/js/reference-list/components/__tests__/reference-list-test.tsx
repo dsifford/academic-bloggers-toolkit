@@ -62,7 +62,7 @@ class MockEditor extends EditorDriver {
         mocks.editorMock('composeCitations');
     }
     public removeItems(idList: string[]) {
-        this._clusters = this._clusters.filter(([_, __, id]) => idList.indexOf(id) === -1);
+        this._clusters = this._clusters.filter(([_, __, id]) => !idList.includes(id));
         mocks.editorMock('removeItems');
     }
     public setBibliography() {
@@ -176,7 +176,7 @@ describe('<ReferenceList />', async () => {
             const { component, instance } = setup();
             instance.toggleLoading();
             component.update();
-            const button = component.find('PanelButton').at(1);
+            const button = component.find('Button').at(1);
             expect(instance.currentDialog.get()).toBe('');
 
             button.simulate('click', 'FOO');
@@ -192,7 +192,7 @@ describe('<ReferenceList />', async () => {
             const { component, instance } = await setup();
             instance.toggleLoading();
             component.update();
-            const button = component.find('PanelButton').at(2);
+            const button = component.find('Button').at(2);
 
             // Returns quickly if no items are selected
             button.simulate('click');

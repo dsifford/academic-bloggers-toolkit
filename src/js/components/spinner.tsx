@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 interface Props {
-    /* The length and width in pixels of the spinner*/
+    /* The length and width in pixels of the spinner */
     size: string;
     /* Set background color of container */
     bgColor?: string;
@@ -9,7 +9,7 @@ interface Props {
     height?: string | number | (() => string | number);
     /* Add this for a background overlay */
     overlay?: boolean;
-    /* Additional style properties for the containing DIV */
+    /* Additional style properties for the containing div */
     style?: React.CSSProperties;
 }
 
@@ -18,10 +18,11 @@ export default class Spinner extends React.PureComponent<Props> {
         bgColor: 'transparent',
     };
 
-    style: React.CSSProperties = { ...this.props.style };
+    style: React.CSSProperties;
 
     constructor(props: Props) {
         super(props);
+        this.style = { ...props.style };
         if (this.props.height) {
             if (typeof this.props.height === 'function') {
                 this.style.height = this.props.height();
@@ -31,20 +32,14 @@ export default class Spinner extends React.PureComponent<Props> {
                 this.style.minHeight = this.props.height;
             }
         }
-        this.style.backgroundColor = this.props.bgColor;
+        this.style.backgroundColor = this.props.overlay ? undefined : this.props.bgColor;
     }
 
     render() {
-        const cn = this.props.overlay
-            ? 'abt-spinner abt-spinner_overlay'
-            : 'abt-spinner';
+        const cn = this.props.overlay ? 'abt-spinner abt-spinner_overlay' : 'abt-spinner';
         return (
             <div className={cn} style={this.style}>
-                <svg
-                    width={this.props.size}
-                    height={this.props.size}
-                    viewBox="0 0 66 66"
-                >
+                <svg width={this.props.size} height={this.props.size} viewBox="0 0 66 66">
                     <circle
                         fill="none"
                         strokeWidth="6"
@@ -107,6 +102,7 @@ export default class Spinner extends React.PureComponent<Props> {
                     }
                     .abt-spinner_overlay {
                         position: absolute;
+                        pointer-events: auto;
                         background: rgba(0, 0, 0, 0.2);
                     }
                     svg {
@@ -116,8 +112,7 @@ export default class Spinner extends React.PureComponent<Props> {
                         stroke-dasharray: 187;
                         stroke-dashoffset: 0;
                         transform-origin: center;
-                        animation: dash 1.4s ease-in-out infinite,
-                            colors 5.6s ease-in-out infinite;
+                        animation: dash 1.4s ease-in-out infinite, colors 5.6s ease-in-out infinite;
                     }
                 `}</style>
             </div>

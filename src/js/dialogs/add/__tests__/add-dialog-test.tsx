@@ -1,6 +1,7 @@
 jest.mock('utils/resolvers/');
 import { shallow } from 'enzyme';
 import toJSON from 'enzyme-to-json';
+import { observable } from 'mobx';
 import * as React from 'react';
 
 import { BookMeta, getFromISBN, getFromURL } from 'utils/resolvers/';
@@ -13,7 +14,9 @@ const mocks = {
 };
 
 const setup = () => {
-    const component = shallow(<AddDialog onSubmit={mocks.onSubmit} />);
+    const component = shallow(
+        <AddDialog onSubmit={mocks.onSubmit} focusTrapPaused={observable(false)} />,
+    );
     const instance = component.instance() as AddDialog;
     return {
         component,
@@ -33,21 +36,27 @@ describe('<AddDialog />', () => {
         instance.addManually.set(true);
         component.update().render();
         expect(toJSON(component)).toMatchSnapshot();
+
+        // // With pubmed dialog
+        // instance.currentDialog.set('PUBMED');
+        // component.update().render();
+        // expect(toJSON(component)).toMatchSnapshot();
     });
-    it('should handle pubmed dialog submit', () => {
-        const { component, instance } = setup();
-        expect(instance.identifierList.get()).toBe('');
-        const ButtonRow = component.find('ButtonRow');
+    it('should open pubmed dialog', () => {
+        const { component } = setup();
+        const buttonRow = component.find('ButtonRow');
 
-        ButtonRow.simulate('pubmedDialogSubmit', '12345');
-        expect(instance.identifierList.get()).toBe('12345');
+        // No dialog
+        expect(toJSON(component)).toMatchSnapshot();
 
-        ButtonRow.simulate('pubmedDialogSubmit', '54321');
-        expect(instance.identifierList.get()).toBe('12345, 54321');
+        // With dialog
+        buttonRow.simulate('searchPubmedClick');
+        expect(toJSON(component)).toMatchSnapshot();
 
-        // Handle duplicates
-        ButtonRow.simulate('pubmedDialogSubmit', '12345');
-        expect(instance.identifierList.get()).toBe('12345, 54321');
+        // Without dialog again
+        const dialog = component.find('Container');
+        dialog.simulate('close');
+        expect(toJSON(component)).toMatchSnapshot();
     });
     it('should handle identifier change', () => {
         const { component, instance } = setup();
@@ -127,7 +136,7 @@ describe('<AddDialog />', () => {
         let component: any;
         let instance: any;
         let manualEntryContainer: any;
-        const today = new Date().toISOString().substr(0, 10).replace(/-/g, '/');
+        const today = new Date().toISOString().slice(0, 10).replace(/-/g, '/');
         beforeEach(() => {
             jest.resetAllMocks();
 

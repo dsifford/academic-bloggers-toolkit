@@ -25,7 +25,7 @@ export function parseCSLDate(input: string, source: 'RIS' | 'pubmed'): CSL.Date 
             break;
         case 'pubmed':
         default:
-            date['date-parts']![0] = input.substr(0, 10).split('/');
+            date['date-parts']![0] = input.slice(0, 10).split('/');
             break;
     }
 

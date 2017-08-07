@@ -27,7 +27,9 @@ export default class TinyMCEDriver extends EditorDriver {
                     if (attempts === 10) {
                         clearInterval(interval);
                         return reject(
-                            new Error(`TinyMCE editor doesn't appear to be available in this scope`)
+                            new Error(
+                                `TinyMCE editor doesn't appear to be available in this scope`,
+                            ),
                         );
                     }
                     return;
@@ -81,19 +83,19 @@ export default class TinyMCEDriver extends EditorDriver {
                 #${bm.id}_end
         `),
         ];
-        const citations = nodes.filter(citation => validIds.indexOf(citation.id) > -1);
-        const invalidCitations = nodes.filter(citation => validIds.indexOf(citation.id) === -1);
+        const citations = nodes.filter(citation => validIds.includes(citation.id));
+        const invalidCitations = nodes.filter(citation => !validIds.includes(citation.id));
 
         const startIndex = citations.findIndex(el => el.id === `${bm.id}_start`);
         const endIndex = citations.findIndex(el => el.id === `${bm.id}_end`);
 
         const before = citations
             .slice(0, startIndex)
-            .filter(citation => bookmarkIds.indexOf(citation.id) === -1)
+            .filter(citation => !bookmarkIds.includes(citation.id))
             .map((citation, i) => <[string, number]>[citation.id, i]);
         const after = citations
             .slice(endIndex + 1)
-            .filter(citation => bookmarkIds.indexOf(citation.id) === -1)
+            .filter(citation => !bookmarkIds.includes(citation.id))
             .map((citation, i) => <[string, number]>[citation.id, startIndex + i]);
 
         for (const invalid of invalidCitations) {
@@ -112,7 +114,7 @@ export default class TinyMCEDriver extends EditorDriver {
     public composeCitations(
         clusters: Citeproc.CitationCluster[],
         citationByIndex: Citeproc.CitationByIndex,
-        kind: Citeproc.CitationKind
+        kind: Citeproc.CitationKind,
     ) {
         return kind === 'note'
             ? this.parseFootnoteCitations(clusters, citationByIndex)
@@ -122,7 +124,7 @@ export default class TinyMCEDriver extends EditorDriver {
     public setBibliography(
         options: BibOptions,
         bibliography: ABT.Bibliography | boolean,
-        staticBib: boolean = false
+        staticBib: boolean = false,
     ) {
         return staticBib
             ? this.setStaticBibliography(bibliography)
@@ -132,13 +134,13 @@ export default class TinyMCEDriver extends EditorDriver {
     protected bindEvents() {
         this.editor.on('show', () => dispatchEvent(new CustomEvent(EditorDriver.events.AVAILABLE)));
         this.editor.on('hide', () =>
-            dispatchEvent(new CustomEvent(EditorDriver.events.UNAVAILABLE))
+            dispatchEvent(new CustomEvent(EditorDriver.events.UNAVAILABLE)),
         );
         this.editor.addShortcut('meta+alt+r', 'Add Reference', () =>
-            dispatchEvent(new CustomEvent(EditorDriver.events.ADD_REFERENCE))
+            dispatchEvent(new CustomEvent(EditorDriver.events.ADD_REFERENCE)),
         );
         this.editor.addShortcut('meta+alt+p', 'Pin Reference List', () =>
-            dispatchEvent(new CustomEvent(EditorDriver.events.TOGGLE_PINNED))
+            dispatchEvent(new CustomEvent(EditorDriver.events.TOGGLE_PINNED)),
         );
     }
 
@@ -181,7 +183,7 @@ export default class TinyMCEDriver extends EditorDriver {
                 {
                     id: meta.id,
                 },
-                meta.html
+                meta.html,
             );
             container.appendChild(item);
         }
@@ -211,7 +213,7 @@ export default class TinyMCEDriver extends EditorDriver {
             },
             typeof bibliography === 'boolean'
                 ? `<h2 style="color: red;">Error: No bibliography format exists for your citation type.</h2>`
-                : undefined
+                : undefined,
         );
         bib.style.margin = '0 0 28px';
 
@@ -222,7 +224,7 @@ export default class TinyMCEDriver extends EditorDriver {
                     {
                         id: meta.id,
                     },
-                    meta.html
+                    meta.html,
                 );
                 bib.appendChild(item);
             }
@@ -232,7 +234,7 @@ export default class TinyMCEDriver extends EditorDriver {
 
     private parseInTextCitations(
         clusters: Citeproc.CitationCluster[],
-        citationByIndex: Citeproc.CitationByIndex
+        citationByIndex: Citeproc.CitationByIndex,
     ) {
         const doc = this.editor.getDoc();
         const existingNote = doc.getElementById(this.footnoteId);
@@ -253,7 +255,7 @@ export default class TinyMCEDriver extends EditorDriver {
                         class='abt-citation noselect mceNonEditable'
                     >
                         ${inlineText}
-                    </span>`
+                    </span>`,
                 );
                 continue;
             }
@@ -264,7 +266,7 @@ export default class TinyMCEDriver extends EditorDriver {
 
     private parseFootnoteCitations(
         clusters: Citeproc.CitationCluster[],
-        citationByIndex: Citeproc.CitationByIndex
+        citationByIndex: Citeproc.CitationByIndex,
     ) {
         const doc = this.editor.getDoc();
         const existingNote = doc.getElementById(this.footnoteId);
@@ -293,7 +295,7 @@ export default class TinyMCEDriver extends EditorDriver {
                         class='abt-citation noselect mceNonEditable'
                     >
                         ${inlineText}
-                    </span>`
+                    </span>`,
                 );
                 continue;
             }
@@ -313,7 +315,7 @@ export default class TinyMCEDriver extends EditorDriver {
             {
                 class: `${this.footnoteId}__heading`,
             },
-            top.ABT_i18n.misc.footnotes
+            top.ABT_i18n.misc.footnotes,
         );
 
         note.appendChild(heading);
@@ -329,7 +331,7 @@ export default class TinyMCEDriver extends EditorDriver {
                     class: `${this.footnoteId}__item`,
                 },
                 `<span class="abt-footnote__number">[${i}]</span>` +
-                    `<span class="abt-footnote__content">${citation.dataset['footnote']}</span>`
+                    `<span class="abt-footnote__content">${citation.dataset['footnote']}</span>`,
             );
             note.appendChild(noteItem);
         }

@@ -1,53 +1,85 @@
-import { IObservableValue } from 'mobx';
 import { observer } from 'mobx-react';
 import * as React from 'react';
-import { createTooltip, destroyTooltip } from 'utils/tooltips';
 
-interface Props {
-    checked: IObservableValue<boolean>;
-    label: string;
-    onChange(e: React.FormEvent<HTMLInputElement>): void;
+import { outline } from 'utils/styles';
+
+import Tooltip, { TooltipParentProp, TooltipParentState } from 'components/tooltip';
+
+interface Props extends React.HTMLProps<HTMLInputElement> {
+    /** Information describing the tooltip */
+    tooltip: TooltipParentProp;
+    onChange(): void;
 }
 
+type State = TooltipParentState;
+
 @observer
-export default class ToggleSwitch extends React.PureComponent<Props> {
-    handleMouseOver = (e: React.MouseEvent<HTMLLabelElement>) => {
-        createTooltip(e.currentTarget, e.currentTarget.dataset.tooltip!, 'left');
+export default class ToggleSwitch extends React.PureComponent<Props, State> {
+    constructor(props: Props) {
+        super(props);
+        this.state = {
+            isShowingTooltip: false,
+            transform: '',
+        };
+    }
+
+    showTooltip = (e: React.MouseEvent<HTMLSpanElement>) => {
+        const { position } = this.props.tooltip;
+        const rect = e.currentTarget.getBoundingClientRect();
+        this.setState(() => ({
+            transform: Tooltip.transform(position, rect),
+            isShowingTooltip: true,
+        }));
     };
 
+    hideTooltip = () => this.setState(prev => ({ ...prev, isShowingTooltip: false }));
+
     render() {
-        const { checked, onChange, label } = this.props;
+        const { checked, disabled, onChange, tooltip } = this.props;
+        const { isShowingTooltip, transform } = this.state;
         return (
             <div>
-                <input
-                    type="checkbox"
+                <Tooltip
+                    active={isShowingTooltip}
                     id="inline-toggle"
-                    style={{ display: 'none' }}
-                    checked={checked.get()}
-                    aria-checked={checked.get()}
+                    text={tooltip.text}
+                    transform={transform}
+                />
+                <input
+                    disabled={disabled}
+                    type="checkbox"
+                    aria-describedby="inline-toggle"
+                    checked={checked}
+                    aria-checked={checked}
                     onChange={onChange}
                 />
-                <label
-                    htmlFor="inline-toggle"
-                    role="tooltip"
-                    data-tooltip={label}
-                    onMouseOver={this.handleMouseOver}
-                    onMouseOut={destroyTooltip}
+                <span
+                    aria-disabled={disabled}
+                    aria-checked={checked}
+                    role="checkbox"
+                    onClick={onChange}
+                    onMouseOver={this.showTooltip}
+                    onMouseOut={this.hideTooltip}
                 />
                 <style jsx>{`
-                    label {
+                    input {
+                        opacity: 0 !important;
+                        pointer-events: none;
+                        position: absolute;
+                        z-index: 1;
+                    }
+                    span {
                         position: relative;
                         display: block;
-                        margin: 0 10px;
+                        margin: 5px;
                         height: 20px;
                         width: 44px;
                         background: #898989;
                         border-radius: 100px;
                         cursor: pointer;
-                        -webkit-transition: all 0.3s ease;
                         transition: all 0.3s ease;
                     }
-                    label:after {
+                    span:after {
                         position: absolute;
                         left: -2px;
                         top: -3px;
@@ -56,29 +88,42 @@ export default class ToggleSwitch extends React.PureComponent<Props> {
                         height: 26px;
                         border-radius: 100px;
                         background: #fff;
-                        -webkit-box-shadow: 0px 3px 3px rgba(0, 0, 0, 0.05);
                         box-shadow: 0px 3px 3px rgba(0, 0, 0, 0.05);
                         content: '';
-                        -webkit-transition: all 0.3s ease;
                         transition: all 0.3s ease;
                     }
-                    label:active:after {
+                    span:active:after {
                         -webkit-transform: scale(1.15, 0.85);
                         transform: scale(1.15, 0.85);
                     }
-                    input:checked ~ label {
+                    input:checked + span {
                         background: #6f9eb1;
                     }
-                    input:checked ~ label:after {
+                    input:checked + span:after {
                         left: 20px;
                         background: #0085ba;
                     }
-                    input:disabled ~ label {
+                    input:disabled + span {
                         background: #d5d5d5;
                         pointer-events: none;
                     }
-                    input:disabled ~ label:after {
+                    input:disabled + span:after {
                         background: #bcbdbc;
+                    }
+                    input:disabled:checked + span {
+                        background: #6f9eb1;
+                        opacity: 0.7;
+                    }
+                    input:disabled:checked + span:after {
+                        background: #0085ba;
+                        opacity: 0.7;
+                    }
+                    input:focus + span {
+                        outline: ${outline};
+                        outline-width: 1.1px;
+                        outline-style: solid;
+                        outline-offset: 5px;
+                        transition: none;
                     }
                 `}</style>
             </div>

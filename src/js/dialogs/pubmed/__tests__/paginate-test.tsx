@@ -17,13 +17,13 @@ const setup = (page: number, resultLength: number) => {
 describe('<Paginate />', () => {
     it('should render with "next" enabled and "previous" disabled', () => {
         const { next, prev } = setup(1, 50);
-        expect(next.props().className).toBe('abt-btn abt-btn_flat');
-        expect(prev.props().className).toBe('abt-btn abt-btn_flat abt-btn_disabled');
+        expect(next.props().className).toBe('focusable btn-flat');
+        expect(prev.props().disabled).toBeTruthy();
     });
     it('should render with both "next" and "previous" disabled', () => {
         const { next, prev } = setup(1, 3);
-        expect(next.props().className).toBe('abt-btn abt-btn_flat abt-btn_disabled');
-        expect(prev.props().className).toBe('abt-btn abt-btn_flat abt-btn_disabled');
+        expect(next.props().disabled).toBeTruthy();
+        expect(prev.props().disabled).toBeTruthy();
     });
     it('should paginate to the next page when "next" is clicked', () => {
         const { component, next } = setup(1, 25);
@@ -32,7 +32,7 @@ describe('<Paginate />', () => {
     });
     it('should paginate to the previous page when "prev" is clicked', () => {
         const { component, prev } = setup(2, 25);
-        expect(prev.props().className).toBe('abt-btn abt-btn_flat');
+        expect(prev.props().className).toBe('focusable btn-flat');
         expect(component.props().page.get()).toBe(2);
         prev.simulate('click');
         expect(component.props().page.get()).toBe(1);
@@ -40,7 +40,7 @@ describe('<Paginate />', () => {
     it('should only be able to paginate to 4 pages', () => {
         const { component, next } = setup(1, 50);
         expect(component.props().page.get()).toBe(1);
-        expect(next.props().className).toBe('abt-btn abt-btn_flat');
+        expect(next.props().className).toBe('focusable btn-flat');
         next.simulate('click');
         next.simulate('click');
         next.simulate('click');

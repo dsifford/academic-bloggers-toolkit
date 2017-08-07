@@ -2,31 +2,59 @@ import { action, computed, observable, toJS } from 'mobx';
 import { observer } from 'mobx-react';
 import * as React from 'react';
 
-import { BookMeta, getFromISBN, getFromURL, URLMeta } from 'utils/resolvers/';
-
 import { DialogProps } from 'dialogs/';
+import {
+    BookMeta as IBookMeta,
+    getFromISBN,
+    getFromURL,
+    URLMeta as IURLMeta,
+} from 'utils/resolvers/';
+import { AutociteKind } from './autocite';
+
+import Spinner from 'components/spinner';
+import Container from 'dialogs/container';
+import PubmedDialog from 'dialogs/pubmed';
 import ButtonRow from './button-row';
-import { IdentifierInput } from './identifier-input';
+import IdentifierInput from './identifier-input';
 import ManualEntryContainer from './manual-entry-container';
+
+interface BookMeta extends IBookMeta {
+    kind: 'book' | 'chapter';
+}
+interface URLMeta extends IURLMeta {
+    kind: 'webpage';
+}
+type AutoCiteMeta = BookMeta | URLMeta;
 
 @observer
 export default class AddDialog extends React.Component<DialogProps> {
-    static readonly labels = top.ABT_i18n.tinymce.referenceWindow.referenceWindow;
+    static readonly pubmedLabel = top.ABT_i18n.dialogs.pubmed.title;
 
-    identifierInputField: HTMLInputElement | null | undefined;
-
+    /** Describes the active state of `ManualEntryContainer` */
     addManually = observable(false);
 
+    /** Describes the checked state of the attach inline toggle switch */
     attachInline = observable(true);
 
-    identifierList = observable('');
+    /** Describes the active state of all dialogs above this one */
+    currentDialog = observable('');
 
-    isLoading = observable(false);
-
+    /** Describes the visibility state of the error callout */
     errorMessage = observable('');
 
+    /** Reference to the identifier input field in `IdentifierInput`. Used for focus/refocus */
+    identifierInputField: HTMLInputElement | null | undefined;
+
+    /** Controls the value of the `IdentifierInput` field */
+    identifierList = observable('');
+
+    /** Controls the visibility state of loading spinner */
+    isLoading = observable(false);
+
+    /** Controls the value of all fields in `ManualEntryContainer` */
     manualData = observable.map(new Map([['type', 'webpage']]));
 
+    /** Controls the value of the `People` fields in `ManualEntryContainer` */
     people = observable<CSL.TypedPerson>([{ family: '', given: '', type: 'author' }]);
 
     @computed
@@ -50,39 +78,35 @@ export default class AddDialog extends React.Component<DialogProps> {
     };
 
     @action
-    autocite = (
-        kind: 'webpage' | 'book' | 'chapter',
-        meta: { webpage?: URLMeta; book?: BookMeta },
-    ) => {
-        switch (kind) {
+    autocite = (meta: AutoCiteMeta) => {
+        switch (meta.kind) {
             case 'webpage':
                 this.manualData.merge({
-                    URL: meta.webpage!.url,
-                    accessed: meta.webpage!.accessed.split('T')[0].split('-').join('/'),
-                    'container-title': meta.webpage!.site_title,
-                    issued: meta.webpage!.issued.split('T')[0].split('-').join('/'),
-                    title: meta.webpage!.content_title,
+                    URL: meta.url,
+                    accessed: meta.accessed.split('T')[0].split('-').join('/'),
+                    'container-title': meta.site_title,
+                    issued: meta.issued.split('T')[0].split('-').join('/'),
+                    title: meta.content_title,
                 });
                 this.people.replace(
-                    meta.webpage!.authors.map(a => ({
+                    meta.authors.map(a => ({
                         family: a.lastname || '',
                         given: a.firstname || '',
                         type: 'author' as CSL.PersonType,
                     })),
                 );
                 break;
-            case 'book':
             case 'chapter':
-            default:
-                const titleKey = kind === 'chapter' ? 'container-title' : 'title';
+            case 'book':
+                const titleKey = meta.kind === 'chapter' ? 'container-title' : 'title';
                 this.manualData.merge({
                     accessed: new Date(Date.now()).toISOString().split('T')[0].split('-').join('/'),
-                    issued: meta.book!.issued,
-                    'number-of-pages': meta.book!['number-of-pages'],
-                    publisher: meta.book!.publisher,
-                    [titleKey]: meta.book!.title,
+                    issued: meta.issued,
+                    'number-of-pages': meta['number-of-pages'],
+                    publisher: meta.publisher,
+                    [titleKey]: meta.title,
                 });
-                this.people.replace(meta.book!.authors);
+                this.people.replace(meta.authors);
         }
     };
 
@@ -98,7 +122,28 @@ export default class AddDialog extends React.Component<DialogProps> {
         this.people.replace([{ family: '', given: '', type: 'author' }]);
     };
 
-    @action setErrorMessage = (msg?: string) => this.errorMessage.set(msg || '');
+    @action
+    closePubmedDialog = () => {
+        this.props.focusTrapPaused!.set(false);
+    };
+
+    @action
+    openPubmedDialog = () => {
+        this.props.focusTrapPaused!.set(true);
+        this.currentDialog.set('PUBMED');
+    };
+
+    @action
+    setErrorMessage = (msg?: string) => {
+        this.errorMessage.set(msg || '');
+    };
+
+    @action
+    toggleAddManual = () => {
+        this.addManually.set(!this.addManually.get());
+        this.people.replace([{ family: '', given: '', type: 'author' }]);
+        this.changeType('webpage');
+    };
 
     @action
     toggleAttachInline = () => {
@@ -111,37 +156,25 @@ export default class AddDialog extends React.Component<DialogProps> {
         this.isLoading.set(loadingState);
     };
 
-    @action
-    toggleAddManual = () => {
-        this.addManually.set(!this.addManually.get());
-        this.people.replace([{ family: '', given: '', type: 'author' }]);
-        this.changeType('webpage');
-    };
-
-    handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-        this.props.onSubmit(this.payload);
-    };
-
     captureInputField = (el: HTMLInputElement | null) => {
         this.identifierInputField = el;
         if (el) el.focus();
     };
 
-    handleAutocite = async (kind: 'webpage' | 'book' | 'chapter', query: string) => {
+    handleAutocite = async (kind: AutociteKind, query: string) => {
         this.toggleLoadingState();
         try {
             switch (kind) {
                 case 'webpage': {
                     const data = await getFromURL(query);
-                    this.autocite(kind, { webpage: data });
+                    this.autocite({ ...data, kind });
                     break;
                 }
                 case 'book':
                 case 'chapter':
                 default: {
-                    const data: BookMeta = await getFromISBN(query);
-                    this.autocite(kind, { book: data });
+                    const data = await getFromISBN(query);
+                    this.autocite({ ...data, kind });
                 }
             }
         } catch (e) {
@@ -150,9 +183,24 @@ export default class AddDialog extends React.Component<DialogProps> {
         this.toggleLoadingState();
     };
 
+    handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        this.props.onSubmit(this.payload);
+    };
+
     render() {
         return (
             <div>
+                {this.isLoading.get() && <Spinner size="40px" overlay />}
+                {this.currentDialog.get() === 'PUBMED' &&
+                    <Container
+                        overlayOpacity={0.2}
+                        currentDialog={this.currentDialog}
+                        title={AddDialog.pubmedLabel}
+                        onClose={this.closePubmedDialog}
+                    >
+                        <PubmedDialog onSubmit={this.handleSubmit} />
+                    </Container>}
                 <form id="add-reference" onSubmit={this.handleSubmit}>
                     {!this.addManually.get() &&
                         <IdentifierInput
@@ -162,7 +210,6 @@ export default class AddDialog extends React.Component<DialogProps> {
                         />}
                     {this.addManually.get() &&
                         <ManualEntryContainer
-                            loading={this.isLoading.get()}
                             errorMessage={this.errorMessage}
                             manualData={this.manualData}
                             people={this.people}
@@ -171,12 +218,18 @@ export default class AddDialog extends React.Component<DialogProps> {
                         />}
                 </form>
                 <ButtonRow
+                    isLoading={this.isLoading.get()}
                     addManually={this.addManually}
-                    onPubmedDialogSubmit={this.appendPMID}
+                    onSearchPubmedClick={this.openPubmedDialog}
                     attachInline={this.attachInline}
                     onAttachInlineToggle={this.toggleAttachInline}
                     onToggleManual={this.toggleAddManual}
                 />
+                <style jsx>{`
+                    div {
+                        position: relative;
+                    }
+                `}</style>
             </div>
         );
     }

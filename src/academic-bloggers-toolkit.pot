@@ -491,24 +491,28 @@ msgstr ""
 msgid "Please report this error, including the steps taken to trigger it, here: %s"
 msgstr ""
 
-#: php/i18n.php:49
-msgid "Delete all references"
+#: php/i18n.php:48
+msgid "Toggle menu"
 msgstr ""
 
 #: php/i18n.php:50
-msgid "Usage instructions"
+msgid "Delete all references"
 msgstr ""
 
 #: php/i18n.php:51
-msgid "Import references from file"
+msgid "Usage instructions"
 msgstr ""
 
 #: php/i18n.php:52
-msgid "Refresh reference list"
+msgid "Import references"
 msgstr ""
 
 #: php/i18n.php:53
-msgid "Insert Static Publication List"
+msgid "Refresh reference list"
+msgstr ""
+
+#: php/i18n.php:54
+msgid "Insert static publication list"
 msgstr ""
 
 #: php/i18n.php:57
@@ -516,7 +520,7 @@ msgid "Cited Items"
 msgstr ""
 
 #: php/i18n.php:59
-msgid "Add reference to reference list"
+msgid "Add reference"
 msgstr ""
 
 #: php/i18n.php:60
@@ -524,79 +528,79 @@ msgid "Insert selected references"
 msgstr ""
 
 #: php/i18n.php:61
-msgid "Pin reference list to visible window"
+msgid "Pin reference list"
 msgstr ""
 
 #: php/i18n.php:62
-msgid "Remove selected references from reference list"
+msgid "Remove selected references"
 msgstr ""
 
 #: php/i18n.php:64
 msgid "Uncited Items"
 msgstr ""
 
-#: php/i18n.php:69
-msgid "Edit Reference"
+#: php/i18n.php:67
+msgid "Close dialog"
 msgstr ""
 
 #: php/i18n.php:70
+msgid "Edit Reference"
+msgstr ""
+
+#: php/i18n.php:71
 msgid "Confirm"
 msgstr ""
 
-#: php/i18n.php:74
+#: php/i18n.php:75
 msgid "Import"
 msgstr ""
 
-#: php/i18n.php:75
-msgid "Import References from File"
+#: php/i18n.php:76
+msgid "Import References"
 msgstr ""
 
-#: php/i18n.php:76
+#: php/i18n.php:77
 msgid "Choose File"
 msgstr ""
 
-#: php/i18n.php:80
+#: php/i18n.php:81
 msgid "Select"
 msgstr ""
 
-#: php/i18n.php:81
+#: php/i18n.php:82
 msgid "Next"
 msgstr ""
 
-#: php/i18n.php:82
+#: php/i18n.php:83
 msgid "Previous"
 msgstr ""
 
-#: php/i18n.php:83, php/i18n.php:104
+#: php/i18n.php:84, php/i18n.php:104
 msgid "Search"
 msgstr ""
 
-#: php/i18n.php:84, php/i18n.php:94
-msgid "Search PubMed for Reference"
+#: php/i18n.php:85, php/i18n.php:95
+msgid "Search PubMed"
 msgstr ""
 
-#: php/i18n.php:85
+#: php/i18n.php:86
 msgid "View"
 msgstr ""
 
-#: php/i18n.php:90
+#: php/i18n.php:91
 msgid "Add Manually"
 msgstr ""
 
-#: php/i18n.php:91, php/i18n.php:114
+#: php/i18n.php:92
 msgid "Add Reference"
 msgstr ""
 
-#: php/i18n.php:92
+#: php/i18n.php:93
 msgid "Add with Identifier"
 msgstr ""
 
-#: php/i18n.php:93
+#: php/i18n.php:94
 msgid "Insert citation inline"
-msgstr ""
-
-#: php/i18n.php:95
-msgid "Search PubMed"
 msgstr ""
 
 #: php/i18n.php:98
@@ -625,6 +629,10 @@ msgstr ""
 
 #: php/i18n.php:111
 msgid "Surname"
+msgstr ""
+
+#: php/i18n.php:113
+msgid "Add References"
 msgstr ""
 
 #: php/options-page.php:47

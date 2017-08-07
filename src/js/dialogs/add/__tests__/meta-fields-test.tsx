@@ -1,7 +1,7 @@
 import { mount } from 'enzyme';
 import { observable } from 'mobx';
 import * as React from 'react';
-import { MetaFields } from '../meta-fields';
+import MetaFields from '../meta-fields';
 
 const setup = (title = 'article-journal') => {
     const meta = observable.map<string>([['type', title]]);

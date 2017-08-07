@@ -5,6 +5,7 @@ import * as React from 'react';
 import { pubmedQuery } from 'utils/resolvers/';
 import { shadows } from 'utils/styles';
 
+import Button from 'components/button';
 import Callout from 'components/callout';
 import Spinner from 'components/spinner';
 
@@ -16,17 +17,22 @@ const ph = placeholderGenerator();
 
 @observer
 export default class PubmedDialog extends React.Component<DialogProps> {
-    static readonly labels = top.ABT_i18n.tinymce.pubmedWindow;
+    static readonly labels = top.ABT_i18n.dialogs.pubmed;
     static readonly errors = top.ABT_i18n.errors;
 
+    /** Error message to be displayed in the callout, if applicable */
     errorMessage = observable('');
 
+    /** Controls the loading state of the dialog */
     isLoading = observable(false);
 
+    /** Current page of results */
     page = observable(0);
 
+    /** Controls the state of the input field */
     query = observable('');
 
+    /** Array of results returned from the pubmed search */
     results = observable<PubMed.Response>([]);
 
     @computed
@@ -39,8 +45,8 @@ export default class PubmedDialog extends React.Component<DialogProps> {
     }
 
     @action
-    updateQuery = (e?: React.FormEvent<HTMLInputElement>) => {
-        this.query.set(e ? e.currentTarget.value : '');
+    setError = (msg: string | React.MouseEvent<HTMLDivElement> = '') => {
+        this.errorMessage.set(typeof msg === 'string' ? msg : '');
     };
 
     @action
@@ -51,8 +57,9 @@ export default class PubmedDialog extends React.Component<DialogProps> {
     };
 
     @action
-    setError = (msg: string | React.MouseEvent<HTMLDivElement> = '') =>
-        this.errorMessage.set(typeof msg === 'string' ? msg : '');
+    updateQuery = (e?: React.FormEvent<HTMLInputElement>) => {
+        this.query.set(e ? e.currentTarget.value : '');
+    };
 
     sendQuery = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -81,7 +88,7 @@ export default class PubmedDialog extends React.Component<DialogProps> {
         const placeholder = ph.next().value;
         return (
             <div>
-                <Callout dismiss={this.setError} children={this.errorMessage.get()} />
+                <Callout onDismiss={this.setError} children={this.errorMessage.get()} />
                 <form id="query" onSubmit={this.sendQuery}>
                     <input
                         type="text"
@@ -91,14 +98,11 @@ export default class PubmedDialog extends React.Component<DialogProps> {
                         placeholder={placeholder}
                         value={this.query.get()}
                     />
-                    <input
+                    <Button
+                        flat
+                        disabled={!this.query.get()}
                         type="submit"
-                        value={PubmedDialog.labels.search}
-                        className={
-                            this.query.get()
-                                ? 'abt-btn abt-btn_flat'
-                                : 'abt-btn abt-btn_flat abt-btn_disabled'
-                        }
+                        label={PubmedDialog.labels.search}
                     />
                 </form>
                 {this.results.length > 0 &&
@@ -141,7 +145,7 @@ export function* placeholderGenerator() {
         'injuries NOT orthopedic AND hemorrhage[MeSH]',
         'resident OR student AND retention',
     ];
-    let i = 0;
+    let i = Math.floor(Math.random() * (options.length + 1));
     /* istanbul ignore next */
     while (true) {
         if (i === options.length) i = 0;

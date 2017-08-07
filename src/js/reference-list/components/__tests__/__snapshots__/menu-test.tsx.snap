@@ -34,7 +34,7 @@ exports[`<Menu /> should match snapshots 1`] = `
     willLeave={[Function]}
   >
     <div
-      className="abt-reflist-menu"
+      className="menu"
       style={
         Object {
           "height": 85,
@@ -46,112 +46,1028 @@ exports[`<Menu /> should match snapshots 1`] = `
       }
     >
       <div
-        className="abt-panel abt-panel_subpanel"
+        className="subpanel"
       >
-        <PanelButton
-          data-tooltip="Import references from file"
+        <Button
+          flat={true}
+          icon="media-code"
           id="IMPORT_RIS"
+          label="Import references"
           onClick={[Function]}
+          tooltip={
+            Object {
+              "position": "bottom",
+              "text": "Import references",
+            }
+          }
+          type="button"
         >
-          <a
-            aria-label="Import references from file"
-            className="abt-btn abt-btn_flat abt-btn_icon"
-            data-tooltip="Import references from file"
-            id="IMPORT_RIS"
-            onClick={[Function]}
-            onMouseEnter={[Function]}
-            onMouseLeave={[Function]}
-          >
-            <span
-              className="dashicons dashicons-media-code"
-            />
-          </a>
-        </PanelButton>
-        <PanelButton
-          data-tooltip="Refresh reference list"
+          <div>
+            <Tooltip
+              active={false}
+              id="Import_references"
+              text="Import references"
+              transform=""
+            >
+              <div
+                className="abt-tooltip"
+                id="Import_references"
+                role="tooltip"
+                style={
+                  Object {
+                    "transform": "",
+                  }
+                }
+              >
+                Import references
+                <style
+                  jsx={true}
+                >
+                  
+                                      .abt-tooltip {
+                                          pointer-events: none;
+                                          transform-origin: top center;
+                                          z-index: 20;
+                                          background: rgba(66, 66, 66, 0.9);
+                                          border-radius: 2px;
+                                          color: white;
+                                          display: inline-block;
+                                          visibility: hidden;
+                                          font-size: 10px;
+                                          font-weight: 500;
+                                          line-height: 14px;
+                                          position: absolute;
+                                          padding: 8px;
+                                          text-align: center;
+                                          max-width: 170px;
+                                      }
+                                      .abt-tooltip--active {
+                                          visibility: visible;
+                                      }
+                                  
+                </style>
+              </div>
+            </Tooltip>
+            <button
+              aria-describedby="Import_references"
+              aria-label="Import references"
+              className="btn-flat btn-icon"
+              id="IMPORT_RIS"
+              onClick={[Function]}
+              onMouseEnter={[Function]}
+              onMouseLeave={[Function]}
+              type="button"
+            >
+              <span
+                className="dashicons dashicons-media-code"
+              />
+            </button>
+            <style
+              jsx={true}
+            >
+              
+                                  button {
+                                      -webkit-appearance: none;
+                                      -webkit-touch-callout: none;
+                                      -webkit-user-select: none;
+                                      -khtml-user-select: none;
+                                      -moz-user-select: none;
+                                      -ms-user-select: none;
+                                      user-select: none;
+                                      background: white;
+                                      box-sizing: border-box;
+                                      color: #555555;
+                                      background-image: none;
+                                      border: none;
+                                      border-radius: 2px;
+                                      box-shadow: 0 1px 3px rgba(0, 0, 0, .12), 0 1px 2px rgba(0, 0, 0, .24);
+                                      cursor: pointer;
+                                      display: inline-block;
+                                      font-size: 13px;
+                                      font-weight: 500;
+                                      height: 36px;
+                                      line-height: 36px;
+                                      min-width: 64px;
+                                      outline: 0;
+                                      padding: 0 16px;
+                                      text-align: center;
+                                      text-decoration: none;
+                                      text-transform: uppercase;
+                                      transition: 
+                          box-shadow .2s cubic-bezier(0.4, 0, 1, 1),
+                          background-color .2s cubic-bezier(0.4, 0, 0.2, 1),
+                          color .2s cubic-bezier(0.4, 0, 0.2, 1)
+                      ;
+                                      vertical-align: middle;
+                                      white-space: nowrap;
+                                  }
+                                  button:hover {
+                                      box-shadow: 0 3px 6px rgba(0, 0, 0, .16), 0 3px 6px rgba(0, 0, 0, .23);
+                                  }
+                                  button:active {
+                                      box-shadow: 0 3px 6px rgba(0, 0, 0, .16), 0 3px 6px rgba(0, 0, 0, .23);
+                                  }
+                                  button:active:hover {
+                                      box-shadow: 0 10px 20px rgba(0, 0, 0, .19), 0 6px 6px rgba(0, 0, 0, .23);
+                                      background: rgba(0, 0, 0, 0.12);
+                                  }
+                                  button:disabled {
+                                      pointer-events: none !important;
+                                      color: #a0a5aa !important;
+                                  }
+                                  button.focusable:focus {
+                                      outline: 1.1px auto rgba(19, 124, 189, 0.5);
+                                      outline-offset: 2px;
+                                  }
+                                  button.focusable:focus:active {
+                                      outline: 0;
+                                  }
+                                  .btn-flat,
+                                  .btn-flat.btn-primary {
+                                      background: rgba(0, 0, 0, 0);
+                                      box-shadow: none !important;
+                                  }
+                                  .btn-flat:hover,
+                                  .btn-flat.btn-primary:hover {
+                                      background: rgba(158, 158, 158, .2);
+                                  }
+                                  .btn-flat:active,
+                                  .btn-flat.btn-primary:active {
+                                      background: rgba(13, 13, 13, 0.12);
+                                  }
+                                  .btn-flat:hover:active,
+                                  .btn-flat.btn-primary:hover:active {
+                                      background: rgba(0, 0, 0, 0.12);
+                                  }
+                                  .btn-flat.btn-primary {
+                                      color: #0085ba;
+                                  }
+                                  .btn-primary {
+                                      background: #0085ba;
+                                      color: white;
+                                  }
+                                  .btn-primary:active:hover {
+                                      background: #007aab;
+                                  }
+                                  .btn-primary:disabled {
+                                      opacity: .6;
+                                      box-shadow: none;
+                                      color: white !important;
+                                  }
+                                  .btn-icon {
+                                      border-radius: 50%;
+                                      font-size: 24px;
+                                      height: 32px;
+                                      margin: auto 0;
+                                      min-width: 32px;
+                                      width: 32px;
+                                      padding: 0;
+                                      line-height: normal;
+                                  }
+                                  .btn-icon:hover {
+                                      color: #555555;
+                                  }
+              
+                                  .dashicons {
+                                      line-height: 32px !important;
+                                      width: 32px;
+                                      height: 32px;
+                                  }
+                                  .dashicons-migrate {
+                                      transform: rotateY(180deg);
+                                      padding-left: 5px;
+                                  }
+                                  .dashicons-minus {
+                                      font-weight: 900;
+                                  }
+                                  .dashicons-menu,
+                                  .dashicons-no-alt {
+                                      font-size: 25px;
+                                  }
+                                  .dashicons-plus {
+                                      padding-top: 2px;
+                                  }
+                              
+            </style>
+          </div>
+        </Button>
+        <Button
+          flat={true}
+          icon="update"
           id="REFRESH_PROCESSOR"
+          label="Refresh reference list"
           onClick={[Function]}
+          tooltip={
+            Object {
+              "position": "bottom",
+              "text": "Refresh reference list",
+            }
+          }
+          type="button"
         >
-          <a
-            aria-label="Refresh reference list"
-            className="abt-btn abt-btn_flat abt-btn_icon"
-            data-tooltip="Refresh reference list"
-            id="REFRESH_PROCESSOR"
-            onClick={[Function]}
-            onMouseEnter={[Function]}
-            onMouseLeave={[Function]}
-          >
-            <span
-              className="dashicons dashicons-update"
-            />
-          </a>
-        </PanelButton>
-        <PanelButton
-          data-tooltip="Delete all references"
+          <div>
+            <Tooltip
+              active={false}
+              id="Refresh_reference_list"
+              text="Refresh reference list"
+              transform=""
+            >
+              <div
+                className="abt-tooltip"
+                id="Refresh_reference_list"
+                role="tooltip"
+                style={
+                  Object {
+                    "transform": "",
+                  }
+                }
+              >
+                Refresh reference list
+                <style
+                  jsx={true}
+                >
+                  
+                                      .abt-tooltip {
+                                          pointer-events: none;
+                                          transform-origin: top center;
+                                          z-index: 20;
+                                          background: rgba(66, 66, 66, 0.9);
+                                          border-radius: 2px;
+                                          color: white;
+                                          display: inline-block;
+                                          visibility: hidden;
+                                          font-size: 10px;
+                                          font-weight: 500;
+                                          line-height: 14px;
+                                          position: absolute;
+                                          padding: 8px;
+                                          text-align: center;
+                                          max-width: 170px;
+                                      }
+                                      .abt-tooltip--active {
+                                          visibility: visible;
+                                      }
+                                  
+                </style>
+              </div>
+            </Tooltip>
+            <button
+              aria-describedby="Refresh_reference_list"
+              aria-label="Refresh reference list"
+              className="btn-flat btn-icon"
+              id="REFRESH_PROCESSOR"
+              onClick={[Function]}
+              onMouseEnter={[Function]}
+              onMouseLeave={[Function]}
+              type="button"
+            >
+              <span
+                className="dashicons dashicons-update"
+              />
+            </button>
+            <style
+              jsx={true}
+            >
+              
+                                  button {
+                                      -webkit-appearance: none;
+                                      -webkit-touch-callout: none;
+                                      -webkit-user-select: none;
+                                      -khtml-user-select: none;
+                                      -moz-user-select: none;
+                                      -ms-user-select: none;
+                                      user-select: none;
+                                      background: white;
+                                      box-sizing: border-box;
+                                      color: #555555;
+                                      background-image: none;
+                                      border: none;
+                                      border-radius: 2px;
+                                      box-shadow: 0 1px 3px rgba(0, 0, 0, .12), 0 1px 2px rgba(0, 0, 0, .24);
+                                      cursor: pointer;
+                                      display: inline-block;
+                                      font-size: 13px;
+                                      font-weight: 500;
+                                      height: 36px;
+                                      line-height: 36px;
+                                      min-width: 64px;
+                                      outline: 0;
+                                      padding: 0 16px;
+                                      text-align: center;
+                                      text-decoration: none;
+                                      text-transform: uppercase;
+                                      transition: 
+                          box-shadow .2s cubic-bezier(0.4, 0, 1, 1),
+                          background-color .2s cubic-bezier(0.4, 0, 0.2, 1),
+                          color .2s cubic-bezier(0.4, 0, 0.2, 1)
+                      ;
+                                      vertical-align: middle;
+                                      white-space: nowrap;
+                                  }
+                                  button:hover {
+                                      box-shadow: 0 3px 6px rgba(0, 0, 0, .16), 0 3px 6px rgba(0, 0, 0, .23);
+                                  }
+                                  button:active {
+                                      box-shadow: 0 3px 6px rgba(0, 0, 0, .16), 0 3px 6px rgba(0, 0, 0, .23);
+                                  }
+                                  button:active:hover {
+                                      box-shadow: 0 10px 20px rgba(0, 0, 0, .19), 0 6px 6px rgba(0, 0, 0, .23);
+                                      background: rgba(0, 0, 0, 0.12);
+                                  }
+                                  button:disabled {
+                                      pointer-events: none !important;
+                                      color: #a0a5aa !important;
+                                  }
+                                  button.focusable:focus {
+                                      outline: 1.1px auto rgba(19, 124, 189, 0.5);
+                                      outline-offset: 2px;
+                                  }
+                                  button.focusable:focus:active {
+                                      outline: 0;
+                                  }
+                                  .btn-flat,
+                                  .btn-flat.btn-primary {
+                                      background: rgba(0, 0, 0, 0);
+                                      box-shadow: none !important;
+                                  }
+                                  .btn-flat:hover,
+                                  .btn-flat.btn-primary:hover {
+                                      background: rgba(158, 158, 158, .2);
+                                  }
+                                  .btn-flat:active,
+                                  .btn-flat.btn-primary:active {
+                                      background: rgba(13, 13, 13, 0.12);
+                                  }
+                                  .btn-flat:hover:active,
+                                  .btn-flat.btn-primary:hover:active {
+                                      background: rgba(0, 0, 0, 0.12);
+                                  }
+                                  .btn-flat.btn-primary {
+                                      color: #0085ba;
+                                  }
+                                  .btn-primary {
+                                      background: #0085ba;
+                                      color: white;
+                                  }
+                                  .btn-primary:active:hover {
+                                      background: #007aab;
+                                  }
+                                  .btn-primary:disabled {
+                                      opacity: .6;
+                                      box-shadow: none;
+                                      color: white !important;
+                                  }
+                                  .btn-icon {
+                                      border-radius: 50%;
+                                      font-size: 24px;
+                                      height: 32px;
+                                      margin: auto 0;
+                                      min-width: 32px;
+                                      width: 32px;
+                                      padding: 0;
+                                      line-height: normal;
+                                  }
+                                  .btn-icon:hover {
+                                      color: #555555;
+                                  }
+              
+                                  .dashicons {
+                                      line-height: 32px !important;
+                                      width: 32px;
+                                      height: 32px;
+                                  }
+                                  .dashicons-migrate {
+                                      transform: rotateY(180deg);
+                                      padding-left: 5px;
+                                  }
+                                  .dashicons-minus {
+                                      font-weight: 900;
+                                  }
+                                  .dashicons-menu,
+                                  .dashicons-no-alt {
+                                      font-size: 25px;
+                                  }
+                                  .dashicons-plus {
+                                      padding-top: 2px;
+                                  }
+                              
+            </style>
+          </div>
+        </Button>
+        <Button
+          flat={true}
+          icon="trash"
           id="DESTROY_PROCESSOR"
+          label="Delete all references"
           onClick={[Function]}
+          tooltip={
+            Object {
+              "position": "bottom",
+              "text": "Delete all references",
+            }
+          }
+          type="button"
         >
-          <a
-            aria-label="Delete all references"
-            className="abt-btn abt-btn_flat abt-btn_icon"
-            data-tooltip="Delete all references"
-            id="DESTROY_PROCESSOR"
-            onClick={[Function]}
-            onMouseEnter={[Function]}
-            onMouseLeave={[Function]}
-          >
-            <span
-              className="dashicons dashicons-trash"
-            />
-          </a>
-        </PanelButton>
-        <PanelButton
-          data-tooltip="Insert Static Publication List"
+          <div>
+            <Tooltip
+              active={false}
+              id="Delete_all_references"
+              text="Delete all references"
+              transform=""
+            >
+              <div
+                className="abt-tooltip"
+                id="Delete_all_references"
+                role="tooltip"
+                style={
+                  Object {
+                    "transform": "",
+                  }
+                }
+              >
+                Delete all references
+                <style
+                  jsx={true}
+                >
+                  
+                                      .abt-tooltip {
+                                          pointer-events: none;
+                                          transform-origin: top center;
+                                          z-index: 20;
+                                          background: rgba(66, 66, 66, 0.9);
+                                          border-radius: 2px;
+                                          color: white;
+                                          display: inline-block;
+                                          visibility: hidden;
+                                          font-size: 10px;
+                                          font-weight: 500;
+                                          line-height: 14px;
+                                          position: absolute;
+                                          padding: 8px;
+                                          text-align: center;
+                                          max-width: 170px;
+                                      }
+                                      .abt-tooltip--active {
+                                          visibility: visible;
+                                      }
+                                  
+                </style>
+              </div>
+            </Tooltip>
+            <button
+              aria-describedby="Delete_all_references"
+              aria-label="Delete all references"
+              className="btn-flat btn-icon"
+              id="DESTROY_PROCESSOR"
+              onClick={[Function]}
+              onMouseEnter={[Function]}
+              onMouseLeave={[Function]}
+              type="button"
+            >
+              <span
+                className="dashicons dashicons-trash"
+              />
+            </button>
+            <style
+              jsx={true}
+            >
+              
+                                  button {
+                                      -webkit-appearance: none;
+                                      -webkit-touch-callout: none;
+                                      -webkit-user-select: none;
+                                      -khtml-user-select: none;
+                                      -moz-user-select: none;
+                                      -ms-user-select: none;
+                                      user-select: none;
+                                      background: white;
+                                      box-sizing: border-box;
+                                      color: #555555;
+                                      background-image: none;
+                                      border: none;
+                                      border-radius: 2px;
+                                      box-shadow: 0 1px 3px rgba(0, 0, 0, .12), 0 1px 2px rgba(0, 0, 0, .24);
+                                      cursor: pointer;
+                                      display: inline-block;
+                                      font-size: 13px;
+                                      font-weight: 500;
+                                      height: 36px;
+                                      line-height: 36px;
+                                      min-width: 64px;
+                                      outline: 0;
+                                      padding: 0 16px;
+                                      text-align: center;
+                                      text-decoration: none;
+                                      text-transform: uppercase;
+                                      transition: 
+                          box-shadow .2s cubic-bezier(0.4, 0, 1, 1),
+                          background-color .2s cubic-bezier(0.4, 0, 0.2, 1),
+                          color .2s cubic-bezier(0.4, 0, 0.2, 1)
+                      ;
+                                      vertical-align: middle;
+                                      white-space: nowrap;
+                                  }
+                                  button:hover {
+                                      box-shadow: 0 3px 6px rgba(0, 0, 0, .16), 0 3px 6px rgba(0, 0, 0, .23);
+                                  }
+                                  button:active {
+                                      box-shadow: 0 3px 6px rgba(0, 0, 0, .16), 0 3px 6px rgba(0, 0, 0, .23);
+                                  }
+                                  button:active:hover {
+                                      box-shadow: 0 10px 20px rgba(0, 0, 0, .19), 0 6px 6px rgba(0, 0, 0, .23);
+                                      background: rgba(0, 0, 0, 0.12);
+                                  }
+                                  button:disabled {
+                                      pointer-events: none !important;
+                                      color: #a0a5aa !important;
+                                  }
+                                  button.focusable:focus {
+                                      outline: 1.1px auto rgba(19, 124, 189, 0.5);
+                                      outline-offset: 2px;
+                                  }
+                                  button.focusable:focus:active {
+                                      outline: 0;
+                                  }
+                                  .btn-flat,
+                                  .btn-flat.btn-primary {
+                                      background: rgba(0, 0, 0, 0);
+                                      box-shadow: none !important;
+                                  }
+                                  .btn-flat:hover,
+                                  .btn-flat.btn-primary:hover {
+                                      background: rgba(158, 158, 158, .2);
+                                  }
+                                  .btn-flat:active,
+                                  .btn-flat.btn-primary:active {
+                                      background: rgba(13, 13, 13, 0.12);
+                                  }
+                                  .btn-flat:hover:active,
+                                  .btn-flat.btn-primary:hover:active {
+                                      background: rgba(0, 0, 0, 0.12);
+                                  }
+                                  .btn-flat.btn-primary {
+                                      color: #0085ba;
+                                  }
+                                  .btn-primary {
+                                      background: #0085ba;
+                                      color: white;
+                                  }
+                                  .btn-primary:active:hover {
+                                      background: #007aab;
+                                  }
+                                  .btn-primary:disabled {
+                                      opacity: .6;
+                                      box-shadow: none;
+                                      color: white !important;
+                                  }
+                                  .btn-icon {
+                                      border-radius: 50%;
+                                      font-size: 24px;
+                                      height: 32px;
+                                      margin: auto 0;
+                                      min-width: 32px;
+                                      width: 32px;
+                                      padding: 0;
+                                      line-height: normal;
+                                  }
+                                  .btn-icon:hover {
+                                      color: #555555;
+                                  }
+              
+                                  .dashicons {
+                                      line-height: 32px !important;
+                                      width: 32px;
+                                      height: 32px;
+                                  }
+                                  .dashicons-migrate {
+                                      transform: rotateY(180deg);
+                                      padding-left: 5px;
+                                  }
+                                  .dashicons-minus {
+                                      font-weight: 900;
+                                  }
+                                  .dashicons-menu,
+                                  .dashicons-no-alt {
+                                      font-size: 25px;
+                                  }
+                                  .dashicons-plus {
+                                      padding-top: 2px;
+                                  }
+                              
+            </style>
+          </div>
+        </Button>
+        <Button
           disabled={false}
+          flat={true}
+          icon="list-view"
           id="INSERT_STATIC_BIBLIOGRAPHY"
+          label="Insert static publication list"
           onClick={[Function]}
+          tooltip={
+            Object {
+              "position": "bottom",
+              "text": "Insert static publication list",
+            }
+          }
+          type="button"
         >
-          <a
-            aria-label="Insert Static Publication List"
-            className="abt-btn abt-btn_flat abt-btn_icon"
-            data-tooltip="Insert Static Publication List"
-            disabled={false}
-            id="INSERT_STATIC_BIBLIOGRAPHY"
-            onClick={[Function]}
-            onMouseEnter={[Function]}
-            onMouseLeave={[Function]}
-          >
-            <span
-              className="dashicons dashicons-list-view"
-            />
-          </a>
-        </PanelButton>
-        <PanelButton
-          data-tooltip="Usage instructions"
+          <div>
+            <Tooltip
+              active={false}
+              id="Insert_static_publication_list"
+              text="Insert static publication list"
+              transform=""
+            >
+              <div
+                className="abt-tooltip"
+                id="Insert_static_publication_list"
+                role="tooltip"
+                style={
+                  Object {
+                    "transform": "",
+                  }
+                }
+              >
+                Insert static publication list
+                <style
+                  jsx={true}
+                >
+                  
+                                      .abt-tooltip {
+                                          pointer-events: none;
+                                          transform-origin: top center;
+                                          z-index: 20;
+                                          background: rgba(66, 66, 66, 0.9);
+                                          border-radius: 2px;
+                                          color: white;
+                                          display: inline-block;
+                                          visibility: hidden;
+                                          font-size: 10px;
+                                          font-weight: 500;
+                                          line-height: 14px;
+                                          position: absolute;
+                                          padding: 8px;
+                                          text-align: center;
+                                          max-width: 170px;
+                                      }
+                                      .abt-tooltip--active {
+                                          visibility: visible;
+                                      }
+                                  
+                </style>
+              </div>
+            </Tooltip>
+            <button
+              aria-describedby="Insert_static_publication_list"
+              aria-label="Insert static publication list"
+              className="btn-flat btn-icon"
+              disabled={false}
+              id="INSERT_STATIC_BIBLIOGRAPHY"
+              onClick={[Function]}
+              onMouseEnter={[Function]}
+              onMouseLeave={[Function]}
+              type="button"
+            >
+              <span
+                className="dashicons dashicons-list-view"
+              />
+            </button>
+            <style
+              jsx={true}
+            >
+              
+                                  button {
+                                      -webkit-appearance: none;
+                                      -webkit-touch-callout: none;
+                                      -webkit-user-select: none;
+                                      -khtml-user-select: none;
+                                      -moz-user-select: none;
+                                      -ms-user-select: none;
+                                      user-select: none;
+                                      background: white;
+                                      box-sizing: border-box;
+                                      color: #555555;
+                                      background-image: none;
+                                      border: none;
+                                      border-radius: 2px;
+                                      box-shadow: 0 1px 3px rgba(0, 0, 0, .12), 0 1px 2px rgba(0, 0, 0, .24);
+                                      cursor: pointer;
+                                      display: inline-block;
+                                      font-size: 13px;
+                                      font-weight: 500;
+                                      height: 36px;
+                                      line-height: 36px;
+                                      min-width: 64px;
+                                      outline: 0;
+                                      padding: 0 16px;
+                                      text-align: center;
+                                      text-decoration: none;
+                                      text-transform: uppercase;
+                                      transition: 
+                          box-shadow .2s cubic-bezier(0.4, 0, 1, 1),
+                          background-color .2s cubic-bezier(0.4, 0, 0.2, 1),
+                          color .2s cubic-bezier(0.4, 0, 0.2, 1)
+                      ;
+                                      vertical-align: middle;
+                                      white-space: nowrap;
+                                  }
+                                  button:hover {
+                                      box-shadow: 0 3px 6px rgba(0, 0, 0, .16), 0 3px 6px rgba(0, 0, 0, .23);
+                                  }
+                                  button:active {
+                                      box-shadow: 0 3px 6px rgba(0, 0, 0, .16), 0 3px 6px rgba(0, 0, 0, .23);
+                                  }
+                                  button:active:hover {
+                                      box-shadow: 0 10px 20px rgba(0, 0, 0, .19), 0 6px 6px rgba(0, 0, 0, .23);
+                                      background: rgba(0, 0, 0, 0.12);
+                                  }
+                                  button:disabled {
+                                      pointer-events: none !important;
+                                      color: #a0a5aa !important;
+                                  }
+                                  button.focusable:focus {
+                                      outline: 1.1px auto rgba(19, 124, 189, 0.5);
+                                      outline-offset: 2px;
+                                  }
+                                  button.focusable:focus:active {
+                                      outline: 0;
+                                  }
+                                  .btn-flat,
+                                  .btn-flat.btn-primary {
+                                      background: rgba(0, 0, 0, 0);
+                                      box-shadow: none !important;
+                                  }
+                                  .btn-flat:hover,
+                                  .btn-flat.btn-primary:hover {
+                                      background: rgba(158, 158, 158, .2);
+                                  }
+                                  .btn-flat:active,
+                                  .btn-flat.btn-primary:active {
+                                      background: rgba(13, 13, 13, 0.12);
+                                  }
+                                  .btn-flat:hover:active,
+                                  .btn-flat.btn-primary:hover:active {
+                                      background: rgba(0, 0, 0, 0.12);
+                                  }
+                                  .btn-flat.btn-primary {
+                                      color: #0085ba;
+                                  }
+                                  .btn-primary {
+                                      background: #0085ba;
+                                      color: white;
+                                  }
+                                  .btn-primary:active:hover {
+                                      background: #007aab;
+                                  }
+                                  .btn-primary:disabled {
+                                      opacity: .6;
+                                      box-shadow: none;
+                                      color: white !important;
+                                  }
+                                  .btn-icon {
+                                      border-radius: 50%;
+                                      font-size: 24px;
+                                      height: 32px;
+                                      margin: auto 0;
+                                      min-width: 32px;
+                                      width: 32px;
+                                      padding: 0;
+                                      line-height: normal;
+                                  }
+                                  .btn-icon:hover {
+                                      color: #555555;
+                                  }
+              
+                                  .dashicons {
+                                      line-height: 32px !important;
+                                      width: 32px;
+                                      height: 32px;
+                                  }
+                                  .dashicons-migrate {
+                                      transform: rotateY(180deg);
+                                      padding-left: 5px;
+                                  }
+                                  .dashicons-minus {
+                                      font-weight: 900;
+                                  }
+                                  .dashicons-menu,
+                                  .dashicons-no-alt {
+                                      font-size: 25px;
+                                  }
+                                  .dashicons-plus {
+                                      padding-top: 2px;
+                                  }
+                              
+            </style>
+          </div>
+        </Button>
+        <Button
+          flat={true}
           href="https://github.com/dsifford/academic-bloggers-toolkit/wiki"
-          target="_blank"
+          icon="editor-help"
+          label="Usage instructions"
+          role="link"
+          tooltip={
+            Object {
+              "position": "bottom",
+              "text": "Usage instructions",
+            }
+          }
+          type="button"
         >
-          <a
-            aria-label="Usage instructions"
-            className="abt-btn abt-btn_flat abt-btn_icon"
-            data-tooltip="Usage instructions"
-            href="https://github.com/dsifford/academic-bloggers-toolkit/wiki"
-            onMouseEnter={[Function]}
-            onMouseLeave={[Function]}
-            target="_blank"
-          >
-            <span
-              className="dashicons dashicons-editor-help"
-            />
-          </a>
-        </PanelButton>
+          <div>
+            <Tooltip
+              active={false}
+              id="Usage_instructions"
+              text="Usage instructions"
+              transform=""
+            >
+              <div
+                className="abt-tooltip"
+                id="Usage_instructions"
+                role="tooltip"
+                style={
+                  Object {
+                    "transform": "",
+                  }
+                }
+              >
+                Usage instructions
+                <style
+                  jsx={true}
+                >
+                  
+                                      .abt-tooltip {
+                                          pointer-events: none;
+                                          transform-origin: top center;
+                                          z-index: 20;
+                                          background: rgba(66, 66, 66, 0.9);
+                                          border-radius: 2px;
+                                          color: white;
+                                          display: inline-block;
+                                          visibility: hidden;
+                                          font-size: 10px;
+                                          font-weight: 500;
+                                          line-height: 14px;
+                                          position: absolute;
+                                          padding: 8px;
+                                          text-align: center;
+                                          max-width: 170px;
+                                      }
+                                      .abt-tooltip--active {
+                                          visibility: visible;
+                                      }
+                                  
+                </style>
+              </div>
+            </Tooltip>
+            <button
+              aria-describedby="Usage_instructions"
+              aria-label="Usage instructions"
+              className="btn-flat btn-icon"
+              onClick={[Function]}
+              onMouseEnter={[Function]}
+              onMouseLeave={[Function]}
+              role="link"
+              type="button"
+            >
+              <span
+                className="dashicons dashicons-editor-help"
+              />
+            </button>
+            <style
+              jsx={true}
+            >
+              
+                                  button {
+                                      -webkit-appearance: none;
+                                      -webkit-touch-callout: none;
+                                      -webkit-user-select: none;
+                                      -khtml-user-select: none;
+                                      -moz-user-select: none;
+                                      -ms-user-select: none;
+                                      user-select: none;
+                                      background: white;
+                                      box-sizing: border-box;
+                                      color: #555555;
+                                      background-image: none;
+                                      border: none;
+                                      border-radius: 2px;
+                                      box-shadow: 0 1px 3px rgba(0, 0, 0, .12), 0 1px 2px rgba(0, 0, 0, .24);
+                                      cursor: pointer;
+                                      display: inline-block;
+                                      font-size: 13px;
+                                      font-weight: 500;
+                                      height: 36px;
+                                      line-height: 36px;
+                                      min-width: 64px;
+                                      outline: 0;
+                                      padding: 0 16px;
+                                      text-align: center;
+                                      text-decoration: none;
+                                      text-transform: uppercase;
+                                      transition: 
+                          box-shadow .2s cubic-bezier(0.4, 0, 1, 1),
+                          background-color .2s cubic-bezier(0.4, 0, 0.2, 1),
+                          color .2s cubic-bezier(0.4, 0, 0.2, 1)
+                      ;
+                                      vertical-align: middle;
+                                      white-space: nowrap;
+                                  }
+                                  button:hover {
+                                      box-shadow: 0 3px 6px rgba(0, 0, 0, .16), 0 3px 6px rgba(0, 0, 0, .23);
+                                  }
+                                  button:active {
+                                      box-shadow: 0 3px 6px rgba(0, 0, 0, .16), 0 3px 6px rgba(0, 0, 0, .23);
+                                  }
+                                  button:active:hover {
+                                      box-shadow: 0 10px 20px rgba(0, 0, 0, .19), 0 6px 6px rgba(0, 0, 0, .23);
+                                      background: rgba(0, 0, 0, 0.12);
+                                  }
+                                  button:disabled {
+                                      pointer-events: none !important;
+                                      color: #a0a5aa !important;
+                                  }
+                                  button.focusable:focus {
+                                      outline: 1.1px auto rgba(19, 124, 189, 0.5);
+                                      outline-offset: 2px;
+                                  }
+                                  button.focusable:focus:active {
+                                      outline: 0;
+                                  }
+                                  .btn-flat,
+                                  .btn-flat.btn-primary {
+                                      background: rgba(0, 0, 0, 0);
+                                      box-shadow: none !important;
+                                  }
+                                  .btn-flat:hover,
+                                  .btn-flat.btn-primary:hover {
+                                      background: rgba(158, 158, 158, .2);
+                                  }
+                                  .btn-flat:active,
+                                  .btn-flat.btn-primary:active {
+                                      background: rgba(13, 13, 13, 0.12);
+                                  }
+                                  .btn-flat:hover:active,
+                                  .btn-flat.btn-primary:hover:active {
+                                      background: rgba(0, 0, 0, 0.12);
+                                  }
+                                  .btn-flat.btn-primary {
+                                      color: #0085ba;
+                                  }
+                                  .btn-primary {
+                                      background: #0085ba;
+                                      color: white;
+                                  }
+                                  .btn-primary:active:hover {
+                                      background: #007aab;
+                                  }
+                                  .btn-primary:disabled {
+                                      opacity: .6;
+                                      box-shadow: none;
+                                      color: white !important;
+                                  }
+                                  .btn-icon {
+                                      border-radius: 50%;
+                                      font-size: 24px;
+                                      height: 32px;
+                                      margin: auto 0;
+                                      min-width: 32px;
+                                      width: 32px;
+                                      padding: 0;
+                                      line-height: normal;
+                                  }
+                                  .btn-icon:hover {
+                                      color: #555555;
+                                  }
+              
+                                  .dashicons {
+                                      line-height: 32px !important;
+                                      width: 32px;
+                                      height: 32px;
+                                  }
+                                  .dashicons-migrate {
+                                      transform: rotateY(180deg);
+                                      padding-left: 5px;
+                                  }
+                                  .dashicons-minus {
+                                      font-weight: 900;
+                                  }
+                                  .dashicons-menu,
+                                  .dashicons-no-alt {
+                                      font-size: 25px;
+                                  }
+                                  .dashicons-plus {
+                                      padding-top: 2px;
+                                  }
+                              
+            </style>
+          </div>
+        </Button>
       </div>
       <div
-        style={
-          Object {
-            "padding": "0 5px",
-          }
-        }
+        className="style-row"
       >
         <VirtualizedSelect
           async={false}
@@ -402,6 +1318,25 @@ exports[`<Menu /> should match snapshots 1`] = `
           </Select>
         </VirtualizedSelect>
       </div>
+      <style
+        jsx={true}
+      >
+        
+                                              .menu {
+                                                  padding: 0;
+                                                  position: static;
+                                                  z-index: 555;
+                                              }
+                                              .subpanel {
+                                                  display: flex;
+                                                  padding: 5px 0;
+                                                  justify-content: space-around;
+                                              }
+                                              .style-row {
+                                                padding: 0 5px;
+                                              }
+                                          
+      </style>
     </div>
   </TransitionMotion>
 </Menu>

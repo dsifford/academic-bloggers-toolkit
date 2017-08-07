@@ -1,7 +1,7 @@
 import { mount } from 'enzyme';
 import { observable } from 'mobx';
 import * as React from 'react';
-import { People } from '../people';
+import People from '../people';
 
 const defaultPeople: CSL.TypedPerson[] = [{ family: 'Doe', given: 'John', type: 'author' }];
 const peopleStore = observable<CSL.TypedPerson>([]);
@@ -13,7 +13,7 @@ const setup = (
     peopleStore.replace(people);
     const component = mount(<People citationType={citationType} people={peopleStore} />);
     return {
-        addButton: component.find('#add-person'),
+        addButton: component.find('.btn-row Button button'),
         component,
     };
 };
@@ -47,7 +47,7 @@ describe('<People />', () => {
         const { component } = setup('article-journal', people);
         expect(component.find('Person').length).toBe(2);
 
-        const removeButton = component.find('input[type="button"][value="⨯"]').at(1);
+        const removeButton = component.find('Person Button button').at(1);
         removeButton.simulate('click');
 
         expect(component.find('Person').length).toBe(1);

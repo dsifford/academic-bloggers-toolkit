@@ -21,7 +21,7 @@ describe('<Callout />', () => {
         expect(toJSON(component)).toMatchSnapshot();
 
         const dismiss = () => void 0;
-        component = shallow(<Callout dismiss={dismiss} children="Hello world" />);
+        component = shallow(<Callout onDismiss={dismiss} children="Hello world" />);
         expect(toJSON(component)).toMatchSnapshot();
     });
 });

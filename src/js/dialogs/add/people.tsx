@@ -2,15 +2,17 @@ import { action, IObservableArray } from 'mobx';
 import { observer } from 'mobx-react';
 import * as React from 'react';
 
+import Button from 'components/button';
+
 interface PeopleProps {
-    people: IObservableArray<CSL.TypedPerson>;
     citationType: CSL.CitationType;
+    people: IObservableArray<CSL.TypedPerson>;
 }
 
 @observer
-export class People extends React.PureComponent<PeopleProps, {}> {
+export default class People extends React.PureComponent<PeopleProps, {}> {
     static readonly fieldmaps = top.ABT_i18n.fieldmaps;
-    static readonly labels = top.ABT_i18n.tinymce.referenceWindow.people;
+    static readonly labels = top.ABT_i18n.dialogs.add.people;
 
     @action
     addPerson = () => {
@@ -37,31 +39,25 @@ export class People extends React.PureComponent<PeopleProps, {}> {
                 <h2 children={People.labels.contributors} />
                 {this.props.people.map((person: CSL.TypedPerson, i: number) =>
                     <Person
-                        change={this.updatePerson}
-                        remove={this.removePerson}
+                        key={`person-${i}`}
+                        index={i}
                         citationType={this.props.citationType}
                         fieldMap={
                             People.fieldmaps[this.props.citationType as keyof ABT.FieldMappings]
                         }
-                        index={i}
-                        labels={People.labels}
                         person={person}
-                        key={`person-${i}`}
+                        onChange={this.updatePerson}
+                        onRemove={this.removePerson}
                     />,
                 )}
                 <div className="btn-row">
-                    <input
-                        type="button"
-                        id="add-person"
-                        className="abt-btn abt-btn_flat"
-                        value={People.labels.add}
-                        onClick={this.addPerson}
-                    />
+                    <Button flat label={People.labels.add} onClick={this.addPerson} />
                 </div>
                 <style jsx>{`
                     .btn-row {
                         display: flex;
                         justify-content: center;
+                        padding: 5px;
                     }
                     h2 {
                         font-size: 16px !important;
@@ -73,23 +69,28 @@ export class People extends React.PureComponent<PeopleProps, {}> {
 }
 
 interface PersonProps {
-    person: CSL.TypedPerson;
     citationType: CSL.CitationType;
     fieldMap: ABT.FieldMap;
-    labels: any;
     index: number;
-    change: any;
-    remove: any;
+    person: CSL.TypedPerson;
+    onRemove(e: React.MouseEvent<HTMLButtonElement>): void;
+    onChange(e: React.FormEvent<HTMLInputElement | HTMLSelectElement>): void;
 }
 
 @observer
 class Person extends React.PureComponent<PersonProps, {}> {
+    static readonly labels = top.ABT_i18n.dialogs.add.people;
     render() {
-        const { change, index, labels, person, remove } = this.props;
+        const { index, fieldMap: { people }, onChange, onRemove, person } = this.props;
         return (
             <div>
-                <select value={person.type} onChange={change} data-index={index} data-field="type">
-                    {this.props.fieldMap.people.map((p, j: number) =>
+                <select
+                    value={person.type}
+                    onChange={onChange}
+                    data-index={index}
+                    data-field="type"
+                >
+                    {people.map((p, j: number) =>
                         <option
                             key={`peopleSelect-${j}`}
                             id={`peopleSelect-${j}`}
@@ -102,32 +103,31 @@ class Person extends React.PureComponent<PersonProps, {}> {
                 <input
                     type="text"
                     id={`person-family-${index}`}
-                    placeholder={labels.surname}
-                    aria-label={labels.surname}
+                    placeholder={Person.labels.surname}
+                    aria-label={Person.labels.surname}
                     value={person.family}
                     data-index={index}
                     data-field="family"
-                    onChange={change}
+                    onChange={onChange}
                     required={true}
                 />
                 <input
                     type="text"
                     id={`person-given-${index}`}
-                    placeholder={labels.given}
-                    aria-label={labels.given}
+                    placeholder={Person.labels.given}
+                    aria-label={Person.labels.given}
                     value={person.given}
                     data-field="given"
                     data-index={index}
-                    onChange={change}
+                    onChange={onChange}
                     required={true}
                 />
-                <input
-                    type="button"
-                    className="abt-btn abt-btn_flat abt-btn_icon"
+                <Button
+                    flat
+                    icon="no-alt"
+                    label={Person.labels.given}
                     data-index={index}
-                    style={{ fontSize: '1.2em', fontWeight: 'bold' }}
-                    value="⨯"
-                    onClick={remove}
+                    onClick={onRemove}
                 />
                 <style jsx>{`
                     div {

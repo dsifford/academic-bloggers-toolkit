@@ -12,25 +12,35 @@ import { DialogProps } from 'dialogs/';
 
 @observer
 export default class ImportDialog extends React.Component<DialogProps> {
-    static readonly labels = top.ABT_i18n.tinymce.importWindow;
+    static readonly labels = top.ABT_i18n.dialogs.import;
     static readonly errors = top.ABT_i18n.errors;
 
+    /** The error message to be displayed in the callout, if applicable */
     errorMessage = observable('');
+
+    /** Array of `CSL.Data` obtained from the file import */
     payload = observable<CSL.Data>([]);
 
+    /** Controls the state of the file input */
     file = {
         name: observable(''),
         value: observable(''),
     };
 
     @action
-    setErrorMessage = (msg: any = '') => this.errorMessage.set(typeof msg === 'string' ? msg : '');
-    @action setPayload = (payload: CSL.Data[]) => this.payload.replace(payload);
+    setErrorMessage = (msg: any = '') => {
+        this.errorMessage.set(typeof msg === 'string' ? msg : '');
+    };
 
     @action
     setFile = ({ name = '', value = '' } = {}) => {
         this.file.name.set(name);
         this.file.value.set(value);
+    };
+
+    @action
+    setPayload = (payload: CSL.Data[]) => {
+        this.payload.replace(payload);
     };
 
     @action
@@ -125,7 +135,7 @@ export default class ImportDialog extends React.Component<DialogProps> {
                         onClick={this.handleSubmit}
                     />
                 </div>
-                <Callout title={`${ImportDialog.errors.prefix}!`} dismiss={this.setErrorMessage}>
+                <Callout title={`${ImportDialog.errors.prefix}!`} onDismiss={this.setErrorMessage}>
                     {this.errorMessage.get()}
                 </Callout>
                 <style jsx>{`

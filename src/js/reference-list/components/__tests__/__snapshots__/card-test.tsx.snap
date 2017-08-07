@@ -1,0 +1,247 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Card/> should render appropriately with optional props unset 1`] = `
+<div
+  className="abt-card abt-card--selected"
+  id="aaaaa"
+  role="menuitem"
+>
+  <div
+    aria-hidden={true}
+    className="item-number"
+  >
+    1
+  </div>
+  <div>
+    Two valid authors
+  </div>
+  <div
+    className="abt-card__people"
+  >
+    Smith, J, Some literal name, Doe, J...
+  </div>
+  <div
+    className="abt-card__meta-container"
+  >
+    <div
+      className="abt-card__date"
+    >
+      (2016)
+    </div>
+    <div
+      className="abt-card__source"
+    />
+    <div
+      className="abt-card__pages"
+    >
+      n.p.
+    </div>
+  </div>
+  <style
+    jsx={true}
+  >
+    
+                        .abt-card {
+                            position: relative;
+                            border-bottom: solid 1px rgba(0, 0, 0, 0.12);
+                            padding: 5px 10px;
+                            cursor: pointer;
+                            font-weight: 300;
+                            user-select: none;
+                        }
+                        .abt-card--selected {
+                            border-left: solid #0073a1 3px;
+                            padding: 5px 10px 5px 7.5px;
+                        }
+                        .abt-card__people {
+                            font-size: 0.8em;
+                            font-weight: 500;
+                        }
+                        .abt-card__meta-container {
+                            display: flex;
+                            font-size: 0.8em;
+                            justify-content: space-between;
+                            white-space: nowrap;
+                        }
+                        .abt-card__date {
+                            padding-right: 3px;
+                        }
+                        .abt-card__source {
+                            padding: 0 3px;
+                            font-style: italic;
+                            text-overflow: ellipsis;
+                            overflow: hidden;
+                        }
+                        .abt-card__pages {
+                            padding-left: 3px;
+                        }
+                        .item-number {
+                            position: absolute;
+                            right: 0;
+                            top: 50%;
+                            visibility: hidden;
+                            transform: translateY(-50%) translateX(100%);
+                            padding: 5px 8px;
+                            background: rgba(66, 66, 66, 0.7);
+                            color: white;
+                            border-top-left-radius: 2px;
+                            border-bottom-left-radius: 2px;
+                            font-weight: 500;
+                        }
+                        .item-number--active {
+                            animation: slide-in 200ms cubic-bezier(0, 0, 0.2, 1) forwards;
+                        }
+                        @keyframes slide-in {
+                            0% {
+                                transform: translateY(-50%) translateX(100%);
+                                opacity: 0;
+                            }
+                            50% {
+                                transform: translateY(-50%) translateX(1%);
+                            }
+                            100% {
+                                transform: translateY(-50%) translateX(0);
+                                opacity: 1;
+                                visibility: visible;
+                            }
+                        }
+                    
+  </style>
+</div>
+`;
+
+exports[`<Card/> should show and hide indices on hover when indexOnHover is set 1`] = `
+<div
+  className="abt-card"
+  id="aaaaa"
+  onClick={[Function]}
+  onMouseEnter={[Function]}
+  onMouseLeave={[Function]}
+  role="menuitem"
+>
+  <div
+    aria-hidden={true}
+    className="item-number"
+  >
+    1
+  </div>
+  <div>
+    Two valid authors
+  </div>
+  <div
+    className="abt-card__people"
+  >
+    Smith, J, Some literal name, Doe, J...
+  </div>
+  <div
+    className="abt-card__meta-container"
+  >
+    <div
+      className="abt-card__date"
+    >
+      (2016)
+    </div>
+    <div
+      className="abt-card__source"
+    />
+    <div
+      className="abt-card__pages"
+    >
+      n.p.
+    </div>
+  </div>
+  <style
+    jsx={true}
+  >
+    
+                        .abt-card {
+                            position: relative;
+                            border-bottom: solid 1px rgba(0, 0, 0, 0.12);
+                            padding: 5px 10px;
+                            cursor: pointer;
+                            font-weight: 300;
+                            user-select: none;
+                        }
+                        .abt-card--selected {
+                            border-left: solid #0073a1 3px;
+                            padding: 5px 10px 5px 7.5px;
+                        }
+                        .abt-card__people {
+                            font-size: 0.8em;
+                            font-weight: 500;
+                        }
+                        .abt-card__meta-container {
+                            display: flex;
+                            font-size: 0.8em;
+                            justify-content: space-between;
+                            white-space: nowrap;
+                        }
+                        .abt-card__date {
+                            padding-right: 3px;
+                        }
+                        .abt-card__source {
+                            padding: 0 3px;
+                            font-style: italic;
+                            text-overflow: ellipsis;
+                            overflow: hidden;
+                        }
+                        .abt-card__pages {
+                            padding-left: 3px;
+                        }
+                        .item-number {
+                            position: absolute;
+                            right: 0;
+                            top: 50%;
+                            visibility: hidden;
+                            transform: translateY(-50%) translateX(100%);
+                            padding: 5px 8px;
+                            background: rgba(66, 66, 66, 0.7);
+                            color: white;
+                            border-top-left-radius: 2px;
+                            border-bottom-left-radius: 2px;
+                            font-weight: 500;
+                        }
+                        .item-number--active {
+                            animation: slide-in 200ms cubic-bezier(0, 0, 0.2, 1) forwards;
+                        }
+                        @keyframes slide-in {
+                            0% {
+                                transform: translateY(-50%) translateX(100%);
+                                opacity: 0;
+                            }
+                            50% {
+                                transform: translateY(-50%) translateX(1%);
+                            }
+                            100% {
+                                transform: translateY(-50%) translateX(0);
+                                opacity: 1;
+                                visibility: visible;
+                            }
+                        }
+                    
+  </style>
+</div>
+`;
+
+exports[`<Card/> should show and hide indices on hover when indexOnHover is set 2`] = `
+"- First value
++ Second value
+
+@@ -5,12 +5,12 @@
+   onMouseEnter={[Function res]}
+   onMouseLeave={[Function res]}
+   role=\\"menuitem\\"
+ >
+   <div
+-    aria-hidden={true}
+-    className=\\"item-number\\"
++    aria-hidden={false}
++    className=\\"item-number item-number--active\\"
+   >
+     1
+   </div>
+   <div>
+     Two valid authors"
+`;
+
+exports[`<Card/> should show and hide indices on hover when indexOnHover is set 3`] = `"Compared values have no visual difference."`;

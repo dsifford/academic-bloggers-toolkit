@@ -4,7 +4,7 @@ import * as React from 'react';
 import { spring, TransitionMotion } from 'react-motion';
 import VSelect from 'react-virtualized-select';
 
-import PanelButton from './panel-button';
+import Button from 'components/button';
 
 declare const ABT_Custom_CSL: BackendGlobals.ABT_Custom_CSL;
 
@@ -87,7 +87,7 @@ export default class Menu extends React.PureComponent<Props> {
 
     @action toggleMenu = () => this.props.isOpen.set(false);
 
-    handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
         this.toggleMenu();
         this.props.onSubmit(e.currentTarget.id);
     };
@@ -110,7 +110,7 @@ export default class Menu extends React.PureComponent<Props> {
                         ? (
                               <div
                                   key={styles[0].key}
-                                  className="abt-reflist-menu"
+                                  className="menu"
                                   style={{
                                       height: styles[0].style.height,
                                       maxHeight: styles[0].style.height,
@@ -119,45 +119,65 @@ export default class Menu extends React.PureComponent<Props> {
                                       transformOrigin: 'top',
                                   }}
                               >
-                                  <div className="abt-panel abt-panel_subpanel">
-                                      <PanelButton
+                                  <div className="subpanel">
+                                      <Button
+                                          flat
                                           id="IMPORT_RIS"
+                                          icon="media-code"
+                                          label={Menu.labels.tooltips.importRIS}
+                                          tooltip={{
+                                              text: Menu.labels.tooltips.importRIS,
+                                              position: 'bottom',
+                                          }}
                                           onClick={this.handleClick}
-                                          data-tooltip={Menu.labels.tooltips.importRIS}
-                                      >
-                                          <span className="dashicons dashicons-media-code" />
-                                      </PanelButton>
-                                      <PanelButton
+                                      />
+                                      <Button
+                                          flat
                                           id="REFRESH_PROCESSOR"
+                                          icon="update"
+                                          label={Menu.labels.tooltips.refresh}
+                                          tooltip={{
+                                              text: Menu.labels.tooltips.refresh,
+                                              position: 'bottom',
+                                          }}
                                           onClick={this.handleClick}
-                                          data-tooltip={Menu.labels.tooltips.refresh}
-                                      >
-                                          <span className="dashicons dashicons-update" />
-                                      </PanelButton>
-                                      <PanelButton
+                                      />
+                                      <Button
+                                          flat
                                           id="DESTROY_PROCESSOR"
+                                          icon="trash"
+                                          label={Menu.labels.tooltips.destroy}
+                                          tooltip={{
+                                              text: Menu.labels.tooltips.destroy,
+                                              position: 'bottom',
+                                          }}
                                           onClick={this.handleClick}
-                                          data-tooltip={Menu.labels.tooltips.destroy}
-                                      >
-                                          <span className="dashicons dashicons-trash" />
-                                      </PanelButton>
-                                      <PanelButton
-                                          id="INSERT_STATIC_BIBLIOGRAPHY"
+                                      />
+                                      <Button
+                                          flat
                                           disabled={!this.props.itemsSelected}
+                                          id="INSERT_STATIC_BIBLIOGRAPHY"
+                                          icon="list-view"
+                                          label={Menu.labels.tooltips.staticPubList}
+                                          tooltip={{
+                                              text: Menu.labels.tooltips.staticPubList,
+                                              position: 'bottom',
+                                          }}
                                           onClick={this.handleClick}
-                                          data-tooltip={Menu.labels.tooltips.staticPubList}
-                                      >
-                                          <span className="dashicons dashicons-list-view" />
-                                      </PanelButton>
-                                      <PanelButton
+                                      />
+                                      <Button
+                                          flat
                                           href="https://github.com/dsifford/academic-bloggers-toolkit/wiki"
-                                          target="_blank"
-                                          data-tooltip={Menu.labels.tooltips.help}
-                                      >
-                                          <span className="dashicons dashicons-editor-help" />
-                                      </PanelButton>
+                                          role="link"
+                                          icon="editor-help"
+                                          label={Menu.labels.tooltips.help}
+                                          tooltip={{
+                                              text: Menu.labels.tooltips.help,
+                                              position: 'bottom',
+                                          }}
+                                      />
                                   </div>
-                                  <div style={{ padding: '0 5px' }}>
+                                  <div className="style-row">
                                       <VSelect
                                           id="style-select"
                                           onChange={this.handleSelect}
@@ -173,6 +193,21 @@ export default class Menu extends React.PureComponent<Props> {
                                           backspaceRemoves={false}
                                       />
                                   </div>
+                                  <style jsx>{`
+                                      .menu {
+                                          padding: 0;
+                                          position: static;
+                                          z-index: 555;
+                                      }
+                                      .subpanel {
+                                          display: flex;
+                                          padding: 5px 0;
+                                          justify-content: space-around;
+                                      }
+                                      .style-row {
+                                          padding: 0 5px;
+                                      }
+                                  `}</style>
                               </div>
                           ) as any
                         : null}

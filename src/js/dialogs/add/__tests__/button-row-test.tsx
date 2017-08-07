@@ -12,13 +12,17 @@ const observables = {
 const spies = {
     onAttachInlineToggle: jest.fn(),
     onToggleManual: jest.fn(),
-    onPubmedDialogSubmit: jest.fn(),
+    onSearchPubmedClick: jest.fn(),
 };
 
-const setup = (addManually: boolean = true, attachInline: boolean = false) => {
+const setup = (
+    addManually: boolean = true,
+    attachInline: boolean = false,
+    isLoading: boolean = false,
+) => {
     observables.addManually.set(addManually);
     observables.attachInline.set(attachInline);
-    const component = shallow(<ButtonRow {...observables} {...spies} />);
+    const component = shallow(<ButtonRow {...observables} {...spies} isLoading={isLoading} />);
     return {
         component,
     };
@@ -29,22 +33,10 @@ describe('<ButtonRow />', () => {
         jest.resetAllMocks();
     });
     it('should match snapshots', () => {
-        const { component } = setup();
+        let { component } = setup();
         expect(toJSON(component)).toMatchSnapshot();
-    });
-    it('should toggle the pubmed dialog', () => {
-        const { component } = setup(false, true);
-        const pubmedBtn = component.find('#searchPubmed');
-        expect(component.find('Container').length).toBe(0);
-        pubmedBtn.simulate('click');
-        expect(component.find('Container').length).toBe(1);
-    });
-    it('should handle pubmed dialog submit', () => {
-        const { component } = setup();
-        const pubmedBtn = component.find('#searchPubmed');
-        pubmedBtn.simulate('click');
-        const submitBtn = component.find('PubmedDialog');
-        submitBtn.simulate('submit');
-        expect(spies.onPubmedDialogSubmit).toHaveBeenCalledTimes(1);
+
+        ({ component } = setup(false));
+        expect(toJSON(component)).toMatchSnapshot();
     });
 });

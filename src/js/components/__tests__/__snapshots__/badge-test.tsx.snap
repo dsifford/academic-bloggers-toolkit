@@ -1,0 +1,241 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Badge /> count >= 99 1`] = `
+<div
+  style={
+    Object {
+      "background": "#0085ba",
+    }
+  }
+>
+  99+
+  <style
+    jsx={true}
+  >
+    
+                        div {
+                            color: #fff;
+                            border-radius: 20px;
+                            padding: 0 10px;
+                            font-size: 11px;
+                            font-weight: bold;
+                            line-height: 20px;
+                            margin-left: 10px;
+                            display: inline-block;
+                            text-transform: uppercase;
+                            position: relative;
+                        }
+                    
+  </style>
+</div>
+`;
+
+exports[`<Badge /> count >= 99 2`] = `
+<div
+  style={
+    Object {
+      "background": "magenta",
+    }
+  }
+>
+  99+
+  <style
+    jsx={true}
+  >
+    
+                        div {
+                            color: #fff;
+                            border-radius: 20px;
+                            padding: 0 10px;
+                            font-size: 11px;
+                            font-weight: bold;
+                            line-height: 20px;
+                            margin-left: 10px;
+                            display: inline-block;
+                            text-transform: uppercase;
+                            position: relative;
+                        }
+                    
+  </style>
+</div>
+`;
+
+exports[`<Badge /> defaults < 99 1`] = `
+<div
+  style={
+    Object {
+      "background": "#0085ba",
+    }
+  }
+>
+  5
+  <style
+    jsx={true}
+  >
+    
+                        div {
+                            color: #fff;
+                            border-radius: 20px;
+                            padding: 0 10px;
+                            font-size: 11px;
+                            font-weight: bold;
+                            line-height: 20px;
+                            margin-left: 10px;
+                            display: inline-block;
+                            text-transform: uppercase;
+                            position: relative;
+                        }
+                    
+  </style>
+</div>
+`;
+
+exports[`<Badge /> defaults < 99 2`] = `
+<div
+  style={
+    Object {
+      "background": "#0085ba",
+    }
+  }
+>
+  50
+  <style
+    jsx={true}
+  >
+    
+                        div {
+                            color: #fff;
+                            border-radius: 20px;
+                            padding: 0 10px;
+                            font-size: 11px;
+                            font-weight: bold;
+                            line-height: 20px;
+                            margin-left: 10px;
+                            display: inline-block;
+                            text-transform: uppercase;
+                            position: relative;
+                        }
+                    
+  </style>
+</div>
+`;
+
+exports[`<Badge /> defaults < 99 3`] = `
+<div
+  style={
+    Object {
+      "background": "#0085ba",
+    }
+  }
+>
+  98
+  <style
+    jsx={true}
+  >
+    
+                        div {
+                            color: #fff;
+                            border-radius: 20px;
+                            padding: 0 10px;
+                            font-size: 11px;
+                            font-weight: bold;
+                            line-height: 20px;
+                            margin-left: 10px;
+                            display: inline-block;
+                            text-transform: uppercase;
+                            position: relative;
+                        }
+                    
+  </style>
+</div>
+`;
+
+exports[`<Badge /> with color set < 99 1`] = `
+<div
+  style={
+    Object {
+      "background": "magenta",
+    }
+  }
+>
+  5
+  <style
+    jsx={true}
+  >
+    
+                        div {
+                            color: #fff;
+                            border-radius: 20px;
+                            padding: 0 10px;
+                            font-size: 11px;
+                            font-weight: bold;
+                            line-height: 20px;
+                            margin-left: 10px;
+                            display: inline-block;
+                            text-transform: uppercase;
+                            position: relative;
+                        }
+                    
+  </style>
+</div>
+`;
+
+exports[`<Badge /> with color set < 99 2`] = `
+<div
+  style={
+    Object {
+      "background": "#ff00ff",
+    }
+  }
+>
+  50
+  <style
+    jsx={true}
+  >
+    
+                        div {
+                            color: #fff;
+                            border-radius: 20px;
+                            padding: 0 10px;
+                            font-size: 11px;
+                            font-weight: bold;
+                            line-height: 20px;
+                            margin-left: 10px;
+                            display: inline-block;
+                            text-transform: uppercase;
+                            position: relative;
+                        }
+                    
+  </style>
+</div>
+`;
+
+exports[`<Badge /> with color set < 99 3`] = `
+<div
+  style={
+    Object {
+      "background": "rgba(150, 150, 150, 0.9)",
+    }
+  }
+>
+  98
+  <style
+    jsx={true}
+  >
+    
+                        div {
+                            color: #fff;
+                            border-radius: 20px;
+                            padding: 0 10px;
+                            font-size: 11px;
+                            font-weight: bold;
+                            line-height: 20px;
+                            margin-left: 10px;
+                            display: inline-block;
+                            text-transform: uppercase;
+                            position: relative;
+                        }
+                    
+  </style>
+</div>
+`;

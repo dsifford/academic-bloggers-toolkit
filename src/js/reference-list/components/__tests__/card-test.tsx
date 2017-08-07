@@ -1,7 +1,8 @@
-jest.mock('utils/tooltips');
 jest.useFakeTimers();
 import { shallow } from 'enzyme';
+import toJSON from 'enzyme-to-json';
 import * as React from 'react';
+import * as diff from 'snapshot-diff';
 import Card from '../card';
 
 const testData: { [id: string]: CSL.Data } = {
@@ -148,7 +149,7 @@ const testData: { [id: string]: CSL.Data } = {
     },
 };
 
-const setup = (data: CSL.Data, selected: boolean = false, tooltip: boolean = true) => {
+const setup = (data: CSL.Data, selected: boolean = false, indexOnHover: boolean = true) => {
     const spy = jest.fn();
     const component = shallow(
         <Card
@@ -156,8 +157,8 @@ const setup = (data: CSL.Data, selected: boolean = false, tooltip: boolean = tru
             CSL={data}
             onClick={spy}
             id={'id'}
-            index="1"
-            showTooltip={tooltip}
+            index={1}
+            indexOnHover={indexOnHover}
         />,
     );
     return {
@@ -169,47 +170,47 @@ const setup = (data: CSL.Data, selected: boolean = false, tooltip: boolean = tru
 };
 
 describe('<Card/>', () => {
-    it('should render selected', () => {
+    test('should render selected', () => {
         const { component } = setup(testData['noAuthors'], true);
-        expect(component.first().props().className).toBe('abt-card abt-card_selected');
+        expect(component.first().props().className).toBe('abt-card abt-card--selected');
     });
-    it('should render unselected', () => {
+    test('should render unselected', () => {
         const { component } = setup(testData['noAuthors']);
         expect(component.first().props().className).toBe('abt-card');
     });
-    it('should call onClick when clicked', () => {
+    test('should call onClick when clicked', () => {
         const { component, spy } = setup(testData['noAuthors']);
         component.simulate('click');
         expect(spy).toHaveBeenCalledTimes(1);
     });
-    it('should render with no authors', () => {
+    test('should render with no authors', () => {
         const { people } = setup(testData['noAuthors']);
         expect(people.children().length).toBe(0);
     });
-    it('should handle a situation where there are no authors, and no author field', () => {
+    test('should handle a situation where there are no authors, and no author field', () => {
         const { people } = setup(testData['noAuthorField']);
         expect(people.children().length).toBe(0);
     });
-    it('should handle a single author with invalid fields', () => {
+    test('should handle a single author with invalid fields', () => {
         const { people } = setup(testData['singleAuthorInvalidField']);
         expect(people.children().length).toBe(0);
     });
-    it('should render with a single literal author', () => {
+    test('should render with a single literal author', () => {
         const { people } = setup(testData['singleLiteralAuthorEdgeCase']);
         expect(people.children().length).toBe(1);
         expect(people.text()).toBe('I have no given name.');
     });
-    it('should format two authors correctly', () => {
+    test('should format two authors correctly', () => {
         const { people } = setup(testData['twoAuthors']);
         expect(people.children().length).toBe(1);
         expect(people.text()).toBe('Smith, J, Doe, J.');
     });
-    it('should format three authors correctly', () => {
+    test('should format three authors correctly', () => {
         const { people } = setup(testData['threeAuthors']);
         expect(people.children().length).toBe(1);
         expect(people.text()).toBe('Smith, J, Some literal name, Doe, J.');
     });
-    it('should format > 3 authors correctly', () => {
+    test('should format > 3 authors correctly', () => {
         const { people: people1 } = setup(testData['fourAuthors']);
         expect(people1.children().length).toBe(1);
         expect(people1.text()).toBe('Smith, J, Some literal name, Doe, J...');
@@ -217,48 +218,48 @@ describe('<Card/>', () => {
         expect(people2.children().length).toBe(1);
         expect(people2.text()).toBe('Smith, J, Some literal name, Doe, J...');
     });
-    it('should parse an item without a date correctly', () => {
+    test('should parse an item without a date correctly', () => {
         const { date } = setup(testData['noAuthorField']);
         expect(date.text()).toBe('(n.d.)');
     });
-    it('should parse a "date-parts" date correctly', () => {
+    test('should parse a "date-parts" date correctly', () => {
         const { date } = setup(testData['noAuthors']);
         expect(date.text()).toBe('(2016)');
     });
-    it('should parse a "year" date correctly', () => {
+    test('should parse a "year" date correctly', () => {
         const { date } = setup(testData['singleAuthorInvalidField']);
         expect(date.text()).toBe('(2010)');
     });
-    it('should handle strange edge-cases that result from upgrading from an older version', () => {
+    test('should handle strange edge-cases that result from upgrading from an older version', () => {
         const { date } = setup(testData['singleLiteralAuthorEdgeCase']);
         expect(date.text()).toBe('(n.d.)');
     });
-    it('should create a tooltip on mouseEnter', () => {
-        const { component } = setup(testData['noAuthors']);
-        component.simulate('mouseEnter', {
-            currentTarget: document.createElement('div'),
-        });
+    test('should show and hide indices on hover when indexOnHover is set', () => {
+        const { component } = setup(testData['fourAuthors'], false, true);
+        const initialRender = toJSON(component);
+        const card = component.first();
+
+        expect(initialRender).toMatchSnapshot();
+
+        card.simulate('mouseenter');
         jest.runAllTimers();
+        component.update();
+
+        expect(diff(initialRender, toJSON(component))).toMatchSnapshot();
+
+        card.simulate('mouseleave');
+        expect(diff(initialRender, toJSON(component))).toMatchSnapshot();
     });
-    it('should destroy tooltip on mouseLeave', () => {
-        const { component } = setup(testData['noAuthors']);
-        component.simulate('mouseEnter', {
-            currentTarget: document.createElement('div'),
-        });
-        component.simulate('mouseLeave');
-    });
-    it('should not create tooltips when showTooltip is false', () => {
-        const { component } = setup(testData['noAuthors'], false, false);
-        component.simulate('mouseEnter', {
-            currentTarget: document.createElement('div'),
-        });
-        jest.runAllTimers();
-    });
-    it('should not destroy tooltips when showTooltip is false', () => {
-        const { component } = setup(testData['noAuthors'], false, false);
-        component.simulate('mouseEnter', {
-            currentTarget: document.createElement('div'),
-        });
-        component.simulate('mouseLeave');
+    test('should render appropriately with optional props unset', () => {
+        const component = shallow(
+            <Card
+                isSelected={true}
+                CSL={testData['fourAuthors']}
+                id="id"
+                index={1}
+                indexOnHover={false}
+            />,
+        );
+        expect(toJSON(component)).toMatchSnapshot();
     });
 });

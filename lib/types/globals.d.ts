@@ -58,36 +58,36 @@ declare namespace BackendGlobals {
         };
         referenceList: {
             menu: {
+                toggleLabel: 'Toggle menu';
                 tooltips: {
                     destroy: 'Delete all references';
                     help: 'Usage instructions';
-                    importRIS: 'Import references from file';
+                    importRIS: 'Import references';
                     refresh: 'Refresh reference list';
-                    staticPubList: 'Insert Static Publication List';
+                    staticPubList: 'Insert static publication list';
                 };
             };
-            referenceList: {
-                citedItems: 'Cited Items';
-                tooltips: {
-                    add: 'Add reference to reference list';
-                    insert: 'Insert selected references';
-                    pin: 'Pin reference list to visible window';
-                    remove: 'Remove selected references from reference list';
-                };
-                uncitedItems: 'Uncited Items';
+            citedItems: 'Cited Items';
+            tooltips: {
+                add: 'Add reference';
+                insert: 'Insert selected references';
+                pin: 'Pin reference list';
+                remove: 'Remove selected references';
             };
+            uncitedItems: 'Uncited Items';
         };
-        tinymce: {
-            editReferenceWindow: {
+        dialogs: {
+            closeLabel: 'Close dialog';
+            edit: {
                 title: 'Edit Reference';
                 confirm: 'Confirm';
             };
-            importWindow: {
+            import: {
                 importBtn: 'Import';
-                title: 'Import References from File';
+                title: 'Import References';
                 upload: 'Choose File';
             };
-            pubmedWindow: {
+            pubmed: {
                 addReference: 'Select';
                 next: 'Next';
                 previous: 'Previous';
@@ -95,13 +95,12 @@ declare namespace BackendGlobals {
                 title: 'Search PubMed for Reference';
                 viewReference: 'View';
             };
-            referenceWindow: {
+            add: {
                 buttonRow: {
                     addManually: 'Add Manually';
                     addReference: 'Add Reference';
                     addWithIdentifier: 'Add with Identifier';
                     insertInline: 'Insert citation inline';
-                    pubmedWindowTitle: 'Search PubMed for Reference';
                     searchPubmed: 'Search PubMed';
                 };
                 identifierInput: {
@@ -120,9 +119,7 @@ declare namespace BackendGlobals {
                     given: 'Given Name, M.I.';
                     surname: 'Surname';
                 };
-                referenceWindow: {
-                    title: 'Add Reference';
-                };
+                title: 'Add References';
             };
         };
     }
@@ -187,12 +184,13 @@ declare namespace BackendGlobals {
 // ==============
 
 declare module 'autoprefixer-stylus';
-declare module 'common-tags';
 declare module 'bibtex-parse-js';
-declare module 'rollbar/dist/rollbar.umd';
+declare module 'common-tags';
+declare module 'focus-trap-react';
 declare module 'gulp-stylus';
 declare module 'gulp-uglify/composer';
 declare module 'gulp-wp-pot';
 declare module 'merge-stream';
 declare module 'react-virtualized-select';
+declare module 'rollbar/dist/rollbar.umd';
 declare module 'uglify-es';

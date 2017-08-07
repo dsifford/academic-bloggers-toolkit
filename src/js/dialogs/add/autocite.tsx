@@ -4,21 +4,30 @@ import * as React from 'react';
 
 import { colors, shadows } from 'utils/styles';
 
+import Button from 'components/button';
+
+/** CSL types that are able to be autocited */
+export type AutociteKind = 'webpage' | 'book' | 'chapter';
+
 interface Props {
-    kind: 'webpage' | 'book' | 'chapter';
-    inputType: 'text' | 'url';
+    /** Describes the type of autocite needed */
+    kind: AutociteKind;
+    /** Placeholder text for input field */
     placeholder: string;
+    /** Validation pattern for input field */
     pattern?: string;
+    /** Function to call when autocite is submitted */
     getter(kind: string, query: string): void;
 }
 
 @observer
 export default class AutoCite extends React.PureComponent<Props> {
-    static readonly labels = top.ABT_i18n.tinymce.referenceWindow.manualEntryContainer;
+    static readonly labels = top.ABT_i18n.dialogs.add.manualEntryContainer;
 
-    // Needed for handling the initial focus() of the field
+    /** Ref to the input field (needed for validation) */
     input: HTMLInputElement;
 
+    /** Controls the value of the input field */
     query = observable('');
 
     @action
@@ -33,6 +42,8 @@ export default class AutoCite extends React.PureComponent<Props> {
         this.query.set('');
     };
 
+    bindRefs = (c: HTMLInputElement) => (this.input = c);
+
     handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
         if (e.key === 'Enter' || e.key === 'Return') {
             e.stopPropagation();
@@ -41,21 +52,13 @@ export default class AutoCite extends React.PureComponent<Props> {
         }
     };
 
-    bindRefs = (c: HTMLInputElement) => {
-        this.input = c;
-    };
-
-    componentDidMount() {
-        this.input.focus();
-    }
-
     render() {
-        const { placeholder, inputType } = this.props;
+        const { placeholder, kind } = this.props;
         return (
             <div>
                 <label htmlFor="citequery" children={AutoCite.labels.autocite} />
                 <input
-                    type={inputType}
+                    type={kind === 'webpage' ? 'url' : 'text'}
                     id="citequery"
                     placeholder={placeholder}
                     pattern={this.props.pattern ? this.props.pattern : undefined}
@@ -64,15 +67,10 @@ export default class AutoCite extends React.PureComponent<Props> {
                     onKeyDown={this.handleKeyDown}
                     onChange={this.handleAutociteFieldChange}
                 />
-                <input
-                    type="button"
-                    aria-label={AutoCite.labels.search}
-                    className={
-                        this.query.get().length === 0 || !this.input.validity.valid
-                            ? 'abt-btn abt-btn_flat abt-btn_disabled'
-                            : 'abt-btn abt-btn_flat'
-                    }
-                    value={AutoCite.labels.search}
+                <Button
+                    flat
+                    disabled={this.query.get().length === 0 || !this.input.validity.valid}
+                    label={AutoCite.labels.search}
                     onClick={this.handleQuery}
                 />
                 <style jsx>{`

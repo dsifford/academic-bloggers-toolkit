@@ -15,10 +15,20 @@ exports[`<AddDialog /> should match snapshot 1`] = `
   <ButtonRow
     addManually={false}
     attachInline={true}
+    isLoading={false}
     onAttachInlineToggle={[Function]}
-    onPubmedDialogSubmit={[Function]}
+    onSearchPubmedClick={[Function]}
     onToggleManual={[Function]}
   />
+  <style
+    jsx={true}
+  >
+    
+                            div {
+                                position: relative;
+                            }
+                    
+  </style>
 </div>
 `;
 
@@ -30,7 +40,6 @@ exports[`<AddDialog /> should match snapshot 2`] = `
   >
     <ManualEntryContainer
       errorMessage={""}
-      loading={false}
       manualData={
         Object {
           "type": "webpage",
@@ -52,9 +61,137 @@ exports[`<AddDialog /> should match snapshot 2`] = `
   <ButtonRow
     addManually={true}
     attachInline={true}
+    isLoading={false}
     onAttachInlineToggle={[Function]}
-    onPubmedDialogSubmit={[Function]}
+    onSearchPubmedClick={[Function]}
     onToggleManual={[Function]}
   />
+  <style
+    jsx={true}
+  >
+    
+                            div {
+                                position: relative;
+                            }
+                    
+  </style>
+</div>
+`;
+
+exports[`<AddDialog /> should open pubmed dialog 1`] = `
+<div>
+  <form
+    id="add-reference"
+    onSubmit={[Function]}
+  >
+    <IdentifierInput
+      fieldRef={[Function]}
+      identifierList={""}
+      onChange={[Function]}
+    />
+  </form>
+  <ButtonRow
+    addManually={false}
+    attachInline={true}
+    isLoading={false}
+    onAttachInlineToggle={[Function]}
+    onSearchPubmedClick={[Function]}
+    onToggleManual={[Function]}
+  />
+  <style
+    jsx={true}
+  >
+    
+                            div {
+                                position: relative;
+                            }
+                    
+  </style>
+</div>
+`;
+
+exports[`<AddDialog /> should open pubmed dialog 2`] = `
+<div>
+  <Container
+    currentDialog={"PUBMED"}
+    onClose={[Function]}
+    overlayOpacity={0.2}
+    title="Search PubMed"
+    width={600}
+  >
+    <PubmedDialog
+      onSubmit={[Function]}
+    />
+  </Container>
+  <form
+    id="add-reference"
+    onSubmit={[Function]}
+  >
+    <IdentifierInput
+      fieldRef={[Function]}
+      identifierList={""}
+      onChange={[Function]}
+    />
+  </form>
+  <ButtonRow
+    addManually={false}
+    attachInline={true}
+    isLoading={false}
+    onAttachInlineToggle={[Function]}
+    onSearchPubmedClick={[Function]}
+    onToggleManual={[Function]}
+  />
+  <style
+    jsx={true}
+  >
+    
+                            div {
+                                position: relative;
+                            }
+                    
+  </style>
+</div>
+`;
+
+exports[`<AddDialog /> should open pubmed dialog 3`] = `
+<div>
+  <Container
+    currentDialog={"PUBMED"}
+    onClose={[Function]}
+    overlayOpacity={0.2}
+    title="Search PubMed"
+    width={600}
+  >
+    <PubmedDialog
+      onSubmit={[Function]}
+    />
+  </Container>
+  <form
+    id="add-reference"
+    onSubmit={[Function]}
+  >
+    <IdentifierInput
+      fieldRef={[Function]}
+      identifierList={""}
+      onChange={[Function]}
+    />
+  </form>
+  <ButtonRow
+    addManually={false}
+    attachInline={true}
+    isLoading={false}
+    onAttachInlineToggle={[Function]}
+    onSearchPubmedClick={[Function]}
+    onToggleManual={[Function]}
+  />
+  <style
+    jsx={true}
+  >
+    
+                            div {
+                                position: relative;
+                            }
+                    
+  </style>
 </div>
 `;

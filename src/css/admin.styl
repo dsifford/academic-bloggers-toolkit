@@ -1,15 +1,27 @@
 @require 'collections/colors'
-@require 'citations'
-@require 'collections/reference-list'
+@require 'collections/variables'
 @require 'collections/shared'
+@require 'citations'
 
 // @stylint off
-.mce-window .mce-window-head .mce-title
-.mce-window-head .mce-title
-    font-weight: 500 !important
-
 h1, h2, h3, h4, h5, h6
     font-weight: 500
+
+.wp-editor-expand div.mce-toolbar-grp
+    z-index: initial
+
+#abt-reflist
+    transition: $shadow-transition
+    h2.hndle
+        box-shadow: $depth-1
+    .inside
+        margin: 0
+        width: 254px
+    &.fixed
+        position: fixed
+        box-shadow: $depth-4
+        border: solid $border 1px
+        z-index: 555
 
 .is-focused:not(.is-open) > .Select-control
     border-color: $border !important
@@ -21,24 +33,14 @@ h1, h2, h3, h4, h5, h6
 #wp-content-editor-tools
     z-index: 5 !important
 
-span#HW_badge_cont
+#HW_badge_cont
     display: inline-block !important
     height: auto !important
     top: -2px
     line-height: 1.4em
-    span#HW_badge
+    #HW_badge
         position: relative
         top: 0
         &.HW_softHidden
             top: 5px
-
-.mce-container.mce-panel.mce-floatpanel.mce-window.mce-in[role='dialog']:not([aria-label='Keyboard Shortcuts'])
-    background: transparent !important
-    box-shadow: none !important
-    height: 100vh !important
-    .mce-container-body.mce-window-body.mce-abs-layout
-        height: 100vh !important
-
-.mce-container[role='alertdialog'] .mce-container-body .mce-widget
-    overflow: hidden
 // @stylint on

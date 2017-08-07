@@ -3,7 +3,7 @@
 
 .abt-citation
     noselect()
-    display: inline-block;
+    display: inline-block
     white-space: nowrap
     cursor: pointer
     sup, sub
@@ -104,26 +104,3 @@ body:not(#tinymce)
             top: 5px
     .abt-bibliography__heading_toggle--closed:before
         content: '\f139'
-
-// Deprecations
-// @stylint off
-#tinymce
-    .abt_cite
-        @extends #tinymce .abt-citation
-    #abt-smart-bib
-        @extends #tinymce .abt-bibliography
-    #abt-footnote
-        @extends #tinymce .abt-footnote
-    .abt-footnote-item
-        @extends #tinymce .abt-footnote__item
-.abt_cite
-    @extends .abt-citation
-#abt-footnote
-    @extends .abt-footnote
-.abt-footnote-heading
-    @extends .abt-footnote__heading
-.note-number
-    @extends .abt-footnote__number
-body:not(#tinymce) #abt-smart-bib > h3.toggle // @stylint ignore
-    @extends body:not(#tinymce) .abt-bibliography__heading_toggle
-// @stylint on

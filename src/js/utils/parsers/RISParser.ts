@@ -109,7 +109,7 @@ export class RISParser {
      */
     private parseSingle(singleRef: string, id: number): CSL.Data | boolean {
         const ref = singleRef.split(/\n/);
-        const citationType = ref[0].substr(6).trim();
+        const citationType = ref[0].slice(6).trim();
 
         if (!RISParser.RISTypes[citationType]) {
             return false;
@@ -126,8 +126,8 @@ export class RISParser {
         const pageHolder: any = {};
 
         ref.forEach((line: string) => {
-            const key = line.substr(0, 2);
-            const val = line.substr(6).trim();
+            const key = line.slice(0, 2);
+            const val = line.slice(6).trim();
 
             switch (key) {
                 case 'AU':
@@ -186,7 +186,7 @@ export class RISParser {
                     payload['call-number'] = val;
                     break;
                 case 'CY': // Conference location, publish location, city of publisher (zotero)
-                    if (['paper-conference', 'speech'].indexOf(payload.type!) > -1) {
+                    if (['paper-conference', 'speech'].includes(payload.type!)) {
                         payload['event-place'] = val;
                         break;
                     }
@@ -226,7 +226,7 @@ export class RISParser {
                 case 'JF':
                 case 'T2':
                     payload['container-title'] = val;
-                    if (['paper-conference', 'speech'].indexOf(payload.type!) > -1) {
+                    if (['paper-conference', 'speech'].includes(payload.type!)) {
                         payload.event = val;
                     }
                     break;

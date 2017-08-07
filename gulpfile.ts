@@ -58,14 +58,6 @@ gulp.task('bump', () => {
     return merge(srcFiles, repoFiles);
 });
 
-// FIXME:
-gulp.task('rollbar', () =>
-    gulp
-        .src('dist/php/dom-injects.php', { base: './' })
-        .pipe(replace(/(^\s+environment: ")(test)(",)/gm, '$1production$3'))
-        .pipe(gulp.dest('./'))
-);
-
 // Translations
 export function pot() {
     return gulp
@@ -79,7 +71,7 @@ export function pot() {
                 lastTranslator: 'Derek P Sifford <dereksifford@gmail.com>',
                 team: 'Derek P Sifford <dereksifford@gmail.com>',
                 headers: false,
-            })
+            }),
         )
         .pipe(replace(/(\s)(src\/)(\S+)/gm, '$1$3'))
         .pipe(gulp.dest('./src/academic-bloggers-toolkit.pot'));
@@ -141,7 +133,7 @@ export function styles() {
         stylus({
             use: [autoprefixer({ browsers: ['last 2 versions'] })],
             compress: IS_PRODUCTION,
-        })
+        }),
     );
 
     if (!IS_PRODUCTION) {
@@ -211,7 +203,7 @@ const main = gulp.series(
 
         gulp.watch(
             ['src/**/*', '!src/**/*.{ts,tsx,styl}', '!src/**/__tests__/', '!src/**/__tests__/*'],
-            gulp.series(staticFiles, reload)
+            gulp.series(staticFiles, reload),
         );
 
         browserSync.init({
@@ -220,7 +212,7 @@ const main = gulp.series(
             reloadDebounce: 2000,
             port: 3005,
         });
-    }
+    },
 );
 
 export default main;

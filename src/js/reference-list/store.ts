@@ -51,7 +51,7 @@ class CitationStore {
         return this.CSL
             .keys()
             .reduce((prev, curr) => {
-                if (this.citedIDs.indexOf(curr) === -1) prev.push(this.CSL.get(curr)!);
+                if (!this.citedIDs.includes(curr)) prev.push(this.CSL.get(curr)!);
                 return prev;
             }, <CSL.Data[]>[])
             .slice();
@@ -73,7 +73,7 @@ class CitationStore {
         return this.citationByIndex
             .map(i => i.citationItems.map(j => j.id))
             .reduce((prev, curr) => [...prev, ...curr], [])
-            .reduce((p, c) => (p.indexOf(c) === -1 ? [...p, c] : p), <string[]>[])
+            .reduce((p, c) => (!p.includes(c) ? [...p, c] : p), <string[]>[])
             .slice();
     }
 
@@ -90,14 +90,14 @@ class CitationStore {
     @action
     removeItems(idList: string[]): string[] {
         idList.forEach(id => {
-            if (this.citedIDs.indexOf(id) === -1) this.CSL.delete(id);
+            if (!this.citedIDs.includes(id)) this.CSL.delete(id);
         });
         const toRemove: Set<string> = new Set();
         const byIndex = this.citationByIndex
             .map(i => ({
                 ...i,
-                citationItems: i.citationItems.filter(j => idList.indexOf(j.id) === -1),
-                sortedItems: i.sortedItems!.filter(j => idList.indexOf(j[1].id) === -1),
+                citationItems: i.citationItems.filter(j => !idList.includes(j.id)),
+                sortedItems: i.sortedItems!.filter(j => !idList.includes(j[1].id)),
             }))
             .reduce((prev, curr) => {
                 if (curr.citationItems.length === 0 && curr.citationID) {
@@ -120,7 +120,7 @@ class CitationStore {
             data.reduce((prev, curr) => {
                 prev[curr.id!] = curr;
                 return prev;
-            }, {})
+            }, {}),
         );
         // This is necessary in case one of the values is a duplicate and gets
         // intercepted.
@@ -146,7 +146,7 @@ class CitationStore {
     @action
     pruneOrphanedCitations(citationIds: string[]): void {
         if (this.byIndex.length === citationIds.length) return;
-        const index = this.byIndex.findIndex(a => citationIds.indexOf(a.citationID!) === -1);
+        const index = this.byIndex.findIndex(a => !citationIds.includes(a.citationID!));
         this.byIndex.replace([...this.byIndex.slice(0, index), ...this.byIndex.slice(index + 1)]);
     }
 

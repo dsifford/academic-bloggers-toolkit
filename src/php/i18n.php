@@ -3,11 +3,11 @@
 function abt_generate_translations() {
     $ABT_i18n = (object)[
         'citationTypes' => [],
+        'dialogs' => (object)[],
         'errors' => [],
         'fieldmaps' => (object)[],
         'misc' => [],
         'referenceList' => [],
-        'tinymce' => (object)[],
     ];
 
     $ABT_i18n->misc = [
@@ -45,53 +45,53 @@ function abt_generate_translations() {
 
     $ABT_i18n->referenceList = [
         'menu' => [
+            'toggleLabel' => __('Toggle menu', 'academic-bloggers-toolkit'),
             'tooltips' => [
                 'destroy' => __('Delete all references', 'academic-bloggers-toolkit'),
                 'help' => __('Usage instructions', 'academic-bloggers-toolkit'),
-                'importRIS' => __('Import references from file', 'academic-bloggers-toolkit'),
+                'importRIS' => __('Import references', 'academic-bloggers-toolkit'),
                 'refresh' => __('Refresh reference list', 'academic-bloggers-toolkit'),
-                'staticPubList' => __('Insert Static Publication List', 'academic-bloggers-toolkit'),
+                'staticPubList' => __('Insert static publication list', 'academic-bloggers-toolkit'),
             ],
         ],
-        'referenceList' => [
-            'citedItems' => __('Cited Items', 'academic-bloggers-toolkit'),
-            'tooltips' => [
-                'add' => __('Add reference to reference list', 'academic-bloggers-toolkit'),
-                'insert' => __('Insert selected references', 'academic-bloggers-toolkit'),
-                'pin' => __('Pin reference list to visible window', 'academic-bloggers-toolkit'),
-                'remove' => __('Remove selected references from reference list', 'academic-bloggers-toolkit'),
-            ],
-            'uncitedItems' => __('Uncited Items', 'academic-bloggers-toolkit'),
+        'citedItems' => __('Cited Items', 'academic-bloggers-toolkit'),
+        'tooltips' => [
+            'add' => __('Add reference', 'academic-bloggers-toolkit'),
+            'insert' => __('Insert selected references', 'academic-bloggers-toolkit'),
+            'pin' => __('Pin reference list', 'academic-bloggers-toolkit'),
+            'remove' => __('Remove selected references', 'academic-bloggers-toolkit'),
         ],
+        'uncitedItems' => __('Uncited Items', 'academic-bloggers-toolkit'),
     ];
 
-    $ABT_i18n->tinymce->editReferenceWindow = [
+    $ABT_i18n->dialogs->closeLabel = __('Close dialog', 'academic-bloggers-toolkit');
+
+    $ABT_i18n->dialogs->edit = [
         'title' => __('Edit Reference', 'academic-bloggers-toolkit'),
         'confirm' => __('Confirm', 'academic-bloggers-toolkit'),
     ];
 
-    $ABT_i18n->tinymce->importWindow = [
+    $ABT_i18n->dialogs->import = [
         'importBtn' => __('Import', 'academic-bloggers-toolkit'),
-        'title' => __('Import References from File', 'academic-bloggers-toolkit'),
+        'title' => __('Import References', 'academic-bloggers-toolkit'),
         'upload' => __('Choose File', 'academic-bloggers-toolkit'),
     ];
 
-    $ABT_i18n->tinymce->pubmedWindow = [
+    $ABT_i18n->dialogs->pubmed = [
         'addReference' => __('Select', 'academic-bloggers-toolkit'),
         'next' => __('Next', 'academic-bloggers-toolkit'),
         'previous' => __('Previous', 'academic-bloggers-toolkit'),
         'search' => __('Search', 'academic-bloggers-toolkit'),
-        'title' => __('Search PubMed for Reference', 'academic-bloggers-toolkit'),
+        'title' => __('Search PubMed', 'academic-bloggers-toolkit'),
         'viewReference' => __('View', 'academic-bloggers-toolkit'),
     ];
 
-    $ABT_i18n->tinymce->referenceWindow = [
+    $ABT_i18n->dialogs->add = [
         'buttonRow' => [
             'addManually' => __('Add Manually', 'academic-bloggers-toolkit'),
             'addReference' => __('Add Reference', 'academic-bloggers-toolkit'),
             'addWithIdentifier' => __('Add with Identifier', 'academic-bloggers-toolkit'),
             'insertInline' => __('Insert citation inline', 'academic-bloggers-toolkit'),
-            'pubmedWindowTitle' => __('Search PubMed for Reference', 'academic-bloggers-toolkit'),
             'searchPubmed' => __('Search PubMed', 'academic-bloggers-toolkit'),
         ],
         'identifierInput' => [
@@ -110,9 +110,7 @@ function abt_generate_translations() {
             'given' => __('Given Name, M.I.', 'academic-bloggers-toolkit'),
             'surname' => __('Surname', 'academic-bloggers-toolkit'),
         ],
-        'referenceWindow' => [
-            'title' => __('Add Reference', 'academic-bloggers-toolkit'),
-        ],
+        'title' => __('Add References', 'academic-bloggers-toolkit'),
     ];
 
     require_once(dirname(__FILE__) . '/fieldmaps.php');
