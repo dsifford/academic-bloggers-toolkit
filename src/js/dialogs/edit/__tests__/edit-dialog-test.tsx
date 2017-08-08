@@ -1,4 +1,3 @@
-/// <reference path="../../../../../lib/types/CSL.d.ts" />
 import { shallow } from 'enzyme';
 import toJSON from 'enzyme-to-json';
 import * as React from 'react';

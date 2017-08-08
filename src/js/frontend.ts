@@ -1,7 +1,7 @@
 class Citations {
-    public static isTouchDevice: boolean = true ===
+    static isTouchDevice: boolean = true ===
         ('ontouchstart' in window || (window.DocumentTouch && document instanceof DocumentTouch));
-    public bibliography: HTMLDivElement;
+    bibliography: HTMLDivElement;
 
     constructor() {
         this.bibliography = <HTMLDivElement>document.querySelector(

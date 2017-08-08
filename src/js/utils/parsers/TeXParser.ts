@@ -20,14 +20,14 @@ export class TeXParser {
         dec: '12',
     };
 
-    public bibJSON: parser.BibJSON[];
-    public unsupportedRefs = [];
+    bibJSON: parser.BibJSON[];
+    unsupportedRefs = [];
 
     constructor(raw: string) {
         this.bibJSON = parser.toJSON(raw);
     }
 
-    public parse(): CSL.Data[] {
+    parse(): CSL.Data[] {
         const payload: CSL.Data[] = [];
         for (const citation of this.bibJSON) {
             const c: CSL.Data = {};

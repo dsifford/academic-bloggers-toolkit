@@ -1,33 +1,37 @@
 {
-    "extends": ["tslint:latest"],
+    "extends": "tslint:latest",
     "rulesDirectory": [
         "node_modules/tslint-react/rules",
         "node_modules/tslint-microsoft-contrib"
     ],
     "rules": {
+        // tslint rules
         "arrow-parens": false,
         "curly": false,
-        "interface-name": [false],
-        "max-classes-per-file": [false],
-        "max-line-length": [false],
-        "member-access": [false],
+        "interface-name": false,
+        "max-classes-per-file": false,
+        "max-line-length": false,
         "no-angle-bracket-type-assertion": false,
         "no-default-export": false,
         "no-object-literal-type-assertion": false,
-        "no-reference": false,
         "no-string-literal": false,
         "no-string-throw": false,
-        "no-unused-expression": [false],
+        "no-unused-expression": false,
         "no-var-requires": false,
-        "object-literal-key-quotes": [false],
+        "object-literal-key-quotes": false,
         "object-literal-sort-keys": false,
-        "quotemark": [false],
-        "semicolon": [false],
-        "trailing-comma": [true],
-        "typedef": [false],
-        "variable-name": [false],
-        "whitespace": [false],
+        "quotemark": false,
+        "semicolon": false,
+        "trailing-comma": false,
+        "variable-name": false,
+        "whitespace": false,
+        "member-access": {
+            "options": [
+                "no-public"
+            ]
+        },
 
+        // tslint-microsoft-contrib rules
         "no-banned-terms": true,
         "no-delete-expression": true,
         "no-document-write": true,
@@ -53,6 +57,7 @@
         "prefer-type-cast": true,
         "promise-must-complete": true,
 
+        // tslint-microsoft-control a11y rules
         "react-a11y-anchors": true,
         "react-a11y-aria-unsupported-elements": true,
         "react-a11y-event-has-role": true,
@@ -66,12 +71,14 @@
         "react-a11y-tabindex-no-positive": true,
         "react-a11y-titles": true,
 
+        // tslint-microsoft-control react rules
         "react-anchor-blank-noopener": true,
         "react-iframe-missing-sandbox": true,
         "react-no-dangerous-html": true,
         "react-this-binding-issue": true,
         "react-unused-props-and-state": true,
 
+        // tslint-react rules
         "jsx-no-bind": true,
         "jsx-no-lambda": true,
         "jsx-no-string-ref": true,

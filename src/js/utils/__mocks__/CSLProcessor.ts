@@ -4,7 +4,7 @@ function chooseRandom<T>(items: T[]): T {
 }
 
 export class CSLProcessor {
-    public citeproc: any = {
+    citeproc: any = {
         registry: {
             citationreg: {
                 citationById: {},

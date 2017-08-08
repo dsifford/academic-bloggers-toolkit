@@ -9,7 +9,7 @@ export class RISParser {
      * as values.
      */
     // prettier-ignore
-    public static RISTypes: { [abbr: string]: CSL.CitationType } = {
+    static RISTypes: { [abbr: string]: CSL.CitationType } = {
         ABST   : 'article',                 // 'Abstract',
         ADVS   : 'broadcast',               // 'Audiovisual Material',
         AGGR   : 'dataset',                 // 'Aggregated Database',
@@ -65,7 +65,7 @@ export class RISParser {
         VIDEO  : 'broadcast',               // 'Video Recording'
     };
 
-    public unsupportedRefs: number[] = [];
+    unsupportedRefs: number[] = [];
     private refArray: string[];
 
     /**
@@ -84,7 +84,7 @@ export class RISParser {
      * its index is pushed to unsupportedRefs.
      * @return Array of CSL.Data
      */
-    public parse(): CSL.Data[] {
+    parse(): CSL.Data[] {
         const payload: CSL.Data[] = [];
 
         this.refArray.forEach((ref: string, i: number) => {

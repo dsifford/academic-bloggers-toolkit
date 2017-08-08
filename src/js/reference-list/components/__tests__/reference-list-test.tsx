@@ -33,20 +33,20 @@ class MockEditor extends EditorDriver {
     private _selection: string = '';
     // End mock helpers ===================
 
-    public get citationIds() {
+    get citationIds() {
         return this._clusters.map(([_, __, id]) => id);
     }
-    public get selection() {
+    get selection() {
         return this._selection;
     }
     // Mock helper
-    public set selection(selection: string) {
+    set selection(selection: string) {
         this._selection = selection;
     }
-    public init() {
+    init() {
         return Promise.resolve({});
     }
-    public getRelativeCitationPositions(validIds: string[]) {
+    getRelativeCitationPositions(validIds: string[]) {
         validIds = [];
         const randomStartPoint = Math.floor(Math.random() * (this._clusters.length - 1));
         const positions = [...this._clusters].map(([index, _, id]) => [id, index]);
@@ -58,23 +58,23 @@ class MockEditor extends EditorDriver {
             ] as [Citeproc.CitationsPrePost, Citeproc.CitationsPrePost],
         };
     }
-    public composeCitations() {
+    composeCitations() {
         mocks.editorMock('composeCitations');
     }
-    public removeItems(idList: string[]) {
+    removeItems(idList: string[]) {
         this._clusters = this._clusters.filter(([_, __, id]) => !idList.includes(id));
         mocks.editorMock('removeItems');
     }
-    public setBibliography() {
+    setBibliography() {
         mocks.editorMock('setBibliography');
     }
-    public setLoadingState() {
+    setLoadingState() {
         mocks.editorMock('setLoadingState');
     }
-    public alert() {
+    alert() {
         mocks.editorMock('alert');
     }
-    public reset() {
+    reset() {
         this._clusters = [];
     }
     protected bindEvents() {

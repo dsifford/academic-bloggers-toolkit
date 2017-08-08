@@ -3,18 +3,18 @@ import EditorDriver, { BibOptions, RelativeCitationPositions } from './base';
 export default class TinyMCEDriver extends EditorDriver {
     private editor: TinyMCE.Editor;
 
-    public get citationIds() {
+    get citationIds() {
         const citations = this.editor
             .getDoc()
             .querySelectorAll(`*:not(.mce-offscreen-selection) > .${this.citationClass}`);
         return [...citations].map(c => c.id);
     }
 
-    public get selection() {
+    get selection() {
         return this.editor.selection.getContent({ format: 'html' });
     }
 
-    public init() {
+    init() {
         return new Promise((resolve, reject) => {
             let attempts = 0;
             const interval = setInterval(() => {
@@ -42,15 +42,15 @@ export default class TinyMCEDriver extends EditorDriver {
         });
     }
 
-    public setLoadingState(loading?: boolean) {
+    setLoadingState(loading?: boolean) {
         this.editor.setProgressState(loading || false);
     }
 
-    public alert(message: string) {
+    alert(message: string) {
         this.editor.windowManager.alert(message);
     }
 
-    public reset() {
+    reset() {
         const elements = this.editor
             .getDoc()
             .querySelectorAll(`#${this.bibliographyId}, .${this.citationClass}`);
@@ -59,7 +59,7 @@ export default class TinyMCEDriver extends EditorDriver {
         }
     }
 
-    public removeItems(itemIds: string[]) {
+    removeItems(itemIds: string[]) {
         const doc = this.editor.getDoc();
         for (const id of itemIds) {
             const item = doc.getElementById(id);
@@ -69,7 +69,7 @@ export default class TinyMCEDriver extends EditorDriver {
         }
     }
 
-    public getRelativeCitationPositions(validIds: string[]) {
+    getRelativeCitationPositions(validIds: string[]) {
         const doc = this.editor.getDoc();
         const bm = this.editor.selection.getBookmark();
         const bookmarkIds = [`${bm.id}_start`, `${bm.id}_end`];
@@ -111,7 +111,7 @@ export default class TinyMCEDriver extends EditorDriver {
         };
     }
 
-    public composeCitations(
+    composeCitations(
         clusters: Citeproc.CitationCluster[],
         citationByIndex: Citeproc.CitationByIndex,
         kind: Citeproc.CitationKind,
@@ -121,7 +121,7 @@ export default class TinyMCEDriver extends EditorDriver {
             : this.parseInTextCitations(clusters, citationByIndex);
     }
 
-    public setBibliography(
+    setBibliography(
         options: BibOptions,
         bibliography: ABT.Bibliography | boolean,
         staticBib: boolean = false,

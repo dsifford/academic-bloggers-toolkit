@@ -12,7 +12,7 @@ export class CSLProcessor {
     /**
      * CSL.Engine instance created by this class
      */
-    public citeproc: Citeproc.Processor;
+    citeproc: Citeproc.Processor;
 
     /**
      * Converts the locale names in wordpress (keys) to the locales
