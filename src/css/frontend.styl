@@ -1,12 +1,27 @@
 @require 'collections/colors'
 @require 'collections/variables'
-@require 'citations'
+@require 'collections/citations'
 
 .abt-bibligraphy__container
     display: block
 
 .abt-bibligraphy__container--hidden
     display: none
+
+.abt-bibliography__heading_toggle
+    margin-left: -30px
+    user-select: none
+    &:hover
+        cursor: pointer
+    &:before
+        content: '\f140'
+        font-family: 'dashicons'
+        position: relative
+        font-size: 30px
+        top: 5px
+
+.abt-bibliography__heading_toggle--closed:before
+    content: '\f139'
 
 .abt-tooltip
     border-radius: 3px

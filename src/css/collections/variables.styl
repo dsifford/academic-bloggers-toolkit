@@ -11,14 +11,6 @@ $citation-tooltip = 0 0 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23)
 
 $shadow-transition = all 0.3s cubic-bezier(.25,.8,.25,1)
 
-// Button transitions
-$animation-curve-fast-out-slow-in = cubic-bezier(0.4, 0, 0.2, 1)
-$animation-curve-linear-out-slow-in = cubic-bezier(0, 0, 0.2, 1)
-$animation-curve-fast-out-linear-in = cubic-bezier(0.4, 0, 1, 1)
-$animation-curve-default = $animation-curve-fast-out-slow-in
-
-$button-transition = box-shadow 0.2s $animation-curve-fast-out-linear-in, background-color 0.2s $animation-curve-default, color 0.2s $animation-curve-default
-
 // Mixins
 noselect()
     -webkit-appearance: none
@@ -38,21 +30,3 @@ word-wrap()
     -moz-hyphens: auto
     -webkit-hyphens: auto
     hyphens: auto
-
-@keyframes pulse {
-    0% {
-        -webkit-transform: scale(0);
-        transform: scale(0);
-        opacity: 0;
-    }
-    50% {
-        -webkit-transform: scale(0.99);
-        transform: scale(0.99);
-    }
-    100% {
-        -webkit-transform: scale(1);
-        transform: scale(1);
-        opacity: 1;
-        visibility: visible;
-    }
-}

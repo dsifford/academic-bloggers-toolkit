@@ -85,7 +85,10 @@ export default class Menu extends React.PureComponent<Props> {
         if (label) this.selected.label = label;
     };
 
-    @action toggleMenu = () => this.props.isOpen.set(false);
+    @action
+    toggleMenu = () => {
+        this.props.isOpen.set(false);
+    };
 
     handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
         this.toggleMenu();
@@ -196,7 +199,7 @@ export default class Menu extends React.PureComponent<Props> {
                                   <style jsx>{`
                                       .menu {
                                           padding: 0;
-                                          position: static;
+                                          position: relative;
                                           z-index: 555;
                                       }
                                       .subpanel {

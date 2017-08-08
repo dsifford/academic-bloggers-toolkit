@@ -52,7 +52,7 @@ class Transitions {
             default: '',
         };
         this.curves.default = this.curves.fast_out_slow_in;
-        this.shadows = `all 0.3s cubic-bezier(.25,.8,.25,1)`;
+        this.shadows = `0.3s cubic-bezier(.25,.8,.25,1)`;
         this.buttons = `
             box-shadow .2s ${this.curves.fast_out_linear_in},
             background-color .2s ${this.curves.default},

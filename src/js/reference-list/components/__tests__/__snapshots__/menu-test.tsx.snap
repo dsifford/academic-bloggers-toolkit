@@ -1324,7 +1324,7 @@ exports[`<Menu /> should match snapshots 1`] = `
         
                                               .menu {
                                                   padding: 0;
-                                                  position: static;
+                                                  position: relative;
                                                   z-index: 555;
                                               }
                                               .subpanel {

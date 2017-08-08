@@ -9,11 +9,6 @@ const isProduction = process.env.NODE_ENV === 'production';
 
 const sharedPlugins: webpack.Plugin[] = [
     new webpack.NoEmitOnErrorsPlugin(),
-    // new webpack.optimize.CommonsChunkPlugin({
-    //     name: 'vendor',
-    //     minChunks: Infinity,
-    //     filename: 'vendor/vendor.bundle.js',
-    // }),
     new webpack.DefinePlugin({
         __DEV__: JSON.stringify(!isProduction),
         'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
@@ -31,6 +26,8 @@ const devPlugins: webpack.Plugin[] = [
 
 const productionPlugins = [
     ...sharedPlugins,
+    new webpack.optimize.ModuleConcatenationPlugin(),
+    new webpack.optimize.OccurrenceOrderPlugin(true),
     new webpack.optimize.UglifyJsPlugin({
         beautify: false,
         mangle: {
