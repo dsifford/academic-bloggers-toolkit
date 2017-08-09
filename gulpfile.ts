@@ -1,11 +1,11 @@
 // tslint:disable:no-console
-import * as autoprefixer from 'autoprefixer-stylus';
 import { exec as cp_exec, spawn } from 'child_process';
 import * as gulp from 'gulp';
+import * as autoprefixer from 'gulp-autoprefixer';
 import * as replace from 'gulp-replace';
+import * as sass from 'gulp-sass';
 import * as sort from 'gulp-sort';
 import * as sourcemaps from 'gulp-sourcemaps';
-import * as stylus from 'gulp-stylus';
 import * as composer from 'gulp-uglify/composer';
 import * as wpPot from 'gulp-wp-pot';
 import * as merge from 'merge-stream';
@@ -33,7 +33,7 @@ export { clean, reload };
  * Version bump the required files according to the version in package.json
  * Append link to changelog for current version in readme.txt
  */
-gulp.task('bump', () => {
+export function bump() {
     const re = `== Changelog ==\n(?!\n= ${VERSION})`;
     const repl =
         '== Changelog ==\n\n' +
@@ -56,7 +56,7 @@ gulp.task('bump', () => {
         .pipe(gulp.dest('./'));
 
     return merge(srcFiles, repoFiles);
-});
+}
 
 // Translations
 export function pot() {
@@ -123,18 +123,19 @@ export function staticFiles() {
 // ==================================================
 
 export function styles() {
-    let stream = gulp.src('src/**/*.styl', { base: './src' });
+    let stream = gulp.src('src/css/**/[^_]*.scss', { base: './src' });
 
     if (!IS_PRODUCTION) {
         stream = stream.pipe(sourcemaps.init());
     }
 
-    stream = stream.pipe(
-        stylus({
-            use: [autoprefixer({ browsers: ['last 2 versions'] })],
-            compress: IS_PRODUCTION,
-        }),
-    );
+    stream = stream
+        .pipe(
+            sass({
+                outputStyle: IS_PRODUCTION ? 'compressed' : 'nested',
+            }).on('error', sass.logError),
+        )
+        .pipe(autoprefixer({ browsers: ['last 2 versions'] }));
 
     if (!IS_PRODUCTION) {
         stream = stream.pipe(sourcemaps.write('.', undefined));
