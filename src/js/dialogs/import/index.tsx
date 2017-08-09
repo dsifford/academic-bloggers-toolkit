@@ -6,6 +6,7 @@ import { generateID } from 'utils/helpers/';
 import { RISParser, TeXParser } from 'utils/parsers/';
 import { colors } from 'utils/styles';
 
+import Button from 'components/button';
 import Callout from 'components/callout';
 
 import { DialogProps } from 'dialogs/';
@@ -14,6 +15,8 @@ import { DialogProps } from 'dialogs/';
 export default class ImportDialog extends React.Component<DialogProps> {
     static readonly labels = top.ABT_i18n.dialogs.import;
     static readonly errors = top.ABT_i18n.errors;
+
+    inputField: HTMLInputElement;
 
     /** The error message to be displayed in the callout, if applicable */
     errorMessage = observable('');
@@ -105,48 +108,64 @@ export default class ImportDialog extends React.Component<DialogProps> {
         this.props.onSubmit(toJS(this.payload));
     };
 
+    handleClick = () => {
+        this.inputField.click();
+    };
+
+    bindRef = (c: HTMLInputElement) => (this.inputField = c);
+
     render() {
         return (
-            <div>
+            <div id="import-dialog-root">
                 <div className="import-dialog">
-                    <label>
-                        <input
-                            type="file"
-                            id="uploadField"
-                            value={this.file.value.get()}
-                            required={true}
-                            onChange={this.handleFileUpload}
-                            accept=".ris,.bib,.bibtex,application/xresearch-info-systems,application/x-bibtex"
-                        />
-                        <span
-                            className="abt-btn abt-btn_flat upload-btn"
-                            children={ImportDialog.labels.upload}
-                        />
-                    </label>
-                    <div className="well" children={this.file.name.get()} />
                     <input
-                        type="button"
-                        className={
-                            this.payload.length === 0
-                                ? 'abt-btn abt-btn_submit abt-btn_disabled'
-                                : 'abt-btn abt-btn_submit'
-                        }
-                        value={ImportDialog.labels.importBtn}
+                        required
+                        aria-labelledby="upload-file-btn"
+                        ref={this.bindRef}
+                        type="file"
+                        id="uploadField"
+                        value={this.file.value.get()}
+                        onChange={this.handleFileUpload}
+                        accept=".ris,.bib,.bibtex,application/xresearch-info-systems,application/x-bibtex"
+                    />
+                    <Button
+                        flat
+                        focusable
+                        id="upload-file-btn"
+                        aria-controls="uploadField"
+                        label={ImportDialog.labels.upload}
+                        onClick={this.handleClick}
+                    />
+                    <div id="well" className="well" children={this.file.name.get()} />
+                    <Button
+                        primary
+                        focusable
+                        disabled={this.payload.length === 0}
+                        label={ImportDialog.labels.importBtn}
                         onClick={this.handleSubmit}
                     />
                 </div>
-                <Callout title={`${ImportDialog.errors.prefix}!`} onDismiss={this.setErrorMessage}>
+                <Callout
+                    title={`${ImportDialog.errors.prefix}!`}
+                    onDismiss={this.setErrorMessage}
+                    style={{ margin: '10px 0 0 0' }}
+                >
                     {this.errorMessage.get()}
                 </Callout>
                 <style jsx>{`
+                    input {
+                        visibility: hidden;
+                        width: 0;
+                        border: 0;
+                        padding: 0;
+                        pointer-events: none;
+                    }
+                    #import-dialog-root {
+                        padding: 10px;
+                    }
                     .import-dialog {
                         display: flex;
                         align-items: center;
-                        padding: 0 10px 10px;
-                    }
-                    input[type='file'] {
-                        position: fixed;
-                        top: -1000px;
                     }
                     .upload-btn {
                         display: inline-block;

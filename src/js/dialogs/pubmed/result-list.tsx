@@ -28,13 +28,31 @@ export class ResultList extends React.PureComponent<ResultListProps, {}> {
         this.props.onSelect(e.currentTarget.id);
     };
 
+    handleWheel = (e: React.WheelEvent<HTMLDivElement>) => {
+        const isScrollingDown = e.deltaY > 0;
+        const isScrollingUp = !isScrollingDown;
+        const isScrollable = e.currentTarget.scrollHeight > e.currentTarget.clientHeight;
+        const atBottom =
+            e.currentTarget.scrollHeight <=
+            e.currentTarget.clientHeight + Math.ceil(e.currentTarget.scrollTop);
+        const atTop = e.currentTarget.scrollTop === 0;
+
+        if (isScrollable && !atBottom && isScrollingDown) {
+            e.cancelable = false;
+        }
+
+        if (isScrollable && !atTop && isScrollingUp) {
+            e.cancelable = false;
+        }
+    };
+
     componentDidUpdate() {
         this.element.scrollTop = 0;
     }
 
     render() {
         return (
-            <div className="result-list" ref={this.bindRefs}>
+            <div className="result-list" ref={this.bindRefs} onWheel={this.handleWheel}>
                 {this.props.results.map(result =>
                     <div key={result.uid} className="result-item">
                         <div className="result-item__row-1">

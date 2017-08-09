@@ -25,14 +25,19 @@ export default class Callout extends React.PureComponent<Props> {
     };
 
     render() {
-        const { title, children, intent, isVisible, onDismiss } = this.props;
+        const { title, children, intent, isVisible, onDismiss, ...divProps } = this.props;
         const defaultTitle =
             intent === 'danger' ? Callout.prefixes.error : Callout.prefixes.warning;
         if (!isVisible || children === '') {
             return null;
         }
         return (
-            <div className={`callout ${intent}`}>
+            <div
+                {...divProps}
+                className={`callout ${intent}`}
+                role="alert"
+                aria-label={`${title || defaultTitle} ${children}`}
+            >
                 <div className="callout__heading">
                     <h5 children={title ? title : defaultTitle} />
                     {onDismiss &&

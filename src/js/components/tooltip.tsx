@@ -68,7 +68,7 @@ export default class Tooltip extends React.PureComponent<Props> {
                     .abt-tooltip {
                         pointer-events: none;
                         transform-origin: top center;
-                        z-index: 20;
+                        z-index: 1000;
                         background: ${colors.tooltip_gray};
                         border-radius: 2px;
                         color: white;

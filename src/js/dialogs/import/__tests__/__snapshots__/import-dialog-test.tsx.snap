@@ -1,53 +1,71 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`<ImportDialog /> should match snapshot 1`] = `
-<div>
+<div
+  id="import-dialog-root"
+>
   <div
     className="import-dialog"
   >
-    <label>
-      <input
-        accept=".ris,.bib,.bibtex,application/xresearch-info-systems,application/x-bibtex"
-        id="uploadField"
-        onChange={[Function]}
-        required={true}
-        type="file"
-        value=""
-      />
-      <span
-        className="abt-btn abt-btn_flat upload-btn"
-      >
-        Choose File
-      </span>
-    </label>
-    <div
-      className="well"
-    />
     <input
-      className="abt-btn abt-btn_submit abt-btn_disabled"
+      accept=".ris,.bib,.bibtex,application/xresearch-info-systems,application/x-bibtex"
+      aria-labelledby="upload-file-btn"
+      id="uploadField"
+      onChange={[Function]}
+      required={true}
+      type="file"
+      value=""
+    />
+    <Button
+      aria-controls="uploadField"
+      flat={true}
+      focusable={true}
+      id="upload-file-btn"
+      label="Choose File"
       onClick={[Function]}
       type="button"
-      value="Import"
+    />
+    <div
+      className="well"
+      id="well"
+    />
+    <Button
+      disabled={true}
+      focusable={true}
+      label="Import"
+      onClick={[Function]}
+      primary={true}
+      type="button"
     />
   </div>
   <Callout
     intent="danger"
     isVisible={true}
     onDismiss={[Function]}
+    style={
+      Object {
+        "margin": "10px 0 0 0",
+      }
+    }
     title="Error!"
   />
   <style
     jsx={true}
   >
     
+                        input {
+                            visibility: hidden;
+                            width: 0;
+                            border: 0;
+                            padding: 0;
+                            pointer-events: none;
+                        }
+                        #import-dialog-root {
+                            padding: 10px;
+                        }
                         .import-dialog {
                             display: flex;
                             align-items: center;
-                            padding: 0 10px 10px;
-                        }
-                        input[type='file'] {
-                            position: fixed;
-                            top: -1000px;
                         }
                         .upload-btn {
                             display: inline-block;

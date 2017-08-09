@@ -51,7 +51,7 @@ exports[`<Menu /> should match snapshots 1`] = `
         <Button
           flat={true}
           icon="media-code"
-          id="IMPORT_RIS"
+          id="OPEN_IMPORT_DIALOG"
           label="Import references"
           onClick={[Function]}
           tooltip={
@@ -87,7 +87,7 @@ exports[`<Menu /> should match snapshots 1`] = `
                                       .abt-tooltip {
                                           pointer-events: none;
                                           transform-origin: top center;
-                                          z-index: 20;
+                                          z-index: 1000;
                                           background: rgba(66, 66, 66, 0.9);
                                           border-radius: 2px;
                                           color: white;
@@ -112,7 +112,7 @@ exports[`<Menu /> should match snapshots 1`] = `
               aria-describedby="Import_references"
               aria-label="Import references"
               className="btn-flat btn-icon"
-              id="IMPORT_RIS"
+              id="OPEN_IMPORT_DIALOG"
               onClick={[Function]}
               onMouseEnter={[Function]}
               onMouseLeave={[Function]}
@@ -290,7 +290,7 @@ exports[`<Menu /> should match snapshots 1`] = `
                                       .abt-tooltip {
                                           pointer-events: none;
                                           transform-origin: top center;
-                                          z-index: 20;
+                                          z-index: 1000;
                                           background: rgba(66, 66, 66, 0.9);
                                           border-radius: 2px;
                                           color: white;
@@ -493,7 +493,7 @@ exports[`<Menu /> should match snapshots 1`] = `
                                       .abt-tooltip {
                                           pointer-events: none;
                                           transform-origin: top center;
-                                          z-index: 20;
+                                          z-index: 1000;
                                           background: rgba(66, 66, 66, 0.9);
                                           border-radius: 2px;
                                           color: white;
@@ -697,7 +697,7 @@ exports[`<Menu /> should match snapshots 1`] = `
                                       .abt-tooltip {
                                           pointer-events: none;
                                           transform-origin: top center;
-                                          z-index: 20;
+                                          z-index: 1000;
                                           background: rgba(66, 66, 66, 0.9);
                                           border-radius: 2px;
                                           color: white;
@@ -901,7 +901,7 @@ exports[`<Menu /> should match snapshots 1`] = `
                                       .abt-tooltip {
                                           pointer-events: none;
                                           transform-origin: top center;
-                                          z-index: 20;
+                                          z-index: 1000;
                                           background: rgba(66, 66, 66, 0.9);
                                           border-radius: 2px;
                                           color: white;
@@ -1071,7 +1071,6 @@ exports[`<Menu /> should match snapshots 1`] = `
       >
         <VirtualizedSelect
           async={false}
-          backspaceRemoves={false}
           clearable={false}
           id="style-select"
           maxHeight={200}
@@ -1102,12 +1101,6 @@ exports[`<Menu /> should match snapshots 1`] = `
               },
             ]
           }
-          style={
-            Object {
-              "cursor": "pointer",
-              "fontWeight": 300,
-            }
-          }
           value={
             Object {
               "label": "American Medical Association",
@@ -1120,7 +1113,7 @@ exports[`<Menu /> should match snapshots 1`] = `
             arrowRenderer={[Function]}
             async={false}
             autosize={true}
-            backspaceRemoves={false}
+            backspaceRemoves={true}
             backspaceToRemoveMessage="Press backspace to remove {label}"
             clearAllText="Clear all"
             clearRenderer={[Function]}
@@ -1186,12 +1179,6 @@ exports[`<Menu /> should match snapshots 1`] = `
             scrollMenuIntoView={true}
             searchable={true}
             simpleValue={false}
-            style={
-              Object {
-                "cursor": "pointer",
-                "fontWeight": 300,
-              }
-            }
             tabSelectsValue={true}
             value={
               Object {
@@ -1212,12 +1199,6 @@ exports[`<Menu /> should match snapshots 1`] = `
                 onTouchEnd={[Function]}
                 onTouchMove={[Function]}
                 onTouchStart={[Function]}
-                style={
-                  Object {
-                    "cursor": "pointer",
-                    "fontWeight": 300,
-                  }
-                }
               >
                 <span
                   className="Select-multi-value-wrapper"

@@ -5,6 +5,14 @@ export enum DialogType {
     NONE = '',
 }
 
+export enum MenuActionType {
+    CHANGE_STYLE = 'CHANGE_STYLE',
+    DESTROY_PROCESSOR = 'DESTROY_PROCESSOR',
+    INSERT_STATIC_BIBLIOGRAPHY = 'INSERT_STATIC_BIBLIOGRAPHY',
+    OPEN_IMPORT_DIALOG = 'OPEN_IMPORT_DIALOG',
+    REFRESH_PROCESSOR = 'REFRESH_PROCESSOR',
+}
+
 /**
  * Empty object for holding the field data for manual input
  * @note - The following fields were skipped:

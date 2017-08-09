@@ -4,7 +4,7 @@ import { observer } from 'mobx-react';
 import * as React from 'react';
 
 import EditorDriver, { EditorDriverConstructor } from 'drivers/base';
-import { DialogType } from 'utils/constants';
+import { DialogType, MenuActionType } from 'utils/constants';
 import { CSLProcessor } from 'utils/CSLProcessor';
 import DevTools from 'utils/devtools';
 import { colors, shadows } from 'utils/styles';
@@ -15,7 +15,7 @@ import Button from 'components/button';
 import Spinner from 'components/spinner';
 import Dialog from 'dialogs';
 import ItemList from './item-list';
-import Menu from './menu';
+import Menu, { MenuAction } from './menu';
 
 const DevTool = DevTools();
 
@@ -201,25 +201,25 @@ export default class ReferenceList extends React.Component<Props> {
     };
 
     @action
-    handleMenuSelection = (kind: string, data?: string) => {
-        switch (kind) {
-            case 'CHANGE_STYLE':
-                this.props.store.setStyle(data!);
+    handleMenuSelection = (menuAction: MenuAction) => {
+        switch (menuAction.kind) {
+            case MenuActionType.CHANGE_STYLE:
+                this.props.store.setStyle(menuAction.data);
                 this.initProcessor();
                 return;
-            case 'IMPORT_RIS':
+            case MenuActionType.OPEN_IMPORT_DIALOG:
                 this.currentDialog.set(DialogType.IMPORT);
                 return;
-            case 'REFRESH_PROCESSOR':
+            case MenuActionType.REFRESH_PROCESSOR:
                 const IDs = this.editor.citationIds;
                 this.props.store.citations.pruneOrphanedCitations(IDs);
                 this.initProcessor();
                 return;
-            case 'DESTROY_PROCESSOR': {
+            case MenuActionType.DESTROY_PROCESSOR: {
                 this.reset();
                 return;
             }
-            case 'INSERT_STATIC_BIBLIOGRAPHY': {
+            case MenuActionType.INSERT_STATIC_BIBLIOGRAPHY: {
                 this.insertStaticBibliography();
                 return;
             }

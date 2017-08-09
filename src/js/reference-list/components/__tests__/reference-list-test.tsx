@@ -294,7 +294,7 @@ describe('<ReferenceList />', async () => {
             const menu = component.find('Menu');
             expect(store.citationStyle.get()).toBe('american-medical-association');
 
-            menu.simulate('submit', 'CHANGE_STYLE', 'apa');
+            menu.simulate('submit', { kind: 'CHANGE_STYLE', data: 'apa' });
             expect(store.citationStyle.get()).toBe('apa');
             expect(instance.initProcessor).toHaveBeenCalledTimes(1);
         });
@@ -307,7 +307,7 @@ describe('<ReferenceList />', async () => {
             const menu = component.find('Menu');
             expect(instance.currentDialog.get()).toBe('');
 
-            menu.simulate('submit', 'IMPORT_RIS');
+            menu.simulate('submit', { kind: 'OPEN_IMPORT_DIALOG' });
             expect(instance.currentDialog.get()).toBe('IMPORT');
         });
         test('REFRESH_PROCESSOR', () => {
@@ -318,7 +318,7 @@ describe('<ReferenceList />', async () => {
             store.citations.pruneOrphanedCitations = jest.fn();
 
             const menu = component.find('Menu');
-            menu.simulate('submit', 'REFRESH_PROCESSOR');
+            menu.simulate('submit', { kind: 'REFRESH_PROCESSOR' });
             expect(store.citations.pruneOrphanedCitations).toHaveBeenCalled();
             expect(instance.initProcessor).toHaveBeenCalled();
         });
@@ -330,7 +330,7 @@ describe('<ReferenceList />', async () => {
 
             const menu = component.find('Menu');
             expect(instance.initProcessor).not.toHaveBeenCalled();
-            menu.simulate('submit', 'DESTROY_PROCESSOR');
+            menu.simulate('submit', { kind: 'DESTROY_PROCESSOR' });
             expect(instance.initProcessor).toHaveBeenCalled();
         });
         test('INSERT_STATIC_BIBLIOGRAPHY', () => {
@@ -341,7 +341,7 @@ describe('<ReferenceList />', async () => {
 
             const menu = component.find('Menu');
             expect(instance.insertStaticBibliography).not.toHaveBeenCalled();
-            menu.simulate('submit', 'INSERT_STATIC_BIBLIOGRAPHY');
+            menu.simulate('submit', { kind: 'INSERT_STATIC_BIBLIOGRAPHY' });
             expect(instance.insertStaticBibliography).toHaveBeenCalled();
         });
         test('unknown value', () => {

@@ -2,7 +2,9 @@
 
 exports[`<Callout /> should match snapshots 1`] = `
 <div
+  aria-label="Error Hello world"
   className="callout danger"
+  role="alert"
 >
   <div
     className="callout__heading"
@@ -70,7 +72,9 @@ exports[`<Callout /> should match snapshots 1`] = `
 
 exports[`<Callout /> should match snapshots 2`] = `
 <div
+  aria-label="Hello! Hello world"
   className="callout danger"
+  role="alert"
 >
   <div
     className="callout__heading"
@@ -142,7 +146,9 @@ exports[`<Callout /> should match snapshots 4`] = `null`;
 
 exports[`<Callout /> should match snapshots 5`] = `
 <div
+  aria-label="Warning Hello world"
   className="callout warning"
+  role="alert"
 >
   <div
     className="callout__heading"
@@ -210,7 +216,9 @@ exports[`<Callout /> should match snapshots 5`] = `
 
 exports[`<Callout /> should match snapshots 6`] = `
 <div
+  aria-label="Error Hello world"
   className="callout danger"
+  role="alert"
 >
   <div
     className="callout__heading"

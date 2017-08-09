@@ -58,6 +58,7 @@ exports[`<ResultList /> should match snapshots 1`] = `
 >
   <div
     className="result-list"
+    onWheel={[Function]}
   >
     <div
       className="result-item"
@@ -767,6 +768,7 @@ exports[`<ResultList /> should match snapshots 2`] = `
 >
   <div
     className="result-list"
+    onWheel={[Function]}
   >
     <style
       jsx={true}

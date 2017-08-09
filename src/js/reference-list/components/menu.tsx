@@ -1,18 +1,35 @@
-import { action, IObservableValue, observable } from 'mobx';
+import { action, computed, IObservableValue } from 'mobx';
 import { observer } from 'mobx-react';
 import * as React from 'react';
 import { spring, TransitionMotion } from 'react-motion';
 import VSelect from 'react-virtualized-select';
 
+import { MenuActionType } from 'utils/constants';
+
 import Button from 'components/button';
 
-declare const ABT_Custom_CSL: BackendGlobals.ABT_Custom_CSL;
+type MenuButtonKind =
+    | MenuActionType.DESTROY_PROCESSOR
+    | MenuActionType.INSERT_STATIC_BIBLIOGRAPHY
+    | MenuActionType.OPEN_IMPORT_DIALOG
+    | MenuActionType.REFRESH_PROCESSOR;
+
+interface StyleTypeChange {
+    kind: MenuActionType.CHANGE_STYLE;
+    data: string;
+}
+
+interface MenuButtonClick {
+    kind: MenuButtonKind;
+}
+
+export type MenuAction = StyleTypeChange | MenuButtonClick;
 
 interface Props {
     isOpen: IObservableValue<boolean>;
     cslStyle: IObservableValue<string>;
     itemsSelected: boolean;
-    onSubmit(kind: string, data?: string): void;
+    onSubmit(action: MenuAction): void;
 }
 
 interface StyleOption {
@@ -50,10 +67,13 @@ export default class Menu extends React.PureComponent<Props> {
 
     readonly styles: StyleOption[];
 
-    selected = observable({
-        label: '',
-        value: '',
-    });
+    @computed
+    get selected() {
+        return {
+            label: this.styles.find(d => d.value === this.props.cslStyle.get())!.label,
+            value: this.props.cslStyle.get(),
+        };
+    }
 
     constructor(props: Props) {
         super(props);
@@ -72,18 +92,7 @@ export default class Menu extends React.PureComponent<Props> {
                 ...ABT_CitationStyles,
             ];
         }
-
-        this.setSelected({
-            label: this.styles.find(d => d.value === this.props.cslStyle.get())!.label,
-            value: this.props.cslStyle.get(),
-        });
     }
-
-    @action
-    setSelected = ({ label, value }: Partial<StyleOption> = {}) => {
-        if (value) this.selected.value = value;
-        if (label) this.selected.label = label;
-    };
 
     @action
     toggleMenu = () => {
@@ -92,12 +101,20 @@ export default class Menu extends React.PureComponent<Props> {
 
     handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
         this.toggleMenu();
-        this.props.onSubmit(e.currentTarget.id);
+        const menuAction: MenuAction = {
+            kind: e.currentTarget.id as MenuButtonKind,
+        };
+        this.props.onSubmit(menuAction);
     };
 
-    handleSelect = (data: StyleOption) => {
-        this.toggleMenu();
-        this.props.onSubmit('CHANGE_STYLE', data.value);
+    handleSelect = (data: StyleOption | never[]) => {
+        if (Array.isArray(data)) return;
+        const menuAction: MenuAction = {
+            kind: MenuActionType.CHANGE_STYLE,
+            data: data.value,
+        };
+        this.props.onSubmit(menuAction);
+        this.forceUpdate();
     };
 
     render() {
@@ -125,7 +142,7 @@ export default class Menu extends React.PureComponent<Props> {
                                   <div className="subpanel">
                                       <Button
                                           flat
-                                          id="IMPORT_RIS"
+                                          id={MenuActionType.OPEN_IMPORT_DIALOG}
                                           icon="media-code"
                                           label={Menu.labels.tooltips.importRIS}
                                           tooltip={{
@@ -136,7 +153,7 @@ export default class Menu extends React.PureComponent<Props> {
                                       />
                                       <Button
                                           flat
-                                          id="REFRESH_PROCESSOR"
+                                          id={MenuActionType.REFRESH_PROCESSOR}
                                           icon="update"
                                           label={Menu.labels.tooltips.refresh}
                                           tooltip={{
@@ -147,7 +164,7 @@ export default class Menu extends React.PureComponent<Props> {
                                       />
                                       <Button
                                           flat
-                                          id="DESTROY_PROCESSOR"
+                                          id={MenuActionType.DESTROY_PROCESSOR}
                                           icon="trash"
                                           label={Menu.labels.tooltips.destroy}
                                           tooltip={{
@@ -159,7 +176,7 @@ export default class Menu extends React.PureComponent<Props> {
                                       <Button
                                           flat
                                           disabled={!this.props.itemsSelected}
-                                          id="INSERT_STATIC_BIBLIOGRAPHY"
+                                          id={MenuActionType.INSERT_STATIC_BIBLIOGRAPHY}
                                           icon="list-view"
                                           label={Menu.labels.tooltips.staticPubList}
                                           tooltip={{
@@ -188,12 +205,7 @@ export default class Menu extends React.PureComponent<Props> {
                                           optionRenderer={renderer}
                                           optionHeight={dynamicOptionHeightHandler}
                                           options={this.styles}
-                                          style={{
-                                              cursor: 'pointer',
-                                              fontWeight: 300,
-                                          }}
                                           clearable={false}
-                                          backspaceRemoves={false}
                                       />
                                   </div>
                                   <style jsx>{`

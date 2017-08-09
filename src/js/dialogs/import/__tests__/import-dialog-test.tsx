@@ -23,11 +23,11 @@ const createFile = (name: string, contents: string, kind = 'text/plain') =>
     new File([contents], name, { type: kind });
 
 describe('<ImportDialog />', () => {
-    it('should match snapshot', () => {
+    test('should match snapshot', () => {
         const { component } = setup();
         expect(toJSON(component)).toMatchSnapshot();
     });
-    it('should set error messages', () => {
+    test('should set error messages', () => {
         const { instance } = setup();
         expect(instance.errorMessage.get()).toBe('');
 
@@ -40,12 +40,21 @@ describe('<ImportDialog />', () => {
         instance.setErrorMessage(() => 'foobar');
         expect(instance.errorMessage.get()).toBe('');
     });
-    it('should handle submit', () => {
+    test('should handle submit', () => {
         const { component } = setup();
         const preventDefault = jest.fn();
-        component.find('input[type="button"]').simulate('click', { preventDefault });
+        component.find('Button').at(1).simulate('click', { preventDefault });
         expect(preventDefault).toHaveBeenCalledTimes(1);
         expect(mocks.submit).toHaveBeenCalledTimes(1);
+    });
+    test('should open file on click', () => {
+        const { component, instance } = setup();
+        const click = jest.fn();
+        instance.inputField = {
+            click,
+        } as any;
+        component.find('Button').at(0).simulate('click');
+        expect(click).toHaveBeenCalled();
     });
     describe('file upload test cases', () => {
         beforeEach(() => jest.resetAllMocks());

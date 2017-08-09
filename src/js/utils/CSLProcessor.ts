@@ -182,11 +182,16 @@ export class CSLProcessor {
      * on the response from the network request
      */
     private async getCSLStyle(style: string): Promise<string> {
-        const req = await fetch(
+        let req = await fetch(
             `https://raw.githubusercontent.com/citation-style-language/styles/master/${style}.csl`,
         );
         if (!req.ok) {
-            throw new Error(req.statusText);
+            req = await fetch(
+                `https://raw.githubusercontent.com/citation-style-language/styles/master/dependent/${style}.csl`,
+            );
+            if (!req.ok) {
+                throw new Error(req.statusText);
+            }
         }
         return req.text();
     }

@@ -2,6 +2,7 @@
 
 declare const __DEV__: boolean;
 declare const ABT_CitationStyles: Array<{ label: string; value: string }>;
+declare const ABT_Custom_CSL: BackendGlobals.ABT_Custom_CSL;
 declare const DocumentTouch: any;
 
 interface Window {

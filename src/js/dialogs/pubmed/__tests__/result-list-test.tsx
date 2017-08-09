@@ -1,4 +1,4 @@
-import { mount } from 'enzyme';
+import { mount, shallow } from 'enzyme';
 import toJSON from 'enzyme-to-json';
 import * as React from 'react';
 import { ResultList } from '../result-list';
@@ -27,9 +27,11 @@ const generateData = (n: number) => {
 
 const defaltData = generateData(2);
 
-const setup = (data: any = defaltData) => {
+const setup = (data: any = defaltData, fullMount = true) => {
     const spy = jest.fn();
-    const component = mount(<ResultList results={data} onSelect={spy} />);
+    const component = fullMount
+        ? mount(<ResultList results={data} onSelect={spy} />)
+        : shallow(<ResultList results={data} onSelect={spy} />);
     return {
         spy,
         component,
@@ -57,10 +59,6 @@ describe('<ResultList />', () => {
         instance.componentDidUpdate();
         expect(instance.element.scrollTop).toBe(0);
     });
-    it('should handle scroll', () => {
-        const { component } = setup();
-        component.simulate('wheel');
-    });
     it('should match snapshots', () => {
         let { component } = setup();
         expect(toJSON(component)).toMatchSnapshot();
@@ -71,5 +69,61 @@ describe('<ResultList />', () => {
     it('should show only 5 results at a time', () => {
         const { component } = setup(generateData(50));
         expect(component).toBeTruthy();
+    });
+    describe('wheel event tests', () => {
+        const { component } = setup(undefined, false);
+        const wheelDiv = component.find('.result-list');
+        let atTop: any = {};
+        let inMiddle: any = {};
+        let atBottom: any = {};
+        beforeEach(() => {
+            atTop = {
+                cancelable: true,
+                deltaY: 0,
+                currentTarget: {
+                    clientHeight: 50,
+                    scrollHeight: 100,
+                    scrollTop: 0,
+                },
+            };
+            inMiddle = {
+                cancelable: true,
+                deltaY: 0,
+                currentTarget: {
+                    clientHeight: 50,
+                    scrollHeight: 100,
+                    scrollTop: 25,
+                },
+            };
+            atBottom = {
+                cancelable: true,
+                deltaY: 0,
+                currentTarget: {
+                    clientHeight: 50,
+                    scrollHeight: 100,
+                    scrollTop: 50,
+                },
+            };
+        });
+        it('should cancel at top scrolling up', () => {
+            atTop.deltaY = -5;
+            wheelDiv.simulate('wheel', atTop);
+            expect(atTop.cancelable).toBe(true);
+        });
+        it('should cancel at bottom scrolling down', () => {
+            atBottom.deltaY = 5;
+            wheelDiv.simulate('wheel', atBottom);
+            expect(atBottom.cancelable).toBe(true);
+        });
+        it('should NOT cancel in middle scrolling up', () => {
+            inMiddle.deltaY = -5;
+            wheelDiv.simulate('wheel', inMiddle);
+            expect(inMiddle.cancelable).toBe(false);
+        });
+        it('should NOT cancel in middle scrolling down', () => {
+            inMiddle.deltaY = 5;
+            wheelDiv.simulate('wheel', inMiddle);
+            expect(inMiddle.cancelable).toBe(false);
+        });
     });
 });

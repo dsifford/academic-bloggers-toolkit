@@ -447,7 +447,7 @@ exports[`<Button /> Text Button with tooltip 1`] = `
 +                              .abt-tooltip {
 +                                  pointer-events: none;
 +                                  transform-origin: top center;
-+                                  z-index: 20;
++                                  z-index: 1000;
 +                                  background: rgba(66, 66, 66, 0.9);
 +                                  border-radius: 2px;
 +                                  color: white;

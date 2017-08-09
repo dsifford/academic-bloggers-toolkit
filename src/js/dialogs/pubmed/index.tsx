@@ -83,37 +83,43 @@ export default class PubmedDialog extends React.Component<DialogProps> {
 
     render() {
         if (this.isLoading.get()) {
-            return <Spinner size="40px" height="52px" />;
+            return <Spinner size="40px" height="52px" bgColor="rgba(0, 0, 0, 0.05)" />;
         }
         const placeholder = ph.next().value;
         return (
-            <div>
-                <Callout onDismiss={this.setError} children={this.errorMessage.get()} />
+            <div id="pubmed-dialog-root">
                 <form id="query" onSubmit={this.sendQuery}>
-                    <input
-                        type="text"
-                        onChange={this.updateQuery}
-                        autoFocus={true}
-                        required
-                        placeholder={placeholder}
-                        value={this.query.get()}
-                    />
-                    <Button
-                        flat
-                        disabled={!this.query.get()}
-                        type="submit"
-                        label={PubmedDialog.labels.search}
-                    />
+                    <Callout onDismiss={this.setError} children={this.errorMessage.get()} />
+                    <div className="pubmed-input-row">
+                        <input
+                            type="text"
+                            onChange={this.updateQuery}
+                            autoFocus={true}
+                            required
+                            placeholder={placeholder}
+                            value={this.query.get()}
+                        />
+                        <Button
+                            flat
+                            disabled={!this.query.get()}
+                            type="submit"
+                            label={PubmedDialog.labels.search}
+                        />
+                    </div>
                 </form>
                 {this.results.length > 0 &&
                     <ResultList onSelect={this.props.onSubmit} results={this.visibleResults} />}
                 {this.results.length > 0 &&
                     <Paginate page={this.page} totalPages={Math.ceil(this.results.length / 5)} />}
                 <style jsx>{`
-                    form {
+                    .pubmed-input-row {
                         display: flex;
-                        padding: 0 10px 10px;
                         align-items: center;
+                        padding: 0 10px;
+                    }
+                    form {
+                        background: rgba(0, 0, 0, 0.05);
+                        padding: 10px 0;
                         box-shadow: ${shadows.depth_1};
                     }
                     input[type="text"] {
@@ -122,7 +128,7 @@ export default class PubmedDialog extends React.Component<DialogProps> {
                         height: 35px;
                         font-size: 16px;
                     }
-                    div,
+                    #pubmed-dialog-root,
                     form {
                         border-radius: 0 0 2px 2px;
                     }

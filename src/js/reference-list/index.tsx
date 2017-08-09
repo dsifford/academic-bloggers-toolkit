@@ -37,11 +37,6 @@ const ABTRoot = () =>
                 border: solid ${colors.border} 1px;
                 margin-right: 10px;
             }
-            @media screen and (min-width: 782px) {
-                #abt-reflist.fixed {
-                    margin-right: 25px;
-                }
-            }
             #abt-reflist h2.hndle {
                 box-shadow: ${shadows.depth_1};
             }
@@ -65,10 +60,19 @@ const ABTRoot = () =>
             #wp-content-editor-tools,
             #adminmenuwrap,
             #adminmenuback {
-                z-index: 1;
+                z-index: 1 !important;
             }
             .wp-editor-expand div.mce-toolbar-grp {
                 z-index: initial;
+            }
+            .is-focused:not(.is-open) > .Select-control {
+                border-color: #5b9dd9;
+                box-shadow: 0 0 2px rgba(30, 140, 190, .8);
+            }
+            @media screen and (min-width: 782px) {
+                #abt-reflist.fixed {
+                    margin-right: 25px;
+                }
             }
         `}</style>
     </div>;

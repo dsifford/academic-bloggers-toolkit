@@ -45,7 +45,7 @@ const setupMenu = (isOpen: boolean = true) => {
     return {
         component,
         instance: component.instance() as Menu,
-        importBtn: component.find('#IMPORT_RIS'),
+        importBtn: component.find('#OPEN_IMPORT_DIALOG'),
         spy,
     };
 };
@@ -90,43 +90,27 @@ describe('<Menu />', () => {
         expect(spy).toHaveBeenCalledTimes(0);
         importBtn.simulate('click');
         expect(spy).toHaveBeenCalledTimes(1);
-        expect(spy).toHaveBeenCalledWith('IMPORT_RIS');
+        expect(spy).toHaveBeenCalledWith({ kind: 'OPEN_IMPORT_DIALOG' });
         (component.instance() as any).handleSelect({
             label: 'APA 5th Edition',
             value: 'apa-5th',
         });
         expect(spy).toHaveBeenCalledTimes(2);
-        expect(spy.mock.calls[1]).toEqual(['CHANGE_STYLE', 'apa-5th']);
+        expect(spy.mock.calls[1]).toEqual([{ data: 'apa-5th', kind: 'CHANGE_STYLE' }]);
+    });
+    test('should handle empty data', () => {
+        const { component, importBtn, spy } = setup();
+        expect(spy).toHaveBeenCalledTimes(0);
+        importBtn.simulate('click');
+        expect(spy).toHaveBeenCalledTimes(1);
+        expect(spy).toHaveBeenCalledWith({ kind: 'OPEN_IMPORT_DIALOG' });
+        (component.instance() as any).handleSelect([]);
+        expect(spy).toHaveBeenCalledTimes(1);
     });
     it('should work without custom CSL defined', () => {
         (window as any)['ABT_Custom_CSL'] = { value: null };
         const { instance } = setup();
         expect(instance.styles).toEqual(ABT_CitationStyles);
-    });
-    it('should call setSelected with various signatures', () => {
-        const { instance } = setup();
-        expect(instance.selected).toEqual({
-            label: 'American Medical Association',
-            value: 'american-medical-association',
-        });
-
-        instance.setSelected({ label: 'hello' });
-        expect(instance.selected).toEqual({
-            label: 'hello',
-            value: 'american-medical-association',
-        });
-
-        instance.setSelected({ value: 'world' });
-        expect(instance.selected).toEqual({
-            label: 'hello',
-            value: 'world',
-        });
-
-        instance.setSelected();
-        expect(instance.selected).toEqual({
-            label: 'hello',
-            value: 'world',
-        });
     });
     it('should have functioning static methods', () => {
         expect(Menu.willEnter()).toEqual({ height: 0, scale: 0 });
