@@ -3,10 +3,16 @@ import * as rollbar from 'rollbar/dist/rollbar.umd';
 declare const ABT_wp: BackendGlobals.ABT_wp;
 
 const config = {
-    accessToken: 'd4a261f761fb47ecaef17670b3c59f32',
+    accessToken: process.env.ROLLBAR_TOKEN,
     captureUncaught: false,
     payload: {
         environment: process.env.NODE_ENV === 'production' ? 'production' : 'test',
+        client: {
+            javascript: {
+                source_map_enabled: true,
+                code_version: process.env.COMMIT_HASH,
+            },
+        },
         ...ABT_wp.info,
     },
     transform: (payload: any) => {

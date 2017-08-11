@@ -1,61 +1,63 @@
 import { TsConfigPathsPlugin } from 'awesome-typescript-loader';
+import { execSync } from 'child_process';
 import { resolve } from 'path';
+import * as RollbarSourceMapPlugin from 'rollbar-sourcemap-webpack-plugin';
 import * as webpack from 'webpack';
-// const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
-const isProduction = process.env.NODE_ENV === 'production';
+const IS_PRODUCTION = process.env.NODE_ENV === 'production';
 
-// TODO: Add rollbar sourcemap plugin
+let VERSION = '';
+
+if (IS_PRODUCTION) {
+    try {
+        VERSION = execSync('git rev-parse HEAD', {
+            cwd: __dirname,
+            encoding: 'utf8',
+        });
+    } catch (err) {
+        console.log('Error getting revision', err); // tslint:disable-line no-console
+        process.exit(1);
+    }
+}
 
 const sharedPlugins: webpack.Plugin[] = [
     new webpack.NoEmitOnErrorsPlugin(),
     new webpack.DefinePlugin({
-        __DEV__: JSON.stringify(!isProduction),
         'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
+        'process.env.ROLLBAR_TOKEN': JSON.stringify(process.env.ROLLBAR_CLIENT_TOKEN),
+        'process.env.COMMIT_HASH': JSON.stringify(VERSION),
+    }),
+    new webpack.optimize.CommonsChunkPlugin({
+        name: 'js/vendor',
+        filename: 'js/vendor.bundle.js',
+        minChunks: Infinity,
     }),
 ];
 
-const devPlugins: webpack.Plugin[] = [
-    ...sharedPlugins,
-    // new BundleAnalyzerPlugin({
-    //     analyzerMode: 'server',
-    //     analyzerPort: 8888,
-    //     openAnalyzer: true,
-    // }),
-];
+const devPlugins: webpack.Plugin[] = [...sharedPlugins];
 
 const productionPlugins = [
     ...sharedPlugins,
     new webpack.optimize.ModuleConcatenationPlugin(),
     new webpack.optimize.OccurrenceOrderPlugin(true),
-    new webpack.optimize.UglifyJsPlugin({
-        beautify: false,
-        mangle: {
-            screw_ie8: true,
-            keep_fnames: true,
-        },
-        compress: {
-            screw_ie8: true,
-        },
-        comments: false,
-    }),
-    new webpack.LoaderOptionsPlugin({
-        minimize: true,
-        debug: false,
+    new RollbarSourceMapPlugin({
+        accessToken: process.env.ROLLBAR_API_TOKEN,
+        version: VERSION,
+        publicPath: 'http://dynamichost/wp-content/plugins/academic-bloggers-toolkit',
     }),
 ];
 
 const config: webpack.Configuration = {
-    watch: !isProduction,
+    watch: !IS_PRODUCTION,
     watchOptions: {
         ignored: /(node_modules|gulpfile|dist|lib|webpack.config)/,
     },
-    devtool: isProduction ? 'cheap-module-source-map' : 'source-map',
+    devtool: 'source-map',
     entry: {
         'js/frontend': ['babel-polyfill', './src/js/frontend'],
         'js/reference-list/index': ['babel-polyfill', 'whatwg-fetch', './src/js/reference-list/'],
         'js/drivers/tinymce': ['babel-polyfill', './src/js/drivers/tinymce'],
-        // vendor: ['react', 'react-dom', 'mobx', 'mobx-react'],
+        'js/vendor': ['babel-polyfill'],
     },
     output: {
         path: resolve(__dirname, 'dist'),
@@ -66,7 +68,7 @@ const config: webpack.Configuration = {
         extensions: ['*', '.webpack.js', '.web.js', '.ts', '.tsx', '.js'],
         plugins: [new TsConfigPathsPlugin()],
     },
-    plugins: isProduction ? productionPlugins : devPlugins,
+    plugins: IS_PRODUCTION ? productionPlugins : devPlugins,
     module: {
         rules: [
             {

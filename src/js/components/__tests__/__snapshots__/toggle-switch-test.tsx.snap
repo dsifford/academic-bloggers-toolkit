@@ -11,6 +11,7 @@ exports[`<ToggleSwitch /> should match snapshots 1`] = `
   <input
     aria-checked={false}
     aria-describedby="inline-toggle"
+    aria-label="Test 1"
     checked={false}
     onChange={[Function]}
     type="checkbox"
@@ -105,6 +106,7 @@ exports[`<ToggleSwitch /> should match snapshots 2`] = `
   <input
     aria-checked={true}
     aria-describedby="inline-toggle"
+    aria-label="Test 2"
     checked={true}
     onChange={[Function]}
     type="checkbox"

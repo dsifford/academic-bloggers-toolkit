@@ -453,7 +453,7 @@ export default class ReferenceList extends React.Component<Props> {
         }
         this.editor.setLoadingState(false);
         this.clearSelection();
-        };
+    };
 
     insertStaticBibliography = async () => {
         const data: CSL.Data[] = [];

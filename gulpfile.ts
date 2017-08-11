@@ -155,7 +155,8 @@ export function styles() {
 // ==================================================
 
 export function bundle(cb: Callback) {
-    const child = spawn(`${__dirname}/node_modules/.bin/webpack`, undefined, {
+    const args = IS_PRODUCTION ? ['-p'] : [];
+    const child = spawn(`${__dirname}/node_modules/.bin/webpack`, args, {
         env: process.env,
     });
     child.on('error', err => {

@@ -65,7 +65,6 @@
       "gulpfile.ts"
   ],
   "exclude": [
-    //   "src/**/__tests__/*",
       "lib/tmp/**"
   ]
 }

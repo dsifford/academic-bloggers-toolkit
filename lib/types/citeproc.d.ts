@@ -25,7 +25,6 @@ declare namespace Citeproc {
      * 1: 0-based index of the location of the HTMLSpanElement in the document
      */
     type CitationsPrePost = [string, number][];
-    // type CitationsPrePost = Array<[string, number]>;
 
     /**
      * 0: A string containing a unique ID which should be used for the span

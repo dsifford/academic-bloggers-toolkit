@@ -49,6 +49,7 @@ export default class ToggleSwitch extends React.PureComponent<Props, State> {
                     disabled={disabled}
                     type="checkbox"
                     aria-describedby="inline-toggle"
+                    aria-label={tooltip.text}
                     checked={checked}
                     aria-checked={checked}
                     onChange={onChange}
