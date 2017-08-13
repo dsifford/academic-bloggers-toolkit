@@ -109,7 +109,7 @@ export function php(): NodeJS.ReadWriteStream {
 
 export function staticFiles() {
     const misc = gulp
-        .src(['src/**/*.{po,pot,mo,html,txt}', 'src/**/views/*.php'], {
+        .src(['src/**/*.{po,pot,mo,html,txt,json}', 'src/**/views/*.php'], {
             base: './src',
         })
         .pipe(gulp.dest('dist'));

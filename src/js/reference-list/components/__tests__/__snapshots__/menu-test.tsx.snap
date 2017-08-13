@@ -1072,6 +1072,7 @@ exports[`<Menu /> should match snapshots 1`] = `
         <VirtualizedSelect
           async={false}
           clearable={false}
+          filterOptions={[Function]}
           id="style-select"
           maxHeight={200}
           onChange={[Function]}
@@ -1080,22 +1081,27 @@ exports[`<Menu /> should match snapshots 1`] = `
           options={
             Array [
               Object {
+                "id": "custom-style-header",
                 "label": "Custom Style",
                 "value": "header",
               },
               Object {
+                "id": "abt-custom-style",
                 "label": "Test Label",
                 "value": "test-value",
               },
               Object {
+                "id": "predefined-style-header",
                 "label": "Pre-defined Styles",
                 "value": "header",
               },
               Object {
+                "id": "american-medical-association",
                 "label": "American Medical Association",
                 "value": "american-medical-association",
               },
               Object {
+                "id": "apa-5th",
                 "label": "APA 5th Edition",
                 "value": "apa-5th",
               },
@@ -1107,6 +1113,7 @@ exports[`<Menu /> should match snapshots 1`] = `
               "value": "american-medical-association",
             }
           }
+          valueKey="id"
         >
           <Select
             addLabelText="Add \\"{label}\\"?"
@@ -1152,22 +1159,27 @@ exports[`<Menu /> should match snapshots 1`] = `
             options={
               Array [
                 Object {
+                  "id": "custom-style-header",
                   "label": "Custom Style",
                   "value": "header",
                 },
                 Object {
+                  "id": "abt-custom-style",
                   "label": "Test Label",
                   "value": "test-value",
                 },
                 Object {
+                  "id": "predefined-style-header",
                   "label": "Pre-defined Styles",
                   "value": "header",
                 },
                 Object {
+                  "id": "american-medical-association",
                   "label": "American Medical Association",
                   "value": "american-medical-association",
                 },
                 Object {
+                  "id": "apa-5th",
                   "label": "APA 5th Edition",
                   "value": "apa-5th",
                 },
@@ -1187,7 +1199,7 @@ exports[`<Menu /> should match snapshots 1`] = `
               }
             }
             valueComponent={[Function]}
-            valueKey="value"
+            valueKey="id"
           >
             <div
               className="Select Select--single is-searchable has-value"

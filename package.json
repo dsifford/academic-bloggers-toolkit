@@ -15,7 +15,7 @@
         "deploy": "npm run build && torus run ./lib/deploy $npm_package_version",
         "inspect-bundles": "npx bundle-buddy dist/js/**/*.map",
         "update-translations": "torus run ./lib/update-translations",
-        "update-styles": "node ./lib/updateStyles.js",
+        "update-styles": "torus run ./node_modules/.bin/ts-node ./lib/update-styles.ts",
         "update-vendors": "curl -o 'src/vendor/citeproc.js' https://raw.githubusercontent.com/Juris-M/citeproc-js/master/citeproc.js"
     },
     "lint-staged": {
@@ -83,7 +83,7 @@
         "tslint-microsoft-contrib": "^5.0.1",
         "tslint-react": "^3.2.0",
         "uglify-es": "^3.0.27",
-        "webpack": "^3.5.3",
+        "webpack": "^3.5.4",
         "webpack-bundle-analyzer": "^2.9.0"
     },
     "dependencies": {
@@ -96,6 +96,7 @@
         "react": "^15.6.1",
         "react-dom": "^15.6.1",
         "react-motion": "^0.5.0",
+        "react-select-fast-filter-options": "^0.2.2",
         "react-virtualized-select": "^3.1.0",
         "styled-jsx": "^1.0.10",
         "tinycolor2": "^1.4.1",

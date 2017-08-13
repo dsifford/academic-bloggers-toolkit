@@ -17,6 +17,7 @@ function fetchLocales() {
             promises.push(this.fetchSingleLocale(item.name));
         });
         Promise.all(promises).then(function() {
+            self.postMessage(['done']);
             self.close();
         });
     })

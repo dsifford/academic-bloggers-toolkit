@@ -1,6 +1,6 @@
 /* tslint:disable: class-name */
 
-declare const ABT_CitationStyles: Array<{ label: string; value: string }>;
+declare const ABT_CitationStyles: Array<{ label: string; value: string; id: string }>;
 declare const ABT_Custom_CSL: BackendGlobals.ABT_Custom_CSL;
 declare const DocumentTouch: any;
 
@@ -189,6 +189,7 @@ declare module 'focus-trap-react';
 declare module 'gulp-uglify/composer';
 declare module 'gulp-wp-pot';
 declare module 'merge-stream';
+declare module 'react-select-fast-filter-options';
 declare module 'react-virtualized-select';
 declare module 'rollbar-sourcemap-webpack-plugin';
 declare module 'rollbar/dist/rollbar.umd';

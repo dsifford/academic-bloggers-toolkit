@@ -8,6 +8,11 @@ declare const ABT_Custom_CSL: BackendGlobals.ABT_Custom_CSL;
 declare const ABT_wp: BackendGlobals.ABT_wp;
 declare const CSL: Citeproc.EngineConstructor;
 
+interface LocaleCache {
+    time: number;
+    locales: Array<[string, string]>;
+}
+
 export class CSLProcessor {
     /**
      * CSL.Engine instance created by this class
@@ -17,7 +22,7 @@ export class CSLProcessor {
     /**
      * Converts the locale names in wordpress (keys) to the locales
      * in CSL (values). If CSL doesn't have a locale for a given WordPress locale,
-     * then false is used (which will default to en-US)
+     * then `false` is used (which will default to en-US)
      */
     private locales = localeMapper;
 
@@ -33,6 +38,13 @@ export class CSLProcessor {
     private store: Store;
 
     /**
+     * Map of style ID to style value. This is useful in cases where the user
+     * is using a "dependent" (i.e. one that is actually referencing an
+     * "independent" style)
+     */
+    private styles: Map<string, string>;
+
+    /**
      * Worker used to fetch locale XML off thread and save it into the localeStore.
      * After all locales are fetched, this worker destroys itself
      */
@@ -42,7 +54,18 @@ export class CSLProcessor {
      * @param store The main store for the reference list
      */
     constructor(store: Store) {
+        const localeCache = localStorage.getItem('abt-locale-cache');
         this.store = store;
+        this.styles = new Map(ABT_CitationStyles.map(style => <any>[style.id, style.value]));
+
+        if (localeCache) {
+            const localeJson: LocaleCache = JSON.parse(localeCache);
+            if (Date.now() - localeJson.time < 2592000000) {
+                this.localeStore = new Map(localeJson.locales);
+                return;
+            }
+        }
+
         this.worker = new Worker(`${ABT_wp.abt_url}/vendor/worker.js`);
         this.worker.addEventListener('message', this.receiveWorkerMessage);
         this.worker.postMessage('');
@@ -147,8 +170,22 @@ export class CSLProcessor {
      * Saves locales from the Worker into the localeStore
      */
     private receiveWorkerMessage = (e: MessageEvent) => {
+        if (e.data[0] === 'done') {
+            return this.updateLocalStorage();
+        }
         this.localeStore.set(e.data[0], e.data[1]);
     };
+
+    /**
+     * Updates the cached locales in localStorage from localeStore
+     */
+    private updateLocalStorage() {
+        const localeObj: LocaleCache = {
+            time: Date.now(),
+            locales: [...this.localeStore],
+        };
+        localStorage.setItem('abt-locale-cache', JSON.stringify(localeObj));
+    }
 
     /**
      * Called exclusively from the `init` method to generate the `sys` object
@@ -159,14 +196,17 @@ export class CSLProcessor {
      */
     private async generateSys(locale: string): Promise<Citeproc.SystemObj> {
         const cslLocale = this.locales[locale] || 'en-US';
-        const req = await fetch(
-            `https://raw.githubusercontent.com/citation-style-language/locales/master/locales-${cslLocale}.xml`,
-        );
-        if (!req.ok) {
-            throw new Error(req.statusText);
+        const cachedLocaleFile = this.localeStore.get(cslLocale);
+        if (!cachedLocaleFile) {
+            const req = await fetch(
+                `https://raw.githubusercontent.com/citation-style-language/locales/master/locales-${cslLocale}.xml`,
+            );
+            if (!req.ok) {
+                throw new Error(req.statusText);
+            }
+            const res = await req.text();
+            this.localeStore.set(cslLocale, res);
         }
-        const res = await req.text();
-        this.localeStore.set(cslLocale, res);
         return {
             retrieveItem: (id: string) => toJS(this.store.citations.CSL.get(id)!),
             retrieveLocale: this.getRemoteLocale.bind(this),
@@ -182,16 +222,13 @@ export class CSLProcessor {
      * on the response from the network request
      */
     private async getCSLStyle(style: string): Promise<string> {
-        let req = await fetch(
-            `https://raw.githubusercontent.com/citation-style-language/styles/master/${style}.csl`,
+        const req = await fetch(
+            `https://raw.githubusercontent.com/citation-style-language/styles/master/${this.styles.get(
+                style,
+            )}.csl`,
         );
         if (!req.ok) {
-            req = await fetch(
-                `https://raw.githubusercontent.com/citation-style-language/styles/master/dependent/${style}.csl`,
-            );
-            if (!req.ok) {
-                throw new Error(req.statusText);
-            }
+            throw new Error(req.statusText);
         }
         return req.text();
     }

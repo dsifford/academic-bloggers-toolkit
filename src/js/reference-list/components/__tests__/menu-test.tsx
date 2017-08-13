@@ -8,8 +8,9 @@ const ABT_CitationStyles = [
     {
         label: 'American Medical Association',
         value: 'american-medical-association',
+        id: 'american-medical-association',
     },
-    { label: 'APA 5th Edition', value: 'apa-5th' },
+    { label: 'APA 5th Edition', value: 'apa-5th', id: 'apa-5th' },
 ];
 
 const ABT_i18n = {
@@ -94,6 +95,7 @@ describe('<Menu />', () => {
         (component.instance() as any).handleSelect({
             label: 'APA 5th Edition',
             value: 'apa-5th',
+            id: 'apa-5th',
         });
         expect(spy).toHaveBeenCalledTimes(2);
         expect(spy.mock.calls[1]).toEqual([{ data: 'apa-5th', kind: 'CHANGE_STYLE' }]);
@@ -122,40 +124,42 @@ describe('<Menu />', () => {
 });
 describe('dynamicOptionHeightHandler()', () => {
     it('should render the appropriate heights', () => {
-        expect(dynamicOptionHeightHandler({ option: { label: 'aaa', value: '' } })).toBe(30);
-        expect(dynamicOptionHeightHandler({ option: { label: 'a'.repeat(35), value: '' } })).toBe(
+        expect(dynamicOptionHeightHandler({ option: { label: 'aaa', value: '', id: 'a' } })).toBe(
             30,
         );
-        expect(dynamicOptionHeightHandler({ option: { label: 'a'.repeat(36), value: '' } })).toBe(
-            40,
-        );
-        expect(dynamicOptionHeightHandler({ option: { label: 'a'.repeat(65), value: '' } })).toBe(
-            40,
-        );
-        expect(dynamicOptionHeightHandler({ option: { label: 'a'.repeat(66), value: '' } })).toBe(
-            50,
-        );
-        expect(dynamicOptionHeightHandler({ option: { label: 'a'.repeat(80), value: '' } })).toBe(
-            50,
-        );
-        expect(dynamicOptionHeightHandler({ option: { label: 'a'.repeat(81), value: '' } })).toBe(
-            60,
-        );
-        expect(dynamicOptionHeightHandler({ option: { label: 'a'.repeat(90), value: '' } })).toBe(
-            60,
-        );
-        expect(dynamicOptionHeightHandler({ option: { label: 'a'.repeat(91), value: '' } })).toBe(
-            70,
-        );
-        expect(dynamicOptionHeightHandler({ option: { label: 'a'.repeat(110), value: '' } })).toBe(
-            70,
-        );
-        expect(dynamicOptionHeightHandler({ option: { label: 'a'.repeat(111), value: '' } })).toBe(
-            90,
-        );
-        expect(dynamicOptionHeightHandler({ option: { label: 'a'.repeat(250), value: '' } })).toBe(
-            90,
-        );
+        expect(
+            dynamicOptionHeightHandler({ option: { label: 'a'.repeat(35), value: '', id: 'a' } }),
+        ).toBe(30);
+        expect(
+            dynamicOptionHeightHandler({ option: { label: 'a'.repeat(36), value: '', id: 'a' } }),
+        ).toBe(40);
+        expect(
+            dynamicOptionHeightHandler({ option: { label: 'a'.repeat(65), value: '', id: 'a' } }),
+        ).toBe(40);
+        expect(
+            dynamicOptionHeightHandler({ option: { label: 'a'.repeat(66), value: '', id: 'a' } }),
+        ).toBe(50);
+        expect(
+            dynamicOptionHeightHandler({ option: { label: 'a'.repeat(80), value: '', id: 'a' } }),
+        ).toBe(50);
+        expect(
+            dynamicOptionHeightHandler({ option: { label: 'a'.repeat(81), value: '', id: 'a' } }),
+        ).toBe(60);
+        expect(
+            dynamicOptionHeightHandler({ option: { label: 'a'.repeat(90), value: '', id: 'a' } }),
+        ).toBe(60);
+        expect(
+            dynamicOptionHeightHandler({ option: { label: 'a'.repeat(91), value: '', id: 'a' } }),
+        ).toBe(70);
+        expect(
+            dynamicOptionHeightHandler({ option: { label: 'a'.repeat(110), value: '', id: 'a' } }),
+        ).toBe(70);
+        expect(
+            dynamicOptionHeightHandler({ option: { label: 'a'.repeat(111), value: '', id: 'a' } }),
+        ).toBe(90);
+        expect(
+            dynamicOptionHeightHandler({ option: { label: 'a'.repeat(250), value: '', id: 'a' } }),
+        ).toBe(90);
     });
 });
 describe('Menu Renderer', () => {

@@ -1,5 +1,7 @@
 <?php
 
+if (!defined('ABSPATH')) exit(1);
+
 function abt_generate_translations() {
     $ABT_i18n = (object)[
         'citationTypes' => [],

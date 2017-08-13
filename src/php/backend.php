@@ -1,28 +1,28 @@
 <?php
 
+namespace ABT;
+
+if (!defined('ABSPATH')) exit(1);
+
 require_once(dirname(__FILE__) . '/i18n.php');
 
-function call_abt_reference_box() {
-    new ABT_Backend();
-}
-
 if (is_admin()) {
-    add_action('load-post.php', 'call_abt_reference_box');
-    add_action('load-post-new.php', 'call_abt_reference_box');
+    add_action('load-post.php', array('ABT\Backend', 'init'));
+    add_action('load-post-new.php', array('ABT\Backend', 'init'));
 }
 
 /**
  * Main Backend Class.
  */
-class ABT_Backend {
+class Backend {
 
     /**
      * Returns an array of citation styles from citationstyles.php
      * @SuppressWarnings(PHPMD.UnusedLocalVariable)
      */
     private function get_citation_styles() {
-        include __DIR__ . '/../vendor/citationstyles.php';
-        return $citation_styles;
+        $json = json_decode(file_get_contents(ABT_ROOT_PATH . '/vendor/citation-styles.json'), true);
+        return $json;
     }
 
     /**
@@ -75,16 +75,24 @@ class ABT_Backend {
         ];
     }
 
+    public static function init() {
+        $class = __CLASS__;
+        new $class;
+    }
+
     /**
      * Sets up all actions and filters for the backend class
      */
     public function __construct() {
-        add_action('admin_notices', [$this, 'user_alert']);
-        add_action('admin_head', [$this, 'init_tinymce']);
-        add_filter('mce_css', [$this, 'load_tinymce_css']);
         add_action('add_meta_boxes', [$this, 'add_metaboxes']);
-        add_action('save_post', [$this, 'save_meta']);
         add_action('admin_enqueue_scripts', [$this, 'enqueue_admin_scripts']);
+        add_action('admin_head', [$this, 'init_tinymce']);
+        add_action('admin_notices', [$this, 'user_alert']);
+        add_action('save_post', [$this, 'save_meta']);
+        // TODO:
+        // add_action('enqueue_block_editor_assets');
+
+        add_filter('mce_css', [$this, 'load_tinymce_css']);
     }
 
     /**
@@ -234,8 +242,10 @@ class ABT_Backend {
         wp_dequeue_script('autosave');
         wp_enqueue_style('dashicons');
         // FIXME:
+
         wp_enqueue_script('abt-citeproc', plugins_url('academic-bloggers-toolkit/vendor/citeproc.js'), [], ABT_VERSION, true);
-        wp_enqueue_script('abt-reflist', plugins_url('academic-bloggers-toolkit/js/reference-list/index.js'), ['abt-citeproc', /*'abt-vendors'*/], ABT_VERSION, true);
+        wp_enqueue_script('abt-vendors', plugins_url('academic-bloggers-toolkit/vendor/vendor.bundle.js'), [], ABT_VERSION);
+        wp_enqueue_script('abt-reflist', plugins_url('academic-bloggers-toolkit/js/reference-list/index.js'), ['abt-citeproc', 'abt-vendors'], ABT_VERSION, true);
     }
 
 }

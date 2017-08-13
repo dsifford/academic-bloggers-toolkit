@@ -1,5 +1,7 @@
 <?php
 
+if (!defined('ABSPATH')) exit(1);
+
 function sort_by_label($a, $b) {
     $a = strtolower($a['label']);
     $b = strtolower($b['label']);

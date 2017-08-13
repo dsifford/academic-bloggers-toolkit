@@ -10,9 +10,23 @@ const Worker = () => ({
     postMessage: jest.fn(),
 });
 
+// localStorage mock
+class Storage {
+    private items = new Map<string, string>();
+
+    getItem(key: string) {
+        return this.items.get(key) || null;
+    }
+
+    setItem(key: string, value: string) {
+        this.items.set(key, value);
+    }
+}
+
 (<any>window).CSL = CSL;
 (<any>window).Worker = Worker;
 (<any>window).fetch = fetch;
+(<any>window).localStorage = new Storage();
 
 describe('CSLProcessor', () => {
     let processor: CSLProcessor;

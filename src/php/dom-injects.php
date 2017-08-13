@@ -1,5 +1,7 @@
 <?php
 
+if (!defined('ABSPATH')) exit(1);
+
 /**
 * Appends the changelog script to the document footer on the editor pages
 */

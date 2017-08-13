@@ -1,5 +1,7 @@
 <?php
 
+if (!defined('ABSPATH')) exit(1);
+
 /**
  * AJAX Method for getting metadata from other websites for citations
  */

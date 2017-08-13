@@ -2,8 +2,7 @@
 {
     "files.associations": {
         "deploy": "shellscript",
-        "update-translations": "shellscript",
-        ".stylintrc": "json"
+        "update_translations": "python"
     },
     "lcov.path": "lib/tmp/coverage/lcov.info",
     "lcov.branchCoverage": "full"

@@ -29,7 +29,7 @@ const sharedPlugins: webpack.Plugin[] = [
     }),
     new webpack.optimize.CommonsChunkPlugin({
         name: 'js/vendor',
-        filename: 'js/vendor.bundle.js',
+        filename: 'vendor/vendor.bundle.js',
         minChunks: Infinity,
     }),
 ];

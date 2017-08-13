@@ -1,6 +1,10 @@
 <?php
 
-class ABT_Options  {
+namespace ABT;
+
+if (!defined('ABSPATH')) exit(1);
+
+class Options {
 
     public $citation_styles;
 
@@ -9,7 +13,7 @@ class ABT_Options  {
      *   link to the options page in the admin menu.
      */
     public function __construct() {
-        $this->get_citation_styles();
+        $this->citation_styles = $this->get_citation_styles();
         add_action('admin_menu', [$this, 'add_options_page']);
     }
 
@@ -18,8 +22,8 @@ class ABT_Options  {
      *   $this->citation_styles
      */
     private function get_citation_styles() {
-        include __DIR__ . '/../vendor/citationstyles.php';
-        $this->citation_styles = $citation_styles;
+        $json = json_decode(file_get_contents(ABT_ROOT_PATH . '/vendor/citation-styles.json'), true);
+        return $json;
     }
 
     /**
@@ -108,4 +112,4 @@ class ABT_Options  {
         include dirname(__FILE__) . '/views/options-page.php';
     }
 }
-new ABT_Options();
+new Options;

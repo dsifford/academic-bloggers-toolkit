@@ -2,6 +2,7 @@ import { action, computed, IObservableValue } from 'mobx';
 import { observer } from 'mobx-react';
 import * as React from 'react';
 import { spring, TransitionMotion } from 'react-motion';
+import createFilterOptions from 'react-select-fast-filter-options';
 import VSelect from 'react-virtualized-select';
 
 import { MenuActionType } from 'utils/constants';
@@ -33,6 +34,7 @@ interface Props {
 }
 
 interface StyleOption {
+    id: string;
     label: string;
     value: string;
 }
@@ -66,11 +68,16 @@ export default class Menu extends React.PureComponent<Props> {
     }
 
     readonly styles: StyleOption[];
+    filterOptions = createFilterOptions({
+        options: ABT_CitationStyles,
+        valueKey: 'id',
+        indexes: ['label', 'id'],
+    });
 
     @computed
     get selected() {
         return {
-            label: this.styles.find(d => d.value === this.props.cslStyle.get())!.label,
+            label: this.styles.find(d => d.id === this.props.cslStyle.get())!.label,
             value: this.props.cslStyle.get(),
         };
     }
@@ -82,13 +89,18 @@ export default class Menu extends React.PureComponent<Props> {
          * ABT_Custom_CSL.value is `null` if there is either no provided file path
          * or if the path to the file is invalid.
          */
-        if (ABT_Custom_CSL.value === null) {
+        if (!ABT_Custom_CSL.value) {
             this.styles = ABT_CitationStyles;
         } else {
+            // FIXME: i18n needed
             this.styles = [
-                { label: 'Custom Style', value: 'header' },
-                { label: ABT_Custom_CSL.label, value: ABT_Custom_CSL.value! },
-                { label: 'Pre-defined Styles', value: 'header' },
+                { label: 'Custom Style', value: 'header', id: 'custom-style-header' },
+                {
+                    label: ABT_Custom_CSL.label,
+                    value: ABT_Custom_CSL.value,
+                    id: 'abt-custom-style',
+                },
+                { label: 'Pre-defined Styles', value: 'header', id: 'predefined-style-header' },
                 ...ABT_CitationStyles,
             ];
         }
@@ -200,6 +212,8 @@ export default class Menu extends React.PureComponent<Props> {
                                   <div className="style-row">
                                       <VSelect
                                           id="style-select"
+                                          valueKey="id"
+                                          filterOptions={this.filterOptions}
                                           onChange={this.handleSelect}
                                           value={this.selected}
                                           optionRenderer={renderer}

@@ -11,16 +11,21 @@
  *  Text Domain: academic-bloggers-toolkit
  */
 
+namespace ABT;
+
+if (!defined('ABSPATH')) exit(1);
+
 define('ABT_VERSION', '4.10.0');
 define('ABT_ROOT_URI', plugin_dir_url(__FILE__));
+define('ABT_ROOT_PATH', plugin_dir_path(__FILE__));
 
 /**
  * Load plugin translations
  */
-function abt_load_plugin_textdomain() {
+function textdomain() {
     load_plugin_textdomain('academic-bloggers-toolkit', false, dirname(plugin_basename(__FILE__)) . '/languages');
 }
-add_action('plugins_loaded', 'abt_load_plugin_textdomain');
+add_action('plugins_loaded', 'ABT\textdomain');
 
 /**
  * Adds .csl files to the accepted mime types for WordPress
@@ -31,17 +36,17 @@ function enable_csl_mime($mimes) {
     $mimes['csl'] = 'text/xml';
     return $mimes;
 }
-add_filter('upload_mimes', 'enable_csl_mime');
+add_filter('upload_mimes', 'ABT\enable_csl_mime');
 
 
 /**
  * Cleans up options during uninstall
  */
-function abt_uninstall() {
+function uninstall() {
     delete_option('abt_options');
 }
 if (function_exists('register_uninstall_hook')) {
-    register_uninstall_hook(__FILE__, 'abt_uninstall');
+    register_uninstall_hook(__FILE__, 'ABT\uninstall');
 }
 
 
@@ -51,7 +56,7 @@ if (function_exists('register_uninstall_hook')) {
  * Current schema configuration can be found here:
  *   http://www.jsoneditoronline.org/?id=8f65b4f64daaf41e5ed94c4a006ba264
  */
-function abt_refactor_deprecated_options() {
+function refactor_options() {
     $options = get_option('abt_options');
     if ($options['VERSION'] === ABT_VERSION) return;
 
@@ -80,14 +85,14 @@ function abt_refactor_deprecated_options() {
 
     update_option('abt_options', $newOptions);
 }
-add_action('admin_init', 'abt_refactor_deprecated_options');
+add_action('admin_init', 'ABT\refactor_options');
 
 
 /**
  * Adds link on the plugin page to the options page.
  * @param string[] $links Array of links
  */
-function abt_add_options_link($links) {
+function add_options_link($links) {
     $url = admin_url('options-general.php?page=abt-options');
     $text = __('Plugin Settings', 'academic-bloggers-toolkit');
     $abt_links = [
@@ -95,13 +100,13 @@ function abt_add_options_link($links) {
     ];
     return array_merge($links, $abt_links);
 }
-add_filter('plugin_action_links_' . plugin_basename(__FILE__), 'abt_add_options_link');
+add_filter('plugin_action_links_' . plugin_basename(__FILE__), 'ABT\add_options_link');
 
 
 /**
  * Adds donation link to the plugin meta
  */
-function abt_add_donate_link( $plugin_meta, $plugin_file ) {
+function add_donate_link( $plugin_meta, $plugin_file ) {
     if (plugin_basename( __FILE__ ) == $plugin_file) {
         $plugin_meta[] = sprintf(
             '&hearts; <a href="%s">%s</a>',
@@ -111,22 +116,22 @@ function abt_add_donate_link( $plugin_meta, $plugin_file ) {
     }
     return $plugin_meta;
 }
-add_filter('plugin_row_meta', 'abt_add_donate_link', 10, 2);
+add_filter('plugin_row_meta', 'ABT\add_donate_link', 10, 2);
 
 
 /**
  * Enqueues frontend JS and CSS
  */
-function abt_frontend_scripts() {
+function frontend_enqueues() {
     wp_enqueue_style('dashicons');
-    wp_enqueue_style('abt_frontend_styles', ABT_ROOT_URI . '/css/frontend.css', ['dashicons'], ABT_VERSION);
+    wp_enqueue_style('abt-css', plugins_url('academic-bloggers-toolkit/css/frontend.css'), ['dashicons'], ABT_VERSION);
 
     if (is_singular()) {
-        // wp_enqueue_script('abt-bundle', __DIR__ . '/vendor/vendor.bundle.js', [], ABT_VERSION, true);
-        wp_enqueue_script('abt_frontend_js', ABT_ROOT_URI . '/js/frontend.js', [/*'abt-bundle'*/], ABT_VERSION, true);
+        wp_enqueue_script('abt-vendors', plugins_url('academic-bloggers-toolkit/vendor/vendor.bundle.js'), [], ABT_VERSION);
+        wp_enqueue_script('abt-frontend', plugins_url('academic-bloggers-toolkit/js/frontend.js'), ['abt-vendors'], ABT_VERSION, true);
     }
 }
-add_action('wp_enqueue_scripts', 'abt_frontend_scripts');
+add_action('wp_enqueue_scripts', 'ABT\frontend_enqueues');
 
 require_once(__DIR__ . '/php/dom-injects.php');
 require_once(__DIR__ . '/php/backend.php');
