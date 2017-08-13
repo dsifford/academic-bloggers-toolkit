@@ -430,8 +430,9 @@ exports[`<ManualEntryContainer /> should match snapshots 1`] = `
                 value="author"
               >
                 <option
-                  aria-selected={false}
+                  aria-selected={true}
                   id="peopleSelect-0"
+                  value="author"
                 >
                   Author
                 </option>
@@ -1613,26 +1614,30 @@ exports[`<ManualEntryContainer /> should match snapshots 2`] = `
                 value="author"
               >
                 <option
-                  aria-selected={false}
+                  aria-selected={true}
                   id="peopleSelect-0"
+                  value="author"
                 >
                   Author
                 </option>
                 <option
                   aria-selected={false}
                   id="peopleSelect-1"
+                  value="editor"
                 >
                   Editor
                 </option>
                 <option
                   aria-selected={false}
                   id="peopleSelect-2"
+                  value="collection-editor"
                 >
                   Series Editor
                 </option>
                 <option
                   aria-selected={false}
                   id="peopleSelect-3"
+                  value="translator"
                 >
                   Translator
                 </option>

@@ -71,7 +71,7 @@ describe('<ImportDialog />', () => {
                 } as any,
             );
             expect(instance.payload.length).toBe(0);
-            expect(instance.errorMessage.get()).toBe('The selected file could not be processed.');
+            expect(instance.errorMessage.get()).toBe('The file could not be processed');
         });
         test('valid RIS file with 1 reference', async () => {
             const { instance } = setup();
@@ -146,7 +146,7 @@ describe('<ImportDialog />', () => {
                 } as any,
             );
             expect(instance.payload.length).toBe(0);
-            expect(instance.errorMessage.get()).toBe('The selected file could not be processed.');
+            expect(instance.errorMessage.get()).toBe('The file could not be processed');
         });
     });
 });

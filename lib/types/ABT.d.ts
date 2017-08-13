@@ -1,4 +1,3 @@
-
 declare namespace ABT {
     type Bibliography = Array<{ id: string; html: string }>;
 
@@ -93,7 +92,7 @@ declare namespace ABT {
         fields: Field[];
         people: Array<{
             label: string;
-            kind:
+            type:
                 | 'author'
                 | 'container-author'
                 | 'editor'

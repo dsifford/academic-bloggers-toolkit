@@ -21,7 +21,7 @@ function abt_generate_translations() {
         'broken' => __('BROKEN!', 'academic-bloggers-toolkit'),
         'denied' => __('Site denied request', 'academic-bloggers-toolkit'),
         'fileExtensionError' => __('Invalid file extension. Extension must be .ris, .bib, or .bibtex', 'academic-bloggers-toolkit'),
-        'filetypeError' => __('The selected file could not be processed.', 'academic-bloggers-toolkit'),
+        'filetypeError' => __('The selected file could not be processed', 'academic-bloggers-toolkit'),
         'identifiersNotFound' => [
             'all' => __('No identifiers could be found for your request', 'academic-bloggers-toolkit'),
             'some' => __('The following identifiers could not be found', 'academic-bloggers-toolkit'),

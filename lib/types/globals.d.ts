@@ -29,9 +29,9 @@ declare namespace BackendGlobals {
             broken: 'BROKEN!';
             denied: 'Site denied request';
             fileExtensionError: 'Invalid file extension. Extension must be .ris, .bib, or .bibtex';
-            filetypeError: 'The file could not be processed.';
+            filetypeError: 'The file could not be processed';
             identifiersNotFound: {
-                all: 'The following identifiers could not be found';
+                all: 'No identifiers could be found for your request';
                 some: 'The following identifiers could not be found';
             };
             networkError: 'Network Error';
@@ -96,7 +96,7 @@ declare namespace BackendGlobals {
                 next: 'Next';
                 previous: 'Previous';
                 search: 'Search';
-                title: 'Search PubMed for Reference';
+                title: 'Search PubMed';
                 viewReference: 'View';
             };
             add: {

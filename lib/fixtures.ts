@@ -1,4 +1,4 @@
-exports.ABT_wp = {
+export const ABT_wp: BackendGlobals.ABT_wp = {
     abt_url: 'http://localhost:8080/wp-content/plugins/academic-bloggers-toolkit',
     home_url: 'http://localhost:8080',
     plugins_url: 'http://localhost:8080/wp-content/plugins',
@@ -10,12 +10,27 @@ exports.ABT_wp = {
         subdir: '/2017/08',
         url: 'http://localhost:8080/wp-content/uploads/2017/08',
     },
+    info: {
+        site: {
+            language: 'en_US',
+            name: 'Test Site',
+            plugins: ['academic-bloggers-toolkit'],
+            theme: 'twentyseventeen',
+            url: 'http://localhost:8080',
+        },
+        versions: {
+            abt: '0.0.0',
+            php: '0.0.0',
+            wordpress: '0.0.0',
+        },
+    },
 };
 
-exports.ABT_Reflist_State = {
+export const ABT_Reflist_State: BackendGlobals.ABT_Reflist_State = {
     bibOptions: {
         heading: 'Bibliography',
         style: 'fixed',
+        headingLevel: 'h3',
     },
     cache: {
         style: 'american-medical-association',
@@ -253,7 +268,7 @@ exports.ABT_Reflist_State = {
     },
 };
 
-exports.ABT_i18n = {
+export const ABT_i18n: BackendGlobals.ABT_i18n = {
     misc: {
         footnotes: 'Footnotes',
     },
@@ -332,7 +347,7 @@ exports.ABT_i18n = {
         broken: 'BROKEN!',
         denied: 'Site denied request',
         fileExtensionError: 'Invalid file extension. Extension must be .ris, .bib, or .bibtex',
-        filetypeError: 'The selected file could not be processed.',
+        filetypeError: 'The file could not be processed',
         identifiersNotFound: {
             all: 'No identifiers could be found for your request',
             some: 'The following identifiers could not be found',
@@ -346,8 +361,8 @@ exports.ABT_i18n = {
             warning: 'Warning',
             reason: 'Reason',
             noBib: {
-                message: 'Cannot create publication list for currently selected citation style.',
-                reason: 'Style does not include bibliography.',
+                message: 'Cannot create publication list for currently selected citation style',
+                reason: 'Style does not include bibliography',
             },
         },
         unexpected: {
