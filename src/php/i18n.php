@@ -47,6 +47,10 @@ function abt_generate_translations() {
 
     $ABT_i18n->referenceList = [
         'menu' => [
+            'styleLabels' => [
+                'custom' => __('Custom Style', 'academic-bloggers-toolkit'),
+                'predefined' => __('Pre-defined Styles', 'academic-bloggers-toolkit'),
+            ],
             'toggleLabel' => __('Toggle menu', 'academic-bloggers-toolkit'),
             'tooltips' => [
                 'destroy' => __('Delete all references', 'academic-bloggers-toolkit'),

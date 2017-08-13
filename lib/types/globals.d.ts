@@ -58,6 +58,10 @@ declare namespace BackendGlobals {
         };
         referenceList: {
             menu: {
+                styleLabels: {
+                    custom: 'Custom Style';
+                    predefined: 'Pre-defined Styles';
+                };
                 toggleLabel: 'Toggle menu';
                 tooltips: {
                     destroy: 'Delete all references';

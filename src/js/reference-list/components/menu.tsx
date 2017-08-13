@@ -92,15 +92,14 @@ export default class Menu extends React.PureComponent<Props> {
         if (!ABT_Custom_CSL.value) {
             this.styles = ABT_CitationStyles;
         } else {
-            // FIXME: i18n needed
             this.styles = [
-                { label: 'Custom Style', value: 'header', id: 'custom-style-header' },
+                { label: Menu.labels.styleLabels.custom, value: 'header', id: 'header' },
                 {
                     label: ABT_Custom_CSL.label,
                     value: ABT_Custom_CSL.value,
-                    id: 'abt-custom-style',
+                    id: ABT_Custom_CSL.value,
                 },
-                { label: 'Pre-defined Styles', value: 'header', id: 'predefined-style-header' },
+                { label: Menu.labels.styleLabels.predefined, value: 'header', id: 'header' },
                 ...ABT_CitationStyles,
             ];
         }

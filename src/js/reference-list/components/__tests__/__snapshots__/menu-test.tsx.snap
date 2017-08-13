@@ -1081,17 +1081,17 @@ exports[`<Menu /> should match snapshots 1`] = `
           options={
             Array [
               Object {
-                "id": "custom-style-header",
+                "id": "header",
                 "label": "Custom Style",
                 "value": "header",
               },
               Object {
-                "id": "abt-custom-style",
+                "id": "test-value",
                 "label": "Test Label",
                 "value": "test-value",
               },
               Object {
-                "id": "predefined-style-header",
+                "id": "header",
                 "label": "Pre-defined Styles",
                 "value": "header",
               },
@@ -1159,17 +1159,17 @@ exports[`<Menu /> should match snapshots 1`] = `
             options={
               Array [
                 Object {
-                  "id": "custom-style-header",
+                  "id": "header",
                   "label": "Custom Style",
                   "value": "header",
                 },
                 Object {
-                  "id": "abt-custom-style",
+                  "id": "test-value",
                   "label": "Test Label",
                   "value": "test-value",
                 },
                 Object {
-                  "id": "predefined-style-header",
+                  "id": "header",
                   "label": "Pre-defined Styles",
                   "value": "header",
                 },
