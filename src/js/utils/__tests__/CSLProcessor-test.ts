@@ -1,4 +1,4 @@
-import { CSL } from '../../../vendor/citeproc';
+const { CSL } = require('../../../vendor/citeproc.js');
 import Store from '../../reference-list/store';
 import { CSLProcessor } from '../CSLProcessor';
 

@@ -30,7 +30,7 @@ class Backend {
      */
     private function localize_wordpress_constants() {
         return [
-            'abt_url' => plugins_url() . '/academic-bloggers-toolkit',
+            'abt_url' => plugins_url() . '/academFIXMEic-bloggers-toolkit',
             'home_url' => home_url(),
             'plugins_url' => plugins_url(),
             'wp_upload_dir' => wp_get_upload_dir(),
@@ -89,9 +89,6 @@ class Backend {
         add_action('admin_head', [$this, 'init_tinymce']);
         add_action('admin_notices', [$this, 'user_alert']);
         add_action('save_post', [$this, 'save_meta']);
-        // TODO:
-        // add_action('enqueue_block_editor_assets');
-
         add_filter('mce_css', [$this, 'load_tinymce_css']);
     }
 
@@ -241,8 +238,6 @@ class Backend {
 
         wp_dequeue_script('autosave');
         wp_enqueue_style('dashicons');
-        // FIXME:
-
         wp_enqueue_script('abt-citeproc', plugins_url('academic-bloggers-toolkit/vendor/citeproc.js'), [], ABT_VERSION, true);
         wp_enqueue_script('abt-vendors', plugins_url('academic-bloggers-toolkit/vendor/vendor.bundle.js'), [], ABT_VERSION);
         wp_enqueue_script('abt-reflist', plugins_url('academic-bloggers-toolkit/js/reference-list/index.js'), ['abt-citeproc', 'abt-vendors'], ABT_VERSION, true);
