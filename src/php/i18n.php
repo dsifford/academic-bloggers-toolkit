@@ -1,8 +1,12 @@
 <?php
 
-if (!defined('ABSPATH')) exit(1);
+namespace ABT\i18n;
 
-function abt_generate_translations() {
+if (!defined('ABSPATH')) {
+    exit(1);
+}
+
+function generate_translations() {
     $ABT_i18n = (object)[
         'citationTypes' => [],
         'dialogs' => (object)[],
@@ -119,7 +123,7 @@ function abt_generate_translations() {
         'title' => __('Add References', 'academic-bloggers-toolkit'),
     ];
 
-    require_once(dirname(__FILE__) . '/fieldmaps.php');
+    require_once __DIR__ . '/fieldmaps.php';
 
     return $ABT_i18n;
 }

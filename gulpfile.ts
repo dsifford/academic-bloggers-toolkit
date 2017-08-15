@@ -21,7 +21,6 @@ const IS_PRODUCTION = process.env.NODE_ENV === 'production';
 
 process.env.FORCE_COLOR = '1';
 
-type Replacer = (match: string, ...submatches: string[]) => string;
 type Callback = () => void;
 
 // prettier-ignore
@@ -81,41 +80,21 @@ export function pot() {
 //              PHP/Static Asset Tasks
 // ==================================================
 
-export function php(): NodeJS.ReadWriteStream {
-    const re1 = new RegExp(/(\s=\s|\sreturn\s)((?:\(object\))|)(\[)([\W\w\s]*?)(])(;\s?)/, 'gm');
-    const re2 = new RegExp(/$(\s+)(.+?)(\s=>\s)((?:\(object\))?)(\[)/, 'gm');
-    const re3 = new RegExp(/$(\s+)(],|\[)$/, 'gm');
-    const re4 = new RegExp(/(array\()(],)/, 'gm');
-    const re5 = new RegExp(/(,\s+)(\[)(.*)(])/, 'gm');
-
-    const rep1: Replacer = (_match, p1, p2, _p3, p4, _p5, p6) => `${p1}${p2}array(${p4})${p6}`;
-    const rep2: Replacer = (_match, p1, p2, p3, p4) => `${p1}${p2}${p3}${p4}array(`;
-    const rep3: Replacer = (_match, p1, p2) => {
-        const r = p2 === '],' ? '),' : 'array(';
-        return p1 + r;
-    };
-    const rep4: Replacer = (_match, p1) => `${p1}),`;
-    const rep5: Replacer = (_match, p1, _p2, p3) => `${p1}array(${p3})`;
-
-    return gulp
-        .src(['src/**/*.php', '!**/views/*.php'], { base: './src' })
-        .pipe(replace(re1, rep1))
-        .pipe(replace(re2, rep2))
-        .pipe(replace(re3, rep3))
-        .pipe(replace(re4, rep4))
-        .pipe(replace(re5, rep5))
-        .pipe(gulp.dest('dist'));
-}
-
 export function staticFiles() {
     const misc = gulp
-        .src(['src/**/*.{po,pot,mo,html,txt,json}', 'src/**/views/*.php'], {
+        .src('src/**/*.{po,pot,mo,html,txt,json,php}', {
             base: './src',
         })
         .pipe(gulp.dest('dist'));
     const license = gulp.src(['LICENSE']).pipe(gulp.dest('dist'));
-    const PHP = php();
-    return merge(misc, license, PHP);
+    const stream = merge(misc, license);
+    stream.on('end', () => {
+        exec(`npm run phpcsfix-dist`).catch(e => {
+            console.error(e);
+            throw e;
+        });
+    });
+    return stream;
 }
 
 // ==================================================

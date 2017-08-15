@@ -17,9 +17,9 @@
             <!-- PHP VERSION CHECK -->
             <tr>
                 <th style="font-weight: bold;"><?php _e('PHP Version', 'academic-bloggers-toolkit') ?></th>
-                <td><?php echo phpversion() ?></td>
+                <td><?php echo PHP_VERSION ?></td>
                 <td>
-                    <?php if (version_compare(phpversion(), '5.5', '<')): ?>
+                    <?php if (version_compare(PHP_VERSION, '5.5', '<')): ?>
                         <span style="font-weight: bold; color: red;"><?php _e('PHP version should be > 5.5 (Recommended Version = 7.0.0)', 'academic-bloggers-toolkit') ?></span>
                     <?php endif; ?>
                 </td>
@@ -32,9 +32,8 @@
                     <?php
                         if (extension_loaded('dom')) {
                             _e('Enabled', 'academic-bloggers-toolkit');
-                        }
-                        else {
-                            echo "<span style='font-weight: bold; color: red;'>" . __('Disabled', 'academic-bloggers-toolkit') . "</span>";
+                        } else {
+                            echo "<span style='font-weight: bold; color: red;'>" . __('Disabled', 'academic-bloggers-toolkit') . '</span>';
                         }
                     ?>
                 </td>
@@ -55,9 +54,8 @@
                     <?php
                         if (extension_loaded('libxml')) {
                             _e('Enabled', 'academic-bloggers-toolkit');
-                        }
-                        else {
-                            echo "<span style='font-weight: bold; color: red;'>" . __('Disabled', 'academic-bloggers-toolkit') . "</span>";
+                        } else {
+                            echo "<span style='font-weight: bold; color: red;'>" . __('Disabled', 'academic-bloggers-toolkit') . '</span>';
                         }
                     ?>
                 </td>
@@ -187,10 +185,10 @@
                             <div id="demo-bib-heading" style="display: inline-block; <?php echo $display_options_bibliography === 'toggle' ? 'margin-left: -25px; cursor: pointer;' : '' ?> font-size: 23px; line-height: 23px; font-weight: 600; color: #23282d;"><?php echo $display_options_bib_heading ?></div>
                         </div>
                         <div id="link-style-demo">
-                            <div id="always" style="<?php echo $display_options_links != 'always' ? 'display: none;' : '' ?>"><span style="font-weight: bold; margin-right: 8px;">1.</span>Sifford D P. Academic Blogger’s Toolkit: <a href="https://wordpress.org/plugins/academic-bloggers-toolkit/" target="_blank">https://wordpress.org/plugins/academic-bloggers-toolkit/</a>. <i>J WordPress</i>. 2015;12(5):12-24.<span class="abt-url"> [<a href="https://dx.doi.org" target="_blank">Source</a>]</span></div>
-                            <div id="always-full-surround" style="<?php echo $display_options_links != 'always-full-surround' ? 'display: none;' : '' ?>"><span style="font-weight: bold; margin-right: 8px;">1.</span><a href="https://dx.doi.org" target="_blank">Sifford D P. Academic Blogger’s Toolkit: https://wordpress.org/plugins/academic-bloggers-toolkit/. <i>J WordPress</i>. 2015;12(5):12-24.</a></div>
-                            <div id="urls" style="<?php echo $display_options_links != 'urls' ? 'display: none;' : '' ?>"><span style="font-weight: bold; margin-right: 8px;">1.</span>Sifford D P. Academic Blogger’s Toolkit: <a href="https://wordpress.org/plugins/academic-bloggers-toolkit/" target="_blank">https://wordpress.org/plugins/academic-bloggers-toolkit/</a>. <i>J WordPress</i>. 2015;12(5):12-24.</div>
-                            <div id="never" style="<?php echo $display_options_links != 'never' ? 'display: none;' : '' ?>"><span style="font-weight: bold; margin-right: 8px;">1.</span>Sifford D P. Academic Blogger’s Toolkit: https://wordpress.org/plugins/academic-bloggers-toolkit/. <i>J WordPress</i>. 2015;12(5):12-24.</div>
+                            <div id="always" style="<?php echo $display_options_links !== 'always' ? 'display: none;' : '' ?>"><span style="font-weight: bold; margin-right: 8px;">1.</span>Sifford D P. Academic Blogger’s Toolkit: <a href="https://wordpress.org/plugins/academic-bloggers-toolkit/" target="_blank">https://wordpress.org/plugins/academic-bloggers-toolkit/</a>. <i>J WordPress</i>. 2015;12(5):12-24.<span class="abt-url"> [<a href="https://dx.doi.org" target="_blank">Source</a>]</span></div>
+                            <div id="always-full-surround" style="<?php echo $display_options_links !== 'always-full-surround' ? 'display: none;' : '' ?>"><span style="font-weight: bold; margin-right: 8px;">1.</span><a href="https://dx.doi.org" target="_blank">Sifford D P. Academic Blogger’s Toolkit: https://wordpress.org/plugins/academic-bloggers-toolkit/. <i>J WordPress</i>. 2015;12(5):12-24.</a></div>
+                            <div id="urls" style="<?php echo $display_options_links !== 'urls' ? 'display: none;' : '' ?>"><span style="font-weight: bold; margin-right: 8px;">1.</span>Sifford D P. Academic Blogger’s Toolkit: <a href="https://wordpress.org/plugins/academic-bloggers-toolkit/" target="_blank">https://wordpress.org/plugins/academic-bloggers-toolkit/</a>. <i>J WordPress</i>. 2015;12(5):12-24.</div>
+                            <div id="never" style="<?php echo $display_options_links !== 'never' ? 'display: none;' : '' ?>"><span style="font-weight: bold; margin-right: 8px;">1.</span>Sifford D P. Academic Blogger’s Toolkit: https://wordpress.org/plugins/academic-bloggers-toolkit/. <i>J WordPress</i>. 2015;12(5):12-24.</div>
                         </div>
                     </div>
                     </div>

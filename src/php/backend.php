@@ -2,86 +2,23 @@
 
 namespace ABT;
 
-if (!defined('ABSPATH')) exit(1);
+if (!defined('ABSPATH')) {
+    exit(1);
+}
 
-require_once(dirname(__FILE__) . '/i18n.php');
+require_once __DIR__ . '/i18n.php';
 
 if (is_admin()) {
-    add_action('load-post.php', array('ABT\Backend', 'init'));
-    add_action('load-post-new.php', array('ABT\Backend', 'init'));
+    add_action('load-post.php', ['ABT\Backend', 'init']);
+    add_action('load-post-new.php', ['ABT\Backend', 'init']);
 }
 
 /**
  * Main Backend Class.
  */
 class Backend {
-
     /**
-     * Returns an array of citation styles from citationstyles.php
-     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
-     */
-    private function get_citation_styles() {
-        $json = json_decode(file_get_contents(ABT_ROOT_PATH . '/vendor/citation-styles.json'), true);
-        return $json;
-    }
-
-    /**
-     * Returns an array of a few select wordpress constants (for use in JS).
-     */
-    private function localize_wordpress_constants() {
-        return [
-            'abt_url' => plugins_url() . '/academFIXMEic-bloggers-toolkit',
-            'home_url' => home_url(),
-            'plugins_url' => plugins_url(),
-            'wp_upload_dir' => wp_get_upload_dir(),
-            'info' => [
-                'site' => [
-                    'language' => get_bloginfo('language'),
-                    'name' => get_bloginfo('name'),
-                    'plugins' => get_option('active_plugins'),
-                    'theme' => get_template(),
-                    'url' => get_bloginfo('url'),
-                ],
-                'versions' => [
-                    'abt' => ABT_VERSION,
-                    'php' => phpversion(),
-                    'wordpress' => get_bloginfo('version'),
-                ],
-            ],
-        ];
-    }
-
-    /**
-     * Checks to see if custom CSL XML is saved and available. If so, returns an
-     *   array containing the XML, label, and value. If not, returns an array
-     *   containing only the key 'value' with the value of null.
-     *
-     * @param  string  $path Path to CSL XML file.
-     * @return mixed[]       Array as described above.
-     */
-    private function get_user_defined_csl($path) {
-        if (!file_exists($path)) return [ 'value' => null ];
-
-        $contents = file_get_contents($path);
-        $xml = new SimpleXMLElement($contents);
-        $label = $xml->info->title->__toString() !== ''
-            ? $xml->info->title->__toString()
-            : 'ABT Custom Style';
-
-        return [
-            'label' => $label,
-            'value' => 'abt-user-defined',
-            'CSL' => $contents,
-        ];
-    }
-
-    public static function init() {
-        $class = __CLASS__;
-        new $class;
-    }
-
-    /**
-     * Sets up all actions and filters for the backend class
+     * Sets up all actions and filters for the backend class.
      */
     public function __construct() {
         add_action('add_meta_boxes', [$this, 'add_metaboxes']);
@@ -92,31 +29,39 @@ class Backend {
         add_filter('mce_css', [$this, 'load_tinymce_css']);
     }
 
+    public static function init() {
+        $class = __CLASS__;
+        new $class;
+    }
+
     /**
-     * Alerts the user that the plugin will not work if he/she doesn't have 'Rich Editing' enabled
+     * Alerts the user that the plugin will not work if he/she doesn't have 'Rich Editing' enabled.
      */
     public function user_alert() {
-        if ('true' == get_user_option('rich_editing')) return;
+        if ('true' === get_user_option('rich_editing')) {
+            return;
+        }
         $class = 'notice notice-warning is-dismissible';
-        $message = __( "<strong>Notice:</strong> Rich editing must be enabled to use the Academic Blogger's Toolkit plugin", 'academic-bloggers-toolkit' );
-        printf( '<div class="%1$s"><p>%2$s</p></div>', $class, $message );
+        $message = __("<strong>Notice:</strong> Rich editing must be enabled to use the Academic Blogger's Toolkit plugin", 'academic-bloggers-toolkit');
+        printf('<div class="%1$s"><p>%2$s</p></div>', $class, $message);
     }
 
     /**
      * Instantiates the TinyMCE plugin.
      */
     public function init_tinymce() {
-        if ('true' == get_user_option('rich_editing')) {
+        if ('true' === get_user_option('rich_editing')) {
             add_filter('mce_external_plugins', [$this, 'register_tinymce_plugins']);
             echo '<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&subset=cyrillic,cyrillic-ext,greek,greek-ext,latin-ext,vietnamese" rel="stylesheet">';
         }
     }
 
     /**
-     * Registers the TinyMCE plugins + loads fonts
+     * Registers the TinyMCE plugins + loads fonts.
      *
-     * @param array $plugin_array Array of TinyMCE plugins
-     * @return array Array of TinyMCE plugins with plugins added
+     * @param string[] $plugin_array Array of TinyMCE plugins
+     *
+     * @return string[] Array of TinyMCE plugins with plugins added
      */
     public function register_tinymce_plugins($plugin_array) {
         $plugin_array['noneditable'] = plugins_url('academic-bloggers-toolkit/vendor/noneditable.js');
@@ -124,13 +69,16 @@ class Backend {
     }
 
     /**
-     * Loads the required stylesheet into TinyMCE (required for proper citation parsing)
-     * @param  string $mce_css  CSS string
-     * @return string          CSS string + custom CSS appended.
+     * Loads the required stylesheet into TinyMCE (required for proper citation parsing).
+     *
+     * @param string $mce_css CSS string
+     *
+     * @return string CSS string + custom CSS appended
      */
     public function load_tinymce_css($mce_css) {
-        if (!empty($mce_css))
+        if (!empty($mce_css)) {
             $mce_css .= ',';
+        }
         $mce_css .= plugins_url('academic-bloggers-toolkit/css/editors/tinymce.css');
         return $mce_css;
     }
@@ -143,7 +91,9 @@ class Backend {
     public function add_metaboxes($post_type) {
         $invalid_post_type = in_array($post_type, ['attachment', 'acf', 'um_form']);
 
-        if ($invalid_post_type) return;
+        if ($invalid_post_type) {
+            return;
+        }
 
         $all_types = get_post_types();
         add_meta_box(
@@ -158,11 +108,13 @@ class Backend {
 
     /**
      * Renders the HTML for React to mount into.
+     *
+     * @param mixed $post
      */
     public function render_reference_list($post) {
-        $ABT_i18n = abt_generate_translations();
+        $ABT_i18n = i18n\generate_translations();
 
-        wp_nonce_field(basename(__file__), 'abt_nonce');
+        wp_nonce_field(basename(__FILE__), 'abt_nonce');
 
         $state = json_decode(get_post_meta($post->ID, '_abt-reflist-state', true), true);
         $opts = get_option('abt_options');
@@ -218,9 +170,11 @@ class Backend {
     public function save_meta($post_id) {
         $is_autosave = wp_is_post_autosave($post_id);
         $is_revision = wp_is_post_revision($post_id);
-        $is_valid_nonce = (isset($_POST[ 'abt_nonce' ]) && wp_verify_nonce($_POST['abt_nonce'], basename(__FILE__))) ? true : false;
+        $is_valid_nonce = (isset($_POST['abt_nonce']) && wp_verify_nonce($_POST['abt_nonce'], basename(__FILE__))) ? true : false;
 
-        if ($is_autosave || $is_revision || !$is_valid_nonce) return;
+        if ($is_autosave || $is_revision || !$is_valid_nonce) {
+            return;
+        }
 
         $reflist_state = $_POST['abt-reflist-state'];
         update_post_meta($post_id, '_abt-reflist-state', $reflist_state);
@@ -234,7 +188,9 @@ class Backend {
 
         $invalid_post_type = in_array($post_type, ['attachment', 'acf', 'um_form']);
 
-        if ($invalid_post_type) return;
+        if ($invalid_post_type) {
+            return;
+        }
 
         wp_dequeue_script('autosave');
         wp_enqueue_style('dashicons');
@@ -243,4 +199,66 @@ class Backend {
         wp_enqueue_script('abt-reflist', plugins_url('academic-bloggers-toolkit/js/reference-list/index.js'), ['abt-citeproc', 'abt-vendors'], ABT_VERSION, true);
     }
 
+    /**
+     * Returns an array of citation styles from citationstyles.php.
+     *
+     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
+     */
+    private function get_citation_styles() {
+        $json = json_decode(file_get_contents(ABT_ROOT_PATH . '/vendor/citation-styles.json'), true);
+        return $json;
+    }
+
+    /**
+     * Returns an array of a few select wordpress constants (for use in JS).
+     */
+    private function localize_wordpress_constants() {
+        return [
+            'abt_url' => plugins_url() . '/academFIXMEic-bloggers-toolkit',
+            'home_url' => home_url(),
+            'plugins_url' => plugins_url(),
+            'wp_upload_dir' => wp_get_upload_dir(),
+            'info' => [
+                'site' => [
+                    'language' => get_bloginfo('language'),
+                    'name' => get_bloginfo('name'),
+                    'plugins' => get_option('active_plugins'),
+                    'theme' => get_template(),
+                    'url' => get_bloginfo('url'),
+                ],
+                'versions' => [
+                    'abt' => ABT_VERSION,
+                    'php' => PHP_VERSION,
+                    'wordpress' => get_bloginfo('version'),
+                ],
+            ],
+        ];
+    }
+
+    /**
+     * Checks to see if custom CSL XML is saved and available. If so, returns an
+     * array containing the XML, label, and value. If not, returns an array
+     * containing only the key 'value' with the value of null.
+     *
+     * @param string $path path to CSL XML file
+     *
+     * @return mixed[] array as described above
+     */
+    private function get_user_defined_csl($path) {
+        if (!file_exists($path)) {
+            return ['value' => null];
+        }
+
+        $contents = file_get_contents($path);
+        $xml = new SimpleXMLElement($contents);
+        $label = $xml->info->title->__toString() !== ''
+            ? $xml->info->title->__toString()
+            : 'ABT Custom Style';
+
+        return [
+            'label' => $label,
+            'value' => 'abt-user-defined',
+            'CSL' => $contents,
+        ];
+    }
 }

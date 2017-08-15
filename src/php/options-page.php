@@ -2,10 +2,11 @@
 
 namespace ABT;
 
-if (!defined('ABSPATH')) exit(1);
+if (!defined('ABSPATH')) {
+    exit(1);
+}
 
 class Options {
-
     public $citation_styles;
 
     /**
@@ -18,49 +19,12 @@ class Options {
     }
 
     /**
-     * Grabs the citation styles from the vendor array and saves them to
-     *   $this->citation_styles
-     */
-    private function get_citation_styles() {
-        $json = json_decode(file_get_contents(ABT_ROOT_PATH . '/vendor/citation-styles.json'), true);
-        return $json;
-    }
-
-    /**
-     * Sanitizes and saves the path to the custom CSL file.
-     *
-     * This function should receive a URL and produce a PATH if everything
-     *   checks out. Otherwise, it should return an empty string.
-     *
-     * If the sanitation fails, a dismissable notice is sent to the user.
-     *
-     * @param  string  $url Unsanitized URL submitted with the form.
-     * @return string       Sanitized PATH to the CSL file.
-     */
-    private function check_custom_style_url($url) {
-        if (file_exists($url) && substr($url, -4) === '.csl' || $url === '') {
-            return $url;
-        }
-        $uploads = wp_upload_dir();
-        $file = $uploads['basedir'] . str_replace($uploads['baseurl'], '', $url);
-        if (file_exists($file) && substr($file, -4) === '.csl') {
-            return $file;
-        }
-        ?>
-        <div class="notice notice-error is-dismissible">
-            <p><?php _e('The provided URL is not a valid file in your WordPress upload directory. Please try again.', 'academic-bloggers-toolkit'); ?></p>
-        </div>
-        <?php
-        return '';
-    }
-
-    /**
      * Instantiates the options page.
      */
     public function add_options_page() {
         add_options_page(
-            __("Academic Blogger's Toolkit Options", "academic-bloggers-toolkit"),
-            __("Academic Blogger's Toolkit", "academic-bloggers-toolkit"),
+            __("Academic Blogger's Toolkit Options", 'academic-bloggers-toolkit'),
+            __("Academic Blogger's Toolkit", 'academic-bloggers-toolkit'),
             'manage_options',
             'abt-options',
             [$this, 'ABT_options_page']
@@ -71,7 +35,6 @@ class Options {
      * Renders the options page.
      */
     public function ABT_options_page() {
-
         if (!current_user_can('manage_options')) {
             wp_die(__('You do not have sufficient permissions to access this page.', 'academic-bloggers-toolkit'));
         }
@@ -109,7 +72,44 @@ class Options {
 
         update_option('abt_options', $abt_options);
 
-        include dirname(__FILE__) . '/views/options-page.php';
+        include __DIR__ . '/views/options-page.php';
+    }
+
+    /**
+     * Grabs the citation styles from the vendor array and saves them to
+     * $this->citation_styles.
+     */
+    private function get_citation_styles() {
+        $json = json_decode(file_get_contents(ABT_ROOT_PATH . '/vendor/citation-styles.json'), true);
+        return $json;
+    }
+
+    /**
+     * Sanitizes and saves the path to the custom CSL file.
+     *
+     * This function should receive a URL and produce a PATH if everything
+     * checks out. Otherwise, it should return an empty string.
+     *
+     * If the sanitation fails, a dismissable notice is sent to the user.
+     *
+     * @param string $url unsanitized URL submitted with the form
+     *
+     * @return string sanitized PATH to the CSL file
+     */
+    private function check_custom_style_url($url) {
+        if (file_exists($url) && substr($url, -4) === '.csl' || $url === '') {
+            return $url;
+        }
+        $uploads = wp_upload_dir();
+        $file = $uploads['basedir'] . str_replace($uploads['baseurl'], '', $url);
+        if (file_exists($file) && substr($file, -4) === '.csl') {
+            return $file;
+        } ?>
+        <div class="notice notice-error is-dismissible">
+            <p><?php _e('The provided URL is not a valid file in your WordPress upload directory. Please try again.', 'academic-bloggers-toolkit'); ?></p>
+        </div>
+        <?php
+        return '';
     }
 }
 new Options;

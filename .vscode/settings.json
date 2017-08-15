@@ -2,7 +2,8 @@
 {
     "files.associations": {
         "deploy": "shellscript",
-        "update_translations": "python"
+        "update_translations": "python",
+        ".php_cs": "php"
     },
     "lcov.path": "lib/tmp/coverage/lcov.info",
     "lcov.branchCoverage": "full"

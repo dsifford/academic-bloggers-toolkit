@@ -1,11 +1,15 @@
 <?php
 
-if (!defined('ABSPATH')) exit(1);
+if (!defined('ABSPATH')) {
+    exit(1);
+}
 
 function sort_by_label($a, $b) {
     $a = strtolower($a['label']);
     $b = strtolower($b['label']);
-    if ($a == $b) return 0;
+    if ($a === $b) {
+        return 0;
+    }
     return ($a < $b) ? -1 : 1;
 }
 

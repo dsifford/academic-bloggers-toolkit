@@ -192,7 +192,6 @@ declare module 'common-tags';
 declare module 'focus-trap-react';
 declare module 'gulp-uglify/composer';
 declare module 'gulp-wp-pot';
-declare module 'merge-stream';
 declare module 'react-select-fast-filter-options';
 declare module 'react-virtualized-select';
 declare module 'rollbar-sourcemap-webpack-plugin';
