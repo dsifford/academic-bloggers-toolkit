@@ -92,6 +92,7 @@
     },
     "dependencies": {
         "bibtex-parse-js": "^0.0.23",
+        "citeproc": "^2.1.174",
         "common-tags": "^1.4.0",
         "focus-trap-react": "^3.0.3",
         "he": "^1.1.1",

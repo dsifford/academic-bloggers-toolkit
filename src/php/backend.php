@@ -194,15 +194,12 @@ class Backend {
 
         wp_dequeue_script('autosave');
         wp_enqueue_style('dashicons');
-        wp_enqueue_script('abt-citeproc', plugins_url('academic-bloggers-toolkit/vendor/citeproc.js'), [], ABT_VERSION, true);
         wp_enqueue_script('abt-vendors', plugins_url('academic-bloggers-toolkit/vendor/vendor.bundle.js'), [], ABT_VERSION);
-        wp_enqueue_script('abt-reflist', plugins_url('academic-bloggers-toolkit/js/reference-list/index.js'), ['abt-citeproc', 'abt-vendors'], ABT_VERSION, true);
+        wp_enqueue_script('abt-reflist', plugins_url('academic-bloggers-toolkit/js/reference-list/index.js'), ['abt-vendors'], ABT_VERSION, true);
     }
 
     /**
      * Returns an array of citation styles from citationstyles.php.
-     *
-     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
      */
     private function get_citation_styles() {
         $json = json_decode(file_get_contents(ABT_ROOT_PATH . '/vendor/citation-styles.json'), true);

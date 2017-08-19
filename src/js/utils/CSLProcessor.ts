@@ -1,3 +1,4 @@
+import * as Csl from 'citeproc';
 import { toJS } from 'mobx';
 
 import Store from 'reference-list/store';
@@ -6,7 +7,6 @@ import { formatBibliography } from './formatters/';
 
 declare const ABT_Custom_CSL: BackendGlobals.ABT_Custom_CSL;
 declare const ABT_wp: BackendGlobals.ABT_wp;
-declare const CSL: Citeproc.EngineConstructor;
 
 interface LocaleCache {
     time: number;
@@ -71,7 +71,7 @@ export class CSLProcessor {
         this.worker.postMessage('');
     }
 
-    /**
+    /**Data
      * Instantiates a new CSL.Engine (either when initially constructed or when
      * the user changes his/her selected citation style)
      *
@@ -89,7 +89,7 @@ export class CSLProcessor {
                 ? ABT_Custom_CSL.CSL
                 : await this.getCSLStyle(this.store.citationStyle.get());
         const sys = await this.generateSys(this.store.locale);
-        this.citeproc = new CSL.Engine(sys, style);
+        this.citeproc = new Csl.Engine(sys, style);
         return <Array<[number, string, string]>>this.citeproc
             .rebuildProcessorState(this.store.citations.citationByIndex)
             .map(([a, , c], i) => [i, c, a]);
@@ -158,7 +158,7 @@ export class CSLProcessor {
                 ? ABT_Custom_CSL.CSL
                 : await this.getCSLStyle(this.store.citationStyle.get());
         const sys = { ...this.citeproc.sys };
-        const citeproc: Citeproc.Processor = new CSL.Engine(sys, style);
+        const citeproc: Citeproc.Processor = new Csl.Engine(sys, style);
         citeproc.updateItems(toJS(data.map(d => d.id)));
         const bib = citeproc.makeBibliography();
         return typeof bib === 'boolean'

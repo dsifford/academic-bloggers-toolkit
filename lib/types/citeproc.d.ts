@@ -1,5 +1,13 @@
 // tslint:disable no-namespace
 
+declare module 'citeproc' {
+    const CSL: Citeproc.EngineConstructor;
+    namespace CSL {
+
+    }
+    export = CSL;
+}
+
 declare namespace Citeproc {
     /**
      * 1: Bibmeta
