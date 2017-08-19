@@ -104,8 +104,8 @@ export default class ReferenceList extends React.Component<Props> {
     }
 
     componentDidMount() {
-        addEventListener(EditorDriver.events.UNAVAILABLE, this.toggleLoading.bind(this, true));
         addEventListener(EditorDriver.events.AVAILABLE, this.toggleLoading.bind(this, false));
+        addEventListener(EditorDriver.events.UNAVAILABLE, this.toggleLoading.bind(this, true));
         addEventListener(EditorDriver.events.ADD_REFERENCE, this.openDialog.bind(this, 'ADD'));
         addEventListener(EditorDriver.events.TOGGLE_PINNED, this.togglePinned.bind(this));
         document.addEventListener('scroll', this.handleScroll);

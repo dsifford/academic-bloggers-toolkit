@@ -136,7 +136,9 @@ export default class TinyMCEDriver extends EditorDriver {
     }
 
     protected bindEvents() {
-        this.editor.on('show', () => dispatchEvent(new CustomEvent(EditorDriver.events.AVAILABLE)));
+        this.editor.on('show', () => {
+            dispatchEvent(new CustomEvent(EditorDriver.events.AVAILABLE));
+        });
         this.editor.on('hide', () =>
             dispatchEvent(new CustomEvent(EditorDriver.events.UNAVAILABLE)),
         );

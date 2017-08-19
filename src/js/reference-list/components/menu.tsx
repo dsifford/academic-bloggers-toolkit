@@ -49,6 +49,12 @@ const openedStyle = [
     },
 ];
 
+const filterOptions = createFilterOptions({
+    options: ABT_CitationStyles,
+    valueKey: 'id',
+    indexes: ['id', 'label'],
+});
+
 @observer
 export default class Menu extends React.PureComponent<Props> {
     static readonly labels = top.ABT_i18n.referenceList.menu;
@@ -68,11 +74,7 @@ export default class Menu extends React.PureComponent<Props> {
     }
 
     readonly styles: StyleOption[];
-    filterOptions = createFilterOptions({
-        options: ABT_CitationStyles,
-        valueKey: 'id',
-        indexes: ['label', 'id'],
-    });
+    filterOptions = filterOptions;
 
     @computed
     get selected() {
