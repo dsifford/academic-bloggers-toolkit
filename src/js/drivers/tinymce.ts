@@ -2,6 +2,8 @@ import EditorDriver, { BibOptions, RelativeCitationPositions } from './base';
 
 export default class TinyMCEDriver extends EditorDriver {
     private editor: TinyMCE.Editor;
+    private selectionCache: string = '';
+    private bookmark: { id: string } | boolean = false;
 
     get citationIds() {
         const citations = this.editor
@@ -11,7 +13,9 @@ export default class TinyMCEDriver extends EditorDriver {
     }
 
     get selection() {
-        return this.editor.selection.getContent({ format: 'html' });
+        return this.selectionCache
+            ? this.selectionCache
+            : this.editor.selection.getContent({ format: 'html' });
     }
 
     init() {
@@ -142,6 +146,14 @@ export default class TinyMCEDriver extends EditorDriver {
         this.editor.addShortcut('meta+alt+p', 'Pin Reference List', () =>
             dispatchEvent(new CustomEvent(EditorDriver.events.TOGGLE_PINNED)),
         );
+        this.editor.on('focusout', () => {
+            this.selectionCache = this.selection;
+            this.bookmark = this.editor.selection.getBookmark();
+        });
+        this.editor.on('focusin', () => {
+            this.selectionCache = '';
+            this.bookmark = false;
+        });
     }
 
     private setStandardBibliography(options: BibOptions, bibliography: ABT.Bibliography | boolean) {
@@ -238,6 +250,11 @@ export default class TinyMCEDriver extends EditorDriver {
     ) {
         const doc = this.editor.getDoc();
         const existingNote = doc.getElementById(this.footnoteId);
+
+        if (!this.bookmark) {
+            this.bookmark = this.editor.selection.getBookmark();
+        }
+
         if (existingNote && existingNote.parentElement) {
             existingNote.parentElement.removeChild(existingNote);
         }
@@ -248,6 +265,9 @@ export default class TinyMCEDriver extends EditorDriver {
             const idList: string = JSON.stringify(sortedItems.map(c => c[1].id));
 
             if (!citation) {
+                if (typeof this.bookmark === 'object') {
+                    this.editor.selection.moveToBookmark(this.bookmark);
+                }
                 this.editor.selection.setContent(
                     `<span
                         id='${elementID}'
@@ -262,6 +282,7 @@ export default class TinyMCEDriver extends EditorDriver {
             citation.innerHTML = inlineText;
             citation.dataset['reflist'] = idList;
         }
+        this.bookmark = false;
     }
 
     private parseFootnoteCitations(

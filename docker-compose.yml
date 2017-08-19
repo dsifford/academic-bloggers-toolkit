@@ -11,13 +11,13 @@ services:
             DB_NAME: wordpress
             DB_PASS: root
             WP_DEBUG: 'true'
-            WP_VERSION: nightly
+            # WP_VERSION: nightly
             PLUGINS: >-
                 co-authors-plus,
                 query-monitor,
                 gutenberg,
-            # piglatin,
             # relative-url,
+            # piglatin,
     db:
         image: mariadb:10
         ports:

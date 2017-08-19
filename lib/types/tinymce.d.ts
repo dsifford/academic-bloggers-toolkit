@@ -24,7 +24,7 @@ declare namespace TinyMCE {
         getDoc(): HTMLDocument;
         setContent(content: string, args?: object): string;
         insertContent(content: string): void;
-        on(eventString: string, callback: () => void): void;
+        on(eventString: string, callback: (e: any) => void): void;
         /** true = loading; false = not loading */
         setProgressState(state: boolean): void;
     }
