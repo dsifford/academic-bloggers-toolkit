@@ -51,13 +51,12 @@ const openedStyle = [
 
 const filterOptions = createFilterOptions({
     options: ABT_CitationStyles,
-    valueKey: 'id',
-    indexes: ['id', 'label'],
 });
 
 @observer
 export default class Menu extends React.PureComponent<Props> {
     static readonly labels = top.ABT_i18n.referenceList.menu;
+    static filterOptions = filterOptions;
 
     static willEnter() {
         return {
@@ -74,7 +73,6 @@ export default class Menu extends React.PureComponent<Props> {
     }
 
     readonly styles: StyleOption[];
-    filterOptions = filterOptions;
 
     @computed
     get selected() {
@@ -214,7 +212,7 @@ export default class Menu extends React.PureComponent<Props> {
                                       <VSelect
                                           id="style-select"
                                           valueKey="id"
-                                          filterOptions={this.filterOptions}
+                                          filterOptions={Menu.filterOptions}
                                           onChange={this.handleSelect}
                                           value={this.selected}
                                           optionRenderer={renderer}

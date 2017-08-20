@@ -1,9 +1,20 @@
 import EditorDriver, { BibOptions, RelativeCitationPositions } from './base';
 
+interface SelectionCache {
+    fresh: boolean;
+    selection: string;
+    bookmark: {
+        id: string;
+    };
+}
+
 export default class TinyMCEDriver extends EditorDriver {
     private editor: TinyMCE.Editor;
-    private selectionCache: string = '';
-    private bookmark: { id: string } | boolean = false;
+    private selectionCache: SelectionCache = {
+        fresh: false,
+        selection: '',
+        bookmark: { id: '' },
+    };
 
     get citationIds() {
         const citations = this.editor
@@ -13,8 +24,8 @@ export default class TinyMCEDriver extends EditorDriver {
     }
 
     get selection() {
-        return this.selectionCache
-            ? this.selectionCache
+        return this.selectionCache.fresh
+            ? this.selectionCache.selection
             : this.editor.selection.getContent({ format: 'html' });
     }
 
@@ -149,12 +160,14 @@ export default class TinyMCEDriver extends EditorDriver {
             dispatchEvent(new CustomEvent(EditorDriver.events.TOGGLE_PINNED)),
         );
         this.editor.on('focusout', () => {
-            this.selectionCache = this.selection;
-            this.bookmark = this.editor.selection.getBookmark();
+            this.selectionCache = {
+                fresh: true,
+                selection: this.selection,
+                bookmark: this.editor.selection.getBookmark(),
+            };
         });
         this.editor.on('focusin', () => {
-            this.selectionCache = '';
-            this.bookmark = false;
+            this.selectionCache = { ...this.selectionCache, fresh: false };
         });
     }
 
@@ -252,10 +265,9 @@ export default class TinyMCEDriver extends EditorDriver {
     ) {
         const doc = this.editor.getDoc();
         const existingNote = doc.getElementById(this.footnoteId);
-
-        if (!this.bookmark) {
-            this.bookmark = this.editor.selection.getBookmark();
-        }
+        const bookmark: { id: string } = this.selectionCache.fresh
+            ? this.selectionCache.bookmark
+            : this.editor.selection.getBookmark();
 
         if (existingNote && existingNote.parentElement) {
             existingNote.parentElement.removeChild(existingNote);
@@ -267,9 +279,7 @@ export default class TinyMCEDriver extends EditorDriver {
             const idList: string = JSON.stringify(sortedItems.map(c => c[1].id));
 
             if (!citation) {
-                if (typeof this.bookmark === 'object') {
-                    this.editor.selection.moveToBookmark(this.bookmark);
-                }
+                this.editor.selection.moveToBookmark(bookmark);
                 this.editor.selection.setContent(
                     `<span
                         id='${elementID}'
@@ -284,7 +294,7 @@ export default class TinyMCEDriver extends EditorDriver {
             citation.innerHTML = inlineText;
             citation.dataset['reflist'] = idList;
         }
-        this.bookmark = false;
+        this.clearAllBookmarks();
     }
 
     private parseFootnoteCitations(
@@ -343,7 +353,9 @@ export default class TinyMCEDriver extends EditorDriver {
 
         note.appendChild(heading);
 
-        const citations = <NodeListOf<HTMLSpanElement>>doc.querySelectorAll(this.citationClass);
+        const citations = <NodeListOf<HTMLSpanElement>>doc.querySelectorAll(
+            `.${this.citationClass}`,
+        );
 
         for (const [index, citation] of citations.entries()) {
             const i = index + 1;
@@ -371,5 +383,13 @@ export default class TinyMCEDriver extends EditorDriver {
         }
         this.editor.setContent(this.editor.getBody().innerHTML);
         this.editor.selection.moveToBookmark(bm);
+    }
+
+    private clearAllBookmarks() {
+        for (const bm of this.editor
+            .getDoc()
+            .body.querySelectorAll('span[data-mce-type="bookmark"]')) {
+            bm.remove();
+        }
     }
 }
