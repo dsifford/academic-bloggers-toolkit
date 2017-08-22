@@ -1,7 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`<Button /> Icon Button with all variants and different icon 1`] = `
-"- First value
+"Snapshot Diff:
+- First value
 + Second value
 
 @@ -1,18 +1,21 @@
@@ -179,7 +180,8 @@ exports[`<Button /> Icon Button with defaults 1`] = `
 `;
 
 exports[`<Button /> Text Button with all variants 1`] = `
-"- First value
+"Snapshot Diff:
+- First value
 + Second value
 
 @@ -1,12 +1,15 @@
@@ -345,7 +347,8 @@ exports[`<Button /> Text Button with defaults 1`] = `
 `;
 
 exports[`<Button /> Text Button with flat 1`] = `
-"- First value
+"Snapshot Diff:
+- First value
 + Second value
 
 @@ -1,12 +1,13 @@
@@ -366,7 +369,8 @@ exports[`<Button /> Text Button with flat 1`] = `
 `;
 
 exports[`<Button /> Text Button with focusable 1`] = `
-"- First value
+"Snapshot Diff:
+- First value
 + Second value
 
 @@ -1,12 +1,13 @@
@@ -387,7 +391,8 @@ exports[`<Button /> Text Button with focusable 1`] = `
 `;
 
 exports[`<Button /> Text Button with primary 1`] = `
-"- First value
+"Snapshot Diff:
+- First value
 + Second value
 
 @@ -1,12 +1,13 @@
@@ -408,7 +413,8 @@ exports[`<Button /> Text Button with primary 1`] = `
 `;
 
 exports[`<Button /> Text Button with tooltip 1`] = `
-"- First value
+"Snapshot Diff:
+- First value
 + Second value
 
 @@ -1,12 +1,66 @@

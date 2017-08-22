@@ -180,10 +180,10 @@ const main = gulp.series(
     (cb: Callback) => {
         if (IS_PRODUCTION) return cb();
 
-        gulp.watch('src/**/*.styl', gulp.series(styles));
+        gulp.watch('src/**/*.scss', gulp.series(styles));
 
         gulp.watch(
-            ['src/**/*', '!src/**/*.{ts,tsx,styl}', '!src/**/__tests__/', '!src/**/__tests__/*'],
+            ['src/**/*', '!src/**/*.{ts,tsx,scss}', '!src/**/__tests__/', '!src/**/__tests__/*'],
             gulp.series(staticFiles, reload),
         );
 

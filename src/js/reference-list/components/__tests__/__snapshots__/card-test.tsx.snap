@@ -224,7 +224,8 @@ exports[`<Card/> should show and hide indices on hover when indexOnHover is set 
 `;
 
 exports[`<Card/> should show and hide indices on hover when indexOnHover is set 2`] = `
-"- First value
+"Snapshot Diff:
+- First value
 + Second value
 
 @@ -5,12 +5,12 @@
@@ -244,4 +245,7 @@ exports[`<Card/> should show and hide indices on hover when indexOnHover is set 
      Two valid authors"
 `;
 
-exports[`<Card/> should show and hide indices on hover when indexOnHover is set 3`] = `"Compared values have no visual difference."`;
+exports[`<Card/> should show and hide indices on hover when indexOnHover is set 3`] = `
+"Snapshot Diff:
+Compared values have no visual difference."
+`;

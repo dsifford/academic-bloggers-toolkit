@@ -42,7 +42,8 @@ exports[`<Tooltip /> Component tests matches snapshots 1`] = `
 `;
 
 exports[`<Tooltip /> Component tests matches snapshots 2`] = `
-"- First value
+"Snapshot Diff:
+- First value
 + Second value
 
 @@ -1,7 +1,7 @@
@@ -57,7 +58,8 @@ exports[`<Tooltip /> Component tests matches snapshots 2`] = `
 `;
 
 exports[`<Tooltip /> Component tests matches snapshots 3`] = `
-"- First value
+"Snapshot Diff:
+- First value
 + Second value
 
 @@ -2,11 +2,11 @@

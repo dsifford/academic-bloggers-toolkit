@@ -2,6 +2,15 @@
 @import '_variables';
 @import '_citations';
 
+@mixin toggle-base {
+    @include reset;
+    position: relative;
+    font-weight: 600;
+    padding: 5px;
+    vertical-align: middle;
+    user-select: none;
+}
+
 .abt-bibligraphy__container {
     display: block;
 }
@@ -10,22 +19,40 @@
 }
 
 .abt-bibliography__heading_toggle {
-    margin-left: -30px;
+    @include toggle-base;
+}
+
+.abt-bibliography__heading_toggle:hover {
+    @include toggle-base;
+    padding: 5px;
+    vertical-align: middle;
     user-select: none;
-    &:hover {
-        cursor: pointer;
-    }
-    &:before {
-        content: '\f140';
-        font-family: 'dashicons';
-        position: relative;
-        font-size: 30px;
-        top: 5px;
-    }
+    cursor: pointer !important;
+}
+
+.abt-bibliography__heading_toggle:before {
+	content: '';
+    border-style: solid;
+	border-width: 0.25em 0.25em 0 0;
+    display: inline-block;
+    height: 0.45em;
+    position: relative;
+    width: 0.45em;
+    transform: rotate(135deg);
+    margin: 0 0.5em 0 0;
+}
+
+.abt-bibliography__heading_toggle:focus {
+    @include toggle-base;
+    padding: 5px;
+    vertical-align: middle;
+    user-select: none;
+    outline: Highlight 1.5px solid;
+    outline-offset: 5px;
 }
 
 .abt-bibliography__heading_toggle--closed:before {
-    content: '\f139';
+	transform: rotate(45deg);
 }
 
 .abt-tooltip {

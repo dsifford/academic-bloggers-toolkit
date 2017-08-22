@@ -19,7 +19,7 @@ export default class TinyMCEDriver extends EditorDriver {
     get citationIds() {
         const citations = this.editor
             .getDoc()
-            .querySelectorAll(`*:not(.mce-offscreen-selection) > .${this.citationClass}`);
+            .querySelectorAll(`*:not(.mce-offscreen-selection) > .${EditorDriver.citationClass}`);
         return [...citations].map(c => c.id);
     }
 
@@ -68,7 +68,7 @@ export default class TinyMCEDriver extends EditorDriver {
     reset() {
         const elements = this.editor
             .getDoc()
-            .querySelectorAll(`#${this.bibliographyId}, .${this.citationClass}`);
+            .querySelectorAll(`#${EditorDriver.bibliographyId}, .${EditorDriver.citationClass}`);
         for (const element of elements) {
             element.parentNode!.removeChild(element);
         }
@@ -93,7 +93,7 @@ export default class TinyMCEDriver extends EditorDriver {
         const nodes = [
             ...doc.querySelectorAll(`
             *:not(.mce-offscreen-selection) >
-                .${this.citationClass}:not(${this.citationClass}_broken),
+                .${EditorDriver.citationClass}:not(${EditorDriver.citationClass}_broken),
                 #${bm.id}_start,
                 #${bm.id}_end
         `),
@@ -114,8 +114,8 @@ export default class TinyMCEDriver extends EditorDriver {
             .map((citation, i) => <[string, number]>[citation.id, startIndex + i]);
 
         for (const invalid of invalidCitations) {
-            invalid.classList.add(`${this.citationClass}_broken`);
-            invalid.innerHTML = `${this.brokenPrefix} ${invalid.innerHTML}`;
+            invalid.classList.add(`${EditorDriver.citationClass}_broken`);
+            invalid.innerHTML = `${EditorDriver.brokenPrefix} ${invalid.innerHTML}`;
         }
 
         this.editor.selection.moveToBookmark(bm);
@@ -173,51 +173,24 @@ export default class TinyMCEDriver extends EditorDriver {
 
     private setStandardBibliography(options: BibOptions, bibliography: ABT.Bibliography | boolean) {
         const doc = this.editor.getDoc();
-        const existingBib = doc.getElementById(this.bibliographyId);
+
+        const existingBib = doc.getElementById(EditorDriver.bibliographyId);
         if (existingBib && existingBib.parentElement) {
-            existingBib.parentElement!.removeChild(existingBib);
+            existingBib.remove();
         }
 
-        if (typeof bibliography === 'boolean') return;
+        if (typeof bibliography === 'boolean' || bibliography.length === 0) return;
 
-        const bm = this.editor.selection.getBookmark();
+        const bm = this.selectionCache.fresh
+            ? this.selectionCache.bookmark
+            : this.editor.selection.getBookmark();
 
-        const bib = this.editor.dom.create<HTMLDivElement>('div', {
-            class: `${this.bibliographyId} noselect mceNonEditable`,
-            id: this.bibliographyId,
-        });
+        const bib = EditorDriver.createBibliographyElement(options, bibliography, [
+            'noselect',
+            'mceNonEditable',
+        ]);
 
-        const container = this.editor.dom.create<HTMLDivElement>('div', {
-            class: `${this.bibliographyId}__container`,
-            id: `${this.bibliographyId}__container`,
-        });
-
-        if (options.heading) {
-            const heading = this.editor.dom.create<HTMLHeadingElement>(options.headingLevel, {
-                class: `${this.bibliographyId}__heading`,
-            });
-            heading.innerText = options.heading;
-            if (options.style === 'toggle')
-                heading.classList.add(`${this.bibliographyId}__heading_toggle`);
-            bib.appendChild(heading);
-        }
-
-        bib.appendChild(container);
-
-        for (const meta of bibliography) {
-            const item = this.editor.dom.create<HTMLDivElement>(
-                'div',
-                {
-                    id: meta.id,
-                },
-                meta.html,
-            );
-            container.appendChild(item);
-        }
-
-        if (container.children.length > 0) {
-            this.editor.getBody().appendChild(bib);
-        }
+        this.editor.getBody().appendChild(bib);
 
         // Remove unnecessary &nbsp; from editor
         while (
@@ -225,38 +198,36 @@ export default class TinyMCEDriver extends EditorDriver {
             bib.previousElementSibling.childNodes.length === 1 &&
             bib.previousElementSibling.childNodes[0].nodeName === 'BR'
         ) {
-            const p = bib.previousElementSibling;
-            if (p.parentNode) p.parentNode.removeChild(p);
+            bib.previousElementSibling.remove();
         }
         this.editor.setContent(this.editor.getBody().innerHTML);
         this.editor.selection.moveToBookmark(bm);
     }
 
     private setStaticBibliography(bibliography: ABT.Bibliography | boolean) {
-        const bib = this.editor.dom.create<HTMLDivElement>(
-            'div',
-            {
-                class: `${this.staticBibClass} noselect mceNonEditable`,
-            },
-            typeof bibliography === 'boolean'
-                ? `<h2 style="color: red;">Error: No bibliography format exists for your citation type.</h2>`
-                : undefined,
-        );
-        bib.style.margin = '0 0 28px';
+        const items: ABT.Bibliography = typeof bibliography === 'boolean' ? [] : bibliography;
+        const staticBib = EditorDriver.createBibliographyElement({}, items, [
+            `${EditorDriver.staticBibClass}`,
+            'noselect',
+            'mceNonEditable',
+        ]);
 
-        if (typeof bibliography !== 'boolean') {
-            for (const meta of bibliography) {
-                const item = this.editor.dom.create<HTMLDivElement>(
-                    'div',
-                    {
-                        id: meta.id,
-                    },
-                    meta.html,
-                );
-                bib.appendChild(item);
+        const bm = this.selectionCache.fresh
+            ? this.selectionCache.bookmark
+            : this.editor.selection.getBookmark();
+
+        if (typeof bibliography === 'boolean') {
+            const warningElement = document.createElement('h2');
+            warningElement.style.color = 'red';
+            warningElement.innerText =
+                'Warning: No bibliography format exists for your citation type.';
+            for (const child of staticBib.childNodes) {
+                child.parentElement!.removeChild(child);
             }
+            staticBib.appendChild(warningElement);
         }
-        this.editor.insertContent(bib.outerHTML);
+        this.editor.selection.moveToBookmark(bm);
+        this.editor.insertContent(staticBib.outerHTML);
     }
 
     private parseInTextCitations(
@@ -264,35 +235,35 @@ export default class TinyMCEDriver extends EditorDriver {
         citationByIndex: Citeproc.CitationByIndex,
     ) {
         const doc = this.editor.getDoc();
-        const existingNote = doc.getElementById(this.footnoteId);
-        const bookmark: { id: string } = this.selectionCache.fresh
+        const existingNote = doc.getElementById(EditorDriver.footnoteId);
+        const bm: { id: string } = this.selectionCache.fresh
             ? this.selectionCache.bookmark
             : this.editor.selection.getBookmark();
 
-        if (existingNote && existingNote.parentElement) {
-            existingNote.parentElement.removeChild(existingNote);
+        if (existingNote) {
+            existingNote.remove();
         }
 
-        for (const [index, inlineText, elementID] of clusters) {
+        for (const [index, innerHTML, elementID] of clusters) {
             const citation: HTMLSpanElement | null = doc.getElementById(elementID);
             const sortedItems: Citeproc.SortedItems = citationByIndex[index].sortedItems!;
-            const idList: string = JSON.stringify(sortedItems.map(c => c[1].id));
+            const reflist: string = JSON.stringify(sortedItems.map(c => c[1].id));
 
             if (!citation) {
-                this.editor.selection.moveToBookmark(bookmark);
+                this.editor.selection.moveToBookmark(bm);
                 this.editor.selection.setContent(
-                    `<span
-                        id='${elementID}'
-                        data-reflist='${idList}'
-                        class='abt-citation noselect mceNonEditable'
-                    >
-                        ${inlineText}
-                    </span>`,
+                    EditorDriver.createInlineElement({
+                        kind: 'in-text',
+                        id: elementID,
+                        classNames: ['noselect', 'mceNonEditable'],
+                        reflist,
+                        innerHTML,
+                    }).outerHTML,
                 );
                 continue;
             }
-            citation.innerHTML = inlineText;
-            citation.dataset['reflist'] = idList;
+            citation.innerHTML = innerHTML;
+            citation.dataset['reflist'] = reflist;
         }
         this.clearAllBookmarks();
     }
@@ -302,74 +273,53 @@ export default class TinyMCEDriver extends EditorDriver {
         citationByIndex: Citeproc.CitationByIndex,
     ) {
         const doc = this.editor.getDoc();
-        const existingNote = doc.getElementById(this.footnoteId);
-        const existingBib = doc.querySelector(`#${this.bibliographyId}`);
+        const oldElements = doc.querySelectorAll(
+            `#${EditorDriver.footnoteId}, #${EditorDriver.bibliographyId}`,
+        );
+        for (const old of oldElements) {
+            old.remove();
+        }
 
-        if (existingNote && existingNote.parentElement) {
-            existingNote.parentElement.removeChild(existingNote);
-        }
-        if (existingBib && existingBib.parentElement) {
-            existingBib.parentElement.removeChild(existingBib);
-        }
         if (clusters.length === 0) return;
 
         for (const [index, footnote, elementID] of clusters) {
-            const inlineText = `[${index + 1}]`;
-            const citation: HTMLSpanElement = doc.getElementById(elementID)!;
+            const innerHTML = `[${index + 1}]`;
+            const citation = doc.getElementById(elementID);
             const sortedItems: Citeproc.SortedItems = citationByIndex[index].sortedItems!;
-            const idList: string = JSON.stringify(sortedItems.map(c => c[1].id));
+            const reflist: string = JSON.stringify(sortedItems.map(c => c[1].id));
 
             if (!citation) {
                 this.editor.selection.setContent(
-                    `<span
-                        id='${elementID}'
-                        data-reflist='${idList}'
-                        data-footnote='${footnote}'
-                        class='abt-citation noselect mceNonEditable'
-                    >
-                        ${inlineText}
-                    </span>`,
+                    EditorDriver.createInlineElement({
+                        kind: 'note',
+                        id: elementID,
+                        classNames: ['noselect', 'mceNonEditable'],
+                        footnote,
+                        reflist,
+                        innerHTML,
+                    }).outerHTML,
                 );
                 continue;
             }
-            citation.innerHTML = inlineText;
-            citation.dataset['reflist'] = idList;
+            citation.innerText = innerHTML;
+            citation.dataset['reflist'] = reflist;
             citation.dataset['footnote'] = footnote;
+        }
+
+        let orderedFootnotes: string[] = [];
+        for (const [index, footnote] of doc
+            .querySelectorAll(`.${EditorDriver.citationClass}`)
+            .entries()) {
+            footnote.textContent = `[${index + 1}]`;
+            orderedFootnotes = [...orderedFootnotes, footnote.getAttribute('data-footnote')!];
         }
 
         const bm = this.editor.selection.getBookmark();
 
-        const note = this.editor.dom.create<HTMLDivElement>('div', {
-            class: `${this.footnoteId} noselect mceNonEditable`,
-            id: this.footnoteId,
-        });
-        const heading = this.editor.dom.create<HTMLDivElement>(
-            'div',
-            {
-                class: `${this.footnoteId}__heading`,
-            },
-            top.ABT_i18n.misc.footnotes,
-        );
-
-        note.appendChild(heading);
-
-        const citations = <NodeListOf<HTMLSpanElement>>doc.querySelectorAll(
-            `.${this.citationClass}`,
-        );
-
-        for (const [index, citation] of citations.entries()) {
-            const i = index + 1;
-            citation.innerText = `[${i}]`;
-            const noteItem = this.editor.dom.create<HTMLDivElement>(
-                'div',
-                {
-                    class: `${this.footnoteId}__item`,
-                },
-                `<span class="abt-footnote__number">[${i}]</span>` +
-                    `<span class="abt-footnote__content">${citation.dataset['footnote']}</span>`,
-            );
-            note.appendChild(noteItem);
-        }
+        const note = EditorDriver.createFootnoteSection(orderedFootnotes, [
+            'noselect',
+            'mceNonEditable',
+        ]);
 
         this.editor.getBody().appendChild(note);
 
@@ -378,8 +328,7 @@ export default class TinyMCEDriver extends EditorDriver {
             note.previousElementSibling.childNodes.length === 1 &&
             note.previousElementSibling.childNodes[0].nodeName === 'BR'
         ) {
-            const p = note.previousElementSibling;
-            p.parentNode!.removeChild(p);
+            note.previousElementSibling.remove();
         }
         this.editor.setContent(this.editor.getBody().innerHTML);
         this.editor.selection.moveToBookmark(bm);

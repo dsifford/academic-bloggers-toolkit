@@ -41,6 +41,17 @@
     }
 }
 
+.abt-static-bib {
+    margin: 0 0 1.5em;
+}
+
+.abt-bibliography__heading_toggle {
+    border: 0;
+    outline: 0;
+    pointer-events: none;
+    background: transparent;
+}
+
 // Unsets the "margin" style for tinymce since it doesn't look right
 .csl-entry.margin {
     display: table-row;

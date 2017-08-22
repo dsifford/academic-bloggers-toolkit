@@ -40,17 +40,131 @@ export interface EditorDriverConstructor {
     new (): EditorDriver;
 }
 
+interface SharedInlineOptions {
+    classNames?: string[];
+    id: string;
+    reflist: string;
+    innerHTML: string;
+}
+
+interface InlineCitationOptions extends SharedInlineOptions {
+    kind: 'in-text';
+}
+
+interface InlineFootnoteOptions extends SharedInlineOptions {
+    kind: 'note';
+    footnote: string;
+}
+
+type InlineElementOptions = InlineCitationOptions | InlineFootnoteOptions;
+
 /**
  * Base class from which all editor drivers must be derived
  */
 export default abstract class EditorDriver {
     static readonly events = EditorEvents;
 
-    protected readonly citationClass = 'abt-citation';
-    protected readonly bibliographyId = 'abt-bibliography';
-    protected readonly staticBibClass = 'abt-static-bib';
-    protected readonly footnoteId = 'abt-footnote';
-    protected readonly brokenPrefix = top.ABT_i18n.errors.broken;
+    static readonly bibliographyId = 'abt-bibliography';
+    static readonly brokenPrefix = top.ABT_i18n.errors.broken;
+    static readonly citationClass = 'abt-citation';
+    static readonly footnoteId = 'abt-footnote';
+    static readonly staticBibClass = 'abt-static-bib';
+
+    static createBibliographyElement(
+        { heading = '', headingLevel = 'h3', style = 'fixed' }: Partial<BibOptions>,
+        items: ABT.Bibliography,
+        classNames: string[] = [],
+    ): HTMLDivElement {
+        const bib = document.createElement('div');
+        bib.id = EditorDriver.bibliographyId;
+        bib.classList.add(EditorDriver.bibliographyId, ...classNames);
+
+        if (bib.classList.contains(EditorDriver.staticBibClass)) {
+            bib.classList.remove(EditorDriver.bibliographyId);
+            bib.removeAttribute('id');
+        }
+
+        if (heading) {
+            let headingElement;
+            if (style === 'toggle') {
+                headingElement = document.createElement('button');
+                headingElement.classList.add(
+                    `${EditorDriver.bibliographyId}__heading`,
+                    `${EditorDriver.bibliographyId}__heading_toggle`,
+                );
+                headingElement.setAttribute('aria-expanded', 'false');
+                headingElement.setAttribute('aria-controls', `${this.bibliographyId}__container`);
+                headingElement.dataset.headingLevel = headingLevel;
+            } else {
+                headingElement = document.createElement(headingLevel);
+                headingElement.classList.add(`${EditorDriver.bibliographyId}__heading`);
+            }
+            headingElement.innerText = heading;
+            bib.appendChild(headingElement);
+        }
+
+        const container = document.createElement('div');
+        container.id = `${this.bibliographyId}__container`;
+        container.classList.add(`${this.bibliographyId}__container`);
+        bib.appendChild(container);
+
+        for (const itemMeta of items) {
+            const item = document.createElement('div');
+            item.id = itemMeta.id;
+            item.innerHTML = itemMeta.html;
+            container.appendChild(item);
+        }
+
+        return bib;
+    }
+
+    static createInlineElement({
+        classNames = [],
+        ...options,
+    }: InlineElementOptions): HTMLSpanElement {
+        const { id, innerHTML, reflist } = options;
+        const element = document.createElement('span');
+        element.id = id;
+        element.classList.add(EditorDriver.citationClass, ...classNames);
+        element.innerHTML = innerHTML;
+        element.dataset.reflist = reflist;
+        if (options.kind === 'note') {
+            element.dataset.footnote = options.footnote;
+        }
+        return element;
+    }
+
+    static createFootnoteSection(footnotes: string[], classNames: string[] = []): HTMLDivElement {
+        const note = document.createElement('div');
+        note.id = EditorDriver.footnoteId;
+        note.classList.add(EditorDriver.footnoteId, ...classNames);
+
+        const heading = document.createElement('div');
+        heading.classList.add(`${EditorDriver.footnoteId}__heading`);
+        heading.innerText = ABT_i18n.misc.footnotes;
+
+        note.appendChild(heading);
+
+        for (const [index, footnote] of footnotes.entries()) {
+            const item = document.createElement('div');
+            item.classList.add(`${EditorDriver.footnoteId}__item`);
+
+            const itemNumber = document.createElement('span');
+            itemNumber.classList.add(`${EditorDriver.footnoteId}__number`);
+            itemNumber.innerText = `[${index + 1}]`;
+
+            const itemContent = document.createElement('span');
+            itemContent.classList.add(`${EditorDriver.footnoteId}__content`);
+            itemContent.innerHTML = footnote;
+
+            item.appendChild(itemNumber);
+            item.appendChild(itemContent);
+
+            note.appendChild(item);
+        }
+
+        return note;
+    }
 
     /** Retrieve an array of every HTMLElement ID for all citations currently existing in the editor. */
     abstract get citationIds(): string[];

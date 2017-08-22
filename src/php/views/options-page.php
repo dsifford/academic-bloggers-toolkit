@@ -315,6 +315,8 @@
             text: $('#demo-bib-heading')[0],
         };
 
+        adjustHeadingFontSize($('#display_options_bib_heading_level').value);
+
 
         $('input[type=radio][name=display_options_links]').change(function() {
             var val = this.value;
@@ -365,5 +367,30 @@
             heading.container.style.marginBottom = '';
         });
 
+        $('#display_options_bib_heading_level').on('change', function() {
+            adjustHeadingFontSize(this.value);
+        });
+
+        function adjustHeadingFontSize(level) {
+            switch (level) {
+                case 'h1':
+                    heading.text.style.fontSize = '2.5em';
+                    break;
+                case 'h2':
+                    heading.text.style.fontSize = '2.2em';
+                    break;
+                case 'h3':
+                    heading.text.style.fontSize = '1.8em';
+                    break;
+                case 'h4':
+                    heading.text.style.fontSize = '1.4em';
+                    break;
+                case 'h5':
+                    heading.text.style.fontSize = '1.2em';
+                    break;
+                case 'h6':
+                    heading.text.style.fontSize = '1em';
+            }
+        }
     });
 </script>

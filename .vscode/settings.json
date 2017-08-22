@@ -6,5 +6,6 @@
         ".php_cs": "php"
     },
     "lcov.path": "lib/tmp/coverage/lcov.info",
-    "lcov.branchCoverage": "full"
+    "lcov.branchCoverage": "full",
+    "prettier.trailingComma": "all"
 }
