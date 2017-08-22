@@ -21,12 +21,27 @@ class Backend {
      * Sets up all actions and filters for the backend class.
      */
     public function __construct() {
+        $post_type = get_current_screen()->post_type;
+        $disabled_post_types = apply_filters('abt_disabled_post_types', ['acf', 'um_form']);
+        $is_invalid_post_type = in_array(
+            $post_type,
+            array_merge(
+                ['attachment'],
+                is_array($disabled_post_types) ? $disabled_post_types : []
+            )
+        );
+
+        if ($is_invalid_post_type) {
+            return;
+        }
         add_action('add_meta_boxes', [$this, 'add_metaboxes']);
         add_action('admin_enqueue_scripts', [$this, 'enqueue_admin_scripts']);
         add_action('admin_head', [$this, 'init_tinymce']);
         add_action('admin_notices', [$this, 'user_alert']);
         add_action('save_post', [$this, 'save_meta']);
         add_filter('mce_css', [$this, 'load_tinymce_css']);
+        // FIXME: Combine this with other scripts
+        add_action('admin_footer', 'ABT\DOM\inject_changelog');
     }
 
     public static function init() {
@@ -89,9 +104,16 @@ class Backend {
      * @param string $post_type The post type
      */
     public function add_metaboxes($post_type) {
-        $invalid_post_type = in_array($post_type, ['attachment', 'acf', 'um_form']);
+        $disabled_post_types = apply_filters('abt_disabled_post_types', ['acf', 'um_form']);
+        $is_invalid_post_type = in_array(
+            $post_type,
+            array_merge(
+                ['attachment'],
+                is_array($disabled_post_types) ? $disabled_post_types : []
+            )
+        );
 
-        if ($invalid_post_type) {
+        if ($is_invalid_post_type) {
             return;
         }
 

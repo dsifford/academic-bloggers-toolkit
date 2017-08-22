@@ -6,22 +6,16 @@ if (!defined('ABSPATH')) {
     exit(1);
 }
 
+// FIXME: Probably don't even need this.
 /**
  * Appends the changelog script to the document footer on the editor pages.
  */
 function inject_changelog() {
-    global $pagenow, $post_type;
-
-    $not_editor_page = !in_array($pagenow, ['post.php', 'post-new.php']);
-    $invalid_post_type = in_array($post_type, ['attachment', 'acf', 'um_form']);
-
-    if ($not_editor_page || $invalid_post_type) {
-        return;
-    } ?>
+    ?>
     <script type="text/javascript">var el=document.createElement("SPAN");el.id="abt_changelog",document.querySelector("#abt-reflist > h2").appendChild(el);var HW_config={selector:"#abt_changelog",account:"LJ4gE7"};</script><script async src="//cdn.headwayapp.co/widget.js"></script>
     <?php
 }
-add_action('admin_footer', 'ABT\DOM\inject_changelog');
+// add_action('admin_footer', 'ABT\DOM\inject_changelog');
 
 
 /**
