@@ -40,8 +40,6 @@ class Backend {
         add_action('admin_notices', [$this, 'user_alert']);
         add_action('save_post', [$this, 'save_meta']);
         add_filter('mce_css', [$this, 'load_tinymce_css']);
-        // FIXME: Combine this with other scripts
-        add_action('admin_footer', 'ABT\DOM\inject_changelog');
     }
 
     public static function init() {
@@ -175,13 +173,25 @@ class Backend {
             unset($state['citations']);
         }
 
+        // FIXME: Combine into single global
         wp_localize_script('abt-reflist', 'ABT_Reflist_State', $state);
         wp_localize_script('abt-reflist', 'ABT_i18n', $ABT_i18n);
         wp_localize_script('abt-reflist', 'ABT_CitationStyles', $this->get_citation_styles());
         wp_localize_script('abt-reflist', 'ABT_wp', $this->localize_wordpress_constants());
         wp_localize_script('abt-reflist', 'ABT_Custom_CSL', $this->get_user_defined_csl($opts['citation_style']['custom_url']));
 
-        echo "<div id='abt-reflist__root' style='margin: 0 -12px -12px -12px; font-family: \"Roboto\", sans-serif;'></div>";
+        ?>
+            <div id='abt-reflist__root' style='margin: 0 -12px -12px -12px; font-family: "Roboto", sans-serif;'></div>
+            <script type="text/javascript">
+                (function (global) {
+                    var el=document.createElement('span');
+                    el.id='abt_changelog';
+                    document.querySelector('#abt-reflist > h2').appendChild(el);
+                    global.HW_config={selector:"#abt_changelog",account:"LJ4gE7"};
+                })(window)
+            </script>
+            <script async src="//cdn.headwayapp.co/widget.js"></script>
+        <?php
     }
 
     /**
