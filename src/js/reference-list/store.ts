@@ -145,9 +145,9 @@ class CitationStore {
      */
     @action
     pruneOrphanedCitations(citationIds: string[]): void {
-        if (this.byIndex.length === citationIds.length) return;
-        const index = this.byIndex.findIndex(a => !citationIds.includes(a.citationID!));
-        this.byIndex.replace([...this.byIndex.slice(0, index), ...this.byIndex.slice(index + 1)]);
+        this.byIndex.replace(
+            this.byIndex.filter(citation => citationIds.includes(citation.citationID!)),
+        );
     }
 
     /**
