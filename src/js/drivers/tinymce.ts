@@ -160,6 +160,7 @@ export default class TinyMCEDriver extends EditorDriver {
             dispatchEvent(new CustomEvent(EditorDriver.events.TOGGLE_PINNED)),
         );
         this.editor.on('focusout', () => {
+            this.clearAllBookmarks();
             this.selectionCache = {
                 fresh: true,
                 selection: this.selection,
@@ -234,6 +235,7 @@ export default class TinyMCEDriver extends EditorDriver {
         clusters: Citeproc.CitationCluster[],
         citationByIndex: Citeproc.CitationByIndex,
     ) {
+        this.editor.focus();
         const doc = this.editor.getDoc();
         const existingNote = doc.getElementById(EditorDriver.footnoteId);
         const bm: { id: string } = this.selectionCache.fresh
@@ -251,6 +253,7 @@ export default class TinyMCEDriver extends EditorDriver {
 
             if (!citation) {
                 this.editor.selection.moveToBookmark(bm);
+                this.clearAllBookmarks();
                 this.editor.selection.setContent(
                     EditorDriver.createInlineElement({
                         kind: 'in-text',
@@ -265,13 +268,13 @@ export default class TinyMCEDriver extends EditorDriver {
             citation.innerHTML = innerHTML;
             citation.dataset['reflist'] = reflist;
         }
-        this.clearAllBookmarks();
     }
 
     private parseFootnoteCitations(
         clusters: Citeproc.CitationCluster[],
         citationByIndex: Citeproc.CitationByIndex,
     ) {
+        this.editor.focus();
         const doc = this.editor.getDoc();
         const oldElements = doc.querySelectorAll(
             `#${EditorDriver.footnoteId}, #${EditorDriver.bibliographyId}`,
@@ -335,9 +338,13 @@ export default class TinyMCEDriver extends EditorDriver {
     }
 
     private clearAllBookmarks() {
-        for (const bm of this.editor
+        const bookmarks = this.editor
             .getDoc()
-            .body.querySelectorAll('span[data-mce-type="bookmark"]')) {
+            .body.querySelectorAll('span[data-mce-type="bookmark"]');
+        for (const bm of bookmarks) {
+            while (bm.hasChildNodes() && bm.parentNode) {
+                bm.parentNode.insertBefore(bm.firstChild!, bm);
+            }
             bm.remove();
         }
     }

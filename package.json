@@ -93,7 +93,7 @@
     "dependencies": {
         "@types/jquery": "^3.2.12",
         "bibtex-parse-js": "^0.0.23",
-        "citeproc": "^2.1.175",
+        "citeproc": "^2.1.177",
         "common-tags": "^1.4.0",
         "focus-trap-react": "^3.0.3",
         "he": "^1.1.1",

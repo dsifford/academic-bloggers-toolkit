@@ -20,7 +20,9 @@ declare namespace TinyMCE {
             isCollapsed(): boolean;
         };
         addShortcut(keys: string, title: string, func: () => void): void;
+        focus(): void;
         getBody(): HTMLBodyElement;
+        getContent(args: { format: 'html' | 'text' }): string;
         getDoc(): HTMLDocument;
         setContent(content: string, args?: object): string;
         insertContent(content: string): void;
