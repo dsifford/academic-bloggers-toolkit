@@ -4,14 +4,17 @@ import { observable } from 'mobx';
 import * as React from 'react';
 import Menu, { dynamicOptionHeightHandler, renderer as Renderer } from '../menu';
 
-const ABT_CitationStyles = [
-    {
-        label: 'American Medical Association',
-        value: 'american-medical-association',
-        id: 'american-medical-association',
-    },
-    { label: 'APA 5th Edition', value: 'apa-5th', id: 'apa-5th' },
-];
+const ABT_CitationStyles = {
+    renamed: {},
+    styles: [
+        {
+            label: 'American Medical Association',
+            value: 'american-medical-association',
+            id: 'american-medical-association',
+        },
+        { label: 'APA 5th Edition', value: 'apa-5th', id: 'apa-5th' },
+    ],
+};
 
 const ABT_i18n = {
     referenceList: {
@@ -112,7 +115,7 @@ describe('<Menu />', () => {
     it('should work without custom CSL defined', () => {
         (window as any)['ABT_Custom_CSL'] = { value: null };
         const { instance } = setup();
-        expect(instance.styles).toEqual(ABT_CitationStyles);
+        expect(instance.styles).toEqual(ABT_CitationStyles.styles);
     });
     it('should have functioning static methods', () => {
         expect(Menu.willEnter()).toEqual({ height: 0, scale: 0 });

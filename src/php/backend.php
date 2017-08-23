@@ -178,9 +178,7 @@ class Backend {
         wp_localize_script('abt-reflist', 'ABT_i18n', $ABT_i18n);
         wp_localize_script('abt-reflist', 'ABT_CitationStyles', $this->get_citation_styles());
         wp_localize_script('abt-reflist', 'ABT_wp', $this->localize_wordpress_constants());
-        wp_localize_script('abt-reflist', 'ABT_Custom_CSL', $this->get_user_defined_csl($opts['citation_style']['custom_url']));
-
-        ?>
+        wp_localize_script('abt-reflist', 'ABT_Custom_CSL', $this->get_user_defined_csl($opts['citation_style']['custom_url'])); ?>
             <div id='abt-reflist__root' style='margin: 0 -12px -12px -12px; font-family: "Roboto", sans-serif;'></div>
             <script type="text/javascript">
                 (function (global) {

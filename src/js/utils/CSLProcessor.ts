@@ -56,7 +56,10 @@ export class CSLProcessor {
     constructor(store: Store) {
         const localeCache = localStorage.getItem('abt-locale-cache');
         this.store = store;
-        this.styles = new Map(ABT_CitationStyles.map(style => <any>[style.id, style.value]));
+        this.styles = new Map([
+            ...ABT_CitationStyles.styles.map(style => <any>[style.id, style.value]),
+            ...Object.entries(ABT_CitationStyles.renamed),
+        ]);
 
         if (localeCache) {
             const localeJson: LocaleCache = JSON.parse(localeCache);

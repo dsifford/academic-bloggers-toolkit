@@ -84,13 +84,14 @@ export default class Menu extends React.PureComponent<Props> {
 
     constructor(props: Props) {
         super(props);
+        const { styles } = ABT_CitationStyles;
 
         /**
          * ABT_Custom_CSL.value is `null` if there is either no provided file path
          * or if the path to the file is invalid.
          */
         if (!ABT_Custom_CSL.value) {
-            this.styles = ABT_CitationStyles;
+            this.styles = styles;
         } else {
             this.styles = [
                 { label: Menu.labels.styleLabels.custom, value: 'header', id: 'header' },
@@ -100,7 +101,7 @@ export default class Menu extends React.PureComponent<Props> {
                     id: ABT_Custom_CSL.value,
                 },
                 { label: Menu.labels.styleLabels.predefined, value: 'header', id: 'header' },
-                ...ABT_CitationStyles,
+                ...styles,
             ];
         }
     }

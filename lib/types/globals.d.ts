@@ -1,6 +1,17 @@
-/* tslint:disable: class-name */
+interface StyleObj {
+    id: string;
+    label: string;
+    value: string;
+}
 
-declare const ABT_CitationStyles: Array<{ label: string; value: string; id: string }>;
+interface CitationStyles {
+    renamed: {
+        [oldStyleId: string]: string;
+    };
+    styles: StyleObj[];
+}
+
+declare const ABT_CitationStyles: CitationStyles;
 declare const ABT_Custom_CSL: BackendGlobals.ABT_Custom_CSL;
 declare const DocumentTouch: any;
 
@@ -21,7 +32,6 @@ declare const Rollbar: {
 };
 
 declare namespace BackendGlobals {
-    // tslint:disable-next-line
     interface ABT_i18n {
         citationTypes: ABT.CitationTypes;
         errors: {

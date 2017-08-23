@@ -29,6 +29,13 @@ interface StyleObj {
     value: string;
 }
 
+interface StyleData {
+    renamed: {
+        [oldStyleValue: string]: string;
+    };
+    styles: StyleObj[];
+}
+
 async function getData(): Promise<StyleResponse> {
     const query = `
         query {
@@ -85,11 +92,18 @@ async function getData(): Promise<StyleResponse> {
     });
 }
 
-function parseStyleObj(obj: StyleResponse): StyleObj[] {
-    return [...obj.data.independent.object.entries, ...obj.data.dependent.object.entries]
+function parseStyleObj(obj: StyleResponse): StyleData {
+    let renamed: string = '';
+    const styles: StyleObj[] = [
+        ...obj.data.independent.object.entries,
+        ...obj.data.dependent.object.entries,
+    ]
         .reduce((prev, file) => {
             if (file.name.endsWith('.csl')) {
                 return [...prev, { ...file, name: file.name.replace(/\.csl$/, '') }];
+            }
+            if (file.name === 'renamed-styles.json') {
+                renamed = file.object.text;
             }
             return prev;
         }, [])
@@ -121,6 +135,13 @@ function parseStyleObj(obj: StyleResponse): StyleObj[] {
                 value,
             };
         });
+    if (!renamed) {
+        throw new Error('renamed-styles.json file never found!');
+    }
+    return {
+        renamed: JSON.parse(renamed),
+        styles,
+    };
 }
 
 function getNewStyles(before: StyleObj[], after: StyleObj[]): string[] {
@@ -136,14 +157,14 @@ function getNewStyles(before: StyleObj[], after: StyleObj[]): string[] {
 }
 
 async function main() {
-    let newData: StyleObj[];
+    let newData: StyleData;
     try {
         newData = await getData().then(parseStyleObj);
     } catch (e) {
         console.error(e);
         return process.exit(1);
     }
-    const newStyles = getNewStyles(oldData, newData);
+    const newStyles = getNewStyles(oldData, newData.styles);
     console.log('================ New Styles Added ================');
     console.log(newStyles.join('\n'));
     fs.writeFileSync(
