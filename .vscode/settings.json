@@ -1,11 +1,12 @@
-// Place your settings in this file to overwrite default and user settings.
 {
-    "files.associations": {
-        "deploy": "shellscript",
-        "update_translations": "python",
-        ".php_cs": "php"
-    },
-    "lcov.path": "lib/tmp/coverage/lcov.info",
-    "lcov.branchCoverage": "full",
-    "prettier.trailingComma": "all"
+  // Place your settings in this file to overwrite default and user settings.
+  "files.associations": {
+    "deploy": "shellscript",
+    "update_translations": "python",
+    ".php_cs": "php",
+    ".prettierrc": "yaml"
+  },
+  "lcov.path": "lib/tmp/coverage/lcov.info",
+  "lcov.branchCoverage": "full",
+  "prettier.trailingComma": "all"
 }

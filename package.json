@@ -1,149 +1,142 @@
 {
-    "name": "academic-bloggers-toolkit",
-    "version": "4.10.0",
-    "description": "A plugin extending the functionality of WordPress for Academic Blogging",
-    "license": "GPL-3.0",
-    "scripts": {
-        "precommit": "lint-staged",
-        "prepush": "npm test && npm run lint",
-        "test": "jest --coverage --silent",
-        "posttest": "npm run lint-ts",
-        "phpcsfix-src": "php-cs-fixer fix --config=.php_cs -v",
-        "phpcsfix-dist": "php-cs-fixer fix ./dist --rules='{\"array_syntax\": { \"syntax\": \"long\"}}' --using-cache=no",
-        "watch": "NODE_ENV=production jest --watch --coverage",
-        "lint-ts": "tslint -p . -t codeFrame",
-        "lint-php": "php-cs-fixer fix --config=.php_cs -vvv --dry-run --stop-on-violation --using-cache=no",
-        "lint": "npm run lint-ts && npm run lint-php",
-        "start": "NODE_ENV=development torus run ./node_modules/.bin/gulp",
-        "build": "NODE_ENV=production torus run ./node_modules/.bin/gulp",
-        "deploy": "npm run build && torus run ./lib/deploy $npm_package_version",
-        "inspect-bundles": "npx bundle-buddy dist/js/**/*.map",
-        "update-translations": "torus run ./lib/update-translations",
-        "update-styles": "torus run ./node_modules/.bin/ts-node ./lib/update-styles.ts",
-        "update-vendors": "curl -o 'src/vendor/citeproc.js' https://raw.githubusercontent.com/Juris-M/citeproc-js/master/citeproc.js"
-    },
-    "lint-staged": {
-        "*.{ts,tsx}": [
-            "prettier --write --print-width 100 --single-quote --tab-width 4 --trailing-comma all",
-            "git add"
-        ]
-    },
-    "repository": "dsifford/academic-bloggers-toolkit",
-    "author": "Derek P Sifford",
-    "contributors": [
-        {
-            "name": "Frank Bennett"
-        }
-    ],
-    "devDependencies": {
-        "@types/enzyme": "^2.8.6",
-        "@types/gulp": "^4.0.4",
-        "@types/gulp-autoprefixer": "0.0.30",
-        "@types/gulp-replace": "0.0.30",
-        "@types/gulp-sass": "0.0.30",
-        "@types/gulp-sort": "0.0.31",
-        "@types/gulp-sourcemaps": "0.0.31",
-        "@types/he": "^0.5.29",
-        "@types/jest": "^20.0.7",
-        "@types/node": "^8.0.24",
-        "@types/react": "^16.0.4",
-        "@types/react-dom": "^15.5.4",
-        "@types/react-motion": "^0.0.23",
-        "@types/react-test-renderer": "^15.5.4",
-        "@types/tinycolor2": "^1.4.0",
-        "@types/webpack": "^3.0.10",
-        "awesome-typescript-loader": "^3.2.3",
-        "babel-core": "^6.26.0",
-        "babel-loader": "^7.1.2",
-        "babel-polyfill": "^6.26.0",
-        "babel-preset-env": "^1.6.0",
-        "babel-preset-react": "^6.24.1",
-        "browser-sync": "^2.18.13",
-        "css-loader": "^0.28.5",
-        "enzyme": "^2.9.1",
-        "enzyme-to-json": "^1.5.1",
-        "gulp": "gulpjs/gulp#4.0",
-        "gulp-autoprefixer": "^4.0.0",
-        "gulp-replace": "^0.6.1",
-        "gulp-sass": "^3.1.0",
-        "gulp-sort": "^2.0.0",
-        "gulp-sourcemaps": "^2.6.1",
-        "gulp-uglify": "^3.0.0",
-        "gulp-wp-pot": "^2.0.6",
-        "husky": "^0.14.3",
-        "jest": "^20.0.4",
-        "lint-staged": "^4.0.3",
-        "merge-stream": "^1.0.1",
-        "mobx-react-devtools": "^4.2.15",
-        "prettier": "^1.5.3",
-        "react-test-renderer": "^15.6.1",
-        "rollbar": "^2.2.3",
-        "rollbar-sourcemap-webpack-plugin": "^2.2.0",
-        "snapshot-diff": "^0.1.1",
-        "style-loader": "^0.18.2",
-        "ts-jest": "^20.0.10",
-        "ts-node": "^3.3.0",
-        "tslint": "^5.6.0",
-        "tslint-microsoft-contrib": "^5.0.1",
-        "tslint-react": "^3.2.0",
-        "uglify-es": "^3.0.28",
-        "webpack": "^3.5.5",
-        "webpack-bundle-analyzer": "^2.9.0"
-    },
-    "dependencies": {
-        "@types/jquery": "^3.2.12",
-        "bibtex-parse-js": "^0.0.23",
-        "citeproc": "^2.1.177",
-        "common-tags": "^1.4.0",
-        "focus-trap-react": "^3.0.3",
-        "he": "^1.1.1",
-        "mobx": "^3.2.2",
-        "mobx-react": "^4.2.2",
-        "react": "^15.6.1",
-        "react-dom": "^15.6.1",
-        "react-motion": "^0.5.0",
-        "react-select-fast-filter-options": "^0.2.2",
-        "react-virtualized-select": "^3.1.0",
-        "styled-jsx": "^1.0.10",
-        "tinycolor2": "^1.4.1",
-        "typescript": "^2.4.2",
-        "whatwg-fetch": "^2.0.3"
-    },
-    "jest": {
-        "collectCoverageFrom": [
-            "src/**/*.{js,ts,tsx}",
-            "!**/{vendor,__tests__}/**",
-            "!src/js/{dialogs,reference-list}/index.tsx",
-            "!src/js/Frontend.ts",
-            "!src/js/utils/devtools.ts",
-            "!src/js/utils/logger.ts",
-            "!src/js/utils/**/index.ts",
-            "!src/js/utils/resolvers/*",
-            "!src/js/drivers/**"
-        ],
-        "coverageDirectory": "lib/tmp/coverage",
-        "globals": {
-            "ts-jest": {
-                "tsConfigFile": "lib/tsconfig-tests.json",
-                "useBabelrc": true
-            }
-        },
-        "mapCoverage": true,
-        "moduleDirectories": [
-            "node_modules",
-            "./src/js"
-        ],
-        "moduleFileExtensions": [
-            "ts",
-            "tsx",
-            "js"
-        ],
-        "setupFiles": [
-            "./lib/before-test.ts"
-        ],
-        "testRegex": "(/__tests__/.*|\\.(test|spec))\\.(ts|tsx|js)$",
-        "transform": {
-            ".(ts|tsx)": "<rootDir>/node_modules/ts-jest/preprocessor.js"
-        }
+  "name": "academic-bloggers-toolkit",
+  "version": "4.10.0",
+  "description":
+    "A plugin extending the functionality of WordPress for Academic Blogging",
+  "license": "GPL-3.0",
+  "scripts": {
+    "precommit": "lint-staged",
+    "prepush": "npm test && npm run lint",
+    "test": "jest --coverage --silent",
+    "posttest": "npm run lint-ts",
+    "phpcsfix-src": "php-cs-fixer fix --config=.php_cs -v",
+    "phpcsfix-dist":
+      "php-cs-fixer fix ./dist --rules='{\"array_syntax\": { \"syntax\": \"long\"}}' --using-cache=no",
+    "watch": "NODE_ENV=production jest --watch --coverage",
+    "lint-ts": "tslint -p . -t codeFrame",
+    "lint-php":
+      "php-cs-fixer fix --config=.php_cs -vvv --dry-run --stop-on-violation --using-cache=no",
+    "lint": "npm run lint-ts && npm run lint-php",
+    "start": "NODE_ENV=development torus run ./node_modules/.bin/gulp",
+    "build": "NODE_ENV=production torus run ./node_modules/.bin/gulp",
+    "deploy": "npm run build && torus run ./lib/deploy $npm_package_version",
+    "inspect-bundles": "npx bundle-buddy dist/js/**/*.map",
+    "update-translations": "torus run ./lib/update-translations",
+    "update-styles":
+      "torus run ./node_modules/.bin/ts-node ./lib/update-styles.ts",
+    "update-vendors":
+      "curl -o 'src/vendor/citeproc.js' https://raw.githubusercontent.com/Juris-M/citeproc-js/master/citeproc.js"
+  },
+  "lint-staged": {
+    "*.{ts,tsx,js,jsx,scss,json,css}": ["prettier --write", "git add"]
+  },
+  "repository": "dsifford/academic-bloggers-toolkit",
+  "author": "Derek P Sifford",
+  "contributors": [
+    {
+      "name": "Frank Bennett"
     }
+  ],
+  "devDependencies": {
+    "@types/enzyme": "^2.8.6",
+    "@types/gulp": "^4.0.4",
+    "@types/gulp-autoprefixer": "0.0.30",
+    "@types/gulp-replace": "0.0.30",
+    "@types/gulp-sass": "0.0.30",
+    "@types/gulp-sort": "0.0.31",
+    "@types/gulp-sourcemaps": "0.0.31",
+    "@types/he": "^0.5.29",
+    "@types/jest": "^20.0.8",
+    "@types/node": "^8.0.25",
+    "@types/react": "^16.0.5",
+    "@types/react-dom": "^15.5.4",
+    "@types/react-motion": "^0.0.23",
+    "@types/react-test-renderer": "^15.5.4",
+    "@types/tinycolor2": "^1.4.0",
+    "@types/webpack": "^3.0.10",
+    "awesome-typescript-loader": "^3.2.3",
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.2",
+    "babel-polyfill": "^6.26.0",
+    "babel-preset-env": "^1.6.0",
+    "babel-preset-react": "^6.24.1",
+    "browser-sync": "^2.18.13",
+    "css-loader": "^0.28.5",
+    "enzyme": "^2.9.1",
+    "enzyme-to-json": "^1.5.1",
+    "gulp": "gulpjs/gulp#4.0",
+    "gulp-autoprefixer": "^4.0.0",
+    "gulp-replace": "^0.6.1",
+    "gulp-sass": "^3.1.0",
+    "gulp-sort": "^2.0.0",
+    "gulp-sourcemaps": "^2.6.1",
+    "gulp-uglify": "^3.0.0",
+    "gulp-wp-pot": "^2.0.6",
+    "husky": "^0.14.3",
+    "jest": "^20.0.4",
+    "lint-staged": "^4.0.4",
+    "merge-stream": "^1.0.1",
+    "mobx-react-devtools": "^4.2.15",
+    "prettier": "^1.6.0",
+    "react-test-renderer": "^15.6.1",
+    "rollbar": "^2.2.6",
+    "rollbar-sourcemap-webpack-plugin": "^2.2.0",
+    "snapshot-diff": "^0.1.1",
+    "style-loader": "^0.18.2",
+    "ts-jest": "^20.0.10",
+    "ts-node": "^3.3.0",
+    "tslint": "^5.7.0",
+    "tslint-microsoft-contrib": "^5.0.1",
+    "tslint-react": "^3.2.0",
+    "uglify-es": "^3.0.28",
+    "webpack": "^3.5.5",
+    "webpack-bundle-analyzer": "^2.9.0"
+  },
+  "dependencies": {
+    "@types/jquery": "^3.2.12",
+    "bibtex-parse-js": "^0.0.23",
+    "citeproc": "^2.1.177",
+    "common-tags": "^1.4.0",
+    "focus-trap-react": "^3.0.3",
+    "he": "^1.1.1",
+    "mobx": "^3.2.2",
+    "mobx-react": "^4.2.2",
+    "react": "^15.6.1",
+    "react-dom": "^15.6.1",
+    "react-motion": "^0.5.1",
+    "react-select-fast-filter-options": "^0.2.2",
+    "react-virtualized-select": "^3.1.0",
+    "styled-jsx": "^1.0.10",
+    "tinycolor2": "^1.4.1",
+    "typescript": "^2.4.2",
+    "whatwg-fetch": "^2.0.3"
+  },
+  "jest": {
+    "collectCoverageFrom": [
+      "src/**/*.{js,ts,tsx}",
+      "!**/{vendor,__tests__}/**",
+      "!src/js/{dialogs,reference-list}/index.tsx",
+      "!src/js/Frontend.ts",
+      "!src/js/utils/devtools.ts",
+      "!src/js/utils/logger.ts",
+      "!src/js/utils/**/index.ts",
+      "!src/js/utils/resolvers/*",
+      "!src/js/drivers/**"
+    ],
+    "coverageDirectory": "lib/tmp/coverage",
+    "globals": {
+      "ts-jest": {
+        "tsConfigFile": "lib/tsconfig-tests.json",
+        "useBabelrc": true
+      }
+    },
+    "mapCoverage": true,
+    "moduleDirectories": ["node_modules", "./src/js"],
+    "moduleFileExtensions": ["ts", "tsx", "js"],
+    "setupFiles": ["./lib/before-test.ts"],
+    "testRegex": "(/__tests__/.*|\\.(test|spec))\\.(ts|tsx|js)$",
+    "transform": {
+      ".(ts|tsx)": "<rootDir>/node_modules/ts-jest/preprocessor.js"
+    }
+  }
 }
