@@ -5,13 +5,21 @@ declare namespace TinyMCE {
         initialized: boolean;
         windowManager: WindowManager;
         dom: {
-            create<T extends HTMLElement>(
-                tag: string,
-                attrs: { [attr: string]: string },
-                children?: string,
-            ): T;
+            createRng(): Range;
         };
         selection: {
+            getBookmark(type: 1, normalized?: boolean): { rng: Range };
+            /** Don't use */
+            getBookmark(
+                type: 2,
+                normalized?: boolean,
+            ): { start: number[]; end?: number[] };
+            /** Don't use */
+            getBookmark(
+                type: 3,
+                normalized?: boolean,
+            ): { start: string; end: string };
+            /** Don't use */
             getBookmark(type?: number, normalized?: boolean): { id: string };
             getContent(args: { format: 'html' | 'text' }): string;
             setContent(content: string, args?: { format: string }): string;
@@ -33,6 +41,7 @@ declare namespace TinyMCE {
 
     interface MCE {
         editors: Editor[] & { [editorId: string]: Editor };
+        on(eventName: string, callback: () => void): void;
     }
 
     interface WindowManager {

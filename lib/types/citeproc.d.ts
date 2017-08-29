@@ -35,6 +35,12 @@ declare namespace Citeproc {
     type CitationsPrePost = [string, number][];
 
     /**
+     * Describes the citations the occur before [0] and after [1] the current
+     * citation being processed
+     */
+    type CitationLocations = [CitationsPrePost, CitationsPrePost];
+
+    /**
      * 0: A string containing a unique ID which should be used for the span
      *    element's ID.
      * 1: The index of the HTMLSpanElement within the document
@@ -58,13 +64,13 @@ declare namespace Citeproc {
         /** NOT USED - Closing div tag for bibliography. */
         bibend: string;
         /** array of strings? for errors. */
-        'bibliography_errors': string[];
+        bibliography_errors: string[];
         /** NOT USED - Opening div tag for bibliography. */
         bibstart: string;
         /** (not sure what for) */
         done: boolean;
         /** array of itemIDs */
-        'entry_ids': Array<[string]>;
+        entry_ids: Array<[string]>;
         /** Vertical margin between each individual reference item. */
         entryspacing: number;
         /**
@@ -135,8 +141,13 @@ declare namespace Citeproc {
             citation: Citeproc.Citation,
             pre: Citeproc.CitationsPrePost,
             post: Citeproc.CitationsPrePost,
-        ): [{ bibchange: boolean; 'citation_errors': string[] }, CitationCluster[]];
-        rebuildProcessorState(citationByIndex: Citation[]): RebuildProcessorStateData[];
+        ): [
+            { bibchange: boolean; citation_errors: string[] },
+            CitationCluster[]
+        ];
+        rebuildProcessorState(
+            citationByIndex: Citation[],
+        ): RebuildProcessorStateData[];
     }
 
     interface EngineConstructor {
