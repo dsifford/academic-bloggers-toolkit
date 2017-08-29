@@ -48,8 +48,13 @@ class MockEditor extends EditorDriver {
     }
     getRelativeCitationPositions(validIds: string[]) {
         validIds = [];
-        const randomStartPoint = Math.floor(Math.random() * (this._clusters.length - 1));
-        const positions = [...this._clusters].map(([index, _, id]) => [id, index]);
+        const randomStartPoint = Math.floor(
+            Math.random() * (this._clusters.length - 1),
+        );
+        const positions = [...this._clusters].map(([index, _, id]) => [
+            id,
+            index,
+        ]);
         return {
             currentIndex: randomStartPoint,
             locations: [
@@ -62,7 +67,9 @@ class MockEditor extends EditorDriver {
         mocks.editorMock('composeCitations');
     }
     removeItems(idList: string[]) {
-        this._clusters = this._clusters.filter(([_, __, id]) => !idList.includes(id));
+        this._clusters = this._clusters.filter(
+            ([_, __, id]) => !idList.includes(id),
+        );
         mocks.editorMock('removeItems');
     }
     setBibliography() {
@@ -100,7 +107,9 @@ let store = new Store({ ...blankState });
 
 const setup = () => {
     store = new Store({ ...blankState });
-    const component = shallow(<ReferenceList editor={Promise.resolve(MockEditor)} store={store} />);
+    const component = shallow(
+        <ReferenceList editor={Promise.resolve(MockEditor)} store={store} />,
+    );
     const instance = component.instance() as ReferenceList;
     instance.editor = new MockEditor();
     return {
@@ -182,7 +191,9 @@ describe('<ReferenceList />', async () => {
             button.simulate('click', 'FOO');
             expect(instance.currentDialog.get()).toBe('FOO');
 
-            button.simulate('click', { currentTarget: { dataset: { dialog: 'BAR' } } });
+            button.simulate('click', {
+                currentTarget: { dataset: { dialog: 'BAR' } },
+            });
             expect(instance.currentDialog.get()).toBe('BAR');
 
             button.simulate('click', { currentTarget: { dataset: {} } });
@@ -212,13 +223,22 @@ describe('<ReferenceList />', async () => {
             mocks.getRemoteData
                 .mockReturnValue(Promise.resolve([[]]))
                 .mockReturnValueOnce(Promise.resolve([[]]))
-                .mockReturnValueOnce(Promise.resolve([[{ id: '1', title: 'hello world' }]]))
                 .mockReturnValueOnce(
-                    Promise.resolve([[{ id: '1', title: 'hello world' }], 'Some error']),
+                    Promise.resolve([[{ id: '1', title: 'hello world' }]]),
                 )
-                .mockReturnValueOnce(Promise.reject(new Error('Some error occurred')));
+                .mockReturnValueOnce(
+                    Promise.resolve([
+                        [{ id: '1', title: 'hello world' }],
+                        'Some error',
+                    ]),
+                )
+                .mockReturnValueOnce(
+                    Promise.reject(new Error('Some error occurred')),
+                );
 
-            mocks.parseManualData.mockReturnValue([[{ id: '2', title: 'reference 2' }]]);
+            mocks.parseManualData.mockReturnValue([
+                [{ id: '2', title: 'reference 2' }],
+            ]);
 
             const { instance } = setup();
             instance.insertInlineCitation = jest.fn();
@@ -252,7 +272,10 @@ describe('<ReferenceList />', async () => {
             expect(mocks.editorMock).toHaveBeenCalledTimes(1);
 
             jest.clearAllMocks();
-            await instance.addReferences({ addManually: true, attachInline: true });
+            await instance.addReferences({
+                addManually: true,
+                attachInline: true,
+            });
             expect(store.citations.lookup.ids.length).toBe(2);
             expect(instance.insertInlineCitation).toHaveBeenCalledTimes(1);
         });
@@ -292,7 +315,9 @@ describe('<ReferenceList />', async () => {
             component.update();
 
             const menu = component.find('Menu');
-            expect(store.citationStyle.get()).toBe('american-medical-association');
+            expect(store.citationStyle.get()).toBe(
+                'american-medical-association',
+            );
 
             menu.simulate('submit', { kind: 'CHANGE_STYLE', data: 'apa' });
             expect(store.citationStyle.get()).toBe('apa');
@@ -363,7 +388,7 @@ describe('<ReferenceList />', async () => {
             window.addEventListener = jest.fn();
             document.addEventListener = jest.fn();
             instance.componentDidMount();
-            expect(window.addEventListener).toHaveBeenCalledTimes(4);
+            expect(window.addEventListener).toHaveBeenCalledTimes(5);
             expect(document.addEventListener).toHaveBeenCalledTimes(1);
             window.addEventListener = windowAddEventListener;
             document.addEventListener = documentAddEventListener;
@@ -375,7 +400,7 @@ describe('<ReferenceList />', async () => {
             window.removeEventListener = jest.fn();
             document.removeEventListener = jest.fn();
             instance.componentWillUnmount();
-            expect(window.removeEventListener).toHaveBeenCalledTimes(4);
+            expect(window.removeEventListener).toHaveBeenCalledTimes(5);
             expect(document.removeEventListener).toHaveBeenCalledTimes(1);
             window.removeEventListener = windowRemoveEventListener;
             document.removeEventListener = documentRemoveEventListener;
@@ -403,29 +428,42 @@ describe('<ReferenceList />', async () => {
             expect(mocks.editorMock).toHaveBeenCalledWith('setBibliography');
             expect(instance.selected.length).toBe(0);
             expect(
-                (instance.processor.prepareInlineCitationData as jest.Mock<any>).mock.calls[0][0],
+                (instance.processor.prepareInlineCitationData as jest.Mock<any>)
+                    .mock.calls[0][0],
             ).toEqual([{ id: '1', title: 'test citation' }]);
         });
         test('insert from editor selection, selection is empty', () => {
             (instance.editor as MockEditor).selection =
                 '<span class="abt-citation" data-reflist="[&quot;1&quot;]"></span>';
-            instance.insertInlineCitation(undefined, [{ id: '2', title: 'citation 2' }]);
+            instance.insertInlineCitation(undefined, [
+                { id: '2', title: 'citation 2' },
+            ]);
             expect(
-                (instance.processor.prepareInlineCitationData as jest.Mock<any>).mock.calls[0][0],
-            ).toEqual([{ id: '2', title: 'citation 2' }, { id: '1', title: 'test citation' }]);
+                (instance.processor.prepareInlineCitationData as jest.Mock<any>)
+                    .mock.calls[0][0],
+            ).toEqual([
+                { id: '2', title: 'citation 2' },
+                { id: '1', title: 'test citation' },
+            ]);
         });
         test('error handling', () => {
-            instance.processor.processCitationCluster = jest.fn().mockImplementation(() => {
-                throw new Error('Some error occurred');
-            });
+            instance.processor.processCitationCluster = jest
+                .fn()
+                .mockImplementation(() => {
+                    throw new Error('Some error occurred');
+                });
             instance.insertInlineCitation();
             expect(Rollbar.error).toHaveBeenCalled();
-            expect(mocks.editorMock).not.toHaveBeenCalledWith('composeCitations');
+            expect(mocks.editorMock).not.toHaveBeenCalledWith(
+                'composeCitations',
+            );
 
             jest.resetAllMocks();
-            instance.editor.setBibliography = jest.fn().mockImplementationOnce(() => {
-                throw new Error('Some error occurred');
-            });
+            instance.editor.setBibliography = jest
+                .fn()
+                .mockImplementationOnce(() => {
+                    throw new Error('Some error occurred');
+                });
             instance.insertInlineCitation();
             expect(mocks.editorMock).toHaveBeenCalledWith('composeCitations');
         });
@@ -447,7 +485,9 @@ describe('<ReferenceList />', async () => {
         test('single selection, without static bib selected', async () => {
             instance.selected.push('aaaaaaaaa');
             await instance.insertStaticBibliography();
-            expect(createStaticBibliography).toHaveBeenCalledWith([citations.a]);
+            expect(createStaticBibliography).toHaveBeenCalledWith([
+                citations.a,
+            ]);
             expect(mocks.editorMock).toHaveBeenCalledWith('setBibliography');
         });
         test('nothing selected, with static bibliography containing one item selected', async () => {
@@ -455,7 +495,9 @@ describe('<ReferenceList />', async () => {
                 <div id="bbbbbbbbb"></div>
             </div>`;
             await instance.insertStaticBibliography();
-            expect(createStaticBibliography).toHaveBeenCalledWith([citations.b]);
+            expect(createStaticBibliography).toHaveBeenCalledWith([
+                citations.b,
+            ]);
             expect(mocks.editorMock).toHaveBeenCalledWith('setBibliography');
         });
         test('nothing selected, no static bib selected', async () => {
@@ -536,22 +578,40 @@ describe('<ReferenceList />', async () => {
         test('both lists closed, menu closed', () => {
             instance.ui.cited.isOpen.set(false);
             instance.handleScroll();
-            expect(instance.ui.cited.maxHeight.get()).toBe('calc(100vh - 275px)');
-            expect(instance.ui.uncited.maxHeight.get()).toBe('calc(100vh - 275px)');
-            expect(document.getElementById('abt-reflist')!.style.top).toBe('95px');
+            expect(instance.ui.cited.maxHeight.get()).toBe(
+                'calc(100vh - 275px)',
+            );
+            expect(instance.ui.uncited.maxHeight.get()).toBe(
+                'calc(100vh - 275px)',
+            );
+            expect(document.getElementById('abt-reflist')!.style.top).toBe(
+                '95px',
+            );
         });
         test('cited list open, menu closed', async () => {
             instance.handleScroll();
-            expect(instance.ui.cited.maxHeight.get()).toBe('calc(100vh - 275px)');
-            expect(instance.ui.uncited.maxHeight.get()).toBe('calc(100vh - 275px)');
-            expect(document.getElementById('abt-reflist')!.style.top).toBe('95px');
+            expect(instance.ui.cited.maxHeight.get()).toBe(
+                'calc(100vh - 275px)',
+            );
+            expect(instance.ui.uncited.maxHeight.get()).toBe(
+                'calc(100vh - 275px)',
+            );
+            expect(document.getElementById('abt-reflist')!.style.top).toBe(
+                '95px',
+            );
         });
         test('cited list open, menu open', async () => {
             instance.toggleMenu();
             instance.handleScroll();
-            expect(instance.ui.cited.maxHeight.get()).toBe('calc(100vh - 359px)');
-            expect(instance.ui.uncited.maxHeight.get()).toBe('calc(100vh - 359px)');
-            expect(document.getElementById('abt-reflist')!.style.top).toBe('95px');
+            expect(instance.ui.cited.maxHeight.get()).toBe(
+                'calc(100vh - 359px)',
+            );
+            expect(instance.ui.uncited.maxHeight.get()).toBe(
+                'calc(100vh - 359px)',
+            );
+            expect(document.getElementById('abt-reflist')!.style.top).toBe(
+                '95px',
+            );
         });
         test('both lists open, menu closed, uncited list height > cited list', async () => {
             instance.ui.uncited.isOpen.set(true);
@@ -559,7 +619,9 @@ describe('<ReferenceList />', async () => {
             instance.handleScroll();
             expect(instance.ui.cited.maxHeight.get()).toBe('20px');
             expect(instance.ui.uncited.maxHeight.get()).toBe('705px');
-            expect(document.getElementById('abt-reflist')!.style.top).toBe('95px');
+            expect(document.getElementById('abt-reflist')!.style.top).toBe(
+                '95px',
+            );
         });
         test('both lists open, menu closed, cited list height > uncited height', async () => {
             instance.ui.uncited.isOpen.set(true);
@@ -567,7 +629,9 @@ describe('<ReferenceList />', async () => {
             instance.handleScroll();
             expect(instance.ui.cited.maxHeight.get()).toBe('665px');
             expect(instance.ui.uncited.maxHeight.get()).toBe('60px');
-            expect(document.getElementById('abt-reflist')!.style.top).toBe('95px');
+            expect(document.getElementById('abt-reflist')!.style.top).toBe(
+                '95px',
+            );
         });
         test('both lists open, menu closed, allocated height > remaining height', async () => {
             instance.ui.uncited.isOpen.set(true);
@@ -575,7 +639,9 @@ describe('<ReferenceList />', async () => {
             instance.handleScroll();
             expect(instance.ui.cited.maxHeight.get()).toBe('362.5px');
             expect(instance.ui.uncited.maxHeight.get()).toBe('362.5px');
-            expect(document.getElementById('abt-reflist')!.style.top).toBe('95px');
+            expect(document.getElementById('abt-reflist')!.style.top).toBe(
+                '95px',
+            );
         });
         test('cited list or uncited list for some reason doesnt exist', async () => {
             instance.ui.uncited.isOpen.set(true);
@@ -584,7 +650,9 @@ describe('<ReferenceList />', async () => {
             instance.handleScroll();
             expect(instance.ui.cited.maxHeight.get()).toBe('0px');
             expect(instance.ui.uncited.maxHeight.get()).toBe('725px');
-            expect(document.getElementById('abt-reflist')!.style.top).toBe('95px');
+            expect(document.getElementById('abt-reflist')!.style.top).toBe(
+                '95px',
+            );
         });
     });
     describe('Misc', () => {
@@ -592,7 +660,9 @@ describe('<ReferenceList />', async () => {
             const { instance } = setup();
             instance.processor.init = jest
                 .fn()
-                .mockReturnValueOnce(Promise.reject(new Error('Some error occurred')));
+                .mockReturnValueOnce(
+                    Promise.reject(new Error('Some error occurred')),
+                );
             await instance.initProcessor();
             expect(Rollbar.error).toHaveBeenCalled();
         });

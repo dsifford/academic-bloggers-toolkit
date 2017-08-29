@@ -3,7 +3,6 @@ declare namespace TinyMCE {
     interface Editor {
         id: string;
         initialized: boolean;
-        windowManager: WindowManager;
         dom: {
             createRng(): Range;
         };
@@ -27,19 +26,26 @@ declare namespace TinyMCE {
             /** Is the the current selection completely empty? */
             isCollapsed(): boolean;
         };
+        undoManager: {
+            /** Clears the undo history */
+            clear(): void;
+        };
+        windowManager: WindowManager;
         addShortcut(keys: string, title: string, func: () => void): void;
         focus(): void;
         getBody(): HTMLBodyElement;
         getContent(args: { format: 'html' | 'text' }): string;
         getDoc(): HTMLDocument;
-        setContent(content: string, args?: object): string;
         insertContent(content: string): void;
-        on(eventString: string, callback: (e: any) => void): void;
+        on(eventName: string, callback: (e: any) => void): void;
+        once(eventName: string, callback: (e: any) => void): void;
+        setContent(content: string, args?: object): string;
         /** true = loading; false = not loading */
         setProgressState(state: boolean): void;
     }
 
     interface MCE {
+        EditorManager: Editor;
         editors: Editor[] & { [editorId: string]: Editor };
         on(eventName: string, callback: () => void): void;
     }

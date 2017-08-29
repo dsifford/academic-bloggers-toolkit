@@ -91,38 +91,83 @@ export default class ReferenceList extends React.Component<Props> {
         reaction(
             () => this.ui.pinned.get(),
             () => {
-                document.getElementById('abt-reflist')!.classList.toggle('fixed');
+                document.getElementById('abt-reflist')!.classList.toggle(
+                    'fixed',
+                );
                 this.handleScroll();
             },
         );
 
         /** React to cited list changes */
-        reaction(() => this.props.store.citations.citedIDs.length, this.handleScroll, {
-            fireImmediately: false,
-            delay: 200,
-        });
+        reaction(
+            () => this.props.store.citations.citedIDs.length,
+            this.handleScroll,
+            {
+                fireImmediately: false,
+                delay: 200,
+            },
+        );
     }
 
     componentDidMount() {
-        addEventListener(EditorDriver.events.AVAILABLE, this.toggleLoading.bind(this, false));
-        addEventListener(EditorDriver.events.UNAVAILABLE, this.toggleLoading.bind(this, true));
-        addEventListener(EditorDriver.events.ADD_REFERENCE, this.openDialog.bind(this, 'ADD'));
-        addEventListener(EditorDriver.events.TOGGLE_PINNED, this.togglePinned.bind(this));
+        addEventListener(
+            EditorDriver.events.AVAILABLE,
+            this.toggleLoading.bind(this, false),
+        );
+        addEventListener(
+            EditorDriver.events.UNAVAILABLE,
+            this.toggleLoading.bind(this, true),
+        );
+        addEventListener(
+            EditorDriver.events.ADD_REFERENCE,
+            this.openDialog.bind(this, 'ADD'),
+        );
+        addEventListener(
+            EditorDriver.events.TOGGLE_PINNED,
+            this.togglePinned.bind(this),
+        );
+        // FIXME: Undoing a citation removal is currently broken. Additionally, because allowing undo after
+        // transacting a citation removal would cause a state mismatch, the entire undo history must be cleared when
+        // citations are deleted.
+        addEventListener(
+            'CitationRemoved',
+            this.handleMenuSelection.bind(this, {
+                kind: MenuActionType.REFRESH_PROCESSOR,
+            }),
+        );
         document.addEventListener('scroll', this.handleScroll);
     }
 
     componentWillUnmount() {
-        removeEventListener(EditorDriver.events.UNAVAILABLE, this.toggleLoading.bind(this, true));
-        removeEventListener(EditorDriver.events.AVAILABLE, this.toggleLoading.bind(this, false));
-        removeEventListener(EditorDriver.events.ADD_REFERENCE, this.openDialog.bind(this, 'ADD'));
-        removeEventListener(EditorDriver.events.TOGGLE_PINNED, this.togglePinned.bind(this));
+        removeEventListener(
+            EditorDriver.events.UNAVAILABLE,
+            this.toggleLoading.bind(this, true),
+        );
+        removeEventListener(
+            EditorDriver.events.AVAILABLE,
+            this.toggleLoading.bind(this, false),
+        );
+        removeEventListener(
+            EditorDriver.events.ADD_REFERENCE,
+            this.openDialog.bind(this, 'ADD'),
+        );
+        removeEventListener(
+            EditorDriver.events.TOGGLE_PINNED,
+            this.togglePinned.bind(this),
+        );
+        removeEventListener(
+            'CitationRemoved',
+            this.handleMenuSelection.bind(this, {
+                kind: MenuActionType.REFRESH_PROCESSOR,
+            }),
+        );
         document.removeEventListener('scroll', this.handleScroll);
     }
 
     init = async () => {
         this.editor = await this.props.editor.then(driver => new driver());
         await this.editor.init();
-        this.initProcessor();
+        await this.initProcessor();
         this.toggleLoading(false);
     };
 
@@ -134,7 +179,9 @@ export default class ReferenceList extends React.Component<Props> {
 
     @action
     toggleLoading = (loadState?: boolean) =>
-        this.loading.set(loadState !== undefined ? loadState : !this.loading.get());
+        this.loading.set(
+            loadState !== undefined ? loadState : !this.loading.get(),
+        );
 
     initProcessor = async () => {
         this.editor.setLoadingState(true);
@@ -167,7 +214,9 @@ export default class ReferenceList extends React.Component<Props> {
     deleteCitations = () => {
         if (this.selected.length === 0) return;
         this.editor.setLoadingState(true);
-        const toRemove = this.props.store.citations.removeItems(this.selected.slice());
+        const toRemove = this.props.store.citations.removeItems(
+            this.selected.slice(),
+        );
         this.editor.removeItems(toRemove);
         this.clearSelection();
         this.initProcessor();
@@ -197,7 +246,9 @@ export default class ReferenceList extends React.Component<Props> {
         }
         if (data.length === 0) return;
         data = this.props.store.citations.addItems(data);
-        return payload.attachInline ? this.insertInlineCitation(undefined, data) : void 0;
+        return payload.attachInline
+            ? this.insertInlineCitation(undefined, data)
+            : void 0;
     };
 
     @action
@@ -247,7 +298,9 @@ export default class ReferenceList extends React.Component<Props> {
     };
 
     @action
-    openDialog = (e: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement> | string) => {
+    openDialog = (
+        e: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement> | string,
+    ) => {
         if (typeof e === 'string') {
             return this.currentDialog.set(e);
         }
@@ -279,7 +332,8 @@ export default class ReferenceList extends React.Component<Props> {
                     <StorageField store={this.props.store} />
                     <style jsx>{`
                         div {
-                            box-shadow: ${shadows.depth_1}, ${shadows.top_border};
+                            box-shadow: ${shadows.depth_1},
+                                ${shadows.top_border};
                         }
                     `}</style>
                 </div>
@@ -302,7 +356,10 @@ export default class ReferenceList extends React.Component<Props> {
                         icon="migrate"
                         disabled={this.selected.length === 0}
                         onClick={this.insertInlineCitation}
-                        tooltip={{ text: ReferenceList.labels.tooltips.insert, position: 'bottom' }}
+                        tooltip={{
+                            text: ReferenceList.labels.tooltips.insert,
+                            position: 'bottom',
+                        }}
                     />
                     <Button
                         flat
@@ -311,7 +368,10 @@ export default class ReferenceList extends React.Component<Props> {
                         icon="plus"
                         label={ReferenceList.labels.tooltips.add}
                         onClick={this.openDialog}
-                        tooltip={{ text: ReferenceList.labels.tooltips.add, position: 'bottom' }}
+                        tooltip={{
+                            text: ReferenceList.labels.tooltips.add,
+                            position: 'bottom',
+                        }}
                     />
                     <Button
                         flat
@@ -319,14 +379,20 @@ export default class ReferenceList extends React.Component<Props> {
                         icon="minus"
                         label={ReferenceList.labels.tooltips.remove}
                         onClick={this.deleteCitations}
-                        tooltip={{ text: ReferenceList.labels.tooltips.remove, position: 'bottom' }}
+                        tooltip={{
+                            text: ReferenceList.labels.tooltips.remove,
+                            position: 'bottom',
+                        }}
                     />
                     <Button
                         flat
                         label={ReferenceList.labels.tooltips.pin}
                         icon={this.ui.pinned.get() ? 'sticky' : 'admin-post'}
                         onClick={this.togglePinned}
-                        tooltip={{ text: ReferenceList.labels.tooltips.pin, position: 'bottom' }}
+                        tooltip={{
+                            text: ReferenceList.labels.tooltips.pin,
+                            position: 'bottom',
+                        }}
                     />
                     <Button
                         flat
@@ -343,7 +409,7 @@ export default class ReferenceList extends React.Component<Props> {
                     cslStyle={this.props.store.citationStyle}
                     onSubmit={this.handleMenuSelection}
                 />
-                {this.props.store.citations.cited.length > 0 &&
+                {this.props.store.citations.cited.length > 0 && (
                     <ItemList
                         id="cited"
                         CSL={this.props.store.citations.CSL}
@@ -352,8 +418,9 @@ export default class ReferenceList extends React.Component<Props> {
                         selectedItems={this.selected}
                         ui={this.ui}
                         children={ReferenceList.labels.citedItems}
-                    />}
-                {this.props.store.citations.uncited.length > 0 &&
+                    />
+                )}
+                {this.props.store.citations.uncited.length > 0 && (
                     <ItemList
                         id="uncited"
                         CSL={this.props.store.citations.CSL}
@@ -362,7 +429,8 @@ export default class ReferenceList extends React.Component<Props> {
                         selectedItems={this.selected}
                         ui={this.ui}
                         children={ReferenceList.labels.uncitedItems}
-                    />}
+                    />
+                )}
                 <style jsx>{`
                     .panel {
                         display: flex;
@@ -462,7 +530,9 @@ export default class ReferenceList extends React.Component<Props> {
         });
 
         const selection = this.editor.selection;
-        if (/^<div class=".*?abt-static-bib.*?"[\s\S]+<\/div>$/g.test(selection)) {
+        if (
+            /^<div class=".*?abt-static-bib.*?"[\s\S]+<\/div>$/g.test(selection)
+        ) {
             const re = /<div id="(\w{8,9})">/g;
             let m: RegExpExecArray | null;
             // tslint:disable-next-line
@@ -472,9 +542,15 @@ export default class ReferenceList extends React.Component<Props> {
         }
 
         try {
-            const bibliography = await this.processor.createStaticBibliography(data);
+            const bibliography = await this.processor.createStaticBibliography(
+                data,
+            );
             this.clearSelection();
-            this.editor.setBibliography(this.props.store.bibOptions, bibliography, true);
+            this.editor.setBibliography(
+                this.props.store.bibOptions,
+                bibliography,
+                true,
+            );
         } catch (e) {
             Rollbar.error('ReferenceList.tsx -> insertStaticBibliography', e);
             this.editor.alert(stripIndents`
@@ -509,7 +585,8 @@ export default class ReferenceList extends React.Component<Props> {
         /**
          * Offset from top of reference list to top of viewport.
          */
-        const topOffset = scrollpos > 134 ? 55 : scrollpos === 0 ? 95 : 95 - scrollpos / 3;
+        const topOffset =
+            scrollpos > 134 ? 55 : scrollpos === 0 ? 95 : 95 - scrollpos / 3;
 
         /**
          * Vertical space that is already allocated.
@@ -569,6 +646,12 @@ export default class ReferenceList extends React.Component<Props> {
 @observer
 export class StorageField extends React.Component<{ store: Store }> {
     render() {
-        return <input type="hidden" name="abt-reflist-state" value={this.props.store.persistent} />;
+        return (
+            <input
+                type="hidden"
+                name="abt-reflist-state"
+                value={this.props.store.persistent}
+            />
+        );
     }
 }

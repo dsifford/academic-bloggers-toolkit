@@ -10,6 +10,29 @@ interface SelectionCache {
 
 export default class TinyMCEDriver extends EditorDriver {
     private editor: TinyMCE.Editor;
+    private editorCitationObserver = new MutationObserver(mutations => {
+        for (const mutation of mutations) {
+            for (const removedNode of mutation.removedNodes) {
+                if (removedNode.nodeName !== 'SPAN') {
+                    continue;
+                }
+                const classList = removedNode.attributes.getNamedItem('class');
+
+                if (!classList) {
+                    continue;
+                }
+
+                if (
+                    classList.value
+                        .split(' ')
+                        .includes(EditorDriver.citationClass)
+                ) {
+                    dispatchEvent(new CustomEvent('CitationRemoved'));
+                    this.editor.undoManager.clear();
+                }
+            }
+        }
+    });
     private selectionCache: SelectionCache = {
         fresh: false,
         selection: '',
@@ -52,18 +75,15 @@ export default class TinyMCEDriver extends EditorDriver {
                         this.bindEvents();
                         return resolve();
                     }
-                    (<any>top).tinyMCE.EditorManager.on(
-                        'AddEditor',
-                        (e: any) => {
-                            if (e.editor.id === 'content') {
-                                this.editor = top.tinyMCE.editors.content;
-                                this.bindEvents();
-                                (<any>this.editor).once('PostRender', () => {
-                                    return resolve();
-                                });
-                            }
-                        },
-                    );
+                    top.tinyMCE.EditorManager.on('AddEditor', (e: any) => {
+                        if (e.editor.id === 'content') {
+                            this.editor = top.tinyMCE.editors.content;
+                            this.bindEvents();
+                            this.editor.once('PostRender', () => {
+                                return resolve();
+                            });
+                        }
+                    });
                     clearInterval(interval);
                 }
             }, 500);
@@ -179,18 +199,9 @@ export default class TinyMCEDriver extends EditorDriver {
     }
 
     protected bindEvents() {
-        this.editor.on('show', () => {
-            dispatchEvent(new CustomEvent(EditorDriver.events.AVAILABLE));
+        this.editor.on('focusin', () => {
+            this.selectionCache = { ...this.selectionCache, fresh: false };
         });
-        this.editor.on('hide', () =>
-            dispatchEvent(new CustomEvent(EditorDriver.events.UNAVAILABLE)),
-        );
-        this.editor.addShortcut('meta+alt+r', 'Add Reference', () =>
-            dispatchEvent(new CustomEvent(EditorDriver.events.ADD_REFERENCE)),
-        );
-        this.editor.addShortcut('meta+alt+p', 'Pin Reference List', () =>
-            dispatchEvent(new CustomEvent(EditorDriver.events.TOGGLE_PINNED)),
-        );
         this.editor.on('focusout', () => {
             this.selectionCache = {
                 fresh: true,
@@ -198,8 +209,21 @@ export default class TinyMCEDriver extends EditorDriver {
                 bookmark: this.editor.selection.getBookmark(1),
             };
         });
-        this.editor.on('focusin', () => {
-            this.selectionCache = { ...this.selectionCache, fresh: false };
+        this.editor.on('hide', () => {
+            dispatchEvent(new CustomEvent(EditorDriver.events.UNAVAILABLE));
+        });
+        this.editor.on('show', () => {
+            dispatchEvent(new CustomEvent(EditorDriver.events.AVAILABLE));
+        });
+        this.editor.addShortcut('meta+alt+r', 'Add Reference', () =>
+            dispatchEvent(new CustomEvent(EditorDriver.events.ADD_REFERENCE)),
+        );
+        this.editor.addShortcut('meta+alt+p', 'Pin Reference List', () =>
+            dispatchEvent(new CustomEvent(EditorDriver.events.TOGGLE_PINNED)),
+        );
+        this.editorCitationObserver.observe(this.editor.getBody(), {
+            childList: true,
+            subtree: true,
         });
     }
 
