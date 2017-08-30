@@ -130,7 +130,7 @@ export default class ReferenceList extends React.Component<Props> {
         // transacting a citation removal would cause a state mismatch, the entire undo history must be cleared when
         // citations are deleted.
         addEventListener(
-            'CitationRemoved',
+            EditorDriver.events.CITATION_DELETED,
             this.handleMenuSelection.bind(this, {
                 kind: MenuActionType.REFRESH_PROCESSOR,
             }),

@@ -27,7 +27,9 @@ export default class TinyMCEDriver extends EditorDriver {
                         .split(' ')
                         .includes(EditorDriver.citationClass)
                 ) {
-                    dispatchEvent(new CustomEvent('CitationRemoved'));
+                    dispatchEvent(
+                        new CustomEvent(EditorDriver.events.CITATION_DELETED),
+                    );
                     this.editor.undoManager.clear();
                 }
             }

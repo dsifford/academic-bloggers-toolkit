@@ -16,24 +16,29 @@ export interface RelativeCitationPositions {
 
 enum EditorEvents {
     /**
+     * Bind and emit this if the editor supports keyboard shortcuts. Keyboard
+     * shortcut for this should be cmd/ctrl+alt+r
+     */
+    ADD_REFERENCE = 'ADD_REFERENCE',
+    /**
      * Emit this any time the editor becomes available again after being
      * unavailable (excluding the initial initialization).
      */
     AVAILABLE = 'EDITOR_AVAILABLE',
     /**
-     * Emit this any time the editor goes unavailable or becomes hidden.
+     * Emit this when user manually deletes one or more inline citations using
+     * the keyboard.
      */
-    UNAVAILABLE = 'EDITOR_UNAVAILABLE',
+    CITATION_DELETED = 'CITATION_DELETED',
     /**
      * Bind and emit to this if the editor supports keyboard shortcuts.
      * Keyboard shortcut for this should be cmd/ctrl+alt+p
      */
     TOGGLE_PINNED = 'TOGGLE_PINNED',
     /**
-     * Bind and emit this if the editor supports keyboard shortcuts. Keyboard
-     * shortcut for this should be cmd/ctrl+alt+r
+     * Emit this any time the editor goes unavailable or becomes hidden.
      */
-    ADD_REFERENCE = 'ADD_REFERENCE',
+    UNAVAILABLE = 'EDITOR_UNAVAILABLE',
 }
 
 export interface EditorDriverConstructor {
@@ -71,7 +76,11 @@ export default abstract class EditorDriver {
     static readonly staticBibClass = 'abt-static-bib';
 
     static createBibliographyElement(
-        { heading = '', headingLevel = 'h3', style = 'fixed' }: Partial<BibOptions>,
+        {
+            heading = '',
+            headingLevel = 'h3',
+            style = 'fixed',
+        }: Partial<BibOptions>,
         items: ABT.Bibliography,
         classNames: string[] = [],
     ): HTMLDivElement {
@@ -93,11 +102,16 @@ export default abstract class EditorDriver {
                     `${EditorDriver.bibliographyId}__heading_toggle`,
                 );
                 headingElement.setAttribute('aria-expanded', 'false');
-                headingElement.setAttribute('aria-controls', `${this.bibliographyId}__container`);
+                headingElement.setAttribute(
+                    'aria-controls',
+                    `${this.bibliographyId}__container`,
+                );
                 headingElement.dataset.headingLevel = headingLevel;
             } else {
                 headingElement = document.createElement(headingLevel);
-                headingElement.classList.add(`${EditorDriver.bibliographyId}__heading`);
+                headingElement.classList.add(
+                    `${EditorDriver.bibliographyId}__heading`,
+                );
             }
             headingElement.innerText = heading;
             bib.appendChild(headingElement);
@@ -134,7 +148,10 @@ export default abstract class EditorDriver {
         return element;
     }
 
-    static createFootnoteSection(footnotes: string[], classNames: string[] = []): HTMLDivElement {
+    static createFootnoteSection(
+        footnotes: string[],
+        classNames: string[] = [],
+    ): HTMLDivElement {
         const note = document.createElement('div');
         note.id = EditorDriver.footnoteId;
         note.classList.add(EditorDriver.footnoteId, ...classNames);
@@ -219,7 +236,9 @@ export default abstract class EditorDriver {
      * currently aware of. (necessary for instances where the user deletes a
      * citation without "refreshing" the document)
      */
-    abstract getRelativeCitationPositions(validIds: string[]): RelativeCitationPositions;
+    abstract getRelativeCitationPositions(
+        validIds: string[],
+    ): RelativeCitationPositions;
 
     /**
      * Responsible for finding and removing elements from the editor that have
