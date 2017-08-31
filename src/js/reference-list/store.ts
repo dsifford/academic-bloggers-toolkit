@@ -50,10 +50,13 @@ class CitationStore {
     get uncited(): CSL.Data[] {
         return this.CSL
             .keys()
-            .reduce((prev, curr) => {
-                if (!this.citedIDs.includes(curr)) prev.push(this.CSL.get(curr)!);
-                return prev;
-            }, <CSL.Data[]>[])
+            .reduce(
+                (prev, curr) => {
+                    if (!this.citedIDs.includes(curr)) prev.push(this.CSL.get(curr)!);
+                    return prev;
+                },
+                <CSL.Data[]>[],
+            )
             .slice();
     }
 
@@ -97,7 +100,6 @@ class CitationStore {
             .map(i => ({
                 ...i,
                 citationItems: i.citationItems.filter(j => !idList.includes(j.id)),
-                sortedItems: i.sortedItems!.filter(j => !idList.includes(j[1].id)),
             }))
             .reduce((prev, curr) => {
                 if (curr.citationItems.length === 0 && curr.citationID) {

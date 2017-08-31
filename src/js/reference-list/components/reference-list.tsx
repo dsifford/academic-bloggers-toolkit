@@ -91,76 +91,45 @@ export default class ReferenceList extends React.Component<Props> {
         reaction(
             () => this.ui.pinned.get(),
             () => {
-                document.getElementById('abt-reflist')!.classList.toggle(
-                    'fixed',
-                );
+                document.getElementById('abt-reflist')!.classList.toggle('fixed');
                 this.handleScroll();
             },
         );
 
         /** React to cited list changes */
-        reaction(
-            () => this.props.store.citations.citedIDs.length,
-            this.handleScroll,
-            {
-                fireImmediately: false,
-                delay: 200,
-            },
-        );
+        reaction(() => this.props.store.citations.citedIDs.length, this.handleScroll, {
+            fireImmediately: false,
+            delay: 200,
+        });
     }
 
     componentDidMount() {
-        addEventListener(
-            EditorDriver.events.AVAILABLE,
-            this.toggleLoading.bind(this, false),
-        );
-        addEventListener(
-            EditorDriver.events.UNAVAILABLE,
-            this.toggleLoading.bind(this, true),
-        );
-        addEventListener(
-            EditorDriver.events.ADD_REFERENCE,
-            this.openDialog.bind(this, 'ADD'),
-        );
-        addEventListener(
-            EditorDriver.events.TOGGLE_PINNED,
-            this.togglePinned.bind(this),
-        );
-        // FIXME: Undoing a citation removal is currently broken. Additionally, because allowing undo after
-        // transacting a citation removal would cause a state mismatch, the entire undo history must be cleared when
-        // citations are deleted.
+        addEventListener(EditorDriver.events.AVAILABLE, this.toggleLoading.bind(this, false));
+        addEventListener(EditorDriver.events.UNAVAILABLE, this.toggleLoading.bind(this, true));
+        addEventListener(EditorDriver.events.ADD_REFERENCE, this.openDialog.bind(this, 'ADD'));
+        addEventListener(EditorDriver.events.TOGGLE_PINNED, this.togglePinned.bind(this));
         addEventListener(
             EditorDriver.events.CITATION_DELETED,
             this.handleMenuSelection.bind(this, {
                 kind: MenuActionType.REFRESH_PROCESSOR,
             }),
         );
+        addEventListener(EditorDriver.events.UNDO, this.handleUndo.bind(this));
         document.addEventListener('scroll', this.handleScroll);
     }
 
     componentWillUnmount() {
+        removeEventListener(EditorDriver.events.UNAVAILABLE, this.toggleLoading.bind(this, true));
+        removeEventListener(EditorDriver.events.AVAILABLE, this.toggleLoading.bind(this, false));
+        removeEventListener(EditorDriver.events.ADD_REFERENCE, this.openDialog.bind(this, 'ADD'));
+        removeEventListener(EditorDriver.events.TOGGLE_PINNED, this.togglePinned.bind(this));
         removeEventListener(
-            EditorDriver.events.UNAVAILABLE,
-            this.toggleLoading.bind(this, true),
-        );
-        removeEventListener(
-            EditorDriver.events.AVAILABLE,
-            this.toggleLoading.bind(this, false),
-        );
-        removeEventListener(
-            EditorDriver.events.ADD_REFERENCE,
-            this.openDialog.bind(this, 'ADD'),
-        );
-        removeEventListener(
-            EditorDriver.events.TOGGLE_PINNED,
-            this.togglePinned.bind(this),
-        );
-        removeEventListener(
-            'CitationRemoved',
+            EditorDriver.events.CITATION_DELETED,
             this.handleMenuSelection.bind(this, {
                 kind: MenuActionType.REFRESH_PROCESSOR,
             }),
         );
+        removeEventListener(EditorDriver.events.UNDO, this.handleUndo.bind(this));
         document.removeEventListener('scroll', this.handleScroll);
     }
 
@@ -179,9 +148,7 @@ export default class ReferenceList extends React.Component<Props> {
 
     @action
     toggleLoading = (loadState?: boolean) =>
-        this.loading.set(
-            loadState !== undefined ? loadState : !this.loading.get(),
-        );
+        this.loading.set(loadState !== undefined ? loadState : !this.loading.get());
 
     initProcessor = async () => {
         this.editor.setLoadingState(true);
@@ -214,9 +181,7 @@ export default class ReferenceList extends React.Component<Props> {
     deleteCitations = () => {
         if (this.selected.length === 0) return;
         this.editor.setLoadingState(true);
-        const toRemove = this.props.store.citations.removeItems(
-            this.selected.slice(),
-        );
+        const toRemove = this.props.store.citations.removeItems(this.selected.slice());
         this.editor.removeItems(toRemove);
         this.clearSelection();
         this.initProcessor();
@@ -246,9 +211,7 @@ export default class ReferenceList extends React.Component<Props> {
         }
         if (data.length === 0) return;
         data = this.props.store.citations.addItems(data);
-        return payload.attachInline
-            ? this.insertInlineCitation(undefined, data)
-            : void 0;
+        return payload.attachInline ? this.insertInlineCitation(undefined, data) : void 0;
     };
 
     @action
@@ -298,9 +261,7 @@ export default class ReferenceList extends React.Component<Props> {
     };
 
     @action
-    openDialog = (
-        e: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement> | string,
-    ) => {
+    openDialog = (e: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement> | string) => {
         if (typeof e === 'string') {
             return this.currentDialog.set(e);
         }
@@ -332,8 +293,7 @@ export default class ReferenceList extends React.Component<Props> {
                     <StorageField store={this.props.store} />
                     <style jsx>{`
                         div {
-                            box-shadow: ${shadows.depth_1},
-                                ${shadows.top_border};
+                            box-shadow: ${shadows.depth_1}, ${shadows.top_border};
                         }
                     `}</style>
                 </div>
@@ -530,9 +490,7 @@ export default class ReferenceList extends React.Component<Props> {
         });
 
         const selection = this.editor.selection;
-        if (
-            /^<div class=".*?abt-static-bib.*?"[\s\S]+<\/div>$/g.test(selection)
-        ) {
+        if (/^<div class=".*?abt-static-bib.*?"[\s\S]+<\/div>$/g.test(selection)) {
             const re = /<div id="(\w{8,9})">/g;
             let m: RegExpExecArray | null;
             // tslint:disable-next-line
@@ -542,15 +500,9 @@ export default class ReferenceList extends React.Component<Props> {
         }
 
         try {
-            const bibliography = await this.processor.createStaticBibliography(
-                data,
-            );
+            const bibliography = await this.processor.createStaticBibliography(data);
             this.clearSelection();
-            this.editor.setBibliography(
-                this.props.store.bibOptions,
-                bibliography,
-                true,
-            );
+            this.editor.setBibliography(this.props.store.bibOptions, bibliography, true);
         } catch (e) {
             Rollbar.error('ReferenceList.tsx -> insertStaticBibliography', e);
             this.editor.alert(stripIndents`
@@ -585,8 +537,7 @@ export default class ReferenceList extends React.Component<Props> {
         /**
          * Offset from top of reference list to top of viewport.
          */
-        const topOffset =
-            scrollpos > 134 ? 55 : scrollpos === 0 ? 95 : 95 - scrollpos / 3;
+        const topOffset = scrollpos > 134 ? 55 : scrollpos === 0 ? 95 : 95 - scrollpos / 3;
 
         /**
          * Vertical space that is already allocated.
@@ -641,17 +592,32 @@ export default class ReferenceList extends React.Component<Props> {
         this.ui.cited.maxHeight.set(`${citedHeight}px`);
         this.ui.uncited.maxHeight.set(`${uncitedHeight}px`);
     };
+
+    private handleUndo = () => {
+        const citationsByIndex = this.editor.citationsByIndex.reduce(
+            (prev, item) => {
+                const citationItems = item.citationItems.map(citation => ({
+                    ...citation,
+                    item: this.props.store.citations.CSL.get(citation.id),
+                }));
+                return [
+                    ...prev,
+                    {
+                        ...item,
+                        citationItems,
+                    },
+                ];
+            },
+            [] as Citeproc.CitationByIndex,
+        );
+        this.props.store.citations.init(citationsByIndex);
+        this.initProcessor();
+    };
 }
 
 @observer
 export class StorageField extends React.Component<{ store: Store }> {
     render() {
-        return (
-            <input
-                type="hidden"
-                name="abt-reflist-state"
-                value={this.props.store.persistent}
-            />
-        );
+        return <input type="hidden" name="abt-reflist-state" value={this.props.store.persistent} />;
     }
 }

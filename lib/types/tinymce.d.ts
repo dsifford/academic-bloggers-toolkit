@@ -9,15 +9,9 @@ declare namespace TinyMCE {
         selection: {
             getBookmark(type: 1, normalized?: boolean): { rng: Range };
             /** Don't use */
-            getBookmark(
-                type: 2,
-                normalized?: boolean,
-            ): { start: number[]; end?: number[] };
+            getBookmark(type: 2, normalized?: boolean): { start: number[]; end?: number[] };
             /** Don't use */
-            getBookmark(
-                type: 3,
-                normalized?: boolean,
-            ): { start: string; end: string };
+            getBookmark(type: 3, normalized?: boolean): { start: string; end: string };
             /** Don't use */
             getBookmark(type?: number, normalized?: boolean): { id: string };
             getContent(args: { format: 'html' | 'text' }): string;

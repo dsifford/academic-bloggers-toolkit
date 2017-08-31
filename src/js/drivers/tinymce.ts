@@ -22,15 +22,8 @@ export default class TinyMCEDriver extends EditorDriver {
                     continue;
                 }
 
-                if (
-                    classList.value
-                        .split(' ')
-                        .includes(EditorDriver.citationClass)
-                ) {
-                    dispatchEvent(
-                        new CustomEvent(EditorDriver.events.CITATION_DELETED),
-                    );
-                    this.editor.undoManager.clear();
+                if (classList.value.split(' ').includes(EditorDriver.citationClass)) {
+                    dispatchEvent(new CustomEvent(EditorDriver.events.CITATION_DELETED));
                 }
             }
         }
@@ -44,9 +37,7 @@ export default class TinyMCEDriver extends EditorDriver {
     get citationIds() {
         const citations = this.editor
             .getDoc()
-            .querySelectorAll(
-                `*:not(.mce-offscreen-selection) > .${EditorDriver.citationClass}`,
-            );
+            .querySelectorAll(`*:not(.mce-offscreen-selection) > .${EditorDriver.citationClass}`);
         return [...citations].map(c => c.id);
     }
 
@@ -70,8 +61,8 @@ export default class TinyMCEDriver extends EditorDriver {
                             ),
                         );
                     }
-                    return;
                 } else {
+                    clearInterval(interval);
                     if (top.tinyMCE.editors && top.tinyMCE.editors.content) {
                         this.editor = top.tinyMCE.editors.content;
                         this.bindEvents();
@@ -86,7 +77,6 @@ export default class TinyMCEDriver extends EditorDriver {
                             });
                         }
                     });
-                    clearInterval(interval);
                 }
             }, 500);
         });
@@ -103,9 +93,7 @@ export default class TinyMCEDriver extends EditorDriver {
     reset() {
         const elements = this.editor
             .getDoc()
-            .querySelectorAll(
-                `#${EditorDriver.bibliographyId}, .${EditorDriver.citationClass}`,
-            );
+            .querySelectorAll(`#${EditorDriver.bibliographyId}, .${EditorDriver.citationClass}`);
         for (const element of elements) {
             element.parentNode!.removeChild(element);
         }
@@ -121,6 +109,44 @@ export default class TinyMCEDriver extends EditorDriver {
         }
     }
 
+    get citationsByIndex(): Citeproc.CitationByIndex {
+        const doc = this.editor.getDoc();
+        const nodes = [
+            ...doc.querySelectorAll(`
+                *:not(.mce-offscreen-selection) >
+                    .${EditorDriver.citationClass}:not(.${EditorDriver.citationClass}_broken)
+            `),
+        ];
+        const isFootnoteType = doc.querySelector(`#${EditorDriver.footnoteId}`) !== null;
+
+        return nodes.reduce(
+            (prev, citation, index) => {
+                const reflist = citation.getAttribute('data-reflist');
+
+                if (!reflist) {
+                    return prev;
+                }
+
+                const refs: string[] = JSON.parse(reflist);
+
+                return [
+                    ...prev,
+                    {
+                        citationID: citation.id,
+                        citationItems: refs.map(ref => ({
+                            id: ref,
+                        })),
+                        properties: {
+                            index,
+                            noteIndex: isFootnoteType ? 1 : 0,
+                        },
+                    },
+                ];
+            },
+            <Citeproc.CitationByIndex>[],
+        );
+    }
+
     getRelativeCitationPositions(validIds: string[]) {
         const doc = this.editor.getDoc();
         const bm = this.selectionCache.fresh
@@ -134,12 +160,8 @@ export default class TinyMCEDriver extends EditorDriver {
             `),
         ];
 
-        const citations = nodes.filter(citation =>
-            validIds.includes(citation.id),
-        );
-        const invalidCitations = nodes.filter(
-            citation => !validIds.includes(citation.id),
-        );
+        const citations = nodes.filter(citation => validIds.includes(citation.id));
+        const invalidCitations = nodes.filter(citation => !validIds.includes(citation.id));
 
         let currentIndex: number = 0;
         const locations: Citeproc.CitationLocations = citations.reduce(
@@ -148,9 +170,7 @@ export default class TinyMCEDriver extends EditorDriver {
                     throw new Error('parentNode not defined for citation');
                 }
 
-                const position = startContainer.compareDocumentPosition(
-                    citation,
-                );
+                const position = startContainer.compareDocumentPosition(citation);
 
                 switch (position) {
                     case Node.DOCUMENT_POSITION_PRECEDING:
@@ -217,6 +237,9 @@ export default class TinyMCEDriver extends EditorDriver {
         this.editor.on('show', () => {
             dispatchEvent(new CustomEvent(EditorDriver.events.AVAILABLE));
         });
+        this.editor.on('Undo', () => {
+            dispatchEvent(new CustomEvent(EditorDriver.events.UNDO));
+        });
         this.editor.addShortcut('meta+alt+r', 'Add Reference', () =>
             dispatchEvent(new CustomEvent(EditorDriver.events.ADD_REFERENCE)),
         );
@@ -229,10 +252,7 @@ export default class TinyMCEDriver extends EditorDriver {
         });
     }
 
-    private setStandardBibliography(
-        options: BibOptions,
-        bibliography: ABT.Bibliography | boolean,
-    ) {
+    private setStandardBibliography(options: BibOptions, bibliography: ABT.Bibliography | boolean) {
         const doc = this.editor.getDoc();
 
         const existingBib = doc.getElementById(EditorDriver.bibliographyId);
@@ -240,18 +260,16 @@ export default class TinyMCEDriver extends EditorDriver {
             existingBib.remove();
         }
 
-        if (typeof bibliography === 'boolean' || bibliography.length === 0)
-            return;
+        if (typeof bibliography === 'boolean' || bibliography.length === 0) return;
 
         const bm = this.selectionCache.fresh
             ? this.selectionCache.bookmark
             : this.editor.selection.getBookmark(1);
 
-        const bib = EditorDriver.createBibliographyElement(
-            options,
-            bibliography,
-            ['noselect', 'mceNonEditable'],
-        );
+        const bib = EditorDriver.createBibliographyElement(options, bibliography, [
+            'noselect',
+            'mceNonEditable',
+        ]);
 
         this.editor.getBody().appendChild(bib);
 
@@ -268,8 +286,7 @@ export default class TinyMCEDriver extends EditorDriver {
     }
 
     private setStaticBibliography(bibliography: ABT.Bibliography | boolean) {
-        const items: ABT.Bibliography =
-            typeof bibliography === 'boolean' ? [] : bibliography;
+        const items: ABT.Bibliography = typeof bibliography === 'boolean' ? [] : bibliography;
         const staticBib = EditorDriver.createBibliographyElement({}, items, [
             `${EditorDriver.staticBibClass}`,
             'noselect',
@@ -310,14 +327,8 @@ export default class TinyMCEDriver extends EditorDriver {
         }
 
         for (const [index, innerHTML, elementID] of clusters) {
-            const citation: HTMLSpanElement | null = doc.getElementById(
-                elementID,
-            );
-            const sortedItems: Citeproc.SortedItems = citationByIndex[index]
-                .sortedItems!;
-            const reflist: string = JSON.stringify(
-                sortedItems.map(c => c[1].id),
-            );
+            const citation: HTMLSpanElement | null = doc.getElementById(elementID);
+            const reflist = JSON.stringify(citationByIndex[index].citationItems.map(c => c.id));
 
             if (!citation) {
                 this.editor.selection.moveToBookmark(bm);
@@ -355,10 +366,8 @@ export default class TinyMCEDriver extends EditorDriver {
         for (const [index, footnote, elementID] of clusters) {
             const innerHTML = `[${index + 1}]`;
             const citation = doc.getElementById(elementID);
-            const sortedItems: Citeproc.SortedItems = citationByIndex[index]
-                .sortedItems!;
             const reflist: string = JSON.stringify(
-                sortedItems.map(c => c[1].id),
+                citationByIndex[index].citationItems.map(c => c.id),
             );
 
             if (!citation) {
@@ -384,10 +393,7 @@ export default class TinyMCEDriver extends EditorDriver {
             .querySelectorAll(`.${EditorDriver.citationClass}`)
             .entries()) {
             footnote.textContent = `[${index + 1}]`;
-            orderedFootnotes = [
-                ...orderedFootnotes,
-                footnote.getAttribute('data-footnote')!,
-            ];
+            orderedFootnotes = [...orderedFootnotes, footnote.getAttribute('data-footnote')!];
         }
 
         const bm = this.selectionCache.fresh

@@ -164,7 +164,6 @@ describe('Store', () => {
                             item: { ...cite1 },
                         },
                     ],
-                    sortedItems: [],
                     properties: {
                         noteIndex: 0,
                     },
@@ -181,7 +180,6 @@ describe('Store', () => {
                             item: { ...cite2 },
                         },
                     ],
-                    sortedItems: [],
                     properties: {
                         noteIndex: 0,
                     },

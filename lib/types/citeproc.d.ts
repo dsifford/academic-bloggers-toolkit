@@ -1,10 +1,10 @@
 // tslint:disable no-namespace
 
+// FIXME: Comb through all of this and update to match below:
+// http://citeproc-js.readthedocs.io/en/latest/csl-json/markup.html
+
 declare module 'citeproc' {
     const CSL: Citeproc.EngineConstructor;
-    namespace CSL {
-
-    }
     export = CSL;
 }
 
@@ -50,16 +50,6 @@ declare namespace Citeproc {
 
     type CitationKind = 'in-text' | 'note';
 
-    type SortedItems = Array<
-        [
-            CSL.Data,
-            {
-                id: string;
-                sortkeys: [string];
-            }
-        ]
-    >;
-
     interface Bibmeta {
         /** NOT USED - Closing div tag for bibliography. */
         bibend: string;
@@ -95,7 +85,9 @@ declare namespace Citeproc {
     }
 
     interface Citation {
+        /** ID of the HTMLSpanElement of the single citation element */
         citationID?: string;
+        /** Describes all citations that exist within the singe citation element */
         citationItems: Array<{
             /** ID of the individual CSL item */
             id: string;
@@ -106,7 +98,6 @@ declare namespace Citeproc {
             /** 0-based index of the citation group in the document */
             noteIndex: number;
         };
-        sortedItems?: SortedItems;
     }
 
     interface CitationRegistry {
@@ -141,13 +132,8 @@ declare namespace Citeproc {
             citation: Citeproc.Citation,
             pre: Citeproc.CitationsPrePost,
             post: Citeproc.CitationsPrePost,
-        ): [
-            { bibchange: boolean; citation_errors: string[] },
-            CitationCluster[]
-        ];
-        rebuildProcessorState(
-            citationByIndex: Citation[],
-        ): RebuildProcessorStateData[];
+        ): [{ bibchange: boolean; citation_errors: string[] }, CitationCluster[]];
+        rebuildProcessorState(citationByIndex: Citation[]): RebuildProcessorStateData[];
     }
 
     interface EngineConstructor {
