@@ -81,7 +81,7 @@
     "react-test-renderer": "^15.6.1",
     "rollbar": "^2.2.6",
     "rollbar-sourcemap-webpack-plugin": "^2.2.0",
-    "snapshot-diff": "^0.1.1",
+    "snapshot-diff": "^0.2.1",
     "style-loader": "^0.18.2",
     "ts-jest": "^20.0.13",
     "ts-node": "^3.3.0",
