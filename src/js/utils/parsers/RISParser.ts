@@ -152,7 +152,7 @@ export class RISParser {
                     break;
                 case 'PY':
                 case 'Y1':
-                    (<any>payload).issued!['date-parts'][0][0] = parseCSLDate(val, 'RIS')[
+                    (<CSL.Date>payload.issued)['date-parts']![0][0] = parseCSLDate(val, 'RIS')[
                         'date-parts'
                     ]![0][0];
                     break;
@@ -259,7 +259,7 @@ export class RISParser {
                     break;
                 case 'ER':
                     if (Object.keys(pageHolder).length === 2) {
-                        payload.page = `${pageHolder['SP']}-${pageHolder['EP']}`;
+                        payload.page = `${pageHolder.SP}-${pageHolder.EP}`;
                     }
                     break;
                 default:

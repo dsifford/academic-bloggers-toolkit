@@ -25,7 +25,7 @@ type Callback = () => void;
 
 // prettier-ignore
 const reload = (cb: Callback) => { browserSync.reload(); cb(); }
-const clean = () => exec(`rm -rf ${__dirname}/dist/*`);
+const clean = async () => exec(`rm -rf ${__dirname}/dist/*`);
 export { clean, reload };
 
 /**
@@ -45,12 +45,7 @@ export function bump() {
         })
         .pipe(replace(/Version: [\d.]+/, `Version: ${VERSION}`))
         .pipe(replace(/Stable tag: .+/, `Stable tag: ${VERSION}`))
-        .pipe(
-            replace(
-                /define\('ABT_VERSION', '.+?'\);/,
-                `define('ABT_VERSION', '${VERSION}');`,
-            ),
-        )
+        .pipe(replace(/define\('ABT_VERSION', '.+?'\);/, `define('ABT_VERSION', '${VERSION}');`))
         .pipe(replace(new RegExp(re), repl))
         .pipe(gulp.dest('./src'));
 
@@ -71,8 +66,7 @@ export function pot() {
             wpPot({
                 domain: 'academic-bloggers-toolkit',
                 package: `Academic Blogger's Toolkit ${VERSION}`,
-                bugReport:
-                    'https://github.com/dsifford/academic-bloggers-toolkit/issues',
+                bugReport: 'https://github.com/dsifford/academic-bloggers-toolkit/issues',
                 lastTranslator: 'Derek P Sifford <dereksifford@gmail.com>',
                 team: 'Derek P Sifford <dereksifford@gmail.com>',
                 headers: false,
@@ -150,9 +144,7 @@ export function bundle(cb: Callback) {
     });
     child.on('exit', (code, signal) => {
         if (code !== 0) {
-            console.error(
-                `Exited with non-zero exit code (${code}): ${signal}`,
-            );
+            console.error(`Exited with non-zero exit code (${code}): ${signal}`);
             process.exit(1);
         }
         cb();
@@ -191,12 +183,7 @@ const main = gulp.series(
         gulp.watch('src/**/*.scss', gulp.series(styles));
 
         gulp.watch(
-            [
-                'src/**/*',
-                '!src/**/*.{ts,tsx,scss}',
-                '!src/**/__tests__/',
-                '!src/**/__tests__/*',
-            ],
+            ['src/**/*', '!src/**/*.{ts,tsx,scss}', '!src/**/__tests__/', '!src/**/__tests__/*'],
             gulp.series(staticFiles, reload),
         );
 

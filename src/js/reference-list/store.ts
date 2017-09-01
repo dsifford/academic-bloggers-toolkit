@@ -17,13 +17,18 @@ class CitationStore {
         this.byIndex = observable(byIndex);
         this.CSL = this.cleanCSL(CSL);
         intercept(this.CSL, change => {
-            if (change.type !== 'add') return change;
-            if (!change.newValue!.title) return null;
+            if (change.type !== 'add' || !change.newValue) {
+                return change;
+            }
 
-            const title = change.newValue!.title!.toLowerCase();
-            const matchIndex: number = this.CSL
-                .values()
-                .findIndex(v => v.title!.toLowerCase() === title);
+            if (!change.newValue.title) {
+                return null;
+            }
+
+            const title = change.newValue.title.toLowerCase();
+            const matchIndex: number = this.CSL.values().findIndex(v => {
+                return v.title !== undefined && v.title.toLowerCase() === title;
+            });
 
             if (matchIndex > -1) {
                 const match = toJS(this.CSL.get(this.CSL.keys()[matchIndex]));

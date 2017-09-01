@@ -11,25 +11,32 @@ interface CitationStyles {
     styles: StyleObj[];
 }
 
-declare const ABT_CitationStyles: CitationStyles;
-declare const ABT_Custom_CSL: BackendGlobals.ABT_Custom_CSL;
-declare const DocumentTouch: any;
-
-interface Window {
-    ABT_i18n: BackendGlobals.ABT_i18n;
-    ajaxurl: string;
-    tinyMCE: TinyMCE.MCE;
-    DocumentTouch?: any;
-}
-
-declare const Rollbar: {
+interface IRollbar {
     log(msg: string, e?: any): void;
     debug(msg: string, e?: any): void;
     info(msg: string, e?: any): void;
     warning(msg: string, e?: any): void;
     error(msg: string, e?: any): void;
     critical(msg: string, e?: any): void;
-};
+}
+
+declare const ABT_CitationStyles: CitationStyles;
+declare const ABT_Custom_CSL: BackendGlobals.ABT_Custom_CSL;
+declare const DocumentTouch: any;
+
+interface Window {
+    ABT_CitationStyles: CitationStyles;
+    ABT_Custom_CSL: BackendGlobals.ABT_Custom_CSL;
+    ABT_Reflist_State: BackendGlobals.ABT_Reflist_State;
+    ABT_i18n: BackendGlobals.ABT_i18n;
+    ABT_wp: BackendGlobals.ABT_wp;
+    DocumentTouch?: any;
+    Rollbar: IRollbar;
+    ajaxurl: string;
+    tinyMCE: TinyMCE.MCE;
+}
+
+declare const Rollbar: IRollbar;
 
 declare namespace BackendGlobals {
     interface ABT_i18n {

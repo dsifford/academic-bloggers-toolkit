@@ -8,14 +8,14 @@ import { colors, shadows, transitions } from 'utils/styles';
 import ReferenceList from './components/reference-list';
 import Store from './store';
 
-(window as any)['Rollbar'] = logger;
+window.Rollbar = logger;
 
 useStrict(false);
 
 declare const ABT_Reflist_State: BackendGlobals.ABT_Reflist_State;
 const store: Store = new Store(ABT_Reflist_State);
 
-const ABTRoot = () =>
+const ABTRoot = () => (
     <div>
         <ReferenceList store={store} editor={import('drivers/tinymce').then(mod => mod.default)} />
         <style jsx global>{`
@@ -67,14 +67,26 @@ const ABTRoot = () =>
             }
             .is-focused:not(.is-open) > .Select-control {
                 border-color: #5b9dd9;
-                box-shadow: 0 0 2px rgba(30, 140, 190, .8);
+                box-shadow: 0 0 2px rgba(30, 140, 190, 0.8);
             }
             @media screen and (min-width: 782px) {
                 #abt-reflist.fixed {
                     margin-right: 25px;
+                    width: 278px;
+                }
+            }
+            @media only screen and (max-width: 850px) {
+                #abt-reflist.fixed {
+                    width: calc(100% - 25px - 52px);
+                }
+            }
+            @media screen and (max-width: 782px) {
+                #abt-reflist.fixed {
+                    width: calc(100% - 25px);
                 }
             }
         `}</style>
-    </div>;
+    </div>
+);
 
 ReactDOM.render(<ABTRoot />, document.getElementById('abt-reflist__root'));

@@ -65,7 +65,7 @@ export class TeXParser {
                         c['container-title'] = item[key].replace(/[{}"]/g, '');
                         return;
                     case 'chapter':
-                        c['title'] = item[key];
+                        c.title = item[key];
                         return;
                     case 'doi':
                     case 'issn':

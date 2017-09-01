@@ -16,20 +16,6 @@ const ABT_CitationStyles = {
     ],
 };
 
-const ABT_i18n = {
-    referenceList: {
-        menu: {
-            stylePlaceholder: 'Choose citation style...',
-            tooltips: {
-                destroy: 'Delete all references',
-                help: 'View usage instructions',
-                import: 'Import references from file',
-                refresh: 'Refresh reference list',
-            },
-        },
-    },
-};
-
 const ABT_Custom_CSL = {
     CSL: '',
     label: 'Test Label',
@@ -77,9 +63,9 @@ const setupRenderer = (label: string, value = 'test', focusedOption = false) => 
 describe('<Menu />', () => {
     const setup = setupMenu;
     beforeEach(() => {
-        (window as any)['ABT_CitationStyles'] = ABT_CitationStyles;
-        (window as any)['ABT_i18n'] = ABT_i18n;
-        (window as any)['ABT_Custom_CSL'] = ABT_Custom_CSL;
+        window.ABT_CitationStyles = ABT_CitationStyles;
+        window.ABT_i18n = ABT_i18n;
+        window.ABT_Custom_CSL = ABT_Custom_CSL;
         jest.resetAllMocks();
     });
     it('should match snapshots', () => {
@@ -113,7 +99,7 @@ describe('<Menu />', () => {
         expect(spy).toHaveBeenCalledTimes(1);
     });
     it('should work without custom CSL defined', () => {
-        (window as any)['ABT_Custom_CSL'] = { value: null };
+        window.ABT_Custom_CSL = { value: undefined, label: '' };
         const { instance } = setup();
         expect(instance.styles).toEqual(ABT_CitationStyles.styles);
     });

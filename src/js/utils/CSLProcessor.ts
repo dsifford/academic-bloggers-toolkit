@@ -142,9 +142,9 @@ export class CSLProcessor {
         after: Citeproc.CitationsPrePost,
     ): Citeproc.CitationCluster[] {
         const [status, clusters] = this.citeproc.processCitationCluster(citation, before, after);
-        if (status['citation_errors'].length) {
-            // tslint:disable-next-line
-            console.error(status['citation_errors']);
+        if (status.citation_errors.length) {
+            // tslint:disable-next-line no-console
+            console.error(status.citation_errors);
         }
         this.store.citations.init(this.citeproc.registry.citationreg.citationByIndex);
         return clusters;
@@ -247,8 +247,8 @@ export class CSLProcessor {
      * @return Locale XML (as a string)
      */
     private getRemoteLocale(loc: string): string {
-        const normalizedLocale = (<string>this.locales[loc]) || 'en-US';
-        const fallback = (<string>this.locales[this.store.locale]) || 'en-US';
+        const normalizedLocale = <string>this.locales[loc] || 'en-US';
+        const fallback = <string>this.locales[this.store.locale] || 'en-US';
         return this.localeStore.has(normalizedLocale)
             ? this.localeStore.get(normalizedLocale)!
             : this.localeStore.get(fallback)!;

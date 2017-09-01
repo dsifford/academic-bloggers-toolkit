@@ -1,8 +1,7 @@
 {
   "name": "academic-bloggers-toolkit",
   "version": "4.10.0",
-  "description":
-    "A plugin extending the functionality of WordPress for Academic Blogging",
+  "description": "A plugin extending the functionality of WordPress for Academic Blogging",
   "license": "GPL-3.0",
   "scripts": {
     "precommit": "lint-staged",
@@ -22,8 +21,7 @@
     "deploy": "npm run build && torus run ./lib/deploy $npm_package_version",
     "inspect-bundles": "npx bundle-buddy dist/js/**/*.map",
     "update-translations": "torus run ./lib/update-translations",
-    "update-styles":
-      "torus run ./node_modules/.bin/ts-node ./lib/update-styles.ts",
+    "update-styles": "torus run ./node_modules/.bin/ts-node ./lib/update-styles.ts",
     "update-vendors":
       "curl -o 'src/vendor/citeproc.js' https://raw.githubusercontent.com/Juris-M/citeproc-js/master/citeproc.js"
   },
@@ -61,7 +59,7 @@
     "babel-preset-env": "^1.6.0",
     "babel-preset-react": "^6.24.1",
     "browser-sync": "^2.18.13",
-    "css-loader": "^0.28.6",
+    "css-loader": "^0.28.7",
     "enzyme": "^2.9.1",
     "enzyme-to-json": "^1.5.1",
     "gulp": "gulpjs/gulp#4.0",
@@ -81,7 +79,7 @@
     "react-test-renderer": "^15.6.1",
     "rollbar": "^2.2.6",
     "rollbar-sourcemap-webpack-plugin": "^2.2.0",
-    "snapshot-diff": "^0.1.1",
+    "snapshot-diff": "^0.2.1",
     "style-loader": "^0.18.2",
     "ts-jest": "^20.0.13",
     "ts-node": "^3.3.0",
@@ -108,7 +106,7 @@
     "react-virtualized-select": "^3.1.0",
     "styled-jsx": "^1.0.10",
     "tinycolor2": "^1.4.1",
-    "typescript": "^2.4.2",
+    "typescript": "^2.5.2",
     "whatwg-fetch": "^2.0.3"
   },
   "jest": {

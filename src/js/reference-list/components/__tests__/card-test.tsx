@@ -171,71 +171,71 @@ const setup = (data: CSL.Data, selected: boolean = false, indexOnHover: boolean 
 
 describe('<Card/>', () => {
     test('should render selected', () => {
-        const { component } = setup(testData['noAuthors'], true);
+        const { component } = setup(testData.noAuthors, true);
         expect(component.first().props().className).toBe('abt-card abt-card--selected');
     });
     test('should render unselected', () => {
-        const { component } = setup(testData['noAuthors']);
+        const { component } = setup(testData.noAuthors);
         expect(component.first().props().className).toBe('abt-card');
     });
     test('should call onClick when clicked', () => {
-        const { component, spy } = setup(testData['noAuthors']);
+        const { component, spy } = setup(testData.noAuthors);
         component.simulate('click');
         expect(spy).toHaveBeenCalledTimes(1);
     });
     test('should render with no authors', () => {
-        const { people } = setup(testData['noAuthors']);
+        const { people } = setup(testData.noAuthors);
         expect(people.children().length).toBe(0);
     });
     test('should handle a situation where there are no authors, and no author field', () => {
-        const { people } = setup(testData['noAuthorField']);
+        const { people } = setup(testData.noAuthorField);
         expect(people.children().length).toBe(0);
     });
     test('should handle a single author with invalid fields', () => {
-        const { people } = setup(testData['singleAuthorInvalidField']);
+        const { people } = setup(testData.singleAuthorInvalidField);
         expect(people.children().length).toBe(0);
     });
     test('should render with a single literal author', () => {
-        const { people } = setup(testData['singleLiteralAuthorEdgeCase']);
+        const { people } = setup(testData.singleLiteralAuthorEdgeCase);
         expect(people.children().length).toBe(1);
         expect(people.text()).toBe('I have no given name.');
     });
     test('should format two authors correctly', () => {
-        const { people } = setup(testData['twoAuthors']);
+        const { people } = setup(testData.twoAuthors);
         expect(people.children().length).toBe(1);
         expect(people.text()).toBe('Smith, J, Doe, J.');
     });
     test('should format three authors correctly', () => {
-        const { people } = setup(testData['threeAuthors']);
+        const { people } = setup(testData.threeAuthors);
         expect(people.children().length).toBe(1);
         expect(people.text()).toBe('Smith, J, Some literal name, Doe, J.');
     });
     test('should format > 3 authors correctly', () => {
-        const { people: people1 } = setup(testData['fourAuthors']);
+        const { people: people1 } = setup(testData.fourAuthors);
         expect(people1.children().length).toBe(1);
         expect(people1.text()).toBe('Smith, J, Some literal name, Doe, J...');
-        const { people: people2 } = setup(testData['sixAuthors']);
+        const { people: people2 } = setup(testData.sixAuthors);
         expect(people2.children().length).toBe(1);
         expect(people2.text()).toBe('Smith, J, Some literal name, Doe, J...');
     });
     test('should parse an item without a date correctly', () => {
-        const { date } = setup(testData['noAuthorField']);
+        const { date } = setup(testData.noAuthorField);
         expect(date.text()).toBe('(n.d.)');
     });
     test('should parse a "date-parts" date correctly', () => {
-        const { date } = setup(testData['noAuthors']);
+        const { date } = setup(testData.noAuthors);
         expect(date.text()).toBe('(2016)');
     });
     test('should parse a "year" date correctly', () => {
-        const { date } = setup(testData['singleAuthorInvalidField']);
+        const { date } = setup(testData.singleAuthorInvalidField);
         expect(date.text()).toBe('(2010)');
     });
     test('should handle strange edge-cases that result from upgrading from an older version', () => {
-        const { date } = setup(testData['singleLiteralAuthorEdgeCase']);
+        const { date } = setup(testData.singleLiteralAuthorEdgeCase);
         expect(date.text()).toBe('(n.d.)');
     });
     test('should show and hide indices on hover when indexOnHover is set', () => {
-        const { component } = setup(testData['fourAuthors'], false, true);
+        const { component } = setup(testData.fourAuthors, false, true);
         const initialRender = toJSON(component);
         const card = component.first();
 
@@ -254,7 +254,7 @@ describe('<Card/>', () => {
         const component = shallow(
             <Card
                 isSelected={true}
-                CSL={testData['fourAuthors']}
+                CSL={testData.fourAuthors}
                 id="id"
                 index={1}
                 indexOnHover={false}

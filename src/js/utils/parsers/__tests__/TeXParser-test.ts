@@ -175,9 +175,9 @@ describe('TeXParser', () => {
         `;
         const parsed: any = new TeXParser(bib).parse()[0];
         expect(parsed.issued['date-parts'][0][0]).toBe('2016');
-        expect(parsed.issued!['date-parts'][0][0]).toBe('2016');
-        expect(parsed['event-date']!['date-parts'][0][1]).toBe('11');
-        expect(parsed['event-date']!['date-parts'][0][1]).toBe('11');
+        expect(parsed.issued['date-parts'][0][0]).toBe('2016');
+        expect(parsed['event-date']['date-parts'][0][1]).toBe('11');
+        expect(parsed['event-date']['date-parts'][0][1]).toBe('11');
     });
     it('should handle various forms of page ranges', () => {
         const bib = `

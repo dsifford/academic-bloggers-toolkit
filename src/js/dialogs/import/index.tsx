@@ -47,8 +47,8 @@ export default class ImportDialog extends React.Component<DialogProps> {
     };
 
     @action
-    handleFileUpload = (e: React.FormEvent<HTMLInputElement>) => {
-        return new Promise(resolve => {
+    handleFileUpload = async (e: React.FormEvent<HTMLInputElement>) => {
+        return new Promise<void>(resolve => {
             const reader = new FileReader();
             const file = e.currentTarget.files![0];
             const fileExtension = file.name.toLowerCase().match(/\.(\w+$)/)

@@ -41,7 +41,7 @@ describe('CSLProcessor', () => {
     });
 });
 
-function fetch(url: string): Promise<any> {
+async function fetch(url: string): Promise<any> {
     const locale = `
     <?xml version="1.0" encoding="utf-8"?>
     <locale xmlns="http://purl.org/net/xbiblio/csl" version="1.0" xml:lang="en-US">
@@ -642,7 +642,7 @@ function fetch(url: string): Promise<any> {
       </bibliography>
     </style>
     `;
-    return new Promise(resolve => {
+    return new Promise<any>(resolve => {
         if (url.startsWith('https://raw.githubusercontent.com/citation-style-language/locales')) {
             const response = {
                 ok: true,

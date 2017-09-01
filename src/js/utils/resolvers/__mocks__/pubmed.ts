@@ -856,25 +856,28 @@ const data: CSL.Data = {
     },
 };
 
-export function getFromPubmed(
+export async function getFromPubmed(
     kind: 'PMID' | 'PMCID',
     idlist: string,
 ): Promise<[CSL.Data[], string[]]> {
-    return new Promise((resolve, reject) => {
+    return new Promise<[CSL.Data[], string[]]>((resolve, reject) => {
         const payload = <[CSL.Data[], string[]]>idlist
             .split(',')
             .map(id => id.trim())
-            .reduce((prev, id) => {
-                if (id === 'REJECT') {
-                    reject(new Error('Some error occurred'));
-                }
-                if (id.startsWith('PMC')) {
-                    id = id.slice(3);
-                }
-                return data[id]
-                    ? [[...prev[0], parsePubmedJSON(kind, [data[id]])], [...prev[1]]]
-                    : [[...prev[0]], [...prev[1], id]];
-            }, <[CSL.Data[], string[]]>[[], []]);
+            .reduce(
+                (prev, id) => {
+                    if (id === 'REJECT') {
+                        reject(new Error('Some error occurred'));
+                    }
+                    if (id.startsWith('PMC')) {
+                        id = id.slice(3);
+                    }
+                    return data[id]
+                        ? [[...prev[0], parsePubmedJSON(kind, [data[id]])], [...prev[1]]]
+                        : [[...prev[0]], [...prev[1], id]];
+                },
+                <[CSL.Data[], string[]]>[[], []],
+            );
         resolve(payload);
     });
 }

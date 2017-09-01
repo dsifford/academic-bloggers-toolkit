@@ -74,7 +74,10 @@ export default class ReferenceList extends React.Component<Props> {
     constructor(props: Props) {
         super(props);
         this.processor = new CSLProcessor(this.props.store);
-        this.init();
+        this.init().catch(e => {
+            Rollbar.error(e.message, e);
+            throw e;
+        });
 
         /** React to list toggles */
         reaction(
@@ -154,12 +157,12 @@ export default class ReferenceList extends React.Component<Props> {
         this.editor.setLoadingState(true);
         try {
             const clusters = await this.processor.init();
-            await this.editor.composeCitations(
+            this.editor.composeCitations(
                 clusters,
                 this.props.store.citations.citationByIndex,
                 this.processor.citeproc.opt.xclass,
             );
-            await this.editor.setBibliography(
+            this.editor.setBibliography(
                 this.props.store.bibOptions,
                 this.processor.makeBibliography(),
             );
@@ -234,6 +237,7 @@ export default class ReferenceList extends React.Component<Props> {
                 return;
             }
             case MenuActionType.INSERT_STATIC_BIBLIOGRAPHY: {
+                // FIXME: Should this be async?
                 this.insertStaticBibliography();
                 return;
             }

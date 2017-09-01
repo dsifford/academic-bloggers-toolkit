@@ -13,10 +13,12 @@ export async function getFromDOI(doiList: string[]): Promise<[CSL.Data[], string
     for (const doi of doiList) {
         promises = [
             ...promises,
-            getDOIAgency(doi).then(resolveDOI).catch(e => {
-                if (typeof e === 'string') return e;
-                throw e;
-            }),
+            getDOIAgency(doi)
+                .then(resolveDOI)
+                .catch(e => {
+                    if (typeof e === 'string') return e;
+                    throw e;
+                }),
         ];
     }
 
@@ -77,7 +79,7 @@ async function resolveDOI({ agency, doi }: AgencyResponse): Promise<CSL.Data> {
     const res: CSL.Data = { ...await req.json(), id: '0' };
 
     if (res['short-container-title']) {
-        res['journalAbbreviation'] = res['short-container-title']![0];
+        res.journalAbbreviation = res['short-container-title']![0];
     }
 
     return res;

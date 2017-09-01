@@ -181,16 +181,19 @@ const data: CSL.Data = {
     },
 };
 
-export function getFromDOI(doiList: string[]): Promise<[CSL.Data[], string[]]> {
-    return new Promise((resolve, reject) => {
-        const payload = <[CSL.Data[], string[]]>doiList.reduce((prev, id) => {
-            if (id === 'REJECT') {
-                reject(new Error('some error occurred'));
-            }
-            return data[id]
-                ? [[...prev[0], data[id]], [...prev[1]]]
-                : [[...prev[0]], [...prev[1], id]];
-        }, <[CSL.Data[], string[]]>[[], []]);
+export async function getFromDOI(doiList: string[]): Promise<[CSL.Data[], string[]]> {
+    return new Promise<[CSL.Data[], string[]]>((resolve, reject) => {
+        const payload = <[CSL.Data[], string[]]>doiList.reduce(
+            (prev, id) => {
+                if (id === 'REJECT') {
+                    reject(new Error('some error occurred'));
+                }
+                return data[id]
+                    ? [[...prev[0], data[id]], [...prev[1]]]
+                    : [[...prev[0]], [...prev[1], id]];
+            },
+            <[CSL.Data[], string[]]>[[], []],
+        );
         resolve(payload);
     });
 }

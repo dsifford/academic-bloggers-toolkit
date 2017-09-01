@@ -1,11 +1,18 @@
 {
   "extends": "tslint:latest",
-  "rulesDirectory": [
-    "node_modules/tslint-react/rules",
-    "node_modules/tslint-microsoft-contrib"
-  ],
+  "rulesDirectory": ["node_modules/tslint-react/rules", "node_modules/tslint-microsoft-contrib"],
   "rules": {
     // tslint rules
+    "cyclomatic-complexity": {
+      "options": [10],
+      "severity": "warning"
+    },
+    "no-unnecessary-type-assertion": true,
+    "promise-function-async": true,
+    "await-promise": true,
+    "no-inferred-empty-object-type": true,
+    // "no-floating-promises": true,
+
     "arrow-parens": false,
     "curly": false,
     "interface-name": false,
@@ -14,7 +21,7 @@
     "no-angle-bracket-type-assertion": false,
     "no-default-export": false,
     "no-object-literal-type-assertion": false,
-    "no-string-literal": false,
+    // "no-string-literal": false,
     "no-string-throw": false,
     "no-submodule-imports": false,
     "no-unused-expression": false,
