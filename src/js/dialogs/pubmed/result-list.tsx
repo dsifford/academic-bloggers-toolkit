@@ -24,6 +24,10 @@ export class ResultList extends React.PureComponent<ResultListProps, {}> {
         this.element = c;
     };
 
+    componentDidUpdate() {
+        this.element.scrollTop = 0;
+    }
+
     handleClick = (e: React.MouseEvent<HTMLInputElement>) => {
         this.props.onSelect(e.currentTarget.id);
     };
@@ -46,14 +50,10 @@ export class ResultList extends React.PureComponent<ResultListProps, {}> {
         }
     };
 
-    componentDidUpdate() {
-        this.element.scrollTop = 0;
-    }
-
     render() {
         return (
             <div className="result-list" ref={this.bindRefs} onWheel={this.handleWheel}>
-                {this.props.results.map(result =>
+                {this.props.results.map(result => (
                     <div key={result.uid} className="result-item">
                         <div className="result-item__row-1">
                             <div className="result-item__source" children={result.source} />
@@ -66,7 +66,10 @@ export class ResultList extends React.PureComponent<ResultListProps, {}> {
                         />
                         <div className="result-item__row-3">
                             <div
-                                children={result.authors!.slice(0, 3).map(el => el.name).join(', ')}
+                                children={result.authors!
+                                    .slice(0, 3)
+                                    .map(el => el.name)
+                                    .join(', ')}
                             />
                             <div className="result-item__buttons">
                                 <Button
@@ -85,8 +88,8 @@ export class ResultList extends React.PureComponent<ResultListProps, {}> {
                                 />
                             </div>
                         </div>
-                    </div>,
-                )}
+                    </div>
+                ))}
                 <style jsx>{`
                     .result-list {
                         max-height: calc(100vh - 240px);

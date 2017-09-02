@@ -20,27 +20,27 @@ interface UI {
 }
 
 interface Props {
-    readonly items?: CSL.Data[];
-    readonly id: 'cited' | 'uncited';
     readonly children: string;
-    ui: UI;
-    selectedItems: IObservableArray<string>;
+    readonly id: 'cited' | 'uncited';
+    readonly items?: CSL.Data[];
     CSL: ObservableMap<CSL.Data>;
+    selectedItems: IObservableArray<string>;
+    ui: UI;
     onEditReference(referenceId: string): void;
 }
 
 @observer
 export default class ItemList extends React.PureComponent<Props> {
     @action
-    singleClick = () => {
-        this.props.ui[this.props.id].isOpen.set(!this.props.ui[this.props.id].isOpen.get());
-    };
-
-    @action
     doubleClick = () => {
         this.props.ui.cited.isOpen.set(false);
         this.props.ui.uncited.isOpen.set(false);
         this.props.ui[this.props.id].isOpen.set(true);
+    };
+
+    @action
+    singleClick = () => {
+        this.props.ui[this.props.id].isOpen.set(!this.props.ui[this.props.id].isOpen.get());
     };
 
     @action
@@ -63,7 +63,7 @@ export default class ItemList extends React.PureComponent<Props> {
                     <div className="item-list-heading__label" children={children} />
                     <Badge count={items.length} />
                 </div>
-                {ui[id].isOpen.get() &&
+                {ui[id].isOpen.get() && (
                     <Items
                         items={items}
                         selectedItems={selectedItems}
@@ -73,7 +73,8 @@ export default class ItemList extends React.PureComponent<Props> {
                         id={id}
                         style={{ maxHeight: ui[id].maxHeight.get() }}
                         onClick={this.toggleSelect}
-                    />}
+                    />
+                )}
                 <style jsx>{`
                     .item-list-heading {
                         display: flex;
@@ -108,6 +109,12 @@ interface ItemsProps extends React.HTMLProps<HTMLElement> {
 
 @observer
 export class Items extends React.Component<ItemsProps, {}> {
+    @action
+    editSingleReference = (e: React.MouseEvent<HTMLDivElement>) => {
+        const referenceId = e.currentTarget.id;
+        this.props.onEditReference(referenceId);
+    };
+
     handleScroll = (e: React.WheelEvent<HTMLDivElement>) => {
         e.stopPropagation();
         const atTopAndScrollingUp: boolean = e.currentTarget.scrollTop === 0 && e.deltaY < 0;
@@ -117,12 +124,6 @@ export class Items extends React.Component<ItemsProps, {}> {
         if (atTopAndScrollingUp || atBottomAndScollingDown) {
             e.preventDefault();
         }
-    };
-
-    @action
-    editSingleReference = (e: React.MouseEvent<HTMLDivElement>) => {
-        const referenceId = e.currentTarget.id;
-        this.props.onEditReference(referenceId);
     };
 
     render() {
@@ -138,7 +139,7 @@ export class Items extends React.Component<ItemsProps, {}> {
                     transition: '.2s',
                 }}
             >
-                {this.props.items.map((r, i) =>
+                {this.props.items.map((r, i) => (
                     <Card
                         key={r.id}
                         id={r.id}
@@ -146,10 +147,10 @@ export class Items extends React.Component<ItemsProps, {}> {
                         onClick={this.props.onClick}
                         onDoubleClick={this.editSingleReference}
                         index={i + 1}
-                        isSelected={this.props.selectedItems.includes(r.id!)}
+                        isSelected={this.props.selectedItems.includes(r.id)}
                         indexOnHover={this.props.withTooltip}
-                    />,
-                )}
+                    />
+                ))}
             </div>
         );
     }

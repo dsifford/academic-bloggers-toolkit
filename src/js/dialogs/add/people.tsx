@@ -37,7 +37,7 @@ export default class People extends React.PureComponent<PeopleProps, {}> {
         return (
             <div>
                 <h2 children={People.labels.contributors} />
-                {this.props.people.map((person: CSL.TypedPerson, i: number) =>
+                {this.props.people.map((person: CSL.TypedPerson, i: number) => (
                     <Person
                         key={`person-${i}`}
                         index={i}
@@ -48,8 +48,8 @@ export default class People extends React.PureComponent<PeopleProps, {}> {
                         person={person}
                         onChange={this.updatePerson}
                         onRemove={this.removePerson}
-                    />,
-                )}
+                    />
+                ))}
                 <div className="btn-row">
                     <Button flat label={People.labels.add} onClick={this.addPerson} />
                 </div>
@@ -73,8 +73,8 @@ interface PersonProps {
     fieldMap: ABT.FieldMap;
     index: number;
     person: CSL.TypedPerson;
-    onRemove(e: React.MouseEvent<HTMLButtonElement>): void;
     onChange(e: React.FormEvent<HTMLInputElement | HTMLSelectElement>): void;
+    onRemove(e: React.MouseEvent<HTMLButtonElement>): void;
 }
 
 @observer
@@ -90,15 +90,15 @@ class Person extends React.PureComponent<PersonProps, {}> {
                     data-index={index}
                     data-field="type"
                 >
-                    {people.map((p, j: number) =>
+                    {people.map((p, j: number) => (
                         <option
                             key={`peopleSelect-${j}`}
                             id={`peopleSelect-${j}`}
                             aria-selected={person.type === p.type}
                             value={p.type}
                             children={p.label}
-                        />,
-                    )}
+                        />
+                    ))}
                 </select>
                 <input
                     type="text"
@@ -135,7 +135,7 @@ class Person extends React.PureComponent<PersonProps, {}> {
                         padding: 0 5px;
                         align-items: center;
                     }
-                    input[type="text"] {
+                    input[type='text'] {
                         flex: auto;
                         height: 28px;
                         line-height: 28px;

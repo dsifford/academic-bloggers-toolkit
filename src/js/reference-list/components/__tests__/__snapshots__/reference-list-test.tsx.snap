@@ -216,7 +216,7 @@ exports[`<ReferenceList /> snapshots cited and uncited list populated 2`] = `
                 },
               ],
               "properties": Object {
-                "noteIndex": 0,
+                "index": 0,
               },
             },
           ],

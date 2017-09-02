@@ -81,7 +81,7 @@ describe('TeXParser', () => {
                 volume = {test volume}
             }
         `;
-        const expected: CSL.Data = {
+        const expected: Partial<CSL.Data> = {
             abstract: 'test abstract',
             annote: 'test annote',
             edition: 'test edition',
@@ -123,7 +123,8 @@ describe('TeXParser', () => {
                 invalid = {should be skipped}
             }
         `;
-        const expected: CSL.Data = {
+        const expected: Partial<CSL.Data> = {
+            id: '123456',
             'collection-title': 'testing collection title',
             'container-title': 'testing container title',
             'event-place': 'testing place',
@@ -137,10 +138,9 @@ describe('TeXParser', () => {
             title: 'testing title',
         };
         const parsed = new TeXParser(bib).parse()[0];
-        expect(Object.keys(parsed).length).toBe(14);
-        for (const k of Object.keys(expected)) {
-            expect(parsed[k]).toEqual(expected[k]);
-        }
+        const parsedKeys = Object.keys(parsed);
+        expect(parsedKeys.length).toBe(15);
+        expect(Object.keys(expected).every(k => parsedKeys.indexOf(k) !== -1)).toBeTruthy();
     });
     it('should transform certain field keys to uppercase', () => {
         const bib = `
@@ -153,7 +153,7 @@ describe('TeXParser', () => {
                 url = {https://www.google.com}
             }
         `;
-        const expected: CSL.Data = {
+        const expected: Partial<CSL.Data> = {
             DOI: '10.10000/1',
             ISBN: '1234567890',
             ISSN: '12345',

@@ -2,7 +2,6 @@ import { action, observable, toJS } from 'mobx';
 import { observer } from 'mobx-react';
 import * as React from 'react';
 
-import { generateID } from 'utils/helpers/';
 import { RISParser, TeXParser } from 'utils/parsers/';
 import { colors } from 'utils/styles';
 
@@ -13,21 +12,38 @@ import { DialogProps } from 'dialogs/';
 
 @observer
 export default class ImportDialog extends React.Component<DialogProps> {
-    static readonly labels = top.ABT_i18n.dialogs.import;
     static readonly errors = top.ABT_i18n.errors;
-
-    inputField: HTMLInputElement;
+    static readonly labels = top.ABT_i18n.dialogs.import;
 
     /** The error message to be displayed in the callout, if applicable */
     errorMessage = observable('');
-
-    /** Array of `CSL.Data` obtained from the file import */
-    payload = observable<CSL.Data>([]);
 
     /** Controls the state of the file input */
     file = {
         name: observable(''),
         value: observable(''),
+    };
+
+    inputField: HTMLInputElement;
+
+    /** Array of `CSL.Data` obtained from the file import */
+    payload = observable<CSL.Data>([]);
+
+    @action
+    handleFileUpload = async (e: React.FormEvent<HTMLInputElement>) => {
+        return new Promise<void>(resolve => {
+            const reader = new FileReader();
+            const file = e.currentTarget.files![0];
+            const fileExtension = file.name.toLowerCase().match(/\.(\w+$)/)
+                ? file.name.toLowerCase().match(/\.(\w+$)/)![1]
+                : '';
+            reader.addEventListener('load', () => {
+                this.parseFile(reader, fileExtension);
+                resolve();
+            });
+            reader.readAsText(file);
+            this.setFile({ name: file.name, value: e.currentTarget.value });
+        });
     };
 
     @action
@@ -46,21 +62,15 @@ export default class ImportDialog extends React.Component<DialogProps> {
         this.payload.replace(payload);
     };
 
-    @action
-    handleFileUpload = async (e: React.FormEvent<HTMLInputElement>) => {
-        return new Promise<void>(resolve => {
-            const reader = new FileReader();
-            const file = e.currentTarget.files![0];
-            const fileExtension = file.name.toLowerCase().match(/\.(\w+$)/)
-                ? file.name.toLowerCase().match(/\.(\w+$)/)![1]
-                : '';
-            reader.addEventListener('load', () => {
-                this.parseFile(reader, fileExtension);
-                resolve();
-            });
-            reader.readAsText(file);
-            this.setFile({ name: file.name, value: e.currentTarget.value });
-        });
+    bindRefs = (c: HTMLInputElement) => (this.inputField = c);
+
+    handleClick = () => {
+        this.inputField.click();
+    };
+
+    handleSubmit = (e: React.MouseEvent<HTMLInputElement>) => {
+        e.preventDefault();
+        this.props.onSubmit(toJS(this.payload));
     };
 
     parseFile = (reader: FileReader, fileExtension: string) => {
@@ -84,15 +94,14 @@ export default class ImportDialog extends React.Component<DialogProps> {
             this.setFile();
             return;
         }
-        const parsed = parser.parse();
+        const payload = parser.parse();
 
-        if (parsed.length === 0) {
+        if (payload.length === 0) {
             this.setErrorMessage(ImportDialog.errors.filetypeError);
             this.setFile();
             return;
         }
 
-        const payload = parsed.map(ref => ({ ...ref, id: generateID() }));
         const leftovers = parser.unsupportedRefs;
 
         if (leftovers.length > 0) {
@@ -103,17 +112,6 @@ export default class ImportDialog extends React.Component<DialogProps> {
         this.setPayload(payload);
     };
 
-    handleSubmit = (e: React.MouseEvent<HTMLInputElement>) => {
-        e.preventDefault();
-        this.props.onSubmit(toJS(this.payload));
-    };
-
-    handleClick = () => {
-        this.inputField.click();
-    };
-
-    bindRef = (c: HTMLInputElement) => (this.inputField = c);
-
     render() {
         return (
             <div id="import-dialog-root">
@@ -121,7 +119,7 @@ export default class ImportDialog extends React.Component<DialogProps> {
                     <input
                         required
                         aria-labelledby="upload-file-btn"
-                        ref={this.bindRef}
+                        ref={this.bindRefs}
                         type="file"
                         id="uploadField"
                         value={this.file.value.get()}

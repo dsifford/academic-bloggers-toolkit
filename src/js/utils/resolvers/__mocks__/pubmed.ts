@@ -1,6 +1,6 @@
 import { parsePubmedJSON } from 'utils/parsers/';
 
-const data: CSL.Data = {
+const data: Partial<CSL.Data> = {
     uids: ['11111', '22222', '33333', '44444', '55555', '66666', '77777', '88888', '99999'],
     '11111': {
         uid: '11111',

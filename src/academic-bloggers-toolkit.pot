@@ -219,7 +219,7 @@ msgstr ""
 msgid "Number or Range of Numbers (100-200)"
 msgstr ""
 
-#: php/fieldmaps.php:362, php/i18n.php:113
+#: php/fieldmaps.php:362, php/i18n.php:112
 msgid "ISBN"
 msgstr ""
 
@@ -355,7 +355,7 @@ msgstr ""
 msgid "DOI"
 msgstr ""
 
-#: php/fieldmaps.php:863, php/fieldmaps.php:935, php/fieldmaps.php:1007, php/fieldmaps.php:1147, php/fieldmaps.php:1310, php/i18n.php:115
+#: php/fieldmaps.php:863, php/fieldmaps.php:935, php/fieldmaps.php:1007, php/fieldmaps.php:1147, php/fieldmaps.php:1310, php/i18n.php:114
 msgid "URL"
 msgstr ""
 
@@ -424,222 +424,218 @@ msgid "Request not valid"
 msgstr ""
 
 #: php/i18n.php:25
-msgid "BROKEN!"
-msgstr ""
-
-#: php/i18n.php:26
 msgid "Site denied request"
 msgstr ""
 
-#: php/i18n.php:27
+#: php/i18n.php:26
 msgid "Invalid file extension. Extension must be .ris, .bib, or .bibtex"
 msgstr ""
 
-#: php/i18n.php:28
+#: php/i18n.php:27
 msgid "The selected file could not be processed"
 msgstr ""
 
-#: php/i18n.php:30
+#: php/i18n.php:29
 msgid "No identifiers could be found for your request"
 msgstr ""
 
-#: php/i18n.php:31
+#: php/i18n.php:30
 msgid "The following identifiers could not be found"
 msgstr ""
 
-#: php/i18n.php:33
+#: php/i18n.php:32
 msgid "Network Error"
 msgstr ""
 
-#: php/i18n.php:34
+#: php/i18n.php:33
 msgid "Your search returned 0 results"
 msgstr ""
 
-#: php/i18n.php:35
+#: php/i18n.php:34
 msgid "Error"
 msgstr ""
 
-#: php/i18n.php:36
+#: php/i18n.php:35
 msgid "The following references were unable to be processed"
 msgstr ""
 
-#: php/i18n.php:37
+#: php/i18n.php:36
 msgid "Request returned a non-200 status code"
 msgstr ""
 
-#: php/i18n.php:39
+#: php/i18n.php:38
 msgid "Warning"
 msgstr ""
 
-#: php/i18n.php:40
+#: php/i18n.php:39
 msgid "Reason"
 msgstr ""
 
-#: php/i18n.php:42
+#: php/i18n.php:41
 msgid "Cannot create publication list for currently selected citation style"
 msgstr ""
 
-#: php/i18n.php:43
+#: php/i18n.php:42
 msgid "Style does not include bibliography"
 msgstr ""
 
-#: php/i18n.php:47
+#: php/i18n.php:46
 msgid "An unexpected error occurred"
 msgstr ""
 
-#: php/i18n.php:48
+#: php/i18n.php:47
 msgid "Please report this error, including the steps taken to trigger it, here: %s"
 msgstr ""
 
-#: php/i18n.php:55
+#: php/i18n.php:54
 msgid "Custom Style"
 msgstr ""
 
-#: php/i18n.php:56
+#: php/i18n.php:55
 msgid "Pre-defined Styles"
 msgstr ""
 
-#: php/i18n.php:58
+#: php/i18n.php:57
 msgid "Toggle menu"
 msgstr ""
 
-#: php/i18n.php:60
+#: php/i18n.php:59
 msgid "Delete all references"
 msgstr ""
 
-#: php/i18n.php:61
+#: php/i18n.php:60
 msgid "Usage instructions"
 msgstr ""
 
-#: php/i18n.php:62
+#: php/i18n.php:61
 msgid "Import references"
 msgstr ""
 
-#: php/i18n.php:63
+#: php/i18n.php:62
 msgid "Refresh reference list"
 msgstr ""
 
-#: php/i18n.php:64
+#: php/i18n.php:63
 msgid "Insert static publication list"
 msgstr ""
 
-#: php/i18n.php:67
+#: php/i18n.php:66
 msgid "Cited Items"
 msgstr ""
 
-#: php/i18n.php:69
+#: php/i18n.php:68
 msgid "Add reference"
 msgstr ""
 
-#: php/i18n.php:70
+#: php/i18n.php:69
 msgid "Insert selected references"
 msgstr ""
 
-#: php/i18n.php:71
+#: php/i18n.php:70
 msgid "Pin reference list"
 msgstr ""
 
-#: php/i18n.php:72
+#: php/i18n.php:71
 msgid "Remove selected references"
 msgstr ""
 
-#: php/i18n.php:74
+#: php/i18n.php:73
 msgid "Uncited Items"
 msgstr ""
 
-#: php/i18n.php:77
+#: php/i18n.php:76
 msgid "Close dialog"
 msgstr ""
 
-#: php/i18n.php:80
+#: php/i18n.php:79
 msgid "Edit Reference"
 msgstr ""
 
-#: php/i18n.php:81
+#: php/i18n.php:80
 msgid "Confirm"
 msgstr ""
 
-#: php/i18n.php:85
+#: php/i18n.php:84
 msgid "Import"
 msgstr ""
 
-#: php/i18n.php:86
+#: php/i18n.php:85
 msgid "Import References"
 msgstr ""
 
-#: php/i18n.php:87
+#: php/i18n.php:86
 msgid "Choose File"
 msgstr ""
 
-#: php/i18n.php:91
+#: php/i18n.php:90
 msgid "Select"
 msgstr ""
 
-#: php/i18n.php:92
+#: php/i18n.php:91
 msgid "Next"
 msgstr ""
 
-#: php/i18n.php:93
+#: php/i18n.php:92
 msgid "Previous"
 msgstr ""
 
-#: php/i18n.php:94, php/i18n.php:114
+#: php/i18n.php:93, php/i18n.php:113
 msgid "Search"
 msgstr ""
 
-#: php/i18n.php:95, php/i18n.php:105
+#: php/i18n.php:94, php/i18n.php:104
 msgid "Search PubMed"
 msgstr ""
 
-#: php/i18n.php:96
+#: php/i18n.php:95
 msgid "View"
 msgstr ""
 
-#: php/i18n.php:101
+#: php/i18n.php:100
 msgid "Add Manually"
 msgstr ""
 
-#: php/i18n.php:102
+#: php/i18n.php:101
 msgid "Add Reference"
 msgstr ""
 
-#: php/i18n.php:103
+#: php/i18n.php:102
 msgid "Add with Identifier"
 msgstr ""
 
-#: php/i18n.php:104
+#: php/i18n.php:103
 msgid "Insert citation inline"
 msgstr ""
 
-#: php/i18n.php:108
+#: php/i18n.php:107
 msgid "DOI/PMID/PMCID"
 msgstr ""
 
-#: php/i18n.php:111
+#: php/i18n.php:110
 msgid "Autocite"
 msgstr ""
 
-#: php/i18n.php:112
+#: php/i18n.php:111
 msgid "Citation Type"
 msgstr ""
 
-#: php/i18n.php:118
+#: php/i18n.php:117
 msgid "Add Contributor"
 msgstr ""
 
-#: php/i18n.php:119
+#: php/i18n.php:118
 msgid "Contributors"
 msgstr ""
 
-#: php/i18n.php:120
+#: php/i18n.php:119
 msgid "Given Name, M.I."
 msgstr ""
 
-#: php/i18n.php:121
+#: php/i18n.php:120
 msgid "Surname"
 msgstr ""
 
-#: php/i18n.php:123
+#: php/i18n.php:122
 msgid "Add References"
 msgstr ""
 

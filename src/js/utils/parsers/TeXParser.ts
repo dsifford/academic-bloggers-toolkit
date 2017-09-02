@@ -1,4 +1,5 @@
 import * as parser from 'bibtex-parse-js';
+import { generateID } from 'utils/helpers';
 
 interface Months {
     [k: string]: string;
@@ -30,7 +31,9 @@ export class TeXParser {
     parse(): CSL.Data[] {
         const payload: CSL.Data[] = [];
         for (const citation of this.bibJSON) {
-            const c: CSL.Data = {};
+            const c: CSL.Data = {
+                id: generateID(),
+            };
             const date = {
                 month: '',
                 year: '',

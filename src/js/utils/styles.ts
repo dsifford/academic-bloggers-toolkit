@@ -36,12 +36,12 @@ export const shadows = {
 };
 
 class Transitions {
-    shadows: string;
     buttons: string;
+    shadows: string;
     private curves: {
+        fast_out_linear_in: string;
         fast_out_slow_in: string;
         linear_out_slow_in: string;
-        fast_out_linear_in: string;
         default: string; // tslint:disable-line
     };
     constructor() {

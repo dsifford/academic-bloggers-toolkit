@@ -85,9 +85,52 @@ class CitationStore {
             .slice();
     }
 
+    /**
+     * Given an array of CSL.Data, merge the array into this.CSL
+     * @param data - Array of CSL.Data to be merged
+     */
+    @action
+    addItems(data: CSL.Data[]): CSL.Data[] {
+        this.CSL.merge(
+            data.reduce(
+                (prev, curr) => {
+                    prev[curr.id] = curr;
+                    return prev;
+                },
+                <{ [id: string]: CSL.Data }>{},
+            ),
+        );
+        // This is necessary in case one of the values is a duplicate and gets
+        // intercepted.
+        let payload: CSL.Data[] = [];
+        for (const item of data) {
+            const csl = this.CSL.values().find(val => {
+                for (const key of Object.keys(item)) {
+                    if (typeof item[key] === 'object' || key === 'id') continue;
+                    if (item[key] !== val[key]) return false;
+                }
+                return true;
+            });
+            payload = [...payload, toJS(csl!)];
+        }
+        return payload;
+    }
+
     @action
     init(byIndex: Citeproc.CitationByIndex) {
         this.byIndex.replace(JSON.parse(JSON.stringify(byIndex)));
+    }
+
+    /**
+     * Given an array of current citationIds, remove all elements from byIndex where
+     * the citationId of the index does not exist in the given array of citationIds
+     * @param citationIds - Array of current citationIds
+     */
+    @action
+    pruneOrphanedCitations(citationIds: string[]): void {
+        this.byIndex.replace(
+            this.byIndex.filter(citation => citationIds.includes(citation.citationID)),
+        );
     }
 
     /**
@@ -115,46 +158,6 @@ class CitationStore {
             }, []);
         this.init(byIndex);
         return Array.from(toRemove);
-    }
-
-    /**
-     * Given an array of CSL.Data, merge the array into this.CSL
-     * @param data - Array of CSL.Data to be merged
-     */
-    @action
-    addItems(data: CSL.Data[]): CSL.Data[] {
-        this.CSL.merge(
-            data.reduce((prev, curr) => {
-                prev[curr.id!] = curr;
-                return prev;
-            }, {}),
-        );
-        // This is necessary in case one of the values is a duplicate and gets
-        // intercepted.
-        let payload: CSL.Data[] = [];
-        for (const item of data) {
-            const csl = this.CSL.values().find(val => {
-                for (const key of Object.keys(item)) {
-                    if (typeof item[key] === 'object' || key === 'id') continue;
-                    if (item[key] !== val[key]) return false;
-                }
-                return true;
-            });
-            payload = [...payload, toJS(csl!)];
-        }
-        return payload;
-    }
-
-    /**
-     * Given an array of current citationIds, remove all elements from byIndex where
-     * the citationId of the index does not exist in the given array of citationIds
-     * @param citationIds - Array of current citationIds
-     */
-    @action
-    pruneOrphanedCitations(citationIds: string[]): void {
-        this.byIndex.replace(
-            this.byIndex.filter(citation => citationIds.includes(citation.citationID!)),
-        );
     }
 
     /**
@@ -192,9 +195,9 @@ export default class Store {
     @observable citations: CitationStore;
 
     /**
-     * The user's locale provided by WordPress.
+     * The selected citation style
      */
-    locale: string;
+    citationStyle = observable('');
 
     /**
      * The user's selected link format.
@@ -202,9 +205,9 @@ export default class Store {
     links: 'always' | 'urls' | 'never' | 'always-full-surround';
 
     /**
-     * The selected citation style
+     * The user's locale provided by WordPress.
      */
-    citationStyle = observable('');
+    locale: string;
 
     constructor(savedState: BackendGlobals.ABT_Reflist_State) {
         const { cache, citationByIndex, bibOptions, CSL } = savedState;

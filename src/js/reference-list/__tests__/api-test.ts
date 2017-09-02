@@ -58,7 +58,7 @@ describe('parseManualData()', () => {
         expect(actual).toEqual(expected);
     });
     it('should generate an ID if one doesnt exist', () => {
-        data.manualData.id = undefined;
+        delete data.manualData.id;
         const parsed = parseManualData(data);
         expect(parsed[0][0].id).not.toBeUndefined();
     });

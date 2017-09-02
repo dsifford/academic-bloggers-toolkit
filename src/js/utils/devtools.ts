@@ -7,9 +7,9 @@ export default function devtool() {
 }
 
 export function configureDevtool(options: {
+    graphEnabled?: boolean;
     logEnabled?: boolean;
     updatesEnabled?: boolean;
-    graphEnabled?: boolean;
     logFilter?(p: any): boolean;
 }): void {
     if (process.env.NODE_ENV === 'development') {

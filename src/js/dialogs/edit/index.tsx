@@ -37,11 +37,11 @@ interface Props extends DialogProps {
 export default class EditDialog extends React.PureComponent<Props> {
     static readonly labels = top.ABT_i18n.dialogs.edit;
 
-    /** Controls state of all people fields */
-    people = observable<CSL.TypedPerson>([]);
-
     /** Controls state of all fields besides people fields */
     fields = observable.map<string>();
+
+    /** Controls state of all people fields */
+    people = observable<CSL.TypedPerson>([]);
 
     constructor(props: Props) {
         super(props);
@@ -66,7 +66,7 @@ export default class EditDialog extends React.PureComponent<Props> {
     handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         const people = toJS(this.people);
-        const fields = toJS<CSL.Data>(this.fields);
+        const fields = toJS<Partial<CSL.Data>>(this.fields);
         for (const person of people) {
             const { type: personType, ...rest } = person;
             fields[personType] = [...(fields[personType] || []), rest];

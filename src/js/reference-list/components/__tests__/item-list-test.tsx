@@ -5,8 +5,8 @@ import * as React from 'react';
 import ItemList, { Items } from '../item-list';
 
 interface MockItems {
-    items?: CSL.Data[];
     CSL: any;
+    items?: CSL.Data[];
 }
 const createItems = (numItems: number): MockItems => {
     if (numItems === -1) {
@@ -14,10 +14,12 @@ const createItems = (numItems: number): MockItems => {
             CSL: [],
         };
     }
-    const items = Array(numItems).fill(0).map((_, i) => ({
-        id: `${i + 1}`,
-        title: `Test item ${i + 1}`,
-    }));
+    const items = Array(numItems)
+        .fill(0)
+        .map((_, i) => ({
+            id: `${i + 1}`,
+            title: `Test item ${i + 1}`,
+        }));
     return {
         items,
         CSL: items.map(item => [item.id, item]),
@@ -140,7 +142,10 @@ describe('<Items />', () => {
     it('should trigger edit reference on double click', () => {
         const { component } = setup();
         expect(onEditReference).not.toHaveBeenCalled();
-        component.find('Card').first().simulate('doubleClick', { currentTarget: { id: '2' } });
+        component
+            .find('Card')
+            .first()
+            .simulate('doubleClick', { currentTarget: { id: '2' } });
         expect(onEditReference).toHaveBeenCalled();
         expect(onEditReference).toBeCalledWith('2');
     });

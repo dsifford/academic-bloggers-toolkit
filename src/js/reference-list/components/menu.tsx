@@ -27,8 +27,8 @@ interface MenuButtonClick {
 export type MenuAction = StyleTypeChange | MenuButtonClick;
 
 interface Props {
-    isOpen: IObservableValue<boolean>;
     cslStyle: IObservableValue<string>;
+    isOpen: IObservableValue<boolean>;
     itemsSelected: boolean;
     onSubmit(action: MenuAction): void;
 }
@@ -264,11 +264,11 @@ export function dynamicOptionHeightHandler({ option }: { option: StyleOption }) 
 
 interface RendererParams {
     focusedOption: any;
-    focusOption: (p?: any) => void;
-    option: any;
-    selectValue: (p?: any) => void;
     key?: string;
+    option: any;
     style: any;
+    focusOption(p?: any): void;
+    selectValue(p?: any): void;
 }
 
 /**

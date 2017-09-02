@@ -252,7 +252,7 @@ exports[`<ManualEntryContainer /> should match snapshots 1`] = `
                                   }
                                   .btn-flat:hover,
                                   .btn-flat.btn-primary:hover {
-                                      background: rgba(158, 158, 158, .2);
+                                      background: rgba(158, 158, 158, 0.2);
                                   }
                                   .btn-flat:active,
                                   .btn-flat.btn-primary:active {
@@ -273,7 +273,7 @@ exports[`<ManualEntryContainer /> should match snapshots 1`] = `
                                       background: #007aab;
                                   }
                                   .btn-primary:disabled {
-                                      opacity: .6;
+                                      opacity: 0.6;
                                       box-shadow: none;
                                       color: white !important;
                                   }
@@ -546,7 +546,7 @@ exports[`<ManualEntryContainer /> should match snapshots 1`] = `
                                         }
                                         .btn-flat:hover,
                                         .btn-flat.btn-primary:hover {
-                                            background: rgba(158, 158, 158, .2);
+                                            background: rgba(158, 158, 158, 0.2);
                                         }
                                         .btn-flat:active,
                                         .btn-flat.btn-primary:active {
@@ -567,7 +567,7 @@ exports[`<ManualEntryContainer /> should match snapshots 1`] = `
                                             background: #007aab;
                                         }
                                         .btn-primary:disabled {
-                                            opacity: .6;
+                                            opacity: 0.6;
                                             box-shadow: none;
                                             color: white !important;
                                         }
@@ -715,7 +715,7 @@ exports[`<ManualEntryContainer /> should match snapshots 1`] = `
                                       }
                                       .btn-flat:hover,
                                       .btn-flat.btn-primary:hover {
-                                          background: rgba(158, 158, 158, .2);
+                                          background: rgba(158, 158, 158, 0.2);
                                       }
                                       .btn-flat:active,
                                       .btn-flat.btn-primary:active {
@@ -736,7 +736,7 @@ exports[`<ManualEntryContainer /> should match snapshots 1`] = `
                                           background: #007aab;
                                       }
                                       .btn-primary:disabled {
-                                          opacity: .6;
+                                          opacity: 0.6;
                                           box-shadow: none;
                                           color: white !important;
                                       }
@@ -1389,7 +1389,7 @@ exports[`<ManualEntryContainer /> should match snapshots 2`] = `
                                   }
                                   .btn-flat:hover,
                                   .btn-flat.btn-primary:hover {
-                                      background: rgba(158, 158, 158, .2);
+                                      background: rgba(158, 158, 158, 0.2);
                                   }
                                   .btn-flat:active,
                                   .btn-flat.btn-primary:active {
@@ -1410,7 +1410,7 @@ exports[`<ManualEntryContainer /> should match snapshots 2`] = `
                                       background: #007aab;
                                   }
                                   .btn-primary:disabled {
-                                      opacity: .6;
+                                      opacity: 0.6;
                                       box-shadow: none;
                                       color: white !important;
                                   }
@@ -1751,7 +1751,7 @@ exports[`<ManualEntryContainer /> should match snapshots 2`] = `
                                         }
                                         .btn-flat:hover,
                                         .btn-flat.btn-primary:hover {
-                                            background: rgba(158, 158, 158, .2);
+                                            background: rgba(158, 158, 158, 0.2);
                                         }
                                         .btn-flat:active,
                                         .btn-flat.btn-primary:active {
@@ -1772,7 +1772,7 @@ exports[`<ManualEntryContainer /> should match snapshots 2`] = `
                                             background: #007aab;
                                         }
                                         .btn-primary:disabled {
-                                            opacity: .6;
+                                            opacity: 0.6;
                                             box-shadow: none;
                                             color: white !important;
                                         }
@@ -1920,7 +1920,7 @@ exports[`<ManualEntryContainer /> should match snapshots 2`] = `
                                       }
                                       .btn-flat:hover,
                                       .btn-flat.btn-primary:hover {
-                                          background: rgba(158, 158, 158, .2);
+                                          background: rgba(158, 158, 158, 0.2);
                                       }
                                       .btn-flat:active,
                                       .btn-flat.btn-primary:active {
@@ -1941,7 +1941,7 @@ exports[`<ManualEntryContainer /> should match snapshots 2`] = `
                                           background: #007aab;
                                       }
                                       .btn-primary:disabled {
-                                          opacity: .6;
+                                          opacity: 0.6;
                                           box-shadow: none;
                                           color: white !important;
                                       }

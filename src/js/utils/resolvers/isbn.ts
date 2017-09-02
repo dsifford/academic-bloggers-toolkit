@@ -1,42 +1,41 @@
 export interface BookMeta {
-    title: string;
-    'number-of-pages': string;
-    publisher: string;
-    /** 2012-06-07 */
-    issued: string;
     authors: Array<{
-        // tslint:disable-next-line
-        type: 'author';
         family: string;
         given: string;
+        // tslint:disable-next-line
+        type: 'author';
     }>;
+    /** 2012-06-07 */
+    issued: string;
+    'number-of-pages': string;
+    publisher: string;
+    title: string;
 }
 
 interface Item {
     volumeInfo: {
-        title: string;
-        // subtitle: string;
         authors: string[];
-        publisher: string;
+        pageCount: number;
         /** "2016-07-31" */
         publishedDate: string;
-        pageCount: number;
+        publisher: string;
+        title: string;
     };
 }
 
 interface APIResponse {
+    items: Item[];
     kind: string;
     totalItems: number;
-    items: Item[];
 }
 
 export async function getFromISBN(ISBN: string): Promise<BookMeta> {
     const req = await fetch(
-        `https://www.googleapis.com/books/v1/volumes?q=isbn:${ISBN.replace('-', '')}`
+        `https://www.googleapis.com/books/v1/volumes?q=isbn:${ISBN.replace('-', '')}`,
     );
     if (!req.ok) {
         throw new Error(
-            `${top.ABT_i18n.errors.prefix}: getFromISBN => ${top.ABT_i18n.errors.statusError}`
+            `${top.ABT_i18n.errors.prefix}: getFromISBN => ${top.ABT_i18n.errors.statusError}`,
         );
     }
     const res: APIResponse = await req.json();

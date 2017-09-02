@@ -39,18 +39,7 @@ class MockEditor extends EditorDriver {
     get citationsByIndex() {
         return [];
     }
-    get selection() {
-        return this._selection;
-    }
-    // Mock helper
-    set selection(selection: string) {
-        this._selection = selection;
-    }
-    async init() {
-        return Promise.resolve();
-    }
-    getRelativeCitationPositions(validIds: string[]) {
-        validIds = [];
+    get relativeCitationPositions() {
         const randomStartPoint = Math.floor(Math.random() * (this._clusters.length - 1));
         const positions = [...this._clusters].map(([index, _, id]) => [id, index]);
         return {
@@ -61,24 +50,34 @@ class MockEditor extends EditorDriver {
             ] as [Citeproc.CitationsPrePost, Citeproc.CitationsPrePost],
         };
     }
+    get selection() {
+        return this._selection;
+    }
+    // Mock helper
+    set selection(selection: string) {
+        this._selection = selection;
+    }
+    alert() {
+        mocks.editorMock('alert');
+    }
     composeCitations() {
         mocks.editorMock('composeCitations');
+    }
+    async init() {
+        return Promise.resolve();
     }
     removeItems(idList: string[]) {
         this._clusters = this._clusters.filter(([_, __, id]) => !idList.includes(id));
         mocks.editorMock('removeItems');
+    }
+    reset() {
+        this._clusters = [];
     }
     setBibliography() {
         mocks.editorMock('setBibliography');
     }
     setLoadingState() {
         mocks.editorMock('setLoadingState');
-    }
-    alert() {
-        mocks.editorMock('alert');
-    }
-    reset() {
-        this._clusters = [];
     }
     protected bindEvents() {
         return void 0;
@@ -160,10 +159,10 @@ describe('<ReferenceList />', async () => {
                         { id: '2', item: { id: '2', title: 'citation 2' } },
                     ],
                     properties: {
-                        noteIndex: 0,
+                        index: 0,
                     },
                 },
-            ]);
+            ] as any);
             component.update();
             expect(toJSON(component)).toMatchSnapshot();
         });
@@ -516,9 +515,6 @@ describe('<ReferenceList />', async () => {
                 {
                     citationID: 'first',
                     citationItems: [{ id: '1' }],
-                    properties: {
-                        noteIndex: 0,
-                    },
                 },
             ];
             store.citations.init(cited);

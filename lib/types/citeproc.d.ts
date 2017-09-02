@@ -40,6 +40,12 @@ declare namespace Citeproc {
      */
     type CitationLocations = [CitationsPrePost, CitationsPrePost];
 
+    interface RelativeCitationPositions {
+        /** The zero-based index of the HTMLSpanElement being inserted */
+        currentIndex: number;
+        locations: CitationLocations;
+    }
+
     /**
      * 0: A string containing a unique ID which should be used for the span
      *    element's ID.
@@ -86,17 +92,16 @@ declare namespace Citeproc {
 
     interface Citation {
         /** ID of the HTMLSpanElement of the single citation element */
-        citationID?: string;
+        citationID: string;
         /** Describes all citations that exist within the singe citation element */
         citationItems: Array<{
             /** ID of the individual CSL item */
             id: string;
             item?: CSL.Data;
         }>;
-        properties: {
-            index?: number;
+        properties?: {
             /** 0-based index of the citation group in the document */
-            noteIndex: number;
+            noteIndex?: number;
         };
     }
 
@@ -142,3 +147,19 @@ declare namespace Citeproc {
         };
     }
 }
+
+type Item = CSL.Data;
+
+/*
+
+item
+citation
+registry
+
+
+citable items
+
+uncited items
+
+
+*/

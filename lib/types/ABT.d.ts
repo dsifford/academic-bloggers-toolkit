@@ -8,6 +8,15 @@ declare namespace ABT {
 
     type LinkStyle = 'always' | 'always-full-surround' | 'urls' | 'never';
 
+    interface BibOptions {
+        /** Heading options */
+        heading: string;
+        /** HTML Heading element preferred for heading */
+        headingLevel: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
+        /** Should the heading be toggleable? */
+        style: 'fixed' | 'toggle';
+    }
+
     interface ExternalSiteMeta {
         authors: Array<{
             firstname: string;
@@ -110,10 +119,10 @@ declare namespace ABT {
         bill: FieldMap;
         book: FieldMap;
         chapter: FieldMap;
-        'legal_case': FieldMap;
+        legal_case: FieldMap;
         'paper-conference': FieldMap;
         'entry-encyclopedia': FieldMap;
-        'motion_picture': FieldMap;
+        motion_picture: FieldMap;
         speech: FieldMap;
         article: FieldMap;
         'article-journal': FieldMap;

@@ -102,7 +102,7 @@ declare namespace CSL {
     }
 
     interface Data {
-        id?: string;
+        id: string;
         type?: CitationType; // tslint:disable-line
         categories?: string[];
         language?: string;
@@ -124,7 +124,7 @@ declare namespace CSL {
         accessed?: Date | '';
         container?: Date;
         'event-date'?: Date | '';
-        'issued'?: Date | '';
+        issued?: Date | '';
         'original-date'?: Date;
         submitted?: Date;
         abstract?: string;
@@ -162,7 +162,7 @@ declare namespace CSL {
         'original-publisher'?: string;
         'original-publisher-place'?: string;
         'original-title'?: string;
-        'page'?: string;
+        page?: string;
         'page-first'?: string;
         PMCID?: string;
         PMID?: string;

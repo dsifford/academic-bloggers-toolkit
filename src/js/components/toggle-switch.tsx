@@ -23,6 +23,8 @@ export default class ToggleSwitch extends React.PureComponent<Props, State> {
         };
     }
 
+    hideTooltip = () => this.setState(prev => ({ ...prev, isShowingTooltip: false }));
+
     showTooltip = (e: React.MouseEvent<HTMLSpanElement>) => {
         const { position } = this.props.tooltip;
         const rect = e.currentTarget.getBoundingClientRect();
@@ -31,8 +33,6 @@ export default class ToggleSwitch extends React.PureComponent<Props, State> {
             isShowingTooltip: true,
         }));
     };
-
-    hideTooltip = () => this.setState(prev => ({ ...prev, isShowingTooltip: false }));
 
     render() {
         const { checked, disabled, onChange, tooltip } = this.props;

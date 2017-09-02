@@ -4,13 +4,14 @@ import { toJS } from 'mobx';
 import Store from 'reference-list/store';
 import { localeMapper } from './constants';
 import { formatBibliography } from './formatters/';
+import { generateID } from './helpers/';
 
 declare const ABT_Custom_CSL: BackendGlobals.ABT_Custom_CSL;
 declare const ABT_wp: BackendGlobals.ABT_wp;
 
 interface LocaleCache {
-    time: number;
     locales: Array<[string, string]>;
+    time: number;
 }
 
 export class CSLProcessor {
@@ -74,7 +75,26 @@ export class CSLProcessor {
         this.worker.postMessage('');
     }
 
-    /**Data
+    /**
+     * Spawns a new temporary CSL.Engine and creates a static, untracked bibliography
+     *
+     * @param data - Array of CSL.Data
+     */
+    async createStaticBibliography(data: CSL.Data[]): Promise<ABT.Bibliography | boolean> {
+        const style =
+            this.store.citationStyle.get() === 'abt-user-defined'
+                ? ABT_Custom_CSL.CSL
+                : await this.getCSLStyle(this.store.citationStyle.get());
+        const sys = { ...this.citeproc.sys };
+        const citeproc: Citeproc.Processor = new Csl.Engine(sys, style);
+        citeproc.updateItems(toJS(data.map(d => d.id)));
+        const bib = citeproc.makeBibliography();
+        return typeof bib === 'boolean'
+            ? bib
+            : formatBibliography(bib, this.store.links, this.store.citations.CSL);
+    }
+
+    /**
      * Instantiates a new CSL.Engine (either when initially constructed or when
      * the user changes his/her selected citation style)
      *
@@ -119,13 +139,11 @@ export class CSLProcessor {
      *
      * @param csl CSL.Data[].
      */
-    prepareInlineCitationData(csl: CSL.Data[], currentIndex: number): Citeproc.Citation {
-        const payload = {
-            citationItems: <Array<{ id: string }>>[],
-            properties: { noteIndex: currentIndex },
+    prepareInlineCitationData(csl: CSL.Data[]): Citeproc.Citation {
+        return {
+            citationID: generateID(),
+            citationItems: csl.map(({ id }) => ({ id })),
         };
-        csl.forEach(c => payload.citationItems.push({ id: c.id! }));
-        return payload;
     }
 
     /**
@@ -148,46 +166,6 @@ export class CSLProcessor {
         }
         this.store.citations.init(this.citeproc.registry.citationreg.citationByIndex);
         return clusters;
-    }
-
-    /**
-     * Spawns a new temporary CSL.Engine and creates a static, untracked bibliography
-     *
-     * @param data - Array of CSL.Data
-     */
-    async createStaticBibliography(data: CSL.Data[]): Promise<ABT.Bibliography | boolean> {
-        const style =
-            this.store.citationStyle.get() === 'abt-user-defined'
-                ? ABT_Custom_CSL.CSL
-                : await this.getCSLStyle(this.store.citationStyle.get());
-        const sys = { ...this.citeproc.sys };
-        const citeproc: Citeproc.Processor = new Csl.Engine(sys, style);
-        citeproc.updateItems(toJS(data.map(d => d.id)));
-        const bib = citeproc.makeBibliography();
-        return typeof bib === 'boolean'
-            ? bib
-            : formatBibliography(bib, this.store.links, this.store.citations.CSL);
-    }
-
-    /**
-     * Saves locales from the Worker into the localeStore
-     */
-    private receiveWorkerMessage = (e: MessageEvent) => {
-        if (e.data[0] === 'done') {
-            return this.updateLocalStorage();
-        }
-        this.localeStore.set(e.data[0], e.data[1]);
-    };
-
-    /**
-     * Updates the cached locales in localStorage from localeStore
-     */
-    private updateLocalStorage() {
-        const localeObj: LocaleCache = {
-            time: Date.now(),
-            locales: [...this.localeStore],
-        };
-        localStorage.setItem('abt-locale-cache', JSON.stringify(localeObj));
     }
 
     /**
@@ -218,7 +196,7 @@ export class CSLProcessor {
 
     /**
      * Called exclusively from the `init` method to get the CSL style file over
-     *   the air from the Github repo
+     * the air from the Github repo
      *
      * @param style CSL style filename
      * @return Promise that resolves to a string of CSL XML or an Error, depending
@@ -252,5 +230,26 @@ export class CSLProcessor {
         return this.localeStore.has(normalizedLocale)
             ? this.localeStore.get(normalizedLocale)!
             : this.localeStore.get(fallback)!;
+    }
+
+    /**
+     * Saves locales from the Worker into the localeStore
+     */
+    private receiveWorkerMessage = (e: MessageEvent) => {
+        if (e.data[0] === 'done') {
+            return this.updateLocalStorage();
+        }
+        this.localeStore.set(e.data[0], e.data[1]);
+    };
+
+    /**
+     * Updates the cached locales in localStorage from localeStore
+     */
+    private updateLocalStorage() {
+        const localeObj: LocaleCache = {
+            time: Date.now(),
+            locales: [...this.localeStore],
+        };
+        localStorage.setItem('abt-locale-cache', JSON.stringify(localeObj));
     }
 }

@@ -17,8 +17,8 @@ const ph = placeholderGenerator();
 
 @observer
 export default class PubmedDialog extends React.Component<DialogProps> {
-    static readonly labels = top.ABT_i18n.dialogs.pubmed;
     static readonly errors = top.ABT_i18n.errors;
+    static readonly labels = top.ABT_i18n.dialogs.pubmed;
 
     /** Error message to be displayed in the callout, if applicable */
     errorMessage = observable('');
@@ -107,10 +107,12 @@ export default class PubmedDialog extends React.Component<DialogProps> {
                         />
                     </div>
                 </form>
-                {this.results.length > 0 &&
-                    <ResultList onSelect={this.props.onSubmit} results={this.visibleResults} />}
-                {this.results.length > 0 &&
-                    <Paginate page={this.page} totalPages={Math.ceil(this.results.length / 5)} />}
+                {this.results.length > 0 && (
+                    <ResultList onSelect={this.props.onSubmit} results={this.visibleResults} />
+                )}
+                {this.results.length > 0 && (
+                    <Paginate page={this.page} totalPages={Math.ceil(this.results.length / 5)} />
+                )}
                 <style jsx>{`
                     .pubmed-input-row {
                         display: flex;
@@ -122,7 +124,7 @@ export default class PubmedDialog extends React.Component<DialogProps> {
                         padding: 10px 0;
                         box-shadow: ${shadows.depth_1};
                     }
-                    input[type="text"] {
+                    input[type='text'] {
                         flex: auto;
                         margin-right: 10px;
                         height: 35px;

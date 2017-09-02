@@ -25,7 +25,7 @@ describe('<EditDialog />', () => {
         expect(toJSON(component)).toMatchSnapshot();
     });
     it('should handle submit', () => {
-        const data: CSL.Data = {
+        const data: Partial<CSL.Data> = {
             author: [
                 {
                     given: 'John',
@@ -33,7 +33,7 @@ describe('<EditDialog />', () => {
                 },
             ],
         };
-        const { component, onSubmit } = setup(data);
+        const { component, onSubmit } = setup(data as CSL.Data);
         const preventDefault = jest.fn();
         component.simulate('submit', { preventDefault });
         expect(onSubmit).toHaveBeenCalledTimes(1);
@@ -41,25 +41,25 @@ describe('<EditDialog />', () => {
     });
     describe('test various types of CSL data passed as a prop', () => {
         it('should handle primitive properties', () => {
-            const data: CSL.Data = {
+            const data: Partial<CSL.Data> = {
                 title: 'Hello world',
             };
-            const { instance } = setup(data);
+            const { instance } = setup(data as CSL.Data);
             expect([...instance.fields.entries()]).toEqual([['title', 'Hello world']]);
             expect([...instance.people]).toEqual([]);
         });
         it('should handle dates', () => {
-            const data: CSL.Data = {
+            const data: Partial<CSL.Data> = {
                 issued: {
                     'date-parts': [['2003', '01', '02']],
                 },
             };
-            const { instance } = setup(data);
+            const { instance } = setup(data as CSL.Data);
             expect([...instance.fields.entries()]).toEqual([['issued', '2003/01/02']]);
             expect([...instance.people]).toEqual([]);
         });
         it('should handle person data', () => {
-            const data: CSL.Data = {
+            const data: Partial<CSL.Data> = {
                 author: [
                     {
                         given: 'John',
@@ -67,19 +67,19 @@ describe('<EditDialog />', () => {
                     },
                 ],
             };
-            const { instance } = setup(data);
+            const { instance } = setup(data as CSL.Data);
             expect([...instance.fields.entries()]).toEqual([]);
             expect([...instance.people]).toEqual([
                 { family: 'Doe', given: 'John', type: 'author' },
             ]);
         });
         it('should handle unsupported properties', () => {
-            const data: CSL.Data = {
+            const data: Partial<CSL.Data> = {
                 foo: {
                     bar: 'baz',
                 },
             };
-            const { instance } = setup(data);
+            const { instance } = setup(data as CSL.Data);
             expect([...instance.fields.entries()]).toEqual([]);
             expect([...instance.people]).toEqual([]);
         });

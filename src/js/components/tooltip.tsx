@@ -7,10 +7,10 @@ import { colors } from 'utils/styles';
 type TooltipPosition = 'top' | 'right' | 'bottom' | 'left';
 
 export interface TooltipParentState {
-    /** CSS transform to set tooltip position */
-    transform: string;
     /** Describes tooltip visibility */
     isShowingTooltip: boolean;
+    /** CSS transform to set tooltip position */
+    transform: string;
 }
 
 export interface TooltipParentProp {

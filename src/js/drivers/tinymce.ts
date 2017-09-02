@@ -1,11 +1,11 @@
-import EditorDriver, { BibOptions, RelativeCitationPositions } from './base';
+import EditorDriver from './base';
 
 interface SelectionCache {
-    fresh: boolean;
-    selection: string;
     bookmark: {
         rng: Range;
     };
+    fresh: boolean;
+    selection: string;
 }
 
 export default class TinyMCEDriver extends EditorDriver {
@@ -59,82 +59,12 @@ export default class TinyMCEDriver extends EditorDriver {
         return [...citations].map(c => c.id);
     }
 
-    get selection() {
-        return this.selectionCache.fresh
-            ? this.selectionCache.selection
-            : this.editor.selection.getContent({ format: 'html' });
-    }
-
-    alert(message: string) {
-        this.editor.windowManager.alert(message);
-    }
-
-    async init() {
-        return new Promise<void>((resolve, reject) => {
-            let attempts = 0;
-            const interval = setInterval(() => {
-                if (top.tinyMCE === undefined) {
-                    attempts += 1;
-                    if (attempts === 10) {
-                        clearInterval(interval);
-                        return reject(
-                            new Error(
-                                `TinyMCE editor doesn't appear to be available in this scope`,
-                            ),
-                        );
-                    }
-                } else {
-                    clearInterval(interval);
-                    if (top.tinyMCE.editors && top.tinyMCE.editors.content) {
-                        this.editor = top.tinyMCE.editors.content;
-                        this.bindEvents();
-                        return resolve();
-                    }
-                    top.tinyMCE.EditorManager.on('AddEditor', (e: any) => {
-                        if (e.editor.id === 'content') {
-                            this.editor = top.tinyMCE.editors.content;
-                            this.bindEvents();
-                            this.editor.once('PostRender', () => {
-                                return resolve();
-                            });
-                        }
-                    });
-                }
-            }, 500);
-        });
-    }
-
-    setLoadingState(loading?: boolean) {
-        this.editor.setProgressState(loading || false);
-    }
-
-    reset() {
-        const elements = this.editor
-            .getDoc()
-            .querySelectorAll(`#${EditorDriver.bibliographyId}, .${EditorDriver.citationClass}`);
-        for (const element of elements) {
-            element.remove();
-        }
-        // Required to allow tinymce to consume changes
-        this.editor.insertContent('');
-    }
-
-    removeItems(itemIds: string[]) {
-        const doc = this.editor.getDoc();
-        for (const id of itemIds) {
-            const item = doc.getElementById(id);
-            if (item && item.parentElement) {
-                item.parentElement.removeChild(item);
-            }
-        }
-    }
-
     get citationsByIndex(): Citeproc.CitationByIndex {
         const doc = this.editor.getDoc();
         const nodes = [
             ...doc.querySelectorAll(`
                 *:not(.mce-offscreen-selection) >
-                    .${EditorDriver.citationClass}:not(.${EditorDriver.citationClass}_broken)
+                    .${EditorDriver.citationClass}
             `),
         ];
         const isFootnoteType = doc.querySelector(`#${EditorDriver.footnoteId}`) !== null;
@@ -167,24 +97,21 @@ export default class TinyMCEDriver extends EditorDriver {
         );
     }
 
-    getRelativeCitationPositions(validIds: string[]) {
+    get relativeCitationPositions() {
         const doc = this.editor.getDoc();
         const bm = this.selectionCache.fresh
             ? this.selectionCache.bookmark
             : this.editor.selection.getBookmark(1);
         const { rng: { startContainer } } = bm;
-        const nodes = [
+        const citationNodes = [
             ...doc.querySelectorAll(`
                 *:not(.mce-offscreen-selection) >
-                    .${EditorDriver.citationClass}:not(.${EditorDriver.citationClass}_broken)
+                    .${EditorDriver.citationClass}
             `),
         ];
 
-        const citations = nodes.filter(citation => validIds.includes(citation.id));
-        const invalidCitations = nodes.filter(citation => !validIds.includes(citation.id));
-
-        let currentIndex: number = 0;
-        const locations: Citeproc.CitationLocations = citations.reduce(
+        let currentIndex: number = citationNodes.length;
+        const locations: Citeproc.CitationLocations = citationNodes.reduce(
             (prev, citation, i) => {
                 if (!citation.parentNode) {
                     throw new Error('parentNode not defined for citation');
@@ -197,25 +124,34 @@ export default class TinyMCEDriver extends EditorDriver {
                         prev[0] = [...prev[0], [citation.id, i]];
                         break;
                     case Node.DOCUMENT_POSITION_FOLLOWING:
-                        if (currentIndex === 0) {
+                        if (currentIndex === citationNodes.length) {
                             currentIndex = i;
                         }
                         prev[1] = [...prev[1], [citation.id, i + 1]];
+                        break;
+                    default:
+                        citation.remove();
+                        this.editor.selection.moveToBookmark(this.selectionCache.bookmark);
                 }
                 return prev;
             },
             <Citeproc.CitationLocations>[[], []],
         );
 
-        for (const invalid of invalidCitations) {
-            invalid.classList.add(`${EditorDriver.citationClass}_broken`);
-            invalid.innerHTML = `${EditorDriver.brokenPrefix} ${invalid.innerHTML}`;
-        }
-
-        return <RelativeCitationPositions>{
+        return {
             currentIndex,
             locations,
         };
+    }
+
+    get selection() {
+        return this.selectionCache.fresh
+            ? this.selectionCache.selection
+            : this.editor.selection.getContent({ format: 'html' });
+    }
+
+    alert(message: string) {
+        this.editor.windowManager.alert(message);
     }
 
     composeCitations(
@@ -259,14 +195,74 @@ export default class TinyMCEDriver extends EditorDriver {
         return kind === 'note' ? this.composeFootnotes() : void 0;
     }
 
+    async init() {
+        return new Promise<void>((resolve, reject) => {
+            let attempts = 0;
+            const interval = setInterval(() => {
+                if (top.tinyMCE === undefined) {
+                    attempts += 1;
+                    if (attempts === 10) {
+                        clearInterval(interval);
+                        return reject(
+                            new Error(
+                                `TinyMCE editor doesn't appear to be available in this scope`,
+                            ),
+                        );
+                    }
+                } else {
+                    clearInterval(interval);
+                    if (top.tinyMCE.editors && top.tinyMCE.editors.content) {
+                        this.editor = top.tinyMCE.editors.content;
+                        this.bindEvents();
+                        return resolve();
+                    }
+                    top.tinyMCE.EditorManager.on('AddEditor', (e: any) => {
+                        if (e.editor.id === 'content') {
+                            this.editor = top.tinyMCE.editors.content;
+                            this.bindEvents();
+                            this.editor.once('PostRender', () => {
+                                return resolve();
+                            });
+                        }
+                    });
+                }
+            }, 500);
+        });
+    }
+
+    removeItems(itemIds: string[]) {
+        const doc = this.editor.getDoc();
+        for (const id of itemIds) {
+            const item = doc.getElementById(id);
+            if (item && item.parentElement) {
+                item.parentElement.removeChild(item);
+            }
+        }
+    }
+
+    reset() {
+        const elements = this.editor
+            .getDoc()
+            .querySelectorAll(`#${EditorDriver.bibliographyId}, .${EditorDriver.citationClass}`);
+        for (const element of elements) {
+            element.remove();
+        }
+        // Required to allow tinymce to consume changes
+        this.editor.insertContent('');
+    }
+
     setBibliography(
-        options: BibOptions,
+        options: ABT.BibOptions,
         bibliography: ABT.Bibliography | boolean,
         staticBib: boolean = false,
     ) {
         return staticBib
             ? this.setStaticBibliography(bibliography)
             : this.setStandardBibliography(options, bibliography);
+    }
+
+    setLoadingState(loading?: boolean) {
+        this.editor.setProgressState(loading || false);
     }
 
     protected bindEvents() {
@@ -315,41 +311,35 @@ export default class TinyMCEDriver extends EditorDriver {
             return;
         }
 
+        const bookmark = this.editor.selection.getBookmark();
+
         const note = EditorDriver.createFootnoteSection(orderedFootnotes, [
             'noselect',
             'mceNonEditable',
         ]);
 
-        this.editor.getBody().appendChild(note);
-
-        // Remove unnecessary &nbsp; from editor
-        while (
-            note.previousElementSibling &&
-            note.previousElementSibling.childNodes.length === 1 &&
-            note.previousElementSibling.childNodes[0].nodeName === 'BR'
-        ) {
-            note.previousElementSibling.remove();
-        }
+        const body = this.editor.getBody();
+        this.editor.selection.setCursorLocation(body, body.childNodes.length);
+        this.editor.insertContent(note.outerHTML);
+        this.editor.selection.moveToBookmark(bookmark);
     }
 
-    private setStandardBibliography(options: BibOptions, bibliography: ABT.Bibliography | boolean) {
+    private setStandardBibliography(
+        options: ABT.BibOptions,
+        bibliography: ABT.Bibliography | boolean,
+    ) {
         if (typeof bibliography === 'boolean' || bibliography.length === 0) return;
 
         const bib = EditorDriver.createBibliographyElement(options, bibliography, [
             'noselect',
             'mceNonEditable',
         ]);
+        const bookmark = this.editor.selection.getBookmark();
 
-        this.editor.getBody().appendChild(bib);
-
-        // Remove unnecessary &nbsp; from editor
-        while (
-            bib.previousElementSibling &&
-            bib.previousElementSibling.childNodes.length === 1 &&
-            bib.previousElementSibling.childNodes[0].nodeName === 'BR'
-        ) {
-            bib.previousElementSibling.remove();
-        }
+        const body = this.editor.getBody();
+        this.editor.selection.setCursorLocation(body, body.childNodes.length);
+        this.editor.insertContent(bib.outerHTML);
+        this.editor.selection.moveToBookmark(bookmark);
     }
 
     private setStaticBibliography(bibliography: ABT.Bibliography | boolean) {

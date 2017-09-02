@@ -43,7 +43,6 @@ declare namespace BackendGlobals {
         citationTypes: ABT.CitationTypes;
         errors: {
             badRequest: 'Request not valid';
-            broken: 'BROKEN!';
             denied: 'Site denied request';
             fileExtensionError: 'Invalid file extension. Extension must be .ris, .bib, or .bibtex';
             filetypeError: 'The file could not be processed';

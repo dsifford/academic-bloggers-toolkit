@@ -2,10 +2,10 @@ import * as React from 'react';
 import { colors } from 'utils/styles';
 
 interface Props {
-    /** Number to be displayed on badge */
-    count: number;
     /** Badge background color */
     color?: string;
+    /** Number to be displayed on badge */
+    count: number;
 }
 
 export default class Badge extends React.PureComponent<Props> {

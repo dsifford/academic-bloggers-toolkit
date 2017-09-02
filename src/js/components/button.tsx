@@ -6,16 +6,16 @@ import { colors, outline, shadows, transitions } from 'utils/styles';
 import Tooltip, { TooltipParentProp, TooltipParentState } from 'components/tooltip';
 
 interface Props extends React.HTMLProps<HTMLButtonElement> {
-    /** Button aria-label if icon button, otherwise button text */
-    label: string;
     /** Flat button variant */
     flat?: boolean;
     /** Should button have focus outline? */
     focusable?: boolean;
-    /** Primary button variant */
-    primary?: boolean;
     /** Dashicon to use for button */
     icon?: Dashicon;
+    /** Button aria-label if icon button, otherwise button text */
+    label: string;
+    /** Primary button variant */
+    primary?: boolean;
     /** Information describing the tooltip if one is needed */
     tooltip?: TooltipParentProp;
     onClick?(e: React.MouseEvent<HTMLButtonElement>): void;
@@ -36,6 +36,14 @@ export default class Button extends React.PureComponent<Props, State> {
         };
     }
 
+    hideTooltip = () => {
+        this.setState(prev => ({ ...prev, isShowingTooltip: false }));
+    };
+
+    openLink = () => {
+        window.open(this.props.href, '_blank');
+    };
+
     showTooltip = (e: React.MouseEvent<HTMLButtonElement>) => {
         const { position } = this.props.tooltip!;
         const rect = e.currentTarget.getBoundingClientRect();
@@ -43,14 +51,6 @@ export default class Button extends React.PureComponent<Props, State> {
             transform: Tooltip.transform(position, rect),
             isShowingTooltip: true,
         }));
-    };
-
-    hideTooltip = () => {
-        this.setState(prev => ({ ...prev, isShowingTooltip: false }));
-    };
-
-    openLink = () => {
-        window.open(this.props.href, '_blank');
     };
 
     render() {
@@ -75,13 +75,14 @@ export default class Button extends React.PureComponent<Props, State> {
         const tipId = label.replace(/\s/g, '_');
         return (
             <div>
-                {tooltip &&
+                {tooltip && (
                     <Tooltip
                         active={isShowingTooltip}
                         id={tipId}
                         text={tooltip.text}
                         transform={transform}
-                    />}
+                    />
+                )}
                 <button
                     {...buttonProps}
                     aria-describedby={tooltip ? tipId : undefined}
@@ -153,7 +154,7 @@ export default class Button extends React.PureComponent<Props, State> {
                     }
                     .btn-flat:hover,
                     .btn-flat.btn-primary:hover {
-                        background: rgba(158, 158, 158, .2);
+                        background: rgba(158, 158, 158, 0.2);
                     }
                     .btn-flat:active,
                     .btn-flat.btn-primary:active {
@@ -174,7 +175,7 @@ export default class Button extends React.PureComponent<Props, State> {
                         background: ${colors.blue.darken(3)};
                     }
                     .btn-primary:disabled {
-                        opacity: .6;
+                        opacity: 0.6;
                         box-shadow: none;
                         color: white !important;
                     }

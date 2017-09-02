@@ -21,8 +21,8 @@ interface ManualEntryProps {
 
 @observer
 export default class ManualEntryContainer extends React.PureComponent<ManualEntryProps, {}> {
-    static readonly labels = top.ABT_i18n.dialogs.add.manualEntryContainer;
     static readonly citationTypes = top.ABT_i18n.citationTypes;
+    static readonly labels = top.ABT_i18n.dialogs.add.manualEntryContainer;
 
     @action
     dismissError = () => {
@@ -69,31 +69,33 @@ export default class ManualEntryContainer extends React.PureComponent<ManualEntr
                         onChange={this.handleTypeChange}
                         value={itemType}
                     >
-                        {ManualEntryContainer.citationTypes.map((item, i) =>
+                        {ManualEntryContainer.citationTypes.map((item, i) => (
                             <option
                                 key={i}
                                 value={item.value}
                                 aria-selected={itemType === item.value}
                                 children={item.label}
-                            />,
-                        )}
+                            />
+                        ))}
                     </select>
                 </div>
                 {renderAutocite &&
-                    itemType === 'webpage' &&
+                itemType === 'webpage' && (
                     <AutoCite
                         getter={this.props.onAutoCite}
                         kind={itemType as 'webpage'}
                         placeholder={ManualEntryContainer.labels.URL}
-                    />}
+                    />
+                )}
                 {renderAutocite &&
-                    ['book', 'chapter'].includes(itemType) &&
+                ['book', 'chapter'].includes(itemType) && (
                     <AutoCite
                         getter={this.props.onAutoCite}
                         kind={itemType as 'book' | 'chapter'}
                         placeholder={ManualEntryContainer.labels.ISBN}
                         pattern="(?:[\dxX]-?){10}|(?:[\dxX]-?){13}"
-                    />}
+                    />
+                )}
                 <div
                     onWheel={this.handleWheel}
                     className={renderAutocite ? 'bounded-rect autocite' : 'bounded-rect'}
@@ -102,11 +104,12 @@ export default class ManualEntryContainer extends React.PureComponent<ManualEntr
                         children={this.props.errorMessage.get()}
                         onDismiss={this.dismissError}
                     />
-                    {this.props.manualData.get('type') !== 'article' &&
+                    {this.props.manualData.get('type') !== 'article' && (
                         <People
                             people={this.props.people}
                             citationType={this.props.manualData.get('type') as CSL.CitationType}
-                        />}
+                        />
+                    )}
                     <MetaFields meta={this.props.manualData} />
                 </div>
                 <style jsx>{`

@@ -12,10 +12,10 @@ export type AutociteKind = 'webpage' | 'book' | 'chapter';
 interface Props {
     /** Describes the type of autocite needed */
     kind: AutociteKind;
-    /** Placeholder text for input field */
-    placeholder: string;
     /** Validation pattern for input field */
     pattern?: string;
+    /** Placeholder text for input field */
+    placeholder: string;
     /** Function to call when autocite is submitted */
     getter(kind: string, query: string): void;
 }

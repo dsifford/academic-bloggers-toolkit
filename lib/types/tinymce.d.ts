@@ -16,6 +16,7 @@ declare namespace TinyMCE {
             getBookmark(type?: number, normalized?: boolean): { id: string };
             getContent(args: { format: 'html' | 'text' }): string;
             setContent(content: string, args?: { format: string }): string;
+            setCursorLocation(node?: Node, offset?: number): void;
             moveToBookmark(bookmark: object): boolean;
             /** Is the the current selection completely empty? */
             isCollapsed(): boolean;

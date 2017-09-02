@@ -18,8 +18,8 @@ interface GithubFiles {
 
 interface StyleResponse {
     data: {
-        independent: GithubFiles;
         dependent: GithubFiles;
+        independent: GithubFiles;
     };
 }
 

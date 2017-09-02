@@ -1,14 +1,14 @@
 import * as React from 'react';
 
 interface Props {
-    /* The length and width in pixels of the spinner */
-    size: string;
     /* Set background color of container */
     bgColor?: string;
     /* If not in a containing element, this is minimum height */
     height?: string | number | (() => string | number);
     /* Add this for a background overlay */
     overlay?: boolean;
+    /* The length and width in pixels of the spinner */
+    size: string;
     /* Additional style properties for the containing div */
     style?: React.CSSProperties;
 }

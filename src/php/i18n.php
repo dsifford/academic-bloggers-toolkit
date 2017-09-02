@@ -22,7 +22,6 @@ function generate_translations() {
 
     $ABT_i18n->errors = [
         'badRequest' => __('Request not valid', 'academic-bloggers-toolkit'),
-        'broken' => __('BROKEN!', 'academic-bloggers-toolkit'),
         'denied' => __('Site denied request', 'academic-bloggers-toolkit'),
         'fileExtensionError' => __('Invalid file extension. Extension must be .ris, .bib, or .bibtex', 'academic-bloggers-toolkit'),
         'filetypeError' => __('The selected file could not be processed', 'academic-bloggers-toolkit'),

@@ -46,24 +46,24 @@ describe('Store', () => {
             expect(store.citations.CSL.get('aaaaaaaa')!.language).toBe('en-US');
         });
         it('should intercept a citation already defined', () => {
-            const cite: CSL.Data = {
+            const cite: Partial<CSL.Data> = {
                 PMID: '12345',
                 title: 'Test Title',
                 type: 'article-journal',
             };
-            const cite2: CSL.Data = {
+            const cite2: Partial<CSL.Data> = {
                 PMID: '12345',
                 title: 'Test Title',
                 type: 'article-journal',
             };
-            store.citations.CSL.set('sameCitation', cite);
-            store.citations.CSL.set('sameCitationAgain', cite2);
+            store.citations.CSL.set('sameCitation', <any>cite);
+            store.citations.CSL.set('sameCitationAgain', <any>cite2);
             expect(store.citations.CSL.keys().length).toBe(3);
         });
         it('should intercept a citation that has no title set', () => {
             expect(store.citations.CSL.keys().length).toBe(3);
-            const invalidCSL: CSL.Data = { PMID: '11223344', type: 'article-journal' };
-            store.citations.CSL.set('invalidCSL', invalidCSL);
+            const invalidCSL: Partial<CSL.Data> = { PMID: '11223344', type: 'article-journal' };
+            store.citations.CSL.set('invalidCSL', <any>invalidCSL);
             expect(store.citations.CSL.keys().length).toBe(3);
         });
         it('should allow non-existing CSL to be set', () => {
@@ -164,9 +164,6 @@ describe('Store', () => {
                             item: { ...cite1 },
                         },
                     ],
-                    properties: {
-                        noteIndex: 0,
-                    },
                 },
                 {
                     citationID: 'bar',
@@ -180,9 +177,6 @@ describe('Store', () => {
                             item: { ...cite2 },
                         },
                     ],
-                    properties: {
-                        noteIndex: 0,
-                    },
                 },
             ];
             store.citations.addItems([cite1]);

@@ -6,14 +6,14 @@ import * as React from 'react';
 import { outline, shadows } from 'utils/styles';
 
 interface Props {
-    /** Title for dialog */
-    title: string;
     /** Content to display in dialog */
     children: React.ReactElement<any>;
     /** Boxed observable that controls the dialog view state in parent */
     currentDialog: IObservableValue<string>;
     /** Opacity of background overlay */
     overlayOpacity?: number;
+    /** Title for dialog */
+    title: string;
     /** Width of dialog */
     width?: number;
     /** Callback to be called when dialog is closed */
@@ -107,7 +107,7 @@ export default class Container extends React.Component<Props> {
                         line-height: 40px;
                         background: #f5f5f5;
                         border-radius: 4px 4px 0 0;
-                        box-shadow: 0 1px 0 rgba(16, 22, 26, .15);
+                        box-shadow: 0 1px 0 rgba(16, 22, 26, 0.15);
                     }
                     button {
                         cursor: pointer;

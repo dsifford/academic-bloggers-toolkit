@@ -3,25 +3,25 @@ import * as React from 'react';
 interface Props extends React.HTMLProps<HTMLDivElement> {
     /** Text to render in the callout */
     children: string;
-    /** Heading for callout */
-    title?: string;
-    /** Describes callout visibility */
-    isVisible?: boolean;
     /** Describes the purpose of the callout */
     intent?: 'danger' | 'warning';
+    /** Describes callout visibility */
+    isVisible?: boolean;
+    /** Heading for callout */
+    title?: string;
     /** Function to call when callout is dismissed. If unset, callout is not dismissable */
     onDismiss?(): void;
 }
 
 export default class Callout extends React.PureComponent<Props> {
-    static prefixes = {
-        warning: top.ABT_i18n.errors.warnings.warning,
-        error: top.ABT_i18n.errors.prefix,
-    };
-
     static defaultProps: Partial<Props> = {
         isVisible: true,
         intent: 'danger',
+    };
+
+    static prefixes = {
+        warning: top.ABT_i18n.errors.warnings.warning,
+        error: top.ABT_i18n.errors.prefix,
     };
 
     render() {
@@ -40,12 +40,13 @@ export default class Callout extends React.PureComponent<Props> {
             >
                 <div className="callout__heading">
                     <h5 children={title ? title : defaultTitle} />
-                    {onDismiss &&
+                    {onDismiss && (
                         <button
                             aria-label="dismiss"
                             className="dashicons dashicons-no-alt"
                             onClick={onDismiss}
-                        />}
+                        />
+                    )}
                 </div>
                 {children}
                 <style jsx>{`

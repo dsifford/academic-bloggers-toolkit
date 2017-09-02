@@ -241,7 +241,7 @@ class Backend {
      */
     private function localize_wordpress_constants() {
         return [
-            'abt_url' => plugins_url() . '/academFIXMEic-bloggers-toolkit',
+            'abt_url' => plugins_url() . '/academic-bloggers-toolkit',
             'home_url' => home_url(),
             'plugins_url' => plugins_url(),
             'wp_upload_dir' => wp_get_upload_dir(),

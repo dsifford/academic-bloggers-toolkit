@@ -9,31 +9,31 @@ interface CardProps extends React.HTMLProps<HTMLDivElement> {
     readonly CSL: CSL.Data;
     /** The index of the card in the list (corrected to start at 1) */
     readonly index: number;
-    /** Describes whether or not the card is currently selected */
-    readonly isSelected: boolean;
     /** Describes whether or not the index badge should be displayed on hover */
     readonly indexOnHover: boolean;
+    /** Describes whether or not the card is currently selected */
+    readonly isSelected: boolean;
 }
 
 @observer
 export default class Card extends React.PureComponent<CardProps> {
+    /** Controls the visibility state of the index badge, if applicable */
+    isShowingIndex = observable(false);
+
     /** Controls the delay period between hovering and displaying the index badge */
     timer: NodeJS.Timer;
 
-    /** Controls the visibility state of the index badge, if applicable */
-    isShowingIndex = observable(false);
+    @action
+    hideIndex = () => {
+        clearTimeout(this.timer);
+        this.isShowingIndex.set(false);
+    };
 
     @action
     showIndex = () => {
         this.timer = setTimeout(() => {
             runInAction(() => this.isShowingIndex.set(true));
         }, 500) as any;
-    };
-
-    @action
-    hideIndex = () => {
-        clearTimeout(this.timer);
-        this.isShowingIndex.set(false);
     };
 
     render() {
@@ -51,9 +51,11 @@ export default class Card extends React.PureComponent<CardProps> {
                 <div
                     aria-hidden={!this.isShowingIndex.get()}
                     className={
-                        this.isShowingIndex.get()
-                            ? 'item-number item-number--active'
-                            : 'item-number'
+                        this.isShowingIndex.get() ? (
+                            'item-number item-number--active'
+                        ) : (
+                            'item-number'
+                        )
                     }
                     children={this.props.index}
                 />

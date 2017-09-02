@@ -29,18 +29,20 @@ export default class ReferenceList extends React.Component<Props> {
     static readonly errors = top.ABT_i18n.errors;
     static readonly labels = top.ABT_i18n.referenceList;
 
-    processor: CSLProcessor;
-    editor: EditorDriver;
-
     /**
      * The id of the currently opened modal
      */
     currentDialog = observable(DialogType.NONE);
 
     /**
-     * Observable array of selected item IDs
+     * A boxed observable that can contain anything that a dialog might need.
      */
-    selected = observable<string>([]);
+    dialogProps = observable.box<any>();
+
+    /**
+     * The editor instance
+     */
+    editor: EditorDriver;
 
     /**
      * Toggles the main loading spinner for the Reference List. Loading is true
@@ -50,9 +52,14 @@ export default class ReferenceList extends React.Component<Props> {
     loading = observable(true);
 
     /**
-     * A boxed observable that can contain anything that a dialog might need.
+     * The CSLProcessor instance
      */
-    dialogProps = observable.box<any>();
+    processor: CSLProcessor;
+
+    /**
+     * Observable array of selected item IDs
+     */
+    selected = observable<string>([]);
 
     /**
      * UI State
@@ -143,53 +150,6 @@ export default class ReferenceList extends React.Component<Props> {
         this.toggleLoading(false);
     };
 
-    @action togglePinned = () => this.ui.pinned.set(!this.ui.pinned.get());
-
-    @action toggleMenu = () => this.ui.menuOpen.set(!this.ui.menuOpen.get());
-
-    @action clearSelection = () => this.selected.clear();
-
-    @action
-    toggleLoading = (loadState?: boolean) =>
-        this.loading.set(loadState !== undefined ? loadState : !this.loading.get());
-
-    initProcessor = async () => {
-        this.editor.setLoadingState(true);
-        try {
-            const clusters = await this.processor.init();
-            this.editor.composeCitations(
-                clusters,
-                this.props.store.citations.citationByIndex,
-                this.processor.citeproc.opt.xclass,
-            );
-            this.editor.setBibliography(
-                this.props.store.bibOptions,
-                this.processor.makeBibliography(),
-            );
-            this.clearSelection();
-        } catch (err) {
-            Rollbar.error('ReferenceLissett.tsx -> initProcessor', err);
-            this.editor.alert(stripIndents`
-                ${ReferenceList.errors.unexpected.message}
-
-                ${err.name}: ${err.message}
-
-                ${ReferenceList.errors.unexpected.reportInstructions}
-            `);
-        }
-        this.editor.setLoadingState(false);
-    };
-
-    @action
-    deleteCitations = () => {
-        if (this.selected.length === 0) return;
-        this.editor.setLoadingState(true);
-        const toRemove = this.props.store.citations.removeItems(this.selected.slice());
-        this.editor.removeItems(toRemove);
-        this.clearSelection();
-        this.initProcessor();
-    };
-
     @action
     addReferences = async (payload: any) => {
         let data: CSL.Data[];
@@ -215,6 +175,44 @@ export default class ReferenceList extends React.Component<Props> {
         if (data.length === 0) return;
         data = this.props.store.citations.addItems(data);
         return payload.attachInline ? this.insertInlineCitation(undefined, data) : void 0;
+    };
+
+    @action
+    clearSelection = () => {
+        this.selected.clear();
+    };
+
+    @action
+    deleteCitations = () => {
+        if (this.selected.length === 0) return;
+        this.editor.setLoadingState(true);
+        const toRemove = this.props.store.citations.removeItems(this.selected.slice());
+        this.editor.removeItems(toRemove);
+        this.clearSelection();
+        this.initProcessor();
+    };
+
+    @action
+    editReference = (referenceId: string) => {
+        const data = this.props.store.citations.CSL.get(referenceId)!;
+        this.dialogProps.set(data);
+        this.currentDialog.set(DialogType.EDIT);
+    };
+
+    @action
+    handleDialogSubmit = (data: any) => {
+        switch (this.currentDialog.get()) {
+            case DialogType.ADD:
+                this.addReferences(data);
+                break;
+            case DialogType.IMPORT:
+                this.props.store.citations.addItems(data);
+                break;
+            case DialogType.EDIT:
+                this.props.store.citations.CSL.set(data.id, data);
+                this.initProcessor();
+        }
+        this.currentDialog.set(DialogType.NONE);
     };
 
     @action
@@ -247,6 +245,15 @@ export default class ReferenceList extends React.Component<Props> {
     };
 
     @action
+    openDialog = (e: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement> | string) => {
+        if (typeof e === 'string') {
+            return this.currentDialog.set(e);
+        }
+        const dialog = e.currentTarget.dataset.dialog || '';
+        this.currentDialog.set(dialog);
+    };
+
+    @action
     reset = () => {
         this.editor.setLoadingState(true);
         this.clearSelection();
@@ -258,35 +265,45 @@ export default class ReferenceList extends React.Component<Props> {
     };
 
     @action
-    editReference = (referenceId: string) => {
-        const data = this.props.store.citations.CSL.get(referenceId)!;
-        this.dialogProps.set(data);
-        this.currentDialog.set(DialogType.EDIT);
+    toggleLoading = (loadState?: boolean) => {
+        this.loading.set(loadState !== undefined ? loadState : !this.loading.get());
     };
 
     @action
-    openDialog = (e: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement> | string) => {
-        if (typeof e === 'string') {
-            return this.currentDialog.set(e);
-        }
-        const dialog = e.currentTarget.dataset.dialog || '';
-        this.currentDialog.set(dialog);
+    toggleMenu = () => {
+        this.ui.menuOpen.set(!this.ui.menuOpen.get());
     };
 
     @action
-    handleDialogSubmit = (data: any) => {
-        switch (this.currentDialog.get()) {
-            case DialogType.ADD:
-                this.addReferences(data);
-                break;
-            case DialogType.IMPORT:
-                this.props.store.citations.addItems(data);
-                break;
-            case DialogType.EDIT:
-                this.props.store.citations.CSL.set(data.id, data);
-                this.initProcessor();
+    togglePinned = () => {
+        this.ui.pinned.set(!this.ui.pinned.get());
+    };
+
+    initProcessor = async () => {
+        this.editor.setLoadingState(true);
+        try {
+            const clusters = await this.processor.init();
+            this.editor.composeCitations(
+                clusters,
+                this.props.store.citations.citationByIndex,
+                this.processor.citeproc.opt.xclass,
+            );
+            this.editor.setBibliography(
+                this.props.store.bibOptions,
+                this.processor.makeBibliography(),
+            );
+            this.clearSelection();
+        } catch (err) {
+            Rollbar.error('ReferenceLissett.tsx -> initProcessor', err);
+            this.editor.alert(stripIndents`
+                ${ReferenceList.errors.unexpected.message}
+
+                ${err.name}: ${err.message}
+
+                ${ReferenceList.errors.unexpected.reportInstructions}
+            `);
         }
-        this.currentDialog.set(DialogType.NONE);
+        this.editor.setLoadingState(false);
     };
 
     render() {
@@ -427,6 +444,7 @@ export default class ReferenceList extends React.Component<Props> {
 
         // Checks to see if there is a inline citation selected. If so,
         // extract the ids from it and push it to data.
+        // FIXME: This can be optimized
         const selection = this.editor.selection;
         if (/<span.+class="(?:abt-citation|abt_cite).+?<\/span>/.test(selection)) {
             const re = /&quot;(\w+?)&quot;/g;
@@ -440,19 +458,11 @@ export default class ReferenceList extends React.Component<Props> {
         let clusters;
         try {
             const {
-                currentIndex,
                 locations: [citationsBefore, citationsAfter],
-            } = this.editor.getRelativeCitationPositions(
-                Object.keys(
-                    this.processor.citeproc.registry.citationreg.citationById
-                )
-            );
-            const citationData = this.processor.prepareInlineCitationData(
-                data,
-                currentIndex
-            );
+            } = this.editor.relativeCitationPositions;
+            const citation = this.processor.prepareInlineCitationData(data);
             clusters = this.processor.processCitationCluster(
-                citationData,
+                citation,
                 citationsBefore,
                 citationsAfter
             );
@@ -493,6 +503,7 @@ export default class ReferenceList extends React.Component<Props> {
             data.push(this.props.store.citations.CSL.get(id)!);
         });
 
+        // FIXME: This can be optimized
         const selection = this.editor.selection;
         if (/^<div class=".*?abt-static-bib.*?"[\s\S]+<\/div>$/g.test(selection)) {
             const re = /<div id="(\w{8,9})">/g;
