@@ -17,7 +17,7 @@ describe('formatBibliography()', () => {
         hi: boolean = false,
         es: number = 0,
         ls: number = 0,
-        mo: number = 0
+        mo: number = 0,
     ): [Citeproc.Bibliography, ABT.LinkStyle, ObservableMap<CSL.Data>] => {
         return [
             [
@@ -25,7 +25,6 @@ describe('formatBibliography()', () => {
                     bibend: '',
                     bibliography_errors: [],
                     bibstart: '',
-                    done: true,
                     entry_ids: [['1btbi6t45'], ['r1hn0qg7']],
                     entryspacing: es,
                     hangingindent: hi,
@@ -38,8 +37,8 @@ describe('formatBibliography()', () => {
             'never',
             observable.map(
                 JSON.parse(
-                    `{"1btbi6t45":{"id":"1btbi6t45","type":"article-journal","author":[{"family":"Manjunath","given":"R"},{"family":"Namboodiri","given":"MA"},{"family":"Ramasarma","given":"T"}],"PMID":"34563","journalAbbreviation":"Indian J Biochem Biophys","container-title-short":"Indian J Biochem Biophys","title":"Differential changes in phenylalanine hydroxylase, tyrosine aminotransferase & tryptophan pyrrolase during hepatic regeneration.","volume":"15","issue":"3","page":"183-7","language":"en-US","ISSN":"0301-1208","container-title":"Indian journal of biochemistry &amp; biophysics","issued":{"date-parts":[["1978","06","01"]]}},"r1hn0qg7":{"id":"r1hn0qg7","type":"article-journal","author":[{"family":"Westreich","given":"M"}],"PMID":"45674","journalAbbreviation":"JACEP","container-title-short":"JACEP","title":"Preventing complications of subclavian vein catheterization.","volume":"7","issue":"10","page":"368-71","language":"en-US","ISSN":"0361-1124","container-title":"JACEP","issued":{"date-parts":[["1978","10","01"]]}}}`
-                )
+                    `{"1btbi6t45":{"id":"1btbi6t45","type":"article-journal","author":[{"family":"Manjunath","given":"R"},{"family":"Namboodiri","given":"MA"},{"family":"Ramasarma","given":"T"}],"PMID":"34563","journalAbbreviation":"Indian J Biochem Biophys","container-title-short":"Indian J Biochem Biophys","title":"Differential changes in phenylalanine hydroxylase, tyrosine aminotransferase & tryptophan pyrrolase during hepatic regeneration.","volume":"15","issue":"3","page":"183-7","language":"en-US","ISSN":"0301-1208","container-title":"Indian journal of biochemistry &amp; biophysics","issued":{"date-parts":[["1978","06","01"]]}},"r1hn0qg7":{"id":"r1hn0qg7","type":"article-journal","author":[{"family":"Westreich","given":"M"}],"PMID":"45674","journalAbbreviation":"JACEP","container-title-short":"JACEP","title":"Preventing complications of subclavian vein catheterization.","volume":"7","issue":"10","page":"368-71","language":"en-US","ISSN":"0361-1124","container-title":"JACEP","issued":{"date-parts":[["1978","10","01"]]}}}`,
+                ),
             ),
         ];
     };
@@ -49,9 +48,7 @@ describe('formatBibliography()', () => {
         // plain, no added options. PMID available.
         let [rawBib, links, cslmap] = setupArgs();
         temp.innerHTML = formatBibliography(rawBib, links, cslmap)[0].html;
-        expect(temp.querySelector('.csl-entry')!.classList.toString()).toBe(
-            'csl-entry'
-        );
+        expect(temp.querySelector('.csl-entry')!.classList.toString()).toBe('csl-entry');
         expect(temp.querySelector('.csl-entry')!.childElementCount).toBe(2);
 
         // hanging indent, with entryspacing and linespacing. DOI available
@@ -62,12 +59,12 @@ describe('formatBibliography()', () => {
         cslmap.set('1btbi6t45', item);
         temp.innerHTML = formatBibliography(rawBib, links, cslmap)[0].html;
         expect(temp.querySelector('.csl-entry')!.classList.toString()).toBe(
-            'csl-entry hanging-indent'
+            'csl-entry hanging-indent',
         );
         expect(temp.querySelector('.csl-entry')!.childElementCount).toBe(1);
-        expect(
-            (<HTMLDivElement>temp.querySelector('.csl-entry')).style.cssText
-        ).toBe('line-height: 3; margin: 2em auto;'); // tslint:disable-line
+        expect((<HTMLDivElement>temp.querySelector('.csl-entry')).style.cssText).toBe(
+            'line-height: 3; margin: 2em auto;',
+        ); // tslint:disable-line
 
         // second-field-align: margin. PMCID available
         [rawBib, links, cslmap] = setupArgs('margin');
@@ -76,9 +73,7 @@ describe('formatBibliography()', () => {
         item!.PMCID = 'PMC12345';
         cslmap.set('1btbi6t45', item);
         temp.innerHTML = formatBibliography(rawBib, links, cslmap)[0].html;
-        expect(temp.querySelector('.csl-entry')!.classList.toString()).toBe(
-            'csl-entry margin'
-        );
+        expect(temp.querySelector('.csl-entry')!.classList.toString()).toBe('csl-entry margin');
         expect(temp.querySelector('.csl-entry')!.childElementCount).toBe(2);
 
         // second-field-align: flush, hanging-indent. URL available
@@ -89,7 +84,7 @@ describe('formatBibliography()', () => {
         cslmap.set('1btbi6t45', item);
         temp.innerHTML = formatBibliography(rawBib, links, cslmap)[0].html;
         expect(temp.querySelector('.csl-entry')!.classList.toString()).toBe(
-            'csl-entry hanging-indent flush'
+            'csl-entry hanging-indent flush',
         );
         expect(temp.querySelector('.csl-entry')!.childElementCount).toBe(1);
 
@@ -99,17 +94,13 @@ describe('formatBibliography()', () => {
         item!.PMID = undefined;
         cslmap.set('1btbi6t45', item);
         temp.innerHTML = formatBibliography(rawBib, links, cslmap)[0].html;
-        expect(temp.querySelector('.csl-entry')!.classList.toString()).toBe(
-            'csl-entry'
-        );
+        expect(temp.querySelector('.csl-entry')!.classList.toString()).toBe('csl-entry');
         expect(temp.querySelector('.csl-entry')!.childElementCount).toBe(2);
     });
     it('should return an error string if one exists', () => {
         const [rawBib, links, cslmap] = setupArgs();
         rawBib[1].push(errorString);
         rawBib[0].entry_ids.push(['errorstring']);
-        expect(formatBibliography(rawBib, links, cslmap)[2].html).toBe(
-            errorString
-        );
+        expect(formatBibliography(rawBib, links, cslmap)[2].html).toBe(errorString);
     });
 });

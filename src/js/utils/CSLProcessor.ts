@@ -106,7 +106,7 @@ export class CSLProcessor {
      * @return Promise that resolves to either an object containing the style XML
      * and the `sys` object, or an Error depending on the responses from the network
      */
-    async init(): Promise<Citeproc.CitationCluster[]> {
+    async init(): Promise<Citeproc.CitationResult[]> {
         const style =
             this.store.citationStyle.get() === 'abt-user-defined'
                 ? ABT_Custom_CSL.CSL
@@ -143,6 +143,8 @@ export class CSLProcessor {
         return {
             citationID: generateID(),
             citationItems: csl.map(({ id }) => ({ id })),
+            // FIXME: remove this when citeproc fixes the bug
+            properties: {},
         };
     }
 
@@ -156,16 +158,12 @@ export class CSLProcessor {
      */
     processCitationCluster(
         citation: Citeproc.Citation,
-        before: Citeproc.CitationsPrePost,
-        after: Citeproc.CitationsPrePost,
-    ): Citeproc.CitationCluster[] {
-        const [status, clusters] = this.citeproc.processCitationCluster(citation, before, after);
-        if (status.citation_errors.length) {
-            // tslint:disable-next-line no-console
-            console.error(status.citation_errors);
-        }
+        before: Citeproc.Locator,
+        after: Citeproc.Locator,
+    ): Citeproc.CitationResult[] {
+        const [, citations] = this.citeproc.processCitationCluster(citation, before, after);
         this.store.citations.init(this.citeproc.registry.citationreg.citationByIndex);
-        return clusters;
+        return citations;
     }
 
     /**

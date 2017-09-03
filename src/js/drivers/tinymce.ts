@@ -110,8 +110,7 @@ export default class TinyMCEDriver extends EditorDriver {
             `),
         ];
 
-        let currentIndex: number = citationNodes.length;
-        const locations: Citeproc.CitationLocations = citationNodes.reduce(
+        return citationNodes.reduce(
             (prev, citation, i) => {
                 if (!citation.parentNode) {
                     throw new Error('parentNode not defined for citation');
@@ -121,13 +120,10 @@ export default class TinyMCEDriver extends EditorDriver {
 
                 switch (position) {
                     case Node.DOCUMENT_POSITION_PRECEDING:
-                        prev[0] = [...prev[0], [citation.id, i]];
+                        prev.itemsPreceding = [...prev.itemsPreceding, [citation.id, i]];
                         break;
                     case Node.DOCUMENT_POSITION_FOLLOWING:
-                        if (currentIndex === citationNodes.length) {
-                            currentIndex = i;
-                        }
-                        prev[1] = [...prev[1], [citation.id, i + 1]];
+                        prev.itemsFollowing = [...prev.itemsFollowing, [citation.id, i + 1]];
                         break;
                     default:
                         citation.remove();
@@ -135,13 +131,11 @@ export default class TinyMCEDriver extends EditorDriver {
                 }
                 return prev;
             },
-            <Citeproc.CitationLocations>[[], []],
+            {
+                itemsPreceding: <Citeproc.Locator>[],
+                itemsFollowing: <Citeproc.Locator>[],
+            },
         );
-
-        return {
-            currentIndex,
-            locations,
-        };
     }
 
     get selection() {
@@ -155,7 +149,7 @@ export default class TinyMCEDriver extends EditorDriver {
     }
 
     composeCitations(
-        clusters: Citeproc.CitationCluster[],
+        clusters: Citeproc.CitationResult[],
         citationByIndex: Citeproc.CitationByIndex,
         kind: Citeproc.CitationKind,
     ) {
@@ -349,6 +343,9 @@ export default class TinyMCEDriver extends EditorDriver {
             'noselect',
             'mceNonEditable',
         ]);
+        if (this.selectionCache.fresh) {
+            this.editor.selection.moveToBookmark(this.selectionCache.bookmark);
+        }
         this.editor.insertContent(staticBib.outerHTML);
     }
 }

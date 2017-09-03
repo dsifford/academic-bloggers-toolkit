@@ -1,3 +1,4 @@
+import { generateID } from 'utils/helpers';
 import { parseCSLDate, parseCSLName } from '../parsers/';
 
 /**
@@ -88,7 +89,7 @@ export class RISParser {
         const payload: CSL.Data[] = [];
 
         this.refArray.forEach((ref: string, i: number) => {
-            const refObj = this.parseSingle(ref, i);
+            const refObj = this.parseSingle(ref);
 
             if (typeof refObj === 'boolean' || !refObj.title) {
                 this.unsupportedRefs = [...this.unsupportedRefs, i + 1];
@@ -104,10 +105,9 @@ export class RISParser {
      * Parses a single RIS Object and returns its CSL.Data or false (if it can't
      * be processed)
      * @param singleRef - A single RIS string
-     * @param id        - The ID to be used for the CSL.Data object
      * @return Parsed CSL.Data
      */
-    private parseSingle(singleRef: string, id: number): CSL.Data | boolean {
+    private parseSingle(singleRef: string): CSL.Data | boolean {
         const ref = singleRef.split(/\n/);
         const citationType = ref[0].slice(6).trim();
 
@@ -116,7 +116,7 @@ export class RISParser {
         }
 
         const payload: CSL.Data = {
-            id: `${id}`,
+            id: generateID(),
             type: RISParser.RISTypes[citationType],
             issued: {
                 'date-parts': [[]],

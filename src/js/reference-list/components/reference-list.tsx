@@ -1,4 +1,5 @@
 import { stripIndents } from 'common-tags';
+import { decode } from 'he';
 import { action, observable, reaction } from 'mobx';
 import { observer } from 'mobx-react';
 import * as React from 'react';
@@ -235,7 +236,6 @@ export default class ReferenceList extends React.Component<Props> {
                 return;
             }
             case MenuActionType.INSERT_STATIC_BIBLIOGRAPHY: {
-                // FIXME: Should this be async?
                 this.insertStaticBibliography();
                 return;
             }
@@ -442,29 +442,27 @@ export default class ReferenceList extends React.Component<Props> {
             data = d;
         }
 
-        // Checks to see if there is a inline citation selected. If so,
-        // extract the ids from it and push it to data.
-        // FIXME: This can be optimized
-        const selection = this.editor.selection;
-        if (/<span.+class="(?:abt-citation|abt_cite).+?<\/span>/.test(selection)) {
-            const re = /&quot;(\w+?)&quot;/g;
-            let m: RegExpExecArray | null;
-            // tslint:disable-next-line
-            while ((m = re.exec(selection)) !== null) {
-                data.push(this.props.store.citations.CSL.get(m[1])!);
-            }
+        // Checks to see if there is a inline citation selected. If so, extract the ids from it and
+        // push the associated CSL from the store to data.
+        const selectionHasReferences = this.editor.selection.match(/<span.+class=".*abt-citation.+? data-reflist="(.+?)".+<\/span>/);
+        if (selectionHasReferences && selectionHasReferences[1]) {
+            const selectionIds: string[] = JSON.parse(
+                decode(selectionHasReferences[1])
+            )
+            data = [
+                ...data,
+                ...selectionIds.map(id => this.props.store.citations.CSL.get(id)!),
+            ]
         }
 
         let clusters;
         try {
-            const {
-                locations: [citationsBefore, citationsAfter],
-            } = this.editor.relativeCitationPositions;
+            const { itemsPreceding, itemsFollowing } = this.editor.relativeCitationPositions;
             const citation = this.processor.prepareInlineCitationData(data);
             clusters = this.processor.processCitationCluster(
                 citation,
-                citationsBefore,
-                citationsAfter
+                itemsPreceding,
+                itemsFollowing
             );
         } catch (e) {
             Rollbar.error('ReferenceList.tsx -> insertInlineCitation', e);
@@ -498,20 +496,17 @@ export default class ReferenceList extends React.Component<Props> {
     };
 
     insertStaticBibliography = async () => {
-        const data: CSL.Data[] = [];
+        let data: CSL.Data[] = [];
         this.selected.forEach(id => {
             data.push(this.props.store.citations.CSL.get(id)!);
         });
 
-        // FIXME: This can be optimized
-        const selection = this.editor.selection;
-        if (/^<div class=".*?abt-static-bib.*?"[\s\S]+<\/div>$/g.test(selection)) {
-            const re = /<div id="(\w{8,9})">/g;
-            let m: RegExpExecArray | null;
-            // tslint:disable-next-line
-            while ((m = re.exec(selection)) !== null) {
-                data.push(this.props.store.citations.CSL.get(m[1])!);
-            }
+        const selectionHasReferences = this.editor.selection.match(
+            /^<div.*? class="abt-static-bib.+? data-reflist="(.+?)"[\s\S]+<\/div>$/,
+        );
+        if (selectionHasReferences && selectionHasReferences[1]) {
+            const selectionIds: string[] = JSON.parse(decode(selectionHasReferences[1]));
+            data = [...data, ...selectionIds.map(id => this.props.store.citations.CSL.get(id)!)];
         }
 
         try {

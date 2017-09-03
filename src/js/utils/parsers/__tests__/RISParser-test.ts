@@ -105,7 +105,7 @@ ER  -
 describe('RISParser', () => {
     it('should parse webpage correctly', () => {
         const parser = new RISParser(testCases[0]);
-        const expected: CSL.Data[] = [
+        const expected: Array<Partial<CSL.Data>> = [
             {
                 URL:
                     'http://thesgem.com/2014/10/sgem92-arise-up-arise-up-egdt-vs-usual-care-for-sepsis/',
@@ -114,7 +114,6 @@ describe('RISParser', () => {
                     { family: 'Upadhye', given: 'Suneel' },
                 ],
                 'container-title': 'The Skeptics Guide to Emergency Medicine',
-                id: '0',
                 issued: {
                     'date-parts': [['2014']],
                 },
@@ -122,11 +121,11 @@ describe('RISParser', () => {
                 type: 'webpage',
             },
         ];
-        expect(parser.parse()).toEqual(expected);
+        expect(parser.parse()).toMatchObject(expected);
     });
     it('should parse journal-article correctly', () => {
         const parser = new RISParser(testCases[1]);
-        const expected: CSL.Data[] = [
+        const expected: Array<Partial<CSL.Data>> = [
             {
                 DOI: '10.15200/winn.144720.08769',
                 author: [
@@ -137,7 +136,6 @@ describe('RISParser', () => {
                     { family: 'Chan', given: 'Teresa M' },
                 ],
                 'container-title': 'The Winnower',
-                id: '0',
                 issued: {
                     'date-parts': [['2015']],
                 },
@@ -145,11 +143,11 @@ describe('RISParser', () => {
                 type: 'article-journal',
             },
         ];
-        expect(parser.parse()).toEqual(expected);
+        expect(parser.parse()).toMatchObject(expected);
     });
     it('should parse books correctly', () => {
         const parser = new RISParser(testCases[2]);
-        const expected: any = [
+        const expected: Array<Partial<CSL.Data>> = [
             {
                 ISBN: '9781100205175',
                 ISSN: '9781100205175',
@@ -161,7 +159,6 @@ describe('RISParser', () => {
                 ],
                 'container-title': 'CIHR Website',
                 editor: [{ family: 'Doe', given: 'John M' }, { family: 'Jones', given: 'Sally P' }],
-                id: '0',
                 issued: {
                     'date-parts': [['2012']],
                 },
@@ -173,7 +170,7 @@ describe('RISParser', () => {
                 type: 'book',
             },
         ];
-        expect(parser.parse()).toEqual(expected);
+        expect(parser.parse()).toMatchObject(expected);
     });
     it('should keep track of unsupported reference types', () => {
         const parser = new RISParser(testCases[3]);
@@ -187,7 +184,7 @@ describe('RISParser', () => {
     });
     it('should process an assortment of fields correctly', () => {
         const parser = new RISParser(testCases[5]);
-        const expected: any = [
+        const expected: Array<Partial<CSL.Data>> = [
             {
                 DOI: '10.000000thedoi',
                 PMCID: 'PMC23423',
@@ -207,7 +204,6 @@ describe('RISParser', () => {
                 editor: [{ family: 'Smith', given: 'John L' }, { family: 'Doe', given: 'Jane P' }],
                 event: 'event name',
                 'event-place': 'United States',
-                id: '0',
                 issue: '1',
                 issued: {
                     'date-parts': [['2011', '11', '05']],
@@ -232,6 +228,6 @@ describe('RISParser', () => {
                 volume: '1',
             },
         ];
-        expect(parser.parse()).toEqual(expected);
+        expect(parser.parse()).toMatchObject(expected);
     });
 });

@@ -617,7 +617,7 @@ exports[`<ManualEntryContainer /> should match snapshots 1`] = `
                                         padding: 0 5px;
                                         align-items: center;
                                     }
-                                    input[type="text"] {
+                                    input[type='text'] {
                                         flex: auto;
                                         height: 28px;
                                         line-height: 28px;
@@ -1822,7 +1822,7 @@ exports[`<ManualEntryContainer /> should match snapshots 2`] = `
                                         padding: 0 5px;
                                         align-items: center;
                                     }
-                                    input[type="text"] {
+                                    input[type='text'] {
                                         flex: auto;
                                         height: 28px;
                                         line-height: 28px;

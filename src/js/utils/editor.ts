@@ -55,6 +55,7 @@ export default abstract class Editor {
     ): HTMLDivElement {
         const bib = document.createElement('div');
         bib.id = Editor.bibliographyId;
+        bib.dataset.reflist = JSON.stringify(items.map(({ id }) => id));
         bib.classList.add(Editor.bibliographyId, ...classNames);
 
         if (bib.classList.contains(Editor.staticBibClass)) {

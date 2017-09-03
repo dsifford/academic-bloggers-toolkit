@@ -4,6 +4,11 @@ export interface EditorDriverConstructor {
     new (): EditorDriver;
 }
 
+export interface RelativeCitationPositions {
+    itemsPreceding: Citeproc.Locator;
+    itemsFollowing: Citeproc.Locator;
+}
+
 /**
  * Base class from which all editor drivers must be derived
  */
@@ -21,7 +26,7 @@ export default abstract class EditorDriver extends Editor {
      * Returns a `Citeproc.RelativeCitationPositions` describing citations
      * located before and after the current cursor location.
      */
-    abstract get relativeCitationPositions(): Citeproc.RelativeCitationPositions;
+    abstract get relativeCitationPositions(): RelativeCitationPositions;
 
     /** Retrive the currently selected content in the editor as a raw HTML string. */
     abstract get selection(): string;
@@ -43,7 +48,7 @@ export default abstract class EditorDriver extends Editor {
      * @param kind One of `note` or `in-text`
      */
     abstract composeCitations(
-        clusters: Citeproc.CitationCluster[],
+        clusters: Citeproc.CitationResult[],
         citationByIndex: Citeproc.CitationByIndex,
         kind: Citeproc.CitationKind,
     ): void;

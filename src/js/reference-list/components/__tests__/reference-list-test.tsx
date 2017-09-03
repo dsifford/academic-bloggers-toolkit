@@ -29,7 +29,7 @@ document.body.innerHTML = `
     </div>
 `;
 class MockEditor extends EditorDriver {
-    private _clusters: Citeproc.CitationCluster[] = [];
+    private _clusters: Citeproc.CitationResult[] = [];
     private _selection: string = '';
     // End mock helpers ===================
 
@@ -41,13 +41,10 @@ class MockEditor extends EditorDriver {
     }
     get relativeCitationPositions() {
         const randomStartPoint = Math.floor(Math.random() * (this._clusters.length - 1));
-        const positions = [...this._clusters].map(([index, _, id]) => [id, index]);
+        const positions: any = [...this._clusters].map(([index, _, id]) => [id, index]);
         return {
-            currentIndex: randomStartPoint,
-            locations: [
-                positions.slice(0, randomStartPoint),
-                positions.slice(randomStartPoint),
-            ] as [Citeproc.CitationsPrePost, Citeproc.CitationsPrePost],
+            itemsPreceding: positions.slice(0, randomStartPoint),
+            itemsFollowing: positions.slice(randomStartPoint),
         };
     }
     get selection() {
@@ -457,7 +454,7 @@ describe('<ReferenceList />', async () => {
             expect(mocks.editorMock).toHaveBeenCalledWith('setBibliography');
         });
         test('nothing selected, with static bibliography containing one item selected', async () => {
-            (instance.editor as MockEditor).selection = `<div class="abt-static-bib">
+            (instance.editor as MockEditor).selection = `<div class="abt-static-bib" data-reflist="[&quot;bbbbbbbbb&quot;]">
                 <div id="bbbbbbbbb"></div>
             </div>`;
             await instance.insertStaticBibliography();
@@ -515,6 +512,8 @@ describe('<ReferenceList />', async () => {
                 {
                     citationID: 'first',
                     citationItems: [{ id: '1' }],
+                    // FIXME: remove this when the bug is fixed.
+                    properties: {},
                 },
             ];
             store.citations.init(cited);

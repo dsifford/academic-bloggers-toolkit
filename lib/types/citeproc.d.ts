@@ -1,8 +1,3 @@
-// tslint:disable no-namespace
-
-// FIXME: Comb through all of this and update to match below:
-// http://citeproc-js.readthedocs.io/en/latest/csl-json/markup.html
-
 declare module 'citeproc' {
     const CSL: Citeproc.EngineConstructor;
     export = CSL;
@@ -10,8 +5,9 @@ declare module 'citeproc' {
 
 declare namespace Citeproc {
     /**
-     * 1: Bibmeta
-     * 2: Array of raw citation HTML.
+     * 0: `Bibmeta`
+     *
+     * 1: Array of raw formatted reference HTML.
      */
     type Bibliography = [Bibmeta, string[]];
 
@@ -21,71 +17,101 @@ declare namespace Citeproc {
     type CitationByIndex = Citation[];
 
     /**
-     * 0: The index of the HTMLSpanElement within the document
-     * 1: An HTML string of the inline citation.
-     * 2: A string containing a unique ID which should be used for the span
-     *    element's ID.
+     * Enum describing the "where", "what", and "id" details for a given citation after being
+     * processed.
+     *
+     * 0: The index of the citation's `HTMLElement` within the document
+     *
+     * 1: An HTML string to be used for the inline citation
+     *
+     * 2: A string containing a unique ID which should be used for the citations `HTMLElement` ID
      */
-    type CitationCluster = [number, string, string];
+    type CitationResult = [number, string, string];
 
     /**
-     * 0: ID of the HTMLSpanElement containing the inline citation(s)
-     * 1: 0-based index of the location of the HTMLSpanElement in the document
+     * Enum describing either the citations occuring before or after a given citation in the
+     * document.
+     *
+     * 0: ID of the `HTMLElement` containing the inline citation(s)
+     *
+     * 1: 0-based index of the location of the `HTMLElement` in the document
      */
-    type CitationsPrePost = [string, number][];
+    type Locator = [string, number][];
 
-    /**
-     * Describes the citations the occur before [0] and after [1] the current
-     * citation being processed
-     */
-    type CitationLocations = [CitationsPrePost, CitationsPrePost];
-
-    interface RelativeCitationPositions {
-        /** The zero-based index of the HTMLSpanElement being inserted */
-        currentIndex: number;
-        locations: CitationLocations;
+    interface CitationResultMeta {
+        /**
+         * Did the result of the operation result in a change in the structure of the bibliography?
+         * @ignore This is highly inaccurate and buggy. Do not use.
+         */
+        bibchange: boolean;
+        /**
+         * Array of error messages that occurred during the operation, if they occurred.
+         */
+        citation_errors: string[];
     }
 
     /**
-     * 0: A string containing a unique ID which should be used for the span
-     *    element's ID.
-     * 1: The index of the HTMLSpanElement within the document
+     * 0: A string containing a unique ID which should be used for the span element's ID.
+     *
+     * 1: The index of the HTMLSpanElement within the document.
+     *
      * 2: An HTML string of the inline citation.
      */
     type RebuildProcessorStateData = [string, number, string];
 
+    /**
+     * Where...
+     *
+     * `in-text` = regular inline citation type.
+     *
+     * `note` = footnote type.
+     */
     type CitationKind = 'in-text' | 'note';
 
     interface Bibmeta {
-        /** NOT USED - Closing div tag for bibliography. */
+        /**
+         * An HTML string to be appended to the end of the finished bibliography string.
+         * @ignore (unused by ABT)
+         */
         bibend: string;
-        /** array of strings? for errors. */
-        bibliography_errors: string[];
-        /** NOT USED - Opening div tag for bibliography. */
+        /**
+         * An HTML string to be appended to the front of the finished bibliography string.
+         * @ignore (unused by ABT)
+         */
         bibstart: string;
-        /** (not sure what for) */
-        done: boolean;
-        /** array of itemIDs */
-        entry_ids: Array<[string]>;
-        /** Vertical margin between each individual reference item. */
+        /**
+         * Array of error messages, or an empty array if no errors occurred.
+         */
+        bibliography_errors: string[];
+        /**
+         * Array of Array of CSL Citation IDs. As far as I know, the inner array should only ever
+         * contain one string, which would equal the single ID for that individual citation entry.
+         */
+        entry_ids: string[][];
+        /**
+         * An integer representing the spacing between entries in the bibliography.
+         */
         entryspacing: number;
         /**
          * Should the bibliography have hanging indents?
-         * NOTE: There is currently a bug in Citeproc-js where this value is actually
-         *   a number. This should not affect this though.
+         * NOTE: There is currently a bug in Citeproc-js where this value is actually a number.
+         * This should not create an issue though.
          */
-        hangingindent: boolean;
-        /** Vertical spacing within each individual reference item. */
+        hangingindent?: boolean;
+        /**
+         * An integer representing the spacing between the lines within each bibliography entry.
+         * i.e. padding above and below each line
+         */
         linespacing: number;
         /**
-         * NOT USED - Maximum width of the label for the bibliography. In other words,
-         *   a bibliography numbered up to 1000 will have a greater maxoffset
-         *   than one numbered up to 5.
+         * The maximum number of characters that appear in any label used in the bibliography. The
+         * client that controls the final rendering of the bibliography string should use this
+         * value to calculate and apply a suitable indentation length.
          */
         maxoffset: number;
         /**
-         * Too difficult to explain.
-         * See here: https://github.com/citation-style-language/styles/issues/804#issuecomment-31467854
+         * @see http://docs.citationstyles.org/en/stable/specification.html#bibliography-specific-options
+         * @see https://github.com/citation-style-language/styles/issues/804#issuecomment-31467854
          */
         'second-field-align': 'flush' | 'margin' | boolean;
     }
@@ -99,7 +125,7 @@ declare namespace Citeproc {
             id: string;
             item?: CSL.Data;
         }>;
-        properties?: {
+        properties: {
             /** 0-based index of the citation group in the document */
             noteIndex?: number;
         };
@@ -131,13 +157,38 @@ declare namespace Citeproc {
         opt: {
             xclass: CitationKind;
         };
-        updateItems: any; // FIXME:
+        /**
+         * Prunes all citations from the processor not listed in `idList`.
+         *
+         * @param idList An array of citation IDs to keep
+         */
+        updateItems(idList: string[]): void;
+        /**
+         * Prunes all citations (listed as "uncited") from the processor not listed in `idList`.
+         *
+         * @param idList An array of citation IDs to keep
+         */
+        updateUncitedItems(idList: string[]): void;
+        /**
+         * Returns a single bibliography object based on the current state of the processor registry.
+         */
         makeBibliography(): Bibliography | boolean;
+        /**
+         * Adds a citation to the registry and regenerates the document's citations.
+         * @param citation The new citation to be added
+         * @param citationsPre Citations occurring before the citation in the document
+         * @param citationsPost Citations occurring after the citation in the document
+         */
         processCitationCluster(
-            citation: Citeproc.Citation,
-            pre: Citeproc.CitationsPrePost,
-            post: Citeproc.CitationsPrePost,
-        ): [{ bibchange: boolean; citation_errors: string[] }, CitationCluster[]];
+            citation: Citation,
+            citationsPre: Locator,
+            citationsPost: Locator,
+        ): [CitationResultMeta, CitationResult[]];
+        /**
+         * Rebuilds the state of the processor to match a given `CitationByIndex` object.
+         *
+         * @param citationByIndex The new state that should be matched
+         */
         rebuildProcessorState(citationByIndex: Citation[]): RebuildProcessorStateData[];
     }
 
@@ -147,8 +198,6 @@ declare namespace Citeproc {
         };
     }
 }
-
-type Item = CSL.Data;
 
 /*
 
