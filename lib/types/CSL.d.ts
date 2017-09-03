@@ -103,7 +103,7 @@ declare namespace CSL {
 
     interface Data {
         id: string;
-        type?: CitationType; // tslint:disable-line
+        type: CitationType;
         categories?: string[];
         language?: string;
         journalAbbreviation?: string;

@@ -34,6 +34,7 @@ describe('parseManualData()', () => {
     beforeEach(() => {
         data = {
             manualData: {
+                type: 'article-journal',
                 id: '12345',
                 title: 'Test title',
             },
@@ -50,6 +51,7 @@ describe('parseManualData()', () => {
                     author: [{ family: 'Doe', given: 'John' }, { family: 'Smith', given: 'Jane' }],
                     id: '12345',
                     title: 'Test title',
+                    type: 'article-journal',
                 },
             ],
             '',

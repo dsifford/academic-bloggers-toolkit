@@ -290,6 +290,8 @@ export const ABT_i18n: BackendGlobals.ABT_i18n = {
         noResults: 'Your search returned 0 results',
         risLeftovers: 'The following references were unable to be processed',
         statusError: 'Request returned a non-200 status code',
+        missingPhpFeatures:
+            'Your WordPress PHP installation is incomplete. You must have the following PHP extensions enabled to use this feature: "dom", "libxml"',
         warnings: {
             warning: 'Warning',
             reason: 'Reason',

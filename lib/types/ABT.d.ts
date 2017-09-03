@@ -36,8 +36,6 @@ declare namespace ABT {
             /* CSV list of tags */
             tag?: string;
         };
-        /* Only used if dom and libxml extensions aren't enabled */
-        error?: string;
         /* Published Date ISO string */
         issued?: string;
         og: {

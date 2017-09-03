@@ -125,6 +125,7 @@ export class RISParser {
 
         const pageHolder: any = {};
 
+        // tslint:disable-next-line cyclomatic-complexity
         ref.forEach((line: string) => {
             const key = line.slice(0, 2);
             const val = line.slice(6).trim();
@@ -186,7 +187,7 @@ export class RISParser {
                     payload['call-number'] = val;
                     break;
                 case 'CY': // Conference location, publish location, city of publisher (zotero)
-                    if (['paper-conference', 'speech'].includes(payload.type!)) {
+                    if (['paper-conference', 'speech'].includes(payload.type)) {
                         payload['event-place'] = val;
                         break;
                     }
@@ -226,7 +227,7 @@ export class RISParser {
                 case 'JF':
                 case 'T2':
                     payload['container-title'] = val;
-                    if (['paper-conference', 'speech'].includes(payload.type!)) {
+                    if (['paper-conference', 'speech'].includes(payload.type)) {
                         payload.event = val;
                     }
                     break;

@@ -21,6 +21,7 @@ function generate_translations() {
     ];
 
     $ABT_i18n->errors = [
+        'missingPhpFeatures' => sprintf(__('Your WordPress PHP installation is incomplete. You must have the following PHP extensions enabled to use this feature: %s', 'academic-bloggers-toolkit'), '"dom", "libxml"'),
         'badRequest' => __('Request not valid', 'academic-bloggers-toolkit'),
         'denied' => __('Site denied request', 'academic-bloggers-toolkit'),
         'fileExtensionError' => __('Invalid file extension. Extension must be .ris, .bib, or .bibtex', 'academic-bloggers-toolkit'),

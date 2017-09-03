@@ -33,6 +33,7 @@ export class TeXParser {
         for (const citation of this.bibJSON) {
             const c: CSL.Data = {
                 id: generateID(),
+                type: this.parseType(citation.entryType),
             };
             const date = {
                 month: '',
@@ -122,7 +123,6 @@ export class TeXParser {
                         return;
                 }
             });
-            c.type = this.parseType(citation.entryType);
             const dateParts: CSL.Date = {
                 'date-parts': [[date.year, date.month]],
             };

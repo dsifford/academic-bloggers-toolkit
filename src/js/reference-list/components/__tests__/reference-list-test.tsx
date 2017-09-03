@@ -112,7 +112,7 @@ describe('<ReferenceList />', async () => {
     beforeEach(() => jest.resetAllMocks());
     describe('snapshots', () => {
         beforeEach(() => jest.resetAllMocks());
-        test('initial mount with empty state', () => {
+        it('initial mount with empty state', () => {
             const { component, instance } = setup();
 
             // Loading state
@@ -124,14 +124,14 @@ describe('<ReferenceList />', async () => {
             // Loaded state
             expect(toJSON(component)).toMatchSnapshot();
         });
-        test('menu toggled open', () => {
+        it('menu toggled open', () => {
             const { component, instance } = setup();
             instance.loading.set(false);
             instance.toggleMenu();
             component.update();
             expect(toJSON(component)).toMatchSnapshot();
         });
-        test('pinned state toggled', () => {
+        it('pinned state toggled', () => {
             const { component, instance } = setup();
             instance.loading.set(false);
             instance.togglePinned();
@@ -209,7 +209,7 @@ describe('<ReferenceList />', async () => {
     });
     describe('Dialog submit handlers', () => {
         beforeEach(() => jest.resetAllMocks());
-        test('add reference', async () => {
+        it('add reference', async () => {
             mocks.getRemoteData
                 .mockReturnValue(Promise.resolve([[]]))
                 .mockReturnValueOnce(Promise.resolve([[]]))
@@ -259,7 +259,7 @@ describe('<ReferenceList />', async () => {
             expect(store.citations.lookup.ids.length).toBe(2);
             expect(instance.insertInlineCitation).toHaveBeenCalledTimes(1);
         });
-        test('import and edit', () => {
+        it('import and edit', () => {
             const { instance } = setup();
             instance.initProcessor = jest.fn();
             instance.addReferences = jest.fn();
@@ -288,7 +288,7 @@ describe('<ReferenceList />', async () => {
     });
     describe('Menu selections', () => {
         beforeEach(() => jest.resetAllMocks());
-        test('CHANGE_STYLE', () => {
+        it('CHANGE_STYLE', () => {
             const { component, instance } = setup();
             instance.initProcessor = jest.fn();
             instance.loading.set(false);
@@ -301,7 +301,7 @@ describe('<ReferenceList />', async () => {
             expect(store.citationStyle.get()).toBe('apa');
             expect(instance.initProcessor).toHaveBeenCalledTimes(1);
         });
-        test('IMPORT_RIS', () => {
+        it('IMPORT_RIS', () => {
             const { component, instance } = setup();
             instance.initProcessor = jest.fn();
             instance.loading.set(false);
@@ -313,7 +313,7 @@ describe('<ReferenceList />', async () => {
             menu.simulate('submit', { kind: 'OPEN_IMPORT_DIALOG' });
             expect(instance.currentDialog.get()).toBe('IMPORT');
         });
-        test('REFRESH_PROCESSOR', () => {
+        it('REFRESH_PROCESSOR', () => {
             const { component, instance } = setup();
             instance.initProcessor = jest.fn();
             instance.loading.set(false);
@@ -325,7 +325,7 @@ describe('<ReferenceList />', async () => {
             expect(store.citations.pruneOrphanedCitations).toHaveBeenCalled();
             expect(instance.initProcessor).toHaveBeenCalled();
         });
-        test('DESTROY_PROCESSOR', () => {
+        it('DESTROY_PROCESSOR', () => {
             const { component, instance } = setup();
             instance.loading.set(false);
             instance.initProcessor = jest.fn();
@@ -336,7 +336,7 @@ describe('<ReferenceList />', async () => {
             menu.simulate('submit', { kind: 'DESTROY_PROCESSOR' });
             expect(instance.initProcessor).toHaveBeenCalled();
         });
-        test('INSERT_STATIC_BIBLIOGRAPHY', () => {
+        it('INSERT_STATIC_BIBLIOGRAPHY', () => {
             const { component, instance } = setup();
             instance.loading.set(false);
             instance.insertStaticBibliography = jest.fn();
@@ -347,7 +347,7 @@ describe('<ReferenceList />', async () => {
             menu.simulate('submit', { kind: 'INSERT_STATIC_BIBLIOGRAPHY' });
             expect(instance.insertStaticBibliography).toHaveBeenCalled();
         });
-        test('unknown value', () => {
+        it('unknown value', () => {
             const { component, instance } = setup();
             instance.loading.set(false);
             instance.initProcessor = jest.fn();
@@ -359,7 +359,7 @@ describe('<ReferenceList />', async () => {
         });
     });
     describe('Lifecycle methods', () => {
-        test('componentDidMount', () => {
+        it('componentDidMount', () => {
             const { instance } = setup();
             const windowAddEventListener = window.addEventListener;
             const documentAddEventListener = document.addEventListener;
@@ -371,7 +371,7 @@ describe('<ReferenceList />', async () => {
             window.addEventListener = windowAddEventListener;
             document.addEventListener = documentAddEventListener;
         });
-        test('componentWillUnmount', () => {
+        it('componentWillUnmount', () => {
             const { instance } = setup();
             const windowRemoveEventListener = window.removeEventListener;
             const documentRemoveEventListener = document.removeEventListener;
@@ -389,13 +389,17 @@ describe('<ReferenceList />', async () => {
         beforeEach(() => {
             jest.resetAllMocks();
             ({ component, instance } = setup());
-            store.citations.CSL.set('1', { id: '1', title: 'test citation' });
+            store.citations.CSL.set('1', {
+                id: '1',
+                title: 'test citation',
+                type: 'article-journal',
+            });
             instance.loading.set(false);
             instance.processor.prepareInlineCitationData = jest.fn();
             instance.processor.processCitationCluster = jest.fn();
             component.update();
         });
-        test('insert from selected items in reference list, none selected in editor', async () => {
+        it('insert from selected items in reference list, none selected in editor', async () => {
             instance.selected.push('1');
             const preventDefault = jest.fn();
             const e = ({ preventDefault } as any) as React.MouseEvent<any>;
@@ -407,17 +411,22 @@ describe('<ReferenceList />', async () => {
             expect(instance.selected.length).toBe(0);
             expect(
                 (instance.processor.prepareInlineCitationData as jest.Mock<any>).mock.calls[0][0],
-            ).toEqual([{ id: '1', title: 'test citation' }]);
+            ).toEqual([{ id: '1', title: 'test citation', type: 'article-journal' }]);
         });
-        test('insert from editor selection, selection is empty', async () => {
+        it('insert from editor selection, selection is empty', async () => {
             (instance.editor as MockEditor).selection =
                 '<span class="abt-citation" data-reflist="[&quot;1&quot;]"></span>';
-            await instance.insertInlineCitation(undefined, [{ id: '2', title: 'citation 2' }]);
+            await instance.insertInlineCitation(undefined, [
+                { id: '2', title: 'citation 2', type: 'article-journal' },
+            ]);
             expect(
                 (instance.processor.prepareInlineCitationData as jest.Mock<any>).mock.calls[0][0],
-            ).toEqual([{ id: '2', title: 'citation 2' }, { id: '1', title: 'test citation' }]);
+            ).toEqual([
+                { id: '2', title: 'citation 2', type: 'article-journal' },
+                { id: '1', title: 'test citation', type: 'article-journal' },
+            ]);
         });
-        test('error handling', async () => {
+        it('error handling', async () => {
             // instance.processor.processCitationCluster = jest.fn().mockImplementation(() => {
             //     throw new Error('Some error occurred');
             // });
@@ -435,9 +444,9 @@ describe('<ReferenceList />', async () => {
     });
     describe('Insert static bibliography', () => {
         let instance: ReferenceList;
-        const citations = {
-            a: { id: 'a', title: 'citation a' },
-            b: { id: 'b', title: 'citation b' },
+        const citations: any = {
+            a: { id: 'a', title: 'citation a', type: 'article-journal' },
+            b: { id: 'b', title: 'citation b', type: 'article-journal' },
         };
         const createStaticBibliography = jest.fn();
         beforeEach(() => {
@@ -447,13 +456,13 @@ describe('<ReferenceList />', async () => {
             store.citations.CSL.set('bbbbbbbbb', { ...citations.b });
             instance.processor.createStaticBibliography = createStaticBibliography;
         });
-        test('single selection, without static bib selected', async () => {
+        it('single selection, without static bib selected', async () => {
             instance.selected.push('aaaaaaaaa');
             await instance.insertStaticBibliography();
             expect(createStaticBibliography).toHaveBeenCalledWith([citations.a]);
             expect(mocks.editorMock).toHaveBeenCalledWith('setBibliography');
         });
-        test('nothing selected, with static bibliography containing one item selected', async () => {
+        it('nothing selected, with static bibliography containing one item selected', async () => {
             (instance.editor as MockEditor).selection = `<div class="abt-static-bib" data-reflist="[&quot;bbbbbbbbb&quot;]">
                 <div id="bbbbbbbbb"></div>
             </div>`;
@@ -461,7 +470,7 @@ describe('<ReferenceList />', async () => {
             expect(createStaticBibliography).toHaveBeenCalledWith([citations.b]);
             expect(mocks.editorMock).toHaveBeenCalledWith('setBibliography');
         });
-        test('nothing selected, no static bib selected', async () => {
+        it('nothing selected, no static bib selected', async () => {
             createStaticBibliography.mockReturnValue(
                 Promise.reject(new Error('Some error occurred')),
             );
@@ -527,7 +536,7 @@ describe('<ReferenceList />', async () => {
                 </div>
             `;
         });
-        test('list not pinned, menu closed', async () => {
+        it('list not pinned, menu closed', async () => {
             instance.ui.cited.isOpen.set(false);
             instance.togglePinned();
             instance.handleScroll();
@@ -535,27 +544,27 @@ describe('<ReferenceList />', async () => {
             expect(instance.ui.uncited.maxHeight.get()).toBe('400px');
             expect(document.getElementById('abt-reflist')!.style.top).toBe('');
         });
-        test('both lists closed, menu closed', () => {
+        it('both lists closed, menu closed', () => {
             instance.ui.cited.isOpen.set(false);
             instance.handleScroll();
             expect(instance.ui.cited.maxHeight.get()).toBe('calc(100vh - 275px)');
             expect(instance.ui.uncited.maxHeight.get()).toBe('calc(100vh - 275px)');
             expect(document.getElementById('abt-reflist')!.style.top).toBe('95px');
         });
-        test('cited list open, menu closed', async () => {
+        it('cited list open, menu closed', async () => {
             instance.handleScroll();
             expect(instance.ui.cited.maxHeight.get()).toBe('calc(100vh - 275px)');
             expect(instance.ui.uncited.maxHeight.get()).toBe('calc(100vh - 275px)');
             expect(document.getElementById('abt-reflist')!.style.top).toBe('95px');
         });
-        test('cited list open, menu open', async () => {
+        it('cited list open, menu open', async () => {
             instance.toggleMenu();
             instance.handleScroll();
             expect(instance.ui.cited.maxHeight.get()).toBe('calc(100vh - 359px)');
             expect(instance.ui.uncited.maxHeight.get()).toBe('calc(100vh - 359px)');
             expect(document.getElementById('abt-reflist')!.style.top).toBe('95px');
         });
-        test('both lists open, menu closed, uncited list height > cited list', async () => {
+        it('both lists open, menu closed, uncited list height > cited list', async () => {
             instance.ui.uncited.isOpen.set(true);
             setHeights(19, 29);
             instance.handleScroll();
@@ -563,7 +572,7 @@ describe('<ReferenceList />', async () => {
             expect(instance.ui.uncited.maxHeight.get()).toBe('705px');
             expect(document.getElementById('abt-reflist')!.style.top).toBe('95px');
         });
-        test('both lists open, menu closed, cited list height > uncited height', async () => {
+        it('both lists open, menu closed, cited list height > uncited height', async () => {
             instance.ui.uncited.isOpen.set(true);
             setHeights(199, 29);
             instance.handleScroll();
@@ -571,7 +580,7 @@ describe('<ReferenceList />', async () => {
             expect(instance.ui.uncited.maxHeight.get()).toBe('60px');
             expect(document.getElementById('abt-reflist')!.style.top).toBe('95px');
         });
-        test('both lists open, menu closed, allocated height > remaining height', async () => {
+        it('both lists open, menu closed, allocated height > remaining height', async () => {
             instance.ui.uncited.isOpen.set(true);
             setHeights(2000, 1000);
             instance.handleScroll();
@@ -579,7 +588,7 @@ describe('<ReferenceList />', async () => {
             expect(instance.ui.uncited.maxHeight.get()).toBe('362.5px');
             expect(document.getElementById('abt-reflist')!.style.top).toBe('95px');
         });
-        test('cited list or uncited list for some reason doesnt exist', async () => {
+        it('cited list or uncited list for some reason doesnt exist', async () => {
             instance.ui.uncited.isOpen.set(true);
             document.getElementById('cited')!.remove();
             document.getElementById('uncited')!.remove();

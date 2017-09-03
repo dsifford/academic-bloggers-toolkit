@@ -42,6 +42,7 @@ declare namespace BackendGlobals {
     interface ABT_i18n {
         citationTypes: ABT.CitationTypes;
         errors: {
+            missingPhpFeatures: 'Your WordPress PHP installation is incomplete. You must have the following PHP extensions enabled to use this feature: "dom", "libxml"';
             badRequest: 'Request not valid';
             denied: 'Site denied request';
             fileExtensionError: 'Invalid file extension. Extension must be .ris, .bib, or .bibtex';

@@ -16,6 +16,7 @@ describe('Store', () => {
             store.citations.CSL.set('newcitation', {
                 id: 'zzzzzzzz',
                 title: 'new citation',
+                type: 'article-journal',
             });
             expect(store.citations.uncited.length).toEqual(2);
         });
@@ -98,7 +99,7 @@ describe('Store', () => {
         });
         it('should add CSL items with addItems()', () => {
             expect(store.citations.CSL.keys().length).toBe(3);
-            const item: CSL.Data = { id: 'newItem', title: 'new item' };
+            const item: CSL.Data = { id: 'newItem', title: 'new item', type: 'article-journal' };
             store.citations.addItems([item]);
             expect(store.citations.CSL.keys().length).toBe(4);
         });
@@ -131,12 +132,14 @@ describe('Store', () => {
                 title: 'testing',
                 author: [{ family: 'smith', given: 'john' }],
                 edition: 1,
+                type: 'article-journal',
             };
             const cite2: CSL.Data = {
                 id: '123456',
                 title: 'testing',
                 author: [{ family: 'smith', given: 'john' }],
                 edition: 2,
+                type: 'article-journal',
             };
             store.citations.addItems([cite1]);
             store.citations.addItems([cite2]);
@@ -148,12 +151,14 @@ describe('Store', () => {
                 title: 'testing',
                 author: [{ family: 'smith', given: 'john' }],
                 edition: 1,
+                type: 'article-journal',
             };
             const cite2: CSL.Data = {
                 id: '54321',
                 title: 'test 2',
                 author: [{ family: 'smith', given: 'john' }],
                 edition: 2,
+                type: 'article-journal',
             };
             const byIndex: Citeproc.CitationByIndex = [
                 {

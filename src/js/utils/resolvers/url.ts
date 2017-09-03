@@ -11,6 +11,11 @@ export interface URLMeta {
     url: string;
 }
 
+// tslint:disable cyclomatic-complexity
+// Disabling rule in this instance because `||` short-circuit evaluation is counted toward the
+// complexity and that feature is instrumental to this function.
+// Without it, the function would _more_ complex.
+
 /**
  * Communicates with AJAX to the WordPress server to retrieve metadata for a given web URL.
  * @param url - The URL of interest
@@ -25,12 +30,14 @@ export async function getFromURL(url: string): Promise<URLMeta> {
         body,
         credentials: 'same-origin',
     });
-    if (!req.ok) throw new Error(req.statusText);
-    const res: ABT.ExternalSiteMeta = await req.json();
 
-    if (res.error) {
-        throw new Error(res.error);
+    if (!req.ok) {
+        throw new Error(
+            req.status === 501 ? top.ABT_i18n.errors.missingPhpFeatures : req.statusText,
+        );
     }
+
+    const res: ABT.ExternalSiteMeta = await req.json();
 
     const content_title = res.og.title || res.sailthru.title || res.title || '';
     const site_title = res.og.site_name || '';
@@ -50,3 +57,4 @@ export async function getFromURL(url: string): Promise<URLMeta> {
         url,
     };
 }
+// tslint:enable cyclomatic-complexity

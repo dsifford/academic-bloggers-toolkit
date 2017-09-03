@@ -24,14 +24,17 @@ exports[`<ItemList /> should match snapshot 1`] = `
         "1": Object {
           "id": "1",
           "title": "Test item 1",
+          "type": "article-journal",
         },
         "2": Object {
           "id": "2",
           "title": "Test item 2",
+          "type": "article-journal",
         },
         "3": Object {
           "id": "3",
           "title": "Test item 3",
+          "type": "article-journal",
         },
       }
     }
@@ -41,14 +44,17 @@ exports[`<ItemList /> should match snapshot 1`] = `
         Object {
           "id": "1",
           "title": "Test item 1",
+          "type": "article-journal",
         },
         Object {
           "id": "2",
           "title": "Test item 2",
+          "type": "article-journal",
         },
         Object {
           "id": "3",
           "title": "Test item 3",
+          "type": "article-journal",
         },
       ]
     }
@@ -116,14 +122,17 @@ exports[`<ItemList /> should match snapshot 2`] = `
         "1": Object {
           "id": "1",
           "title": "Test item 1",
+          "type": "article-journal",
         },
         "2": Object {
           "id": "2",
           "title": "Test item 2",
+          "type": "article-journal",
         },
         "3": Object {
           "id": "3",
           "title": "Test item 3",
+          "type": "article-journal",
         },
       }
     }
@@ -133,14 +142,17 @@ exports[`<ItemList /> should match snapshot 2`] = `
         Object {
           "id": "1",
           "title": "Test item 1",
+          "type": "article-journal",
         },
         Object {
           "id": "2",
           "title": "Test item 2",
+          "type": "article-journal",
         },
         Object {
           "id": "3",
           "title": "Test item 3",
+          "type": "article-journal",
         },
       ]
     }
@@ -205,6 +217,7 @@ exports[`<Items /> should match snapshot 1`] = `
       Object {
         "id": "1",
         "title": "Test item 1",
+        "type": "article-journal",
       }
     }
     id="1"
@@ -218,6 +231,7 @@ exports[`<Items /> should match snapshot 1`] = `
       Object {
         "id": "2",
         "title": "Test item 2",
+        "type": "article-journal",
       }
     }
     id="2"
@@ -231,6 +245,7 @@ exports[`<Items /> should match snapshot 1`] = `
       Object {
         "id": "3",
         "title": "Test item 3",
+        "type": "article-journal",
       }
     }
     id="3"
@@ -259,6 +274,7 @@ exports[`<Items /> should match snapshot 2`] = `
       Object {
         "id": "1",
         "title": "Test item 1",
+        "type": "article-journal",
       }
     }
     id="1"
@@ -272,6 +288,7 @@ exports[`<Items /> should match snapshot 2`] = `
       Object {
         "id": "2",
         "title": "Test item 2",
+        "type": "article-journal",
       }
     }
     id="2"
@@ -285,6 +302,7 @@ exports[`<Items /> should match snapshot 2`] = `
       Object {
         "id": "3",
         "title": "Test item 3",
+        "type": "article-journal",
       }
     }
     id="3"

@@ -16,10 +16,14 @@ const createItems = (numItems: number): MockItems => {
     }
     const items = Array(numItems)
         .fill(0)
-        .map((_, i) => ({
-            id: `${i + 1}`,
-            title: `Test item ${i + 1}`,
-        }));
+        .map(
+            (_, i) =>
+                ({
+                    id: `${i + 1}`,
+                    type: 'article-journal',
+                    title: `Test item ${i + 1}`,
+                } as CSL.Data),
+        );
     return {
         items,
         CSL: items.map(item => [item.id, item]),

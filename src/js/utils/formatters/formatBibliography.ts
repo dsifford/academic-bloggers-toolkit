@@ -17,6 +17,7 @@ export function formatBibliography(
     const [bibmeta, bibHTML] = rawBib;
     const temp = document.createElement('div');
 
+    // tslint:disable-next-line cyclomatic-complexity
     const payload: ABT.Bibliography = bibHTML.map((html, i) => {
         if (/CSL STYLE ERROR/.test(html)) {
             return { html, id: bibmeta.entry_ids[i][0] };
