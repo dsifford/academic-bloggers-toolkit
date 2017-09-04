@@ -13,19 +13,19 @@ exports[`<Badge /> count >= 99 1`] = `
     jsx={true}
   >
     
-                        div {
-                            color: #fff;
-                            border-radius: 20px;
-                            padding: 0 10px;
-                            font-size: 11px;
-                            font-weight: bold;
-                            line-height: 20px;
-                            margin-left: 10px;
-                            display: inline-block;
-                            text-transform: uppercase;
-                            position: relative;
-                        }
-                    
+                    div {
+                        color: #fff;
+                        border-radius: 20px;
+                        padding: 0 10px;
+                        font-size: 11px;
+                        font-weight: bold;
+                        line-height: 20px;
+                        margin-left: 10px;
+                        display: inline-block;
+                        text-transform: uppercase;
+                        position: relative;
+                    }
+                
   </style>
 </div>
 `;
@@ -43,19 +43,19 @@ exports[`<Badge /> count >= 99 2`] = `
     jsx={true}
   >
     
-                        div {
-                            color: #fff;
-                            border-radius: 20px;
-                            padding: 0 10px;
-                            font-size: 11px;
-                            font-weight: bold;
-                            line-height: 20px;
-                            margin-left: 10px;
-                            display: inline-block;
-                            text-transform: uppercase;
-                            position: relative;
-                        }
-                    
+                    div {
+                        color: #fff;
+                        border-radius: 20px;
+                        padding: 0 10px;
+                        font-size: 11px;
+                        font-weight: bold;
+                        line-height: 20px;
+                        margin-left: 10px;
+                        display: inline-block;
+                        text-transform: uppercase;
+                        position: relative;
+                    }
+                
   </style>
 </div>
 `;
@@ -73,19 +73,19 @@ exports[`<Badge /> defaults < 99 1`] = `
     jsx={true}
   >
     
-                        div {
-                            color: #fff;
-                            border-radius: 20px;
-                            padding: 0 10px;
-                            font-size: 11px;
-                            font-weight: bold;
-                            line-height: 20px;
-                            margin-left: 10px;
-                            display: inline-block;
-                            text-transform: uppercase;
-                            position: relative;
-                        }
-                    
+                    div {
+                        color: #fff;
+                        border-radius: 20px;
+                        padding: 0 10px;
+                        font-size: 11px;
+                        font-weight: bold;
+                        line-height: 20px;
+                        margin-left: 10px;
+                        display: inline-block;
+                        text-transform: uppercase;
+                        position: relative;
+                    }
+                
   </style>
 </div>
 `;
@@ -103,19 +103,19 @@ exports[`<Badge /> defaults < 99 2`] = `
     jsx={true}
   >
     
-                        div {
-                            color: #fff;
-                            border-radius: 20px;
-                            padding: 0 10px;
-                            font-size: 11px;
-                            font-weight: bold;
-                            line-height: 20px;
-                            margin-left: 10px;
-                            display: inline-block;
-                            text-transform: uppercase;
-                            position: relative;
-                        }
-                    
+                    div {
+                        color: #fff;
+                        border-radius: 20px;
+                        padding: 0 10px;
+                        font-size: 11px;
+                        font-weight: bold;
+                        line-height: 20px;
+                        margin-left: 10px;
+                        display: inline-block;
+                        text-transform: uppercase;
+                        position: relative;
+                    }
+                
   </style>
 </div>
 `;
@@ -133,19 +133,19 @@ exports[`<Badge /> defaults < 99 3`] = `
     jsx={true}
   >
     
-                        div {
-                            color: #fff;
-                            border-radius: 20px;
-                            padding: 0 10px;
-                            font-size: 11px;
-                            font-weight: bold;
-                            line-height: 20px;
-                            margin-left: 10px;
-                            display: inline-block;
-                            text-transform: uppercase;
-                            position: relative;
-                        }
-                    
+                    div {
+                        color: #fff;
+                        border-radius: 20px;
+                        padding: 0 10px;
+                        font-size: 11px;
+                        font-weight: bold;
+                        line-height: 20px;
+                        margin-left: 10px;
+                        display: inline-block;
+                        text-transform: uppercase;
+                        position: relative;
+                    }
+                
   </style>
 </div>
 `;
@@ -163,19 +163,19 @@ exports[`<Badge /> with color set < 99 1`] = `
     jsx={true}
   >
     
-                        div {
-                            color: #fff;
-                            border-radius: 20px;
-                            padding: 0 10px;
-                            font-size: 11px;
-                            font-weight: bold;
-                            line-height: 20px;
-                            margin-left: 10px;
-                            display: inline-block;
-                            text-transform: uppercase;
-                            position: relative;
-                        }
-                    
+                    div {
+                        color: #fff;
+                        border-radius: 20px;
+                        padding: 0 10px;
+                        font-size: 11px;
+                        font-weight: bold;
+                        line-height: 20px;
+                        margin-left: 10px;
+                        display: inline-block;
+                        text-transform: uppercase;
+                        position: relative;
+                    }
+                
   </style>
 </div>
 `;
@@ -193,19 +193,19 @@ exports[`<Badge /> with color set < 99 2`] = `
     jsx={true}
   >
     
-                        div {
-                            color: #fff;
-                            border-radius: 20px;
-                            padding: 0 10px;
-                            font-size: 11px;
-                            font-weight: bold;
-                            line-height: 20px;
-                            margin-left: 10px;
-                            display: inline-block;
-                            text-transform: uppercase;
-                            position: relative;
-                        }
-                    
+                    div {
+                        color: #fff;
+                        border-radius: 20px;
+                        padding: 0 10px;
+                        font-size: 11px;
+                        font-weight: bold;
+                        line-height: 20px;
+                        margin-left: 10px;
+                        display: inline-block;
+                        text-transform: uppercase;
+                        position: relative;
+                    }
+                
   </style>
 </div>
 `;
@@ -223,19 +223,19 @@ exports[`<Badge /> with color set < 99 3`] = `
     jsx={true}
   >
     
-                        div {
-                            color: #fff;
-                            border-radius: 20px;
-                            padding: 0 10px;
-                            font-size: 11px;
-                            font-weight: bold;
-                            line-height: 20px;
-                            margin-left: 10px;
-                            display: inline-block;
-                            text-transform: uppercase;
-                            position: relative;
-                        }
-                    
+                    div {
+                        color: #fff;
+                        border-radius: 20px;
+                        padding: 0 10px;
+                        font-size: 11px;
+                        font-weight: bold;
+                        line-height: 20px;
+                        margin-left: 10px;
+                        display: inline-block;
+                        text-transform: uppercase;
+                        position: relative;
+                    }
+                
   </style>
 </div>
 `;

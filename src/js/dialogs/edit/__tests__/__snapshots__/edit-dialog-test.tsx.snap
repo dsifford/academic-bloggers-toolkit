@@ -28,11 +28,11 @@ exports[`<EditDialog /> should match snapshot 1`] = `
     jsx={true}
   >
     
-                        div {
-                            padding-bottom: 10px;
-                            text-align: center;
-                        }
-                    
+                    div {
+                        padding-bottom: 10px;
+                        text-align: center;
+                    }
+                
   </style>
 </form>
 `;

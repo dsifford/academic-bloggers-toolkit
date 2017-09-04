@@ -189,128 +189,128 @@ exports[`<ManualEntryContainer /> should match snapshots 1`] = `
               jsx={true}
             >
               
-                                  button {
-                                      -webkit-appearance: none;
-                                      -webkit-touch-callout: none;
-                                      -webkit-user-select: none;
-                                      -khtml-user-select: none;
-                                      -moz-user-select: none;
-                                      -ms-user-select: none;
-                                      user-select: none;
-                                      background: white;
-                                      box-sizing: border-box;
-                                      color: #555555;
-                                      background-image: none;
-                                      border: none;
-                                      border-radius: 2px;
-                                      box-shadow: 0 1px 3px rgba(0, 0, 0, .12), 0 1px 2px rgba(0, 0, 0, .24);
-                                      cursor: pointer;
-                                      display: inline-block;
-                                      font-size: 13px;
-                                      font-weight: 500;
-                                      height: 36px;
-                                      line-height: 36px;
-                                      min-width: 64px;
-                                      outline: 0;
-                                      padding: 0 16px;
-                                      text-align: center;
-                                      text-decoration: none;
-                                      text-transform: uppercase;
-                                      transition: 
-                          box-shadow .2s cubic-bezier(0.4, 0, 1, 1),
-                          background-color .2s cubic-bezier(0.4, 0, 0.2, 1),
-                          color .2s cubic-bezier(0.4, 0, 0.2, 1)
-                      ;
-                                      vertical-align: middle;
-                                      white-space: nowrap;
-                                  }
-                                  button:hover {
-                                      box-shadow: 0 3px 6px rgba(0, 0, 0, .16), 0 3px 6px rgba(0, 0, 0, .23);
-                                  }
-                                  button:active {
-                                      box-shadow: 0 3px 6px rgba(0, 0, 0, .16), 0 3px 6px rgba(0, 0, 0, .23);
-                                  }
-                                  button:active:hover {
-                                      box-shadow: 0 10px 20px rgba(0, 0, 0, .19), 0 6px 6px rgba(0, 0, 0, .23);
-                                      background: rgba(0, 0, 0, 0.12);
-                                  }
-                                  button:disabled {
-                                      pointer-events: none !important;
-                                      color: #a0a5aa !important;
-                                  }
-                                  button.focusable:focus {
-                                      outline: 1.1px auto rgba(19, 124, 189, 0.5);
-                                      outline-offset: 2px;
-                                  }
-                                  button.focusable:focus:active {
-                                      outline: 0;
-                                  }
-                                  .btn-flat,
-                                  .btn-flat.btn-primary {
-                                      background: rgba(0, 0, 0, 0);
-                                      box-shadow: none !important;
-                                  }
-                                  .btn-flat:hover,
-                                  .btn-flat.btn-primary:hover {
-                                      background: rgba(158, 158, 158, 0.2);
-                                  }
-                                  .btn-flat:active,
-                                  .btn-flat.btn-primary:active {
-                                      background: rgba(13, 13, 13, 0.12);
-                                  }
-                                  .btn-flat:hover:active,
-                                  .btn-flat.btn-primary:hover:active {
-                                      background: rgba(0, 0, 0, 0.12);
-                                  }
-                                  .btn-flat.btn-primary {
-                                      color: #0085ba;
-                                  }
-                                  .btn-primary {
-                                      background: #0085ba;
-                                      color: white;
-                                  }
-                                  .btn-primary:active:hover {
-                                      background: #007aab;
-                                  }
-                                  .btn-primary:disabled {
-                                      opacity: 0.6;
-                                      box-shadow: none;
-                                      color: white !important;
-                                  }
-                                  .btn-icon {
-                                      border-radius: 50%;
-                                      font-size: 24px;
-                                      height: 32px;
-                                      margin: auto 0;
-                                      min-width: 32px;
-                                      width: 32px;
-                                      padding: 0;
-                                      line-height: normal;
-                                  }
-                                  .btn-icon:hover {
-                                      color: #555555;
-                                  }
-              
-                                  .dashicons {
-                                      line-height: 32px !important;
-                                      width: 32px;
-                                      height: 32px;
-                                  }
-                                  .dashicons-migrate {
-                                      transform: rotateY(180deg);
-                                      padding-left: 5px;
-                                  }
-                                  .dashicons-minus {
-                                      font-weight: 900;
-                                  }
-                                  .dashicons-menu,
-                                  .dashicons-no-alt {
-                                      font-size: 25px;
-                                  }
-                                  .dashicons-plus {
-                                      padding-top: 2px;
-                                  }
-                              
+                    button {
+                        -webkit-appearance: none;
+                        -webkit-touch-callout: none;
+                        -webkit-user-select: none;
+                        -khtml-user-select: none;
+                        -moz-user-select: none;
+                        -ms-user-select: none;
+                        user-select: none;
+                        background: white;
+                        box-sizing: border-box;
+                        color: #555555;
+                        background-image: none;
+                        border: none;
+                        border-radius: 2px;
+                        box-shadow: 0 1px 3px rgba(0, 0, 0, .12), 0 1px 2px rgba(0, 0, 0, .24);
+                        cursor: pointer;
+                        display: inline-block;
+                        font-size: 13px;
+                        font-weight: 500;
+                        height: 36px;
+                        line-height: 36px;
+                        min-width: 64px;
+                        outline: 0;
+                        padding: 0 16px;
+                        text-align: center;
+                        text-decoration: none;
+                        text-transform: uppercase;
+                        transition: 
+            box-shadow .2s cubic-bezier(0.4, 0, 1, 1),
+            background-color .2s cubic-bezier(0.4, 0, 0.2, 1),
+            color .2s cubic-bezier(0.4, 0, 0.2, 1)
+        ;
+                        vertical-align: middle;
+                        white-space: nowrap;
+                    }
+                    button:hover {
+                        box-shadow: 0 3px 6px rgba(0, 0, 0, .16), 0 3px 6px rgba(0, 0, 0, .23);
+                    }
+                    button:active {
+                        box-shadow: 0 3px 6px rgba(0, 0, 0, .16), 0 3px 6px rgba(0, 0, 0, .23);
+                    }
+                    button:active:hover {
+                        box-shadow: 0 10px 20px rgba(0, 0, 0, .19), 0 6px 6px rgba(0, 0, 0, .23);
+                        background: rgba(0, 0, 0, 0.12);
+                    }
+                    button:disabled {
+                        pointer-events: none !important;
+                        color: #a0a5aa !important;
+                    }
+                    button.focusable:focus {
+                        outline: 1.1px auto rgba(19, 124, 189, 0.5);
+                        outline-offset: 2px;
+                    }
+                    button.focusable:focus:active {
+                        outline: 0;
+                    }
+                    .btn-flat,
+                    .btn-flat.btn-primary {
+                        background: rgba(0, 0, 0, 0);
+                        box-shadow: none !important;
+                    }
+                    .btn-flat:hover,
+                    .btn-flat.btn-primary:hover {
+                        background: rgba(158, 158, 158, 0.2);
+                    }
+                    .btn-flat:active,
+                    .btn-flat.btn-primary:active {
+                        background: rgba(13, 13, 13, 0.12);
+                    }
+                    .btn-flat:hover:active,
+                    .btn-flat.btn-primary:hover:active {
+                        background: rgba(0, 0, 0, 0.12);
+                    }
+                    .btn-flat.btn-primary {
+                        color: #0085ba;
+                    }
+                    .btn-primary {
+                        background: #0085ba;
+                        color: white;
+                    }
+                    .btn-primary:active:hover {
+                        background: #007aab;
+                    }
+                    .btn-primary:disabled {
+                        opacity: 0.6;
+                        box-shadow: none;
+                        color: white !important;
+                    }
+                    .btn-icon {
+                        border-radius: 50%;
+                        font-size: 24px;
+                        height: 32px;
+                        margin: auto 0;
+                        min-width: 32px;
+                        width: 32px;
+                        padding: 0;
+                        line-height: normal;
+                    }
+                    .btn-icon:hover {
+                        color: #555555;
+                    }
+
+                    .dashicons {
+                        line-height: 32px !important;
+                        width: 32px;
+                        height: 32px;
+                    }
+                    .dashicons-migrate {
+                        transform: rotateY(180deg);
+                        padding-left: 5px;
+                    }
+                    .dashicons-minus {
+                        font-weight: 900;
+                    }
+                    .dashicons-menu,
+                    .dashicons-no-alt {
+                        font-size: 25px;
+                    }
+                    .dashicons-plus {
+                        padding-top: 2px;
+                    }
+                
             </style>
           </div>
         </Button>
@@ -318,21 +318,21 @@ exports[`<ManualEntryContainer /> should match snapshots 1`] = `
           jsx={true}
         >
           
-                              div {
-                                  display: flex;
-                                  padding: 10px;
-                                  margin-bottom: 10px;
-                                  align-items: center;
-                                  background: #f5f5f5;
-                                  box-shadow: 0 1px 3px rgba(0, 0, 0, .12), 0 1px 2px rgba(0, 0, 0, .24), 0 -1px 0 rgba(16, 22, 26, .10);
-                              }
-                              #citequery {
-                                  margin: 0 10px;
-                                  flex: auto;
-                                  height: 28px;
-                                  font-size: 14px;
-                              }
-                          
+                    div {
+                        display: flex;
+                        padding: 10px;
+                        margin-bottom: 10px;
+                        align-items: center;
+                        background: #f5f5f5;
+                        box-shadow: 0 1px 3px rgba(0, 0, 0, .12), 0 1px 2px rgba(0, 0, 0, .24), 0 -1px 0 rgba(16, 22, 26, .10);
+                    }
+                    #citequery {
+                        margin: 0 10px;
+                        flex: auto;
+                        height: 28px;
+                        font-size: 14px;
+                    }
+                
         </style>
       </div>
     </AutoCite>
@@ -483,128 +483,128 @@ exports[`<ManualEntryContainer /> should match snapshots 1`] = `
                     jsx={true}
                   >
                     
-                                        button {
-                                            -webkit-appearance: none;
-                                            -webkit-touch-callout: none;
-                                            -webkit-user-select: none;
-                                            -khtml-user-select: none;
-                                            -moz-user-select: none;
-                                            -ms-user-select: none;
-                                            user-select: none;
-                                            background: white;
-                                            box-sizing: border-box;
-                                            color: #555555;
-                                            background-image: none;
-                                            border: none;
-                                            border-radius: 2px;
-                                            box-shadow: 0 1px 3px rgba(0, 0, 0, .12), 0 1px 2px rgba(0, 0, 0, .24);
-                                            cursor: pointer;
-                                            display: inline-block;
-                                            font-size: 13px;
-                                            font-weight: 500;
-                                            height: 36px;
-                                            line-height: 36px;
-                                            min-width: 64px;
-                                            outline: 0;
-                                            padding: 0 16px;
-                                            text-align: center;
-                                            text-decoration: none;
-                                            text-transform: uppercase;
-                                            transition: 
-                                box-shadow .2s cubic-bezier(0.4, 0, 1, 1),
-                                background-color .2s cubic-bezier(0.4, 0, 0.2, 1),
-                                color .2s cubic-bezier(0.4, 0, 0.2, 1)
-                            ;
-                                            vertical-align: middle;
-                                            white-space: nowrap;
-                                        }
-                                        button:hover {
-                                            box-shadow: 0 3px 6px rgba(0, 0, 0, .16), 0 3px 6px rgba(0, 0, 0, .23);
-                                        }
-                                        button:active {
-                                            box-shadow: 0 3px 6px rgba(0, 0, 0, .16), 0 3px 6px rgba(0, 0, 0, .23);
-                                        }
-                                        button:active:hover {
-                                            box-shadow: 0 10px 20px rgba(0, 0, 0, .19), 0 6px 6px rgba(0, 0, 0, .23);
-                                            background: rgba(0, 0, 0, 0.12);
-                                        }
-                                        button:disabled {
-                                            pointer-events: none !important;
-                                            color: #a0a5aa !important;
-                                        }
-                                        button.focusable:focus {
-                                            outline: 1.1px auto rgba(19, 124, 189, 0.5);
-                                            outline-offset: 2px;
-                                        }
-                                        button.focusable:focus:active {
-                                            outline: 0;
-                                        }
-                                        .btn-flat,
-                                        .btn-flat.btn-primary {
-                                            background: rgba(0, 0, 0, 0);
-                                            box-shadow: none !important;
-                                        }
-                                        .btn-flat:hover,
-                                        .btn-flat.btn-primary:hover {
-                                            background: rgba(158, 158, 158, 0.2);
-                                        }
-                                        .btn-flat:active,
-                                        .btn-flat.btn-primary:active {
-                                            background: rgba(13, 13, 13, 0.12);
-                                        }
-                                        .btn-flat:hover:active,
-                                        .btn-flat.btn-primary:hover:active {
-                                            background: rgba(0, 0, 0, 0.12);
-                                        }
-                                        .btn-flat.btn-primary {
-                                            color: #0085ba;
-                                        }
-                                        .btn-primary {
-                                            background: #0085ba;
-                                            color: white;
-                                        }
-                                        .btn-primary:active:hover {
-                                            background: #007aab;
-                                        }
-                                        .btn-primary:disabled {
-                                            opacity: 0.6;
-                                            box-shadow: none;
-                                            color: white !important;
-                                        }
-                                        .btn-icon {
-                                            border-radius: 50%;
-                                            font-size: 24px;
-                                            height: 32px;
-                                            margin: auto 0;
-                                            min-width: 32px;
-                                            width: 32px;
-                                            padding: 0;
-                                            line-height: normal;
-                                        }
-                                        .btn-icon:hover {
-                                            color: #555555;
-                                        }
-                    
-                                        .dashicons {
-                                            line-height: 32px !important;
-                                            width: 32px;
-                                            height: 32px;
-                                        }
-                                        .dashicons-migrate {
-                                            transform: rotateY(180deg);
-                                            padding-left: 5px;
-                                        }
-                                        .dashicons-minus {
-                                            font-weight: 900;
-                                        }
-                                        .dashicons-menu,
-                                        .dashicons-no-alt {
-                                            font-size: 25px;
-                                        }
-                                        .dashicons-plus {
-                                            padding-top: 2px;
-                                        }
-                                    
+                    button {
+                        -webkit-appearance: none;
+                        -webkit-touch-callout: none;
+                        -webkit-user-select: none;
+                        -khtml-user-select: none;
+                        -moz-user-select: none;
+                        -ms-user-select: none;
+                        user-select: none;
+                        background: white;
+                        box-sizing: border-box;
+                        color: #555555;
+                        background-image: none;
+                        border: none;
+                        border-radius: 2px;
+                        box-shadow: 0 1px 3px rgba(0, 0, 0, .12), 0 1px 2px rgba(0, 0, 0, .24);
+                        cursor: pointer;
+                        display: inline-block;
+                        font-size: 13px;
+                        font-weight: 500;
+                        height: 36px;
+                        line-height: 36px;
+                        min-width: 64px;
+                        outline: 0;
+                        padding: 0 16px;
+                        text-align: center;
+                        text-decoration: none;
+                        text-transform: uppercase;
+                        transition: 
+            box-shadow .2s cubic-bezier(0.4, 0, 1, 1),
+            background-color .2s cubic-bezier(0.4, 0, 0.2, 1),
+            color .2s cubic-bezier(0.4, 0, 0.2, 1)
+        ;
+                        vertical-align: middle;
+                        white-space: nowrap;
+                    }
+                    button:hover {
+                        box-shadow: 0 3px 6px rgba(0, 0, 0, .16), 0 3px 6px rgba(0, 0, 0, .23);
+                    }
+                    button:active {
+                        box-shadow: 0 3px 6px rgba(0, 0, 0, .16), 0 3px 6px rgba(0, 0, 0, .23);
+                    }
+                    button:active:hover {
+                        box-shadow: 0 10px 20px rgba(0, 0, 0, .19), 0 6px 6px rgba(0, 0, 0, .23);
+                        background: rgba(0, 0, 0, 0.12);
+                    }
+                    button:disabled {
+                        pointer-events: none !important;
+                        color: #a0a5aa !important;
+                    }
+                    button.focusable:focus {
+                        outline: 1.1px auto rgba(19, 124, 189, 0.5);
+                        outline-offset: 2px;
+                    }
+                    button.focusable:focus:active {
+                        outline: 0;
+                    }
+                    .btn-flat,
+                    .btn-flat.btn-primary {
+                        background: rgba(0, 0, 0, 0);
+                        box-shadow: none !important;
+                    }
+                    .btn-flat:hover,
+                    .btn-flat.btn-primary:hover {
+                        background: rgba(158, 158, 158, 0.2);
+                    }
+                    .btn-flat:active,
+                    .btn-flat.btn-primary:active {
+                        background: rgba(13, 13, 13, 0.12);
+                    }
+                    .btn-flat:hover:active,
+                    .btn-flat.btn-primary:hover:active {
+                        background: rgba(0, 0, 0, 0.12);
+                    }
+                    .btn-flat.btn-primary {
+                        color: #0085ba;
+                    }
+                    .btn-primary {
+                        background: #0085ba;
+                        color: white;
+                    }
+                    .btn-primary:active:hover {
+                        background: #007aab;
+                    }
+                    .btn-primary:disabled {
+                        opacity: 0.6;
+                        box-shadow: none;
+                        color: white !important;
+                    }
+                    .btn-icon {
+                        border-radius: 50%;
+                        font-size: 24px;
+                        height: 32px;
+                        margin: auto 0;
+                        min-width: 32px;
+                        width: 32px;
+                        padding: 0;
+                        line-height: normal;
+                    }
+                    .btn-icon:hover {
+                        color: #555555;
+                    }
+
+                    .dashicons {
+                        line-height: 32px !important;
+                        width: 32px;
+                        height: 32px;
+                    }
+                    .dashicons-migrate {
+                        transform: rotateY(180deg);
+                        padding-left: 5px;
+                    }
+                    .dashicons-minus {
+                        font-weight: 900;
+                    }
+                    .dashicons-menu,
+                    .dashicons-no-alt {
+                        font-size: 25px;
+                    }
+                    .dashicons-plus {
+                        padding-top: 2px;
+                    }
+                
                   </style>
                 </div>
               </Button>
@@ -612,22 +612,22 @@ exports[`<ManualEntryContainer /> should match snapshots 1`] = `
                 jsx={true}
               >
                 
-                                    div {
-                                        display: flex;
-                                        padding: 0 5px;
-                                        align-items: center;
-                                    }
-                                    input[type='text'] {
-                                        flex: auto;
-                                        height: 28px;
-                                        line-height: 28px;
-                                        font-size: 14px;
-                                    }
-                                    select,
-                                    input {
-                                        margin: 0 5px;
-                                    }
-                                
+                    div {
+                        display: flex;
+                        padding: 0 5px;
+                        align-items: center;
+                    }
+                    input[type='text'] {
+                        flex: auto;
+                        height: 28px;
+                        line-height: 28px;
+                        font-size: 14px;
+                    }
+                    select,
+                    input {
+                        margin: 0 5px;
+                    }
+                
               </style>
             </div>
           </Person>
@@ -652,128 +652,128 @@ exports[`<ManualEntryContainer /> should match snapshots 1`] = `
                   jsx={true}
                 >
                   
-                                      button {
-                                          -webkit-appearance: none;
-                                          -webkit-touch-callout: none;
-                                          -webkit-user-select: none;
-                                          -khtml-user-select: none;
-                                          -moz-user-select: none;
-                                          -ms-user-select: none;
-                                          user-select: none;
-                                          background: white;
-                                          box-sizing: border-box;
-                                          color: #555555;
-                                          background-image: none;
-                                          border: none;
-                                          border-radius: 2px;
-                                          box-shadow: 0 1px 3px rgba(0, 0, 0, .12), 0 1px 2px rgba(0, 0, 0, .24);
-                                          cursor: pointer;
-                                          display: inline-block;
-                                          font-size: 13px;
-                                          font-weight: 500;
-                                          height: 36px;
-                                          line-height: 36px;
-                                          min-width: 64px;
-                                          outline: 0;
-                                          padding: 0 16px;
-                                          text-align: center;
-                                          text-decoration: none;
-                                          text-transform: uppercase;
-                                          transition: 
-                              box-shadow .2s cubic-bezier(0.4, 0, 1, 1),
-                              background-color .2s cubic-bezier(0.4, 0, 0.2, 1),
-                              color .2s cubic-bezier(0.4, 0, 0.2, 1)
-                          ;
-                                          vertical-align: middle;
-                                          white-space: nowrap;
-                                      }
-                                      button:hover {
-                                          box-shadow: 0 3px 6px rgba(0, 0, 0, .16), 0 3px 6px rgba(0, 0, 0, .23);
-                                      }
-                                      button:active {
-                                          box-shadow: 0 3px 6px rgba(0, 0, 0, .16), 0 3px 6px rgba(0, 0, 0, .23);
-                                      }
-                                      button:active:hover {
-                                          box-shadow: 0 10px 20px rgba(0, 0, 0, .19), 0 6px 6px rgba(0, 0, 0, .23);
-                                          background: rgba(0, 0, 0, 0.12);
-                                      }
-                                      button:disabled {
-                                          pointer-events: none !important;
-                                          color: #a0a5aa !important;
-                                      }
-                                      button.focusable:focus {
-                                          outline: 1.1px auto rgba(19, 124, 189, 0.5);
-                                          outline-offset: 2px;
-                                      }
-                                      button.focusable:focus:active {
-                                          outline: 0;
-                                      }
-                                      .btn-flat,
-                                      .btn-flat.btn-primary {
-                                          background: rgba(0, 0, 0, 0);
-                                          box-shadow: none !important;
-                                      }
-                                      .btn-flat:hover,
-                                      .btn-flat.btn-primary:hover {
-                                          background: rgba(158, 158, 158, 0.2);
-                                      }
-                                      .btn-flat:active,
-                                      .btn-flat.btn-primary:active {
-                                          background: rgba(13, 13, 13, 0.12);
-                                      }
-                                      .btn-flat:hover:active,
-                                      .btn-flat.btn-primary:hover:active {
-                                          background: rgba(0, 0, 0, 0.12);
-                                      }
-                                      .btn-flat.btn-primary {
-                                          color: #0085ba;
-                                      }
-                                      .btn-primary {
-                                          background: #0085ba;
-                                          color: white;
-                                      }
-                                      .btn-primary:active:hover {
-                                          background: #007aab;
-                                      }
-                                      .btn-primary:disabled {
-                                          opacity: 0.6;
-                                          box-shadow: none;
-                                          color: white !important;
-                                      }
-                                      .btn-icon {
-                                          border-radius: 50%;
-                                          font-size: 24px;
-                                          height: 32px;
-                                          margin: auto 0;
-                                          min-width: 32px;
-                                          width: 32px;
-                                          padding: 0;
-                                          line-height: normal;
-                                      }
-                                      .btn-icon:hover {
-                                          color: #555555;
-                                      }
-                  
-                                      .dashicons {
-                                          line-height: 32px !important;
-                                          width: 32px;
-                                          height: 32px;
-                                      }
-                                      .dashicons-migrate {
-                                          transform: rotateY(180deg);
-                                          padding-left: 5px;
-                                      }
-                                      .dashicons-minus {
-                                          font-weight: 900;
-                                      }
-                                      .dashicons-menu,
-                                      .dashicons-no-alt {
-                                          font-size: 25px;
-                                      }
-                                      .dashicons-plus {
-                                          padding-top: 2px;
-                                      }
-                                  
+                    button {
+                        -webkit-appearance: none;
+                        -webkit-touch-callout: none;
+                        -webkit-user-select: none;
+                        -khtml-user-select: none;
+                        -moz-user-select: none;
+                        -ms-user-select: none;
+                        user-select: none;
+                        background: white;
+                        box-sizing: border-box;
+                        color: #555555;
+                        background-image: none;
+                        border: none;
+                        border-radius: 2px;
+                        box-shadow: 0 1px 3px rgba(0, 0, 0, .12), 0 1px 2px rgba(0, 0, 0, .24);
+                        cursor: pointer;
+                        display: inline-block;
+                        font-size: 13px;
+                        font-weight: 500;
+                        height: 36px;
+                        line-height: 36px;
+                        min-width: 64px;
+                        outline: 0;
+                        padding: 0 16px;
+                        text-align: center;
+                        text-decoration: none;
+                        text-transform: uppercase;
+                        transition: 
+            box-shadow .2s cubic-bezier(0.4, 0, 1, 1),
+            background-color .2s cubic-bezier(0.4, 0, 0.2, 1),
+            color .2s cubic-bezier(0.4, 0, 0.2, 1)
+        ;
+                        vertical-align: middle;
+                        white-space: nowrap;
+                    }
+                    button:hover {
+                        box-shadow: 0 3px 6px rgba(0, 0, 0, .16), 0 3px 6px rgba(0, 0, 0, .23);
+                    }
+                    button:active {
+                        box-shadow: 0 3px 6px rgba(0, 0, 0, .16), 0 3px 6px rgba(0, 0, 0, .23);
+                    }
+                    button:active:hover {
+                        box-shadow: 0 10px 20px rgba(0, 0, 0, .19), 0 6px 6px rgba(0, 0, 0, .23);
+                        background: rgba(0, 0, 0, 0.12);
+                    }
+                    button:disabled {
+                        pointer-events: none !important;
+                        color: #a0a5aa !important;
+                    }
+                    button.focusable:focus {
+                        outline: 1.1px auto rgba(19, 124, 189, 0.5);
+                        outline-offset: 2px;
+                    }
+                    button.focusable:focus:active {
+                        outline: 0;
+                    }
+                    .btn-flat,
+                    .btn-flat.btn-primary {
+                        background: rgba(0, 0, 0, 0);
+                        box-shadow: none !important;
+                    }
+                    .btn-flat:hover,
+                    .btn-flat.btn-primary:hover {
+                        background: rgba(158, 158, 158, 0.2);
+                    }
+                    .btn-flat:active,
+                    .btn-flat.btn-primary:active {
+                        background: rgba(13, 13, 13, 0.12);
+                    }
+                    .btn-flat:hover:active,
+                    .btn-flat.btn-primary:hover:active {
+                        background: rgba(0, 0, 0, 0.12);
+                    }
+                    .btn-flat.btn-primary {
+                        color: #0085ba;
+                    }
+                    .btn-primary {
+                        background: #0085ba;
+                        color: white;
+                    }
+                    .btn-primary:active:hover {
+                        background: #007aab;
+                    }
+                    .btn-primary:disabled {
+                        opacity: 0.6;
+                        box-shadow: none;
+                        color: white !important;
+                    }
+                    .btn-icon {
+                        border-radius: 50%;
+                        font-size: 24px;
+                        height: 32px;
+                        margin: auto 0;
+                        min-width: 32px;
+                        width: 32px;
+                        padding: 0;
+                        line-height: normal;
+                    }
+                    .btn-icon:hover {
+                        color: #555555;
+                    }
+
+                    .dashicons {
+                        line-height: 32px !important;
+                        width: 32px;
+                        height: 32px;
+                    }
+                    .dashicons-migrate {
+                        transform: rotateY(180deg);
+                        padding-left: 5px;
+                    }
+                    .dashicons-minus {
+                        font-weight: 900;
+                    }
+                    .dashicons-menu,
+                    .dashicons-no-alt {
+                        font-size: 25px;
+                    }
+                    .dashicons-plus {
+                        padding-top: 2px;
+                    }
+                
                 </style>
               </div>
             </Button>
@@ -782,15 +782,15 @@ exports[`<ManualEntryContainer /> should match snapshots 1`] = `
             jsx={true}
           >
             
-                                .btn-row {
-                                    display: flex;
-                                    justify-content: center;
-                                    padding: 5px;
-                                }
-                                h2 {
-                                    font-size: 16px !important;
-                                }
-                            
+                    .btn-row {
+                        display: flex;
+                        justify-content: center;
+                        padding: 5px;
+                    }
+                    h2 {
+                        font-size: 16px !important;
+                    }
+                
           </style>
         </div>
       </People>
@@ -846,21 +846,21 @@ exports[`<ManualEntryContainer /> should match snapshots 1`] = `
                   jsx={true}
                 >
                   
-                                      div {
-                                          display: table-row;
-                                          width: 100%;
-                                      }
-                                      label {
-                                          display: table-cell;
-                                          width: auto;
-                                      }
-                                      input {
-                                          width: 95%;
-                                          height: 28px;
-                                          line-height: 28px;
-                                          font-size: 14px;
-                                      }
-                                  
+                    div {
+                        display: table-row;
+                        width: 100%;
+                    }
+                    label {
+                        display: table-cell;
+                        width: auto;
+                    }
+                    input {
+                        width: 95%;
+                        height: 28px;
+                        line-height: 28px;
+                        font-size: 14px;
+                    }
+                
                 </style>
               </div>
             </Field>
@@ -902,21 +902,21 @@ exports[`<ManualEntryContainer /> should match snapshots 1`] = `
                   jsx={true}
                 >
                   
-                                      div {
-                                          display: table-row;
-                                          width: 100%;
-                                      }
-                                      label {
-                                          display: table-cell;
-                                          width: auto;
-                                      }
-                                      input {
-                                          width: 95%;
-                                          height: 28px;
-                                          line-height: 28px;
-                                          font-size: 14px;
-                                      }
-                                  
+                    div {
+                        display: table-row;
+                        width: 100%;
+                    }
+                    label {
+                        display: table-cell;
+                        width: auto;
+                    }
+                    input {
+                        width: 95%;
+                        height: 28px;
+                        line-height: 28px;
+                        font-size: 14px;
+                    }
+                
                 </style>
               </div>
             </Field>
@@ -958,21 +958,21 @@ exports[`<ManualEntryContainer /> should match snapshots 1`] = `
                   jsx={true}
                 >
                   
-                                      div {
-                                          display: table-row;
-                                          width: 100%;
-                                      }
-                                      label {
-                                          display: table-cell;
-                                          width: auto;
-                                      }
-                                      input {
-                                          width: 95%;
-                                          height: 28px;
-                                          line-height: 28px;
-                                          font-size: 14px;
-                                      }
-                                  
+                    div {
+                        display: table-row;
+                        width: 100%;
+                    }
+                    label {
+                        display: table-cell;
+                        width: auto;
+                    }
+                    input {
+                        width: 95%;
+                        height: 28px;
+                        line-height: 28px;
+                        font-size: 14px;
+                    }
+                
                 </style>
               </div>
             </Field>
@@ -1014,21 +1014,21 @@ exports[`<ManualEntryContainer /> should match snapshots 1`] = `
                   jsx={true}
                 >
                   
-                                      div {
-                                          display: table-row;
-                                          width: 100%;
-                                      }
-                                      label {
-                                          display: table-cell;
-                                          width: auto;
-                                      }
-                                      input {
-                                          width: 95%;
-                                          height: 28px;
-                                          line-height: 28px;
-                                          font-size: 14px;
-                                      }
-                                  
+                    div {
+                        display: table-row;
+                        width: 100%;
+                    }
+                    label {
+                        display: table-cell;
+                        width: auto;
+                    }
+                    input {
+                        width: 95%;
+                        height: 28px;
+                        line-height: 28px;
+                        font-size: 14px;
+                    }
+                
                 </style>
               </div>
             </Field>
@@ -1070,21 +1070,21 @@ exports[`<ManualEntryContainer /> should match snapshots 1`] = `
                   jsx={true}
                 >
                   
-                                      div {
-                                          display: table-row;
-                                          width: 100%;
-                                      }
-                                      label {
-                                          display: table-cell;
-                                          width: auto;
-                                      }
-                                      input {
-                                          width: 95%;
-                                          height: 28px;
-                                          line-height: 28px;
-                                          font-size: 14px;
-                                      }
-                                  
+                    div {
+                        display: table-row;
+                        width: 100%;
+                    }
+                    label {
+                        display: table-cell;
+                        width: auto;
+                    }
+                    input {
+                        width: 95%;
+                        height: 28px;
+                        line-height: 28px;
+                        font-size: 14px;
+                    }
+                
                 </style>
               </div>
             </Field>
@@ -1093,15 +1093,15 @@ exports[`<ManualEntryContainer /> should match snapshots 1`] = `
             jsx={true}
           >
             
-                                .table {
-                                    display: table;
-                                    padding: 10px;
-                                    width: 100%;
-                                }
-                                h2 {
-                                    font-size: 16px !important;
-                                }
-                            
+                    .table {
+                        display: table;
+                        padding: 10px;
+                        width: 100%;
+                    }
+                    h2 {
+                        font-size: 16px !important;
+                    }
+                
           </style>
         </div>
       </MetaFields>
@@ -1110,26 +1110,26 @@ exports[`<ManualEntryContainer /> should match snapshots 1`] = `
       jsx={true}
     >
       
-                          label {
-                              margin-right: 10px;
-                          }
-                          select {
-                              flex: auto;
-                          }
-                          #type-select-row {
-                              display: flex;
-                              padding: 10px;
-                              align-items: center;
-                          }
-                          .bounded-rect {
-                              max-height: calc(100vh - 200px);
-                              overflow-y: auto;
-                              overflow-x: hidden;
-                          }
-                          .autocite {
-                              max-height: calc(100vh - 250px);
-                          }
-                      
+                    label {
+                        margin-right: 10px;
+                    }
+                    select {
+                        flex: auto;
+                    }
+                    #type-select-row {
+                        display: flex;
+                        padding: 10px;
+                        align-items: center;
+                    }
+                    .bounded-rect {
+                        max-height: calc(100vh - 200px);
+                        overflow-y: auto;
+                        overflow-x: hidden;
+                    }
+                    .autocite {
+                        max-height: calc(100vh - 250px);
+                    }
+                
     </style>
   </div>
 </ManualEntryContainer>
@@ -1326,128 +1326,128 @@ exports[`<ManualEntryContainer /> should match snapshots 2`] = `
               jsx={true}
             >
               
-                                  button {
-                                      -webkit-appearance: none;
-                                      -webkit-touch-callout: none;
-                                      -webkit-user-select: none;
-                                      -khtml-user-select: none;
-                                      -moz-user-select: none;
-                                      -ms-user-select: none;
-                                      user-select: none;
-                                      background: white;
-                                      box-sizing: border-box;
-                                      color: #555555;
-                                      background-image: none;
-                                      border: none;
-                                      border-radius: 2px;
-                                      box-shadow: 0 1px 3px rgba(0, 0, 0, .12), 0 1px 2px rgba(0, 0, 0, .24);
-                                      cursor: pointer;
-                                      display: inline-block;
-                                      font-size: 13px;
-                                      font-weight: 500;
-                                      height: 36px;
-                                      line-height: 36px;
-                                      min-width: 64px;
-                                      outline: 0;
-                                      padding: 0 16px;
-                                      text-align: center;
-                                      text-decoration: none;
-                                      text-transform: uppercase;
-                                      transition: 
-                          box-shadow .2s cubic-bezier(0.4, 0, 1, 1),
-                          background-color .2s cubic-bezier(0.4, 0, 0.2, 1),
-                          color .2s cubic-bezier(0.4, 0, 0.2, 1)
-                      ;
-                                      vertical-align: middle;
-                                      white-space: nowrap;
-                                  }
-                                  button:hover {
-                                      box-shadow: 0 3px 6px rgba(0, 0, 0, .16), 0 3px 6px rgba(0, 0, 0, .23);
-                                  }
-                                  button:active {
-                                      box-shadow: 0 3px 6px rgba(0, 0, 0, .16), 0 3px 6px rgba(0, 0, 0, .23);
-                                  }
-                                  button:active:hover {
-                                      box-shadow: 0 10px 20px rgba(0, 0, 0, .19), 0 6px 6px rgba(0, 0, 0, .23);
-                                      background: rgba(0, 0, 0, 0.12);
-                                  }
-                                  button:disabled {
-                                      pointer-events: none !important;
-                                      color: #a0a5aa !important;
-                                  }
-                                  button.focusable:focus {
-                                      outline: 1.1px auto rgba(19, 124, 189, 0.5);
-                                      outline-offset: 2px;
-                                  }
-                                  button.focusable:focus:active {
-                                      outline: 0;
-                                  }
-                                  .btn-flat,
-                                  .btn-flat.btn-primary {
-                                      background: rgba(0, 0, 0, 0);
-                                      box-shadow: none !important;
-                                  }
-                                  .btn-flat:hover,
-                                  .btn-flat.btn-primary:hover {
-                                      background: rgba(158, 158, 158, 0.2);
-                                  }
-                                  .btn-flat:active,
-                                  .btn-flat.btn-primary:active {
-                                      background: rgba(13, 13, 13, 0.12);
-                                  }
-                                  .btn-flat:hover:active,
-                                  .btn-flat.btn-primary:hover:active {
-                                      background: rgba(0, 0, 0, 0.12);
-                                  }
-                                  .btn-flat.btn-primary {
-                                      color: #0085ba;
-                                  }
-                                  .btn-primary {
-                                      background: #0085ba;
-                                      color: white;
-                                  }
-                                  .btn-primary:active:hover {
-                                      background: #007aab;
-                                  }
-                                  .btn-primary:disabled {
-                                      opacity: 0.6;
-                                      box-shadow: none;
-                                      color: white !important;
-                                  }
-                                  .btn-icon {
-                                      border-radius: 50%;
-                                      font-size: 24px;
-                                      height: 32px;
-                                      margin: auto 0;
-                                      min-width: 32px;
-                                      width: 32px;
-                                      padding: 0;
-                                      line-height: normal;
-                                  }
-                                  .btn-icon:hover {
-                                      color: #555555;
-                                  }
-              
-                                  .dashicons {
-                                      line-height: 32px !important;
-                                      width: 32px;
-                                      height: 32px;
-                                  }
-                                  .dashicons-migrate {
-                                      transform: rotateY(180deg);
-                                      padding-left: 5px;
-                                  }
-                                  .dashicons-minus {
-                                      font-weight: 900;
-                                  }
-                                  .dashicons-menu,
-                                  .dashicons-no-alt {
-                                      font-size: 25px;
-                                  }
-                                  .dashicons-plus {
-                                      padding-top: 2px;
-                                  }
-                              
+                    button {
+                        -webkit-appearance: none;
+                        -webkit-touch-callout: none;
+                        -webkit-user-select: none;
+                        -khtml-user-select: none;
+                        -moz-user-select: none;
+                        -ms-user-select: none;
+                        user-select: none;
+                        background: white;
+                        box-sizing: border-box;
+                        color: #555555;
+                        background-image: none;
+                        border: none;
+                        border-radius: 2px;
+                        box-shadow: 0 1px 3px rgba(0, 0, 0, .12), 0 1px 2px rgba(0, 0, 0, .24);
+                        cursor: pointer;
+                        display: inline-block;
+                        font-size: 13px;
+                        font-weight: 500;
+                        height: 36px;
+                        line-height: 36px;
+                        min-width: 64px;
+                        outline: 0;
+                        padding: 0 16px;
+                        text-align: center;
+                        text-decoration: none;
+                        text-transform: uppercase;
+                        transition: 
+            box-shadow .2s cubic-bezier(0.4, 0, 1, 1),
+            background-color .2s cubic-bezier(0.4, 0, 0.2, 1),
+            color .2s cubic-bezier(0.4, 0, 0.2, 1)
+        ;
+                        vertical-align: middle;
+                        white-space: nowrap;
+                    }
+                    button:hover {
+                        box-shadow: 0 3px 6px rgba(0, 0, 0, .16), 0 3px 6px rgba(0, 0, 0, .23);
+                    }
+                    button:active {
+                        box-shadow: 0 3px 6px rgba(0, 0, 0, .16), 0 3px 6px rgba(0, 0, 0, .23);
+                    }
+                    button:active:hover {
+                        box-shadow: 0 10px 20px rgba(0, 0, 0, .19), 0 6px 6px rgba(0, 0, 0, .23);
+                        background: rgba(0, 0, 0, 0.12);
+                    }
+                    button:disabled {
+                        pointer-events: none !important;
+                        color: #a0a5aa !important;
+                    }
+                    button.focusable:focus {
+                        outline: 1.1px auto rgba(19, 124, 189, 0.5);
+                        outline-offset: 2px;
+                    }
+                    button.focusable:focus:active {
+                        outline: 0;
+                    }
+                    .btn-flat,
+                    .btn-flat.btn-primary {
+                        background: rgba(0, 0, 0, 0);
+                        box-shadow: none !important;
+                    }
+                    .btn-flat:hover,
+                    .btn-flat.btn-primary:hover {
+                        background: rgba(158, 158, 158, 0.2);
+                    }
+                    .btn-flat:active,
+                    .btn-flat.btn-primary:active {
+                        background: rgba(13, 13, 13, 0.12);
+                    }
+                    .btn-flat:hover:active,
+                    .btn-flat.btn-primary:hover:active {
+                        background: rgba(0, 0, 0, 0.12);
+                    }
+                    .btn-flat.btn-primary {
+                        color: #0085ba;
+                    }
+                    .btn-primary {
+                        background: #0085ba;
+                        color: white;
+                    }
+                    .btn-primary:active:hover {
+                        background: #007aab;
+                    }
+                    .btn-primary:disabled {
+                        opacity: 0.6;
+                        box-shadow: none;
+                        color: white !important;
+                    }
+                    .btn-icon {
+                        border-radius: 50%;
+                        font-size: 24px;
+                        height: 32px;
+                        margin: auto 0;
+                        min-width: 32px;
+                        width: 32px;
+                        padding: 0;
+                        line-height: normal;
+                    }
+                    .btn-icon:hover {
+                        color: #555555;
+                    }
+
+                    .dashicons {
+                        line-height: 32px !important;
+                        width: 32px;
+                        height: 32px;
+                    }
+                    .dashicons-migrate {
+                        transform: rotateY(180deg);
+                        padding-left: 5px;
+                    }
+                    .dashicons-minus {
+                        font-weight: 900;
+                    }
+                    .dashicons-menu,
+                    .dashicons-no-alt {
+                        font-size: 25px;
+                    }
+                    .dashicons-plus {
+                        padding-top: 2px;
+                    }
+                
             </style>
           </div>
         </Button>
@@ -1455,21 +1455,21 @@ exports[`<ManualEntryContainer /> should match snapshots 2`] = `
           jsx={true}
         >
           
-                              div {
-                                  display: flex;
-                                  padding: 10px;
-                                  margin-bottom: 10px;
-                                  align-items: center;
-                                  background: #f5f5f5;
-                                  box-shadow: 0 1px 3px rgba(0, 0, 0, .12), 0 1px 2px rgba(0, 0, 0, .24), 0 -1px 0 rgba(16, 22, 26, .10);
-                              }
-                              #citequery {
-                                  margin: 0 10px;
-                                  flex: auto;
-                                  height: 28px;
-                                  font-size: 14px;
-                              }
-                          
+                    div {
+                        display: flex;
+                        padding: 10px;
+                        margin-bottom: 10px;
+                        align-items: center;
+                        background: #f5f5f5;
+                        box-shadow: 0 1px 3px rgba(0, 0, 0, .12), 0 1px 2px rgba(0, 0, 0, .24), 0 -1px 0 rgba(16, 22, 26, .10);
+                    }
+                    #citequery {
+                        margin: 0 10px;
+                        flex: auto;
+                        height: 28px;
+                        font-size: 14px;
+                    }
+                
         </style>
       </div>
     </AutoCite>
@@ -1688,128 +1688,128 @@ exports[`<ManualEntryContainer /> should match snapshots 2`] = `
                     jsx={true}
                   >
                     
-                                        button {
-                                            -webkit-appearance: none;
-                                            -webkit-touch-callout: none;
-                                            -webkit-user-select: none;
-                                            -khtml-user-select: none;
-                                            -moz-user-select: none;
-                                            -ms-user-select: none;
-                                            user-select: none;
-                                            background: white;
-                                            box-sizing: border-box;
-                                            color: #555555;
-                                            background-image: none;
-                                            border: none;
-                                            border-radius: 2px;
-                                            box-shadow: 0 1px 3px rgba(0, 0, 0, .12), 0 1px 2px rgba(0, 0, 0, .24);
-                                            cursor: pointer;
-                                            display: inline-block;
-                                            font-size: 13px;
-                                            font-weight: 500;
-                                            height: 36px;
-                                            line-height: 36px;
-                                            min-width: 64px;
-                                            outline: 0;
-                                            padding: 0 16px;
-                                            text-align: center;
-                                            text-decoration: none;
-                                            text-transform: uppercase;
-                                            transition: 
-                                box-shadow .2s cubic-bezier(0.4, 0, 1, 1),
-                                background-color .2s cubic-bezier(0.4, 0, 0.2, 1),
-                                color .2s cubic-bezier(0.4, 0, 0.2, 1)
-                            ;
-                                            vertical-align: middle;
-                                            white-space: nowrap;
-                                        }
-                                        button:hover {
-                                            box-shadow: 0 3px 6px rgba(0, 0, 0, .16), 0 3px 6px rgba(0, 0, 0, .23);
-                                        }
-                                        button:active {
-                                            box-shadow: 0 3px 6px rgba(0, 0, 0, .16), 0 3px 6px rgba(0, 0, 0, .23);
-                                        }
-                                        button:active:hover {
-                                            box-shadow: 0 10px 20px rgba(0, 0, 0, .19), 0 6px 6px rgba(0, 0, 0, .23);
-                                            background: rgba(0, 0, 0, 0.12);
-                                        }
-                                        button:disabled {
-                                            pointer-events: none !important;
-                                            color: #a0a5aa !important;
-                                        }
-                                        button.focusable:focus {
-                                            outline: 1.1px auto rgba(19, 124, 189, 0.5);
-                                            outline-offset: 2px;
-                                        }
-                                        button.focusable:focus:active {
-                                            outline: 0;
-                                        }
-                                        .btn-flat,
-                                        .btn-flat.btn-primary {
-                                            background: rgba(0, 0, 0, 0);
-                                            box-shadow: none !important;
-                                        }
-                                        .btn-flat:hover,
-                                        .btn-flat.btn-primary:hover {
-                                            background: rgba(158, 158, 158, 0.2);
-                                        }
-                                        .btn-flat:active,
-                                        .btn-flat.btn-primary:active {
-                                            background: rgba(13, 13, 13, 0.12);
-                                        }
-                                        .btn-flat:hover:active,
-                                        .btn-flat.btn-primary:hover:active {
-                                            background: rgba(0, 0, 0, 0.12);
-                                        }
-                                        .btn-flat.btn-primary {
-                                            color: #0085ba;
-                                        }
-                                        .btn-primary {
-                                            background: #0085ba;
-                                            color: white;
-                                        }
-                                        .btn-primary:active:hover {
-                                            background: #007aab;
-                                        }
-                                        .btn-primary:disabled {
-                                            opacity: 0.6;
-                                            box-shadow: none;
-                                            color: white !important;
-                                        }
-                                        .btn-icon {
-                                            border-radius: 50%;
-                                            font-size: 24px;
-                                            height: 32px;
-                                            margin: auto 0;
-                                            min-width: 32px;
-                                            width: 32px;
-                                            padding: 0;
-                                            line-height: normal;
-                                        }
-                                        .btn-icon:hover {
-                                            color: #555555;
-                                        }
-                    
-                                        .dashicons {
-                                            line-height: 32px !important;
-                                            width: 32px;
-                                            height: 32px;
-                                        }
-                                        .dashicons-migrate {
-                                            transform: rotateY(180deg);
-                                            padding-left: 5px;
-                                        }
-                                        .dashicons-minus {
-                                            font-weight: 900;
-                                        }
-                                        .dashicons-menu,
-                                        .dashicons-no-alt {
-                                            font-size: 25px;
-                                        }
-                                        .dashicons-plus {
-                                            padding-top: 2px;
-                                        }
-                                    
+                    button {
+                        -webkit-appearance: none;
+                        -webkit-touch-callout: none;
+                        -webkit-user-select: none;
+                        -khtml-user-select: none;
+                        -moz-user-select: none;
+                        -ms-user-select: none;
+                        user-select: none;
+                        background: white;
+                        box-sizing: border-box;
+                        color: #555555;
+                        background-image: none;
+                        border: none;
+                        border-radius: 2px;
+                        box-shadow: 0 1px 3px rgba(0, 0, 0, .12), 0 1px 2px rgba(0, 0, 0, .24);
+                        cursor: pointer;
+                        display: inline-block;
+                        font-size: 13px;
+                        font-weight: 500;
+                        height: 36px;
+                        line-height: 36px;
+                        min-width: 64px;
+                        outline: 0;
+                        padding: 0 16px;
+                        text-align: center;
+                        text-decoration: none;
+                        text-transform: uppercase;
+                        transition: 
+            box-shadow .2s cubic-bezier(0.4, 0, 1, 1),
+            background-color .2s cubic-bezier(0.4, 0, 0.2, 1),
+            color .2s cubic-bezier(0.4, 0, 0.2, 1)
+        ;
+                        vertical-align: middle;
+                        white-space: nowrap;
+                    }
+                    button:hover {
+                        box-shadow: 0 3px 6px rgba(0, 0, 0, .16), 0 3px 6px rgba(0, 0, 0, .23);
+                    }
+                    button:active {
+                        box-shadow: 0 3px 6px rgba(0, 0, 0, .16), 0 3px 6px rgba(0, 0, 0, .23);
+                    }
+                    button:active:hover {
+                        box-shadow: 0 10px 20px rgba(0, 0, 0, .19), 0 6px 6px rgba(0, 0, 0, .23);
+                        background: rgba(0, 0, 0, 0.12);
+                    }
+                    button:disabled {
+                        pointer-events: none !important;
+                        color: #a0a5aa !important;
+                    }
+                    button.focusable:focus {
+                        outline: 1.1px auto rgba(19, 124, 189, 0.5);
+                        outline-offset: 2px;
+                    }
+                    button.focusable:focus:active {
+                        outline: 0;
+                    }
+                    .btn-flat,
+                    .btn-flat.btn-primary {
+                        background: rgba(0, 0, 0, 0);
+                        box-shadow: none !important;
+                    }
+                    .btn-flat:hover,
+                    .btn-flat.btn-primary:hover {
+                        background: rgba(158, 158, 158, 0.2);
+                    }
+                    .btn-flat:active,
+                    .btn-flat.btn-primary:active {
+                        background: rgba(13, 13, 13, 0.12);
+                    }
+                    .btn-flat:hover:active,
+                    .btn-flat.btn-primary:hover:active {
+                        background: rgba(0, 0, 0, 0.12);
+                    }
+                    .btn-flat.btn-primary {
+                        color: #0085ba;
+                    }
+                    .btn-primary {
+                        background: #0085ba;
+                        color: white;
+                    }
+                    .btn-primary:active:hover {
+                        background: #007aab;
+                    }
+                    .btn-primary:disabled {
+                        opacity: 0.6;
+                        box-shadow: none;
+                        color: white !important;
+                    }
+                    .btn-icon {
+                        border-radius: 50%;
+                        font-size: 24px;
+                        height: 32px;
+                        margin: auto 0;
+                        min-width: 32px;
+                        width: 32px;
+                        padding: 0;
+                        line-height: normal;
+                    }
+                    .btn-icon:hover {
+                        color: #555555;
+                    }
+
+                    .dashicons {
+                        line-height: 32px !important;
+                        width: 32px;
+                        height: 32px;
+                    }
+                    .dashicons-migrate {
+                        transform: rotateY(180deg);
+                        padding-left: 5px;
+                    }
+                    .dashicons-minus {
+                        font-weight: 900;
+                    }
+                    .dashicons-menu,
+                    .dashicons-no-alt {
+                        font-size: 25px;
+                    }
+                    .dashicons-plus {
+                        padding-top: 2px;
+                    }
+                
                   </style>
                 </div>
               </Button>
@@ -1817,22 +1817,22 @@ exports[`<ManualEntryContainer /> should match snapshots 2`] = `
                 jsx={true}
               >
                 
-                                    div {
-                                        display: flex;
-                                        padding: 0 5px;
-                                        align-items: center;
-                                    }
-                                    input[type='text'] {
-                                        flex: auto;
-                                        height: 28px;
-                                        line-height: 28px;
-                                        font-size: 14px;
-                                    }
-                                    select,
-                                    input {
-                                        margin: 0 5px;
-                                    }
-                                
+                    div {
+                        display: flex;
+                        padding: 0 5px;
+                        align-items: center;
+                    }
+                    input[type='text'] {
+                        flex: auto;
+                        height: 28px;
+                        line-height: 28px;
+                        font-size: 14px;
+                    }
+                    select,
+                    input {
+                        margin: 0 5px;
+                    }
+                
               </style>
             </div>
           </Person>
@@ -1857,128 +1857,128 @@ exports[`<ManualEntryContainer /> should match snapshots 2`] = `
                   jsx={true}
                 >
                   
-                                      button {
-                                          -webkit-appearance: none;
-                                          -webkit-touch-callout: none;
-                                          -webkit-user-select: none;
-                                          -khtml-user-select: none;
-                                          -moz-user-select: none;
-                                          -ms-user-select: none;
-                                          user-select: none;
-                                          background: white;
-                                          box-sizing: border-box;
-                                          color: #555555;
-                                          background-image: none;
-                                          border: none;
-                                          border-radius: 2px;
-                                          box-shadow: 0 1px 3px rgba(0, 0, 0, .12), 0 1px 2px rgba(0, 0, 0, .24);
-                                          cursor: pointer;
-                                          display: inline-block;
-                                          font-size: 13px;
-                                          font-weight: 500;
-                                          height: 36px;
-                                          line-height: 36px;
-                                          min-width: 64px;
-                                          outline: 0;
-                                          padding: 0 16px;
-                                          text-align: center;
-                                          text-decoration: none;
-                                          text-transform: uppercase;
-                                          transition: 
-                              box-shadow .2s cubic-bezier(0.4, 0, 1, 1),
-                              background-color .2s cubic-bezier(0.4, 0, 0.2, 1),
-                              color .2s cubic-bezier(0.4, 0, 0.2, 1)
-                          ;
-                                          vertical-align: middle;
-                                          white-space: nowrap;
-                                      }
-                                      button:hover {
-                                          box-shadow: 0 3px 6px rgba(0, 0, 0, .16), 0 3px 6px rgba(0, 0, 0, .23);
-                                      }
-                                      button:active {
-                                          box-shadow: 0 3px 6px rgba(0, 0, 0, .16), 0 3px 6px rgba(0, 0, 0, .23);
-                                      }
-                                      button:active:hover {
-                                          box-shadow: 0 10px 20px rgba(0, 0, 0, .19), 0 6px 6px rgba(0, 0, 0, .23);
-                                          background: rgba(0, 0, 0, 0.12);
-                                      }
-                                      button:disabled {
-                                          pointer-events: none !important;
-                                          color: #a0a5aa !important;
-                                      }
-                                      button.focusable:focus {
-                                          outline: 1.1px auto rgba(19, 124, 189, 0.5);
-                                          outline-offset: 2px;
-                                      }
-                                      button.focusable:focus:active {
-                                          outline: 0;
-                                      }
-                                      .btn-flat,
-                                      .btn-flat.btn-primary {
-                                          background: rgba(0, 0, 0, 0);
-                                          box-shadow: none !important;
-                                      }
-                                      .btn-flat:hover,
-                                      .btn-flat.btn-primary:hover {
-                                          background: rgba(158, 158, 158, 0.2);
-                                      }
-                                      .btn-flat:active,
-                                      .btn-flat.btn-primary:active {
-                                          background: rgba(13, 13, 13, 0.12);
-                                      }
-                                      .btn-flat:hover:active,
-                                      .btn-flat.btn-primary:hover:active {
-                                          background: rgba(0, 0, 0, 0.12);
-                                      }
-                                      .btn-flat.btn-primary {
-                                          color: #0085ba;
-                                      }
-                                      .btn-primary {
-                                          background: #0085ba;
-                                          color: white;
-                                      }
-                                      .btn-primary:active:hover {
-                                          background: #007aab;
-                                      }
-                                      .btn-primary:disabled {
-                                          opacity: 0.6;
-                                          box-shadow: none;
-                                          color: white !important;
-                                      }
-                                      .btn-icon {
-                                          border-radius: 50%;
-                                          font-size: 24px;
-                                          height: 32px;
-                                          margin: auto 0;
-                                          min-width: 32px;
-                                          width: 32px;
-                                          padding: 0;
-                                          line-height: normal;
-                                      }
-                                      .btn-icon:hover {
-                                          color: #555555;
-                                      }
-                  
-                                      .dashicons {
-                                          line-height: 32px !important;
-                                          width: 32px;
-                                          height: 32px;
-                                      }
-                                      .dashicons-migrate {
-                                          transform: rotateY(180deg);
-                                          padding-left: 5px;
-                                      }
-                                      .dashicons-minus {
-                                          font-weight: 900;
-                                      }
-                                      .dashicons-menu,
-                                      .dashicons-no-alt {
-                                          font-size: 25px;
-                                      }
-                                      .dashicons-plus {
-                                          padding-top: 2px;
-                                      }
-                                  
+                    button {
+                        -webkit-appearance: none;
+                        -webkit-touch-callout: none;
+                        -webkit-user-select: none;
+                        -khtml-user-select: none;
+                        -moz-user-select: none;
+                        -ms-user-select: none;
+                        user-select: none;
+                        background: white;
+                        box-sizing: border-box;
+                        color: #555555;
+                        background-image: none;
+                        border: none;
+                        border-radius: 2px;
+                        box-shadow: 0 1px 3px rgba(0, 0, 0, .12), 0 1px 2px rgba(0, 0, 0, .24);
+                        cursor: pointer;
+                        display: inline-block;
+                        font-size: 13px;
+                        font-weight: 500;
+                        height: 36px;
+                        line-height: 36px;
+                        min-width: 64px;
+                        outline: 0;
+                        padding: 0 16px;
+                        text-align: center;
+                        text-decoration: none;
+                        text-transform: uppercase;
+                        transition: 
+            box-shadow .2s cubic-bezier(0.4, 0, 1, 1),
+            background-color .2s cubic-bezier(0.4, 0, 0.2, 1),
+            color .2s cubic-bezier(0.4, 0, 0.2, 1)
+        ;
+                        vertical-align: middle;
+                        white-space: nowrap;
+                    }
+                    button:hover {
+                        box-shadow: 0 3px 6px rgba(0, 0, 0, .16), 0 3px 6px rgba(0, 0, 0, .23);
+                    }
+                    button:active {
+                        box-shadow: 0 3px 6px rgba(0, 0, 0, .16), 0 3px 6px rgba(0, 0, 0, .23);
+                    }
+                    button:active:hover {
+                        box-shadow: 0 10px 20px rgba(0, 0, 0, .19), 0 6px 6px rgba(0, 0, 0, .23);
+                        background: rgba(0, 0, 0, 0.12);
+                    }
+                    button:disabled {
+                        pointer-events: none !important;
+                        color: #a0a5aa !important;
+                    }
+                    button.focusable:focus {
+                        outline: 1.1px auto rgba(19, 124, 189, 0.5);
+                        outline-offset: 2px;
+                    }
+                    button.focusable:focus:active {
+                        outline: 0;
+                    }
+                    .btn-flat,
+                    .btn-flat.btn-primary {
+                        background: rgba(0, 0, 0, 0);
+                        box-shadow: none !important;
+                    }
+                    .btn-flat:hover,
+                    .btn-flat.btn-primary:hover {
+                        background: rgba(158, 158, 158, 0.2);
+                    }
+                    .btn-flat:active,
+                    .btn-flat.btn-primary:active {
+                        background: rgba(13, 13, 13, 0.12);
+                    }
+                    .btn-flat:hover:active,
+                    .btn-flat.btn-primary:hover:active {
+                        background: rgba(0, 0, 0, 0.12);
+                    }
+                    .btn-flat.btn-primary {
+                        color: #0085ba;
+                    }
+                    .btn-primary {
+                        background: #0085ba;
+                        color: white;
+                    }
+                    .btn-primary:active:hover {
+                        background: #007aab;
+                    }
+                    .btn-primary:disabled {
+                        opacity: 0.6;
+                        box-shadow: none;
+                        color: white !important;
+                    }
+                    .btn-icon {
+                        border-radius: 50%;
+                        font-size: 24px;
+                        height: 32px;
+                        margin: auto 0;
+                        min-width: 32px;
+                        width: 32px;
+                        padding: 0;
+                        line-height: normal;
+                    }
+                    .btn-icon:hover {
+                        color: #555555;
+                    }
+
+                    .dashicons {
+                        line-height: 32px !important;
+                        width: 32px;
+                        height: 32px;
+                    }
+                    .dashicons-migrate {
+                        transform: rotateY(180deg);
+                        padding-left: 5px;
+                    }
+                    .dashicons-minus {
+                        font-weight: 900;
+                    }
+                    .dashicons-menu,
+                    .dashicons-no-alt {
+                        font-size: 25px;
+                    }
+                    .dashicons-plus {
+                        padding-top: 2px;
+                    }
+                
                 </style>
               </div>
             </Button>
@@ -1987,15 +1987,15 @@ exports[`<ManualEntryContainer /> should match snapshots 2`] = `
             jsx={true}
           >
             
-                                .btn-row {
-                                    display: flex;
-                                    justify-content: center;
-                                    padding: 5px;
-                                }
-                                h2 {
-                                    font-size: 16px !important;
-                                }
-                            
+                    .btn-row {
+                        display: flex;
+                        justify-content: center;
+                        padding: 5px;
+                    }
+                    h2 {
+                        font-size: 16px !important;
+                    }
+                
           </style>
         </div>
       </People>
@@ -2051,21 +2051,21 @@ exports[`<ManualEntryContainer /> should match snapshots 2`] = `
                   jsx={true}
                 >
                   
-                                      div {
-                                          display: table-row;
-                                          width: 100%;
-                                      }
-                                      label {
-                                          display: table-cell;
-                                          width: auto;
-                                      }
-                                      input {
-                                          width: 95%;
-                                          height: 28px;
-                                          line-height: 28px;
-                                          font-size: 14px;
-                                      }
-                                  
+                    div {
+                        display: table-row;
+                        width: 100%;
+                    }
+                    label {
+                        display: table-cell;
+                        width: auto;
+                    }
+                    input {
+                        width: 95%;
+                        height: 28px;
+                        line-height: 28px;
+                        font-size: 14px;
+                    }
+                
                 </style>
               </div>
             </Field>
@@ -2107,21 +2107,21 @@ exports[`<ManualEntryContainer /> should match snapshots 2`] = `
                   jsx={true}
                 >
                   
-                                      div {
-                                          display: table-row;
-                                          width: 100%;
-                                      }
-                                      label {
-                                          display: table-cell;
-                                          width: auto;
-                                      }
-                                      input {
-                                          width: 95%;
-                                          height: 28px;
-                                          line-height: 28px;
-                                          font-size: 14px;
-                                      }
-                                  
+                    div {
+                        display: table-row;
+                        width: 100%;
+                    }
+                    label {
+                        display: table-cell;
+                        width: auto;
+                    }
+                    input {
+                        width: 95%;
+                        height: 28px;
+                        line-height: 28px;
+                        font-size: 14px;
+                    }
+                
                 </style>
               </div>
             </Field>
@@ -2163,21 +2163,21 @@ exports[`<ManualEntryContainer /> should match snapshots 2`] = `
                   jsx={true}
                 >
                   
-                                      div {
-                                          display: table-row;
-                                          width: 100%;
-                                      }
-                                      label {
-                                          display: table-cell;
-                                          width: auto;
-                                      }
-                                      input {
-                                          width: 95%;
-                                          height: 28px;
-                                          line-height: 28px;
-                                          font-size: 14px;
-                                      }
-                                  
+                    div {
+                        display: table-row;
+                        width: 100%;
+                    }
+                    label {
+                        display: table-cell;
+                        width: auto;
+                    }
+                    input {
+                        width: 95%;
+                        height: 28px;
+                        line-height: 28px;
+                        font-size: 14px;
+                    }
+                
                 </style>
               </div>
             </Field>
@@ -2219,21 +2219,21 @@ exports[`<ManualEntryContainer /> should match snapshots 2`] = `
                   jsx={true}
                 >
                   
-                                      div {
-                                          display: table-row;
-                                          width: 100%;
-                                      }
-                                      label {
-                                          display: table-cell;
-                                          width: auto;
-                                      }
-                                      input {
-                                          width: 95%;
-                                          height: 28px;
-                                          line-height: 28px;
-                                          font-size: 14px;
-                                      }
-                                  
+                    div {
+                        display: table-row;
+                        width: 100%;
+                    }
+                    label {
+                        display: table-cell;
+                        width: auto;
+                    }
+                    input {
+                        width: 95%;
+                        height: 28px;
+                        line-height: 28px;
+                        font-size: 14px;
+                    }
+                
                 </style>
               </div>
             </Field>
@@ -2275,21 +2275,21 @@ exports[`<ManualEntryContainer /> should match snapshots 2`] = `
                   jsx={true}
                 >
                   
-                                      div {
-                                          display: table-row;
-                                          width: 100%;
-                                      }
-                                      label {
-                                          display: table-cell;
-                                          width: auto;
-                                      }
-                                      input {
-                                          width: 95%;
-                                          height: 28px;
-                                          line-height: 28px;
-                                          font-size: 14px;
-                                      }
-                                  
+                    div {
+                        display: table-row;
+                        width: 100%;
+                    }
+                    label {
+                        display: table-cell;
+                        width: auto;
+                    }
+                    input {
+                        width: 95%;
+                        height: 28px;
+                        line-height: 28px;
+                        font-size: 14px;
+                    }
+                
                 </style>
               </div>
             </Field>
@@ -2331,21 +2331,21 @@ exports[`<ManualEntryContainer /> should match snapshots 2`] = `
                   jsx={true}
                 >
                   
-                                      div {
-                                          display: table-row;
-                                          width: 100%;
-                                      }
-                                      label {
-                                          display: table-cell;
-                                          width: auto;
-                                      }
-                                      input {
-                                          width: 95%;
-                                          height: 28px;
-                                          line-height: 28px;
-                                          font-size: 14px;
-                                      }
-                                  
+                    div {
+                        display: table-row;
+                        width: 100%;
+                    }
+                    label {
+                        display: table-cell;
+                        width: auto;
+                    }
+                    input {
+                        width: 95%;
+                        height: 28px;
+                        line-height: 28px;
+                        font-size: 14px;
+                    }
+                
                 </style>
               </div>
             </Field>
@@ -2387,21 +2387,21 @@ exports[`<ManualEntryContainer /> should match snapshots 2`] = `
                   jsx={true}
                 >
                   
-                                      div {
-                                          display: table-row;
-                                          width: 100%;
-                                      }
-                                      label {
-                                          display: table-cell;
-                                          width: auto;
-                                      }
-                                      input {
-                                          width: 95%;
-                                          height: 28px;
-                                          line-height: 28px;
-                                          font-size: 14px;
-                                      }
-                                  
+                    div {
+                        display: table-row;
+                        width: 100%;
+                    }
+                    label {
+                        display: table-cell;
+                        width: auto;
+                    }
+                    input {
+                        width: 95%;
+                        height: 28px;
+                        line-height: 28px;
+                        font-size: 14px;
+                    }
+                
                 </style>
               </div>
             </Field>
@@ -2443,21 +2443,21 @@ exports[`<ManualEntryContainer /> should match snapshots 2`] = `
                   jsx={true}
                 >
                   
-                                      div {
-                                          display: table-row;
-                                          width: 100%;
-                                      }
-                                      label {
-                                          display: table-cell;
-                                          width: auto;
-                                      }
-                                      input {
-                                          width: 95%;
-                                          height: 28px;
-                                          line-height: 28px;
-                                          font-size: 14px;
-                                      }
-                                  
+                    div {
+                        display: table-row;
+                        width: 100%;
+                    }
+                    label {
+                        display: table-cell;
+                        width: auto;
+                    }
+                    input {
+                        width: 95%;
+                        height: 28px;
+                        line-height: 28px;
+                        font-size: 14px;
+                    }
+                
                 </style>
               </div>
             </Field>
@@ -2499,21 +2499,21 @@ exports[`<ManualEntryContainer /> should match snapshots 2`] = `
                   jsx={true}
                 >
                   
-                                      div {
-                                          display: table-row;
-                                          width: 100%;
-                                      }
-                                      label {
-                                          display: table-cell;
-                                          width: auto;
-                                      }
-                                      input {
-                                          width: 95%;
-                                          height: 28px;
-                                          line-height: 28px;
-                                          font-size: 14px;
-                                      }
-                                  
+                    div {
+                        display: table-row;
+                        width: 100%;
+                    }
+                    label {
+                        display: table-cell;
+                        width: auto;
+                    }
+                    input {
+                        width: 95%;
+                        height: 28px;
+                        line-height: 28px;
+                        font-size: 14px;
+                    }
+                
                 </style>
               </div>
             </Field>
@@ -2555,21 +2555,21 @@ exports[`<ManualEntryContainer /> should match snapshots 2`] = `
                   jsx={true}
                 >
                   
-                                      div {
-                                          display: table-row;
-                                          width: 100%;
-                                      }
-                                      label {
-                                          display: table-cell;
-                                          width: auto;
-                                      }
-                                      input {
-                                          width: 95%;
-                                          height: 28px;
-                                          line-height: 28px;
-                                          font-size: 14px;
-                                      }
-                                  
+                    div {
+                        display: table-row;
+                        width: 100%;
+                    }
+                    label {
+                        display: table-cell;
+                        width: auto;
+                    }
+                    input {
+                        width: 95%;
+                        height: 28px;
+                        line-height: 28px;
+                        font-size: 14px;
+                    }
+                
                 </style>
               </div>
             </Field>
@@ -2578,15 +2578,15 @@ exports[`<ManualEntryContainer /> should match snapshots 2`] = `
             jsx={true}
           >
             
-                                .table {
-                                    display: table;
-                                    padding: 10px;
-                                    width: 100%;
-                                }
-                                h2 {
-                                    font-size: 16px !important;
-                                }
-                            
+                    .table {
+                        display: table;
+                        padding: 10px;
+                        width: 100%;
+                    }
+                    h2 {
+                        font-size: 16px !important;
+                    }
+                
           </style>
         </div>
       </MetaFields>
@@ -2595,26 +2595,26 @@ exports[`<ManualEntryContainer /> should match snapshots 2`] = `
       jsx={true}
     >
       
-                          label {
-                              margin-right: 10px;
-                          }
-                          select {
-                              flex: auto;
-                          }
-                          #type-select-row {
-                              display: flex;
-                              padding: 10px;
-                              align-items: center;
-                          }
-                          .bounded-rect {
-                              max-height: calc(100vh - 200px);
-                              overflow-y: auto;
-                              overflow-x: hidden;
-                          }
-                          .autocite {
-                              max-height: calc(100vh - 250px);
-                          }
-                      
+                    label {
+                        margin-right: 10px;
+                    }
+                    select {
+                        flex: auto;
+                    }
+                    #type-select-row {
+                        display: flex;
+                        padding: 10px;
+                        align-items: center;
+                    }
+                    .bounded-rect {
+                        max-height: calc(100vh - 200px);
+                        overflow-y: auto;
+                        overflow-x: hidden;
+                    }
+                    .autocite {
+                        max-height: calc(100vh - 250px);
+                    }
+                
     </style>
   </div>
 </ManualEntryContainer>
@@ -2831,21 +2831,21 @@ exports[`<ManualEntryContainer /> should match snapshots 3`] = `
                   jsx={true}
                 >
                   
-                                      div {
-                                          display: table-row;
-                                          width: 100%;
-                                      }
-                                      label {
-                                          display: table-cell;
-                                          width: auto;
-                                      }
-                                      input {
-                                          width: 95%;
-                                          height: 28px;
-                                          line-height: 28px;
-                                          font-size: 14px;
-                                      }
-                                  
+                    div {
+                        display: table-row;
+                        width: 100%;
+                    }
+                    label {
+                        display: table-cell;
+                        width: auto;
+                    }
+                    input {
+                        width: 95%;
+                        height: 28px;
+                        line-height: 28px;
+                        font-size: 14px;
+                    }
+                
                 </style>
               </div>
             </Field>
@@ -2854,15 +2854,15 @@ exports[`<ManualEntryContainer /> should match snapshots 3`] = `
             jsx={true}
           >
             
-                                .table {
-                                    display: table;
-                                    padding: 10px;
-                                    width: 100%;
-                                }
-                                h2 {
-                                    font-size: 16px !important;
-                                }
-                            
+                    .table {
+                        display: table;
+                        padding: 10px;
+                        width: 100%;
+                    }
+                    h2 {
+                        font-size: 16px !important;
+                    }
+                
           </style>
         </div>
       </MetaFields>
@@ -2871,26 +2871,26 @@ exports[`<ManualEntryContainer /> should match snapshots 3`] = `
       jsx={true}
     >
       
-                          label {
-                              margin-right: 10px;
-                          }
-                          select {
-                              flex: auto;
-                          }
-                          #type-select-row {
-                              display: flex;
-                              padding: 10px;
-                              align-items: center;
-                          }
-                          .bounded-rect {
-                              max-height: calc(100vh - 200px);
-                              overflow-y: auto;
-                              overflow-x: hidden;
-                          }
-                          .autocite {
-                              max-height: calc(100vh - 250px);
-                          }
-                      
+                    label {
+                        margin-right: 10px;
+                    }
+                    select {
+                        flex: auto;
+                    }
+                    #type-select-row {
+                        display: flex;
+                        padding: 10px;
+                        align-items: center;
+                    }
+                    .bounded-rect {
+                        max-height: calc(100vh - 200px);
+                        overflow-y: auto;
+                        overflow-x: hidden;
+                    }
+                    .autocite {
+                        max-height: calc(100vh - 250px);
+                    }
+                
     </style>
   </div>
 </ManualEntryContainer>
