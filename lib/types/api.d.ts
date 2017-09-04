@@ -12,7 +12,7 @@ declare namespace PubMed {
      */
     type LongDate = string;
 
-    type Response = DataPMID | DataPMCID;
+    type Response = DataPMID & DataPMCID;
 
     interface Author {
         authtype: string;
@@ -65,13 +65,7 @@ declare namespace PubMed {
         essn?: string;
         history?: Array<{
             date: LongDate;
-            pubstatus:
-                | 'accepted'
-                | 'entrez'
-                | 'medline'
-                | 'pubmed'
-                | 'received'
-                | 'revised';
+            pubstatus: 'accepted' | 'entrez' | 'medline' | 'pubmed' | 'received' | 'revised';
         }>;
         issn?: string;
         lang?: string[];

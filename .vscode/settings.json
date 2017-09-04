@@ -7,6 +7,5 @@
     ".prettierrc": "yaml"
   },
   "lcov.path": "lib/tmp/coverage/lcov.info",
-  "lcov.branchCoverage": "full",
-  "prettier.trailingComma": "all"
+  "lcov.branchCoverage": "full"
 }

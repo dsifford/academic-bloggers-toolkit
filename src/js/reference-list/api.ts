@@ -43,10 +43,9 @@ export async function getRemoteData(identifierList: string): Promise<[CSL.Data[]
     const data = await Promise.all(promises);
     const [csl, errs] = data.reduce(
         ([prevCSL, prevErr], [currCSL, currErr]) => {
-            currCSL.forEach(ref => (ref.id = generateID()));
             return [[...prevCSL, ...currCSL], [...prevErr, ...currErr]];
         },
-        [[], [...errList]]
+        [[], [...errList]],
     );
 
     return [

@@ -399,11 +399,11 @@ describe('<ReferenceList />', async () => {
             instance.processor.processCitationCluster = jest.fn();
             component.update();
         });
-        it('insert from selected items in reference list, none selected in editor', async () => {
+        it('insert from selected items in reference list, none selected in editor', () => {
             instance.selected.push('1');
             const preventDefault = jest.fn();
             const e = ({ preventDefault } as any) as React.MouseEvent<any>;
-            await instance.insertInlineCitation(e, []);
+            instance.insertInlineCitation(e, []);
             expect(preventDefault).toHaveBeenCalled();
             expect(mocks.editorMock).toHaveBeenCalledWith('setLoadingState');
             expect(mocks.editorMock).toHaveBeenCalledWith('composeCitations');
@@ -413,10 +413,10 @@ describe('<ReferenceList />', async () => {
                 (instance.processor.prepareInlineCitationData as jest.Mock<any>).mock.calls[0][0],
             ).toEqual([{ id: '1', title: 'test citation', type: 'article-journal' }]);
         });
-        it('insert from editor selection, selection is empty', async () => {
+        it('insert from editor selection, selection is empty', () => {
             (instance.editor as MockEditor).selection =
                 '<span class="abt-citation" data-reflist="[&quot;1&quot;]"></span>';
-            await instance.insertInlineCitation(undefined, [
+            instance.insertInlineCitation(undefined, [
                 { id: '2', title: 'citation 2', type: 'article-journal' },
             ]);
             expect(
@@ -426,7 +426,7 @@ describe('<ReferenceList />', async () => {
                 { id: '1', title: 'test citation', type: 'article-journal' },
             ]);
         });
-        it('error handling', async () => {
+        it('error handling', () => {
             // instance.processor.processCitationCluster = jest.fn().mockImplementation(() => {
             //     throw new Error('Some error occurred');
             // });
@@ -438,7 +438,7 @@ describe('<ReferenceList />', async () => {
             instance.editor.setBibliography = jest.fn().mockImplementationOnce(() => {
                 throw new Error('Some error occurred');
             });
-            await instance.insertInlineCitation();
+            instance.insertInlineCitation();
             expect(mocks.editorMock).toHaveBeenCalledWith('composeCitations');
         });
     });
@@ -539,63 +539,63 @@ describe('<ReferenceList />', async () => {
         it('list not pinned, menu closed', async () => {
             instance.ui.cited.isOpen.set(false);
             instance.togglePinned();
-            instance.handleScroll();
+            (instance as any).handleScroll();
             expect(instance.ui.cited.maxHeight.get()).toBe('400px');
             expect(instance.ui.uncited.maxHeight.get()).toBe('400px');
             expect(document.getElementById('abt-reflist')!.style.top).toBe('');
         });
         it('both lists closed, menu closed', () => {
             instance.ui.cited.isOpen.set(false);
-            instance.handleScroll();
-            expect(instance.ui.cited.maxHeight.get()).toBe('calc(100vh - 275px)');
-            expect(instance.ui.uncited.maxHeight.get()).toBe('calc(100vh - 275px)');
-            expect(document.getElementById('abt-reflist')!.style.top).toBe('95px');
+            (instance as any).handleScroll();
+            expect(instance.ui.cited.maxHeight.get()).toBe('calc(100vh - 273px)');
+            expect(instance.ui.uncited.maxHeight.get()).toBe('calc(100vh - 273px)');
+            expect(document.getElementById('abt-reflist')!.style.top).toBe('93px');
         });
         it('cited list open, menu closed', async () => {
-            instance.handleScroll();
-            expect(instance.ui.cited.maxHeight.get()).toBe('calc(100vh - 275px)');
-            expect(instance.ui.uncited.maxHeight.get()).toBe('calc(100vh - 275px)');
-            expect(document.getElementById('abt-reflist')!.style.top).toBe('95px');
+            (instance as any).handleScroll();
+            expect(instance.ui.cited.maxHeight.get()).toBe('calc(100vh - 273px)');
+            expect(instance.ui.uncited.maxHeight.get()).toBe('calc(100vh - 273px)');
+            expect(document.getElementById('abt-reflist')!.style.top).toBe('93px');
         });
         it('cited list open, menu open', async () => {
             instance.toggleMenu();
-            instance.handleScroll();
-            expect(instance.ui.cited.maxHeight.get()).toBe('calc(100vh - 359px)');
-            expect(instance.ui.uncited.maxHeight.get()).toBe('calc(100vh - 359px)');
-            expect(document.getElementById('abt-reflist')!.style.top).toBe('95px');
+            (instance as any).handleScroll();
+            expect(instance.ui.cited.maxHeight.get()).toBe('calc(100vh - 357px)');
+            expect(instance.ui.uncited.maxHeight.get()).toBe('calc(100vh - 357px)');
+            expect(document.getElementById('abt-reflist')!.style.top).toBe('93px');
         });
         it('both lists open, menu closed, uncited list height > cited list', async () => {
             instance.ui.uncited.isOpen.set(true);
             setHeights(19, 29);
-            instance.handleScroll();
+            (instance as any).handleScroll();
             expect(instance.ui.cited.maxHeight.get()).toBe('20px');
-            expect(instance.ui.uncited.maxHeight.get()).toBe('705px');
-            expect(document.getElementById('abt-reflist')!.style.top).toBe('95px');
+            expect(instance.ui.uncited.maxHeight.get()).toBe('707px');
+            expect(document.getElementById('abt-reflist')!.style.top).toBe('93px');
         });
         it('both lists open, menu closed, cited list height > uncited height', async () => {
             instance.ui.uncited.isOpen.set(true);
             setHeights(199, 29);
-            instance.handleScroll();
-            expect(instance.ui.cited.maxHeight.get()).toBe('665px');
+            (instance as any).handleScroll();
+            expect(instance.ui.cited.maxHeight.get()).toBe('667px');
             expect(instance.ui.uncited.maxHeight.get()).toBe('60px');
-            expect(document.getElementById('abt-reflist')!.style.top).toBe('95px');
+            expect(document.getElementById('abt-reflist')!.style.top).toBe('93px');
         });
         it('both lists open, menu closed, allocated height > remaining height', async () => {
             instance.ui.uncited.isOpen.set(true);
             setHeights(2000, 1000);
-            instance.handleScroll();
-            expect(instance.ui.cited.maxHeight.get()).toBe('362.5px');
-            expect(instance.ui.uncited.maxHeight.get()).toBe('362.5px');
-            expect(document.getElementById('abt-reflist')!.style.top).toBe('95px');
+            (instance as any).handleScroll();
+            expect(instance.ui.cited.maxHeight.get()).toBe('363.5px');
+            expect(instance.ui.uncited.maxHeight.get()).toBe('363.5px');
+            expect(document.getElementById('abt-reflist')!.style.top).toBe('93px');
         });
         it('cited list or uncited list for some reason doesnt exist', async () => {
             instance.ui.uncited.isOpen.set(true);
             document.getElementById('cited')!.remove();
             document.getElementById('uncited')!.remove();
-            instance.handleScroll();
+            (instance as any).handleScroll();
             expect(instance.ui.cited.maxHeight.get()).toBe('0px');
-            expect(instance.ui.uncited.maxHeight.get()).toBe('725px');
-            expect(document.getElementById('abt-reflist')!.style.top).toBe('95px');
+            expect(instance.ui.uncited.maxHeight.get()).toBe('727px');
+            expect(document.getElementById('abt-reflist')!.style.top).toBe('93px');
         });
     });
     describe('Misc', () => {

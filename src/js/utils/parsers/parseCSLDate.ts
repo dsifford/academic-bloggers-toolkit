@@ -8,9 +8,9 @@
  * @param source - Source of the input
  * @return Formatted CSL.Date object
  */
-export function parseCSLDate(input: string, source: 'RIS' | 'pubmed'): CSL.Date {
+export function parseCSLDate(input: string | undefined, source: 'RIS' | 'pubmed'): CSL.Date {
     const date: CSL.Date = { 'date-parts': [[]] };
-    if (input.length === 0) return date;
+    if (!input || input.length === 0) return date;
 
     switch (source) {
         case 'RIS':

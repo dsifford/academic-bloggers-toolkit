@@ -53,6 +53,8 @@ export default class Button extends React.PureComponent<Props, State> {
         }));
     };
 
+    // Below is disabled because the class fallbacks aren't complexity-adding.
+    // tslint:disable-next-line cyclomatic-complexity
     render() {
         const {
             flat,

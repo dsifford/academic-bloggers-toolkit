@@ -1,3 +1,4 @@
+import { generateID } from 'utils/helpers';
 import { localeMapper } from '../constants';
 import { parseCSLDate, parseCSLName } from './';
 
@@ -31,90 +32,105 @@ import { parseCSLDate, parseCSLName } from './';
  * @param res  - Pubmed api response
  */
 export function parsePubmedJSON(kind: 'PMID' | 'PMCID', res: PubMed.Response[]): CSL.Data[] {
-    const payload: CSL.Data[] = [];
-
-    res.forEach((ref: PubMed.Response, i: number) => {
-        const output: CSL.Data = {
-            id: `${i}`,
-            type: 'article-journal',
-            author: [],
-        };
-
-        Object.keys(ref).forEach((key: keyof PubMed.Response) => {
-            if (typeof ref[key] === 'string' && ref[key] === '') return;
-
-            switch (key) {
-                case 'authors':
-                    ref[key]!.forEach(author => {
-                        output.author!.push(parseCSLName(author.name, 'pubmed'));
-                    });
-                    break;
-                case 'availablefromurl':
-                    output.URL = ref[key];
-                    break;
-                case 'bookname':
-                case 'booktitle':
-                    output.title = ref[key];
-                    break;
-                case 'chapter':
-                    output['chapter-number'] = ref[key];
-                    break;
-                case 'edition':
-                    output.edition = ref[key];
-                    break;
-                case 'fulljournalname':
-                    output['container-title'] = ref[key];
-                    break;
-                case 'issn':
-                    output.ISSN = ref[key];
-                    break;
-                case 'issue':
-                    output.issue = ref[key];
-                    break;
-                case 'lang':
-                    output.language = localeMapper[ref[key][0]]
-                        ? localeMapper[ref[key][0]]
-                        : 'en-US';
-                    break;
-                case 'medium':
-                    output.medium = ref[key];
-                    break;
-                case 'pages':
-                    output.page = ref[key];
-                    break;
-                case 'publisherlocation':
-                    output['publisher-place'] = ref[key];
-                    break;
-                case 'publishername':
-                    output.publisher = ref[key];
-                    break;
-                case 'reportnumber':
-                    output.number = ref[key];
-                    break;
-                case 'sortpubdate':
-                case 'sortdate':
-                    output.issued = parseCSLDate(ref[key], 'pubmed');
-                    break;
-                case 'source':
-                    output.journalAbbreviation = ref[key];
-                    output['container-title-short'] = ref[key];
-                    break;
-                case 'title':
-                    output.title = ref[key];
-                    break;
-                case 'uid':
-                    output[kind] = ref[key];
-                    break;
-                case 'volume':
-                    output.volume = ref[key];
-                    break;
-                default:
-                    break;
-            }
-        });
-
-        payload.push(output);
+    return res.map(ref => {
+        return Object.keys(ref).reduce(
+            // tslint:disable-next-line cyclomatic-complexity
+            (prev, key) => {
+                if (!ref[key]) {
+                    return prev;
+                }
+                switch (key) {
+                    case 'authors':
+                        return {
+                            ...prev,
+                            author: ref[key]!.map(author => parseCSLName(author.name, 'pubmed')),
+                        };
+                    case 'availablefromurl':
+                        return {
+                            ...prev,
+                            URL: ref[key],
+                        };
+                    case 'bookname':
+                    case 'booktitle':
+                        return {
+                            ...prev,
+                            title: ref[key],
+                        };
+                    case 'chapter':
+                        return {
+                            ...prev,
+                            'chapter-number': ref[key],
+                        };
+                    case 'fulljournalname':
+                        return {
+                            ...prev,
+                            'container-title': ref[key],
+                        };
+                    case 'issn':
+                        return {
+                            ...prev,
+                            ISSN: ref[key],
+                        };
+                    case 'lang':
+                        return {
+                            ...prev,
+                            language: localeMapper[ref[key]![0]] || 'en-US',
+                        };
+                    case 'pages':
+                        return {
+                            ...prev,
+                            page: ref[key],
+                        };
+                    case 'publisherlocation':
+                        return {
+                            ...prev,
+                            'publisher-place': ref[key],
+                        };
+                    case 'publishername':
+                        return {
+                            ...prev,
+                            publisher: ref[key],
+                        };
+                    case 'reportnumber':
+                        return {
+                            ...prev,
+                            number: ref[key],
+                        };
+                    case 'sortpubdate':
+                    case 'sortdate':
+                        return {
+                            ...prev,
+                            issued: parseCSLDate(ref[key], 'pubmed'),
+                        };
+                    case 'source':
+                        return {
+                            ...prev,
+                            journalAbbreviation: ref[key],
+                            'container-title-short': ref[key],
+                        };
+                    case 'uid':
+                        return {
+                            ...prev,
+                            [kind]: ref[key],
+                        };
+                    case 'volume':
+                    case 'medium':
+                    case 'title':
+                    case 'issue':
+                    case 'edition':
+                        return {
+                            ...prev,
+                            [key]: ref[key],
+                        };
+                    default:
+                        return prev;
+                }
+            },
+            <CSL.Data>{
+                id: generateID(),
+                type: 'article-journal',
+                author: [],
+            },
+        );
     });
-
-    return payload;
 }

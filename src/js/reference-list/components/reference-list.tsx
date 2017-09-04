@@ -427,24 +427,22 @@ export default class ReferenceList extends React.Component<Props> {
     }
 
     // prettier-ignore
-    insertInlineCitation = async (e?: React.MouseEvent<HTMLButtonElement>, d: CSL.Data[] | Event = []) => {
-        let data: CSL.Data[] = [];
-        if (e) e.preventDefault();
+    insertInlineCitation = (e?: React.MouseEvent<HTMLButtonElement>, d: CSL.Data[] | Event = []) => {
+        if (e) {
+            e.preventDefault();
+        }
         this.editor.setLoadingState(true);
 
-        // If no data, then this must be a case where we're inserting from
-        // the list selection.
-        if (d instanceof Event || d.length === 0) {
-            this.selected.forEach(id => {
-                data.push(this.props.store.citations.CSL.get(id)!);
-            });
-        } else {
-            data = d;
-        }
+        let data: CSL.Data[] = [
+            ...this.selected.map(id => this.props.store.citations.CSL.get(id)!),
+            ...(d instanceof Event ? [] : d),
+        ]
 
         // Checks to see if there is a inline citation selected. If so, extract the ids from it and
         // push the associated CSL from the store to data.
-        const selectionHasReferences = this.editor.selection.match(/<span.+class=".*abt-citation.+? data-reflist="(.+?)".+<\/span>/);
+        const selectionHasReferences = this.editor.selection.match(
+            /<span.+class=".*abt-citation.+? data-reflist="(.+?)".+<\/span>/
+        );
         if (selectionHasReferences && selectionHasReferences[1]) {
             const selectionIds: string[] = JSON.parse(
                 decode(selectionHasReferences[1])
@@ -455,30 +453,14 @@ export default class ReferenceList extends React.Component<Props> {
             ]
         }
 
-        let clusters;
         try {
             const { itemsPreceding, itemsFollowing } = this.editor.relativeCitationPositions;
             const citation = this.processor.prepareInlineCitationData(data);
-            clusters = this.processor.processCitationCluster(
+            const clusters = this.processor.processCitationCluster(
                 citation,
                 itemsPreceding,
                 itemsFollowing
             );
-        } catch (e) {
-            Rollbar.error('ReferenceList.tsx -> insertInlineCitation', e);
-            this.editor.alert(stripIndents`
-                ${ReferenceList.errors.unexpected.message}
-
-                ${e.name}: ${e.message}
-
-                ${ReferenceList.errors.unexpected.reportInstructions}
-            `);
-            this.editor.setLoadingState(false);
-            this.clearSelection();
-            return;
-        }
-
-        try {
             this.editor.composeCitations(clusters, this.props.store.citations.citationByIndex, this.processor.citeproc.opt.xclass);
             this.editor.setBibliography(this.props.store.bibOptions, this.processor.makeBibliography());
         } catch (e) {
@@ -491,15 +473,13 @@ export default class ReferenceList extends React.Component<Props> {
                 ${ReferenceList.errors.unexpected.reportInstructions}
             `);
         }
+
         this.editor.setLoadingState(false);
         this.clearSelection();
     };
 
     insertStaticBibliography = async () => {
-        let data: CSL.Data[] = [];
-        this.selected.forEach(id => {
-            data.push(this.props.store.citations.CSL.get(id)!);
-        });
+        let data: CSL.Data[] = this.selected.map(id => this.props.store.citations.CSL.get(id)!);
 
         const selectionHasReferences = this.editor.selection.match(
             /^<div.*? class="abt-static-bib.+? data-reflist="(.+?)"[\s\S]+<\/div>$/,
@@ -526,7 +506,7 @@ export default class ReferenceList extends React.Component<Props> {
     };
 
     @action
-    handleScroll = () => {
+    private handleScroll = () => {
         const list = document.getElementById('abt-reflist')!;
 
         if (!this.ui.pinned.get()) {
@@ -547,7 +527,7 @@ export default class ReferenceList extends React.Component<Props> {
         /**
          * Offset from top of reference list to top of viewport.
          */
-        const topOffset = scrollpos > 134 ? 55 : scrollpos === 0 ? 95 : 95 - scrollpos / 3;
+        const topOffset = scrollpos > 134 ? 55 : scrollpos === 0 ? 93 : 93 - scrollpos / 3;
 
         /**
          * Vertical space that is already allocated.

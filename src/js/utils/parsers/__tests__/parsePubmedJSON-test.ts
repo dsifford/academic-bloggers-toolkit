@@ -33,7 +33,7 @@ describe('parsePubmedJSON()', () => {
     ];
 
     it('should process PubMed JSON to CSL', () => {
-        expect(parsePubmedJSON('PMID', testData)).toEqual([
+        expect(parsePubmedJSON('PMID', <any>testData)).toMatchObject([
             {
                 ISSN: '3',
                 PMID: '12345',
@@ -43,7 +43,6 @@ describe('parsePubmedJSON()', () => {
                 'container-title': 'Journal of Testing',
                 'container-title-short': 'J Test',
                 edition: '2',
-                id: '0',
                 issue: '4',
                 issued: { 'date-parts': [['2016', '08', '19']] },
                 journalAbbreviation: 'J Test',
@@ -60,18 +59,18 @@ describe('parsePubmedJSON()', () => {
         ]);
     });
     it('should move past empty fields', () => {
-        expect(parsePubmedJSON('PMID', [{ publishername: '' }])).toEqual([
-            { author: [], id: '0', type: 'article-journal' },
+        expect(parsePubmedJSON('PMID', <any>[{ publishername: '' }])).toMatchObject([
+            { author: [], type: 'article-journal' },
         ]);
     });
     it("should default to en-US when language can't be found", () => {
-        expect(parsePubmedJSON('PMID', [{ lang: ['Gibberish'] }])).toEqual([
-            { author: [], id: '0', language: 'en-US', type: 'article-journal' },
+        expect(parsePubmedJSON('PMID', <any>[{ lang: ['Gibberish'] }])).toMatchObject([
+            { author: [], language: 'en-US', type: 'article-journal' },
         ]);
     });
     it('should move past undefined fields', () => {
-        expect(
-            parsePubmedJSON('PMID', <any>[{ thisFieldDoesntExist: 'test' }])
-        ).toEqual([{ author: [], id: '0', type: 'article-journal' }]);
+        expect(parsePubmedJSON('PMID', <any>[{ thisFieldDoesntExist: 'test' }])).toMatchObject([
+            { author: [], type: 'article-journal' },
+        ]);
     });
 });
