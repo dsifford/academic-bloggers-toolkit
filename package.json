@@ -81,7 +81,7 @@
     "rollbar-sourcemap-webpack-plugin": "^2.2.0",
     "snapshot-diff": "^0.2.1",
     "style-loader": "^0.18.2",
-    "ts-jest": "^20.0.14",
+    "ts-jest": "^21.0.0",
     "ts-node": "^3.3.0",
     "tslint": "^5.7.0",
     "tslint-microsoft-contrib": "^5.0.1",
