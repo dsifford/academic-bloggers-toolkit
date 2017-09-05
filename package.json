@@ -11,18 +11,17 @@
     "phpcsfix-src": "php-cs-fixer fix --config=.php_cs -v",
     "phpcsfix-dist":
       "php-cs-fixer fix ./dist --rules='{\"array_syntax\": { \"syntax\": \"long\"}}' --using-cache=no",
-    "watch": "NODE_ENV=production jest --watch --coverage",
     "lint-ts": "tslint -p . -t codeFrame",
     "lint-php":
       "php-cs-fixer fix --config=.php_cs -vvv --dry-run --stop-on-violation --using-cache=no",
     "lint": "npm run lint-ts && npm run lint-php",
-    "start": "NODE_ENV=development torus run ./node_modules/.bin/gulp",
-    "build": "NODE_ENV=production torus run ./node_modules/.bin/gulp",
-    "deploy": "npm run build && torus run ./lib/deploy $npm_package_version",
+    "start": "NODE_ENV=development torus run gulp",
+    "build": "NODE_ENV=production torus run gulp",
+    "deploy": "npm run build && torus run ./lib/scripts/deploy $npm_package_version",
     "inspect-bundles": "npx bundle-buddy dist/js/**/*.map",
     "update-translations":
-      "torus run ./lib/update-translations && ts-node ./lib/get-translation-status.ts",
-    "update-styles": "torus run ./node_modules/.bin/ts-node ./lib/update-styles.ts",
+      "torus run ts-node ./lib/scripts/update-translations.ts && ts-node ./lib/scripts/get-translation-status.ts",
+    "update-styles": "torus run ts-node ./lib/scripts/update-styles.ts",
     "update-vendors":
       "curl -o 'src/vendor/citeproc.js' https://raw.githubusercontent.com/Juris-M/citeproc-js/master/citeproc.js"
   },
@@ -133,7 +132,7 @@
     "mapCoverage": true,
     "moduleDirectories": ["node_modules", "./src/js"],
     "moduleFileExtensions": ["ts", "tsx", "js"],
-    "setupFiles": ["./lib/before-test.ts"],
+    "setupFiles": ["./lib/scripts/before-test.ts"],
     "testRegex": "(/__tests__/.*|\\.(test|spec))\\.(ts|tsx|js)$",
     "transform": {
       ".(ts|tsx)": "<rootDir>/node_modules/ts-jest/preprocessor.js"
