@@ -55,7 +55,7 @@ export default abstract class Editor {
     ): HTMLDivElement {
         const bib = document.createElement('div');
         bib.id = Editor.bibliographyId;
-        bib.dataset.reflist = JSON.stringify(items.map(({ id }) => id));
+        bib.setAttribute('data-reflist', JSON.stringify(items.map(({ id }) => id)));
         bib.classList.add(Editor.bibliographyId, ...classNames);
 
         if (bib.classList.contains(Editor.staticBibClass)) {
@@ -64,6 +64,7 @@ export default abstract class Editor {
             // Occurs only when attempting to insert a static list when the
             // user's selected citation type doesn't define a bibliography.
             if (items.length === 0) {
+                // FIXME: i18n here
                 bib.innerHTML = `<strong>Warning:</strong> No bibliography format exists for your citation type.`;
                 return bib;
             }
@@ -79,12 +80,12 @@ export default abstract class Editor {
                 );
                 headingElement.setAttribute('aria-expanded', 'false');
                 headingElement.setAttribute('aria-controls', `${this.bibliographyId}__container`);
-                headingElement.dataset.headingLevel = headingLevel;
+                headingElement.setAttribute('data-heading-level', headingLevel);
             } else {
                 headingElement = document.createElement(headingLevel);
                 headingElement.classList.add(`${Editor.bibliographyId}__heading`);
             }
-            headingElement.innerText = heading;
+            headingElement.textContent = heading;
             bib.appendChild(headingElement);
         }
 
@@ -110,17 +111,17 @@ export default abstract class Editor {
 
         const heading = document.createElement('div');
         heading.classList.add(`${Editor.footnoteId}__heading`);
-        heading.innerText = ABT_i18n.misc.footnotes;
+        heading.textContent = ABT_i18n.misc.footnotes;
 
         note.appendChild(heading);
 
-        for (const [index, footnote] of footnotes.entries()) {
+        for (const [index, footnote] of Array.from(footnotes.entries())) {
             const item = document.createElement('div');
             item.classList.add(`${Editor.footnoteId}__item`);
 
             const itemNumber = document.createElement('span');
             itemNumber.classList.add(`${Editor.footnoteId}__number`);
-            itemNumber.innerText = `[${index + 1}]`;
+            itemNumber.textContent = `[${index + 1}]`;
 
             const itemContent = document.createElement('span');
             itemContent.classList.add(`${Editor.footnoteId}__content`);
@@ -144,9 +145,9 @@ export default abstract class Editor {
         element.id = id;
         element.classList.add(Editor.citationClass, ...classNames);
         element.innerHTML = innerHTML;
-        element.dataset.reflist = reflist;
+        element.setAttribute('data-reflist', reflist);
         if (options.kind === 'note') {
-            element.dataset.footnote = options.footnote;
+            element.setAttribute('data-footnote', options.footnote!);
         }
         return element;
     }
