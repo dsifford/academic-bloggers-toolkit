@@ -214,3 +214,5 @@ declare module 'react-virtualized-select';
 declare module 'rollbar-sourcemap-webpack-plugin';
 declare module 'rollbar/dist/rollbar.umd';
 declare module 'uglify-es';
+declare module 'puppeteer';
+declare module 'puppeteer/DeviceDescriptors';

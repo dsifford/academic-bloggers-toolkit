@@ -43,21 +43,11 @@ An **open source** WordPress plugin providing an all-in-one solution for effecti
 
 Translations for this plugin can be completed and submitted [here](https://poeditor.com/join/project/PGYLKWQM5h). After submission of a translation, I'll try to update the plugin with your translations within 7 days.
 
-#### Currently Available Languages
-> **Note:** Translations marked with a :star: are direct translations. Those without a :star: were the product of another translation and may not be accurate.
+### Translation Status
 
-Language | Locale | Translator
----------|--------|----------
-German (Germany) | `de_DE` :star: | Mathias Micheel
-German (Switzerland) | `de_CH` | Mathias Micheel
-Spanish (Argentina) | `es_AR` :star: | Lucas Semelin
-Spanish (Chile) | `es_CL` | Lucas Semelin
-Spanish (Columbia) | `es_CO` | Lucas Semelin
-Spanish (Spain) | `es_ES` | Lucas Semelin
-Spanish (Guatemala) | `es_GT` | Lucas Semelin
-Spanish (Mexico) | `es_MX` | Lucas Semelin
-Spanish (Peru) | `es_PE` | Lucas Semelin
-Spanish (Venezuela) | `es_VE` | Lucas Semelin
+Complete | Incomplete
+--- | ---
+![complete](.github/translations-complete.png) | ![incomplete](.github/translations-incomplete.png)
 
 ## Contributing
 
