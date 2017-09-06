@@ -11,3 +11,4 @@ typings/*
 NOTES.md
 TODO.md
 .env
+lib/scripts/get-translation-status.ts

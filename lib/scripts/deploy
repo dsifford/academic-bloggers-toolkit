@@ -8,43 +8,6 @@ SCRIPTDIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 ROOTDIR=$(cd "$SCRIPTDIR" && cd ../ && pwd || exit)
 SVNROOT=$(cd "$ROOTDIR" && cd ../SVN && pwd || exit)
 
-# Helpers
-TERM=${TERM:-xterm}
-RED='\033[0;31m'
-ORANGE='\033[0;33m'
-CYAN='\033[0;36m'
-BOLD='\E[1m'
-NC='\033[0m'
-h2() {
-    echo -e "${ORANGE}${BOLD}==>${NC}${BOLD} $*${NC}"
-}
-h3() {
-    printf "%b \n" "${CYAN}${BOLD}  ->${NC} $*"
-}
-
-ERROR() {
-  echo -e "${RED}=> ERROR: $1.${NC}"
-  exit 1
-}
-
-PO_EDITOR_TOKEN=${PO_EDITOR_TOKEN:-}
-[[ ! $PO_EDITOR_TOKEN ]] && ERROR "'PO_EDITOR_TOKEN' must be set in your .env file"
-
-# Push updated translations to POEditor
-h2 "Updating POEditor translation strings"
-req=$(curl -X POST \
-     -F api_token="$PO_EDITOR_TOKEN" \
-     -F action="upload" \
-     -F id="68585" \
-     -F updating="terms" \
-     -F file=@"$ROOTDIR/src/academic-bloggers-toolkit.pot" \
-     https://poeditor.com/api/)
-
-h2 Status: "$(echo "$req" | jq -r '.response.status')"
-h3 Terms Parsed: "$(echo "$req" | jq -r '.details.terms.parsed')"
-h3 Terms Added: "$(echo "$req" | jq -r '.details.terms.added')"
-h3 Terms Deleted: "$(echo "$req" | jq -r '.details.terms.deleted')"
-
 # Make sure svn repo is up to date
 cd "$SVNROOT" || exit
 svn up

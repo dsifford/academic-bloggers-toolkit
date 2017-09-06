@@ -45,9 +45,19 @@ Translations for this plugin can be completed and submitted [here](https://poedi
 
 ### Translation Status
 
-Complete | Incomplete
---- | ---
-![complete](.github/translations-complete.png) | ![incomplete](.github/translations-incomplete.png)
+<!-- TRANSLATION_STATUS_START -->
+Language | Contributors | % Complete
+-------- | ------------ | ----------
+Chinese (simplified) `zh-CN` | fishfree | ![Progress](http://progressed.io/bar/99)
+Polish `pl` | Krzysztof Ruchniewicz | ![Progress](http://progressed.io/bar/95)
+German `de` | Karina, Mathias Micheel | ![Progress](http://progressed.io/bar/94)
+Spanish (AR) `es-ar` | Lucas | ![Progress](http://progressed.io/bar/94)
+Portuguese `pt` | Alexandre Rodrigues | ![Progress](http://progressed.io/bar/58)
+Arabic `ar` | Ezz El Dean | ![Progress](http://progressed.io/bar/10)
+Danish `da` | Dan Bilbo Christensen | ![Progress](http://progressed.io/bar/0)
+Thai `th` | Tammakit Intharaksa | ![Progress](http://progressed.io/bar/0)
+Urdu `ur` | Munir Abbasi | ![Progress](http://progressed.io/bar/0)
+<!-- TRANSLATION_STATUS_END -->
 
 ## Contributing
 
