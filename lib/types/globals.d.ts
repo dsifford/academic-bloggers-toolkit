@@ -204,7 +204,6 @@ declare namespace BackendGlobals {
 
 // ==============
 
-declare module 'bibtex-parse-js';
 declare module 'common-tags';
 declare module 'focus-trap-react';
 declare module 'gulp-uglify/composer';
