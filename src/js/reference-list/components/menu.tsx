@@ -50,7 +50,7 @@ const openedStyle = [
 ];
 
 const filterOptions = createFilterOptions({
-    options: ABT_CitationStyles,
+    options: ABT_CitationStyles.styles,
 });
 
 @observer

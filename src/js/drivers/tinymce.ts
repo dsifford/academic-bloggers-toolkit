@@ -192,7 +192,7 @@ export default class TinyMCEDriver extends EditorDriver {
     async init() {
         return new Promise<void>((resolve, reject) => {
             let attempts = 0;
-            const interval = setInterval(() => {
+            let interval = setInterval(() => {
                 if (top.tinyMCE === undefined) {
                     attempts += 1;
                     if (attempts === 10) {
@@ -205,20 +205,23 @@ export default class TinyMCEDriver extends EditorDriver {
                     }
                 } else {
                     clearInterval(interval);
-                    if (top.tinyMCE.editors && top.tinyMCE.editors.content) {
+                    if (
+                        top.tinyMCE.editors &&
+                        top.tinyMCE.editors.content &&
+                        top.tinyMCE.editors.content.initialized
+                    ) {
                         this.editor = top.tinyMCE.editors.content;
                         this.bindEvents();
                         return resolve();
                     }
-                    top.tinyMCE.EditorManager.on('AddEditor', (e: any) => {
-                        if (e.editor.id === 'content') {
+                    interval = setInterval(() => {
+                        if (top.tinyMCE.editors.content.initialized) {
+                            clearInterval(interval);
                             this.editor = top.tinyMCE.editors.content;
                             this.bindEvents();
-                            this.editor.once('PostRender', () => {
-                                return resolve();
-                            });
+                            return resolve();
                         }
-                    });
+                    }, 200);
                 }
             }, 500);
         });

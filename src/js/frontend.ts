@@ -8,7 +8,9 @@ type HeadingLevel = 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
 export function createTooltip(e: MouseEvent) {
     const citation = <HTMLSpanElement>e.currentTarget;
     const existingTooltip = document.getElementById('abt-tooltip');
-    if (existingTooltip) existingTooltip.parentElement!.removeChild(existingTooltip);
+    if (existingTooltip) {
+        existingTooltip.parentElement!.removeChild(existingTooltip);
+    }
 
     const rect: ClientRect = citation.getBoundingClientRect();
     const left = rect.left + rect.width / 2;

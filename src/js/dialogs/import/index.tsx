@@ -1,8 +1,9 @@
+import { parse as parseBibtex } from 'astrocite-bibtex';
+import { parse as parseRis } from 'astrocite-ris';
 import { action, observable, toJS } from 'mobx';
 import { observer } from 'mobx-react';
 import * as React from 'react';
 
-import { RISParser, TeXParser } from 'utils/parsers/';
 import { colors } from 'utils/styles';
 
 import Button from 'components/button';
@@ -74,15 +75,15 @@ export default class ImportDialog extends React.Component<DialogProps> {
     };
 
     parseFile = (reader: FileReader, fileExtension: string) => {
-        let parser: RISParser | TeXParser;
+        let payload: CSL.Data[];
         try {
             switch (fileExtension) {
                 case 'ris':
-                    parser = new RISParser(reader.result);
+                    payload = parseRis(reader.result);
                     break;
                 case 'bib':
                 case 'bibtex':
-                    parser = new TeXParser(reader.result);
+                    payload = parseBibtex(reader.result);
                     break;
                 default:
                     this.setErrorMessage(ImportDialog.errors.fileExtensionError);
@@ -94,19 +95,11 @@ export default class ImportDialog extends React.Component<DialogProps> {
             this.setFile();
             return;
         }
-        const payload = parser.parse();
 
         if (payload.length === 0) {
             this.setErrorMessage(ImportDialog.errors.filetypeError);
             this.setFile();
             return;
-        }
-
-        const leftovers = parser.unsupportedRefs;
-
-        if (leftovers.length > 0) {
-            this.setErrorMessage(`${ImportDialog.errors.risLeftovers}: ${leftovers.join(', ')}`);
-            this.setFile();
         }
 
         this.setPayload(payload);

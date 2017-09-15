@@ -123,7 +123,7 @@ async function updateTranslationStatus() {
         contributors: string[];
     }
 
-    const [contributors, languages] = await Promise.all([
+    const [contributors, languages]: any = await Promise.all([
         (await sendRequest<Contributors>('/contributors/list', {})).result.contributors.filter(
             c => c.permissions[0].type === 'contributor',
         ),
@@ -152,7 +152,7 @@ async function updateTranslationStatus() {
     }
 
     // descending order, ascending alphabetical if equal
-    const sortedLangs = Array.from(languages).sort(([, v1], [, v2]) => {
+    const sortedLangs = Array.from(languages).sort(([, v1]: any, [, v2]: any) => {
         if (v1.percentage < v2.percentage) return 1;
         if (v1.percentage > v2.percentage) return -1;
         return v1.code < v2.code ? -1 : 1;
@@ -164,7 +164,7 @@ async function updateTranslationStatus() {
         Language | Contributors | % Complete
         -------- | ------------ | ----------
         ${sortedLangs
-            .map(lang => {
+            .map((lang: [string, LangWithContribs]) => {
                 return oneLine`
                     ${lang[1].name} \`${lang[0]}\` |
                     ${[...lang[1].contributors].sort().join(', ')} |
