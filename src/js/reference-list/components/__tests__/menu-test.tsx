@@ -67,7 +67,7 @@ describe('<Menu />', () => {
             ...window.ABT,
             styles,
             custom_csl,
-        } as any;
+        };
         jest.resetAllMocks();
     });
     it('should match snapshots', () => {

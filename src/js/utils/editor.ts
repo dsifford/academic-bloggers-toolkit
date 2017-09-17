@@ -64,8 +64,8 @@ export default abstract class Editor {
             // Occurs only when attempting to insert a static list when the
             // user's selected citation type doesn't define a bibliography.
             if (items.length === 0) {
-                // FIXME: i18n here
-                bib.innerHTML = `<strong>Warning:</strong> No bibliography format exists for your citation type.`;
+                const { warnings } = top.ABT.i18n.errors;
+                bib.innerHTML = `<strong>${warnings.warning}:</strong> ${warnings.noBib}.`;
                 return bib;
             }
         }

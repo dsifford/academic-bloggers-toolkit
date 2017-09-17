@@ -179,8 +179,7 @@ class Backend {
             'styles' => $this->get_citation_styles(),
             'wp' => $this->localize_wordpress_constants(),
             'custom_csl' => $this->get_user_defined_csl($opts['citation_style']['custom_url']),
-        ]);
-        ?>
+        ]); ?>
             <div id='abt-reflist__root' style='margin: 0 -12px -12px -12px; font-family: "Roboto", sans-serif;'></div>
             <script type="text/javascript">
                 (function (global) {

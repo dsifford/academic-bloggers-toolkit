@@ -295,10 +295,7 @@ export const i18n: ABT.Backend['i18n'] = {
         warnings: {
             warning: 'Warning',
             reason: 'Reason',
-            noBib: {
-                message: 'Cannot create publication list for currently selected citation style',
-                reason: 'Style does not include bibliography',
-            },
+            noBib: 'No bibliography format exists for your citation type',
         },
         unexpected: {
             message: 'An unexpected error occurred',

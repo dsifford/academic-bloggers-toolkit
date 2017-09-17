@@ -1,9 +1,7 @@
-import { shallow } from 'enzyme';
+import { mount, shallow } from 'enzyme';
 import toJSON from 'enzyme-to-json';
 import * as React from 'react';
 import ImportDialog from '../';
-
-// FIXME: Prune out old parser tests
 
 const mocks = {
     submit: jest.fn(),
@@ -17,15 +15,51 @@ const setup = () => {
     };
 };
 
-// const createFile = (name: string, contents: string, kind = 'text/plain') =>
-//     new File([contents], name, { type: kind });
+const createContents = (kind: 'ris' | 'bibtex', length: number): string => {
+    switch (kind) {
+        case 'ris':
+            return Array(length)
+                .fill('')
+                .reduce((s, _, i) => {
+                    return [
+                        s,
+                        `TY  - ICOMM`,
+                        `TI  - Test ${i + 1}`,
+                        `SP  - ${i + 1}`,
+                        `EP  - ${i + 1}`,
+                        `ER  - `,
+                    ].join('\n');
+                }, '');
+        case 'bibtex':
+            return Array(length)
+                .fill('')
+                .reduce((s, _, i) => {
+                    return [
+                        s,
+                        `@article{id_${i + 1},`,
+                        `   title = {Test ${i + 1}},`,
+                        `}
+                    `,
+                    ].join('\n');
+                }, '');
+        default:
+            throw new Error('Test Error');
+    }
+};
+
+const createFile = (name: string, contents: string, kind = 'text/plain') =>
+    new File([contents], name, { type: kind });
 
 describe('<ImportDialog />', () => {
-    test('should match snapshot', () => {
+    it('should match snapshot', () => {
         const { component } = setup();
         expect(toJSON(component)).toMatchSnapshot();
     });
-    test('should set error messages', () => {
+    it('should mount', () => {
+        const component = mount(<ImportDialog onSubmit={mocks.submit} />);
+        expect(component.isEmptyRender()).toBeFalsy();
+    });
+    it('should set error messages', () => {
         const { instance } = setup();
         expect(instance.errorMessage.get()).toBe('');
 
@@ -38,7 +72,7 @@ describe('<ImportDialog />', () => {
         instance.setErrorMessage(() => 'foobar');
         expect(instance.errorMessage.get()).toBe('');
     });
-    test('should handle submit', () => {
+    it('should handle submit', () => {
         const { component } = setup();
         const preventDefault = jest.fn();
         component
@@ -48,7 +82,24 @@ describe('<ImportDialog />', () => {
         expect(preventDefault).toHaveBeenCalledTimes(1);
         expect(mocks.submit).toHaveBeenCalledTimes(1);
     });
-    test('should open file on click', () => {
+    it('should set file name and value', () => {
+        const { instance } = setup();
+        expect(instance.file.name.get()).toBe('');
+        expect(instance.file.value.get()).toBe('');
+
+        instance.setFile({ name: 'foo' });
+        expect(instance.file.name.get()).toBe('foo');
+        expect(instance.file.value.get()).toBe('');
+
+        instance.setFile({ value: 'bar' });
+        expect(instance.file.name.get()).toBe('');
+        expect(instance.file.value.get()).toBe('bar');
+
+        instance.setFile();
+        expect(instance.file.name.get()).toBe('');
+        expect(instance.file.value.get()).toBe('');
+    });
+    it('should open file on click', () => {
         const { component, instance } = setup();
         const click = jest.fn();
         instance.inputField = {
@@ -60,97 +111,59 @@ describe('<ImportDialog />', () => {
             .simulate('click');
         expect(click).toHaveBeenCalled();
     });
-    // describe('file upload test cases', () => {
-    //     beforeEach(() => jest.resetAllMocks());
-    //     test('valid RIS file with 0 references', async () => {
-    //         const { instance } = setup();
-    //         const parse = jest.fn().mockReturnValue([]);
-    //         mocks.ris.mockImplementation(() => ({
-    //             parse,
-    //             unsupportedRefs: [],
-    //         }));
-    //         await instance.handleFileUpload(
-    //             {
-    //                 currentTarget: { files: [createFile('test.ris', 'testing')] },
-    //             } as any,
-    //         );
-    //         expect(instance.payload.length).toBe(0);
-    //         expect(instance.errorMessage.get()).toBe('The file could not be processed');
-    //     });
-    //     test('valid RIS file with 1 reference', async () => {
-    //         const { instance } = setup();
-    //         const parse = jest.fn().mockReturnValue([{ title: 'title 1' }]);
-    //         mocks.ris.mockImplementation(() => ({
-    //             parse,
-    //             unsupportedRefs: [],
-    //         }));
-    //         await instance.handleFileUpload(
-    //             {
-    //                 currentTarget: { files: [createFile('test.ris', 'testing')] },
-    //             } as any,
-    //         );
-    //         expect(instance.payload.length).toBe(1);
-    //         expect(instance.payload[0].title).toBe('title 1');
-    //         expect(instance.errorMessage.get()).toBe('');
-    //     });
-    //     test('valid RIS file with 1 reference and 1 unsupported reference', async () => {
-    //         const { instance } = setup();
-    //         const parse = jest.fn().mockReturnValue([{ title: 'title 1' }]);
-    //         mocks.ris.mockImplementation(() => ({
-    //             parse,
-    //             unsupportedRefs: ['12345'],
-    //         }));
-    //         await instance.handleFileUpload(
-    //             {
-    //                 currentTarget: { files: [createFile('test.ris', 'testing')] },
-    //             } as any,
-    //         );
-    //         expect(instance.payload.length).toBe(1);
-    //         expect(instance.payload[0].title).toBe('title 1');
-    //         expect(instance.errorMessage.get()).toBe(
-    //             'The following references were unable to be processed: 12345',
-    //         );
-    //     });
-    //     test('valid bibtex file with 1 reference', async () => {
-    //         const { instance } = setup();
-    //         const parse = jest.fn().mockReturnValue([{ title: 'title 1' }]);
-    //         mocks.tex.mockImplementation(() => ({
-    //             parse,
-    //             unsupportedRefs: [],
-    //         }));
-    //         await instance.handleFileUpload(
-    //             {
-    //                 currentTarget: { files: [createFile('test.bib', 'testing')] },
-    //             } as any,
-    //         );
-    //         expect(instance.payload.length).toBe(1);
-    //         expect(instance.payload[0].title).toBe('title 1');
-    //         expect(instance.errorMessage.get()).toBe('');
-    //     });
-    //     test('invalid file type', async () => {
-    //         const { instance } = setup();
-    //         await instance.handleFileUpload(
-    //             {
-    //                 currentTarget: { files: [createFile('test', 'testing')] },
-    //             } as any,
-    //         );
-    //         expect(instance.payload.length).toBe(0);
-    //         expect(instance.errorMessage.get()).toBe(
-    //             'Invalid file extension. Extension must be .ris, .bib, or .bibtex',
-    //         );
-    //     });
-    //     test('invalid RIS which throws error', async () => {
-    //         const { instance } = setup();
-    //         mocks.ris.mockImplementation(() => {
-    //             throw new Error('unexpected error');
-    //         });
-    //         await instance.handleFileUpload(
-    //             {
-    //                 currentTarget: { files: [createFile('test.ris', 'testing')] },
-    //             } as any,
-    //         );
-    //         expect(instance.payload.length).toBe(0);
-    //         expect(instance.errorMessage.get()).toBe('The file could not be processed');
-    //     });
-    // });
+    describe('file upload test cases', () => {
+        beforeEach(() => jest.resetAllMocks());
+        it('valid RIS file with 0 references', async () => {
+            const { instance } = setup();
+            await instance.handleFileUpload({
+                currentTarget: { files: [createFile('test.ris', '')] },
+            } as any);
+            expect(instance.payload.length).toBe(0);
+            expect(instance.errorMessage.get()).toBe('The file could not be processed');
+        });
+        it('valid RIS file with 1 reference', async () => {
+            const { instance } = setup();
+            await instance.handleFileUpload({
+                currentTarget: { files: [createFile('test.ris', createContents('ris', 1))] },
+            } as any);
+            expect(instance.payload.length).toBe(1);
+            expect(instance.payload[0].title).toBe('Test 1');
+            expect(instance.errorMessage.get()).toBe('');
+        });
+        it('valid bibtex file with 0 references', async () => {
+            const { instance } = setup();
+            await instance.handleFileUpload({
+                currentTarget: { files: [createFile('test.bib', '')] },
+            } as any);
+            expect(instance.payload.length).toBe(0);
+            expect(instance.errorMessage.get()).toBe('The file could not be processed');
+        });
+        it('valid bibtex file with 1 reference', async () => {
+            const { instance } = setup();
+            await instance.handleFileUpload({
+                currentTarget: { files: [createFile('test.bib', createContents('bibtex', 1))] },
+            } as any);
+            expect(instance.payload.length).toBe(1);
+            expect(instance.payload[0].title).toBe('Test 1');
+            expect(instance.errorMessage.get()).toBe('');
+        });
+        it('invalid file type', async () => {
+            const { instance } = setup();
+            await instance.handleFileUpload({
+                currentTarget: { files: [createFile('test', 'testing')] },
+            } as any);
+            expect(instance.payload.length).toBe(0);
+            expect(instance.errorMessage.get()).toBe(
+                'Invalid file extension. Extension must be .ris, .bib, or .bibtex',
+            );
+        });
+        it('invalid RIS which throws error', async () => {
+            const { instance } = setup();
+            await instance.handleFileUpload({
+                currentTarget: { files: [createFile('test.ris', 'testing')] },
+            } as any);
+            expect(instance.payload.length).toBe(0);
+            expect(instance.errorMessage.get()).toBe('The file could not be processed');
+        });
+    });
 });

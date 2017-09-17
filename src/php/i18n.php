@@ -38,10 +38,7 @@ function generate_translations() {
         'warnings' => [
             'warning' => __('Warning', 'academic-bloggers-toolkit'),
             'reason' => __('Reason', 'academic-bloggers-toolkit'),
-            'noBib' => [
-                'message' => __('Cannot create publication list for currently selected citation style', 'academic-bloggers-toolkit'),
-                'reason' => __('Style does not include bibliography', 'academic-bloggers-toolkit'),
-            ],
+            'noBib' => __('No bibliography format exists for your citation type', 'academic-bloggers-toolkit'),
         ],
         'unexpected' => [
             'message' => __('An unexpected error occurred', 'academic-bloggers-toolkit'),
