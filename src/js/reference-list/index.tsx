@@ -10,7 +10,7 @@ import Store from './store';
 
 window.Rollbar = logger;
 
-useStrict(false);
+useStrict(true);
 
 declare const ABT_Reflist_State: BackendGlobals.ABT_Reflist_State;
 const store: Store = new Store(ABT_Reflist_State);
@@ -44,18 +44,20 @@ const ABTRoot = () => (
                 margin: 0;
                 min-width: 254px;
             }
+            #abt_changelog {
+                margin: 0 12px;
+            }
             #abt-reflist #HW_badge_cont {
                 display: inline-block;
                 height: auto;
-                top: -2px;
-                line-height: 1.4em;
+                width: auto;
+                top: initial;
+                vertical-align: middle;
             }
             #abt-reflist #HW_badge {
                 position: relative;
                 top: 0;
-            }
-            #abt-reflist #HW_badge.HW_softHidden {
-                top: 5px;
+                left: initial;
             }
             #wp-content-editor-tools,
             #adminmenuwrap,
