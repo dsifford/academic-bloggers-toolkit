@@ -62,6 +62,7 @@ exports[`<ResultList /> should match snapshots 1`] = `
   >
     <div
       className="result-item"
+      key="1"
     >
       <div
         className="result-item__row-1"
@@ -388,6 +389,7 @@ exports[`<ResultList /> should match snapshots 1`] = `
     </div>
     <div
       className="result-item"
+      key="2"
     >
       <div
         className="result-item__row-1"

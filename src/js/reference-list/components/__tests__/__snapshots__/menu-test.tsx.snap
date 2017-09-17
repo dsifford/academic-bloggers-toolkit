@@ -35,6 +35,7 @@ exports[`<Menu /> should match snapshots 1`] = `
   >
     <div
       className="menu"
+      key="menu"
       style={
         Object {
           "height": 85,
