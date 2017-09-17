@@ -35,13 +35,13 @@ export async function getFromISBN(ISBN: string): Promise<BookMeta> {
     );
     if (!req.ok) {
         throw new Error(
-            `${top.ABT_i18n.errors.prefix}: getFromISBN => ${top.ABT_i18n.errors.statusError}`,
+            `${top.ABT.i18n.errors.prefix}: getFromISBN => ${top.ABT.i18n.errors.statusError}`,
         );
     }
     const res: APIResponse = await req.json();
 
     if (res.totalItems === 0) {
-        throw new Error(`${top.ABT_i18n.errors.noResults}`);
+        throw new Error(`${top.ABT.i18n.errors.noResults}`);
     }
 
     const meta = res.items[0].volumeInfo;

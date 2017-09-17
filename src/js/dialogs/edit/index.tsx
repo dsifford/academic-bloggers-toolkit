@@ -35,7 +35,7 @@ interface Props extends DialogProps {
 
 @observer
 export default class EditDialog extends React.PureComponent<Props> {
-    static readonly labels = top.ABT_i18n.dialogs.edit;
+    static readonly labels = top.ABT.i18n.dialogs.edit;
 
     /** Controls state of all fields besides people fields */
     fields = observable.map<string>();

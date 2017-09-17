@@ -50,12 +50,12 @@ const openedStyle = [
 ];
 
 const filterOptions = createFilterOptions({
-    options: ABT_CitationStyles.styles,
+    options: window.ABT.styles.styles,
 });
 
 @observer
 export default class Menu extends React.PureComponent<Props> {
-    static readonly labels = top.ABT_i18n.referenceList.menu;
+    static readonly labels = top.ABT.i18n.referenceList.menu;
     static filterOptions = filterOptions;
 
     static willEnter() {
@@ -84,21 +84,21 @@ export default class Menu extends React.PureComponent<Props> {
 
     constructor(props: Props) {
         super(props);
-        const { styles } = ABT_CitationStyles;
+        const { styles } = top.ABT.styles;
 
         /**
          * ABT_Custom_CSL.value is `null` if there is either no provided file path
          * or if the path to the file is invalid.
          */
-        if (!ABT_Custom_CSL.value) {
+        if (!top.ABT.custom_csl.value) {
             this.styles = styles;
         } else {
             this.styles = [
                 { label: Menu.labels.styleLabels.custom, value: 'header', id: 'header' },
                 {
-                    label: ABT_Custom_CSL.label,
-                    value: ABT_Custom_CSL.value,
-                    id: ABT_Custom_CSL.value,
+                    label: top.ABT.custom_csl.label,
+                    value: top.ABT.custom_csl.value,
+                    id: top.ABT.custom_csl.value,
                 },
                 { label: Menu.labels.styleLabels.predefined, value: 'header', id: 'header' },
                 ...styles,

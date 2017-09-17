@@ -13,7 +13,7 @@ interface Props {
 
 @observer
 export default class IdentifierInput extends React.PureComponent<Props> {
-    static readonly labels = top.ABT_i18n.dialogs.add.identifierInput;
+    static readonly labels = top.ABT.i18n.dialogs.add.identifierInput;
 
     render() {
         return (

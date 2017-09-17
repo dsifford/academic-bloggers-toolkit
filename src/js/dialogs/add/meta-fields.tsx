@@ -9,7 +9,7 @@ interface MetaFieldProps {
 
 @observer
 export default class MetaFields extends React.Component<MetaFieldProps, {}> {
-    static readonly fieldmaps = top.ABT_i18n.fieldmaps;
+    static readonly fieldmaps = top.ABT.i18n.fieldmaps;
 
     @action
     updateField = (e: React.FormEvent<HTMLInputElement>) => {
@@ -22,18 +22,16 @@ export default class MetaFields extends React.Component<MetaFieldProps, {}> {
         const fields = MetaFields.fieldmaps[citationType].fields;
         return (
             <div>
-                <h2>
-                    {title}
-                </h2>
+                <h2>{title}</h2>
                 <div className="table">
-                    {fields.map((field: ABT.Field, i: number) =>
+                    {fields.map((field: ABT.Field, i: number) => (
                         <Field
                             key={`${title}-meta-${i}`}
                             onChange={this.updateField}
                             field={field}
                             meta={this.props.meta}
-                        />,
-                    )}
+                        />
+                    ))}
                 </div>
                 <style jsx>{`
                     .table {

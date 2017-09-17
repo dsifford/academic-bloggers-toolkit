@@ -17,8 +17,8 @@ const ph = placeholderGenerator();
 
 @observer
 export default class PubmedDialog extends React.Component<DialogProps> {
-    static readonly errors = top.ABT_i18n.errors;
-    static readonly labels = top.ABT_i18n.dialogs.pubmed;
+    static readonly errors = top.ABT.i18n.errors;
+    static readonly labels = top.ABT.i18n.dialogs.pubmed;
 
     /** Error message to be displayed in the callout, if applicable */
     errorMessage = observable('');

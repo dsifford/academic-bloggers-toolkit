@@ -2,7 +2,7 @@ const { CSL } = require('../../../vendor/citeproc.js');
 import Store from '../../reference-list/store';
 import { CSLProcessor } from '../CSLProcessor';
 
-declare const ABT_Reflist_State: BackendGlobals.ABT_Reflist_State;
+declare const ABT: ABT.Backend;
 
 // Web worker stub
 const Worker = () => ({
@@ -32,7 +32,7 @@ describe('CSLProcessor', () => {
     let processor: CSLProcessor;
     let store: Store;
     beforeEach(() => {
-        store = new Store({ ...ABT_Reflist_State });
+        store = new Store({ ...ABT.state });
         processor = new CSLProcessor(store);
     });
     it('should work', async () => {

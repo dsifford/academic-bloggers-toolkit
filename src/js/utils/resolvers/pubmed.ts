@@ -17,7 +17,7 @@ export async function pubmedQuery(query: string): Promise<PubMed.Response[]> {
 
     if (res.error) {
         throw new Error(
-            `${top.ABT_i18n.errors.prefix}: pubmedQuery => ${top.ABT_i18n.errors.badRequest}`,
+            `${top.ABT.i18n.errors.prefix}: pubmedQuery => ${top.ABT.i18n.errors.badRequest}`,
         );
     }
 

@@ -21,8 +21,8 @@ interface ManualEntryProps {
 
 @observer
 export default class ManualEntryContainer extends React.PureComponent<ManualEntryProps, {}> {
-    static readonly citationTypes = top.ABT_i18n.citationTypes;
-    static readonly labels = top.ABT_i18n.dialogs.add.manualEntryContainer;
+    static readonly citationTypes = top.ABT.i18n.citationTypes;
+    static readonly labels = top.ABT.i18n.dialogs.add.manualEntryContainer;
 
     @action
     dismissError = () => {
@@ -80,22 +80,22 @@ export default class ManualEntryContainer extends React.PureComponent<ManualEntr
                     </select>
                 </div>
                 {renderAutocite &&
-                itemType === 'webpage' && (
-                    <AutoCite
-                        getter={this.props.onAutoCite}
-                        kind={itemType as 'webpage'}
-                        placeholder={ManualEntryContainer.labels.URL}
-                    />
-                )}
+                    itemType === 'webpage' && (
+                        <AutoCite
+                            getter={this.props.onAutoCite}
+                            kind={itemType as 'webpage'}
+                            placeholder={ManualEntryContainer.labels.URL}
+                        />
+                    )}
                 {renderAutocite &&
-                ['book', 'chapter'].includes(itemType) && (
-                    <AutoCite
-                        getter={this.props.onAutoCite}
-                        kind={itemType as 'book' | 'chapter'}
-                        placeholder={ManualEntryContainer.labels.ISBN}
-                        pattern="(?:[\dxX]-?){10}|(?:[\dxX]-?){13}"
-                    />
-                )}
+                    ['book', 'chapter'].includes(itemType) && (
+                        <AutoCite
+                            getter={this.props.onAutoCite}
+                            kind={itemType as 'book' | 'chapter'}
+                            placeholder={ManualEntryContainer.labels.ISBN}
+                            pattern="(?:[\dxX]-?){10}|(?:[\dxX]-?){13}"
+                        />
+                    )}
                 <div
                     onWheel={this.handleWheel}
                     className={renderAutocite ? 'bounded-rect autocite' : 'bounded-rect'}

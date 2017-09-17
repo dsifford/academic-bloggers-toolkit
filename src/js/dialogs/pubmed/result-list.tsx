@@ -15,7 +15,7 @@ interface ResultListProps {
 
 @observer
 export class ResultList extends React.PureComponent<ResultListProps, {}> {
-    static readonly labels = top.ABT_i18n.dialogs.pubmed;
+    static readonly labels = top.ABT.i18n.dialogs.pubmed;
 
     /** Required so that result list can be scrolled to top after each new search */
     element: HTMLElement;

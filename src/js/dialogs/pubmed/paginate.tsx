@@ -15,7 +15,7 @@ interface Props {
 
 @observer
 export class Paginate extends React.PureComponent<Props> {
-    static readonly labels = top.ABT_i18n.dialogs.pubmed;
+    static readonly labels = top.ABT.i18n.dialogs.pubmed;
 
     @action
     handleClick = (e: React.MouseEvent<HTMLInputElement>) => {

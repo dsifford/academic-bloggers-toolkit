@@ -28,7 +28,7 @@ type AutoCiteMeta = BookMeta | URLMeta;
 
 @observer
 export default class AddDialog extends React.Component<DialogProps> {
-    static readonly pubmedLabel = top.ABT_i18n.dialogs.pubmed.title;
+    static readonly pubmedLabel = top.ABT.i18n.dialogs.pubmed.title;
 
     /** Describes the active state of `ManualEntryContainer` */
     addManually = observable(false);
@@ -71,7 +71,12 @@ export default class AddDialog extends React.Component<DialogProps> {
     @action
     appendPMID = (pmid: string) => {
         const ids = new Set(
-            this.identifierList.get().split(',').map(i => i.trim()).concat(pmid).filter(Boolean),
+            this.identifierList
+                .get()
+                .split(',')
+                .map(i => i.trim())
+                .concat(pmid)
+                .filter(Boolean),
         );
         this.identifierList.set(Array.from(ids).join(', '));
         if (this.identifierInputField) this.identifierInputField.focus();
@@ -83,9 +88,15 @@ export default class AddDialog extends React.Component<DialogProps> {
             case 'webpage':
                 this.manualData.merge({
                     URL: meta.url,
-                    accessed: meta.accessed.split('T')[0].split('-').join('/'),
+                    accessed: meta.accessed
+                        .split('T')[0]
+                        .split('-')
+                        .join('/'),
                     'container-title': meta.site_title,
-                    issued: meta.issued.split('T')[0].split('-').join('/'),
+                    issued: meta.issued
+                        .split('T')[0]
+                        .split('-')
+                        .join('/'),
                     title: meta.content_title,
                 });
                 this.people.replace(
@@ -100,7 +111,11 @@ export default class AddDialog extends React.Component<DialogProps> {
             case 'book':
                 const titleKey = meta.kind === 'chapter' ? 'container-title' : 'title';
                 this.manualData.merge({
-                    accessed: new Date(Date.now()).toISOString().split('T')[0].split('-').join('/'),
+                    accessed: new Date(Date.now())
+                        .toISOString()
+                        .split('T')[0]
+                        .split('-')
+                        .join('/'),
                     issued: meta.issued,
                     'number-of-pages': meta['number-of-pages'],
                     publisher: meta.publisher,
@@ -192,7 +207,7 @@ export default class AddDialog extends React.Component<DialogProps> {
         return (
             <div>
                 {this.isLoading.get() && <Spinner size="40px" overlay />}
-                {this.currentDialog.get() === 'PUBMED' &&
+                {this.currentDialog.get() === 'PUBMED' && (
                     <Container
                         overlayOpacity={0.2}
                         currentDialog={this.currentDialog}
@@ -200,22 +215,25 @@ export default class AddDialog extends React.Component<DialogProps> {
                         onClose={this.closePubmedDialog}
                     >
                         <PubmedDialog onSubmit={this.handleSubmit} />
-                    </Container>}
+                    </Container>
+                )}
                 <form id="add-reference" onSubmit={this.handleSubmit}>
-                    {!this.addManually.get() &&
+                    {!this.addManually.get() && (
                         <IdentifierInput
                             fieldRef={this.captureInputField}
                             identifierList={this.identifierList}
                             onChange={this.changeIdentifiers}
-                        />}
-                    {this.addManually.get() &&
+                        />
+                    )}
+                    {this.addManually.get() && (
                         <ManualEntryContainer
                             errorMessage={this.errorMessage}
                             manualData={this.manualData}
                             people={this.people}
                             onAutoCite={this.handleAutocite}
                             onTypeChange={this.changeType}
-                        />}
+                        />
+                    )}
                 </form>
                 <ButtonRow
                     isLoading={this.isLoading.get()}

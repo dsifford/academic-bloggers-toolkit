@@ -81,7 +81,7 @@ class MockEditor extends EditorDriver {
     }
 }
 
-const blankState: BackendGlobals.ABT_Reflist_State = {
+const blankState: ABT.Backend['state'] = {
     bibOptions: {
         heading: '',
         headingLevel: 'h3',

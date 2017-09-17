@@ -22,7 +22,7 @@ interface Props {
 
 @observer
 export default class Container extends React.Component<Props> {
-    static readonly closeLabel = top.ABT_i18n.dialogs.closeLabel;
+    static readonly closeLabel = top.ABT.i18n.dialogs.closeLabel;
     static defaultProps: Partial<Props> = {
         overlayOpacity: 0.7,
         width: 600,

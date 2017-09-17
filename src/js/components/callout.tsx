@@ -20,8 +20,8 @@ export default class Callout extends React.PureComponent<Props> {
     };
 
     static prefixes = {
-        warning: top.ABT_i18n.errors.warnings.warning,
-        error: top.ABT_i18n.errors.prefix,
+        warning: top.ABT.i18n.errors.warnings.warning,
+        error: top.ABT.i18n.errors.prefix,
     };
 
     render() {

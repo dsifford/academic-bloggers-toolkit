@@ -1,7 +1,5 @@
 import * as rollbar from 'rollbar/dist/rollbar.umd';
 
-declare const ABT_wp: BackendGlobals.ABT_wp;
-
 const config = {
     accessToken: process.env.ROLLBAR_TOKEN,
     captureUncaught: false,
@@ -13,7 +11,7 @@ const config = {
                 code_version: process.env.COMMIT_HASH,
             },
         },
-        ...ABT_wp.info,
+        ...top.ABT.wp.info,
     },
     transform: (payload: any) => {
         const trace = payload.body.trace;

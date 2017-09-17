@@ -4,7 +4,7 @@ import { observable } from 'mobx';
 import * as React from 'react';
 import Menu, { dynamicOptionHeightHandler, renderer as Renderer } from '../menu';
 
-const ABT_CitationStyles = {
+const styles = {
     renamed: {},
     styles: [
         {
@@ -16,7 +16,7 @@ const ABT_CitationStyles = {
     ],
 };
 
-const ABT_Custom_CSL = {
+const custom_csl = {
     CSL: '',
     label: 'Test Label',
     value: 'test-value',
@@ -63,9 +63,11 @@ const setupRenderer = (label: string, value = 'test', focusedOption = false) => 
 describe('<Menu />', () => {
     const setup = setupMenu;
     beforeEach(() => {
-        window.ABT_CitationStyles = ABT_CitationStyles;
-        window.ABT_i18n = ABT_i18n;
-        window.ABT_Custom_CSL = ABT_Custom_CSL;
+        window.ABT = {
+            ...window.ABT,
+            styles,
+            custom_csl,
+        } as any;
         jest.resetAllMocks();
     });
     it('should match snapshots', () => {
@@ -89,7 +91,7 @@ describe('<Menu />', () => {
         expect(spy).toHaveBeenCalledTimes(2);
         expect(spy.mock.calls[1]).toEqual([{ data: 'apa-5th', kind: 'CHANGE_STYLE' }]);
     });
-    test('should handle empty data', () => {
+    it('should handle empty data', () => {
         const { component, importBtn, spy } = setup();
         expect(spy).toHaveBeenCalledTimes(0);
         importBtn.simulate('click');
@@ -99,9 +101,9 @@ describe('<Menu />', () => {
         expect(spy).toHaveBeenCalledTimes(1);
     });
     it('should work without custom CSL defined', () => {
-        window.ABT_Custom_CSL = { value: undefined, label: '' };
+        window.ABT.custom_csl = { value: undefined, label: '' };
         const { instance } = setup();
-        expect(instance.styles).toEqual(ABT_CitationStyles.styles);
+        expect(instance.styles).toEqual(styles.styles);
     });
     it('should have functioning static methods', () => {
         expect(Menu.willEnter()).toEqual({ height: 0, scale: 0 });

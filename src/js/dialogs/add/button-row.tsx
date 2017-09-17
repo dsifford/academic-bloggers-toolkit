@@ -24,7 +24,7 @@ interface Props {
 
 @observer
 export default class ButtonRow extends React.PureComponent<Props> {
-    static readonly labels = top.ABT_i18n.dialogs.add.buttonRow;
+    static readonly labels = top.ABT.i18n.dialogs.add.buttonRow;
     render() {
         const {
             addManually,

@@ -6,9 +6,6 @@ import { localeMapper } from './constants';
 import { formatBibliography } from './formatters/';
 import { generateID } from './helpers/';
 
-declare const ABT_Custom_CSL: BackendGlobals.ABT_Custom_CSL;
-declare const ABT_wp: BackendGlobals.ABT_wp;
-
 interface LocaleCache {
     locales: Array<[string, string]>;
     time: number;
@@ -58,8 +55,8 @@ export class CSLProcessor {
         const localeCache = localStorage.getItem('abt-locale-cache');
         this.store = store;
         this.styles = new Map([
-            ...ABT_CitationStyles.styles.map(style => <any>[style.id, style.value]),
-            ...Object.entries(ABT_CitationStyles.renamed),
+            ...top.ABT.styles.styles.map(style => <any>[style.id, style.value]),
+            ...Object.entries(top.ABT.styles.renamed),
         ]);
 
         if (localeCache) {
@@ -70,7 +67,7 @@ export class CSLProcessor {
             }
         }
 
-        this.worker = new Worker(`${ABT_wp.abt_url}/vendor/worker.js`);
+        this.worker = new Worker(`${top.ABT.wp.abt_url}/vendor/worker.js`);
         this.worker.addEventListener('message', this.receiveWorkerMessage);
         this.worker.postMessage('');
     }
@@ -83,7 +80,7 @@ export class CSLProcessor {
     async createStaticBibliography(data: CSL.Data[]): Promise<ABT.Bibliography | boolean> {
         const style =
             this.store.citationStyle.get() === 'abt-user-defined'
-                ? ABT_Custom_CSL.CSL
+                ? top.ABT.custom_csl.CSL
                 : await this.getCSLStyle(this.store.citationStyle.get());
         const sys = { ...this.citeproc.sys };
         const citeproc: Citeproc.Processor = new Csl.Engine(sys, style);
@@ -109,7 +106,7 @@ export class CSLProcessor {
     async init(): Promise<Citeproc.CitationResult[]> {
         const style =
             this.store.citationStyle.get() === 'abt-user-defined'
-                ? ABT_Custom_CSL.CSL
+                ? top.ABT.custom_csl.CSL
                 : await this.getCSLStyle(this.store.citationStyle.get());
         const sys = await this.generateSys(this.store.locale);
         this.citeproc = new Csl.Engine(sys, style);

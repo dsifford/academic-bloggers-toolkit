@@ -27,8 +27,8 @@ interface Props {
 
 @observer
 export default class ReferenceList extends React.Component<Props> {
-    static readonly errors = top.ABT_i18n.errors;
-    static readonly labels = top.ABT_i18n.referenceList;
+    static readonly errors = top.ABT.i18n.errors;
+    static readonly labels = top.ABT.i18n.referenceList;
 
     /**
      * The id of the currently opened modal

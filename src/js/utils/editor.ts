@@ -111,7 +111,7 @@ export default abstract class Editor {
 
         const heading = document.createElement('div');
         heading.classList.add(`${Editor.footnoteId}__heading`);
-        heading.textContent = ABT_i18n.misc.footnotes;
+        heading.textContent = top.ABT.i18n.misc.footnotes;
 
         note.appendChild(heading);
 

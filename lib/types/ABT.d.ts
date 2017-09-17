@@ -144,4 +144,141 @@ declare namespace ABT {
         attachInline: boolean;
         identifierList: string;
     }
+
+    interface i18n {
+        citationTypes: CitationTypes;
+        errors: {
+            missingPhpFeatures: 'Your WordPress PHP installation is incomplete. You must have the following PHP extensions enabled to use this feature: "dom", "libxml"';
+            badRequest: 'Request not valid';
+            denied: 'Site denied request';
+            fileExtensionError: 'Invalid file extension. Extension must be .ris, .bib, or .bibtex';
+            filetypeError: 'The file could not be processed';
+            identifiersNotFound: {
+                all: 'No identifiers could be found for your request';
+                some: 'The following identifiers could not be found';
+            };
+            networkError: 'Network Error';
+            noResults: 'Your search returned 0 results';
+            prefix: 'Error';
+            risLeftovers: 'The following references were unable to be processed';
+            statusError: 'Request returned a non-200 status code';
+            warnings: {
+                warning: 'Warning';
+                reason: 'Reason';
+                noBib: {
+                    message: 'Cannot create publication list for currently selected citation style';
+                    reason: 'Style does not include bibliography';
+                };
+            };
+            unexpected: {
+                message: 'An unexpected error occurred';
+                reportInstructions: 'Please report this error, including the steps taken to trigger it, here: \nhttps://github.com/dsifford/academic-bloggers-toolkit/issues'; // tslint:disable-line
+            };
+        };
+        fieldmaps: FieldMappings;
+        misc: {
+            footnotes: 'Footnotes';
+        };
+        referenceList: {
+            menu: {
+                styleLabels: {
+                    custom: 'Custom Style';
+                    predefined: 'Pre-defined Styles';
+                };
+                toggleLabel: 'Toggle menu';
+                tooltips: {
+                    destroy: 'Delete all references';
+                    help: 'Usage instructions';
+                    importRIS: 'Import references';
+                    refresh: 'Refresh reference list';
+                    staticPubList: 'Insert static publication list';
+                };
+            };
+            citedItems: 'Cited Items';
+            tooltips: {
+                add: 'Add reference';
+                insert: 'Insert selected references';
+                pin: 'Pin reference list';
+                remove: 'Remove selected references';
+            };
+            uncitedItems: 'Uncited Items';
+        };
+        dialogs: {
+            closeLabel: 'Close dialog';
+            edit: {
+                title: 'Edit Reference';
+                confirm: 'Confirm';
+            };
+            import: {
+                importBtn: 'Import';
+                title: 'Import References';
+                upload: 'Choose File';
+            };
+            pubmed: {
+                addReference: 'Select';
+                next: 'Next';
+                previous: 'Previous';
+                search: 'Search';
+                title: 'Search PubMed';
+                viewReference: 'View';
+            };
+            add: {
+                buttonRow: {
+                    addManually: 'Add Manually';
+                    addReference: 'Add Reference';
+                    addWithIdentifier: 'Add with Identifier';
+                    insertInline: 'Insert citation inline';
+                    searchPubmed: 'Search PubMed';
+                };
+                identifierInput: {
+                    label: 'DOI/PMID/PMCID';
+                };
+                manualEntryContainer: {
+                    autocite: 'Autocite';
+                    citationType: 'Citation Type';
+                    ISBN: 'ISBN';
+                    search: 'Search';
+                    URL: 'URL';
+                };
+                people: {
+                    add: 'Add Contributor';
+                    contributors: 'Contributors';
+                    given: 'Given Name, M.I.';
+                    surname: 'Surname';
+                };
+                title: 'Add References';
+            };
+        };
+    }
+
+    interface EditorState {
+        bibOptions: {
+            heading: string;
+            headingLevel: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
+            style: 'fixed' | 'toggle';
+        };
+        cache: {
+            style: string;
+            links: LinkStyle;
+            locale: string;
+        };
+        citationByIndex: Citeproc.CitationByIndex;
+        CSL: {
+            [id: string]: CSL.Data;
+        };
+    }
+
+    interface CustomCSL {
+        CSL?: string;
+        label: string;
+        value?: string;
+    }
+
+    interface Backend {
+        state: ABT.EditorState;
+        i18n: ABT.i18n;
+        styles: CitationStyles;
+        wp: WP_info;
+        custom_csl: ABT.CustomCSL;
+    }
 }

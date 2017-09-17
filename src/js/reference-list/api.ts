@@ -37,7 +37,7 @@ export async function getRemoteData(identifierList: string): Promise<[CSL.Data[]
     }
 
     if (promises.length === 0) {
-        return [[], top.ABT_i18n.errors.identifiersNotFound.all];
+        return [[], top.ABT.i18n.errors.identifiersNotFound.all];
     }
 
     const data = await Promise.all(promises);
@@ -51,7 +51,7 @@ export async function getRemoteData(identifierList: string): Promise<[CSL.Data[]
     return [
         csl,
         errs.length > 0
-            ? `${top.ABT_i18n.errors.identifiersNotFound.some}: ${errs.join(', ')}`
+            ? `${top.ABT.i18n.errors.identifiersNotFound.some}: ${errs.join(', ')}`
             : '',
     ];
 }

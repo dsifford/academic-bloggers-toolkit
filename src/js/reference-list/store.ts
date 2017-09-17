@@ -209,7 +209,7 @@ export default class Store {
      */
     locale: string;
 
-    constructor(savedState: BackendGlobals.ABT_Reflist_State) {
+    constructor(savedState: ABT.Backend['state']) {
         const { cache, citationByIndex, bibOptions, CSL } = savedState;
         this.citations = new CitationStore(citationByIndex, CSL);
         this.links = cache.links;

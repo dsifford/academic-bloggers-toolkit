@@ -12,8 +12,7 @@ window.Rollbar = logger;
 
 useStrict(true);
 
-declare const ABT_Reflist_State: BackendGlobals.ABT_Reflist_State;
-const store: Store = new Store(ABT_Reflist_State);
+const store: Store = new Store(window.ABT.state);
 
 const ABTRoot = () => (
     <div>

@@ -1,4 +1,4 @@
-export const ABT_wp: BackendGlobals.ABT_wp = {
+export const wpInfo: ABT.Backend['wp'] = {
     abt_url: 'http://localhost:8080/wp-content/plugins/academic-bloggers-toolkit',
     home_url: 'http://localhost:8080',
     plugins_url: 'http://localhost:8080/wp-content/plugins',
@@ -26,7 +26,7 @@ export const ABT_wp: BackendGlobals.ABT_wp = {
     },
 };
 
-export const ABT_Reflist_State: BackendGlobals.ABT_Reflist_State = {
+export const state: ABT.Backend['state'] = {
     bibOptions: {
         heading: 'Bibliography',
         style: 'fixed',
@@ -202,7 +202,7 @@ export const ABT_Reflist_State: BackendGlobals.ABT_Reflist_State = {
     },
 };
 
-export const ABT_i18n: BackendGlobals.ABT_i18n = {
+export const i18n: ABT.Backend['i18n'] = {
     misc: {
         footnotes: 'Footnotes',
     },

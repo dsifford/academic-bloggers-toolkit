@@ -1,12 +1,12 @@
 import Store from '../store';
 
-declare const ABT_Reflist_State: BackendGlobals.ABT_Reflist_State;
+declare const ABT: ABT.Backend;
 
 describe('Store', () => {
     let store: Store;
     describe('Citation Store', () => {
         beforeEach(() => {
-            store = new Store(ABT_Reflist_State);
+            store = new Store(ABT.state);
         });
         it('should return citedIDs', () => {
             expect(store.citations.citedIDs).toEqual(['aaaaaaaa', 'bbbbbbbb']);
@@ -30,7 +30,7 @@ describe('Store', () => {
             });
         });
         it('should return citationByIndex as JS object', () => {
-            const stateCopy = JSON.parse(JSON.stringify(ABT_Reflist_State));
+            const stateCopy = JSON.parse(JSON.stringify(ABT.state));
             expect(store.citations.citationByIndex).toEqual(stateCopy.citationByIndex);
         });
         it('should call init', () => {
@@ -198,7 +198,7 @@ describe('Store', () => {
         });
     });
     beforeEach(() => {
-        store = new Store(ABT_Reflist_State);
+        store = new Store(ABT.state);
     });
     it('should return persistent', () => {
         expect(JSON.parse(store.persistent).CSL).not.toBeUndefined();

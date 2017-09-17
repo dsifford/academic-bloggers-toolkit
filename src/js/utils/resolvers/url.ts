@@ -33,7 +33,7 @@ export async function getFromURL(url: string): Promise<URLMeta> {
 
     if (!req.ok) {
         throw new Error(
-            req.status === 501 ? top.ABT_i18n.errors.missingPhpFeatures : req.statusText,
+            req.status === 501 ? top.ABT.i18n.errors.missingPhpFeatures : req.statusText,
         );
     }
 
