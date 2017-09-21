@@ -75,7 +75,7 @@
     "merge-stream": "^1.0.1",
     "mobx-react-devtools": "^4.2.15",
     "prettier": "^1.7.0",
-    "puppeteer": "^0.10.2",
+    "puppeteer": "^0.11.0",
     "react-test-renderer": "^15.6.1",
     "rollbar": "^2.2.6",
     "rollbar-sourcemap-webpack-plugin": "^2.2.0",
