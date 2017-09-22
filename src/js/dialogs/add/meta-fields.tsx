@@ -58,7 +58,7 @@ interface FieldProps {
 }
 
 @observer
-class Field extends React.PureComponent<FieldProps, {}> {
+class Field extends React.Component<FieldProps, {}> {
     render() {
         const { onChange, field, meta } = this.props;
         return (

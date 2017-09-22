@@ -10,7 +10,7 @@ interface PeopleProps {
 }
 
 @observer
-export default class People extends React.PureComponent<PeopleProps, {}> {
+export default class People extends React.Component<PeopleProps, {}> {
     static readonly fieldmaps = top.ABT.i18n.fieldmaps;
     static readonly labels = top.ABT.i18n.dialogs.add.people;
 
@@ -78,7 +78,7 @@ interface PersonProps {
 }
 
 @observer
-class Person extends React.PureComponent<PersonProps, {}> {
+class Person extends React.Component<PersonProps, {}> {
     static readonly labels = top.ABT.i18n.dialogs.add.people;
     render() {
         const { index, fieldMap: { people }, onChange, onRemove, person } = this.props;

@@ -79,6 +79,7 @@ export default class AddDialog extends React.Component<DialogProps> {
                 .filter(Boolean),
         );
         this.identifierList.set(Array.from(ids).join(', '));
+        this.currentDialog.set('');
         if (this.identifierInputField) this.identifierInputField.focus();
     };
 
@@ -214,7 +215,7 @@ export default class AddDialog extends React.Component<DialogProps> {
                         title={AddDialog.pubmedLabel}
                         onClose={this.closePubmedDialog}
                     >
-                        <PubmedDialog onSubmit={this.handleSubmit} />
+                        <PubmedDialog onSubmit={this.appendPMID} />
                     </Container>
                 )}
                 <form id="add-reference" onSubmit={this.handleSubmit}>

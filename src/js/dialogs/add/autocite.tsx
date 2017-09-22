@@ -21,7 +21,7 @@ interface Props {
 }
 
 @observer
-export default class AutoCite extends React.PureComponent<Props> {
+export default class AutoCite extends React.Component<Props> {
     static readonly labels = top.ABT.i18n.dialogs.add.manualEntryContainer;
 
     /** Ref to the input field (needed for validation) */

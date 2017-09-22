@@ -20,7 +20,7 @@ interface ManualEntryProps {
 }
 
 @observer
-export default class ManualEntryContainer extends React.PureComponent<ManualEntryProps, {}> {
+export default class ManualEntryContainer extends React.Component<ManualEntryProps, {}> {
     static readonly citationTypes = top.ABT.i18n.citationTypes;
     static readonly labels = top.ABT.i18n.dialogs.add.manualEntryContainer;
 

@@ -54,7 +54,7 @@ const filterOptions = createFilterOptions({
 });
 
 @observer
-export default class Menu extends React.PureComponent<Props> {
+export default class Menu extends React.Component<Props> {
     static readonly labels = top.ABT.i18n.referenceList.menu;
     static filterOptions = filterOptions;
 

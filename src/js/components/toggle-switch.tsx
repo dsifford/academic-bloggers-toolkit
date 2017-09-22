@@ -14,7 +14,7 @@ interface Props extends React.HTMLProps<HTMLInputElement> {
 type State = TooltipParentState;
 
 @observer
-export default class ToggleSwitch extends React.PureComponent<Props, State> {
+export default class ToggleSwitch extends React.Component<Props, State> {
     constructor(props: Props) {
         super(props);
         this.state = {

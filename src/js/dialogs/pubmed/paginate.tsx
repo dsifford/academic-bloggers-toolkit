@@ -14,7 +14,7 @@ interface Props {
 }
 
 @observer
-export class Paginate extends React.PureComponent<Props> {
+export class Paginate extends React.Component<Props> {
     static readonly labels = top.ABT.i18n.dialogs.pubmed;
 
     @action
