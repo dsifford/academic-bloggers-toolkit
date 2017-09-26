@@ -1,5 +1,5 @@
+import { parseDate } from 'astrocite-core';
 import { generateID } from 'utils/helpers/';
-import { parseCSLDate } from 'utils/parsers/';
 import { getFromDOI, getFromPubmed } from 'utils/resolvers/';
 
 export async function getRemoteData(identifierList: string): Promise<[CSL.Data[], string]> {
@@ -71,7 +71,7 @@ export function parseManualData(data: ABT.ManualData): [CSL.Data[], string] {
     // Process date fields
     ['accessed', 'event-date', 'issued'].forEach(dateType => {
         if (!data.manualData[dateType]) return;
-        data.manualData[dateType] = parseCSLDate(data.manualData[dateType], 'RIS');
+        data.manualData[dateType] = parseDate(data.manualData[dateType]);
     });
 
     // Create a unique ID if one doesn't exist

@@ -8,7 +8,7 @@ import Button from 'components/button';
 
 interface ResultListProps {
     /** List of results returned from pubmed search */
-    results: PubMed.Response[];
+    results: CSL.Data[];
     /** Callback to be performed when a result is chosen */
     onSelect(pmid: string): void;
 }
@@ -54,10 +54,10 @@ export class ResultList extends React.Component<ResultListProps, {}> {
         return (
             <div className="result-list" ref={this.bindRefs} onWheel={this.handleWheel}>
                 {this.props.results.map(result => (
-                    <div key={result.uid} className="result-item">
+                    <div key={result.id} className="result-item">
                         <div className="result-item__row-1">
                             <div className="result-item__source" children={result.source} />
-                            <div children={result.pubdate!.slice(0, 4)} />
+                            <div children={result.issued!['date-parts']![0][0]} />
                         </div>
                         {/* tslint:disable-next-line:react-no-dangerous-html */}
                         <div
@@ -66,23 +66,23 @@ export class ResultList extends React.Component<ResultListProps, {}> {
                         />
                         <div className="result-item__row-3">
                             <div
-                                children={result.authors!
+                                children={result.author!
                                     .slice(0, 3)
-                                    .map(el => el.name)
+                                    .map(el => `${el.family}, ${el.given!.charAt(0).toUpperCase()}`)
                                     .join(', ')}
                             />
                             <div className="result-item__buttons">
                                 <Button
                                     flat
                                     focusable
-                                    href={`https://www.ncbi.nlm.nih.gov/pubmed/${result.uid}`}
+                                    href={`https://www.ncbi.nlm.nih.gov/pubmed/${result.id}`}
                                     label={ResultList.labels.viewReference}
                                 />
                                 <Button
                                     flat
                                     primary
                                     focusable
-                                    id={result.uid}
+                                    id={result.id}
                                     label={ResultList.labels.addReference}
                                     onClick={this.handleClick}
                                 />

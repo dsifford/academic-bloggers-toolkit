@@ -6,52 +6,68 @@ exports[`<ResultList /> should match snapshots 1`] = `
   results={
     Array [
       Object {
-        "authors": Array [
+        "author": Array [
           Object {
-            "authtype": "Author",
-            "name": "Author 1",
+            "family": "Doe",
+            "given": "John",
           },
           Object {
-            "authtype": "Author",
-            "name": "Author 2",
+            "family": "Smith",
+            "given": "Jan",
           },
           Object {
-            "authtype": "Author",
-            "name": "Author 3",
+            "family": "Brown",
+            "given": "Pamela",
           },
           Object {
-            "authtype": "Author",
-            "name": "NOT VISIBLE",
+            "family": "Clark",
+            "given": "Steve",
           },
         ],
-        "pubdate": "2016 May 1",
-        "source": "J Test 1",
+        "container-title-short": "J Test 1",
+        "id": "1",
+        "issued": Object {
+          "date-parts": Array [
+            Array [
+              "2016",
+              "05",
+              "01",
+            ],
+          ],
+        },
         "title": "Test Title 1",
-        "uid": "1",
       },
       Object {
-        "authors": Array [
+        "author": Array [
           Object {
-            "authtype": "Author",
-            "name": "Author 1",
+            "family": "Doe",
+            "given": "John",
           },
           Object {
-            "authtype": "Author",
-            "name": "Author 2",
+            "family": "Smith",
+            "given": "Jan",
           },
           Object {
-            "authtype": "Author",
-            "name": "Author 3",
+            "family": "Brown",
+            "given": "Pamela",
           },
           Object {
-            "authtype": "Author",
-            "name": "NOT VISIBLE",
+            "family": "Clark",
+            "given": "Steve",
           },
         ],
-        "pubdate": "2016 May 1",
-        "source": "J Test 2",
+        "container-title-short": "J Test 2",
+        "id": "2",
+        "issued": Object {
+          "date-parts": Array [
+            Array [
+              "2016",
+              "05",
+              "01",
+            ],
+          ],
+        },
         "title": "Test Title 2",
-        "uid": "2",
       },
     ]
   }
@@ -69,9 +85,7 @@ exports[`<ResultList /> should match snapshots 1`] = `
       >
         <div
           className="result-item__source"
-        >
-          J Test 1
-        </div>
+        />
         <div>
           2016
         </div>
@@ -88,7 +102,7 @@ exports[`<ResultList /> should match snapshots 1`] = `
         className="result-item__row-3"
       >
         <div>
-          Author 1, Author 2, Author 3
+          Doe, J, Smith, J, Brown, P
         </div>
         <div
           className="result-item__buttons"
@@ -396,9 +410,7 @@ exports[`<ResultList /> should match snapshots 1`] = `
       >
         <div
           className="result-item__source"
-        >
-          J Test 2
-        </div>
+        />
         <div>
           2016
         </div>
@@ -415,7 +427,7 @@ exports[`<ResultList /> should match snapshots 1`] = `
         className="result-item__row-3"
       >
         <div>
-          Author 1, Author 2, Author 3
+          Doe, J, Smith, J, Brown, P
         </div>
         <div
           className="result-item__buttons"

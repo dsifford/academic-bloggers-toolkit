@@ -4,30 +4,32 @@ import * as React from 'react';
 import { ResultList } from '../result-list';
 
 const generateData = (n: number) => {
-    let data: CSL.Data[] = [];
+    let data: Array<Partial<CSL.Data>> = [];
     for (let i = 0; i < n; i++) {
         data = [
             ...data,
             {
-                authors: [
-                    { authtype: 'Author', name: 'Author 1' },
-                    { authtype: 'Author', name: 'Author 2' },
-                    { authtype: 'Author', name: 'Author 3' },
-                    { authtype: 'Author', name: 'NOT VISIBLE' },
+                author: [
+                    { family: 'Doe', given: 'John' },
+                    { family: 'Smith', given: 'Jan' },
+                    { family: 'Brown', given: 'Pamela' },
+                    { family: 'Clark', given: 'Steve' },
                 ],
-                pubdate: '2016 May 1',
-                source: `J Test ${i + 1}`,
+                issued: {
+                    'date-parts': [['2016', '05', '01']],
+                },
+                'container-title-short': `J Test ${i + 1}`,
                 title: `Test Title ${i + 1}`,
-                uid: `${i + 1}`,
+                id: `${i + 1}`,
             },
-        ] as CSL.Data[];
+        ];
     }
     return data;
 };
 
-const defaltData = generateData(2);
+const defaultData = generateData(2);
 
-const setup = (data: any = defaltData, fullMount = true) => {
+const setup = (data: any = defaultData, fullMount = true) => {
     const spy = jest.fn();
     const component = fullMount
         ? mount(<ResultList results={data} onSelect={spy} />)

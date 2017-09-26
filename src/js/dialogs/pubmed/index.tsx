@@ -33,7 +33,7 @@ export default class PubmedDialog extends React.Component<DialogProps> {
     query = observable('');
 
     /** Array of results returned from the pubmed search */
-    results = observable<PubMed.Response>([]);
+    results = observable<CSL.Data>([]);
 
     @computed
     get visibleResults() {

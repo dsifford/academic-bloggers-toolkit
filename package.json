@@ -86,13 +86,13 @@
     "tslint": "^5.7.0",
     "tslint-microsoft-contrib": "^5.0.1",
     "tslint-react": "^3.2.0",
-    "uglify-es": "^3.1.1",
+    "uglify-es": "^3.1.2",
     "webpack": "^3.6.0",
     "webpack-bundle-analyzer": "^2.9.0"
   },
   "dependencies": {
     "@types/jquery": "^3.2.12",
-    "astrocite": "^0.7.0",
+    "astrocite": "^0.8.2",
     "citeproc": "^2.1.178",
     "common-tags": "^1.4.0",
     "focus-trap-react": "^3.0.3",

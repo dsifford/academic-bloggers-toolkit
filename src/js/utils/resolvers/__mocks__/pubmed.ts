@@ -1,4 +1,4 @@
-import { parsePubmedJSON } from 'utils/parsers/';
+import { toCSL } from 'astrocite-eutils';
 
 const data: Partial<CSL.Data> = {
     uids: ['11111', '22222', '33333', '44444', '55555', '66666', '77777', '88888', '99999'],
@@ -857,27 +857,30 @@ const data: Partial<CSL.Data> = {
 };
 
 export async function getFromPubmed(
-    kind: 'PMID' | 'PMCID',
+    _kind: 'PMID' | 'PMCID',
     idlist: string,
 ): Promise<[CSL.Data[], string[]]> {
     return new Promise<[CSL.Data[], string[]]>((resolve, reject) => {
-        const payload = <[CSL.Data[], string[]]>idlist
-            .split(',')
-            .map(id => id.trim())
-            .reduce(
+        const uids = idlist.split(',').map(id => (id.startsWith('PMC') ? id.slice(3) : id));
+        const result = {
+            uids,
+            ...uids.reduce(
                 (prev, id) => {
-                    if (id === 'REJECT') {
-                        reject(new Error('Some error occurred'));
-                    }
-                    if (id.startsWith('PMC')) {
-                        id = id.slice(3);
-                    }
-                    return data[id]
-                        ? [[...prev[0], parsePubmedJSON(kind, [data[id]])], [...prev[1]]]
-                        : [[...prev[0]], [...prev[1], id]];
+                    return { ...prev, [id]: data[id] };
                 },
-                <[CSL.Data[], string[]]>[[], []],
-            );
-        resolve(payload);
+                <any>{},
+            ),
+        };
+        const response = {
+            header: {
+                type: 'esummary',
+                version: '0.3',
+            },
+            result,
+        };
+        const payload = toCSL(response);
+        const csl = <CSL.Data[]>payload.filter(d => d instanceof Error === false);
+        const errs: string[] = payload.filter(d => d instanceof Error).map((d: Error) => d.message);
+        resolve([csl, errs]);
     });
 }

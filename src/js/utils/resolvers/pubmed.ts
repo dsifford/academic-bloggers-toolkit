@@ -1,4 +1,4 @@
-import { parsePubmedJSON } from '../parsers/';
+import { toCSL } from 'astrocite-eutils';
 
 /**
  * Sends a string of text to PubMed and resolves PubMed.DataPMID[] for the query.
@@ -6,7 +6,7 @@ import { parsePubmedJSON } from '../parsers/';
  *   the search box on pubmed)
  * @return Promise that resolves to an array of PubMed Response
  */
-export async function pubmedQuery(query: string): Promise<PubMed.Response[]> {
+export async function pubmedQuery(query: string): Promise<CSL.Data[]> {
     const req = await fetch(
         `https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=pubmed&term=${encodeURI(
             query,
@@ -36,7 +36,7 @@ export async function getFromPubmed(
 ): Promise<[CSL.Data[], string[]]> {
     try {
         const { data, invalid }: ResolvedData = await resolvePubmedData(kind, idList);
-        return [parsePubmedJSON(kind, data), invalid];
+        return [data, invalid.map(i => i.message)];
     } catch (e) {
         if (typeof e === 'string') return [[], []];
         throw e;
@@ -44,8 +44,8 @@ export async function getFromPubmed(
 }
 
 interface ResolvedData {
-    data: PubMed.Response[];
-    invalid: string[];
+    data: CSL.Data[];
+    invalid: Error[];
 }
 
 async function resolvePubmedData(kind: 'PMID' | 'PMCID', idList: string): Promise<ResolvedData> {
@@ -56,22 +56,11 @@ async function resolvePubmedData(kind: 'PMID' | 'PMCID', idList: string): Promis
     );
     if (!req.ok) throw new Error(req.statusText);
     const res = await req.json();
-    const iterable: any = [];
-
-    for (const i of Object.keys(res.result)) {
-        if (i === 'uids') continue;
-        if (res.result[i].error) {
-            res.result.uids = res.result.uids.filter((id: string) => id !== i);
-            continue;
-        }
-        if (res.result[i].title) {
-            res.result[i].title = res.result[i].title.replace(/(&amp;amp;)/g, '&');
-        }
-        iterable.push(res.result[i]);
-    }
-
+    const parsed = toCSL(res);
+    const invalid = <Error[]>parsed.filter(entry => entry instanceof Error);
+    const data = <CSL.Data[]>parsed.filter(entry => entry instanceof Error === false);
     return {
-        data: iterable,
-        invalid: idList.split(',').filter(i => !res.result.uids.includes(i)),
+        data,
+        invalid,
     };
 }
