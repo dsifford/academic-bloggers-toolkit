@@ -76,7 +76,7 @@
     "mobx-react-devtools": "^4.2.15",
     "prettier": "^1.7.0",
     "puppeteer": "^0.11.0",
-    "react-test-renderer": "^15.6.1",
+    "react-test-renderer": "^16.0.0",
     "rollbar": "^2.2.8",
     "rollbar-sourcemap-webpack-plugin": "^2.2.0",
     "snapshot-diff": "^0.2.1",
