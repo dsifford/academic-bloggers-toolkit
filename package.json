@@ -60,7 +60,7 @@
     "browser-sync": "^2.18.13",
     "css-loader": "^0.28.7",
     "enzyme": "^2.9.1",
-    "enzyme-to-json": "^2.0.0",
+    "enzyme-to-json": "^3.0.0",
     "gulp": "gulpjs/gulp#4.0",
     "gulp-autoprefixer": "^4.0.0",
     "gulp-replace": "^0.6.1",
