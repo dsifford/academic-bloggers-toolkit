@@ -69,6 +69,7 @@ interface Window {
 
 declare module 'common-tags';
 declare module 'focus-trap-react';
+declare module 'enzyme-adapter-react-16';
 declare module 'gulp-uglify/composer';
 declare module 'gulp-wp-pot';
 declare module 'react-select-fast-filter-options';

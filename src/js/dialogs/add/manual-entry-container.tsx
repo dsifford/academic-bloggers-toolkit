@@ -12,11 +12,11 @@ interface ManualEntryProps {
     errorMessage: IObservableValue<string>;
     /** Observable map of `CSL.Data` for manual entry fields */
     manualData: ObservableMap<string>;
-    people: IObservableArray<CSL.TypedPerson>;
+    people: IObservableArray<ABT.TypedPerson>;
     /** "Getter" callback for `AutoCite` component */
     onAutoCite(kind: AutociteKind, query: string): void;
-    /** Callback with new `CSL.CitationType` to call when type is changed */
-    onTypeChange(citationType: CSL.CitationType): void;
+    /** Callback with new `CSL.ItemType` to call when type is changed */
+    onTypeChange(citationType: CSL.ItemType): void;
 }
 
 @observer
@@ -32,7 +32,7 @@ export default class ManualEntryContainer extends React.Component<ManualEntryPro
     focusTypeSelect = (e: HTMLSelectElement | null) => e && e.focus();
 
     handleTypeChange = (e: React.FormEvent<HTMLSelectElement>) => {
-        this.props.onTypeChange(e.currentTarget.value as CSL.CitationType);
+        this.props.onTypeChange(e.currentTarget.value as CSL.ItemType);
     };
 
     handleWheel = (e: React.WheelEvent<HTMLDivElement>) => {
@@ -107,7 +107,7 @@ export default class ManualEntryContainer extends React.Component<ManualEntryPro
                     {this.props.manualData.get('type') !== 'article' && (
                         <People
                             people={this.props.people}
-                            citationType={this.props.manualData.get('type') as CSL.CitationType}
+                            citationType={this.props.manualData.get('type') as CSL.ItemType}
                         />
                     )}
                     <MetaFields meta={this.props.manualData} />

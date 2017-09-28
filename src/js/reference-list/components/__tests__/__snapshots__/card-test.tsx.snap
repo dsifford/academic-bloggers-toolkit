@@ -225,24 +225,7 @@ exports[`<Card/> should show and hide indices on hover when indexOnHover is set 
 
 exports[`<Card/> should show and hide indices on hover when indexOnHover is set 2`] = `
 "Snapshot Diff:
-- First value
-+ Second value
-
-@@ -5,12 +5,12 @@
-   onMouseEnter={[Function res]}
-   onMouseLeave={[Function res]}
-   role=\\"menuitem\\"
- >
-   <div
--    aria-hidden={true}
--    className=\\"item-number\\"
-+    aria-hidden={false}
-+    className=\\"item-number item-number--active\\"
-   >
-     1
-   </div>
-   <div>
-     Two valid authors"
+Compared values have no visual difference."
 `;
 
 exports[`<Card/> should show and hide indices on hover when indexOnHover is set 3`] = `

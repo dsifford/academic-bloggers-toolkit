@@ -131,14 +131,14 @@ describe('Store', () => {
                 id: '12345',
                 title: 'testing',
                 author: [{ family: 'smith', given: 'john' }],
-                edition: 1,
+                edition: '1',
                 type: 'article-journal',
             };
             const cite2: CSL.Data = {
                 id: '123456',
                 title: 'testing',
                 author: [{ family: 'smith', given: 'john' }],
-                edition: 2,
+                edition: '2',
                 type: 'article-journal',
             };
             store.citations.addItems([cite1]);
@@ -150,14 +150,14 @@ describe('Store', () => {
                 id: '12345',
                 title: 'testing',
                 author: [{ family: 'smith', given: 'john' }],
-                edition: 1,
+                edition: '1',
                 type: 'article-journal',
             };
             const cite2: CSL.Data = {
                 id: '54321',
                 title: 'test 2',
                 author: [{ family: 'smith', given: 'john' }],
-                edition: 2,
+                edition: '2',
                 type: 'article-journal',
             };
             const byIndex: Citeproc.CitationByIndex = [

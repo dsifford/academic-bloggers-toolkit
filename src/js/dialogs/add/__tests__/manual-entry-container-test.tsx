@@ -4,7 +4,7 @@ import { observable } from 'mobx';
 import * as React from 'react';
 import ManualEntryContainer from '../manual-entry-container';
 
-const people = observable<CSL.TypedPerson>([]);
+const people = observable<ABT.TypedPerson>([]);
 const manualData = observable.map<string>();
 const errorMessage = observable('');
 const mocks = {
@@ -58,6 +58,7 @@ describe('<ManualEntryContainer />', () => {
         const { component, instance } = setup();
         expect(component.find('Callout').children().length).toBeGreaterThan(0);
         instance.dismissError();
+        component.update();
         expect(component.find('Callout').children().length).toBe(0);
     });
     it('should handle type change', () => {

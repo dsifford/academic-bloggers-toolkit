@@ -35,7 +35,7 @@ const setupMenu = (isOpen: boolean = true) => {
     return {
         component,
         instance: component.instance() as Menu,
-        importBtn: component.find('#OPEN_IMPORT_DIALOG'),
+        importBtn: component.find('button#OPEN_IMPORT_DIALOG'),
         spy,
     };
 };

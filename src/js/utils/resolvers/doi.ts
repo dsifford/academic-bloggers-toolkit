@@ -78,8 +78,8 @@ async function resolveDOI({ agency, doi }: AgencyResponse): Promise<CSL.Data> {
     if (!req.ok) throw doi;
     const res: CSL.Data = { ...await req.json(), id: '0' };
 
-    if (res['short-container-title']) {
-        res.journalAbbreviation = res['short-container-title']![0];
+    if (res['container-title-short']) {
+        res.journalAbbreviation = res['container-title-short']![0];
     }
 
     return res;

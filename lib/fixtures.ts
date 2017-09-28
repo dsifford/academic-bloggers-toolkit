@@ -112,7 +112,7 @@ export const state: ABT.Backend['state'] = {
                         edition: '2',
                         id: 'bbbbbbbb',
                         issue: '4',
-                        issued: { 'date-parts': [['2016', '08', '19']] },
+                        issued: { 'date-parts': [['2015', '08', '19']] },
                         journalAbbreviation: 'J Test',
                         language: 'en-US',
                         medium: 'print',

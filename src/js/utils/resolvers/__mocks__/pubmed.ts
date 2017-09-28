@@ -1,6 +1,6 @@
 import { toCSL } from 'astrocite-eutils';
 
-const data: Partial<CSL.Data> = {
+const data: any = {
     uids: ['11111', '22222', '33333', '44444', '55555', '66666', '77777', '88888', '99999'],
     '11111': {
         uid: '11111',
@@ -860,7 +860,7 @@ export async function getFromPubmed(
     _kind: 'PMID' | 'PMCID',
     idlist: string,
 ): Promise<[CSL.Data[], string[]]> {
-    return new Promise<[CSL.Data[], string[]]>((resolve, reject) => {
+    return new Promise<[CSL.Data[], string[]]>(resolve => {
         const uids = idlist.split(',').map(id => (id.startsWith('PMC') ? id.slice(3) : id));
         const result = {
             uids,

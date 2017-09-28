@@ -5,8 +5,8 @@ import * as React from 'react';
 import Button from 'components/button';
 
 interface PeopleProps {
-    citationType: CSL.CitationType;
-    people: IObservableArray<CSL.TypedPerson>;
+    citationType: CSL.ItemType;
+    people: IObservableArray<ABT.TypedPerson>;
 }
 
 @observer
@@ -37,7 +37,7 @@ export default class People extends React.Component<PeopleProps, {}> {
         return (
             <div>
                 <h2 children={People.labels.contributors} />
-                {this.props.people.map((person: CSL.TypedPerson, i: number) => (
+                {this.props.people.map((person: ABT.TypedPerson, i: number) => (
                     <Person
                         key={`person-${i}`}
                         index={i}
@@ -69,10 +69,10 @@ export default class People extends React.Component<PeopleProps, {}> {
 }
 
 interface PersonProps {
-    citationType: CSL.CitationType;
+    citationType: CSL.ItemType;
     fieldMap: ABT.FieldMap;
     index: number;
-    person: CSL.TypedPerson;
+    person: ABT.TypedPerson;
     onChange(e: React.FormEvent<HTMLInputElement | HTMLSelectElement>): void;
     onRemove(e: React.MouseEvent<HTMLButtonElement>): void;
 }

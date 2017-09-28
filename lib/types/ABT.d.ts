@@ -86,6 +86,17 @@ declare namespace ABT {
         url?: string;
     }
 
+    type PersonType =
+        | 'author'
+        | 'container-author'
+        | 'editor'
+        | 'director'
+        | 'interviewer'
+        | 'illustrator'
+        | 'composer'
+        | 'translator'
+        | 'recipient';
+
     interface Field {
         value: string;
         label: string;
@@ -134,9 +145,13 @@ declare namespace ABT {
         webpage: FieldMap;
     }
 
+    interface TypedPerson extends CSL.Person {
+        type: PersonType;
+    }
+
     interface ManualData {
         manualData: CSL.Data;
-        people: CSL.TypedPerson[];
+        people: TypedPerson[];
     }
 
     interface ReferenceWindowPayload extends ManualData {

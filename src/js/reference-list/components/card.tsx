@@ -16,7 +16,7 @@ interface CardProps extends React.HTMLProps<HTMLDivElement> {
 }
 
 @observer
-export default class Card extends React.PureComponent<CardProps> {
+export default class Card extends React.Component<CardProps> {
     /** Controls the visibility state of the index badge, if applicable */
     isShowingIndex = observable(false);
 
@@ -51,11 +51,9 @@ export default class Card extends React.PureComponent<CardProps> {
                 <div
                     aria-hidden={!this.isShowingIndex.get()}
                     className={
-                        this.isShowingIndex.get() ? (
-                            'item-number item-number--active'
-                        ) : (
-                            'item-number'
-                        )
+                        this.isShowingIndex.get()
+                            ? 'item-number item-number--active'
+                            : 'item-number'
                     }
                     children={this.props.index}
                 />
@@ -142,15 +140,15 @@ export default class Card extends React.PureComponent<CardProps> {
     }
 }
 
-function parseDate(date?: CSL.Date | ''): string {
+function parseDate(date?: CSL.DateType | any): string {
     if (!date) return 'n.d.';
     if (date.year) return `${date.year}`;
     if (
         date['date-parts'] &&
-        date['date-parts']![0].length !== 0 &&
-        date['date-parts']![0][0] !== undefined
+        date['date-parts'][0].length !== 0 &&
+        date['date-parts'][0][0] !== undefined
     ) {
-        return `${date['date-parts']![0][0]}`;
+        return `${date['date-parts'][0][0]}`;
     }
     return 'n.d.';
 }

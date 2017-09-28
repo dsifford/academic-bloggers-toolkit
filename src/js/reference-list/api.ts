@@ -69,15 +69,15 @@ export function parseManualData(data: ABT.ManualData): [CSL.Data[], string] {
     });
 
     // Process date fields
-    ['accessed', 'event-date', 'issued'].forEach(dateType => {
+    ['accessed', 'event-date', 'issued'].forEach((dateType: keyof CSL.Data) => {
         if (!data.manualData[dateType]) return;
-        data.manualData[dateType] = parseDate(data.manualData[dateType]);
+        data.manualData[dateType] = <any>parseDate(<string>data.manualData[dateType]);
     });
 
     // Create a unique ID if one doesn't exist
     if (!data.manualData.id) data.manualData.id = generateID();
 
-    Object.keys(data.manualData).forEach(key => {
+    Object.keys(data.manualData).forEach((key: keyof CSL.Data) => {
         if (data.manualData[key] === '') {
             delete data.manualData[key];
             return;

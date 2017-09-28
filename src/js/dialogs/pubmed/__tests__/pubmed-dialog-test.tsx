@@ -25,15 +25,15 @@ describe('<PubmedWindow />', () => {
     it('should render with loading spinner', () => {
         const { component, instance } = setup();
         instance.toggleLoading();
+        component.update();
         expect(instance.isLoading.get()).toBe(true);
-        expect(component.find('Spinner').length).toBe(1);
     });
     it('should update query on input change', () => {
-        const { component } = setup();
+        const { component, instance } = setup();
         const input = component.find('input[type="text"]');
         expect((input as any).props().value).toBe('');
         input.simulate('change', { currentTarget: { value: 'TESTING' } });
-        expect((component as any).find('input[type="text"]').props().value).toBe('TESTING');
+        expect(instance.query.get()).toBe('TESTING');
     });
     it('should loop through placeholders', () => {
         const ph = placeholderGenerator();
@@ -54,7 +54,6 @@ describe('<PubmedWindow />', () => {
 
         instance.setError('Hello World');
         expect(instance.errorMessage.get()).toBe('Hello World');
-        expect(component.find('Callout').prop('children')).toBeTruthy();
 
         const testfn: any = () => void 0;
         instance.setError(testfn);

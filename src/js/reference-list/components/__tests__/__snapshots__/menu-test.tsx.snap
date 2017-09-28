@@ -1204,6 +1204,7 @@ exports[`<Menu /> should match snapshots 1`] = `
           >
             <div
               className="Select Select--single is-searchable has-value"
+              style={undefined}
             >
               <div
                 className="Select-control"
@@ -1212,6 +1213,7 @@ exports[`<Menu /> should match snapshots 1`] = `
                 onTouchEnd={[Function]}
                 onTouchMove={[Function]}
                 onTouchStart={[Function]}
+                style={undefined}
               >
                 <span
                   className="Select-multi-value-wrapper"
@@ -1231,6 +1233,8 @@ exports[`<Menu /> should match snapshots 1`] = `
                   >
                     <div
                       className="Select-value"
+                      style={undefined}
+                      title={undefined}
                     >
                       <span
                         aria-selected="true"
@@ -1244,8 +1248,11 @@ exports[`<Menu /> should match snapshots 1`] = `
                   </Value>
                   <Component
                     aria-activedescendant="react-select-2--value"
+                    aria-describedby={undefined}
                     aria-expanded="false"
                     aria-haspopup="false"
+                    aria-label={undefined}
+                    aria-labelledby={undefined}
                     aria-owns=""
                     className="Select-input"
                     minWidth="5"
@@ -1254,6 +1261,7 @@ exports[`<Menu /> should match snapshots 1`] = `
                     onFocus={[Function]}
                     required={false}
                     role="combobox"
+                    tabIndex={undefined}
                     value=""
                   >
                     <div
@@ -1266,9 +1274,13 @@ exports[`<Menu /> should match snapshots 1`] = `
                     >
                       <input
                         aria-activedescendant="react-select-2--value"
+                        aria-describedby={undefined}
                         aria-expanded="false"
                         aria-haspopup="false"
+                        aria-label={undefined}
+                        aria-labelledby={undefined}
                         aria-owns=""
+                        className={undefined}
                         onBlur={[Function]}
                         onChange={[Function]}
                         onFocus={[Function]}
@@ -1280,6 +1292,7 @@ exports[`<Menu /> should match snapshots 1`] = `
                             "width": "5px",
                           }
                         }
+                        tabIndex={undefined}
                         value=""
                       />
                       <div

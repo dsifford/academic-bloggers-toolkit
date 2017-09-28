@@ -32,7 +32,7 @@ class CitationStore {
 
             if (matchIndex > -1) {
                 const match = toJS(this.CSL.get(this.CSL.keys()[matchIndex]));
-                const deepMatch = Object.keys(change.newValue).every(k => {
+                const deepMatch = Object.keys(change.newValue).every((k: keyof CSL.Data) => {
                     const isComplexDataType =
                         typeof change.newValue![k] !== 'string' &&
                         typeof change.newValue![k] !== 'number';
@@ -106,8 +106,8 @@ class CitationStore {
         for (const item of data) {
             const csl = this.CSL.values().find(val => {
                 for (const key of Object.keys(item)) {
-                    if (typeof item[key] === 'object' || key === 'id') continue;
-                    if (item[key] !== val[key]) return false;
+                    if (typeof item[<keyof CSL.Data>key] === 'object' || key === 'id') continue;
+                    if (item[<keyof CSL.Data>key] !== val[<keyof CSL.Data>key]) return false;
                 }
                 return true;
             });

@@ -35,7 +35,7 @@ export enum MenuActionType {
  *   - reviewed-title
  *   - scale
  */
-export const manualDataObj: CSL.Data = {
+export const manualDataObj: any = {
     DOI: '',
     ISBN: '',
     ISSN: '',

@@ -55,7 +55,7 @@ export default class AddDialog extends React.Component<DialogProps> {
     manualData = observable.map(new Map([['type', 'webpage']]));
 
     /** Controls the value of the `People` fields in `ManualEntryContainer` */
-    people = observable<CSL.TypedPerson>([{ family: '', given: '', type: 'author' }]);
+    people = observable<ABT.TypedPerson>([{ family: '', given: '', type: 'author' }]);
 
     @computed
     get payload() {
@@ -132,7 +132,7 @@ export default class AddDialog extends React.Component<DialogProps> {
     };
 
     @action
-    changeType = (citationType: CSL.CitationType) => {
+    changeType = (citationType: CSL.ItemType) => {
         this.manualData.clear();
         this.manualData.set('type', citationType);
         this.people.replace([{ family: '', given: '', type: 'author' }]);

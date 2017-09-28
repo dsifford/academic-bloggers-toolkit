@@ -74,7 +74,7 @@ describe('<EditDialog />', () => {
             ]);
         });
         it('should handle unsupported properties', () => {
-            const data: Partial<CSL.Data> = {
+            const data: any = {
                 foo: {
                     bar: 'baz',
                 },

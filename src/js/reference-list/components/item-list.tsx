@@ -30,7 +30,7 @@ interface Props {
 }
 
 @observer
-export default class ItemList extends React.PureComponent<Props> {
+export default class ItemList extends React.Component<Props> {
     @action
     doubleClick = () => {
         this.props.ui.cited.isOpen.set(false);

@@ -1,4 +1,4 @@
-const data: Partial<CSL.Data> = {
+const data: { [k: string]: any } = {
     '10.1097/TA.0000000000001549': {
         indexed: {
             'date-parts': [[2017, 7, 25]],

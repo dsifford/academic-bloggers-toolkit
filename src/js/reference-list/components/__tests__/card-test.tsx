@@ -5,7 +5,7 @@ import * as React from 'react';
 import * as diff from 'snapshot-diff';
 import Card from '../card';
 
-const testData: { [id: string]: CSL.Data } = {
+const testData: { [id: string]: any } = {
     fourAuthors: {
         author: [
             {
