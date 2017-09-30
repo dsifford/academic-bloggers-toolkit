@@ -75,7 +75,7 @@
     "lint-staged": "^4.2.3",
     "merge-stream": "^1.0.1",
     "mobx-react-devtools": "^4.2.15",
-    "prettier": "^1.7.2",
+    "prettier": "^1.7.3",
     "puppeteer": "^0.11.0",
     "react-test-renderer": "^16.0.0",
     "rollbar": "^2.2.8",
