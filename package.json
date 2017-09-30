@@ -44,6 +44,7 @@
     "@types/gulp-sourcemaps": "0.0.31",
     "@types/he": "^0.5.29",
     "@types/jest": "^21.1.1",
+    "@types/jquery": "^3.2.12",
     "@types/node": "^8.0.31",
     "@types/react": "^16.0.7",
     "@types/react-dom": "^15.5.5",
@@ -76,7 +77,6 @@
     "merge-stream": "^1.0.1",
     "mobx-react-devtools": "^4.2.15",
     "prettier": "^1.7.3",
-    "puppeteer": "^0.11.0",
     "react-test-renderer": "^16.0.0",
     "rollbar": "^2.2.8",
     "rollbar-sourcemap-webpack-plugin": "^2.2.0",
@@ -92,7 +92,6 @@
     "webpack-bundle-analyzer": "^2.9.0"
   },
   "dependencies": {
-    "@types/jquery": "^3.2.12",
     "astrocite": "^0.8.6",
     "citeproc": "^2.1.178",
     "common-tags": "^1.4.0",

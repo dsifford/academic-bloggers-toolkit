@@ -3,7 +3,7 @@ import * as fs from 'fs';
 import { request } from 'https';
 import * as path from 'path';
 
-const oldData = require('../src/vendor/citation-styles.json');
+const oldData = require('../../src/vendor/citation-styles.json');
 
 interface GithubFiles {
     object: {
@@ -144,9 +144,9 @@ function parseStyleObj(obj: StyleResponse): StyleData {
     };
 }
 
-function getNewStyles(before: StyleObj[], after: StyleObj[]): string[] {
+function getNewStyles(before: StyleData, after: StyleObj[]): string[] {
     const newlyAddedStyles = new Set<string>();
-    const beforeLabels = new Set(before.map(s => s.label));
+    const beforeLabels = new Set(before.styles.map(s => s.label));
     for (const style of after) {
         if (beforeLabels.has(style.label)) {
             continue;
@@ -168,7 +168,7 @@ async function main() {
     console.log('================ New Styles Added ================');
     console.log(newStyles.join('\n'));
     fs.writeFileSync(
-        path.resolve(__dirname, '../src/vendor/', 'citation-styles.json'),
+        path.resolve(__dirname, '../../src/vendor/', 'citation-styles.json'),
         JSON.stringify(newData, null, 4),
     );
 }

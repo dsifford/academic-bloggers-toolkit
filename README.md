@@ -48,10 +48,10 @@ Translations for this plugin can be completed and submitted [here](https://poedi
 <!-- TRANSLATION_STATUS_START -->
 Language | Contributors | % Complete
 -------- | ------------ | ----------
-Chinese (simplified) `zh-CN` | fishfree | ![Progress](http://progressed.io/bar/99)
-Polish `pl` | Krzysztof Ruchniewicz | ![Progress](http://progressed.io/bar/95)
-German `de` | Karina, Mathias Micheel | ![Progress](http://progressed.io/bar/94)
-Spanish (AR) `es-ar` | Lucas | ![Progress](http://progressed.io/bar/94)
+Chinese (simplified) `zh-CN` | fishfree | ![Progress](http://progressed.io/bar/98)
+Polish `pl` | Krzysztof Ruchniewicz | ![Progress](http://progressed.io/bar/94)
+German `de` | Karina, Mathias Micheel | ![Progress](http://progressed.io/bar/93)
+Spanish (AR) `es-ar` | Lucas | ![Progress](http://progressed.io/bar/93)
 Portuguese `pt` | Alexandre Rodrigues | ![Progress](http://progressed.io/bar/58)
 Arabic `ar` | Ezz El Dean | ![Progress](http://progressed.io/bar/10)
 Danish `da` | Dan Bilbo Christensen | ![Progress](http://progressed.io/bar/0)
