@@ -104,7 +104,7 @@
     "react-motion": "^0.5.1",
     "react-select-fast-filter-options": "^0.2.3",
     "react-virtualized-select": "^3.1.0",
-    "styled-jsx": "^1.0.11",
+    "styled-jsx": "^2.0.1-beta.2",
     "tinycolor2": "^1.4.1",
     "typescript": "^2.5.3",
     "whatwg-fetch": "^2.0.3"
