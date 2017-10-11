@@ -1,8 +1,8 @@
-# Copyright (C) 2017 Academic Blogger's Toolkit 4.10.0
-# This file is distributed under the same license as the Academic Blogger's Toolkit 4.10.0 package.
+# Copyright (C) 2017 Academic Blogger's Toolkit 4.11.0
+# This file is distributed under the same license as the Academic Blogger's Toolkit 4.11.0 package.
 msgid ""
 msgstr ""
-"Project-Id-Version: Academic Blogger's Toolkit 4.10.0\n"
+"Project-Id-Version: Academic Blogger's Toolkit 4.11.0\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
