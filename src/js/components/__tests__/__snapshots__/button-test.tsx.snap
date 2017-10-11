@@ -6,34 +6,34 @@ exports[`<Button /> Icon Button with all variants and different icon 1`] = `
 + Second value
 
 @@ -1,22 +1,25 @@
- <Button
--  icon=\\"plus\\"
-+  flat={true}
-+  focusable={true}
-+  icon=\\"minus\\"
-   label=\\"Click Me!\\"
-+  primary={true}
-   type=\\"button\\"
- >
-   <div>
-     <button
-       aria-describedby={undefined}
-       aria-label=\\"Click Me!\\"
--      className=\\"btn-icon\\"
-+      className=\\"focusable btn-primary btn-flat btn-icon\\"
-       onClick={undefined}
-       onMouseEnter={undefined}
-       onMouseLeave={undefined}
-       type=\\"button\\"
-     >
-       <span
--        className=\\"dashicons dashicons-plus\\"
-+        className=\\"dashicons dashicons-minus\\"
-       />
-     </button>
-     <style
-       jsx={true}
-     >"
+  <Button
+-   icon=\\"plus\\"
++   flat={true}
++   focusable={true}
++   icon=\\"minus\\"
+    label=\\"Click Me!\\"
++   primary={true}
+    type=\\"button\\"
+  >
+    <div>
+      <button
+        aria-describedby={undefined}
+        aria-label=\\"Click Me!\\"
+-       className=\\"btn-icon\\"
++       className=\\"focusable btn-primary btn-flat btn-icon\\"
+        onClick={undefined}
+        onMouseEnter={undefined}
+        onMouseLeave={undefined}
+        type=\\"button\\"
+      >
+        <span
+-         className=\\"dashicons dashicons-plus\\"
++         className=\\"dashicons dashicons-minus\\"
+        />
+      </button>
+      <style
+        jsx={true}
+      >"
 `;
 
 exports[`<Button /> Icon Button with defaults 1`] = `
@@ -193,24 +193,24 @@ exports[`<Button /> Text Button with all variants 1`] = `
 + Second value
 
 @@ -1,14 +1,17 @@
- <Button
-+  flat={true}
-+  focusable={true}
-   label=\\"Click Me!\\"
-+  primary={true}
-   type=\\"button\\"
- >
-   <div>
-     <button
-       aria-describedby={undefined}
-       aria-label={undefined}
--      className=\\"\\"
-+      className=\\"focusable btn-primary btn-flat\\"
-       onClick={undefined}
-       onMouseEnter={undefined}
-       onMouseLeave={undefined}
-       type=\\"button\\"
-     >"
+  <Button
++   flat={true}
++   focusable={true}
+    label=\\"Click Me!\\"
++   primary={true}
+    type=\\"button\\"
+  >
+    <div>
+      <button
+        aria-describedby={undefined}
+        aria-label={undefined}
+-       className=\\"\\"
++       className=\\"focusable btn-primary btn-flat\\"
+        onClick={undefined}
+        onMouseEnter={undefined}
+        onMouseLeave={undefined}
+        type=\\"button\\"
+      >"
 `;
 
 exports[`<Button /> Text Button with defaults 1`] = `
@@ -367,22 +367,22 @@ exports[`<Button /> Text Button with flat 1`] = `
 + Second value
 
 @@ -1,14 +1,15 @@
- <Button
-+  flat={true}
-   label=\\"Click Me!\\"
-   type=\\"button\\"
- >
-   <div>
-     <button
-       aria-describedby={undefined}
-       aria-label={undefined}
--      className=\\"\\"
-+      className=\\"btn-flat\\"
-       onClick={undefined}
-       onMouseEnter={undefined}
-       onMouseLeave={undefined}
-       type=\\"button\\"
-     >"
+  <Button
++   flat={true}
+    label=\\"Click Me!\\"
+    type=\\"button\\"
+  >
+    <div>
+      <button
+        aria-describedby={undefined}
+        aria-label={undefined}
+-       className=\\"\\"
++       className=\\"btn-flat\\"
+        onClick={undefined}
+        onMouseEnter={undefined}
+        onMouseLeave={undefined}
+        type=\\"button\\"
+      >"
 `;
 
 exports[`<Button /> Text Button with focusable 1`] = `
@@ -391,22 +391,22 @@ exports[`<Button /> Text Button with focusable 1`] = `
 + Second value
 
 @@ -1,14 +1,15 @@
- <Button
-+  focusable={true}
-   label=\\"Click Me!\\"
-   type=\\"button\\"
- >
-   <div>
-     <button
-       aria-describedby={undefined}
-       aria-label={undefined}
--      className=\\"\\"
-+      className=\\"focusable\\"
-       onClick={undefined}
-       onMouseEnter={undefined}
-       onMouseLeave={undefined}
-       type=\\"button\\"
-     >"
+  <Button
++   focusable={true}
+    label=\\"Click Me!\\"
+    type=\\"button\\"
+  >
+    <div>
+      <button
+        aria-describedby={undefined}
+        aria-label={undefined}
+-       className=\\"\\"
++       className=\\"focusable\\"
+        onClick={undefined}
+        onMouseEnter={undefined}
+        onMouseLeave={undefined}
+        type=\\"button\\"
+      >"
 `;
 
 exports[`<Button /> Text Button with primary 1`] = `
@@ -415,22 +415,22 @@ exports[`<Button /> Text Button with primary 1`] = `
 + Second value
 
 @@ -1,14 +1,15 @@
- <Button
-   label=\\"Click Me!\\"
-+  primary={true}
-   type=\\"button\\"
- >
-   <div>
-     <button
-       aria-describedby={undefined}
-       aria-label={undefined}
--      className=\\"\\"
-+      className=\\"btn-primary\\"
-       onClick={undefined}
-       onMouseEnter={undefined}
-       onMouseLeave={undefined}
-       type=\\"button\\"
-     >"
+  <Button
+    label=\\"Click Me!\\"
++   primary={true}
+    type=\\"button\\"
+  >
+    <div>
+      <button
+        aria-describedby={undefined}
+        aria-label={undefined}
+-       className=\\"\\"
++       className=\\"btn-primary\\"
+        onClick={undefined}
+        onMouseEnter={undefined}
+        onMouseLeave={undefined}
+        type=\\"button\\"
+      >"
 `;
 
 exports[`<Button /> Text Button with tooltip 1`] = `
@@ -439,75 +439,75 @@ exports[`<Button /> Text Button with tooltip 1`] = `
 + Second value
 
 @@ -1,17 +1,68 @@
- <Button
-   label=\\"Click Me!\\"
-+  tooltip={
-+    Object {
-+      \\"position\\": \\"top\\",
-+      \\"text\\": \\"Hello world\\",
-+    }
-+  }
-   type=\\"button\\"
- >
-   <div>
-+    <Tooltip
-+      active={false}
-+      id=\\"Click_Me!\\"
-+      text=\\"Hello world\\"
-+      transform=\\"\\"
-+    >
-+      <div
-+        className=\\"abt-tooltip\\"
-+        id=\\"Click_Me!\\"
-+        role=\\"tooltip\\"
-+        style={
-+          Object {
-+            \\"transform\\": \\"\\",
-+          }
-+        }
-+      >
-+        Hello world
-+        <style
-+          jsx={true}
-+        >
-+          
-+                    .abt-tooltip {
-+                        pointer-events: none;
-+                        transform-origin: top center;
-+                        z-index: 1000;
-+                        background: rgba(66, 66, 66, 0.9);
-+                        border-radius: 2px;
-+                        color: white;
-+                        display: inline-block;
-+                        visibility: hidden;
-+                        font-size: 10px;
-+                        font-weight: 500;
-+                        line-height: 14px;
-+                        position: absolute;
-+                        padding: 8px;
-+                        text-align: center;
-+                        max-width: 170px;
-+                    }
-+                    .abt-tooltip--active {
-+                        visibility: visible;
-+                    }
-+                
-+        </style>
-+      </div>
-+    </Tooltip>
-     <button
--      aria-describedby={undefined}
-+      aria-describedby=\\"Click_Me!\\"
-       aria-label={undefined}
-       className=\\"\\"
-       onClick={undefined}
--      onMouseEnter={undefined}
--      onMouseLeave={undefined}
-+      onMouseEnter={[Function anonymous]}
-+      onMouseLeave={[Function anonymous]}
-       type=\\"button\\"
-     >
-       Click Me!
-     </button>
-     <style"
+  <Button
+    label=\\"Click Me!\\"
++   tooltip={
++     Object {
++       \\"position\\": \\"top\\",
++       \\"text\\": \\"Hello world\\",
++     }
++   }
+    type=\\"button\\"
+  >
+    <div>
++     <Tooltip
++       active={false}
++       id=\\"Click_Me!\\"
++       text=\\"Hello world\\"
++       transform=\\"\\"
++     >
++       <div
++         className=\\"abt-tooltip\\"
++         id=\\"Click_Me!\\"
++         role=\\"tooltip\\"
++         style={
++           Object {
++             \\"transform\\": \\"\\",
++           }
++         }
++       >
++         Hello world
++         <style
++           jsx={true}
++         >
++           
++                     .abt-tooltip {
++                         pointer-events: none;
++                         transform-origin: top center;
++                         z-index: 1000;
++                         background: rgba(66, 66, 66, 0.9);
++                         border-radius: 2px;
++                         color: white;
++                         display: inline-block;
++                         visibility: hidden;
++                         font-size: 10px;
++                         font-weight: 500;
++                         line-height: 14px;
++                         position: absolute;
++                         padding: 8px;
++                         text-align: center;
++                         max-width: 170px;
++                     }
++                     .abt-tooltip--active {
++                         visibility: visible;
++                     }
++                 
++         </style>
++       </div>
++     </Tooltip>
+      <button
+-       aria-describedby={undefined}
++       aria-describedby=\\"Click_Me!\\"
+        aria-label={undefined}
+        className=\\"\\"
+        onClick={undefined}
+-       onMouseEnter={undefined}
+-       onMouseLeave={undefined}
++       onMouseEnter={[Function anonymous]}
++       onMouseLeave={[Function anonymous]}
+        type=\\"button\\"
+      >
+        Click Me!
+      </button>
+      <style"
 `;

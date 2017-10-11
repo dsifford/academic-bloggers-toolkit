@@ -97,9 +97,11 @@ const blankState: ABT.Backend['state'] = {
 };
 let store = new Store({ ...blankState });
 
-const setup = () => {
+const setup = (loading = true) => {
     store = new Store({ ...blankState });
-    const component = shallow(<ReferenceList editor={Promise.resolve(MockEditor)} store={store} />);
+    const component = shallow(
+        <ReferenceList editor={Promise.resolve(MockEditor)} store={store} loading={loading} />,
+    );
     const instance = component.instance() as ReferenceList;
     instance.editor = new MockEditor();
     return {
@@ -118,7 +120,7 @@ describe('<ReferenceList />', async () => {
             // Loading state
             expect(toJSON(component)).toMatchSnapshot();
 
-            instance.loading.set(false);
+            instance.ui.loading.set(false);
             component.update();
 
             // Loaded state
@@ -126,21 +128,21 @@ describe('<ReferenceList />', async () => {
         });
         it('menu toggled open', () => {
             const { component, instance } = setup();
-            instance.loading.set(false);
+            instance.ui.loading.set(false);
             instance.toggleMenu();
             component.update();
             expect(toJSON(component)).toMatchSnapshot();
         });
         it('pinned state toggled', () => {
             const { component, instance } = setup();
-            instance.loading.set(false);
+            instance.ui.loading.set(false);
             instance.togglePinned();
             component.update();
             expect(toJSON(component)).toMatchSnapshot();
         });
         it('cited and uncited list populated', () => {
             const { component, instance } = setup();
-            instance.loading.set(false);
+            instance.ui.loading.set(false);
             store.citations.CSL.merge([
                 ['1', { id: '1', title: 'citation 1' }],
                 ['1', { id: '2', title: 'citation 2' }],
@@ -169,12 +171,10 @@ describe('<ReferenceList />', async () => {
             expect(toJSON(component)).toMatchSnapshot();
         });
     });
-    describe.skip('Button actions', () => {
+    describe('Button actions', () => {
         beforeEach(() => jest.resetAllMocks());
         it('should open dialogs', () => {
-            const { component, instance } = setup();
-            instance.toggleLoading();
-            component.update();
+            const { component, instance } = setup(false);
             const button = component.find('Button').at(1);
             expect(instance.currentDialog.get()).toBe('');
 
@@ -190,9 +190,7 @@ describe('<ReferenceList />', async () => {
             expect(instance.currentDialog.get()).toBe('');
         });
         it('should remove citations', () => {
-            const { component, instance } = setup();
-            instance.toggleLoading();
-            component.update();
+            const { component, instance } = setup(false);
             const button = component.find('Button').at(2);
 
             // Returns quickly if no items are selected
@@ -286,13 +284,11 @@ describe('<ReferenceList />', async () => {
             expect(instance.currentDialog.get()).toBe('');
         });
     });
-    describe.skip('Menu selections', () => {
+    describe('Menu selections', () => {
         beforeEach(() => jest.resetAllMocks());
         it('CHANGE_STYLE', () => {
-            const { component, instance } = setup();
+            const { component, instance } = setup(false);
             instance.initProcessor = jest.fn();
-            instance.loading.set(false);
-            component.update();
 
             const menu = component.find('Menu');
             expect(store.citationStyle.get()).toBe('american-medical-association');
@@ -302,10 +298,8 @@ describe('<ReferenceList />', async () => {
             expect(instance.initProcessor).toHaveBeenCalledTimes(1);
         });
         it('IMPORT_RIS', () => {
-            const { component, instance } = setup();
+            const { component, instance } = setup(false);
             instance.initProcessor = jest.fn();
-            instance.loading.set(false);
-            component.update();
 
             const menu = component.find('Menu');
             expect(instance.currentDialog.get()).toBe('');
@@ -314,10 +308,8 @@ describe('<ReferenceList />', async () => {
             expect(instance.currentDialog.get()).toBe('IMPORT');
         });
         it('REFRESH_PROCESSOR', () => {
-            const { component, instance } = setup();
+            const { component, instance } = setup(false);
             instance.initProcessor = jest.fn();
-            instance.loading.set(false);
-            component.update();
             store.citations.pruneOrphanedCitations = jest.fn();
 
             const menu = component.find('Menu');
@@ -326,10 +318,8 @@ describe('<ReferenceList />', async () => {
             expect(instance.initProcessor).toHaveBeenCalled();
         });
         it('DESTROY_PROCESSOR', () => {
-            const { component, instance } = setup();
-            instance.loading.set(false);
+            const { component, instance } = setup(false);
             instance.initProcessor = jest.fn();
-            component.update();
 
             const menu = component.find('Menu');
             expect(instance.initProcessor).not.toHaveBeenCalled();
@@ -337,8 +327,7 @@ describe('<ReferenceList />', async () => {
             expect(instance.initProcessor).toHaveBeenCalled();
         });
         it('INSERT_STATIC_BIBLIOGRAPHY', () => {
-            const { component, instance } = setup();
-            instance.loading.set(false);
+            const { component, instance } = setup(false);
             instance.insertStaticBibliography = jest.fn();
             component.update();
 
@@ -348,8 +337,7 @@ describe('<ReferenceList />', async () => {
             expect(instance.insertStaticBibliography).toHaveBeenCalled();
         });
         it('unknown value', () => {
-            const { component, instance } = setup();
-            instance.loading.set(false);
+            const { component, instance } = setup(false);
             instance.initProcessor = jest.fn();
             component.update();
 
@@ -394,7 +382,7 @@ describe('<ReferenceList />', async () => {
                 title: 'test citation',
                 type: 'article-journal',
             });
-            instance.loading.set(false);
+            instance.ui.loading.set(false);
             instance.processor.prepareInlineCitationData = jest.fn();
             instance.processor.processCitationCluster = jest.fn();
             component.update();

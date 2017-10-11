@@ -23,6 +23,7 @@ const DevTool = DevTools();
 interface Props {
     editor: Promise<typeof EditorDriver & EditorDriverConstructor>;
     store: Store;
+    loading?: boolean;
 }
 
 @observer
@@ -50,7 +51,7 @@ export default class ReferenceList extends React.Component<Props> {
      * until the editor driver's `init()` method resolves and also during any
      * circumstance where the editor becomes hidden or unavailable.
      */
-    loading = observable(true);
+    // loading = observable(true);
 
     /**
      * The CSLProcessor instance
@@ -81,6 +82,7 @@ export default class ReferenceList extends React.Component<Props> {
 
     constructor(props: Props) {
         super(props);
+        this.ui.loading.set(typeof this.props.loading === 'boolean' ? this.props.loading : true);
         this.processor = new CSLProcessor(this.props.store);
         this.init().catch(e => {
             Rollbar.error(e.message, e);
@@ -266,7 +268,7 @@ export default class ReferenceList extends React.Component<Props> {
 
     @action
     toggleLoading = (loadState?: boolean) => {
-        this.loading.set(loadState !== undefined ? loadState : !this.loading.get());
+        this.ui.loading.set(loadState !== undefined ? loadState : !this.ui.loading.get());
     };
 
     @action
@@ -307,7 +309,7 @@ export default class ReferenceList extends React.Component<Props> {
     };
 
     render() {
-        if (this.loading.get()) {
+        if (this.ui.loading.get()) {
             return (
                 <div>
                     <Spinner size="40px" height="52px" bgColor="#f5f5f5" />

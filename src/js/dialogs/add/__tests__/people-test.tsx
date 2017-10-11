@@ -27,48 +27,56 @@ describe('<People />', () => {
         expect(person.find('#person-family-0').prop('value')).toBe('Doe');
         expect(person.find('#person-given-0').prop('value')).toBe('John');
     });
-    // fit('should add an empty author when "Add Contributor" is clicked', () => {
-    //     const { component, addButton } = setup();
-    //     expect(component.find('Person').length).toBe(1);
+    it('should add an empty author when "Add Contributor" is clicked', () => {
+        const { component, addButton } = setup();
+        expect(component.find('Person').length).toBe(1);
 
-    //     addButton.simulate('click');
-    //     expect(component.find('Person').length).toBe(2);
+        addButton.simulate('click');
+        expect(component.find('Person').length).toBe(2);
 
-    //     const newPerson = component.find('Person').at(1);
-    //     expect(newPerson.find('#person-family-1').prop('value')).toBe('');
-    //     expect(newPerson.find('#person-given-1').prop('value')).toBe('');
-    //     expect(newPerson.find('select').prop('value')).toBe('author');
-    // });
-    // fit('should remove a person when remove button is clicked', () => {
-    //     const people: ABT.TypedPerson[] = [{ family: 'Doe', given: 'John', type: 'author' }, { family: 'Smith', given: 'Jane', type: 'author' }];
-    //     const { component } = setup('article-journal', people);
-    //     expect(component.find('Person').length).toBe(2);
+        const newPerson = component.find('Person').at(1);
+        expect(newPerson.find('#person-family-1').prop('value')).toBe('');
+        expect(newPerson.find('#person-given-1').prop('value')).toBe('');
+        expect(newPerson.find('select').prop('value')).toBe('author');
+    });
+    it('should remove a person when remove button is clicked', () => {
+        const people: ABT.TypedPerson[] = [
+            { family: 'Doe', given: 'John', type: 'author' },
+            { family: 'Smith', given: 'Jane', type: 'author' },
+        ];
+        const { component } = setup('article-journal', people);
+        expect(component.find('Person').length).toBe(2);
 
-    //     const removeButton = component.find('Button').first();
-    //     removeButton.simulate('click');
+        const removeButton = component.find('Button button').first();
+        removeButton.simulate('click');
+        component.update();
 
-    //     component.instance();
+        expect(component.find('Person').length).toBe(1);
+        const person = component.find('Person').first();
+        expect(person.find('#person-family-0').prop('value')).toBe('Smith');
+        expect(person.find('#person-given-0').prop('value')).toBe('Jane');
+    });
+    it('should update fields when data is changed', () => {
+        const { component } = setup();
+        const person = component.find('Person').first();
+        const familyNameInput = person.find('#person-family-0');
+        const givenNameInput = person.find('#person-given-0');
 
-    //     expect(component.find('Person').length).toBe(1);
-    //     const person = component.find('Person').first();
-    //     expect(person.find('#person-family-0').prop('value')).toBe('Doe');
-    //     expect(person.find('#person-given-0').prop('value')).toBe('John');
-    // });
-    // fit('should update fields when data is changed', () => {
-    //     const { component } = setup();
-    //     const person = component.find('Person').first();
-    //     const familyNameInput = person.find('#person-family-0');
-    //     const givenNameInput = person.find('#person-given-0');
+        expect(familyNameInput.prop('value')).toBe('Doe');
+        expect(givenNameInput.prop('value')).toBe('John');
+        component.update();
 
-    //     expect(familyNameInput.prop('value')).toBe('Doe');
-    //     expect(givenNameInput.prop('value')).toBe('John');
+        const getAttribute1 = (str: string) => (str === 'data-index' ? '0' : 'family');
+        const getAttribute2 = (str: string) => (str === 'data-index' ? '0' : 'given');
+        (familyNameInput as any)
+            .props()
+            .onChange({ currentTarget: { value: 'FAMILYNAMETEST', getAttribute: getAttribute1 } });
+        (givenNameInput as any)
+            .props()
+            .onChange({ currentTarget: { value: 'GIVENNAMETEST', getAttribute: getAttribute2 } });
+        component.update();
 
-    //     familyNameInput.simulate('change', { currentTarget: { value: 'POO' } });
-    //     givenNameInput.simulate('change');
-
-    //     peopleStore.replace([{ family: 'FAMILYNAMETEST', given: 'GIVENNAMETEST', type: 'author' }]);
-
-    //     expect(familyNameInput.prop('value')).toBe('FAMILYNAMETEST');
-    //     expect(givenNameInput.prop('value')).toBe('GIVENNAMETEST');
-    // });
+        expect(component.props().people[0].given).toBe('GIVENNAMETEST');
+        expect(component.props().people[0].family).toBe('FAMILYNAMETEST');
+    });
 });

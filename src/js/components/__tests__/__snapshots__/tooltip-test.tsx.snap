@@ -47,14 +47,14 @@ exports[`<Tooltip /> Component tests matches snapshots 2`] = `
 + Second value
 
 @@ -1,7 +1,7 @@
- <div
--  className=\\"abt-tooltip abt-tooltip--active\\"
-+  className=\\"abt-tooltip\\"
-   id=\\"test\\"
-   role=\\"tooltip\\"
-   style={
-     Object {
-       \\"transform\\": \\"\\","
+  <div
+-   className=\\"abt-tooltip abt-tooltip--active\\"
++   className=\\"abt-tooltip\\"
+    id=\\"test\\"
+    role=\\"tooltip\\"
+    style={
+      Object {
+        \\"transform\\": \\"\\","
 `;
 
 exports[`<Tooltip /> Component tests matches snapshots 3`] = `
@@ -63,16 +63,16 @@ exports[`<Tooltip /> Component tests matches snapshots 3`] = `
 + Second value
 
 @@ -2,11 +2,11 @@
-   className=\\"abt-tooltip abt-tooltip--active\\"
-   id=\\"test\\"
-   role=\\"tooltip\\"
-   style={
-     Object {
--      \\"transform\\": \\"\\",
-+      \\"transform\\": \\"translateX(50%)\\",
-     }
-   }
- >
-   Hello World
-   <style"
+    className=\\"abt-tooltip abt-tooltip--active\\"
+    id=\\"test\\"
+    role=\\"tooltip\\"
+    style={
+      Object {
+-       \\"transform\\": \\"\\",
++       \\"transform\\": \\"translateX(50%)\\",
+      }
+    }
+  >
+    Hello World
+    <style"
 `;
