@@ -88,11 +88,11 @@
     "tslint-microsoft-contrib": "^5.0.1",
     "tslint-react": "^3.2.0",
     "uglify-es": "^3.1.3",
-    "webpack": "^3.7.0",
+    "webpack": "^3.7.1",
     "webpack-bundle-analyzer": "^2.9.0"
   },
   "dependencies": {
-    "astrocite": "^0.8.6",
+    "astrocite": "^0.9.3",
     "citeproc": "^2.1.178",
     "common-tags": "^1.4.0",
     "focus-trap-react": "^3.0.4",

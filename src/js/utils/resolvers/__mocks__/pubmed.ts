@@ -1,4 +1,4 @@
-import { toCSL } from 'astrocite-eutils';
+import { EUtilsError, toCSL } from 'astrocite-eutils';
 
 const data: any = {
     uids: ['11111', '22222', '33333', '44444', '55555', '66666', '77777', '88888', '99999'],
@@ -880,7 +880,9 @@ export async function getFromPubmed(
         };
         const payload = toCSL(response);
         const csl = <CSL.Data[]>payload.filter(d => d instanceof Error === false);
-        const errs: string[] = payload.filter(d => d instanceof Error).map((d: Error) => d.message);
+        const errs: string[] = payload
+            .filter(d => d instanceof Error)
+            .map((d: EUtilsError) => d.message);
         resolve([csl, errs]);
     });
 }

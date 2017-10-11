@@ -1,4 +1,4 @@
-import { toCSL } from 'astrocite-eutils';
+import { EUtilsError, toCSL } from 'astrocite-eutils';
 
 /**
  * Sends a string of text to PubMed and resolves PubMed.DataPMID[] for the query.
@@ -36,7 +36,7 @@ export async function getFromPubmed(
 ): Promise<[CSL.Data[], string[]]> {
     try {
         const { data, invalid }: ResolvedData = await resolvePubmedData(kind, idList);
-        return [data, invalid.map(i => i.message)];
+        return [data, invalid.map(i => (i.apiError ? i.message : `${i.uid}: ${i.message}`))];
     } catch (e) {
         if (typeof e === 'string') return [[], []];
         throw e;
@@ -45,7 +45,7 @@ export async function getFromPubmed(
 
 interface ResolvedData {
     data: CSL.Data[];
-    invalid: Error[];
+    invalid: EUtilsError[];
 }
 
 async function resolvePubmedData(kind: 'PMID' | 'PMCID', idList: string): Promise<ResolvedData> {
@@ -57,7 +57,7 @@ async function resolvePubmedData(kind: 'PMID' | 'PMCID', idList: string): Promis
     if (!req.ok) throw new Error(req.statusText);
     const res = await req.json();
     const parsed = toCSL(res);
-    const invalid = <Error[]>parsed.filter(entry => entry instanceof Error);
+    const invalid = <EUtilsError[]>parsed.filter(entry => entry instanceof Error);
     const data = <CSL.Data[]>parsed.filter(entry => entry instanceof Error === false);
     return {
         data,
