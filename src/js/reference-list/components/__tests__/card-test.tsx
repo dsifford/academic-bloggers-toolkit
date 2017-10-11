@@ -170,47 +170,47 @@ const setup = (data: CSL.Data, selected: boolean = false, indexOnHover: boolean 
 };
 
 describe('<Card/>', () => {
-    test('should render selected', () => {
+    it('should render selected', () => {
         const { component } = setup(testData.noAuthors, true);
         expect(component.first().props().className).toBe('abt-card abt-card--selected');
     });
-    test('should render unselected', () => {
+    it('should render unselected', () => {
         const { component } = setup(testData.noAuthors);
         expect(component.first().props().className).toBe('abt-card');
     });
-    test('should call onClick when clicked', () => {
+    it('should call onClick when clicked', () => {
         const { component, spy } = setup(testData.noAuthors);
         component.simulate('click');
         expect(spy).toHaveBeenCalledTimes(1);
     });
-    test('should render with no authors', () => {
+    it('should render with no authors', () => {
         const { people } = setup(testData.noAuthors);
         expect(people.children().length).toBe(0);
     });
-    test('should handle a situation where there are no authors, and no author field', () => {
+    it('should handle a situation where there are no authors, and no author field', () => {
         const { people } = setup(testData.noAuthorField);
         expect(people.children().length).toBe(0);
     });
-    test('should handle a single author with invalid fields', () => {
+    it('should handle a single author with invalid fields', () => {
         const { people } = setup(testData.singleAuthorInvalidField);
         expect(people.children().length).toBe(0);
     });
-    test('should render with a single literal author', () => {
+    it('should render with a single literal author', () => {
         const { people } = setup(testData.singleLiteralAuthorEdgeCase);
         expect(people.children().length).toBe(1);
         expect(people.text()).toBe('I have no given name.');
     });
-    test('should format two authors correctly', () => {
+    it('should format two authors correctly', () => {
         const { people } = setup(testData.twoAuthors);
         expect(people.children().length).toBe(1);
         expect(people.text()).toBe('Smith, J, Doe, J.');
     });
-    test('should format three authors correctly', () => {
+    it('should format three authors correctly', () => {
         const { people } = setup(testData.threeAuthors);
         expect(people.children().length).toBe(1);
         expect(people.text()).toBe('Smith, J, Some literal name, Doe, J.');
     });
-    test('should format > 3 authors correctly', () => {
+    it('should format > 3 authors correctly', () => {
         const { people: people1 } = setup(testData.fourAuthors);
         expect(people1.children().length).toBe(1);
         expect(people1.text()).toBe('Smith, J, Some literal name, Doe, J...');
@@ -218,23 +218,23 @@ describe('<Card/>', () => {
         expect(people2.children().length).toBe(1);
         expect(people2.text()).toBe('Smith, J, Some literal name, Doe, J...');
     });
-    test('should parse an item without a date correctly', () => {
+    it('should parse an item without a date correctly', () => {
         const { date } = setup(testData.noAuthorField);
         expect(date.text()).toBe('(n.d.)');
     });
-    test('should parse a "date-parts" date correctly', () => {
+    it('should parse a "date-parts" date correctly', () => {
         const { date } = setup(testData.noAuthors);
         expect(date.text()).toBe('(2016)');
     });
-    test('should parse a "year" date correctly', () => {
+    it('should parse a "year" date correctly', () => {
         const { date } = setup(testData.singleAuthorInvalidField);
         expect(date.text()).toBe('(2010)');
     });
-    test('should handle strange edge-cases that result from upgrading from an older version', () => {
+    it('should handle strange edge-cases that result from upgrading from an older version', () => {
         const { date } = setup(testData.singleLiteralAuthorEdgeCase);
         expect(date.text()).toBe('(n.d.)');
     });
-    test('should show and hide indices on hover when indexOnHover is set', () => {
+    it('should show and hide indices on hover when indexOnHover is set', () => {
         const { component } = setup(testData.fourAuthors, false, true);
         const initialRender = toJSON(component);
         const card = component.first();
@@ -250,7 +250,7 @@ describe('<Card/>', () => {
         card.simulate('mouseleave');
         expect(diff(initialRender, toJSON(component))).toMatchSnapshot();
     });
-    test('should render appropriately with optional props unset', () => {
+    it('should render appropriately with optional props unset', () => {
         const component = shallow(
             <Card
                 isSelected={true}

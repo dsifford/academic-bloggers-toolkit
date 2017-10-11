@@ -3,13 +3,13 @@ import toJSON from 'enzyme-to-json';
 import * as React from 'react';
 import EditDialog from '../';
 
-const defaultData = {
+const defaultData: CSL.Data = {
     id: '12345',
     title: 'Test Title',
     type: 'article-journal',
 };
 
-const setup = (data = defaultData as CSL.Data) => {
+const setup = (data = defaultData) => {
     const onSubmit = jest.fn();
     const component = shallow(<EditDialog data={data} onSubmit={onSubmit} />);
     return {
@@ -25,13 +25,14 @@ describe('<EditDialog />', () => {
         expect(toJSON(component)).toMatchSnapshot();
     });
     it('should handle submit', () => {
-        const data: Partial<CSL.Data> = {
+        const data: any = {
             author: [
                 {
                     given: 'John',
                     family: 'Doe',
                 },
             ],
+            issued: '2017',
         };
         const { component, onSubmit } = setup(data as CSL.Data);
         const preventDefault = jest.fn();

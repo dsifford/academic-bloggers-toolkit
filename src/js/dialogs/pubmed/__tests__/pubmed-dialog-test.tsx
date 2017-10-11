@@ -2,7 +2,7 @@ jest.mock('../result-list');
 jest.mock('../paginate');
 jest.mock('utils/resolvers/');
 
-import { shallow } from 'enzyme';
+import { mount } from 'enzyme';
 import * as React from 'react';
 import { pubmedQuery } from 'utils/resolvers/';
 import PubmedDialog, { placeholderGenerator } from '../';
@@ -13,7 +13,7 @@ const mocks = {
 
 const setup = () => {
     const spy = jest.fn();
-    const component = shallow(<PubmedDialog onSubmit={spy} />);
+    const component = mount(<PubmedDialog onSubmit={spy} />);
     const instance = component.instance() as any;
     return {
         component,
@@ -31,8 +31,8 @@ describe('<PubmedWindow />', () => {
     it('should update query on input change', () => {
         const { component, instance } = setup();
         const input = component.find('input[type="text"]');
-        expect((input as any).props().value).toBe('');
-        input.simulate('change', { currentTarget: { value: 'TESTING' } });
+        expect(input.props().value).toBe('');
+        instance.updateQuery({ currentTarget: { value: 'TESTING' } } as any);
         expect(instance.query.get()).toBe('TESTING');
     });
     it('should loop through placeholders', () => {
