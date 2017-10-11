@@ -5,7 +5,7 @@
 
 VERSION="$1"
 SCRIPTDIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-ROOTDIR=$(cd "$SCRIPTDIR" && cd ../ && pwd || exit)
+ROOTDIR=$(cd "$SCRIPTDIR" && cd ../../ && pwd || exit)
 SVNROOT=$(cd "$ROOTDIR" && cd ../SVN && pwd || exit)
 
 # Make sure svn repo is up to date
