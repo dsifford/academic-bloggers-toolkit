@@ -1,5 +1,5 @@
 jest.mock('utils/resolvers/');
-import { shallow, mount } from 'enzyme';
+import { mount, shallow } from 'enzyme';
 import toJSON from 'enzyme-to-json';
 import { observable } from 'mobx';
 import * as React from 'react';
@@ -124,16 +124,16 @@ describe('<AddDialog />', () => {
     it('should handle dialog toggles', () => {
         const { component, instance } = mountSetup();
         expect(instance.currentDialog.get()).toBe('');
-        expect(component.props().focusTrapPaused!.get()).toBe(false);
+        expect(component.props().focusTrapPaused.get()).toBe(false);
 
         instance.openPubmedDialog();
         component.update();
         expect(instance.currentDialog.get()).toBe('PUBMED');
-        expect(component.props().focusTrapPaused!.get()).toBe(true);
+        expect(component.props().focusTrapPaused.get()).toBe(true);
 
         instance.closePubmedDialog();
         component.update();
-        expect(component.props().focusTrapPaused!.get()).toBe(false);
+        expect(component.props().focusTrapPaused.get()).toBe(false);
     });
     describe('autocite handler tests', () => {
         let component: any;
