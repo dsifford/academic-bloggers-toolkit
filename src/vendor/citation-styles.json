@@ -673,8 +673,18 @@
       "value": "springer-mathphys-brackets"
     },
     {
+      "id": "acs-applied-energy-materials",
+      "label": "ACS Applied Energy Materials",
+      "value": "american-chemical-society-with-titles-no-et-al"
+    },
+    {
       "id": "acs-applied-materials-and-interfaces",
       "label": "ACS Applied Materials & Interfaces",
+      "value": "american-chemical-society-with-titles-no-et-al"
+    },
+    {
+      "id": "acs-applied-nano-materials",
+      "label": "ACS Applied Nano Materials",
       "value": "american-chemical-society-with-titles-no-et-al"
     },
     {
@@ -7209,6 +7219,11 @@
       "value": "american-association-for-cancer-research"
     },
     {
+      "id": "cancer-translational-medicine",
+      "label": "Cancer Translational Medicine",
+      "value": "cancer-translational-medicine"
+    },
+    {
       "id": "cancer-treatment-and-research-communications",
       "label": "Cancer Treatment and Research Communications",
       "value": "elsevier-with-titles"
@@ -7602,6 +7617,11 @@
       "id": "cell-stem-cell",
       "label": "Cell Stem Cell",
       "value": "cell"
+    },
+    {
+      "id": "cell-stress",
+      "label": "Cell Stress",
+      "value": "microbial-cell"
     },
     {
       "id": "cell-stress-and-chaperones",
@@ -9774,6 +9794,11 @@
       "value": "association-for-computing-machinery"
     },
     {
+      "id": "concepts-in-magnetic-resonance-part-a",
+      "label": "Concepts in Magnetic Resonance Part A",
+      "value": "american-medical-association-no-url"
+    },
+    {
       "id": "condensed-matter",
       "label": "Condensed Matter",
       "value": "multidisciplinary-digital-publishing-institute"
@@ -10793,6 +10818,11 @@
       "id": "current-rheumatology-reports",
       "label": "Current Rheumatology Reports",
       "value": "springer-vancouver-brackets"
+    },
+    {
+      "id": "current-science",
+      "label": "Current Science",
+      "value": "current-science"
     },
     {
       "id": "current-sexual-health-reports",
@@ -15135,6 +15165,11 @@
       "value": "springer-basic-brackets"
     },
     {
+      "id": "fishery-bulletin",
+      "label": "Fishery Bulletin",
+      "value": "fishery-bulletin"
+    },
+    {
       "id": "fishes",
       "label": "Fishes",
       "value": "multidisciplinary-digital-publishing-institute"
@@ -18257,6 +18292,11 @@
       "id": "iatss-research",
       "label": "IATSS Research",
       "value": "elsevier-with-titles"
+    },
+    {
+      "id": "ib-tauris-note",
+      "label": "I.B. Tauris (note)",
+      "value": "ib-tauris-note"
     },
     {
       "id": "ibm-journal-of-research-and-development",
@@ -27804,6 +27844,11 @@
       "value": "elsevier-harvard"
     },
     {
+      "id": "journal-of-raman-spectroscopy",
+      "label": "Journal of Raman Spectroscopy",
+      "value": "journal-of-raman-spectroscopy"
+    },
+    {
       "id": "journal-of-rational-emotive-and-cognitive-behavior-therapy",
       "label": "Journal of Rational-Emotive & Cognitive-Behavior Therapy",
       "value": "springer-socpsych-author-date"
@@ -31329,6 +31374,11 @@
       "id": "microbial-biotechnology",
       "label": "Microbial Biotechnology",
       "value": "environmental-microbiology"
+    },
+    {
+      "id": "microbial-cell",
+      "label": "Microbial Cell",
+      "value": "microbial-cell"
     },
     {
       "id": "microbial-cell-factories",
@@ -37698,6 +37748,11 @@
       "value": "springer-socpsych-author-date"
     },
     {
+      "id": "review-of-international-studies",
+      "label": "Review of International Studies",
+      "value": "review-of-international-studies"
+    },
+    {
       "id": "review-of-managerial-science",
       "label": "Review of Managerial Science",
       "value": "springer-basic-author-date"
@@ -41136,6 +41191,11 @@
       "value": "vancouver"
     },
     {
+      "id": "the-canadian-journal-of-psychiatry",
+      "label": "The Canadian Journal of Psychiatry",
+      "value": "the-canadian-journal-of-psychiatry"
+    },
+    {
       "id": "the-canadian-veterinary-journal",
       "label": "The Canadian Veterinary Journal",
       "value": "vancouver"
@@ -41984,6 +42044,11 @@
       "id": "the-optical-society",
       "label": "The Optical Society",
       "value": "the-optical-society"
+    },
+    {
+      "id": "the-pan-african-medical-journal",
+      "label": "The Pan African Medical Journal",
+      "value": "the-pan-african-medical-journal"
     },
     {
       "id": "the-patient-patient-centered-outcomes-research",
@@ -44270,6 +44335,11 @@
       "value": "vancouver-superscript"
     },
     {
+      "id": "westfalische-wilhelms-universitat-munster-medizinische-fakultat",
+      "label": "Westfälische Wilhelms-Universität Münster - Medizinische Fakultät (German)",
+      "value": "westfalische-wilhelms-universitat-munster-medizinische-fakultat"
+    },
+    {
       "id": "wetlands",
       "label": "Wetlands",
       "value": "wetlands"
@@ -44723,6 +44793,11 @@
       "id": "zeitschrift-fur-orthopadie-und-unfallchirurgie",
       "label": "Zeitschrift für Orthopädie und Unfallchirurgie",
       "value": "thieme-german"
+    },
+    {
+      "id": "zeitschrift-fur-ostmitteleuropa-forschung",
+      "label": "Zeitschrift für Ostmitteleuropa-Forschung (German)",
+      "value": "zeitschrift-fur-ostmitteleuropa-forschung"
     },
     {
       "id": "zeitschrift-fur-padagogik",
