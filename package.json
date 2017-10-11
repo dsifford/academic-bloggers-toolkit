@@ -92,7 +92,7 @@
     "webpack-bundle-analyzer": "^2.9.0"
   },
   "dependencies": {
-    "astrocite": "^0.8.6",
+    "astrocite": "^0.9.0",
     "citeproc": "^2.1.178",
     "common-tags": "^1.4.0",
     "focus-trap-react": "^3.0.4",
