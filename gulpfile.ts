@@ -50,7 +50,7 @@ export function bump() {
         .pipe(gulp.dest('./src'));
 
     const repoFiles = gulp
-        .src('ISSUE_TEMPLATE.md', { base: './' })
+        .src('./.github/ISSUE_TEMPLATE.md', { base: './' })
         .pipe(replace(/\*\*ABT Version:.+/, `**ABT Version:** ${VERSION}`))
         .pipe(gulp.dest('./'));
 
