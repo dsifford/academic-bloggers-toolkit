@@ -10,8 +10,8 @@ interface GithubContentsResponse {
 }
 
 ((self: DedicatedWorkerGlobalScope) => {
-    function fetchSingleLocale(file: string): Promise<{}> {
-        return new Promise((resolve, reject) => {
+    async function fetchSingleLocale(file: string): Promise<{}> {
+        return new Promise<{}>((resolve, reject) => {
             const req = new XMLHttpRequest();
             req.onreadystatechange = () => {
                 if (req.readyState === 4) {
@@ -33,7 +33,7 @@ interface GithubContentsResponse {
         });
     }
 
-    (() => {
+    (async () => {
         return new Promise<GithubContentsResponse>((resolve, reject) => {
             const req = new XMLHttpRequest();
             req.onreadystatechange = () => {
