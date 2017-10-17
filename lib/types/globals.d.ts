@@ -58,6 +58,7 @@ declare const DocumentTouch: any;
 declare const Rollbar: IRollbar;
 
 interface Window {
+    _babelPolyfill: boolean;
     ABT: ABT.Backend;
     DocumentTouch?: any;
     Rollbar: IRollbar;

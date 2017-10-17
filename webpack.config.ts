@@ -61,7 +61,7 @@ const config: webpack.Configuration = {
         'js/worker': ['babel-polyfill', './src/js/worker/worker'],
         'js/frontend': ['babel-polyfill', './src/js/frontend'],
         'js/reference-list/index': [
-            'babel-polyfill',
+            './src/js/utils/polyfill',
             'whatwg-fetch',
             'raf/polyfill',
             './src/js/reference-list/',
