@@ -1,6 +1,6 @@
 {
   "name": "academic-bloggers-toolkit",
-  "version": "4.11.1",
+  "version": "4.11.2",
   "description": "A plugin extending the functionality of WordPress for Academic Blogging",
   "license": "GPL-3.0",
   "scripts": {
