@@ -70,17 +70,17 @@ function refactor_options() {
 
     $newOptions['citation_style'] = [
         'prefer_custom' => isset($options['citation_style']['prefer_custom']) ? $options['citation_style']['prefer_custom'] : false,
-        'style' => (isset($options['citation_style']['style']) ? $options['citation_style']['style'] : (isset($options['abt_citation_style']) ? $options['abt_citation_style'] : 'american-medical-association')),
-        'custom_url' => isset($options['citation_style']['custom_url']) ? $options['citation_style']['custom_url'] : '',
+        'style' => (!empty($options['citation_style']['style']) ? $options['citation_style']['style'] : (!empty($options['abt_citation_style']) ? $options['abt_citation_style'] : 'american-medical-association')),
+        'custom_url' => !empty($options['citation_style']['custom_url']) ? $options['citation_style']['custom_url'] : '',
     ];
 
-    $newOptions['custom_css'] = isset($options['custom_css']) ? $options['custom_css'] : '';
+    $newOptions['custom_css'] = !empty($options['custom_css']) ? $options['custom_css'] : '';
 
     $newOptions['display_options'] = [
-        'bibliography' => isset($options['display_options']['bibliography']) ? $options['display_options']['bibliography'] : 'fixed',
-        'links' => isset($options['display_options']['links']) ? $options['display_options']['links'] : 'always',
-        'bib_heading' => isset($options['display_options']['bib_heading']) ? $options['display_options']['bib_heading'] : '',
-        'bib_heading_level' => isset($options['display_options']['bib_heading_level']) ? $options['display_options']['bib_heading_level'] : 'h3',
+        'bibliography' => !empty($options['display_options']['bibliography']) ? $options['display_options']['bibliography'] : 'fixed',
+        'links' => !empty($options['display_options']['links']) ? $options['display_options']['links'] : 'always',
+        'bib_heading' => !empty($options['display_options']['bib_heading']) ? $options['display_options']['bib_heading'] : '',
+        'bib_heading_level' => !empty($options['display_options']['bib_heading_level']) ? $options['display_options']['bib_heading_level'] : 'h3',
     ];
 
     $newOptions['VERSION'] = ABT_VERSION;
