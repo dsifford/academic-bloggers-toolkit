@@ -100,7 +100,7 @@
             <tr>
                 <td>
                     <select id="abt_citation_style" name="citation_style_style" style="width: 100%;" aria-label="select predefined citation style">
-                        <?php foreach ($this->citation_styles as $key => $value):?>
+                        <?php foreach ($this->citation_styles['styles'] as $key => $value):?>
                             <option value="<?php echo $value['id'] ?>" <?php selected($citation_style_style, $value['id']); ?>>
                                 <?php echo $value['label'] ?>
                             </option>
