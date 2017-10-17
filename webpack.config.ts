@@ -55,9 +55,13 @@ const config: webpack.Configuration = {
     devtool: 'source-map',
     entry: {
         'js/frontend': ['babel-polyfill', './src/js/frontend'],
-        'js/reference-list/index': ['babel-polyfill', 'whatwg-fetch', './src/js/reference-list/'],
-        'js/drivers/tinymce': ['babel-polyfill', './src/js/drivers/tinymce'],
-        'js/vendor': ['babel-polyfill'],
+        'js/reference-list/index': [
+            'babel-polyfill',
+            'whatwg-fetch',
+            'raf/polyfill',
+            './src/js/reference-list/',
+        ],
+        'js/drivers/tinymce': ['./src/js/drivers/tinymce'],
     },
     output: {
         path: resolve(__dirname, 'dist'),
