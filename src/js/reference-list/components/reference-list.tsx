@@ -165,7 +165,7 @@ export default class ReferenceList extends React.Component<Props> {
                 this.editor.alert(err);
             }
         } catch (e) {
-            Rollbar.error('ReferenceList.tsx -> addReferences', e);
+            Rollbar.error(e.message, e);
             this.editor.alert(stripIndents`
                 ${ReferenceList.errors.unexpected.message}
 
@@ -295,12 +295,12 @@ export default class ReferenceList extends React.Component<Props> {
                 this.processor.makeBibliography(),
             );
             this.clearSelection();
-        } catch (err) {
-            Rollbar.error('ReferenceLissett.tsx -> initProcessor', err);
+        } catch (e) {
+            Rollbar.error(e.message, e);
             this.editor.alert(stripIndents`
                 ${ReferenceList.errors.unexpected.message}
 
-                ${err.name}: ${err.message}
+                ${e.name}: ${e.message}
 
                 ${ReferenceList.errors.unexpected.reportInstructions}
             `);
@@ -466,7 +466,7 @@ export default class ReferenceList extends React.Component<Props> {
             this.editor.composeCitations(clusters, this.props.store.citations.citationByIndex, this.processor.citeproc.opt.xclass);
             this.editor.setBibliography(this.props.store.bibOptions, this.processor.makeBibliography());
         } catch (e) {
-            Rollbar.error('ReferenceList.tsx -> insertInlineCitation', e);
+            Rollbar.error(e.message, e);
             this.editor.alert(stripIndents`
                 ${ReferenceList.errors.unexpected.message}
 
@@ -496,7 +496,7 @@ export default class ReferenceList extends React.Component<Props> {
             this.clearSelection();
             this.editor.setBibliography(this.props.store.bibOptions, bibliography, true);
         } catch (e) {
-            Rollbar.error('ReferenceList.tsx -> insertStaticBibliography', e);
+            Rollbar.error(e.message, e);
             this.editor.alert(stripIndents`
                 ${ReferenceList.errors.unexpected.message}
 

@@ -27,11 +27,15 @@ const sharedPlugins: webpack.Plugin[] = [
         'process.env.ROLLBAR_TOKEN': JSON.stringify(process.env.ROLLBAR_CLIENT_TOKEN),
         'process.env.COMMIT_HASH': JSON.stringify(VERSION),
     }),
-    new webpack.optimize.CommonsChunkPlugin({
-        name: 'js/vendor',
-        filename: 'vendor/vendor.bundle.js',
-        minChunks: Infinity,
-    }),
+    // new webpack.optimize.CommonsChunkPlugin({
+    //     name: 'js/worker',
+    //     minChunks: Infinity,
+    // }),
+    // new webpack.optimize.CommonsChunkPlugin({
+    //     name: 'js/vendor',
+    //     filename: 'vendor/vendor.bundle.js',
+    //     minChunks: Infinity,
+    // }),
 ];
 
 const devPlugins: webpack.Plugin[] = [...sharedPlugins];
@@ -54,6 +58,7 @@ const config: webpack.Configuration = {
     },
     devtool: 'source-map',
     entry: {
+        'js/worker': ['babel-polyfill', './src/js/worker/worker'],
         'js/frontend': ['babel-polyfill', './src/js/frontend'],
         'js/reference-list/index': [
             'babel-polyfill',
@@ -78,7 +83,14 @@ const config: webpack.Configuration = {
             {
                 test: /\.tsx?$/,
                 exclude: /(?:__tests__|node_modules)/,
-                use: ['awesome-typescript-loader'],
+                use: [
+                    {
+                        loader: 'awesome-typescript-loader',
+                        options: {
+                            useBabel: true,
+                        },
+                    },
+                ],
             },
             {
                 test: /\.jsx?$/,

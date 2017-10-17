@@ -67,7 +67,7 @@ export class CSLProcessor {
             }
         }
 
-        this.worker = new Worker(`${top.ABT.wp.abt_url}/vendor/worker.js`);
+        this.worker = new Worker(`${top.ABT.wp.abt_url}/js/worker.js`);
         this.worker.addEventListener('message', this.receiveWorkerMessage);
         this.worker.postMessage('');
     }

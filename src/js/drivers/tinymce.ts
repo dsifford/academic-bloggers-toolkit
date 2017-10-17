@@ -49,7 +49,7 @@ export default class TinyMCEDriver extends EditorDriver {
         fresh: false,
         /** Content currently selected (HTML) */
         selection: '',
-        bookmark: { rng: new Range() },
+        bookmark: { rng: document.createRange() },
     };
 
     get citationIds() {
@@ -126,7 +126,7 @@ export default class TinyMCEDriver extends EditorDriver {
                         prev.itemsFollowing = [...prev.itemsFollowing, [citation.id, i + 1]];
                         break;
                     default:
-                        citation.remove();
+                        citation.parentElement!.removeChild(citation);
                         this.editor.selection.moveToBookmark(this.selectionCache.bookmark);
                 }
                 return prev;
@@ -215,7 +215,10 @@ export default class TinyMCEDriver extends EditorDriver {
                         return resolve();
                     }
                     interval = setInterval(() => {
-                        if (top.tinyMCE.editors.content.initialized) {
+                        if (
+                            top.tinyMCE.editors.content &&
+                            top.tinyMCE.editors.content.initialized
+                        ) {
                             clearInterval(interval);
                             this.editor = top.tinyMCE.editors.content;
                             this.bindEvents();
