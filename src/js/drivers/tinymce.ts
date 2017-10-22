@@ -20,7 +20,7 @@ export default class TinyMCEDriver extends EditorDriver {
      */
     private editorCitationObserver = new MutationObserver(mutations => {
         for (const mutation of mutations) {
-            for (const removedNode of mutation.removedNodes) {
+            for (const removedNode of Array.from(mutation.removedNodes)) {
                 if (removedNode.nodeName !== 'SPAN') {
                     continue;
                 }
@@ -159,8 +159,11 @@ export default class TinyMCEDriver extends EditorDriver {
             #${EditorDriver.footnoteId},
             #${EditorDriver.bibliographyId}
         `);
-        for (const old of oldElements) {
-            old.remove();
+
+        for (const old of Array.from(oldElements)) {
+            if (old.parentElement) {
+                old.parentElement.removeChild(old);
+            }
         }
 
         for (const [index, content, id] of clusters) {
@@ -244,8 +247,10 @@ export default class TinyMCEDriver extends EditorDriver {
         const elements = this.editor
             .getDoc()
             .querySelectorAll(`#${EditorDriver.bibliographyId}, .${EditorDriver.citationClass}`);
-        for (const element of elements) {
-            element.remove();
+        for (const element of Array.from(elements)) {
+            if (element.parentElement) {
+                element.parentElement.removeChild(element);
+            }
         }
         // Required to allow tinymce to consume changes
         this.editor.insertContent('');

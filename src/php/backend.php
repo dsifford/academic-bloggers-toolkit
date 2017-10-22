@@ -132,10 +132,41 @@ class Backend {
      * @param mixed $post
      */
     public function render_reference_list($post) {
-        $ABT_i18n = i18n\generate_translations();
-
         wp_nonce_field(basename(__FILE__), 'abt_nonce');
+        include __DIR__ . '/views/reference-list.php';
+    }
 
+    /**
+     * Saves the Peer Review meta fields to the database.
+     *
+     * @param string $post_id The post ID
+     */
+    public function save_meta($post_id) {
+        $is_autosave = wp_is_post_autosave($post_id);
+        $is_revision = wp_is_post_revision($post_id);
+        $is_valid_nonce = (isset($_POST['abt_nonce']) && wp_verify_nonce($_POST['abt_nonce'], basename(__FILE__))) ? true : false;
+
+        if ($is_autosave || $is_revision || !$is_valid_nonce) {
+            return;
+        }
+
+        $reflist_state = $_POST['abt-reflist-state'];
+        update_post_meta($post_id, '_abt-reflist-state', $reflist_state);
+    }
+
+    /**
+     * Registers and enqueues all required scripts.
+     */
+    public function enqueue_admin_scripts() {
+        global $post_type;
+
+        $invalid_post_type = in_array($post_type, ['attachment', 'acf', 'um_form']);
+
+        if ($invalid_post_type) {
+            return;
+        }
+
+        $ABT_i18n = i18n\generate_translations();
         $state = json_decode(get_post_meta($post->ID, '_abt-reflist-state', true), true);
         $opts = get_option('abt_options');
 
@@ -173,59 +204,18 @@ class Backend {
             unset($state['citations']);
         }
 
+        wp_register_script('abt-reflist', plugins_url('academic-bloggers-toolkit/js/reference-list/index.js'), [], ABT_VERSION);
         wp_localize_script('abt-reflist', 'ABT', [
             'state' => $state,
             'i18n' => $ABT_i18n,
             'styles' => $this->get_citation_styles(),
             'wp' => $this->localize_wordpress_constants(),
             'custom_csl' => $this->get_user_defined_csl($opts['citation_style']['custom_url']),
-        ]); ?>
-            <div id='abt-reflist__root' style='margin: 0 -12px -12px -12px; font-family: "Roboto", sans-serif;'></div>
-            <script type="text/javascript">
-                (function (global) {
-                    var el=document.createElement('span');
-                    el.id='abt_changelog';
-                    document.querySelector('#abt-reflist > h2').appendChild(el);
-                    global.HW_config={selector:"#abt_changelog",account:"LJ4gE7"};
-                })(window)
-            </script>
-            <script async src="//cdn.headwayapp.co/widget.js"></script>
-        <?php
-    }
-
-    /**
-     * Saves the Peer Review meta fields to the database.
-     *
-     * @param string $post_id The post ID
-     */
-    public function save_meta($post_id) {
-        $is_autosave = wp_is_post_autosave($post_id);
-        $is_revision = wp_is_post_revision($post_id);
-        $is_valid_nonce = (isset($_POST['abt_nonce']) && wp_verify_nonce($_POST['abt_nonce'], basename(__FILE__))) ? true : false;
-
-        if ($is_autosave || $is_revision || !$is_valid_nonce) {
-            return;
-        }
-
-        $reflist_state = $_POST['abt-reflist-state'];
-        update_post_meta($post_id, '_abt-reflist-state', $reflist_state);
-    }
-
-    /**
-     * Registers and enqueues all required scripts.
-     */
-    public function enqueue_admin_scripts() {
-        global $post_type;
-
-        $invalid_post_type = in_array($post_type, ['attachment', 'acf', 'um_form']);
-
-        if ($invalid_post_type) {
-            return;
-        }
+        ]);
 
         wp_dequeue_script('autosave');
         wp_enqueue_style('dashicons');
-        wp_enqueue_script('abt-reflist', plugins_url('academic-bloggers-toolkit/js/reference-list/index.js'), [], ABT_VERSION, true);
+        wp_enqueue_script('abt-reflist');
     }
 
     /**

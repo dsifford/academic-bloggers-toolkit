@@ -3,7 +3,7 @@ function chooseRandom<T>(items: T[]): T {
     return items[i];
 }
 
-export class CSLProcessor {
+export class Processor {
     citeproc: any = {
         registry: {
             citationreg: {

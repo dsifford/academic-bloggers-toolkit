@@ -11,10 +11,10 @@
     "member-access": {
       "options": ["no-public"]
     },
-    // "no-floating-promises": true,
     "no-inferred-empty-object-type": true,
     "no-unnecessary-type-assertion": true,
     "promise-function-async": true,
+    "no-implicit-dependencies": false,
 
     "arrow-parens": false,
     "curly": false,

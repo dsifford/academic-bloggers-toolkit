@@ -4,9 +4,9 @@ import { action, observable, reaction } from 'mobx';
 import { observer } from 'mobx-react';
 import * as React from 'react';
 
+import { Processor } from 'core/processor';
 import EditorDriver, { EditorDriverConstructor } from 'drivers/base';
 import { DialogType, MenuActionType } from 'utils/constants';
-import { CSLProcessor } from 'utils/CSLProcessor';
 import DevTools from 'utils/devtools';
 import { colors, shadows } from 'utils/styles';
 import { getRemoteData, parseManualData } from '../api';
@@ -56,7 +56,7 @@ export default class ReferenceList extends React.Component<Props> {
     /**
      * The CSLProcessor instance
      */
-    processor: CSLProcessor;
+    processor: Processor;
 
     /**
      * Observable array of selected item IDs
@@ -83,7 +83,7 @@ export default class ReferenceList extends React.Component<Props> {
     constructor(props: Props) {
         super(props);
         this.ui.loading.set(typeof this.props.loading === 'boolean' ? this.props.loading : true);
-        this.processor = new CSLProcessor(this.props.store);
+        this.processor = new Processor(this.props.store);
         this.init().catch(e => {
             Rollbar.error(e.message, e);
             throw e;

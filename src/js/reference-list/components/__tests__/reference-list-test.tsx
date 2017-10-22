@@ -1,4 +1,4 @@
-jest.mock('utils/CSLProcessor');
+jest.mock('core/processor');
 jest.mock('../../api');
 
 import { shallow } from 'enzyme';
