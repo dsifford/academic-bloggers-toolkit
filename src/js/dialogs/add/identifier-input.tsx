@@ -15,7 +15,7 @@ interface Props {
 export default class IdentifierInput extends React.Component<Props> {
     static readonly labels = top.ABT.i18n.dialogs.add.identifierInput;
 
-    render() {
+    render(): JSX.Element {
         return (
             <div>
                 <label htmlFor="identifierList" children={IdentifierInput.labels.label} />

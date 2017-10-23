@@ -15,25 +15,25 @@ export default class People extends React.Component<PeopleProps, {}> {
     static readonly labels = top.ABT.i18n.dialogs.add.people;
 
     @action
-    addPerson = () => {
+    addPerson = (): void => {
         this.props.people.push({ family: '', given: '', type: 'author' });
     };
 
     @action
-    removePerson = (e: React.MouseEvent<HTMLInputElement>) => {
+    removePerson = (e: React.MouseEvent<HTMLInputElement>): void => {
         const index = parseInt(e.currentTarget.getAttribute('data-index')!, 10);
         this.props.people.remove(this.props.people[index]);
     };
 
     @action
-    updatePerson = (e: React.FormEvent<HTMLInputElement | HTMLSelectElement>) => {
+    updatePerson = (e: React.FormEvent<HTMLInputElement | HTMLSelectElement>): void => {
         const index = parseInt(e.currentTarget.getAttribute('data-index')!, 10);
         const field = e.currentTarget.getAttribute('data-field')! as keyof CSL.Person;
         const value = e.currentTarget.value;
         this.props.people[index][field] = value;
     };
 
-    render() {
+    render(): JSX.Element {
         return (
             <div>
                 <h2 children={People.labels.contributors} />
@@ -80,7 +80,7 @@ interface PersonProps {
 @observer
 class Person extends React.Component<PersonProps, {}> {
     static readonly labels = top.ABT.i18n.dialogs.add.people;
-    render() {
+    render(): JSX.Element {
         const { index, fieldMap: { people }, onChange, onRemove, person } = this.props;
         return (
             <div>

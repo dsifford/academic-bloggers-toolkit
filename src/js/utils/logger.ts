@@ -13,7 +13,7 @@ const config = {
         },
         ...top.ABT.wp.info,
     },
-    transform: (payload: any) => {
+    transform: (payload: any): void => {
         const trace = payload.body.trace;
         if (trace && trace.frames) {
             for (const [i, frame] of trace.frames.entries()) {

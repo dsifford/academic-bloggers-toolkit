@@ -1,0 +1,24 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`parseManualData() should parse a basic set of manual data 1`] = `
+Array [
+  Array [
+    Object {
+      "author": Array [
+        Object {
+          "family": "Doe",
+          "given": "John",
+        },
+        Object {
+          "family": "Smith",
+          "given": "Jane",
+        },
+      ],
+      "id": "2894571532",
+      "title": "Test title",
+      "type": "article-journal",
+    },
+  ],
+  "",
+]
+`;

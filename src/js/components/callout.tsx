@@ -24,7 +24,7 @@ export default class Callout extends React.PureComponent<Props> {
         error: top.ABT.i18n.errors.prefix,
     };
 
-    render() {
+    render(): JSX.Element | null {
         const { title, children, intent, isVisible, onDismiss, ...divProps } = this.props;
         const defaultTitle =
             intent === 'danger' ? Callout.prefixes.error : Callout.prefixes.warning;

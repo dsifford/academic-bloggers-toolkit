@@ -31,8 +31,8 @@ export default class ImportDialog extends React.Component<DialogProps> {
     payload = observable<CSL.Data>([]);
 
     @action
-    handleFileUpload = async (e: React.FormEvent<HTMLInputElement>) => {
-        return new Promise<void>(resolve => {
+    handleFileUpload = async (e: React.FormEvent<HTMLInputElement>): Promise<void> => {
+        return new Promise<void>((resolve): void => {
             const reader = new FileReader();
             const file = e.currentTarget.files![0];
             const fileExtension = file.name.toLowerCase().match(/\.(\w+$)/)
@@ -48,33 +48,35 @@ export default class ImportDialog extends React.Component<DialogProps> {
     };
 
     @action
-    setErrorMessage = (msg: any = '') => {
+    setErrorMessage = (msg: any = ''): void => {
         this.errorMessage.set(typeof msg === 'string' ? msg : '');
     };
 
     @action
-    setFile = ({ name = '', value = '' } = {}) => {
+    setFile = ({ name = '', value = '' } = {}): void => {
         this.file.name.set(name);
         this.file.value.set(value);
     };
 
     @action
-    setPayload = (payload: CSL.Data[]) => {
+    setPayload = (payload: CSL.Data[]): void => {
         this.payload.replace(payload);
     };
 
-    bindRefs = (c: HTMLInputElement) => (this.inputField = c);
+    bindRefs = (c: HTMLInputElement): void => {
+        this.inputField = c;
+    };
 
-    handleClick = () => {
+    handleClick = (): void => {
         this.inputField.click();
     };
 
-    handleSubmit = (e: React.MouseEvent<HTMLInputElement>) => {
+    handleSubmit = (e: React.MouseEvent<HTMLInputElement>): void => {
         e.preventDefault();
         this.props.onSubmit(toJS(this.payload));
     };
 
-    parseFile = (reader: FileReader, fileExtension: string) => {
+    parseFile = (reader: FileReader, fileExtension: string): void => {
         let payload: CSL.Data[];
         try {
             switch (fileExtension) {
@@ -105,7 +107,7 @@ export default class ImportDialog extends React.Component<DialogProps> {
         this.setPayload(payload);
     };
 
-    render() {
+    render(): JSX.Element {
         return (
             <div id="import-dialog-root">
                 <div className="import-dialog">

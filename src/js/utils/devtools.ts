@@ -1,9 +1,9 @@
 // tslint:disable: no-typeof-undefined
-export default function devtool() {
+export default function devtool(): any {
     if (process.env.NODE_ENV === 'development') {
         return require('mobx-react-devtools').default;
     }
-    return () => null;
+    return (): null => null;
 }
 
 export function configureDevtool(options: {

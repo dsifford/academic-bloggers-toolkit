@@ -27,7 +27,7 @@ interface Props extends DialogProps {
 @observer
 export default class DialogRouter extends React.Component<Props> {
     static labels = top.ABT.i18n.dialogs;
-    render() {
+    render(): JSX.Element | null {
         const { currentDialog, data, onSubmit } = this.props;
         switch (currentDialog.get()) {
             case DialogType.ADD:

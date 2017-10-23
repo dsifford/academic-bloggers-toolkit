@@ -54,7 +54,7 @@ export default class Tooltip extends React.PureComponent<Props> {
                     translateX(-5px)`;
         }
     };
-    render() {
+    render(): JSX.Element {
         const { active, id, text, transform } = this.props;
         return (
             <div

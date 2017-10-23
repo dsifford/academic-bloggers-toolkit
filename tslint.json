@@ -33,6 +33,9 @@
     "quotemark": false,
     "semicolon": false,
     "trailing-comma": false,
+    "typedef": {
+      "options": ["call-signature", "arrow-call-signature"]
+    },
     "variable-name": false,
     "whitespace": false,
 
@@ -88,5 +91,8 @@
     "jsx-no-lambda": true,
     "jsx-no-string-ref": true,
     "jsx-self-close": true
+  },
+  "linterOptions": {
+    "exclude": ["src/**/__tests__/*", "src/**/__mocks__/*"]
   }
 }

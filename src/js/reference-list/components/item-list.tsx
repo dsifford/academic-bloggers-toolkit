@@ -32,24 +32,24 @@ interface Props {
 @observer
 export default class ItemList extends React.Component<Props> {
     @action
-    doubleClick = () => {
+    doubleClick = (): void => {
         this.props.ui.cited.isOpen.set(false);
         this.props.ui.uncited.isOpen.set(false);
         this.props.ui[this.props.id].isOpen.set(true);
     };
 
     @action
-    singleClick = () => {
+    singleClick = (): void => {
         this.props.ui[this.props.id].isOpen.set(!this.props.ui[this.props.id].isOpen.get());
     };
 
     @action
-    toggleSelect = (e: React.MouseEvent<HTMLDivElement>) => {
+    toggleSelect = (e: React.MouseEvent<HTMLDivElement>): void => {
         this.props.selectedItems.remove(e.currentTarget.id) ||
             this.props.selectedItems.push(e.currentTarget.id);
     };
 
-    render() {
+    render(): JSX.Element | null {
         const { CSL, children, id, items, onEditReference, selectedItems, ui } = this.props;
         if (!items || items.length === 0) return null;
         return (
@@ -110,12 +110,12 @@ interface ItemsProps extends React.HTMLProps<HTMLElement> {
 @observer
 export class Items extends React.Component<ItemsProps, {}> {
     @action
-    editSingleReference = (e: React.MouseEvent<HTMLDivElement>) => {
+    editSingleReference = (e: React.MouseEvent<HTMLDivElement>): void => {
         const referenceId = e.currentTarget.id;
         this.props.onEditReference(referenceId);
     };
 
-    handleScroll = (e: React.WheelEvent<HTMLDivElement>) => {
+    handleScroll = (e: React.WheelEvent<HTMLDivElement>): void => {
         e.stopPropagation();
         const atTopAndScrollingUp: boolean = e.currentTarget.scrollTop === 0 && e.deltaY < 0;
         const atBottomAndScollingDown: boolean =
@@ -126,7 +126,7 @@ export class Items extends React.Component<ItemsProps, {}> {
         }
     };
 
-    render() {
+    render(): JSX.Element {
         return (
             <div
                 onWheel={this.handleScroll}

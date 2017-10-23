@@ -116,7 +116,7 @@ export default class ReferenceList extends React.Component<Props> {
         });
     }
 
-    componentDidMount() {
+    componentDidMount(): void {
         addEventListener(EditorDriver.events.AVAILABLE, this.toggleLoading.bind(this, false));
         addEventListener(EditorDriver.events.UNAVAILABLE, this.toggleLoading.bind(this, true));
         addEventListener(EditorDriver.events.ADD_REFERENCE, this.openDialog.bind(this, 'ADD'));
@@ -131,7 +131,7 @@ export default class ReferenceList extends React.Component<Props> {
         document.addEventListener('scroll', this.handleScroll);
     }
 
-    componentWillUnmount() {
+    componentWillUnmount(): void {
         removeEventListener(EditorDriver.events.UNAVAILABLE, this.toggleLoading.bind(this, true));
         removeEventListener(EditorDriver.events.AVAILABLE, this.toggleLoading.bind(this, false));
         removeEventListener(EditorDriver.events.ADD_REFERENCE, this.openDialog.bind(this, 'ADD'));
@@ -146,7 +146,7 @@ export default class ReferenceList extends React.Component<Props> {
         document.removeEventListener('scroll', this.handleScroll);
     }
 
-    init = async () => {
+    init = async (): Promise<void> => {
         this.editor = await this.props.editor.then(driver => new driver());
         await this.editor.init();
         await this.initProcessor();
@@ -154,7 +154,7 @@ export default class ReferenceList extends React.Component<Props> {
     };
 
     @action
-    addReferences = async (payload: any) => {
+    addReferences = async (payload: any): Promise<void> => {
         let data: CSL.Data[];
         let err: string;
         try {
@@ -176,17 +176,17 @@ export default class ReferenceList extends React.Component<Props> {
             return;
         }
         if (data.length === 0) return;
-        data = this.props.store.citations.addItems(data);
+        this.props.store.citations.addItems(data);
         return payload.attachInline ? this.insertInlineCitation(undefined, data) : void 0;
     };
 
     @action
-    clearSelection = () => {
+    clearSelection = (): void => {
         this.selected.clear();
     };
 
     @action
-    deleteCitations = () => {
+    deleteCitations = (): void => {
         if (this.selected.length === 0) return;
         this.editor.setLoadingState(true);
         const toRemove = this.props.store.citations.removeItems(this.selected.slice());
@@ -196,14 +196,14 @@ export default class ReferenceList extends React.Component<Props> {
     };
 
     @action
-    editReference = (referenceId: string) => {
+    editReference = (referenceId: string): void => {
         const data = this.props.store.citations.CSL.get(referenceId)!;
         this.dialogProps.set(data);
         this.currentDialog.set(DialogType.EDIT);
     };
 
     @action
-    handleDialogSubmit = (data: any) => {
+    handleDialogSubmit = (data: any): void => {
         switch (this.currentDialog.get()) {
             case DialogType.ADD:
                 this.addReferences(data);
@@ -219,7 +219,7 @@ export default class ReferenceList extends React.Component<Props> {
     };
 
     @action
-    handleMenuSelection = (menuAction: MenuAction) => {
+    handleMenuSelection = (menuAction: MenuAction): void => {
         switch (menuAction.kind) {
             case MenuActionType.CHANGE_STYLE:
                 this.props.store.setStyle(menuAction.data);
@@ -247,7 +247,7 @@ export default class ReferenceList extends React.Component<Props> {
     };
 
     @action
-    openDialog = (e: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement> | string) => {
+    openDialog = (e: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement> | string): void => {
         if (typeof e === 'string') {
             return this.currentDialog.set(e);
         }
@@ -256,7 +256,7 @@ export default class ReferenceList extends React.Component<Props> {
     };
 
     @action
-    reset = () => {
+    reset = (): void => {
         this.editor.setLoadingState(true);
         this.clearSelection();
         this.ui.uncited.isOpen.set(false);
@@ -267,21 +267,21 @@ export default class ReferenceList extends React.Component<Props> {
     };
 
     @action
-    toggleLoading = (loadState?: boolean) => {
+    toggleLoading = (loadState?: boolean): void => {
         this.ui.loading.set(loadState !== undefined ? loadState : !this.ui.loading.get());
     };
 
     @action
-    toggleMenu = () => {
+    toggleMenu = (): void => {
         this.ui.menuOpen.set(!this.ui.menuOpen.get());
     };
 
     @action
-    togglePinned = () => {
+    togglePinned = (): void => {
         this.ui.pinned.set(!this.ui.pinned.get());
     };
 
-    initProcessor = async () => {
+    initProcessor = async (): Promise<void> => {
         this.editor.setLoadingState(true);
         try {
             const clusters = await this.processor.init();
@@ -308,7 +308,7 @@ export default class ReferenceList extends React.Component<Props> {
         this.editor.setLoadingState(false);
     };
 
-    render() {
+    render(): JSX.Element {
         if (this.ui.loading.get()) {
             return (
                 <div>
@@ -429,7 +429,7 @@ export default class ReferenceList extends React.Component<Props> {
     }
 
     // prettier-ignore
-    insertInlineCitation = (e?: React.MouseEvent<HTMLButtonElement>, d: CSL.Data[] | Event = []) => {
+    insertInlineCitation = (e?: React.MouseEvent<HTMLButtonElement>, d: CSL.Data[] | Event = []): void => {
         if (e) {
             e.preventDefault();
         }
@@ -480,7 +480,7 @@ export default class ReferenceList extends React.Component<Props> {
         this.clearSelection();
     };
 
-    insertStaticBibliography = async () => {
+    insertStaticBibliography = async (): Promise<void> => {
         let data: CSL.Data[] = this.selected.map(id => this.props.store.citations.CSL.get(id)!);
 
         const selectionHasReferences = this.editor.selection.match(
@@ -508,7 +508,7 @@ export default class ReferenceList extends React.Component<Props> {
     };
 
     @action
-    private handleScroll = () => {
+    private handleScroll = (): void => {
         const list = document.getElementById('abt-reflist')!;
 
         if (!this.ui.pinned.get()) {
@@ -585,7 +585,7 @@ export default class ReferenceList extends React.Component<Props> {
         this.ui.uncited.maxHeight.set(`${uncitedHeight}px`);
     };
 
-    private handleUndo = () => {
+    private handleUndo = (): void => {
         const citationsByIndex = this.editor.citationsByIndex.reduce(
             (prev, item) => {
                 const citationItems = item.citationItems.map(citation => ({
@@ -609,7 +609,7 @@ export default class ReferenceList extends React.Component<Props> {
 
 @observer
 export class StorageField extends React.Component<{ store: Store }> {
-    render() {
+    render(): JSX.Element {
         return <input type="hidden" name="abt-reflist-state" value={this.props.store.persistent} />;
     }
 }

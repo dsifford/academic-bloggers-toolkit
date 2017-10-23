@@ -24,15 +24,15 @@ process.env.FORCE_COLOR = '1';
 type Callback = () => void;
 
 // prettier-ignore
-const reload = (cb: Callback) => { browserSync.reload(); cb(); }
-const clean = async () => exec(`rm -rf ${__dirname}/dist/*`);
+const reload = (cb: Callback): void => { browserSync.reload(); cb(); }
+const clean = async (): Promise<any> => exec(`rm -rf ${__dirname}/dist/*`);
 export { clean, reload };
 
 /**
  * Version bump the required files according to the version in package.json
  * Append link to changelog for current version in readme.txt
  */
-export function bump() {
+export function bump(): NodeJS.ReadWriteStream {
     const re = `== Changelog ==\n(?!\n= ${VERSION})`;
     const repl =
         '== Changelog ==\n\n' +
@@ -58,7 +58,7 @@ export function bump() {
 }
 
 // Translations
-export function pot() {
+export function pot(): NodeJS.ReadWriteStream {
     return gulp
         .src('./src/**/*.php', { base: 'dist/*' })
         .pipe(sort())
@@ -80,7 +80,7 @@ export function pot() {
 //              PHP/Static Asset Tasks
 // ==================================================
 
-export function staticFiles() {
+export function staticFiles(): NodeJS.ReadWriteStream {
     const misc = gulp
         .src('src/**/*.{po,pot,mo,html,txt,json,php}', {
             base: './src',
@@ -101,7 +101,7 @@ export function staticFiles() {
 //                 Style Tasks
 // ==================================================
 
-export function styles() {
+export function styles(): NodeJS.ReadWriteStream {
     let stream = gulp.src('src/css/**/[^_]*.scss', { base: './src' });
 
     if (!IS_PRODUCTION) {
@@ -133,7 +133,7 @@ export function styles() {
 //                 Javascript Tasks
 // ==================================================
 
-export function bundle(cb: Callback) {
+export function bundle(cb: Callback): void {
     const args = IS_PRODUCTION ? ['-p'] : [];
     const child = spawn(`${__dirname}/node_modules/.bin/webpack`, args, {
         env: process.env,
@@ -164,7 +164,7 @@ export function bundle(cb: Callback) {
     if (!IS_PRODUCTION) return cb();
 }
 
-export function js() {
+export function js(): NodeJS.ReadWriteStream {
     let stream = gulp.src('src/**/*.js', { base: './src' });
     if (IS_PRODUCTION) {
         stream = stream.pipe(uglify());

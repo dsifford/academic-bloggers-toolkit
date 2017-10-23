@@ -91,9 +91,15 @@ export class Processor {
      * @param csl CSL.Data[].
      */
     prepareInlineCitationData(csl: CSL.Data[]): Citeproc.Citation {
+        // prettier-ignore
+        const citationItems = Array.from(
+            new Set(
+                csl.map(item => item.id)
+            )
+        ).map(id => ({ id }));
         return {
             citationID: generateID(),
-            citationItems: csl.map(({ id }) => ({ id })),
+            citationItems,
             // FIXME: remove this when citeproc fixes the bug
             properties: {},
         };
@@ -128,7 +134,7 @@ export class Processor {
         // "primes the pump" since citeproc currently runs synchronously
         await this.locales.fetch(locale);
         return {
-            retrieveItem: (id: string) => toJS(this.store.citations.CSL.get(id)!),
+            retrieveItem: (id: string): CSL.Data => toJS(this.store.citations.CSL.get(id)!),
             retrieveLocale: this.locales.retrieve,
         };
     }

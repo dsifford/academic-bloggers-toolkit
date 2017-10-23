@@ -35,7 +35,7 @@ export default class Spinner extends React.PureComponent<Props> {
         this.style.backgroundColor = this.props.overlay ? undefined : this.props.bgColor;
     }
 
-    render() {
+    render(): JSX.Element {
         const cn = this.props.overlay ? 'abt-spinner abt-spinner_overlay' : 'abt-spinner';
         return (
             <div className={cn} style={this.style}>

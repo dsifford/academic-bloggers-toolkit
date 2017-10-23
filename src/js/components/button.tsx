@@ -36,15 +36,15 @@ export default class Button extends React.PureComponent<Props, State> {
         };
     }
 
-    hideTooltip = () => {
+    hideTooltip = (): void => {
         this.setState(prev => ({ ...prev, isShowingTooltip: false }));
     };
 
-    openLink = () => {
+    openLink = (): void => {
         window.open(this.props.href, '_blank');
     };
 
-    showTooltip = (e: React.MouseEvent<HTMLButtonElement>) => {
+    showTooltip = (e: React.MouseEvent<HTMLButtonElement>): void => {
         const { position } = this.props.tooltip!;
         const rect = e.currentTarget.getBoundingClientRect();
         this.setState(() => ({
@@ -55,7 +55,7 @@ export default class Button extends React.PureComponent<Props, State> {
 
     // Below is disabled because the class fallbacks aren't complexity-adding.
     // tslint:disable-next-line cyclomatic-complexity
-    render() {
+    render(): JSX.Element {
         const {
             flat,
             focusable,

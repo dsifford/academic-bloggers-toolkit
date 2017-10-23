@@ -67,6 +67,10 @@ describe('<ManualEntryContainer />', () => {
         select.simulate('change', { currentTarget: { value: 'book' } });
         expect(mocks.onTypeChange).toHaveBeenCalledTimes(1);
     });
+    it('should not break when ref callback receives null', () => {
+        const { instance } = setup();
+        expect(() => instance.focusTypeSelect(null)).not.toThrow();
+    });
     describe('wheel event tests', () => {
         const { component } = setup({ fullMount: false });
         const wheelDiv = component.find('.bounded-rect');

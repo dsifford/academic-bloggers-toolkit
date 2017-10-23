@@ -1,4 +1,4 @@
-import EditorDriver from './base';
+import EditorDriver, { RelativeCitationPositions } from './base';
 
 interface SelectionCache {
     bookmark: {
@@ -18,7 +18,7 @@ export default class TinyMCEDriver extends EditorDriver {
      * `MutationObserver` which watches and reacts to removals of individual
      * citation nodes.
      */
-    private editorCitationObserver = new MutationObserver(mutations => {
+    private editorCitationObserver = new MutationObserver((mutations): void => {
         for (const mutation of mutations) {
             for (const removedNode of Array.from(mutation.removedNodes)) {
                 if (removedNode.nodeName !== 'SPAN') {
@@ -52,7 +52,7 @@ export default class TinyMCEDriver extends EditorDriver {
         bookmark: { rng: document.createRange() },
     };
 
-    get citationIds() {
+    get citationIds(): string[] {
         const citations = this.editor
             .getDoc()
             .querySelectorAll(`*:not(.mce-offscreen-selection) > .${EditorDriver.citationClass}`);
@@ -97,7 +97,7 @@ export default class TinyMCEDriver extends EditorDriver {
         );
     }
 
-    get relativeCitationPositions() {
+    get relativeCitationPositions(): RelativeCitationPositions {
         const doc = this.editor.getDoc();
         const bm = this.selectionCache.fresh
             ? this.selectionCache.bookmark
@@ -138,13 +138,13 @@ export default class TinyMCEDriver extends EditorDriver {
         );
     }
 
-    get selection() {
+    get selection(): string {
         return this.selectionCache.fresh
             ? this.selectionCache.selection
             : this.editor.selection.getContent({ format: 'html' });
     }
 
-    alert(message: string) {
+    alert(message: string): void {
         this.editor.windowManager.alert(message);
     }
 
@@ -152,7 +152,7 @@ export default class TinyMCEDriver extends EditorDriver {
         clusters: Citeproc.CitationResult[],
         citationByIndex: Citeproc.CitationByIndex,
         kind: Citeproc.CitationKind,
-    ) {
+    ): void {
         this.editor.focus();
         const doc = this.editor.getDoc();
         const oldElements = doc.querySelectorAll(`
@@ -192,8 +192,8 @@ export default class TinyMCEDriver extends EditorDriver {
         return kind === 'note' ? this.composeFootnotes() : void 0;
     }
 
-    async init() {
-        return new Promise<void>((resolve, reject) => {
+    async init(): Promise<void> {
+        return new Promise<void>((resolve, reject): void => {
             let attempts = 0;
             let interval = setInterval(() => {
                 if (top.tinyMCE === undefined) {
@@ -233,7 +233,7 @@ export default class TinyMCEDriver extends EditorDriver {
         });
     }
 
-    removeItems(itemIds: string[]) {
+    removeItems(itemIds: string[]): void {
         const doc = this.editor.getDoc();
         for (const id of itemIds) {
             const item = doc.getElementById(id);
@@ -243,7 +243,7 @@ export default class TinyMCEDriver extends EditorDriver {
         }
     }
 
-    reset() {
+    reset(): void {
         const elements = this.editor
             .getDoc()
             .querySelectorAll(`#${EditorDriver.bibliographyId}, .${EditorDriver.citationClass}`);
@@ -260,17 +260,17 @@ export default class TinyMCEDriver extends EditorDriver {
         options: ABT.BibOptions,
         bibliography: ABT.Bibliography | boolean,
         staticBib: boolean = false,
-    ) {
+    ): void {
         return staticBib
             ? this.setStaticBibliography(bibliography)
             : this.setStandardBibliography(options, bibliography);
     }
 
-    setLoadingState(loading?: boolean) {
+    setLoadingState(loading?: boolean): void {
         this.editor.setProgressState(loading || false);
     }
 
-    protected bindEvents() {
+    protected bindEvents(): void {
         this.editor.on('focusin', () => {
             this.selectionCache = { ...this.selectionCache, fresh: false };
         });
@@ -302,7 +302,7 @@ export default class TinyMCEDriver extends EditorDriver {
         });
     }
 
-    private composeFootnotes() {
+    private composeFootnotes(): void {
         const doc = this.editor.getDoc();
         const orderedFootnotes = [
             ...doc.querySelectorAll(`.${EditorDriver.citationClass}`).entries(),
@@ -332,7 +332,7 @@ export default class TinyMCEDriver extends EditorDriver {
     private setStandardBibliography(
         options: ABT.BibOptions,
         bibliography: ABT.Bibliography | boolean,
-    ) {
+    ): void {
         if (typeof bibliography === 'boolean' || bibliography.length === 0) return;
 
         const bib = EditorDriver.createBibliographyElement(options, bibliography, [
@@ -347,7 +347,7 @@ export default class TinyMCEDriver extends EditorDriver {
         this.editor.selection.moveToBookmark(bookmark);
     }
 
-    private setStaticBibliography(bibliography: ABT.Bibliography | boolean) {
+    private setStaticBibliography(bibliography: ABT.Bibliography | boolean): void {
         const items: ABT.Bibliography = typeof bibliography === 'boolean' ? [] : bibliography;
         const staticBib = EditorDriver.createBibliographyElement({}, items, [
             `${EditorDriver.staticBibClass}`,

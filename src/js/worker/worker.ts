@@ -9,11 +9,11 @@ interface GithubContentsResponse {
     items: GithubItemDescriptor[];
 }
 
-((self: DedicatedWorkerGlobalScope) => {
+((self: DedicatedWorkerGlobalScope): void => {
     async function fetchSingleLocale(file: string): Promise<{}> {
-        return new Promise<{}>((resolve, reject) => {
+        return new Promise<{}>((resolve, reject): void => {
             const req = new XMLHttpRequest();
-            req.onreadystatechange = () => {
+            req.onreadystatechange = (): void => {
                 if (req.readyState === 4) {
                     if (req.status !== 200) reject(new Error(req.responseText));
                     const match = file.match(/locales-(.+).xml/);
@@ -33,10 +33,10 @@ interface GithubContentsResponse {
         });
     }
 
-    (async () => {
-        return new Promise<GithubContentsResponse>((resolve, reject) => {
+    (async (): Promise<void> => {
+        return new Promise<GithubContentsResponse>((resolve, reject): void => {
             const req = new XMLHttpRequest();
-            req.onreadystatechange = () => {
+            req.onreadystatechange = (): void => {
                 if (req.readyState === 4) {
                     if (req.status !== 200) reject(new Error(req.responseText));
                     resolve(JSON.parse(req.responseText));

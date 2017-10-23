@@ -31,20 +31,20 @@ export default class AutoCite extends React.Component<Props> {
     query = observable('');
 
     @action
-    handleAutociteFieldChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    handleAutociteFieldChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
         this.query.set(e.currentTarget.value);
     };
 
     @action
-    handleQuery = () => {
+    handleQuery = (): void => {
         if (this.query.get().length === 0 || !this.input.validity.valid) return;
         this.props.getter(this.props.kind, this.query.get());
         this.query.set('');
     };
 
-    bindRefs = (c: HTMLInputElement) => (this.input = c);
+    bindRefs = (c: HTMLInputElement): HTMLInputElement => (this.input = c);
 
-    handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>): void => {
         if (e.key === 'Enter' || e.key === 'Return') {
             e.stopPropagation();
             e.preventDefault();
@@ -52,7 +52,7 @@ export default class AutoCite extends React.Component<Props> {
         }
     };
 
-    render() {
+    render(): JSX.Element {
         const { placeholder, kind } = this.props;
         return (
             <div>

@@ -103,18 +103,6 @@ class Backend {
      */
     public function add_metaboxes($post_type) {
         $disabled_post_types = apply_filters('abt_disabled_post_types', ['acf', 'um_form']);
-        $is_invalid_post_type = in_array(
-            $post_type,
-            array_merge(
-                ['attachment'],
-                is_array($disabled_post_types) ? $disabled_post_types : []
-            )
-        );
-
-        if ($is_invalid_post_type) {
-            return;
-        }
-
         $all_types = get_post_types();
         add_meta_box(
             'abt-reflist',
@@ -158,13 +146,7 @@ class Backend {
      * Registers and enqueues all required scripts.
      */
     public function enqueue_admin_scripts() {
-        global $post_type;
-
-        $invalid_post_type = in_array($post_type, ['attachment', 'acf', 'um_form']);
-
-        if ($invalid_post_type) {
-            return;
-        }
+        global $post;
 
         $ABT_i18n = i18n\generate_translations();
         $state = json_decode(get_post_meta($post->ID, '_abt-reflist-state', true), true);

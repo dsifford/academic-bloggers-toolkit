@@ -1,25 +1,25 @@
 import * as tinycolor from 'tinycolor2';
 
 export const colors = {
-    get blue() {
+    get blue(): tinycolorInstance {
         return tinycolor('#0085ba');
     },
-    get border() {
+    get border(): tinycolorInstance {
         return tinycolor('rgba(0, 0, 0, .12)');
     },
-    get dark_gray() {
+    get dark_gray(): tinycolorInstance {
         return tinycolor('#555');
     },
-    get disabled() {
+    get disabled(): tinycolorInstance {
         return tinycolor('#a0a5aa');
     },
-    get font_light() {
+    get font_light(): tinycolorInstance {
         return tinycolor('rgba(0, 0, 0, .54)');
     },
-    get light_gray() {
+    get light_gray(): tinycolorInstance {
         return tinycolor('#f5f5f5');
     },
-    get tooltip_gray() {
+    get tooltip_gray(): tinycolorInstance {
         return tinycolor('rgba(66, 66, 66, .9)');
     },
 };

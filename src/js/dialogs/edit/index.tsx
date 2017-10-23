@@ -65,7 +65,7 @@ export default class EditDialog extends React.Component<Props> {
         }
     }
 
-    handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
         e.preventDefault();
         const people = toJS(this.people);
         const fields = toJS<Partial<CSL.Data>>(this.fields as any);
@@ -81,7 +81,7 @@ export default class EditDialog extends React.Component<Props> {
         this.props.onSubmit(fields);
     };
 
-    render() {
+    render(): JSX.Element {
         return (
             <form onSubmit={this.handleSubmit}>
                 <People

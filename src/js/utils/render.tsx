@@ -1,6 +1,6 @@
 import { render as Render } from 'react-dom';
 
-export default function render(component: any, selector: string) {
+export default function render(component: any, selector: string): void {
     const interval = setInterval(() => {
         const element = document.querySelector(selector);
         if (element) {

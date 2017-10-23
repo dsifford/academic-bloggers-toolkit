@@ -20,19 +20,19 @@ export class ResultList extends React.Component<ResultListProps, {}> {
     /** Required so that result list can be scrolled to top after each new search */
     element: HTMLElement;
 
-    bindRefs = (c: HTMLDivElement) => {
+    bindRefs = (c: HTMLDivElement): void => {
         this.element = c;
     };
 
-    componentDidUpdate() {
+    componentDidUpdate(): void {
         this.element.scrollTop = 0;
     }
 
-    handleClick = (e: React.MouseEvent<HTMLInputElement>) => {
+    handleClick = (e: React.MouseEvent<HTMLInputElement>): void => {
         this.props.onSelect(e.currentTarget.id);
     };
 
-    handleWheel = (e: React.WheelEvent<HTMLDivElement>) => {
+    handleWheel = (e: React.WheelEvent<HTMLDivElement>): void => {
         const isScrollingDown = e.deltaY > 0;
         const isScrollingUp = !isScrollingDown;
         const isScrollable = e.currentTarget.scrollHeight > e.currentTarget.clientHeight;
@@ -50,7 +50,7 @@ export class ResultList extends React.Component<ResultListProps, {}> {
         }
     };
 
-    render() {
+    render(): JSX.Element {
         return (
             <div className="result-list" ref={this.bindRefs} onWheel={this.handleWheel}>
                 {this.props.results.map(result => (

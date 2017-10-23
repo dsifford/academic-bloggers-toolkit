@@ -36,7 +36,7 @@ export default class PubmedDialog extends React.Component<DialogProps> {
     results = observable<CSL.Data>([]);
 
     @computed
-    get visibleResults() {
+    get visibleResults(): CSL.Data[] {
         const end = this.page.get() * 5;
         const start = end - 6;
         return this.results.filter((_result, i) => {
@@ -45,23 +45,23 @@ export default class PubmedDialog extends React.Component<DialogProps> {
     }
 
     @action
-    setError = (msg: string | React.MouseEvent<HTMLDivElement> = '') => {
+    setError = (msg: string | React.MouseEvent<HTMLDivElement> = ''): void => {
         this.errorMessage.set(typeof msg === 'string' ? msg : '');
     };
 
     @action
-    toggleLoading = (state?: boolean) => {
+    toggleLoading = (state?: boolean): void => {
         return state === undefined
             ? this.isLoading.set(!this.isLoading.get())
             : this.isLoading.set(state);
     };
 
     @action
-    updateQuery = (e?: React.FormEvent<HTMLInputElement>) => {
+    updateQuery = (e?: React.FormEvent<HTMLInputElement>): void => {
         this.query.set(e ? e.currentTarget.value : '');
     };
 
-    sendQuery = async (e: React.FormEvent<HTMLFormElement>) => {
+    sendQuery = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
         e.preventDefault();
         this.toggleLoading(true);
         try {
@@ -81,7 +81,7 @@ export default class PubmedDialog extends React.Component<DialogProps> {
         this.toggleLoading(false);
     };
 
-    render() {
+    render(): JSX.Element {
         if (this.isLoading.get()) {
             return <Spinner size="40px" height="52px" bgColor="rgba(0, 0, 0, 0.05)" />;
         }
@@ -140,7 +140,7 @@ export default class PubmedDialog extends React.Component<DialogProps> {
     }
 }
 
-export function* placeholderGenerator() {
+export function* placeholderGenerator(): IterableIterator<string> {
     const options = [
         'Ioannidis JP[Author - First] AND meta research',
         'Brohi K[Author - First] AND "acute traumatic coagulopathy"',

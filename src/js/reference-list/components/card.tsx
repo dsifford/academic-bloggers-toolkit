@@ -24,19 +24,19 @@ export default class Card extends React.Component<CardProps> {
     timer: NodeJS.Timer;
 
     @action
-    hideIndex = () => {
+    hideIndex = (): void => {
         clearTimeout(this.timer);
         this.isShowingIndex.set(false);
     };
 
     @action
-    showIndex = () => {
+    showIndex = (): void => {
         this.timer = setTimeout(() => {
             runInAction(() => this.isShowingIndex.set(true));
         }, 500) as any;
     };
 
-    render() {
+    render(): JSX.Element {
         const { CSL, indexOnHover, isSelected } = this.props;
         return (
             <div

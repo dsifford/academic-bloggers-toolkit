@@ -89,7 +89,7 @@ export class LocaleStore {
      * Takes locale files send via the Workers `postMessage` channel and saves them to the cache.
      * Once all files retrieved, the worker sends `done` and the cache is pushed into localStorage.
      */
-    private receiveMessage = (e: MessageEvent) => {
+    private receiveMessage = (e: MessageEvent): void => {
         if (e.data[0] === 'done') {
             const localeObj: LocaleCache = {
                 time: Date.now(),

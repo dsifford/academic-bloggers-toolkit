@@ -1,5 +1,5 @@
 import { parseDate } from 'astrocite-core';
-import { generateID } from 'utils/helpers/';
+import * as hash from 'string-hash';
 import { getFromDOI, getFromPubmed } from 'utils/resolvers/';
 
 export async function getRemoteData(identifierList: string): Promise<[CSL.Data[], string]> {
@@ -43,6 +43,7 @@ export async function getRemoteData(identifierList: string): Promise<[CSL.Data[]
     const data = await Promise.all(promises);
     const [csl, errs] = data.reduce(
         ([prevCSL, prevErr], [currCSL, currErr]) => {
+            currCSL = currCSL.map(item => ({ ...item, id: `${hash(JSON.stringify(item))}` }));
             return [[...prevCSL, ...currCSL], [...prevErr, ...currErr]];
         },
         [[], [...errList]],
@@ -57,32 +58,34 @@ export async function getRemoteData(identifierList: string): Promise<[CSL.Data[]
 }
 
 export function parseManualData(data: ABT.ManualData): [CSL.Data[], string] {
-    data.people.forEach(person => {
-        if (data.manualData[person.type] === undefined) {
-            data.manualData[person.type] = [{ family: person.family, given: person.given }];
-            return;
-        }
-        data.manualData[person.type]!.push({
-            family: person.family,
-            given: person.given,
-        });
-    });
+    let csl: CSL.Data = data.people.reduce(
+        (item, person) => {
+            const value = [{ family: person.family, given: person.given }];
+            return !item[person.type]
+                ? { ...item, [person.type]: value }
+                : { ...item, [person.type]: [...item[person.type]!, ...value] };
+        },
+        { ...data.manualData },
+    );
 
-    // Process date fields
-    ['accessed', 'event-date', 'issued'].forEach((dateType: keyof CSL.Data) => {
-        if (!data.manualData[dateType]) return;
-        data.manualData[dateType] = <any>parseDate(<string>data.manualData[dateType]);
-    });
+    csl = Object.keys(csl).reduce(
+        (prev, curr: keyof CSL.Data) => {
+            if (!csl[curr]) {
+                return prev;
+            }
+            if (['accessed', 'event-date', 'issued'].includes(curr)) {
+                return {
+                    ...prev,
+                    [curr]: parseDate(<string>csl[curr]),
+                };
+            }
+            return {
+                ...prev,
+                [curr]: csl[curr],
+            };
+        },
+        <CSL.Data>{},
+    );
 
-    // Create a unique ID if one doesn't exist
-    if (!data.manualData.id) data.manualData.id = generateID();
-
-    Object.keys(data.manualData).forEach((key: keyof CSL.Data) => {
-        if (data.manualData[key] === '') {
-            delete data.manualData[key];
-            return;
-        }
-    });
-
-    return [[data.manualData], ''];
+    return [[{ ...csl, id: `${hash(JSON.stringify(csl))}` }], ''];
 }

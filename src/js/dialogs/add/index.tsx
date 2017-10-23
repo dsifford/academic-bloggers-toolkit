@@ -25,6 +25,14 @@ interface URLMeta extends IURLMeta {
     kind: 'webpage';
 }
 type AutoCiteMeta = BookMeta | URLMeta;
+type ManualData = { [k in keyof CSL.Data]: any };
+interface Payload {
+    addManually: boolean;
+    attachInline: boolean;
+    identifierList: string;
+    manualData: ManualData;
+    people: ABT.TypedPerson[];
+}
 
 @observer
 export default class AddDialog extends React.Component<DialogProps> {
@@ -58,18 +66,18 @@ export default class AddDialog extends React.Component<DialogProps> {
     people = observable<ABT.TypedPerson>([{ family: '', given: '', type: 'author' }]);
 
     @computed
-    get payload() {
+    get payload(): Payload {
         return {
-            addManually: toJS(this.addManually),
-            attachInline: toJS(this.attachInline),
-            identifierList: toJS(this.identifierList),
-            manualData: toJS(this.manualData),
+            addManually: this.addManually.get(),
+            attachInline: this.attachInline.get(),
+            identifierList: this.identifierList.get(),
+            manualData: toJS(this.manualData as any) as ManualData,
             people: this.people.slice(),
         };
     }
 
     @action
-    appendPMID = (pmid: string) => {
+    appendPMID = (pmid: string): void => {
         const ids = new Set(
             this.identifierList
                 .get()
@@ -84,7 +92,7 @@ export default class AddDialog extends React.Component<DialogProps> {
     };
 
     @action
-    autocite = (meta: AutoCiteMeta) => {
+    autocite = (meta: AutoCiteMeta): void => {
         switch (meta.kind) {
             case 'webpage':
                 this.manualData.merge({
@@ -127,57 +135,57 @@ export default class AddDialog extends React.Component<DialogProps> {
     };
 
     @action
-    changeIdentifiers = (e: React.FormEvent<HTMLInputElement>) => {
+    changeIdentifiers = (e: React.FormEvent<HTMLInputElement>): void => {
         this.identifierList.set(e.currentTarget.value);
     };
 
     @action
-    changeType = (citationType: CSL.ItemType) => {
+    changeType = (citationType: CSL.ItemType): void => {
         this.manualData.clear();
         this.manualData.set('type', citationType);
         this.people.replace([{ family: '', given: '', type: 'author' }]);
     };
 
     @action
-    closePubmedDialog = () => {
+    closePubmedDialog = (): void => {
         this.props.focusTrapPaused!.set(false);
     };
 
     @action
-    openPubmedDialog = () => {
+    openPubmedDialog = (): void => {
         this.props.focusTrapPaused!.set(true);
         this.currentDialog.set('PUBMED');
     };
 
     @action
-    setErrorMessage = (msg?: string) => {
+    setErrorMessage = (msg?: string): void => {
         this.errorMessage.set(msg || '');
     };
 
     @action
-    toggleAddManual = () => {
+    toggleAddManual = (): void => {
         this.addManually.set(!this.addManually.get());
         this.people.replace([{ family: '', given: '', type: 'author' }]);
         this.changeType('webpage');
     };
 
     @action
-    toggleAttachInline = () => {
+    toggleAttachInline = (): void => {
         this.attachInline.set(!this.attachInline.get());
     };
 
     @action
-    toggleLoadingState = (state?: boolean) => {
+    toggleLoadingState = (state?: boolean): void => {
         const loadingState: boolean = state ? state : !this.isLoading.get();
         this.isLoading.set(loadingState);
     };
 
-    captureInputField = (el: HTMLInputElement | null) => {
+    captureInputField = (el: HTMLInputElement | null): void => {
         this.identifierInputField = el;
         if (el) el.focus();
     };
 
-    handleAutocite = async (kind: AutociteKind, query: string) => {
+    handleAutocite = async (kind: AutociteKind, query: string): Promise<void> => {
         this.toggleLoadingState();
         try {
             switch (kind) {
@@ -199,12 +207,12 @@ export default class AddDialog extends React.Component<DialogProps> {
         this.toggleLoadingState();
     };
 
-    handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
         e.preventDefault();
         this.props.onSubmit(this.payload);
     };
 
-    render() {
+    render(): JSX.Element {
         return (
             <div>
                 {this.isLoading.get() && <Spinner size="40px" overlay />}

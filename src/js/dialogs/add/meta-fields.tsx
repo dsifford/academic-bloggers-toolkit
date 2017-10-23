@@ -12,11 +12,11 @@ export default class MetaFields extends React.Component<MetaFieldProps, {}> {
     static readonly fieldmaps = top.ABT.i18n.fieldmaps;
 
     @action
-    updateField = (e: React.FormEvent<HTMLInputElement>) => {
+    updateField = (e: React.FormEvent<HTMLInputElement>): void => {
         this.props.meta.set(e.currentTarget.id, e.currentTarget.value);
     };
 
-    render() {
+    render(): JSX.Element {
         const citationType = this.props.meta.get('type')! as keyof ABT.FieldMappings;
         const title = MetaFields.fieldmaps[citationType].title;
         const fields = MetaFields.fieldmaps[citationType].fields;
@@ -59,7 +59,7 @@ interface FieldProps {
 
 @observer
 class Field extends React.Component<FieldProps, {}> {
-    render() {
+    render(): JSX.Element {
         const { onChange, field, meta } = this.props;
         return (
             <div className="table__row">

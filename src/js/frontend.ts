@@ -5,7 +5,7 @@ jQuery(document).ready(() => {
 type HeadingLevel = 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
 
 // tslint:disable-next-line cyclomatic-complexity
-export function createTooltip(e: MouseEvent) {
+export function createTooltip(e: MouseEvent): void {
     const citation = <HTMLSpanElement>e.currentTarget;
     const existingTooltip = document.getElementById('abt-tooltip');
     if (existingTooltip) {

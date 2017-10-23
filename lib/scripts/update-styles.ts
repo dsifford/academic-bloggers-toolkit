@@ -69,7 +69,7 @@ async function getData(): Promise<StyleResponse> {
             }
         }
     `;
-    return new Promise<StyleResponse>((resolve, reject) => {
+    return new Promise<StyleResponse>((resolve, reject): void => {
         const options = {
             hostname: 'api.github.com',
             path: '/graphql',
@@ -156,7 +156,7 @@ function getNewStyles(before: StyleData, after: StyleObj[]): string[] {
     return Array.from(newlyAddedStyles);
 }
 
-async function main() {
+(async (): Promise<void> => {
     let newData: StyleData;
     try {
         newData = await getData().then(parseStyleObj);
@@ -171,8 +171,4 @@ async function main() {
         path.resolve(__dirname, '../../src/vendor/', 'citation-styles.json'),
         JSON.stringify(newData, null, 4),
     );
-}
-
-main().catch(e => {
-    throw e;
-});
+})();

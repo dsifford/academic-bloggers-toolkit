@@ -46,27 +46,6 @@ describe('Store', () => {
             );
             expect(store.citations.CSL.get('aaaaaaaa')!.language).toBe('en-US');
         });
-        it('should intercept a citation already defined', () => {
-            const cite: Partial<CSL.Data> = {
-                PMID: '12345',
-                title: 'Test Title',
-                type: 'article-journal',
-            };
-            const cite2: Partial<CSL.Data> = {
-                PMID: '12345',
-                title: 'Test Title',
-                type: 'article-journal',
-            };
-            store.citations.CSL.set('sameCitation', <any>cite);
-            store.citations.CSL.set('sameCitationAgain', <any>cite2);
-            expect(store.citations.CSL.keys().length).toBe(3);
-        });
-        it('should intercept a citation that has no title set', () => {
-            expect(store.citations.CSL.keys().length).toBe(3);
-            const invalidCSL: Partial<CSL.Data> = { PMID: '11223344', type: 'article-journal' };
-            store.citations.CSL.set('invalidCSL', <any>invalidCSL);
-            expect(store.citations.CSL.keys().length).toBe(3);
-        });
         it('should allow non-existing CSL to be set', () => {
             const cite = JSON.parse(JSON.stringify(store.citations.CSL.get('aaaaaaaa')));
             cite.title = 'Something different';

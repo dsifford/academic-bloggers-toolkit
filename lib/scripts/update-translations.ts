@@ -77,7 +77,7 @@ const LANGS: ReadonlyMap<string, string[]> = new Map([
     ],
 ]);
 
-async function getTranslations() {
+async function getTranslations(): Promise<void> {
     await exec(`rm -f ${ROOT_DIR}/src/languages/*`);
     const languages = (await sendRequest<Langs>('/languages/list', {})).result.languages.filter(
         l => l.percentage > 0 && l.code !== 'en-us',
@@ -101,7 +101,7 @@ async function getTranslations() {
     }
 }
 
-async function updateTerms() {
+async function updateTerms(): Promise<void> {
     const req = `
         curl -X POST https://api.poeditor.com/v2/projects/upload \
         -F api_token="${TOKEN}" \
@@ -118,7 +118,7 @@ async function updateTerms() {
     );
 }
 
-async function updateTranslationStatus() {
+async function updateTranslationStatus(): Promise<void> {
     interface LangWithContribs extends Language {
         contributors: string[];
     }
@@ -182,14 +182,14 @@ async function updateTranslationStatus() {
     await writeFile(`${ROOT_DIR}/README.md`, newReadme);
 }
 
-(async () => {
+(async (): Promise<void> => {
     await updateTerms();
     await getTranslations();
     await updateTranslationStatus();
 })();
 
 async function sendRequest<T>(endpoint: string, data: object): Promise<API<T>> {
-    return new Promise<API<T>>((resolve, reject) => {
+    return new Promise<API<T>>((resolve, reject): void => {
         const qs = stringify({
             api_token: TOKEN,
             id: PROJECT_ID,

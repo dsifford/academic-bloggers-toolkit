@@ -23,7 +23,7 @@ msgstr ""
 msgid "<strong>Notice:</strong> Rich editing must be enabled to use the Academic Blogger's Toolkit plugin"
 msgstr ""
 
-#: php/backend.php:121
+#: php/backend.php:109
 msgid "Reference List"
 msgstr ""
 

@@ -19,11 +19,11 @@ window.ABT = {
 class Storage {
     private items = new Map<string, string>();
 
-    getItem(key: string) {
+    getItem(key: string): string | null {
         return this.items.get(key) || null;
     }
 
-    setItem(key: string, value: string) {
+    setItem(key: string, value: string): void {
         this.items.set(key, value);
     }
 }

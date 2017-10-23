@@ -45,19 +45,8 @@ describe('parseManualData()', () => {
         };
     });
     it('should parse a basic set of manual data', () => {
-        const expected = [
-            [
-                {
-                    author: [{ family: 'Doe', given: 'John' }, { family: 'Smith', given: 'Jane' }],
-                    id: '12345',
-                    title: 'Test title',
-                    type: 'article-journal',
-                },
-            ],
-            '',
-        ];
         const actual = parseManualData(data);
-        expect(actual).toEqual(expected);
+        expect(actual).toMatchSnapshot();
     });
     it('should generate an ID if one doesnt exist', () => {
         delete data.manualData.id;

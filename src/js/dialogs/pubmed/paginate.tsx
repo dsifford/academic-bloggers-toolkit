@@ -18,7 +18,7 @@ export class Paginate extends React.Component<Props> {
     static readonly labels = top.ABT.i18n.dialogs.pubmed;
 
     @action
-    handleClick = (e: React.MouseEvent<HTMLInputElement>) => {
+    handleClick = (e: React.MouseEvent<HTMLInputElement>): void => {
         switch (e.currentTarget.id) {
             case 'next':
                 return this.props.page.set(this.props.page.get() + 1);
@@ -29,7 +29,7 @@ export class Paginate extends React.Component<Props> {
         }
     };
 
-    render() {
+    render(): JSX.Element {
         return (
             <div>
                 <Button

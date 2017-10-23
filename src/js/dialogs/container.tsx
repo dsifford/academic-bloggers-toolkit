@@ -26,20 +26,20 @@ export default class Container extends React.Component<Props> {
     static defaultProps: Partial<Props> = {
         overlayOpacity: 0.7,
         width: 600,
-        onClose: () => void 0,
+        onClose: (): void => void 0,
     };
 
     /** Controls paused state of `FocusTrap`. Needed if nesting `FocusTrap`s */
     focusTrapPaused = observable(false);
 
     @action
-    close = (e?: React.MouseEvent<HTMLButtonElement>) => {
+    close = (e?: React.MouseEvent<HTMLButtonElement>): void => {
         if (e) e.preventDefault();
         this.props.currentDialog.set('');
         this.props.onClose!();
     };
 
-    handleKeyEvent = (e: React.KeyboardEvent<HTMLDivElement>) => {
+    handleKeyEvent = (e: React.KeyboardEvent<HTMLDivElement>): void => {
         switch (e.key) {
             case 'Escape':
                 e.stopPropagation();
@@ -49,13 +49,13 @@ export default class Container extends React.Component<Props> {
         }
     };
 
-    preventScrollPropagation = (e: React.WheelEvent<HTMLDivElement>) => {
+    preventScrollPropagation = (e: React.WheelEvent<HTMLDivElement>): void => {
         if (e.cancelable) {
             e.preventDefault();
         }
     };
 
-    render() {
+    render(): JSX.Element {
         const overlayStyle = {
             background: `rgba(0, 0, 0, ${this.props.overlayOpacity})`,
         };

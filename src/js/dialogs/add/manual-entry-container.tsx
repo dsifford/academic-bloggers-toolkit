@@ -25,17 +25,17 @@ export default class ManualEntryContainer extends React.Component<ManualEntryPro
     static readonly labels = top.ABT.i18n.dialogs.add.manualEntryContainer;
 
     @action
-    dismissError = () => {
+    dismissError = (): void => {
         this.props.errorMessage.set('');
     };
 
-    focusTypeSelect = (e: HTMLSelectElement | null) => e && e.focus();
+    focusTypeSelect = (e: HTMLSelectElement | null): void => (e ? e.focus() : void 0);
 
-    handleTypeChange = (e: React.FormEvent<HTMLSelectElement>) => {
+    handleTypeChange = (e: React.FormEvent<HTMLSelectElement>): void => {
         this.props.onTypeChange(e.currentTarget.value as CSL.ItemType);
     };
 
-    handleWheel = (e: React.WheelEvent<HTMLDivElement>) => {
+    handleWheel = (e: React.WheelEvent<HTMLDivElement>): void => {
         const isScrollingDown = e.deltaY > 0;
         const isScrollingUp = !isScrollingDown;
         const isScrollable = e.currentTarget.scrollHeight > e.currentTarget.clientHeight;
@@ -53,7 +53,7 @@ export default class ManualEntryContainer extends React.Component<ManualEntryPro
         }
     };
 
-    render() {
+    render(): JSX.Element {
         const itemType: string = this.props.manualData.get('type')!;
         const renderAutocite: boolean = ['webpage', 'book', 'chapter'].includes(itemType);
         return (

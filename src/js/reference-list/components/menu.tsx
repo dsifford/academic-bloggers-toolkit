@@ -58,14 +58,14 @@ export default class Menu extends React.Component<Props> {
     static readonly labels = top.ABT.i18n.referenceList.menu;
     static filterOptions = filterOptions;
 
-    static willEnter() {
+    static willEnter(): { height: number; scale: number } {
         return {
             height: 0,
             scale: 0,
         };
     }
 
-    static willLeave() {
+    static willLeave(): any {
         return {
             height: spring(0, { stiffness: 300, damping: 25 }),
             scale: spring(0, { stiffness: 300, damping: 25 }),
@@ -75,7 +75,7 @@ export default class Menu extends React.Component<Props> {
     readonly styles: StyleOption[];
 
     @computed
-    get selected() {
+    get selected(): { label: string; value: string } {
         return {
             label: this.styles.find(d => d.id === this.props.cslStyle.get())!.label,
             value: this.props.cslStyle.get(),
@@ -107,11 +107,11 @@ export default class Menu extends React.Component<Props> {
     }
 
     @action
-    toggleMenu = () => {
+    toggleMenu = (): void => {
         this.props.isOpen.set(false);
     };
 
-    handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    handleClick = (e: React.MouseEvent<HTMLButtonElement>): void => {
         this.toggleMenu();
         const menuAction: MenuAction = {
             kind: e.currentTarget.id as MenuButtonKind,
@@ -119,7 +119,7 @@ export default class Menu extends React.Component<Props> {
         this.props.onSubmit(menuAction);
     };
 
-    handleSelect = (data: StyleOption | never[]) => {
+    handleSelect = (data: StyleOption | never[]): void => {
         if (Array.isArray(data)) return;
         const menuAction: MenuAction = {
             kind: MenuActionType.CHANGE_STYLE,
@@ -129,7 +129,7 @@ export default class Menu extends React.Component<Props> {
         this.forceUpdate();
     };
 
-    render() {
+    render(): JSX.Element {
         const transitionStyle = this.props.isOpen.get() ? openedStyle : [];
         return (
             <TransitionMotion
@@ -137,7 +137,7 @@ export default class Menu extends React.Component<Props> {
                 willEnter={Menu.willEnter}
                 styles={transitionStyle}
             >
-                {styles =>
+                {(styles): any =>
                     styles.length > 0
                         ? (
                               <div
@@ -245,7 +245,7 @@ export default class Menu extends React.Component<Props> {
     }
 }
 
-export function dynamicOptionHeightHandler({ option }: { option: StyleOption }) {
+export function dynamicOptionHeightHandler({ option }: { option: StyleOption }): number {
     switch (true) {
         case option.label.length > 110:
             return 90;
@@ -285,7 +285,7 @@ export function renderer({
     option,
     selectValue,
     style,
-}: RendererParams) {
+}: RendererParams): JSX.Element {
     style.alignItems = 'center';
     style.fontWeight = 300;
     style.cursor = 'default';
@@ -325,8 +325,8 @@ export function renderer({
         style.backgroundColor = '#f5f5f5';
     }
 
-    const click = () => selectValue(option);
-    const focus = () => focusOption(option);
+    const click = (): void => selectValue(option);
+    const focus = (): void => focusOption(option);
 
     return (
         <div

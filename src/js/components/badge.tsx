@@ -12,7 +12,7 @@ export default class Badge extends React.PureComponent<Props> {
     static defaultProps: Partial<Props> = {
         color: `${colors.blue}`,
     };
-    render() {
+    render(): JSX.Element {
         const { count, color } = this.props;
         return (
             <div style={{ background: color }}>

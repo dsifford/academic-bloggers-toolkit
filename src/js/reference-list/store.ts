@@ -1,12 +1,4 @@
-import {
-    action,
-    computed,
-    intercept,
-    IObservableArray,
-    observable,
-    ObservableMap,
-    toJS,
-} from 'mobx';
+import { action, computed, IObservableArray, observable, ObservableMap, toJS } from 'mobx';
 import { localeMapper as locales } from 'utils/constants';
 
 class CitationStore {
@@ -16,36 +8,6 @@ class CitationStore {
     constructor(byIndex: Citeproc.CitationByIndex, CSL: { [id: string]: CSL.Data }) {
         this.byIndex = observable(byIndex);
         this.CSL = this.cleanCSL(CSL);
-        intercept(this.CSL, change => {
-            if (change.type !== 'add' || !change.newValue) {
-                return change;
-            }
-
-            if (!change.newValue.title) {
-                return null;
-            }
-
-            const title = change.newValue.title.toLowerCase();
-            const matchIndex: number = this.CSL.values().findIndex(v => {
-                return v.title !== undefined && v.title.toLowerCase() === title;
-            });
-
-            if (matchIndex > -1) {
-                const match = toJS(this.CSL.get(this.CSL.keys()[matchIndex]));
-                const deepMatch = Object.keys(change.newValue).every((k: keyof CSL.Data) => {
-                    const isComplexDataType =
-                        typeof change.newValue![k] !== 'string' &&
-                        typeof change.newValue![k] !== 'number';
-                    const isVariableKey = k === 'id' || k === 'language';
-                    return isComplexDataType || isVariableKey
-                        ? true
-                        : change.newValue![k] === match![k];
-                });
-                if (deepMatch) return null;
-            }
-
-            return change;
-        });
     }
 
     /**
@@ -56,9 +18,11 @@ class CitationStore {
         return this.CSL
             .keys()
             .reduce(
-                (prev, curr) => {
-                    if (!this.citedIDs.includes(curr)) prev.push(this.CSL.get(curr)!);
-                    return prev;
+                (data, currentId) => {
+                    if (!this.citedIDs.includes(currentId)) {
+                        data = [...data, this.CSL.get(currentId)!];
+                    }
+                    return data;
                 },
                 <CSL.Data[]>[],
             )
@@ -78,11 +42,14 @@ class CitationStore {
      */
     @computed
     get citedIDs(): string[] {
-        return this.citationByIndex
-            .map(i => i.citationItems.map(j => j.id))
-            .reduce((prev, curr) => [...prev, ...curr], [])
-            .reduce((p, c) => (!p.includes(c) ? [...p, c] : p), <string[]>[])
-            .slice();
+        return Array.from(
+            new Set(
+                this.byIndex
+                    .map(citation => citation.citationItems.map(item => item.id))
+                    .reduce((data, item) => data.concat(item), [])
+                    .slice(),
+            ),
+        );
     }
 
     /**
@@ -90,34 +57,20 @@ class CitationStore {
      * @param data - Array of CSL.Data to be merged
      */
     @action
-    addItems(data: CSL.Data[]): CSL.Data[] {
+    addItems(data: CSL.Data[]): void {
         this.CSL.merge(
             data.reduce(
-                (prev, curr) => {
-                    prev[curr.id] = curr;
-                    return prev;
-                },
+                (cslObj, item) => ({
+                    ...cslObj,
+                    [item.id]: item,
+                }),
                 <{ [id: string]: CSL.Data }>{},
             ),
         );
-        // This is necessary in case one of the values is a duplicate and gets
-        // intercepted.
-        let payload: CSL.Data[] = [];
-        for (const item of data) {
-            const csl = this.CSL.values().find(val => {
-                for (const key of Object.keys(item)) {
-                    if (typeof item[<keyof CSL.Data>key] === 'object' || key === 'id') continue;
-                    if (item[<keyof CSL.Data>key] !== val[<keyof CSL.Data>key]) return false;
-                }
-                return true;
-            });
-            payload = [...payload, toJS(csl!)];
-        }
-        return payload;
     }
 
     @action
-    init(byIndex: Citeproc.CitationByIndex) {
+    init(byIndex: Citeproc.CitationByIndex): void {
         this.byIndex.replace(JSON.parse(JSON.stringify(byIndex)));
     }
 
@@ -140,9 +93,12 @@ class CitationStore {
      */
     @action
     removeItems(idList: string[]): string[] {
-        idList.forEach(id => {
-            if (!this.citedIDs.includes(id)) this.CSL.delete(id);
-        });
+        const citedIDs = this.citedIDs;
+        for (const id of idList) {
+            if (!citedIDs.includes(id)) {
+                this.CSL.delete(id);
+            }
+        }
         const toRemove: Set<string> = new Set();
         const byIndex = this.citationByIndex
             .map(i => ({
@@ -177,11 +133,18 @@ class CitationStore {
         return toJS(this.byIndex);
     }
 
-    private cleanCSL(CSL: { [id: string]: CSL.Data }): ObservableMap<CSL.Data> {
-        for (const key of Object.keys(CSL)) {
-            CSL[key].language = locales[CSL[key].language!] || 'en-US';
-        }
-        return observable.map(CSL);
+    private cleanCSL(csl: { [id: string]: CSL.Data }): ObservableMap<CSL.Data> {
+        const cleaned: Array<[string, CSL.Data]> = Object.entries(
+            csl,
+        ).reduce((arr, [key, value]) => {
+            const item = {
+                ...value,
+                language:
+                    value.language && locales[value.language] ? locales[value.language] : 'en-US',
+            };
+            return <Array<[string, CSL.Data]>>[...arr, [key, item]];
+        }, []);
+        return observable.map(new Map(cleaned));
     }
 }
 
@@ -202,7 +165,7 @@ export default class Store {
     /**
      * The user's selected link format.
      */
-    links: 'always' | 'urls' | 'never' | 'always-full-surround';
+    links: ABT.LinkStyle;
 
     /**
      * The user's locale provided by WordPress.
@@ -228,20 +191,20 @@ export default class Store {
     }
 
     @action
-    reset() {
+    reset(): void {
         this.citations = new CitationStore([], {});
     }
 
     @action
-    setStyle(style: string) {
+    setStyle(style: string): void {
         this.citationStyle.set(style);
     }
 
-    get cache() {
+    private get cache(): ABT.EditorState['cache'] {
         return {
             links: this.links,
             locale: this.locale,
-            style: this.citationStyle,
+            style: this.citationStyle.get(),
         };
     }
 }
