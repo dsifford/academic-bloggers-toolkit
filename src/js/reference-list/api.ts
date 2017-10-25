@@ -19,7 +19,7 @@ export async function getRemoteData(identifierList: string): Promise<[CSL.Data[]
                 pmidList = [...pmidList, id];
                 break;
             case /^PMC\d+$/.test(id):
-                pmcidList = [...pmcidList, id];
+                pmcidList = [...pmcidList, id.slice(3)];
                 break;
             default:
                 errList = [...errList, id];
