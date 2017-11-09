@@ -40,7 +40,7 @@
     "@types/gulp-autoprefixer": "0.0.30",
     "@types/gulp-replace": "0.0.30",
     "@types/gulp-sass": "0.0.30",
-    "@types/gulp-sort": "0.0.31",
+    "@types/gulp-sort": "0.0.32",
     "@types/gulp-sourcemaps": "0.0.31",
     "@types/he": "^0.5.29",
     "@types/jest": "^21.1.5",
