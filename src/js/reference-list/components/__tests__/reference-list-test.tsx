@@ -33,13 +33,13 @@ class MockEditor extends EditorDriver {
     private _selection: string = '';
     // End mock helpers ===================
 
-    get citationIds() {
+    get citationIds(): string[] {
         return this._clusters.map(([_, __, id]) => id);
     }
-    get citationsByIndex() {
+    get citationsByIndex(): never[] {
         return [];
     }
-    get relativeCitationPositions() {
+    get relativeCitationPositions(): any {
         const randomStartPoint = Math.floor(Math.random() * (this._clusters.length - 1));
         const positions: any = [...this._clusters].map(([index, _, id]) => [id, index]);
         return {
@@ -47,36 +47,36 @@ class MockEditor extends EditorDriver {
             itemsFollowing: positions.slice(randomStartPoint),
         };
     }
-    get selection() {
+    get selection(): string {
         return this._selection;
     }
     // Mock helper
     set selection(selection: string) {
         this._selection = selection;
     }
-    alert() {
+    alert(): void {
         mocks.editorMock('alert');
     }
-    composeCitations() {
+    composeCitations(): void {
         mocks.editorMock('composeCitations');
     }
-    async init() {
+    async init(): Promise<void> {
         return Promise.resolve();
     }
-    removeItems(idList: string[]) {
+    removeItems(idList: string[]): void {
         this._clusters = this._clusters.filter(([_, __, id]) => !idList.includes(id));
         mocks.editorMock('removeItems');
     }
-    reset() {
+    reset(): void {
         this._clusters = [];
     }
-    setBibliography() {
+    setBibliography(): void {
         mocks.editorMock('setBibliography');
     }
-    setLoadingState() {
+    setLoadingState(): void {
         mocks.editorMock('setLoadingState');
     }
-    protected bindEvents() {
+    protected bindEvents(): void {
         return void 0;
     }
 }
@@ -97,7 +97,7 @@ const blankState: ABT.Backend['state'] = {
 };
 let store = new Store({ ...blankState });
 
-const setup = (loading = true) => {
+const setup = (loading = true): any => {
     store = new Store({ ...blankState });
     const component = shallow(
         <ReferenceList editor={Promise.resolve(MockEditor)} store={store} loading={loading} />,
@@ -366,7 +366,7 @@ describe('<ReferenceList />', async () => {
             window.removeEventListener = jest.fn();
             document.removeEventListener = jest.fn();
             instance.componentWillUnmount();
-            expect(window.removeEventListener).toHaveBeenCalledTimes(7);
+            expect(window.removeEventListener).toHaveBeenCalledTimes(6);
             expect(document.removeEventListener).toHaveBeenCalledTimes(1);
             window.removeEventListener = windowRemoveEventListener;
             document.removeEventListener = documentRemoveEventListener;
@@ -472,7 +472,7 @@ describe('<ReferenceList />', async () => {
         Object.defineProperty(window, 'innerHeight', {
             value: 1000,
         });
-        const setHeights = (cited: number, uncited: number) => {
+        const setHeights = (cited: number, uncited: number): void => {
             const citedDiv = document.getElementById('cited')!;
             const uncitedDiv = document.getElementById('uncited')!;
             for (const child of citedDiv.querySelectorAll('div')) {

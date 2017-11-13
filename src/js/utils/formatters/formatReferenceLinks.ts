@@ -11,11 +11,7 @@ interface IDType {
  * @param id        - Identifier for linking out
  * @returns HTML string with formatted links
  */
-export function formatReferenceLinks(
-    html: string,
-    linkStyle: ABT.LinkStyle,
-    id?: IDType
-): string {
+export function formatReferenceLinks(html: string, linkStyle: ABT.LinkStyle, id?: IDType): string {
     if (linkStyle === 'never') return html;
 
     const url: RegExp = /((http:\/\/(?:www\.)?|https:\/\/(?:www\.)?)|www\.)([^;\s<]+[0-9a-zA-Z\/])/g;
@@ -38,12 +34,9 @@ export function formatReferenceLinks(
         .replace(
             url,
             (_match, _p1, p2 = 'http://', p3) =>
-                `<a href="${p2}${p3}" target="_blank">${p2}${p3}</a>`
+                `<a href="${p2}${p3}" target="_blank">${p2}${p3}</a>`,
         )
-        .replace(
-            doi,
-            'doi: <a href="https://dx.doi.org/$1" target="_blank">$1</a>'
-        );
+        .replace(doi, 'doi: <a href="https://dx.doi.org/$1" target="_blank">$1</a>');
 
     if (!id) return linkedHtml;
 

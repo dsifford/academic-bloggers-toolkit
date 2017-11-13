@@ -31,9 +31,9 @@
 }
 
 .abt-bibliography__heading_toggle:before {
-	content: '';
+    content: '';
     border-style: solid;
-	border-width: 0.25em 0.25em 0 0;
+    border-width: 0.25em 0.25em 0 0;
     display: inline-block;
     height: 0.45em;
     position: relative;
@@ -52,7 +52,7 @@
 }
 
 .abt-bibliography__heading_toggle--closed:before {
-	transform: rotate(45deg);
+    transform: rotate(45deg);
 }
 
 .abt-tooltip {
@@ -71,10 +71,10 @@
     }
 }
 .abt-tooltip_bottom {
-    animation: fadeInUp .2s;
+    animation: fadeInUp 0.2s;
 }
 .abt-tooltip_top {
-    animation: fadeInDown .2s;
+    animation: fadeInDown 0.2s;
 }
 .abt-tooltip_active {
     visibility: visible !important;

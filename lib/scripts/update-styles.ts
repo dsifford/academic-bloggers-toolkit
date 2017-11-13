@@ -5,14 +5,16 @@ import * as path from 'path';
 
 const oldData = require('../../src/vendor/citation-styles.json');
 
+interface FileEntry {
+    name: string;
+    object: {
+        text: string;
+    };
+}
+
 interface GithubFiles {
     object: {
-        entries: Array<{
-            name: string;
-            object: {
-                text: string;
-            };
-        }>;
+        entries: FileEntry[];
     };
 }
 
@@ -98,15 +100,18 @@ function parseStyleObj(obj: StyleResponse): StyleData {
         ...obj.data.independent.object.entries,
         ...obj.data.dependent.object.entries,
     ]
-        .reduce((prev, file) => {
-            if (file.name.endsWith('.csl')) {
-                return [...prev, { ...file, name: file.name.replace(/\.csl$/, '') }];
-            }
-            if (file.name === 'renamed-styles.json') {
-                renamed = file.object.text;
-            }
-            return prev;
-        }, [])
+        .reduce(
+            (prev, file) => {
+                if (file.name.endsWith('.csl')) {
+                    return [...prev, { ...file, name: file.name.replace(/\.csl$/, '') }];
+                }
+                if (file.name === 'renamed-styles.json') {
+                    renamed = file.object.text;
+                }
+                return prev;
+            },
+            <FileEntry[]>[],
+        )
         .sort((a, b) => {
             if (a.name < b.name) {
                 return -1;

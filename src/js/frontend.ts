@@ -98,7 +98,7 @@ export class Frontend {
         this.itemContainer =
             document.getElementById('abt-bibliography__container') || this.bibliography;
 
-        const citationList = <NodeListOf<HTMLSpanElement>>document.querySelectorAll(
+        const citationList: NodeListOf<HTMLSpanElement> = document.querySelectorAll(
             '.abt-citation, .abt_cite',
         );
 
@@ -116,7 +116,7 @@ export class Frontend {
     }
 
     private enableToggle(): void {
-        const heading = <HTMLButtonElement | null>document.querySelector(
+        const heading: HTMLButtonElement | null = document.querySelector(
             '.abt-bibliography__heading_toggle',
         );
         if (!this.itemContainer || !heading) return;
