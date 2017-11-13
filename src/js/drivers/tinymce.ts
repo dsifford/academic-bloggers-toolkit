@@ -306,11 +306,14 @@ export default class TinyMCEDriver extends EditorDriver {
         const doc = this.editor.getDoc();
         const orderedFootnotes = [
             ...doc.querySelectorAll(`.${EditorDriver.citationClass}`).entries(),
-        ].reduce((prev, [idx, item]) => {
-            item.innerHTML = `[${idx + 1}]`;
-            const footnote = item.getAttribute('data-footnote');
-            return footnote ? [...prev, footnote] : prev;
-        }, []);
+        ].reduce(
+            (prev, [idx, item]) => {
+                item.innerHTML = `[${idx + 1}]`;
+                const footnote = item.getAttribute('data-footnote');
+                return footnote ? [...prev, footnote] : prev;
+            },
+            <string[]>[],
+        );
 
         if (orderedFootnotes.length === 0) {
             return;

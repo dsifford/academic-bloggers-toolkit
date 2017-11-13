@@ -860,7 +860,7 @@ export async function getFromPubmed(
     _kind: 'PMID' | 'PMCID',
     idlist: string,
 ): Promise<[CSL.Data[], string[]]> {
-    return new Promise<[CSL.Data[], string[]]>(resolve => {
+    return new Promise<[CSL.Data[], string[]]>((resolve): void => {
         const uids = idlist.split(',').map(id => (id.startsWith('PMC') ? id.slice(3) : id));
         const result = {
             uids,
@@ -880,7 +880,7 @@ export async function getFromPubmed(
         };
         const payload = toCSL(response);
         const csl = <CSL.Data[]>payload.filter(d => d instanceof Error === false);
-        const errs: string[] = payload
+        const errs: string[] = (<EUtilsError[]>payload)
             .filter(d => d instanceof Error)
             .map((d: EUtilsError) => d.message);
         resolve([csl, errs]);

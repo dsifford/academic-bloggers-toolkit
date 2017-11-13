@@ -1,10 +1,9 @@
-version: '3'
+version: '3.3'
 services:
     wordpress:
         image: visiblevc/wordpress:0.16.0-php7.1
         ports:
             - 8080:80
-            - 443:443
         volumes:
             - ./dist:/app/wp-content/plugins/academic-bloggers-toolkit
         environment:

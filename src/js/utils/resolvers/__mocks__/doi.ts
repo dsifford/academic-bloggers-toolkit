@@ -181,19 +181,26 @@ const data: { [k: string]: any } = {
     },
 };
 
+type DOIPayload = [CSL.Data[], string[]];
+
 export async function getFromDOI(doiList: string[]): Promise<[CSL.Data[], string[]]> {
-    return new Promise<[CSL.Data[], string[]]>((resolve, reject) => {
-        const payload = <[CSL.Data[], string[]]>doiList.reduce(
-            (prev, id) => {
-                if (id === 'REJECT') {
-                    reject(new Error('some error occurred'));
-                }
-                return data[id]
-                    ? [[...prev[0], data[id]], [...prev[1]]]
-                    : [[...prev[0]], [...prev[1], id]];
-            },
-            <[CSL.Data[], string[]]>[[], []],
-        );
+    return new Promise<DOIPayload>((resolve, reject): void => {
+        let payload: DOIPayload;
+        try {
+            payload = doiList.reduce(
+                (prev, id): DOIPayload => {
+                    if (id === 'REJECT') {
+                        throw new Error('some error occurred');
+                    }
+                    return data[id]
+                        ? [[...prev[0], data[id]], [...prev[1]]]
+                        : [[...prev[0]], [...prev[1], id]];
+                },
+                <DOIPayload>[[], []],
+            );
+        } catch (e) {
+            return reject(e);
+        }
         resolve(payload);
     });
 }

@@ -69,19 +69,20 @@ export function parseManualData(data: ABT.ManualData): [CSL.Data[], string] {
     );
 
     csl = Object.keys(csl).reduce(
-        (prev, curr: keyof CSL.Data) => {
-            if (!csl[curr]) {
+        (prev, curr: string) => {
+            const key = <keyof CSL.Data>curr;
+            if (!csl[key]) {
                 return prev;
             }
-            if (['accessed', 'event-date', 'issued'].includes(curr)) {
+            if (['accessed', 'event-date', 'issued'].includes(key)) {
                 return {
                     ...prev,
-                    [curr]: parseDate(<string>csl[curr]),
+                    [key]: parseDate(<string>csl[key]),
                 };
             }
             return {
                 ...prev,
-                [curr]: csl[curr],
+                [key]: csl[key],
             };
         },
         <CSL.Data>{},

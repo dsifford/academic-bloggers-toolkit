@@ -105,13 +105,16 @@ class CitationStore {
                 ...i,
                 citationItems: i.citationItems.filter(j => !idList.includes(j.id)),
             }))
-            .reduce((prev, curr) => {
-                if (curr.citationItems.length === 0 && curr.citationID) {
-                    toRemove.add(curr.citationID);
-                    return prev;
-                }
-                return [...prev, curr];
-            }, []);
+            .reduce(
+                (prev, curr) => {
+                    if (curr.citationItems.length === 0 && curr.citationID) {
+                        toRemove.add(curr.citationID);
+                        return prev;
+                    }
+                    return [...prev, curr];
+                },
+                <Citeproc.Citation[]>[],
+            );
         this.init(byIndex);
         return Array.from(toRemove);
     }
@@ -134,16 +137,19 @@ class CitationStore {
     }
 
     private cleanCSL(csl: { [id: string]: CSL.Data }): ObservableMap<CSL.Data> {
-        const cleaned: Array<[string, CSL.Data]> = Object.entries(
-            csl,
-        ).reduce((arr, [key, value]) => {
-            const item = {
-                ...value,
-                language:
-                    value.language && locales[value.language] ? locales[value.language] : 'en-US',
-            };
-            return <Array<[string, CSL.Data]>>[...arr, [key, item]];
-        }, []);
+        const cleaned: Array<[string, CSL.Data]> = Object.entries(csl).reduce(
+            (arr, [key, value]): Array<[string, CSL.Data]> => {
+                const item = {
+                    ...value,
+                    language:
+                        value.language && locales[value.language]
+                            ? locales[value.language]
+                            : 'en-US',
+                };
+                return [...arr, [key, item]];
+            },
+            <Array<[string, CSL.Data]>>[],
+        );
         return observable.map(new Map(cleaned));
     }
 }

@@ -123,7 +123,7 @@ async function updateTranslationStatus(): Promise<void> {
         contributors: string[];
     }
 
-    const [contributors, languages]: any = await Promise.all([
+    const [contributors, languages] = await Promise.all([
         (await sendRequest<Contributors>('/contributors/list', {})).result.contributors.filter(
             c => c.permissions[0].type === 'contributor',
         ),
