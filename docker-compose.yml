@@ -1,7 +1,7 @@
-version: '3.3'
+version: '3'
 services:
     wordpress:
-        image: visiblevc/wordpress:0.16.0-php7.1
+        image: visiblevc/wordpress:0.17.0-php7.2
         ports:
             - 8080:80
         volumes:
@@ -10,7 +10,7 @@ services:
             DB_NAME: wordpress
             DB_PASS: root
             WP_DEBUG: 'true'
-            # WP_VERSION: nightly
+            WP_VERSION: nightly
             PLUGINS: >-
                 co-authors-plus,
                 query-monitor,

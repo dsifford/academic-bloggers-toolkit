@@ -70,12 +70,8 @@ exports[`<AddDialog /> should match snapshot 1`] = `
         >
           <div>
             <button
-              aria-describedby={undefined}
-              aria-label={undefined}
               className="focusable btn-flat"
               onClick={[Function]}
-              onMouseEnter={undefined}
-              onMouseLeave={undefined}
               type="button"
             >
               Add Manually
@@ -219,13 +215,9 @@ exports[`<AddDialog /> should match snapshot 1`] = `
         >
           <div>
             <button
-              aria-describedby={undefined}
-              aria-label={undefined}
               className="focusable btn-flat"
               disabled={false}
               onClick={[Function]}
-              onMouseEnter={undefined}
-              onMouseLeave={undefined}
               type="button"
             >
               Search PubMed
@@ -516,13 +508,8 @@ exports[`<AddDialog /> should match snapshot 1`] = `
         >
           <div>
             <button
-              aria-describedby={undefined}
-              aria-label={undefined}
               className="focusable btn-primary"
               form="add-reference"
-              onClick={undefined}
-              onMouseEnter={undefined}
-              onMouseLeave={undefined}
               type="submit"
             >
               Add Reference
@@ -885,7 +872,6 @@ exports[`<AddDialog /> should match snapshot 2`] = `
                 id="citequery"
                 onChange={[Function]}
                 onKeyDown={[Function]}
-                pattern={undefined}
                 placeholder="URL"
                 type="url"
                 value=""
@@ -899,13 +885,9 @@ exports[`<AddDialog /> should match snapshot 2`] = `
               >
                 <div>
                   <button
-                    aria-describedby={undefined}
-                    aria-label={undefined}
                     className="btn-flat"
                     disabled={true}
                     onClick={[Function]}
-                    onMouseEnter={undefined}
-                    onMouseLeave={undefined}
                     type="button"
                   >
                     Search
@@ -1196,13 +1178,10 @@ exports[`<AddDialog /> should match snapshot 2`] = `
                     >
                       <div>
                         <button
-                          aria-describedby={undefined}
                           aria-label="Given Name, M.I."
                           className="btn-flat btn-icon"
                           data-index={0}
                           onClick={[Function]}
-                          onMouseEnter={undefined}
-                          onMouseLeave={undefined}
                           type="button"
                         >
                           <span
@@ -1372,12 +1351,8 @@ exports[`<AddDialog /> should match snapshot 2`] = `
                   >
                     <div>
                       <button
-                        aria-describedby={undefined}
-                        aria-label={undefined}
                         className="btn-flat"
                         onClick={[Function]}
-                        onMouseEnter={undefined}
-                        onMouseLeave={undefined}
                         type="button"
                       >
                         Add Contributor
@@ -1893,12 +1868,8 @@ exports[`<AddDialog /> should match snapshot 2`] = `
         >
           <div>
             <button
-              aria-describedby={undefined}
-              aria-label={undefined}
               className="focusable btn-flat"
               onClick={[Function]}
-              onMouseEnter={undefined}
-              onMouseLeave={undefined}
               type="button"
             >
               Add with Identifier
@@ -2042,13 +2013,9 @@ exports[`<AddDialog /> should match snapshot 2`] = `
         >
           <div>
             <button
-              aria-describedby={undefined}
-              aria-label={undefined}
               className="focusable btn-flat"
               disabled={true}
               onClick={[Function]}
-              onMouseEnter={undefined}
-              onMouseLeave={undefined}
               type="button"
             >
               Search PubMed
@@ -2339,13 +2306,8 @@ exports[`<AddDialog /> should match snapshot 2`] = `
         >
           <div>
             <button
-              aria-describedby={undefined}
-              aria-label={undefined}
               className="focusable btn-primary"
               form="add-reference"
-              onClick={undefined}
-              onMouseEnter={undefined}
-              onMouseLeave={undefined}
               type="submit"
             >
               Add Reference
@@ -2610,13 +2572,8 @@ exports[`<AddDialog /> should match snapshot 3`] = `
                         >
                           <div>
                             <button
-                              aria-describedby={undefined}
-                              aria-label={undefined}
                               className="btn-flat"
                               disabled={true}
-                              onClick={undefined}
-                              onMouseEnter={undefined}
-                              onMouseLeave={undefined}
                               type="submit"
                             >
                               Search
@@ -3033,7 +2990,6 @@ exports[`<AddDialog /> should match snapshot 3`] = `
                 id="citequery"
                 onChange={[Function]}
                 onKeyDown={[Function]}
-                pattern={undefined}
                 placeholder="URL"
                 type="url"
                 value=""
@@ -3047,13 +3003,9 @@ exports[`<AddDialog /> should match snapshot 3`] = `
               >
                 <div>
                   <button
-                    aria-describedby={undefined}
-                    aria-label={undefined}
                     className="btn-flat"
                     disabled={true}
                     onClick={[Function]}
-                    onMouseEnter={undefined}
-                    onMouseLeave={undefined}
                     type="button"
                   >
                     Search
@@ -3344,13 +3296,10 @@ exports[`<AddDialog /> should match snapshot 3`] = `
                     >
                       <div>
                         <button
-                          aria-describedby={undefined}
                           aria-label="Given Name, M.I."
                           className="btn-flat btn-icon"
                           data-index={0}
                           onClick={[Function]}
-                          onMouseEnter={undefined}
-                          onMouseLeave={undefined}
                           type="button"
                         >
                           <span
@@ -3520,12 +3469,8 @@ exports[`<AddDialog /> should match snapshot 3`] = `
                   >
                     <div>
                       <button
-                        aria-describedby={undefined}
-                        aria-label={undefined}
                         className="btn-flat"
                         onClick={[Function]}
-                        onMouseEnter={undefined}
-                        onMouseLeave={undefined}
                         type="button"
                       >
                         Add Contributor
@@ -4041,12 +3986,8 @@ exports[`<AddDialog /> should match snapshot 3`] = `
         >
           <div>
             <button
-              aria-describedby={undefined}
-              aria-label={undefined}
               className="focusable btn-flat"
               onClick={[Function]}
-              onMouseEnter={undefined}
-              onMouseLeave={undefined}
               type="button"
             >
               Add with Identifier
@@ -4190,13 +4131,9 @@ exports[`<AddDialog /> should match snapshot 3`] = `
         >
           <div>
             <button
-              aria-describedby={undefined}
-              aria-label={undefined}
               className="focusable btn-flat"
               disabled={true}
               onClick={[Function]}
-              onMouseEnter={undefined}
-              onMouseLeave={undefined}
               type="button"
             >
               Search PubMed
@@ -4487,13 +4424,8 @@ exports[`<AddDialog /> should match snapshot 3`] = `
         >
           <div>
             <button
-              aria-describedby={undefined}
-              aria-label={undefined}
               className="focusable btn-primary"
               form="add-reference"
-              onClick={undefined}
-              onMouseEnter={undefined}
-              onMouseLeave={undefined}
               type="submit"
             >
               Add Reference
@@ -4955,7 +4887,6 @@ exports[`<AddDialog /> should match snapshot 4`] = `
                 id="citequery"
                 onChange={[Function]}
                 onKeyDown={[Function]}
-                pattern={undefined}
                 placeholder="URL"
                 type="url"
                 value=""
@@ -4969,13 +4900,9 @@ exports[`<AddDialog /> should match snapshot 4`] = `
               >
                 <div>
                   <button
-                    aria-describedby={undefined}
-                    aria-label={undefined}
                     className="btn-flat"
                     disabled={true}
                     onClick={[Function]}
-                    onMouseEnter={undefined}
-                    onMouseLeave={undefined}
                     type="button"
                   >
                     Search
@@ -5266,13 +5193,10 @@ exports[`<AddDialog /> should match snapshot 4`] = `
                     >
                       <div>
                         <button
-                          aria-describedby={undefined}
                           aria-label="Given Name, M.I."
                           className="btn-flat btn-icon"
                           data-index={0}
                           onClick={[Function]}
-                          onMouseEnter={undefined}
-                          onMouseLeave={undefined}
                           type="button"
                         >
                           <span
@@ -5442,12 +5366,8 @@ exports[`<AddDialog /> should match snapshot 4`] = `
                   >
                     <div>
                       <button
-                        aria-describedby={undefined}
-                        aria-label={undefined}
                         className="btn-flat"
                         onClick={[Function]}
-                        onMouseEnter={undefined}
-                        onMouseLeave={undefined}
                         type="button"
                       >
                         Add Contributor
@@ -5963,12 +5883,8 @@ exports[`<AddDialog /> should match snapshot 4`] = `
         >
           <div>
             <button
-              aria-describedby={undefined}
-              aria-label={undefined}
               className="focusable btn-flat"
               onClick={[Function]}
-              onMouseEnter={undefined}
-              onMouseLeave={undefined}
               type="button"
             >
               Add with Identifier
@@ -6112,13 +6028,9 @@ exports[`<AddDialog /> should match snapshot 4`] = `
         >
           <div>
             <button
-              aria-describedby={undefined}
-              aria-label={undefined}
               className="focusable btn-flat"
               disabled={true}
               onClick={[Function]}
-              onMouseEnter={undefined}
-              onMouseLeave={undefined}
               type="button"
             >
               Search PubMed
@@ -6409,13 +6321,8 @@ exports[`<AddDialog /> should match snapshot 4`] = `
         >
           <div>
             <button
-              aria-describedby={undefined}
-              aria-label={undefined}
               className="focusable btn-primary"
               form="add-reference"
-              onClick={undefined}
-              onMouseEnter={undefined}
-              onMouseLeave={undefined}
               type="submit"
             >
               Add Reference

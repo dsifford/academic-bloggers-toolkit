@@ -4,7 +4,6 @@ exports[`<AutoCite /> should match snapshots 1`] = `
 <AutoCite
   getter={[Function]}
   kind="webpage"
-  pattern={undefined}
   placeholder="Test"
 >
   <div>
@@ -17,7 +16,6 @@ exports[`<AutoCite /> should match snapshots 1`] = `
       id="citequery"
       onChange={[Function]}
       onKeyDown={[Function]}
-      pattern={undefined}
       placeholder="Test"
       type="url"
       value=""
@@ -31,13 +29,9 @@ exports[`<AutoCite /> should match snapshots 1`] = `
     >
       <div>
         <button
-          aria-describedby={undefined}
-          aria-label={undefined}
           className="btn-flat"
           disabled={true}
           onClick={[Function]}
-          onMouseEnter={undefined}
-          onMouseLeave={undefined}
           type="button"
         >
           Search
@@ -226,13 +220,9 @@ exports[`<AutoCite /> should match snapshots 2`] = `
     >
       <div>
         <button
-          aria-describedby={undefined}
-          aria-label={undefined}
           className="btn-flat"
           disabled={true}
           onClick={[Function]}
-          onMouseEnter={undefined}
-          onMouseLeave={undefined}
           type="button"
         >
           Search

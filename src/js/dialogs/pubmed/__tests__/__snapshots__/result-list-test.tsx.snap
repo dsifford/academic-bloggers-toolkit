@@ -116,12 +116,8 @@ exports[`<ResultList /> should match snapshots 1`] = `
           >
             <div>
               <button
-                aria-describedby={undefined}
-                aria-label={undefined}
                 className="focusable btn-flat"
                 onClick={[Function]}
-                onMouseEnter={undefined}
-                onMouseLeave={undefined}
                 type="button"
               >
                 View
@@ -266,13 +262,9 @@ exports[`<ResultList /> should match snapshots 1`] = `
           >
             <div>
               <button
-                aria-describedby={undefined}
-                aria-label={undefined}
                 className="focusable btn-primary btn-flat"
                 id="1"
                 onClick={[Function]}
-                onMouseEnter={undefined}
-                onMouseLeave={undefined}
                 type="button"
               >
                 Select
@@ -449,12 +441,8 @@ exports[`<ResultList /> should match snapshots 1`] = `
           >
             <div>
               <button
-                aria-describedby={undefined}
-                aria-label={undefined}
                 className="focusable btn-flat"
                 onClick={[Function]}
-                onMouseEnter={undefined}
-                onMouseLeave={undefined}
                 type="button"
               >
                 View
@@ -599,13 +587,9 @@ exports[`<ResultList /> should match snapshots 1`] = `
           >
             <div>
               <button
-                aria-describedby={undefined}
-                aria-label={undefined}
                 className="focusable btn-primary btn-flat"
                 id="2"
                 onClick={[Function]}
-                onMouseEnter={undefined}
-                onMouseLeave={undefined}
                 type="button"
               >
                 Select

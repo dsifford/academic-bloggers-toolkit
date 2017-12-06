@@ -2,10 +2,17 @@
 
 exports[`<ReferenceList /> snapshots cited and uncited list populated 1`] = `
 <div>
-  <Spinner
-    bgColor="#f5f5f5"
-    height="52px"
-    size="40px"
+  <Component
+    position={
+      Object {
+        "left": 50,
+        "top": 40,
+      }
+    }
+  />
+  <DialogRouter
+    currentDialog={""}
+    onSubmit={[Function]}
   />
   <StorageField
     store={
@@ -30,24 +37,149 @@ exports[`<ReferenceList /> snapshots cited and uncited list populated 1`] = `
       }
     }
   />
+  <div
+    className="panel"
+  >
+    <Button
+      disabled={true}
+      flat={true}
+      icon="migrate"
+      label="Insert selected references"
+      onClick={[Function]}
+      tooltip={
+        Object {
+          "position": "bottom",
+          "text": "Insert selected references",
+        }
+      }
+      type="button"
+    />
+    <Button
+      data-dialog="ADD"
+      disabled={false}
+      flat={true}
+      icon="plus"
+      label="Add reference"
+      onClick={[Function]}
+      tooltip={
+        Object {
+          "position": "bottom",
+          "text": "Add reference",
+        }
+      }
+      type="button"
+    />
+    <Button
+      disabled={true}
+      flat={true}
+      icon="minus"
+      label="Remove selected references"
+      onClick={[Function]}
+      tooltip={
+        Object {
+          "position": "bottom",
+          "text": "Remove selected references",
+        }
+      }
+      type="button"
+    />
+    <Button
+      flat={true}
+      icon="admin-post"
+      label="Pin reference list"
+      onClick={[Function]}
+      tooltip={
+        Object {
+          "position": "bottom",
+          "text": "Pin reference list",
+        }
+      }
+      type="button"
+    />
+    <Button
+      aria-expanded={false}
+      aria-haspopup={true}
+      flat={true}
+      icon="menu"
+      label="Toggle menu"
+      onClick={[Function]}
+      type="button"
+    />
+  </div>
+  <Menu
+    cslStyle={"american-medical-association"}
+    isOpen={false}
+    itemsSelected={false}
+    onSubmit={[Function]}
+  />
+  <ItemList
+    CSL={
+      Object {
+        "1": Object {
+          "id": "3",
+          "title": "citation 3",
+        },
+      }
+    }
+    id="uncited"
+    items={
+      Array [
+        Object {
+          "id": "3",
+          "title": "citation 3",
+        },
+      ]
+    }
+    onEditReference={[Function]}
+    selectedItems={Array []}
+    ui={
+      Object {
+        "cited": Object {
+          "isOpen": true,
+          "maxHeight": "400px",
+        },
+        "loading": false,
+        "menuOpen": false,
+        "pinned": false,
+        "uncited": Object {
+          "isOpen": false,
+          "maxHeight": "400px",
+        },
+      }
+    }
+  >
+    Uncited Items
+  </ItemList>
   <style
     jsx={true}
   >
     
-                        div {
-                            box-shadow: 0 1px 3px rgba(0, 0, 0, .12), 0 1px 2px rgba(0, 0, 0, .24), 0 -1px 0 rgba(16, 22, 26, .10);
-                        }
-                    
+                    .panel {
+                        display: flex;
+                        width: 100%;
+                        padding: 8px 0;
+                        background: #f5f5f5;
+                        box-shadow: 0 1px 3px rgba(0, 0, 0, .12), 0 1px 2px rgba(0, 0, 0, .24), 0 -1px 0 rgba(16, 22, 26, .10);
+                        justify-content: space-around;
+                    }
+                
   </style>
 </div>
 `;
 
 exports[`<ReferenceList /> snapshots cited and uncited list populated 2`] = `
 <div>
-  <Spinner
-    bgColor="#f5f5f5"
-    height="52px"
-    size="40px"
+  <Component
+    position={
+      Object {
+        "left": 50,
+        "top": 40,
+      }
+    }
+  />
+  <DialogRouter
+    currentDialog={""}
+    onSubmit={[Function]}
   />
   <StorageField
     store={
@@ -94,14 +226,133 @@ exports[`<ReferenceList /> snapshots cited and uncited list populated 2`] = `
       }
     }
   />
+  <div
+    className="panel"
+  >
+    <Button
+      disabled={true}
+      flat={true}
+      icon="migrate"
+      label="Insert selected references"
+      onClick={[Function]}
+      tooltip={
+        Object {
+          "position": "bottom",
+          "text": "Insert selected references",
+        }
+      }
+      type="button"
+    />
+    <Button
+      data-dialog="ADD"
+      disabled={false}
+      flat={true}
+      icon="plus"
+      label="Add reference"
+      onClick={[Function]}
+      tooltip={
+        Object {
+          "position": "bottom",
+          "text": "Add reference",
+        }
+      }
+      type="button"
+    />
+    <Button
+      disabled={true}
+      flat={true}
+      icon="minus"
+      label="Remove selected references"
+      onClick={[Function]}
+      tooltip={
+        Object {
+          "position": "bottom",
+          "text": "Remove selected references",
+        }
+      }
+      type="button"
+    />
+    <Button
+      flat={true}
+      icon="admin-post"
+      label="Pin reference list"
+      onClick={[Function]}
+      tooltip={
+        Object {
+          "position": "bottom",
+          "text": "Pin reference list",
+        }
+      }
+      type="button"
+    />
+    <Button
+      aria-expanded={false}
+      aria-haspopup={true}
+      flat={true}
+      icon="menu"
+      label="Toggle menu"
+      onClick={[Function]}
+      type="button"
+    />
+  </div>
+  <Menu
+    cslStyle={"american-medical-association"}
+    isOpen={false}
+    itemsSelected={false}
+    onSubmit={[Function]}
+  />
+  <ItemList
+    CSL={
+      Object {
+        "1": Object {
+          "id": "3",
+          "title": "citation 3",
+        },
+      }
+    }
+    id="cited"
+    items={
+      Array [
+        Object {
+          "id": "3",
+          "title": "citation 3",
+        },
+        undefined,
+      ]
+    }
+    onEditReference={[Function]}
+    selectedItems={Array []}
+    ui={
+      Object {
+        "cited": Object {
+          "isOpen": true,
+          "maxHeight": "400px",
+        },
+        "loading": false,
+        "menuOpen": false,
+        "pinned": false,
+        "uncited": Object {
+          "isOpen": false,
+          "maxHeight": "400px",
+        },
+      }
+    }
+  >
+    Cited Items
+  </ItemList>
   <style
     jsx={true}
   >
     
-                        div {
-                            box-shadow: 0 1px 3px rgba(0, 0, 0, .12), 0 1px 2px rgba(0, 0, 0, .24), 0 -1px 0 rgba(16, 22, 26, .10);
-                        }
-                    
+                    .panel {
+                        display: flex;
+                        width: 100%;
+                        padding: 8px 0;
+                        background: #f5f5f5;
+                        box-shadow: 0 1px 3px rgba(0, 0, 0, .12), 0 1px 2px rgba(0, 0, 0, .24), 0 -1px 0 rgba(16, 22, 26, .10);
+                        justify-content: space-around;
+                    }
+                
   </style>
 </div>
 `;
@@ -145,10 +396,17 @@ exports[`<ReferenceList /> snapshots initial mount with empty state 1`] = `
 
 exports[`<ReferenceList /> snapshots initial mount with empty state 2`] = `
 <div>
-  <Spinner
-    bgColor="#f5f5f5"
-    height="52px"
-    size="40px"
+  <Component
+    position={
+      Object {
+        "left": 50,
+        "top": 40,
+      }
+    }
+  />
+  <DialogRouter
+    currentDialog={""}
+    onSubmit={[Function]}
   />
   <StorageField
     store={
@@ -168,24 +426,111 @@ exports[`<ReferenceList /> snapshots initial mount with empty state 2`] = `
       }
     }
   />
+  <div
+    className="panel"
+  >
+    <Button
+      disabled={true}
+      flat={true}
+      icon="migrate"
+      label="Insert selected references"
+      onClick={[Function]}
+      tooltip={
+        Object {
+          "position": "bottom",
+          "text": "Insert selected references",
+        }
+      }
+      type="button"
+    />
+    <Button
+      data-dialog="ADD"
+      disabled={false}
+      flat={true}
+      icon="plus"
+      label="Add reference"
+      onClick={[Function]}
+      tooltip={
+        Object {
+          "position": "bottom",
+          "text": "Add reference",
+        }
+      }
+      type="button"
+    />
+    <Button
+      disabled={true}
+      flat={true}
+      icon="minus"
+      label="Remove selected references"
+      onClick={[Function]}
+      tooltip={
+        Object {
+          "position": "bottom",
+          "text": "Remove selected references",
+        }
+      }
+      type="button"
+    />
+    <Button
+      flat={true}
+      icon="admin-post"
+      label="Pin reference list"
+      onClick={[Function]}
+      tooltip={
+        Object {
+          "position": "bottom",
+          "text": "Pin reference list",
+        }
+      }
+      type="button"
+    />
+    <Button
+      aria-expanded={false}
+      aria-haspopup={true}
+      flat={true}
+      icon="menu"
+      label="Toggle menu"
+      onClick={[Function]}
+      type="button"
+    />
+  </div>
+  <Menu
+    cslStyle={"american-medical-association"}
+    isOpen={false}
+    itemsSelected={false}
+    onSubmit={[Function]}
+  />
   <style
     jsx={true}
   >
     
-                        div {
-                            box-shadow: 0 1px 3px rgba(0, 0, 0, .12), 0 1px 2px rgba(0, 0, 0, .24), 0 -1px 0 rgba(16, 22, 26, .10);
-                        }
-                    
+                    .panel {
+                        display: flex;
+                        width: 100%;
+                        padding: 8px 0;
+                        background: #f5f5f5;
+                        box-shadow: 0 1px 3px rgba(0, 0, 0, .12), 0 1px 2px rgba(0, 0, 0, .24), 0 -1px 0 rgba(16, 22, 26, .10);
+                        justify-content: space-around;
+                    }
+                
   </style>
 </div>
 `;
 
 exports[`<ReferenceList /> snapshots menu toggled open 1`] = `
 <div>
-  <Spinner
-    bgColor="#f5f5f5"
-    height="52px"
-    size="40px"
+  <Component
+    position={
+      Object {
+        "left": 50,
+        "top": 40,
+      }
+    }
+  />
+  <DialogRouter
+    currentDialog={""}
+    onSubmit={[Function]}
   />
   <StorageField
     store={
@@ -205,24 +550,111 @@ exports[`<ReferenceList /> snapshots menu toggled open 1`] = `
       }
     }
   />
+  <div
+    className="panel"
+  >
+    <Button
+      disabled={true}
+      flat={true}
+      icon="migrate"
+      label="Insert selected references"
+      onClick={[Function]}
+      tooltip={
+        Object {
+          "position": "bottom",
+          "text": "Insert selected references",
+        }
+      }
+      type="button"
+    />
+    <Button
+      data-dialog="ADD"
+      disabled={false}
+      flat={true}
+      icon="plus"
+      label="Add reference"
+      onClick={[Function]}
+      tooltip={
+        Object {
+          "position": "bottom",
+          "text": "Add reference",
+        }
+      }
+      type="button"
+    />
+    <Button
+      disabled={true}
+      flat={true}
+      icon="minus"
+      label="Remove selected references"
+      onClick={[Function]}
+      tooltip={
+        Object {
+          "position": "bottom",
+          "text": "Remove selected references",
+        }
+      }
+      type="button"
+    />
+    <Button
+      flat={true}
+      icon="admin-post"
+      label="Pin reference list"
+      onClick={[Function]}
+      tooltip={
+        Object {
+          "position": "bottom",
+          "text": "Pin reference list",
+        }
+      }
+      type="button"
+    />
+    <Button
+      aria-expanded={true}
+      aria-haspopup={true}
+      flat={true}
+      icon="no-alt"
+      label="Toggle menu"
+      onClick={[Function]}
+      type="button"
+    />
+  </div>
+  <Menu
+    cslStyle={"american-medical-association"}
+    isOpen={true}
+    itemsSelected={false}
+    onSubmit={[Function]}
+  />
   <style
     jsx={true}
   >
     
-                        div {
-                            box-shadow: 0 1px 3px rgba(0, 0, 0, .12), 0 1px 2px rgba(0, 0, 0, .24), 0 -1px 0 rgba(16, 22, 26, .10);
-                        }
-                    
+                    .panel {
+                        display: flex;
+                        width: 100%;
+                        padding: 8px 0;
+                        background: #f5f5f5;
+                        box-shadow: 0 1px 3px rgba(0, 0, 0, .12), 0 1px 2px rgba(0, 0, 0, .24), 0 -1px 0 rgba(16, 22, 26, .10);
+                        justify-content: space-around;
+                    }
+                
   </style>
 </div>
 `;
 
 exports[`<ReferenceList /> snapshots pinned state toggled 1`] = `
 <div>
-  <Spinner
-    bgColor="#f5f5f5"
-    height="52px"
-    size="40px"
+  <Component
+    position={
+      Object {
+        "left": 50,
+        "top": 40,
+      }
+    }
+  />
+  <DialogRouter
+    currentDialog={""}
+    onSubmit={[Function]}
   />
   <StorageField
     store={
@@ -242,14 +674,94 @@ exports[`<ReferenceList /> snapshots pinned state toggled 1`] = `
       }
     }
   />
+  <div
+    className="panel"
+  >
+    <Button
+      disabled={true}
+      flat={true}
+      icon="migrate"
+      label="Insert selected references"
+      onClick={[Function]}
+      tooltip={
+        Object {
+          "position": "bottom",
+          "text": "Insert selected references",
+        }
+      }
+      type="button"
+    />
+    <Button
+      data-dialog="ADD"
+      disabled={false}
+      flat={true}
+      icon="plus"
+      label="Add reference"
+      onClick={[Function]}
+      tooltip={
+        Object {
+          "position": "bottom",
+          "text": "Add reference",
+        }
+      }
+      type="button"
+    />
+    <Button
+      disabled={true}
+      flat={true}
+      icon="minus"
+      label="Remove selected references"
+      onClick={[Function]}
+      tooltip={
+        Object {
+          "position": "bottom",
+          "text": "Remove selected references",
+        }
+      }
+      type="button"
+    />
+    <Button
+      flat={true}
+      icon="sticky"
+      label="Pin reference list"
+      onClick={[Function]}
+      tooltip={
+        Object {
+          "position": "bottom",
+          "text": "Pin reference list",
+        }
+      }
+      type="button"
+    />
+    <Button
+      aria-expanded={false}
+      aria-haspopup={true}
+      flat={true}
+      icon="menu"
+      label="Toggle menu"
+      onClick={[Function]}
+      type="button"
+    />
+  </div>
+  <Menu
+    cslStyle={"american-medical-association"}
+    isOpen={false}
+    itemsSelected={false}
+    onSubmit={[Function]}
+  />
   <style
     jsx={true}
   >
     
-                        div {
-                            box-shadow: 0 1px 3px rgba(0, 0, 0, .12), 0 1px 2px rgba(0, 0, 0, .24), 0 -1px 0 rgba(16, 22, 26, .10);
-                        }
-                    
+                    .panel {
+                        display: flex;
+                        width: 100%;
+                        padding: 8px 0;
+                        background: #f5f5f5;
+                        box-shadow: 0 1px 3px rgba(0, 0, 0, .12), 0 1px 2px rgba(0, 0, 0, .24), 0 -1px 0 rgba(16, 22, 26, .10);
+                        justify-content: space-around;
+                    }
+                
   </style>
 </div>
 `;

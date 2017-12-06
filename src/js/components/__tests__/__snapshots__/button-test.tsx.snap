@@ -5,7 +5,7 @@ exports[`<Button /> Icon Button with all variants and different icon 1`] = `
 - First value
 + Second value
 
-@@ -1,22 +1,25 @@
+@@ -1,18 +1,21 @@
   <Button
 -   icon=\\"plus\\"
 +   flat={true}
@@ -17,13 +17,9 @@ exports[`<Button /> Icon Button with all variants and different icon 1`] = `
   >
     <div>
       <button
-        aria-describedby={undefined}
         aria-label=\\"Click Me!\\"
 -       className=\\"btn-icon\\"
 +       className=\\"focusable btn-primary btn-flat btn-icon\\"
-        onClick={undefined}
-        onMouseEnter={undefined}
-        onMouseLeave={undefined}
         type=\\"button\\"
       >
         <span
@@ -44,12 +40,8 @@ exports[`<Button /> Icon Button with defaults 1`] = `
 >
   <div>
     <button
-      aria-describedby={undefined}
       aria-label="Click Me!"
       className="btn-icon"
-      onClick={undefined}
-      onMouseEnter={undefined}
-      onMouseLeave={undefined}
       type="button"
     >
       <span
@@ -192,7 +184,7 @@ exports[`<Button /> Text Button with all variants 1`] = `
 - First value
 + Second value
 
-@@ -1,14 +1,17 @@
+@@ -1,12 +1,15 @@
   <Button
 +   flat={true}
 +   focusable={true}
@@ -202,15 +194,13 @@ exports[`<Button /> Text Button with all variants 1`] = `
   >
     <div>
       <button
-        aria-describedby={undefined}
-        aria-label={undefined}
 -       className=\\"\\"
 +       className=\\"focusable btn-primary btn-flat\\"
-        onClick={undefined}
-        onMouseEnter={undefined}
-        onMouseLeave={undefined}
         type=\\"button\\"
-      >"
+      >
+        Click Me!
+      </button>
+      <style"
 `;
 
 exports[`<Button /> Text Button with defaults 1`] = `
@@ -220,12 +210,7 @@ exports[`<Button /> Text Button with defaults 1`] = `
 >
   <div>
     <button
-      aria-describedby={undefined}
-      aria-label={undefined}
       className=""
-      onClick={undefined}
-      onMouseEnter={undefined}
-      onMouseLeave={undefined}
       type="button"
     >
       Click Me!
@@ -366,7 +351,7 @@ exports[`<Button /> Text Button with flat 1`] = `
 - First value
 + Second value
 
-@@ -1,14 +1,15 @@
+@@ -1,12 +1,13 @@
   <Button
 +   flat={true}
     label=\\"Click Me!\\"
@@ -374,15 +359,13 @@ exports[`<Button /> Text Button with flat 1`] = `
   >
     <div>
       <button
-        aria-describedby={undefined}
-        aria-label={undefined}
 -       className=\\"\\"
 +       className=\\"btn-flat\\"
-        onClick={undefined}
-        onMouseEnter={undefined}
-        onMouseLeave={undefined}
         type=\\"button\\"
-      >"
+      >
+        Click Me!
+      </button>
+      <style"
 `;
 
 exports[`<Button /> Text Button with focusable 1`] = `
@@ -390,7 +373,7 @@ exports[`<Button /> Text Button with focusable 1`] = `
 - First value
 + Second value
 
-@@ -1,14 +1,15 @@
+@@ -1,12 +1,13 @@
   <Button
 +   focusable={true}
     label=\\"Click Me!\\"
@@ -398,15 +381,13 @@ exports[`<Button /> Text Button with focusable 1`] = `
   >
     <div>
       <button
-        aria-describedby={undefined}
-        aria-label={undefined}
 -       className=\\"\\"
 +       className=\\"focusable\\"
-        onClick={undefined}
-        onMouseEnter={undefined}
-        onMouseLeave={undefined}
         type=\\"button\\"
-      >"
+      >
+        Click Me!
+      </button>
+      <style"
 `;
 
 exports[`<Button /> Text Button with primary 1`] = `
@@ -414,7 +395,7 @@ exports[`<Button /> Text Button with primary 1`] = `
 - First value
 + Second value
 
-@@ -1,14 +1,15 @@
+@@ -1,12 +1,13 @@
   <Button
     label=\\"Click Me!\\"
 +   primary={true}
@@ -422,15 +403,13 @@ exports[`<Button /> Text Button with primary 1`] = `
   >
     <div>
       <button
-        aria-describedby={undefined}
-        aria-label={undefined}
 -       className=\\"\\"
 +       className=\\"btn-primary\\"
-        onClick={undefined}
-        onMouseEnter={undefined}
-        onMouseLeave={undefined}
         type=\\"button\\"
-      >"
+      >
+        Click Me!
+      </button>
+      <style"
 `;
 
 exports[`<Button /> Text Button with tooltip 1`] = `
@@ -438,7 +417,7 @@ exports[`<Button /> Text Button with tooltip 1`] = `
 - First value
 + Second value
 
-@@ -1,17 +1,68 @@
+@@ -1,12 +1,66 @@
   <Button
     label=\\"Click Me!\\"
 +   tooltip={
@@ -496,13 +475,8 @@ exports[`<Button /> Text Button with tooltip 1`] = `
 +       </div>
 +     </Tooltip>
       <button
--       aria-describedby={undefined}
 +       aria-describedby=\\"Click_Me!\\"
-        aria-label={undefined}
         className=\\"\\"
-        onClick={undefined}
--       onMouseEnter={undefined}
--       onMouseLeave={undefined}
 +       onMouseEnter={[Function anonymous]}
 +       onMouseLeave={[Function anonymous]}
         type=\\"button\\"

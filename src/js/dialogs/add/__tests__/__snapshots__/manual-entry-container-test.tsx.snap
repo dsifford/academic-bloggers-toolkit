@@ -184,7 +184,6 @@ exports[`<ManualEntryContainer /> should match snapshots 1`] = `
           id="citequery"
           onChange={[Function]}
           onKeyDown={[Function]}
-          pattern={undefined}
           placeholder="URL"
           type="url"
           value=""
@@ -198,13 +197,9 @@ exports[`<ManualEntryContainer /> should match snapshots 1`] = `
         >
           <div>
             <button
-              aria-describedby={undefined}
-              aria-label={undefined}
               className="btn-flat"
               disabled={true}
               onClick={[Function]}
-              onMouseEnter={undefined}
-              onMouseLeave={undefined}
               type="button"
             >
               Search
@@ -495,13 +490,10 @@ exports[`<ManualEntryContainer /> should match snapshots 1`] = `
               >
                 <div>
                   <button
-                    aria-describedby={undefined}
                     aria-label="Given Name, M.I."
                     className="btn-flat btn-icon"
                     data-index={0}
                     onClick={[Function]}
-                    onMouseEnter={undefined}
-                    onMouseLeave={undefined}
                     type="button"
                   >
                     <span
@@ -671,12 +663,8 @@ exports[`<ManualEntryContainer /> should match snapshots 1`] = `
             >
               <div>
                 <button
-                  aria-describedby={undefined}
-                  aria-label={undefined}
                   className="btn-flat"
                   onClick={[Function]}
-                  onMouseEnter={undefined}
-                  onMouseLeave={undefined}
                   type="button"
                 >
                   Add Contributor
@@ -1372,13 +1360,9 @@ exports[`<ManualEntryContainer /> should match snapshots 2`] = `
         >
           <div>
             <button
-              aria-describedby={undefined}
-              aria-label={undefined}
               className="btn-flat"
               disabled={true}
               onClick={[Function]}
-              onMouseEnter={undefined}
-              onMouseLeave={undefined}
               type="button"
             >
               Search
@@ -1740,13 +1724,10 @@ exports[`<ManualEntryContainer /> should match snapshots 2`] = `
               >
                 <div>
                   <button
-                    aria-describedby={undefined}
                     aria-label="Given Name, M.I."
                     className="btn-flat btn-icon"
                     data-index={0}
                     onClick={[Function]}
-                    onMouseEnter={undefined}
-                    onMouseLeave={undefined}
                     type="button"
                   >
                     <span
@@ -1916,12 +1897,8 @@ exports[`<ManualEntryContainer /> should match snapshots 2`] = `
             >
               <div>
                 <button
-                  aria-describedby={undefined}
-                  aria-label={undefined}
                   className="btn-flat"
                   onClick={[Function]}
-                  onMouseEnter={undefined}
-                  onMouseLeave={undefined}
                   type="button"
                 >
                   Add Contributor
