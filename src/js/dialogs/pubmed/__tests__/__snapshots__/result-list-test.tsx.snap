@@ -6,6 +6,7 @@ exports[`<ResultList /> should match snapshots 1`] = `
   results={
     Array [
       Object {
+        "PMID": "1",
         "author": Array [
           Object {
             "family": "Doe",
@@ -38,6 +39,7 @@ exports[`<ResultList /> should match snapshots 1`] = `
         "title": "Test Title 1",
       },
       Object {
+        "PMID": "2",
         "author": Array [
           Object {
             "family": "Doe",

@@ -61,17 +61,16 @@ interface FieldProps {
 class Field extends React.Component<FieldProps, {}> {
     render(): JSX.Element {
         const { onChange, field, meta } = this.props;
+        const { label, value, ...attrs } = field;
         return (
             <div className="table__row">
-                <label htmlFor={field.value} children={field.label} />
+                <label htmlFor={value} children={label} />
                 <input
                     type="text"
                     onChange={onChange}
-                    id={field.value}
-                    value={meta.get(field.value) || ''}
-                    required={field.required}
-                    placeholder={field.placeholder}
-                    pattern={field.pattern}
+                    id={value}
+                    value={meta.get(value) || ''}
+                    {...attrs}
                 />
                 <style jsx>{`
                     div {

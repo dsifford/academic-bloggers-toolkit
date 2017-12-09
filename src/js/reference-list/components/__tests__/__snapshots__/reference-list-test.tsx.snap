@@ -20,6 +20,7 @@ exports[`<ReferenceList /> snapshots cited and uncited list populated 1`] = `
         "bibOptions": Object {
           "heading": "",
           "headingLevel": "h3",
+          "links": "always",
           "style": "fixed",
         },
         "citationStyle": "american-medical-association",
@@ -32,7 +33,6 @@ exports[`<ReferenceList /> snapshots cited and uncited list populated 1`] = `
           },
           "byIndex": Array [],
         },
-        "links": "always",
         "locale": "en_US",
       }
     }
@@ -187,6 +187,7 @@ exports[`<ReferenceList /> snapshots cited and uncited list populated 2`] = `
         "bibOptions": Object {
           "heading": "",
           "headingLevel": "h3",
+          "links": "always",
           "style": "fixed",
         },
         "citationStyle": "american-medical-association",
@@ -221,7 +222,6 @@ exports[`<ReferenceList /> snapshots cited and uncited list populated 2`] = `
             },
           ],
         },
-        "links": "always",
         "locale": "en_US",
       }
     }
@@ -370,6 +370,7 @@ exports[`<ReferenceList /> snapshots initial mount with empty state 1`] = `
         "bibOptions": Object {
           "heading": "",
           "headingLevel": "h3",
+          "links": "always",
           "style": "fixed",
         },
         "citationStyle": "american-medical-association",
@@ -377,7 +378,6 @@ exports[`<ReferenceList /> snapshots initial mount with empty state 1`] = `
           "CSL": Object {},
           "byIndex": Array [],
         },
-        "links": "always",
         "locale": "en_US",
       }
     }
@@ -414,6 +414,7 @@ exports[`<ReferenceList /> snapshots initial mount with empty state 2`] = `
         "bibOptions": Object {
           "heading": "",
           "headingLevel": "h3",
+          "links": "always",
           "style": "fixed",
         },
         "citationStyle": "american-medical-association",
@@ -421,7 +422,6 @@ exports[`<ReferenceList /> snapshots initial mount with empty state 2`] = `
           "CSL": Object {},
           "byIndex": Array [],
         },
-        "links": "always",
         "locale": "en_US",
       }
     }
@@ -538,6 +538,7 @@ exports[`<ReferenceList /> snapshots menu toggled open 1`] = `
         "bibOptions": Object {
           "heading": "",
           "headingLevel": "h3",
+          "links": "always",
           "style": "fixed",
         },
         "citationStyle": "american-medical-association",
@@ -545,7 +546,6 @@ exports[`<ReferenceList /> snapshots menu toggled open 1`] = `
           "CSL": Object {},
           "byIndex": Array [],
         },
-        "links": "always",
         "locale": "en_US",
       }
     }
@@ -662,6 +662,7 @@ exports[`<ReferenceList /> snapshots pinned state toggled 1`] = `
         "bibOptions": Object {
           "heading": "",
           "headingLevel": "h3",
+          "links": "always",
           "style": "fixed",
         },
         "citationStyle": "american-medical-association",
@@ -669,7 +670,6 @@ exports[`<ReferenceList /> snapshots pinned state toggled 1`] = `
           "CSL": Object {},
           "byIndex": Array [],
         },
-        "links": "always",
         "locale": "en_US",
       }
     }
@@ -770,6 +770,6 @@ exports[`<ReferenceList /> snapshots should match StorageField snapshot 1`] = `
 <input
   name="abt-reflist-state"
   type="hidden"
-  value="{\\"CSL\\":{},\\"cache\\":{\\"links\\":\\"always\\",\\"locale\\":\\"en_US\\",\\"style\\":\\"american-medical-association\\"},\\"citationByIndex\\":[]}"
+  value="{\\"CSL\\":{},\\"cache\\":{\\"locale\\":\\"en_US\\",\\"style\\":\\"american-medical-association\\"},\\"citationByIndex\\":[]}"
 />
 `;

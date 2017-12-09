@@ -132,7 +132,7 @@
     "mapCoverage": true,
     "moduleDirectories": ["node_modules", "./src/js"],
     "moduleFileExtensions": ["ts", "tsx", "js"],
-    "setupFiles": ["raf/polyfill", "./lib/scripts/before-test.ts"],
+    "setupFiles": ["raf/polyfill", "./lib/before-test.ts"],
     "testRegex": "(/__tests__/.*|\\.(test|spec))\\.(ts|tsx|js)$",
     "transform": {
       ".(ts|tsx)": "<rootDir>/node_modules/ts-jest/preprocessor.js"

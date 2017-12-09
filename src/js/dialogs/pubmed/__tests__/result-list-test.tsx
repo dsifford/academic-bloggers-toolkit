@@ -3,7 +3,7 @@ import toJSON from 'enzyme-to-json';
 import * as React from 'react';
 import { ResultList } from '../result-list';
 
-const generateData = (n: number) => {
+const generateData = (n: number): any => {
     let data: Array<Partial<CSL.Data>> = [];
     for (let i = 0; i < n; i++) {
         data = [
@@ -21,6 +21,7 @@ const generateData = (n: number) => {
                 'container-title-short': `J Test ${i + 1}`,
                 title: `Test Title ${i + 1}`,
                 id: `${i + 1}`,
+                PMID: `${i + 1}`,
             },
         ];
     }
@@ -29,7 +30,7 @@ const generateData = (n: number) => {
 
 const defaultData = generateData(2);
 
-const setup = (data: any = defaultData, fullMount = true) => {
+const setup = (data: any = defaultData, fullMount = true): any => {
     const spy = jest.fn();
     const component = fullMount
         ? mount(<ResultList results={data} onSelect={spy} />)
