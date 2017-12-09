@@ -192,6 +192,7 @@ const main = gulp.series(
             open: false,
             reloadDebounce: 2000,
             port: 3005,
+            notify: false,
         });
     },
 );

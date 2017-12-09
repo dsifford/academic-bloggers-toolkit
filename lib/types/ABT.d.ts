@@ -97,7 +97,7 @@ declare namespace ABT {
         | 'translator'
         | 'recipient';
 
-    interface Field extends React.HTMLAttributes<HTMLInputElement> {
+    interface Field extends React.HTMLProps<HTMLInputElement> {
         value: string;
         label: string;
     }
