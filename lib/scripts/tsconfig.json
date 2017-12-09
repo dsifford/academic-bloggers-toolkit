@@ -2,17 +2,13 @@
   "compilerOptions": {
     "target": "es6",
     "module": "commonjs",
-    "lib": ["dom", "dom.iterable", "esnext", "webworker"],
-    "jsx": "preserve",
-    "sourceMap": true,
+    "lib": ["esnext"],
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
     "noImplicitAny": true,
-    "baseUrl": "./src/js",
     "experimentalDecorators": true
-  },
-  "include": ["src/**/*", "lib/types/*", "lib/*", "webpack.config.ts", "gulpfile.ts"]
+  }
 }

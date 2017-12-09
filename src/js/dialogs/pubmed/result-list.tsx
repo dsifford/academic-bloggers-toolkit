@@ -56,7 +56,10 @@ export class ResultList extends React.Component<ResultListProps, {}> {
                 {this.props.results.map(result => (
                     <div key={result.id} className="result-item">
                         <div className="result-item__row-1">
-                            <div className="result-item__source" children={result.source} />
+                            <div
+                                className="result-item__source"
+                                children={result.journalAbbreviation}
+                            />
                             <div children={result.issued!['date-parts']![0][0]} />
                         </div>
                         {/* tslint:disable-next-line:react-no-dangerous-html */}
@@ -75,14 +78,14 @@ export class ResultList extends React.Component<ResultListProps, {}> {
                                 <Button
                                     flat
                                     focusable
-                                    href={`https://www.ncbi.nlm.nih.gov/pubmed/${result.id}`}
+                                    href={`https://www.ncbi.nlm.nih.gov/pubmed/${result.PMID}`}
                                     label={ResultList.labels.viewReference}
                                 />
                                 <Button
                                     flat
                                     primary
                                     focusable
-                                    id={result.id}
+                                    id={result.PMID}
                                     label={ResultList.labels.addReference}
                                     onClick={this.handleClick}
                                 />
