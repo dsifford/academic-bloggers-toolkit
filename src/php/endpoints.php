@@ -10,7 +10,7 @@ if (!defined('ABSPATH')) {
  * AJAX Method for getting metadata from other websites for citations.
  */
 function get_website_meta() {
-    if (extension_loaded('dom') || !extension_loaded('libxml')) {
+    if (!extension_loaded('dom') || !extension_loaded('libxml')) {
         wp_send_json_error([], 501);
         exit;
     }
