@@ -112,15 +112,6 @@ function parseStyleObj(obj: StyleResponse): StyleData {
             },
             <FileEntry[]>[],
         )
-        .sort((a, b) => {
-            if (a.name < b.name) {
-                return -1;
-            }
-            if (a.name > b.name) {
-                return 1;
-            }
-            return 0;
-        })
         .map(style => {
             const label = style.object.text.match(/<title>(.+)<\/title>/)![1].replace(
                 /&amp;/g,
@@ -139,6 +130,11 @@ function parseStyleObj(obj: StyleResponse): StyleData {
                 label,
                 value,
             };
+        })
+        .sort((a, b) => {
+            const prev = a.label.toLowerCase();
+            const next = b.label.toLowerCase();
+            return prev < next ? -1 : 1;
         });
     if (!renamed) {
         throw new Error('renamed-styles.json file never found!');
@@ -172,8 +168,12 @@ function getNewStyles(before: StyleData, after: StyleObj[]): string[] {
     const newStyles = getNewStyles(oldData, newData.styles);
     console.log('================ New Styles Added ================');
     console.log(newStyles.join('\n'));
+    // fs.writeFileSync(
+    //     path.resolve(__dirname, '../../src/vendor/', 'citation-styles.json'),
+    //     JSON.stringify(newData, null, 4),
+    // );
     fs.writeFileSync(
-        path.resolve(__dirname, '../../src/vendor/', 'citation-styles.json'),
+        path.resolve(__dirname, 'citation-styles-temp.json'),
         JSON.stringify(newData, null, 4),
     );
 })();
