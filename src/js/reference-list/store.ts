@@ -15,8 +15,7 @@ class CitationStore {
      */
     @computed
     get uncited(): CSL.Data[] {
-        return this.CSL
-            .keys()
+        return this.CSL.keys()
             .reduce(
                 (data, currentId) => {
                     if (!this.citedIDs.includes(currentId)) {
@@ -158,6 +157,7 @@ export default class Store {
     bibOptions = {
         heading: '',
         headingLevel: <'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6'>'h3',
+        links: <ABT.LinkStyle>'always',
         style: <'fixed' | 'toggle'>'fixed',
     };
 
@@ -169,11 +169,6 @@ export default class Store {
     citationStyle = observable('');
 
     /**
-     * The user's selected link format.
-     */
-    links: ABT.LinkStyle;
-
-    /**
      * The user's locale provided by WordPress.
      */
     locale: string;
@@ -181,7 +176,6 @@ export default class Store {
     constructor(savedState: ABT.Backend['state']) {
         const { cache, citationByIndex, bibOptions, CSL } = savedState;
         this.citations = new CitationStore(citationByIndex, CSL);
-        this.links = cache.links;
         this.locale = cache.locale;
         this.citationStyle.set(cache.style);
         this.bibOptions = bibOptions;
@@ -208,7 +202,6 @@ export default class Store {
 
     private get cache(): ABT.EditorState['cache'] {
         return {
-            links: this.links,
             locale: this.locale,
             style: this.citationStyle.get(),
         };

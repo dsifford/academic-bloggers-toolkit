@@ -30,11 +30,11 @@ export const state: ABT.Backend['state'] = {
     bibOptions: {
         heading: 'Bibliography',
         style: 'fixed',
+        links: 'always',
         headingLevel: 'h3',
     },
     cache: {
         style: 'american-medical-association',
-        links: 'always',
         locale: 'en-US',
     },
     citationByIndex: [

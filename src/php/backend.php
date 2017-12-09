@@ -161,7 +161,7 @@ class Backend {
             $state = [
                 'cache' => [
                     'style' => $style,
-                    'links' => $opts['display_options']['links'],
+                    // 'links' => $opts['display_options']['links'],
                     'locale' => get_locale(),
                 ],
                 'citationByIndex' => [],
@@ -172,6 +172,7 @@ class Backend {
         $state['bibOptions'] = [
             'heading' => $opts['display_options']['bib_heading'],
             'headingLevel' => $opts['display_options']['bib_heading_level'],
+            'links' => $opts['display_options']['links'],
             'style' => $opts['display_options']['bibliography'],
         ];
 

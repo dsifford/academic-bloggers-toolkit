@@ -85,11 +85,11 @@ const blankState: ABT.Backend['state'] = {
     bibOptions: {
         heading: '',
         headingLevel: 'h3',
+        links: 'always',
         style: 'fixed',
     },
     cache: {
         style: 'american-medical-association',
-        links: 'always',
         locale: 'en_US',
     },
     citationByIndex: [],

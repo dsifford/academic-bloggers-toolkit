@@ -42,7 +42,7 @@ export class Processor {
         const bib = citeproc.makeBibliography();
         return typeof bib === 'boolean'
             ? bib
-            : formatBibliography(bib, this.store.links, this.store.citations.CSL);
+            : formatBibliography(bib, this.store.bibOptions.links, this.store.citations.CSL);
     }
 
     /**
@@ -82,7 +82,7 @@ export class Processor {
         this.store.citations.init(this.citeproc.registry.citationreg.citationByIndex);
         return typeof bib === 'boolean'
             ? bib
-            : formatBibliography(bib, this.store.links, this.store.citations.CSL);
+            : formatBibliography(bib, this.store.bibOptions.links, this.store.citations.CSL);
     }
 
     /**

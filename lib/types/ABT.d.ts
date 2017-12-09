@@ -267,11 +267,11 @@ declare namespace ABT {
         bibOptions: {
             heading: string;
             headingLevel: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
+            links: LinkStyle;
             style: 'fixed' | 'toggle';
         };
         cache: {
             style: string;
-            links: LinkStyle;
             locale: string;
         };
         citationByIndex: Citeproc.CitationByIndex;
