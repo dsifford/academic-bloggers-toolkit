@@ -387,7 +387,7 @@ msgstr ""
 msgid "Website Title"
 msgstr ""
 
-#: php/i18n.php:20, php/views/options-page.php:254
+#: php/i18n.php:20, php/views/options-page.php:256
 msgid "Footnotes"
 msgstr ""
 
@@ -675,110 +675,114 @@ msgstr ""
 msgid "Google Chrome, Mozilla Firefox, or Microsoft Edge."
 msgstr ""
 
-#: php/views/options-page.php:83
+#: php/views/options-page.php:78
+msgid "Note: Be sure that your server does not have %s or %s configured in your php.ini file or .htaccess file. Both can cause issues."
+msgstr ""
+
+#: php/views/options-page.php:85
 msgid "Default Citation Style"
 msgstr ""
 
-#: php/views/options-page.php:90
+#: php/views/options-page.php:92
 msgid "Use a predefined citation style by default"
 msgstr ""
 
-#: php/views/options-page.php:96
+#: php/views/options-page.php:98
 msgid "Use custom citation style by default "
 msgstr ""
 
-#: php/views/options-page.php:118, php/views/options-page.php:217, php/views/options-page.php:265
+#: php/views/options-page.php:120, php/views/options-page.php:219, php/views/options-page.php:267
 msgid "Update"
 msgstr ""
 
-#: php/views/options-page.php:126
+#: php/views/options-page.php:128
 msgid "Display Options"
 msgstr ""
 
-#: php/views/options-page.php:130
+#: php/views/options-page.php:132
 msgid "Bibliography Style"
 msgstr ""
 
-#: php/views/options-page.php:135
+#: php/views/options-page.php:137
 msgid "Fixed"
 msgstr ""
 
-#: php/views/options-page.php:141
+#: php/views/options-page.php:143
 msgid "Toggle"
 msgstr ""
 
-#: php/views/options-page.php:146
+#: php/views/options-page.php:148
 msgid "Interactive Demo"
 msgstr ""
 
-#: php/views/options-page.php:150
+#: php/views/options-page.php:152
 msgid "Citation Link Style"
 msgstr ""
 
-#: php/views/options-page.php:155
+#: php/views/options-page.php:157
 msgid "whenever possible (subtle)"
 msgstr ""
 
-#: php/views/options-page.php:161
+#: php/views/options-page.php:163
 msgid "whenever possible (full surround)"
 msgstr ""
 
-#: php/views/options-page.php:167
+#: php/views/options-page.php:169
 msgid "when the citation has a visible URL"
 msgstr ""
 
-#: php/views/options-page.php:173
+#: php/views/options-page.php:175
 msgid "never"
 msgstr ""
 
-#: php/views/options-page.php:198
+#: php/views/options-page.php:200
 msgid "Bibliography Heading"
 msgstr ""
 
-#: php/views/options-page.php:202
+#: php/views/options-page.php:204
 msgid "Bibliography Heading Level"
 msgstr ""
 
-#: php/views/options-page.php:225
+#: php/views/options-page.php:227
 msgid "Override CSS"
 msgstr ""
 
-#: php/views/options-page.php:235
+#: php/views/options-page.php:237
 msgid "CSS Selectors used in this plugin"
 msgstr ""
 
-#: php/views/options-page.php:238
+#: php/views/options-page.php:240
 msgid "Inline Citations"
 msgstr ""
 
-#: php/views/options-page.php:242
+#: php/views/options-page.php:244
 msgid "Citation Tooltips"
 msgstr ""
 
-#: php/views/options-page.php:246
+#: php/views/options-page.php:248
 msgid "Bibliography"
 msgstr ""
 
-#: php/views/options-page.php:250
+#: php/views/options-page.php:252
 msgid "Static Publication Lists"
 msgstr ""
 
-#: php/views/options-page.php:258
+#: php/views/options-page.php:260
 msgid "Note: If you are already using a child theme to load CSS, place your CSS overrides there. The box on the left is only a crutch for those who do not have any custom CSS saved yet. Loading CSS this way is very inefficient."
 msgstr ""
 
-#: php/views/options-page.php:272
+#: php/views/options-page.php:274
 msgid "How do I"
 msgstr ""
 
-#: php/views/options-page.php:276
+#: php/views/options-page.php:278
 msgid "Make my tooltips a different color?"
 msgstr ""
 
-#: php/views/options-page.php:281
+#: php/views/options-page.php:283
 msgid "Apply style to the bibliography list?"
 msgstr ""
 
-#: php/views/options-page.php:286
+#: php/views/options-page.php:288
 msgid "Apply style to the inline citations"
 msgstr ""
