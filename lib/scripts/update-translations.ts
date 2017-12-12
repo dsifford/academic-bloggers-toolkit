@@ -67,14 +67,17 @@ export interface Contributors {
 
 const LANGS: ReadonlyMap<string, string[]> = new Map([
     ['ar', ['ar']],
-    ['zh-CN', ['zh_CN']],
+    ['da', ['da_DK']],
     ['de', ['de_DE', 'de_CH']],
+    ['es-ar', ['es_AR']],
+    ['es', ['es_CL', 'es_CO', 'es_CR', 'es_GT', 'es_MX', 'es_PE', 'es_PR', 'es_ES', 'es_VE']],
+    ['id', ['id_ID']],
     ['pl', ['pl_PL']],
     ['pt', ['pt_BR', 'pt_PT']],
-    [
-        'es-ar',
-        ['es_AR', 'es_CL', 'es_CO', 'es_CR', 'es_GT', 'es_MX', 'es_PE', 'es_PR', 'es_ES', 'es_VE'],
-    ],
+    ['ta', ['ta_IN', 'ta_LK']],
+    ['th', ['th']],
+    ['ur', ['ur']],
+    ['zh-CN', ['zh_CN']],
 ]);
 
 async function getTranslations(): Promise<void> {

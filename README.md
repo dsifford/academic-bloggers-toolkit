@@ -48,14 +48,17 @@ Translations for this plugin can be completed and submitted [here](https://poedi
 <!-- TRANSLATION_STATUS_START -->
 Language | Contributors | % Complete
 -------- | ------------ | ----------
-Chinese (simplified) `zh-CN` | fishfree | ![Progress](http://progressed.io/bar/98)
-Polish `pl` | Krzysztof Ruchniewicz | ![Progress](http://progressed.io/bar/94)
-German `de` | Karina, Mathias Micheel | ![Progress](http://progressed.io/bar/93)
-Spanish (AR) `es-ar` | Lucas | ![Progress](http://progressed.io/bar/93)
-Portuguese `pt` | Alexandre Rodrigues | ![Progress](http://progressed.io/bar/58)
-Arabic `ar` | Ezz El Dean | ![Progress](http://progressed.io/bar/20)
+Spanish `es` | Jose Miguel Villatoro | ![Progress](http://progressed.io/bar/99)
+Spanish (AR) `es-ar` | Jose Miguel Villatoro, Lucas | ![Progress](http://progressed.io/bar/99)
+Chinese (simplified) `zh-CN` | fishfree | ![Progress](http://progressed.io/bar/97)
+Polish `pl` | Krzysztof Ruchniewicz | ![Progress](http://progressed.io/bar/93)
+German `de` | Jan-Luca Bauß, Mathias Micheel | ![Progress](http://progressed.io/bar/92)
+Portuguese `pt` | Alexandre Rodrigues | ![Progress](http://progressed.io/bar/57)
+Indonesian `id` | Alam | ![Progress](http://progressed.io/bar/36)
+Arabic `ar` | Ezz El Dean | ![Progress](http://progressed.io/bar/19)
 Danish `da` | Dan Bilbo Christensen | ![Progress](http://progressed.io/bar/0)
-Thai `th` | Tammakit Intharaksa | ![Progress](http://progressed.io/bar/0)
+Tamil `ta` | Albert Albs | ![Progress](http://progressed.io/bar/0)
+Thai `th` | Jose Miguel Villatoro, Tammakit Intharaksa, wiennat | ![Progress](http://progressed.io/bar/0)
 Urdu `ur` | Munir Abbasi | ![Progress](http://progressed.io/bar/0)
 <!-- TRANSLATION_STATUS_END -->
 

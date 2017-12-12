@@ -18,6 +18,7 @@
     "start": "gulp",
     "build": "NODE_ENV=production torus run gulp",
     "deploy": "npm run build && torus run ./lib/scripts/deploy $npm_package_version",
+    "version": "gulp bump",
     "inspect-bundles": "npx bundle-buddy dist/js/**/*.map",
     "update-translations": "torus run ts-node ./lib/scripts/update-translations.ts",
     "update-styles": "torus run ts-node ./lib/scripts/update-styles.ts"
