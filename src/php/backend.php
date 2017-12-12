@@ -161,7 +161,6 @@ class Backend {
             $state = [
                 'cache' => [
                     'style' => $style,
-                    // 'links' => $opts['display_options']['links'],
                     'locale' => get_locale(),
                 ],
                 'citationByIndex' => [],
