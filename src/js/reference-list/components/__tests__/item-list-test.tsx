@@ -121,7 +121,7 @@ describe('<ItemList />', () => {
         expect(UI.cited.isOpen.get()).toBeTruthy();
         expect(UI.uncited.isOpen.get()).toBeFalsy();
     });
-    it('shuold handle item click', () => {
+    it('should handle item click', () => {
         const { component } = setup(3, ['2']);
         const items = component.find('Items');
         expect(selected.slice()).toEqual(['2']);
@@ -131,6 +131,22 @@ describe('<ItemList />', () => {
 
         items.simulate('click', { currentTarget: { id: '2' } });
         expect(selected.slice()).toEqual(['1']);
+    });
+    it('should handle shift-click selection', () => {
+        const { component } = setup(5, ['1']);
+        const items = component.find('Items');
+        expect(selected.slice()).toEqual(['1']);
+
+        items.simulate('click', { currentTarget: { id: '5' }, shiftKey: true });
+        expect(selected.slice()).toEqual(['1', '2', '3', '4', '5']);
+    });
+    it('should pass over previously selected items with shift-click', () => {
+        const { component } = setup(10, ['3', '5', '7', '9']);
+        const items = component.find('Items');
+        expect(selected.slice()).toEqual(['3', '5', '7', '9']);
+
+        items.simulate('click', { currentTarget: { id: '1' }, shiftKey: true });
+        expect(selected.slice().sort()).toEqual(['1', '2', '3', '4', '5', '6', '7', '8', '9']);
     });
 });
 
@@ -156,14 +172,12 @@ describe('<Items />', () => {
     describe('scroll handler tests', () => {
         const stopPropagation = jest.fn();
         const preventDefault = jest.fn();
-        function makeEvent(
-            {
-                deltaY = 0,
-                offsetHeight = 250,
-                scrollHeight = 500,
-                scrollTop = 0,
-            }: { [k: string]: number } = {},
-        ) {
+        function makeEvent({
+            deltaY = 0,
+            offsetHeight = 250,
+            scrollHeight = 500,
+            scrollTop = 0,
+        }: { [k: string]: number } = {}) {
             return {
                 deltaY,
                 currentTarget: {

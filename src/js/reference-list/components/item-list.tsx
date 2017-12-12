@@ -45,6 +45,9 @@ export default class ItemList extends React.Component<Props> {
 
     @action
     toggleSelect = (e: React.MouseEvent<HTMLDivElement>): void => {
+        if (e.shiftKey && this.props.selectedItems.length > 0) {
+            return this.shiftSelect(e.currentTarget.id);
+        }
         this.props.selectedItems.remove(e.currentTarget.id) ||
             this.props.selectedItems.push(e.currentTarget.id);
     };
@@ -97,6 +100,32 @@ export default class ItemList extends React.Component<Props> {
             </div>
         );
     }
+
+    @action
+    private shiftSelect = (id: string): void => {
+        const { selectedItems } = this.props;
+        // existence of items is already checked in calling function
+        const items = this.props.items!;
+        const lastId = selectedItems[selectedItems.length - 1];
+        const lastIndex = items.findIndex(i => i.id === lastId);
+        const thisIndex = items.findIndex(i => i.id === id);
+        const idsToBeSelected = [
+            ...items
+                .filter(
+                    (_, i) =>
+                        lastIndex < thisIndex
+                            ? lastIndex < i && i < thisIndex
+                            : thisIndex < i && i < lastIndex,
+                )
+                .map(item => item.id),
+            id,
+        ];
+        for (const i of idsToBeSelected) {
+            if (!selectedItems.includes(i)) {
+                selectedItems.push(i);
+            }
+        }
+    };
 }
 
 interface ItemsProps extends React.HTMLProps<HTMLElement> {

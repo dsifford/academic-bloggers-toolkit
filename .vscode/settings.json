@@ -7,5 +7,6 @@
     ".prettierrc": "yaml"
   },
   "lcov.path": "lib/tmp/coverage/lcov.info",
-  "lcov.branchCoverage": "full"
+  "lcov.branchCoverage": "full",
+  "tslint.exclude": ["**/src/**/__tests__/*"]
 }
