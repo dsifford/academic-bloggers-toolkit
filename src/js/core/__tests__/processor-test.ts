@@ -1,7 +1,7 @@
 jest.mock('core/style-store');
 jest.mock('core/locale-store');
 
-const { CSL } = require('../../../vendor/citeproc.js');
+const { CSL } = require('citeproc');
 import Store from '../../reference-list/store';
 import { Processor } from '../processor';
 
