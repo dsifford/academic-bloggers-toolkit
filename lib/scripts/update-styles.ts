@@ -168,12 +168,8 @@ function getNewStyles(before: StyleData, after: StyleObj[]): string[] {
     const newStyles = getNewStyles(oldData, newData.styles);
     console.log('================ New Styles Added ================');
     console.log(newStyles.join('\n'));
-    // fs.writeFileSync(
-    //     path.resolve(__dirname, '../../src/vendor/', 'citation-styles.json'),
-    //     JSON.stringify(newData, null, 4),
-    // );
     fs.writeFileSync(
-        path.resolve(__dirname, 'citation-styles-temp.json'),
+        path.resolve(__dirname, '../../src/vendor/', 'citation-styles.json'),
         JSON.stringify(newData, null, 4),
     );
 })();
