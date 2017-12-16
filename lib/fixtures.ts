@@ -251,11 +251,16 @@ export const i18n: ABT.Backend['i18n'] = {
         },
         add: {
             title: 'Add References',
-            people: {
-                add: 'Add Contributor',
+            contributorList: {
+                add: 'Add contributor',
                 contributors: 'Contributors',
+            },
+            contributor: {
                 surname: 'Surname',
                 given: 'Given Name, M.I.',
+                literal: 'Literal Name',
+                remove: 'Remove contributor',
+                toggleLiteral: 'Toggle literal name',
             },
             manualEntryContainer: {
                 citationType: 'Citation Type',

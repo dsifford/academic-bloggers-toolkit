@@ -111,11 +111,16 @@ function generate_translations() {
             'search' => __('Search', 'academic-bloggers-toolkit'),
             'URL' => __('URL', 'academic-bloggers-toolkit'),
         ],
-        'people' => [
-            'add' => __('Add Contributor', 'academic-bloggers-toolkit'),
+        'contributorList' => [
+            'add' => __('Add contributor', 'academic-bloggers-toolkit'),
             'contributors' => __('Contributors', 'academic-bloggers-toolkit'),
+        ],
+        'contributor' => [
             'given' => __('Given Name, M.I.', 'academic-bloggers-toolkit'),
             'surname' => __('Surname', 'academic-bloggers-toolkit'),
+            'literal' => __('Literal Name', 'academic-bloggers-toolkit'),
+            'remove' => __('Remove contributor', 'academic-bloggers-toolkit'),
+            'toggleLiteral' => __('Toggle literal name', 'academic-bloggers-toolkit'),
         ],
         'title' => __('Add References', 'academic-bloggers-toolkit'),
     ];

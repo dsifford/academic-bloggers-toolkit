@@ -86,7 +86,7 @@ declare namespace ABT {
         url?: string;
     }
 
-    type PersonType =
+    type ContributorType =
         | 'author'
         | 'container-author'
         | 'editor'
@@ -95,30 +95,23 @@ declare namespace ABT {
         | 'illustrator'
         | 'composer'
         | 'translator'
-        | 'recipient';
+        | 'recipient'
+        | 'collection-editor';
 
     interface Field extends React.HTMLProps<HTMLInputElement> {
         value: string;
         label: string;
     }
 
+    interface ContributorField {
+        label: string;
+        type: ContributorType;
+    }
+
     interface FieldMap {
         title: string;
         fields: Field[];
-        people: Array<{
-            label: string;
-            type:
-                | 'author'
-                | 'container-author'
-                | 'editor'
-                | 'director'
-                | 'interviewer'
-                | 'illustrator'
-                | 'composer'
-                | 'translator'
-                | 'recipient'
-                | 'collection-editor';
-        }>;
+        people: ContributorField[];
     }
 
     interface FieldMappings {
@@ -142,13 +135,13 @@ declare namespace ABT {
         webpage: FieldMap;
     }
 
-    interface TypedPerson extends CSL.Person {
-        type: PersonType;
+    interface Contributor extends CSL.Person {
+        type: ContributorType;
     }
 
     interface ManualData {
         manualData: CSL.Data;
-        people: TypedPerson[];
+        people: Contributor[];
     }
 
     interface ReferenceWindowPayload extends ManualData {
@@ -249,11 +242,16 @@ declare namespace ABT {
                     search: 'Search';
                     URL: 'URL';
                 };
-                people: {
-                    add: 'Add Contributor';
+                contributorList: {
+                    add: 'Add contributor';
                     contributors: 'Contributors';
+                };
+                contributor: {
                     given: 'Given Name, M.I.';
                     surname: 'Surname';
+                    literal: 'Literal Name';
+                    remove: 'Remove contributor';
+                    toggleLiteral: 'Toggle literal name';
                 };
                 title: 'Add References';
             };
