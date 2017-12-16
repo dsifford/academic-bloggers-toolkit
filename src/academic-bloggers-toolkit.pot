@@ -592,22 +592,34 @@ msgid "Citation Type"
 msgstr ""
 
 #: php/i18n.php:115
-msgid "Add Contributor"
+msgid "Add contributor"
 msgstr ""
 
 #: php/i18n.php:116
 msgid "Contributors"
 msgstr ""
 
-#: php/i18n.php:117
+#: php/i18n.php:119
 msgid "Given Name, M.I."
 msgstr ""
 
-#: php/i18n.php:118
+#: php/i18n.php:120
 msgid "Surname"
 msgstr ""
 
-#: php/i18n.php:120
+#: php/i18n.php:121
+msgid "Literal Name"
+msgstr ""
+
+#: php/i18n.php:122
+msgid "Remove contributor"
+msgstr ""
+
+#: php/i18n.php:123
+msgid "Toggle literal name"
+msgstr ""
+
+#: php/i18n.php:125
 msgid "Add References"
 msgstr ""
 

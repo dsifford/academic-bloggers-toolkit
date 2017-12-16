@@ -9,11 +9,9 @@
     "test": "jest --coverage --silent",
     "posttest": "npm run lint-ts",
     "phpcsfix-src": "php-cs-fixer fix --config=.php_cs -v",
-    "phpcsfix-dist":
-      "php-cs-fixer fix ./dist --rules='{\"array_syntax\": { \"syntax\": \"long\"}}' --using-cache=no",
+    "phpcsfix-dist": "php-cs-fixer fix ./dist --rules='{\"array_syntax\": { \"syntax\": \"long\"}}' --using-cache=no",
     "lint-ts": "tslint -p . -t codeFrame",
-    "lint-php":
-      "php-cs-fixer fix --config=.php_cs -vvv --dry-run --stop-on-violation --using-cache=no",
+    "lint-php": "php-cs-fixer fix --config=.php_cs -vvv --dry-run --stop-on-violation --using-cache=no",
     "lint": "npm run lint-ts && npm run lint-php",
     "start": "gulp",
     "build": "NODE_ENV=production torus run gulp",
@@ -24,7 +22,10 @@
     "update-styles": "torus run ts-node ./lib/scripts/update-styles.ts"
   },
   "lint-staged": {
-    "*.{ts,tsx,js,jsx,scss,json,css}": ["prettier --write", "git add"]
+    "*.{ts,tsx,js,jsx,scss,json,css}": [
+      "prettier --write",
+      "git add"
+    ]
   },
   "repository": "dsifford/academic-bloggers-toolkit",
   "author": "Derek P Sifford",
@@ -34,7 +35,7 @@
     }
   ],
   "devDependencies": {
-    "@types/enzyme": "^3.1.5",
+    "@types/enzyme": "^3.1.6",
     "@types/gulp": "^4.0.5",
     "@types/gulp-autoprefixer": "0.0.31",
     "@types/gulp-replace": "0.0.31",
@@ -45,7 +46,7 @@
     "@types/jest": "^21.1.8",
     "@types/jquery": "^3.2.17",
     "@types/node": "^8.5.1",
-    "@types/react": "^16.0.30",
+    "@types/react": "^16.0.31",
     "@types/react-dom": "^16.0.3",
     "@types/react-motion": "^0.0.23",
     "@types/react-test-renderer": "^16.0.0",
@@ -83,7 +84,7 @@
     "snapshot-diff": "^0.2.2",
     "style-loader": "^0.19.1",
     "ts-jest": "^21.2.4",
-    "ts-node": "^4.0.1",
+    "ts-node": "^4.0.2",
     "tslint": "^5.8.0",
     "tslint-microsoft-contrib": "^5.0.1",
     "tslint-react": "^3.2.0",
@@ -93,7 +94,7 @@
   },
   "dependencies": {
     "astrocite": "^0.9.4",
-    "citeproc": "^2.1.182",
+    "citeproc": "^2.1.183",
     "common-tags": "^1.5.1",
     "focus-trap-react": "^3.0.5",
     "he": "^1.1.1",
@@ -129,9 +130,19 @@
       }
     },
     "mapCoverage": true,
-    "moduleDirectories": ["node_modules", "./src/js"],
-    "moduleFileExtensions": ["ts", "tsx", "js"],
-    "setupFiles": ["raf/polyfill", "./lib/before-test.ts"],
+    "moduleDirectories": [
+      "node_modules",
+      "./src/js"
+    ],
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js"
+    ],
+    "setupFiles": [
+      "raf/polyfill",
+      "./lib/before-test.ts"
+    ],
     "testRegex": "(/__tests__/.*|\\.(test|spec))\\.(ts|tsx|js)$",
     "transform": {
       ".(ts|tsx)": "<rootDir>/node_modules/ts-jest/preprocessor.js"
