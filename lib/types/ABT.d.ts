@@ -13,6 +13,8 @@ declare namespace ABT {
         heading: string;
         /** HTML Heading element preferred for heading */
         headingLevel: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
+        /** Format for embedded links in references */
+        links: LinkStyle;
         /** Should the heading be toggleable? */
         style: 'fixed' | 'toggle';
     }

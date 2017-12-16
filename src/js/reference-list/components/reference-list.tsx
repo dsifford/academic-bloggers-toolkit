@@ -5,12 +5,12 @@ import { observer } from 'mobx-react';
 import * as React from 'react';
 
 import { Processor } from 'core/processor';
+import Store from 'core/store';
 import EditorDriver, { EditorDriverConstructor } from 'drivers/base';
 import { DialogType, MenuActionType } from 'utils/constants';
 import DevTools from 'utils/devtools';
 import { colors, shadows } from 'utils/styles';
 import { getRemoteData, parseManualData } from '../api';
-import Store from '../store';
 
 import Button from 'components/button';
 import Spinner from 'components/spinner';

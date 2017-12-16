@@ -1,7 +1,7 @@
 import * as Csl from 'citeproc';
 import { toJS } from 'mobx';
 
-import Store from 'reference-list/store';
+import Store from 'core/store';
 import { formatBibliography } from 'utils/formatters/';
 import { generateID } from 'utils/helpers/';
 import { LocaleStore } from './locale-store';
@@ -100,8 +100,6 @@ export class Processor {
         return {
             citationID: generateID(),
             citationItems,
-            // FIXME: remove this when citeproc fixes the bug
-            properties: {},
         };
     }
 

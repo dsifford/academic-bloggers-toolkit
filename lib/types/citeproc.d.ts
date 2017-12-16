@@ -125,7 +125,7 @@ declare namespace Citeproc {
             id: string;
             item?: CSL.Data;
         }>;
-        properties: {
+        properties?: {
             /** 0-based index of the citation group in the document */
             noteIndex?: number;
         };
@@ -137,11 +137,23 @@ declare namespace Citeproc {
             [id: string]: Citation;
         };
         /** Retrieve citation(s) by the index of its parent HTMLSpanElement in the document */
-        citationByIndex: Citation[];
+        citationByIndex: CitationByIndex;
         /** Retrieve citation by the unique citation ID */
         citationsByItemId: {
             [itemId: string]: Citation[];
         };
+    }
+
+    /** An object whose keys are reference IDs and whose values are CSL.Data */
+    interface RefHash {
+        [referenceId: string]: CSL.Data;
+    }
+
+    interface Registry {
+        debug: boolean;
+        citationreg: CitationRegistry;
+        refhash: RefHash;
+        getSortedIds(): string[];
     }
 
     interface SystemObj {
@@ -150,9 +162,7 @@ declare namespace Citeproc {
     }
 
     interface Processor {
-        registry: {
-            citationreg: CitationRegistry;
-        };
+        registry: Registry;
         sys: SystemObj;
         opt: {
             xclass: CitationKind;
@@ -198,17 +208,3 @@ declare namespace Citeproc {
         };
     }
 }
-
-/*
-
-item
-citation
-registry
-
-
-citable items
-
-uncited items
-
-
-*/

@@ -5,9 +5,9 @@ import { shallow } from 'enzyme';
 import toJSON from 'enzyme-to-json';
 import * as React from 'react';
 
+import Store from 'core/store';
 import EditorDriver from 'drivers/base';
-import { getRemoteData, parseManualData } from '../../api';
-import Store from '../../store';
+import { getRemoteData, parseManualData } from 'reference-list/api';
 import ReferenceList, { StorageField } from '../reference-list';
 
 const mocks = {

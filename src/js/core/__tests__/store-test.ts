@@ -41,8 +41,8 @@ describe('Store', () => {
             cite.language = 'gibberish';
             store.citations.CSL.set('aaaaaaaa', cite);
             expect(store.citations.CSL.get('aaaaaaaa')!.language).toBe('gibberish');
-            store.citations.CSL = (<any>store.citations).cleanCSL(
-                JSON.parse(JSON.stringify(store.citations.CSL)),
+            store.citations.CSL.replace(
+                (<any>store.citations).cleanCSL(JSON.parse(JSON.stringify(store.citations.CSL))),
             );
             expect(store.citations.CSL.get('aaaaaaaa')!.language).toBe('en-US');
         });

@@ -1,13 +1,14 @@
-import { action, computed, IObservableArray, observable, ObservableMap, toJS } from 'mobx';
-import { localeMapper as locales } from 'utils/constants';
+import { action, computed, observable, toJS } from 'mobx';
 
-class CitationStore {
-    @observable CSL: ObservableMap<CSL.Data>;
-    @observable private byIndex: IObservableArray<Citeproc.Citation>;
+import { localeMapper } from 'utils/constants';
 
-    constructor(byIndex: Citeproc.CitationByIndex, CSL: { [id: string]: CSL.Data }) {
-        this.byIndex = observable(byIndex);
-        this.CSL = this.cleanCSL(CSL);
+export default class CitationStore {
+    CSL = observable(new Map<string, CSL.Data>());
+    private byIndex = observable<Citeproc.Citation>([]);
+
+    constructor(byIndex: Citeproc.CitationByIndex, CSL: Citeproc.RefHash) {
+        this.byIndex.replace(byIndex);
+        this.CSL.replace(this.cleanCSL(CSL));
     }
 
     /**
@@ -63,7 +64,7 @@ class CitationStore {
                     ...cslObj,
                     [item.id]: item,
                 }),
-                <{ [id: string]: CSL.Data }>{},
+                <Citeproc.RefHash>{},
             ),
         );
     }
@@ -135,75 +136,19 @@ class CitationStore {
         return toJS(this.byIndex);
     }
 
-    private cleanCSL(csl: { [id: string]: CSL.Data }): ObservableMap<CSL.Data> {
-        const cleaned: Array<[string, CSL.Data]> = Object.entries(csl).reduce(
+    private cleanCSL(csl: Citeproc.RefHash): Array<[string, CSL.Data]> {
+        return Object.entries(csl).reduce(
             (arr, [key, value]): Array<[string, CSL.Data]> => {
                 const item = {
                     ...value,
                     language:
-                        value.language && locales[value.language]
-                            ? locales[value.language]
+                        value.language && localeMapper[value.language]
+                            ? localeMapper[value.language]
                             : 'en-US',
                 };
                 return [...arr, [key, item]];
             },
             <Array<[string, CSL.Data]>>[],
         );
-        return observable.map(new Map(cleaned));
-    }
-}
-
-export default class Store {
-    bibOptions = {
-        heading: '',
-        headingLevel: <'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6'>'h3',
-        links: <ABT.LinkStyle>'always',
-        style: <'fixed' | 'toggle'>'fixed',
-    };
-
-    @observable citations: CitationStore;
-
-    /**
-     * The selected citation style
-     */
-    citationStyle = observable('');
-
-    /**
-     * The user's locale provided by WordPress.
-     */
-    locale: string;
-
-    constructor(savedState: ABT.Backend['state']) {
-        const { cache, citationByIndex, bibOptions, CSL } = savedState;
-        this.citations = new CitationStore(citationByIndex, CSL);
-        this.locale = cache.locale;
-        this.citationStyle.set(cache.style);
-        this.bibOptions = bibOptions;
-    }
-
-    @computed
-    get persistent(): string {
-        return JSON.stringify({
-            CSL: toJS(this.citations.CSL),
-            cache: this.cache,
-            citationByIndex: this.citations.citationByIndex,
-        });
-    }
-
-    @action
-    reset(): void {
-        this.citations = new CitationStore([], {});
-    }
-
-    @action
-    setStyle(style: string): void {
-        this.citationStyle.set(style);
-    }
-
-    private get cache(): ABT.EditorState['cache'] {
-        return {
-            locale: this.locale,
-            style: this.citationStyle.get(),
-        };
     }
 }
