@@ -41,17 +41,18 @@ describe('<AddDialog />', () => {
         const { component, instance } = mountSetup();
 
         // Add with identifiers
-        expect(toJSON(component)).toMatchSnapshot();
+        expect(toJSON(component, { noKey: true })).toMatchSnapshot();
 
         // Add manually
         instance.addManually.set(true);
         component.update();
-        expect(toJSON(component)).toMatchSnapshot();
+        expect(toJSON(component, { noKey: true })).toMatchSnapshot();
 
         // With pubmed dialog
         instance.currentDialog.set('PUBMED');
         component.update();
-        const withoutPlaceholder: any = toJSON(component);
+        const withoutPlaceholder: any = toJSON(component, { noKey: true });
+        // Please forgive me, for I have sinned.
         withoutPlaceholder.children[0].children[0].children[0].children[0].children[0].children[0].children[1].children[0].children[0].children[0].children[1].children[0].props.placeholder =
             '';
         expect(withoutPlaceholder).toMatchSnapshot();
@@ -60,7 +61,7 @@ describe('<AddDialog />', () => {
         instance.currentDialog.set('');
         instance.isLoading.set(true);
         component.update();
-        expect(toJSON(component)).toMatchSnapshot();
+        expect(toJSON(component, { noKey: true })).toMatchSnapshot();
     });
     it('should handle identifier change', () => {
         const { component, instance } = setup();

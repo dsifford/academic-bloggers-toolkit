@@ -3,6 +3,7 @@ import { observer } from 'mobx-react';
 import * as React from 'react';
 
 import Button from 'components/button';
+import { manualPersonObj } from 'utils/constants';
 import Contributor from './contributor';
 
 interface Props {
@@ -17,12 +18,12 @@ export default class ContributorList extends React.Component<Props> {
 
     @action
     add = (): void => {
-        this.props.people.push({ family: '', given: '', literal: '', type: 'author' });
+        this.props.people.push({ ...manualPersonObj });
     };
 
     @action
     remove = (e: React.MouseEvent<HTMLInputElement>): void => {
-        const index = parseInt(e.currentTarget.dataset.index!, 10);
+        const index = parseInt(e.currentTarget.getAttribute('data-index')!, 10);
         this.props.people.remove(this.props.people[index]);
     };
 

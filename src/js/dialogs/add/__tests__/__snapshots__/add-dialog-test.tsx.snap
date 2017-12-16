@@ -703,6 +703,7 @@ exports[`<AddDialog /> should match snapshot 2`] = `
             Object {
               "family": "",
               "given": "",
+              "literal": "",
               "type": "author",
             },
           ]
@@ -724,133 +725,114 @@ exports[`<AddDialog /> should match snapshot 2`] = `
             >
               <option
                 aria-selected={false}
-                key="0"
                 value="bill"
               >
                 Bill
               </option>
               <option
                 aria-selected={false}
-                key="1"
                 value="book"
               >
                 Book
               </option>
               <option
                 aria-selected={false}
-                key="2"
                 value="chapter"
               >
                 Book Section
               </option>
               <option
                 aria-selected={false}
-                key="3"
                 value="legal_case"
               >
                 Case
               </option>
               <option
                 aria-selected={false}
-                key="4"
                 value="paper-conference"
               >
                 Conference Proceeding
               </option>
               <option
                 aria-selected={false}
-                key="5"
                 value="entry-encyclopedia"
               >
                 Encyclopedia Entry
               </option>
               <option
                 aria-selected={false}
-                key="6"
                 value="motion_picture"
               >
                 Film
               </option>
               <option
                 aria-selected={false}
-                key="7"
                 value="speech"
               >
                 Hearing
               </option>
               <option
                 aria-selected={false}
-                key="8"
                 value="article-journal"
               >
                 Journal Article
               </option>
               <option
                 aria-selected={false}
-                key="9"
                 value="article-magazine"
               >
                 Magazine Article
               </option>
               <option
                 aria-selected={false}
-                key="10"
                 value="article-newspaper"
               >
                 Newspaper Article
               </option>
               <option
                 aria-selected={false}
-                key="11"
                 value="patent"
               >
                 Patent
               </option>
               <option
                 aria-selected={false}
-                key="12"
                 value="testing"
               >
                 Test not in use
               </option>
               <option
                 aria-selected={false}
-                key="13"
                 value="testing2"
               >
                 Test not in use
               </option>
               <option
                 aria-selected={false}
-                key="14"
                 value="report"
               >
                 Report
               </option>
               <option
                 aria-selected={false}
-                key="15"
                 value="legislation"
               >
                 Statute
               </option>
               <option
                 aria-selected={false}
-                key="16"
                 value="thesis"
               >
                 Thesis
               </option>
               <option
                 aria-selected={false}
-                key="17"
                 value="broadcast"
               >
                 Television Broadcast
               </option>
               <option
                 aria-selected={true}
-                key="18"
                 value="webpage"
               >
                 Web Page
@@ -1052,13 +1034,14 @@ exports[`<AddDialog /> should match snapshot 2`] = `
               isVisible={true}
               onDismiss={[Function]}
             />
-            <People
+            <ContributorList
               citationType="webpage"
               people={
                 Array [
                   Object {
                     "family": "",
                     "given": "",
+                    "literal": "",
                     "type": "author",
                   },
                 ]
@@ -1068,79 +1051,34 @@ exports[`<AddDialog /> should match snapshot 2`] = `
                 <h2>
                   Contributors
                 </h2>
-                <Person
-                  citationType="webpage"
-                  fieldMap={
-                    Object {
-                      "fields": Array [
-                        Object {
-                          "label": "Content Title",
-                          "pattern": ".*",
-                          "placeholder": "",
-                          "required": true,
-                          "value": "title",
-                        },
-                        Object {
-                          "label": "Website Title",
-                          "pattern": ".*",
-                          "placeholder": "",
-                          "required": true,
-                          "value": "container-title",
-                        },
-                        Object {
-                          "label": "URL",
-                          "pattern": ".*",
-                          "placeholder": "",
-                          "required": true,
-                          "value": "URL",
-                        },
-                        Object {
-                          "label": "Date",
-                          "pattern": "[0-9]{4}(\\\\/[0-9]{2})?(\\\\/[0-9]{2})?(?!\\\\/)$",
-                          "placeholder": "YYYY/MM/DD or YYYY/MM or YYYY",
-                          "required": false,
-                          "value": "issued",
-                        },
-                        Object {
-                          "label": "Date Accessed",
-                          "pattern": "[0-9]{4}(\\\\/[0-9]{2})?(\\\\/[0-9]{2})?(?!\\\\/)$",
-                          "placeholder": "YYYY/MM/DD or YYYY/MM or YYYY",
-                          "required": false,
-                          "value": "accessed",
-                        },
-                      ],
-                      "people": Array [
-                        Object {
-                          "label": "Author",
-                          "type": "author",
-                        },
-                      ],
-                      "title": "Web Page",
-                    }
-                  }
-                  index={0}
-                  key="person-0"
-                  onChange={[Function]}
-                  onRemove={[Function]}
-                  person={
+                <Contributor
+                  contributor={
                     Object {
                       "family": "",
                       "given": "",
+                      "literal": "",
                       "type": "author",
                     }
                   }
+                  contributorTypes={
+                    Array [
+                      Object {
+                        "label": "Author",
+                        "type": "author",
+                      },
+                    ]
+                  }
+                  index={0}
+                  onRemove={[Function]}
                 >
                   <div>
                     <select
                       data-field="type"
-                      data-index={0}
                       onChange={[Function]}
                       value="author"
                     >
                       <option
                         aria-selected={true}
-                        id="peopleSelect-0"
-                        key="peopleSelect-0"
                         value="author"
                       >
                         Author
@@ -1149,8 +1087,6 @@ exports[`<AddDialog /> should match snapshot 2`] = `
                     <input
                       aria-label="Surname"
                       data-field="family"
-                      data-index={0}
-                      id="person-family-0"
                       onChange={[Function]}
                       placeholder="Surname"
                       required={true}
@@ -1160,8 +1096,6 @@ exports[`<AddDialog /> should match snapshot 2`] = `
                     <input
                       aria-label="Given Name, M.I."
                       data-field="given"
-                      data-index={0}
-                      id="person-given-0"
                       onChange={[Function]}
                       placeholder="Given Name, M.I."
                       required={true}
@@ -1169,16 +1103,163 @@ exports[`<AddDialog /> should match snapshot 2`] = `
                       value=""
                     />
                     <Button
-                      data-index={0}
                       flat={true}
-                      icon="no-alt"
-                      label="Given Name, M.I."
+                      icon="admin-users"
+                      label="Toggle literal name"
                       onClick={[Function]}
                       type="button"
                     >
                       <div>
                         <button
-                          aria-label="Given Name, M.I."
+                          aria-label="Toggle literal name"
+                          className="btn-flat btn-icon"
+                          onClick={[Function]}
+                          type="button"
+                        >
+                          <span
+                            className="dashicons dashicons-admin-users"
+                          />
+                        </button>
+                        <style
+                          jsx={true}
+                        >
+                          
+                    button {
+                        -webkit-appearance: none;
+                        -webkit-touch-callout: none;
+                        -webkit-user-select: none;
+                        -khtml-user-select: none;
+                        -moz-user-select: none;
+                        -ms-user-select: none;
+                        user-select: none;
+                        background: white;
+                        box-sizing: border-box;
+                        color: #555555;
+                        background-image: none;
+                        border: none;
+                        border-radius: 2px;
+                        box-shadow: 0 1px 3px rgba(0, 0, 0, .12), 0 1px 2px rgba(0, 0, 0, .24);
+                        cursor: pointer;
+                        display: inline-block;
+                        font-size: 13px;
+                        font-weight: 500;
+                        height: 36px;
+                        line-height: 36px;
+                        min-width: 64px;
+                        outline: 0;
+                        padding: 0 16px;
+                        text-align: center;
+                        text-decoration: none;
+                        text-transform: uppercase;
+                        transition: 
+            box-shadow .2s cubic-bezier(0.4, 0, 1, 1),
+            background-color .2s cubic-bezier(0.4, 0, 0.2, 1),
+            color .2s cubic-bezier(0.4, 0, 0.2, 1)
+        ;
+                        vertical-align: middle;
+                        white-space: nowrap;
+                    }
+                    button:hover {
+                        box-shadow: 0 3px 6px rgba(0, 0, 0, .16), 0 3px 6px rgba(0, 0, 0, .23);
+                    }
+                    button:active {
+                        box-shadow: 0 3px 6px rgba(0, 0, 0, .16), 0 3px 6px rgba(0, 0, 0, .23);
+                    }
+                    button:active:hover {
+                        box-shadow: 0 10px 20px rgba(0, 0, 0, .19), 0 6px 6px rgba(0, 0, 0, .23);
+                        background: rgba(0, 0, 0, 0.12);
+                    }
+                    button:disabled {
+                        pointer-events: none !important;
+                        color: #a0a5aa !important;
+                    }
+                    button.focusable:focus {
+                        outline: 1.1px auto rgba(19, 124, 189, 0.5);
+                        outline-offset: 2px;
+                    }
+                    button.focusable:focus:active {
+                        outline: 0;
+                    }
+                    .btn-flat,
+                    .btn-flat.btn-primary {
+                        background: rgba(0, 0, 0, 0);
+                        box-shadow: none !important;
+                    }
+                    .btn-flat:hover,
+                    .btn-flat.btn-primary:hover {
+                        background: rgba(158, 158, 158, 0.2);
+                    }
+                    .btn-flat:active,
+                    .btn-flat.btn-primary:active {
+                        background: rgba(13, 13, 13, 0.12);
+                    }
+                    .btn-flat:hover:active,
+                    .btn-flat.btn-primary:hover:active {
+                        background: rgba(0, 0, 0, 0.12);
+                    }
+                    .btn-flat.btn-primary {
+                        color: #0085ba;
+                    }
+                    .btn-primary {
+                        background: #0085ba;
+                        color: white;
+                    }
+                    .btn-primary:active:hover {
+                        background: #007aab;
+                    }
+                    .btn-primary:disabled {
+                        opacity: 0.6;
+                        box-shadow: none;
+                        color: white !important;
+                    }
+                    .btn-icon {
+                        border-radius: 50%;
+                        font-size: 24px;
+                        height: 32px;
+                        margin: auto 0;
+                        min-width: 32px;
+                        width: 32px;
+                        padding: 0;
+                        line-height: normal;
+                    }
+                    .btn-icon:hover {
+                        color: #555555;
+                    }
+
+                    .dashicons {
+                        line-height: 32px !important;
+                        width: 32px;
+                        height: 32px;
+                    }
+                    .dashicons-migrate {
+                        transform: rotateY(180deg);
+                        padding-left: 5px;
+                    }
+                    .dashicons-minus {
+                        font-weight: 900;
+                    }
+                    .dashicons-menu,
+                    .dashicons-no-alt {
+                        font-size: 25px;
+                    }
+                    .dashicons-plus {
+                        padding-top: 2px;
+                    }
+                
+                        </style>
+                      </div>
+                    </Button>
+                    <Button
+                      data-index={0}
+                      flat={true}
+                      icon="no-alt"
+                      label="Remove contributor"
+                      onClick={[Function]}
+                      type="button"
+                    >
+                      <div>
+                        <button
+                          aria-label="Remove contributor"
                           className="btn-flat btn-icon"
                           data-index={0}
                           onClick={[Function]}
@@ -1339,13 +1420,13 @@ exports[`<AddDialog /> should match snapshot 2`] = `
                 
                     </style>
                   </div>
-                </Person>
+                </Contributor>
                 <div
                   className="btn-row"
                 >
                   <Button
                     flat={true}
-                    label="Add Contributor"
+                    label="Add contributor"
                     onClick={[Function]}
                     type="button"
                   >
@@ -1355,7 +1436,7 @@ exports[`<AddDialog /> should match snapshot 2`] = `
                         onClick={[Function]}
                         type="button"
                       >
-                        Add Contributor
+                        Add contributor
                       </button>
                       <style
                         jsx={true}
@@ -1502,7 +1583,7 @@ exports[`<AddDialog /> should match snapshot 2`] = `
                 
                 </style>
               </div>
-            </People>
+            </ContributorList>
             <MetaFields
               meta={
                 Object {
@@ -1527,7 +1608,6 @@ exports[`<AddDialog /> should match snapshot 2`] = `
                         "value": "title",
                       }
                     }
-                    key="Web Page-meta-0"
                     meta={
                       Object {
                         "type": "webpage",
@@ -1584,7 +1664,6 @@ exports[`<AddDialog /> should match snapshot 2`] = `
                         "value": "container-title",
                       }
                     }
-                    key="Web Page-meta-1"
                     meta={
                       Object {
                         "type": "webpage",
@@ -1641,7 +1720,6 @@ exports[`<AddDialog /> should match snapshot 2`] = `
                         "value": "URL",
                       }
                     }
-                    key="Web Page-meta-2"
                     meta={
                       Object {
                         "type": "webpage",
@@ -1698,7 +1776,6 @@ exports[`<AddDialog /> should match snapshot 2`] = `
                         "value": "issued",
                       }
                     }
-                    key="Web Page-meta-3"
                     meta={
                       Object {
                         "type": "webpage",
@@ -1755,7 +1832,6 @@ exports[`<AddDialog /> should match snapshot 2`] = `
                         "value": "accessed",
                       }
                     }
-                    key="Web Page-meta-4"
                     meta={
                       Object {
                         "type": "webpage",
@@ -2821,6 +2897,7 @@ exports[`<AddDialog /> should match snapshot 3`] = `
             Object {
               "family": "",
               "given": "",
+              "literal": "",
               "type": "author",
             },
           ]
@@ -2842,133 +2919,114 @@ exports[`<AddDialog /> should match snapshot 3`] = `
             >
               <option
                 aria-selected={false}
-                key="0"
                 value="bill"
               >
                 Bill
               </option>
               <option
                 aria-selected={false}
-                key="1"
                 value="book"
               >
                 Book
               </option>
               <option
                 aria-selected={false}
-                key="2"
                 value="chapter"
               >
                 Book Section
               </option>
               <option
                 aria-selected={false}
-                key="3"
                 value="legal_case"
               >
                 Case
               </option>
               <option
                 aria-selected={false}
-                key="4"
                 value="paper-conference"
               >
                 Conference Proceeding
               </option>
               <option
                 aria-selected={false}
-                key="5"
                 value="entry-encyclopedia"
               >
                 Encyclopedia Entry
               </option>
               <option
                 aria-selected={false}
-                key="6"
                 value="motion_picture"
               >
                 Film
               </option>
               <option
                 aria-selected={false}
-                key="7"
                 value="speech"
               >
                 Hearing
               </option>
               <option
                 aria-selected={false}
-                key="8"
                 value="article-journal"
               >
                 Journal Article
               </option>
               <option
                 aria-selected={false}
-                key="9"
                 value="article-magazine"
               >
                 Magazine Article
               </option>
               <option
                 aria-selected={false}
-                key="10"
                 value="article-newspaper"
               >
                 Newspaper Article
               </option>
               <option
                 aria-selected={false}
-                key="11"
                 value="patent"
               >
                 Patent
               </option>
               <option
                 aria-selected={false}
-                key="12"
                 value="testing"
               >
                 Test not in use
               </option>
               <option
                 aria-selected={false}
-                key="13"
                 value="testing2"
               >
                 Test not in use
               </option>
               <option
                 aria-selected={false}
-                key="14"
                 value="report"
               >
                 Report
               </option>
               <option
                 aria-selected={false}
-                key="15"
                 value="legislation"
               >
                 Statute
               </option>
               <option
                 aria-selected={false}
-                key="16"
                 value="thesis"
               >
                 Thesis
               </option>
               <option
                 aria-selected={false}
-                key="17"
                 value="broadcast"
               >
                 Television Broadcast
               </option>
               <option
                 aria-selected={true}
-                key="18"
                 value="webpage"
               >
                 Web Page
@@ -3170,13 +3228,14 @@ exports[`<AddDialog /> should match snapshot 3`] = `
               isVisible={true}
               onDismiss={[Function]}
             />
-            <People
+            <ContributorList
               citationType="webpage"
               people={
                 Array [
                   Object {
                     "family": "",
                     "given": "",
+                    "literal": "",
                     "type": "author",
                   },
                 ]
@@ -3186,79 +3245,34 @@ exports[`<AddDialog /> should match snapshot 3`] = `
                 <h2>
                   Contributors
                 </h2>
-                <Person
-                  citationType="webpage"
-                  fieldMap={
-                    Object {
-                      "fields": Array [
-                        Object {
-                          "label": "Content Title",
-                          "pattern": ".*",
-                          "placeholder": "",
-                          "required": true,
-                          "value": "title",
-                        },
-                        Object {
-                          "label": "Website Title",
-                          "pattern": ".*",
-                          "placeholder": "",
-                          "required": true,
-                          "value": "container-title",
-                        },
-                        Object {
-                          "label": "URL",
-                          "pattern": ".*",
-                          "placeholder": "",
-                          "required": true,
-                          "value": "URL",
-                        },
-                        Object {
-                          "label": "Date",
-                          "pattern": "[0-9]{4}(\\\\/[0-9]{2})?(\\\\/[0-9]{2})?(?!\\\\/)$",
-                          "placeholder": "YYYY/MM/DD or YYYY/MM or YYYY",
-                          "required": false,
-                          "value": "issued",
-                        },
-                        Object {
-                          "label": "Date Accessed",
-                          "pattern": "[0-9]{4}(\\\\/[0-9]{2})?(\\\\/[0-9]{2})?(?!\\\\/)$",
-                          "placeholder": "YYYY/MM/DD or YYYY/MM or YYYY",
-                          "required": false,
-                          "value": "accessed",
-                        },
-                      ],
-                      "people": Array [
-                        Object {
-                          "label": "Author",
-                          "type": "author",
-                        },
-                      ],
-                      "title": "Web Page",
-                    }
-                  }
-                  index={0}
-                  key="person-0"
-                  onChange={[Function]}
-                  onRemove={[Function]}
-                  person={
+                <Contributor
+                  contributor={
                     Object {
                       "family": "",
                       "given": "",
+                      "literal": "",
                       "type": "author",
                     }
                   }
+                  contributorTypes={
+                    Array [
+                      Object {
+                        "label": "Author",
+                        "type": "author",
+                      },
+                    ]
+                  }
+                  index={0}
+                  onRemove={[Function]}
                 >
                   <div>
                     <select
                       data-field="type"
-                      data-index={0}
                       onChange={[Function]}
                       value="author"
                     >
                       <option
                         aria-selected={true}
-                        id="peopleSelect-0"
-                        key="peopleSelect-0"
                         value="author"
                       >
                         Author
@@ -3267,8 +3281,6 @@ exports[`<AddDialog /> should match snapshot 3`] = `
                     <input
                       aria-label="Surname"
                       data-field="family"
-                      data-index={0}
-                      id="person-family-0"
                       onChange={[Function]}
                       placeholder="Surname"
                       required={true}
@@ -3278,8 +3290,6 @@ exports[`<AddDialog /> should match snapshot 3`] = `
                     <input
                       aria-label="Given Name, M.I."
                       data-field="given"
-                      data-index={0}
-                      id="person-given-0"
                       onChange={[Function]}
                       placeholder="Given Name, M.I."
                       required={true}
@@ -3287,16 +3297,163 @@ exports[`<AddDialog /> should match snapshot 3`] = `
                       value=""
                     />
                     <Button
-                      data-index={0}
                       flat={true}
-                      icon="no-alt"
-                      label="Given Name, M.I."
+                      icon="admin-users"
+                      label="Toggle literal name"
                       onClick={[Function]}
                       type="button"
                     >
                       <div>
                         <button
-                          aria-label="Given Name, M.I."
+                          aria-label="Toggle literal name"
+                          className="btn-flat btn-icon"
+                          onClick={[Function]}
+                          type="button"
+                        >
+                          <span
+                            className="dashicons dashicons-admin-users"
+                          />
+                        </button>
+                        <style
+                          jsx={true}
+                        >
+                          
+                    button {
+                        -webkit-appearance: none;
+                        -webkit-touch-callout: none;
+                        -webkit-user-select: none;
+                        -khtml-user-select: none;
+                        -moz-user-select: none;
+                        -ms-user-select: none;
+                        user-select: none;
+                        background: white;
+                        box-sizing: border-box;
+                        color: #555555;
+                        background-image: none;
+                        border: none;
+                        border-radius: 2px;
+                        box-shadow: 0 1px 3px rgba(0, 0, 0, .12), 0 1px 2px rgba(0, 0, 0, .24);
+                        cursor: pointer;
+                        display: inline-block;
+                        font-size: 13px;
+                        font-weight: 500;
+                        height: 36px;
+                        line-height: 36px;
+                        min-width: 64px;
+                        outline: 0;
+                        padding: 0 16px;
+                        text-align: center;
+                        text-decoration: none;
+                        text-transform: uppercase;
+                        transition: 
+            box-shadow .2s cubic-bezier(0.4, 0, 1, 1),
+            background-color .2s cubic-bezier(0.4, 0, 0.2, 1),
+            color .2s cubic-bezier(0.4, 0, 0.2, 1)
+        ;
+                        vertical-align: middle;
+                        white-space: nowrap;
+                    }
+                    button:hover {
+                        box-shadow: 0 3px 6px rgba(0, 0, 0, .16), 0 3px 6px rgba(0, 0, 0, .23);
+                    }
+                    button:active {
+                        box-shadow: 0 3px 6px rgba(0, 0, 0, .16), 0 3px 6px rgba(0, 0, 0, .23);
+                    }
+                    button:active:hover {
+                        box-shadow: 0 10px 20px rgba(0, 0, 0, .19), 0 6px 6px rgba(0, 0, 0, .23);
+                        background: rgba(0, 0, 0, 0.12);
+                    }
+                    button:disabled {
+                        pointer-events: none !important;
+                        color: #a0a5aa !important;
+                    }
+                    button.focusable:focus {
+                        outline: 1.1px auto rgba(19, 124, 189, 0.5);
+                        outline-offset: 2px;
+                    }
+                    button.focusable:focus:active {
+                        outline: 0;
+                    }
+                    .btn-flat,
+                    .btn-flat.btn-primary {
+                        background: rgba(0, 0, 0, 0);
+                        box-shadow: none !important;
+                    }
+                    .btn-flat:hover,
+                    .btn-flat.btn-primary:hover {
+                        background: rgba(158, 158, 158, 0.2);
+                    }
+                    .btn-flat:active,
+                    .btn-flat.btn-primary:active {
+                        background: rgba(13, 13, 13, 0.12);
+                    }
+                    .btn-flat:hover:active,
+                    .btn-flat.btn-primary:hover:active {
+                        background: rgba(0, 0, 0, 0.12);
+                    }
+                    .btn-flat.btn-primary {
+                        color: #0085ba;
+                    }
+                    .btn-primary {
+                        background: #0085ba;
+                        color: white;
+                    }
+                    .btn-primary:active:hover {
+                        background: #007aab;
+                    }
+                    .btn-primary:disabled {
+                        opacity: 0.6;
+                        box-shadow: none;
+                        color: white !important;
+                    }
+                    .btn-icon {
+                        border-radius: 50%;
+                        font-size: 24px;
+                        height: 32px;
+                        margin: auto 0;
+                        min-width: 32px;
+                        width: 32px;
+                        padding: 0;
+                        line-height: normal;
+                    }
+                    .btn-icon:hover {
+                        color: #555555;
+                    }
+
+                    .dashicons {
+                        line-height: 32px !important;
+                        width: 32px;
+                        height: 32px;
+                    }
+                    .dashicons-migrate {
+                        transform: rotateY(180deg);
+                        padding-left: 5px;
+                    }
+                    .dashicons-minus {
+                        font-weight: 900;
+                    }
+                    .dashicons-menu,
+                    .dashicons-no-alt {
+                        font-size: 25px;
+                    }
+                    .dashicons-plus {
+                        padding-top: 2px;
+                    }
+                
+                        </style>
+                      </div>
+                    </Button>
+                    <Button
+                      data-index={0}
+                      flat={true}
+                      icon="no-alt"
+                      label="Remove contributor"
+                      onClick={[Function]}
+                      type="button"
+                    >
+                      <div>
+                        <button
+                          aria-label="Remove contributor"
                           className="btn-flat btn-icon"
                           data-index={0}
                           onClick={[Function]}
@@ -3457,13 +3614,13 @@ exports[`<AddDialog /> should match snapshot 3`] = `
                 
                     </style>
                   </div>
-                </Person>
+                </Contributor>
                 <div
                   className="btn-row"
                 >
                   <Button
                     flat={true}
-                    label="Add Contributor"
+                    label="Add contributor"
                     onClick={[Function]}
                     type="button"
                   >
@@ -3473,7 +3630,7 @@ exports[`<AddDialog /> should match snapshot 3`] = `
                         onClick={[Function]}
                         type="button"
                       >
-                        Add Contributor
+                        Add contributor
                       </button>
                       <style
                         jsx={true}
@@ -3620,7 +3777,7 @@ exports[`<AddDialog /> should match snapshot 3`] = `
                 
                 </style>
               </div>
-            </People>
+            </ContributorList>
             <MetaFields
               meta={
                 Object {
@@ -3645,7 +3802,6 @@ exports[`<AddDialog /> should match snapshot 3`] = `
                         "value": "title",
                       }
                     }
-                    key="Web Page-meta-0"
                     meta={
                       Object {
                         "type": "webpage",
@@ -3702,7 +3858,6 @@ exports[`<AddDialog /> should match snapshot 3`] = `
                         "value": "container-title",
                       }
                     }
-                    key="Web Page-meta-1"
                     meta={
                       Object {
                         "type": "webpage",
@@ -3759,7 +3914,6 @@ exports[`<AddDialog /> should match snapshot 3`] = `
                         "value": "URL",
                       }
                     }
-                    key="Web Page-meta-2"
                     meta={
                       Object {
                         "type": "webpage",
@@ -3816,7 +3970,6 @@ exports[`<AddDialog /> should match snapshot 3`] = `
                         "value": "issued",
                       }
                     }
-                    key="Web Page-meta-3"
                     meta={
                       Object {
                         "type": "webpage",
@@ -3873,7 +4026,6 @@ exports[`<AddDialog /> should match snapshot 3`] = `
                         "value": "accessed",
                       }
                     }
-                    key="Web Page-meta-4"
                     meta={
                       Object {
                         "type": "webpage",
@@ -4718,6 +4870,7 @@ exports[`<AddDialog /> should match snapshot 4`] = `
             Object {
               "family": "",
               "given": "",
+              "literal": "",
               "type": "author",
             },
           ]
@@ -4739,133 +4892,114 @@ exports[`<AddDialog /> should match snapshot 4`] = `
             >
               <option
                 aria-selected={false}
-                key="0"
                 value="bill"
               >
                 Bill
               </option>
               <option
                 aria-selected={false}
-                key="1"
                 value="book"
               >
                 Book
               </option>
               <option
                 aria-selected={false}
-                key="2"
                 value="chapter"
               >
                 Book Section
               </option>
               <option
                 aria-selected={false}
-                key="3"
                 value="legal_case"
               >
                 Case
               </option>
               <option
                 aria-selected={false}
-                key="4"
                 value="paper-conference"
               >
                 Conference Proceeding
               </option>
               <option
                 aria-selected={false}
-                key="5"
                 value="entry-encyclopedia"
               >
                 Encyclopedia Entry
               </option>
               <option
                 aria-selected={false}
-                key="6"
                 value="motion_picture"
               >
                 Film
               </option>
               <option
                 aria-selected={false}
-                key="7"
                 value="speech"
               >
                 Hearing
               </option>
               <option
                 aria-selected={false}
-                key="8"
                 value="article-journal"
               >
                 Journal Article
               </option>
               <option
                 aria-selected={false}
-                key="9"
                 value="article-magazine"
               >
                 Magazine Article
               </option>
               <option
                 aria-selected={false}
-                key="10"
                 value="article-newspaper"
               >
                 Newspaper Article
               </option>
               <option
                 aria-selected={false}
-                key="11"
                 value="patent"
               >
                 Patent
               </option>
               <option
                 aria-selected={false}
-                key="12"
                 value="testing"
               >
                 Test not in use
               </option>
               <option
                 aria-selected={false}
-                key="13"
                 value="testing2"
               >
                 Test not in use
               </option>
               <option
                 aria-selected={false}
-                key="14"
                 value="report"
               >
                 Report
               </option>
               <option
                 aria-selected={false}
-                key="15"
                 value="legislation"
               >
                 Statute
               </option>
               <option
                 aria-selected={false}
-                key="16"
                 value="thesis"
               >
                 Thesis
               </option>
               <option
                 aria-selected={false}
-                key="17"
                 value="broadcast"
               >
                 Television Broadcast
               </option>
               <option
                 aria-selected={true}
-                key="18"
                 value="webpage"
               >
                 Web Page
@@ -5067,13 +5201,14 @@ exports[`<AddDialog /> should match snapshot 4`] = `
               isVisible={true}
               onDismiss={[Function]}
             />
-            <People
+            <ContributorList
               citationType="webpage"
               people={
                 Array [
                   Object {
                     "family": "",
                     "given": "",
+                    "literal": "",
                     "type": "author",
                   },
                 ]
@@ -5083,79 +5218,34 @@ exports[`<AddDialog /> should match snapshot 4`] = `
                 <h2>
                   Contributors
                 </h2>
-                <Person
-                  citationType="webpage"
-                  fieldMap={
-                    Object {
-                      "fields": Array [
-                        Object {
-                          "label": "Content Title",
-                          "pattern": ".*",
-                          "placeholder": "",
-                          "required": true,
-                          "value": "title",
-                        },
-                        Object {
-                          "label": "Website Title",
-                          "pattern": ".*",
-                          "placeholder": "",
-                          "required": true,
-                          "value": "container-title",
-                        },
-                        Object {
-                          "label": "URL",
-                          "pattern": ".*",
-                          "placeholder": "",
-                          "required": true,
-                          "value": "URL",
-                        },
-                        Object {
-                          "label": "Date",
-                          "pattern": "[0-9]{4}(\\\\/[0-9]{2})?(\\\\/[0-9]{2})?(?!\\\\/)$",
-                          "placeholder": "YYYY/MM/DD or YYYY/MM or YYYY",
-                          "required": false,
-                          "value": "issued",
-                        },
-                        Object {
-                          "label": "Date Accessed",
-                          "pattern": "[0-9]{4}(\\\\/[0-9]{2})?(\\\\/[0-9]{2})?(?!\\\\/)$",
-                          "placeholder": "YYYY/MM/DD or YYYY/MM or YYYY",
-                          "required": false,
-                          "value": "accessed",
-                        },
-                      ],
-                      "people": Array [
-                        Object {
-                          "label": "Author",
-                          "type": "author",
-                        },
-                      ],
-                      "title": "Web Page",
-                    }
-                  }
-                  index={0}
-                  key="person-0"
-                  onChange={[Function]}
-                  onRemove={[Function]}
-                  person={
+                <Contributor
+                  contributor={
                     Object {
                       "family": "",
                       "given": "",
+                      "literal": "",
                       "type": "author",
                     }
                   }
+                  contributorTypes={
+                    Array [
+                      Object {
+                        "label": "Author",
+                        "type": "author",
+                      },
+                    ]
+                  }
+                  index={0}
+                  onRemove={[Function]}
                 >
                   <div>
                     <select
                       data-field="type"
-                      data-index={0}
                       onChange={[Function]}
                       value="author"
                     >
                       <option
                         aria-selected={true}
-                        id="peopleSelect-0"
-                        key="peopleSelect-0"
                         value="author"
                       >
                         Author
@@ -5164,8 +5254,6 @@ exports[`<AddDialog /> should match snapshot 4`] = `
                     <input
                       aria-label="Surname"
                       data-field="family"
-                      data-index={0}
-                      id="person-family-0"
                       onChange={[Function]}
                       placeholder="Surname"
                       required={true}
@@ -5175,8 +5263,6 @@ exports[`<AddDialog /> should match snapshot 4`] = `
                     <input
                       aria-label="Given Name, M.I."
                       data-field="given"
-                      data-index={0}
-                      id="person-given-0"
                       onChange={[Function]}
                       placeholder="Given Name, M.I."
                       required={true}
@@ -5184,16 +5270,163 @@ exports[`<AddDialog /> should match snapshot 4`] = `
                       value=""
                     />
                     <Button
-                      data-index={0}
                       flat={true}
-                      icon="no-alt"
-                      label="Given Name, M.I."
+                      icon="admin-users"
+                      label="Toggle literal name"
                       onClick={[Function]}
                       type="button"
                     >
                       <div>
                         <button
-                          aria-label="Given Name, M.I."
+                          aria-label="Toggle literal name"
+                          className="btn-flat btn-icon"
+                          onClick={[Function]}
+                          type="button"
+                        >
+                          <span
+                            className="dashicons dashicons-admin-users"
+                          />
+                        </button>
+                        <style
+                          jsx={true}
+                        >
+                          
+                    button {
+                        -webkit-appearance: none;
+                        -webkit-touch-callout: none;
+                        -webkit-user-select: none;
+                        -khtml-user-select: none;
+                        -moz-user-select: none;
+                        -ms-user-select: none;
+                        user-select: none;
+                        background: white;
+                        box-sizing: border-box;
+                        color: #555555;
+                        background-image: none;
+                        border: none;
+                        border-radius: 2px;
+                        box-shadow: 0 1px 3px rgba(0, 0, 0, .12), 0 1px 2px rgba(0, 0, 0, .24);
+                        cursor: pointer;
+                        display: inline-block;
+                        font-size: 13px;
+                        font-weight: 500;
+                        height: 36px;
+                        line-height: 36px;
+                        min-width: 64px;
+                        outline: 0;
+                        padding: 0 16px;
+                        text-align: center;
+                        text-decoration: none;
+                        text-transform: uppercase;
+                        transition: 
+            box-shadow .2s cubic-bezier(0.4, 0, 1, 1),
+            background-color .2s cubic-bezier(0.4, 0, 0.2, 1),
+            color .2s cubic-bezier(0.4, 0, 0.2, 1)
+        ;
+                        vertical-align: middle;
+                        white-space: nowrap;
+                    }
+                    button:hover {
+                        box-shadow: 0 3px 6px rgba(0, 0, 0, .16), 0 3px 6px rgba(0, 0, 0, .23);
+                    }
+                    button:active {
+                        box-shadow: 0 3px 6px rgba(0, 0, 0, .16), 0 3px 6px rgba(0, 0, 0, .23);
+                    }
+                    button:active:hover {
+                        box-shadow: 0 10px 20px rgba(0, 0, 0, .19), 0 6px 6px rgba(0, 0, 0, .23);
+                        background: rgba(0, 0, 0, 0.12);
+                    }
+                    button:disabled {
+                        pointer-events: none !important;
+                        color: #a0a5aa !important;
+                    }
+                    button.focusable:focus {
+                        outline: 1.1px auto rgba(19, 124, 189, 0.5);
+                        outline-offset: 2px;
+                    }
+                    button.focusable:focus:active {
+                        outline: 0;
+                    }
+                    .btn-flat,
+                    .btn-flat.btn-primary {
+                        background: rgba(0, 0, 0, 0);
+                        box-shadow: none !important;
+                    }
+                    .btn-flat:hover,
+                    .btn-flat.btn-primary:hover {
+                        background: rgba(158, 158, 158, 0.2);
+                    }
+                    .btn-flat:active,
+                    .btn-flat.btn-primary:active {
+                        background: rgba(13, 13, 13, 0.12);
+                    }
+                    .btn-flat:hover:active,
+                    .btn-flat.btn-primary:hover:active {
+                        background: rgba(0, 0, 0, 0.12);
+                    }
+                    .btn-flat.btn-primary {
+                        color: #0085ba;
+                    }
+                    .btn-primary {
+                        background: #0085ba;
+                        color: white;
+                    }
+                    .btn-primary:active:hover {
+                        background: #007aab;
+                    }
+                    .btn-primary:disabled {
+                        opacity: 0.6;
+                        box-shadow: none;
+                        color: white !important;
+                    }
+                    .btn-icon {
+                        border-radius: 50%;
+                        font-size: 24px;
+                        height: 32px;
+                        margin: auto 0;
+                        min-width: 32px;
+                        width: 32px;
+                        padding: 0;
+                        line-height: normal;
+                    }
+                    .btn-icon:hover {
+                        color: #555555;
+                    }
+
+                    .dashicons {
+                        line-height: 32px !important;
+                        width: 32px;
+                        height: 32px;
+                    }
+                    .dashicons-migrate {
+                        transform: rotateY(180deg);
+                        padding-left: 5px;
+                    }
+                    .dashicons-minus {
+                        font-weight: 900;
+                    }
+                    .dashicons-menu,
+                    .dashicons-no-alt {
+                        font-size: 25px;
+                    }
+                    .dashicons-plus {
+                        padding-top: 2px;
+                    }
+                
+                        </style>
+                      </div>
+                    </Button>
+                    <Button
+                      data-index={0}
+                      flat={true}
+                      icon="no-alt"
+                      label="Remove contributor"
+                      onClick={[Function]}
+                      type="button"
+                    >
+                      <div>
+                        <button
+                          aria-label="Remove contributor"
                           className="btn-flat btn-icon"
                           data-index={0}
                           onClick={[Function]}
@@ -5354,13 +5587,13 @@ exports[`<AddDialog /> should match snapshot 4`] = `
                 
                     </style>
                   </div>
-                </Person>
+                </Contributor>
                 <div
                   className="btn-row"
                 >
                   <Button
                     flat={true}
-                    label="Add Contributor"
+                    label="Add contributor"
                     onClick={[Function]}
                     type="button"
                   >
@@ -5370,7 +5603,7 @@ exports[`<AddDialog /> should match snapshot 4`] = `
                         onClick={[Function]}
                         type="button"
                       >
-                        Add Contributor
+                        Add contributor
                       </button>
                       <style
                         jsx={true}
@@ -5517,7 +5750,7 @@ exports[`<AddDialog /> should match snapshot 4`] = `
                 
                 </style>
               </div>
-            </People>
+            </ContributorList>
             <MetaFields
               meta={
                 Object {
@@ -5542,7 +5775,6 @@ exports[`<AddDialog /> should match snapshot 4`] = `
                         "value": "title",
                       }
                     }
-                    key="Web Page-meta-0"
                     meta={
                       Object {
                         "type": "webpage",
@@ -5599,7 +5831,6 @@ exports[`<AddDialog /> should match snapshot 4`] = `
                         "value": "container-title",
                       }
                     }
-                    key="Web Page-meta-1"
                     meta={
                       Object {
                         "type": "webpage",
@@ -5656,7 +5887,6 @@ exports[`<AddDialog /> should match snapshot 4`] = `
                         "value": "URL",
                       }
                     }
-                    key="Web Page-meta-2"
                     meta={
                       Object {
                         "type": "webpage",
@@ -5713,7 +5943,6 @@ exports[`<AddDialog /> should match snapshot 4`] = `
                         "value": "issued",
                       }
                     }
-                    key="Web Page-meta-3"
                     meta={
                       Object {
                         "type": "webpage",
@@ -5770,7 +5999,6 @@ exports[`<AddDialog /> should match snapshot 4`] = `
                         "value": "accessed",
                       }
                     }
-                    key="Web Page-meta-4"
                     meta={
                       Object {
                         "type": "webpage",

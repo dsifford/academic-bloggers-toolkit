@@ -2,6 +2,7 @@ import { mount, shallow } from 'enzyme';
 import toJSON from 'enzyme-to-json';
 import { observable } from 'mobx';
 import * as React from 'react';
+import { manualPersonObj } from 'utils/constants';
 import ManualEntryContainer from '../manual-entry-container';
 
 const people = observable<ABT.Contributor>([]);
@@ -39,19 +40,19 @@ const setup = ({ itemType = 'webpage', fullMount = true } = {}) => {
 
 describe('<ManualEntryContainer />', () => {
     beforeEach(() => {
-        people.replace([{ family: '', given: '', type: 'author' }]);
+        people.replace([{ ...manualPersonObj }]);
         errorMessage.set('');
         jest.resetAllMocks();
     });
     it('should match snapshots', () => {
         let { component } = setup();
-        expect(toJSON(component)).toMatchSnapshot();
+        expect(toJSON(component, { noKey: true })).toMatchSnapshot();
 
         ({ component } = setup({ itemType: 'book' }));
-        expect(toJSON(component)).toMatchSnapshot();
+        expect(toJSON(component, { noKey: true })).toMatchSnapshot();
 
         ({ component } = setup({ itemType: 'article' }));
-        expect(toJSON(component)).toMatchSnapshot();
+        expect(toJSON(component, { noKey: true })).toMatchSnapshot();
     });
     it('should show and hide error callout', () => {
         errorMessage.set('Hello World');

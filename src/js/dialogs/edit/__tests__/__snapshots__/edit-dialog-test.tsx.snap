@@ -4,7 +4,7 @@ exports[`<EditDialog /> should match snapshot 1`] = `
 <form
   onSubmit={[Function]}
 >
-  <People
+  <ContributorList
     citationType="article-journal"
     people={Array []}
   />

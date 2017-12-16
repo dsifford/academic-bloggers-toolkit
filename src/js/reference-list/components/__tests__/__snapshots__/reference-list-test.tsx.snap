@@ -2,7 +2,8 @@
 
 exports[`<ReferenceList /> snapshots cited and uncited list populated 1`] = `
 <div>
-  <Component
+  <t
+    noPanel={false}
     position={
       Object {
         "left": 50,
@@ -169,7 +170,8 @@ exports[`<ReferenceList /> snapshots cited and uncited list populated 1`] = `
 
 exports[`<ReferenceList /> snapshots cited and uncited list populated 2`] = `
 <div>
-  <Component
+  <t
+    noPanel={false}
     position={
       Object {
         "left": 50,
@@ -396,7 +398,8 @@ exports[`<ReferenceList /> snapshots initial mount with empty state 1`] = `
 
 exports[`<ReferenceList /> snapshots initial mount with empty state 2`] = `
 <div>
-  <Component
+  <t
+    noPanel={false}
     position={
       Object {
         "left": 50,
@@ -520,7 +523,8 @@ exports[`<ReferenceList /> snapshots initial mount with empty state 2`] = `
 
 exports[`<ReferenceList /> snapshots menu toggled open 1`] = `
 <div>
-  <Component
+  <t
+    noPanel={false}
     position={
       Object {
         "left": 50,
@@ -644,7 +648,8 @@ exports[`<ReferenceList /> snapshots menu toggled open 1`] = `
 
 exports[`<ReferenceList /> snapshots pinned state toggled 1`] = `
 <div>
-  <Component
+  <t
+    noPanel={false}
     position={
       Object {
         "left": 50,
