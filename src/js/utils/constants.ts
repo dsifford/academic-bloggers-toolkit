@@ -13,6 +13,13 @@ export enum MenuActionType {
     REFRESH_PROCESSOR = 'REFRESH_PROCESSOR',
 }
 
+export const manualPersonObj: Readonly<ABT.Contributor> = {
+    type: 'author',
+    given: '',
+    family: '',
+    literal: '',
+};
+
 /**
  * Empty object for holding the field data for manual input
  * @note - The following fields were skipped:

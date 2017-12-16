@@ -4,7 +4,7 @@ import { observable } from 'mobx';
 import * as React from 'react';
 import ManualEntryContainer from '../manual-entry-container';
 
-const people = observable<ABT.TypedPerson>([]);
+const people = observable<ABT.Contributor>([]);
 const manualData = observable.map<string>();
 const errorMessage = observable('');
 const mocks = {

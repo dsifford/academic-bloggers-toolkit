@@ -5,8 +5,8 @@ import * as React from 'react';
 
 import { DialogProps } from 'dialogs/';
 
+import ContributorList from 'dialogs/add/contributor-list/';
 import MetaFields from 'dialogs/add/meta-fields';
-import People from 'dialogs/add/people';
 
 const PERSON_TYPE_KEYS: ReadonlyArray<keyof CSL.Data> = [
     'author',
@@ -42,7 +42,7 @@ export default class EditDialog extends React.Component<Props> {
     fields = observable.map<string>();
 
     /** Controls state of all people fields */
-    people = observable<ABT.TypedPerson>([]);
+    people = observable<ABT.Contributor>([]);
 
     constructor(props: Props) {
         super(props);
@@ -58,7 +58,7 @@ export default class EditDialog extends React.Component<Props> {
             }
             if (PERSON_TYPE_KEYS.includes(fieldId as keyof CSL.Data)) {
                 for (const person of (data as any)[fieldId]) {
-                    const p: ABT.TypedPerson = { ...person, type: fieldId };
+                    const p: ABT.Contributor = { ...person, type: fieldId };
                     this.people.push(p);
                 }
             }
@@ -82,12 +82,10 @@ export default class EditDialog extends React.Component<Props> {
     };
 
     render(): JSX.Element {
+        const citationType = this.fields.get('type') as keyof ABT.FieldMappings;
         return (
             <form onSubmit={this.handleSubmit}>
-                <People
-                    citationType={this.fields.get('type') as CSL.ItemType}
-                    people={this.people}
-                />
+                <ContributorList citationType={citationType} people={this.people} />
                 <MetaFields meta={this.fields} />
                 <div>
                     <input

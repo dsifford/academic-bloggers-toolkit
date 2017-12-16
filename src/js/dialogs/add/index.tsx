@@ -14,6 +14,7 @@ import { AutociteKind } from './autocite';
 import Spinner from 'components/spinner';
 import Container from 'dialogs/container';
 import PubmedDialog from 'dialogs/pubmed';
+import { manualPersonObj } from 'utils/constants';
 import ButtonRow from './button-row';
 import IdentifierInput from './identifier-input';
 import ManualEntryContainer from './manual-entry-container';
@@ -31,7 +32,7 @@ interface Payload {
     attachInline: boolean;
     identifierList: string;
     manualData: ManualData;
-    people: ABT.TypedPerson[];
+    people: ABT.Contributor[];
 }
 
 @observer
@@ -60,10 +61,10 @@ export default class AddDialog extends React.Component<DialogProps> {
     isLoading = observable(false);
 
     /** Controls the value of all fields in `ManualEntryContainer` */
-    manualData = observable.map(new Map([['type', 'webpage']]));
+    manualData = observable.map<string>(new Map([['type', 'webpage']]));
 
     /** Controls the value of the `People` fields in `ManualEntryContainer` */
-    people = observable<ABT.TypedPerson>([{ family: '', given: '', type: 'author' }]);
+    people = observable<ABT.Contributor>([{ ...manualPersonObj }]);
 
     @computed
     get payload(): Payload {
@@ -109,10 +110,10 @@ export default class AddDialog extends React.Component<DialogProps> {
                     title: meta.content_title,
                 });
                 this.people.replace(
-                    meta.authors.map(a => ({
-                        family: a.lastname || '',
-                        given: a.firstname || '',
-                        type: 'author' as CSL.PersonType,
+                    meta.authors.map(author => ({
+                        ...manualPersonObj,
+                        family: author.lastname || '',
+                        given: author.firstname || '',
                     })),
                 );
                 break;
@@ -130,7 +131,9 @@ export default class AddDialog extends React.Component<DialogProps> {
                     publisher: meta.publisher,
                     [titleKey]: meta.title,
                 });
-                this.people.replace(meta.authors);
+                this.people.replace(
+                    meta.authors.map(author => ({ ...manualPersonObj, ...author })),
+                );
         }
     };
 
@@ -143,7 +146,7 @@ export default class AddDialog extends React.Component<DialogProps> {
     changeType = (citationType: CSL.ItemType): void => {
         this.manualData.clear();
         this.manualData.set('type', citationType);
-        this.people.replace([{ family: '', given: '', type: 'author' }]);
+        this.people.replace([{ ...manualPersonObj }]);
     };
 
     @action
@@ -165,7 +168,7 @@ export default class AddDialog extends React.Component<DialogProps> {
     @action
     toggleAddManual = (): void => {
         this.addManually.set(!this.addManually.get());
-        this.people.replace([{ family: '', given: '', type: 'author' }]);
+        this.people.replace([{ ...manualPersonObj }]);
         this.changeType('webpage');
     };
 

@@ -13,20 +13,21 @@ export default class MetaFields extends React.Component<MetaFieldProps, {}> {
 
     @action
     updateField = (e: React.FormEvent<HTMLInputElement>): void => {
-        this.props.meta.set(e.currentTarget.id, e.currentTarget.value);
+        this.props.meta.set(e.currentTarget.id, e.currentTarget.value as keyof ABT.FieldMappings);
     };
 
     render(): JSX.Element {
         const citationType = this.props.meta.get('type')! as keyof ABT.FieldMappings;
         const title = MetaFields.fieldmaps[citationType].title;
         const fields = MetaFields.fieldmaps[citationType].fields;
+        let key = Date.now();
         return (
             <div>
                 <h2>{title}</h2>
                 <div className="table">
-                    {fields.map((field: ABT.Field, i: number) => (
+                    {fields.map(field => (
                         <Field
-                            key={`${title}-meta-${i}`}
+                            key={key++}
                             onChange={this.updateField}
                             field={field}
                             meta={this.props.meta}

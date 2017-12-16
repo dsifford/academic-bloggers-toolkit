@@ -4,15 +4,15 @@ import * as React from 'react';
 
 import Callout from 'components/callout';
 import AutoCite, { AutociteKind } from './autocite';
+import ContributorList from './contributor-list/';
 import MetaFields from './meta-fields';
-import People from './people';
 
 interface ManualEntryProps {
     /** Error message to display in callout. If none, this should be an empty string */
     errorMessage: IObservableValue<string>;
     /** Observable map of `CSL.Data` for manual entry fields */
     manualData: ObservableMap<string>;
-    people: IObservableArray<ABT.TypedPerson>;
+    people: IObservableArray<ABT.Contributor>;
     /** "Getter" callback for `AutoCite` component */
     onAutoCite(kind: AutociteKind, query: string): void;
     /** Callback with new `CSL.ItemType` to call when type is changed */
@@ -105,9 +105,11 @@ export default class ManualEntryContainer extends React.Component<ManualEntryPro
                         onDismiss={this.dismissError}
                     />
                     {this.props.manualData.get('type') !== 'article' && (
-                        <People
+                        <ContributorList
                             people={this.props.people}
-                            citationType={this.props.manualData.get('type') as CSL.ItemType}
+                            citationType={
+                                this.props.manualData.get('type') as keyof ABT.FieldMappings
+                            }
                         />
                     )}
                     <MetaFields meta={this.props.manualData} />
