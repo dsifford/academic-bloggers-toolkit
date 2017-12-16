@@ -4,7 +4,8 @@
     "deploy": "shellscript",
     "update_translations": "python",
     ".php_cs": "php",
-    ".prettierrc": "yaml"
+    ".prettierrc": "yaml",
+    "tslint.json": "jsonc"
   },
   "lcov.path": "lib/tmp/coverage/lcov.info",
   "lcov.branchCoverage": "full",

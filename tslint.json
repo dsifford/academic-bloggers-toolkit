@@ -19,7 +19,7 @@
     "arrow-parens": false,
     "curly": false,
     "interface-name": false,
-    "max-classes-per-file": false,
+    // "max-classes-per-file": false,
     "max-line-length": false,
     "no-angle-bracket-type-assertion": false,
     "no-default-export": false,
