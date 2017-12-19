@@ -1,0 +1,52 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Tooltip /> Component tests matches snapshots 1`] = `
+<div
+  className="tooltipActive"
+  id="test"
+  role="tooltip"
+  style={
+    Object {
+      "transform": "",
+    }
+  }
+>
+  Hello World
+</div>
+`;
+
+exports[`<Tooltip /> Component tests matches snapshots 2`] = `
+"Snapshot Diff:
+- First value
++ Second value
+
+@@ -1,7 +1,7 @@
+  <div
+-   className=\\"tooltipActive\\"
++   className=\\"tooltip\\"
+    id=\\"test\\"
+    role=\\"tooltip\\"
+    style={
+      Object {
+        \\"transform\\": \\"\\","
+`;
+
+exports[`<Tooltip /> Component tests matches snapshots 3`] = `
+"Snapshot Diff:
+- First value
++ Second value
+
+@@ -2,11 +2,11 @@
+    className=\\"tooltipActive\\"
+    id=\\"test\\"
+    role=\\"tooltip\\"
+    style={
+      Object {
+-       \\"transform\\": \\"\\",
++       \\"transform\\": \\"translateX(50%)\\",
+      }
+    }
+  >
+    Hello World
+  </div>"
+`;

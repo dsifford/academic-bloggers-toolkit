@@ -1,0 +1,19 @@
+@import 'colors';
+@import 'variables';
+
+.action-bar {
+    display: flex;
+    padding: 10px;
+    align-items: center;
+    background: $light-gray;
+    box-shadow: map-get($shadows, 'top-border');
+    border-radius: 0 0 2px 2px;
+    margin: 0;
+    justify-content: space-between;
+}
+
+.separator {
+    border-right: solid 2px $border;
+    height: 30px;
+    display: inline-block;
+}

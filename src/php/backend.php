@@ -35,7 +35,8 @@ class Backend {
             return;
         }
         add_action('add_meta_boxes', [$this, 'add_metaboxes']);
-        add_action('admin_enqueue_scripts', [$this, 'enqueue_admin_scripts']);
+        add_action('admin_enqueue_scripts', [$this, 'register_scripts']);
+        add_action('admin_enqueue_scripts', [$this, 'enqueue_scripts']);
         add_action('admin_head', [$this, 'init_tinymce']);
         add_action('admin_notices', [$this, 'user_alert']);
         add_action('save_post', [$this, 'save_meta']);
@@ -142,10 +143,15 @@ class Backend {
         update_post_meta($post_id, '_abt-reflist-state', $reflist_state);
     }
 
+    public function register_scripts() {
+        wp_register_style('abt-reference-list', ABT_ROOT_URI . '/css/reference-list.css', [], ABT_VERSION);
+        wp_register_script('abt-reference-list', ABT_ROOT_URI . '/js/reference-list/index.js', [], ABT_VERSION);
+    }
+
     /**
      * Registers and enqueues all required scripts.
      */
-    public function enqueue_admin_scripts() {
+    public function enqueue_scripts() {
         global $post;
 
         $ABT_i18n = i18n\generate_translations();
@@ -186,8 +192,7 @@ class Backend {
             unset($state['citations']);
         }
 
-        wp_register_script('abt-reflist', plugins_url('academic-bloggers-toolkit/js/reference-list/index.js'), [], ABT_VERSION);
-        wp_localize_script('abt-reflist', 'ABT', [
+        wp_localize_script('abt-reference-list', 'ABT', [
             'state' => $state,
             'i18n' => $ABT_i18n,
             'styles' => $this->get_citation_styles(),
@@ -197,7 +202,8 @@ class Backend {
 
         wp_dequeue_script('autosave');
         wp_enqueue_style('dashicons');
-        wp_enqueue_script('abt-reflist');
+        wp_enqueue_style('abt-reference-list');
+        wp_enqueue_script('abt-reference-list');
     }
 
     /**
@@ -213,7 +219,7 @@ class Backend {
      */
     private function localize_wordpress_constants() {
         return [
-            'abt_url' => plugins_url() . '/academic-bloggers-toolkit',
+            'abt_url' => ABT_ROOT_URI,
             'home_url' => home_url(),
             'plugins_url' => plugins_url(),
             'wp_upload_dir' => wp_get_upload_dir(),

@@ -17,22 +17,19 @@ exports[`<EditDialog /> should match snapshot 1`] = `
       }
     }
   />
-  <div>
-    <input
-      className="abt-btn abt-btn_flat abt-btn_submit"
-      type="submit"
-      value="Confirm"
-    />
-  </div>
-  <style
-    jsx={true}
+  <ActionBar
+    style={
+      Object {
+        "justifyContent": "flex-end",
+      }
+    }
   >
-    
-                    div {
-                        padding-bottom: 10px;
-                        text-align: center;
-                    }
-                
-  </style>
+    <Button
+      flat={true}
+      label="Confirm"
+      primary={true}
+      type="submit"
+    />
+  </ActionBar>
 </form>
 `;

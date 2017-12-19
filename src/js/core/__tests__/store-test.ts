@@ -148,8 +148,6 @@ describe('Store', () => {
                             item: { ...cite1 },
                         },
                     ],
-                    // FIXME: remove when bug is fixed
-                    properties: {},
                 },
                 {
                     citationID: 'bar',
@@ -163,8 +161,6 @@ describe('Store', () => {
                             item: { ...cite2 },
                         },
                     ],
-                    // FIXME: remove when bug is fixed
-                    properties: {},
                 },
             ];
             store.citations.addItems([cite1]);

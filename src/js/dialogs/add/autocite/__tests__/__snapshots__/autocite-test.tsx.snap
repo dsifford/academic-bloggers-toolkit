@@ -1,0 +1,93 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<AutoCite /> should match snapshots 1`] = `
+<AutoCite
+  getter={[MockFunction]}
+  kind="webpage"
+  placeholder="Test"
+>
+  <div
+    className="autocite"
+  >
+    <label
+      htmlFor="citequery"
+    >
+      Autocite
+    </label>
+    <input
+      className="input"
+      id="citequery"
+      onChange={[Function]}
+      onKeyDown={[Function]}
+      placeholder="Test"
+      type="url"
+      value=""
+    />
+    <Button
+      disabled={true}
+      flat={true}
+      label="Search"
+      onClick={[Function]}
+      type="button"
+    >
+      <div>
+        <button
+          className="btn btnFlat"
+          disabled={true}
+          onClick={[Function]}
+          type="button"
+        >
+          Search
+        </button>
+      </div>
+    </Button>
+  </div>
+</AutoCite>
+`;
+
+exports[`<AutoCite /> should match snapshots 2`] = `
+<AutoCite
+  getter={[MockFunction]}
+  kind="book"
+  pattern="[0-9]+"
+  placeholder="Test"
+>
+  <div
+    className="autocite"
+  >
+    <label
+      htmlFor="citequery"
+    >
+      Autocite
+    </label>
+    <input
+      className="input"
+      id="citequery"
+      onChange={[Function]}
+      onKeyDown={[Function]}
+      pattern="[0-9]+"
+      placeholder="Test"
+      type="text"
+      value=""
+    />
+    <Button
+      disabled={true}
+      flat={true}
+      label="Search"
+      onClick={[Function]}
+      type="button"
+    >
+      <div>
+        <button
+          className="btn btnFlat"
+          disabled={true}
+          onClick={[Function]}
+          type="button"
+        >
+          Search
+        </button>
+      </div>
+    </Button>
+  </div>
+</AutoCite>
+`;

@@ -2,16 +2,16 @@ import { action, computed, observable, runInAction } from 'mobx';
 import { observer } from 'mobx-react';
 import * as React from 'react';
 
-import { pubmedQuery } from 'utils/resolvers/';
-import { shadows } from 'utils/styles';
+import { pubmedQuery } from 'utils/resolvers';
 
 import Button from 'components/button';
 import Callout from 'components/callout';
 import Spinner from 'components/spinner';
 
-import { DialogProps } from 'dialogs/';
-import { Paginate } from './paginate';
-import { ResultList } from './result-list';
+import { DialogProps } from 'dialogs';
+import ActionBar from 'dialogs/components/action-bar';
+import Paginate from './paginate';
+import ResultList from './result-list';
 
 const ph = placeholderGenerator();
 
@@ -87,12 +87,23 @@ export default class PubmedDialog extends React.Component<DialogProps> {
         }
         const placeholder = ph.next().value;
         return (
-            <div id="pubmed-dialog-root">
+            <>
                 <form id="query" onSubmit={this.sendQuery}>
-                    <Callout onDismiss={this.setError} children={this.errorMessage.get()} />
-                    <div className="pubmed-input-row">
+                    <Callout
+                        onDismiss={this.setError}
+                        children={this.errorMessage.get()}
+                        style={{ margin: 10 }}
+                    />
+                    {/* FIXME: Needs a lower shadow */}
+                    <ActionBar>
                         <input
                             type="text"
+                            style={{
+                                flex: 'auto',
+                                marginRight: 10,
+                                height: 35,
+                                fontSize: 16,
+                            }}
                             onChange={this.updateQuery}
                             autoFocus={true}
                             required
@@ -105,7 +116,7 @@ export default class PubmedDialog extends React.Component<DialogProps> {
                             type="submit"
                             label={PubmedDialog.labels.search}
                         />
-                    </div>
+                    </ActionBar>
                 </form>
                 {this.results.length > 0 && (
                     <ResultList onSelect={this.props.onSubmit} results={this.visibleResults} />
@@ -113,29 +124,7 @@ export default class PubmedDialog extends React.Component<DialogProps> {
                 {this.results.length > 0 && (
                     <Paginate page={this.page} totalPages={Math.ceil(this.results.length / 5)} />
                 )}
-                <style jsx>{`
-                    .pubmed-input-row {
-                        display: flex;
-                        align-items: center;
-                        padding: 0 10px;
-                    }
-                    form {
-                        background: rgba(0, 0, 0, 0.05);
-                        padding: 10px 0;
-                        box-shadow: ${shadows.depth_1};
-                    }
-                    input[type='text'] {
-                        flex: auto;
-                        margin-right: 10px;
-                        height: 35px;
-                        font-size: 16px;
-                    }
-                    #pubmed-dialog-root,
-                    form {
-                        border-radius: 0 0 2px 2px;
-                    }
-                `}</style>
-            </div>
+            </>
         );
     }
 }

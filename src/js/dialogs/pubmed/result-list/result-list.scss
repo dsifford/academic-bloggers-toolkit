@@ -1,0 +1,48 @@
+@import 'colors';
+
+.main {
+    max-height: calc(100vh - 240px);
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.result {
+    border-bottom: 1px solid $border;
+}
+
+.source {
+    font-style: italic;
+}
+
+.button-group {
+    display: flex;
+}
+
+.row-1 {
+    padding: 0 16px;
+    padding-top: 16px;
+    font-size: 14px;
+    line-height: 18px;
+    display: flex;
+    justify-content: space-between;
+    color: $font-light;
+}
+
+.row-2 {
+    padding: 0 16px;
+    font-size: 16px;
+    line-height: 20px;
+    padding: 8px 16px;
+}
+
+.row-3 {
+    padding: 0 8px 4px;
+    color: $font-light;
+    line-height: 18px;
+    font-size: 14px;
+    padding-right: 8px;
+    padding-left: 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}

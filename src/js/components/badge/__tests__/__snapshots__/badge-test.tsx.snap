@@ -1,0 +1,105 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Badge /> count >= 99 1`] = `
+<div
+  className="badge"
+  style={
+    Object {
+      "background": undefined,
+    }
+  }
+>
+  99+
+</div>
+`;
+
+exports[`<Badge /> count >= 99 2`] = `
+<div
+  className="badge"
+  style={
+    Object {
+      "background": "magenta",
+    }
+  }
+>
+  99+
+</div>
+`;
+
+exports[`<Badge /> defaults < 99 1`] = `
+<div
+  className="badge"
+  style={
+    Object {
+      "background": undefined,
+    }
+  }
+>
+  5
+</div>
+`;
+
+exports[`<Badge /> defaults < 99 2`] = `
+<div
+  className="badge"
+  style={
+    Object {
+      "background": undefined,
+    }
+  }
+>
+  50
+</div>
+`;
+
+exports[`<Badge /> defaults < 99 3`] = `
+<div
+  className="badge"
+  style={
+    Object {
+      "background": undefined,
+    }
+  }
+>
+  98
+</div>
+`;
+
+exports[`<Badge /> with color set < 99 1`] = `
+<div
+  className="badge"
+  style={
+    Object {
+      "background": "magenta",
+    }
+  }
+>
+  5
+</div>
+`;
+
+exports[`<Badge /> with color set < 99 2`] = `
+<div
+  className="badge"
+  style={
+    Object {
+      "background": "#ff00ff",
+    }
+  }
+>
+  50
+</div>
+`;
+
+exports[`<Badge /> with color set < 99 3`] = `
+<div
+  className="badge"
+  style={
+    Object {
+      "background": "rgba(150, 150, 150, 0.9)",
+    }
+  }
+>
+  98
+</div>
+`;

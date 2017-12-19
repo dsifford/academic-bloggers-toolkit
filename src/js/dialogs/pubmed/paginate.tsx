@@ -2,9 +2,8 @@ import { action, IObservableValue } from 'mobx';
 import { observer } from 'mobx-react';
 import * as React from 'react';
 
-import { colors, shadows } from 'utils/styles';
-
 import Button from 'components/button';
+import ActionBar from 'dialogs/components/action-bar';
 
 interface Props {
     /** Page currently on */
@@ -14,7 +13,7 @@ interface Props {
 }
 
 @observer
-export class Paginate extends React.Component<Props> {
+export default class Paginate extends React.Component<Props> {
     static readonly labels = top.ABT.i18n.dialogs.pubmed;
 
     @action
@@ -31,7 +30,7 @@ export class Paginate extends React.Component<Props> {
 
     render(): JSX.Element {
         return (
-            <div>
+            <ActionBar>
                 <Button
                     flat
                     focusable
@@ -48,18 +47,7 @@ export class Paginate extends React.Component<Props> {
                     label={Paginate.labels.next}
                     onClick={this.handleClick}
                 />
-                <style jsx>{`
-                    div {
-                        display: flex;
-                        padding: 10px;
-                        align-items: center;
-                        justify-content: space-between;
-                        background: ${colors.light_gray};
-                        box-shadow: ${shadows.depth_1}, ${shadows.top_border};
-                        border-radius: 0 0 2px 2px;
-                    }
-                `}</style>
-            </div>
+            </ActionBar>
         );
     }
 }

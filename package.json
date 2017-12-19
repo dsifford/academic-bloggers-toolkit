@@ -6,7 +6,7 @@
   "scripts": {
     "precommit": "lint-staged",
     "prepush": "npm test && npm run lint",
-    "test": "jest --coverage --silent",
+    "test": "jest --coverage",
     "posttest": "npm run lint-ts",
     "phpcsfix-src": "php-cs-fixer fix --config=.php_cs -v",
     "phpcsfix-dist": "php-cs-fixer fix ./dist --rules='{\"array_syntax\": { \"syntax\": \"long\"}}' --using-cache=no",
@@ -15,7 +15,7 @@
     "lint": "npm run lint-ts && npm run lint-php",
     "start": "gulp",
     "build": "NODE_ENV=production torus run gulp",
-    "deploy": "npm run build && torus run ./lib/scripts/deploy $npm_package_version",
+    "deploy": "IS_DEPLOYING=true npm run build && torus run ./lib/scripts/deploy $npm_package_version",
     "version": "gulp bump",
     "inspect-bundles": "npx bundle-buddy dist/js/**/*.map",
     "update-translations": "torus run ts-node ./lib/scripts/update-translations.ts",
@@ -35,7 +35,14 @@
     }
   ],
   "devDependencies": {
+    "@babel/cli": "^7.0.0-beta.35",
+    "@babel/core": "^7.0.0-beta.35",
+    "@babel/polyfill": "^7.0.0-beta.35",
+    "@babel/preset-env": "^7.0.0-beta.35",
+    "@babel/preset-react": "^7.0.0-beta.35",
+    "@types/common-tags": "^1.4.0",
     "@types/enzyme": "^3.1.6",
+    "@types/enzyme-adapter-react-16": "^1.0.1",
     "@types/gulp": "^4.0.5",
     "@types/gulp-autoprefixer": "0.0.31",
     "@types/gulp-replace": "0.0.31",
@@ -50,20 +57,17 @@
     "@types/react-dom": "^16.0.3",
     "@types/react-motion": "^0.0.23",
     "@types/react-test-renderer": "^16.0.0",
-    "@types/tinycolor2": "^1.4.0",
     "@types/webpack": "^3.8.1",
     "awesome-typescript-loader": "^3.4.1",
-    "babel-core": "^6.26.0",
-    "babel-loader": "^7.1.2",
-    "babel-polyfill": "^6.26.0",
-    "babel-preset-env": "^1.6.1",
-    "babel-preset-react": "^6.24.1",
+    "babel-core": "^7.0.0-beta.3",
+    "babel-loader": "^8.0.0-beta.0",
     "browser-sync": "^2.18.13",
     "css-loader": "^0.28.7",
     "enzyme": "^3.2.0",
     "enzyme-adapter-react-16": "^1.1.0",
     "enzyme-to-json": "^3.3.0",
-    "gulp": "gulpjs/gulp#4.0",
+    "extract-text-webpack-plugin": "^3.0.2",
+    "gulp": "github:gulpjs/gulp#4.0",
     "gulp-autoprefixer": "^4.0.0",
     "gulp-replace": "^0.6.1",
     "gulp-sass": "^3.1.0",
@@ -72,7 +76,8 @@
     "gulp-uglify": "^3.0.0",
     "gulp-wp-pot": "^2.0.6",
     "husky": "^0.14.3",
-    "jest": "^21.2.1",
+    "identity-obj-proxy": "^3.0.0",
+    "jest": "^22.0.1",
     "lint-staged": "^6.0.0",
     "merge-stream": "^1.0.1",
     "mobx-react-devtools": "^4.2.15",
@@ -81,8 +86,10 @@
     "react-test-renderer": "^16.2.0",
     "rollbar": "^2.3.3",
     "rollbar-sourcemap-webpack-plugin": "^2.2.0",
+    "sass-loader": "^6.0.6",
     "snapshot-diff": "^0.2.2",
     "style-loader": "^0.19.1",
+    "torus-cli": "^0.28.1",
     "ts-jest": "^21.2.4",
     "ts-node": "^4.0.2",
     "tslint": "^5.8.0",
@@ -90,13 +97,13 @@
     "tslint-react": "^3.2.0",
     "uglify-es": "^3.2.2",
     "webpack": "^3.10.0",
-    "webpack-bundle-analyzer": "^2.9.1"
+    "whatwg-fetch": "^2.0.3"
   },
   "dependencies": {
     "astrocite": "^0.9.4",
     "citeproc": "^2.1.183",
     "common-tags": "^1.5.1",
-    "focus-trap-react": "^3.0.5",
+    "focus-trap-react": "^3.1.0",
     "he": "^1.1.1",
     "mobx": "^3.4.1",
     "mobx-react": "^4.3.5",
@@ -106,10 +113,7 @@
     "react-select-fast-filter-options": "^0.2.3",
     "react-virtualized-select": "^3.1.0",
     "string-hash": "^1.1.3",
-    "styled-jsx": "^2.2.1",
-    "tinycolor2": "^1.4.1",
-    "typescript": "^2.6.2",
-    "whatwg-fetch": "^2.0.3"
+    "typescript": "^2.6.2"
   },
   "jest": {
     "collectCoverageFrom": [
@@ -125,8 +129,7 @@
     "coverageDirectory": "lib/tmp/coverage",
     "globals": {
       "ts-jest": {
-        "tsConfigFile": "lib/tsconfig-tests.json",
-        "useBabelrc": true
+        "tsConfigFile": "lib/tsconfig-tests.json"
       }
     },
     "mapCoverage": true,
@@ -139,13 +142,15 @@
       "tsx",
       "js"
     ],
+    "moduleNameMapper": {
+      "\\.(css|scss)$": "identity-obj-proxy"
+    },
     "setupFiles": [
-      "raf/polyfill",
       "./lib/before-test.ts"
     ],
     "testRegex": "(/__tests__/.*|\\.(test|spec))\\.(ts|tsx|js)$",
     "transform": {
-      ".(ts|tsx)": "<rootDir>/node_modules/ts-jest/preprocessor.js"
+      ".(ts|tsx)": "ts-jest"
     }
   }
 }

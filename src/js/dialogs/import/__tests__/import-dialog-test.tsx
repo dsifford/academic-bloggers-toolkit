@@ -1,7 +1,7 @@
 import { mount, shallow } from 'enzyme';
 import toJSON from 'enzyme-to-json';
 import * as React from 'react';
-import ImportDialog from '../';
+import ImportDialog from '..';
 
 const mocks = {
     submit: jest.fn(),

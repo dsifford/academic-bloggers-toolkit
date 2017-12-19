@@ -119,7 +119,7 @@ return PhpCsFixer\Config::create()
         'visibility_required' => true,
         'whitespace_after_comma_in_array' => true,
     ])
-    ->setCacheFile(__DIR__ . '/lib/tmp/.phpcs-cache')
+    ->setCacheFile(__DIR__ . '/node_modules/.cache/.phpcs-cache')
     ->setHideProgress(false)
     ->setLineEnding("\n")
     ->setRiskyAllowed(true)

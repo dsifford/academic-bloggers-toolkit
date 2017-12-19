@@ -1,0 +1,13 @@
+@import 'colors';
+
+.well {
+    background: $light-gray;
+    border: 1px solid $border;
+    border-radius: 2px;
+    flex: auto;
+    font-size: 16px;
+    line-height: 25px;
+    margin: 0 15px 0 5px;
+    min-height: 20px;
+    padding: 5px;
+}

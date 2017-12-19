@@ -1,0 +1,573 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<ReferenceList /> snapshots cited and uncited list populated 1`] = `
+<React.Fragment>
+  <t
+    noPanel={false}
+    position={
+      Object {
+        "left": 50,
+        "top": 40,
+      }
+    }
+  />
+  <DialogRouter
+    currentDialog={""}
+    onSubmit={[Function]}
+  />
+  <_class
+    data="{\\"CSL\\":{\\"1\\":{\\"id\\":\\"3\\",\\"title\\":\\"citation 3\\"}},\\"cache\\":{\\"locale\\":\\"en_US\\",\\"style\\":\\"american-medical-association\\"},\\"citationByIndex\\":[]}"
+  />
+  <div
+    className="panel"
+  >
+    <Button
+      disabled={true}
+      flat={true}
+      icon="migrate"
+      label="Insert selected references"
+      onClick={[Function]}
+      tooltip={
+        Object {
+          "position": "bottom",
+          "text": "Insert selected references",
+        }
+      }
+      type="button"
+    />
+    <Button
+      data-dialog="ADD"
+      disabled={false}
+      flat={true}
+      icon="plus"
+      label="Add reference"
+      onClick={[Function]}
+      tooltip={
+        Object {
+          "position": "bottom",
+          "text": "Add reference",
+        }
+      }
+      type="button"
+    />
+    <Button
+      disabled={true}
+      flat={true}
+      icon="minus"
+      label="Remove selected references"
+      onClick={[Function]}
+      tooltip={
+        Object {
+          "position": "bottom",
+          "text": "Remove selected references",
+        }
+      }
+      type="button"
+    />
+    <Button
+      flat={true}
+      icon="admin-post"
+      label="Pin reference list"
+      onClick={[Function]}
+      tooltip={
+        Object {
+          "position": "bottom",
+          "text": "Pin reference list",
+        }
+      }
+      type="button"
+    />
+    <Button
+      aria-expanded={false}
+      aria-haspopup={true}
+      flat={true}
+      icon="menu"
+      label="Toggle menu"
+      onClick={[Function]}
+      type="button"
+    />
+  </div>
+  <Menu
+    cslStyle={"american-medical-association"}
+    isOpen={false}
+    itemsSelected={false}
+    onSubmit={[Function]}
+  />
+  <ItemList
+    CSL={
+      Object {
+        "1": Object {
+          "id": "3",
+          "title": "citation 3",
+        },
+      }
+    }
+    id="uncited"
+    items={
+      Array [
+        Object {
+          "id": "3",
+          "title": "citation 3",
+        },
+      ]
+    }
+    onEditReference={[Function]}
+    selectedItems={Array []}
+    ui={
+      Object {
+        "cited": Object {
+          "isOpen": true,
+          "maxHeight": "400px",
+        },
+        "loading": false,
+        "menuOpen": false,
+        "pinned": false,
+        "uncited": Object {
+          "isOpen": false,
+          "maxHeight": "400px",
+        },
+      }
+    }
+  >
+    Uncited Items
+  </ItemList>
+</React.Fragment>
+`;
+
+exports[`<ReferenceList /> snapshots cited and uncited list populated 2`] = `
+<React.Fragment>
+  <t
+    noPanel={false}
+    position={
+      Object {
+        "left": 50,
+        "top": 40,
+      }
+    }
+  />
+  <DialogRouter
+    currentDialog={""}
+    onSubmit={[Function]}
+  />
+  <_class
+    data="{\\"CSL\\":{\\"1\\":{\\"id\\":\\"3\\",\\"title\\":\\"citation 3\\"}},\\"cache\\":{\\"locale\\":\\"en_US\\",\\"style\\":\\"american-medical-association\\"},\\"citationByIndex\\":[{\\"citationItems\\":[{\\"id\\":\\"1\\",\\"item\\":{\\"id\\":\\"1\\",\\"title\\":\\"citation 1\\"}},{\\"id\\":\\"2\\",\\"item\\":{\\"id\\":\\"2\\",\\"title\\":\\"citation 2\\"}}],\\"properties\\":{\\"index\\":0}}]}"
+  />
+  <div
+    className="panel"
+  >
+    <Button
+      disabled={true}
+      flat={true}
+      icon="migrate"
+      label="Insert selected references"
+      onClick={[Function]}
+      tooltip={
+        Object {
+          "position": "bottom",
+          "text": "Insert selected references",
+        }
+      }
+      type="button"
+    />
+    <Button
+      data-dialog="ADD"
+      disabled={false}
+      flat={true}
+      icon="plus"
+      label="Add reference"
+      onClick={[Function]}
+      tooltip={
+        Object {
+          "position": "bottom",
+          "text": "Add reference",
+        }
+      }
+      type="button"
+    />
+    <Button
+      disabled={true}
+      flat={true}
+      icon="minus"
+      label="Remove selected references"
+      onClick={[Function]}
+      tooltip={
+        Object {
+          "position": "bottom",
+          "text": "Remove selected references",
+        }
+      }
+      type="button"
+    />
+    <Button
+      flat={true}
+      icon="admin-post"
+      label="Pin reference list"
+      onClick={[Function]}
+      tooltip={
+        Object {
+          "position": "bottom",
+          "text": "Pin reference list",
+        }
+      }
+      type="button"
+    />
+    <Button
+      aria-expanded={false}
+      aria-haspopup={true}
+      flat={true}
+      icon="menu"
+      label="Toggle menu"
+      onClick={[Function]}
+      type="button"
+    />
+  </div>
+  <Menu
+    cslStyle={"american-medical-association"}
+    isOpen={false}
+    itemsSelected={false}
+    onSubmit={[Function]}
+  />
+  <ItemList
+    CSL={
+      Object {
+        "1": Object {
+          "id": "3",
+          "title": "citation 3",
+        },
+      }
+    }
+    id="cited"
+    items={
+      Array [
+        Object {
+          "id": "3",
+          "title": "citation 3",
+        },
+        undefined,
+      ]
+    }
+    onEditReference={[Function]}
+    selectedItems={Array []}
+    ui={
+      Object {
+        "cited": Object {
+          "isOpen": true,
+          "maxHeight": "400px",
+        },
+        "loading": false,
+        "menuOpen": false,
+        "pinned": false,
+        "uncited": Object {
+          "isOpen": false,
+          "maxHeight": "400px",
+        },
+      }
+    }
+  >
+    Cited Items
+  </ItemList>
+</React.Fragment>
+`;
+
+exports[`<ReferenceList /> snapshots initial mount with empty state 1`] = `
+<div
+  className="loading"
+>
+  <Spinner
+    bgColor="#f5f5f5"
+    height="52px"
+    size="40px"
+  />
+  <_class
+    data="{\\"CSL\\":{},\\"cache\\":{\\"locale\\":\\"en_US\\",\\"style\\":\\"american-medical-association\\"},\\"citationByIndex\\":[]}"
+  />
+</div>
+`;
+
+exports[`<ReferenceList /> snapshots initial mount with empty state 2`] = `
+<React.Fragment>
+  <t
+    noPanel={false}
+    position={
+      Object {
+        "left": 50,
+        "top": 40,
+      }
+    }
+  />
+  <DialogRouter
+    currentDialog={""}
+    onSubmit={[Function]}
+  />
+  <_class
+    data="{\\"CSL\\":{},\\"cache\\":{\\"locale\\":\\"en_US\\",\\"style\\":\\"american-medical-association\\"},\\"citationByIndex\\":[]}"
+  />
+  <div
+    className="panel"
+  >
+    <Button
+      disabled={true}
+      flat={true}
+      icon="migrate"
+      label="Insert selected references"
+      onClick={[Function]}
+      tooltip={
+        Object {
+          "position": "bottom",
+          "text": "Insert selected references",
+        }
+      }
+      type="button"
+    />
+    <Button
+      data-dialog="ADD"
+      disabled={false}
+      flat={true}
+      icon="plus"
+      label="Add reference"
+      onClick={[Function]}
+      tooltip={
+        Object {
+          "position": "bottom",
+          "text": "Add reference",
+        }
+      }
+      type="button"
+    />
+    <Button
+      disabled={true}
+      flat={true}
+      icon="minus"
+      label="Remove selected references"
+      onClick={[Function]}
+      tooltip={
+        Object {
+          "position": "bottom",
+          "text": "Remove selected references",
+        }
+      }
+      type="button"
+    />
+    <Button
+      flat={true}
+      icon="admin-post"
+      label="Pin reference list"
+      onClick={[Function]}
+      tooltip={
+        Object {
+          "position": "bottom",
+          "text": "Pin reference list",
+        }
+      }
+      type="button"
+    />
+    <Button
+      aria-expanded={false}
+      aria-haspopup={true}
+      flat={true}
+      icon="menu"
+      label="Toggle menu"
+      onClick={[Function]}
+      type="button"
+    />
+  </div>
+  <Menu
+    cslStyle={"american-medical-association"}
+    isOpen={false}
+    itemsSelected={false}
+    onSubmit={[Function]}
+  />
+</React.Fragment>
+`;
+
+exports[`<ReferenceList /> snapshots menu toggled open 1`] = `
+<React.Fragment>
+  <t
+    noPanel={false}
+    position={
+      Object {
+        "left": 50,
+        "top": 40,
+      }
+    }
+  />
+  <DialogRouter
+    currentDialog={""}
+    onSubmit={[Function]}
+  />
+  <_class
+    data="{\\"CSL\\":{},\\"cache\\":{\\"locale\\":\\"en_US\\",\\"style\\":\\"american-medical-association\\"},\\"citationByIndex\\":[]}"
+  />
+  <div
+    className="panel"
+  >
+    <Button
+      disabled={true}
+      flat={true}
+      icon="migrate"
+      label="Insert selected references"
+      onClick={[Function]}
+      tooltip={
+        Object {
+          "position": "bottom",
+          "text": "Insert selected references",
+        }
+      }
+      type="button"
+    />
+    <Button
+      data-dialog="ADD"
+      disabled={false}
+      flat={true}
+      icon="plus"
+      label="Add reference"
+      onClick={[Function]}
+      tooltip={
+        Object {
+          "position": "bottom",
+          "text": "Add reference",
+        }
+      }
+      type="button"
+    />
+    <Button
+      disabled={true}
+      flat={true}
+      icon="minus"
+      label="Remove selected references"
+      onClick={[Function]}
+      tooltip={
+        Object {
+          "position": "bottom",
+          "text": "Remove selected references",
+        }
+      }
+      type="button"
+    />
+    <Button
+      flat={true}
+      icon="admin-post"
+      label="Pin reference list"
+      onClick={[Function]}
+      tooltip={
+        Object {
+          "position": "bottom",
+          "text": "Pin reference list",
+        }
+      }
+      type="button"
+    />
+    <Button
+      aria-expanded={true}
+      aria-haspopup={true}
+      flat={true}
+      icon="no-alt"
+      label="Toggle menu"
+      onClick={[Function]}
+      type="button"
+    />
+  </div>
+  <Menu
+    cslStyle={"american-medical-association"}
+    isOpen={true}
+    itemsSelected={false}
+    onSubmit={[Function]}
+  />
+</React.Fragment>
+`;
+
+exports[`<ReferenceList /> snapshots pinned state toggled 1`] = `
+<React.Fragment>
+  <t
+    noPanel={false}
+    position={
+      Object {
+        "left": 50,
+        "top": 40,
+      }
+    }
+  />
+  <DialogRouter
+    currentDialog={""}
+    onSubmit={[Function]}
+  />
+  <_class
+    data="{\\"CSL\\":{},\\"cache\\":{\\"locale\\":\\"en_US\\",\\"style\\":\\"american-medical-association\\"},\\"citationByIndex\\":[]}"
+  />
+  <div
+    className="panel"
+  >
+    <Button
+      disabled={true}
+      flat={true}
+      icon="migrate"
+      label="Insert selected references"
+      onClick={[Function]}
+      tooltip={
+        Object {
+          "position": "bottom",
+          "text": "Insert selected references",
+        }
+      }
+      type="button"
+    />
+    <Button
+      data-dialog="ADD"
+      disabled={false}
+      flat={true}
+      icon="plus"
+      label="Add reference"
+      onClick={[Function]}
+      tooltip={
+        Object {
+          "position": "bottom",
+          "text": "Add reference",
+        }
+      }
+      type="button"
+    />
+    <Button
+      disabled={true}
+      flat={true}
+      icon="minus"
+      label="Remove selected references"
+      onClick={[Function]}
+      tooltip={
+        Object {
+          "position": "bottom",
+          "text": "Remove selected references",
+        }
+      }
+      type="button"
+    />
+    <Button
+      flat={true}
+      icon="sticky"
+      label="Pin reference list"
+      onClick={[Function]}
+      tooltip={
+        Object {
+          "position": "bottom",
+          "text": "Pin reference list",
+        }
+      }
+      type="button"
+    />
+    <Button
+      aria-expanded={false}
+      aria-haspopup={true}
+      flat={true}
+      icon="menu"
+      label="Toggle menu"
+      onClick={[Function]}
+      type="button"
+    />
+  </div>
+  <Menu
+    cslStyle={"american-medical-association"}
+    isOpen={false}
+    itemsSelected={false}
+    onSubmit={[Function]}
+  />
+</React.Fragment>
+`;

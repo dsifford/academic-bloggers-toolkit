@@ -1,20 +1,10 @@
 require('ts-node/register');
-const { configure } = require('enzyme');
+import { configure } from 'enzyme';
 import * as Adapter from 'enzyme-adapter-react-16';
-configure({ adapter: new Adapter() });
-
-const { i18n, state, wpInfo } = require('./fixtures.ts');
+import { i18n, state, wpInfo } from './fixtures';
 const styles = require('../src/vendor/citation-styles.json');
 
-window.ABT = {
-    state,
-    i18n,
-    wp: wpInfo,
-    styles,
-    custom_csl: {
-        label: '',
-    },
-};
+configure({ adapter: new Adapter() });
 
 class Storage {
     private items = new Map<string, string>();
@@ -28,4 +18,21 @@ class Storage {
     }
 }
 
-(<any>window).StorageMock = Storage;
+Object.defineProperties(window, {
+    ABT: {
+        configurable: true,
+        writable: true,
+        value: {
+            state,
+            i18n,
+            wp: wpInfo,
+            styles,
+            custom_csl: {
+                label: '',
+            },
+        },
+    },
+    StorageMock: {
+        value: Storage,
+    },
+});

@@ -2,10 +2,9 @@ import { IObservableValue } from 'mobx';
 import { observer } from 'mobx-react';
 import * as React from 'react';
 
-import { colors, shadows } from 'utils/styles';
-
 import Button from 'components/button';
 import ToggleSwitch from 'components/toggle-switch';
+import ActionBar from 'dialogs/components/action-bar';
 
 interface Props {
     /** Loading state of parent. Used to control disabled state of toggle switch. */
@@ -35,7 +34,7 @@ export default class ButtonRow extends React.Component<Props> {
             onToggleManual,
         } = this.props;
         return (
-            <div className="btn-row">
+            <ActionBar>
                 <Button
                     flat
                     focusable
@@ -53,7 +52,7 @@ export default class ButtonRow extends React.Component<Props> {
                     label={ButtonRow.labels.searchPubmed}
                     onClick={onSearchPubmedClick}
                 />
-                <span className="separator" />
+                <ActionBar.Separator />
                 <ToggleSwitch
                     disabled={isLoading}
                     onChange={onAttachInlineToggle}
@@ -70,24 +69,7 @@ export default class ButtonRow extends React.Component<Props> {
                     type="submit"
                     label={ButtonRow.labels.addReference}
                 />
-                <style jsx>{`
-                    .btn-row {
-                        display: flex;
-                        padding: 10px;
-                        align-items: center;
-                        background: ${colors.light_gray};
-                        box-shadow: ${shadows.top_border};
-                        border-radius: 0 0 2px 2px;
-                        margin: 0;
-                        justify-content: space-between;
-                    }
-                    span {
-                        border-right: solid 2px ${colors.border};
-                        height: 30px;
-                        display: inline-block;
-                    }
-                `}</style>
-            </div>
+            </ActionBar>
         );
     }
 }

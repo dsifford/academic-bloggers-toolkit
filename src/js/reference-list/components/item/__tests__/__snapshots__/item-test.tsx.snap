@@ -1,0 +1,111 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Item /> should render appropriately with optional props unset 1`] = `
+<div
+  className="itemSelected"
+  id="aaaaa"
+  role="menuitem"
+>
+  <div
+    aria-hidden={true}
+    className="number"
+  >
+    1
+  </div>
+  <div>
+    Two valid authors
+  </div>
+  <div
+    className="people"
+  >
+    Smith, J, Some literal name, Doe, J...
+  </div>
+  <div
+    className="container"
+  >
+    <div
+      className="date"
+    >
+      (2016)
+    </div>
+    <div
+      className="source"
+    />
+    <div
+      className="pages"
+    >
+      n.p.
+    </div>
+  </div>
+</div>
+`;
+
+exports[`<Item /> should show and hide indices on hover when indexOnHover is set 1`] = `
+<div
+  className="item"
+  id="aaaaa"
+  onClick={[MockFunction]}
+  onMouseEnter={[Function]}
+  onMouseLeave={[Function]}
+  role="menuitem"
+>
+  <div
+    aria-hidden={true}
+    className="number"
+  >
+    1
+  </div>
+  <div>
+    Two valid authors
+  </div>
+  <div
+    className="people"
+  >
+    Smith, J, Some literal name, Doe, J...
+  </div>
+  <div
+    className="container"
+  >
+    <div
+      className="date"
+    >
+      (2016)
+    </div>
+    <div
+      className="source"
+    />
+    <div
+      className="pages"
+    >
+      n.p.
+    </div>
+  </div>
+</div>
+`;
+
+exports[`<Item /> should show and hide indices on hover when indexOnHover is set 2`] = `
+"Snapshot Diff:
+- First value
++ Second value
+
+@@ -5,12 +5,12 @@
+    onMouseEnter={[Function res]}
+    onMouseLeave={[Function res]}
+    role=\\"menuitem\\"
+  >
+    <div
+-     aria-hidden={true}
+-     className=\\"number\\"
++     aria-hidden={false}
++     className=\\"numberActive\\"
+    >
+      1
+    </div>
+    <div>
+      Two valid authors"
+`;
+
+exports[`<Item /> should show and hide indices on hover when indexOnHover is set 3`] = `
+"Snapshot Diff:
+Compared values have no visual difference."
+`;

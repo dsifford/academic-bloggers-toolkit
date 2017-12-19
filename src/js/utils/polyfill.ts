@@ -1,5 +1,5 @@
 if (!top._babelPolyfill) {
-    require('babel-polyfill');
+    require('@babel/polyfill');
 }
 
 ((global: any): void => {

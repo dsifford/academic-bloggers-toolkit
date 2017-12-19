@@ -4,12 +4,11 @@ import { action, observable, toJS } from 'mobx';
 import { observer } from 'mobx-react';
 import * as React from 'react';
 
-import { colors } from 'utils/styles';
-
 import Button from 'components/button';
 import Callout from 'components/callout';
+import Well from 'components/well';
 
-import { DialogProps } from 'dialogs/';
+import { DialogProps } from 'dialogs';
 
 @observer
 export default class ImportDialog extends React.Component<DialogProps> {
@@ -109,9 +108,10 @@ export default class ImportDialog extends React.Component<DialogProps> {
 
     render(): JSX.Element {
         return (
-            <div id="import-dialog-root">
-                <div className="import-dialog">
+            <div style={{ padding: 10 }}>
+                <div style={{ display: 'flex', alignItems: 'center' }}>
                     <input
+                        style={{ display: 'none' }}
                         required
                         aria-labelledby="upload-file-btn"
                         ref={this.bindRefs}
@@ -129,7 +129,7 @@ export default class ImportDialog extends React.Component<DialogProps> {
                         label={ImportDialog.labels.upload}
                         onClick={this.handleClick}
                     />
-                    <div id="well" className="well" children={this.file.name.get()} />
+                    <Well>{this.file.name.get()}</Well>
                     <Button
                         primary
                         focusable
@@ -145,37 +145,6 @@ export default class ImportDialog extends React.Component<DialogProps> {
                 >
                     {this.errorMessage.get()}
                 </Callout>
-                <style jsx>{`
-                    input {
-                        visibility: hidden;
-                        width: 0;
-                        border: 0;
-                        padding: 0;
-                        pointer-events: none;
-                    }
-                    #import-dialog-root {
-                        padding: 10px;
-                    }
-                    .import-dialog {
-                        display: flex;
-                        align-items: center;
-                    }
-                    .upload-btn {
-                        display: inline-block;
-                        line-height: 36px;
-                    }
-                    .well {
-                        background: ${colors.light_gray};
-                        border: 1px solid ${colors.border};
-                        border-radius: 2px;
-                        flex: auto;
-                        font-size: 16px;
-                        line-height: 25px;
-                        margin: 0 15px 0 5px;
-                        min-height: 20px;
-                        padding: 5px;
-                    }
-                `}</style>
             </div>
         );
     }

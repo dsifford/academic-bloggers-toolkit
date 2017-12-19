@@ -1,0 +1,58 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Container /> should match snapshot 1`] = `
+<div
+  className="container"
+  onKeyDown={[Function]}
+  onWheel={[Function]}
+  style={
+    Object {
+      "background": "rgba(0, 0, 0, 0.7)",
+    }
+  }
+>
+  <FocusTrap
+    _createFocusTrap={[Function]}
+    active={true}
+    focusTrapOptions={Object {}}
+    paused={false}
+    tag="div"
+  >
+    <div
+      aria-labelledby="dialog-label-Hello_World"
+      className="dialog"
+      role="dialog"
+      style={
+        Object {
+          "width": 600,
+        }
+      }
+    >
+      <header
+        className="header"
+      >
+        <span
+          className="dialogTitle"
+          id="dialog-label-Hello_World"
+        >
+          Hello World
+        </span>
+        <button
+          aria-label="Close dialog"
+          className="button"
+          onClick={[Function]}
+        >
+          <span
+            className="dashicons dashicons-no-alt"
+          />
+        </button>
+      </header>
+      <h1
+        focusTrapPaused={false}
+      >
+        Hello World
+      </h1>
+    </div>
+  </FocusTrap>
+</div>
+`;

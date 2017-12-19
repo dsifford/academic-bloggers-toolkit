@@ -1,0 +1,57 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<ToggleSwitch /> should match snapshots 1`] = `
+<div
+  className="toggle"
+>
+  <Tooltip
+    active={false}
+    id="inline-toggle"
+    text="Test 1"
+    transform=""
+  />
+  <input
+    aria-checked={false}
+    aria-describedby="inline-toggle"
+    aria-label="Test 1"
+    checked={false}
+    onChange={[Function]}
+    type="checkbox"
+  />
+  <span
+    aria-checked={false}
+    onClick={[Function]}
+    onMouseOut={[Function]}
+    onMouseOver={[Function]}
+    role="checkbox"
+  />
+</div>
+`;
+
+exports[`<ToggleSwitch /> should match snapshots 2`] = `
+<div
+  className="toggle"
+>
+  <Tooltip
+    active={false}
+    id="inline-toggle"
+    text="Test 2"
+    transform=""
+  />
+  <input
+    aria-checked={true}
+    aria-describedby="inline-toggle"
+    aria-label="Test 2"
+    checked={true}
+    onChange={[Function]}
+    type="checkbox"
+  />
+  <span
+    aria-checked={true}
+    onClick={[Function]}
+    onMouseOut={[Function]}
+    onMouseOver={[Function]}
+    role="checkbox"
+  />
+</div>
+`;

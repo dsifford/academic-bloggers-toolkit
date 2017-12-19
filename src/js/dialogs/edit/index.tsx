@@ -3,10 +3,12 @@ import { observable, toJS } from 'mobx';
 import { observer } from 'mobx-react';
 import * as React from 'react';
 
-import { DialogProps } from 'dialogs/';
+import { DialogProps } from 'dialogs';
 
-import ContributorList from 'dialogs/add/contributor-list/';
-import MetaFields from 'dialogs/add/meta-fields';
+import Button from 'components/button';
+import ActionBar from 'dialogs/components/action-bar';
+import ContributorList from 'dialogs/components/contributor-list';
+import MetaFields from 'dialogs/components/meta-fields';
 
 const PERSON_TYPE_KEYS: ReadonlyArray<keyof CSL.Data> = [
     'author',
@@ -39,7 +41,7 @@ export default class EditDialog extends React.Component<Props> {
     static readonly labels = top.ABT.i18n.dialogs.edit;
 
     /** Controls state of all fields besides people fields */
-    fields = observable.map<string>();
+    fields = observable(new Map<keyof CSL.Data, any>());
 
     /** Controls state of all people fields */
     people = observable<ABT.Contributor>([]);
@@ -82,24 +84,14 @@ export default class EditDialog extends React.Component<Props> {
     };
 
     render(): JSX.Element {
-        const citationType = this.fields.get('type') as keyof ABT.FieldMappings;
+        const citationType = this.fields.get('type');
         return (
             <form onSubmit={this.handleSubmit}>
                 <ContributorList citationType={citationType} people={this.people} />
                 <MetaFields meta={this.fields} />
-                <div>
-                    <input
-                        type="submit"
-                        className="abt-btn abt-btn_flat abt-btn_submit"
-                        value={EditDialog.labels.confirm}
-                    />
-                </div>
-                <style jsx>{`
-                    div {
-                        padding-bottom: 10px;
-                        text-align: center;
-                    }
-                `}</style>
+                <ActionBar style={{ justifyContent: 'flex-end' }}>
+                    <Button flat primary type="submit" label={EditDialog.labels.confirm} />
+                </ActionBar>
             </form>
         );
     }

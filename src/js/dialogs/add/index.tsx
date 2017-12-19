@@ -2,22 +2,22 @@ import { action, computed, observable, toJS } from 'mobx';
 import { observer } from 'mobx-react';
 import * as React from 'react';
 
-import { DialogProps } from 'dialogs/';
+import { DialogProps } from 'dialogs';
+import { manualPersonObj } from 'utils/constants';
 import {
     BookMeta as IBookMeta,
     getFromISBN,
     getFromURL,
     URLMeta as IURLMeta,
-} from 'utils/resolvers/';
+} from 'utils/resolvers';
 import { AutociteKind } from './autocite';
 
 import Spinner from 'components/spinner';
-import Container from 'dialogs/container';
+import Container from 'dialogs/components/container';
 import PubmedDialog from 'dialogs/pubmed';
-import { manualPersonObj } from 'utils/constants';
 import ButtonRow from './button-row';
 import IdentifierInput from './identifier-input';
-import ManualEntryContainer from './manual-entry-container';
+import ManualInput from './manual-input';
 
 interface BookMeta extends IBookMeta {
     kind: 'book' | 'chapter';
@@ -61,7 +61,7 @@ export default class AddDialog extends React.Component<DialogProps> {
     isLoading = observable(false);
 
     /** Controls the value of all fields in `ManualEntryContainer` */
-    manualData = observable.map<string>(new Map([['type', 'webpage']]));
+    manualData = observable(new Map([['type', 'webpage']]));
 
     /** Controls the value of the `People` fields in `ManualEntryContainer` */
     people = observable<ABT.Contributor>([{ ...manualPersonObj }]);
@@ -217,7 +217,7 @@ export default class AddDialog extends React.Component<DialogProps> {
 
     render(): JSX.Element {
         return (
-            <div>
+            <>
                 {this.isLoading.get() && <Spinner size="40px" overlay />}
                 {this.currentDialog.get() === 'PUBMED' && (
                     <Container
@@ -238,7 +238,7 @@ export default class AddDialog extends React.Component<DialogProps> {
                         />
                     )}
                     {this.addManually.get() && (
-                        <ManualEntryContainer
+                        <ManualInput
                             errorMessage={this.errorMessage}
                             manualData={this.manualData}
                             people={this.people}
@@ -255,12 +255,7 @@ export default class AddDialog extends React.Component<DialogProps> {
                     onAttachInlineToggle={this.toggleAttachInline}
                     onToggleManual={this.toggleAddManual}
                 />
-                <style jsx>{`
-                    div {
-                        position: relative;
-                    }
-                `}</style>
-            </div>
+            </>
         );
     }
 }

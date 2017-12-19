@@ -3,11 +3,11 @@ import { observer } from 'mobx-react';
 import * as React from 'react';
 
 import { DialogType } from 'utils/constants';
-import Container from './container';
+import Container from './components/container';
 
-import AddDialog from './add/';
-import EditDialog from './edit/';
-import ImportDialog from './import/';
+import AddDialog from './add';
+import EditDialog from './edit';
+import ImportDialog from './import';
 
 export interface DialogProps {
     /**

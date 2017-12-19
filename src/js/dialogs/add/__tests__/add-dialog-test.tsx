@@ -4,8 +4,8 @@ import toJSON from 'enzyme-to-json';
 import { observable } from 'mobx';
 import * as React from 'react';
 
-import { BookMeta, getFromISBN, getFromURL } from 'utils/resolvers/';
-import AddDialog from '../';
+import { BookMeta, getFromISBN, getFromURL } from 'utils/resolvers';
+import AddDialog from '..';
 
 const mocks = {
     getFromURL: getFromURL as jest.Mock<{}>,
@@ -47,15 +47,6 @@ describe('<AddDialog />', () => {
         instance.addManually.set(true);
         component.update();
         expect(toJSON(component, { noKey: true })).toMatchSnapshot();
-
-        // With pubmed dialog
-        instance.currentDialog.set('PUBMED');
-        component.update();
-        const withoutPlaceholder: any = toJSON(component, { noKey: true });
-        // Please forgive me, for I have sinned.
-        withoutPlaceholder.children[0].children[0].children[0].children[0].children[0].children[0].children[1].children[0].children[0].children[0].children[1].children[0].props.placeholder =
-            '';
-        expect(withoutPlaceholder).toMatchSnapshot();
 
         // With loading spinner
         instance.currentDialog.set('');

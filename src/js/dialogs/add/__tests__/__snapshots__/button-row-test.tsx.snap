@@ -1,14 +1,12 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`<ButtonRow /> should match snapshots 1`] = `
-<div
-  className="btn-row"
->
+<ActionBar>
   <Button
     flat={true}
     focusable={true}
     label="Add with Identifier"
-    onClick={[Function]}
+    onClick={[MockFunction]}
     type="button"
   />
   <Button
@@ -16,16 +14,14 @@ exports[`<ButtonRow /> should match snapshots 1`] = `
     flat={true}
     focusable={true}
     label="Search PubMed"
-    onClick={[Function]}
+    onClick={[MockFunction]}
     type="button"
   />
-  <span
-    className="separator"
-  />
+  <Component />
   <ToggleSwitch
     checked={false}
     disabled={false}
-    onChange={[Function]}
+    onChange={[MockFunction]}
     tooltip={
       Object {
         "position": "left",
@@ -40,39 +36,16 @@ exports[`<ButtonRow /> should match snapshots 1`] = `
     primary={true}
     type="submit"
   />
-  <style
-    jsx={true}
-  >
-    
-                    .btn-row {
-                        display: flex;
-                        padding: 10px;
-                        align-items: center;
-                        background: #f5f5f5;
-                        box-shadow: 0 -1px 0 rgba(16, 22, 26, .10);
-                        border-radius: 0 0 2px 2px;
-                        margin: 0;
-                        justify-content: space-between;
-                    }
-                    span {
-                        border-right: solid 2px rgba(0, 0, 0, 0.12);
-                        height: 30px;
-                        display: inline-block;
-                    }
-                
-  </style>
-</div>
+</ActionBar>
 `;
 
 exports[`<ButtonRow /> should match snapshots 2`] = `
-<div
-  className="btn-row"
->
+<ActionBar>
   <Button
     flat={true}
     focusable={true}
     label="Add Manually"
-    onClick={[Function]}
+    onClick={[MockFunction]}
     type="button"
   />
   <Button
@@ -80,16 +53,14 @@ exports[`<ButtonRow /> should match snapshots 2`] = `
     flat={true}
     focusable={true}
     label="Search PubMed"
-    onClick={[Function]}
+    onClick={[MockFunction]}
     type="button"
   />
-  <span
-    className="separator"
-  />
+  <Component />
   <ToggleSwitch
     checked={false}
     disabled={false}
-    onChange={[Function]}
+    onChange={[MockFunction]}
     tooltip={
       Object {
         "position": "left",
@@ -104,26 +75,5 @@ exports[`<ButtonRow /> should match snapshots 2`] = `
     primary={true}
     type="submit"
   />
-  <style
-    jsx={true}
-  >
-    
-                    .btn-row {
-                        display: flex;
-                        padding: 10px;
-                        align-items: center;
-                        background: #f5f5f5;
-                        box-shadow: 0 -1px 0 rgba(16, 22, 26, .10);
-                        border-radius: 0 0 2px 2px;
-                        margin: 0;
-                        justify-content: space-between;
-                    }
-                    span {
-                        border-right: solid 2px rgba(0, 0, 0, 0.12);
-                        height: 30px;
-                        display: inline-block;
-                    }
-                
-  </style>
-</div>
+</ActionBar>
 `;

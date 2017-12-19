@@ -1,0 +1,83 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Spinner /> should match snapshots 1`] = `
+<div
+  className="spinner "
+  style={
+    Object {
+      "backgroundColor": "transparent",
+    }
+  }
+>
+  <svg
+    height="50px"
+    viewBox="0 0 66 66"
+    width="50px"
+  >
+    <circle
+      cx="33"
+      cy="33"
+      fill="none"
+      r="30"
+      strokeLinecap="round"
+      strokeWidth="6"
+    />
+  </svg>
+</div>
+`;
+
+exports[`<Spinner /> should match snapshots 2`] = `
+<div
+  className="spinner spinnerOverlay"
+  style={
+    Object {
+      "backgroundColor": undefined,
+      "height": 100,
+      "minHeight": 100,
+    }
+  }
+>
+  <svg
+    height="100px"
+    viewBox="0 0 66 66"
+    width="100px"
+  >
+    <circle
+      cx="33"
+      cy="33"
+      fill="none"
+      r="30"
+      strokeLinecap="round"
+      strokeWidth="6"
+    />
+  </svg>
+</div>
+`;
+
+exports[`<Spinner /> should match snapshots 3`] = `
+<div
+  className="spinner "
+  style={
+    Object {
+      "backgroundColor": "transparent",
+      "height": "100px",
+      "minHeight": "100px",
+    }
+  }
+>
+  <svg
+    height="100px"
+    viewBox="0 0 66 66"
+    width="100px"
+  >
+    <circle
+      cx="33"
+      cy="33"
+      fill="none"
+      r="30"
+      strokeLinecap="round"
+      strokeWidth="6"
+    />
+  </svg>
+</div>
+`;

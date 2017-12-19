@@ -57,7 +57,7 @@
 
 .abt-tooltip {
     border-radius: 3px;
-    box-shadow: $citation-tooltip;
+    box-shadow: map-get($shadows, 'citation-tooltip');
     padding: 8px;
     position: absolute;
     margin: auto;

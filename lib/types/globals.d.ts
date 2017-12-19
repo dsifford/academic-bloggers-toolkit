@@ -68,14 +68,16 @@ interface Window {
 
 // ==============
 
-declare module 'common-tags';
-declare module 'focus-trap-react';
-declare module 'enzyme-adapter-react-16';
 declare module 'gulp-uglify/composer';
 declare module 'gulp-wp-pot';
-declare module 'react-select-fast-filter-options';
 declare module 'react-virtualized-select';
-declare module 'rollbar-sourcemap-webpack-plugin';
+declare module 'react-select-fast-filter-options';
 declare module 'rollbar/dist/rollbar.umd';
 declare module 'string-hash';
 declare module 'uglify-es';
+declare module '*.scss' {
+    const content: {
+        [identifier: string]: any;
+    };
+    export = content;
+}

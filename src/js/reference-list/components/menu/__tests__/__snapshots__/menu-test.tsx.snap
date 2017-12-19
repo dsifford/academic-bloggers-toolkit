@@ -1,0 +1,577 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Menu /> should match snapshots 1`] = `
+<Menu
+  cslStyle={"american-medical-association"}
+  isOpen={true}
+  itemsSelected={true}
+  onSubmit={[MockFunction]}
+>
+  <TransitionMotion
+    didLeave={[Function]}
+    styles={
+      Array [
+        Object {
+          "key": "menu",
+          "style": Object {
+            "height": Object {
+              "damping": 20,
+              "precision": 0.01,
+              "stiffness": 300,
+              "val": 85,
+            },
+            "scale": Object {
+              "damping": 20,
+              "precision": 0.01,
+              "stiffness": 300,
+              "val": 1,
+            },
+          },
+        },
+      ]
+    }
+    willEnter={[Function]}
+    willLeave={[Function]}
+  >
+    <div
+      className="menu"
+      key="menu"
+      style={
+        Object {
+          "height": 85,
+          "maxHeight": 85,
+          "opacity": undefined,
+          "transform": "scaleY(1)",
+          "transformOrigin": "top",
+        }
+      }
+    >
+      <div
+        className="subpanel"
+      >
+        <Button
+          flat={true}
+          icon="media-code"
+          id="OPEN_IMPORT_DIALOG"
+          label="Import references"
+          onClick={[Function]}
+          tooltip={
+            Object {
+              "position": "bottom",
+              "text": "Import references",
+            }
+          }
+          type="button"
+        >
+          <div>
+            <Tooltip
+              active={false}
+              id="Import_references"
+              text="Import references"
+              transform=""
+            >
+              <div
+                className="tooltip"
+                id="Import_references"
+                role="tooltip"
+                style={
+                  Object {
+                    "transform": "",
+                  }
+                }
+              >
+                Import references
+              </div>
+            </Tooltip>
+            <button
+              aria-describedby="Import_references"
+              aria-label="Import references"
+              className="btn btnFlat btnIcon"
+              id="OPEN_IMPORT_DIALOG"
+              onClick={[Function]}
+              onMouseEnter={[Function]}
+              onMouseLeave={[Function]}
+              type="button"
+            >
+              <span
+                className="dashicons dashicons-media-code"
+              />
+            </button>
+          </div>
+        </Button>
+        <Button
+          flat={true}
+          icon="update"
+          id="REFRESH_PROCESSOR"
+          label="Refresh reference list"
+          onClick={[Function]}
+          tooltip={
+            Object {
+              "position": "bottom",
+              "text": "Refresh reference list",
+            }
+          }
+          type="button"
+        >
+          <div>
+            <Tooltip
+              active={false}
+              id="Refresh_reference_list"
+              text="Refresh reference list"
+              transform=""
+            >
+              <div
+                className="tooltip"
+                id="Refresh_reference_list"
+                role="tooltip"
+                style={
+                  Object {
+                    "transform": "",
+                  }
+                }
+              >
+                Refresh reference list
+              </div>
+            </Tooltip>
+            <button
+              aria-describedby="Refresh_reference_list"
+              aria-label="Refresh reference list"
+              className="btn btnFlat btnIcon"
+              id="REFRESH_PROCESSOR"
+              onClick={[Function]}
+              onMouseEnter={[Function]}
+              onMouseLeave={[Function]}
+              type="button"
+            >
+              <span
+                className="dashicons dashicons-update"
+              />
+            </button>
+          </div>
+        </Button>
+        <Button
+          flat={true}
+          icon="trash"
+          id="DESTROY_PROCESSOR"
+          label="Delete all references"
+          onClick={[Function]}
+          tooltip={
+            Object {
+              "position": "bottom",
+              "text": "Delete all references",
+            }
+          }
+          type="button"
+        >
+          <div>
+            <Tooltip
+              active={false}
+              id="Delete_all_references"
+              text="Delete all references"
+              transform=""
+            >
+              <div
+                className="tooltip"
+                id="Delete_all_references"
+                role="tooltip"
+                style={
+                  Object {
+                    "transform": "",
+                  }
+                }
+              >
+                Delete all references
+              </div>
+            </Tooltip>
+            <button
+              aria-describedby="Delete_all_references"
+              aria-label="Delete all references"
+              className="btn btnFlat btnIcon"
+              id="DESTROY_PROCESSOR"
+              onClick={[Function]}
+              onMouseEnter={[Function]}
+              onMouseLeave={[Function]}
+              type="button"
+            >
+              <span
+                className="dashicons dashicons-trash"
+              />
+            </button>
+          </div>
+        </Button>
+        <Button
+          disabled={false}
+          flat={true}
+          icon="list-view"
+          id="INSERT_STATIC_BIBLIOGRAPHY"
+          label="Insert static publication list"
+          onClick={[Function]}
+          tooltip={
+            Object {
+              "position": "bottom",
+              "text": "Insert static publication list",
+            }
+          }
+          type="button"
+        >
+          <div>
+            <Tooltip
+              active={false}
+              id="Insert_static_publication_list"
+              text="Insert static publication list"
+              transform=""
+            >
+              <div
+                className="tooltip"
+                id="Insert_static_publication_list"
+                role="tooltip"
+                style={
+                  Object {
+                    "transform": "",
+                  }
+                }
+              >
+                Insert static publication list
+              </div>
+            </Tooltip>
+            <button
+              aria-describedby="Insert_static_publication_list"
+              aria-label="Insert static publication list"
+              className="btn btnFlat btnIcon"
+              disabled={false}
+              id="INSERT_STATIC_BIBLIOGRAPHY"
+              onClick={[Function]}
+              onMouseEnter={[Function]}
+              onMouseLeave={[Function]}
+              type="button"
+            >
+              <span
+                className="dashicons dashicons-list-view"
+              />
+            </button>
+          </div>
+        </Button>
+        <Button
+          flat={true}
+          href="https://github.com/dsifford/academic-bloggers-toolkit/wiki"
+          icon="editor-help"
+          label="Usage instructions"
+          role="link"
+          tooltip={
+            Object {
+              "position": "bottom",
+              "text": "Usage instructions",
+            }
+          }
+          type="button"
+        >
+          <div>
+            <Tooltip
+              active={false}
+              id="Usage_instructions"
+              text="Usage instructions"
+              transform=""
+            >
+              <div
+                className="tooltip"
+                id="Usage_instructions"
+                role="tooltip"
+                style={
+                  Object {
+                    "transform": "",
+                  }
+                }
+              >
+                Usage instructions
+              </div>
+            </Tooltip>
+            <button
+              aria-describedby="Usage_instructions"
+              aria-label="Usage instructions"
+              className="btn btnFlat btnIcon"
+              onClick={[Function]}
+              onMouseEnter={[Function]}
+              onMouseLeave={[Function]}
+              role="link"
+              type="button"
+            >
+              <span
+                className="dashicons dashicons-editor-help"
+              />
+            </button>
+          </div>
+        </Button>
+      </div>
+      <div
+        className="styleRow"
+      >
+        <VirtualizedSelect
+          async={false}
+          clearable={false}
+          filterOptions={[Function]}
+          id="style-select"
+          maxHeight={200}
+          onChange={[Function]}
+          optionHeight={[Function]}
+          optionRenderer={[Function]}
+          options={
+            Array [
+              Object {
+                "id": "header",
+                "label": "Custom Style",
+                "value": "header",
+              },
+              Object {
+                "id": "test-value",
+                "label": "Test Label",
+                "value": "test-value",
+              },
+              Object {
+                "id": "header",
+                "label": "Pre-defined Styles",
+                "value": "header",
+              },
+              Object {
+                "id": "american-medical-association",
+                "label": "American Medical Association",
+                "value": "american-medical-association",
+              },
+              Object {
+                "id": "apa-5th",
+                "label": "APA 5th Edition",
+                "value": "apa-5th",
+              },
+            ]
+          }
+          value={
+            Object {
+              "label": "American Medical Association",
+              "value": "american-medical-association",
+            }
+          }
+          valueKey="id"
+        >
+          <Select
+            arrowRenderer={[Function]}
+            async={false}
+            autosize={true}
+            backspaceRemoves={true}
+            backspaceToRemoveMessage="Press backspace to remove {label}"
+            clearAllText="Clear all"
+            clearRenderer={[Function]}
+            clearValueText="Clear value"
+            clearable={false}
+            closeOnSelect={true}
+            deleteRemoves={true}
+            delimiter=","
+            disabled={false}
+            escapeClearsValue={true}
+            filterOptions={[Function]}
+            id="style-select"
+            ignoreAccents={true}
+            ignoreCase={true}
+            inputProps={Object {}}
+            isLoading={false}
+            joinValues={false}
+            labelKey="label"
+            matchPos="any"
+            matchProp="any"
+            maxHeight={200}
+            menuBuffer={0}
+            menuRenderer={[Function]}
+            menuStyle={
+              Object {
+                "overflow": "hidden",
+              }
+            }
+            multi={false}
+            noResultsText="No results found"
+            onBlurResetsInput={true}
+            onChange={[Function]}
+            onCloseResetsInput={true}
+            onSelectResetsInput={true}
+            openOnClick={true}
+            optionComponent={[Function]}
+            optionHeight={[Function]}
+            optionRenderer={[Function]}
+            options={
+              Array [
+                Object {
+                  "id": "header",
+                  "label": "Custom Style",
+                  "value": "header",
+                },
+                Object {
+                  "id": "test-value",
+                  "label": "Test Label",
+                  "value": "test-value",
+                },
+                Object {
+                  "id": "header",
+                  "label": "Pre-defined Styles",
+                  "value": "header",
+                },
+                Object {
+                  "id": "american-medical-association",
+                  "label": "American Medical Association",
+                  "value": "american-medical-association",
+                },
+                Object {
+                  "id": "apa-5th",
+                  "label": "APA 5th Edition",
+                  "value": "apa-5th",
+                },
+              ]
+            }
+            pageSize={5}
+            placeholder="Select..."
+            removeSelected={true}
+            required={false}
+            rtl={false}
+            scrollMenuIntoView={true}
+            searchable={true}
+            simpleValue={false}
+            tabSelectsValue={true}
+            trimFilter={true}
+            value={
+              Object {
+                "label": "American Medical Association",
+                "value": "american-medical-association",
+              }
+            }
+            valueComponent={[Function]}
+            valueKey="id"
+          >
+            <div
+              className="Select Select--single is-searchable has-value"
+            >
+              <div
+                className="Select-control"
+                onKeyDown={[Function]}
+                onMouseDown={[Function]}
+                onTouchEnd={[Function]}
+                onTouchMove={[Function]}
+                onTouchStart={[Function]}
+              >
+                <span
+                  className="Select-multi-value-wrapper"
+                  id="react-select-2--value"
+                >
+                  <Value
+                    disabled={false}
+                    id="react-select-2--value-item"
+                    instancePrefix="react-select-2-"
+                    onClick={null}
+                    value={
+                      Object {
+                        "label": "American Medical Association",
+                        "value": "american-medical-association",
+                      }
+                    }
+                  >
+                    <div
+                      className="Select-value"
+                    >
+                      <span
+                        aria-selected="true"
+                        className="Select-value-label"
+                        id="react-select-2--value-item"
+                        role="option"
+                      >
+                        American Medical Association
+                      </span>
+                    </div>
+                  </Value>
+                  <AutosizeInput
+                    aria-activedescendant="react-select-2--value"
+                    aria-expanded="false"
+                    aria-haspopup="false"
+                    aria-owns=""
+                    className="Select-input"
+                    id="style-select"
+                    injectStyles={true}
+                    minWidth="5"
+                    onBlur={[Function]}
+                    onChange={[Function]}
+                    onFocus={[Function]}
+                    required={false}
+                    role="combobox"
+                    value=""
+                  >
+                    <div
+                      className="Select-input"
+                      style={
+                        Object {
+                          "display": "inline-block",
+                        }
+                      }
+                    >
+                      <input
+                        aria-activedescendant="react-select-2--value"
+                        aria-expanded="false"
+                        aria-haspopup="false"
+                        aria-owns=""
+                        id="style-select"
+                        onBlur={[Function]}
+                        onChange={[Function]}
+                        onFocus={[Function]}
+                        required={false}
+                        role="combobox"
+                        style={
+                          Object {
+                            "boxSizing": "content-box",
+                            "width": "5px",
+                          }
+                        }
+                        value=""
+                      />
+                      <div
+                        style={
+                          Object {
+                            "height": 0,
+                            "left": 0,
+                            "overflow": "scroll",
+                            "position": "absolute",
+                            "top": 0,
+                            "visibility": "hidden",
+                            "whiteSpace": "pre",
+                          }
+                        }
+                      />
+                    </div>
+                  </AutosizeInput>
+                </span>
+                <span
+                  className="Select-arrow-zone"
+                  onMouseDown={[Function]}
+                >
+                  <span
+                    className="Select-arrow"
+                    onMouseDown={[Function]}
+                  />
+                </span>
+              </div>
+            </div>
+          </Select>
+        </VirtualizedSelect>
+      </div>
+    </div>
+  </TransitionMotion>
+</Menu>
+`;
+
+exports[`<Menu /> should match snapshots 2`] = `
+<Menu
+  cslStyle={"american-medical-association"}
+  isOpen={false}
+  itemsSelected={true}
+  onSubmit={[MockFunction]}
+>
+  <TransitionMotion
+    didLeave={[Function]}
+    styles={Array []}
+    willEnter={[Function]}
+    willLeave={[Function]}
+  />
+</Menu>
+`;

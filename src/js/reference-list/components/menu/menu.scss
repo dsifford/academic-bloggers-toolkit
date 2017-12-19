@@ -1,0 +1,15 @@
+.menu {
+    padding: 0;
+    position: relative;
+    z-index: 555;
+}
+
+.subpanel {
+    display: flex;
+    padding: 5px 0;
+    justify-content: space-around;
+}
+
+.style-row {
+    padding: 0 5px;
+}

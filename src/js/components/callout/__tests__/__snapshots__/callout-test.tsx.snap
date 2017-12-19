@@ -1,0 +1,78 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Callout /> should match snapshots 1`] = `
+<div
+  aria-label="Error Hello world"
+  className="callout danger"
+  role="alert"
+>
+  <div
+    className="heading"
+  >
+    <h5>
+      Error
+    </h5>
+  </div>
+  Hello world
+</div>
+`;
+
+exports[`<Callout /> should match snapshots 2`] = `
+<div
+  aria-label="Hello! Hello world"
+  className="callout danger"
+  role="alert"
+>
+  <div
+    className="heading"
+  >
+    <h5>
+      Hello!
+    </h5>
+  </div>
+  Hello world
+</div>
+`;
+
+exports[`<Callout /> should match snapshots 3`] = `""`;
+
+exports[`<Callout /> should match snapshots 4`] = `""`;
+
+exports[`<Callout /> should match snapshots 5`] = `
+<div
+  aria-label="Warning Hello world"
+  className="callout warning"
+  role="alert"
+>
+  <div
+    className="heading"
+  >
+    <h5>
+      Warning
+    </h5>
+  </div>
+  Hello world
+</div>
+`;
+
+exports[`<Callout /> should match snapshots 6`] = `
+<div
+  aria-label="Error Hello world"
+  className="callout danger"
+  role="alert"
+>
+  <div
+    className="heading"
+  >
+    <h5>
+      Error
+    </h5>
+    <button
+      aria-label="dismiss"
+      className="dashicons dashicons-no-alt"
+      onClick={[Function]}
+    />
+  </div>
+  Hello world
+</div>
+`;

@@ -2,8 +2,8 @@ import * as Csl from 'citeproc';
 import { toJS } from 'mobx';
 
 import Store from 'core/store';
-import { formatBibliography } from 'utils/formatters/';
-import { generateID } from 'utils/helpers/';
+import { formatBibliography } from 'utils/formatters';
+import { generateID } from 'utils/helpers';
 import { LocaleStore } from './locale-store';
 import { StyleStore } from './style-store';
 

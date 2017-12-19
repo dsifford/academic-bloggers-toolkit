@@ -4,8 +4,8 @@ jest.mock('utils/resolvers/');
 
 import { mount } from 'enzyme';
 import * as React from 'react';
-import { pubmedQuery } from 'utils/resolvers/';
-import PubmedDialog, { placeholderGenerator } from '../';
+import { pubmedQuery } from 'utils/resolvers';
+import PubmedDialog, { placeholderGenerator } from '..';
 
 const mocks = {
     pmq: pubmedQuery as jest.Mock<any>,

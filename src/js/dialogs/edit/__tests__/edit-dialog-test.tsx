@@ -1,7 +1,7 @@
 import { shallow } from 'enzyme';
 import toJSON from 'enzyme-to-json';
 import * as React from 'react';
-import EditDialog from '../';
+import EditDialog from '..';
 
 const defaultData: CSL.Data = {
     id: '12345',

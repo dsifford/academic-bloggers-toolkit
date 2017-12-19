@@ -1,14 +1,33 @@
 @import 'colors';
 
-$depth-1: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
-$depth-2: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
-$depth-3: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
-$depth-4: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
-$depth-5: 0 19px 38px rgba(0, 0, 0, 0.3), 0 15px 12px rgba(0, 0, 0, 0.22);
+$shadows: (
+    depth-1: (0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24)),
+    depth-2: (0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23)),
+    depth-3: (0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23)),
+    depth-4: (0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22)),
+    depth-5: (0 19px 38px rgba(0, 0, 0, 0.3), 0 15px 12px rgba(0, 0, 0, 0.22)),
+    citation-tooltip: (0 0 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23)),
+    top-border: (0 -1px 0 rgba(16, 22, 26, 0.1))
+);
 
-$citation-tooltip: 0 0 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+$curves: (
+    default: cubic-bezier(0.4, 0, 0.2, 1),
+    fast-out-slow-in: cubic-bezier(0.4, 0, 0.2, 1),
+    linear-out-slow-in: cubic-bezier(0, 0, 0.2, 1),
+    fast-out-linear-in: cubic-bezier(0.4, 0, 1, 1)
+);
 
-$shadow-transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+$transitions: (
+    shadows: (all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1)),
+    buttons:
+        (
+            box-shadow 0.2s map-get($curves, 'fast-out-linear-in'),
+            background-color 0.2s map-get($curves, 'default'),
+            color 0.2s map-get($curves, 'default')
+        )
+);
+
+$outline: 1.1px auto rgba(19, 124, 189, 0.5);
 
 @mixin noselect {
     -webkit-appearance: none;

@@ -1,0 +1,16 @@
+.row {
+    display: table-row;
+    width: 100%;
+}
+
+.label {
+    display: table-cell;
+    width: auto;
+}
+
+.input {
+    width: 95%;
+    height: 28px;
+    line-height: 28px;
+    font-size: 14px;
+}

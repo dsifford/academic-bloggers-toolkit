@@ -1,0 +1,25 @@
+.btn-row {
+    display: flex;
+    justify-content: center;
+    padding: 5px;
+}
+
+.heading {
+    font-size: 16px !important;
+}
+
+.contributor {
+    display: flex;
+    padding: 0 5px;
+    align-items: center;
+    input[type='text'] {
+        flex: auto;
+        height: 28px;
+        line-height: 28px;
+        font-size: 14px;
+    }
+    select,
+    input {
+        margin: 0 5px;
+    }
+}

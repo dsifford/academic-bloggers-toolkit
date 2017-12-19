@@ -1,7 +1,7 @@
 import { shallow } from 'enzyme';
 import { observable } from 'mobx';
 import * as React from 'react';
-import { Paginate } from '../paginate';
+import Paginate from '../paginate';
 
 const setup = (page: number, resultLength: number) => {
     const component = shallow(

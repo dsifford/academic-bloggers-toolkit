@@ -1,7 +1,7 @@
 import * as rollbar from 'rollbar/dist/rollbar.umd';
 
 const config = {
-    accessToken: process.env.ROLLBAR_TOKEN,
+    accessToken: process.env.ROLLBAR_CLIENT_TOKEN,
     captureUncaught: false,
     payload: {
         environment: process.env.NODE_ENV === 'production' ? 'production' : 'test',

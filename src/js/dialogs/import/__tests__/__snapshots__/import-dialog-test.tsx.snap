@@ -2,10 +2,19 @@
 
 exports[`<ImportDialog /> should match snapshot 1`] = `
 <div
-  id="import-dialog-root"
+  style={
+    Object {
+      "padding": 10,
+    }
+  }
 >
   <div
-    className="import-dialog"
+    style={
+      Object {
+        "alignItems": "center",
+        "display": "flex",
+      }
+    }
   >
     <input
       accept=".ris,.bib,.bibtex,application/xresearch-info-systems,application/x-bibtex"
@@ -13,6 +22,11 @@ exports[`<ImportDialog /> should match snapshot 1`] = `
       id="uploadField"
       onChange={[Function]}
       required={true}
+      style={
+        Object {
+          "display": "none",
+        }
+      }
       type="file"
       value=""
     />
@@ -25,10 +39,7 @@ exports[`<ImportDialog /> should match snapshot 1`] = `
       onClick={[Function]}
       type="button"
     />
-    <div
-      className="well"
-      id="well"
-    />
+    <Well />
     <Button
       disabled={true}
       focusable={true}
@@ -49,40 +60,5 @@ exports[`<ImportDialog /> should match snapshot 1`] = `
     }
     title="Error!"
   />
-  <style
-    jsx={true}
-  >
-    
-                    input {
-                        visibility: hidden;
-                        width: 0;
-                        border: 0;
-                        padding: 0;
-                        pointer-events: none;
-                    }
-                    #import-dialog-root {
-                        padding: 10px;
-                    }
-                    .import-dialog {
-                        display: flex;
-                        align-items: center;
-                    }
-                    .upload-btn {
-                        display: inline-block;
-                        line-height: 36px;
-                    }
-                    .well {
-                        background: #f5f5f5;
-                        border: 1px solid rgba(0, 0, 0, 0.12);
-                        border-radius: 2px;
-                        flex: auto;
-                        font-size: 16px;
-                        line-height: 25px;
-                        margin: 0 15px 0 5px;
-                        min-height: 20px;
-                        padding: 5px;
-                    }
-                
-  </style>
 </div>
 `;
