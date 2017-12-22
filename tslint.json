@@ -83,7 +83,7 @@
     "react-anchor-blank-noopener": true,
     "react-iframe-missing-sandbox": true,
     "react-no-dangerous-html": true,
-    "react-this-binding-issue": true,
+    // "react-this-binding-issue": true, @action.bound causes this to report unbound, when actually it is
     "react-unused-props-and-state": true,
 
     // tslint-react rules

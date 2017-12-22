@@ -1,21 +1,24 @@
-import { IObservableValue } from 'mobx';
+import { action } from 'mobx';
 import { observer } from 'mobx-react';
 import * as React from 'react';
 
+import Store from 'stores/ui/add-dialog';
 import * as styles from './identifier-input.scss';
 
 interface Props {
-    /** Controls the value of the input field */
-    identifierList: IObservableValue<string>;
+    store: Store;
     /** Handler to capture reference to input field */
     fieldRef(el: HTMLInputElement | null): void;
-    /** onChange handler for input field */
-    onChange(e: React.FormEvent<HTMLInputElement>): void;
 }
 
 @observer
 export default class IdentifierInput extends React.Component<Props> {
     static readonly labels = top.ABT.i18n.dialogs.add.identifierInput;
+
+    @action
+    handleChange = (e: React.FormEvent<HTMLInputElement>): void => {
+        this.props.store.identifierList = e.currentTarget.value;
+    };
 
     render(): JSX.Element {
         return (
@@ -29,10 +32,10 @@ export default class IdentifierInput extends React.Component<Props> {
                     className={styles.input}
                     type="text"
                     id="identifierList"
-                    onChange={this.props.onChange}
+                    onChange={this.handleChange}
                     ref={this.props.fieldRef}
                     required={true}
-                    value={this.props.identifierList.get()}
+                    value={this.props.store.identifierList}
                 />
             </div>
         );

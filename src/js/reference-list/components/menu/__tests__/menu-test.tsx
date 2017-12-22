@@ -2,6 +2,8 @@ import { mount, shallow } from 'enzyme';
 import toJSON from 'enzyme-to-json';
 import { observable } from 'mobx';
 import * as React from 'react';
+
+import UIStore from 'stores/ui/reference-list';
 import Menu, { dynamicOptionHeightHandler, renderer as Renderer } from '..';
 
 const styles = {
@@ -24,13 +26,10 @@ const custom_csl = {
 
 const setupMenu = (isOpen: boolean = true) => {
     const spy = jest.fn();
+    const store = new UIStore(false);
+    store.menuOpen = isOpen;
     const component = mount(
-        <Menu
-            isOpen={observable(isOpen)}
-            cslStyle={observable('american-medical-association')}
-            itemsSelected={true}
-            onSubmit={spy}
-        />,
+        <Menu ui={store} cslStyle={observable('american-medical-association')} onSubmit={spy} />,
     );
     return {
         component,

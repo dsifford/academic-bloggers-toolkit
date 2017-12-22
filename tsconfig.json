@@ -2,7 +2,7 @@
   "compilerOptions": {
     "target": "es6",
     "module": "commonjs",
-    "lib": ["dom", "dom.iterable", "esnext", "webworker"],
+    "lib": ["dom", "dom.iterable", "esnext"],
     "jsx": "preserve",
     "sourceMap": true,
     "strict": true,
@@ -14,5 +14,5 @@
     "baseUrl": "./src/js",
     "experimentalDecorators": true
   },
-  "include": ["src/**/*", "lib/types/*", "lib/*", "webpack.config.ts", "gulpfile.ts"]
+  "include": ["src/js/**/*", "lib/types/*", "lib/*", "webpack.config.ts", "gulpfile.ts"]
 }

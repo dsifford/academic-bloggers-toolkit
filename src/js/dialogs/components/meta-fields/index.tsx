@@ -1,12 +1,12 @@
-import { action, ObservableMap } from 'mobx';
+import { action } from 'mobx';
 import { observer } from 'mobx-react';
 import * as React from 'react';
 
+import ManualDataStore from 'stores/data/manual-data-store';
 import Field from './field';
 
 interface Props {
-    /** Observable map of `ABT.FieldMappings` */
-    meta: ObservableMap<string>;
+    meta: ManualDataStore;
 }
 
 @observer
@@ -15,11 +15,15 @@ export default class MetaFields extends React.Component<Props> {
 
     @action
     updateField = (e: React.FormEvent<HTMLInputElement>): void => {
-        this.props.meta.set(e.currentTarget.id, e.currentTarget.value as keyof ABT.FieldMappings);
+        const key = e.currentTarget.id as CSL.StandardFieldKey | CSL.DateFieldKey | undefined;
+        if (!key) {
+            throw new ReferenceError('ID of field must be set to the field key.');
+        }
+        this.props.meta.updateField(key, e.currentTarget.value);
     };
 
     render(): JSX.Element {
-        const citationType = this.props.meta.get('type')! as keyof ABT.FieldMappings;
+        const citationType = this.props.meta.citationType;
         const title = MetaFields.fieldmaps[citationType].title;
         const fields = MetaFields.fieldmaps[citationType].fields;
         let key = Date.now();

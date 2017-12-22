@@ -1,6 +1,8 @@
-import { action, IObservableArray, IObservableValue, ObservableMap } from 'mobx';
+import { action } from 'mobx';
 import { observer } from 'mobx-react';
 import * as React from 'react';
+
+import Store from 'stores/ui/add-dialog';
 
 import Callout from 'components/callout';
 import AutoCite, { AutociteKind } from 'dialogs/add/autocite';
@@ -10,15 +12,9 @@ import MetaFields from 'dialogs/components/meta-fields';
 import * as styles from './manual-input.scss';
 
 interface Props {
-    /** Error message to display in callout. If none, this should be an empty string */
-    errorMessage: IObservableValue<string>;
-    /** Observable map of `CSL.Data` for manual entry fields */
-    manualData: ObservableMap<string>;
-    people: IObservableArray<ABT.Contributor>;
+    store: Store;
     /** "Getter" callback for `AutoCite` component */
     onAutoCite(kind: AutociteKind, query: string): void;
-    /** Callback with new `CSL.ItemType` to call when type is changed */
-    onTypeChange(citationType: CSL.ItemType): void;
 }
 
 @observer
@@ -26,15 +22,16 @@ export default class ManualInput extends React.Component<Props> {
     static readonly citationTypes = top.ABT.i18n.citationTypes;
     static readonly labels = top.ABT.i18n.dialogs.add.manualEntryContainer;
 
-    @action
-    dismissError = (): void => {
-        this.props.errorMessage.set('');
-    };
-
     focusTypeSelect = (e: HTMLSelectElement | null): void => (e ? e.focus() : void 0);
 
+    @action
+    dismissError = (): void => {
+        this.props.store.errorMessage = '';
+    };
+
+    @action
     handleTypeChange = (e: React.FormEvent<HTMLSelectElement>): void => {
-        this.props.onTypeChange(e.currentTarget.value as CSL.ItemType);
+        this.props.store.data.init(e.currentTarget.value as CSL.ItemType);
     };
 
     handleWheel = (e: React.WheelEvent<HTMLDivElement>): void => {
@@ -56,7 +53,8 @@ export default class ManualInput extends React.Component<Props> {
     };
 
     render(): JSX.Element {
-        const itemType: string = this.props.manualData.get('type')!;
+        const { store } = this.props;
+        const itemType = store.data.citationType;
         const renderAutocite: boolean = ['webpage', 'book', 'chapter'].includes(itemType);
         return (
             <>
@@ -107,18 +105,13 @@ export default class ManualInput extends React.Component<Props> {
                     }
                 >
                     <Callout
-                        children={this.props.errorMessage.get()}
+                        children={this.props.store.errorMessage}
                         onDismiss={this.dismissError}
                     />
-                    {this.props.manualData.get('type') !== 'article' && (
-                        <ContributorList
-                            people={this.props.people}
-                            citationType={
-                                this.props.manualData.get('type') as keyof ABT.FieldMappings
-                            }
-                        />
+                    {itemType !== 'article' && (
+                        <ContributorList people={store.data.people} citationType={itemType} />
                     )}
-                    <MetaFields meta={this.props.manualData} />
+                    <MetaFields meta={this.props.store.data} />
                 </div>
             </>
         );

@@ -134,7 +134,7 @@ export function styles(): NodeJS.ReadWriteStream {
 // ==================================================
 
 export function bundle(cb: Callback): void {
-    const args = IS_PRODUCTION ? ['-p'] : [];
+    const args = IS_PRODUCTION ? [] : [];
     const child = spawn(`${__dirname}/node_modules/.bin/webpack`, args, {
         env: process.env,
     });

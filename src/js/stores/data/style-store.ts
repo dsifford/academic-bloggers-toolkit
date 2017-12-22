@@ -1,6 +1,6 @@
 type StyleCache = Array<[string, string]>;
 
-export class StyleStore {
+export default class StyleStore {
     static readonly CACHE_KEY = 'abt-style-cache';
     private cache: Map<string, string>;
     private filenames: Map<string, string>;

@@ -2,16 +2,15 @@ import { shallow } from 'enzyme';
 import toJSON from 'enzyme-to-json';
 import { observable } from 'mobx';
 import * as React from 'react';
+
+import UIStore from 'stores/ui/reference-list';
 import ItemList from '..';
 
-interface MockItems {
-    CSL: any;
-    items?: CSL.Data[];
-}
-const createItems = (numItems: number): MockItems => {
+const createItems = (numItems: number) => {
     if (numItems === -1) {
         return {
             CSL: [],
+            items: [],
         };
     }
     const items = Array(numItems)
@@ -29,51 +28,27 @@ const createItems = (numItems: number): MockItems => {
         CSL: items.map(item => [item.id, item]),
     };
 };
-const UI = {
-    cited: {
-        maxHeight: observable('300px'),
-        isOpen: observable(true),
-    },
-    uncited: {
-        maxHeight: observable('300px'),
-        isOpen: observable(false),
-    },
-};
-const selected = observable<string>([]);
 const CSLMap = observable.map<CSL.Data>();
 const onEditReference = jest.fn();
 
-const setupItemList = (numItems = 3, selectedNum: string[] = []) => {
+const setup = (numItems = 3, selectedNum: string[] = []) => {
     const { CSL, items } = createItems(numItems);
-    selected.replace(selectedNum);
+    const ui = new UIStore(false);
+    ui.selected.replace(selectedNum);
     CSLMap.replace(CSL);
     const component = shallow(
-        <ItemList
-            items={items}
-            id="cited"
-            ui={UI}
-            selectedItems={selected}
-            CSL={CSLMap}
-            onEditReference={onEditReference}
-        >
+        <ItemList items={items} id="cited" ui={ui} CSL={CSLMap} onEditReference={onEditReference}>
             Hello World
         </ItemList>,
     );
     return {
         component,
         instance: component.instance() as ItemList,
+        ui,
     };
 };
 
 describe('<ItemList />', () => {
-    const setup = setupItemList;
-    beforeEach(() => {
-        UI.cited.maxHeight.set('300px');
-        UI.cited.isOpen.set(true);
-        UI.uncited.maxHeight.set('300px');
-        UI.uncited.isOpen.set(false);
-        jest.resetAllMocks();
-    });
     it('should match snapshot', () => {
         let { component } = setup();
         expect(toJSON(component)).toMatchSnapshot();
@@ -88,49 +63,50 @@ describe('<ItemList />', () => {
         expect(component.isEmptyRender()).toBe(true);
     });
     it('should handle click', () => {
-        const { component } = setup();
-        expect(UI.cited.isOpen.get()).toBeTruthy();
+        const { component, ui } = setup();
+        expect(ui.cited.isOpen).toBeTruthy();
         component.find('.heading').simulate('click');
-        expect(UI.cited.isOpen.get()).toBeFalsy();
+        expect(ui.cited.isOpen).toBeFalsy();
     });
     it('should handle double click', () => {
-        const { component } = setup();
-        UI.uncited.isOpen.set(true);
-        expect(UI.cited.isOpen.get()).toBeTruthy();
-        expect(UI.uncited.isOpen.get()).toBeTruthy();
+        const { component, ui } = setup();
+        ui.uncited.isOpen = true;
+        expect(ui.cited.isOpen).toBeTruthy();
+        expect(ui.uncited.isOpen).toBeTruthy();
         component.find('.heading').simulate('doubleClick');
-        expect(UI.cited.isOpen.get()).toBeTruthy();
-        expect(UI.uncited.isOpen.get()).toBeFalsy();
+        expect(ui.cited.isOpen).toBeTruthy();
+        expect(ui.uncited.isOpen).toBeFalsy();
     });
     it('should handle item click', () => {
-        const { component } = setup(3, ['2']);
+        const { component, ui } = setup(3, ['2']);
         const items = component.find('Item').first();
-        expect(selected.slice()).toEqual(['2']);
+        expect(ui.selected.slice()).toEqual(['2']);
 
         items.simulate('click', { currentTarget: { id: '1' } });
-        expect(selected.slice()).toEqual(['2', '1']);
+        expect(ui.selected.slice()).toEqual(['2', '1']);
 
         items.simulate('click', { currentTarget: { id: '2' } });
-        expect(selected.slice()).toEqual(['1']);
+        expect(ui.selected.slice()).toEqual(['1']);
     });
     it('should handle shift-click selection', () => {
-        const { component } = setup(5, ['1']);
+        const { component, ui } = setup(5, ['1']);
         const items = component.find('Item').at(4);
-        expect(selected.slice()).toEqual(['1']);
+        expect(ui.selected.slice()).toEqual(['1']);
 
         items.simulate('click', { currentTarget: { id: '5' }, shiftKey: true });
-        expect(selected.slice()).toEqual(['1', '2', '3', '4', '5']);
+        expect(ui.selected.slice()).toEqual(['1', '2', '3', '4', '5']);
     });
     it('should pass over previously selected items with shift-click', () => {
-        const { component } = setup(10, ['3', '5', '7', '9']);
+        const { component, ui } = setup(10, ['3', '5', '7', '9']);
         const items = component.find('Item').first();
-        expect(selected.slice()).toEqual(['3', '5', '7', '9']);
+        expect(ui.selected.slice()).toEqual(['3', '5', '7', '9']);
 
         items.simulate('click', { currentTarget: { id: '1' }, shiftKey: true });
-        expect(selected.slice().sort()).toEqual(['1', '2', '3', '4', '5', '6', '7', '8', '9']);
+        expect(ui.selected.slice().sort()).toEqual(['1', '2', '3', '4', '5', '6', '7', '8', '9']);
     });
 });
 
+// FIXME:
 // describe('<Items />', () => {
 //     const setup = setupItems;
 //     it('should match snapshot', () => {

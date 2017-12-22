@@ -1,4 +1,4 @@
-import { LocaleStore } from '../locale-store';
+import LocaleStore from '../locale-store';
 
 const Worker = () => ({
     addEventListener: jest.fn(),

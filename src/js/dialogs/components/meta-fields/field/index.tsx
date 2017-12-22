@@ -1,14 +1,13 @@
-import { ObservableMap } from 'mobx';
 import { observer } from 'mobx-react';
 import * as React from 'react';
 
+import Store from 'stores/ui/add-dialog';
 import * as styles from './field.scss';
 
 interface Props {
     /** Field descriptor */
     field: ABT.Field;
-    /** Observable map of `ABT.FieldMappings` */
-    meta: ObservableMap<string>;
+    meta: Store['data'];
     /** onChange handler for input element */
     onChange(e: React.FormEvent<HTMLInputElement>): void;
 }
@@ -26,7 +25,7 @@ export default class Field extends React.Component<Props> {
                     className={styles.input}
                     onChange={onChange}
                     id={value}
-                    value={meta.get(value) || ''}
+                    value={meta.fields[value]}
                     {...attrs}
                 />
             </div>

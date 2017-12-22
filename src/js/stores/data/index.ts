@@ -1,6 +1,6 @@
 import { action, computed, observable, toJS } from 'mobx';
 
-import CitationStore from 'core/citation-store';
+import CitationStore from './citation-store';
 
 export default class Store {
     readonly bibOptions: ABT.BibOptions;

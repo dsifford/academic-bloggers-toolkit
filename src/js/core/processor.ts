@@ -1,11 +1,11 @@
 import * as Csl from 'citeproc';
 import { toJS } from 'mobx';
+import * as nanoid from 'nanoid';
 
-import Store from 'core/store';
+import Store from 'stores/data';
+import LocaleStore from 'stores/data/locale-store';
+import StyleStore from 'stores/data/style-store';
 import { formatBibliography } from 'utils/formatters';
-import { generateID } from 'utils/helpers';
-import { LocaleStore } from './locale-store';
-import { StyleStore } from './style-store';
 
 export class Processor {
     /**
@@ -98,7 +98,7 @@ export class Processor {
             )
         ).map(id => ({ id }));
         return {
-            citationID: generateID(),
+            citationID: nanoid(),
             citationItems,
         };
     }

@@ -6,14 +6,15 @@ import * as React from 'react';
 
 import { getRemoteData, parseManualData } from 'core/api';
 import { Processor } from 'core/processor';
-import Store from 'core/store';
 import EditorDriver, { EditorDriverConstructor } from 'drivers/base';
-import { DialogType, MenuActionType } from 'utils/constants';
+import Store from 'stores/data';
+import UIStore from 'stores/ui/reference-list';
+import { MenuActionType } from 'utils/constants';
 import DevTools from 'utils/devtools';
 
 import Button from 'components/button';
 import Spinner from 'components/spinner';
-import Dialog from 'dialogs';
+import Dialog, { DialogType } from 'dialogs';
 import ItemList from 'reference-list/components/item-list';
 import Menu, { MenuAction } from 'reference-list/components/menu';
 
@@ -31,15 +32,17 @@ interface Props {
     loading?: boolean;
 }
 
+interface DefaultProps {
+    loading: boolean;
+}
+
 @observer
 export default class ReferenceList extends React.Component<Props> {
     static readonly errors = top.ABT.i18n.errors;
     static readonly labels = top.ABT.i18n.referenceList;
-
-    /**
-     * The id of the currently opened modal
-     */
-    currentDialog = observable(DialogType.NONE);
+    static defaultProps: DefaultProps = {
+        loading: true,
+    };
 
     /**
      * A boxed observable that can contain anything that a dialog might need.
@@ -56,37 +59,12 @@ export default class ReferenceList extends React.Component<Props> {
      */
     processor: Processor;
 
-    /**
-     * Observable array of selected item IDs
-     */
-    selected = observable<string>([]);
+    ui: UIStore;
 
-    /**
-     * UI State
-     */
-    ui = {
-        /**
-         * Toggles the main loading spinner for the Reference List. Loading is true
-         * until the editor driver's `init()` method resolves and also during any
-         * circumstance where the editor becomes hidden or unavailable.
-         */
-        loading: observable(true),
-        pinned: observable(false),
-        menuOpen: observable(false),
-        cited: {
-            isOpen: observable(true),
-            maxHeight: observable('400px'),
-        },
-        uncited: {
-            isOpen: observable(false),
-            maxHeight: observable('400px'),
-        },
-    };
-
-    constructor(props: Props) {
+    constructor(props: Props & DefaultProps) {
         super(props);
-        this.ui.loading.set(typeof this.props.loading === 'boolean' ? this.props.loading : true);
-        this.processor = new Processor(this.props.store);
+        this.ui = new UIStore(props.loading);
+        this.processor = new Processor(props.store);
         this.init().catch(e => {
             Rollbar.error(e.message, e);
             throw e;
@@ -94,18 +72,14 @@ export default class ReferenceList extends React.Component<Props> {
 
         /** React to list toggles */
         reaction(
-            () => [
-                this.ui.cited.isOpen.get(),
-                this.ui.uncited.isOpen.get(),
-                this.ui.menuOpen.get(),
-            ],
+            () => [this.ui.cited.isOpen, this.ui.uncited.isOpen, this.ui.menuOpen],
             this.handleScroll,
             { fireImmediately: false, delay: 200 },
         );
 
         /** React to list pin/unpin */
         reaction(
-            () => this.ui.pinned.get(),
+            () => this.ui.pinned,
             () => {
                 document.getElementById('abt-reflist')!.classList.toggle('fixed');
                 this.handleScroll();
@@ -191,14 +165,14 @@ export default class ReferenceList extends React.Component<Props> {
 
     @action
     clearSelection = (): void => {
-        this.selected.clear();
+        this.ui.selected.clear();
     };
 
     @action
     deleteCitations = (): void => {
-        if (this.selected.length === 0) return;
+        if (this.ui.selected.length === 0) return;
         this.editor.setLoadingState(true);
-        const toRemove = this.props.store.citations.removeItems(this.selected.slice());
+        const toRemove = this.props.store.citations.removeItems(this.ui.selected.slice());
         this.editor.removeItems(toRemove);
         this.clearSelection();
         this.initProcessor();
@@ -208,23 +182,25 @@ export default class ReferenceList extends React.Component<Props> {
     editReference = (referenceId: string): void => {
         const data = this.props.store.citations.CSL.get(referenceId)!;
         this.dialogProps.set(data);
-        this.currentDialog.set(DialogType.EDIT);
+        this.ui.currentDialog = DialogType.EDIT;
     };
 
     @action
-    handleDialogSubmit = (data: any): void => {
-        switch (this.currentDialog.get()) {
-            case DialogType.ADD:
-                this.addReferences(data);
-                break;
-            case DialogType.IMPORT:
-                this.props.store.citations.addItems(data);
-                break;
-            case DialogType.EDIT:
-                this.props.store.citations.CSL.set(data.id, data);
-                this.initProcessor();
+    handleDialogSubmit = (data?: any): void => {
+        if (data) {
+            switch (this.ui.currentDialog) {
+                case DialogType.ADD:
+                    this.addReferences(data);
+                    break;
+                case DialogType.IMPORT:
+                    this.props.store.citations.addItems(data);
+                    break;
+                case DialogType.EDIT:
+                    this.props.store.citations.CSL.set(data.id, data);
+                    this.initProcessor();
+            }
         }
-        this.currentDialog.set(DialogType.NONE);
+        this.ui.currentDialog = DialogType.NONE;
     };
 
     @action
@@ -235,7 +211,7 @@ export default class ReferenceList extends React.Component<Props> {
                 this.initProcessor();
                 return;
             case MenuActionType.OPEN_IMPORT_DIALOG:
-                this.currentDialog.set(DialogType.IMPORT);
+                this.ui.currentDialog = DialogType.IMPORT;
                 return;
             case MenuActionType.REFRESH_PROCESSOR:
                 const IDs = this.editor.citationIds;
@@ -255,21 +231,23 @@ export default class ReferenceList extends React.Component<Props> {
         }
     };
 
-    @action
-    openDialog = (e: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement> | string): void => {
+    @action.bound
+    openDialog(e: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement> | DialogType): void {
         if (typeof e === 'string') {
-            return this.currentDialog.set(e);
+            this.ui.currentDialog = e;
+            return;
         }
-        const dialog = e.currentTarget.dataset.dialog || '';
-        this.currentDialog.set(dialog);
-    };
+        const dialog: DialogType =
+            (e.currentTarget.dataset.dialog as DialogType | undefined) || DialogType.NONE;
+        this.ui.currentDialog = dialog;
+    }
 
     @action
     reset = (): void => {
         this.editor.setLoadingState(true);
         this.clearSelection();
-        this.ui.uncited.isOpen.set(false);
-        this.ui.cited.isOpen.set(true);
+        this.ui.uncited.isOpen = false;
+        this.ui.cited.isOpen = true;
         this.props.store.reset();
         this.editor.reset();
         this.initProcessor();
@@ -277,17 +255,17 @@ export default class ReferenceList extends React.Component<Props> {
 
     @action
     toggleLoading = (loadState?: boolean): void => {
-        this.ui.loading.set(loadState !== undefined ? loadState : !this.ui.loading.get());
+        this.ui.loading = loadState !== undefined ? loadState : !this.ui.loading;
     };
 
     @action
     toggleMenu = (): void => {
-        this.ui.menuOpen.set(!this.ui.menuOpen.get());
+        this.ui.menuOpen = !this.ui.menuOpen;
     };
 
     @action
     togglePinned = (): void => {
-        this.ui.pinned.set(!this.ui.pinned.get());
+        this.ui.pinned = !this.ui.pinned;
     };
 
     initProcessor = async (): Promise<void> => {
@@ -318,7 +296,7 @@ export default class ReferenceList extends React.Component<Props> {
     };
 
     render(): JSX.Element {
-        if (this.ui.loading.get()) {
+        if (this.ui.loading) {
             return (
                 <div className={styles.loading}>
                     <Spinner size="40px" height="52px" bgColor="#f5f5f5" />
@@ -332,7 +310,7 @@ export default class ReferenceList extends React.Component<Props> {
                 <DevTool position={{ left: 50, top: 40 }} />
                 <Dialog
                     data={this.dialogProps.get()}
-                    currentDialog={this.currentDialog}
+                    currentDialog={this.ui.currentDialog}
                     onSubmit={this.handleDialogSubmit}
                 />
                 <Storage data={this.props.store.persistent} />
@@ -341,7 +319,7 @@ export default class ReferenceList extends React.Component<Props> {
                         flat
                         label={ReferenceList.labels.tooltips.insert}
                         icon="migrate"
-                        disabled={this.selected.length === 0}
+                        disabled={this.ui.selected.length === 0}
                         onClick={this.insertInlineCitation}
                         tooltip={{
                             text: ReferenceList.labels.tooltips.insert,
@@ -351,7 +329,7 @@ export default class ReferenceList extends React.Component<Props> {
                     <Button
                         flat
                         data-dialog={DialogType.ADD}
-                        disabled={this.selected.length !== 0}
+                        disabled={this.ui.selected.length !== 0}
                         icon="plus"
                         label={ReferenceList.labels.tooltips.add}
                         onClick={this.openDialog}
@@ -362,7 +340,7 @@ export default class ReferenceList extends React.Component<Props> {
                     />
                     <Button
                         flat
-                        disabled={this.selected.length === 0}
+                        disabled={this.ui.selected.length === 0}
                         icon="minus"
                         label={ReferenceList.labels.tooltips.remove}
                         onClick={this.deleteCitations}
@@ -374,7 +352,7 @@ export default class ReferenceList extends React.Component<Props> {
                     <Button
                         flat
                         label={ReferenceList.labels.tooltips.pin}
-                        icon={this.ui.pinned.get() ? 'sticky' : 'admin-post'}
+                        icon={this.ui.pinned ? 'sticky' : 'admin-post'}
                         onClick={this.togglePinned}
                         tooltip={{
                             text: ReferenceList.labels.tooltips.pin,
@@ -384,15 +362,14 @@ export default class ReferenceList extends React.Component<Props> {
                     <Button
                         flat
                         aria-haspopup={true}
-                        aria-expanded={this.ui.menuOpen.get()}
+                        aria-expanded={this.ui.menuOpen}
                         label={ReferenceList.labels.menu.toggleLabel}
-                        icon={this.ui.menuOpen.get() ? 'no-alt' : 'menu'}
+                        icon={this.ui.menuOpen ? 'no-alt' : 'menu'}
                         onClick={this.toggleMenu}
                     />
                 </div>
                 <Menu
-                    isOpen={this.ui.menuOpen}
-                    itemsSelected={this.selected.length > 0}
+                    ui={this.ui}
                     cslStyle={this.props.store.citationStyle}
                     onSubmit={this.handleMenuSelection}
                 />
@@ -402,10 +379,10 @@ export default class ReferenceList extends React.Component<Props> {
                         CSL={this.props.store.citations.CSL}
                         items={this.props.store.citations.cited}
                         onEditReference={this.editReference}
-                        selectedItems={this.selected}
                         ui={this.ui}
-                        children={ReferenceList.labels.citedItems}
-                    />
+                    >
+                        {ReferenceList.labels.citedItems}
+                    </ItemList>
                 )}
                 {this.props.store.citations.uncited.length > 0 && (
                     <ItemList
@@ -413,10 +390,10 @@ export default class ReferenceList extends React.Component<Props> {
                         CSL={this.props.store.citations.CSL}
                         items={this.props.store.citations.uncited}
                         onEditReference={this.editReference}
-                        selectedItems={this.selected}
                         ui={this.ui}
-                        children={ReferenceList.labels.uncitedItems}
-                    />
+                    >
+                        {ReferenceList.labels.uncitedItems}
+                    </ItemList>
                 )}
             </>
         );
@@ -430,7 +407,7 @@ export default class ReferenceList extends React.Component<Props> {
         this.editor.setLoadingState(true);
 
         let data: CSL.Data[] = [
-            ...this.selected.map(id => this.props.store.citations.CSL.get(id)!),
+            ...this.ui.selected.map(id => this.props.store.citations.CSL.get(id)!),
             ...(d instanceof Event ? [] : d),
         ]
 
@@ -475,7 +452,7 @@ export default class ReferenceList extends React.Component<Props> {
     };
 
     insertStaticBibliography = async (): Promise<void> => {
-        let data: CSL.Data[] = this.selected.map(id => this.props.store.citations.CSL.get(id)!);
+        let data: CSL.Data[] = this.ui.selected.map(id => this.props.store.citations.CSL.get(id)!);
 
         const selectionHasReferences = this.editor.selection.match(
             /^<div.*? class="abt-static-bib.+? data-reflist="(.+?)"[\s\S]+<\/div>$/,
@@ -505,16 +482,16 @@ export default class ReferenceList extends React.Component<Props> {
     private handleScroll = (): void => {
         const list = document.getElementById('abt-reflist')!;
 
-        if (!this.ui.pinned.get()) {
-            this.ui.cited.maxHeight.set('400px');
-            this.ui.uncited.maxHeight.set('400px');
+        if (!this.ui.pinned) {
+            this.ui.cited.maxHeight = '400px';
+            this.ui.uncited.maxHeight = '400px';
             list.style.top = '';
             return;
         }
 
         const bothOpen: boolean =
-            this.ui.cited.isOpen.get() &&
-            this.ui.uncited.isOpen.get() &&
+            this.ui.cited.isOpen &&
+            this.ui.uncited.isOpen &&
             this.props.store.citations.cited.length > 0 &&
             this.props.store.citations.uncited.length > 0;
 
@@ -530,13 +507,13 @@ export default class ReferenceList extends React.Component<Props> {
          * 180 = all static, non-participating sections of the list + padding
          * 84 = vertical height of menu when open
          */
-        const listOffset = 180 + topOffset + (this.ui.menuOpen.get() ? 84 : 0);
+        const listOffset = 180 + topOffset + (this.ui.menuOpen ? 84 : 0);
         const remainingHeight = window.innerHeight - listOffset;
 
         list.style.top = `${topOffset}px`;
         if (!bothOpen) {
-            this.ui.cited.maxHeight.set(`calc(100vh - ${listOffset}px)`);
-            this.ui.uncited.maxHeight.set(`calc(100vh - ${listOffset}px)`);
+            this.ui.cited.maxHeight = `calc(100vh - ${listOffset}px)`;
+            this.ui.uncited.maxHeight = `calc(100vh - ${listOffset}px)`;
             return;
         }
 
@@ -575,8 +552,8 @@ export default class ReferenceList extends React.Component<Props> {
             }
         }
 
-        this.ui.cited.maxHeight.set(`${citedHeight}px`);
-        this.ui.uncited.maxHeight.set(`${uncitedHeight}px`);
+        this.ui.cited.maxHeight = `${citedHeight}px`;
+        this.ui.uncited.maxHeight = `${uncitedHeight}px`;
     };
 
     private handleUndo = (): void => {

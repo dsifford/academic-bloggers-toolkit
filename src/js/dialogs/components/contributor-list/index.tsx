@@ -3,12 +3,11 @@ import { observer } from 'mobx-react';
 import * as React from 'react';
 
 import Button from 'components/button';
-import { manualPersonObj } from 'utils/constants';
 import Contributor from './contributor';
 import * as styles from './contributor-list.scss';
 
 interface Props {
-    citationType: keyof ABT.FieldMappings;
+    citationType: CSL.ItemType;
     people: IObservableArray<ABT.Contributor>;
 }
 
@@ -19,12 +18,15 @@ export default class ContributorList extends React.Component<Props> {
 
     @action
     add = (): void => {
-        this.props.people.push({ ...manualPersonObj });
+        this.props.people.push({} as ABT.Contributor);
     };
 
     @action
     remove = (e: React.MouseEvent<HTMLInputElement>): void => {
-        const index = parseInt(e.currentTarget.dataset.index!, 10);
+        const index = Number(e.currentTarget.dataset.index);
+        if (isNaN(index)) {
+            throw new TypeError('Index of contributor is NaN');
+        }
         this.props.people.remove(this.props.people[index]);
     };
 

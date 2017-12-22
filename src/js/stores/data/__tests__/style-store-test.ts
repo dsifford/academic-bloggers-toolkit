@@ -1,4 +1,4 @@
-import { StyleStore } from '../style-store';
+import StyleStore from '../style-store';
 
 const Worker = () => ({
     addEventListener: jest.fn(),

@@ -5,7 +5,7 @@ interface LocaleCache {
     time: number;
 }
 
-export class LocaleStore {
+export default class LocaleStore {
     static readonly CACHE_KEY = 'abt-locale-cache';
     private readonly fallback: string = localeMapper[top.ABT.state.cache.locale] || 'en-US';
     private cache: Map<string, string> = new Map();

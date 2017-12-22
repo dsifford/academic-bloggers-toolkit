@@ -53,7 +53,7 @@ export default class ResultList extends React.Component<Props> {
         return (
             <div className={styles.main} ref={this.bindRefs} onWheel={this.handleWheel}>
                 {this.props.results.map(result => (
-                    <div key={result.id} className={styles.result}>
+                    <div key={result.PMID} className={styles.result}>
                         <div className={styles.row1}>
                             <span className={styles.source}>{result.journalAbbreviation}</span>
                             <span>{result.issued!['date-parts']![0][0]}</span>

@@ -1,4 +1,4 @@
-import { action, observable } from 'mobx';
+import { action } from 'mobx';
 import { observer } from 'mobx-react';
 import * as React from 'react';
 
@@ -12,16 +12,19 @@ interface Props {
     onRemove(e: React.MouseEvent<HTMLButtonElement>): void;
 }
 
-@observer
-export default class Contributor extends React.Component<Props> {
-    static readonly labels = top.ABT.i18n.dialogs.add.contributor;
+interface State {
+    isLiteral: boolean;
+}
 
-    // FIXME: use regular state
-    @observable isLiteral: boolean;
+@observer
+export default class Contributor extends React.Component<Props, State> {
+    static readonly labels = top.ABT.i18n.dialogs.add.contributor;
 
     constructor(props: Props) {
         super(props);
-        this.isLiteral = props.contributor.literal ? true : false;
+        this.state = {
+            isLiteral: props.contributor.literal ? true : false,
+        };
     }
 
     @action
@@ -38,7 +41,7 @@ export default class Contributor extends React.Component<Props> {
         this.props.contributor.family = '';
         this.props.contributor.given = '';
         this.props.contributor.literal = '';
-        this.isLiteral = !this.isLiteral;
+        this.setState(prevState => ({ ...prevState, isLiteral: !prevState.isLiteral }));
     };
 
     render(): JSX.Element {
@@ -55,7 +58,7 @@ export default class Contributor extends React.Component<Props> {
                         />
                     ))}
                 </select>
-                {this.isLiteral && (
+                {this.state.isLiteral && (
                     <input
                         type="text"
                         placeholder={Contributor.labels.literal}
@@ -66,7 +69,7 @@ export default class Contributor extends React.Component<Props> {
                         required={true}
                     />
                 )}
-                {!this.isLiteral && (
+                {!this.state.isLiteral && (
                     <>
                         <input
                             type="text"
@@ -90,7 +93,7 @@ export default class Contributor extends React.Component<Props> {
                 )}
                 <Button
                     flat
-                    icon={this.isLiteral ? 'groups' : 'admin-users'}
+                    icon={this.state.isLiteral ? 'groups' : 'admin-users'}
                     label={Contributor.labels.toggleLiteral}
                     onClick={this.toggleLiteral}
                 />

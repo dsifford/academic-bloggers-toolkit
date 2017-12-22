@@ -5,6 +5,7 @@ import { spring, TransitionMotion } from 'react-motion';
 import createFilterOptions from 'react-select-fast-filter-options';
 import VSelect from 'react-virtualized-select';
 
+import UIStore from 'stores/ui/reference-list';
 import { MenuActionType } from 'utils/constants';
 
 import Button from 'components/button';
@@ -28,9 +29,8 @@ interface MenuButtonClick {
 export type MenuAction = StyleTypeChange | MenuButtonClick;
 
 interface Props {
+    ui: UIStore;
     cslStyle: IObservableValue<string>;
-    isOpen: IObservableValue<boolean>;
-    itemsSelected: boolean;
     onSubmit(action: MenuAction): void;
 }
 
@@ -109,7 +109,7 @@ export default class Menu extends React.Component<Props> {
 
     @action
     toggleMenu = (): void => {
-        this.props.isOpen.set(false);
+        this.props.ui.menuOpen = false;
     };
 
     handleClick = (e: React.MouseEvent<HTMLButtonElement>): void => {
@@ -131,7 +131,7 @@ export default class Menu extends React.Component<Props> {
     };
 
     render(): JSX.Element {
-        const transitionStyle = this.props.isOpen.get() ? openedStyle : [];
+        const transitionStyle = this.props.ui.menuOpen ? openedStyle : [];
         return (
             <TransitionMotion
                 willLeave={Menu.willLeave}
@@ -188,7 +188,7 @@ export default class Menu extends React.Component<Props> {
                                       />
                                       <Button
                                           flat
-                                          disabled={!this.props.itemsSelected}
+                                          disabled={!this.props.ui.selected}
                                           id={MenuActionType.INSERT_STATIC_BIBLIOGRAPHY}
                                           icon="list-view"
                                           label={Menu.labels.tooltips.staticPubList}

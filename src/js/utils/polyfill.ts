@@ -1,7 +1,3 @@
-if (!top._babelPolyfill) {
-    require('@babel/polyfill');
-}
-
 ((global: any): void => {
     if (typeof global.CustomEvent === 'function') return;
 

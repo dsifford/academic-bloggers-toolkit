@@ -1,10 +1,3 @@
-export enum DialogType {
-    ADD = 'ADD',
-    EDIT = 'EDIT',
-    IMPORT = 'IMPORT',
-    NONE = '',
-}
-
 export enum MenuActionType {
     CHANGE_STYLE = 'CHANGE_STYLE',
     DESTROY_PROCESSOR = 'DESTROY_PROCESSOR',
@@ -12,86 +5,6 @@ export enum MenuActionType {
     OPEN_IMPORT_DIALOG = 'OPEN_IMPORT_DIALOG',
     REFRESH_PROCESSOR = 'REFRESH_PROCESSOR',
 }
-
-export const manualPersonObj: Readonly<ABT.Contributor> = {
-    type: 'author',
-    given: '',
-    family: '',
-    literal: '',
-};
-
-/**
- * Empty object for holding the field data for manual input
- * @note - The following fields were skipped:
- *   - type
- *   - categories
- *   - Person Fields (author, collection-editor, composer, container-author,
- *     director, editor, editorial-director, interfiewer, illustrator,
- *     original-author, recipient, reviewed-author, translator)
- *   - Date Fields (container, original-date, submitted)
- *   - abstract
- *   - annote
- *   - archive-location
- *   - archive-place
- *   - dimensions
- *   - first-reference-note-number
- *   - keyword
- *   - locator
- *   - note
- *   - references
- *   - reviewed-title
- *   - scale
- */
-export const manualDataObj: any = {
-    DOI: '',
-    ISBN: '',
-    ISSN: '',
-    PMCID: '',
-    PMID: '',
-    URL: '',
-    accessed: '',
-    authority: '',
-    'call-number': '',
-    'chapter-number': '',
-    'citation-label': '',
-    'citation-number': '',
-    'collection-number': '',
-    'collection-title': '',
-    'container-title': '',
-    'container-title-short': '',
-    edition: '',
-    event: '',
-    'event-date': '',
-    'event-place': '',
-    genre: '',
-    id: '0',
-    issue: '',
-    issued: '',
-    journalAbbreviation: '',
-    jurisdiction: '',
-    language: '',
-    medium: '',
-    number: '',
-    'number-of-pages': '',
-    'number-of-volumes': '',
-    'original-publisher': '',
-    'original-publisher-place': '',
-    'original-title': '',
-    page: '',
-    'page-first': '',
-    publisher: '',
-    'publisher-place': '',
-    section: '',
-    shortTitle: '',
-    source: '',
-    status: '',
-    title: '',
-    'title-short': '',
-    type: 'article-journal',
-    version: '',
-    volume: '',
-    'year-suffix': '',
-};
 
 interface LocaleMapper {
     [k: string]: string | undefined;

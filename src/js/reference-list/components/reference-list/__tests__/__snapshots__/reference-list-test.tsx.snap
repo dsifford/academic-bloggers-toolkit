@@ -12,7 +12,7 @@ exports[`<ReferenceList /> snapshots cited and uncited list populated 1`] = `
     }
   />
   <DialogRouter
-    currentDialog={""}
+    currentDialog=""
     onSubmit={[Function]}
   />
   <_class
@@ -89,9 +89,24 @@ exports[`<ReferenceList /> snapshots cited and uncited list populated 1`] = `
   </div>
   <Menu
     cslStyle={"american-medical-association"}
-    isOpen={false}
-    itemsSelected={false}
     onSubmit={[Function]}
+    ui={
+      UIStore {
+        "cited": ItemListUI {
+          "isOpen": true,
+          "maxHeight": "400px",
+        },
+        "currentDialog": "",
+        "loading": false,
+        "menuOpen": false,
+        "pinned": false,
+        "selected": Array [],
+        "uncited": ItemListUI {
+          "isOpen": false,
+          "maxHeight": "400px",
+        },
+      }
+    }
   />
   <ItemList
     CSL={
@@ -112,17 +127,18 @@ exports[`<ReferenceList /> snapshots cited and uncited list populated 1`] = `
       ]
     }
     onEditReference={[Function]}
-    selectedItems={Array []}
     ui={
-      Object {
-        "cited": Object {
+      UIStore {
+        "cited": ItemListUI {
           "isOpen": true,
           "maxHeight": "400px",
         },
+        "currentDialog": "",
         "loading": false,
         "menuOpen": false,
         "pinned": false,
-        "uncited": Object {
+        "selected": Array [],
+        "uncited": ItemListUI {
           "isOpen": false,
           "maxHeight": "400px",
         },
@@ -146,7 +162,7 @@ exports[`<ReferenceList /> snapshots cited and uncited list populated 2`] = `
     }
   />
   <DialogRouter
-    currentDialog={""}
+    currentDialog=""
     onSubmit={[Function]}
   />
   <_class
@@ -223,9 +239,24 @@ exports[`<ReferenceList /> snapshots cited and uncited list populated 2`] = `
   </div>
   <Menu
     cslStyle={"american-medical-association"}
-    isOpen={false}
-    itemsSelected={false}
     onSubmit={[Function]}
+    ui={
+      UIStore {
+        "cited": ItemListUI {
+          "isOpen": true,
+          "maxHeight": "400px",
+        },
+        "currentDialog": "",
+        "loading": false,
+        "menuOpen": false,
+        "pinned": false,
+        "selected": Array [],
+        "uncited": ItemListUI {
+          "isOpen": false,
+          "maxHeight": "400px",
+        },
+      }
+    }
   />
   <ItemList
     CSL={
@@ -247,17 +278,18 @@ exports[`<ReferenceList /> snapshots cited and uncited list populated 2`] = `
       ]
     }
     onEditReference={[Function]}
-    selectedItems={Array []}
     ui={
-      Object {
-        "cited": Object {
+      UIStore {
+        "cited": ItemListUI {
           "isOpen": true,
           "maxHeight": "400px",
         },
+        "currentDialog": "",
         "loading": false,
         "menuOpen": false,
         "pinned": false,
-        "uncited": Object {
+        "selected": Array [],
+        "uncited": ItemListUI {
           "isOpen": false,
           "maxHeight": "400px",
         },
@@ -296,7 +328,7 @@ exports[`<ReferenceList /> snapshots initial mount with empty state 2`] = `
     }
   />
   <DialogRouter
-    currentDialog={""}
+    currentDialog=""
     onSubmit={[Function]}
   />
   <_class
@@ -373,9 +405,24 @@ exports[`<ReferenceList /> snapshots initial mount with empty state 2`] = `
   </div>
   <Menu
     cslStyle={"american-medical-association"}
-    isOpen={false}
-    itemsSelected={false}
     onSubmit={[Function]}
+    ui={
+      UIStore {
+        "cited": ItemListUI {
+          "isOpen": true,
+          "maxHeight": "400px",
+        },
+        "currentDialog": "",
+        "loading": false,
+        "menuOpen": false,
+        "pinned": false,
+        "selected": Array [],
+        "uncited": ItemListUI {
+          "isOpen": false,
+          "maxHeight": "400px",
+        },
+      }
+    }
   />
 </React.Fragment>
 `;
@@ -392,7 +439,7 @@ exports[`<ReferenceList /> snapshots menu toggled open 1`] = `
     }
   />
   <DialogRouter
-    currentDialog={""}
+    currentDialog=""
     onSubmit={[Function]}
   />
   <_class
@@ -469,9 +516,24 @@ exports[`<ReferenceList /> snapshots menu toggled open 1`] = `
   </div>
   <Menu
     cslStyle={"american-medical-association"}
-    isOpen={true}
-    itemsSelected={false}
     onSubmit={[Function]}
+    ui={
+      UIStore {
+        "cited": ItemListUI {
+          "isOpen": true,
+          "maxHeight": "400px",
+        },
+        "currentDialog": "",
+        "loading": false,
+        "menuOpen": true,
+        "pinned": false,
+        "selected": Array [],
+        "uncited": ItemListUI {
+          "isOpen": false,
+          "maxHeight": "400px",
+        },
+      }
+    }
   />
 </React.Fragment>
 `;
@@ -488,7 +550,7 @@ exports[`<ReferenceList /> snapshots pinned state toggled 1`] = `
     }
   />
   <DialogRouter
-    currentDialog={""}
+    currentDialog=""
     onSubmit={[Function]}
   />
   <_class
@@ -565,9 +627,24 @@ exports[`<ReferenceList /> snapshots pinned state toggled 1`] = `
   </div>
   <Menu
     cslStyle={"american-medical-association"}
-    isOpen={false}
-    itemsSelected={false}
     onSubmit={[Function]}
+    ui={
+      UIStore {
+        "cited": ItemListUI {
+          "isOpen": true,
+          "maxHeight": "calc(100vh - 273px)",
+        },
+        "currentDialog": "",
+        "loading": false,
+        "menuOpen": false,
+        "pinned": true,
+        "selected": Array [],
+        "uncited": ItemListUI {
+          "isOpen": false,
+          "maxHeight": "calc(100vh - 273px)",
+        },
+      }
+    }
   />
 </React.Fragment>
 `;

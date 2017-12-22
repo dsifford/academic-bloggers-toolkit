@@ -2,12 +2,19 @@ import { IObservableValue } from 'mobx';
 import { observer } from 'mobx-react';
 import * as React from 'react';
 
-import { DialogType } from 'utils/constants';
 import Container from './components/container';
 
 import AddDialog from './add';
 import EditDialog from './edit';
 import ImportDialog from './import';
+
+export enum DialogType {
+    ADD = 'ADD',
+    EDIT = 'EDIT',
+    IMPORT = 'IMPORT',
+    PUBMED = 'PUBMED',
+    NONE = '',
+}
 
 export interface DialogProps {
     /**
@@ -20,34 +27,34 @@ export interface DialogProps {
 }
 
 interface Props extends DialogProps {
-    currentDialog: IObservableValue<string>;
+    currentDialog: DialogType;
     data?: CSL.Data;
 }
 
 @observer
 export default class DialogRouter extends React.Component<Props> {
     static labels = top.ABT.i18n.dialogs;
+    close = (): void => {
+        this.props.onSubmit(false);
+    };
     render(): JSX.Element | null {
         const { currentDialog, data, onSubmit } = this.props;
-        switch (currentDialog.get()) {
+        switch (currentDialog) {
             case DialogType.ADD:
                 return (
-                    <Container currentDialog={currentDialog} title={DialogRouter.labels.add.title}>
+                    <Container title={DialogRouter.labels.add.title} onClose={this.close}>
                         <AddDialog onSubmit={onSubmit} />
                     </Container>
                 );
             case DialogType.EDIT:
                 return (
-                    <Container currentDialog={currentDialog} title={DialogRouter.labels.edit.title}>
+                    <Container title={DialogRouter.labels.edit.title} onClose={this.close}>
                         <EditDialog data={data!} onSubmit={onSubmit} />
                     </Container>
                 );
             case DialogType.IMPORT:
                 return (
-                    <Container
-                        currentDialog={currentDialog}
-                        title={DialogRouter.labels.import.title}
-                    >
+                    <Container title={DialogRouter.labels.import.title} onClose={this.close}>
                         <ImportDialog onSubmit={onSubmit} />
                     </Container>
                 );

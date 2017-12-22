@@ -1,16 +1,6 @@
-export interface BookMeta {
-    authors: Array<{
-        family: string;
-        given: string;
-        // tslint:disable-next-line
-        type: 'author';
-    }>;
-    /** 2012-06-07 */
-    issued: string;
-    'number-of-pages': string;
-    publisher: string;
-    title: string;
-}
+import { parseName } from 'astrocite-core';
+
+import { AutociteResponse } from 'utils/resolvers';
 
 interface Item {
     volumeInfo: {
@@ -29,7 +19,10 @@ interface APIResponse {
     totalItems: number;
 }
 
-export async function getFromISBN(ISBN: string): Promise<BookMeta> {
+export async function getFromISBN(
+    ISBN: string,
+    kind: 'book' | 'chapter',
+): Promise<AutociteResponse> {
     const req = await fetch(
         `https://www.googleapis.com/books/v1/volumes?q=isbn:${ISBN.replace('-', '')}`,
     );
@@ -44,35 +37,25 @@ export async function getFromISBN(ISBN: string): Promise<BookMeta> {
         throw new Error(`${top.ABT.i18n.errors.noResults}`);
     }
 
-    const meta = res.items[0].volumeInfo;
-    const authors = meta.authors.map(y => {
-        const t = y.split(' ');
-        if (t.length > 3) {
-            return {
-                family: t.slice(1).join(' '),
-                given: t[0],
-                type: <'author'>'author',
-            };
-        }
-        const [a, b, c] = t;
-        if (c === undefined) {
-            return {
-                family: b,
-                given: a,
-                type: <'author'>'author',
-            };
-        }
+    const { authors, pageCount, publishedDate, publisher, title } = res.items[0].volumeInfo;
+    const author: ABT.Contributor[] = authors.map(person => {
+        const fields = parseName(person);
         return {
-            family: c,
-            given: `${a}, ${b}`,
-            type: <'author'>'author',
+            ...fields,
+            type: <CSL.PersonFieldKey>'author',
+            given: fields.given || '',
+            family: fields.family || '',
         };
     });
+    const titleKey = kind === 'chapter' ? 'container-title' : 'title';
+
     return {
-        authors,
-        issued: meta.publishedDate.replace(/-/g, '/'),
-        'number-of-pages': meta.pageCount.toString(),
-        publisher: meta.publisher,
-        title: meta.title,
+        fields: {
+            issued: publishedDate.replace(/-/g, '/'),
+            'number-of-pages': pageCount.toString(),
+            [titleKey]: title,
+            publisher,
+        },
+        people: author,
     };
 }

@@ -1,9 +1,9 @@
-jest.mock('core/style-store');
-jest.mock('core/locale-store');
+jest.mock('stores/data/style-store');
+jest.mock('stores/data/locale-store');
 
 const { CSL } = require('citeproc');
 
-import Store from 'core/store';
+import Store from 'stores/data';
 import { Processor } from '../processor';
 
 declare const ABT: ABT.Backend;

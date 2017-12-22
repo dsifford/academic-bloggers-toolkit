@@ -2,7 +2,7 @@ import { useStrict } from 'mobx';
 import * as React from 'react';
 import 'react-select/dist/react-select.css';
 
-import Store from 'core/store';
+import Store from 'stores/data';
 import logger from 'utils/logger';
 import render from 'utils/render';
 import ReferenceList from './components/reference-list';

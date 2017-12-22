@@ -1,5 +1,5 @@
 import * as FocusTrap from 'focus-trap-react';
-import { action, IObservableValue, observable } from 'mobx';
+import { action, observable } from 'mobx';
 import { observer } from 'mobx-react';
 import * as React from 'react';
 
@@ -8,8 +8,6 @@ import * as styles from './container.scss';
 interface Props {
     /** Content to display in dialog */
     children: React.ReactElement<any>;
-    /** Boxed observable that controls the dialog view state in parent */
-    currentDialog: IObservableValue<string>;
     /** Opacity of background overlay */
     overlayOpacity?: number;
     /** Title for dialog */
@@ -17,13 +15,12 @@ interface Props {
     /** Width of dialog */
     width?: number;
     /** Callback to be called when dialog is closed */
-    onClose?(): void;
+    onClose(): void;
 }
 
 interface DefaultProps {
     overlayOpacity: number;
     width: number;
-    onClose(): void;
 }
 
 @observer
@@ -32,7 +29,6 @@ export default class Container extends React.Component<Props> {
     static defaultProps: DefaultProps = {
         overlayOpacity: 0.7,
         width: 600,
-        onClose: (): void => void 0,
     };
 
     /** Controls paused state of `FocusTrap`. Needed if nesting `FocusTrap`s */
@@ -41,7 +37,6 @@ export default class Container extends React.Component<Props> {
     @action
     close = (e?: React.MouseEvent<HTMLButtonElement>): void => {
         if (e) e.preventDefault();
-        this.props.currentDialog.set('');
         this.props.onClose!();
     };
 
@@ -80,7 +75,7 @@ export default class Container extends React.Component<Props> {
             >
                 <FocusTrap paused={this.focusTrapPaused.get()}>
                     <div
-                        style={{ width }}
+                        style={{ width, position: 'relative' }}
                         role="dialog"
                         aria-labelledby={uniqueId}
                         className={styles.dialog}

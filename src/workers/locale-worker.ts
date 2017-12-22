@@ -27,7 +27,7 @@ interface GithubContentsResponse {
             };
             req.open(
                 'GET',
-                'https://raw.githubusercontent.com/citation-style-language/locales/master/' + file,
+                `https://raw.githubusercontent.com/citation-style-language/locales/master/${file}`,
             );
             req.send(null);
         });

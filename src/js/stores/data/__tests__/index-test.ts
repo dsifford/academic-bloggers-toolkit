@@ -1,4 +1,4 @@
-import Store from '../store';
+import Store from '..';
 
 declare const ABT: ABT.Backend;
 

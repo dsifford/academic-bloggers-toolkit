@@ -3,7 +3,7 @@ import { action, computed, observable, toJS } from 'mobx';
 import { localeMapper } from 'utils/constants';
 
 export default class CitationStore {
-    CSL = observable(new Map<string, CSL.Data>());
+    CSL = observable.map<CSL.Data>();
     private byIndex = observable<Citeproc.Citation>([]);
 
     constructor(byIndex: Citeproc.CitationByIndex, CSL: Citeproc.RefHash) {

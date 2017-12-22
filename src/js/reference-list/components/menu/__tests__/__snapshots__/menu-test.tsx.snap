@@ -3,9 +3,24 @@
 exports[`<Menu /> should match snapshots 1`] = `
 <Menu
   cslStyle={"american-medical-association"}
-  isOpen={true}
-  itemsSelected={true}
   onSubmit={[MockFunction]}
+  ui={
+    UIStore {
+      "cited": ItemListUI {
+        "isOpen": true,
+        "maxHeight": "400px",
+      },
+      "currentDialog": "",
+      "loading": false,
+      "menuOpen": true,
+      "pinned": false,
+      "selected": Array [],
+      "uncited": ItemListUI {
+        "isOpen": false,
+        "maxHeight": "400px",
+      },
+    }
+  }
 >
   <TransitionMotion
     didLeave={[Function]}
@@ -563,9 +578,24 @@ exports[`<Menu /> should match snapshots 1`] = `
 exports[`<Menu /> should match snapshots 2`] = `
 <Menu
   cslStyle={"american-medical-association"}
-  isOpen={false}
-  itemsSelected={true}
   onSubmit={[MockFunction]}
+  ui={
+    UIStore {
+      "cited": ItemListUI {
+        "isOpen": true,
+        "maxHeight": "400px",
+      },
+      "currentDialog": "",
+      "loading": false,
+      "menuOpen": false,
+      "pinned": false,
+      "selected": Array [],
+      "uncited": ItemListUI {
+        "isOpen": false,
+        "maxHeight": "400px",
+      },
+    }
+  }
 >
   <TransitionMotion
     didLeave={[Function]}

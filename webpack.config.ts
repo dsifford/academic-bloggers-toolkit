@@ -3,8 +3,9 @@ import { execSync } from 'child_process';
 import { resolve } from 'path';
 import * as webpack from 'webpack';
 
-const RollbarSourceMapPlugin = require('rollbar-sourcemap-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const RollbarSourceMapPlugin = require('rollbar-sourcemap-webpack-plugin');
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
 const IS_PRODUCTION = process.env.NODE_ENV === 'production';
 const IS_DEPLOYING = process.env.IS_DEPLOYING === 'true';
@@ -32,7 +33,8 @@ const plugins = new Set<webpack.Plugin>([
 if (IS_PRODUCTION) {
     plugins
         .add(new webpack.optimize.ModuleConcatenationPlugin())
-        .add(new webpack.optimize.OccurrenceOrderPlugin(true));
+        .add(new webpack.optimize.OccurrenceOrderPlugin(true))
+        .add(new UglifyJsPlugin({ sourceMap: true }));
 }
 
 if (IS_DEPLOYING) {
@@ -52,12 +54,12 @@ export default <webpack.Configuration>{
     },
     devtool: 'source-map',
     entry: {
-        'js/worker': ['@babel/polyfill', './src/js/worker/worker'],
-        'js/frontend': ['@babel/polyfill', './src/js/frontend'],
+        'workers/locale-worker': ['./src/workers/locale-worker'],
+        'js/frontend': ['./src/js/frontend'],
         'js/reference-list/index': [
             './src/js/utils/polyfill',
+            'proxy-polyfill',
             'whatwg-fetch',
-            'raf/polyfill',
             './src/js/reference-list/',
         ],
         'js/drivers/tinymce': ['./src/js/drivers/tinymce'],
@@ -73,13 +75,33 @@ export default <webpack.Configuration>{
     },
     plugins: [...plugins],
     stats: {
-        children: false,
+        children: IS_PRODUCTION,
     },
     module: {
         rules: [
             {
+                test: /\.ts$/,
+                include: resolve(__dirname, 'src/workers'),
+                use: [
+                    {
+                        loader: 'awesome-typescript-loader',
+                        options: {
+                            useBabel: true,
+                            useCache: !IS_PRODUCTION,
+                            cacheDirectory: resolve(
+                                __dirname,
+                                'node_modules/.cache/awesome-typescript-loader',
+                            ),
+                            babelCore: '@babel/core',
+                            configFileName: resolve(__dirname, 'src/workers/tsconfig.json'),
+                            instance: 'at-worker-loader',
+                        },
+                    },
+                ],
+            },
+            {
                 test: /\.tsx?$/,
-                exclude: /(?:__tests__|node_modules)/,
+                exclude: [/(?:__tests__|node_modules)/, resolve(__dirname, 'src/workers')],
                 use: [
                     {
                         loader: 'awesome-typescript-loader',

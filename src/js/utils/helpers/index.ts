@@ -1,1 +1,0 @@
-export { generateID } from './generateID';

@@ -11,7 +11,7 @@ interface LocaleCache {
     time: number;
 }
 
-export class LocaleStore {
+export default class LocaleStore {
     /**
      * The key of the storage item for the locales in `localStorage`
      */
@@ -44,7 +44,7 @@ export class LocaleStore {
                 return;
             }
         }
-        this.worker = new Worker(`${top.ABT.wp.abt_url}/js/worker.js`);
+        this.worker = new Worker(`${top.ABT.wp.abt_url}/workers/locale-worker.js`);
         this.worker.addEventListener('message', this.receiveMessage);
         this.worker.postMessage('');
     }

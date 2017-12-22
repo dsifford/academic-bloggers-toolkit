@@ -6,9 +6,9 @@ import toJSON from 'enzyme-to-json';
 import * as React from 'react';
 
 import { getRemoteData, parseManualData } from 'core/api';
-import Store from 'core/store';
+import Store from 'stores/data';
+import { DialogType } from 'dialogs';
 import EditorDriver from 'drivers/base';
-import { DialogType } from 'utils/constants';
 import ReferenceList from '..';
 
 // FIXME: write proper mocks for these
@@ -99,7 +99,7 @@ const blankState: ABT.Backend['state'] = {
 };
 let store = new Store({ ...blankState });
 
-const setup = (loading = true): any => {
+const setup = (loading = true) => {
     store = new Store({ ...blankState });
     const component = shallow(
         <ReferenceList editor={Promise.resolve(MockEditor)} store={store} loading={loading} />,
@@ -122,29 +122,26 @@ describe('<ReferenceList />', async () => {
             // Loading state
             expect(toJSON(component)).toMatchSnapshot();
 
-            instance.ui.loading.set(false);
+            instance.ui.loading = false;
             component.update();
 
             // Loaded state
             expect(toJSON(component)).toMatchSnapshot();
         });
         it('menu toggled open', () => {
-            const { component, instance } = setup();
-            instance.ui.loading.set(false);
+            const { component, instance } = setup(false);
             instance.toggleMenu();
             component.update();
             expect(toJSON(component)).toMatchSnapshot();
         });
         it('pinned state toggled', () => {
-            const { component, instance } = setup();
-            instance.ui.loading.set(false);
+            const { component, instance } = setup(false);
             instance.togglePinned();
             component.update();
             expect(toJSON(component)).toMatchSnapshot();
         });
         it('cited and uncited list populated', () => {
-            const { component, instance } = setup();
-            instance.ui.loading.set(false);
+            const { component } = setup(false);
             store.citations.CSL.merge([
                 ['1', { id: '1', title: 'citation 1' }],
                 ['1', { id: '2', title: 'citation 2' }],
@@ -178,18 +175,18 @@ describe('<ReferenceList />', async () => {
         it('should open dialogs', () => {
             const { component, instance } = setup(false);
             const button = component.find('Button').at(1);
-            expect(instance.currentDialog.get()).toBe('');
+            expect(instance.ui.currentDialog).toBe('');
 
             button.simulate('click', 'FOO');
-            expect(instance.currentDialog.get()).toBe('FOO');
+            expect(instance.ui.currentDialog).toBe('FOO');
 
             button.simulate('click', {
                 currentTarget: { dataset: { dialog: 'BAR' } },
             });
-            expect(instance.currentDialog.get()).toBe('BAR');
+            expect(instance.ui.currentDialog).toBe('BAR');
 
             button.simulate('click', { currentTarget: { dataset: {} } });
-            expect(instance.currentDialog.get()).toBe('');
+            expect(instance.ui.currentDialog).toBe('');
         });
         it('should remove citations', () => {
             const { component, instance } = setup(false);
@@ -199,7 +196,7 @@ describe('<ReferenceList />', async () => {
             button.simulate('click');
             expect(mocks.editorMock).not.toHaveBeenCalled();
 
-            instance.selected.replace(['1']);
+            instance.ui.selected.replace(['1']);
             button.simulate('click');
             expect(mocks.editorMock).toHaveBeenCalledTimes(3);
             expect(mocks.editorMock).toHaveBeenCalledWith('setLoadingState');
@@ -225,7 +222,7 @@ describe('<ReferenceList />', async () => {
             instance.insertInlineCitation = jest.fn();
             jest.clearAllMocks();
 
-            instance.currentDialog.set(DialogType.ADD);
+            instance.ui.currentDialog = DialogType.ADD;
 
             expect(store.citations.lookup.ids.length).toBe(0);
             expect(mocks.editorMock).not.toHaveBeenCalled();
@@ -264,12 +261,12 @@ describe('<ReferenceList />', async () => {
             instance.initProcessor = jest.fn();
             instance.addReferences = jest.fn();
 
-            instance.currentDialog.set(DialogType.ADD);
+            instance.ui.currentDialog = DialogType.ADD;
             expect(store.citations.lookup.ids.length).toBe(0);
             instance.handleDialogSubmit({});
             expect(instance.addReferences).toHaveBeenCalledTimes(1);
 
-            instance.currentDialog.set(DialogType.IMPORT);
+            instance.ui.currentDialog = DialogType.IMPORT;
             expect(store.citations.lookup.ids.length).toBe(0);
             instance.handleDialogSubmit([{ id: '1', title: 'hello world' }]);
             expect(store.citations.lookup.ids.length).toBe(1);
@@ -283,7 +280,7 @@ describe('<ReferenceList />', async () => {
             expect(instance.initProcessor).toHaveBeenCalledTimes(1);
             expect(instance.addReferences).toHaveBeenCalledTimes(1);
 
-            expect(instance.currentDialog.get()).toBe('');
+            expect(instance.ui.currentDialog).toBe('');
         });
     });
     describe('Menu selections', () => {
@@ -304,10 +301,10 @@ describe('<ReferenceList />', async () => {
             instance.initProcessor = jest.fn();
 
             const menu = component.find('Menu');
-            expect(instance.currentDialog.get()).toBe('');
+            expect(instance.ui.currentDialog).toBe('');
 
             menu.simulate('submit', { kind: 'OPEN_IMPORT_DIALOG' });
-            expect(instance.currentDialog.get()).toBe(DialogType.IMPORT);
+            expect(instance.ui.currentDialog).toBe(DialogType.IMPORT);
         });
         it('REFRESH_PROCESSOR', () => {
             const { component, instance } = setup(false);
@@ -378,19 +375,18 @@ describe('<ReferenceList />', async () => {
         let { component, instance } = setup();
         beforeEach(() => {
             jest.resetAllMocks();
-            ({ component, instance } = setup());
+            ({ component, instance } = setup(false));
             store.citations.CSL.set('1', {
                 id: '1',
                 title: 'test citation',
                 type: 'article-journal',
             });
-            instance.ui.loading.set(false);
             instance.processor.prepareInlineCitationData = jest.fn();
             instance.processor.processCitationCluster = jest.fn();
             component.update();
         });
         it('insert from selected items in reference list, none selected in editor', () => {
-            instance.selected.push('1');
+            instance.ui.selected.push('1');
             const preventDefault = jest.fn();
             const e = ({ preventDefault } as any) as React.MouseEvent<any>;
             instance.insertInlineCitation(e, []);
@@ -398,7 +394,7 @@ describe('<ReferenceList />', async () => {
             expect(mocks.editorMock).toHaveBeenCalledWith('setLoadingState');
             expect(mocks.editorMock).toHaveBeenCalledWith('composeCitations');
             expect(mocks.editorMock).toHaveBeenCalledWith('setBibliography');
-            expect(instance.selected.length).toBe(0);
+            expect(instance.ui.selected.length).toBe(0);
             expect(
                 (instance.processor.prepareInlineCitationData as jest.Mock<any>).mock.calls[0][0],
             ).toEqual([{ id: '1', title: 'test citation', type: 'article-journal' }]);
@@ -447,7 +443,7 @@ describe('<ReferenceList />', async () => {
             instance.processor.createStaticBibliography = createStaticBibliography;
         });
         it('single selection, without static bib selected', async () => {
-            instance.selected.push('aaaaaaaaa');
+            instance.ui.selected.push('aaaaaaaaa');
             await instance.insertStaticBibliography();
             expect(createStaticBibliography).toHaveBeenCalledWith([citations.a]);
             expect(mocks.editorMock).toHaveBeenCalledWith('setBibliography');
@@ -525,64 +521,64 @@ describe('<ReferenceList />', async () => {
             `;
         });
         it('list not pinned, menu closed', async () => {
-            instance.ui.cited.isOpen.set(false);
+            instance.ui.cited.isOpen = false;
             instance.togglePinned();
             (instance as any).handleScroll();
-            expect(instance.ui.cited.maxHeight.get()).toBe('400px');
-            expect(instance.ui.uncited.maxHeight.get()).toBe('400px');
+            expect(instance.ui.cited.maxHeight).toBe('400px');
+            expect(instance.ui.uncited.maxHeight).toBe('400px');
             expect(document.getElementById('abt-reflist')!.style.top).toBe('');
         });
         it('both lists closed, menu closed', () => {
-            instance.ui.cited.isOpen.set(false);
+            instance.ui.cited.isOpen = false;
             (instance as any).handleScroll();
-            expect(instance.ui.cited.maxHeight.get()).toBe('calc(100vh - 273px)');
-            expect(instance.ui.uncited.maxHeight.get()).toBe('calc(100vh - 273px)');
+            expect(instance.ui.cited.maxHeight).toBe('calc(100vh - 273px)');
+            expect(instance.ui.uncited.maxHeight).toBe('calc(100vh - 273px)');
             expect(document.getElementById('abt-reflist')!.style.top).toBe('93px');
         });
         it('cited list open, menu closed', async () => {
             (instance as any).handleScroll();
-            expect(instance.ui.cited.maxHeight.get()).toBe('calc(100vh - 273px)');
-            expect(instance.ui.uncited.maxHeight.get()).toBe('calc(100vh - 273px)');
+            expect(instance.ui.cited.maxHeight).toBe('calc(100vh - 273px)');
+            expect(instance.ui.uncited.maxHeight).toBe('calc(100vh - 273px)');
             expect(document.getElementById('abt-reflist')!.style.top).toBe('93px');
         });
         it('cited list open, menu open', async () => {
             instance.toggleMenu();
             (instance as any).handleScroll();
-            expect(instance.ui.cited.maxHeight.get()).toBe('calc(100vh - 357px)');
-            expect(instance.ui.uncited.maxHeight.get()).toBe('calc(100vh - 357px)');
+            expect(instance.ui.cited.maxHeight).toBe('calc(100vh - 357px)');
+            expect(instance.ui.uncited.maxHeight).toBe('calc(100vh - 357px)');
             expect(document.getElementById('abt-reflist')!.style.top).toBe('93px');
         });
         it('both lists open, menu closed, uncited list height > cited list', async () => {
-            instance.ui.uncited.isOpen.set(true);
+            instance.ui.uncited.isOpen = true;
             setHeights(19, 29);
             (instance as any).handleScroll();
-            expect(instance.ui.cited.maxHeight.get()).toBe('20px');
-            expect(instance.ui.uncited.maxHeight.get()).toBe('707px');
+            expect(instance.ui.cited.maxHeight).toBe('20px');
+            expect(instance.ui.uncited.maxHeight).toBe('707px');
             expect(document.getElementById('abt-reflist')!.style.top).toBe('93px');
         });
         it('both lists open, menu closed, cited list height > uncited height', async () => {
-            instance.ui.uncited.isOpen.set(true);
+            instance.ui.uncited.isOpen = true;
             setHeights(199, 29);
             (instance as any).handleScroll();
-            expect(instance.ui.cited.maxHeight.get()).toBe('667px');
-            expect(instance.ui.uncited.maxHeight.get()).toBe('60px');
+            expect(instance.ui.cited.maxHeight).toBe('667px');
+            expect(instance.ui.uncited.maxHeight).toBe('60px');
             expect(document.getElementById('abt-reflist')!.style.top).toBe('93px');
         });
         it('both lists open, menu closed, allocated height > remaining height', async () => {
-            instance.ui.uncited.isOpen.set(true);
+            instance.ui.uncited.isOpen = true;
             setHeights(2000, 1000);
             (instance as any).handleScroll();
-            expect(instance.ui.cited.maxHeight.get()).toBe('363.5px');
-            expect(instance.ui.uncited.maxHeight.get()).toBe('363.5px');
+            expect(instance.ui.cited.maxHeight).toBe('363.5px');
+            expect(instance.ui.uncited.maxHeight).toBe('363.5px');
             expect(document.getElementById('abt-reflist')!.style.top).toBe('93px');
         });
         it('cited list or uncited list for some reason doesnt exist', async () => {
-            instance.ui.uncited.isOpen.set(true);
+            instance.ui.uncited.isOpen = true;
             document.getElementById('cited')!.remove();
             document.getElementById('uncited')!.remove();
             (instance as any).handleScroll();
-            expect(instance.ui.cited.maxHeight.get()).toBe('0px');
-            expect(instance.ui.uncited.maxHeight.get()).toBe('727px');
+            expect(instance.ui.cited.maxHeight).toBe('0px');
+            expect(instance.ui.uncited.maxHeight).toBe('727px');
             expect(document.getElementById('abt-reflist')!.style.top).toBe('93px');
         });
     });

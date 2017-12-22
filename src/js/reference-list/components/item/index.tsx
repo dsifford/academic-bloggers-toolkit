@@ -70,7 +70,7 @@ export default class Item extends React.Component<Props> {
     }
 }
 
-function parseDate(date?: CSL.DateType | any): string {
+function parseDate(date?: CSL.Date | any): string {
     if (!date) return 'n.d.';
     if (date.year) return `${date.year}`;
     if (
