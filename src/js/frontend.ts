@@ -1,6 +1,15 @@
-jQuery(document).ready(() => {
-    new Frontend();
-});
+((): void => {
+    const callFrontend = (): Frontend => new Frontend();
+    if (
+        'attachEvent' in document
+            ? document.readyState === 'complete'
+            : document.readyState !== 'loading'
+    ) {
+        callFrontend();
+    } else {
+        document.addEventListener('DOMContentLoaded', callFrontend);
+    }
+})();
 
 type HeadingLevel = 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
 
