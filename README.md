@@ -1,11 +1,10 @@
 ![ABT Banner](http://i.imgur.com/UxBG7NB.png)
 [![Donate](https://img.shields.io/badge/%E2%9D%A4-donate-brightgreen.svg)](https://donorbox.org/academic-bloggers-toolkit)
-[![DOI](https://zenodo.org/badge/37433718.svg)](https://zenodo.org/badge/latestdoi/37433718)
-[![Changelog](https://img.shields.io/badge/changelog-academic--bloggers--toolkit-blue.svg)](https://headwayapp.co/academic-bloggers-toolkit-changelog)
 [![Build Status](https://travis-ci.org/dsifford/academic-bloggers-toolkit.svg?branch=master)](https://travis-ci.org/dsifford/academic-bloggers-toolkit)
 [![codecov](https://codecov.io/gh/dsifford/academic-bloggers-toolkit/branch/master/graph/badge.svg)](https://codecov.io/gh/dsifford/academic-bloggers-toolkit)
+[![Maintainability](https://api.codeclimate.com/v1/badges/76a0035688f8197c0f9a/maintainability)](https://codeclimate.com/github/dsifford/academic-bloggers-toolkit/maintainability)
 [![WordPress](https://img.shields.io/wordpress/plugin/dt/academic-bloggers-toolkit.svg?maxAge=2592000)](https://wordpress.org/plugins/academic-bloggers-toolkit/)
-[![WordPress rating](https://img.shields.io/wordpress/plugin/r/academic-bloggers-toolkit.svg?maxAge=2592000)](https://wordpress.org/plugins/academic-bloggers-toolkit/) [![Greenkeeper badge](https://badges.greenkeeper.io/dsifford/academic-bloggers-toolkit.svg)](https://greenkeeper.io/)
+[![WordPress rating](https://img.shields.io/wordpress/plugin/r/academic-bloggers-toolkit.svg?maxAge=2592000)](https://wordpress.org/plugins/academic-bloggers-toolkit/) 
 
 An **open source** WordPress plugin providing an all-in-one solution for effective academic blogging.
 
