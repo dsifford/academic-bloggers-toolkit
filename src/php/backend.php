@@ -91,7 +91,7 @@ class Backend {
      * @return string CSS string + custom CSS appended
      */
     public function load_tinymce_css($mce_css) {
-        if (!empty($mce_css)) {
+        if ( ! empty($mce_css)) {
             $mce_css .= ',';
         }
         $mce_css .= plugins_url('academic-bloggers-toolkit/css/editors/tinymce.css');
@@ -134,7 +134,7 @@ class Backend {
         $is_revision = wp_is_post_revision($post_id);
         $is_valid_nonce = (isset($_POST['abt_nonce']) && wp_verify_nonce($_POST['abt_nonce'], basename(__FILE__))) ? true : false;
 
-        if ($is_autosave || $is_revision || !$is_valid_nonce) {
+        if ($is_autosave || $is_revision || ! $is_valid_nonce) {
             return;
         }
 
@@ -252,7 +252,7 @@ class Backend {
      * @return mixed[] array as described above
      */
     private function get_user_defined_csl($path) {
-        if (!file_exists($path)) {
+        if ( ! file_exists($path)) {
             return ['value' => null];
         }
 

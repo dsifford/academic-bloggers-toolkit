@@ -33,7 +33,7 @@ class Options {
      * Renders the options page.
      */
     public function ABT_options_page() {
-        if (!current_user_can('manage_options')) {
+        if ( ! current_user_can('manage_options')) {
             wp_die(__('You do not have sufficient permissions to access this page.', 'academic-bloggers-toolkit'));
         }
 

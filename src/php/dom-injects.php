@@ -9,7 +9,7 @@ defined('ABSPATH') || exit;
  */
 function inject_user_css() {
     $abt_options = get_option('abt_options');
-    if (isset($abt_options['custom_css']) && !empty($abt_options['custom_css'])) {
+    if (isset($abt_options['custom_css']) && ! empty($abt_options['custom_css'])) {
         $custom_css = $abt_options['custom_css'];
         echo "<style id='custom_css'>$custom_css\r\n</style>";
     }
@@ -22,7 +22,7 @@ add_action('wp_head', 'ABT\DOM\inject_user_css');
  */
 function inject_author_meta() {
     global $post;
-    if (!$post || !is_singular()) {
+    if ( ! $post || ! is_singular()) {
         return;
     }
 

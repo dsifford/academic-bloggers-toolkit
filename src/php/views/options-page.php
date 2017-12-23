@@ -39,7 +39,7 @@
                 </td>
                 <td>
                     <?php
-                        if (!extension_loaded('dom')) {
+                        if ( ! extension_loaded('dom')) {
                             printf(__('The %s PHP extension is required for some plugin features.', 'academic-bloggers-toolkit'), '<code>dom</code>') . '<br><a href="http://php.net/manual/en/intro.dom.php" target="_blank">' . __('Click here for installation instructions', 'academic-bloggers-toolkit') . '</a>.';
                         }
                     ?>
@@ -61,7 +61,7 @@
                 </td>
                 <td>
                     <?php
-                        if (!extension_loaded('libxml')) {
+                        if ( ! extension_loaded('libxml')) {
                             printf(__('The %s PHP extension is required for some plugin features.', 'academic-bloggers-toolkit'), '<code>libxml</code>') . '<br><a href="http://php.net/manual/en/intro.libxml.php" target="_blank">' . __('Click here for installation instructions', 'academic-bloggers-toolkit') . '</a>.';
                         }
                     ?>

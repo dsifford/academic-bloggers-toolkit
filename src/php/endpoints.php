@@ -8,7 +8,7 @@ defined('ABSPATH') || exit;
  * AJAX Method for getting metadata from other websites for citations.
  */
 function get_website_meta() {
-    if (!extension_loaded('dom') || !extension_loaded('libxml')) {
+    if ( ! extension_loaded('dom') || ! extension_loaded('libxml')) {
         wp_send_json_error([], 501);
         exit;
     }
@@ -36,7 +36,7 @@ function get_website_meta() {
             'firstname' => $a[0],
             'lastname' => $a[1],
         ];
-        if (!is_int(array_search($a, $payload['authors']))) {
+        if ( ! is_int(array_search($a, $payload['authors']))) {
             $payload['authors'][] = $a;
         }
     }
@@ -86,7 +86,7 @@ function get_website_meta() {
                 'firstname' => $a[0],
                 'lastname' => $a[1],
             ];
-            if (!is_int(array_search($a, $payload['authors']))) {
+            if ( ! is_int(array_search($a, $payload['authors']))) {
                 $payload['authors'][] = $a;
             }
             continue;
@@ -101,12 +101,12 @@ function get_website_meta() {
     $issued = $xpath->query('//*[@itemprop="datePublished"]');
     foreach ($issued as $iss) {
         $i = $iss->getAttribute('datetime');
-        if (!empty($i)) {
+        if ( ! empty($i)) {
             $payload['issued'] = $i;
             continue;
         }
         $i = $iss->getAttribute('content');
-        if (!empty($i)) {
+        if ( ! empty($i)) {
             $payload['issued'] = $i;
             continue;
         }
@@ -122,7 +122,7 @@ function get_website_meta() {
             'firstname' => $a[0],
             'lastname' => $a[1],
         ];
-        if (!is_int(array_search($a, $payload['authors']))) {
+        if ( ! is_int(array_search($a, $payload['authors']))) {
             $payload['authors'][] = $a;
         }
     }
@@ -146,7 +146,7 @@ function get_website_meta() {
                 'firstname' => $a[0],
                 'lastname' => $a[1],
             ];
-            if (!is_int(array_search($a, $payload['authors']))) {
+            if ( ! is_int(array_search($a, $payload['authors']))) {
                 $payload['authors'][] = $a;
             }
         }
@@ -154,7 +154,7 @@ function get_website_meta() {
     }
 
     // Last ditch effort to get a title of the site.
-    if (!$payload['title']) {
+    if ( ! $payload['title']) {
         $title = trim(preg_replace('/\s+/', ' ', $raw));
         preg_match('/\<title\>(.*)\<\/title\>/i', $title, $title);
         $payload['title'] = $title[1];
