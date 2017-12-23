@@ -2,9 +2,7 @@
 
 namespace ABT;
 
-if (!defined('ABSPATH')) {
-    exit(1);
-}
+defined('ABSPATH') || exit;
 
 class Options {
     public $citation_styles;
@@ -47,8 +45,8 @@ class Options {
 
         if ($updated_style_options) {
             $abt_options['citation_style']['style'] = $_POST['citation_style_style'];
-            $abt_options['citation_style']['prefer_custom'] = (bool)$_POST['citation_style_prefer_custom'];
-            $abt_options['citation_style']['custom_url'] = $this->check_custom_style_url((string)$_POST['citation_style_custom_url']);
+            $abt_options['citation_style']['prefer_custom'] = (bool) $_POST['citation_style_prefer_custom'];
+            $abt_options['citation_style']['custom_url'] = $this->check_custom_style_url((string) $_POST['citation_style_custom_url']);
         }
         $citation_style_style = $abt_options['citation_style']['style'];
         $citation_style_prefer_custom = $abt_options['citation_style']['prefer_custom'];
@@ -92,7 +90,7 @@ class Options {
      *
      * If the sanitation fails, a dismissable notice is sent to the user.
      *
-     * @param string $url unsanitized URL submitted with the form
+     * @param string $url unsanitized URL submitted with the form.
      *
      * @return string sanitized PATH to the CSL file
      */

@@ -2,9 +2,7 @@
 
 namespace ABT;
 
-if (!defined('ABSPATH')) {
-    exit(1);
-}
+defined('ABSPATH') || exit;
 
 require_once __DIR__ . '/i18n.php';
 
@@ -43,9 +41,12 @@ class Backend {
         add_filter('mce_css', [$this, 'load_tinymce_css']);
     }
 
+    /**
+     * Instantiates the class and calls hooks on load.
+     */
     public static function init() {
         $class = __CLASS__;
-        new $class;
+        new $class();
     }
 
     /**
@@ -73,7 +74,7 @@ class Backend {
     /**
      * Registers the TinyMCE plugins + loads fonts.
      *
-     * @param string[] $plugin_array Array of TinyMCE plugins
+     * @param string[] $plugin_array array of TinyMCE plugins.
      *
      * @return string[] Array of TinyMCE plugins with plugins added
      */
@@ -85,7 +86,7 @@ class Backend {
     /**
      * Loads the required stylesheet into TinyMCE (required for proper citation parsing).
      *
-     * @param string $mce_css CSS string
+     * @param string $mce_css CSS string.
      *
      * @return string CSS string + custom CSS appended
      */
@@ -100,7 +101,7 @@ class Backend {
     /**
      * Adds metaboxes to posts and pages.
      *
-     * @param string $post_type The post type
+     * @param string $post_type The post type.
      */
     public function add_metaboxes($post_type) {
         $disabled_post_types = apply_filters('abt_disabled_post_types', ['acf', 'um_form']);
@@ -117,10 +118,8 @@ class Backend {
 
     /**
      * Renders the HTML for React to mount into.
-     *
-     * @param mixed $post
      */
-    public function render_reference_list($post) {
+    public function render_reference_list() {
         wp_nonce_field(basename(__FILE__), 'abt_nonce');
         include __DIR__ . '/views/reference-list.php';
     }
@@ -128,7 +127,7 @@ class Backend {
     /**
      * Saves the Peer Review meta fields to the database.
      *
-     * @param string $post_id The post ID
+     * @param string $post_id The post ID.
      */
     public function save_meta($post_id) {
         $is_autosave = wp_is_post_autosave($post_id);
@@ -143,6 +142,9 @@ class Backend {
         update_post_meta($post_id, '_abt-reflist-state', $reflist_state);
     }
 
+    /**
+     * Registers all styles and scripts.
+     */
     public function register_scripts() {
         wp_register_style('abt-reference-list', ABT_ROOT_URI . '/css/reference-list.css', [], ABT_VERSION);
         wp_register_script('abt-reference-list', ABT_ROOT_URI . '/js/reference-list/index.js', [], ABT_VERSION);
@@ -170,7 +172,7 @@ class Backend {
                     'locale' => get_locale(),
                 ],
                 'citationByIndex' => [],
-                'CSL' => (object)[],
+                'CSL' => (object) [],
             ];
         }
 
@@ -181,7 +183,7 @@ class Backend {
             'style' => $opts['display_options']['bibliography'],
         ];
 
-        // Fix legacy post meta
+        // Fix legacy post meta.
         if (array_key_exists('processorState', $state)) {
             $state['CSL'] = $state['processorState'];
             unset($state['processorState']);
@@ -245,7 +247,7 @@ class Backend {
      * array containing the XML, label, and value. If not, returns an array
      * containing only the key 'value' with the value of null.
      *
-     * @param string $path path to CSL XML file
+     * @param string $path path to CSL XML file.
      *
      * @return mixed[] array as described above
      */

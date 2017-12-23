@@ -40,6 +40,12 @@ checks:
         enabled: true
         config:
             threshold: null
+plugins:
+    phpcodesniffer:
+        enabled: true
+        config:
+            standard: "WordPress-Extra,WordPress-VIP"
+
 exclude_patterns:
     - .github/
     - .vscode/

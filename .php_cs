@@ -23,7 +23,7 @@ return PhpCsFixer\Config::create()
             'position_after_functions_and_oop_constructs' => 'same',
         ],
         'cast_spaces' => [
-            'space' => 'none',
+            'space' => 'single',
         ],
         'class_definition' => true,
         'concat_space' => [
@@ -80,7 +80,7 @@ return PhpCsFixer\Config::create()
         'ordered_imports' => true,
         'phpdoc_add_missing_param_annotation' => true,
         'phpdoc_align' => true,
-        'phpdoc_annotation_without_dot' => true,
+        'phpdoc_annotation_without_dot' => false,
         'phpdoc_indent' => true,
         'phpdoc_inline_tag' => true,
         'phpdoc_no_access' => true,

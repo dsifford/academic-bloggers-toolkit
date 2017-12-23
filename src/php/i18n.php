@@ -2,16 +2,18 @@
 
 namespace ABT\i18n;
 
-if (!defined('ABSPATH')) {
-    exit(1);
-}
+defined('ABSPATH') || exit;
 
+/**
+ * Function that generates and returns an object of translated strings to be
+ * used in javascript.
+ */
 function generate_translations() {
-    $ABT_i18n = (object)[
+    $ABT_i18n = (object) [
         'citationTypes' => [],
-        'dialogs' => (object)[],
+        'dialogs' => (object) [],
         'errors' => [],
-        'fieldmaps' => (object)[],
+        'fieldmaps' => (object) [],
         'misc' => [],
         'referenceList' => [],
     ];

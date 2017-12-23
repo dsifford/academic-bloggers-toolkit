@@ -34,19 +34,15 @@ export default class Tooltip extends React.PureComponent<Props> {
         const { round } = Math;
         switch (position) {
             case 'top':
-                return oneLine`
-                    translateX(-50%)
-                    translateX(${round(rect.width / 2)}px)
-                    translateY(-${round(rect.height) + 5}px)`;
-            case 'right':
-                return oneLine`
-                    translateX(${round(rect.width)}px)
-                    translateX(5px)`;
             case 'bottom':
                 return oneLine`
                     translateX(-50%)
                     translateX(${round(rect.width / 2)}px)
-                    translateY(${round(rect.height) + 5}px)`;
+                    translateY(${position === 'top' ? '-' : ''}${round(rect.height) + 5}px)`;
+            case 'right':
+                return oneLine`
+                    translateX(${round(rect.width)}px)
+                    translateX(5px)`;
             case 'left':
                 return oneLine`
                     translateX(-100%)

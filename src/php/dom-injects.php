@@ -2,9 +2,7 @@
 
 namespace ABT\DOM;
 
-if (!defined('ABSPATH')) {
-    exit(1);
-}
+defined('ABSPATH') || exit;
 
 /**
  * CSS overrides.
@@ -18,7 +16,10 @@ function inject_user_css() {
 }
 add_action('wp_head', 'ABT\DOM\inject_user_css');
 
-
+/**
+ * Injects post author metadata into the <head> of posts so that others using
+ * the plugin can easily extract author information.
+ */
 function inject_author_meta() {
     global $post;
     if (!$post || !is_singular()) {
@@ -30,14 +31,14 @@ function inject_author_meta() {
         foreach ($authors as $author) {
             $id = $author->data->ID;
             $meta = get_user_meta($id); ?>
-            <meta property="abt:author" content="<?php echo $meta['first_name'][0] . '|' . $meta['last_name'][0] ?>" />
+            <meta property="abt:author" content="<?php echo $meta['first_name'][0] . '|' . $meta['last_name'][0]; ?>" />
             <?php
         }
         return;
     }
 
     $meta = get_user_meta($post->post_author); ?>
-        <meta property="abt:author" content="<?php echo $meta['first_name'][0] . '|' . $meta['last_name'][0] ?>" />
+        <meta property="abt:author" content="<?php echo $meta['first_name'][0] . '|' . $meta['last_name'][0]; ?>" />
     <?php
 }
 add_action('wp_head', 'ABT\DOM\inject_author_meta', 1);

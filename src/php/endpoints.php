@@ -2,9 +2,7 @@
 
 namespace ABT\Endpoints;
 
-if (!defined('ABSPATH')) {
-    exit(1);
-}
+defined('ABSPATH') || exit;
 
 /**
  * AJAX Method for getting metadata from other websites for citations.
@@ -48,7 +46,6 @@ function get_website_meta() {
         $payload['issued'] = $node->getAttribute('content');
     }
 
-
     /**
      * Open Graph Tags.
      */
@@ -60,7 +57,6 @@ function get_website_meta() {
         $payload['og'][$key] = $value;
     }
 
-
     /**
      * Article Tags.
      */
@@ -71,7 +67,6 @@ function get_website_meta() {
         $value = $node->getAttribute('content');
         $payload['article'][$key] = $value;
     }
-
 
     /**
      * Sailthru Tags.
@@ -99,7 +94,6 @@ function get_website_meta() {
 
         $payload['sailthru'][$key] = $value;
     }
-
 
     /**
      * Itemprop Tags.
@@ -138,7 +132,6 @@ function get_website_meta() {
         $payload['title'] = $t->textContent;
     }
 
-
     /**
      * ABT Tags.
      */
@@ -160,10 +153,10 @@ function get_website_meta() {
         $payload['abt'][$key] = $value;
     }
 
-    // Last ditch effort to get a title of the site
+    // Last ditch effort to get a title of the site.
     if (!$payload['title']) {
         $title = trim(preg_replace('/\s+/', ' ', $raw));
-        preg_match("/\<title\>(.*)\<\/title\>/i", $title, $title);
+        preg_match('/\<title\>(.*)\<\/title\>/i', $title, $title);
         $payload['title'] = $title[1];
     }
 

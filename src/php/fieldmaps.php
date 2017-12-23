@@ -1,9 +1,13 @@
 <?php
 
-if (!defined('ABSPATH')) {
-    exit(1);
-}
+defined('ABSPATH') || exit;
 
+/**
+ * Sort function that is used to sort an array of fields by field label.
+ *
+ * @param mixed $a Field array.
+ * @param mixed $b Field array.
+ */
 function sort_by_label($a, $b) {
     $a = strtolower($a['label']);
     $b = strtolower($b['label']);

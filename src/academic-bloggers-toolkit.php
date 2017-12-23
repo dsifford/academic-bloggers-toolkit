@@ -1,5 +1,4 @@
 <?php
-
 /**
  *	Plugin Name: Academic Blogger's Toolkit
  *	Plugin URI: https://wordpress.org/plugins/academic-bloggers-toolkit/
@@ -13,10 +12,7 @@
 
 namespace ABT;
 
-if (!defined('ABSPATH')) {
-    exit(1);
-}
-
+defined('ABSPATH') || exit;
 define('ABT_VERSION', '4.12.0');
 define('ABT_ROOT_URI', plugin_dir_url(__FILE__));
 define('ABT_ROOT_PATH', plugin_dir_path(__FILE__));
@@ -32,7 +28,7 @@ add_action('plugins_loaded', 'ABT\textdomain');
 /**
  * Adds .csl files to the accepted mime types for WordPress.
  *
- * @param string[] $mimes Existing mime types
+ * @param string[] $mimes Existing mime types.
  *
  * @return string[] Existing mime types + csl
  */
@@ -66,26 +62,26 @@ function refactor_options() {
         return;
     }
 
-    $newOptions = [];
+    $new_options = [];
 
-    $newOptions['citation_style'] = [
+    $new_options['citation_style'] = [
         'prefer_custom' => isset($options['citation_style']['prefer_custom']) ? $options['citation_style']['prefer_custom'] : false,
         'style' => (!empty($options['citation_style']['style']) ? $options['citation_style']['style'] : (!empty($options['abt_citation_style']) ? $options['abt_citation_style'] : 'american-medical-association')),
         'custom_url' => !empty($options['citation_style']['custom_url']) ? $options['citation_style']['custom_url'] : '',
     ];
 
-    $newOptions['custom_css'] = !empty($options['custom_css']) ? $options['custom_css'] : '';
+    $new_options['custom_css'] = !empty($options['custom_css']) ? $options['custom_css'] : '';
 
-    $newOptions['display_options'] = [
+    $new_options['display_options'] = [
         'bibliography' => !empty($options['display_options']['bibliography']) ? $options['display_options']['bibliography'] : 'fixed',
         'links' => !empty($options['display_options']['links']) ? $options['display_options']['links'] : 'always',
         'bib_heading' => !empty($options['display_options']['bib_heading']) ? $options['display_options']['bib_heading'] : '',
         'bib_heading_level' => !empty($options['display_options']['bib_heading_level']) ? $options['display_options']['bib_heading_level'] : 'h3',
     ];
 
-    $newOptions['VERSION'] = ABT_VERSION;
+    $new_options['VERSION'] = ABT_VERSION;
 
-    update_option('abt_options', $newOptions);
+    update_option('abt_options', $new_options);
 }
 add_action('admin_init', 'ABT\refactor_options');
 
@@ -93,7 +89,7 @@ add_action('admin_init', 'ABT\refactor_options');
 /**
  * Adds link on the plugin page to the options page.
  *
- * @param string[] $links Array of links
+ * @param string[] $links array of links.
  */
 function add_options_link($links) {
     $url = admin_url('options-general.php?page=abt-options');
@@ -106,18 +102,18 @@ add_filter('plugin_action_links_' . plugin_basename(__FILE__), 'ABT\add_options_
 /**
  * Adds donation link to the plugin meta.
  *
- * @param mixed[] $plugin_meta
- * @param string  $plugin_file
+ * @param mixed[] $links The array having default links for the plugin.
+ * @param string  $file  The name of the plugin file.
  */
-function add_donate_link($plugin_meta, $plugin_file) {
-    if (plugin_basename(__FILE__) === $plugin_file) {
-        $plugin_meta[] = sprintf(
+function add_donate_link($links, $file) {
+    if (plugin_basename(__FILE__) === $file) {
+        $links[] = sprintf(
             '&hearts; <a href="%s">%s</a>',
             'https://donorbox.org/academic-bloggers-toolkit',
             __('Donate', 'academic-bloggers-toolkit')
         );
     }
-    return $plugin_meta;
+    return $links;
 }
 add_filter('plugin_row_meta', 'ABT\add_donate_link', 10, 2);
 
