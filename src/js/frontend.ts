@@ -1,3 +1,5 @@
+import '../css/frontend.scss';
+
 ((): void => {
     const callFrontend = (): Frontend => new Frontend();
     if (
@@ -35,7 +37,9 @@ export function createTooltip(e: MouseEvent): void {
 
     const buttonContainer = document.createElement('div');
     buttonContainer.className = 'abt-tooltip__close-button-container';
-    buttonContainer.addEventListener('click', () => tooltip.parentElement!.removeChild(tooltip));
+    buttonContainer.addEventListener('click', () =>
+        tooltip.parentElement!.removeChild(tooltip),
+    );
 
     const button = document.createElement('div');
     button.className = 'abt-tooltip__close-button';
@@ -47,7 +51,8 @@ export function createTooltip(e: MouseEvent): void {
 
     const tooltipWiderThanBody: boolean =
         tooltip.offsetWidth + margin + padding >= document.body.offsetWidth;
-    const tooltipWouldOverflowLeft: boolean = padding + tooltip.offsetWidth / 2 > left;
+    const tooltipWouldOverflowLeft: boolean =
+        padding + tooltip.offsetWidth / 2 > left;
     const tooltipWouldOverflowRight: boolean =
         left > document.body.offsetWidth / 2 &&
         document.body.offsetWidth - left < padding + tooltip.offsetWidth / 2;
@@ -83,7 +88,8 @@ export function createTooltip(e: MouseEvent): void {
         callout.classList.add('abt-tooltip__callout_up');
     } else {
         // On top - Downwards arrow
-        tooltip.style.top = rect.top + window.pageYOffset - tooltip.offsetHeight - 10 + 'px';
+        tooltip.style.top =
+            rect.top + window.pageYOffset - tooltip.offsetHeight - 10 + 'px';
         tooltip.classList.add('abt-tooltip_top');
         callout.classList.add('abt-tooltip__callout_down');
     }
@@ -93,33 +99,43 @@ export function createTooltip(e: MouseEvent): void {
 
 export class Frontend {
     static isTouchDevice: boolean = true ===
-        ('ontouchstart' in window || (window.DocumentTouch && document instanceof DocumentTouch));
+        ('ontouchstart' in window ||
+            (window.DocumentTouch && document instanceof DocumentTouch));
     bibliography: Element | null;
     itemContainer: Element;
 
     constructor() {
-        this.bibliography = document.querySelector('#abt-bibliography, #abt-smart-bib');
+        this.bibliography = document.querySelector(
+            '#abt-bibliography, #abt-smart-bib',
+        );
 
         if (!this.bibliography) {
             return;
         }
 
         this.itemContainer =
-            document.getElementById('abt-bibliography__container') || this.bibliography;
+            document.getElementById('abt-bibliography__container') ||
+            this.bibliography;
 
-        const citationList: NodeListOf<HTMLSpanElement> = document.querySelectorAll(
-            '.abt-citation, .abt_cite',
-        );
+        const citationList: NodeListOf<
+            HTMLSpanElement
+        > = document.querySelectorAll('.abt-citation, .abt_cite');
 
         for (const citation of [...citationList]) {
-            const reflist: string[] = JSON.parse(citation.dataset.reflist || '[]');
+            const reflist: string[] = JSON.parse(
+                citation.dataset.reflist || '[]',
+            );
             citation.dataset.citations = reflist
                 .map(id => this.itemContainer.children.namedItem(id)!.outerHTML)
                 .join('');
             citation.addEventListener('click', createTooltip);
         }
 
-        if (document.querySelector('.abt-bibliography__heading_toggle, #abt-smart-bib>h3.toggle')) {
+        if (
+            document.querySelector(
+                '.abt-bibliography__heading_toggle, #abt-smart-bib>h3.toggle',
+            )
+        ) {
             this.enableToggle();
         }
     }
@@ -130,7 +146,8 @@ export class Frontend {
         );
         if (!this.itemContainer || !heading) return;
 
-        const headingLevel = <HeadingLevel | undefined>heading.dataset.headingLevel;
+        const headingLevel = <HeadingLevel | undefined>heading.dataset
+            .headingLevel;
 
         if (headingLevel) {
             heading.style.font = this.getHeadingFont(headingLevel);
@@ -142,11 +159,17 @@ export class Frontend {
             heading.setAttribute(
                 'aria-expanded',
                 JSON.stringify(
-                    heading.classList.contains('abt-bibliography__heading_toggle--closed'),
+                    heading.classList.contains(
+                        'abt-bibliography__heading_toggle--closed',
+                    ),
                 ),
             );
-            heading.classList.toggle('abt-bibliography__heading_toggle--closed');
-            this.itemContainer.classList.toggle('abt-bibligraphy__container--hidden');
+            heading.classList.toggle(
+                'abt-bibliography__heading_toggle--closed',
+            );
+            this.itemContainer.classList.toggle(
+                'abt-bibligraphy__container--hidden',
+            );
         });
     }
 

@@ -79,7 +79,7 @@ class Backend {
 	 * @return string[] Array of TinyMCE plugins with plugins added
 	 */
 	public function register_tinymce_plugins( $plugin_array ) {
-		$plugin_array['noneditable'] = plugins_url( 'academic-bloggers-toolkit/vendor/noneditable.js' );
+		$plugin_array['noneditable'] = ABT_ROOT_URI . 'vendor/noneditable.js';
 		return $plugin_array;
 	}
 
@@ -94,7 +94,7 @@ class Backend {
 		if ( ! empty( $mce_css )) {
 			$mce_css .= ',';
 		}
-		$mce_css .= plugins_url( 'academic-bloggers-toolkit/css/editors/tinymce.css' );
+		$mce_css .= ABT_ROOT_URI . 'css/tinymce.css';
 		return $mce_css;
 	}
 
@@ -138,7 +138,7 @@ class Backend {
 			return;
 		}
 
-		$reflist_state = $_POST[ 'abt-reflist-state' ];
+		$reflist_state = $_POST['abt-reflist-state'];
 		update_post_meta( $post_id, '_abt-reflist-state', $reflist_state );
 	}
 
@@ -146,8 +146,8 @@ class Backend {
 	 * Registers all styles and scripts.
 	 */
 	public function register_scripts() {
-		wp_register_style( 'abt-reference-list', ABT_ROOT_URI . '/css/reference-list.css', [], ABT_VERSION );
-		wp_register_script( 'abt-reference-list', ABT_ROOT_URI . '/js/reference-list/index.js', [], ABT_VERSION );
+		wp_register_style( 'abt-reference-list', ABT_ROOT_URI . 'css/reference-list.css', [], ABT_VERSION );
+		wp_register_script( 'abt-reference-list', ABT_ROOT_URI . 'js/reference-list/index.js', [], ABT_VERSION );
 	}
 
 	/**

@@ -9,7 +9,9 @@ const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
 const IS_PRODUCTION = process.env.NODE_ENV === 'production';
 const IS_DEPLOYING = process.env.IS_DEPLOYING === 'true';
-const VERSION = IS_PRODUCTION ? execSync('git rev-parse HEAD', { encoding: 'utf8' }) : '';
+const VERSION = IS_PRODUCTION
+    ? execSync('git rev-parse HEAD', { encoding: 'utf8' })
+    : '';
 
 const plugins = new Set<webpack.Plugin>([
     new webpack.NoEmitOnErrorsPlugin(),
@@ -42,7 +44,8 @@ if (IS_DEPLOYING) {
         new RollbarSourceMapPlugin({
             accessToken: process.env.ROLLBAR_API_TOKEN,
             version: VERSION,
-            publicPath: 'http://dynamichost/wp-content/plugins/academic-bloggers-toolkit',
+            publicPath:
+                'http://dynamichost/wp-content/plugins/academic-bloggers-toolkit',
         }),
     );
 }
@@ -54,15 +57,15 @@ export default <webpack.Configuration>{
     },
     devtool: 'source-map',
     entry: {
-        'workers/locale-worker': ['./src/workers/locale-worker'],
         'js/frontend': ['./src/js/frontend'],
+        'js/drivers/tinymce': ['./src/js/drivers/tinymce'],
         'js/reference-list/index': [
             './src/js/utils/polyfill',
             'proxy-polyfill',
             'whatwg-fetch',
             './src/js/reference-list/',
         ],
-        'js/drivers/tinymce': ['./src/js/drivers/tinymce'],
+        'workers/locale-worker': ['./src/workers/locale-worker'],
     },
     output: {
         path: resolve(__dirname, 'dist'),
@@ -93,7 +96,10 @@ export default <webpack.Configuration>{
                                 'node_modules/.cache/awesome-typescript-loader',
                             ),
                             babelCore: '@babel/core',
-                            configFileName: resolve(__dirname, 'src/workers/tsconfig.json'),
+                            configFileName: resolve(
+                                __dirname,
+                                'src/workers/tsconfig.json',
+                            ),
                             instance: 'at-worker-loader',
                         },
                     },
@@ -101,7 +107,10 @@ export default <webpack.Configuration>{
             },
             {
                 test: /\.tsx?$/,
-                exclude: [/(?:__tests__|node_modules)/, resolve(__dirname, 'src/workers')],
+                exclude: [
+                    /(?:__tests__|node_modules)/,
+                    resolve(__dirname, 'src/workers'),
+                ],
                 use: [
                     {
                         loader: 'awesome-typescript-loader',
@@ -130,7 +139,8 @@ export default <webpack.Configuration>{
                                 minimize: IS_PRODUCTION,
                                 sourceMap: !IS_PRODUCTION,
                                 camelCase: 'only',
-                                localIdentName: '[name]__[local]___[hash:base64:5]',
+                                localIdentName:
+                                    '[name]__[local]___[hash:base64:5]',
                             },
                         },
                         {

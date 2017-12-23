@@ -1,16 +1,15 @@
 // tslint:disable:no-console
 import { exec as cp_exec, spawn } from 'child_process';
 import * as gulp from 'gulp';
-import * as autoprefixer from 'gulp-autoprefixer';
 import * as replace from 'gulp-replace';
-import * as sass from 'gulp-sass';
-import * as sort from 'gulp-sort';
-import * as sourcemaps from 'gulp-sourcemaps';
+// import * as sort from 'gulp-sort';
 import * as composer from 'gulp-uglify/composer';
-import * as wpPot from 'gulp-wp-pot';
+// import * as wpPot from 'gulp-wp-pot';
 import * as merge from 'merge-stream';
 import * as uglifyEs from 'uglify-es';
 import { promisify } from 'util';
+
+process.env.FORCE_COLOR = '1';
 
 const browserSync = require('browser-sync').create();
 const uglify = composer(uglifyEs, console);
@@ -18,8 +17,6 @@ const exec = promisify(cp_exec);
 
 const VERSION = require('./package.json').version;
 const IS_PRODUCTION = process.env.NODE_ENV === 'production';
-
-process.env.FORCE_COLOR = '1';
 
 type Callback = () => void;
 
@@ -45,7 +42,12 @@ export function bump(): NodeJS.ReadWriteStream {
         })
         .pipe(replace(/Version: [\d.]+/, `Version: ${VERSION}`))
         .pipe(replace(/Stable tag: .+/, `Stable tag: ${VERSION}`))
-        .pipe(replace(/define\('ABT_VERSION', '.+?'\);/, `define('ABT_VERSION', '${VERSION}');`))
+        .pipe(
+            replace(
+                /define\('ABT_VERSION', '.+?'\);/,
+                `define('ABT_VERSION', '${VERSION}');`,
+            ),
+        )
         .pipe(replace(new RegExp(re), repl))
         .pipe(gulp.dest('./src'));
 
@@ -57,24 +59,26 @@ export function bump(): NodeJS.ReadWriteStream {
     return merge(srcFiles, repoFiles);
 }
 
-// Translations
-export function pot(): NodeJS.ReadWriteStream {
-    return gulp
-        .src('./src/**/*.php', { base: 'dist/*' })
-        .pipe(sort())
-        .pipe(
-            wpPot({
-                domain: 'academic-bloggers-toolkit',
-                package: `Academic Blogger's Toolkit ${VERSION}`,
-                bugReport: 'https://github.com/dsifford/academic-bloggers-toolkit/issues',
-                lastTranslator: 'Derek P Sifford <dereksifford@gmail.com>',
-                team: 'Derek P Sifford <dereksifford@gmail.com>',
-                headers: false,
-            }),
-        )
-        .pipe(replace(/(\s)(src\/)(\S+)/gm, '$1$3'))
-        .pipe(gulp.dest('./src/academic-bloggers-toolkit.pot'));
-}
+// FIXME: Waiting for gulp-wp-pot to update
+// // Translations
+// export function pot(): NodeJS.ReadWriteStream {
+//     return gulp
+//         .src('./src/**/*.php', { base: 'dist/*' })
+//         .pipe(sort())
+//         .pipe(
+//             wpPot({
+//                 domain: 'academic-bloggers-toolkit',
+//                 package: `Academic Blogger's Toolkit ${VERSION}`,
+//                 bugReport:
+//                     'https://github.com/dsifford/academic-bloggers-toolkit/issues',
+//                 lastTranslator: 'Derek P Sifford <dereksifford@gmail.com>',
+//                 team: 'Derek P Sifford <dereksifford@gmail.com>',
+//                 headers: false,
+//             }),
+//         )
+//         .pipe(replace(/(\s)(src\/)(\S+)/gm, '$1$3'))
+//         .pipe(gulp.dest('./src/academic-bloggers-toolkit.pot'));
+// }
 
 // ==================================================
 //              PHP/Static Asset Tasks
@@ -98,44 +102,11 @@ export function staticFiles(): NodeJS.ReadWriteStream {
 }
 
 // ==================================================
-//                 Style Tasks
-// ==================================================
-
-export function styles(): NodeJS.ReadWriteStream {
-    let stream = gulp.src('src/css/**/[^_]*.scss', { base: './src' });
-
-    if (!IS_PRODUCTION) {
-        stream = stream.pipe(sourcemaps.init());
-    }
-
-    stream = stream
-        .pipe(
-            sass({
-                outputStyle: IS_PRODUCTION ? 'compressed' : 'nested',
-            }).on('error', sass.logError),
-        )
-        .pipe(autoprefixer({ browsers: ['last 2 versions'] }));
-
-    if (!IS_PRODUCTION) {
-        stream = stream.pipe(sourcemaps.write('.', undefined));
-    }
-
-    stream = stream.pipe(gulp.dest('dist'));
-
-    if (!IS_PRODUCTION) {
-        stream = stream.pipe(browserSync.stream({ match: '**/*.css' }));
-    }
-
-    return stream;
-}
-
-// ==================================================
 //                 Javascript Tasks
 // ==================================================
 
 export function bundle(cb: Callback): void {
-    const args = IS_PRODUCTION ? [] : [];
-    const child = spawn(`${__dirname}/node_modules/.bin/webpack`, args, {
+    const child = spawn(`${__dirname}/node_modules/.bin/webpack`, [], {
         env: process.env,
     });
     child.on('error', err => {
@@ -144,7 +115,9 @@ export function bundle(cb: Callback): void {
     });
     child.on('exit', (code, signal) => {
         if (code !== 0) {
-            console.error(`Exited with non-zero exit code (${code}): ${signal}`);
+            console.error(
+                `Exited with non-zero exit code (${code}): ${signal}`,
+            );
             process.exit(1);
         }
         cb();
@@ -175,15 +148,18 @@ export function js(): NodeJS.ReadWriteStream {
 
 const main = gulp.series(
     clean,
-    gulp.parallel(styles, staticFiles, js, pot),
+    gulp.parallel(staticFiles, js /*, pot*/),
     bundle,
     (cb: Callback) => {
         if (IS_PRODUCTION) return cb();
 
-        gulp.watch('src/**/*.scss', gulp.series(styles));
-
         gulp.watch(
-            ['src/**/*', '!src/**/*.{ts,tsx,scss}', '!src/**/__tests__/', '!src/**/__tests__/*'],
+            [
+                'src/**/*',
+                '!src/**/*.{ts,tsx,scss}',
+                '!src/**/__tests__/',
+                '!src/**/__tests__/*',
+            ],
             gulp.series(staticFiles, reload),
         );
 

@@ -123,10 +123,10 @@ add_filter( 'plugin_row_meta', 'ABT\add_donate_link', 10, 2 );
  * Enqueues frontend JS and CSS.
  */
 function frontend_enqueues() {
-	wp_enqueue_style( 'abt-css', plugins_url( 'academic-bloggers-toolkit/css/frontend.css' ), [], ABT_VERSION );
+	wp_enqueue_style( 'abt-css', ABT_ROOT_URI . 'css/frontend.css', [], ABT_VERSION );
 
 	if ( is_singular() ) {
-		wp_enqueue_script( 'abt-frontend', plugins_url( 'academic-bloggers-toolkit/js/frontend.js' ), [], ABT_VERSION, true );
+		wp_enqueue_script( 'abt-frontend', ABT_ROOT_URI . 'js/frontend.js', [], ABT_VERSION, true );
 	}
 }
 add_action( 'wp_enqueue_scripts', 'ABT\frontend_enqueues' );

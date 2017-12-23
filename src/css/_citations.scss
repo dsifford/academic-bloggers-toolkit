@@ -1,71 +1,73 @@
 @import 'variables';
 @import 'colors';
 
-.abt-citation {
-    @include noselect;
-    display: inline-block;
-    white-space: nowrap;
-    cursor: pointer;
-    sup,
-    sub {
-        font-size: 75%;
-        line-height: 0;
-        position: relative;
-        vertical-align: baseline;
+:global {
+    .abt-citation {
+        @include noselect;
+        display: inline-block;
+        white-space: nowrap;
+        cursor: pointer;
+        sup,
+        sub {
+            font-size: 75%;
+            line-height: 0;
+            position: relative;
+            vertical-align: baseline;
+        }
+        sup {
+            top: -0.5em;
+        }
+        sub {
+            bottom: -0.25em;
+        }
     }
-    sup {
-        top: -0.5em;
+
+    .abt-footnote {
+        margin-bottom: 1em;
     }
-    sub {
-        bottom: -0.25em;
+    .abt-footnote__heading {
+        font-weight: 600;
     }
-}
+    .abt-footnote__number {
+        margin-right: 0.5em;
+        font-weight: 600;
+    }
 
-.abt-footnote {
-    margin-bottom: 1em;
-}
-.abt-footnote__heading {
-    font-weight: 600;
-}
-.abt-footnote__number {
-    margin-right: 0.5em;
-    font-weight: 600;
-}
+    .abt-url {
+        display: inline;
+    }
 
-.abt-url {
-    display: inline;
-}
-
-.csl-entry {
-    &.hanging-indent {
-        padding-left: 25px;
-        text-indent: -25px;
-        .csl-right-inline {
+    .csl-entry {
+        &.hanging-indent {
             padding-left: 25px;
             text-indent: -25px;
+            .csl-right-inline {
+                padding-left: 25px;
+                text-indent: -25px;
+            }
         }
-    }
-    &.flush {
-        display: table-row;
+        &.flush {
+            display: table-row;
+            .csl-left-margin {
+                display: table-cell;
+                text-align: right;
+            }
+            .csl-right-inline {
+                @include word-wrap;
+                display: table-cell;
+            }
+        }
+        &.margin {
+            display: flex;
+            justify-content: flex-end;
+            .csl-right-inline {
+                @include word-wrap;
+                min-width: 100%;
+            }
+        }
         .csl-left-margin {
-            display: table-cell;
-            text-align: right;
+            padding: 0 8px 0 0;
+            font-weight: 600;
         }
-        .csl-right-inline {
-            @include word-wrap;
-            display: table-cell;
-        }
-    }
-    &.margin {
-        display: flex;
-        justify-content: flex-end;
-        .csl-right-inline {
-            @include word-wrap;
-            min-width: 100%;
-        }
-    }
-    .csl-left-margin {
-        padding: 0 8px 0 0;
-        font-weight: 600;
     }
 }

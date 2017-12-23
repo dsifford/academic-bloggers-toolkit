@@ -1,5 +1,7 @@
 import EditorDriver, { RelativeCitationPositions } from './base';
 
+import '../../css/editors/tinymce.scss';
+
 interface SelectionCache {
     bookmark: {
         rng: Range;
@@ -30,8 +32,14 @@ export default class TinyMCEDriver extends EditorDriver {
                     continue;
                 }
 
-                if (classList.value.split(' ').includes(EditorDriver.citationClass)) {
-                    dispatchEvent(new CustomEvent(EditorDriver.events.CITATION_DELETED));
+                if (
+                    classList.value
+                        .split(' ')
+                        .includes(EditorDriver.citationClass)
+                ) {
+                    dispatchEvent(
+                        new CustomEvent(EditorDriver.events.CITATION_DELETED),
+                    );
                 }
             }
         }
@@ -55,7 +63,11 @@ export default class TinyMCEDriver extends EditorDriver {
     get citationIds(): string[] {
         const citations = this.editor
             .getDoc()
-            .querySelectorAll(`*:not(.mce-offscreen-selection) > .${EditorDriver.citationClass}`);
+            .querySelectorAll(
+                `*:not(.mce-offscreen-selection) > .${
+                    EditorDriver.citationClass
+                }`,
+            );
         return [...citations].map(c => c.id);
     }
 
@@ -67,7 +79,8 @@ export default class TinyMCEDriver extends EditorDriver {
                     .${EditorDriver.citationClass}
             `),
         ];
-        const isFootnoteType = doc.querySelector(`#${EditorDriver.footnoteId}`) !== null;
+        const isFootnoteType =
+            doc.querySelector(`#${EditorDriver.footnoteId}`) !== null;
 
         return nodes.reduce(
             (prev, citation, index) => {
@@ -116,18 +129,28 @@ export default class TinyMCEDriver extends EditorDriver {
                     throw new Error('parentNode not defined for citation');
                 }
 
-                const position = startContainer.compareDocumentPosition(citation);
+                const position = startContainer.compareDocumentPosition(
+                    citation,
+                );
 
                 switch (position) {
                     case Node.DOCUMENT_POSITION_PRECEDING:
-                        prev.itemsPreceding = [...prev.itemsPreceding, [citation.id, i]];
+                        prev.itemsPreceding = [
+                            ...prev.itemsPreceding,
+                            [citation.id, i],
+                        ];
                         break;
                     case Node.DOCUMENT_POSITION_FOLLOWING:
-                        prev.itemsFollowing = [...prev.itemsFollowing, [citation.id, i + 1]];
+                        prev.itemsFollowing = [
+                            ...prev.itemsFollowing,
+                            [citation.id, i + 1],
+                        ];
                         break;
                     default:
                         citation.parentElement!.removeChild(citation);
-                        this.editor.selection.moveToBookmark(this.selectionCache.bookmark);
+                        this.editor.selection.moveToBookmark(
+                            this.selectionCache.bookmark,
+                        );
                 }
                 return prev;
             },
@@ -169,12 +192,15 @@ export default class TinyMCEDriver extends EditorDriver {
         for (const [index, content, id] of clusters) {
             const citation = doc.getElementById(id);
             const innerHTML = kind === 'note' ? `[${index + 1}]` : content;
-            const reflist = JSON.stringify(citationByIndex[index].citationItems.map(c => c.id));
+            const reflist = JSON.stringify(
+                citationByIndex[index].citationItems.map(c => c.id),
+            );
 
             if (citation) {
                 citation.innerHTML = innerHTML;
                 citation.dataset.reflist = reflist;
-                citation.dataset.footnote = kind === 'note' ? content : undefined;
+                citation.dataset.footnote =
+                    kind === 'note' ? content : undefined;
             } else {
                 this.editor.insertContent(
                     EditorDriver.createInlineElement({
@@ -246,7 +272,11 @@ export default class TinyMCEDriver extends EditorDriver {
     reset(): void {
         const elements = this.editor
             .getDoc()
-            .querySelectorAll(`#${EditorDriver.bibliographyId}, .${EditorDriver.citationClass}`);
+            .querySelectorAll(
+                `#${EditorDriver.bibliographyId}, .${
+                    EditorDriver.citationClass
+                }`,
+            );
         for (const element of Array.from(elements)) {
             if (element.parentElement) {
                 element.parentElement.removeChild(element);
@@ -336,12 +366,14 @@ export default class TinyMCEDriver extends EditorDriver {
         options: ABT.BibOptions,
         bibliography: ABT.Bibliography | boolean,
     ): void {
-        if (typeof bibliography === 'boolean' || bibliography.length === 0) return;
+        if (typeof bibliography === 'boolean' || bibliography.length === 0)
+            return;
 
-        const bib = EditorDriver.createBibliographyElement(options, bibliography, [
-            'noselect',
-            'mceNonEditable',
-        ]);
+        const bib = EditorDriver.createBibliographyElement(
+            options,
+            bibliography,
+            ['noselect', 'mceNonEditable'],
+        );
         const bookmark = this.editor.selection.getBookmark();
 
         const body = this.editor.getBody();
@@ -350,8 +382,11 @@ export default class TinyMCEDriver extends EditorDriver {
         this.editor.selection.moveToBookmark(bookmark);
     }
 
-    private setStaticBibliography(bibliography: ABT.Bibliography | boolean): void {
-        const items: ABT.Bibliography = typeof bibliography === 'boolean' ? [] : bibliography;
+    private setStaticBibliography(
+        bibliography: ABT.Bibliography | boolean,
+    ): void {
+        const items: ABT.Bibliography =
+            typeof bibliography === 'boolean' ? [] : bibliography;
         const staticBib = EditorDriver.createBibliographyElement({}, items, [
             `${EditorDriver.staticBibClass}`,
             'noselect',
