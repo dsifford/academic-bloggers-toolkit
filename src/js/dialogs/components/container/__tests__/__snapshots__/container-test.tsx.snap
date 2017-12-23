@@ -24,6 +24,7 @@ exports[`<Container /> should match snapshot 1`] = `
       role="dialog"
       style={
         Object {
+          "position": "relative",
           "width": 600,
         }
       }
@@ -48,7 +49,7 @@ exports[`<Container /> should match snapshot 1`] = `
         </button>
       </header>
       <h1
-        focusTrapPaused={false}
+        toggleFocusTrap={[Function]}
       >
         Hello World
       </h1>

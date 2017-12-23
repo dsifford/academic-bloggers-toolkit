@@ -1,26 +1,28 @@
-// import { mount } from 'enzyme';
-// import { observable } from 'mobx';
-// import * as React from 'react';
-// import IdentifierInput from '..';
+import { shallow } from 'enzyme';
+import toJSON from 'enzyme-to-json';
+import * as React from 'react';
 
-// const setup = () => {
-//     const spy = jest.fn();
-//     const identifiers = observable('testing');
-//     const component = mount(
-//         <IdentifierInput fieldRef={jest.fn()} identifierList={identifiers} onChange={spy} />,
-//     );
-//     return {
-//         component,
-//         spy,
-//         input: component.find('#identifierList'),
-//     };
-// };
+import Store from 'stores/ui/add-dialog';
+import IdentifierInput from '..';
 
-// describe('<IdentifierInput />', () => {
-//     it('should handle input changes correctly', () => {
-//         const { input, spy } = setup();
-//         expect(input.prop('value')).toBe('testing');
-//         input.simulate('change');
-//         expect(spy).toHaveBeenCalledTimes(1);
-//     });
-// });
+const setup = () => {
+    const store = new Store('webpage');
+    const fieldRef = jest.fn();
+    const component = shallow(<IdentifierInput store={store} fieldRef={fieldRef} />);
+    return {
+        component,
+    };
+};
+
+describe('<IdentifierInput />', () => {
+    const BASELINE = toJSON(setup().component);
+    it('should match baseline snapshot', () => {
+        expect(BASELINE).toMatchSnapshot();
+    });
+    it('should update input on change', () => {
+        const { component } = setup();
+        const input = component.find('input');
+        input.simulate('change', { currentTarget: { value: 'testing' } });
+        expect(toJSON(component)).toMatchDiffSnapshot(BASELINE);
+    });
+});

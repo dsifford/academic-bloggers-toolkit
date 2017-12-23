@@ -1,88 +1,44 @@
-// import { shallow } from 'enzyme';
-// import toJSON from 'enzyme-to-json';
-// import * as React from 'react';
-// import EditDialog from '..';
+import { shallow, ShallowWrapper } from 'enzyme';
+import toJSON, { OutputMapper } from 'enzyme-to-json';
+import * as React from 'react';
+import EditDialog from '..';
 
-// const defaultData: CSL.Data = {
-//     id: '12345',
-//     title: 'Test Title',
-//     type: 'article-journal',
-// };
+const defaultData: CSL.Data = {
+    id: '12345',
+    title: 'Test Title',
+    type: 'article-journal',
+};
 
-// const setup = (data = defaultData) => {
-//     const onSubmit = jest.fn();
-//     const component = shallow(<EditDialog data={data} onSubmit={onSubmit} />);
-//     return {
-//         component,
-//         instance: component.instance() as EditDialog,
-//         onSubmit,
-//     };
-// };
+const setup = (data = defaultData) => {
+    const onSubmit = jest.fn();
+    const component = shallow(<EditDialog data={data} onSubmit={onSubmit} />);
+    return {
+        component,
+        instance: component.instance() as EditDialog,
+        onSubmit,
+    };
+};
 
-// describe('<EditDialog />', () => {
-//     it('should match snapshot', () => {
-//         const { component } = setup();
-//         expect(toJSON(component)).toMatchSnapshot();
-//     });
-//     it('should handle submit', () => {
-//         const data: any = {
-//             author: [
-//                 {
-//                     given: 'John',
-//                     family: 'Doe',
-//                 },
-//             ],
-//             issued: '2017',
-//         };
-//         const { component, onSubmit } = setup(data as CSL.Data);
-//         const preventDefault = jest.fn();
-//         component.simulate('submit', { preventDefault });
-//         expect(onSubmit).toHaveBeenCalledTimes(1);
-//         expect(preventDefault).toHaveBeenCalledTimes(1);
-//     });
-//     describe('test various types of CSL data passed as a prop', () => {
-//         it('should handle primitive properties', () => {
-//             const data: Partial<CSL.Data> = {
-//                 title: 'Hello world',
-//             };
-//             const { instance } = setup(data as CSL.Data);
-//             expect([...instance.fields.entries()]).toEqual([['title', 'Hello world']]);
-//             expect([...instance.people]).toEqual([]);
-//         });
-//         it('should handle dates', () => {
-//             const data: Partial<CSL.Data> = {
-//                 issued: {
-//                     'date-parts': [['2003', '01', '02']],
-//                 },
-//             };
-//             const { instance } = setup(data as CSL.Data);
-//             expect([...instance.fields.entries()]).toEqual([['issued', '2003/01/02']]);
-//             expect([...instance.people]).toEqual([]);
-//         });
-//         it('should handle person data', () => {
-//             const data: Partial<CSL.Data> = {
-//                 author: [
-//                     {
-//                         given: 'John',
-//                         family: 'Doe',
-//                     },
-//                 ],
-//             };
-//             const { instance } = setup(data as CSL.Data);
-//             expect([...instance.fields.entries()]).toEqual([]);
-//             expect([...instance.people]).toEqual([
-//                 { family: 'Doe', given: 'John', type: 'author' },
-//             ]);
-//         });
-//         it('should handle unsupported properties', () => {
-//             const data: any = {
-//                 foo: {
-//                     bar: 'baz',
-//                 },
-//             };
-//             const { instance } = setup(data as CSL.Data);
-//             expect([...instance.fields.entries()]).toEqual([]);
-//             expect([...instance.people]).toEqual([]);
-//         });
-//     });
-// });
+const mapper: OutputMapper = json => {
+    if (json.props.meta) {
+        delete json.props.meta;
+    }
+    return json;
+};
+
+const J = (component: ShallowWrapper) => toJSON(component, { noKey: true, map: mapper });
+
+describe('<EditDialog />', () => {
+    const BASELINE = J(setup().component);
+    it('should match baseline snapshot', () => {
+        expect(BASELINE).toMatchSnapshot();
+    });
+    it('should submit', () => {
+        const { component, onSubmit } = setup();
+        const form = component.find('form');
+        const preventDefault = jest.fn();
+        form.simulate('submit', { preventDefault });
+        expect(preventDefault).toHaveBeenCalled();
+        expect(onSubmit).toHaveBeenCalledWith(defaultData);
+    });
+});

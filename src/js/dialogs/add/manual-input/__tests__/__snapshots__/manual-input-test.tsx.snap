@@ -1,25 +1,86 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`<ManualEntryContainer /> should match snapshots 1`] = `
+exports[`<ManualInput /> should handle isbn autocites 1`] = `
+"Snapshot Diff:
+- First value
++ Second value
+
+  Object {
++   \\"ISBN\\": \\"1234567890\\",
++   \\"author\\": Array [
++     Object {
++       \\"family\\": \\"Doe\\",
++       \\"given\\": \\"John\\",
++       \\"literal\\": \\"\\",
++     },
++     Object {
++       \\"family\\": \\"Smith\\",
++       \\"given\\": \\"Jane\\",
++       \\"literal\\": \\"\\",
++     },
++   ],
++   \\"issued\\": Object {
++     \\"date-parts\\": Array [
++       Array [
++         \\"2017\\",
++         \\"01\\",
++         \\"01\\",
++       ],
++     ],
++   },
++   \\"number-of-pages\\": \\"100\\",
++   \\"publisher\\": \\"Mocked Publisher\\",
++   \\"title\\": \\"Mocked Response Title\\",
+    \\"type\\": \\"book\\",
+  }"
+`;
+
+exports[`<ManualInput /> should handle url autocites 1`] = `
+"Snapshot Diff:
+- First value
++ Second value
+
+  Object {
++   \\"URL\\": \\"https://google.com\\",
++   \\"accessed\\": Object {
++     \\"date-parts\\": Array [
++       Array [
++         \\"2018\\",
++         \\"01\\",
++         \\"01\\",
++       ],
++     ],
++   },
++   \\"author\\": Array [
++     Object {
++       \\"family\\": \\"Doe\\",
++       \\"given\\": \\"John\\",
++       \\"literal\\": \\"\\",
++     },
++     Object {
++       \\"family\\": \\"Smith\\",
++       \\"given\\": \\"Jane\\",
++       \\"literal\\": \\"\\",
++     },
++   ],
++   \\"container-title\\": \\"Mocked Site Title\\",
++   \\"issued\\": Object {
++     \\"date-parts\\": Array [
++       Array [
++         \\"2017\\",
++         \\"01\\",
++         \\"01\\",
++       ],
++     ],
++   },
++   \\"title\\": \\"Mocked Response Title\\",
+    \\"type\\": \\"webpage\\",
+  }"
+`;
+
+exports[`<ManualInput /> should match baseline snapshot 1`] = `
 <ManualInput
-  errorMessage={""}
-  manualData={
-    Object {
-      "type": "webpage",
-    }
-  }
-  onAutoCite={[MockFunction]}
-  onTypeChange={[MockFunction]}
-  people={
-    Array [
-      Object {
-        "family": "",
-        "given": "",
-        "literal": "",
-        "type": "author",
-      },
-    ]
-  }
+  store="__SKIPPED__"
 >
   <div
     className="typeSelect"
@@ -32,7 +93,7 @@ exports[`<ManualEntryContainer /> should match snapshots 1`] = `
     </label>
     <select
       className="select"
-      id="type-select"
+      id="__SKIPPED__"
       onChange={[Function]}
       value="webpage"
     >
@@ -153,7 +214,7 @@ exports[`<ManualEntryContainer /> should match snapshots 1`] = `
     </select>
   </div>
   <AutoCite
-    getter={[MockFunction]}
+    getter={[Function]}
     kind="webpage"
     placeholder="URL"
   >
@@ -167,7 +228,7 @@ exports[`<ManualEntryContainer /> should match snapshots 1`] = `
       </label>
       <input
         className="input"
-        id="citequery"
+        id="__SKIPPED__"
         onChange={[Function]}
         onKeyDown={[Function]}
         placeholder="URL"
@@ -205,119 +266,13 @@ exports[`<ManualEntryContainer /> should match snapshots 1`] = `
     />
     <ContributorList
       citationType="webpage"
-      people={
-        Array [
-          Object {
-            "family": "",
-            "given": "",
-            "literal": "",
-            "type": "author",
-          },
-        ]
-      }
+      people={Array []}
     >
       <h2
         className="heading"
       >
         Contributors
       </h2>
-      <Contributor
-        contributor={
-          Object {
-            "family": "",
-            "given": "",
-            "literal": "",
-            "type": "author",
-          }
-        }
-        contributorTypes={
-          Array [
-            Object {
-              "label": "Author",
-              "type": "author",
-            },
-          ]
-        }
-        index={0}
-        onRemove={[Function]}
-      >
-        <div
-          className="contributor"
-        >
-          <select
-            data-field="type"
-            onChange={[Function]}
-            value="author"
-          >
-            <option
-              aria-selected={true}
-              value="author"
-            >
-              Author
-            </option>
-          </select>
-          <input
-            aria-label="Surname"
-            data-field="family"
-            onChange={[Function]}
-            placeholder="Surname"
-            required={true}
-            type="text"
-            value=""
-          />
-          <input
-            aria-label="Given Name, M.I."
-            data-field="given"
-            onChange={[Function]}
-            placeholder="Given Name, M.I."
-            required={true}
-            type="text"
-            value=""
-          />
-          <Button
-            flat={true}
-            icon="admin-users"
-            label="Toggle literal name"
-            onClick={[Function]}
-            type="button"
-          >
-            <div>
-              <button
-                aria-label="Toggle literal name"
-                className="btn btnFlat btnIcon"
-                onClick={[Function]}
-                type="button"
-              >
-                <span
-                  className="dashicons dashicons-admin-users"
-                />
-              </button>
-            </div>
-          </Button>
-          <Button
-            data-index={0}
-            flat={true}
-            icon="no-alt"
-            label="Remove contributor"
-            onClick={[Function]}
-            type="button"
-          >
-            <div>
-              <button
-                aria-label="Remove contributor"
-                className="btn btnFlat btnIcon"
-                data-index={0}
-                onClick={[Function]}
-                type="button"
-              >
-                <span
-                  className="dashicons dashicons-no-alt"
-                />
-              </button>
-            </div>
-          </Button>
-        </div>
-      </Contributor>
       <div
         className="btnRow"
       >
@@ -340,11 +295,7 @@ exports[`<ManualEntryContainer /> should match snapshots 1`] = `
       </div>
     </ContributorList>
     <MetaFields
-      meta={
-        Object {
-          "type": "webpage",
-        }
-      }
+      meta="__SKIPPED__"
     >
       <h2
         style={
@@ -374,11 +325,7 @@ exports[`<ManualEntryContainer /> should match snapshots 1`] = `
               "value": "title",
             }
           }
-          meta={
-            Object {
-              "type": "webpage",
-            }
-          }
+          meta="__SKIPPED__"
           onChange={[Function]}
         >
           <div
@@ -392,7 +339,7 @@ exports[`<ManualEntryContainer /> should match snapshots 1`] = `
             </label>
             <input
               className="input"
-              id="title"
+              id="__SKIPPED__"
               onChange={[Function]}
               pattern=".*"
               placeholder=""
@@ -412,11 +359,7 @@ exports[`<ManualEntryContainer /> should match snapshots 1`] = `
               "value": "container-title",
             }
           }
-          meta={
-            Object {
-              "type": "webpage",
-            }
-          }
+          meta="__SKIPPED__"
           onChange={[Function]}
         >
           <div
@@ -430,7 +373,7 @@ exports[`<ManualEntryContainer /> should match snapshots 1`] = `
             </label>
             <input
               className="input"
-              id="container-title"
+              id="__SKIPPED__"
               onChange={[Function]}
               pattern=".*"
               placeholder=""
@@ -450,11 +393,7 @@ exports[`<ManualEntryContainer /> should match snapshots 1`] = `
               "value": "URL",
             }
           }
-          meta={
-            Object {
-              "type": "webpage",
-            }
-          }
+          meta="__SKIPPED__"
           onChange={[Function]}
         >
           <div
@@ -468,7 +407,7 @@ exports[`<ManualEntryContainer /> should match snapshots 1`] = `
             </label>
             <input
               className="input"
-              id="URL"
+              id="__SKIPPED__"
               onChange={[Function]}
               pattern=".*"
               placeholder=""
@@ -488,11 +427,7 @@ exports[`<ManualEntryContainer /> should match snapshots 1`] = `
               "value": "issued",
             }
           }
-          meta={
-            Object {
-              "type": "webpage",
-            }
-          }
+          meta="__SKIPPED__"
           onChange={[Function]}
         >
           <div
@@ -506,7 +441,7 @@ exports[`<ManualEntryContainer /> should match snapshots 1`] = `
             </label>
             <input
               className="input"
-              id="issued"
+              id="__SKIPPED__"
               onChange={[Function]}
               pattern="[0-9]{4}(\\\\/[0-9]{2})?(\\\\/[0-9]{2})?(?!\\\\/)$"
               placeholder="YYYY/MM/DD or YYYY/MM or YYYY"
@@ -526,11 +461,7 @@ exports[`<ManualEntryContainer /> should match snapshots 1`] = `
               "value": "accessed",
             }
           }
-          meta={
-            Object {
-              "type": "webpage",
-            }
-          }
+          meta="__SKIPPED__"
           onChange={[Function]}
         >
           <div
@@ -544,7 +475,7 @@ exports[`<ManualEntryContainer /> should match snapshots 1`] = `
             </label>
             <input
               className="input"
-              id="accessed"
+              id="__SKIPPED__"
               onChange={[Function]}
               pattern="[0-9]{4}(\\\\/[0-9]{2})?(\\\\/[0-9]{2})?(?!\\\\/)$"
               placeholder="YYYY/MM/DD or YYYY/MM or YYYY"
@@ -560,1014 +491,709 @@ exports[`<ManualEntryContainer /> should match snapshots 1`] = `
 </ManualInput>
 `;
 
-exports[`<ManualEntryContainer /> should match snapshots 2`] = `
-<ManualInput
-  errorMessage={""}
-  manualData={
-    Object {
-      "type": "book",
-    }
-  }
-  onAutoCite={[MockFunction]}
-  onTypeChange={[MockFunction]}
-  people={
-    Array [
-      Object {
-        "family": "",
-        "given": "",
-        "literal": "",
-        "type": "author",
-      },
-    ]
-  }
->
-  <div
-    className="typeSelect"
-  >
-    <label
-      className="label"
-      htmlFor="type-select"
-    >
-      Citation Type
-    </label>
-    <select
-      className="select"
-      id="type-select"
-      onChange={[Function]}
-      value="book"
-    >
-      <option
-        aria-selected={false}
-        value="bill"
-      >
-        Bill
-      </option>
-      <option
-        aria-selected={true}
-        value="book"
-      >
-        Book
-      </option>
-      <option
-        aria-selected={false}
-        value="chapter"
-      >
-        Book Section
-      </option>
-      <option
-        aria-selected={false}
-        value="legal_case"
-      >
-        Case
-      </option>
-      <option
-        aria-selected={false}
-        value="paper-conference"
-      >
-        Conference Proceeding
-      </option>
-      <option
-        aria-selected={false}
-        value="entry-encyclopedia"
-      >
-        Encyclopedia Entry
-      </option>
-      <option
-        aria-selected={false}
-        value="motion_picture"
-      >
-        Film
-      </option>
-      <option
-        aria-selected={false}
-        value="speech"
-      >
-        Hearing
-      </option>
-      <option
-        aria-selected={false}
-        value="article-journal"
-      >
-        Journal Article
-      </option>
-      <option
-        aria-selected={false}
-        value="article-magazine"
-      >
-        Magazine Article
-      </option>
-      <option
-        aria-selected={false}
-        value="article-newspaper"
-      >
-        Newspaper Article
-      </option>
-      <option
-        aria-selected={false}
-        value="patent"
-      >
-        Patent
-      </option>
-      <option
-        aria-selected={false}
-        value="testing"
-      >
-        Test not in use
-      </option>
-      <option
-        aria-selected={false}
-        value="testing2"
-      >
-        Test not in use
-      </option>
-      <option
-        aria-selected={false}
-        value="report"
-      >
-        Report
-      </option>
-      <option
-        aria-selected={false}
-        value="legislation"
-      >
-        Statute
-      </option>
-      <option
-        aria-selected={false}
-        value="thesis"
-      >
-        Thesis
-      </option>
-      <option
-        aria-selected={false}
-        value="broadcast"
-      >
-        Television Broadcast
-      </option>
-      <option
-        aria-selected={false}
-        value="webpage"
-      >
-        Web Page
-      </option>
-    </select>
-  </div>
-  <AutoCite
-    getter={[MockFunction]}
-    kind="book"
-    pattern="(?:[dxX]-?){10}|(?:[dxX]-?){13}"
-    placeholder="ISBN"
-  >
-    <div
-      className="autocite"
-    >
-      <label
-        htmlFor="citequery"
-      >
-        Autocite
+exports[`<ManualInput /> should not render autocite for anything but websites or books 1`] = `
+"Snapshot Diff:
+- First value
++ Second value
+
+@@ -12,11 +12,11 @@
       </label>
-      <input
-        className="input"
-        id="citequery"
-        onChange={[Function]}
-        onKeyDown={[Function]}
-        pattern="(?:[dxX]-?){10}|(?:[dxX]-?){13}"
-        placeholder="ISBN"
-        type="text"
-        value=""
-      />
-      <Button
-        disabled={true}
-        flat={true}
-        label="Search"
-        onClick={[Function]}
-        type="button"
+      <select
+        className=\\"select\\"
+        id=\\"__SKIPPED__\\"
+        onChange={[Function res]}
+-       value=\\"article\\"
++       value=\\"webpage\\"
       >
-        <div>
-          <button
-            className="btn btnFlat"
-            disabled={true}
-            onClick={[Function]}
-            type="button"
-          >
-            Search
-          </button>
-        </div>
-      </Button>
+        <option
+          aria-selected={false}
+          value=\\"bill\\"
+        >
+@@ -123,37 +123,109 @@
+          value=\\"broadcast\\"
+        >
+          Television Broadcast
+        </option>
+        <option
+-         aria-selected={false}
++         aria-selected={true}
+          value=\\"webpage\\"
+        >
+          Web Page
+        </option>
+      </select>
     </div>
-  </AutoCite>
-  <div
-    className="scrollBoundaryAutocite"
-    onWheel={[Function]}
-  >
-    <Callout
-      intent="danger"
-      isVisible={true}
-      onDismiss={[Function]}
-    />
-    <ContributorList
-      citationType="book"
-      people={
-        Array [
-          Object {
-            "family": "",
-            "given": "",
-            "literal": "",
-            "type": "author",
-          },
-        ]
-      }
++   <AutoCite
++     getter={[Function anonymous]}
++     kind=\\"webpage\\"
++     placeholder=\\"URL\\"
++   >
+      <div
+-     className=\\"scrollBoundary\\"
++       className=\\"autocite\\"
++     >
++       <label
++         htmlFor=\\"citequery\\"
++       >
++         Autocite
++       </label>
++       <input
++         className=\\"input\\"
++         id=\\"__SKIPPED__\\"
++         onChange={[Function res]}
++         onKeyDown={[Function anonymous]}
++         placeholder=\\"URL\\"
++         type=\\"url\\"
++         value=\\"\\"
++       />
++       <Button
++         disabled={true}
++         flat={true}
++         label=\\"Search\\"
++         onClick={[Function res]}
++         type=\\"button\\"
++       >
++         <div>
++           <button
++             className=\\"btn btnFlat\\"
++             disabled={true}
++             onClick={[Function res]}
++             type=\\"button\\"
++           >
++             Search
++           </button>
++         </div>
++       </Button>
++     </div>
++   </AutoCite>
++   <div
++     className=\\"scrollBoundaryAutocite\\"
+      onWheel={[Function anonymous]}
     >
-      <h2
-        className="heading"
+      <Callout
+        intent=\\"danger\\"
+        isVisible={true}
+        onDismiss={[Function res]}
+      />
++     <ContributorList
++       citationType=\\"webpage\\"
++       people={Array []}
++     >
++       <h2
++         className=\\"heading\\"
++       >
++         Contributors
++       </h2>
++       <div
++         className=\\"btnRow\\"
++       >
++         <Button
++           flat={true}
++           label=\\"Add contributor\\"
++           onClick={[Function res]}
++           type=\\"button\\"
++         >
++           <div>
++             <button
++               className=\\"btn btnFlat\\"
++               onClick={[Function res]}
++               type=\\"button\\"
++             >
++               Add contributor
++             </button>
++           </div>
++         </Button>
++       </div>
++     </ContributorList>
+      <MetaFields
+        meta=\\"__SKIPPED__\\"
       >
-        Contributors
-      </h2>
-      <Contributor
-        contributor={
-          Object {
-            "family": "",
-            "given": "",
-            "literal": "",
-            "type": "author",
+        <h2
+          style={
+            Object {
+              \\"fontSize\\": 16,
+            }
           }
-        }
-        contributorTypes={
-          Array [
-            Object {
-              "label": "Author",
-              "type": "author",
-            },
-            Object {
-              "label": "Editor",
-              "type": "editor",
-            },
-            Object {
-              "label": "Series Editor",
-              "type": "collection-editor",
-            },
-            Object {
-              "label": "Translator",
-              "type": "translator",
-            },
-          ]
-        }
-        index={0}
-        onRemove={[Function]}
-      >
+        >
+-         Generic (Note)
++         Web Page
+        </h2>
         <div
-          className="contributor"
+          style={
+            Object {
+              \\"display\\": \\"table\\",
+@@ -163,13 +235,13 @@
+          }
         >
-          <select
-            data-field="type"
-            onChange={[Function]}
-            value="author"
-          >
-            <option
-              aria-selected={true}
-              value="author"
+          <Field
+            field={
+              Object {
+-               \\"label\\": \\"Text\\",
++               \\"label\\": \\"Content Title\\",
+                \\"pattern\\": \\".*\\",
+-               \\"placeholder\\": \\"Note: This type may not work with certain citation styles\\",
++               \\"placeholder\\": \\"\\",
+                \\"required\\": true,
+                \\"value\\": \\"title\\",
+              }
+            }
+            meta=\\"__SKIPPED__\\"
+@@ -180,23 +252,159 @@
             >
-              Author
-            </option>
-            <option
-              aria-selected={false}
-              value="editor"
-            >
-              Editor
-            </option>
-            <option
-              aria-selected={false}
-              value="collection-editor"
-            >
-              Series Editor
-            </option>
-            <option
-              aria-selected={false}
-              value="translator"
-            >
-              Translator
-            </option>
-          </select>
-          <input
-            aria-label="Surname"
-            data-field="family"
-            onChange={[Function]}
-            placeholder="Surname"
-            required={true}
-            type="text"
-            value=""
-          />
-          <input
-            aria-label="Given Name, M.I."
-            data-field="given"
-            onChange={[Function]}
-            placeholder="Given Name, M.I."
-            required={true}
-            type="text"
-            value=""
-          />
-          <Button
-            flat={true}
-            icon="admin-users"
-            label="Toggle literal name"
-            onClick={[Function]}
-            type="button"
-          >
-            <div>
-              <button
-                aria-label="Toggle literal name"
-                className="btn btnFlat btnIcon"
-                onClick={[Function]}
-                type="button"
+              <label
+                className=\\"label\\"
+                htmlFor=\\"title\\"
               >
-                <span
-                  className="dashicons dashicons-admin-users"
-                />
-              </button>
+-               Text
++               Content Title
+              </label>
+              <input
+                className=\\"input\\"
+                id=\\"__SKIPPED__\\"
+                onChange={[Function res]}
+                pattern=\\".*\\"
+-               placeholder=\\"Note: This type may not work with certain citation styles\\"
++               placeholder=\\"\\"
+                required={true}
+                type=\\"text\\"
+                value=\\"\\"
+              />
             </div>
-          </Button>
-          <Button
-            data-index={0}
-            flat={true}
-            icon="no-alt"
-            label="Remove contributor"
-            onClick={[Function]}
-            type="button"
-          >
-            <div>
-              <button
-                aria-label="Remove contributor"
-                className="btn btnFlat btnIcon"
-                data-index={0}
-                onClick={[Function]}
-                type="button"
-              >
-                <span
-                  className="dashicons dashicons-no-alt"
-                />
-              </button>
+          </Field>
++         <Field
++           field={
++             Object {
++               \\"label\\": \\"Website Title\\",
++               \\"pattern\\": \\".*\\",
++               \\"placeholder\\": \\"\\",
++               \\"required\\": true,
++               \\"value\\": \\"container-title\\",
++             }
++           }
++           meta=\\"__SKIPPED__\\"
++           onChange={[Function res]}
++         >
++           <div
++             className=\\"row\\"
++           >
++             <label
++               className=\\"label\\"
++               htmlFor=\\"container-title\\"
++             >
++               Website Title
++             </label>
++             <input
++               className=\\"input\\"
++               id=\\"__SKIPPED__\\"
++               onChange={[Function res]}
++               pattern=\\".*\\"
++               placeholder=\\"\\"
++               required={true}
++               type=\\"text\\"
++               value=\\"\\"
++             />
             </div>
-          </Button>
-        </div>
-      </Contributor>
-      <div
-        className="btnRow"
-      >
-        <Button
-          flat={true}
-          label="Add contributor"
-          onClick={[Function]}
-          type="button"
-        >
-          <div>
-            <button
-              className="btn btnFlat"
-              onClick={[Function]}
-              type="button"
-            >
-              Add contributor
-            </button>
-          </div>
-        </Button>
-      </div>
-    </ContributorList>
-    <MetaFields
-      meta={
-        Object {
-          "type": "book",
-        }
-      }
-    >
-      <h2
-        style={
-          Object {
-            "fontSize": 16,
-          }
-        }
-      >
-        Book
-      </h2>
-      <div
-        style={
-          Object {
-            "display": "table",
-            "padding": 10,
-            "width": "100%",
-          }
-        }
-      >
-        <Field
-          field={
-            Object {
-              "label": "Title",
-              "pattern": ".*",
-              "placeholder": "",
-              "required": true,
-              "value": "title",
-            }
-          }
-          meta={
-            Object {
-              "type": "book",
-            }
-          }
-          onChange={[Function]}
-        >
-          <div
-            className="row"
-          >
-            <label
-              className="label"
-              htmlFor="title"
-            >
-              Title
-            </label>
-            <input
-              className="input"
-              id="title"
-              onChange={[Function]}
-              pattern=".*"
-              placeholder=""
-              required={true}
-              type="text"
-              value=""
-            />
-          </div>
-        </Field>
-        <Field
-          field={
-            Object {
-              "label": "Series Title",
-              "pattern": ".*",
-              "placeholder": "",
-              "required": false,
-              "value": "collection-title",
-            }
-          }
-          meta={
-            Object {
-              "type": "book",
-            }
-          }
-          onChange={[Function]}
-        >
-          <div
-            className="row"
-          >
-            <label
-              className="label"
-              htmlFor="collection-title"
-            >
-              Series Title
-            </label>
-            <input
-              className="input"
-              id="collection-title"
-              onChange={[Function]}
-              pattern=".*"
-              placeholder=""
-              required={false}
-              type="text"
-              value=""
-            />
-          </div>
-        </Field>
-        <Field
-          field={
-            Object {
-              "label": "Series Number",
-              "pattern": "[0-9]+",
-              "placeholder": "",
-              "required": false,
-              "value": "collection-number",
-            }
-          }
-          meta={
-            Object {
-              "type": "book",
-            }
-          }
-          onChange={[Function]}
-        >
-          <div
-            className="row"
-          >
-            <label
-              className="label"
-              htmlFor="collection-number"
-            >
-              Series Number
-            </label>
-            <input
-              className="input"
-              id="collection-number"
-              onChange={[Function]}
-              pattern="[0-9]+"
-              placeholder=""
-              required={false}
-              type="text"
-              value=""
-            />
-          </div>
-        </Field>
-        <Field
-          field={
-            Object {
-              "label": "# of Pages",
-              "pattern": "[0-9]+",
-              "placeholder": "",
-              "required": false,
-              "value": "number-of-pages",
-            }
-          }
-          meta={
-            Object {
-              "type": "book",
-            }
-          }
-          onChange={[Function]}
-        >
-          <div
-            className="row"
-          >
-            <label
-              className="label"
-              htmlFor="number-of-pages"
-            >
-              # of Pages
-            </label>
-            <input
-              className="input"
-              id="number-of-pages"
-              onChange={[Function]}
-              pattern="[0-9]+"
-              placeholder=""
-              required={false}
-              type="text"
-              value=""
-            />
-          </div>
-        </Field>
-        <Field
-          field={
-            Object {
-              "label": "Volume",
-              "pattern": "[0-9]+",
-              "placeholder": "",
-              "required": false,
-              "value": "volume",
-            }
-          }
-          meta={
-            Object {
-              "type": "book",
-            }
-          }
-          onChange={[Function]}
-        >
-          <div
-            className="row"
-          >
-            <label
-              className="label"
-              htmlFor="volume"
-            >
-              Volume
-            </label>
-            <input
-              className="input"
-              id="volume"
-              onChange={[Function]}
-              pattern="[0-9]+"
-              placeholder=""
-              required={false}
-              type="text"
-              value=""
-            />
-          </div>
-        </Field>
-        <Field
-          field={
-            Object {
-              "label": "Edition",
-              "pattern": "[0-9]+",
-              "placeholder": "",
-              "required": false,
-              "value": "edition",
-            }
-          }
-          meta={
-            Object {
-              "type": "book",
-            }
-          }
-          onChange={[Function]}
-        >
-          <div
-            className="row"
-          >
-            <label
-              className="label"
-              htmlFor="edition"
-            >
-              Edition
-            </label>
-            <input
-              className="input"
-              id="edition"
-              onChange={[Function]}
-              pattern="[0-9]+"
-              placeholder=""
-              required={false}
-              type="text"
-              value=""
-            />
-          </div>
-        </Field>
-        <Field
-          field={
-            Object {
-              "label": "Publisher",
-              "pattern": ".*",
-              "placeholder": "",
-              "required": true,
-              "value": "publisher",
-            }
-          }
-          meta={
-            Object {
-              "type": "book",
-            }
-          }
-          onChange={[Function]}
-        >
-          <div
-            className="row"
-          >
-            <label
-              className="label"
-              htmlFor="publisher"
-            >
-              Publisher
-            </label>
-            <input
-              className="input"
-              id="publisher"
-              onChange={[Function]}
-              pattern=".*"
-              placeholder=""
-              required={true}
-              type="text"
-              value=""
-            />
-          </div>
-        </Field>
-        <Field
-          field={
-            Object {
-              "label": "Publisher Location",
-              "pattern": ".*",
-              "placeholder": "",
-              "required": false,
-              "value": "publisher-place",
-            }
-          }
-          meta={
-            Object {
-              "type": "book",
-            }
-          }
-          onChange={[Function]}
-        >
-          <div
-            className="row"
-          >
-            <label
-              className="label"
-              htmlFor="publisher-place"
-            >
-              Publisher Location
-            </label>
-            <input
-              className="input"
-              id="publisher-place"
-              onChange={[Function]}
-              pattern=".*"
-              placeholder=""
-              required={false}
-              type="text"
-              value=""
-            />
-          </div>
-        </Field>
-        <Field
-          field={
-            Object {
-              "label": "Date",
-              "pattern": "[0-9]{4}(\\\\/[0-9]{2})?(\\\\/[0-9]{2})?(?!\\\\/)$",
-              "placeholder": "YYYY/MM/DD or YYYY/MM or YYYY",
-              "required": true,
-              "value": "issued",
-            }
-          }
-          meta={
-            Object {
-              "type": "book",
-            }
-          }
-          onChange={[Function]}
-        >
-          <div
-            className="row"
-          >
-            <label
-              className="label"
-              htmlFor="issued"
-            >
-              Date
-            </label>
-            <input
-              className="input"
-              id="issued"
-              onChange={[Function]}
-              pattern="[0-9]{4}(\\\\/[0-9]{2})?(\\\\/[0-9]{2})?(?!\\\\/)$"
-              placeholder="YYYY/MM/DD or YYYY/MM or YYYY"
-              required={true}
-              type="text"
-              value=""
-            />
-          </div>
-        </Field>
-        <Field
-          field={
-            Object {
-              "label": "Date Accessed",
-              "pattern": "[0-9]{4}(\\\\/[0-9]{2})?(\\\\/[0-9]{2})?(?!\\\\/)$",
-              "placeholder": "YYYY/MM/DD or YYYY/MM or YYYY",
-              "required": false,
-              "value": "accessed",
-            }
-          }
-          meta={
-            Object {
-              "type": "book",
-            }
-          }
-          onChange={[Function]}
-        >
-          <div
-            className="row"
-          >
-            <label
-              className="label"
-              htmlFor="accessed"
-            >
-              Date Accessed
-            </label>
-            <input
-              className="input"
-              id="accessed"
-              onChange={[Function]}
-              pattern="[0-9]{4}(\\\\/[0-9]{2})?(\\\\/[0-9]{2})?(?!\\\\/)$"
-              placeholder="YYYY/MM/DD or YYYY/MM or YYYY"
-              required={false}
-              type="text"
-              value=""
-            />
-          </div>
-        </Field>
-      </div>
-    </MetaFields>
-  </div>
-</ManualInput>
++         </Field>
++         <Field
++           field={
++             Object {
++               \\"label\\": \\"URL\\",
++               \\"pattern\\": \\".*\\",
++               \\"placeholder\\": \\"\\",
++               \\"required\\": true,
++               \\"value\\": \\"URL\\",
++             }
++           }
++           meta=\\"__SKIPPED__\\"
++           onChange={[Function res]}
++         >
++           <div
++             className=\\"row\\"
++           >
++             <label
++               className=\\"label\\"
++               htmlFor=\\"URL\\"
++             >
++               URL
++             </label>
++             <input
++               className=\\"input\\"
++               id=\\"__SKIPPED__\\"
++               onChange={[Function res]}
++               pattern=\\".*\\"
++               placeholder=\\"\\"
++               required={true}
++               type=\\"text\\"
++               value=\\"\\"
++             />
++           </div>
++         </Field>
++         <Field
++           field={
++             Object {
++               \\"label\\": \\"Date\\",
++               \\"pattern\\": \\"[0-9]{4}(\\\\\\\\/[0-9]{2})?(\\\\\\\\/[0-9]{2})?(?!\\\\\\\\/)$\\",
++               \\"placeholder\\": \\"YYYY/MM/DD or YYYY/MM or YYYY\\",
++               \\"required\\": false,
++               \\"value\\": \\"issued\\",
++             }
++           }
++           meta=\\"__SKIPPED__\\"
++           onChange={[Function res]}
++         >
++           <div
++             className=\\"row\\"
++           >
++             <label
++               className=\\"label\\"
++               htmlFor=\\"issued\\"
++             >
++               Date
++             </label>
++             <input
++               className=\\"input\\"
++               id=\\"__SKIPPED__\\"
++               onChange={[Function res]}
++               pattern=\\"[0-9]{4}(\\\\\\\\/[0-9]{2})?(\\\\\\\\/[0-9]{2})?(?!\\\\\\\\/)$\\"
++               placeholder=\\"YYYY/MM/DD or YYYY/MM or YYYY\\"
++               required={false}
++               type=\\"text\\"
++               value=\\"\\"
++             />
++           </div>
++         </Field>
++         <Field
++           field={
++             Object {
++               \\"label\\": \\"Date Accessed\\",
++               \\"pattern\\": \\"[0-9]{4}(\\\\\\\\/[0-9]{2})?(\\\\\\\\/[0-9]{2})?(?!\\\\\\\\/)$\\",
++               \\"placeholder\\": \\"YYYY/MM/DD or YYYY/MM or YYYY\\",
++               \\"required\\": false,
++               \\"value\\": \\"accessed\\",
++             }
++           }
++           meta=\\"__SKIPPED__\\"
++           onChange={[Function res]}
++         >
++           <div
++             className=\\"row\\"
++           >
++             <label
++               className=\\"label\\"
++               htmlFor=\\"accessed\\"
++             >
++               Date Accessed
++             </label>
++             <input
++               className=\\"input\\"
++               id=\\"__SKIPPED__\\"
++               onChange={[Function res]}
++               pattern=\\"[0-9]{4}(\\\\\\\\/[0-9]{2})?(\\\\\\\\/[0-9]{2})?(?!\\\\\\\\/)$\\"
++               placeholder=\\"YYYY/MM/DD or YYYY/MM or YYYY\\"
++               required={false}
++               type=\\"text\\"
++               value=\\"\\"
++             />
++           </div>
++         </Field>
++       </div>
+      </MetaFields>
+    </div>
+  </ManualInput>"
 `;
 
-exports[`<ManualEntryContainer /> should match snapshots 3`] = `
-<ManualInput
-  errorMessage={""}
-  manualData={
-    Object {
-      "type": "article",
-    }
-  }
-  onAutoCite={[MockFunction]}
-  onTypeChange={[MockFunction]}
-  people={
-    Array [
-      Object {
-        "family": "",
-        "given": "",
-        "literal": "",
-        "type": "author",
-      },
-    ]
-  }
->
-  <div
-    className="typeSelect"
-  >
-    <label
-      className="label"
-      htmlFor="type-select"
-    >
-      Citation Type
-    </label>
-    <select
-      className="select"
-      id="type-select"
-      onChange={[Function]}
-      value="article"
-    >
-      <option
-        aria-selected={false}
-        value="bill"
+exports[`<ManualInput /> should render autocite fields for books 1`] = `
+"Snapshot Diff:
+- First value
++ Second value
+
+@@ -12,20 +12,20 @@
+      </label>
+      <select
+        className=\\"select\\"
+        id=\\"__SKIPPED__\\"
+        onChange={[Function res]}
+-       value=\\"book\\"
++       value=\\"webpage\\"
       >
-        Bill
-      </option>
-      <option
-        aria-selected={false}
-        value="book"
-      >
-        Book
-      </option>
-      <option
-        aria-selected={false}
-        value="chapter"
-      >
-        Book Section
-      </option>
-      <option
-        aria-selected={false}
-        value="legal_case"
-      >
-        Case
-      </option>
-      <option
-        aria-selected={false}
-        value="paper-conference"
-      >
-        Conference Proceeding
-      </option>
-      <option
-        aria-selected={false}
-        value="entry-encyclopedia"
-      >
-        Encyclopedia Entry
-      </option>
-      <option
-        aria-selected={false}
-        value="motion_picture"
-      >
-        Film
-      </option>
-      <option
-        aria-selected={false}
-        value="speech"
-      >
-        Hearing
-      </option>
-      <option
-        aria-selected={false}
-        value="article-journal"
-      >
-        Journal Article
-      </option>
-      <option
-        aria-selected={false}
-        value="article-magazine"
-      >
-        Magazine Article
-      </option>
-      <option
-        aria-selected={false}
-        value="article-newspaper"
-      >
-        Newspaper Article
-      </option>
-      <option
-        aria-selected={false}
-        value="patent"
-      >
-        Patent
-      </option>
-      <option
-        aria-selected={false}
-        value="testing"
-      >
-        Test not in use
-      </option>
-      <option
-        aria-selected={false}
-        value="testing2"
-      >
-        Test not in use
-      </option>
-      <option
-        aria-selected={false}
-        value="report"
-      >
-        Report
-      </option>
-      <option
-        aria-selected={false}
-        value="legislation"
-      >
-        Statute
-      </option>
-      <option
-        aria-selected={false}
-        value="thesis"
-      >
-        Thesis
-      </option>
-      <option
-        aria-selected={false}
-        value="broadcast"
-      >
-        Television Broadcast
-      </option>
-      <option
-        aria-selected={false}
-        value="webpage"
-      >
-        Web Page
-      </option>
-    </select>
-  </div>
-  <div
-    className="scrollBoundary"
-    onWheel={[Function]}
-  >
-    <Callout
-      intent="danger"
-      isVisible={true}
-      onDismiss={[Function]}
-    />
-    <MetaFields
-      meta={
-        Object {
-          "type": "article",
-        }
-      }
-    >
-      <h2
-        style={
-          Object {
-            "fontSize": 16,
-          }
-        }
-      >
-        Generic (Note)
-      </h2>
-      <div
-        style={
-          Object {
-            "display": "table",
-            "padding": 10,
-            "width": "100%",
-          }
-        }
-      >
-        <Field
-          field={
-            Object {
-              "label": "Text",
-              "pattern": ".*",
-              "placeholder": "Note: This type may not work with certain citation styles",
-              "required": true,
-              "value": "title",
-            }
-          }
-          meta={
-            Object {
-              "type": "article",
-            }
-          }
-          onChange={[Function]}
+        <option
+          aria-selected={false}
+          value=\\"bill\\"
         >
-          <div
-            className="row"
-          >
-            <label
-              className="label"
-              htmlFor="title"
+          Bill
+        </option>
+        <option
+-         aria-selected={true}
++         aria-selected={false}
+          value=\\"book\\"
+        >
+          Book
+        </option>
+        <option
+@@ -123,22 +123,21 @@
+          value=\\"broadcast\\"
+        >
+          Television Broadcast
+        </option>
+        <option
+-         aria-selected={false}
++         aria-selected={true}
+          value=\\"webpage\\"
+        >
+          Web Page
+        </option>
+      </select>
+    </div>
+    <AutoCite
+      getter={[Function anonymous]}
+-     kind=\\"book\\"
+-     pattern=\\"(?:[dxX]-?){10}|(?:[dxX]-?){13}\\"
+-     placeholder=\\"ISBN\\"
++     kind=\\"webpage\\"
++     placeholder=\\"URL\\"
+    >
+      <div
+        className=\\"autocite\\"
+      >
+        <label
+@@ -149,13 +148,12 @@
+        <input
+          className=\\"input\\"
+          id=\\"__SKIPPED__\\"
+          onChange={[Function res]}
+          onKeyDown={[Function anonymous]}
+-         pattern=\\"(?:[dxX]-?){10}|(?:[dxX]-?){13}\\"
+-         placeholder=\\"ISBN\\"
+-         type=\\"text\\"
++         placeholder=\\"URL\\"
++         type=\\"url\\"
+          value=\\"\\"
+        />
+        <Button
+          disabled={true}
+          flat={true}
+@@ -184,11 +182,11 @@
+        intent=\\"danger\\"
+        isVisible={true}
+        onDismiss={[Function res]}
+      />
+      <ContributorList
+-       citationType=\\"book\\"
++       citationType=\\"webpage\\"
+        people={Array []}
+      >
+        <h2
+          className=\\"heading\\"
+        >
+@@ -223,11 +221,11 @@
+            Object {
+              \\"fontSize\\": 16,
+            }
+          }
+        >
+-         Book
++         Web Page
+        </h2>
+        <div
+          style={
+            Object {
+              \\"display\\": \\"table\\",
+@@ -237,11 +235,11 @@
+          }
+        >
+          <Field
+            field={
+              Object {
+-               \\"label\\": \\"Title\\",
++               \\"label\\": \\"Content Title\\",
+                \\"pattern\\": \\".*\\",
+                \\"placeholder\\": \\"\\",
+                \\"required\\": true,
+                \\"value\\": \\"title\\",
+              }
+@@ -254,11 +252,11 @@
             >
-              Text
-            </label>
-            <input
-              className="input"
-              id="title"
-              onChange={[Function]}
-              pattern=".*"
-              placeholder="Note: This type may not work with certain citation styles"
-              required={true}
-              type="text"
-              value=""
-            />
-          </div>
-        </Field>
-      </div>
-    </MetaFields>
-  </div>
-</ManualInput>
+              <label
+                className=\\"label\\"
+                htmlFor=\\"title\\"
+              >
+-               Title
++               Content Title
+              </label>
+              <input
+                className=\\"input\\"
+                id=\\"__SKIPPED__\\"
+                onChange={[Function res]}
+@@ -271,198 +269,62 @@
+            </div>
+          </Field>
+          <Field
+            field={
+              Object {
+-               \\"label\\": \\"Series Title\\",
++               \\"label\\": \\"Website Title\\",
+                \\"pattern\\": \\".*\\",
+                \\"placeholder\\": \\"\\",
+-               \\"required\\": false,
+-               \\"value\\": \\"collection-title\\",
++               \\"required\\": true,
++               \\"value\\": \\"container-title\\",
+              }
+            }
+            meta=\\"__SKIPPED__\\"
+            onChange={[Function res]}
+          >
+            <div
+              className=\\"row\\"
+            >
+              <label
+                className=\\"label\\"
+-               htmlFor=\\"collection-title\\"
++               htmlFor=\\"container-title\\"
+              >
+-               Series Title
++               Website Title
+              </label>
+              <input
+                className=\\"input\\"
+                id=\\"__SKIPPED__\\"
+                onChange={[Function res]}
+                pattern=\\".*\\"
+                placeholder=\\"\\"
+-               required={false}
++               required={true}
+                type=\\"text\\"
+                value=\\"\\"
+              />
+            </div>
+          </Field>
+          <Field
+            field={
+              Object {
+-               \\"label\\": \\"Series Number\\",
+-               \\"pattern\\": \\"[0-9]+\\",
+-               \\"placeholder\\": \\"\\",
+-               \\"required\\": false,
+-               \\"value\\": \\"collection-number\\",
+-             }
+-           }
+-           meta=\\"__SKIPPED__\\"
+-           onChange={[Function res]}
+-         >
+-           <div
+-             className=\\"row\\"
+-           >
+-             <label
+-               className=\\"label\\"
+-               htmlFor=\\"collection-number\\"
+-             >
+-               Series Number
+-             </label>
+-             <input
+-               className=\\"input\\"
+-               id=\\"__SKIPPED__\\"
+-               onChange={[Function res]}
+-               pattern=\\"[0-9]+\\"
+-               placeholder=\\"\\"
+-               required={false}
+-               type=\\"text\\"
+-               value=\\"\\"
+-             />
+-           </div>
+-         </Field>
+-         <Field
+-           field={
+-             Object {
+-               \\"label\\": \\"# of Pages\\",
+-               \\"pattern\\": \\"[0-9]+\\",
+-               \\"placeholder\\": \\"\\",
+-               \\"required\\": false,
+-               \\"value\\": \\"number-of-pages\\",
+-             }
+-           }
+-           meta=\\"__SKIPPED__\\"
+-           onChange={[Function res]}
+-         >
+-           <div
+-             className=\\"row\\"
+-           >
+-             <label
+-               className=\\"label\\"
+-               htmlFor=\\"number-of-pages\\"
+-             >
+-               # of Pages
+-             </label>
+-             <input
+-               className=\\"input\\"
+-               id=\\"__SKIPPED__\\"
+-               onChange={[Function res]}
+-               pattern=\\"[0-9]+\\"
+-               placeholder=\\"\\"
+-               required={false}
+-               type=\\"text\\"
+-               value=\\"\\"
+-             />
+-           </div>
+-         </Field>
+-         <Field
+-           field={
+-             Object {
+-               \\"label\\": \\"Volume\\",
+-               \\"pattern\\": \\"[0-9]+\\",
+-               \\"placeholder\\": \\"\\",
+-               \\"required\\": false,
+-               \\"value\\": \\"volume\\",
+-             }
+-           }
+-           meta=\\"__SKIPPED__\\"
+-           onChange={[Function res]}
+-         >
+-           <div
+-             className=\\"row\\"
+-           >
+-             <label
+-               className=\\"label\\"
+-               htmlFor=\\"volume\\"
+-             >
+-               Volume
+-             </label>
+-             <input
+-               className=\\"input\\"
+-               id=\\"__SKIPPED__\\"
+-               onChange={[Function res]}
+-               pattern=\\"[0-9]+\\"
+-               placeholder=\\"\\"
+-               required={false}
+-               type=\\"text\\"
+-               value=\\"\\"
+-             />
+-           </div>
+-         </Field>
+-         <Field
+-           field={
+-             Object {
+-               \\"label\\": \\"Edition\\",
+-               \\"pattern\\": \\"[0-9]+\\",
+-               \\"placeholder\\": \\"\\",
+-               \\"required\\": false,
+-               \\"value\\": \\"edition\\",
+-             }
+-           }
+-           meta=\\"__SKIPPED__\\"
+-           onChange={[Function res]}
+-         >
+-           <div
+-             className=\\"row\\"
+-           >
+-             <label
+-               className=\\"label\\"
+-               htmlFor=\\"edition\\"
+-             >
+-               Edition
+-             </label>
+-             <input
+-               className=\\"input\\"
+-               id=\\"__SKIPPED__\\"
+-               onChange={[Function res]}
+-               pattern=\\"[0-9]+\\"
+-               placeholder=\\"\\"
+-               required={false}
+-               type=\\"text\\"
+-               value=\\"\\"
+-             />
+-           </div>
+-         </Field>
+-         <Field
+-           field={
+-             Object {
+-               \\"label\\": \\"Publisher\\",
++               \\"label\\": \\"URL\\",
+                \\"pattern\\": \\".*\\",
+                \\"placeholder\\": \\"\\",
+                \\"required\\": true,
+-               \\"value\\": \\"publisher\\",
++               \\"value\\": \\"URL\\",
+              }
+            }
+            meta=\\"__SKIPPED__\\"
+            onChange={[Function res]}
+          >
+            <div
+              className=\\"row\\"
+            >
+              <label
+                className=\\"label\\"
+-               htmlFor=\\"publisher\\"
++               htmlFor=\\"URL\\"
+              >
+-               Publisher
++               URL
+              </label>
+              <input
+                className=\\"input\\"
+                id=\\"__SKIPPED__\\"
+                onChange={[Function res]}
+@@ -475,48 +337,14 @@
+            </div>
+          </Field>
+          <Field
+            field={
+              Object {
+-               \\"label\\": \\"Publisher Location\\",
+-               \\"pattern\\": \\".*\\",
+-               \\"placeholder\\": \\"\\",
+-               \\"required\\": false,
+-               \\"value\\": \\"publisher-place\\",
+-             }
+-           }
+-           meta=\\"__SKIPPED__\\"
+-           onChange={[Function res]}
+-         >
+-           <div
+-             className=\\"row\\"
+-           >
+-             <label
+-               className=\\"label\\"
+-               htmlFor=\\"publisher-place\\"
+-             >
+-               Publisher Location
+-             </label>
+-             <input
+-               className=\\"input\\"
+-               id=\\"__SKIPPED__\\"
+-               onChange={[Function res]}
+-               pattern=\\".*\\"
+-               placeholder=\\"\\"
+-               required={false}
+-               type=\\"text\\"
+-               value=\\"\\"
+-             />
+-           </div>
+-         </Field>
+-         <Field
+-           field={
+-             Object {
+                \\"label\\": \\"Date\\",
+                \\"pattern\\": \\"[0-9]{4}(\\\\\\\\/[0-9]{2})?(\\\\\\\\/[0-9]{2})?(?!\\\\\\\\/)$\\",
+                \\"placeholder\\": \\"YYYY/MM/DD or YYYY/MM or YYYY\\",
+-               \\"required\\": true,
++               \\"required\\": false,
+                \\"value\\": \\"issued\\",
+              }
+            }
+            meta=\\"__SKIPPED__\\"
+            onChange={[Function res]}
+@@ -534,11 +362,11 @@
+                className=\\"input\\"
+                id=\\"__SKIPPED__\\"
+                onChange={[Function res]}
+                pattern=\\"[0-9]{4}(\\\\\\\\/[0-9]{2})?(\\\\\\\\/[0-9]{2})?(?!\\\\\\\\/)$\\"
+                placeholder=\\"YYYY/MM/DD or YYYY/MM or YYYY\\"
+-               required={true}
++               required={false}
+                type=\\"text\\"
+                value=\\"\\"
+              />
+            </div>
+          </Field>"
 `;

@@ -1,11 +1,13 @@
-import { action } from 'mobx';
+import { action, runInAction } from 'mobx';
 import { observer } from 'mobx-react';
 import * as React from 'react';
 
 import Store from 'stores/ui/add-dialog';
+import { getFromISBN } from 'utils/resolvers/isbn';
+import { getFromURL } from 'utils/resolvers/url';
 
 import Callout from 'components/callout';
-import AutoCite, { AutociteKind } from 'dialogs/add/autocite';
+import AutoCite from 'dialogs/add/autocite';
 import ContributorList from 'dialogs/components/contributor-list';
 import MetaFields from 'dialogs/components/meta-fields';
 
@@ -13,8 +15,6 @@ import * as styles from './manual-input.scss';
 
 interface Props {
     store: Store;
-    /** "Getter" callback for `AutoCite` component */
-    onAutoCite(kind: AutociteKind, query: string): void;
 }
 
 @observer
@@ -25,13 +25,33 @@ export default class ManualInput extends React.Component<Props> {
     focusTypeSelect = (e: HTMLSelectElement | null): void => (e ? e.focus() : void 0);
 
     @action
-    dismissError = (): void => {
-        this.props.store.errorMessage = '';
+    setErrorMessage = (data?: any): void => {
+        this.props.store.errorMessage = typeof data === 'string' ? data : '';
     };
 
     @action
     handleTypeChange = (e: React.FormEvent<HTMLSelectElement>): void => {
         this.props.store.data.init(e.currentTarget.value as CSL.ItemType);
+    };
+
+    @action
+    toggleLoadingState = (): void => {
+        this.props.store.isLoading = !this.props.store.isLoading;
+    };
+
+    handleAutocite = async (query: string): Promise<void> => {
+        const { citationType } = this.props.store.data;
+        this.toggleLoadingState();
+        try {
+            const data =
+                citationType === 'webpage'
+                    ? await getFromURL(query)
+                    : await getFromISBN(query, citationType as 'book' | 'chapter');
+            runInAction(() => this.props.store.data.merge(data));
+        } catch (e) {
+            this.setErrorMessage(e.message);
+        }
+        this.toggleLoadingState();
     };
 
     handleWheel = (e: React.WheelEvent<HTMLDivElement>): void => {
@@ -84,7 +104,7 @@ export default class ManualInput extends React.Component<Props> {
                 {renderAutocite &&
                     itemType === 'webpage' && (
                         <AutoCite
-                            getter={this.props.onAutoCite}
+                            getter={this.handleAutocite}
                             kind={itemType as 'webpage'}
                             placeholder={ManualInput.labels.URL}
                         />
@@ -92,7 +112,7 @@ export default class ManualInput extends React.Component<Props> {
                 {renderAutocite &&
                     ['book', 'chapter'].includes(itemType) && (
                         <AutoCite
-                            getter={this.props.onAutoCite}
+                            getter={this.handleAutocite}
                             kind={itemType as 'book' | 'chapter'}
                             placeholder={ManualInput.labels.ISBN}
                             pattern="(?:[\dxX]-?){10}|(?:[\dxX]-?){13}"
@@ -106,7 +126,7 @@ export default class ManualInput extends React.Component<Props> {
                 >
                     <Callout
                         children={this.props.store.errorMessage}
-                        onDismiss={this.dismissError}
+                        onDismiss={this.setErrorMessage}
                     />
                     {itemType !== 'article' && (
                         <ContributorList people={store.data.people} citationType={itemType} />

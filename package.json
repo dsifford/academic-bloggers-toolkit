@@ -61,7 +61,7 @@
     "awesome-typescript-loader": "^3.4.1",
     "babel-core": "^7.0.0-beta.3",
     "babel-loader": "^8.0.0-beta.0",
-    "browser-sync": "^2.20.0",
+    "browser-sync": "^2.21.0",
     "css-loader": "^0.28.7",
     "enzyme": "^3.2.0",
     "enzyme-adapter-react-16": "^1.1.0",
@@ -72,12 +72,12 @@
     "gulp-replace": "^0.6.1",
     "gulp-sass": "^3.1.0",
     "gulp-sort": "^2.0.0",
-    "gulp-sourcemaps": "^2.6.1",
+    "gulp-sourcemaps": "^2.6.2",
     "gulp-uglify": "^3.0.0",
     "gulp-wp-pot": "^2.0.6",
     "husky": "^0.14.3",
     "identity-obj-proxy": "^3.0.0",
-    "jest": "^22.0.3",
+    "jest": "^22.0.4",
     "lint-staged": "^6.0.0",
     "merge-stream": "^1.0.1",
     "mobx-react-devtools": "^4.2.15",
@@ -89,7 +89,7 @@
     "sass-loader": "^6.0.6",
     "snapshot-diff": "^0.2.2",
     "style-loader": "^0.19.1",
-    "torus-cli": "^0.28.1",
+    "torus-cli": "^0.29.0",
     "ts-jest": "^22.0.0",
     "ts-node": "^4.0.2",
     "tslint": "^5.8.0",
@@ -151,6 +151,7 @@
     "setupFiles": [
       "./lib/before-test.ts"
     ],
+    "setupTestFrameworkScriptFile": "./lib/setup-test.ts",
     "testRegex": "(/__tests__/.*|\\.(test|spec))\\.(ts|tsx|js)$",
     "transform": {
       ".(ts|tsx)": "ts-jest"

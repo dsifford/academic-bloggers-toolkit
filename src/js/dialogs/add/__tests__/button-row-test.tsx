@@ -1,42 +1,38 @@
-// import { shallow } from 'enzyme';
-// import toJSON from 'enzyme-to-json';
-// import { observable } from 'mobx';
-// import * as React from 'react';
-// import ButtonRow from '../button-row';
+import { shallow } from 'enzyme';
+import toJSON from 'enzyme-to-json';
+import * as React from 'react';
 
-// const observables = {
-//     addManually: observable(true),
-//     attachInline: observable(false),
-// };
+import Store from 'stores/ui/add-dialog';
+import ButtonRow from '../button-row';
 
-// const spies = {
-//     onAttachInlineToggle: jest.fn(),
-//     onToggleManual: jest.fn(),
-//     onSearchPubmedClick: jest.fn(),
-// };
+const setup = () => {
+    const store = new Store('webpage');
+    const onSearchPubmedClick = jest.fn();
+    const component = shallow(
+        <ButtonRow store={store} onSearchPubmedClick={onSearchPubmedClick} />,
+    );
+    return {
+        component,
+        instance: component.instance() as ButtonRow,
+        onSearchPubmedClick,
+    };
+};
 
-// const setup = (
-//     addManually: boolean = true,
-//     attachInline: boolean = false,
-//     isLoading: boolean = false,
-// ) => {
-//     observables.addManually.set(addManually);
-//     observables.attachInline.set(attachInline);
-//     const component = shallow(<ButtonRow {...observables} {...spies} isLoading={isLoading} />);
-//     return {
-//         component,
-//     };
-// };
-
-// describe('<ButtonRow />', () => {
-//     beforeEach(() => {
-//         jest.resetAllMocks();
-//     });
-//     it('should match snapshots', () => {
-//         let { component } = setup();
-//         expect(toJSON(component)).toMatchSnapshot();
-
-//         ({ component } = setup(false));
-//         expect(toJSON(component)).toMatchSnapshot();
-//     });
-// });
+describe('<ButtonRow />', () => {
+    const BASELINE = toJSON(setup().component);
+    it('should match baseline snapshots', () => {
+        expect(BASELINE).toMatchSnapshot();
+    });
+    it('should toggle add manually', () => {
+        const { component } = setup();
+        const button = component.find('Button').first();
+        button.simulate('click');
+        expect(toJSON(component)).toMatchDiffSnapshot(BASELINE);
+    });
+    it('should toggle attach inline', () => {
+        const { component } = setup();
+        const toggle = component.find('ToggleSwitch');
+        toggle.simulate('change');
+        expect(toJSON(component)).toMatchDiffSnapshot(BASELINE);
+    });
+});

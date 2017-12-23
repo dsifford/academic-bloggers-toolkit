@@ -1,3 +1,4 @@
+// tslint:disable:max-classes-per-file
 import * as FocusTrap from 'focus-trap-react';
 import { action, observable } from 'mobx';
 import { observer } from 'mobx-react';
@@ -32,12 +33,17 @@ export default class Container extends React.Component<Props> {
     };
 
     /** Controls paused state of `FocusTrap`. Needed if nesting `FocusTrap`s */
-    focusTrapPaused = observable(false);
+    @observable focusTrapPaused = false;
+
+    @action
+    toggleFocusTrap = (): void => {
+        this.focusTrapPaused = !this.focusTrapPaused;
+    };
 
     @action
     close = (e?: React.MouseEvent<HTMLButtonElement>): void => {
         if (e) e.preventDefault();
-        this.props.onClose!();
+        this.props.onClose();
     };
 
     handleKeyEvent = (e: React.KeyboardEvent<HTMLDivElement>): void => {
@@ -73,7 +79,8 @@ export default class Container extends React.Component<Props> {
                 onWheel={this.preventScrollPropagation}
                 onKeyDown={this.handleKeyEvent}
             >
-                <FocusTrap paused={this.focusTrapPaused.get()}>
+                <FocusTrap paused={this.focusTrapPaused}>
+                    {/* <FocusTrap paused={this.focusTrapPaused.get()}> */}
                     <div
                         style={{ width, position: 'relative' }}
                         role="dialog"
@@ -94,7 +101,7 @@ export default class Container extends React.Component<Props> {
                         </header>
                         <ChildElement.type
                             {...ChildElement.props}
-                            focusTrapPaused={this.focusTrapPaused}
+                            toggleFocusTrap={this.toggleFocusTrap}
                         />
                     </div>
                 </FocusTrap>

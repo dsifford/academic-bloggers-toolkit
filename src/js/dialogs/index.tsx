@@ -1,4 +1,3 @@
-import { IObservableValue } from 'mobx';
 import { observer } from 'mobx-react';
 import * as React from 'react';
 
@@ -17,13 +16,21 @@ export enum DialogType {
 }
 
 export interface DialogProps {
-    /**
-     * Provided automatically by `Container`. Describes paused state of dialog's
-     * focus trap
-     */
-    focusTrapPaused?: IObservableValue<boolean>;
     /** Callback to be called when dialog is submitted */
     onSubmit(data: any): void;
+    /**
+     * Provided automatically by `Container`. Toggles the paused state of the
+     * focus trap
+     */
+    toggleFocusTrap?(): void;
+}
+
+export interface DialogDefaultProps {
+    /**
+     * Provided automatically by `Container`. Toggles the paused state of the
+     * focus trap
+     */
+    toggleFocusTrap(): void;
 }
 
 interface Props extends DialogProps {

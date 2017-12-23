@@ -61,13 +61,13 @@ export default class ManualData {
     private id: string;
     private standardFields = observable.map<string>();
 
-    constructor(citationType: CSL.ItemType) {
+    constructor(citationType: CSL.ItemType, id?: string) {
         this.citationType = citationType;
-        this.id = nanoid();
+        this.id = id || nanoid();
         this.fields = <any>new Proxy(this.standardFields, {
             get: (target, prop): string => {
                 if (typeof prop !== 'string') {
-                    throw new TypeError('Property key must be a string');
+                    return '';
                 }
                 return target.has(prop) ? target.get(prop)! : '';
             },

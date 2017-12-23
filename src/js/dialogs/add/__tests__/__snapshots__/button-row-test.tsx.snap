@@ -1,16 +1,16 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`<ButtonRow /> should match snapshots 1`] = `
+exports[`<ButtonRow /> should match baseline snapshots 1`] = `
 <ActionBar>
   <Button
     flat={true}
     focusable={true}
-    label="Add with Identifier"
-    onClick={[MockFunction]}
+    label="Add Manually"
+    onClick={[Function]}
     type="button"
   />
   <Button
-    disabled={true}
+    disabled={false}
     flat={true}
     focusable={true}
     label="Search PubMed"
@@ -19,9 +19,9 @@ exports[`<ButtonRow /> should match snapshots 1`] = `
   />
   <Component />
   <ToggleSwitch
-    checked={false}
+    checked={true}
     disabled={false}
-    onChange={[MockFunction]}
+    onChange={[Function]}
     tooltip={
       Object {
         "position": "left",
@@ -39,41 +39,47 @@ exports[`<ButtonRow /> should match snapshots 1`] = `
 </ActionBar>
 `;
 
-exports[`<ButtonRow /> should match snapshots 2`] = `
-<ActionBar>
-  <Button
-    flat={true}
-    focusable={true}
-    label="Add Manually"
-    onClick={[MockFunction]}
-    type="button"
-  />
-  <Button
-    disabled={false}
-    flat={true}
-    focusable={true}
-    label="Search PubMed"
-    onClick={[MockFunction]}
-    type="button"
-  />
-  <Component />
-  <ToggleSwitch
-    checked={false}
-    disabled={false}
-    onChange={[MockFunction]}
-    tooltip={
-      Object {
-        "position": "left",
-        "text": "Insert citation inline",
-      }
-    }
-  />
-  <Button
-    focusable={true}
-    form="add-reference"
-    label="Add Reference"
-    primary={true}
-    type="submit"
-  />
-</ActionBar>
+exports[`<ButtonRow /> should toggle add manually 1`] = `
+"Snapshot Diff:
+- First value
++ Second value
+
+@@ -1,15 +1,15 @@
+  <ActionBar>
+    <Button
+      flat={true}
+      focusable={true}
+-     label=\\"Add with Identifier\\"
++     label=\\"Add Manually\\"
+      onClick={[Function res]}
+      type=\\"button\\"
+    />
+    <Button
+-     disabled={true}
++     disabled={false}
+      flat={true}
+      focusable={true}
+      label=\\"Search PubMed\\"
+      onClick={[Function mockConstructor]}
+      type=\\"button\\""
+`;
+
+exports[`<ButtonRow /> should toggle attach inline 1`] = `
+"Snapshot Diff:
+- First value
++ Second value
+
+@@ -14,11 +14,11 @@
+      onClick={[Function mockConstructor]}
+      type=\\"button\\"
+    />
+    <Component />
+    <ToggleSwitch
+-     checked={false}
++     checked={true}
+      disabled={false}
+      onChange={[Function res]}
+      tooltip={
+        Object {
+          \\"position\\": \\"left\\","
 `;

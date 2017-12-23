@@ -1,4 +1,4 @@
-import { action } from 'mobx';
+import { action, observable } from 'mobx';
 import { observer } from 'mobx-react';
 import * as React from 'react';
 
@@ -12,19 +12,15 @@ interface Props {
     onRemove(e: React.MouseEvent<HTMLButtonElement>): void;
 }
 
-interface State {
-    isLiteral: boolean;
-}
-
 @observer
-export default class Contributor extends React.Component<Props, State> {
+export default class Contributor extends React.Component<Props> {
     static readonly labels = top.ABT.i18n.dialogs.add.contributor;
+
+    @observable isLiteral = false;
 
     constructor(props: Props) {
         super(props);
-        this.state = {
-            isLiteral: props.contributor.literal ? true : false,
-        };
+        this.isLiteral = props.contributor.literal ? true : false;
     }
 
     @action
@@ -41,7 +37,7 @@ export default class Contributor extends React.Component<Props, State> {
         this.props.contributor.family = '';
         this.props.contributor.given = '';
         this.props.contributor.literal = '';
-        this.setState(prevState => ({ ...prevState, isLiteral: !prevState.isLiteral }));
+        this.isLiteral = !this.isLiteral;
     };
 
     render(): JSX.Element {
@@ -58,7 +54,7 @@ export default class Contributor extends React.Component<Props, State> {
                         />
                     ))}
                 </select>
-                {this.state.isLiteral && (
+                {this.isLiteral && (
                     <input
                         type="text"
                         placeholder={Contributor.labels.literal}
@@ -69,7 +65,7 @@ export default class Contributor extends React.Component<Props, State> {
                         required={true}
                     />
                 )}
-                {!this.state.isLiteral && (
+                {!this.isLiteral && (
                     <>
                         <input
                             type="text"
@@ -93,7 +89,7 @@ export default class Contributor extends React.Component<Props, State> {
                 )}
                 <Button
                     flat
-                    icon={this.state.isLiteral ? 'groups' : 'admin-users'}
+                    icon={this.isLiteral ? 'groups' : 'admin-users'}
                     label={Contributor.labels.toggleLiteral}
                     onClick={this.toggleLiteral}
                 />

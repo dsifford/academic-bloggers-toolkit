@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`<EditDialog /> should match snapshot 1`] = `
+exports[`<EditDialog /> should match baseline snapshot 1`] = `
 <form
   onSubmit={[Function]}
 >
@@ -8,15 +8,7 @@ exports[`<EditDialog /> should match snapshot 1`] = `
     citationType="article-journal"
     people={Array []}
   />
-  <MetaFields
-    meta={
-      Object {
-        "id": "12345",
-        "title": "Test Title",
-        "type": "article-journal",
-      }
-    }
-  />
+  <MetaFields />
   <ActionBar
     style={
       Object {

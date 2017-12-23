@@ -41,4 +41,22 @@ describe('<Container />', () => {
         instance.close({ preventDefault } as any);
         expect(preventDefault).toHaveBeenCalled();
     });
+    it('should handle key event', () => {
+        const { instance, onClose } = setup();
+        const mockEvent = {
+            key: 'a',
+            stopPropagation: jest.fn(),
+        };
+        (instance as any).handleKeyEvent(mockEvent);
+        mockEvent.key = 'Escape';
+        (instance as any).handleKeyEvent(mockEvent);
+        expect(onClose).toHaveBeenCalledTimes(1);
+        expect(mockEvent.stopPropagation).toHaveBeenCalledTimes(1);
+    });
+    it('should toggle focus trap', () => {
+        const { instance } = setup();
+        expect(instance.focusTrapPaused).toBe(false);
+        instance.toggleFocusTrap();
+        expect(instance.focusTrapPaused).toBe(true);
+    });
 });

@@ -22,7 +22,7 @@ export default class EditDialog extends React.Component<Props> {
 
     constructor(props: Props) {
         super(props);
-        this.store = new ManualDataStore(props.data.type);
+        this.store = new ManualDataStore(props.data.type, this.props.data.id);
         this.store.CSL = props.data;
     }
 

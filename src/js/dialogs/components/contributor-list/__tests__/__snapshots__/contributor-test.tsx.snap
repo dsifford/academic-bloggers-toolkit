@@ -1,0 +1,114 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Contributor /> should match baseline snapshot 1`] = `
+<div
+  className="contributor"
+>
+  <select
+    data-field="type"
+    onChange={[Function]}
+    value="author"
+  >
+    <option
+      aria-selected={true}
+      key="author"
+      value="author"
+    >
+      Author
+    </option>
+    <option
+      aria-selected={false}
+      key="editor"
+      value="editor"
+    >
+      Editor
+    </option>
+  </select>
+  <React.Fragment>
+    <input
+      aria-label="Surname"
+      data-field="family"
+      onChange={[Function]}
+      placeholder="Surname"
+      required={true}
+      type="text"
+      value="Smith"
+    />
+    <input
+      aria-label="Given Name, M.I."
+      data-field="given"
+      onChange={[Function]}
+      placeholder="Given Name, M.I."
+      required={true}
+      type="text"
+      value="John"
+    />
+  </React.Fragment>
+  <Button
+    flat={true}
+    icon="admin-users"
+    label="Toggle literal name"
+    onClick={[Function]}
+    type="button"
+  />
+  <Button
+    data-index={0}
+    flat={true}
+    icon="no-alt"
+    label="Remove contributor"
+    onClick={[MockFunction]}
+    type="button"
+  />
+</div>
+`;
+
+exports[`<Contributor /> should match literal baseline snapshot 1`] = `
+<div
+  className="contributor"
+>
+  <select
+    data-field="type"
+    onChange={[Function]}
+    value="editor"
+  >
+    <option
+      aria-selected={false}
+      key="author"
+      value="author"
+    >
+      Author
+    </option>
+    <option
+      aria-selected={true}
+      key="editor"
+      value="editor"
+    >
+      Editor
+    </option>
+  </select>
+  <input
+    aria-label="Literal Name"
+    data-field="literal"
+    onChange={[Function]}
+    placeholder="Literal Name"
+    required={true}
+    type="text"
+    value="Literal Name"
+  />
+  <Button
+    flat={true}
+    icon="groups"
+    label="Toggle literal name"
+    onClick={[Function]}
+    type="button"
+  />
+  <Button
+    data-index={0}
+    flat={true}
+    icon="no-alt"
+    label="Remove contributor"
+    onClick={[MockFunction]}
+    type="button"
+  />
+</div>
+`;

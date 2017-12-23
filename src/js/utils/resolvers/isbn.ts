@@ -51,6 +51,7 @@ export async function getFromISBN(
 
     return {
         fields: {
+            ISBN,
             issued: publishedDate.replace(/-/g, '/'),
             'number-of-pages': pageCount.toString(),
             [titleKey]: title,

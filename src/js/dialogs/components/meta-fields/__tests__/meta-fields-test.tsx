@@ -1,31 +1,39 @@
-// import { mount } from 'enzyme';
-// import { observable } from 'mobx';
-// import * as React from 'react';
-// import MetaFields from '..';
+import { shallow } from 'enzyme';
+import toJSON from 'enzyme-to-json';
+import * as React from 'react';
 
-// const setup = (title = 'article-journal') => {
-//     const meta = observable.map<string>([['type', title]]);
-//     const component = mount(<MetaFields meta={meta} />);
-//     return {
-//         component,
-//         field: component.find(`input`).first(),
-//         title: component.find(`h2`).text(),
-//     };
-// };
+import ManualDataStore from 'stores/data/manual-data-store';
+import MetaFields from '..';
 
-// describe('<MetaFields />', () => {
-//     it('should render with the correct title', () => {
-//         let { title } = setup();
-//         expect(title).toBe('Journal Article');
+const setup = (citationType: CSL.ItemType = 'webpage') => {
+    const store = new ManualDataStore(citationType);
+    const component = shallow(<MetaFields meta={store} />);
+    return {
+        component,
+        instance: component.instance() as MetaFields,
+    };
+};
 
-//         ({ title } = setup('article-magazine'));
-//         expect(title).toBe('Magazine Article');
-//     });
-//     it('should call updateField when fields are changed', () => {
-//         const { component, field } = setup();
-//         expect(component.props().meta.get('title')).toBeUndefined();
-//         component.props().meta.set('title', 'newTitle');
-//         field.simulate('change');
-//         expect(component.props().meta.get('title')).toBe('newTitle');
-//     });
-// });
+describe('<MetaFields />', () => {
+    it('should match snapshots', () => {
+        const { component } = setup();
+        expect(
+            toJSON(component, {
+                noKey: true,
+                map: json => ({ ...json, props: { ...json.props, meta: '__SKIPPED__' } }),
+            }),
+        ).toMatchSnapshot();
+    });
+    it('should update fields', () => {
+        const { instance } = setup();
+        expect(instance.props.meta.fields.title).toBe('');
+        instance.updateField({ currentTarget: { id: 'title', value: 'testing' } } as any);
+        expect(instance.props.meta.fields.title).toBe('testing');
+    });
+    it('should throw errors when field ID is not set properly', () => {
+        const { instance } = setup();
+        expect(() => instance.updateField({ currentTarget: {} } as any)).toThrowError(
+            ReferenceError,
+        );
+    });
+});

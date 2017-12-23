@@ -1,0 +1,94 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<MetaFields /> should match snapshots 1`] = `
+<React.Fragment
+  meta="__SKIPPED__"
+>
+  <h2
+    meta="__SKIPPED__"
+    style={
+      Object {
+        "fontSize": 16,
+      }
+    }
+  >
+    Web Page
+  </h2>
+  <div
+    meta="__SKIPPED__"
+    style={
+      Object {
+        "display": "table",
+        "padding": 10,
+        "width": "100%",
+      }
+    }
+  >
+    <Field
+      field={
+        Object {
+          "label": "Content Title",
+          "pattern": ".*",
+          "placeholder": "",
+          "required": true,
+          "value": "title",
+        }
+      }
+      meta="__SKIPPED__"
+      onChange={[Function]}
+    />
+    <Field
+      field={
+        Object {
+          "label": "Website Title",
+          "pattern": ".*",
+          "placeholder": "",
+          "required": true,
+          "value": "container-title",
+        }
+      }
+      meta="__SKIPPED__"
+      onChange={[Function]}
+    />
+    <Field
+      field={
+        Object {
+          "label": "URL",
+          "pattern": ".*",
+          "placeholder": "",
+          "required": true,
+          "value": "URL",
+        }
+      }
+      meta="__SKIPPED__"
+      onChange={[Function]}
+    />
+    <Field
+      field={
+        Object {
+          "label": "Date",
+          "pattern": "[0-9]{4}(\\\\/[0-9]{2})?(\\\\/[0-9]{2})?(?!\\\\/)$",
+          "placeholder": "YYYY/MM/DD or YYYY/MM or YYYY",
+          "required": false,
+          "value": "issued",
+        }
+      }
+      meta="__SKIPPED__"
+      onChange={[Function]}
+    />
+    <Field
+      field={
+        Object {
+          "label": "Date Accessed",
+          "pattern": "[0-9]{4}(\\\\/[0-9]{2})?(\\\\/[0-9]{2})?(?!\\\\/)$",
+          "placeholder": "YYYY/MM/DD or YYYY/MM or YYYY",
+          "required": false,
+          "value": "accessed",
+        }
+      }
+      meta="__SKIPPED__"
+      onChange={[Function]}
+    />
+  </div>
+</React.Fragment>
+`;

@@ -3,56 +3,56 @@ import toJSON from 'enzyme-to-json';
 import * as React from 'react';
 import AutoCite from '..';
 
-const getter = jest.fn();
-
 const setup = ({ kind = 'webpage' } = {}, pattern?: any) => {
+    const getter = jest.fn();
     const component = mount(
         <AutoCite kind={kind as any} placeholder="Test" pattern={pattern} getter={getter} />,
     );
     return {
         component,
+        instance: component.instance() as AutoCite,
+        getter,
     };
 };
 
 describe('<AutoCite />', () => {
     beforeEach(() => jest.resetAllMocks());
-    test('should match snapshots', () => {
+    it('should match snapshots', () => {
         let { component } = setup();
         expect(toJSON(component)).toMatchSnapshot();
 
         ({ component } = setup({ kind: 'book' }, '[0-9]+'));
         expect(toJSON(component)).toMatchSnapshot();
     });
-    test('should handle field change', () => {
+    it('should handle field change', () => {
         const { component } = setup();
         const query = component.find('#citequery');
         query.simulate('change', { currentTarget: { value: 'hello' } });
     });
-    test('should call handleQuery', () => {
-        const { component } = setup();
-        const instance = (component as any).instance();
+    it('should call handleQuery', () => {
+        const { component, getter, instance } = setup();
         const button = component.find('button');
-        instance.input = {
+        (instance as any).input = {
             validity: {
                 valid: true,
             },
         };
-        instance.query.set('testing');
+        instance.query = 'testing';
         button.simulate('click');
 
-        expect(instance.query.get()).toBe('');
+        expect(instance.query).toBe('');
         expect(getter).toHaveBeenCalledTimes(1);
 
-        instance.input.validity = {
+        (instance as any).input.validity = {
             valid: false,
         };
-        instance.query.set('foo');
+        instance.query = 'foo';
         button.simulate('click');
 
-        expect(instance.query.get()).toBe('foo');
+        expect(instance.query).toBe('foo');
         expect(getter).toHaveBeenCalledTimes(1);
     });
-    test('should call handleKeyDown', () => {
+    it('should call handleKeyDown', () => {
         const { component } = setup();
         const input = component.find('#citequery');
         const stopPropagation = jest.fn();

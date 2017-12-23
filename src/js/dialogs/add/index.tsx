@@ -1,11 +1,9 @@
-import { action, runInAction } from 'mobx';
+import { action } from 'mobx';
 import { observer } from 'mobx-react';
 import * as React from 'react';
 
-import { DialogProps, DialogType } from 'dialogs';
+import { DialogDefaultProps, DialogProps, DialogType } from 'dialogs';
 import Store from 'stores/ui/add-dialog';
-import { getFromISBN, getFromURL } from 'utils/resolvers';
-import { AutociteKind } from './autocite';
 
 import Spinner from 'components/spinner';
 import Container from 'dialogs/components/container';
@@ -14,12 +12,14 @@ import ButtonRow from './button-row';
 import IdentifierInput from './identifier-input';
 import ManualInput from './manual-input';
 
+type Props = DialogProps & DialogDefaultProps;
+
 @observer
 export default class AddDialog extends React.Component<DialogProps> {
     static readonly pubmedLabel = top.ABT.i18n.dialogs.pubmed.title;
 
     /** Reference to the identifier input field in `IdentifierInput`. Used for focus/refocus */
-    identifierInputField: HTMLInputElement | null | undefined;
+    identifierInputField: HTMLInputElement | null;
 
     store = new Store('webpage');
 
@@ -34,46 +34,24 @@ export default class AddDialog extends React.Component<DialogProps> {
         );
         this.store.identifierList = Array.from(ids).join(', ');
         this.store.currentDialog = DialogType.NONE;
-        if (this.identifierInputField) this.identifierInputField.focus();
+        this.captureInputField(this.identifierInputField);
     };
 
     @action
     closePubmedDialog = (): void => {
-        this.props.focusTrapPaused!.set(false);
+        (this.props as Props).toggleFocusTrap();
         this.store.currentDialog = DialogType.NONE;
     };
 
     @action
     openPubmedDialog = (): void => {
-        this.props.focusTrapPaused!.set(true);
+        (this.props as Props).toggleFocusTrap();
         this.store.currentDialog = DialogType.PUBMED;
-    };
-
-    @action
-    setErrorMessage = (msg?: string): void => {
-        this.store.errorMessage = msg || '';
-    };
-
-    @action
-    toggleLoadingState = (state?: boolean): void => {
-        this.store.isLoading = state ? state : !this.store.isLoading;
     };
 
     captureInputField = (el: HTMLInputElement | null): void => {
         this.identifierInputField = el;
         if (el) el.focus();
-    };
-
-    handleAutocite = async (kind: AutociteKind, query: string): Promise<void> => {
-        this.toggleLoadingState();
-        try {
-            const data =
-                kind === 'webpage' ? await getFromURL(query) : await getFromISBN(query, kind);
-            runInAction(() => this.store.data.merge(data));
-        } catch (e) {
-            this.setErrorMessage(e.message);
-        }
-        this.toggleLoadingState();
     };
 
     handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
@@ -98,9 +76,7 @@ export default class AddDialog extends React.Component<DialogProps> {
                     {!this.store.addManually && (
                         <IdentifierInput fieldRef={this.captureInputField} store={this.store} />
                     )}
-                    {this.store.addManually && (
-                        <ManualInput store={this.store} onAutoCite={this.handleAutocite} />
-                    )}
+                    {this.store.addManually && <ManualInput store={this.store} />}
                 </form>
                 <ButtonRow onSearchPubmedClick={this.openPubmedDialog} store={this.store} />
             </>
