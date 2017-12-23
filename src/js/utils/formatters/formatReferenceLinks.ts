@@ -1,3 +1,7 @@
+// tslint:disable: no-stateless-class
+import { oneLineTrim } from 'common-tags';
+import { decode } from 'he';
+
 interface IDType {
     kind: 'PMID' | 'DOI' | 'PMCID' | 'URL';
     value: string;
@@ -7,97 +11,141 @@ interface IDType {
  * Parses and formats the bibliography links according to the user's chosen
  * link format
  * @param html      - HTML string of a single reference
- * @param linkStyle - Selected link style
+ * @param style - Selected link style
  * @param id        - Identifier for linking out
  * @returns HTML string with formatted links
  */
-export function formatReferenceLinks(html: string, linkStyle: ABT.LinkStyle, id?: IDType): string {
-    if (linkStyle === 'never') return html;
+export function formatReferenceLinks(
+    html: string,
+    style: ABT.LinkStyle,
+    id?: IDType,
+): string {
+    if (style === 'never') {
+        return html;
+    }
 
-    const url: RegExp = /((http:\/\/(?:www\.)?|https:\/\/(?:www\.)?)|www\.)([^;\s<]+[0-9a-zA-Z\/])/g;
+    const url: RegExp = /((?:https?:\/\/(?:www\.)?)|(?:www\.))([^;\s<]+[0-9a-zA-Z\/])/g;
     const doi: RegExp = /doi:(\S+)\./g;
+    const matches: Set<string> = new Set();
 
-    const linkedHtml = html
-        .replace(/(&lt;|&amp;|&gt;|&quot;)/g, match => {
-            switch (match) {
-                case '&lt;':
-                    return '<';
-                case '&gt;':
-                    return '>';
-                case '&amp;':
-                    return '&';
-                case '&quot;':
-                default:
-                    return '"';
-            }
+    const linkedHtml = decode(html)
+        .replace(url, (_match, p1, p2) => {
+            const u = p1 === 'www.' ? `http://${p2}` : `${p1}${p2}`;
+            matches.add(u);
+            return `<a href="${u}" target="_blank" rel="noopener noreferrer">${u}</a>`;
         })
-        .replace(
-            url,
-            (_match, _p1, p2 = 'http://', p3) =>
-                `<a href="${p2}${p3}" target="_blank">${p2}${p3}</a>`,
-        )
-        .replace(doi, 'doi: <a href="https://dx.doi.org/$1" target="_blank">$1</a>');
+        .replace(doi, (_match, p1) => {
+            matches.add('DOI');
+            return `doi: <a href="https://dx.doi.org/${p1}" target="_blank" rel="noopener noreferrer">${p1}</a>`;
+        });
 
-    if (!id) return linkedHtml;
+    if (!id) {
+        return linkedHtml;
+    }
 
-    switch (linkStyle) {
-        case 'always': {
-            switch (id.kind) {
-                case 'PMID': {
-                    return (
-                        linkedHtml +
-                        `<span class="abt-url"> ` +
-                        `[<a href="https://www.ncbi.nlm.nih.gov/pubmed/${id.value}" target="_blank">PubMed</a>]` +
-                        `</span>`
-                    );
-                }
-                case 'DOI': {
-                    return (
-                        linkedHtml +
-                        `<span class="abt-url"> ` +
-                        `[<a href="https://dx.doi.org/${id.value}" target="_blank">Source</a>]` +
-                        `</span>`
-                    );
-                }
-                case 'PMCID': {
-                    return (
-                        linkedHtml +
-                        `<span class="abt-url"> ` +
-                        `[<a href="https://www.ncbi.nlm.nih.gov/pmc/articles/${id.value}" target="_blank">PMC</a>]` +
-                        `</span>`
-                    );
-                }
-                case 'URL':
-                default: {
-                    return (
-                        linkedHtml +
-                        `<span class="abt-url"> ` +
-                        `[<a href="${id.value}" target="_blank">Source</a>]` +
-                        `</span>`
-                    );
-                }
+    switch (style) {
+        case 'always':
+            if (
+                (id.kind === 'DOI' && matches.has('DOI')) ||
+                (id.kind === 'URL' && matches.has(id.value))
+            ) {
+                return linkedHtml;
             }
-        }
-        case 'always-full-surround': {
-            switch (id.kind) {
-                case 'PMID': {
-                    return `<a href="https://www.ncbi.nlm.nih.gov/pubmed/${id.value}" target="_blank">${html}</a>`;
-                }
-                case 'DOI': {
-                    return `<a href="https://dx.doi.org/${id.value}" target="_blank">${html}</a>`;
-                }
-                case 'PMCID': {
-                    return `<a href="https://www.ncbi.nlm.nih.gov/pmc/articles/${id.value}" target="_blank">${html}</a>`; // tslint:disable-line
-                }
-                case 'URL':
-                default: {
-                    return `<a href="${id.value}" target="_blank">${html}</a>`;
-                }
-            }
-        }
+            return LinkStyle.always(linkedHtml, id);
+        case 'always-full-surround':
+            return LinkStyle.fullSurround(html, id);
         case 'urls':
-        default: {
+        default:
             return linkedHtml;
+    }
+}
+
+class LinkStyle {
+    static always(html: string, id: IDType): string {
+        switch (id.kind) {
+            case 'PMID': {
+                return oneLineTrim`
+                    ${html}${' '}
+                    <span class="abt-url">
+                        [<a href="https://www.ncbi.nlm.nih.gov/pubmed/${
+                            id.value
+                        }" target="_blank" rel="noopener noreferrer">PubMed</a>]
+                    </span>
+                `;
+            }
+            case 'DOI': {
+                return oneLineTrim`
+                    ${html}${' '}
+                    <span class="abt-url">
+                        [<a href="https://dx.doi.org/${
+                            id.value
+                        }" target="_blank" rel="noopener noreferrer">Source</a>]
+                    </span>
+                `;
+            }
+            case 'PMCID': {
+                return oneLineTrim`
+                    ${html}${' '}
+                    <span class="abt-url">
+                        [<a href="https://www.ncbi.nlm.nih.gov/pmc/articles/${
+                            id.value
+                        }" target="_blank" rel="noopener noreferrer">PMC</a>]
+                    </span>
+                `;
+            }
+            case 'URL':
+            default: {
+                // FIXME: i18n "Source"
+                const sourceText = id.value.toLocaleLowerCase().endsWith('.pdf')
+                    ? 'PDF'
+                    : 'Source';
+                return oneLineTrim`
+                    ${html}${' '}
+                    <span class="abt-url">
+                        [<a href="${
+                            id.value
+                        }" target="_blank" rel="noopener noreferrer">
+                            ${sourceText}
+                        </a>]
+                    </span>
+                `;
+            }
+        }
+    }
+    static fullSurround(html: string, id: IDType): string {
+        switch (id.kind) {
+            case 'PMID': {
+                return oneLineTrim`
+                    <a href="https://www.ncbi.nlm.nih.gov/pubmed/${
+                        id.value
+                    }" target="_blank" rel="noopener noreferrer">
+                        ${html}
+                    </a>`;
+            }
+            case 'DOI': {
+                return oneLineTrim`
+                    <a href="https://dx.doi.org/${
+                        id.value
+                    }" target="_blank" rel="noopener noreferrer">
+                        ${html}
+                    </a>`;
+            }
+            case 'PMCID': {
+                return oneLineTrim`
+                    <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/${
+                        id.value
+                    }" target="_blank" rel="noopener noreferrer">
+                        ${html}
+                    </a>`;
+            }
+            default: {
+                return oneLineTrim`
+                    <a href="${
+                        id.value
+                    }" target="_blank" rel="noopener noreferrer">
+                        ${html}
+                    </a>`;
+            }
         }
     }
 }
