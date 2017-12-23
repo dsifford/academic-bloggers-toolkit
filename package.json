@@ -91,7 +91,7 @@
     "style-loader": "^0.19.1",
     "torus-cli": "^0.29.0",
     "ts-jest": "^22.0.0",
-    "ts-node": "^4.0.2",
+    "ts-node": "^4.1.0",
     "tslint": "^5.8.0",
     "tslint-microsoft-contrib": "^5.0.1",
     "tslint-react": "^3.2.0",
