@@ -1,5 +1,6 @@
 export const wpInfo: ABT.Backend['wp'] = {
-    abt_url: 'http://localhost:8080/wp-content/plugins/academic-bloggers-toolkit',
+    abt_url:
+        'http://localhost:8080/wp-content/plugins/academic-bloggers-toolkit',
     home_url: 'http://localhost:8080',
     plugins_url: 'http://localhost:8080/wp-content/plugins',
     wp_upload_dir: {
@@ -284,7 +285,8 @@ export const i18n: ABT.Backend['i18n'] = {
     errors: {
         badRequest: 'Request not valid',
         denied: 'Site denied request',
-        fileExtensionError: 'Invalid file extension. Extension must be .ris, .bib, or .bibtex',
+        fileExtensionError:
+            'Invalid file extension. Extension must be .ris, .bib, or .bibtex',
         filetypeError: 'The file could not be processed',
         identifiersNotFound: {
             all: 'No identifiers could be found for your request',
@@ -307,6 +309,8 @@ export const i18n: ABT.Backend['i18n'] = {
             reportInstructions:
                 'Please report this error, including the steps taken to trigger it, here: \nhttps://github.com/dsifford/academic-bloggers-toolkit/issues',
         },
+        tinymceUnavailable:
+            "TinyMCE editor doesn't appear to be available in this scope",
     },
     fieldmaps: {
         bill: {
@@ -679,7 +683,7 @@ export const i18n: ABT.Backend['i18n'] = {
                     value: 'number',
                     label: 'Docket Number',
                     required: false,
-                    pattern: 'S.*', // eslint-disable-line
+                    pattern: 'S.*',
                     placeholder: '',
                 },
                 {
@@ -938,7 +942,8 @@ export const i18n: ABT.Backend['i18n'] = {
                     label: 'Text',
                     required: true,
                     pattern: '.*',
-                    placeholder: 'Note: This type may not work with certain citation styles',
+                    placeholder:
+                        'Note: This type may not work with certain citation styles',
                 },
             ],
             people: [],

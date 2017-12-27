@@ -2,9 +2,9 @@
 import { exec as cp_exec, spawn } from 'child_process';
 import * as gulp from 'gulp';
 import * as replace from 'gulp-replace';
-// import * as sort from 'gulp-sort';
+import * as sort from 'gulp-sort';
 import * as composer from 'gulp-uglify/composer';
-// import * as wpPot from 'gulp-wp-pot';
+import * as wpPot from 'gulp-wp-pot';
 import * as merge from 'merge-stream';
 import * as uglifyEs from 'uglify-es';
 import { promisify } from 'util';
@@ -59,26 +59,25 @@ export function bump(): NodeJS.ReadWriteStream {
     return merge(srcFiles, repoFiles);
 }
 
-// FIXME: Waiting for gulp-wp-pot to update
-// // Translations
-// export function pot(): NodeJS.ReadWriteStream {
-//     return gulp
-//         .src('./src/**/*.php', { base: 'dist/*' })
-//         .pipe(sort())
-//         .pipe(
-//             wpPot({
-//                 domain: 'academic-bloggers-toolkit',
-//                 package: `Academic Blogger's Toolkit ${VERSION}`,
-//                 bugReport:
-//                     'https://github.com/dsifford/academic-bloggers-toolkit/issues',
-//                 lastTranslator: 'Derek P Sifford <dereksifford@gmail.com>',
-//                 team: 'Derek P Sifford <dereksifford@gmail.com>',
-//                 headers: false,
-//             }),
-//         )
-//         .pipe(replace(/(\s)(src\/)(\S+)/gm, '$1$3'))
-//         .pipe(gulp.dest('./src/academic-bloggers-toolkit.pot'));
-// }
+// Translations
+export function pot(): NodeJS.ReadWriteStream {
+    return gulp
+        .src('./src/**/*.php', { base: 'dist/*' })
+        .pipe(sort())
+        .pipe(
+            wpPot({
+                domain: 'academic-bloggers-toolkit',
+                package: `Academic Blogger's Toolkit ${VERSION}`,
+                bugReport:
+                    'https://github.com/dsifford/academic-bloggers-toolkit/issues',
+                lastTranslator: 'Derek P Sifford <dereksifford@gmail.com>',
+                team: 'Derek P Sifford <dereksifford@gmail.com>',
+                headers: false,
+            }),
+        )
+        .pipe(replace(/(\s)(src\/)(\S+)/gm, '$1$3'))
+        .pipe(gulp.dest('./src/academic-bloggers-toolkit.pot'));
+}
 
 // ==================================================
 //              PHP/Static Asset Tasks

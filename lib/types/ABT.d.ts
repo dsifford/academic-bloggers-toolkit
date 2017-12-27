@@ -88,6 +88,7 @@ declare namespace ABT {
                 message: 'An unexpected error occurred';
                 reportInstructions: 'Please report this error, including the steps taken to trigger it, here: \nhttps://github.com/dsifford/academic-bloggers-toolkit/issues'; // tslint:disable-line
             };
+            tinymceUnavailable: "TinyMCE editor doesn't appear to be available in this scope";
         };
         fieldmaps: FieldMappings;
         misc: {

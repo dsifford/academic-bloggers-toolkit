@@ -227,9 +227,7 @@ export default class TinyMCEDriver extends EditorDriver {
                     if (attempts === 10) {
                         clearInterval(interval);
                         return reject(
-                            new Error(
-                                `TinyMCE editor doesn't appear to be available in this scope`,
-                            ),
+                            new Error(top.ABT.i18n.errors.tinymceUnavailable),
                         );
                     }
                 } else {

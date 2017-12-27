@@ -46,6 +46,7 @@ function generate_translations() {
 			'message' => __( 'An unexpected error occurred', 'academic-bloggers-toolkit' ),
 			'reportInstructions' => sprintf( __( 'Please report this error, including the steps taken to trigger it, here: %s', 'academic-bloggers-toolkit' ), "\nhttps://github.com/dsifford/academic-bloggers-toolkit/issues" ),
 		],
+		'tinymceUnavailable' => __( "TinyMCE editor doesn't appear to be available in this scope", 'academic-bloggers-toolkit' ),
 	];
 
 	$ABT_i18n->referenceList = [
