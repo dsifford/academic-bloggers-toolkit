@@ -206,6 +206,7 @@ export const state: ABT.Backend['state'] = {
 export const i18n: ABT.Backend['i18n'] = {
     misc: {
         footnotes: 'Footnotes',
+        source: 'Source',
     },
     referenceList: {
         tooltips: {

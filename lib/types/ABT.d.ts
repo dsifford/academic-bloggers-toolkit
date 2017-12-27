@@ -93,6 +93,7 @@ declare namespace ABT {
         fieldmaps: FieldMappings;
         misc: {
             footnotes: 'Footnotes';
+            source: 'Source';
         };
         referenceList: {
             menu: {

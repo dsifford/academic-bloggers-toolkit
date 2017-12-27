@@ -95,10 +95,9 @@ class LinkStyle {
             }
             case 'URL':
             default: {
-                // FIXME: i18n "Source"
                 const sourceText = id.value.toLocaleLowerCase().endsWith('.pdf')
                     ? 'PDF'
-                    : 'Source';
+                    : top.ABT.i18n.misc.source;
                 return oneLineTrim`
                     ${html}${' '}
                     <span class="abt-url">

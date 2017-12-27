@@ -20,6 +20,7 @@ function generate_translations() {
 
 	$ABT_i18n->misc = [
 		'footnotes' => __( 'Footnotes', 'academic-bloggers-toolkit' ),
+		'source' => __( 'Source', 'academic-bloggers-toolkit' ),
 	];
 
 	$ABT_i18n->errors = [
