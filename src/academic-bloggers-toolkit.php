@@ -22,7 +22,7 @@ define( 'ABT_ROOT_PATH', plugin_dir_path( __FILE__ ) );
  * Load plugin translations.
  */
 function textdomain() {
-	load_plugin_textdomain( 'academic-bloggers-toolkit', false, dirname( plugin_basename( __FILE__ )) . '/languages' );
+	load_plugin_textdomain( 'academic-bloggers-toolkit', false, dirname( plugin_basename( __FILE__ ) ) . '/languages' );
 }
 add_action( 'plugins_loaded', 'ABT\textdomain' );
 
@@ -67,7 +67,7 @@ function refactor_options() {
 
 	$new_options['citation_style'] = [
 		'prefer_custom' => isset( $options['citation_style']['prefer_custom'] ) ? $options['citation_style']['prefer_custom'] : false,
-		'style' => ( ! empty( $options['citation_style']['style'] ) ? $options['citation_style']['style'] : ( ! empty( $options['abt_citation_style'] ) ? $options['abt_citation_style'] : 'american-medical-association' )),
+		'style' => ( ! empty( $options['citation_style']['style'] ) ? $options['citation_style']['style'] : ( ! empty( $options['abt_citation_style'] ) ? $options['abt_citation_style'] : 'american-medical-association' ) ),
 		'custom_url' => ! empty( $options['citation_style']['custom_url'] ) ? $options['citation_style']['custom_url'] : '',
 	];
 

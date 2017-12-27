@@ -9,7 +9,7 @@ defined( 'ABSPATH' ) || exit;
  */
 function inject_user_css() {
 	$abt_options = get_option( 'abt_options' );
-	if ( isset( $abt_options['custom_css'] ) && ! empty( $abt_options['custom_css'] )) {
+	if ( isset( $abt_options['custom_css'] ) && ! empty( $abt_options['custom_css'] ) ) {
 		$custom_css = $abt_options['custom_css'];
 		echo "<style id='custom_css'>$custom_css\r\n</style>";
 	}
@@ -26,7 +26,7 @@ function inject_author_meta() {
 		return;
 	}
 
-	if ( function_exists( 'get_coauthors' )) {
+	if ( function_exists( 'get_coauthors' ) ) {
 		$authors = get_coauthors( $post->ID );
 		foreach ( $authors as $author ) {
 			$id = $author->data->ID;

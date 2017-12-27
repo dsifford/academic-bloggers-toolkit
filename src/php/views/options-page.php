@@ -19,7 +19,7 @@
 				<th style="font-weight: bold;"><?php _e( 'PHP Version', 'academic-bloggers-toolkit' ) ?></th>
 				<td><?php echo PHP_VERSION ?></td>
 				<td>
-					<?php if ( version_compare( PHP_VERSION, '5.5', '<' )): ?>
+					<?php if ( version_compare( PHP_VERSION, '5.5', '<' ) ): ?>
 						<span style="font-weight: bold; color: red;"><?php _e( 'PHP version should be > 5.5 ( Recommended Version = 7.0.0 )', 'academic-bloggers-toolkit' ) ?></span>
 					<?php endif; ?>
 				</td>
@@ -30,7 +30,7 @@
 				<th style="font-weight: bold;"><?php printf( __( 'PHP %s Extension', 'academic-bloggers-toolkit' ), '<code>dom</code>' ) ?></th>
 				<td>
 					<?php
-						if ( extension_loaded( 'dom' )) {
+						if ( extension_loaded( 'dom' ) ) {
 							_e( 'Enabled', 'academic-bloggers-toolkit' );
 						} else {
 							echo "<span style='font-weight: bold; color: red;'>" . __( 'Disabled', 'academic-bloggers-toolkit' ) . '</span>';
@@ -39,7 +39,7 @@
 				</td>
 				<td>
 					<?php
-						if ( ! extension_loaded( 'dom' )) {
+						if ( ! extension_loaded( 'dom' ) ) {
 							printf( __( 'The %s PHP extension is required for some plugin features.', 'academic-bloggers-toolkit' ), '<code>dom</code>' ) . '<br><a href="http://php.net/manual/en/intro.dom.php" target="_blank">' . __( 'Click here for installation instructions', 'academic-bloggers-toolkit' ) . '</a>.';
 						}
 					?>
@@ -52,7 +52,7 @@
 				<th style="font-weight: bold;"><?php printf( __( 'PHP %s Extension', 'academic-bloggers-toolkit' ), '<code>libxml</code>' ) ?></th>
 				<td>
 					<?php
-						if ( extension_loaded( 'libxml' )) {
+						if ( extension_loaded( 'libxml' ) ) {
 							_e( 'Enabled', 'academic-bloggers-toolkit' );
 						} else {
 							echo "<span style='font-weight: bold; color: red;'>" . __( 'Disabled', 'academic-bloggers-toolkit' ) . '</span>';
@@ -61,7 +61,7 @@
 				</td>
 				<td>
 					<?php
-						if ( ! extension_loaded( 'libxml' )) {
+						if ( ! extension_loaded( 'libxml' ) ) {
 							printf( __( 'The %s PHP extension is required for some plugin features.', 'academic-bloggers-toolkit' ), '<code>libxml</code>' ) . '<br><a href="http://php.net/manual/en/intro.libxml.php" target="_blank">' . __( 'Click here for installation instructions', 'academic-bloggers-toolkit' ) . '</a>.';
 						}
 					?>

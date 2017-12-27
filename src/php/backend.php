@@ -53,7 +53,7 @@ class Backend {
 	 * Alerts the user that the plugin will not work if he/she doesn't have 'Rich Editing' enabled.
 	 */
 	public function user_alert() {
-		if ( 'true' === get_user_option( 'rich_editing' )) {
+		if ( 'true' === get_user_option( 'rich_editing' ) ) {
 			return;
 		}
 		$class = 'notice notice-warning is-dismissible';
@@ -65,7 +65,7 @@ class Backend {
 	 * Instantiates the TinyMCE plugin.
 	 */
 	public function init_tinymce() {
-		if ( 'true' === get_user_option( 'rich_editing' )) {
+		if ( 'true' === get_user_option( 'rich_editing' ) ) {
 			add_filter( 'mce_external_plugins', [ $this, 'register_tinymce_plugins' ] );
 			echo '<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&subset=cyrillic,cyrillic-ext,greek,greek-ext,latin-ext,vietnamese" rel="stylesheet">';
 		}
@@ -91,7 +91,7 @@ class Backend {
 	 * @return string CSS string + custom CSS appended
 	 */
 	public function load_tinymce_css( $mce_css ) {
-		if ( ! empty( $mce_css )) {
+		if ( ! empty( $mce_css ) ) {
 			$mce_css .= ',';
 		}
 		$mce_css .= ABT_ROOT_URI . 'css/tinymce.css';
@@ -132,7 +132,7 @@ class Backend {
 	public function save_meta( $post_id ) {
 		$is_autosave = wp_is_post_autosave( $post_id );
 		$is_revision = wp_is_post_revision( $post_id );
-		$is_valid_nonce = ( isset( $_POST['abt_nonce'] ) && wp_verify_nonce( $_POST['abt_nonce'], basename( __FILE__ )) ) ? true : false;
+		$is_valid_nonce = ( isset( $_POST['abt_nonce'] ) && wp_verify_nonce( $_POST['abt_nonce'], basename( __FILE__ ) ) ) ? true : false;
 
 		if ( $is_autosave || $is_revision || ! $is_valid_nonce ) {
 			return;
@@ -165,7 +165,7 @@ class Backend {
 
 		$style = $custom_preferred && $custom_valid ? 'abt-user-defined' : $opts['citation_style']['style'];
 
-		if ( empty( $state )) {
+		if ( empty( $state ) ) {
 			$state = [
 				'cache' => [
 					'style' => $style,
@@ -184,12 +184,12 @@ class Backend {
 		];
 
 		// Fix legacy post meta.
-		if ( array_key_exists( 'processorState', $state )) {
+		if ( array_key_exists( 'processorState', $state ) ) {
 			$state['CSL'] = $state['processorState'];
 			unset( $state['processorState'] );
 		}
 
-		if ( array_key_exists( 'citations', $state )) {
+		if ( array_key_exists( 'citations', $state ) ) {
 			$state['citationByIndex'] = $state['citations']['citationByIndex'];
 			unset( $state['citations'] );
 		}
