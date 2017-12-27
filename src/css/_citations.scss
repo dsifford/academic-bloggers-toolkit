@@ -4,8 +4,6 @@
 :global {
     .abt-citation {
         @include noselect;
-        display: inline-block;
-        white-space: nowrap;
         cursor: pointer;
         sup,
         sub {

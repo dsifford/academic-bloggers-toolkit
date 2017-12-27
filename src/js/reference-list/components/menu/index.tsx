@@ -78,7 +78,8 @@ export default class Menu extends React.Component<Props> {
     @computed
     get selected(): { label: string; value: string } {
         return {
-            label: this.styles.find(d => d.id === this.props.cslStyle.get())!.label,
+            label: this.styles.find(d => d.id === this.props.cslStyle.get())!
+                .label,
             value: this.props.cslStyle.get(),
         };
     }
@@ -95,13 +96,21 @@ export default class Menu extends React.Component<Props> {
             this.styles = styles;
         } else {
             this.styles = [
-                { label: Menu.labels.styleLabels.custom, value: 'header', id: 'header' },
+                {
+                    label: Menu.labels.styleLabels.custom,
+                    value: 'header',
+                    id: 'header',
+                },
                 {
                     label: top.ABT.custom_csl.label,
                     value: top.ABT.custom_csl.value,
                     id: top.ABT.custom_csl.value,
                 },
-                { label: Menu.labels.styleLabels.predefined, value: 'header', id: 'header' },
+                {
+                    label: Menu.labels.styleLabels.predefined,
+                    value: 'header',
+                    id: 'header',
+                },
                 ...styles,
             ];
         }
@@ -146,9 +155,13 @@ export default class Menu extends React.Component<Props> {
                                   className={Styles.menu}
                                   style={{
                                       height: transitionStyles[0].style.height,
-                                      maxHeight: transitionStyles[0].style.height,
-                                      opacity: transitionStyles[0].style.opacity,
-                                      transform: `scaleY(${transitionStyles[0].style.scale})`,
+                                      maxHeight:
+                                          transitionStyles[0].style.height,
+                                      opacity:
+                                          transitionStyles[0].style.opacity,
+                                      transform: `scaleY(${
+                                          transitionStyles[0].style.scale
+                                      })`,
                                       transformOrigin: 'top',
                                   }}
                               >
@@ -159,7 +172,9 @@ export default class Menu extends React.Component<Props> {
                                           icon="media-code"
                                           label={Menu.labels.tooltips.importRIS}
                                           tooltip={{
-                                              text: Menu.labels.tooltips.importRIS,
+                                              text:
+                                                  Menu.labels.tooltips
+                                                      .importRIS,
                                               position: 'bottom',
                                           }}
                                           onClick={this.handleClick}
@@ -170,7 +185,8 @@ export default class Menu extends React.Component<Props> {
                                           icon="update"
                                           label={Menu.labels.tooltips.refresh}
                                           tooltip={{
-                                              text: Menu.labels.tooltips.refresh,
+                                              text:
+                                                  Menu.labels.tooltips.refresh,
                                               position: 'bottom',
                                           }}
                                           onClick={this.handleClick}
@@ -181,7 +197,8 @@ export default class Menu extends React.Component<Props> {
                                           icon="trash"
                                           label={Menu.labels.tooltips.destroy}
                                           tooltip={{
-                                              text: Menu.labels.tooltips.destroy,
+                                              text:
+                                                  Menu.labels.tooltips.destroy,
                                               position: 'bottom',
                                           }}
                                           onClick={this.handleClick}
@@ -189,11 +206,17 @@ export default class Menu extends React.Component<Props> {
                                       <Button
                                           flat
                                           disabled={!this.props.ui.selected}
-                                          id={MenuActionType.INSERT_STATIC_BIBLIOGRAPHY}
+                                          id={
+                                              MenuActionType.INSERT_STATIC_BIBLIOGRAPHY
+                                          }
                                           icon="list-view"
-                                          label={Menu.labels.tooltips.staticPubList}
+                                          label={
+                                              Menu.labels.tooltips.staticPubList
+                                          }
                                           tooltip={{
-                                              text: Menu.labels.tooltips.staticPubList,
+                                              text:
+                                                  Menu.labels.tooltips
+                                                      .staticPubList,
                                               position: 'bottom',
                                           }}
                                           onClick={this.handleClick}
@@ -218,7 +241,9 @@ export default class Menu extends React.Component<Props> {
                                           onChange={this.handleSelect}
                                           value={this.selected}
                                           optionRenderer={renderer}
-                                          optionHeight={dynamicOptionHeightHandler}
+                                          optionHeight={
+                                              dynamicOptionHeightHandler
+                                          }
                                           options={this.styles}
                                           clearable={false}
                                       />
@@ -232,7 +257,11 @@ export default class Menu extends React.Component<Props> {
     }
 }
 
-export function dynamicOptionHeightHandler({ option }: { option: StyleOption }): number {
+export function dynamicOptionHeightHandler({
+    option,
+}: {
+    option: StyleOption;
+}): number {
     switch (true) {
         case option.label.length > 110:
             return 90;
@@ -273,43 +302,70 @@ export function renderer({
     selectValue,
     style,
 }: RendererParams): JSX.Element {
-    style.alignItems = 'center';
-    style.fontWeight = 300;
-    style.cursor = 'default';
-    style.borderBottom = '1px solid #ddd';
-    style.display = 'flex';
-    style.padding = '0 5px';
+    let outputStyle = {
+        ...style,
+        alignItems: 'center',
+        fontWeight: 300,
+        cursor: 'default',
+        borderBottom: '1px solid #ddd',
+        display: 'flex',
+        padding: '0 5px',
+    };
 
     if (option.value === 'header') {
-        style.backgroundColor = '#eee';
-        style.fontWeight = 400;
-        style.height = 30;
-        style.cursor = 'default';
-        return <div key={key} style={style} children={option.label} />;
+        outputStyle = {
+            ...outputStyle,
+            backgroundColor: '#eee',
+            fontWeight: 400,
+            height: 30,
+            cursor: 'default',
+        };
+        return <div key={key} style={outputStyle} children={option.label} />;
     }
 
     switch (true) {
         case option.label.length > 110:
-            style.height = 90;
+            outputStyle = {
+                ...outputStyle,
+                height: 90,
+            };
             break;
         case option.label.length > 90:
-            style.height = 70;
+            outputStyle = {
+                ...outputStyle,
+                height: 70,
+            };
             break;
         case option.label.length > 80:
-            style.height = 60;
+            outputStyle = {
+                ...outputStyle,
+                height: 60,
+            };
             break;
         case option.label.length > 65:
-            style.height = 50;
+            outputStyle = {
+                ...outputStyle,
+                height: 50,
+            };
             break;
         case option.label.length > 35:
-            style.height = 40;
+            outputStyle = {
+                ...outputStyle,
+                height: 40,
+            };
             break;
         default:
-            style.height = 30;
+            outputStyle = {
+                ...outputStyle,
+                height: 30,
+            };
     }
 
     if (option === focusedOption) {
-        style.backgroundColor = '#f5f5f5';
+        outputStyle = {
+            ...outputStyle,
+            backgroundColor: '#f5f5f5',
+        };
     }
 
     const click = (): void => selectValue(option);
@@ -318,7 +374,7 @@ export function renderer({
     return (
         <div
             key={key}
-            style={style}
+            style={outputStyle}
             role="option"
             aria-selected={option === focusedOption}
             onClick={click}
