@@ -1,13 +1,13 @@
 <?php
 /**
- *	Plugin Name: Academic Blogger's Toolkit
- *	Plugin URI: https://wordpress.org/plugins/academic-bloggers-toolkit/
- *	Description: A plugin extending the functionality of Wordpress for academic blogging
- *	Version: 4.12.1
- *	Author: Derek P Sifford
- *	Author URI: https://github.com/dsifford
+ *  Plugin Name: Academic Blogger's Toolkit
+ *  Plugin URI: https://wordpress.org/plugins/academic-bloggers-toolkit/
+ *  Description: A plugin extending the functionality of WordPress for academic blogging
+ *  Version: 4.12.1
+ *  Author: Derek P Sifford
+ *  Author URI: https://github.com/dsifford
  *  Text Domain: academic-bloggers-toolkit
- *	License: GPL3 or later.
+ *  License: GPL3 or later.
  */
 
 namespace ABT;
@@ -15,8 +15,8 @@ namespace ABT;
 defined( 'ABSPATH' ) || exit;
 
 define( 'ABT_VERSION', '4.12.0' );
-define( 'ABT_ROOT_URI', plugin_dir_url( __FILE__ ));
-define( 'ABT_ROOT_PATH', plugin_dir_path( __FILE__ ));
+define( 'ABT_ROOT_URI', plugin_dir_url( __FILE__ ) );
+define( 'ABT_ROOT_PATH', plugin_dir_path( __FILE__ ) );
 
 /**
  * Load plugin translations.
@@ -46,7 +46,7 @@ add_filter( 'upload_mimes', 'ABT\enable_csl_mime' );
 function uninstall() {
 	delete_option( 'abt_options' );
 }
-if ( function_exists( 'register_uninstall_hook' )) {
+if ( function_exists( 'register_uninstall_hook' ) ) {
 	register_uninstall_hook( __FILE__, 'ABT\uninstall' );
 }
 
@@ -59,7 +59,7 @@ if ( function_exists( 'register_uninstall_hook' )) {
  */
 function refactor_options() {
 	$options = get_option( 'abt_options' );
-	if ( $options['VERSION'] === ABT_VERSION ) {
+	if ( ABT_VERSION === $options['VERSION'] ) {
 		return;
 	}
 

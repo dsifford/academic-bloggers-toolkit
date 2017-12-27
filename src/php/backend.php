@@ -24,7 +24,7 @@ class Backend {
 		$is_invalid_post_type = in_array(
 			$post_type,
 			array_merge(
-				['attachment'],
+				[ 'attachment' ],
 				is_array( $disabled_post_types ) ? $disabled_post_types : []
 			)
 		);
@@ -252,7 +252,7 @@ class Backend {
 	 * @return mixed[] array as described above
 	 */
 	private function get_user_defined_csl( $path ) {
-		if ( ! file_exists( $path )) {
+		if ( ! file_exists( $path ) ) {
 			return [ 'value' => null ];
 		}
 

@@ -95,7 +95,7 @@ class Options {
 	 * @return string sanitized PATH to the CSL file
 	 */
 	private function check_custom_style_url( $url ) {
-		if ( file_exists( $url ) && substr( $url, -4 ) === '.csl' || $url === '' ) {
+		if ( file_exists( $url ) && '.csl' === substr( $url, -4 ) || '' === $url ) {
 			return $url;
 		}
 		$uploads = wp_upload_dir();
