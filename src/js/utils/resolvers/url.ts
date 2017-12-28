@@ -83,7 +83,9 @@ export async function getFromURL(url: string): Promise<AutociteResponse> {
     const headers = new Headers({
         'Content-Type': 'application/x-www-form-urlencoded',
     });
-    const body = new URLSearchParams(`action=get_website_meta&site_url=${encodeURIComponent(url)}`);
+    const body = new URLSearchParams(
+        `action=get_website_meta&site_url=${encodeURIComponent(url)}`,
+    );
     const req = await fetch(top.ajaxurl, {
         method: 'POST',
         headers,
@@ -93,7 +95,9 @@ export async function getFromURL(url: string): Promise<AutociteResponse> {
 
     if (!req.ok) {
         throw new Error(
-            req.status === 501 ? top.ABT.i18n.errors.missingPhpFeatures : req.statusText,
+            req.status === 501
+                ? top.ABT.i18n.errors.missing_php_features
+                : req.statusText,
         );
     }
 

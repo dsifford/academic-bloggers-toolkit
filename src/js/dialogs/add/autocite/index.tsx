@@ -18,7 +18,7 @@ interface Props {
 
 @observer
 export default class AutoCite extends React.Component<Props> {
-    static readonly labels = top.ABT.i18n.dialogs.add.manualEntryContainer;
+    static readonly labels = top.ABT.i18n.dialogs.add.manual_input;
 
     /** Ref to the input field (needed for validation) */
     input: HTMLInputElement;
@@ -27,7 +27,9 @@ export default class AutoCite extends React.Component<Props> {
     @observable query = '';
 
     @action
-    handleAutociteFieldChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+    handleAutociteFieldChange = (
+        e: React.ChangeEvent<HTMLInputElement>,
+    ): void => {
         this.query = e.currentTarget.value;
     };
 
@@ -52,13 +54,18 @@ export default class AutoCite extends React.Component<Props> {
         const { placeholder, kind } = this.props;
         return (
             <div className={styles.autocite}>
-                <label htmlFor="citequery" children={AutoCite.labels.autocite} />
+                <label
+                    htmlFor="citequery"
+                    children={AutoCite.labels.autocite}
+                />
                 <input
                     type={kind === 'webpage' ? 'url' : 'text'}
                     id="citequery"
                     className={styles.input}
                     placeholder={placeholder}
-                    pattern={this.props.pattern ? this.props.pattern : undefined}
+                    pattern={
+                        this.props.pattern ? this.props.pattern : undefined
+                    }
                     ref={this.bindRefs}
                     value={this.query}
                     onKeyDown={this.handleKeyDown}
@@ -66,7 +73,9 @@ export default class AutoCite extends React.Component<Props> {
                 />
                 <Button
                     flat
-                    disabled={this.query.length === 0 || !this.input.validity.valid}
+                    disabled={
+                        this.query.length === 0 || !this.input.validity.valid
+                    }
                     label={AutoCite.labels.search}
                     onClick={this.handleQuery}
                 />

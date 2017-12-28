@@ -67,7 +67,7 @@ export default class PubmedDialog extends React.Component<DialogProps> {
         try {
             const data = await pubmedQuery(this.query.get());
             if (data.length === 0) {
-                this.setError(PubmedDialog.errors.noResults);
+                this.setError(PubmedDialog.errors.no_results);
             } else {
                 runInAction('update state after fetching data', () => {
                     this.page.set(1);
@@ -83,7 +83,13 @@ export default class PubmedDialog extends React.Component<DialogProps> {
 
     render(): JSX.Element {
         if (this.isLoading.get()) {
-            return <Spinner size="40px" height="52px" bgColor="rgba(0, 0, 0, 0.05)" />;
+            return (
+                <Spinner
+                    size="40px"
+                    height="52px"
+                    bgColor="rgba(0, 0, 0, 0.05)"
+                />
+            );
         }
         const placeholder = ph.next().value;
         return (
@@ -119,10 +125,16 @@ export default class PubmedDialog extends React.Component<DialogProps> {
                     </ActionBar>
                 </form>
                 {this.results.length > 0 && (
-                    <ResultList onSelect={this.props.onSubmit} results={this.visibleResults} />
+                    <ResultList
+                        onSelect={this.props.onSubmit}
+                        results={this.visibleResults}
+                    />
                 )}
                 {this.results.length > 0 && (
-                    <Paginate page={this.page} totalPages={Math.ceil(this.results.length / 5)} />
+                    <Paginate
+                        page={this.page}
+                        totalPages={Math.ceil(this.results.length / 5)}
+                    />
                 )}
             </>
         );

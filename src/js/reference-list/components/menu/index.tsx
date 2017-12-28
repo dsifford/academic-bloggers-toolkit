@@ -56,7 +56,7 @@ const filterOptions = createFilterOptions({
 
 @observer
 export default class Menu extends React.Component<Props> {
-    static readonly labels = top.ABT.i18n.referenceList.menu;
+    static readonly labels = top.ABT.i18n.reference_list.menu;
     static filterOptions = filterOptions;
 
     static willEnter(): { height: number; scale: number } {
@@ -97,7 +97,7 @@ export default class Menu extends React.Component<Props> {
         } else {
             this.styles = [
                 {
-                    label: Menu.labels.styleLabels.custom,
+                    label: Menu.labels.style_labels.custom,
                     value: 'header',
                     id: 'header',
                 },
@@ -107,7 +107,7 @@ export default class Menu extends React.Component<Props> {
                     id: top.ABT.custom_csl.value,
                 },
                 {
-                    label: Menu.labels.styleLabels.predefined,
+                    label: Menu.labels.style_labels.predefined,
                     value: 'header',
                     id: 'header',
                 },
@@ -170,11 +170,9 @@ export default class Menu extends React.Component<Props> {
                                           flat
                                           id={MenuActionType.OPEN_IMPORT_DIALOG}
                                           icon="media-code"
-                                          label={Menu.labels.tooltips.importRIS}
+                                          label={Menu.labels.tooltips.import}
                                           tooltip={{
-                                              text:
-                                                  Menu.labels.tooltips
-                                                      .importRIS,
+                                              text: Menu.labels.tooltips.import,
                                               position: 'bottom',
                                           }}
                                           onClick={this.handleClick}
@@ -211,12 +209,13 @@ export default class Menu extends React.Component<Props> {
                                           }
                                           icon="list-view"
                                           label={
-                                              Menu.labels.tooltips.staticPubList
+                                              Menu.labels.tooltips
+                                                  .static_publist
                                           }
                                           tooltip={{
                                               text:
                                                   Menu.labels.tooltips
-                                                      .staticPubList,
+                                                      .static_publist,
                                               position: 'bottom',
                                           }}
                                           onClick={this.handleClick}

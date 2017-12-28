@@ -17,12 +17,17 @@ export async function pubmedQuery(query: string): Promise<CSL.Data[]> {
 
     if (res.error) {
         throw new Error(
-            `${top.ABT.i18n.errors.prefix}: pubmedQuery => ${top.ABT.i18n.errors.badRequest}`,
+            `${top.ABT.i18n.errors.prefix}: pubmedQuery => ${
+                top.ABT.i18n.errors.bad_request
+            }`,
         );
     }
 
     try {
-        const pubmed = await resolvePubmedData('PMID', res.esearchresult.idlist.join());
+        const pubmed = await resolvePubmedData(
+            'PMID',
+            res.esearchresult.idlist.join(),
+        );
         return pubmed.data;
     } catch (e) {
         if (typeof e === 'string') return [];
@@ -35,8 +40,16 @@ export async function getFromPubmed(
     idList: string,
 ): Promise<[CSL.Data[], string[]]> {
     try {
-        const { data, invalid }: ResolvedData = await resolvePubmedData(kind, idList);
-        return [data, invalid.map(i => (i.apiError ? i.message : `${i.uid}: ${i.message}`))];
+        const { data, invalid }: ResolvedData = await resolvePubmedData(
+            kind,
+            idList,
+        );
+        return [
+            data,
+            invalid.map(
+                i => (i.apiError ? i.message : `${i.uid}: ${i.message}`),
+            ),
+        ];
     } catch (e) {
         if (typeof e === 'string') return [[], []];
         throw e;
@@ -48,7 +61,10 @@ interface ResolvedData {
     invalid: EUtilsError[];
 }
 
-async function resolvePubmedData(kind: 'PMID' | 'PMCID', idList: string): Promise<ResolvedData> {
+async function resolvePubmedData(
+    kind: 'PMID' | 'PMCID',
+    idList: string,
+): Promise<ResolvedData> {
     if (idList.length === 0) throw 'No ids to resolve';
     const database = kind === 'PMID' ? 'pubmed' : 'pmc';
     const req = await fetch(
@@ -57,8 +73,12 @@ async function resolvePubmedData(kind: 'PMID' | 'PMCID', idList: string): Promis
     if (!req.ok) throw new Error(req.statusText);
     const res = await req.json();
     const parsed = toCSL(res);
-    const invalid = <EUtilsError[]>parsed.filter(entry => entry instanceof Error);
-    const data = <CSL.Data[]>parsed.filter(entry => entry instanceof Error === false);
+    const invalid = <EUtilsError[]>parsed.filter(
+        entry => entry instanceof Error,
+    );
+    const data = <CSL.Data[]>parsed.filter(
+        entry => entry instanceof Error === false,
+    );
     return {
         data,
         invalid,

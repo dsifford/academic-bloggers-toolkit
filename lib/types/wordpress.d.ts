@@ -1,5 +1,3 @@
-import * as React from 'react';
-
 interface BaseAttribute {
     source: string;
     selector?: string;
@@ -10,7 +8,7 @@ interface BaseAttribute {
  */
 interface AttributeAttr extends BaseAttribute {
     source: 'attribute';
-    attribute: React.HTMLAttributes<any>;
+    attribute: any;
 }
 
 /**
@@ -160,7 +158,7 @@ interface BlockConfiguration {
      * block. These can be any of WordPress’ Dashicons, or a custom svg
      * element.
      */
-    icon?: WordPress.Dashicon | React.ReactSVGElement;
+    icon?: WordPress.Dashicon | any;
     /**
      * Sometimes a block could have aliases that help users discover it while
      * searching. For example, an image block could also want to be discovered
@@ -190,7 +188,7 @@ interface BlockConfiguration {
      * Describes the structure of your block in the context of the editor. This
      * represents what the editor will render when the block is used.
      */
-    edit(params: EditParams): React.ReactNode;
+    edit(params: EditParams): any;
     /**
      * The save function defines the way in which the different attributes
      * should be combined into the final markup, which is then serialized by
@@ -204,7 +202,7 @@ interface BlockConfiguration {
      * invisible in contexts that are unable to compute them on the server,
      * instead of showing gibberish as text.)
      */
-    save(params: SaveParams): React.ReactNode | null;
+    save(params: SaveParams): any | null;
 }
 
 type GutenbergHook =

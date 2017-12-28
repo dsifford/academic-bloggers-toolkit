@@ -14,7 +14,7 @@ interface Props {
 @observer
 export default class ContributorList extends React.Component<Props> {
     static readonly fieldmaps = top.ABT.i18n.fieldmaps;
-    static readonly labels = top.ABT.i18n.dialogs.add.contributorList;
+    static readonly labels = top.ABT.i18n.dialogs.add.contributor_list;
 
     @action
     add = (): void => {
@@ -32,10 +32,14 @@ export default class ContributorList extends React.Component<Props> {
 
     render(): JSX.Element {
         let key = Date.now();
-        const contributorTypes = ContributorList.fieldmaps[this.props.citationType].people;
+        const contributorTypes =
+            ContributorList.fieldmaps[this.props.citationType].people;
         return (
             <>
-                <h2 className={styles.heading} children={ContributorList.labels.contributors} />
+                <h2
+                    className={styles.heading}
+                    children={ContributorList.labels.contributors}
+                />
                 {this.props.people.map((contributor, i) => (
                     <Contributor
                         key={key++}
@@ -46,7 +50,11 @@ export default class ContributorList extends React.Component<Props> {
                     />
                 ))}
                 <div className={styles.btnRow}>
-                    <Button flat label={ContributorList.labels.add} onClick={this.add} />
+                    <Button
+                        flat
+                        label={ContributorList.labels.add}
+                        onClick={this.add}
+                    />
                 </div>
             </>
         );

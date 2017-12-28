@@ -39,7 +39,7 @@ interface DefaultProps {
 @observer
 export default class ReferenceList extends React.Component<Props> {
     static readonly errors = top.ABT.i18n.errors;
-    static readonly labels = top.ABT.i18n.referenceList;
+    static readonly labels = top.ABT.i18n.reference_list;
     static defaultProps: DefaultProps = {
         loading: true,
     };
@@ -72,7 +72,11 @@ export default class ReferenceList extends React.Component<Props> {
 
         /** React to list toggles */
         reaction(
-            () => [this.ui.cited.isOpen, this.ui.uncited.isOpen, this.ui.menuOpen],
+            () => [
+                this.ui.cited.isOpen,
+                this.ui.uncited.isOpen,
+                this.ui.menuOpen,
+            ],
             this.handleScroll,
             { fireImmediately: false, delay: 200 },
         );
@@ -81,26 +85,41 @@ export default class ReferenceList extends React.Component<Props> {
         reaction(
             () => this.ui.pinned,
             () => {
-                document.getElementById('abt-reflist')!.classList.toggle('fixed');
+                document.getElementById('abt-reflist')!.classList.toggle(
+                    'fixed',
+                );
                 this.handleScroll();
             },
         );
 
         /** React to cited list changes */
-        reaction(() => this.props.store.citations.citedIDs.length, this.handleScroll, {
-            fireImmediately: false,
-            delay: 200,
-        });
+        reaction(
+            () => this.props.store.citations.citedIDs.length,
+            this.handleScroll,
+            {
+                fireImmediately: false,
+                delay: 200,
+            },
+        );
     }
 
     componentDidMount(): void {
-        addEventListener(EditorDriver.events.AVAILABLE, this.toggleLoading.bind(this, false));
-        addEventListener(EditorDriver.events.UNAVAILABLE, this.toggleLoading.bind(this, true));
+        addEventListener(
+            EditorDriver.events.AVAILABLE,
+            this.toggleLoading.bind(this, false),
+        );
+        addEventListener(
+            EditorDriver.events.UNAVAILABLE,
+            this.toggleLoading.bind(this, true),
+        );
         addEventListener(
             EditorDriver.events.ADD_REFERENCE,
             this.openDialog.bind(this, DialogType.ADD),
         );
-        addEventListener(EditorDriver.events.TOGGLE_PINNED, this.togglePinned.bind(this));
+        addEventListener(
+            EditorDriver.events.TOGGLE_PINNED,
+            this.togglePinned.bind(this),
+        );
         addEventListener(
             EditorDriver.events.CITATION_DELETED,
             this.handleMenuSelection.bind(this, {
@@ -112,20 +131,32 @@ export default class ReferenceList extends React.Component<Props> {
     }
 
     componentWillUnmount(): void {
-        removeEventListener(EditorDriver.events.UNAVAILABLE, this.toggleLoading.bind(this, true));
-        removeEventListener(EditorDriver.events.AVAILABLE, this.toggleLoading.bind(this, false));
+        removeEventListener(
+            EditorDriver.events.UNAVAILABLE,
+            this.toggleLoading.bind(this, true),
+        );
+        removeEventListener(
+            EditorDriver.events.AVAILABLE,
+            this.toggleLoading.bind(this, false),
+        );
         removeEventListener(
             EditorDriver.events.ADD_REFERENCE,
             this.openDialog.bind(this, DialogType.ADD),
         );
-        removeEventListener(EditorDriver.events.TOGGLE_PINNED, this.togglePinned.bind(this));
+        removeEventListener(
+            EditorDriver.events.TOGGLE_PINNED,
+            this.togglePinned.bind(this),
+        );
         removeEventListener(
             EditorDriver.events.CITATION_DELETED,
             this.handleMenuSelection.bind(this, {
                 kind: MenuActionType.REFRESH_PROCESSOR,
             }),
         );
-        removeEventListener(EditorDriver.events.UNDO, this.handleUndo.bind(this));
+        removeEventListener(
+            EditorDriver.events.UNDO,
+            this.handleUndo.bind(this),
+        );
         document.removeEventListener('scroll', this.handleScroll);
     }
 
@@ -154,13 +185,15 @@ export default class ReferenceList extends React.Component<Props> {
 
                 ${e.name}: ${e.message}
 
-                ${ReferenceList.errors.unexpected.reportInstructions}
+                ${ReferenceList.errors.unexpected.report_instructions}
             `);
             return;
         }
         if (data.length === 0) return;
         this.props.store.citations.addItems(data);
-        return payload.attachInline ? this.insertInlineCitation(undefined, data) : void 0;
+        return payload.attachInline
+            ? this.insertInlineCitation(undefined, data)
+            : void 0;
     };
 
     @action
@@ -172,7 +205,9 @@ export default class ReferenceList extends React.Component<Props> {
     deleteCitations = (): void => {
         if (this.ui.selected.length === 0) return;
         this.editor.setLoadingState(true);
-        const toRemove = this.props.store.citations.removeItems(this.ui.selected.slice());
+        const toRemove = this.props.store.citations.removeItems(
+            this.ui.selected.slice(),
+        );
         this.editor.removeItems(toRemove);
         this.clearSelection();
         this.initProcessor();
@@ -232,13 +267,16 @@ export default class ReferenceList extends React.Component<Props> {
     };
 
     @action.bound
-    openDialog(e: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement> | DialogType): void {
+    openDialog(
+        e: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement> | DialogType,
+    ): void {
         if (typeof e === 'string') {
             this.ui.currentDialog = e;
             return;
         }
         const dialog: DialogType =
-            (e.currentTarget.dataset.dialog as DialogType | undefined) || DialogType.NONE;
+            (e.currentTarget.dataset.dialog as DialogType | undefined) ||
+            DialogType.NONE;
         this.ui.currentDialog = dialog;
     }
 
@@ -255,7 +293,8 @@ export default class ReferenceList extends React.Component<Props> {
 
     @action
     toggleLoading = (loadState?: boolean): void => {
-        this.ui.loading = loadState !== undefined ? loadState : !this.ui.loading;
+        this.ui.loading =
+            loadState !== undefined ? loadState : !this.ui.loading;
     };
 
     @action
@@ -289,7 +328,7 @@ export default class ReferenceList extends React.Component<Props> {
 
                 ${e.name}: ${e.message}
 
-                ${ReferenceList.errors.unexpected.reportInstructions}
+                ${ReferenceList.errors.unexpected.report_instructions}
             `);
         }
         this.editor.setLoadingState(false);
@@ -363,7 +402,7 @@ export default class ReferenceList extends React.Component<Props> {
                         flat
                         aria-haspopup={true}
                         aria-expanded={this.ui.menuOpen}
-                        label={ReferenceList.labels.menu.toggleLabel}
+                        label={ReferenceList.labels.menu.toggle_label}
                         icon={this.ui.menuOpen ? 'no-alt' : 'menu'}
                         onClick={this.toggleMenu}
                     />
@@ -381,7 +420,7 @@ export default class ReferenceList extends React.Component<Props> {
                         onEditReference={this.editReference}
                         ui={this.ui}
                     >
-                        {ReferenceList.labels.citedItems}
+                        {ReferenceList.labels.cited_items}
                     </ItemList>
                 )}
                 {this.props.store.citations.uncited.length > 0 && (
@@ -392,7 +431,7 @@ export default class ReferenceList extends React.Component<Props> {
                         onEditReference={this.editReference}
                         ui={this.ui}
                     >
-                        {ReferenceList.labels.uncitedItems}
+                        {ReferenceList.labels.uncited_items}
                     </ItemList>
                 )}
             </>
@@ -443,7 +482,7 @@ export default class ReferenceList extends React.Component<Props> {
 
                 ${e.name}: ${e.message}
 
-                ${ReferenceList.errors.unexpected.reportInstructions}
+                ${ReferenceList.errors.unexpected.report_instructions}
             `);
         }
 
@@ -452,20 +491,35 @@ export default class ReferenceList extends React.Component<Props> {
     };
 
     insertStaticBibliography = async (): Promise<void> => {
-        let data: CSL.Data[] = this.ui.selected.map(id => this.props.store.citations.CSL.get(id)!);
+        let data: CSL.Data[] = this.ui.selected.map(
+            id => this.props.store.citations.CSL.get(id)!,
+        );
 
         const selectionHasReferences = this.editor.selection.match(
             /^<div.*? class="abt-static-bib.+? data-reflist="(.+?)"[\s\S]+<\/div>$/,
         );
         if (selectionHasReferences && selectionHasReferences[1]) {
-            const selectionIds: string[] = JSON.parse(decode(selectionHasReferences[1]));
-            data = [...data, ...selectionIds.map(id => this.props.store.citations.CSL.get(id)!)];
+            const selectionIds: string[] = JSON.parse(
+                decode(selectionHasReferences[1]),
+            );
+            data = [
+                ...data,
+                ...selectionIds.map(
+                    id => this.props.store.citations.CSL.get(id)!,
+                ),
+            ];
         }
 
         try {
-            const bibliography = await this.processor.createStaticBibliography(data);
+            const bibliography = await this.processor.createStaticBibliography(
+                data,
+            );
             this.clearSelection();
-            this.editor.setBibliography(this.props.store.bibOptions, bibliography, true);
+            this.editor.setBibliography(
+                this.props.store.bibOptions,
+                bibliography,
+                true,
+            );
         } catch (e) {
             Rollbar.error(e.message, e);
             this.editor.alert(stripIndents`
@@ -473,7 +527,7 @@ export default class ReferenceList extends React.Component<Props> {
 
                 ${e.name}: ${e.message}
 
-                ${ReferenceList.errors.unexpected.reportInstructions}
+                ${ReferenceList.errors.unexpected.report_instructions}
             `);
         }
     };
@@ -500,7 +554,8 @@ export default class ReferenceList extends React.Component<Props> {
         /**
          * Offset from top of reference list to top of viewport.
          */
-        const topOffset = scrollpos > 134 ? 55 : scrollpos === 0 ? 93 : 93 - scrollpos / 3;
+        const topOffset =
+            scrollpos > 134 ? 55 : scrollpos === 0 ? 93 : 93 - scrollpos / 3;
 
         /**
          * Vertical space that is already allocated.

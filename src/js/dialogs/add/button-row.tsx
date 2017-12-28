@@ -16,7 +16,7 @@ interface Props {
 
 @observer
 export default class ButtonRow extends React.Component<Props> {
-    static readonly labels = top.ABT.i18n.dialogs.add.buttonRow;
+    static readonly labels = top.ABT.i18n.dialogs.add.button_row;
 
     @action
     toggleAddManual = (): void => {
@@ -38,8 +38,8 @@ export default class ButtonRow extends React.Component<Props> {
                     focusable
                     label={
                         store.addManually
-                            ? ButtonRow.labels.addWithIdentifier
-                            : ButtonRow.labels.addManually
+                            ? ButtonRow.labels.add_with_identifier
+                            : ButtonRow.labels.add_manually
                     }
                     onClick={this.toggleAddManual}
                 />
@@ -47,7 +47,7 @@ export default class ButtonRow extends React.Component<Props> {
                     flat
                     focusable
                     disabled={store.addManually}
-                    label={ButtonRow.labels.searchPubmed}
+                    label={ButtonRow.labels.search_pubmed}
                     onClick={onSearchPubmedClick}
                 />
                 <ActionBar.Separator />
@@ -55,7 +55,7 @@ export default class ButtonRow extends React.Component<Props> {
                     disabled={store.isLoading}
                     onChange={this.toggleAttachInline}
                     tooltip={{
-                        text: ButtonRow.labels.insertInline,
+                        text: ButtonRow.labels.insert_inline,
                         position: 'left',
                     }}
                     checked={store.attachInline}
@@ -65,7 +65,7 @@ export default class ButtonRow extends React.Component<Props> {
                     focusable
                     form="add-reference"
                     type="submit"
-                    label={ButtonRow.labels.addReference}
+                    label={ButtonRow.labels.add_reference}
                 />
             </ActionBar>
         );

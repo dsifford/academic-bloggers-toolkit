@@ -34,7 +34,8 @@ export default class ResultList extends React.Component<Props> {
     handleWheel = (e: React.WheelEvent<HTMLDivElement>): void => {
         const isScrollingDown = e.deltaY > 0;
         const isScrollingUp = !isScrollingDown;
-        const isScrollable = e.currentTarget.scrollHeight > e.currentTarget.clientHeight;
+        const isScrollable =
+            e.currentTarget.scrollHeight > e.currentTarget.clientHeight;
         const atBottom =
             e.currentTarget.scrollHeight <=
             e.currentTarget.clientHeight + Math.ceil(e.currentTarget.scrollTop);
@@ -51,16 +52,24 @@ export default class ResultList extends React.Component<Props> {
 
     render(): JSX.Element {
         return (
-            <div className={styles.main} ref={this.bindRefs} onWheel={this.handleWheel}>
+            <div
+                className={styles.main}
+                ref={this.bindRefs}
+                onWheel={this.handleWheel}
+            >
                 {this.props.results.map(result => (
                     <div key={result.PMID} className={styles.result}>
                         <div className={styles.row1}>
-                            <span className={styles.source}>{result.journalAbbreviation}</span>
+                            <span className={styles.source}>
+                                {result.journalAbbreviation}
+                            </span>
                             <span>{result.issued!['date-parts']![0][0]}</span>
                         </div>
                         {/* tslint:disable-next-line:react-no-dangerous-html */}
                         <div
-                            dangerouslySetInnerHTML={{ __html: decode(result.title!) }}
+                            dangerouslySetInnerHTML={{
+                                __html: decode(result.title!),
+                            }}
                             className={styles.row2}
                         />
                         <div className={styles.row3}>
@@ -68,22 +77,29 @@ export default class ResultList extends React.Component<Props> {
                                 {/* FIXME: This should probably be extracted to a component/function */}
                                 {result.author!
                                     .slice(0, 3)
-                                    .map(el => `${el.family}, ${el.given!.charAt(0).toUpperCase()}`)
+                                    .map(
+                                        el =>
+                                            `${el.family}, ${el.given!
+                                                .charAt(0)
+                                                .toUpperCase()}`,
+                                    )
                                     .join(', ')}
                             </div>
                             <div className={styles.buttonGroup}>
                                 <Button
                                     flat
                                     focusable
-                                    href={`https://www.ncbi.nlm.nih.gov/pubmed/${result.PMID}`}
-                                    label={ResultList.labels.viewReference}
+                                    href={`https://www.ncbi.nlm.nih.gov/pubmed/${
+                                        result.PMID
+                                    }`}
+                                    label={ResultList.labels.view_reference}
                                 />
                                 <Button
                                     flat
                                     primary
                                     focusable
                                     id={result.PMID}
-                                    label={ResultList.labels.addReference}
+                                    label={ResultList.labels.add_reference}
                                     onClick={this.handleClick}
                                 />
                             </div>

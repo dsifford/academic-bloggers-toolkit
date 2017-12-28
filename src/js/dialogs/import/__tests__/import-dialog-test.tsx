@@ -119,12 +119,16 @@ describe('<ImportDialog />', () => {
                 currentTarget: { files: [createFile('test.ris', '')] },
             } as any);
             expect(instance.payload.length).toBe(0);
-            expect(instance.errorMessage.get()).toBe('The file could not be processed');
+            expect(instance.errorMessage.get()).toBe(
+                'The selected file could not be processed',
+            );
         });
         it('valid RIS file with 1 reference', async () => {
             const { instance } = setup();
             await instance.handleFileUpload({
-                currentTarget: { files: [createFile('test.ris', createContents('ris', 1))] },
+                currentTarget: {
+                    files: [createFile('test.ris', createContents('ris', 1))],
+                },
             } as any);
             expect(instance.payload.length).toBe(1);
             expect(instance.payload[0].title).toBe('Test 1');
@@ -136,12 +140,18 @@ describe('<ImportDialog />', () => {
                 currentTarget: { files: [createFile('test.bib', '')] },
             } as any);
             expect(instance.payload.length).toBe(0);
-            expect(instance.errorMessage.get()).toBe('The file could not be processed');
+            expect(instance.errorMessage.get()).toBe(
+                'The selected file could not be processed',
+            );
         });
         it('valid bibtex file with 1 reference', async () => {
             const { instance } = setup();
             await instance.handleFileUpload({
-                currentTarget: { files: [createFile('test.bib', createContents('bibtex', 1))] },
+                currentTarget: {
+                    files: [
+                        createFile('test.bib', createContents('bibtex', 1)),
+                    ],
+                },
             } as any);
             expect(instance.payload.length).toBe(1);
             expect(instance.payload[0].title).toBe('Test 1');
@@ -163,7 +173,9 @@ describe('<ImportDialog />', () => {
                 currentTarget: { files: [createFile('test.ris', 'testing')] },
             } as any);
             expect(instance.payload.length).toBe(0);
-            expect(instance.errorMessage.get()).toBe('The file could not be processed');
+            expect(instance.errorMessage.get()).toBe(
+                'The selected file could not be processed',
+            );
         });
     });
 });

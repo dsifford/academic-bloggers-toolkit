@@ -24,20 +24,31 @@ export async function getFromISBN(
     kind: 'book' | 'chapter',
 ): Promise<AutociteResponse> {
     const req = await fetch(
-        `https://www.googleapis.com/books/v1/volumes?q=isbn:${ISBN.replace('-', '')}`,
+        `https://www.googleapis.com/books/v1/volumes?q=isbn:${ISBN.replace(
+            '-',
+            '',
+        )}`,
     );
     if (!req.ok) {
         throw new Error(
-            `${top.ABT.i18n.errors.prefix}: getFromISBN => ${top.ABT.i18n.errors.statusError}`,
+            `${top.ABT.i18n.errors.prefix}: getFromISBN => ${
+                top.ABT.i18n.errors.status_error
+            }`,
         );
     }
     const res: APIResponse = await req.json();
 
     if (res.totalItems === 0) {
-        throw new Error(`${top.ABT.i18n.errors.noResults}`);
+        throw new Error(`${top.ABT.i18n.errors.no_results}`);
     }
 
-    const { authors, pageCount, publishedDate, publisher, title } = res.items[0].volumeInfo;
+    const {
+        authors,
+        pageCount,
+        publishedDate,
+        publisher,
+        title,
+    } = res.items[0].volumeInfo;
     const author: ABT.Contributor[] = authors.map(person => {
         const fields = parseName(person);
         return {

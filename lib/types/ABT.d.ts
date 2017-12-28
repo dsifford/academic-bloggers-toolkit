@@ -63,100 +63,100 @@ declare namespace ABT {
     }
 
     interface i18n {
-        citationTypes: CitationTypes;
+        citation_types: CitationTypes;
         errors: {
-            missingPhpFeatures: 'Your WordPress PHP installation is incomplete. You must have the following PHP extensions enabled to use this feature: "dom", "libxml"';
-            badRequest: 'Request not valid';
+            missing_php_features: 'Your WordPress PHP installation is incomplete. You must have the following PHP extensions enabled to use this feature: "dom", "libxml"';
+            bad_request: 'Request not valid';
             denied: 'Site denied request';
-            fileExtensionError: 'Invalid file extension. Extension must be .ris, .bib, or .bibtex';
-            filetypeError: 'The file could not be processed';
-            identifiersNotFound: {
+            file_extension_error: 'Invalid file extension. Extension must be .ris, .bib, or .bibtex';
+            filetype_error: 'The selected file could not be processed';
+            identifiers_not_found: {
                 all: 'No identifiers could be found for your request';
                 some: 'The following identifiers could not be found';
             };
-            networkError: 'Network Error';
-            noResults: 'Your search returned 0 results';
+            network_error: 'Network Error';
+            no_results: 'Your search returned 0 results';
             prefix: 'Error';
-            risLeftovers: 'The following references were unable to be processed';
-            statusError: 'Request returned a non-200 status code';
+            ris_leftovers: 'The following references were unable to be processed';
+            status_error: 'Request returned a non-200 status code';
             warnings: {
                 warning: 'Warning';
                 reason: 'Reason';
-                noBib: 'No bibliography format exists for your citation type';
+                no_bib: 'No bibliography format exists for your citation type';
             };
             unexpected: {
                 message: 'An unexpected error occurred';
-                reportInstructions: 'Please report this error, including the steps taken to trigger it, here: \nhttps://github.com/dsifford/academic-bloggers-toolkit/issues'; // tslint:disable-line
+                report_instructions: 'Please report this error, including the steps taken to trigger it, here: \nhttps://github.com/dsifford/academic-bloggers-toolkit/issues'; // tslint:disable-line
             };
-            tinymceUnavailable: "TinyMCE editor doesn't appear to be available in this scope";
+            tinymce_unavailable: "TinyMCE editor doesn't appear to be available in this scope";
         };
         fieldmaps: FieldMappings;
         misc: {
             footnotes: 'Footnotes';
             source: 'Source';
         };
-        referenceList: {
+        reference_list: {
             menu: {
-                styleLabels: {
+                style_labels: {
                     custom: 'Custom Style';
                     predefined: 'Pre-defined Styles';
                 };
-                toggleLabel: 'Toggle menu';
+                toggle_label: 'Toggle menu';
                 tooltips: {
                     destroy: 'Delete all references';
                     help: 'Usage instructions';
-                    importRIS: 'Import references';
+                    import: 'Import references';
                     refresh: 'Refresh reference list';
-                    staticPubList: 'Insert static publication list';
+                    static_publist: 'Insert static publication list';
                 };
             };
-            citedItems: 'Cited Items';
+            cited_items: 'Cited Items';
             tooltips: {
                 add: 'Add reference';
                 insert: 'Insert selected references';
                 pin: 'Pin reference list';
                 remove: 'Remove selected references';
             };
-            uncitedItems: 'Uncited Items';
+            uncited_items: 'Uncited Items';
         };
         dialogs: {
-            closeLabel: 'Close dialog';
+            close_label: 'Close dialog';
             edit: {
                 title: 'Edit Reference';
                 confirm: 'Confirm';
             };
             import: {
-                importBtn: 'Import';
+                import_button: 'Import';
                 title: 'Import References';
                 upload: 'Choose File';
             };
             pubmed: {
-                addReference: 'Select';
+                add_reference: 'Select';
                 next: 'Next';
                 previous: 'Previous';
                 search: 'Search';
                 title: 'Search PubMed';
-                viewReference: 'View';
+                view_reference: 'View';
             };
             add: {
-                buttonRow: {
-                    addManually: 'Add Manually';
-                    addReference: 'Add Reference';
-                    addWithIdentifier: 'Add with Identifier';
-                    insertInline: 'Insert citation inline';
-                    searchPubmed: 'Search PubMed';
+                button_row: {
+                    add_manually: 'Add Manually';
+                    add_reference: 'Add Reference';
+                    add_with_identifier: 'Add with Identifier';
+                    insert_inline: 'Insert citation inline';
+                    search_pubmed: 'Search PubMed';
                 };
-                identifierInput: {
+                identifier_input: {
                     label: 'DOI/PMID/PMCID';
                 };
-                manualEntryContainer: {
+                manual_input: {
                     autocite: 'Autocite';
-                    citationType: 'Citation Type';
+                    citation_type: 'Citation Type';
                     ISBN: 'ISBN';
                     search: 'Search';
                     URL: 'URL';
                 };
-                contributorList: {
+                contributor_list: {
                     add: 'Add contributor';
                     contributors: 'Contributors';
                 };
@@ -165,7 +165,7 @@ declare namespace ABT {
                     surname: 'Surname';
                     literal: 'Literal Name';
                     remove: 'Remove contributor';
-                    toggleLiteral: 'Toggle literal name';
+                    toggle_literal: 'Toggle literal name';
                 };
                 title: 'Add References';
             };

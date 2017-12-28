@@ -26,7 +26,7 @@ interface DefaultProps {
 
 @observer
 export default class Container extends React.Component<Props> {
-    static readonly closeLabel = top.ABT.i18n.dialogs.closeLabel;
+    static readonly closeLabel = top.ABT.i18n.dialogs.close_label;
     static defaultProps: DefaultProps = {
         overlayOpacity: 0.7,
         width: 600,
@@ -63,8 +63,13 @@ export default class Container extends React.Component<Props> {
     };
 
     render(): JSX.Element {
-        const { children: ChildElement, overlayOpacity, title, width } = this.props as Props &
-            DefaultProps;
+        // prettier-ignore
+        const {
+            children: ChildElement,
+            overlayOpacity,
+            title,
+            width,
+        } = this.props as Props & DefaultProps;
         const overlayStyle = {
             background: `rgba(0, 0, 0, ${overlayOpacity})`,
         };

@@ -49,13 +49,20 @@ export default abstract class Editor {
     static readonly staticBibClass = 'abt-static-bib';
 
     static createBibliographyElement(
-        { heading = '', headingLevel = 'h3', style = 'fixed' }: Partial<ABT.BibOptions>,
+        {
+            heading = '',
+            headingLevel = 'h3',
+            style = 'fixed',
+        }: Partial<ABT.BibOptions>,
         items: ABT.Bibliography,
         classNames: string[] = [],
     ): HTMLDivElement {
         const bib = document.createElement('div');
         bib.id = Editor.bibliographyId;
-        bib.setAttribute('data-reflist', JSON.stringify(items.map(({ id }) => id)));
+        bib.setAttribute(
+            'data-reflist',
+            JSON.stringify(items.map(({ id }) => id)),
+        );
         bib.classList.add(Editor.bibliographyId, ...classNames);
 
         if (bib.classList.contains(Editor.staticBibClass)) {
@@ -65,7 +72,9 @@ export default abstract class Editor {
             // user's selected citation type doesn't define a bibliography.
             if (items.length === 0) {
                 const { warnings } = top.ABT.i18n.errors;
-                bib.innerHTML = `<strong>${warnings.warning}:</strong> ${warnings.noBib}.`;
+                bib.innerHTML = `<strong>${warnings.warning}:</strong> ${
+                    warnings.no_bib
+                }.`;
                 return bib;
             }
         }
@@ -79,11 +88,16 @@ export default abstract class Editor {
                     `${Editor.bibliographyId}__heading_toggle`,
                 );
                 headingElement.setAttribute('aria-expanded', 'false');
-                headingElement.setAttribute('aria-controls', `${this.bibliographyId}__container`);
+                headingElement.setAttribute(
+                    'aria-controls',
+                    `${this.bibliographyId}__container`,
+                );
                 headingElement.setAttribute('data-heading-level', headingLevel);
             } else {
                 headingElement = document.createElement(headingLevel);
-                headingElement.classList.add(`${Editor.bibliographyId}__heading`);
+                headingElement.classList.add(
+                    `${Editor.bibliographyId}__heading`,
+                );
             }
             headingElement.textContent = heading;
             bib.appendChild(headingElement);
@@ -104,7 +118,10 @@ export default abstract class Editor {
         return bib;
     }
 
-    static createFootnoteSection(footnotes: string[], classNames: string[] = []): HTMLDivElement {
+    static createFootnoteSection(
+        footnotes: string[],
+        classNames: string[] = [],
+    ): HTMLDivElement {
         const note = document.createElement('div');
         note.id = Editor.footnoteId;
         note.classList.add(Editor.footnoteId, ...classNames);
@@ -138,7 +155,7 @@ export default abstract class Editor {
 
     static createInlineElement({
         classNames = [],
-        ...options,
+        ...options
     }: InlineElementOptions): HTMLSpanElement {
         const { id, innerHTML, reflist } = options;
         const element = document.createElement('span');

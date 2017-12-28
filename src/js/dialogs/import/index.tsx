@@ -30,7 +30,9 @@ export default class ImportDialog extends React.Component<DialogProps> {
     payload = observable<CSL.Data>([]);
 
     @action
-    handleFileUpload = async (e: React.FormEvent<HTMLInputElement>): Promise<void> => {
+    handleFileUpload = async (
+        e: React.FormEvent<HTMLInputElement>,
+    ): Promise<void> => {
         return new Promise<void>((resolve): void => {
             const reader = new FileReader();
             const file = e.currentTarget.files![0];
@@ -87,18 +89,20 @@ export default class ImportDialog extends React.Component<DialogProps> {
                     payload = parseBibtex(reader.result);
                     break;
                 default:
-                    this.setErrorMessage(ImportDialog.errors.fileExtensionError);
+                    this.setErrorMessage(
+                        ImportDialog.errors.file_extension_error,
+                    );
                     this.setFile();
                     return;
             }
         } catch (e) {
-            this.setErrorMessage(ImportDialog.errors.filetypeError);
+            this.setErrorMessage(ImportDialog.errors.filetype_error);
             this.setFile();
             return;
         }
 
         if (payload.length === 0) {
-            this.setErrorMessage(ImportDialog.errors.filetypeError);
+            this.setErrorMessage(ImportDialog.errors.filetype_error);
             this.setFile();
             return;
         }
@@ -134,7 +138,7 @@ export default class ImportDialog extends React.Component<DialogProps> {
                         primary
                         focusable
                         disabled={this.payload.length === 0}
-                        label={ImportDialog.labels.importBtn}
+                        label={ImportDialog.labels.import_button}
                         onClick={this.handleSubmit}
                     />
                 </div>

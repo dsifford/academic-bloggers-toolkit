@@ -141,6 +141,12 @@ exports[`<ManualInput /> should match baseline snapshot 1`] = `
       </option>
       <option
         aria-selected={false}
+        value="article"
+      >
+        Generic (Note)
+      </option>
+      <option
+        aria-selected={false}
         value="speech"
       >
         Hearing
@@ -171,18 +177,6 @@ exports[`<ManualInput /> should match baseline snapshot 1`] = `
       </option>
       <option
         aria-selected={false}
-        value="testing"
-      >
-        Test not in use
-      </option>
-      <option
-        aria-selected={false}
-        value="testing2"
-      >
-        Test not in use
-      </option>
-      <option
-        aria-selected={false}
         value="report"
       >
         Report
@@ -195,15 +189,15 @@ exports[`<ManualInput /> should match baseline snapshot 1`] = `
       </option>
       <option
         aria-selected={false}
-        value="thesis"
-      >
-        Thesis
-      </option>
-      <option
-        aria-selected={false}
         value="broadcast"
       >
         Television Broadcast
+      </option>
+      <option
+        aria-selected={false}
+        value="thesis"
+      >
+        Thesis
       </option>
       <option
         aria-selected={true}
@@ -319,8 +313,6 @@ exports[`<ManualInput /> should match baseline snapshot 1`] = `
           field={
             Object {
               "label": "Content Title",
-              "pattern": ".*",
-              "placeholder": "",
               "required": true,
               "value": "title",
             }
@@ -341,8 +333,6 @@ exports[`<ManualInput /> should match baseline snapshot 1`] = `
               className="input"
               id="__SKIPPED__"
               onChange={[Function]}
-              pattern=".*"
-              placeholder=""
               required={true}
               type="text"
               value=""
@@ -353,8 +343,6 @@ exports[`<ManualInput /> should match baseline snapshot 1`] = `
           field={
             Object {
               "label": "Website Title",
-              "pattern": ".*",
-              "placeholder": "",
               "required": true,
               "value": "container-title",
             }
@@ -375,8 +363,6 @@ exports[`<ManualInput /> should match baseline snapshot 1`] = `
               className="input"
               id="__SKIPPED__"
               onChange={[Function]}
-              pattern=".*"
-              placeholder=""
               required={true}
               type="text"
               value=""
@@ -387,8 +373,6 @@ exports[`<ManualInput /> should match baseline snapshot 1`] = `
           field={
             Object {
               "label": "URL",
-              "pattern": ".*",
-              "placeholder": "",
               "required": true,
               "value": "URL",
             }
@@ -409,8 +393,6 @@ exports[`<ManualInput /> should match baseline snapshot 1`] = `
               className="input"
               id="__SKIPPED__"
               onChange={[Function]}
-              pattern=".*"
-              placeholder=""
               required={true}
               type="text"
               value=""
@@ -421,9 +403,8 @@ exports[`<ManualInput /> should match baseline snapshot 1`] = `
           field={
             Object {
               "label": "Date",
-              "pattern": "[0-9]{4}(\\\\/[0-9]{2})?(\\\\/[0-9]{2})?(?!\\\\/)$",
-              "placeholder": "YYYY/MM/DD or YYYY/MM or YYYY",
-              "required": false,
+              "pattern": "[0-2][0-9]{3}(?:(\\\\/(?:0[1-9]|1[0-2]))(\\\\/(?:[0-2][0-9]|3[0-1]))?)?",
+              "title": "YYYY/MM/DD or YYYY/MM or YYYY",
               "value": "issued",
             }
           }
@@ -443,9 +424,8 @@ exports[`<ManualInput /> should match baseline snapshot 1`] = `
               className="input"
               id="__SKIPPED__"
               onChange={[Function]}
-              pattern="[0-9]{4}(\\\\/[0-9]{2})?(\\\\/[0-9]{2})?(?!\\\\/)$"
-              placeholder="YYYY/MM/DD or YYYY/MM or YYYY"
-              required={false}
+              pattern="[0-2][0-9]{3}(?:(\\\\/(?:0[1-9]|1[0-2]))(\\\\/(?:[0-2][0-9]|3[0-1]))?)?"
+              title="YYYY/MM/DD or YYYY/MM or YYYY"
               type="text"
               value=""
             />
@@ -455,9 +435,8 @@ exports[`<ManualInput /> should match baseline snapshot 1`] = `
           field={
             Object {
               "label": "Date Accessed",
-              "pattern": "[0-9]{4}(\\\\/[0-9]{2})?(\\\\/[0-9]{2})?(?!\\\\/)$",
-              "placeholder": "YYYY/MM/DD or YYYY/MM or YYYY",
-              "required": false,
+              "pattern": "[0-2][0-9]{3}(?:(\\\\/(?:0[1-9]|1[0-2]))(\\\\/(?:[0-2][0-9]|3[0-1]))?)?",
+              "title": "YYYY/MM/DD or YYYY/MM or YYYY",
               "value": "accessed",
             }
           }
@@ -477,9 +456,8 @@ exports[`<ManualInput /> should match baseline snapshot 1`] = `
               className="input"
               id="__SKIPPED__"
               onChange={[Function]}
-              pattern="[0-9]{4}(\\\\/[0-9]{2})?(\\\\/[0-9]{2})?(?!\\\\/)$"
-              placeholder="YYYY/MM/DD or YYYY/MM or YYYY"
-              required={false}
+              pattern="[0-2][0-9]{3}(?:(\\\\/(?:0[1-9]|1[0-2]))(\\\\/(?:[0-2][0-9]|3[0-1]))?)?"
+              title="YYYY/MM/DD or YYYY/MM or YYYY"
               type="text"
               value=""
             />
@@ -509,10 +487,23 @@ exports[`<ManualInput /> should not render autocite for anything but websites or
           aria-selected={false}
           value=\\"bill\\"
         >
-@@ -123,37 +123,109 @@
-          value=\\"broadcast\\"
+@@ -57,11 +57,11 @@
+          value=\\"motion_picture\\"
         >
-          Television Broadcast
+          Film
+        </option>
+        <option
+-         aria-selected={true}
++         aria-selected={false}
+          value=\\"article\\"
+        >
+          Generic (Note)
+        </option>
+        <option
+@@ -117,37 +117,109 @@
+          value=\\"thesis\\"
+        >
+          Thesis
         </option>
         <option
 -         aria-selected={false}
@@ -622,7 +613,7 @@ exports[`<ManualInput /> should not render autocite for anything but websites or
           style={
             Object {
               \\"display\\": \\"table\\",
-@@ -163,13 +235,13 @@
+@@ -157,11 +229,11 @@
           }
         >
           <Field
@@ -630,15 +621,12 @@ exports[`<ManualInput /> should not render autocite for anything but websites or
               Object {
 -               \\"label\\": \\"Text\\",
 +               \\"label\\": \\"Content Title\\",
-                \\"pattern\\": \\".*\\",
--               \\"placeholder\\": \\"Note: This type may not work with certain citation styles\\",
-+               \\"placeholder\\": \\"\\",
                 \\"required\\": true,
                 \\"value\\": \\"title\\",
               }
             }
             meta=\\"__SKIPPED__\\"
-@@ -180,23 +252,159 @@
+@@ -172,11 +244,11 @@
             >
               <label
                 className=\\"label\\"
@@ -651,10 +639,7 @@ exports[`<ManualInput /> should not render autocite for anything but websites or
                 className=\\"input\\"
                 id=\\"__SKIPPED__\\"
                 onChange={[Function res]}
-                pattern=\\".*\\"
--               placeholder=\\"Note: This type may not work with certain citation styles\\"
-+               placeholder=\\"\\"
-                required={true}
+@@ -184,9 +256,133 @@
                 type=\\"text\\"
                 value=\\"\\"
               />
@@ -664,8 +649,6 @@ exports[`<ManualInput /> should not render autocite for anything but websites or
 +           field={
 +             Object {
 +               \\"label\\": \\"Website Title\\",
-+               \\"pattern\\": \\".*\\",
-+               \\"placeholder\\": \\"\\",
 +               \\"required\\": true,
 +               \\"value\\": \\"container-title\\",
 +             }
@@ -686,8 +669,6 @@ exports[`<ManualInput /> should not render autocite for anything but websites or
 +               className=\\"input\\"
 +               id=\\"__SKIPPED__\\"
 +               onChange={[Function res]}
-+               pattern=\\".*\\"
-+               placeholder=\\"\\"
 +               required={true}
 +               type=\\"text\\"
 +               value=\\"\\"
@@ -698,8 +679,6 @@ exports[`<ManualInput /> should not render autocite for anything but websites or
 +           field={
 +             Object {
 +               \\"label\\": \\"URL\\",
-+               \\"pattern\\": \\".*\\",
-+               \\"placeholder\\": \\"\\",
 +               \\"required\\": true,
 +               \\"value\\": \\"URL\\",
 +             }
@@ -720,8 +699,6 @@ exports[`<ManualInput /> should not render autocite for anything but websites or
 +               className=\\"input\\"
 +               id=\\"__SKIPPED__\\"
 +               onChange={[Function res]}
-+               pattern=\\".*\\"
-+               placeholder=\\"\\"
 +               required={true}
 +               type=\\"text\\"
 +               value=\\"\\"
@@ -732,9 +709,8 @@ exports[`<ManualInput /> should not render autocite for anything but websites or
 +           field={
 +             Object {
 +               \\"label\\": \\"Date\\",
-+               \\"pattern\\": \\"[0-9]{4}(\\\\\\\\/[0-9]{2})?(\\\\\\\\/[0-9]{2})?(?!\\\\\\\\/)$\\",
-+               \\"placeholder\\": \\"YYYY/MM/DD or YYYY/MM or YYYY\\",
-+               \\"required\\": false,
++               \\"pattern\\": \\"[0-2][0-9]{3}(?:(\\\\\\\\/(?:0[1-9]|1[0-2]))(\\\\\\\\/(?:[0-2][0-9]|3[0-1]))?)?\\",
++               \\"title\\": \\"YYYY/MM/DD or YYYY/MM or YYYY\\",
 +               \\"value\\": \\"issued\\",
 +             }
 +           }
@@ -754,9 +730,8 @@ exports[`<ManualInput /> should not render autocite for anything but websites or
 +               className=\\"input\\"
 +               id=\\"__SKIPPED__\\"
 +               onChange={[Function res]}
-+               pattern=\\"[0-9]{4}(\\\\\\\\/[0-9]{2})?(\\\\\\\\/[0-9]{2})?(?!\\\\\\\\/)$\\"
-+               placeholder=\\"YYYY/MM/DD or YYYY/MM or YYYY\\"
-+               required={false}
++               pattern=\\"[0-2][0-9]{3}(?:(\\\\\\\\/(?:0[1-9]|1[0-2]))(\\\\\\\\/(?:[0-2][0-9]|3[0-1]))?)?\\"
++               title=\\"YYYY/MM/DD or YYYY/MM or YYYY\\"
 +               type=\\"text\\"
 +               value=\\"\\"
 +             />
@@ -766,9 +741,8 @@ exports[`<ManualInput /> should not render autocite for anything but websites or
 +           field={
 +             Object {
 +               \\"label\\": \\"Date Accessed\\",
-+               \\"pattern\\": \\"[0-9]{4}(\\\\\\\\/[0-9]{2})?(\\\\\\\\/[0-9]{2})?(?!\\\\\\\\/)$\\",
-+               \\"placeholder\\": \\"YYYY/MM/DD or YYYY/MM or YYYY\\",
-+               \\"required\\": false,
++               \\"pattern\\": \\"[0-2][0-9]{3}(?:(\\\\\\\\/(?:0[1-9]|1[0-2]))(\\\\\\\\/(?:[0-2][0-9]|3[0-1]))?)?\\",
++               \\"title\\": \\"YYYY/MM/DD or YYYY/MM or YYYY\\",
 +               \\"value\\": \\"accessed\\",
 +             }
 +           }
@@ -788,9 +762,8 @@ exports[`<ManualInput /> should not render autocite for anything but websites or
 +               className=\\"input\\"
 +               id=\\"__SKIPPED__\\"
 +               onChange={[Function res]}
-+               pattern=\\"[0-9]{4}(\\\\\\\\/[0-9]{2})?(\\\\\\\\/[0-9]{2})?(?!\\\\\\\\/)$\\"
-+               placeholder=\\"YYYY/MM/DD or YYYY/MM or YYYY\\"
-+               required={false}
++               pattern=\\"[0-2][0-9]{3}(?:(\\\\\\\\/(?:0[1-9]|1[0-2]))(\\\\\\\\/(?:[0-2][0-9]|3[0-1]))?)?\\"
++               title=\\"YYYY/MM/DD or YYYY/MM or YYYY\\"
 +               type=\\"text\\"
 +               value=\\"\\"
 +             />
@@ -830,10 +803,10 @@ exports[`<ManualInput /> should render autocite fields for books 1`] = `
           Book
         </option>
         <option
-@@ -123,22 +123,21 @@
-          value=\\"broadcast\\"
+@@ -117,22 +117,21 @@
+          value=\\"thesis\\"
         >
-          Television Broadcast
+          Thesis
         </option>
         <option
 -         aria-selected={false}
@@ -856,7 +829,7 @@ exports[`<ManualInput /> should render autocite fields for books 1`] = `
         className=\\"autocite\\"
       >
         <label
-@@ -149,13 +148,12 @@
+@@ -143,13 +142,12 @@
         <input
           className=\\"input\\"
           id=\\"__SKIPPED__\\"
@@ -872,7 +845,7 @@ exports[`<ManualInput /> should render autocite fields for books 1`] = `
         <Button
           disabled={true}
           flat={true}
-@@ -184,11 +182,11 @@
+@@ -178,11 +176,11 @@
         intent=\\"danger\\"
         isVisible={true}
         onDismiss={[Function res]}
@@ -885,7 +858,7 @@ exports[`<ManualInput /> should render autocite fields for books 1`] = `
         <h2
           className=\\"heading\\"
         >
-@@ -223,11 +221,11 @@
+@@ -217,11 +215,11 @@
             Object {
               \\"fontSize\\": 16,
             }
@@ -898,7 +871,7 @@ exports[`<ManualInput /> should render autocite fields for books 1`] = `
           style={
             Object {
               \\"display\\": \\"table\\",
-@@ -237,11 +235,11 @@
+@@ -231,11 +229,11 @@
           }
         >
           <Field
@@ -906,12 +879,12 @@ exports[`<ManualInput /> should render autocite fields for books 1`] = `
               Object {
 -               \\"label\\": \\"Title\\",
 +               \\"label\\": \\"Content Title\\",
-                \\"pattern\\": \\".*\\",
-                \\"placeholder\\": \\"\\",
                 \\"required\\": true,
                 \\"value\\": \\"title\\",
               }
-@@ -254,11 +252,11 @@
+            }
+            meta=\\"__SKIPPED__\\"
+@@ -246,11 +244,11 @@
             >
               <label
                 className=\\"label\\"
@@ -924,18 +897,15 @@ exports[`<ManualInput /> should render autocite fields for books 1`] = `
                 className=\\"input\\"
                 id=\\"__SKIPPED__\\"
                 onChange={[Function res]}
-@@ -271,198 +269,62 @@
+@@ -261,182 +259,56 @@
             </div>
           </Field>
           <Field
             field={
               Object {
 -               \\"label\\": \\"Series Title\\",
-+               \\"label\\": \\"Website Title\\",
-                \\"pattern\\": \\".*\\",
-                \\"placeholder\\": \\"\\",
--               \\"required\\": false,
 -               \\"value\\": \\"collection-title\\",
++               \\"label\\": \\"Website Title\\",
 +               \\"required\\": true,
 +               \\"value\\": \\"container-title\\",
               }
@@ -958,9 +928,6 @@ exports[`<ManualInput /> should render autocite fields for books 1`] = `
                 className=\\"input\\"
                 id=\\"__SKIPPED__\\"
                 onChange={[Function res]}
-                pattern=\\".*\\"
-                placeholder=\\"\\"
--               required={false}
 +               required={true}
                 type=\\"text\\"
                 value=\\"\\"
@@ -972,8 +939,7 @@ exports[`<ManualInput /> should render autocite fields for books 1`] = `
               Object {
 -               \\"label\\": \\"Series Number\\",
 -               \\"pattern\\": \\"[0-9]+\\",
--               \\"placeholder\\": \\"\\",
--               \\"required\\": false,
+-               \\"title\\": \\"One or more numbers, no spaces\\",
 -               \\"value\\": \\"collection-number\\",
 -             }
 -           }
@@ -994,8 +960,7 @@ exports[`<ManualInput /> should render autocite fields for books 1`] = `
 -               id=\\"__SKIPPED__\\"
 -               onChange={[Function res]}
 -               pattern=\\"[0-9]+\\"
--               placeholder=\\"\\"
--               required={false}
+-               title=\\"One or more numbers, no spaces\\"
 -               type=\\"text\\"
 -               value=\\"\\"
 -             />
@@ -1006,8 +971,7 @@ exports[`<ManualInput /> should render autocite fields for books 1`] = `
 -             Object {
 -               \\"label\\": \\"# of Pages\\",
 -               \\"pattern\\": \\"[0-9]+\\",
--               \\"placeholder\\": \\"\\",
--               \\"required\\": false,
+-               \\"title\\": \\"One or more numbers, no spaces\\",
 -               \\"value\\": \\"number-of-pages\\",
 -             }
 -           }
@@ -1028,8 +992,7 @@ exports[`<ManualInput /> should render autocite fields for books 1`] = `
 -               id=\\"__SKIPPED__\\"
 -               onChange={[Function res]}
 -               pattern=\\"[0-9]+\\"
--               placeholder=\\"\\"
--               required={false}
+-               title=\\"One or more numbers, no spaces\\"
 -               type=\\"text\\"
 -               value=\\"\\"
 -             />
@@ -1040,8 +1003,7 @@ exports[`<ManualInput /> should render autocite fields for books 1`] = `
 -             Object {
 -               \\"label\\": \\"Volume\\",
 -               \\"pattern\\": \\"[0-9]+\\",
--               \\"placeholder\\": \\"\\",
--               \\"required\\": false,
+-               \\"title\\": \\"One or more numbers, no spaces\\",
 -               \\"value\\": \\"volume\\",
 -             }
 -           }
@@ -1062,8 +1024,7 @@ exports[`<ManualInput /> should render autocite fields for books 1`] = `
 -               id=\\"__SKIPPED__\\"
 -               onChange={[Function res]}
 -               pattern=\\"[0-9]+\\"
--               placeholder=\\"\\"
--               required={false}
+-               title=\\"One or more numbers, no spaces\\"
 -               type=\\"text\\"
 -               value=\\"\\"
 -             />
@@ -1074,8 +1035,7 @@ exports[`<ManualInput /> should render autocite fields for books 1`] = `
 -             Object {
 -               \\"label\\": \\"Edition\\",
 -               \\"pattern\\": \\"[0-9]+\\",
--               \\"placeholder\\": \\"\\",
--               \\"required\\": false,
+-               \\"title\\": \\"One or more numbers, no spaces\\",
 -               \\"value\\": \\"edition\\",
 -             }
 -           }
@@ -1096,8 +1056,7 @@ exports[`<ManualInput /> should render autocite fields for books 1`] = `
 -               id=\\"__SKIPPED__\\"
 -               onChange={[Function res]}
 -               pattern=\\"[0-9]+\\"
--               placeholder=\\"\\"
--               required={false}
+-               title=\\"One or more numbers, no spaces\\"
 -               type=\\"text\\"
 -               value=\\"\\"
 -             />
@@ -1108,8 +1067,6 @@ exports[`<ManualInput /> should render autocite fields for books 1`] = `
 -             Object {
 -               \\"label\\": \\"Publisher\\",
 +               \\"label\\": \\"URL\\",
-                \\"pattern\\": \\".*\\",
-                \\"placeholder\\": \\"\\",
                 \\"required\\": true,
 -               \\"value\\": \\"publisher\\",
 +               \\"value\\": \\"URL\\",
@@ -1133,16 +1090,13 @@ exports[`<ManualInput /> should render autocite fields for books 1`] = `
                 className=\\"input\\"
                 id=\\"__SKIPPED__\\"
                 onChange={[Function res]}
-@@ -475,48 +337,14 @@
+@@ -447,41 +319,12 @@
             </div>
           </Field>
           <Field
             field={
               Object {
 -               \\"label\\": \\"Publisher Location\\",
--               \\"pattern\\": \\".*\\",
--               \\"placeholder\\": \\"\\",
--               \\"required\\": false,
 -               \\"value\\": \\"publisher-place\\",
 -             }
 -           }
@@ -1162,9 +1116,6 @@ exports[`<ManualInput /> should render autocite fields for books 1`] = `
 -               className=\\"input\\"
 -               id=\\"__SKIPPED__\\"
 -               onChange={[Function res]}
--               pattern=\\".*\\"
--               placeholder=\\"\\"
--               required={false}
 -               type=\\"text\\"
 -               value=\\"\\"
 -             />
@@ -1174,26 +1125,23 @@ exports[`<ManualInput /> should render autocite fields for books 1`] = `
 -           field={
 -             Object {
                 \\"label\\": \\"Date\\",
-                \\"pattern\\": \\"[0-9]{4}(\\\\\\\\/[0-9]{2})?(\\\\\\\\/[0-9]{2})?(?!\\\\\\\\/)$\\",
-                \\"placeholder\\": \\"YYYY/MM/DD or YYYY/MM or YYYY\\",
+                \\"pattern\\": \\"[0-2][0-9]{3}(?:(\\\\\\\\/(?:0[1-9]|1[0-2]))(\\\\\\\\/(?:[0-2][0-9]|3[0-1]))?)?\\",
 -               \\"required\\": true,
-+               \\"required\\": false,
+                \\"title\\": \\"YYYY/MM/DD or YYYY/MM or YYYY\\",
                 \\"value\\": \\"issued\\",
               }
             }
             meta=\\"__SKIPPED__\\"
-            onChange={[Function res]}
-@@ -534,11 +362,11 @@
+@@ -499,11 +342,10 @@
+              <input
                 className=\\"input\\"
                 id=\\"__SKIPPED__\\"
                 onChange={[Function res]}
-                pattern=\\"[0-9]{4}(\\\\\\\\/[0-9]{2})?(\\\\\\\\/[0-9]{2})?(?!\\\\\\\\/)$\\"
-                placeholder=\\"YYYY/MM/DD or YYYY/MM or YYYY\\"
+                pattern=\\"[0-2][0-9]{3}(?:(\\\\\\\\/(?:0[1-9]|1[0-2]))(\\\\\\\\/(?:[0-2][0-9]|3[0-1]))?)?\\"
 -               required={true}
-+               required={false}
+                title=\\"YYYY/MM/DD or YYYY/MM or YYYY\\"
                 type=\\"text\\"
                 value=\\"\\"
               />
-            </div>
-          </Field>"
+            </div>"
 `;

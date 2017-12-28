@@ -24,10 +24,16 @@ export default class Contributor extends React.Component<Props> {
     }
 
     @action
-    update = (e: React.FormEvent<HTMLInputElement | HTMLSelectElement>): void => {
-        const field = e.currentTarget.dataset.field as keyof ABT.Contributor | undefined;
+    update = (
+        e: React.FormEvent<HTMLInputElement | HTMLSelectElement>,
+    ): void => {
+        const field = e.currentTarget.dataset.field as
+            | keyof ABT.Contributor
+            | undefined;
         if (!field) {
-            throw new ReferenceError('"field" property not set on event target');
+            throw new ReferenceError(
+                '"field" property not set on event target',
+            );
         }
         this.props.contributor[field] = e.currentTarget.value;
     };
@@ -44,7 +50,11 @@ export default class Contributor extends React.Component<Props> {
         const { contributorTypes, contributor, index, onRemove } = this.props;
         return (
             <div className={styles.contributor}>
-                <select value={contributor.type} onChange={this.update} data-field="type">
+                <select
+                    value={contributor.type}
+                    onChange={this.update}
+                    data-field="type"
+                >
                     {contributorTypes.map(p => (
                         <option
                             key={p.type}
@@ -90,7 +100,7 @@ export default class Contributor extends React.Component<Props> {
                 <Button
                     flat
                     icon={this.isLiteral ? 'groups' : 'admin-users'}
-                    label={Contributor.labels.toggleLiteral}
+                    label={Contributor.labels.toggle_literal}
                     onClick={this.toggleLiteral}
                 />
                 <Button

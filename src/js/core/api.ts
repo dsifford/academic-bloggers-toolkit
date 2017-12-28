@@ -2,7 +2,9 @@ import { parseDate } from 'astrocite-core';
 import * as hash from 'string-hash';
 import { getFromDOI, getFromPubmed } from 'utils/resolvers';
 
-export async function getRemoteData(identifierList: string): Promise<[CSL.Data[], string]> {
+export async function getRemoteData(
+    identifierList: string,
+): Promise<[CSL.Data[], string]> {
     let pmidList: string[] = [];
     let pmcidList: string[] = [];
     let doiList: string[] = [];
@@ -37,13 +39,16 @@ export async function getRemoteData(identifierList: string): Promise<[CSL.Data[]
     }
 
     if (promises.length === 0) {
-        return [[], top.ABT.i18n.errors.identifiersNotFound.all];
+        return [[], top.ABT.i18n.errors.identifiers_not_found.all];
     }
 
     const data = await Promise.all(promises);
     const [csl, errs] = data.reduce(
         ([prevCSL, prevErr], [currCSL, currErr]) => {
-            currCSL = currCSL.map(item => ({ ...item, id: `${hash(JSON.stringify(item))}` }));
+            currCSL = currCSL.map(item => ({
+                ...item,
+                id: `${hash(JSON.stringify(item))}`,
+            }));
             return [[...prevCSL, ...currCSL], [...prevErr, ...currErr]];
         },
         [[], [...errList]],
@@ -52,7 +57,9 @@ export async function getRemoteData(identifierList: string): Promise<[CSL.Data[]
     return [
         csl,
         errs.length > 0
-            ? `${top.ABT.i18n.errors.identifiersNotFound.some}: ${errs.join(', ')}`
+            ? `${top.ABT.i18n.errors.identifiers_not_found.some}: ${errs.join(
+                  ', ',
+              )}`
             : '',
     ];
 }

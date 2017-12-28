@@ -227,7 +227,7 @@ export default class TinyMCEDriver extends EditorDriver {
                     if (attempts === 10) {
                         clearInterval(interval);
                         return reject(
-                            new Error(top.ABT.i18n.errors.tinymceUnavailable),
+                            new Error(top.ABT.i18n.errors.tinymce_unavailable),
                         );
                     }
                 } else {

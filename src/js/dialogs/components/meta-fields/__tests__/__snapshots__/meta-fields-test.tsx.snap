@@ -28,8 +28,6 @@ exports[`<MetaFields /> should match snapshots 1`] = `
       field={
         Object {
           "label": "Content Title",
-          "pattern": ".*",
-          "placeholder": "",
           "required": true,
           "value": "title",
         }
@@ -41,8 +39,6 @@ exports[`<MetaFields /> should match snapshots 1`] = `
       field={
         Object {
           "label": "Website Title",
-          "pattern": ".*",
-          "placeholder": "",
           "required": true,
           "value": "container-title",
         }
@@ -54,8 +50,6 @@ exports[`<MetaFields /> should match snapshots 1`] = `
       field={
         Object {
           "label": "URL",
-          "pattern": ".*",
-          "placeholder": "",
           "required": true,
           "value": "URL",
         }
@@ -67,9 +61,8 @@ exports[`<MetaFields /> should match snapshots 1`] = `
       field={
         Object {
           "label": "Date",
-          "pattern": "[0-9]{4}(\\\\/[0-9]{2})?(\\\\/[0-9]{2})?(?!\\\\/)$",
-          "placeholder": "YYYY/MM/DD or YYYY/MM or YYYY",
-          "required": false,
+          "pattern": "[0-2][0-9]{3}(?:(\\\\/(?:0[1-9]|1[0-2]))(\\\\/(?:[0-2][0-9]|3[0-1]))?)?",
+          "title": "YYYY/MM/DD or YYYY/MM or YYYY",
           "value": "issued",
         }
       }
@@ -80,9 +73,8 @@ exports[`<MetaFields /> should match snapshots 1`] = `
       field={
         Object {
           "label": "Date Accessed",
-          "pattern": "[0-9]{4}(\\\\/[0-9]{2})?(\\\\/[0-9]{2})?(?!\\\\/)$",
-          "placeholder": "YYYY/MM/DD or YYYY/MM or YYYY",
-          "required": false,
+          "pattern": "[0-2][0-9]{3}(?:(\\\\/(?:0[1-9]|1[0-2]))(\\\\/(?:[0-2][0-9]|3[0-1]))?)?",
+          "title": "YYYY/MM/DD or YYYY/MM or YYYY",
           "value": "accessed",
         }
       }

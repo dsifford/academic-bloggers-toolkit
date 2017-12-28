@@ -203,1321 +203,58 @@ export const state: ABT.Backend['state'] = {
     },
 };
 
+const blankFields = [
+    'article',
+    'article-journal',
+    'article-magazine',
+    'article-newspaper',
+    'bill',
+    'book',
+    'broadcast',
+    'chapter',
+    'dataset',
+    'entry',
+    'entry-dictionary',
+    'entry-encyclopedia',
+    'figure',
+    'graphic',
+    'interview',
+    'legal_case',
+    'legislation',
+    'manuscript',
+    'map',
+    'motion_picture',
+    'musical_score',
+    'pamphlet',
+    'paper-conference',
+    'patent',
+    'personal_communication',
+    'post',
+    'post-weblog',
+    'report',
+    'review',
+    'review-book',
+    'song',
+    'speech',
+    'thesis',
+    'treaty',
+    'webpage',
+].reduce(
+    (obj, item) => {
+        return {
+            ...obj,
+            [item]: {
+                title: '',
+                fields: [],
+                people: [],
+            },
+        };
+    },
+    <ABT.FieldMappings>{},
+);
+
 export const i18n: ABT.Backend['i18n'] = {
-    misc: {
-        footnotes: 'Footnotes',
-        source: 'Source',
-    },
-    referenceList: {
-        tooltips: {
-            insert: 'Insert selected references',
-            add: 'Add reference',
-            remove: 'Remove selected references',
-            pin: 'Pin reference list',
-        },
-        citedItems: 'Cited Items',
-        uncitedItems: 'Uncited Items',
-        menu: {
-            styleLabels: {
-                custom: 'Custom Style',
-                predefined: 'Pre-defined Styles',
-            },
-            toggleLabel: 'Toggle menu',
-            tooltips: {
-                importRIS: 'Import references',
-                refresh: 'Refresh reference list',
-                destroy: 'Delete all references',
-                help: 'Usage instructions',
-                staticPubList: 'Insert static publication list',
-            },
-        },
-    },
-    dialogs: {
-        closeLabel: 'Close dialog',
-        edit: {
-            title: 'Edit Reference',
-            confirm: 'Confirm',
-        },
-        import: {
-            title: 'Import References',
-            upload: 'Choose File',
-            importBtn: 'Import',
-        },
-        pubmed: {
-            title: 'Search PubMed',
-            search: 'Search',
-            next: 'Next',
-            previous: 'Previous',
-            addReference: 'Select',
-            viewReference: 'View',
-        },
-        add: {
-            title: 'Add References',
-            contributorList: {
-                add: 'Add contributor',
-                contributors: 'Contributors',
-            },
-            contributor: {
-                surname: 'Surname',
-                given: 'Given Name, M.I.',
-                literal: 'Literal Name',
-                remove: 'Remove contributor',
-                toggleLiteral: 'Toggle literal name',
-            },
-            manualEntryContainer: {
-                citationType: 'Citation Type',
-                autocite: 'Autocite',
-                URL: 'URL',
-                ISBN: 'ISBN',
-                search: 'Search',
-            },
-            identifierInput: {
-                label: 'DOI/PMID/PMCID',
-            },
-            buttonRow: {
-                addManually: 'Add Manually',
-                addWithIdentifier: 'Add with Identifier',
-                searchPubmed: 'Search PubMed',
-                addReference: 'Add Reference',
-                insertInline: 'Insert citation inline',
-            },
-        },
-    },
-    errors: {
-        badRequest: 'Request not valid',
-        denied: 'Site denied request',
-        fileExtensionError:
-            'Invalid file extension. Extension must be .ris, .bib, or .bibtex',
-        filetypeError: 'The file could not be processed',
-        identifiersNotFound: {
-            all: 'No identifiers could be found for your request',
-            some: 'The following identifiers could not be found',
-        },
-        prefix: 'Error',
-        networkError: 'Network Error',
-        noResults: 'Your search returned 0 results',
-        risLeftovers: 'The following references were unable to be processed',
-        statusError: 'Request returned a non-200 status code',
-        missingPhpFeatures:
-            'Your WordPress PHP installation is incomplete. You must have the following PHP extensions enabled to use this feature: "dom", "libxml"',
-        warnings: {
-            warning: 'Warning',
-            reason: 'Reason',
-            noBib: 'No bibliography format exists for your citation type',
-        },
-        unexpected: {
-            message: 'An unexpected error occurred',
-            reportInstructions:
-                'Please report this error, including the steps taken to trigger it, here: \nhttps://github.com/dsifford/academic-bloggers-toolkit/issues',
-        },
-        tinymceUnavailable:
-            "TinyMCE editor doesn't appear to be available in this scope",
-    },
-    fieldmaps: {
-        bill: {
-            title: 'Bill',
-            fields: [
-                {
-                    value: 'title',
-                    label: 'Title',
-                    required: true,
-                    pattern: '.*',
-                    placeholder: '',
-                },
-                {
-                    value: 'number',
-                    label: 'Bill Number',
-                    required: false,
-                    pattern: '[0-9]+',
-                    placeholder: '',
-                },
-                {
-                    value: 'page',
-                    label: 'Code Pages',
-                    required: false,
-                    pattern: '^[0-9]+-?[0-9]*$',
-                    placeholder: 'Number or Range of Numbers (e.g. 100-200)',
-                },
-                {
-                    value: 'volume',
-                    label: 'Code Volume',
-                    required: false,
-                    pattern: '[0-9]+',
-                    placeholder: '',
-                },
-                {
-                    value: 'section',
-                    label: 'Section',
-                    required: false,
-                    pattern: '.*',
-                    placeholder: '',
-                },
-                {
-                    value: 'publisher',
-                    label: 'Legislative Body',
-                    required: false,
-                    pattern: '.*',
-                    placeholder: '',
-                },
-                {
-                    value: 'issued',
-                    label: 'Date',
-                    required: true,
-                    pattern: '[0-9]{4}(\\/[0-9]{2})?(\\/[0-9]{2})?(?!\\/)$',
-                    placeholder: 'YYYY/MM/DD or YYYY/MM or YYYY',
-                },
-                {
-                    value: 'accessed',
-                    label: 'Date Accessed',
-                    required: false,
-                    pattern: '[0-9]{4}(\\/[0-9]{2})?(\\/[0-9]{2})?(?!\\/)$',
-                    placeholder: 'YYYY/MM/DD or YYYY/MM or YYYY',
-                },
-            ],
-            people: [
-                {
-                    type: 'author',
-                    label: 'Sponsor',
-                },
-            ],
-        },
-        book: {
-            title: 'Book',
-            fields: [
-                {
-                    value: 'title',
-                    label: 'Title',
-                    required: true,
-                    pattern: '.*',
-                    placeholder: '',
-                },
-                {
-                    value: 'collection-title',
-                    label: 'Series Title',
-                    required: false,
-                    pattern: '.*',
-                    placeholder: '',
-                },
-                {
-                    value: 'collection-number',
-                    label: 'Series Number',
-                    required: false,
-                    pattern: '[0-9]+',
-                    placeholder: '',
-                },
-                {
-                    value: 'number-of-pages',
-                    label: '# of Pages',
-                    required: false,
-                    pattern: '[0-9]+',
-                    placeholder: '',
-                },
-                {
-                    value: 'volume',
-                    label: 'Volume',
-                    required: false,
-                    pattern: '[0-9]+',
-                    placeholder: '',
-                },
-                {
-                    value: 'edition',
-                    label: 'Edition',
-                    required: false,
-                    pattern: '[0-9]+',
-                    placeholder: '',
-                },
-                {
-                    value: 'publisher',
-                    label: 'Publisher',
-                    required: true,
-                    pattern: '.*',
-                    placeholder: '',
-                },
-                {
-                    value: 'publisher-place',
-                    label: 'Publisher Location',
-                    required: false,
-                    pattern: '.*',
-                    placeholder: '',
-                },
-                {
-                    value: 'issued',
-                    label: 'Date',
-                    required: true,
-                    pattern: '[0-9]{4}(\\/[0-9]{2})?(\\/[0-9]{2})?(?!\\/)$',
-                    placeholder: 'YYYY/MM/DD or YYYY/MM or YYYY',
-                },
-                {
-                    value: 'accessed',
-                    label: 'Date Accessed',
-                    required: false,
-                    pattern: '[0-9]{4}(\\/[0-9]{2})?(\\/[0-9]{2})?(?!\\/)$',
-                    placeholder: 'YYYY/MM/DD or YYYY/MM or YYYY',
-                },
-            ],
-            people: [
-                {
-                    type: 'author',
-                    label: 'Author',
-                },
-                {
-                    type: 'editor',
-                    label: 'Editor',
-                },
-                {
-                    type: 'collection-editor',
-                    label: 'Series Editor',
-                },
-                {
-                    type: 'translator',
-                    label: 'Translator',
-                },
-            ],
-        },
-        chapter: {
-            title: 'Book Section',
-            fields: [
-                {
-                    value: 'title',
-                    label: 'Section Title',
-                    required: true,
-                    pattern: '.*',
-                    placeholder: '',
-                },
-                {
-                    value: 'container-title',
-                    label: 'Book Title',
-                    required: true,
-                    pattern: '.*',
-                    placeholder: '',
-                },
-                {
-                    value: 'chapter-number',
-                    label: 'Chapter Number',
-                    required: false,
-                    pattern: '[0-9]+',
-                    placeholder: '',
-                },
-                {
-                    value: 'collection-title',
-                    label: 'Series',
-                    required: false,
-                    pattern: '.*',
-                    placeholder: '',
-                },
-                {
-                    value: 'collection-number',
-                    label: 'Series Number',
-                    required: false,
-                    pattern: '[0-9]+',
-                    placeholder: '',
-                },
-                {
-                    value: 'volume',
-                    label: 'Volume',
-                    required: false,
-                    pattern: '.*',
-                    placeholder: '',
-                },
-                {
-                    value: 'number-of-volumes',
-                    label: '# of Volumes',
-                    required: false,
-                    pattern: '[0-9]+',
-                    placeholder: '',
-                },
-                {
-                    value: 'edition',
-                    label: 'Edition',
-                    required: false,
-                    pattern: '[0-9]+',
-                    placeholder: '',
-                },
-                {
-                    value: 'publisher',
-                    label: 'Publisher',
-                    required: true,
-                    pattern: '.*',
-                    placeholder: '',
-                },
-                {
-                    value: 'publisher-place',
-                    label: 'Publisher Location',
-                    required: false,
-                    pattern: '.*',
-                    placeholder: '',
-                },
-                {
-                    value: 'page',
-                    label: 'Pages',
-                    required: true,
-                    pattern: '^[0-9]+-?[0-9]*$',
-                    placeholder: 'Number or Range of Numbers (100-200)',
-                },
-                {
-                    value: 'ISBN',
-                    label: 'ISBN',
-                    required: false,
-                    pattern: '.*',
-                    placeholder: '',
-                },
-                {
-                    value: 'issued',
-                    label: 'Date',
-                    required: true,
-                    pattern: '[0-9]{4}(\\/[0-9]{2})?(\\/[0-9]{2})?(?!\\/)$',
-                    placeholder: 'YYYY/MM/DD or YYYY/MM or YYYY',
-                },
-                {
-                    value: 'accessed',
-                    label: 'Date Accessed',
-                    required: false,
-                    pattern: '[0-9]{4}(\\/[0-9]{2})?(\\/[0-9]{2})?(?!\\/)$',
-                    placeholder: 'YYYY/MM/DD or YYYY/MM or YYYY',
-                },
-            ],
-            people: [
-                {
-                    type: 'author',
-                    label: 'Section Author',
-                },
-                {
-                    type: 'container-author',
-                    label: 'Book Author',
-                },
-                {
-                    type: 'editor',
-                    label: 'Editor',
-                },
-                {
-                    type: 'collection-editor',
-                    label: 'Series Editor',
-                },
-                {
-                    type: 'translator',
-                    label: 'Translator',
-                },
-            ],
-        },
-        broadcast: {
-            title: 'Broadcast',
-            fields: [
-                {
-                    value: 'title',
-                    label: 'Title',
-                    required: false,
-                    pattern: '.*',
-                    placeholder: 'E.g. "Chapter 1"',
-                },
-                {
-                    value: 'container-title',
-                    label: 'Program Title',
-                    required: true,
-                    pattern: '.*',
-                    placeholder: 'E.g. "House of Cards"',
-                },
-                {
-                    value: 'number',
-                    label: 'Episode Number',
-                    required: false,
-                    pattern: '[0-9]+',
-                    placeholder: '',
-                },
-                {
-                    value: 'medium',
-                    label: 'Format',
-                    required: false,
-                    pattern: '.*',
-                    placeholder: 'E.g. "Television"',
-                },
-                {
-                    value: 'publisher',
-                    label: 'Network',
-                    required: true,
-                    pattern: '.*',
-                    placeholder: 'E.g. "Netflix"',
-                },
-                {
-                    value: 'issued',
-                    label: 'Date',
-                    required: true,
-                    pattern: '[0-9]{4}(\\/[0-9]{2})?(\\/[0-9]{2})?(?!\\/)$',
-                    placeholder: 'YYYY/MM/DD or YYYY/MM or YYYY',
-                },
-                {
-                    value: 'accessed',
-                    label: 'Date Accessed',
-                    required: false,
-                    pattern: '[0-9]{4}(\\/[0-9]{2})?(\\/[0-9]{2})?(?!\\/)$',
-                    placeholder: 'YYYY/MM/DD or YYYY/MM or YYYY',
-                },
-            ],
-            people: [
-                {
-                    type: 'author',
-                    label: 'Producer',
-                },
-                {
-                    type: 'director',
-                    label: 'Director',
-                },
-            ],
-        },
-        legal_case: {
-            title: 'Case',
-            fields: [
-                {
-                    value: 'title',
-                    label: 'Case Name',
-                    required: true,
-                    pattern: '.*',
-                    placeholder: '',
-                },
-                {
-                    value: 'authority',
-                    label: 'Court',
-                    required: true,
-                    pattern: '.*',
-                    placeholder: '',
-                },
-                {
-                    value: 'number',
-                    label: 'Docket Number',
-                    required: false,
-                    pattern: 'S.*',
-                    placeholder: '',
-                },
-                {
-                    value: 'issued',
-                    label: 'Date',
-                    required: true,
-                    pattern: '[0-9]{4}(\\/[0-9]{2})?(\\/[0-9]{2})?(?!\\/)$',
-                    placeholder: 'YYYY/MM/DD or YYYY/MM or YYYY',
-                },
-                {
-                    value: 'accessed',
-                    label: 'Date Accessed',
-                    required: false,
-                    pattern: '[0-9]{4}(\\/[0-9]{2})?(\\/[0-9]{2})?(?!\\/)$',
-                    placeholder: 'YYYY/MM/DD or YYYY/MM or YYYY',
-                },
-            ],
-            people: [
-                {
-                    type: 'author',
-                    label: 'Author',
-                },
-            ],
-        },
-        'paper-conference': {
-            title: 'Conference Proceeding',
-            fields: [
-                {
-                    value: 'title',
-                    label: 'Title',
-                    required: true,
-                    pattern: '.*',
-                    placeholder: '',
-                },
-                {
-                    value: 'event',
-                    label: 'Conference Name',
-                    required: true,
-                    pattern: '.*',
-                    placeholder: '',
-                },
-                {
-                    value: 'publisher-place',
-                    label: 'Conference Location',
-                    required: true,
-                    pattern: '.*',
-                    placeholder: '',
-                },
-                {
-                    value: 'issued',
-                    label: 'Date',
-                    required: true,
-                    pattern: '[0-9]{4}(\\/[0-9]{2})?(\\/[0-9]{2})?(?!\\/)$',
-                    placeholder: 'YYYY/MM/DD or YYYY/MM or YYYY',
-                },
-            ],
-            people: [
-                {
-                    type: 'author',
-                    label: 'Author',
-                },
-                {
-                    type: 'editor',
-                    label: 'Editor',
-                },
-                {
-                    type: 'collection-editor',
-                    label: 'Series Editor',
-                },
-                {
-                    type: 'translator',
-                    label: 'Translator',
-                },
-            ],
-        },
-        'entry-encyclopedia': {
-            title: 'Encyclopedia Entry',
-            fields: [
-                {
-                    value: 'title',
-                    label: 'Title',
-                    required: true,
-                    pattern: '.*',
-                    placeholder: '',
-                },
-                {
-                    value: 'container-title',
-                    label: 'Encyclopedia Title',
-                    required: true,
-                    pattern: '.*',
-                    placeholder: '',
-                },
-                {
-                    value: 'collection-title',
-                    label: 'Series',
-                    required: false,
-                    pattern: '.*',
-                    placeholder: '',
-                },
-                {
-                    value: 'collection-number',
-                    label: 'Series Number',
-                    required: false,
-                    pattern: '[0-9]+',
-                    placeholder: '',
-                },
-                {
-                    value: 'volume',
-                    label: 'Volume',
-                    required: false,
-                    pattern: '[0-9]+',
-                    placeholder: '',
-                },
-                {
-                    value: 'number-of-volumes',
-                    label: '# of Volumes',
-                    required: false,
-                    pattern: '[0-9]+',
-                    placeholder: '',
-                },
-                {
-                    value: 'edition',
-                    label: 'Edition',
-                    required: false,
-                    pattern: '[0-9]+',
-                    placeholder: '',
-                },
-                {
-                    value: 'publisher',
-                    label: 'Publisher',
-                    required: false,
-                    pattern: '.*',
-                    placeholder: '',
-                },
-                {
-                    value: 'publisher-place',
-                    label: 'Publisher Location',
-                    required: false,
-                    pattern: '.*',
-                    placeholder: '',
-                },
-                {
-                    value: 'page',
-                    label: 'Pages',
-                    required: true,
-                    pattern: '^[0-9]+-?[0-9]*$',
-                    placeholder: 'Number or Range of Numbers (100-200)',
-                },
-                {
-                    value: 'issued',
-                    label: 'Date',
-                    required: true,
-                    pattern: '[0-9]{4}(\\/[0-9]{2})?(\\/[0-9]{2})?(?!\\/)$',
-                    placeholder: 'YYYY/MM/DD or YYYY/MM or YYYY',
-                },
-                {
-                    value: 'accessed',
-                    label: 'Date Accessed',
-                    required: false,
-                    pattern: '[0-9]{4}(\\/[0-9]{2})?(\\/[0-9]{2})?(?!\\/)$',
-                    placeholder: 'YYYY/MM/DD or YYYY/MM or YYYY',
-                },
-            ],
-            people: [
-                {
-                    type: 'author',
-                    label: 'Author',
-                },
-                {
-                    type: 'editor',
-                    label: 'Editor',
-                },
-                {
-                    type: 'collection-editor',
-                    label: 'Series Editor',
-                },
-                {
-                    type: 'translator',
-                    label: 'Translator',
-                },
-            ],
-        },
-        motion_picture: {
-            title: 'Film',
-            fields: [
-                {
-                    value: 'title',
-                    label: 'Title',
-                    required: true,
-                    pattern: '.*',
-                    placeholder: '',
-                },
-                {
-                    value: 'publisher',
-                    label: 'Distributor',
-                    required: false,
-                    pattern: '.*',
-                    placeholder: '',
-                },
-                {
-                    value: 'genre',
-                    label: 'Genre',
-                    required: false,
-                    pattern: '.*',
-                    placeholder: '',
-                },
-                {
-                    value: 'language',
-                    label: 'Language',
-                    required: false,
-                    pattern: '.*',
-                    placeholder: '',
-                },
-                {
-                    value: 'medium',
-                    label: 'Format',
-                    required: false,
-                    pattern: '.*',
-                    placeholder: '',
-                },
-                {
-                    value: 'issued',
-                    label: 'Date',
-                    required: true,
-                    pattern: '[0-9]{4}(\\/[0-9]{2})?(\\/[0-9]{2})?(?!\\/)$',
-                    placeholder: 'YYYY/MM/DD or YYYY/MM or YYYY',
-                },
-                {
-                    value: 'accessed',
-                    label: 'Date Accessed',
-                    required: false,
-                    pattern: '[0-9]{4}(\\/[0-9]{2})?(\\/[0-9]{2})?(?!\\/)$',
-                    placeholder: 'YYYY/MM/DD or YYYY/MM or YYYY',
-                },
-            ],
-            people: [
-                {
-                    type: 'author',
-                    label: 'Scriptwriter',
-                },
-                {
-                    type: 'director',
-                    label: 'Director',
-                },
-                {
-                    type: 'editor',
-                    label: 'Producer',
-                },
-            ],
-        },
-        article: {
-            title: 'Generic (Note)',
-            fields: [
-                {
-                    value: 'title',
-                    label: 'Text',
-                    required: true,
-                    pattern: '.*',
-                    placeholder:
-                        'Note: This type may not work with certain citation styles',
-                },
-            ],
-            people: [],
-        },
-        speech: {
-            title: 'Presentation',
-            fields: [
-                {
-                    value: 'title',
-                    label: 'Title',
-                    required: true,
-                    pattern: '.*',
-                    placeholder: '',
-                },
-                {
-                    value: 'event',
-                    label: 'Event Name',
-                    required: true,
-                    pattern: '.*',
-                    placeholder: '',
-                },
-                {
-                    value: 'event-place',
-                    label: 'Event Location',
-                    required: false,
-                    pattern: '.*',
-                    placeholder: '',
-                },
-                {
-                    value: 'language',
-                    label: 'Language',
-                    required: false,
-                    pattern: '.*',
-                    placeholder: '',
-                },
-                {
-                    value: 'issued',
-                    label: 'Date',
-                    required: true,
-                    pattern: '[0-9]{4}(/[0-9]{2})?(/[0-9]{2})?(?!/)$', // eslint-disable-line
-                    placeholder: 'YYYY/MM/DD or YYYY/MM or YYYY',
-                },
-            ],
-            people: [
-                {
-                    type: 'author',
-                    label: 'Presenter',
-                },
-            ],
-        },
-        'article-journal': {
-            title: 'Journal Article',
-            fields: [
-                {
-                    value: 'title',
-                    label: 'Title',
-                    required: true,
-                    pattern: '.*',
-                    placeholder: '',
-                },
-                {
-                    value: 'container-title',
-                    label: 'Journal',
-                    required: true,
-                    pattern: '.*',
-                    placeholder: '',
-                },
-                {
-                    value: 'journalAbbreviation',
-                    label: 'Journal Abbreviation',
-                    required: false,
-                    pattern: '.*',
-                    placeholder: '',
-                },
-                {
-                    value: 'volume',
-                    label: 'Volume',
-                    required: false,
-                    pattern: '[0-9]+',
-                    placeholder: '',
-                },
-                {
-                    value: 'issue',
-                    label: 'Issue',
-                    required: false,
-                    pattern: '[0-9]+',
-                    placeholder: '',
-                },
-                {
-                    value: 'page',
-                    label: 'Pages',
-                    required: false,
-                    pattern: '^[0-9]+-?[0-9]*$',
-                    placeholder: 'Number or Range of Numbers (100-200)',
-                },
-                {
-                    value: 'DOI',
-                    label: 'DOI',
-                    required: false,
-                    pattern: '.*',
-                    placeholder: '',
-                },
-                {
-                    value: 'URL',
-                    label: 'URL',
-                    required: false,
-                    pattern: '.*',
-                    placeholder: '',
-                },
-                {
-                    value: 'issued',
-                    label: 'Date',
-                    required: true,
-                    pattern: '[0-9]{4}(\\/[0-9]{2})?(\\/[0-9]{2})?(?!\\/)$',
-                    placeholder: 'YYYY/MM/DD or YYYY/MM or YYYY',
-                },
-            ],
-            people: [
-                {
-                    type: 'author',
-                    label: 'Author',
-                },
-                {
-                    type: 'editor',
-                    label: 'Editor',
-                },
-            ],
-        },
-        'article-magazine': {
-            title: 'Magazine Article',
-            fields: [
-                {
-                    value: 'title',
-                    label: 'Title',
-                    required: true,
-                    pattern: '.*',
-                    placeholder: '',
-                },
-                {
-                    value: 'container-title',
-                    label: 'Magazine',
-                    required: true,
-                    pattern: '.*',
-                    placeholder: '',
-                },
-                {
-                    value: 'volume',
-                    label: 'Volume',
-                    required: false,
-                    pattern: '.*',
-                    placeholder: '',
-                },
-                {
-                    value: 'page',
-                    label: 'Pages',
-                    required: true,
-                    pattern: '^[0-9]+-?[0-9]*$',
-                    placeholder: 'Number or Range of Numbers (100-200)',
-                },
-                {
-                    value: 'issue',
-                    label: 'Issue',
-                    required: false,
-                    pattern: '.*',
-                    placeholder: '',
-                },
-                {
-                    value: 'ISSN',
-                    label: 'ISSN',
-                    required: false,
-                    pattern: '.*',
-                    placeholder: '',
-                },
-                {
-                    value: 'URL',
-                    label: 'URL',
-                    required: false,
-                    pattern: '.*',
-                    placeholder: '',
-                },
-                {
-                    value: 'issued',
-                    label: 'Date',
-                    required: true,
-                    pattern: '[0-9]{4}(\\/[0-9]{2})?(\\/[0-9]{2})?(?!\\/)$',
-                    placeholder: 'YYYY/MM/DD or YYYY/MM or YYYY',
-                },
-                {
-                    value: 'accessed',
-                    label: 'Date Accessed',
-                    required: false,
-                    pattern: '[0-9]{4}(\\/[0-9]{2})?(\\/[0-9]{2})?(?!\\/)$',
-                    placeholder: 'YYYY/MM/DD or YYYY/MM or YYYY',
-                },
-            ],
-            people: [
-                {
-                    type: 'author',
-                    label: 'Author',
-                },
-                {
-                    type: 'editor',
-                    label: 'Editor',
-                },
-            ],
-        },
-        'article-newspaper': {
-            title: 'Newspaper Article',
-            fields: [
-                {
-                    value: 'title',
-                    label: 'Title',
-                    required: true,
-                    pattern: '.*',
-                    placeholder: '',
-                },
-                {
-                    value: 'container-title',
-                    label: 'Publication',
-                    required: true,
-                    pattern: '.*',
-                    placeholder: '',
-                },
-                {
-                    value: 'section',
-                    label: 'Section',
-                    required: false,
-                    pattern: '.*',
-                    placeholder: 'E.g. "Sports", "Politics"',
-                },
-                {
-                    value: 'page',
-                    label: 'Pages',
-                    required: true,
-                    pattern: '^[0-9]+-?[0-9]*$',
-                    placeholder: 'Number or Range of Numbers (100-200)',
-                },
-                {
-                    value: 'issue',
-                    label: 'Issue',
-                    required: false,
-                    pattern: '.*',
-                    placeholder: '',
-                },
-                {
-                    value: 'URL',
-                    label: 'URL',
-                    required: false,
-                    pattern: '.*',
-                    placeholder: '',
-                },
-                {
-                    value: 'issued',
-                    label: 'Date',
-                    required: true,
-                    pattern: '[0-9]{4}(\\/[0-9]{2})?(\\/[0-9]{2})?(?!\\/)$',
-                    placeholder: 'YYYY/MM/DD or YYYY/MM or YYYY',
-                },
-                {
-                    value: 'accessed',
-                    label: 'Date Accessed',
-                    required: false,
-                    pattern: '[0-9]{4}(\\/[0-9]{2})?(\\/[0-9]{2})?(?!\\/)$',
-                    placeholder: 'YYYY/MM/DD or YYYY/MM or YYYY',
-                },
-            ],
-            people: [
-                {
-                    type: 'author',
-                    label: 'Author',
-                },
-                {
-                    type: 'editor',
-                    label: 'Editor',
-                },
-            ],
-        },
-        patent: {
-            title: 'Patent',
-            fields: [
-                {
-                    value: 'title',
-                    label: 'Title',
-                    required: true,
-                    pattern: '.*',
-                    placeholder: '',
-                },
-                {
-                    value: 'number',
-                    label: 'Number',
-                    required: true,
-                    pattern: '[0-9]+',
-                    placeholder: '',
-                },
-                {
-                    value: 'jurisdiction',
-                    label: 'Jurisdiction',
-                    required: true,
-                    pattern: '.*',
-                    placeholder: 'E.g. "United States"',
-                },
-                {
-                    value: 'page',
-                    label: 'Pages',
-                    required: true,
-                    pattern: '^[0-9]+-?[0-9]*$',
-                    placeholder: 'Number or Range of Numbers (100-200)',
-                },
-                {
-                    value: 'publisher',
-                    label: 'Issuer',
-                    required: true,
-                    pattern: '.*',
-                    placeholder: '',
-                },
-                {
-                    value: 'issued',
-                    label: 'Date',
-                    required: true,
-                    pattern: '[0-9]{4}(\\/[0-9]{2})?(\\/[0-9]{2})?(?!\\/)$',
-                    placeholder: 'YYYY/MM/DD or YYYY/MM or YYYY',
-                },
-                {
-                    value: 'accessed',
-                    label: 'Date Accessed',
-                    required: false,
-                    pattern: '[0-9]{4}(\\/[0-9]{2})?(\\/[0-9]{2})?(?!\\/)$',
-                    placeholder: 'YYYY/MM/DD or YYYY/MM or YYYY',
-                },
-            ],
-            people: [
-                {
-                    type: 'author',
-                    label: 'Inventor',
-                },
-            ],
-        },
-        report: {
-            title: 'Report',
-            fields: [
-                {
-                    value: 'title',
-                    label: 'Title',
-                    required: true,
-                    pattern: '.*',
-                    placeholder: '',
-                },
-                {
-                    value: 'number',
-                    label: 'Number',
-                    required: false,
-                    pattern: '[0-9]+',
-                    placeholder: '',
-                },
-                {
-                    value: 'collection-title',
-                    label: 'Series',
-                    required: false,
-                    pattern: '.*',
-                    placeholder: '',
-                },
-                {
-                    value: 'container-title',
-                    label: 'Publication',
-                    required: false,
-                    pattern: '.*',
-                    placeholder: '',
-                },
-                {
-                    value: 'publisher',
-                    label: 'Publisher',
-                    required: true,
-                    pattern: '.*',
-                    placeholder: '',
-                },
-                {
-                    value: 'page',
-                    label: 'Pages',
-                    required: true,
-                    pattern: '^[0-9]+-?[0-9]*$',
-                    placeholder: 'Number or Range of Numbers (100-200)',
-                },
-                {
-                    value: 'URL',
-                    label: 'URL',
-                    required: false,
-                    pattern: '.*',
-                    placeholder: '',
-                },
-                {
-                    value: 'issued',
-                    label: 'Date',
-                    required: true,
-                    pattern: '[0-9]{4}(\\/[0-9]{2})?(\\/[0-9]{2})?(?!\\/)$',
-                    placeholder: 'YYYY/MM/DD or YYYY/MM or YYYY',
-                },
-                {
-                    value: 'accessed',
-                    label: 'Date Accessed',
-                    required: false,
-                    pattern: '[0-9]{4}(\\/[0-9]{2})?(\\/[0-9]{2})?(?!\\/)$',
-                    placeholder: 'YYYY/MM/DD or YYYY/MM or YYYY',
-                },
-            ],
-            people: [
-                {
-                    type: 'author',
-                    label: 'Author',
-                },
-                {
-                    type: 'collection-editor',
-                    label: 'Series Editor',
-                },
-                {
-                    type: 'translator',
-                    label: 'Translator',
-                },
-            ],
-        },
-        legislation: {
-            title: 'Statute',
-            fields: [
-                {
-                    value: 'title',
-                    label: 'Title',
-                    required: true,
-                    pattern: '.*',
-                    placeholder: '',
-                },
-                {
-                    value: 'number',
-                    label: 'Statute Number',
-                    required: false,
-                    pattern: '[0-9]+',
-                    placeholder: '',
-                },
-                {
-                    value: 'section',
-                    label: 'Section',
-                    required: false,
-                    pattern: '.*',
-                    placeholder: '',
-                },
-                {
-                    value: 'page',
-                    label: 'Pages',
-                    required: true,
-                    pattern: '^[0-9]+-?[0-9]*$',
-                    placeholder: 'Number or Range of Numbers (100-200)',
-                },
-                {
-                    value: 'issued',
-                    label: 'Date',
-                    required: true,
-                    pattern: '[0-9]{4}(\\/[0-9]{2})?(\\/[0-9]{2})?(?!\\/)$',
-                    placeholder: 'YYYY/MM/DD or YYYY/MM or YYYY',
-                },
-                {
-                    value: 'accessed',
-                    label: 'Date Accessed',
-                    required: false,
-                    pattern: '[0-9]{4}(\\/[0-9]{2})?(\\/[0-9]{2})?(?!\\/)$',
-                    placeholder: 'YYYY/MM/DD or YYYY/MM or YYYY',
-                },
-            ],
-            people: [
-                {
-                    type: 'author',
-                    label: 'Author',
-                },
-            ],
-        },
-        thesis: {
-            title: 'Thesis',
-            fields: [
-                {
-                    value: 'title',
-                    label: 'Title',
-                    required: true,
-                    pattern: '.*',
-                    placeholder: '',
-                },
-                {
-                    value: 'number-of-pages',
-                    label: '# of Pages',
-                    required: false,
-                    pattern: '[0-9]+',
-                    placeholder: '',
-                },
-                {
-                    value: 'publisher',
-                    label: 'University',
-                    required: true,
-                    pattern: '.*',
-                    placeholder: '',
-                },
-                {
-                    value: 'publisher-place',
-                    label: 'Location',
-                    required: false,
-                    pattern: '.*',
-                    placeholder: '',
-                },
-                {
-                    value: 'issued',
-                    label: 'Date',
-                    required: true,
-                    pattern: '[0-9]{4}(\\/[0-9]{2})?(\\/[0-9]{2})?(?!\\/)$',
-                    placeholder: 'YYYY/MM/DD or YYYY/MM or YYYY',
-                },
-                {
-                    value: 'accessed',
-                    label: 'Date Accessed',
-                    required: false,
-                    pattern: '[0-9]{4}(\\/[0-9]{2})?(\\/[0-9]{2})?(?!\\/)$',
-                    placeholder: 'YYYY/MM/DD or YYYY/MM or YYYY',
-                },
-            ],
-            people: [
-                {
-                    type: 'author',
-                    label: 'Author',
-                },
-            ],
-        },
-        webpage: {
-            title: 'Web Page',
-            fields: [
-                {
-                    value: 'title',
-                    label: 'Content Title',
-                    required: true,
-                    pattern: '.*',
-                    placeholder: '',
-                },
-                {
-                    value: 'container-title',
-                    label: 'Website Title',
-                    required: true,
-                    pattern: '.*',
-                    placeholder: '',
-                },
-                {
-                    value: 'URL',
-                    label: 'URL',
-                    required: true,
-                    pattern: '.*',
-                    placeholder: '',
-                },
-                {
-                    value: 'issued',
-                    label: 'Date',
-                    required: false,
-                    pattern: '[0-9]{4}(\\/[0-9]{2})?(\\/[0-9]{2})?(?!\\/)$',
-                    placeholder: 'YYYY/MM/DD or YYYY/MM or YYYY',
-                },
-                {
-                    value: 'accessed',
-                    label: 'Date Accessed',
-                    required: false,
-                    pattern: '[0-9]{4}(\\/[0-9]{2})?(\\/[0-9]{2})?(?!\\/)$',
-                    placeholder: 'YYYY/MM/DD or YYYY/MM or YYYY',
-                },
-            ],
-            people: [
-                {
-                    type: 'author',
-                    label: 'Author',
-                },
-            ],
-        },
-    },
-    citationTypes: [
+    citation_types: [
         {
             label: 'Bill',
             value: 'bill',
@@ -1547,6 +284,10 @@ export const i18n: ABT.Backend['i18n'] = {
             value: 'motion_picture',
         },
         {
+            label: 'Generic (Note)',
+            value: 'article',
+        },
+        {
             label: 'Hearing',
             value: 'speech',
         },
@@ -1567,14 +308,6 @@ export const i18n: ABT.Backend['i18n'] = {
             value: 'patent',
         },
         {
-            label: 'Test not in use',
-            value: 'testing',
-        },
-        {
-            label: 'Test not in use',
-            value: 'testing2',
-        },
-        {
             label: 'Report',
             value: 'report',
         },
@@ -1583,16 +316,1146 @@ export const i18n: ABT.Backend['i18n'] = {
             value: 'legislation',
         },
         {
-            label: 'Thesis',
-            value: 'thesis',
-        },
-        {
             label: 'Television Broadcast',
             value: 'broadcast',
+        },
+        {
+            label: 'Thesis',
+            value: 'thesis',
         },
         {
             label: 'Web Page',
             value: 'webpage',
         },
     ],
+    dialogs: {
+        add: {
+            button_row: {
+                add_manually: 'Add Manually',
+                add_reference: 'Add Reference',
+                add_with_identifier: 'Add with Identifier',
+                insert_inline: 'Insert citation inline',
+                search_pubmed: 'Search PubMed',
+            },
+            identifier_input: {
+                label: 'DOI/PMID/PMCID',
+            },
+            manual_input: {
+                autocite: 'Autocite',
+                citation_type: 'Citation Type',
+                ISBN: 'ISBN',
+                search: 'Search',
+                URL: 'URL',
+            },
+            contributor_list: {
+                add: 'Add contributor',
+                contributors: 'Contributors',
+            },
+            contributor: {
+                given: 'Given Name, M.I.',
+                surname: 'Surname',
+                literal: 'Literal Name',
+                remove: 'Remove contributor',
+                toggle_literal: 'Toggle literal name',
+            },
+            title: 'Add References',
+        },
+        close_label: 'Close dialog',
+        edit: {
+            title: 'Edit Reference',
+            confirm: 'Confirm',
+        },
+        import: {
+            import_button: 'Import',
+            title: 'Import References',
+            upload: 'Choose File',
+        },
+        pubmed: {
+            add_reference: 'Select',
+            next: 'Next',
+            previous: 'Previous',
+            search: 'Search',
+            title: 'Search PubMed',
+            view_reference: 'View',
+        },
+    },
+    errors: {
+        missing_php_features:
+            'Your WordPress PHP installation is incomplete. You must have the following PHP extensions enabled to use this feature: "dom", "libxml"',
+        bad_request: 'Request not valid',
+        denied: 'Site denied request',
+        file_extension_error:
+            'Invalid file extension. Extension must be .ris, .bib, or .bibtex',
+        filetype_error: 'The selected file could not be processed',
+        identifiers_not_found: {
+            all: 'No identifiers could be found for your request',
+            some: 'The following identifiers could not be found',
+        },
+        network_error: 'Network Error',
+        no_results: 'Your search returned 0 results',
+        prefix: 'Error',
+        ris_leftovers: 'The following references were unable to be processed',
+        status_error: 'Request returned a non-200 status code',
+        warnings: {
+            warning: 'Warning',
+            reason: 'Reason',
+            no_bib: 'No bibliography format exists for your citation type',
+        },
+        unexpected: {
+            message: 'An unexpected error occurred',
+            report_instructions:
+                'Please report this error, including the steps taken to trigger it, here: \nhttps://github.com/dsifford/academic-bloggers-toolkit/issues',
+        },
+        tinymce_unavailable:
+            "TinyMCE editor doesn't appear to be available in this scope",
+    },
+    fieldmaps: {
+        ...blankFields,
+        article: {
+            title: 'Generic (Note)',
+            fields: [
+                {
+                    value: 'title',
+                    label: 'Text',
+                    required: true,
+                },
+            ],
+            people: [],
+        },
+        'article-journal': {
+            title: 'Journal Article',
+            fields: [
+                {
+                    value: 'title',
+                    label: 'Title',
+                    required: true,
+                },
+                {
+                    value: 'container-title',
+                    label: 'Journal',
+                    required: true,
+                },
+                {
+                    value: 'journalAbbreviation',
+                    label: 'Journal Abbreviation',
+                },
+                {
+                    value: 'volume',
+                    label: 'Volume',
+                    pattern: '[0-9]+',
+                    title: 'One or more numbers, no spaces',
+                },
+                {
+                    value: 'issue',
+                    label: 'Issue',
+                    pattern: '[0-9]+',
+                },
+                {
+                    value: 'page',
+                    label: 'Pages',
+                    pattern: '[0-9]+(?:-[0-9]+)?',
+                    title: 'Number or Range of Numbers (100-200)',
+                },
+                {
+                    value: 'DOI',
+                    label: 'DOI',
+                },
+                {
+                    value: 'URL',
+                    label: 'URL',
+                },
+                {
+                    value: 'issued',
+                    label: 'Date',
+                    required: true,
+                    pattern:
+                        '[0-2][0-9]{3}(?:(\\/(?:0[1-9]|1[0-2]))(\\/(?:[0-2][0-9]|3[0-1]))?)?',
+                    title: 'YYYY/MM/DD or YYYY/MM or YYYY',
+                },
+            ],
+            people: [
+                {
+                    type: 'author',
+                    label: 'Author',
+                },
+                {
+                    type: 'editor',
+                    label: 'Editor',
+                },
+            ],
+        },
+        'article-magazine': {
+            title: 'Magazine Article',
+            fields: [
+                {
+                    value: 'title',
+                    label: 'Title',
+                    required: true,
+                },
+                {
+                    value: 'container-title',
+                    label: 'Magazine',
+                    required: true,
+                },
+                {
+                    value: 'volume',
+                    label: 'Volume',
+                    pattern: '[0-9]+',
+                    title: 'One or more numbers, no spaces',
+                },
+                {
+                    value: 'page',
+                    label: 'Pages',
+                    required: true,
+                    pattern: '[0-9]+(?:-[0-9]+)?',
+                    title: 'Number or Range of Numbers (100-200)',
+                },
+                {
+                    value: 'issue',
+                    label: 'Issue',
+                },
+                {
+                    value: 'ISSN',
+                    label: 'ISSN',
+                },
+                {
+                    value: 'URL',
+                    label: 'URL',
+                },
+                {
+                    value: 'issued',
+                    label: 'Date',
+                    required: true,
+                    pattern:
+                        '[0-2][0-9]{3}(?:(\\/(?:0[1-9]|1[0-2]))(\\/(?:[0-2][0-9]|3[0-1]))?)?',
+                    title: 'YYYY/MM/DD or YYYY/MM or YYYY',
+                },
+                {
+                    value: 'accessed',
+                    label: 'Date Accessed',
+                    pattern:
+                        '[0-2][0-9]{3}(?:(\\/(?:0[1-9]|1[0-2]))(\\/(?:[0-2][0-9]|3[0-1]))?)?',
+                    title: 'YYYY/MM/DD or YYYY/MM or YYYY',
+                },
+            ],
+            people: [
+                {
+                    type: 'author',
+                    label: 'Author',
+                },
+                {
+                    type: 'editor',
+                    label: 'Editor',
+                },
+            ],
+        },
+        'article-newspaper': {
+            title: 'Newspaper Article',
+            fields: [
+                {
+                    value: 'title',
+                    label: 'Title',
+                    required: true,
+                },
+                {
+                    value: 'container-title',
+                    label: 'Publication',
+                    required: true,
+                },
+                {
+                    value: 'section',
+                    label: 'Section',
+                },
+                {
+                    value: 'page',
+                    label: 'Pages',
+                    required: true,
+                    pattern: '[0-9]+(?:-[0-9]+)?',
+                    title: 'Number or Range of Numbers (100-200)',
+                },
+                {
+                    value: 'issue',
+                    label: 'Issue',
+                },
+                {
+                    value: 'URL',
+                    label: 'URL',
+                },
+                {
+                    value: 'issued',
+                    label: 'Date',
+                    required: true,
+                    pattern:
+                        '[0-2][0-9]{3}(?:(\\/(?:0[1-9]|1[0-2]))(\\/(?:[0-2][0-9]|3[0-1]))?)?',
+                    title: 'YYYY/MM/DD or YYYY/MM or YYYY',
+                },
+                {
+                    value: 'accessed',
+                    label: 'Date Accessed',
+                    pattern:
+                        '[0-2][0-9]{3}(?:(\\/(?:0[1-9]|1[0-2]))(\\/(?:[0-2][0-9]|3[0-1]))?)?',
+                    title: 'YYYY/MM/DD or YYYY/MM or YYYY',
+                },
+            ],
+            people: [
+                {
+                    type: 'author',
+                    label: 'Author',
+                },
+                {
+                    type: 'editor',
+                    label: 'Editor',
+                },
+            ],
+        },
+        bill: {
+            title: 'Bill',
+            fields: [
+                {
+                    value: 'title',
+                    label: 'Title',
+                    required: true,
+                },
+                {
+                    value: 'number',
+                    label: 'Bill Number',
+                },
+                {
+                    value: 'page',
+                    label: 'Code Pages',
+                    pattern: '[0-9]+(?:-[0-9]+)?',
+                    title: 'Number or Range of Numbers (100-200)',
+                },
+                {
+                    value: 'volume',
+                    label: 'Code Volume',
+                    pattern: '[0-9]+',
+                    title: 'One or more numbers, no spaces',
+                },
+                {
+                    value: 'section',
+                    label: 'Section',
+                },
+                {
+                    value: 'publisher',
+                    label: 'Legislative Body',
+                },
+                {
+                    value: 'issued',
+                    label: 'Date',
+                    required: true,
+                    pattern:
+                        '[0-2][0-9]{3}(?:(\\/(?:0[1-9]|1[0-2]))(\\/(?:[0-2][0-9]|3[0-1]))?)?',
+                    title: 'YYYY/MM/DD or YYYY/MM or YYYY',
+                },
+                {
+                    value: 'accessed',
+                    label: 'Date Accessed',
+                    pattern:
+                        '[0-2][0-9]{3}(?:(\\/(?:0[1-9]|1[0-2]))(\\/(?:[0-2][0-9]|3[0-1]))?)?',
+                    title: 'YYYY/MM/DD or YYYY/MM or YYYY',
+                },
+            ],
+            people: [
+                {
+                    type: 'author',
+                    label: 'Sponsor',
+                },
+            ],
+        },
+        book: {
+            title: 'Book',
+            fields: [
+                {
+                    value: 'title',
+                    label: 'Title',
+                    required: true,
+                },
+                {
+                    value: 'collection-title',
+                    label: 'Series Title',
+                },
+                {
+                    value: 'collection-number',
+                    label: 'Series Number',
+                    pattern: '[0-9]+',
+                    title: 'One or more numbers, no spaces',
+                },
+                {
+                    value: 'number-of-pages',
+                    label: '# of Pages',
+                    pattern: '[0-9]+',
+                    title: 'One or more numbers, no spaces',
+                },
+                {
+                    value: 'volume',
+                    label: 'Volume',
+                    pattern: '[0-9]+',
+                    title: 'One or more numbers, no spaces',
+                },
+                {
+                    value: 'edition',
+                    label: 'Edition',
+                    pattern: '[0-9]+',
+                    title: 'One or more numbers, no spaces',
+                },
+                {
+                    value: 'publisher',
+                    label: 'Publisher',
+                    required: true,
+                },
+                {
+                    value: 'publisher-place',
+                    label: 'Publisher Location',
+                },
+                {
+                    value: 'issued',
+                    label: 'Date',
+                    required: true,
+                    pattern:
+                        '[0-2][0-9]{3}(?:(\\/(?:0[1-9]|1[0-2]))(\\/(?:[0-2][0-9]|3[0-1]))?)?',
+                    title: 'YYYY/MM/DD or YYYY/MM or YYYY',
+                },
+                {
+                    value: 'accessed',
+                    label: 'Date Accessed',
+                    pattern:
+                        '[0-2][0-9]{3}(?:(\\/(?:0[1-9]|1[0-2]))(\\/(?:[0-2][0-9]|3[0-1]))?)?',
+                    title: 'YYYY/MM/DD or YYYY/MM or YYYY',
+                },
+            ],
+            people: [
+                {
+                    type: 'author',
+                    label: 'Author',
+                },
+                {
+                    type: 'editor',
+                    label: 'Editor',
+                },
+                {
+                    type: 'collection-editor',
+                    label: 'Series Editor',
+                },
+                {
+                    type: 'translator',
+                    label: 'Translator',
+                },
+            ],
+        },
+        broadcast: {
+            title: 'Broadcast',
+            fields: [
+                {
+                    value: 'title',
+                    label: 'Title',
+                },
+                {
+                    value: 'container-title',
+                    label: 'Program Title',
+                    required: true,
+                },
+                {
+                    value: 'number',
+                    label: 'Episode Number',
+                    pattern: '[0-9]+',
+                    title: 'One or more numbers, no spaces',
+                },
+                {
+                    value: 'medium',
+                    label: 'Format',
+                },
+                {
+                    value: 'publisher',
+                    label: 'Network',
+                    required: true,
+                },
+                {
+                    value: 'issued',
+                    label: 'Date',
+                    required: true,
+                    pattern:
+                        '[0-2][0-9]{3}(?:(\\/(?:0[1-9]|1[0-2]))(\\/(?:[0-2][0-9]|3[0-1]))?)?',
+                    title: 'YYYY/MM/DD or YYYY/MM or YYYY',
+                },
+                {
+                    value: 'accessed',
+                    label: 'Date Accessed',
+                    pattern:
+                        '[0-2][0-9]{3}(?:(\\/(?:0[1-9]|1[0-2]))(\\/(?:[0-2][0-9]|3[0-1]))?)?',
+                    title: 'YYYY/MM/DD or YYYY/MM or YYYY',
+                },
+            ],
+            people: [
+                {
+                    type: 'author',
+                    label: 'Producer',
+                },
+                {
+                    type: 'director',
+                    label: 'Director',
+                },
+            ],
+        },
+        chapter: {
+            title: 'Book Section',
+            fields: [
+                {
+                    value: 'title',
+                    label: 'Section Title',
+                    required: true,
+                },
+                {
+                    value: 'container-title',
+                    label: 'Book Title',
+                    required: true,
+                },
+                {
+                    value: 'chapter-number',
+                    label: 'Chapter Number',
+                    pattern: '[0-9]+',
+                    title: 'One or more numbers, no spaces',
+                },
+                {
+                    value: 'collection-title',
+                    label: 'Series',
+                },
+                {
+                    value: 'collection-number',
+                    label: 'Series Number',
+                    pattern: '[0-9]+',
+                    title: 'One or more numbers, no spaces',
+                },
+                {
+                    value: 'volume',
+                    label: 'Volume',
+                    pattern: '[0-9]+',
+                    title: 'One or more numbers, no spaces',
+                },
+                {
+                    value: 'number-of-volumes',
+                    label: '# of Volumes',
+                    pattern: '[0-9]+',
+                    title: 'One or more numbers, no spaces',
+                },
+                {
+                    value: 'edition',
+                    label: 'Edition',
+                    pattern: '[0-9]+',
+                    title: 'One or more numbers, no spaces',
+                },
+                {
+                    value: 'publisher',
+                    label: 'Publisher',
+                    required: true,
+                },
+                {
+                    value: 'publisher-place',
+                    label: 'Publisher Location',
+                },
+                {
+                    value: 'page',
+                    label: 'Pages',
+                    required: true,
+                    pattern: '[0-9]+(?:-[0-9]+)?',
+                    title: 'Number or Range of Numbers (100-200)',
+                },
+                {
+                    value: 'ISBN',
+                    label: 'ISBN',
+                },
+                {
+                    value: 'issued',
+                    label: 'Date',
+                    required: true,
+                    pattern:
+                        '[0-2][0-9]{3}(?:(\\/(?:0[1-9]|1[0-2]))(\\/(?:[0-2][0-9]|3[0-1]))?)?',
+                    title: 'YYYY/MM/DD or YYYY/MM or YYYY',
+                },
+                {
+                    value: 'accessed',
+                    label: 'Date Accessed',
+                    pattern:
+                        '[0-2][0-9]{3}(?:(\\/(?:0[1-9]|1[0-2]))(\\/(?:[0-2][0-9]|3[0-1]))?)?',
+                    title: 'YYYY/MM/DD or YYYY/MM or YYYY',
+                },
+            ],
+            people: [
+                {
+                    type: 'author',
+                    label: 'Section Author',
+                },
+                {
+                    type: 'container-author',
+                    label: 'Book Author',
+                },
+                {
+                    type: 'editor',
+                    label: 'Editor',
+                },
+                {
+                    type: 'collection-editor',
+                    label: 'Series Editor',
+                },
+                {
+                    type: 'translator',
+                    label: 'Translator',
+                },
+            ],
+        },
+        'entry-encyclopedia': {
+            title: 'Encyclopedia Entry',
+            fields: [
+                {
+                    value: 'title',
+                    label: 'Title',
+                    required: true,
+                },
+                {
+                    value: 'container-title',
+                    label: 'Encyclopedia Title',
+                    required: true,
+                },
+                {
+                    value: 'collection-title',
+                    label: 'Series',
+                },
+                {
+                    value: 'collection-number',
+                    label: 'Series Number',
+                    pattern: '[0-9]+',
+                    title: 'One or more numbers, no spaces',
+                },
+                {
+                    value: 'volume',
+                    label: 'Volume',
+                    pattern: '[0-9]+',
+                    title: 'One or more numbers, no spaces',
+                },
+                {
+                    value: 'number-of-volumes',
+                    label: '# of Volumes',
+                    pattern: '[0-9]+',
+                    title: 'One or more numbers, no spaces',
+                },
+                {
+                    value: 'edition',
+                    label: 'Edition',
+                    pattern: '[0-9]+',
+                    title: 'One or more numbers, no spaces',
+                },
+                {
+                    value: 'publisher',
+                    label: 'Publisher',
+                },
+                {
+                    value: 'publisher-place',
+                    label: 'Publisher Location',
+                },
+                {
+                    value: 'page',
+                    label: 'Pages',
+                    required: true,
+                    pattern: '[0-9]+(?:-[0-9]+)?',
+                    title: 'Number or Range of Numbers (100-200)',
+                },
+                {
+                    value: 'issued',
+                    label: 'Date',
+                    required: true,
+                    pattern:
+                        '[0-2][0-9]{3}(?:(\\/(?:0[1-9]|1[0-2]))(\\/(?:[0-2][0-9]|3[0-1]))?)?',
+                    title: 'YYYY/MM/DD or YYYY/MM or YYYY',
+                },
+                {
+                    value: 'accessed',
+                    label: 'Date Accessed',
+                    pattern:
+                        '[0-2][0-9]{3}(?:(\\/(?:0[1-9]|1[0-2]))(\\/(?:[0-2][0-9]|3[0-1]))?)?',
+                    title: 'YYYY/MM/DD or YYYY/MM or YYYY',
+                },
+            ],
+            people: [
+                {
+                    type: 'author',
+                    label: 'Author',
+                },
+                {
+                    type: 'editor',
+                    label: 'Editor',
+                },
+                {
+                    type: 'collection-editor',
+                    label: 'Series Editor',
+                },
+                {
+                    type: 'translator',
+                    label: 'Translator',
+                },
+            ],
+        },
+        legal_case: {
+            title: 'Case',
+            fields: [
+                {
+                    value: 'title',
+                    label: 'Case Name',
+                    required: true,
+                },
+                {
+                    value: 'authority',
+                    label: 'Court',
+                    required: true,
+                },
+                {
+                    value: 'number',
+                    label: 'Docket Number',
+                    pattern: '\\S*',
+                    title: 'Any combination of non-whitespace characters',
+                },
+                {
+                    value: 'issued',
+                    label: 'Date',
+                    required: true,
+                    pattern:
+                        '[0-2][0-9]{3}(?:(\\/(?:0[1-9]|1[0-2]))(\\/(?:[0-2][0-9]|3[0-1]))?)?',
+                    title: 'YYYY/MM/DD or YYYY/MM or YYYY',
+                },
+                {
+                    value: 'accessed',
+                    label: 'Date Accessed',
+                    pattern:
+                        '[0-2][0-9]{3}(?:(\\/(?:0[1-9]|1[0-2]))(\\/(?:[0-2][0-9]|3[0-1]))?)?',
+                    title: 'YYYY/MM/DD or YYYY/MM or YYYY',
+                },
+            ],
+            people: [
+                {
+                    type: 'author',
+                    label: 'Author',
+                },
+            ],
+        },
+        legislation: {
+            title: 'Statute',
+            fields: [
+                {
+                    value: 'title',
+                    label: 'Title',
+                    required: true,
+                },
+                {
+                    value: 'number',
+                    label: 'Statute Number',
+                    pattern: '[0-9]+',
+                    title: 'One or more numbers, no spaces',
+                },
+                {
+                    value: 'section',
+                    label: 'Section',
+                },
+                {
+                    value: 'page',
+                    label: 'Pages',
+                    required: true,
+                    pattern: '[0-9]+(?:-[0-9]+)?',
+                    title: 'Number or Range of Numbers (100-200)',
+                },
+                {
+                    value: 'issued',
+                    label: 'Date',
+                    required: true,
+                    pattern:
+                        '[0-2][0-9]{3}(?:(\\/(?:0[1-9]|1[0-2]))(\\/(?:[0-2][0-9]|3[0-1]))?)?',
+                    title: 'YYYY/MM/DD or YYYY/MM or YYYY',
+                },
+                {
+                    value: 'accessed',
+                    label: 'Date Accessed',
+                    pattern:
+                        '[0-2][0-9]{3}(?:(\\/(?:0[1-9]|1[0-2]))(\\/(?:[0-2][0-9]|3[0-1]))?)?',
+                    title: 'YYYY/MM/DD or YYYY/MM or YYYY',
+                },
+            ],
+            people: [
+                {
+                    type: 'author',
+                    label: 'Author',
+                },
+            ],
+        },
+        motion_picture: {
+            title: 'Film',
+            fields: [
+                {
+                    value: 'title',
+                    label: 'Title',
+                    required: true,
+                },
+                {
+                    value: 'publisher',
+                    label: 'Distributor',
+                },
+                {
+                    value: 'genre',
+                    label: 'Genre',
+                },
+                {
+                    value: 'language',
+                    label: 'Language',
+                },
+                {
+                    value: 'medium',
+                    label: 'Format',
+                },
+                {
+                    value: 'issued',
+                    label: 'Date',
+                    required: true,
+                    pattern:
+                        '[0-2][0-9]{3}(?:(\\/(?:0[1-9]|1[0-2]))(\\/(?:[0-2][0-9]|3[0-1]))?)?',
+                    title: 'YYYY/MM/DD or YYYY/MM or YYYY',
+                },
+                {
+                    value: 'accessed',
+                    label: 'Date Accessed',
+                    pattern:
+                        '[0-2][0-9]{3}(?:(\\/(?:0[1-9]|1[0-2]))(\\/(?:[0-2][0-9]|3[0-1]))?)?',
+                    title: 'YYYY/MM/DD or YYYY/MM or YYYY',
+                },
+            ],
+            people: [
+                {
+                    type: 'author',
+                    label: 'Scriptwriter',
+                },
+                {
+                    type: 'director',
+                    label: 'Director',
+                },
+                {
+                    type: 'editor',
+                    label: 'Producer',
+                },
+            ],
+        },
+        'paper-conference': {
+            title: 'Conference Proceeding',
+            fields: [
+                {
+                    value: 'title',
+                    label: 'Title',
+                    required: true,
+                },
+                {
+                    value: 'event',
+                    label: 'Conference Name',
+                    required: true,
+                },
+                {
+                    value: 'publisher-place',
+                    label: 'Conference Location',
+                    required: true,
+                },
+                {
+                    value: 'issued',
+                    label: 'Date',
+                    required: true,
+                    pattern:
+                        '[0-2][0-9]{3}(?:(\\/(?:0[1-9]|1[0-2]))(\\/(?:[0-2][0-9]|3[0-1]))?)?',
+                    title: 'YYYY/MM/DD or YYYY/MM or YYYY',
+                },
+            ],
+            people: [
+                {
+                    type: 'author',
+                    label: 'Author',
+                },
+                {
+                    type: 'editor',
+                    label: 'Editor',
+                },
+                {
+                    type: 'collection-editor',
+                    label: 'Series Editor',
+                },
+                {
+                    type: 'translator',
+                    label: 'Translator',
+                },
+            ],
+        },
+        patent: {
+            title: 'Patent',
+            fields: [
+                {
+                    value: 'title',
+                    label: 'Title',
+                    required: true,
+                },
+                {
+                    value: 'number',
+                    label: 'Number',
+                    required: true,
+                },
+                {
+                    value: 'jurisdiction',
+                    label: 'Jurisdiction',
+                    required: true,
+                },
+                {
+                    value: 'page',
+                    label: 'Pages',
+                    pattern: '[0-9]+(?:-[0-9]+)?',
+                    title: 'Number or Range of Numbers (100-200)',
+                },
+                {
+                    value: 'publisher',
+                    label: 'Issuer',
+                    required: true,
+                },
+                {
+                    value: 'issued',
+                    label: 'Date',
+                    required: true,
+                    pattern:
+                        '[0-2][0-9]{3}(?:(\\/(?:0[1-9]|1[0-2]))(\\/(?:[0-2][0-9]|3[0-1]))?)?',
+                    title: 'YYYY/MM/DD or YYYY/MM or YYYY',
+                },
+                {
+                    value: 'accessed',
+                    label: 'Date Accessed',
+                    pattern:
+                        '[0-2][0-9]{3}(?:(\\/(?:0[1-9]|1[0-2]))(\\/(?:[0-2][0-9]|3[0-1]))?)?',
+                    title: 'YYYY/MM/DD or YYYY/MM or YYYY',
+                },
+            ],
+            people: [
+                {
+                    type: 'author',
+                    label: 'Inventor',
+                },
+            ],
+        },
+        report: {
+            title: 'Report',
+            fields: [
+                {
+                    value: 'title',
+                    label: 'Title',
+                    required: true,
+                },
+                {
+                    value: 'number',
+                    label: 'Number',
+                    pattern: '[0-9]+',
+                    title: 'One or more numbers, no spaces',
+                },
+                {
+                    value: 'collection-title',
+                    label: 'Series',
+                },
+                {
+                    value: 'container-title',
+                    label: 'Publication',
+                },
+                {
+                    value: 'publisher',
+                    label: 'Publisher',
+                    required: true,
+                },
+                {
+                    value: 'page',
+                    label: 'Pages',
+                    required: true,
+                    pattern: '[0-9]+(?:-[0-9]+)?',
+                    title: 'Number or Range of Numbers (100-200)',
+                },
+                {
+                    value: 'URL',
+                    label: 'URL',
+                },
+                {
+                    value: 'issued',
+                    label: 'Date',
+                    required: true,
+                    pattern:
+                        '[0-2][0-9]{3}(?:(\\/(?:0[1-9]|1[0-2]))(\\/(?:[0-2][0-9]|3[0-1]))?)?',
+                    title: 'YYYY/MM/DD or YYYY/MM or YYYY',
+                },
+                {
+                    value: 'accessed',
+                    label: 'Date Accessed',
+                    pattern:
+                        '[0-2][0-9]{3}(?:(\\/(?:0[1-9]|1[0-2]))(\\/(?:[0-2][0-9]|3[0-1]))?)?',
+                    title: 'YYYY/MM/DD or YYYY/MM or YYYY',
+                },
+            ],
+            people: [
+                {
+                    type: 'author',
+                    label: 'Author',
+                },
+                {
+                    type: 'collection-editor',
+                    label: 'Series Editor',
+                },
+                {
+                    type: 'translator',
+                    label: 'Translator',
+                },
+            ],
+        },
+        speech: {
+            title: 'Presentation',
+            fields: [
+                {
+                    value: 'title',
+                    label: 'Title',
+                    required: true,
+                },
+                {
+                    value: 'event',
+                    label: 'Event Name',
+                    required: true,
+                },
+                {
+                    value: 'event-place',
+                    label: 'Event Location',
+                },
+                {
+                    value: 'language',
+                    label: 'Language',
+                },
+                {
+                    value: 'issued',
+                    label: 'Date',
+                    required: true,
+                    pattern:
+                        '[0-2][0-9]{3}(?:(\\/(?:0[1-9]|1[0-2]))(\\/(?:[0-2][0-9]|3[0-1]))?)?',
+                    title: 'YYYY/MM/DD or YYYY/MM or YYYY',
+                },
+            ],
+            people: [
+                {
+                    type: 'author',
+                    label: 'Presenter',
+                },
+            ],
+        },
+        thesis: {
+            title: 'Thesis',
+            fields: [
+                {
+                    value: 'title',
+                    label: 'Title',
+                    required: true,
+                },
+                {
+                    value: 'number-of-pages',
+                    label: '# of Pages',
+                    pattern: '[0-9]+',
+                    title: 'One or more numbers, no spaces',
+                },
+                {
+                    value: 'publisher',
+                    label: 'University',
+                    required: true,
+                },
+                {
+                    value: 'publisher-place',
+                    label: 'Location',
+                },
+                {
+                    value: 'issued',
+                    label: 'Date',
+                    required: true,
+                    pattern:
+                        '[0-2][0-9]{3}(?:(\\/(?:0[1-9]|1[0-2]))(\\/(?:[0-2][0-9]|3[0-1]))?)?',
+                    title: 'YYYY/MM/DD or YYYY/MM or YYYY',
+                },
+                {
+                    value: 'accessed',
+                    label: 'Date Accessed',
+                    pattern:
+                        '[0-2][0-9]{3}(?:(\\/(?:0[1-9]|1[0-2]))(\\/(?:[0-2][0-9]|3[0-1]))?)?',
+                    title: 'YYYY/MM/DD or YYYY/MM or YYYY',
+                },
+            ],
+            people: [
+                {
+                    type: 'author',
+                    label: 'Author',
+                },
+            ],
+        },
+        webpage: {
+            title: 'Web Page',
+            fields: [
+                {
+                    value: 'title',
+                    label: 'Content Title',
+                    required: true,
+                },
+                {
+                    value: 'container-title',
+                    label: 'Website Title',
+                    required: true,
+                },
+                {
+                    value: 'URL',
+                    label: 'URL',
+                    required: true,
+                },
+                {
+                    value: 'issued',
+                    label: 'Date',
+                    pattern:
+                        '[0-2][0-9]{3}(?:(\\/(?:0[1-9]|1[0-2]))(\\/(?:[0-2][0-9]|3[0-1]))?)?',
+                    title: 'YYYY/MM/DD or YYYY/MM or YYYY',
+                },
+                {
+                    value: 'accessed',
+                    label: 'Date Accessed',
+                    pattern:
+                        '[0-2][0-9]{3}(?:(\\/(?:0[1-9]|1[0-2]))(\\/(?:[0-2][0-9]|3[0-1]))?)?',
+                    title: 'YYYY/MM/DD or YYYY/MM or YYYY',
+                },
+            ],
+            people: [
+                {
+                    type: 'author',
+                    label: 'Author',
+                },
+            ],
+        },
+    },
+    misc: {
+        footnotes: 'Footnotes',
+        source: 'Source',
+    },
+    reference_list: {
+        menu: {
+            style_labels: {
+                custom: 'Custom Style',
+                predefined: 'Pre-defined Styles',
+            },
+            toggle_label: 'Toggle menu',
+            tooltips: {
+                destroy: 'Delete all references',
+                help: 'Usage instructions',
+                import: 'Import references',
+                refresh: 'Refresh reference list',
+                static_publist: 'Insert static publication list',
+            },
+        },
+        cited_items: 'Cited Items',
+        tooltips: {
+            add: 'Add reference',
+            insert: 'Insert selected references',
+            pin: 'Pin reference list',
+            remove: 'Remove selected references',
+        },
+        uncited_items: 'Uncited Items',
+    },
 };

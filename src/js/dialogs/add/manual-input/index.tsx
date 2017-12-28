@@ -19,10 +19,11 @@ interface Props {
 
 @observer
 export default class ManualInput extends React.Component<Props> {
-    static readonly citationTypes = top.ABT.i18n.citationTypes;
-    static readonly labels = top.ABT.i18n.dialogs.add.manualEntryContainer;
+    static readonly citationTypes = top.ABT.i18n.citation_types;
+    static readonly labels = top.ABT.i18n.dialogs.add.manual_input;
 
-    focusTypeSelect = (e: HTMLSelectElement | null): void => (e ? e.focus() : void 0);
+    focusTypeSelect = (e: HTMLSelectElement | null): void =>
+        e ? e.focus() : void 0;
 
     @action
     setErrorMessage = (data?: any): void => {
@@ -46,7 +47,9 @@ export default class ManualInput extends React.Component<Props> {
             const data =
                 citationType === 'webpage'
                     ? await getFromURL(query)
-                    : await getFromISBN(query, citationType as 'book' | 'chapter');
+                    : await getFromISBN(query, citationType as
+                          | 'book'
+                          | 'chapter');
             runInAction(() => this.props.store.data.merge(data));
         } catch (e) {
             this.setErrorMessage(e.message);
@@ -57,7 +60,8 @@ export default class ManualInput extends React.Component<Props> {
     handleWheel = (e: React.WheelEvent<HTMLDivElement>): void => {
         const isScrollingDown = e.deltaY > 0;
         const isScrollingUp = !isScrollingDown;
-        const isScrollable = e.currentTarget.scrollHeight > e.currentTarget.clientHeight;
+        const isScrollable =
+            e.currentTarget.scrollHeight > e.currentTarget.clientHeight;
         const atBottom =
             e.currentTarget.scrollHeight <=
             e.currentTarget.clientHeight + Math.ceil(e.currentTarget.scrollTop);
@@ -75,14 +79,16 @@ export default class ManualInput extends React.Component<Props> {
     render(): JSX.Element {
         const { store } = this.props;
         const itemType = store.data.citationType;
-        const renderAutocite: boolean = ['webpage', 'book', 'chapter'].includes(itemType);
+        const renderAutocite: boolean = ['webpage', 'book', 'chapter'].includes(
+            itemType,
+        );
         return (
             <>
                 <div className={styles.typeSelect}>
                     <label
                         className={styles.label}
                         htmlFor="type-select"
-                        children={ManualInput.labels.citationType}
+                        children={ManualInput.labels.citation_type}
                     />
                     <select
                         id="type-select"
@@ -121,7 +127,9 @@ export default class ManualInput extends React.Component<Props> {
                 <div
                     onWheel={this.handleWheel}
                     className={
-                        renderAutocite ? styles.scrollBoundaryAutocite : styles.scrollBoundary
+                        renderAutocite
+                            ? styles.scrollBoundaryAutocite
+                            : styles.scrollBoundary
                     }
                 >
                     <Callout
@@ -129,7 +137,10 @@ export default class ManualInput extends React.Component<Props> {
                         onDismiss={this.setErrorMessage}
                     />
                     {itemType !== 'article' && (
-                        <ContributorList people={store.data.people} citationType={itemType} />
+                        <ContributorList
+                            people={store.data.people}
+                            citationType={itemType}
+                        />
                     )}
                     <MetaFields meta={this.props.store.data} />
                 </div>
