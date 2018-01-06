@@ -3,6 +3,7 @@ Contributors: dsifford
 Donate link: https://donorbox.org/academic-bloggers-toolkit
 Tags: academia, academic, bibliographies, bibliography, bibtex, citation, citations, cite, citing, CSL, curriculum vitae, cv, doi, endnote, footnote, footnotes, journal, mendeley, papers, pmid, pmcid, publications, publish, pubmed, reference, reference list, reference manager, references, referencing, ris, scholar, scholarly, zotero
 Requires at least: 4.2.2
+Requires PHP: 5.6
 Tested up to: 4.9
 Stable tag: 4.12.1
 License: GPL3 or later
