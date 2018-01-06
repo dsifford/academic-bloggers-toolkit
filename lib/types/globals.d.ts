@@ -1,16 +1,3 @@
-interface StyleObj {
-    id: string;
-    label: string;
-    value: string;
-}
-
-interface CitationStyles {
-    renamed: {
-        [oldStyleId: string]: string;
-    };
-    styles: StyleObj[];
-}
-
 interface WP_info {
     abt_url: string;
     home_url: string;
@@ -59,7 +46,7 @@ declare const Rollbar: IRollbar;
 
 interface Window {
     _babelPolyfill: boolean;
-    ABT: ABT.Backend;
+    ABT: ABT.Globals;
     DocumentTouch?: any;
     Rollbar: IRollbar;
     ajaxurl: string;
@@ -70,8 +57,6 @@ interface Window {
 
 declare module 'gulp-uglify/composer';
 declare module 'gulp-wp-pot';
-declare module 'react-virtualized-select';
-declare module 'react-select-fast-filter-options';
 declare module 'rollbar/dist/rollbar.umd';
 declare module 'string-hash';
 declare module 'uglify-es';

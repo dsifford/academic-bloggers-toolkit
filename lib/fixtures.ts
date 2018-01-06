@@ -1,4 +1,4 @@
-export const wpInfo: ABT.Backend['wp'] = {
+export const wpInfo: ABT.Globals['wp'] = {
     abt_url:
         'http://localhost:8080/wp-content/plugins/academic-bloggers-toolkit',
     home_url: 'http://localhost:8080',
@@ -27,7 +27,7 @@ export const wpInfo: ABT.Backend['wp'] = {
     },
 };
 
-export const state: ABT.Backend['state'] = {
+export const state: ABT.Globals['state'] = {
     bibOptions: {
         heading: 'Bibliography',
         style: 'fixed',
@@ -253,7 +253,7 @@ const blankFields = [
     <ABT.FieldMappings>{},
 );
 
-export const i18n: ABT.Backend['i18n'] = {
+export const i18n: ABT.Globals['i18n'] = {
     citation_types: [
         {
             label: 'Bill',

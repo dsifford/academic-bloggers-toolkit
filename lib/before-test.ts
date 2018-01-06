@@ -27,8 +27,12 @@ Object.defineProperties(window, {
             i18n,
             wp: wpInfo,
             styles,
-            custom_csl: {
-                label: '',
+            options: {
+                citation_style: {
+                    kind: 'predefined',
+                    label: 'American Medical Association',
+                    value: 'american-medical-association',
+                },
             },
         },
     },

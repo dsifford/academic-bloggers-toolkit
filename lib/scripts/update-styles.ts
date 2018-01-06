@@ -1,4 +1,5 @@
 // tslint:disable no-console
+
 import * as fs from 'fs';
 import { request } from 'https';
 import * as path from 'path';
@@ -25,8 +26,8 @@ interface StyleResponse {
     };
 }
 
-interface StyleObj {
-    id: string;
+interface CitationStyle {
+    kind: 'predefined';
     label: string;
     value: string;
 }
@@ -35,7 +36,7 @@ interface StyleData {
     renamed: {
         [oldStyleValue: string]: string;
     };
-    styles: StyleObj[];
+    styles: CitationStyle[];
 }
 
 async function getData(): Promise<StyleResponse> {
@@ -83,9 +84,11 @@ async function getData(): Promise<StyleResponse> {
         };
         const req = request(options, res => {
             const payload: Buffer[] = [];
-            res.on('data', (chunk: Buffer) => payload.push(chunk)).on('end', () => {
-                resolve(JSON.parse(Buffer.concat(payload).toString()));
-            });
+            res
+                .on('data', (chunk: Buffer) => payload.push(chunk))
+                .on('end', () => {
+                    resolve(JSON.parse(Buffer.concat(payload).toString()));
+                });
             res.on('error', err => reject(err));
         });
         req.on('error', err => reject(err));
@@ -96,14 +99,17 @@ async function getData(): Promise<StyleResponse> {
 
 function parseStyleObj(obj: StyleResponse): StyleData {
     let renamed: string = '';
-    const styles: StyleObj[] = [
+    const styles: CitationStyle[] = [
         ...obj.data.independent.object.entries,
         ...obj.data.dependent.object.entries,
     ]
         .reduce(
             (prev, file) => {
                 if (file.name.endsWith('.csl')) {
-                    return [...prev, { ...file, name: file.name.replace(/\.csl$/, '') }];
+                    return [
+                        ...prev,
+                        { ...file, name: file.name.replace(/\.csl$/, '') },
+                    ];
                 }
                 if (file.name === 'renamed-styles.json') {
                     renamed = file.object.text;
@@ -113,10 +119,9 @@ function parseStyleObj(obj: StyleResponse): StyleData {
             <FileEntry[]>[],
         )
         .map(style => {
-            const label = style.object.text.match(/<title>(.+)<\/title>/)![1].replace(
-                /&amp;/g,
-                '&',
-            );
+            const label = style.object.text.match(
+                /<title>(.+)<\/title>/,
+            )![1].replace(/&amp;/g, '&');
             if (!label) {
                 throw new Error(`Can't locate label for ${style.name}`);
             }
@@ -124,9 +129,11 @@ function parseStyleObj(obj: StyleResponse): StyleData {
                 /<link\s+href="https?:\/\/www.zotero.org\/styles\/(.+?)"\s+rel="independent-parent"/,
             );
             const value =
-                independentParent && independentParent[1] ? independentParent[1] : style.name;
+                independentParent && independentParent[1]
+                    ? independentParent[1]
+                    : style.name;
             return {
-                id: style.name,
+                kind: <'predefined'>'predefined',
                 label,
                 value,
             };
@@ -145,7 +152,7 @@ function parseStyleObj(obj: StyleResponse): StyleData {
     };
 }
 
-function getNewStyles(before: StyleData, after: StyleObj[]): string[] {
+function getNewStyles(before: StyleData, after: CitationStyle[]): string[] {
     const newlyAddedStyles = new Set<string>();
     const beforeLabels = new Set(before.styles.map(s => s.label));
     for (const style of after) {

@@ -1,3 +1,4 @@
+# TODO: Add build stages
 language: node_js
 node_js:
     - "node"
@@ -8,6 +9,6 @@ branches:
 cache:
     directories:
         - "node_modules"
-script: npm test -- --runInBand
+script: npm test -- --runInBand && npx bundlesize
 after_success:
     - bash <(curl -s https://codecov.io/bash)

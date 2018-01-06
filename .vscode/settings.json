@@ -10,5 +10,7 @@
   "lcov.path": "lib/tmp/coverage/lcov.info",
   "lcov.branchCoverage": "full",
   "tslint.exclude": ["**/src/**/__tests__/*"],
-  "scss.validate": false
+  "scss.validate": false,
+  "css.validate": false,
+  "stylelint.enable": true
 }

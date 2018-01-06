@@ -1,23 +1,11 @@
 declare namespace ABT {
     type Bibliography = Array<{ id: string; html: string }>;
 
-    type CitationTypes = Array<{
-        label: string;
-        value: string;
-    }>;
+    type HeadingLevel = 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
+
+    type StyleKind = 'custom' | 'predefined';
 
     type LinkStyle = 'always' | 'always-full-surround' | 'urls' | 'never';
-
-    interface BibOptions {
-        /** Heading options */
-        heading: string;
-        /** HTML Heading element preferred for heading */
-        headingLevel: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
-        /** Format for embedded links in references */
-        links: LinkStyle;
-        /** Should the heading be toggleable? */
-        style: 'fixed' | 'toggle';
-    }
 
     type ContributorType =
         | 'author'
@@ -30,6 +18,22 @@ declare namespace ABT {
         | 'translator'
         | 'recipient'
         | 'collection-editor';
+
+    type FieldMappings = { [k in CSL.ItemType]: FieldMap };
+
+    type Contributor = CSL.Person & { type: CSL.PersonFieldKey };
+
+    // FIXME: This should ideally just match `display_options` in the database
+    interface BibOptions {
+        /** Heading options */
+        heading: string;
+        /** HTML Heading element preferred for heading */
+        headingLevel: HeadingLevel;
+        /** Format for embedded links in references */
+        links: LinkStyle;
+        /** Should the heading be toggleable? */
+        style: 'fixed' | 'toggle';
+    }
 
     interface Field extends React.HTMLProps<HTMLInputElement> {
         value: string;
@@ -47,10 +51,6 @@ declare namespace ABT {
         people: ContributorField[];
     }
 
-    type FieldMappings = { [k in CSL.ItemType]: FieldMap };
-
-    type Contributor = CSL.Person & { type: CSL.PersonFieldKey };
-
     interface ManualData {
         manualData: CSL.Data;
         people: Contributor[];
@@ -62,8 +62,59 @@ declare namespace ABT {
         identifierList: string;
     }
 
+    interface StyleJSON {
+        renamed: {
+            [oldStyleId: string]: string;
+        };
+        styles: CitationStyle[];
+    }
+
+    interface EditorState {
+        bibOptions: BibOptions;
+        cache: {
+            style: CitationStyle;
+            locale: string;
+        };
+        citationByIndex: Citeproc.CitationByIndex;
+        CSL: {
+            [id: string]: CSL.Data;
+        };
+    }
+
+    interface CitationStyle {
+        kind: StyleKind;
+        label: string;
+        value: string;
+    }
+
+    interface DisplayOptions {
+        bib_heading: string;
+        bib_heading_level: HeadingLevel;
+        bibliography: 'fixed' | 'toggle';
+        links: LinkStyle;
+    }
+
+    interface Options {
+        VERSION: string;
+        citation_style: CitationStyle;
+        custom_css: string;
+        display_options: DisplayOptions;
+    }
+
+    interface Globals {
+        css_editor_settings: object | boolean;
+        i18n: ABT.i18n;
+        options: Options;
+        state: ABT.EditorState;
+        styles: StyleJSON;
+        wp: WP_info;
+    }
+
     interface i18n {
-        citation_types: CitationTypes;
+        citation_types: Array<{
+            label: string;
+            value: string;
+        }>;
         errors: {
             missing_php_features: 'Your WordPress PHP installation is incomplete. You must have the following PHP extensions enabled to use this feature: "dom", "libxml"';
             bad_request: 'Request not valid';
@@ -170,36 +221,8 @@ declare namespace ABT {
                 title: 'Add References';
             };
         };
-    }
-
-    interface EditorState {
-        bibOptions: {
-            heading: string;
-            headingLevel: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
-            links: LinkStyle;
-            style: 'fixed' | 'toggle';
+        options_page: {
+            style_form: {};
         };
-        cache: {
-            style: string;
-            locale: string;
-        };
-        citationByIndex: Citeproc.CitationByIndex;
-        CSL: {
-            [id: string]: CSL.Data;
-        };
-    }
-
-    interface CustomCSL {
-        CSL?: string;
-        label: string;
-        value?: string;
-    }
-
-    interface Backend {
-        state: ABT.EditorState;
-        i18n: ABT.i18n;
-        styles: CitationStyles;
-        wp: WP_info;
-        custom_csl: ABT.CustomCSL;
     }
 }

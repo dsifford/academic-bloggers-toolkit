@@ -7,6 +7,7 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const RollbarSourceMapPlugin = require('rollbar-sourcemap-webpack-plugin');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
+const ENTRYPOINT_DIR = './src/js/_entrypoints';
 const IS_PRODUCTION = process.env.NODE_ENV === 'production';
 const IS_DEPLOYING = process.env.IS_DEPLOYING === 'true';
 const VERSION = IS_PRODUCTION
@@ -57,23 +58,27 @@ export default <webpack.Configuration>{
     },
     devtool: 'source-map',
     entry: {
-        'js/frontend': ['./src/js/frontend'],
-        'js/drivers/tinymce': ['./src/js/drivers/tinymce'],
-        'js/reference-list/index': [
-            './src/js/utils/polyfill',
+        'js/frontend': `${ENTRYPOINT_DIR}/frontend`,
+        'js/options-page': `${ENTRYPOINT_DIR}/options-page`,
+        'js/reference-list': [
+            'custom-event-polyfill',
             'proxy-polyfill',
             'whatwg-fetch',
-            './src/js/reference-list/',
+            `${ENTRYPOINT_DIR}/reference-list`,
         ],
-        'workers/locale-worker': ['./src/workers/locale-worker'],
+        'js/drivers/tinymce': './src/js/drivers/tinymce',
+        'workers/locale-worker': './src/workers/locale-worker',
     },
     output: {
         path: resolve(__dirname, 'dist'),
         filename: '[name].js',
     },
     resolve: {
-        modules: [resolve(__dirname, 'src'), 'node_modules'],
+        alias: {
+            css: resolve(__dirname, 'src/css'),
+        },
         extensions: ['*', '.webpack.js', '.web.js', '.ts', '.tsx', '.js'],
+        modules: [resolve(__dirname, 'src'), 'node_modules'],
         plugins: [new TsConfigPathsPlugin()],
     },
     plugins: [...plugins],

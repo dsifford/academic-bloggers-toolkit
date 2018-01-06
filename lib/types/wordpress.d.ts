@@ -116,7 +116,6 @@ interface EditParams {
      * function.
      */
     className?: string;
-    // FIXME: Clarify the shape of this
     /**
      * The focus property is an object that communicates whether the block is
      * currently focused, and which children of the block may be in focus.
@@ -228,6 +227,9 @@ type GutenbergHook =
 interface WP {
     blocks: {
         registerBlockType(blockName: string, block: BlockConfiguration): void;
+    };
+    codeEditor: {
+        initialize(elementId: string, options: object): void;
     };
     element: {
         createElement(): void;
