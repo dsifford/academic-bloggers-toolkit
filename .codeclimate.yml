@@ -51,6 +51,8 @@ exclude_patterns:
     - .vscode/
     - dist/
     - lib/
+    - 'src/php/i18n.php'
+    - 'src/php/fieldmaps.php'
     - '**/node_modules/'
     - '**/vendor/'
     - '**/__tests__/'

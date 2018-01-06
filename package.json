@@ -3,6 +3,13 @@
   "version": "4.12.1",
   "description": "A plugin extending the functionality of WordPress for Academic Blogging",
   "license": "GPL-3.0",
+  "repository": "dsifford/academic-bloggers-toolkit",
+  "author": "Derek P Sifford",
+  "contributors": [
+    {
+      "name": "Frank Bennett"
+    }
+  ],
   "scripts": {
     "precommit": "lint-staged",
     "prepush": "npm test && npm run lint",
@@ -18,25 +25,13 @@
     "update-translations": "torus run ts-node ./lib/scripts/update-translations.ts",
     "update-styles": "torus run ts-node ./lib/scripts/update-styles.ts"
   },
-  "lint-staged": {
-    "*.{ts,tsx,js,jsx,scss,json,css}": [
-      "prettier --write",
-      "git add"
-    ]
-  },
-  "repository": "dsifford/academic-bloggers-toolkit",
-  "author": "Derek P Sifford",
-  "contributors": [
-    {
-      "name": "Frank Bennett"
-    }
-  ],
   "devDependencies": {
-    "@babel/cli": "^7.0.0-beta.35",
-    "@babel/core": "^7.0.0-beta.35",
-    "@babel/plugin-transform-runtime": "^7.0.0-beta.35",
-    "@babel/preset-env": "^7.0.0-beta.35",
-    "@babel/preset-react": "^7.0.0-beta.35",
+    "@babel/cli": "^7.0.0-beta.36",
+    "@babel/core": "^7.0.0-beta.36",
+    "@babel/plugin-transform-runtime": "^7.0.0-beta.36",
+    "@babel/preset-env": "^7.0.0-beta.36",
+    "@babel/preset-react": "^7.0.0-beta.36",
+    "@types/classnames": "^2.2.3",
     "@types/common-tags": "^1.4.0",
     "@types/enzyme": "^3.1.6",
     "@types/enzyme-adapter-react-16": "^1.0.1",
@@ -44,19 +39,21 @@
     "@types/gulp-replace": "0.0.31",
     "@types/gulp-sort": "0.0.32",
     "@types/he": "^0.5.29",
-    "@types/jest": "^21.1.10",
-    "@types/node": "^8.5.2",
-    "@types/react": "^16.0.31",
+    "@types/jest": "^22.0.1",
+    "@types/node": "^8.5.7",
+    "@types/react": "^16.0.34",
+    "@types/react-autosuggest": "^9.3.2",
     "@types/react-dom": "^16.0.3",
-    "@types/react-motion": "^0.0.23",
     "@types/react-test-renderer": "^16.0.0",
-    "@types/webpack": "^3.8.1",
+    "@types/webpack": "^3.8.2",
     "awesome-typescript-loader": "^3.4.1",
     "babel-core": "^7.0.0-beta.3",
     "babel-loader": "^8.0.0-beta.0",
-    "browser-sync": "^2.22.0",
-    "css-loader": "^0.28.7",
-    "enzyme": "^3.2.0",
+    "browser-sync": "^2.23.3",
+    "classnames": "^2.2.5",
+    "css-loader": "^0.28.8",
+    "custom-event-polyfill": "^0.3.0",
+    "enzyme": "^3.3.0",
     "enzyme-adapter-react-16": "^1.1.0",
     "enzyme-to-json": "^3.3.0",
     "extract-text-webpack-plugin": "^3.0.2",
@@ -75,39 +72,57 @@
     "prettier": "^1.9.2",
     "proxy-polyfill": "^0.1.7",
     "react-test-renderer": "^16.2.0",
-    "rollbar": "^2.3.3",
+    "rollbar": "^2.3.6",
     "rollbar-sourcemap-webpack-plugin": "^2.2.0",
     "sass-loader": "^6.0.6",
     "snapshot-diff": "^0.2.2",
     "style-loader": "^0.19.1",
     "torus-cli": "^0.29.0",
-    "ts-jest": "^22.0.0",
+    "ts-jest": "^22.0.1",
     "ts-node": "^4.1.0",
     "tslint": "^5.8.0",
     "tslint-microsoft-contrib": "^5.0.1",
     "tslint-react": "^3.3.3",
-    "uglify-es": "^3.3.2",
-    "uglifyjs-webpack-plugin": "^1.1.5",
+    "uglify-es": "^3.3.4",
+    "uglifyjs-webpack-plugin": "^1.1.6",
     "webpack": "^3.10.0",
     "whatwg-fetch": "^2.0.3"
   },
   "dependencies": {
-    "@babel/runtime": "^7.0.0-beta.35",
+    "@babel/runtime": "^7.0.0-beta.36",
     "astrocite": "^0.9.4",
     "citeproc": "^2.1.183",
     "common-tags": "^1.6.0",
-    "focus-trap-react": "^3.1.0",
+    "focus-trap-react": "^3.1.1",
     "he": "^1.1.1",
     "mobx": "^3.4.1",
     "mobx-react": "^4.3.5",
     "nanoid": "^1.0.1",
     "react": "^16.2.0",
+    "react-autosuggest": "^9.3.2",
     "react-dom": "^16.2.0",
-    "react-motion": "^0.5.2",
-    "react-select-fast-filter-options": "^0.2.3",
-    "react-virtualized-select": "^3.1.0",
     "string-hash": "^1.1.3",
     "typescript": "^2.6.2"
+  },
+  "bundlesize": [
+    {
+      "path": "./dist/js/frontend.js",
+      "maxSize": "15KB"
+    },
+    {
+      "path": "./dist/js/options-page.js",
+      "maxSize": "100KB"
+    },
+    {
+      "path": "./dist/js/reference-list.js",
+      "maxSize": "250KB"
+    }
+  ],
+  "lint-staged": {
+    "*.{ts,tsx,js,jsx,scss,json,css}": [
+      "prettier --write",
+      "git add"
+    ]
   },
   "jest": {
     "collectCoverageFrom": [
