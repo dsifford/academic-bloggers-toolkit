@@ -54,7 +54,9 @@ export default class ContributorList extends React.Component<Props> {
                         flat
                         label={ContributorList.labels.add}
                         onClick={this.add}
-                    />
+                    >
+                        {ContributorList.labels.add}
+                    </Button>
                 </div>
             </>
         );

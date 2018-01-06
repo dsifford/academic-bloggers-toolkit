@@ -1,6 +1,6 @@
 import EditorDriver, { RelativeCitationPositions } from './base';
 
-import '../../css/editors/tinymce.scss';
+import 'css/editors/tinymce.scss';
 
 interface SelectionCache {
     bookmark: {

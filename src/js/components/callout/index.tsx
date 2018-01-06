@@ -1,5 +1,7 @@
 import * as React from 'react';
 
+import Button from 'components/button';
+
 import * as styles from './callout.scss';
 
 interface Props extends React.HTMLProps<HTMLDivElement> {
@@ -7,8 +9,6 @@ interface Props extends React.HTMLProps<HTMLDivElement> {
     children: string;
     /** Describes the purpose of the callout */
     intent?: 'danger' | 'warning';
-    /** Describes callout visibility */
-    isVisible?: boolean;
     /** Heading for callout */
     title?: string;
     /** Function to call when callout is dismissed. If unset, callout is not dismissable */
@@ -17,12 +17,10 @@ interface Props extends React.HTMLProps<HTMLDivElement> {
 
 interface DefaultProps {
     intent: 'danger' | 'warning';
-    isVisible: boolean;
 }
 
 export default class Callout extends React.PureComponent<Props> {
     static defaultProps: DefaultProps = {
-        isVisible: true,
         intent: 'danger',
     };
 
@@ -32,13 +30,21 @@ export default class Callout extends React.PureComponent<Props> {
     };
 
     render(): JSX.Element | null {
-        const { title, children, isVisible, intent, onDismiss, ...props } = this.props as Props &
-            DefaultProps;
-        if (!isVisible || children === '') {
+        // prettier-ignore
+        const {
+            title,
+            children,
+            intent,
+            onDismiss,
+            ...props,
+        } = this.props as Props & DefaultProps;
+        if (!children) {
             return null;
         }
         const defaultTitle =
-            intent === 'danger' ? Callout.prefixes.error : Callout.prefixes.warning;
+            intent === 'danger'
+                ? Callout.prefixes.error
+                : Callout.prefixes.warning;
         return (
             <div
                 {...props}
@@ -49,9 +55,11 @@ export default class Callout extends React.PureComponent<Props> {
                 <div className={styles.heading}>
                     <h5 children={title ? title : defaultTitle} />
                     {onDismiss && (
-                        <button
-                            aria-label="dismiss"
-                            className="dashicons dashicons-no-alt"
+                        <Button
+                            flat
+                            focusable
+                            icon="no-alt"
+                            label="dismiss"
                             onClick={onDismiss}
                         />
                     )}

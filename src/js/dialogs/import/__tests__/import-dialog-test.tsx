@@ -61,56 +61,56 @@ describe('<ImportDialog />', () => {
     });
     it('should set error messages', () => {
         const { instance } = setup();
-        expect(instance.errorMessage.get()).toBe('');
+        expect(instance.errorMessage).toBe('');
 
         instance.setErrorMessage('foo');
-        expect(instance.errorMessage.get()).toBe('foo');
+        expect(instance.errorMessage).toBe('foo');
 
         instance.setErrorMessage();
-        expect(instance.errorMessage.get()).toBe('');
+        expect(instance.errorMessage).toBe('');
 
         instance.setErrorMessage(() => 'foobar');
-        expect(instance.errorMessage.get()).toBe('');
+        expect(instance.errorMessage).toBe('');
     });
     it('should handle submit', () => {
         const { component } = setup();
         const preventDefault = jest.fn();
         component
             .find('Button')
-            .at(1)
+            .first()
             .simulate('click', { preventDefault });
         expect(preventDefault).toHaveBeenCalledTimes(1);
         expect(mocks.submit).toHaveBeenCalledTimes(1);
     });
     it('should set file name and value', () => {
         const { instance } = setup();
-        expect(instance.file.name.get()).toBe('');
-        expect(instance.file.value.get()).toBe('');
+        expect(instance.file.name).toBe('');
+        expect(instance.file.value).toBe('');
 
         instance.setFile({ name: 'foo' });
-        expect(instance.file.name.get()).toBe('foo');
-        expect(instance.file.value.get()).toBe('');
+        expect(instance.file.name).toBe('foo');
+        expect(instance.file.value).toBe('');
 
         instance.setFile({ value: 'bar' });
-        expect(instance.file.name.get()).toBe('');
-        expect(instance.file.value.get()).toBe('bar');
+        expect(instance.file.name).toBe('');
+        expect(instance.file.value).toBe('bar');
 
         instance.setFile();
-        expect(instance.file.name.get()).toBe('');
-        expect(instance.file.value.get()).toBe('');
+        expect(instance.file.name).toBe('');
+        expect(instance.file.value).toBe('');
     });
-    it('should open file on click', () => {
-        const { component, instance } = setup();
-        const click = jest.fn();
-        instance.inputField = {
-            click,
-        } as any;
-        component
-            .find('Button')
-            .at(0)
-            .simulate('click');
-        expect(click).toHaveBeenCalled();
-    });
+    // fit('should open file on click', () => {
+    //     const { component, instance } = setup();
+    //     const click = jest.fn();
+    //     instance.inputField = {
+    //         click,
+    //     } as any;
+    //     component
+    //         .find('Button')
+    //         .at(0)
+    //         .simulate('click');
+    //     expect(click).toHaveBeenCalled();
+    // });
     describe('file upload test cases', () => {
         beforeEach(() => jest.resetAllMocks());
         it('valid RIS file with 0 references', async () => {
@@ -119,7 +119,7 @@ describe('<ImportDialog />', () => {
                 currentTarget: { files: [createFile('test.ris', '')] },
             } as any);
             expect(instance.payload.length).toBe(0);
-            expect(instance.errorMessage.get()).toBe(
+            expect(instance.errorMessage).toBe(
                 'The selected file could not be processed',
             );
         });
@@ -132,7 +132,7 @@ describe('<ImportDialog />', () => {
             } as any);
             expect(instance.payload.length).toBe(1);
             expect(instance.payload[0].title).toBe('Test 1');
-            expect(instance.errorMessage.get()).toBe('');
+            expect(instance.errorMessage).toBe('');
         });
         it('valid bibtex file with 0 references', async () => {
             const { instance } = setup();
@@ -140,7 +140,7 @@ describe('<ImportDialog />', () => {
                 currentTarget: { files: [createFile('test.bib', '')] },
             } as any);
             expect(instance.payload.length).toBe(0);
-            expect(instance.errorMessage.get()).toBe(
+            expect(instance.errorMessage).toBe(
                 'The selected file could not be processed',
             );
         });
@@ -155,7 +155,7 @@ describe('<ImportDialog />', () => {
             } as any);
             expect(instance.payload.length).toBe(1);
             expect(instance.payload[0].title).toBe('Test 1');
-            expect(instance.errorMessage.get()).toBe('');
+            expect(instance.errorMessage).toBe('');
         });
         it('invalid file type', async () => {
             const { instance } = setup();
@@ -163,9 +163,16 @@ describe('<ImportDialog />', () => {
                 currentTarget: { files: [createFile('test', 'testing')] },
             } as any);
             expect(instance.payload.length).toBe(0);
-            expect(instance.errorMessage.get()).toBe(
-                'Invalid file extension. Extension must be .ris, .bib, or .bibtex',
+            expect(instance.errorMessage).toBe(
+                'The selected file could not be processed',
             );
+        });
+        it('no files', async () => {
+            const { instance } = setup();
+            await instance.handleFileUpload({
+                currentTarget: { files: [] },
+            } as any);
+            expect(instance.payload.length).toBe(0);
         });
         it('invalid RIS which throws error', async () => {
             const { instance } = setup();
@@ -173,7 +180,7 @@ describe('<ImportDialog />', () => {
                 currentTarget: { files: [createFile('test.ris', 'testing')] },
             } as any);
             expect(instance.payload.length).toBe(0);
-            expect(instance.errorMessage.get()).toBe(
+            expect(instance.errorMessage).toBe(
                 'The selected file could not be processed',
             );
         });

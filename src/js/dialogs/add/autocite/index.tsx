@@ -78,7 +78,9 @@ export default class AutoCite extends React.Component<Props> {
                     }
                     label={AutoCite.labels.search}
                     onClick={this.handleQuery}
-                />
+                >
+                    {AutoCite.labels.search}
+                </Button>
             </div>
         );
     }

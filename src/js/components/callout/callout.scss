@@ -5,7 +5,7 @@
     position: relative;
     font-weight: 500;
     font-size: 14px;
-    margin: 0 10px 10px;
+    margin-bottom: 10px;
 }
 .heading {
     display: flex;
@@ -18,19 +18,7 @@
         font-size: 17px;
     }
     button {
-        font-size: 20px;
-        cursor: pointer;
-        border: 0;
-        outline: 0;
-        padding: 0;
-        background: transparent;
-        color: #555d66;
-        position: relative;
-        top: -5px;
-        right: -5px;
-        &:hover {
-            color: black;
-        }
+        margin: -5px -5px 0 0;
     }
 }
 .danger {

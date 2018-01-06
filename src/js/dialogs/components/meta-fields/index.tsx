@@ -5,6 +5,8 @@ import * as React from 'react';
 import ManualDataStore from 'stores/data/manual-data-store';
 import Field from './field';
 
+import * as styles from './meta-fields.scss';
+
 interface Props {
     meta: ManualDataStore;
 }
@@ -15,9 +17,14 @@ export default class MetaFields extends React.Component<Props> {
 
     @action
     updateField = (e: React.FormEvent<HTMLInputElement>): void => {
-        const key = e.currentTarget.id as CSL.StandardFieldKey | CSL.DateFieldKey | undefined;
+        const key = e.currentTarget.id as
+            | CSL.StandardFieldKey
+            | CSL.DateFieldKey
+            | undefined;
         if (!key) {
-            throw new ReferenceError('ID of field must be set to the field key.');
+            throw new ReferenceError(
+                'ID of field must be set to the field key.',
+            );
         }
         this.props.meta.updateField(key, e.currentTarget.value);
     };
@@ -29,14 +36,8 @@ export default class MetaFields extends React.Component<Props> {
         let key = Date.now();
         return (
             <>
-                <h2 style={{ fontSize: 16 }}>{title}</h2>
-                <div
-                    style={{
-                        display: 'table',
-                        padding: 10,
-                        width: '100%',
-                    }}
-                >
+                <h2 className={styles.heading}>{title}</h2>
+                <div className={styles.table}>
                     {fields.map(field => (
                         <Field
                             key={key++}

@@ -1,7 +1,10 @@
-import { oneLine } from 'common-tags';
+import * as classNames from 'classnames';
 import * as React from 'react';
 
-import Tooltip, { TooltipParentProp, TooltipParentState } from 'components/tooltip';
+import Tooltip, {
+    TooltipParentProp,
+    TooltipParentState,
+} from 'components/tooltip';
 import * as styles from './button.scss';
 
 interface Props extends React.HTMLProps<HTMLButtonElement> {
@@ -11,7 +14,7 @@ interface Props extends React.HTMLProps<HTMLButtonElement> {
     focusable?: boolean;
     /** Dashicon to use for button */
     icon?: WordPress.Dashicon;
-    /** Button aria-label if icon button, otherwise button text */
+    /** Descriptive aria-label for the button */
     label: string;
     /** Primary button variant */
     primary?: boolean;
@@ -53,6 +56,7 @@ export default class Button extends React.PureComponent<Props, State> {
     // tslint:disable-next-line cyclomatic-complexity
     render(): JSX.Element {
         const {
+            className,
             flat,
             focusable,
             href,
@@ -64,16 +68,19 @@ export default class Button extends React.PureComponent<Props, State> {
             ...buttonProps
         } = this.props;
         const { isShowingTooltip, transform } = this.state;
-        const btnClass = oneLine`
-            ${styles.btn}
-            ${focusable ? styles.btnFocusable : ''}
-            ${primary ? styles.btnPrimary : ''}
-            ${flat ? styles.btnFlat : ''}
-            ${icon ? styles.btnIcon : ''}
-        `;
+        const btnClass = classNames(
+            styles.btn,
+            {
+                [styles.btnFocusable]: focusable,
+                [styles.btnPrimary]: primary,
+                [styles.btnFlat]: flat,
+                [styles.btnIcon]: icon !== undefined,
+            },
+            className,
+        );
         const tipId = label.replace(/\s/g, '_');
         return (
-            <div>
+            <span>
                 {tooltip && (
                     <Tooltip
                         active={isShowingTooltip}
@@ -85,15 +92,21 @@ export default class Button extends React.PureComponent<Props, State> {
                 <button
                     {...buttonProps}
                     aria-describedby={tooltip ? tipId : undefined}
-                    aria-label={icon ? label : undefined}
+                    aria-label={label}
                     className={btnClass}
                     onMouseEnter={tooltip ? this.showTooltip : undefined}
                     onMouseLeave={tooltip ? this.hideTooltip : undefined}
                     onClick={href ? this.openLink : onClick}
                 >
-                    {icon ? <span className={`dashicons dashicons-${icon}`} /> : label}
+                    {/* {icon ? (
+                        <span className={`dashicons dashicons-${icon}`} />
+                    ) : (
+                        label
+                    )} */}
+                    {icon && <span className={`dashicons dashicons-${icon}`} />}
+                    {this.props.children}
                 </button>
-            </div>
+            </span>
         );
     }
 }

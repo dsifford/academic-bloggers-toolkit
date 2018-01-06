@@ -58,7 +58,9 @@ exports[`<ContributorList /> should match baseline snapshots 1`] = `
       label="Add contributor"
       onClick={[Function]}
       type="button"
-    />
+    >
+      Add contributor
+    </Button>
   </div>
 </React.Fragment>
 `;

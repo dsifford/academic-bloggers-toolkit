@@ -1,45 +1,35 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`<ImportDialog /> should match snapshot 1`] = `
-<div
-  style={
-    Object {
-      "padding": 10,
-    }
-  }
->
+<React.Fragment>
   <div
     style={
       Object {
-        "alignItems": "center",
-        "display": "flex",
+        "padding": 10,
       }
     }
   >
-    <input
-      accept=".ris,.bib,.bibtex,application/xresearch-info-systems,application/x-bibtex"
-      aria-labelledby="upload-file-btn"
-      id="uploadField"
-      onChange={[Function]}
-      required={true}
-      style={
+    <Callout
+      intent="danger"
+      onDismiss={[Function]}
+      title="Error"
+    />
+    <FileInput
+      fill={true}
+      inputProps={
         Object {
-          "display": "none",
+          "accept": ".ris,.bib,.bibtex,application/xresearch-info-systems,application/x-bibtex",
+          "onChange": [Function],
+          "required": true,
         }
       }
-      type="file"
-      value=""
+      large={true}
+      text="Choose File..."
     />
-    <Button
-      aria-controls="uploadField"
-      flat={true}
-      focusable={true}
-      id="upload-file-btn"
-      label="Choose File"
-      onClick={[Function]}
-      type="button"
-    />
-    <Well />
+  </div>
+  <ActionBar
+    align="right"
+  >
     <Button
       disabled={true}
       focusable={true}
@@ -47,18 +37,9 @@ exports[`<ImportDialog /> should match snapshot 1`] = `
       onClick={[Function]}
       primary={true}
       type="button"
-    />
-  </div>
-  <Callout
-    intent="danger"
-    isVisible={true}
-    onDismiss={[Function]}
-    style={
-      Object {
-        "margin": "10px 0 0 0",
-      }
-    }
-    title="Error!"
-  />
-</div>
+    >
+      Import
+    </Button>
+  </ActionBar>
+</React.Fragment>
 `;

@@ -1,0 +1,38 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Field /> should match snapshots 1`] = `
+<div
+  className="row"
+>
+  <label
+    className="label"
+    htmlFor="field-title"
+  >
+    Title
+  </label>
+  <input
+    className="input"
+    id="field-title"
+    onChange={[MockFunction]}
+    type="text"
+    value=""
+  />
+</div>
+`;
+
+exports[`<Field /> should match snapshots 2`] = `
+"Snapshot Diff:
+- First value
++ Second value
+
+@@ -10,8 +10,8 @@
+    <input
+      className=\\"input\\"
+      id=\\"field-title\\"
+      onChange={[Function mockConstructor]}
+      type=\\"text\\"
+-     value=\\"TEST\\"
++     value=\\"\\"
+    />
+  </div>"
+`;

@@ -1,12 +1,12 @@
-jest.mock('stores/data/style-store');
-jest.mock('stores/data/locale-store');
+jest.mock('stores/cache/csl-cache');
+jest.mock('stores/cache/locale-cache');
 
 const { CSL } = require('citeproc');
 
 import Store from 'stores/data';
 import { Processor } from '../processor';
 
-declare const ABT: ABT.Backend;
+declare const ABT: ABT.Globals;
 
 (<any>window).CSL = CSL;
 

@@ -93,7 +93,9 @@ export default class ResultList extends React.Component<Props> {
                                         result.PMID
                                     }`}
                                     label={ResultList.labels.view_reference}
-                                />
+                                >
+                                    {ResultList.labels.view_reference}
+                                </Button>
                                 <Button
                                     flat
                                     primary
@@ -101,7 +103,9 @@ export default class ResultList extends React.Component<Props> {
                                     id={result.PMID}
                                     label={ResultList.labels.add_reference}
                                     onClick={this.handleClick}
-                                />
+                                >
+                                    {ResultList.labels.add_reference}
+                                </Button>
                             </div>
                         </div>
                     </div>

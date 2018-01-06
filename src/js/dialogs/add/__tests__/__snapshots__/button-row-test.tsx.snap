@@ -8,7 +8,9 @@ exports[`<ButtonRow /> should match baseline snapshots 1`] = `
     label="Add Manually"
     onClick={[Function]}
     type="button"
-  />
+  >
+    Add Manually
+  </Button>
   <Button
     disabled={false}
     flat={true}
@@ -16,7 +18,9 @@ exports[`<ButtonRow /> should match baseline snapshots 1`] = `
     label="Search PubMed"
     onClick={[MockFunction]}
     type="button"
-  />
+  >
+    Search PubMed
+  </Button>
   <Component />
   <ToggleSwitch
     checked={true}
@@ -35,7 +39,9 @@ exports[`<ButtonRow /> should match baseline snapshots 1`] = `
     label="Add Reference"
     primary={true}
     type="submit"
-  />
+  >
+    Add Reference
+  </Button>
 </ActionBar>
 `;
 
@@ -44,7 +50,7 @@ exports[`<ButtonRow /> should toggle add manually 1`] = `
 - First value
 + Second value
 
-@@ -1,15 +1,15 @@
+@@ -1,17 +1,17 @@
   <ActionBar>
     <Button
       flat={true}
@@ -53,7 +59,10 @@ exports[`<ButtonRow /> should toggle add manually 1`] = `
 +     label=\\"Add Manually\\"
       onClick={[Function res]}
       type=\\"button\\"
-    />
+    >
+-     Add with Identifier
++     Add Manually
+    </Button>
     <Button
 -     disabled={true}
 +     disabled={false}
@@ -69,10 +78,10 @@ exports[`<ButtonRow /> should toggle attach inline 1`] = `
 - First value
 + Second value
 
-@@ -14,11 +14,11 @@
-      onClick={[Function mockConstructor]}
-      type=\\"button\\"
-    />
+@@ -18,11 +18,11 @@
+    >
+      Search PubMed
+    </Button>
     <Component />
     <ToggleSwitch
 -     checked={false}

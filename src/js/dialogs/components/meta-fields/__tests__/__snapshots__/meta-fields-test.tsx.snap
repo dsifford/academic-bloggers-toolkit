@@ -5,24 +5,14 @@ exports[`<MetaFields /> should match snapshots 1`] = `
   meta="__SKIPPED__"
 >
   <h2
+    className="heading"
     meta="__SKIPPED__"
-    style={
-      Object {
-        "fontSize": 16,
-      }
-    }
   >
     Web Page
   </h2>
   <div
+    className="table"
     meta="__SKIPPED__"
-    style={
-      Object {
-        "display": "table",
-        "padding": 10,
-        "width": "100%",
-      }
-    }
   >
     <Field
       field={

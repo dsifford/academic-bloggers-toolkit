@@ -4,12 +4,12 @@ import * as React from 'react';
 
 import { pubmedQuery } from 'utils/resolvers';
 
+import ActionBar from 'components/action-bar';
 import Button from 'components/button';
 import Callout from 'components/callout';
 import Spinner from 'components/spinner';
 
 import { DialogProps } from 'dialogs';
-import ActionBar from 'dialogs/components/action-bar';
 import Paginate from './paginate';
 import ResultList from './result-list';
 
@@ -121,7 +121,9 @@ export default class PubmedDialog extends React.Component<DialogProps> {
                             disabled={!this.query.get()}
                             type="submit"
                             label={PubmedDialog.labels.search}
-                        />
+                        >
+                            {PubmedDialog.labels.search}
+                        </Button>
                     </ActionBar>
                 </form>
                 {this.results.length > 0 && (

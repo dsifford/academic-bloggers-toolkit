@@ -2,9 +2,9 @@ import * as Csl from 'citeproc';
 import { toJS } from 'mobx';
 import * as nanoid from 'nanoid';
 
+import CSLCache from 'stores/cache/csl-cache';
+import LocaleCache from 'stores/cache/locale-cache';
 import Store from 'stores/data';
-import LocaleStore from 'stores/data/locale-store';
-import StyleStore from 'stores/data/style-store';
 import { formatBibliography } from 'utils/formatters';
 
 export class Processor {
@@ -13,17 +13,17 @@ export class Processor {
      */
     citeproc: Citeproc.Processor;
 
-    private locales: LocaleStore;
+    private locales: LocaleCache;
     private store: Store;
-    private styles: StyleStore;
+    private styles: CSLCache;
 
     /**
      * @param store The main store for the reference list
      */
     constructor(store: Store) {
         this.store = store;
-        this.styles = new StyleStore();
-        this.locales = new LocaleStore();
+        this.styles = new CSLCache();
+        this.locales = new LocaleCache();
     }
 
     /**
@@ -31,18 +31,24 @@ export class Processor {
      *
      * @param data - Array of CSL.Data
      */
-    async createStaticBibliography(data: CSL.Data[]): Promise<ABT.Bibliography | boolean> {
+    async createStaticBibliography(
+        data: CSL.Data[],
+    ): Promise<ABT.Bibliography | boolean> {
         const style =
-            this.store.citationStyle.get() === 'abt-user-defined'
-                ? top.ABT.custom_csl.CSL
-                : await this.styles.fetch(this.store.citationStyle.get());
+            this.store.citationStyle.kind === 'custom'
+                ? this.store.citationStyle.value
+                : await this.styles.fetch(this.store.citationStyle.value);
         const sys = { ...this.citeproc.sys };
         const citeproc: Citeproc.Processor = new Csl.Engine(sys, style);
         citeproc.updateItems(toJS(data.map(d => d.id)));
         const bib = citeproc.makeBibliography();
         return typeof bib === 'boolean'
             ? bib
-            : formatBibliography(bib, this.store.bibOptions.links, this.store.citations.CSL);
+            : formatBibliography(
+                  bib,
+                  this.store.bibOptions.links,
+                  this.store.citations.CSL,
+              );
     }
 
     /**
@@ -59,12 +65,14 @@ export class Processor {
      */
     async init(): Promise<Citeproc.CitationResult[]> {
         const style =
-            this.store.citationStyle.get() === 'abt-user-defined'
-                ? top.ABT.custom_csl.CSL
-                : await this.styles.fetch(this.store.citationStyle.get());
+            this.store.citationStyle.kind === 'custom'
+                ? this.store.citationStyle.value
+                : await this.styles.fetch(this.store.citationStyle.value);
         const sys = await this.generateSys(this.store.locale);
         this.citeproc = new Csl.Engine(sys, style);
-        return <Array<[number, string, string]>>this.citeproc
+        return <Array<
+            [number, string, string]
+        >>this.citeproc
             .rebuildProcessorState(this.store.citations.citationByIndex)
             .map(([a, , c], i) => [i, c, a]);
     }
@@ -79,10 +87,16 @@ export class Processor {
      */
     makeBibliography(): ABT.Bibliography | boolean {
         const bib = this.citeproc.makeBibliography();
-        this.store.citations.init(this.citeproc.registry.citationreg.citationByIndex);
+        this.store.citations.init(
+            this.citeproc.registry.citationreg.citationByIndex,
+        );
         return typeof bib === 'boolean'
             ? bib
-            : formatBibliography(bib, this.store.bibOptions.links, this.store.citations.CSL);
+            : formatBibliography(
+                  bib,
+                  this.store.bibOptions.links,
+                  this.store.citations.CSL,
+              );
     }
 
     /**
@@ -116,8 +130,14 @@ export class Processor {
         before: Citeproc.Locator,
         after: Citeproc.Locator,
     ): Citeproc.CitationResult[] {
-        const [, citations] = this.citeproc.processCitationCluster(citation, before, after);
-        this.store.citations.init(this.citeproc.registry.citationreg.citationByIndex);
+        const [, citations] = this.citeproc.processCitationCluster(
+            citation,
+            before,
+            after,
+        );
+        this.store.citations.init(
+            this.citeproc.registry.citationreg.citationByIndex,
+        );
         return citations;
     }
 
@@ -132,7 +152,8 @@ export class Processor {
         // "primes the pump" since citeproc currently runs synchronously
         await this.locales.fetch(locale);
         return {
-            retrieveItem: (id: string): CSL.Data => toJS(this.store.citations.CSL.get(id)!),
+            retrieveItem: (id: string): CSL.Data =>
+                toJS(this.store.citations.CSL.get(id)!),
             retrieveLocale: this.locales.retrieve,
         };
     }

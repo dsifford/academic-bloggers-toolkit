@@ -14,7 +14,7 @@ exports[`<Button /> Icon Button with all variants and different icon 1`] = `
 +   primary={true}
     type=\\"button\\"
   >
-    <div>
+    <span>
       <button
         aria-label=\\"Click Me!\\"
 -       className=\\"btn btnIcon\\"
@@ -26,7 +26,7 @@ exports[`<Button /> Icon Button with all variants and different icon 1`] = `
 +         className=\\"dashicons dashicons-minus\\"
         />
       </button>
-    </div>
+    </span>
   </Button>"
 `;
 
@@ -36,7 +36,7 @@ exports[`<Button /> Icon Button with defaults 1`] = `
   label="Click Me!"
   type="button"
 >
-  <div>
+  <span>
     <button
       aria-label="Click Me!"
       className="btn btnIcon"
@@ -46,7 +46,7 @@ exports[`<Button /> Icon Button with defaults 1`] = `
         className="dashicons dashicons-plus"
       />
     </button>
-  </div>
+  </span>
 </Button>
 `;
 
@@ -55,7 +55,6 @@ exports[`<Button /> Text Button with all variants 1`] = `
 - First value
 + Second value
 
-@@ -1,12 +1,15 @@
   <Button
 +   flat={true}
 +   focusable={true}
@@ -63,15 +62,15 @@ exports[`<Button /> Text Button with all variants 1`] = `
 +   primary={true}
     type=\\"button\\"
   >
-    <div>
+    <span>
       <button
+        aria-label=\\"Click Me!\\"
 -       className=\\"btn\\"
 +       className=\\"btn btnFocusable btnPrimary btnFlat\\"
         type=\\"button\\"
-      >
-        Click Me!
-      </button>
-    </div>"
+      />
+    </span>
+  </Button>"
 `;
 
 exports[`<Button /> Text Button with defaults 1`] = `
@@ -79,14 +78,13 @@ exports[`<Button /> Text Button with defaults 1`] = `
   label="Click Me!"
   type="button"
 >
-  <div>
+  <span>
     <button
+      aria-label="Click Me!"
       className="btn"
       type="button"
-    >
-      Click Me!
-    </button>
-  </div>
+    />
+  </span>
 </Button>
 `;
 
@@ -95,21 +93,20 @@ exports[`<Button /> Text Button with flat 1`] = `
 - First value
 + Second value
 
-@@ -1,12 +1,13 @@
   <Button
 +   flat={true}
     label=\\"Click Me!\\"
     type=\\"button\\"
   >
-    <div>
+    <span>
       <button
+        aria-label=\\"Click Me!\\"
 -       className=\\"btn\\"
 +       className=\\"btn btnFlat\\"
         type=\\"button\\"
-      >
-        Click Me!
-      </button>
-    </div>"
+      />
+    </span>
+  </Button>"
 `;
 
 exports[`<Button /> Text Button with focusable 1`] = `
@@ -117,21 +114,20 @@ exports[`<Button /> Text Button with focusable 1`] = `
 - First value
 + Second value
 
-@@ -1,12 +1,13 @@
   <Button
 +   focusable={true}
     label=\\"Click Me!\\"
     type=\\"button\\"
   >
-    <div>
+    <span>
       <button
+        aria-label=\\"Click Me!\\"
 -       className=\\"btn\\"
 +       className=\\"btn btnFocusable\\"
         type=\\"button\\"
-      >
-        Click Me!
-      </button>
-    </div>"
+      />
+    </span>
+  </Button>"
 `;
 
 exports[`<Button /> Text Button with primary 1`] = `
@@ -139,21 +135,20 @@ exports[`<Button /> Text Button with primary 1`] = `
 - First value
 + Second value
 
-@@ -1,12 +1,13 @@
   <Button
     label=\\"Click Me!\\"
 +   primary={true}
     type=\\"button\\"
   >
-    <div>
+    <span>
       <button
+        aria-label=\\"Click Me!\\"
 -       className=\\"btn\\"
 +       className=\\"btn btnPrimary\\"
         type=\\"button\\"
-      >
-        Click Me!
-      </button>
-    </div>"
+      />
+    </span>
+  </Button>"
 `;
 
 exports[`<Button /> Text Button with tooltip 1`] = `
@@ -161,7 +156,6 @@ exports[`<Button /> Text Button with tooltip 1`] = `
 - First value
 + Second value
 
-@@ -1,12 +1,40 @@
   <Button
     label=\\"Click Me!\\"
 +   tooltip={
@@ -172,7 +166,7 @@ exports[`<Button /> Text Button with tooltip 1`] = `
 +   }
     type=\\"button\\"
   >
-    <div>
+    <span>
 +     <Tooltip
 +       active={false}
 +       id=\\"Click_Me!\\"
@@ -194,12 +188,12 @@ exports[`<Button /> Text Button with tooltip 1`] = `
 +     </Tooltip>
       <button
 +       aria-describedby=\\"Click_Me!\\"
+        aria-label=\\"Click Me!\\"
         className=\\"btn\\"
 +       onMouseEnter={[Function anonymous]}
 +       onMouseLeave={[Function anonymous]}
         type=\\"button\\"
-      >
-        Click Me!
-      </button>
-    </div>"
+      />
+    </span>
+  </Button>"
 `;

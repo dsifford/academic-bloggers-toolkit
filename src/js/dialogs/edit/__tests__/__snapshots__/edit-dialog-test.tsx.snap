@@ -10,18 +10,16 @@ exports[`<EditDialog /> should match baseline snapshot 1`] = `
   />
   <MetaFields />
   <ActionBar
-    style={
-      Object {
-        "justifyContent": "flex-end",
-      }
-    }
+    align="right"
   >
     <Button
       flat={true}
       label="Confirm"
       primary={true}
       type="submit"
-    />
+    >
+      Confirm
+    </Button>
   </ActionBar>
 </form>
 `;

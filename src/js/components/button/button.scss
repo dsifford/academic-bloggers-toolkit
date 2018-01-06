@@ -8,21 +8,19 @@
     color: $dark-gray;
     background-image: none;
     border: none;
-    border-radius: 2px;
+    border-radius: 3px;
     box-shadow: map-get($shadows, 'depth-1');
     cursor: pointer;
     display: inline-block;
     font-size: 13px;
     font-weight: 500;
-    height: 36px;
-    line-height: 36px;
-    min-width: 64px;
+    min-width: 30px;
+    min-height: 30px;
     outline: 0;
-    padding: 0 16px;
+    padding: 12px 16px;
     text-align: center;
     text-decoration: none;
     text-transform: uppercase;
-    transition: map-get($transitions, 'buttons');
     vertical-align: middle;
     white-space: nowrap;
     &:hover,
@@ -49,21 +47,6 @@
     }
 }
 
-.btn--flat,
-.btn--flat.btn--primary {
-    background: rgba(0, 0, 0, 0);
-    box-shadow: none !important;
-    &:hover {
-        background: rgba(158, 158, 158, 0.2);
-        &:active {
-            background: $border;
-        }
-    }
-    &:active {
-        background: lighten($border, 5%);
-    }
-}
-
 .btn--primary {
     background: $blue;
     color: white;
@@ -80,24 +63,36 @@
     }
 }
 
+.btn--flat,
+.btn--flat.btn--primary {
+    background: rgba(0, 0, 0, 0);
+    box-shadow: none !important;
+    &:hover {
+        background: rgba(158, 158, 158, 0.2);
+        &:active {
+            background: $border;
+        }
+    }
+    &:active {
+        background: lighten($border, 5%);
+    }
+    &:disabled {
+        color: $disabled !important;
+    }
+}
+
 .btn--icon {
-    border-radius: 50%;
-    font-size: 24px;
-    height: 32px;
     margin: auto 0;
-    min-width: 32px;
-    width: 32px;
     padding: 0;
-    line-height: normal;
     &:hover {
         color: $dark-gray;
     }
 }
 
 .btn :global(.dashicons) {
-    line-height: 32px !important;
-    width: 32px;
-    height: 32px;
+    line-height: initial;
+    width: initial;
+    height: initial;
 }
 .btn :global(.dashicons-migrate) {
     transform: rotateY(180deg);
@@ -112,4 +107,8 @@
 }
 .btn :global(.dashicons-plus) {
     padding-top: 2px;
+}
+
+.btn :global(.dashicons-image-rotate) {
+    transform: rotateY(180deg);
 }

@@ -30,8 +30,9 @@ exports[`<AutoCite /> should match snapshots 1`] = `
       onClick={[Function]}
       type="button"
     >
-      <div>
+      <span>
         <button
+          aria-label="Search"
           className="btn btnFlat"
           disabled={true}
           onClick={[Function]}
@@ -39,7 +40,7 @@ exports[`<AutoCite /> should match snapshots 1`] = `
         >
           Search
         </button>
-      </div>
+      </span>
     </Button>
   </div>
 </AutoCite>
@@ -77,8 +78,9 @@ exports[`<AutoCite /> should match snapshots 2`] = `
       onClick={[Function]}
       type="button"
     >
-      <div>
+      <span>
         <button
+          aria-label="Search"
           className="btn btnFlat"
           disabled={true}
           onClick={[Function]}
@@ -86,7 +88,7 @@ exports[`<AutoCite /> should match snapshots 2`] = `
         >
           Search
         </button>
-      </div>
+      </span>
     </Button>
   </div>
 </AutoCite>

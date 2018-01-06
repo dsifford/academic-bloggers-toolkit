@@ -236,8 +236,9 @@ exports[`<ManualInput /> should match baseline snapshot 1`] = `
         onClick={[Function]}
         type="button"
       >
-        <div>
+        <span>
           <button
+            aria-label="Search"
             className="btn btnFlat"
             disabled={true}
             onClick={[Function]}
@@ -245,7 +246,7 @@ exports[`<ManualInput /> should match baseline snapshot 1`] = `
           >
             Search
           </button>
-        </div>
+        </span>
       </Button>
     </div>
   </AutoCite>
@@ -255,7 +256,6 @@ exports[`<ManualInput /> should match baseline snapshot 1`] = `
   >
     <Callout
       intent="danger"
-      isVisible={true}
       onDismiss={[Function]}
     />
     <ContributorList
@@ -276,15 +276,16 @@ exports[`<ManualInput /> should match baseline snapshot 1`] = `
           onClick={[Function]}
           type="button"
         >
-          <div>
+          <span>
             <button
+              aria-label="Add contributor"
               className="btn btnFlat"
               onClick={[Function]}
               type="button"
             >
               Add contributor
             </button>
-          </div>
+          </span>
         </Button>
       </div>
     </ContributorList>
@@ -292,22 +293,12 @@ exports[`<ManualInput /> should match baseline snapshot 1`] = `
       meta="__SKIPPED__"
     >
       <h2
-        style={
-          Object {
-            "fontSize": 16,
-          }
-        }
+        className="heading"
       >
         Web Page
       </h2>
       <div
-        style={
-          Object {
-            "display": "table",
-            "padding": 10,
-            "width": "100%",
-          }
-        }
+        className="table"
       >
         <Field
           field={
@@ -325,7 +316,7 @@ exports[`<ManualInput /> should match baseline snapshot 1`] = `
           >
             <label
               className="label"
-              htmlFor="title"
+              htmlFor="field-title"
             >
               Content Title
             </label>
@@ -355,7 +346,7 @@ exports[`<ManualInput /> should match baseline snapshot 1`] = `
           >
             <label
               className="label"
-              htmlFor="container-title"
+              htmlFor="field-container-title"
             >
               Website Title
             </label>
@@ -385,7 +376,7 @@ exports[`<ManualInput /> should match baseline snapshot 1`] = `
           >
             <label
               className="label"
-              htmlFor="URL"
+              htmlFor="field-URL"
             >
               URL
             </label>
@@ -416,7 +407,7 @@ exports[`<ManualInput /> should match baseline snapshot 1`] = `
           >
             <label
               className="label"
-              htmlFor="issued"
+              htmlFor="field-issued"
             >
               Date
             </label>
@@ -448,7 +439,7 @@ exports[`<ManualInput /> should match baseline snapshot 1`] = `
           >
             <label
               className="label"
-              htmlFor="accessed"
+              htmlFor="field-accessed"
             >
               Date Accessed
             </label>
@@ -500,7 +491,7 @@ exports[`<ManualInput /> should not render autocite for anything but websites or
           Generic (Note)
         </option>
         <option
-@@ -117,37 +117,109 @@
+@@ -117,40 +117,114 @@
           value=\\"thesis\\"
         >
           Thesis
@@ -544,8 +535,9 @@ exports[`<ManualInput /> should not render autocite for anything but websites or
 +         onClick={[Function res]}
 +         type=\\"button\\"
 +       >
-+         <div>
++         <span>
 +           <button
++             aria-label=\\"Search\\"
 +             className=\\"btn btnFlat\\"
 +             disabled={true}
 +             onClick={[Function res]}
@@ -553,7 +545,7 @@ exports[`<ManualInput /> should not render autocite for anything but websites or
 +           >
 +             Search
 +           </button>
-+         </div>
++         </span>
 +       </Button>
 +     </div>
 +   </AutoCite>
@@ -563,7 +555,6 @@ exports[`<ManualInput /> should not render autocite for anything but websites or
     >
       <Callout
         intent=\\"danger\\"
-        isVisible={true}
         onDismiss={[Function res]}
       />
 +     <ContributorList
@@ -584,15 +575,16 @@ exports[`<ManualInput /> should not render autocite for anything but websites or
 +           onClick={[Function res]}
 +           type=\\"button\\"
 +         >
-+           <div>
++           <span>
 +             <button
++               aria-label=\\"Add contributor\\"
 +               className=\\"btn btnFlat\\"
 +               onClick={[Function res]}
 +               type=\\"button\\"
 +             >
 +               Add contributor
 +             </button>
-+           </div>
++           </span>
 +         </Button>
 +       </div>
 +     </ContributorList>
@@ -600,21 +592,13 @@ exports[`<ManualInput /> should not render autocite for anything but websites or
         meta=\\"__SKIPPED__\\"
       >
         <h2
-          style={
-            Object {
-              \\"fontSize\\": 16,
-            }
-          }
+          className=\\"heading\\"
         >
 -         Generic (Note)
 +         Web Page
         </h2>
         <div
-          style={
-            Object {
-              \\"display\\": \\"table\\",
-@@ -157,11 +229,11 @@
-          }
+          className=\\"table\\"
         >
           <Field
             field={
@@ -626,11 +610,11 @@ exports[`<ManualInput /> should not render autocite for anything but websites or
               }
             }
             meta=\\"__SKIPPED__\\"
-@@ -172,11 +244,11 @@
+@@ -161,11 +235,11 @@
             >
               <label
                 className=\\"label\\"
-                htmlFor=\\"title\\"
+                htmlFor=\\"field-title\\"
               >
 -               Text
 +               Content Title
@@ -639,7 +623,7 @@ exports[`<ManualInput /> should not render autocite for anything but websites or
                 className=\\"input\\"
                 id=\\"__SKIPPED__\\"
                 onChange={[Function res]}
-@@ -184,9 +256,133 @@
+@@ -173,9 +247,133 @@
                 type=\\"text\\"
                 value=\\"\\"
               />
@@ -661,7 +645,7 @@ exports[`<ManualInput /> should not render autocite for anything but websites or
 +           >
 +             <label
 +               className=\\"label\\"
-+               htmlFor=\\"container-title\\"
++               htmlFor=\\"field-container-title\\"
 +             >
 +               Website Title
 +             </label>
@@ -691,7 +675,7 @@ exports[`<ManualInput /> should not render autocite for anything but websites or
 +           >
 +             <label
 +               className=\\"label\\"
-+               htmlFor=\\"URL\\"
++               htmlFor=\\"field-URL\\"
 +             >
 +               URL
 +             </label>
@@ -722,7 +706,7 @@ exports[`<ManualInput /> should not render autocite for anything but websites or
 +           >
 +             <label
 +               className=\\"label\\"
-+               htmlFor=\\"issued\\"
++               htmlFor=\\"field-issued\\"
 +             >
 +               Date
 +             </label>
@@ -754,7 +738,7 @@ exports[`<ManualInput /> should not render autocite for anything but websites or
 +           >
 +             <label
 +               className=\\"label\\"
-+               htmlFor=\\"accessed\\"
++               htmlFor=\\"field-accessed\\"
 +             >
 +               Date Accessed
 +             </label>
@@ -846,8 +830,8 @@ exports[`<ManualInput /> should render autocite fields for books 1`] = `
           disabled={true}
           flat={true}
 @@ -178,11 +176,11 @@
+      <Callout
         intent=\\"danger\\"
-        isVisible={true}
         onDismiss={[Function res]}
       />
       <ContributorList
@@ -858,21 +842,17 @@ exports[`<ManualInput /> should render autocite fields for books 1`] = `
         <h2
           className=\\"heading\\"
         >
-@@ -217,11 +215,11 @@
-            Object {
-              \\"fontSize\\": 16,
-            }
-          }
+@@ -214,19 +212,19 @@
+        meta=\\"__SKIPPED__\\"
+      >
+        <h2
+          className=\\"heading\\"
         >
 -         Book
 +         Web Page
         </h2>
         <div
-          style={
-            Object {
-              \\"display\\": \\"table\\",
-@@ -231,11 +229,11 @@
-          }
+          className=\\"table\\"
         >
           <Field
             field={
@@ -884,11 +864,11 @@ exports[`<ManualInput /> should render autocite fields for books 1`] = `
               }
             }
             meta=\\"__SKIPPED__\\"
-@@ -246,11 +244,11 @@
+@@ -237,11 +235,11 @@
             >
               <label
                 className=\\"label\\"
-                htmlFor=\\"title\\"
+                htmlFor=\\"field-title\\"
               >
 -               Title
 +               Content Title
@@ -897,7 +877,7 @@ exports[`<ManualInput /> should render autocite fields for books 1`] = `
                 className=\\"input\\"
                 id=\\"__SKIPPED__\\"
                 onChange={[Function res]}
-@@ -261,182 +259,56 @@
+@@ -252,182 +250,56 @@
             </div>
           </Field>
           <Field
@@ -918,8 +898,8 @@ exports[`<ManualInput /> should render autocite fields for books 1`] = `
             >
               <label
                 className=\\"label\\"
--               htmlFor=\\"collection-title\\"
-+               htmlFor=\\"container-title\\"
+-               htmlFor=\\"field-collection-title\\"
++               htmlFor=\\"field-container-title\\"
               >
 -               Series Title
 +               Website Title
@@ -951,7 +931,7 @@ exports[`<ManualInput /> should render autocite fields for books 1`] = `
 -           >
 -             <label
 -               className=\\"label\\"
--               htmlFor=\\"collection-number\\"
+-               htmlFor=\\"field-collection-number\\"
 -             >
 -               Series Number
 -             </label>
@@ -983,7 +963,7 @@ exports[`<ManualInput /> should render autocite fields for books 1`] = `
 -           >
 -             <label
 -               className=\\"label\\"
--               htmlFor=\\"number-of-pages\\"
+-               htmlFor=\\"field-number-of-pages\\"
 -             >
 -               # of Pages
 -             </label>
@@ -1015,7 +995,7 @@ exports[`<ManualInput /> should render autocite fields for books 1`] = `
 -           >
 -             <label
 -               className=\\"label\\"
--               htmlFor=\\"volume\\"
+-               htmlFor=\\"field-volume\\"
 -             >
 -               Volume
 -             </label>
@@ -1047,7 +1027,7 @@ exports[`<ManualInput /> should render autocite fields for books 1`] = `
 -           >
 -             <label
 -               className=\\"label\\"
--               htmlFor=\\"edition\\"
+-               htmlFor=\\"field-edition\\"
 -             >
 -               Edition
 -             </label>
@@ -1080,8 +1060,8 @@ exports[`<ManualInput /> should render autocite fields for books 1`] = `
             >
               <label
                 className=\\"label\\"
--               htmlFor=\\"publisher\\"
-+               htmlFor=\\"URL\\"
+-               htmlFor=\\"field-publisher\\"
++               htmlFor=\\"field-URL\\"
               >
 -               Publisher
 +               URL
@@ -1090,7 +1070,7 @@ exports[`<ManualInput /> should render autocite fields for books 1`] = `
                 className=\\"input\\"
                 id=\\"__SKIPPED__\\"
                 onChange={[Function res]}
-@@ -447,41 +319,12 @@
+@@ -438,41 +310,12 @@
             </div>
           </Field>
           <Field
@@ -1108,7 +1088,7 @@ exports[`<ManualInput /> should render autocite fields for books 1`] = `
 -           >
 -             <label
 -               className=\\"label\\"
--               htmlFor=\\"publisher-place\\"
+-               htmlFor=\\"field-publisher-place\\"
 -             >
 -               Publisher Location
 -             </label>
@@ -1132,7 +1112,7 @@ exports[`<ManualInput /> should render autocite fields for books 1`] = `
               }
             }
             meta=\\"__SKIPPED__\\"
-@@ -499,11 +342,10 @@
+@@ -490,11 +333,10 @@
               <input
                 className=\\"input\\"
                 id=\\"__SKIPPED__\\"

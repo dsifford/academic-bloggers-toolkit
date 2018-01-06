@@ -4,8 +4,8 @@ import * as React from 'react';
 import { DialogProps } from 'dialogs';
 import ManualDataStore from 'stores/data/manual-data-store';
 
+import ActionBar from 'components/action-bar';
 import Button from 'components/button';
-import ActionBar from 'dialogs/components/action-bar';
 import ContributorList from 'dialogs/components/contributor-list';
 import MetaFields from 'dialogs/components/meta-fields';
 
@@ -35,10 +35,20 @@ export default class EditDialog extends React.Component<Props> {
         const citationType = this.store.citationType;
         return (
             <form onSubmit={this.handleSubmit}>
-                <ContributorList citationType={citationType} people={this.store.people} />
+                <ContributorList
+                    citationType={citationType}
+                    people={this.store.people}
+                />
                 <MetaFields meta={this.store} />
-                <ActionBar style={{ justifyContent: 'flex-end' }}>
-                    <Button flat primary type="submit" label={EditDialog.labels.confirm} />
+                <ActionBar align="right">
+                    <Button
+                        flat
+                        primary
+                        type="submit"
+                        label={EditDialog.labels.confirm}
+                    >
+                        {EditDialog.labels.confirm}
+                    </Button>
                 </ActionBar>
             </form>
         );

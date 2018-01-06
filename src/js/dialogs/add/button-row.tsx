@@ -4,9 +4,9 @@ import * as React from 'react';
 
 import Store from 'stores/ui/add-dialog';
 
+import ActionBar from 'components/action-bar';
 import Button from 'components/button';
 import ToggleSwitch from 'components/toggle-switch';
-import ActionBar from 'dialogs/components/action-bar';
 
 interface Props {
     store: Store;
@@ -31,25 +31,28 @@ export default class ButtonRow extends React.Component<Props> {
 
     render(): JSX.Element {
         const { store, onSearchPubmedClick } = this.props;
+        const addManuallyText = store.addManually
+            ? ButtonRow.labels.add_with_identifier
+            : ButtonRow.labels.add_manually;
         return (
             <ActionBar>
                 <Button
                     flat
                     focusable
-                    label={
-                        store.addManually
-                            ? ButtonRow.labels.add_with_identifier
-                            : ButtonRow.labels.add_manually
-                    }
+                    label={addManuallyText}
                     onClick={this.toggleAddManual}
-                />
+                >
+                    {addManuallyText}
+                </Button>
                 <Button
                     flat
                     focusable
                     disabled={store.addManually}
                     label={ButtonRow.labels.search_pubmed}
                     onClick={onSearchPubmedClick}
-                />
+                >
+                    {ButtonRow.labels.search_pubmed}
+                </Button>
                 <ActionBar.Separator />
                 <ToggleSwitch
                     disabled={store.isLoading}
@@ -66,7 +69,9 @@ export default class ButtonRow extends React.Component<Props> {
                     form="add-reference"
                     type="submit"
                     label={ButtonRow.labels.add_reference}
-                />
+                >
+                    {ButtonRow.labels.add_reference}
+                </Button>
             </ActionBar>
         );
     }

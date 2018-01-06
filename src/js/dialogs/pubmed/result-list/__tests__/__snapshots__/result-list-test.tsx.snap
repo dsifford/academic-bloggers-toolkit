@@ -116,15 +116,16 @@ exports[`<ResultList /> should match snapshots 1`] = `
             label="View"
             type="button"
           >
-            <div>
+            <span>
               <button
+                aria-label="View"
                 className="btn btnFocusable btnFlat"
                 onClick={[Function]}
                 type="button"
               >
                 View
               </button>
-            </div>
+            </span>
           </Button>
           <Button
             flat={true}
@@ -135,8 +136,9 @@ exports[`<ResultList /> should match snapshots 1`] = `
             primary={true}
             type="button"
           >
-            <div>
+            <span>
               <button
+                aria-label="Select"
                 className="btn btnFocusable btnPrimary btnFlat"
                 id="1"
                 onClick={[Function]}
@@ -144,7 +146,7 @@ exports[`<ResultList /> should match snapshots 1`] = `
               >
                 Select
               </button>
-            </div>
+            </span>
           </Button>
         </div>
       </div>
@@ -187,15 +189,16 @@ exports[`<ResultList /> should match snapshots 1`] = `
             label="View"
             type="button"
           >
-            <div>
+            <span>
               <button
+                aria-label="View"
                 className="btn btnFocusable btnFlat"
                 onClick={[Function]}
                 type="button"
               >
                 View
               </button>
-            </div>
+            </span>
           </Button>
           <Button
             flat={true}
@@ -206,8 +209,9 @@ exports[`<ResultList /> should match snapshots 1`] = `
             primary={true}
             type="button"
           >
-            <div>
+            <span>
               <button
+                aria-label="Select"
                 className="btn btnFocusable btnPrimary btnFlat"
                 id="2"
                 onClick={[Function]}
@@ -215,7 +219,7 @@ exports[`<ResultList /> should match snapshots 1`] = `
               >
                 Select
               </button>
-            </div>
+            </span>
           </Button>
         </div>
       </div>
