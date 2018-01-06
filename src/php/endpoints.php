@@ -13,10 +13,10 @@ function get_website_meta() {
 		exit;
 	}
 
-	$site_url = $_POST['site_url'];
-	$raw = file_get_contents( $site_url );
+	$site_url = esc_url_raw( wp_unslash( $_POST['site_url'] ) );
+	$raw = wp_remote_retrieve_body( wp_remote_get( $site_url ) );
 	$html = new \DOMDocument();
-	@$html->loadHTML( $raw );
+	$html->loadHTML( $raw );
 	$xpath = new \DOMXPath( $html );
 
 	$payload = [
@@ -36,7 +36,7 @@ function get_website_meta() {
 			'firstname' => $a[0],
 			'lastname' => $a[1],
 		];
-		if ( ! is_int( array_search( $a, $payload['authors'] ) ) ) {
+		if ( ! is_int( array_search( $a, $payload['authors'], true ) ) ) {
 			$payload['authors'][] = $a;
 		}
 	}
@@ -77,7 +77,7 @@ function get_website_meta() {
 		$key = $expl[1];
 		$value = $node->getAttribute( 'content' );
 
-		if ( $key === 'author' ) {
+		if ( 'author' === $key ) {
 			if ( strlen( $value ) > 50 ) {
 				continue;
 			}
@@ -86,7 +86,7 @@ function get_website_meta() {
 				'firstname' => $a[0],
 				'lastname' => $a[1],
 			];
-			if ( ! is_int( array_search( $a, $payload['authors'] ) ) ) {
+			if ( ! is_int( array_search( $a, $payload['authors'], true ) ) ) {
 				$payload['authors'][] = $a;
 			}
 			continue;
@@ -114,22 +114,28 @@ function get_website_meta() {
 
 	$authors = $xpath->query( '//*[ @itemprop="author" ][ not( ancestor::*[ @itemtype="http://schema.org/Comment" ] ) ]' );
 	foreach ( $authors as $author ) {
-		if ( $author->nodeName === 'meta' ) {
+		// @codingStandardsIgnoreStart
+		// snake_case is out of my control here.
+		if ( 'meta' === $author->nodeName ) {
 			continue;
 		}
 		$a = explode( ' ', $author->textContent, 2 );
+		// @codingStandardsIgnoreEnd
 		$a = [
 			'firstname' => $a[0],
 			'lastname' => $a[1],
 		];
-		if ( ! is_int( array_search( $a, $payload['authors'] ) ) ) {
+		if ( ! is_int( array_search( $a, $payload['authors'], true ) ) ) {
 			$payload['authors'][] = $a;
 		}
 	}
 
 	$title = $xpath->query( '//*[ @itemprop="headline" ]' );
 	foreach ( $title as $t ) {
+		// @codingStandardsIgnoreStart
+		// snake_case is out of my control here.
 		$payload['title'] = $t->textContent;
+		// @codingStandardsIgnoreEnd
 	}
 
 	/**
@@ -140,13 +146,13 @@ function get_website_meta() {
 		$expl = explode( ':', $node->getAttribute( 'property' ), 2 );
 		$key = $expl[1];
 		$value = $node->getAttribute( 'content' );
-		if ( $key === 'author' ) {
+		if ( 'author' === $key ) {
 			$a = explode( '|', $value, 2 );
 			$a = [
 				'firstname' => $a[0],
 				'lastname' => $a[1],
 			];
-			if ( ! is_int( array_search( $a, $payload['authors'] ) ) ) {
+			if ( ! is_int( array_search( $a, $payload['authors'], true ) ) ) {
 				$payload['authors'][] = $a;
 			}
 		}

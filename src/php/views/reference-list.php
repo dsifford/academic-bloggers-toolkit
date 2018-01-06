@@ -3,10 +3,8 @@
 </div>
 <script type="text/javascript">
 	( function ( global ) {
-		var el=document.createElement( 'span' );
-		el.id='abt_changelog';
+		var el = document.createElement( 'span' ); el.id = 'abt_changelog';
 		document.querySelector( '#abt-reflist > h2' ).appendChild( el );
-		global.HW_config={selector:"#abt_changelog",account:"LJ4gE7"};
+		global.HW_config={ selector:'#abt_changelog', account:'LJ4gE7' };
 	} )( window );
 </script>
-<script async src="//cdn.headwayapp.co/widget.js"></script>

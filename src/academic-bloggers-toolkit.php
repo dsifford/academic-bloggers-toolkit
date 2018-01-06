@@ -17,6 +17,7 @@ defined( 'ABSPATH' ) || exit;
 define( 'ABT_VERSION', '4.12.0' );
 define( 'ABT_ROOT_URI', plugin_dir_url( __FILE__ ) );
 define( 'ABT_ROOT_PATH', plugin_dir_path( __FILE__ ) );
+define( 'ABT_OPTIONS_KEY', 'abt_options' );
 
 /**
  * Load plugin translations.
@@ -44,7 +45,7 @@ add_filter( 'upload_mimes', 'ABT\enable_csl_mime' );
  * Cleans up options during uninstall.
  */
 function uninstall() {
-	delete_option( 'abt_options' );
+	delete_option( ABT_OPTIONS_KEY );
 }
 if ( function_exists( 'register_uninstall_hook' ) ) {
 	register_uninstall_hook( __FILE__, 'ABT\uninstall' );
@@ -58,17 +59,17 @@ if ( function_exists( 'register_uninstall_hook' ) ) {
  * http://www.jsoneditoronline.org/?id=8f65b4f64daaf41e5ed94c4a006ba264
  */
 function refactor_options() {
-	$options = get_option( 'abt_options' );
-	if ( ABT_VERSION === $options['VERSION'] ) {
+	$options = get_option( ABT_OPTIONS_KEY );
+	if ( version_compare( ABT_VERSION, $options['VERSION'], '<=' ) ) {
 		return;
 	}
 
 	$new_options = [];
 
 	$new_options['citation_style'] = [
-		'prefer_custom' => isset( $options['citation_style']['prefer_custom'] ) ? $options['citation_style']['prefer_custom'] : false,
-		'style' => ( ! empty( $options['citation_style']['style'] ) ? $options['citation_style']['style'] : ( ! empty( $options['abt_citation_style'] ) ? $options['abt_citation_style'] : 'american-medical-association' ) ),
-		'custom_url' => ! empty( $options['citation_style']['custom_url'] ) ? $options['citation_style']['custom_url'] : '',
+		'kind' => isset( $options['citation_style']['kind'] ) ? $options['citation_style']['kind'] : 'predefined',
+		'label' => isset( $options['citation_style']['label'] ) ? $options['citation_style']['label'] : 'American Medical Association',
+		'value' => isset( $options['citation_style']['id'] ) ? $options['citation_style']['id'] : 'american-medical-association',
 	];
 
 	$new_options['custom_css'] = ! empty( $options['custom_css'] ) ? $options['custom_css'] : '';
@@ -82,7 +83,7 @@ function refactor_options() {
 
 	$new_options['VERSION'] = ABT_VERSION;
 
-	update_option( 'abt_options', $new_options );
+	update_option( ABT_OPTIONS_KEY, $new_options );
 }
 add_action( 'admin_init', 'ABT\refactor_options' );
 
@@ -123,15 +124,34 @@ add_filter( 'plugin_row_meta', 'ABT\add_donate_link', 10, 2 );
  * Enqueues frontend JS and CSS.
  */
 function frontend_enqueues() {
-	wp_enqueue_style( 'abt-css', ABT_ROOT_URI . 'css/frontend.css', [], ABT_VERSION );
+	$options = get_option( ABT_OPTIONS_KEY );
+	$custom_css = wp_kses( $options['custom_css'], [ "\'", '\"' ] );
+
+	wp_enqueue_style( 'abt-frontend-styles', ABT_ROOT_URI . 'css/frontend.css', [], ABT_VERSION );
+	if ( isset( $custom_css ) && ! empty( $custom_css ) ) {
+		wp_add_inline_style( 'abt-frontend-styles', $custom_css );
+	}
 
 	if ( is_singular() ) {
-		wp_enqueue_script( 'abt-frontend', ABT_ROOT_URI . 'js/frontend.js', [], ABT_VERSION, true );
+		wp_enqueue_script( 'abt-frontend-script', ABT_ROOT_URI . 'js/frontend.js', [], ABT_VERSION, true );
 	}
 }
 add_action( 'wp_enqueue_scripts', 'ABT\frontend_enqueues' );
 
+/**
+ * Grabs the citation styles from the vendor array, decodes the JSON to an
+ * associative array and return it.
+ */
+function get_citation_styles() {
+	// @codingStandardsIgnoreStart
+	// Ignoring the `file_get_contents` warning here because it's a misfire.
+	// the warning is meant for flagging remote calls. This is a local file.
+	$json = json_decode( file_get_contents( ABT_ROOT_PATH . '/vendor/citation-styles.json' ), true );
+	// @codingStandardsIgnoreEnd
+	return $json;
+}
+
 require_once __DIR__ . '/php/dom-injects.php';
-require_once __DIR__ . '/php/backend.php';
-require_once __DIR__ . '/php/options-page.php';
+require_once __DIR__ . '/php/class-backend.php';
+require_once __DIR__ . '/php/class-options.php';
 require_once __DIR__ . '/php/endpoints.php';

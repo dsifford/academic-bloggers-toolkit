@@ -6,19 +6,36 @@ defined( 'ABSPATH' ) || exit;
 
 require_once __DIR__ . '/i18n.php';
 
-if ( is_admin() ) {
-	add_action( 'load-post.php', [ 'ABT\Backend', 'init' ] );
-	add_action( 'load-post-new.php', [ 'ABT\Backend', 'init' ] );
-}
-
 /**
  * Main Backend Class.
  */
 class Backend {
 	/**
+	 * @var \ABT\Backend
+	 */
+	private static $instance = null;
+
+	/**
+	 * Instantiates the class and calls hooks on load.
+	 */
+	static function init() {
+		if ( is_null( self::$instance ) ) {
+			self::$instance = new \ABT\Backend();
+		}
+		return self::$instance;
+	}
+
+	/**
 	 * Sets up all actions and filters for the backend class.
 	 */
 	public function __construct() {
+		if ( is_admin() ) {
+			add_action( 'load-post.php', [ $this, 'load_post' ] );
+			add_action( 'load-post-new.php', [ $this, 'load_post' ] );
+		}
+	}
+
+	function load_post() {
 		$post_type = get_current_screen()->post_type;
 		$disabled_post_types = apply_filters( 'abt_disabled_post_types', [ 'acf', 'um_form' ] );
 		$is_invalid_post_type = in_array(
@@ -26,7 +43,8 @@ class Backend {
 			array_merge(
 				[ 'attachment' ],
 				is_array( $disabled_post_types ) ? $disabled_post_types : []
-			)
+			),
+			true
 		);
 
 		if ( $is_invalid_post_type ) {
@@ -42,23 +60,26 @@ class Backend {
 	}
 
 	/**
-	 * Instantiates the class and calls hooks on load.
-	 */
-	public static function init() {
-		$class = __CLASS__;
-		new $class();
-	}
-
-	/**
 	 * Alerts the user that the plugin will not work if he/she doesn't have 'Rich Editing' enabled.
 	 */
 	public function user_alert() {
 		if ( 'true' === get_user_option( 'rich_editing' ) ) {
 			return;
 		}
-		$class = 'notice notice-warning is-dismissible';
-		$message = __( "<strong>Notice:</strong> Rich editing must be enabled to use the Academic Blogger's Toolkit plugin", 'academic-bloggers-toolkit' );
-		printf( '<div class="%1$s"><p>%2$s</p></div>', $class, $message );
+		echo wp_kses(
+			sprintf(
+				'<div class="notice notice-warning is-dismissible"><p><strong>%1s</strong>: %2s</p></div>',
+				__( 'Notice', 'academic-bloggers-toolkit' ),
+				__( "Rich editing must be enabled to use the Academic Blogger's Toolkit plugin", 'academic-bloggers-toolkit' )
+			),
+			[
+				'div' => [
+					'class' => [],
+				],
+				'p' => [],
+				'strong' => [],
+			]
+		);
 	}
 
 	/**
@@ -67,7 +88,6 @@ class Backend {
 	public function init_tinymce() {
 		if ( 'true' === get_user_option( 'rich_editing' ) ) {
 			add_filter( 'mce_external_plugins', [ $this, 'register_tinymce_plugins' ] );
-			echo '<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&subset=cyrillic,cyrillic-ext,greek,greek-ext,latin-ext,vietnamese" rel="stylesheet">';
 		}
 	}
 
@@ -130,24 +150,31 @@ class Backend {
 	 * @param string $post_id The post ID.
 	 */
 	public function save_meta( $post_id ) {
-		$is_autosave = wp_is_post_autosave( $post_id );
-		$is_revision = wp_is_post_revision( $post_id );
-		$is_valid_nonce = ( isset( $_POST['abt_nonce'] ) && wp_verify_nonce( $_POST['abt_nonce'], basename( __FILE__ ) ) ) ? true : false;
-
-		if ( $is_autosave || $is_revision || ! $is_valid_nonce ) {
+		if ( wp_is_post_autosave( $post_id ) || wp_is_post_revision( $post_id ) ) {
 			return;
 		}
 
-		$reflist_state = $_POST['abt-reflist-state'];
-		update_post_meta( $post_id, '_abt-reflist-state', $reflist_state );
+		// @codingStandardsIgnoreStart
+		// Ignoring the next line because the WordPress Standards are still flagging
+		// this as unsanitized. They are wrong.
+		if (
+			isset( $_POST['abt-reflist-state'], $_POST['abt_nonce'] )
+			&& wp_verify_nonce( sanitize_key( $_POST['abt_nonce'] ), basename( __FILE__ ) ) ) {
+				$reflist_state = wp_unslash( $_POST['abt-reflist-state'] );
+				update_post_meta( $post_id, '_abt-reflist-state', $reflist_state );
+		}
+		// @codingStandardsIgnoreEnd
 	}
 
 	/**
 	 * Registers all styles and scripts.
 	 */
 	public function register_scripts() {
-		wp_register_style( 'abt-reference-list', ABT_ROOT_URI . 'css/reference-list.css', [], ABT_VERSION );
-		wp_register_script( 'abt-reference-list', ABT_ROOT_URI . 'js/reference-list/index.js', [], ABT_VERSION );
+		wp_register_style( 'abt-fonts', '//fonts.googleapis.com/css?family=Roboto:300,400,500,700&subset=cyrillic,cyrillic-ext,greek,greek-ext,latin-ext,vietnamese', [], null );
+		wp_register_style( 'abt-reference-list', ABT_ROOT_URI . 'css/reference-list.css', [ 'dashicons', 'abt-fonts' ], ABT_VERSION );
+
+		wp_register_script( 'abt-reference-list', ABT_ROOT_URI . 'js/reference-list.js', [], ABT_VERSION );
+		wp_register_script( 'abt-changelog', '//cdn.headwayapp.co/widget.js', [], null, true );
 	}
 
 	/**
@@ -156,19 +183,14 @@ class Backend {
 	public function enqueue_scripts() {
 		global $post;
 
-		$ABT_i18n = i18n\generate_translations();
+		$translations = i18n\generate_translations();
 		$state = json_decode( get_post_meta( $post->ID, '_abt-reflist-state', true ), true );
-		$opts = get_option( 'abt_options' );
-
-		$custom_preferred = $opts['citation_style']['prefer_custom'] === true;
-		$custom_valid = file_exists( $opts['citation_style']['custom_url'] );
-
-		$style = $custom_preferred && $custom_valid ? 'abt-user-defined' : $opts['citation_style']['style'];
+		$opts = get_option( ABT_OPTIONS_KEY );
 
 		if ( empty( $state ) ) {
 			$state = [
 				'cache' => [
-					'style' => $style,
+					'style' => $opts['citation_style'],
 					'locale' => get_locale(),
 				],
 				'citationByIndex' => [],
@@ -183,7 +205,7 @@ class Backend {
 			'style' => $opts['display_options']['bibliography'],
 		];
 
-		// Fix legacy post meta.
+		// Begin legacy checks.
 		if ( array_key_exists( 'processorState', $state ) ) {
 			$state['CSL'] = $state['processorState'];
 			unset( $state['processorState'] );
@@ -194,30 +216,27 @@ class Backend {
 			unset( $state['citations'] );
 		}
 
+		if ( is_string( $state['cache']['style'] ) ) {
+			$state['cache']['style'] = $opts['citation_style'];
+		}
+		// End legacy checks.
+
 		wp_localize_script( 'abt-reference-list', 'ABT', [
+			'i18n' => $translations,
+			'options' => $opts,
 			'state' => $state,
-			'i18n' => $ABT_i18n,
-			'styles' => $this->get_citation_styles(),
+			'styles' => get_citation_styles(),
 			'wp' => $this->localize_wordpress_constants(),
-			'custom_csl' => $this->get_user_defined_csl( $opts['citation_style']['custom_url'] ),
 		] );
 
 		wp_dequeue_script( 'autosave' );
-		wp_enqueue_style( 'dashicons' );
 		wp_enqueue_style( 'abt-reference-list' );
 		wp_enqueue_script( 'abt-reference-list' );
+		wp_enqueue_script( 'abt-changelog' );
 	}
 
 	/**
-	 * Returns an array of citation styles from citationstyles.php.
-	 */
-	private function get_citation_styles() {
-		$json = json_decode( file_get_contents( ABT_ROOT_PATH . '/vendor/citation-styles.json' ), true );
-		return $json;
-	}
-
-	/**
-	 * Returns an array of a few select wordpress constants ( for use in JS ).
+	 * Returns an array of a few select WordPress constants (for use in JS).
 	 */
 	private function localize_wordpress_constants() {
 		return [
@@ -241,31 +260,5 @@ class Backend {
 			],
 		];
 	}
-
-	/**
-	 * Checks to see if custom CSL XML is saved and available. If so, returns an
-	 * array containing the XML, label, and value. If not, returns an array
-	 * containing only the key 'value' with the value of null.
-	 *
-	 * @param string $path path to CSL XML file.
-	 *
-	 * @return mixed[] array as described above
-	 */
-	private function get_user_defined_csl( $path ) {
-		if ( ! file_exists( $path ) ) {
-			return [ 'value' => null ];
-		}
-
-		$contents = file_get_contents( $path );
-		$xml = new SimpleXMLElement( $contents );
-		$label = $xml->info->title->__toString() !== ''
-			? $xml->info->title->__toString()
-			: 'ABT Custom Style';
-
-		return [
-			'label' => $label,
-			'value' => 'abt-user-defined',
-			'CSL' => $contents,
-		];
-	}
 }
+\ABT\Backend::init();
