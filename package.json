@@ -14,7 +14,7 @@
     "precommit": "lint-staged",
     "prepush": "npm test && npm run lint",
     "test": "jest --coverage",
-    "test-ci": "jest --coverage --runInBand && bundlesize",
+    "test-ci": "jest --coverage --runInBand && npm run bundlesize",
     "posttest": "npm run lint",
     "phpcsfix-dist": "php-cs-fixer fix ./dist --rules='{\"array_syntax\": { \"syntax\": \"long\"}}' --using-cache=no",
     "lint": "tslint -p . -t codeFrame",
@@ -23,6 +23,7 @@
     "deploy": "IS_DEPLOYING=true NODE_ENV=production torus run gulp && npm run zip && ./lib/scripts/deploy.sh",
     "version": "gulp bump && git add -A && npm run zip",
     "inspect-bundles": "npx bundle-buddy dist/**/*.map",
+    "bundlesize": "bundlesize",
     "update-translations": "torus run ts-node ./lib/scripts/update-translations.ts",
     "update-styles": "torus run ts-node ./lib/scripts/update-styles.ts",
     "zip": "npm run build && ./lib/scripts/zip.sh"
