@@ -1,9 +1,6 @@
 #!/usr/bin/env bash
 
-[ ! "$1" ] && echo 'the first argument of this script must be the version number' && exit 1
-[[ ! "$1" =~ ^[0-9]{1,4}\.[0-9]{1,4}\.[0-9]{1,4}$ ]] && echo 'the first argument must be a valid semver number' && exit 1
-
-VERSION="$1"
+VERSION="${npm_package_version?This script must be called using npm}"
 SCRIPTDIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 ROOTDIR=$(cd "$SCRIPTDIR" && cd ../../ && pwd || exit)
 SVNROOT=$(cd "$ROOTDIR" && cd ../SVN && pwd || exit)
@@ -21,15 +18,6 @@ mkdir -p "tags/$VERSION"
 # Copy dist over to tag and trunk directory
 cp -r "$ROOTDIR"/dist/* "$SVNROOT"/trunk/
 cp -r "$ROOTDIR"/dist/* "$SVNROOT"/tags/"$VERSION"/
-
-# Create a zipped copy of dist in ROOTDIR/lib/tmp/bin
-rm -f "$ROOTDIR"/lib/tmp/bin/*
-mkdir -p "$ROOTDIR"/lib/tmp/bin/academic-bloggers-toolkit
-cp -r "$ROOTDIR"/dist/* "$ROOTDIR"/lib/tmp/bin/academic-bloggers-toolkit
-cd "$ROOTDIR"/lib/tmp/bin || exit
-zip -r "$ROOTDIR"/lib/tmp/bin/academic-bloggers-toolkit-"$VERSION".zip academic-bloggers-toolkit
-rm -r academic-bloggers-toolkit
-cd "$SVNROOT" || exit
 
 # Remove deleted files
 svn stat | grep -Po '^!.+' | awk '{print $2}' | xargs svn rm

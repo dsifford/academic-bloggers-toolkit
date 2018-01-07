@@ -19,11 +19,12 @@
     "lint": "tslint -p . -t codeFrame",
     "start": "gulp",
     "build": "NODE_ENV=production gulp",
-    "deploy": "IS_DEPLOYING=true NODE_ENV=production torus run gulp && ./lib/scripts/deploy $npm_package_version",
-    "version": "gulp bump && git add -A",
+    "deploy": "IS_DEPLOYING=true NODE_ENV=production torus run gulp && npm run zip && ./lib/scripts/deploy.sh",
+    "version": "gulp bump && git add -A && npm run zip",
     "inspect-bundles": "npx bundle-buddy dist/**/*.map",
     "update-translations": "torus run ts-node ./lib/scripts/update-translations.ts",
-    "update-styles": "torus run ts-node ./lib/scripts/update-styles.ts"
+    "update-styles": "torus run ts-node ./lib/scripts/update-styles.ts",
+    "zip": "npm run build && ./lib/scripts/zip.sh"
   },
   "devDependencies": {
     "@babel/cli": "^7.0.0-beta.36",
@@ -83,7 +84,7 @@
     "tslint": "^5.8.0",
     "tslint-microsoft-contrib": "^5.0.1",
     "tslint-react": "^3.3.3",
-    "uglify-es": "^3.3.4",
+    "uglify-es": "^3.3.5",
     "uglifyjs-webpack-plugin": "^1.1.6",
     "webpack": "^3.10.0",
     "whatwg-fetch": "^2.0.3"
