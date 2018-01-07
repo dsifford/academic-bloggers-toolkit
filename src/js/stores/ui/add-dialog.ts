@@ -3,7 +3,7 @@ import { computed, observable, toJS } from 'mobx';
 import { DialogType } from 'dialogs';
 import ManualData from 'stores/data/manual-data-store';
 
-interface Payload {
+export interface AddDialogPayload {
     addManually: boolean;
     attachInline: boolean;
     identifierList: string;
@@ -25,7 +25,7 @@ export default class Store {
     }
 
     @computed
-    get payload(): Payload {
+    get payload(): AddDialogPayload {
         return toJS({
             addManually: this.addManually,
             attachInline: this.attachInline,

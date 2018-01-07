@@ -1,6 +1,6 @@
 jest.mock('utils/resolvers/pubmed');
 jest.mock('utils/resolvers/doi');
-import { getRemoteData, parseManualData } from '../api';
+import { getRemoteData } from '../api';
 
 describe('getRemoteData()', () => {
     it('should retrieve valid PMIDs', async () => {
@@ -24,43 +24,10 @@ describe('getRemoteData()', () => {
         expect(typeof data[1]).toBe('string');
     });
     it('should handle a mixture of ids', async () => {
-        const data = await getRemoteData('33333,10.1097/TA.0000000000001546,77777,c98s9d7fa');
+        const data = await getRemoteData(
+            '33333,10.1097/TA.0000000000001546,77777,c98s9d7fa',
+        );
         expect(data[0].length).toBe(3);
         expect(typeof data[1]).toBe('string');
-    });
-});
-describe('parseManualData()', () => {
-    let data: ABT.ManualData;
-    beforeEach(() => {
-        data = {
-            manualData: {
-                type: 'article-journal',
-                id: '12345',
-                title: 'Test title',
-            },
-            people: [
-                { family: 'Doe', given: 'John', type: 'author' },
-                { family: 'Smith', given: 'Jane', type: 'author' },
-            ],
-        };
-    });
-    it('should parse a basic set of manual data', () => {
-        const actual = parseManualData(data);
-        expect(actual).toMatchSnapshot();
-    });
-    it('should generate an ID if one doesnt exist', () => {
-        delete data.manualData.id;
-        const parsed = parseManualData(data);
-        expect(parsed[0][0].id).not.toBeUndefined();
-    });
-    it('should handle dates', () => {
-        data.manualData.issued = <any>'2003/01/02';
-        const parsed = parseManualData(data);
-        expect(parsed[0][0].issued).toEqual({ 'date-parts': [['2003', '01', '02']] });
-    });
-    it('should handle empty fields', () => {
-        data.manualData.issue = '';
-        const parsed = parseManualData(data);
-        expect(parsed[0][0].issue).toBeUndefined();
     });
 });

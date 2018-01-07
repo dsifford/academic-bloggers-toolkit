@@ -1,4 +1,5 @@
 import { action, computed, observable, toJS } from 'mobx';
+import * as hash from 'string-hash';
 
 import { localeMapper } from 'utils/constants';
 
@@ -45,7 +46,9 @@ export default class CitationStore {
         return Array.from(
             new Set(
                 this.byIndex
-                    .map(citation => citation.citationItems.map(item => item.id))
+                    .map(citation =>
+                        citation.citationItems.map(item => item.id),
+                    )
                     .reduce((data, item) => data.concat(item), [])
                     .slice(),
             ),
@@ -53,20 +56,22 @@ export default class CitationStore {
     }
 
     /**
-     * Given an array of CSL.Data, merge the array into this.CSL
+     * Given an array of CSL.Data, merge the array into this.CSL after first
+     * creating unique IDs for the data using a hash of the data's contents.
      * @param data - Array of CSL.Data to be merged
      */
     @action
-    addItems(data: CSL.Data[]): void {
-        this.CSL.merge(
-            data.reduce(
-                (cslObj, item) => ({
-                    ...cslObj,
-                    [item.id]: item,
-                }),
-                <Citeproc.RefHash>{},
-            ),
-        );
+    addItems(data: CSL.Data[]): CSL.Data[] {
+        const hashedData = data.map(item => {
+            const { id, ...rest } = item;
+            const hashedId = `${hash(JSON.stringify(rest))}`;
+            return {
+                ...rest,
+                id: hashedId,
+            };
+        });
+        this.CSL.merge(hashedData.map(item => [item.id, item]));
+        return hashedData;
     }
 
     @action
@@ -82,7 +87,9 @@ export default class CitationStore {
     @action
     pruneOrphanedCitations(citationIds: string[]): void {
         this.byIndex.replace(
-            this.byIndex.filter(citation => citationIds.includes(citation.citationID)),
+            this.byIndex.filter(citation =>
+                citationIds.includes(citation.citationID),
+            ),
         );
     }
 
@@ -103,7 +110,9 @@ export default class CitationStore {
         const byIndex = this.citationByIndex
             .map(i => ({
                 ...i,
-                citationItems: i.citationItems.filter(j => !idList.includes(j.id)),
+                citationItems: i.citationItems.filter(
+                    j => !idList.includes(j.id),
+                ),
             }))
             .reduce(
                 (prev, curr) => {

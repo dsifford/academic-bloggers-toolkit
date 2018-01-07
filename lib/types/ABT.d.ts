@@ -51,17 +51,6 @@ declare namespace ABT {
         people: ContributorField[];
     }
 
-    interface ManualData {
-        manualData: CSL.Data;
-        people: Contributor[];
-    }
-
-    interface ReferenceWindowPayload extends ManualData {
-        addManually: boolean;
-        attachInline: boolean;
-        identifierList: string;
-    }
-
     interface StyleJSON {
         renamed: {
             [oldStyleId: string]: string;

@@ -1,5 +1,3 @@
-import { parseDate } from 'astrocite-core';
-import * as hash from 'string-hash';
 import { getFromDOI, getFromPubmed } from 'utils/resolvers';
 
 export async function getRemoteData(
@@ -45,10 +43,6 @@ export async function getRemoteData(
     const data = await Promise.all(promises);
     const [csl, errs] = data.reduce(
         ([prevCSL, prevErr], [currCSL, currErr]) => {
-            currCSL = currCSL.map(item => ({
-                ...item,
-                id: `${hash(JSON.stringify(item))}`,
-            }));
             return [[...prevCSL, ...currCSL], [...prevErr, ...currErr]];
         },
         [[], [...errList]],
@@ -62,38 +56,4 @@ export async function getRemoteData(
               )}`
             : '',
     ];
-}
-
-export function parseManualData(data: ABT.ManualData): [CSL.Data[], string] {
-    let csl: CSL.Data = data.people.reduce(
-        (item, person) => {
-            const value = [{ family: person.family, given: person.given }];
-            return !item[person.type]
-                ? { ...item, [person.type]: value }
-                : { ...item, [person.type]: [...item[person.type]!, ...value] };
-        },
-        { ...data.manualData },
-    );
-
-    csl = Object.keys(csl).reduce(
-        (prev, curr: string) => {
-            const key = <keyof CSL.Data>curr;
-            if (!csl[key]) {
-                return prev;
-            }
-            if (['accessed', 'event-date', 'issued'].includes(key)) {
-                return {
-                    ...prev,
-                    [key]: parseDate(<string>csl[key]),
-                };
-            }
-            return {
-                ...prev,
-                [key]: csl[key],
-            };
-        },
-        <CSL.Data>{},
-    );
-
-    return [[{ ...csl, id: `${hash(JSON.stringify(csl))}` }], ''];
 }

@@ -4,10 +4,11 @@ import { action, observable, reaction } from 'mobx';
 import { observer } from 'mobx-react';
 import * as React from 'react';
 
-import { getRemoteData, parseManualData } from 'core/api';
+import { getRemoteData } from 'core/api';
 import { Processor } from 'core/processor';
 import EditorDriver, { EditorDriverConstructor } from 'drivers/base';
 import Store from 'stores/data';
+import { AddDialogPayload } from 'stores/ui/add-dialog';
 import UIStore from 'stores/ui/reference-list';
 import { MenuActionType } from 'utils/constants';
 import DevTools from 'utils/devtools';
@@ -166,31 +167,35 @@ export default class ReferenceList extends React.Component<Props> {
     };
 
     @action
-    addReferences = async (payload: any): Promise<void> => {
+    addReferences = async (payload: AddDialogPayload): Promise<void> => {
         let data: CSL.Data[];
         let err: string;
-        try {
-            [data, err] = payload.addManually
-                ? parseManualData(payload)
-                : await getRemoteData(payload.identifierList);
-            if (err) {
-                this.editor.alert(err);
-            }
-        } catch (e) {
-            Rollbar.error(e.message, e);
-            this.editor.alert(stripIndents`
+        if (!payload.addManually) {
+            try {
+                [data, err] = await getRemoteData(payload.identifierList);
+                if (err) {
+                    this.editor.alert(err);
+                }
+            } catch (e) {
+                Rollbar.error(e.message, e);
+                this.editor.alert(stripIndents`
                 ${ReferenceList.errors.unexpected.message}
 
                 ${e.name}: ${e.message}
 
                 ${ReferenceList.errors.unexpected.report_instructions}
             `);
+                return;
+            }
+        } else {
+            data = [payload.manualData];
+        }
+        if (data.length === 0) {
             return;
         }
-        if (data.length === 0) return;
-        this.props.store.citations.addItems(data);
+        const hashedData = this.props.store.citations.addItems(data);
         return payload.attachInline
-            ? this.insertInlineCitation(undefined, data)
+            ? this.insertInlineCitation(undefined, hashedData)
             : void 0;
     };
 

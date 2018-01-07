@@ -4,12 +4,12 @@ import { AutociteResponse } from 'utils/resolvers';
 
 interface Item {
     volumeInfo: {
-        authors: string[];
-        pageCount: number;
+        authors?: string[];
+        pageCount?: number;
         /** "2016-07-31" */
-        publishedDate: string;
-        publisher: string;
-        title: string;
+        publishedDate?: string;
+        publisher?: string;
+        title?: string;
     };
 }
 
@@ -49,24 +49,31 @@ export async function getFromISBN(
         publisher,
         title,
     } = res.items[0].volumeInfo;
-    const author: ABT.Contributor[] = authors.map(person => {
-        const fields = parseName(person);
-        return {
-            ...fields,
-            type: <CSL.PersonFieldKey>'author',
-            given: fields.given || '',
-            family: fields.family || '',
-        };
-    });
+
+    const author: ABT.Contributor[] = Array.isArray(authors)
+        ? authors.map(person => {
+              const fields = parseName(person);
+              return {
+                  ...fields,
+                  type: <CSL.PersonFieldKey>'author',
+                  given: fields.given || '',
+                  family: fields.family || '',
+              };
+          })
+        : [];
     const titleKey = kind === 'chapter' ? 'container-title' : 'title';
 
     return {
         fields: {
             ISBN,
-            issued: publishedDate.replace(/-/g, '/'),
-            'number-of-pages': pageCount.toString(),
-            [titleKey]: title,
-            publisher,
+            issued:
+                typeof publishedDate === 'string'
+                    ? publishedDate.replace(/-/g, '/')
+                    : '',
+            'number-of-pages':
+                typeof pageCount === 'number' ? pageCount.toString() : '',
+            [titleKey]: title || '',
+            publisher: publisher || '',
         },
         people: author,
     };
