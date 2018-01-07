@@ -9,6 +9,6 @@ branches:
 cache:
     directories:
         - "node_modules"
-script: npm test -- --runInBand && npx bundlesize
+script: npm run test-ci
 after_success:
     - bash <(curl -s https://codecov.io/bash)

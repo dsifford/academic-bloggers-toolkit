@@ -14,6 +14,7 @@
     "precommit": "lint-staged",
     "prepush": "npm test && npm run lint",
     "test": "jest --coverage",
+    "test-ci": "jest --coverage --runInBand && bundlesize",
     "posttest": "npm run lint",
     "phpcsfix-dist": "php-cs-fixer fix ./dist --rules='{\"array_syntax\": { \"syntax\": \"long\"}}' --using-cache=no",
     "lint": "tslint -p . -t codeFrame",
@@ -51,6 +52,7 @@
     "babel-core": "^7.0.0-beta.3",
     "babel-loader": "^8.0.0-beta.0",
     "browser-sync": "^2.23.3",
+    "bundlesize": "^0.15.3",
     "classnames": "^2.2.5",
     "css-loader": "^0.28.8",
     "custom-event-polyfill": "^0.3.0",
@@ -112,7 +114,7 @@
     },
     {
       "path": "./dist/js/options-page.js",
-      "maxSize": "100KB"
+      "maxSize": "85KB"
     },
     {
       "path": "./dist/js/reference-list.js",
