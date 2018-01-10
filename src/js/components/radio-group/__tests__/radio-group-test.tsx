@@ -1,5 +1,5 @@
 import * as React from 'react';
-import toJSON from 'enzyme-to-json';
+import toJSON, { OutputMapper } from 'enzyme-to-json';
 import { shallow } from 'enzyme';
 
 import RadioGroup from '..';
@@ -29,6 +29,10 @@ const setup = () => {
         onChange,
     };
 };
+
+// Stub out `Date.now()` so that keys and id's remain constant in
+// testing environment.
+Date.now = jest.fn(() => 12345);
 
 describe('<RadioGroup />', () => {
     it('should match snapshots', () => {

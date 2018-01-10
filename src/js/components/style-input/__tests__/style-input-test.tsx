@@ -90,6 +90,14 @@ describe('<StyleInput />', () => {
         expect(mock).toHaveBeenLastCalledWith('Invalid predefined style type');
         expect(component.state().value).toBe('');
     });
+    it('should get suggestion value', () => {
+        const style: ABT.CitationStyle = {
+            kind: 'predefined',
+            label: 'Foo Bar',
+            value: 'foobar',
+        };
+        expect(StyleInput.getSuggestionValue(style)).toEqual('Foo Bar');
+    });
     it('should bind refs', () => {
         const { instance } = setup();
         expect(instance.input).toBeUndefined();

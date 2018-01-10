@@ -26,7 +26,7 @@ export interface Props extends React.AllHTMLAttributes<HTMLLabelElement> {
      * `type` will be ignored, because the input _must_ be `type="file"`.
      * Pass `onChange` here to be notified when the user selects a file.
      */
-    inputProps?: React.HTMLProps<HTMLInputElement>;
+    inputProps: React.HTMLProps<HTMLInputElement>;
 
     /**
      * The text to display.
@@ -78,7 +78,7 @@ export default class FileInput extends React.Component<Props, {}> {
     private handleInputChange = (
         e: React.FormEvent<HTMLInputElement>,
     ): void => {
-        if (this.props.inputProps && this.props.inputProps.onChange) {
+        if (this.props.inputProps.onChange) {
             this.props.inputProps.onChange(e);
         }
     };

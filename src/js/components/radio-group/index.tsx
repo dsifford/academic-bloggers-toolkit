@@ -18,7 +18,7 @@ interface Props extends React.HTMLAttributes<HTMLElement> {
 
 export default class RadioGroup extends React.Component<Props> {
     render(): JSX.Element {
-        let key: number = Math.round(Math.random() * 10 ** 10);
+        let key: number = Date.now();
         const { items, label, name, onChange, value, ...props } = this.props;
         const groupId = `${key}-group`;
         return (

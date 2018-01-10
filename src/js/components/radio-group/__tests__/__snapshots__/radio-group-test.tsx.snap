@@ -2,13 +2,13 @@
 
 exports[`<RadioGroup /> should match snapshots 1`] = `
 <div
-  aria-labelledby="4384158799-group"
+  aria-labelledby="12345-group"
   className="fieldset"
   role="radiogroup"
 >
   <label
     className="legend"
-    id="4384158799-group"
+    id="12345-group"
   >
     Test Radio Group
   </label>
@@ -17,7 +17,7 @@ exports[`<RadioGroup /> should match snapshots 1`] = `
   >
     <label
       className="item"
-      key="4384158799"
+      key="12345"
     >
       <input
         aria-checked={true}
@@ -33,7 +33,7 @@ exports[`<RadioGroup /> should match snapshots 1`] = `
     </label>
     <label
       className="item"
-      key="4384158800"
+      key="12346"
     >
       <input
         aria-checked={false}
