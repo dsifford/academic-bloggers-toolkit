@@ -50,20 +50,36 @@ export default class Item extends React.Component<Props> {
             >
                 <div
                     aria-hidden={!this.isShowingIndex.get()}
-                    className={this.isShowingIndex.get() ? styles.numberActive : styles.number}
+                    className={
+                        this.isShowingIndex.get()
+                            ? styles.numberActive
+                            : styles.number
+                    }
                     children={this.props.index}
                 />
                 <div children={CSL.title} />
-                <div className={styles.people} children={parsePeople(CSL.author)} />
+                <div
+                    className={styles.people}
+                    children={parsePeople(CSL.author)}
+                />
                 <div className={styles.container}>
-                    <div className={styles.date} children={`(${parseDate(CSL.issued)})`} />
+                    <div
+                        className={styles.date}
+                        children={`(${parseDate(CSL.issued)})`}
+                    />
                     <div
                         className={styles.source}
                         children={
-                            CSL.journalAbbreviation || CSL['container-title'] || CSL.publisher || ''
+                            CSL.journalAbbreviation ||
+                            CSL['container-title'] ||
+                            CSL.publisher ||
+                            ''
                         }
                     />
-                    <div className={styles.pages} children={CSL.page || 'n.p.'} />
+                    <div
+                        className={styles.pages}
+                        children={CSL.page || 'n.p.'}
+                    />
                 </div>
             </div>
         );
@@ -71,8 +87,12 @@ export default class Item extends React.Component<Props> {
 }
 
 function parseDate(date?: CSL.Date | any): string {
-    if (!date) return 'n.d.';
-    if (date.year) return `${date.year}`;
+    if (!date) {
+        return 'n.d.';
+    }
+    if (date.year) {
+        return `${date.year}`;
+    }
     if (
         date['date-parts'] &&
         date['date-parts'][0].length !== 0 &&
@@ -84,9 +104,13 @@ function parseDate(date?: CSL.Date | any): string {
 }
 
 function parsePeople(p?: CSL.Person[]): string {
-    if (!p) return '';
+    if (!p) {
+        return '';
+    }
     return p.slice(0, 4).reduce((prev, curr, i) => {
-        if (i > 2) return prev;
+        if (i > 2) {
+            return prev;
+        }
         let name: string = '';
         if (curr.family && curr.given) {
             name = `${curr.family}, ${curr.given[0]}`;
@@ -94,7 +118,9 @@ function parsePeople(p?: CSL.Person[]): string {
         if (curr.literal) {
             name = curr.literal;
         }
-        if (name === '') return prev;
+        if (name === '') {
+            return prev;
+        }
         switch (i) {
             case 0:
             case 1:

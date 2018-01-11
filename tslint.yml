@@ -1,0 +1,89 @@
+extends:
+    - tslint:latest
+    - tslint-react
+    # - tslint-microsoft-contrib
+    - tslint-config-prettier
+rulesDirectory:
+    - node_modules/tslint-microsoft-contrib
+linterOptions:
+    exclude:
+        - src/**/__tests__/*
+        - src/**/__mocks__/*
+rules:
+    await-promise: true
+    cyclomatic-complexity:
+        options: [10]
+        severity: warning
+    interface-name: false
+    member-access:
+        options:
+            - no-public
+    no-angle-bracket-type-assertion: false
+    no-default-export: false
+    no-implicit-dependencies: false
+    no-inferred-empty-object-type: true
+    no-object-literal-type-assertion: false
+    no-submodule-imports: false
+    no-unnecessary-type-assertion: true
+    no-unused-expression:
+        options:
+            - allow-fast-null-checks
+    no-var-requires: false
+    object-literal-sort-keys: false
+    promise-function-async: true
+    strict-boolean-expressions: false
+    typedef:
+        options:
+            - call-signature
+            - arrow-call-signature
+    variable-name: false
+
+    # tslint-react
+    jsx-boolean-value: false
+    jsx-key: false  # disabled due to false positives
+
+    # tslint-microsoft-contrib rules
+    no-banned-terms: true
+    no-delete-expression: true
+    no-document-write: true
+    no-duplicate-case: true
+    no-for-in: true
+    no-function-constructor-with-string-args: true
+    no-function-expression: true
+    no-invalid-regexp: true
+    no-regex-spaces: true
+    no-reserved-keywords: true
+    no-stateless-class: true
+    no-string-based-set-immediate: true
+    no-string-based-set-interval: true
+    no-string-based-set-timeout: true
+    no-typeof-undefined: true
+    no-unnecessary-bind: true
+    no-unnecessary-field-initialization: true
+    no-unnecessary-local-variable: true
+    no-unnecessary-override: true
+    no-useless-files: true
+    no-var-self: true
+    possible-timing-attack: true
+    prefer-type-cast: true
+    promise-must-complete: true
+
+    # tslint-microsoft-contrib a11y rules
+    react-a11y-anchors: true
+    react-a11y-aria-unsupported-elements: true
+    react-a11y-event-has-role: true
+    react-a11y-lang: true
+    react-a11y-meta: true
+    react-a11y-props: true
+    react-a11y-proptypes: true
+    react-a11y-role: true
+    react-a11y-role-has-required-aria-props: true
+    react-a11y-role-supports-aria-props: true
+    react-a11y-tabindex-no-positive: true
+    react-a11y-titles: true
+
+    # tslint-microsoft-contrib react rules
+    react-anchor-blank-noopener: true
+    react-iframe-missing-sandbox: true
+    react-no-dangerous-html: true
+    react-unused-props-and-state: true

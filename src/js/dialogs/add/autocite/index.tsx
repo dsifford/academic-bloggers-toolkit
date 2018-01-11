@@ -35,7 +35,9 @@ export default class AutoCite extends React.Component<Props> {
 
     @action
     handleQuery = (): void => {
-        if (this.query.length === 0 || !this.input.validity.valid) return;
+        if (this.query.length === 0 || !this.input.validity.valid) {
+            return;
+        }
         this.props.getter(this.query);
         this.query = '';
     };

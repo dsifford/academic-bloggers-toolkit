@@ -1,5 +1,5 @@
 import * as React from 'react';
-import toJSON, { OutputMapper } from 'enzyme-to-json';
+import toJSON from 'enzyme-to-json';
 import { shallow } from 'enzyme';
 
 import RadioGroup from '..';

@@ -55,11 +55,14 @@ interface Window {
 
 // ==============
 
+declare module 'extract-text-webpack-plugin';
 declare module 'gulp-uglify/composer';
 declare module 'gulp-wp-pot';
+declare module 'rollbar-sourcemap-webpack-plugin';
 declare module 'rollbar/dist/rollbar.umd';
 declare module 'string-hash';
 declare module 'uglify-es';
+declare module 'uglifyjs-webpack-plugin';
 declare module '*.scss' {
     const content: {
         [identifier: string]: any;

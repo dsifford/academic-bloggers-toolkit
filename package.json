@@ -14,7 +14,7 @@
     "precommit": "lint-staged",
     "prepush": "npm test && npm run lint",
     "test": "jest --coverage",
-    "test-ci": "jest --coverage --runInBand && bundlesize",
+    "test-ci": "jest --coverage --runInBand && npm run build && bundlesize",
     "posttest": "npm run lint",
     "phpcsfix-dist": "php-cs-fixer fix ./dist --rules='{\"array_syntax\": { \"syntax\": \"long\"}}' --using-cache=no",
     "lint": "tslint -p . -t codeFrame",
@@ -23,6 +23,8 @@
     "deploy": "IS_DEPLOYING=true NODE_ENV=production torus run gulp && npm run zip && ./lib/scripts/deploy.sh",
     "version": "gulp bump && git add -A && npm run zip",
     "inspect-bundles": "npx bundle-buddy dist/**/*.map",
+    "up": "docker-compose up -d && docker-compose logs -f wordpress",
+    "down": "docker-compose down -v",
     "update-translations": "torus run ts-node ./lib/scripts/update-translations.ts",
     "update-styles": "torus run ts-node ./lib/scripts/update-styles.ts",
     "zip": "npm run build && ./lib/scripts/zip.sh"
@@ -84,6 +86,7 @@
     "ts-jest": "^22.0.1",
     "ts-node": "^4.1.0",
     "tslint": "^5.9.1",
+    "tslint-config-prettier": "^1.6.0",
     "tslint-microsoft-contrib": "^5.0.1",
     "tslint-react": "^3.3.3",
     "uglify-es": "^3.3.5",
@@ -129,14 +132,13 @@
   },
   "jest": {
     "collectCoverageFrom": [
-      "src/**/*.{js,ts,tsx}",
-      "!**/{vendor,__tests__}/**",
-      "!src/js/{dialogs,reference-list}/index.tsx",
-      "!src/js/Frontend.ts",
+      "src/**/*.{ts,tsx}",
+      "!**/{vendor,__tests__,__mocks__}/**",
+      "!src/js/dialogs/index.tsx",
       "!src/js/utils/{devtools,logger,polyfill,render}.{ts,tsx}",
+      "!src/js/drivers/*",
       "!src/js/utils/**/index.ts",
-      "!src/js/utils/resolvers/*",
-      "!src/js/worker/**"
+      "!src/js/utils/resolvers/*"
     ],
     "coverageDirectory": "lib/tmp/coverage",
     "globals": {

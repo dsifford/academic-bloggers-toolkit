@@ -43,7 +43,9 @@ interface WebpageResponse {
         site?: string;
         /* Title of website */
         site_name?: string;
-        /* Title of Article */
+        /**
+         * Title of Article
+         */
         title?: string;
         /* Type of posting (generally article) */
         type?: string; // tslint:disable-line

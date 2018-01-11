@@ -133,7 +133,9 @@ export class Frontend {
         const heading: HTMLButtonElement | null = document.querySelector(
             '.abt-bibliography__heading_toggle',
         );
-        if (!this.itemContainer || !heading) return;
+        if (!this.itemContainer || !heading) {
+            return;
+        }
 
         const headingLevel = <HeadingLevel | undefined>heading.dataset
             .headingLevel;
@@ -174,5 +176,7 @@ export class Frontend {
 
 (async (): Promise<void> => {
     await domReady();
+    // Inevitable here due to imperative API
+    // tslint:disable-next-line:no-unused-expression
     new Frontend();
 })();

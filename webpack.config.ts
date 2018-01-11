@@ -3,9 +3,9 @@ import { execSync } from 'child_process';
 import { resolve } from 'path';
 import * as webpack from 'webpack';
 
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const RollbarSourceMapPlugin = require('rollbar-sourcemap-webpack-plugin');
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+import * as ExtractTextPlugin from 'extract-text-webpack-plugin';
+import * as RollbarSourceMapPlugin from 'rollbar-sourcemap-webpack-plugin';
+import * as UglifyJsPlugin from 'uglifyjs-webpack-plugin';
 
 const ENTRYPOINT_DIR = './src/js/_entrypoints';
 const IS_PRODUCTION = process.env.NODE_ENV === 'production';

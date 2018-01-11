@@ -159,7 +159,9 @@ export function* placeholderGenerator(): IterableIterator<string> {
     let i = Math.floor(Math.random() * (options.length + 1));
     /* istanbul ignore next */
     while (true) {
-        if (i === options.length) i = 0;
+        if (i === options.length) {
+            i = 0;
+        }
         yield options[i];
         i++;
     }

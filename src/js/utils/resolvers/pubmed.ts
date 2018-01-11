@@ -1,4 +1,5 @@
 import { EUtilsError, toCSL } from 'astrocite-eutils';
+import { oneLineTrim } from 'common-tags';
 
 /**
  * Sends a string of text to PubMed and resolves PubMed.DataPMID[] for the query.
@@ -8,11 +9,16 @@ import { EUtilsError, toCSL } from 'astrocite-eutils';
  */
 export async function pubmedQuery(query: string): Promise<CSL.Data[]> {
     const req = await fetch(
-        `https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=pubmed&term=${encodeURI(
-            query,
-        )}&retmode=json`,
+        oneLineTrim`
+            https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi
+                ?db=pubmed
+                &term=${encodeURIComponent(query)}
+                &retmode=json
+        `,
     );
-    if (!req.ok) throw new Error(req.statusText);
+    if (!req.ok) {
+        throw new Error(req.statusText);
+    }
     const res = await req.json();
 
     if (res.error) {
@@ -30,7 +36,9 @@ export async function pubmedQuery(query: string): Promise<CSL.Data[]> {
         );
         return pubmed.data;
     } catch (e) {
-        if (typeof e === 'string') return [];
+        if (typeof e === 'string') {
+            return [];
+        }
         throw e;
     }
 }
@@ -51,7 +59,9 @@ export async function getFromPubmed(
             ),
         ];
     } catch (e) {
-        if (typeof e === 'string') return [[], []];
+        if (typeof e === 'string') {
+            return [[], []];
+        }
         throw e;
     }
 }
@@ -65,12 +75,26 @@ async function resolvePubmedData(
     kind: 'PMID' | 'PMCID',
     idList: string,
 ): Promise<ResolvedData> {
-    if (idList.length === 0) throw 'No ids to resolve';
+    if (idList.length === 0) {
+        // FIXME: Find a better way of doing this
+        // tslint:disable-next-line:no-string-throw
+        throw 'No ids to resolve';
+    }
     const database = kind === 'PMID' ? 'pubmed' : 'pmc';
     const req = await fetch(
-        `https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi?tool=academic-bloggers-toolkit&email=dereksifford%40gmail.com&db=${database}&id=${idList}&version=2.0&retmode=json`,
+        oneLineTrim`
+            https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi
+                ?tool=academic-bloggers-toolkit
+                &email=${encodeURIComponent('dereksifford@gmail.com')}
+                &db=${database}
+                &id=${encodeURIComponent(idList)}
+                &version=2.0
+                &retmode=json
+        `,
     );
-    if (!req.ok) throw new Error(req.statusText);
+    if (!req.ok) {
+        throw new Error(req.statusText);
+    }
     const res = await req.json();
     const parsed = toCSL(res);
     const invalid = <EUtilsError[]>parsed.filter(

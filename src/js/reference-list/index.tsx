@@ -206,7 +206,9 @@ export default class ReferenceList extends React.Component<Props> {
 
     @action
     deleteCitations = (): void => {
-        if (this.ui.selected.length === 0) return;
+        if (this.ui.selected.length === 0) {
+            return;
+        }
         this.editor.setLoadingState(true);
         const toRemove = this.props.store.citations.removeItems(
             this.ui.selected.slice(),
@@ -446,9 +448,7 @@ export default class ReferenceList extends React.Component<Props> {
 
     // prettier-ignore
     insertInlineCitation = (e?: React.MouseEvent<HTMLButtonElement>, d: CSL.Data[] | Event = []): void => {
-        if (e) {
-            e.preventDefault();
-        }
+        e && e.preventDefault();
         this.editor.setLoadingState(true);
 
         let data: CSL.Data[] = [

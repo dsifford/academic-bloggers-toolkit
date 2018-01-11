@@ -133,7 +133,9 @@ export function bundle(cb: Callback): void {
         const msg = data.toString();
         console.error(msg.trim());
     });
-    if (!IS_PRODUCTION) return cb();
+    if (!IS_PRODUCTION) {
+        return cb();
+    }
 }
 
 export function js(): NodeJS.ReadWriteStream {
@@ -150,7 +152,9 @@ const main = gulp.series(
     gulp.parallel(staticFiles, js /*, pot*/),
     bundle,
     (cb: Callback) => {
-        if (IS_PRODUCTION) return cb();
+        if (IS_PRODUCTION) {
+            return cb();
+        }
 
         gulp.watch(
             [

@@ -364,8 +364,9 @@ export default class TinyMCEDriver extends EditorDriver {
         options: ABT.BibOptions,
         bibliography: ABT.Bibliography | boolean,
     ): void {
-        if (typeof bibliography === 'boolean' || bibliography.length === 0)
+        if (typeof bibliography === 'boolean' || bibliography.length === 0) {
             return;
+        }
 
         const bib = EditorDriver.createBibliographyElement(
             options,

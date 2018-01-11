@@ -5,7 +5,9 @@
  * @param doiList - Array of DOI strings
  * @return Tuple in the form described above
  */
-export async function getFromDOI(doiList: string[]): Promise<[CSL.Data[], string[]]> {
+export async function getFromDOI(
+    doiList: string[],
+): Promise<[CSL.Data[], string[]]> {
     let promises: Array<Promise<CSL.Data | string>> = [];
     let csl: CSL.Data[] = [];
     let errs: string[] = [];
@@ -16,7 +18,9 @@ export async function getFromDOI(doiList: string[]): Promise<[CSL.Data[], string
             getDOIAgency(doi)
                 .then(resolveDOI)
                 .catch(e => {
-                    if (typeof e === 'string') return e;
+                    if (typeof e === 'string') {
+                        return e;
+                    }
                     throw e;
                 }),
         ];
@@ -46,7 +50,9 @@ interface AgencyResponse {
  */
 async function getDOIAgency(doi: string): Promise<AgencyResponse> {
     const req = await fetch(`https://api.crossref.org/works/${doi}/agency`);
-    if (!req.ok) throw doi;
+    if (!req.ok) {
+        throw doi;
+    }
     const res = await req.json();
     return { agency: res.message.agency.id, doi };
 }
@@ -69,14 +75,19 @@ async function resolveDOI({ agency, doi }: AgencyResponse): Promise<CSL.Data> {
             break;
         case 'medra':
             url = `https://data.medra.org/${doi}`;
-            headers.append('accept', 'application/vnd.citationstyles.csl+json;q=1.0');
+            headers.append(
+                'accept',
+                'application/vnd.citationstyles.csl+json;q=1.0',
+            );
             break;
         default:
             throw doi;
     }
     const req = await fetch(url, { headers });
-    if (!req.ok) throw doi;
-    const res: CSL.Data = { ...await req.json(), id: '0' };
+    if (!req.ok) {
+        throw doi;
+    }
+    const res: CSL.Data = { ...(await req.json()), id: '0' };
 
     if (res['container-title-short']) {
         res.journalAbbreviation = res['container-title-short']![0];

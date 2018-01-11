@@ -51,7 +51,7 @@ export default class AddDialog extends React.Component<DialogProps> {
 
     captureInputField = (el: HTMLInputElement | null): void => {
         this.identifierInputField = el;
-        if (el) el.focus();
+        el && el.focus();
     };
 
     handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
@@ -62,7 +62,9 @@ export default class AddDialog extends React.Component<DialogProps> {
     render(): JSX.Element {
         return (
             <>
-                {this.store.isLoading && <Spinner overlay size="40px" height="calc(100% - 40px)" />}
+                {this.store.isLoading && (
+                    <Spinner overlay size="40px" height="calc(100% - 40px)" />
+                )}
                 {this.store.currentDialog === DialogType.PUBMED && (
                     <Container
                         overlayOpacity={0.2}
@@ -74,11 +76,19 @@ export default class AddDialog extends React.Component<DialogProps> {
                 )}
                 <form id="add-reference" onSubmit={this.handleSubmit}>
                     {!this.store.addManually && (
-                        <IdentifierInput fieldRef={this.captureInputField} store={this.store} />
+                        <IdentifierInput
+                            fieldRef={this.captureInputField}
+                            store={this.store}
+                        />
                     )}
-                    {this.store.addManually && <ManualInput store={this.store} />}
+                    {this.store.addManually && (
+                        <ManualInput store={this.store} />
+                    )}
                 </form>
-                <ButtonRow onSearchPubmedClick={this.openPubmedDialog} store={this.store} />
+                <ButtonRow
+                    onSearchPubmedClick={this.openPubmedDialog}
+                    store={this.store}
+                />
             </>
         );
     }

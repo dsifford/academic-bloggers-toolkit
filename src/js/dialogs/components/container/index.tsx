@@ -42,7 +42,7 @@ export default class Container extends React.Component<Props> {
 
     @action
     close = (e?: React.MouseEvent<HTMLButtonElement>): void => {
-        if (e) e.preventDefault();
+        e && e.preventDefault();
         this.props.onClose();
     };
 

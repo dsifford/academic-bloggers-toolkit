@@ -28,7 +28,8 @@ export default class ItemList extends React.Component<Props> {
 
     @action
     singleClick = (): void => {
-        this.props.ui[this.props.id].isOpen = !this.props.ui[this.props.id].isOpen;
+        this.props.ui[this.props.id].isOpen = !this.props.ui[this.props.id]
+            .isOpen;
     };
 
     @action
@@ -48,10 +49,12 @@ export default class ItemList extends React.Component<Props> {
 
     handleScroll = (e: React.WheelEvent<HTMLDivElement>): void => {
         e.stopPropagation();
-        const atTopAndScrollingUp: boolean = e.currentTarget.scrollTop === 0 && e.deltaY < 0;
+        const atTopAndScrollingUp: boolean =
+            e.currentTarget.scrollTop === 0 && e.deltaY < 0;
         const atBottomAndScollingDown: boolean =
-            Math.floor(e.currentTarget.scrollTop + e.currentTarget.offsetHeight) ===
-                e.currentTarget.scrollHeight && e.deltaY > 0;
+            Math.floor(
+                e.currentTarget.scrollTop + e.currentTarget.offsetHeight,
+            ) === e.currentTarget.scrollHeight && e.deltaY > 0;
         if (atTopAndScrollingUp || atBottomAndScollingDown) {
             e.preventDefault();
         }
@@ -59,7 +62,9 @@ export default class ItemList extends React.Component<Props> {
 
     render(): JSX.Element | null {
         const { children, id, items, ui } = this.props;
-        if (!items || items.length === 0) return null;
+        if (!items || items.length === 0) {
+            return null;
+        }
         return (
             <div>
                 <div
