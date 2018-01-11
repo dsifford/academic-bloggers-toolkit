@@ -16,7 +16,6 @@
     "test": "jest --coverage",
     "test-ci": "jest --coverage --runInBand && npm run build && bundlesize",
     "posttest": "npm run lint",
-    "phpcsfix-dist": "php-cs-fixer fix ./dist --rules='{\"array_syntax\": { \"syntax\": \"long\"}}' --using-cache=no",
     "lint": "tslint -p . -t codeFrame",
     "start": "gulp",
     "build": "NODE_ENV=production gulp",

@@ -90,14 +90,7 @@ export function staticFiles(): NodeJS.ReadWriteStream {
         })
         .pipe(gulp.dest('dist'));
     const license = gulp.src(['LICENSE']).pipe(gulp.dest('dist'));
-    const stream = merge(misc, license);
-    stream.on('end', () => {
-        exec(`npm run phpcsfix-dist`).catch(e => {
-            console.error(e);
-            throw e;
-        });
-    });
-    return stream;
+    return merge(misc, license);
 }
 
 // ==================================================
