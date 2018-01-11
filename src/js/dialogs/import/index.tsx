@@ -16,10 +16,14 @@ export default class ImportDialog extends React.Component<DialogProps> {
     static readonly errors = top.ABT.i18n.errors;
     static readonly labels = top.ABT.i18n.dialogs.import;
 
-    /** The error message to be displayed in the callout, if applicable */
+    /**
+     * The error message to be displayed in the callout, if applicable
+     */
     @observable errorMessage = '';
 
-    /** Controls the state of the file input */
+    /**
+     * Controls the state of the file input
+     */
     @observable
     file = {
         name: '',
@@ -28,7 +32,9 @@ export default class ImportDialog extends React.Component<DialogProps> {
 
     inputField: HTMLInputElement;
 
-    /** Array of `CSL.Data` obtained from the file import */
+    /**
+     * Array of `CSL.Data` obtained from the file import
+     */
     payload = observable<CSL.Data>([]);
 
     @action

@@ -7,7 +7,9 @@ import * as styles from './identifier-input.scss';
 
 interface Props {
     store: Store;
-    /** Handler to capture reference to input field */
+    /**
+     * Handler to capture reference to input field
+     */
     fieldRef(el: HTMLInputElement | null): void;
 }
 

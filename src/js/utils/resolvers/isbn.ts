@@ -6,7 +6,9 @@ interface Item {
     volumeInfo: {
         authors?: string[];
         pageCount?: number;
-        /** "2016-07-31" */
+        /**
+         * "2016-07-31"
+         */
         publishedDate?: string;
         publisher?: string;
         title?: string;

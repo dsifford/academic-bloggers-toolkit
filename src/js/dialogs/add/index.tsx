@@ -18,7 +18,10 @@ type Props = DialogProps & DialogDefaultProps;
 export default class AddDialog extends React.Component<DialogProps> {
     static readonly pubmedLabel = top.ABT.i18n.dialogs.pubmed.title;
 
-    /** Reference to the identifier input field in `IdentifierInput`. Used for focus/refocus */
+    /**
+     * Reference to the identifier input field in `IdentifierInput`.
+     * Used for focus/refocus.
+     */
     identifierInputField: HTMLInputElement | null;
 
     store = new Store('webpage');

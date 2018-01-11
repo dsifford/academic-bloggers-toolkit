@@ -8,17 +8,29 @@ import Tooltip, {
 import * as styles from './button.scss';
 
 interface Props extends React.HTMLProps<HTMLButtonElement> {
-    /** Flat button variant */
+    /**
+     * Flat button variant
+     */
     flat?: boolean;
-    /** Should button have focus outline? */
+    /**
+     * Should button have focus outline?
+     */
     focusable?: boolean;
-    /** Dashicon to use for button */
+    /**
+     * Dashicon to use for button
+     */
     icon?: WordPress.Dashicon;
-    /** Descriptive aria-label for the button */
+    /**
+     * Descriptive aria-label for the button
+     */
     label: string;
-    /** Primary button variant */
+    /**
+     * Primary button variant
+     */
     primary?: boolean;
-    /** Information describing the tooltip if one is needed */
+    /**
+     * Information describing the tooltip if one is needed
+     */
     tooltip?: TooltipParentProp;
     onClick?(e: React.MouseEvent<HTMLButtonElement>): void;
 }

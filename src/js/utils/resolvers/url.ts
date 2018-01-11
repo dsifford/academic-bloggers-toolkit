@@ -11,68 +11,122 @@ interface WebpageResponse {
         lastname: string;
     }>;
     article: {
-        /* Facebook URL - not name */
+        /**
+         * Facebook URL - not name
+         */
         author?: string;
-        /* ISO Date String */
+        /**
+         * ISO Date String
+         */
         modified_time?: string;
-        /* ISO Date String */
+        /**
+         * ISO Date String
+         */
         published_time?: string;
-        /* Facebook URL */
+        /**
+         * Facebook URL
+         */
         publisher?: string;
-        /* Category or section of source */
+        /**
+         * Category or section of source
+         */
         section?: string;
-        /* CSV list of tags */
+        /**
+         * CSV list of tags
+         */
         tag?: string;
     };
-    /* Published Date ISO string */
+    /**
+     * Published Date ISO string
+     */
     issued?: string;
     og: {
-        /* Article description */
+        /**
+         * Article description
+         */
         description?: string;
-        /* Height of main image in px */
+        /**
+         * Height of main image in px
+         */
         image_height?: string;
-        /* Width of main image in px */
+        /**
+         * Width of main image in px
+         */
         image_width?: string;
-        /* urlencoded image url */
+        /**
+         * urlencoded image url
+         */
         image?: string;
-        /* Site locale */
+        /**
+         * Site locale
+         */
         locale?: string;
-        /* ISO Date String */
+        /**
+         * ISO Date String
+         */
         pubdate?: string;
-        /* Clean URL form of site (e.g. `social.techcrunch.com`) */
+        /**
+         * Clean URL form of site (e.g. `social.techcrunch.com`)
+         */
         site?: string;
-        /* Title of website */
+        /**
+         * Title of website
+         */
         site_name?: string;
         /**
          * Title of Article
          */
         title?: string;
-        /* Type of posting (generally article) */
+        /**
+         * Type of posting (generally article)
+         */
         type?: string; // tslint:disable-line
-        /* ISO Date String */
+        /**
+         * ISO Date String
+         */
         updated_time?: string;
-        /* URL of page */
+        /**
+         * URL of page
+         */
         url?: string;
     };
     sailthru: {
-        /* _usually_ is `firstname lastname` */
+        /**
+         * _usually_ is `firstname lastname`
+         */
         author?: string;
-        /* ISO Date String (issued) */
+        /**
+         * ISO Date String (issued)
+         */
         date?: string;
-        /* Article description */
+        /**
+         * Article description
+         */
         description?: string;
-        /* Full-size image URL */
+        /**
+         * Full-size image URL
+         */
         image_full?: string;
-        /* Thumbnail image URL */
+        /**
+         * Thumbnail image URL
+         */
         image_thumb?: string;
-        /* CSV list of tags */
+        /**
+         * CSV list of tags
+         */
         tags?: string;
-        /* Title of Article */
+        /**
+         * Title of Article
+         */
         title?: string;
     };
-    /* Title of Article - last resort */
+    /**
+     * Title of Article - last resort
+     */
     title?: string;
-    /* URL of page */
+    /**
+     * URL of page
+     */
     url?: string;
 }
 

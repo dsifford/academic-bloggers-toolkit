@@ -2,9 +2,13 @@ import * as React from 'react';
 import * as styles from './badge.scss';
 
 interface Props {
-    /** Badge background color */
+    /**
+     * Badge background color
+     */
     color?: string;
-    /** Number to be displayed on badge */
+    /**
+     * Number to be displayed on badge
+     */
     count: number;
 }
 

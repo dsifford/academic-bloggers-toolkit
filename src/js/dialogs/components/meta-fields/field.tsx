@@ -5,10 +5,14 @@ import Store from 'stores/ui/add-dialog';
 import * as styles from './meta-fields.scss';
 
 interface Props {
-    /** Field descriptor */
+    /**
+     * Field descriptor
+     */
     field: ABT.Field;
     meta: Store['data'];
-    /** onChange handler for input element */
+    /**
+     * onChange handler for input element
+     */
     onChange(e: React.FormEvent<HTMLInputElement>): void;
 }
 

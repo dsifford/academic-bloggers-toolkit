@@ -7,7 +7,9 @@ interface LocaleCache {
      * runtime.
      */
     locales: Array<[string, string]>;
-    /** Timestamp in milliseconds of when the cache was saved */
+    /**
+     * Timestamp in milliseconds of when the cache was saved
+     */
     time: number;
 }
 

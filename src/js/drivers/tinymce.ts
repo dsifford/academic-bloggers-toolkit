@@ -55,7 +55,9 @@ export default class TinyMCEDriver extends EditorDriver {
          * non-cached selection should be used
          */
         fresh: false,
-        /** Content currently selected (HTML) */
+        /**
+         * Content currently selected (HTML)
+         */
         selection: '',
         bookmark: { rng: document.createRange() },
     };

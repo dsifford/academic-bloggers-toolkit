@@ -20,19 +20,29 @@ export default class PubmedDialog extends React.Component<DialogProps> {
     static readonly errors = top.ABT.i18n.errors;
     static readonly labels = top.ABT.i18n.dialogs.pubmed;
 
-    /** Error message to be displayed in the callout, if applicable */
+    /**
+     * Error message to be displayed in the callout, if applicable
+     */
     errorMessage = observable('');
 
-    /** Controls the loading state of the dialog */
+    /**
+     * Controls the loading state of the dialog
+     */
     isLoading = observable(false);
 
-    /** Current page of results */
+    /**
+     * Current page of results
+     */
     page = observable(0);
 
-    /** Controls the state of the input field */
+    /**
+     * Controls the state of the input field
+     */
     query = observable('');
 
-    /** Array of results returned from the pubmed search */
+    /**
+     * Array of results returned from the pubmed search
+     */
     results = observable<CSL.Data>([]);
 
     @computed
@@ -157,7 +167,6 @@ export function* placeholderGenerator(): IterableIterator<string> {
         'resident OR student AND retention',
     ];
     let i = Math.floor(Math.random() * (options.length + 1));
-    /* istanbul ignore next */
     while (true) {
         if (i === options.length) {
             i = 0;

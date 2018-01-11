@@ -53,6 +53,7 @@ rules:
     no-invalid-regexp: true
     no-regex-spaces: true
     no-reserved-keywords: true
+    # no-single-line-block-comment: true FIXME: reenable once jsx false positives fixed
     no-stateless-class: true
     no-string-based-set-immediate: true
     no-string-based-set-interval: true

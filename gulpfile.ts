@@ -142,7 +142,7 @@ export function js(): NodeJS.ReadWriteStream {
 
 const main = gulp.series(
     clean,
-    gulp.parallel(staticFiles, js /*, pot*/),
+    gulp.parallel(staticFiles, js, pot),
     bundle,
     (cb: Callback) => {
         if (IS_PRODUCTION) {

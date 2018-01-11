@@ -1,11 +1,16 @@
 import { observer } from 'mobx-react';
 import * as React from 'react';
 
-import Tooltip, { TooltipParentProp, TooltipParentState } from 'components/tooltip';
+import Tooltip, {
+    TooltipParentProp,
+    TooltipParentState,
+} from 'components/tooltip';
 import * as styles from './toggle-switch.scss';
 
 interface Props extends React.HTMLProps<HTMLInputElement> {
-    /** Information describing the tooltip */
+    /**
+     * Information describing the tooltip
+     */
     tooltip: TooltipParentProp;
     onChange(): void;
 }
@@ -19,7 +24,8 @@ export default class ToggleSwitch extends React.Component<Props, State> {
         transform: '',
     };
 
-    hideTooltip = (): void => this.setState(prev => ({ ...prev, isShowingTooltip: false }));
+    hideTooltip = (): void =>
+        this.setState(prev => ({ ...prev, isShowingTooltip: false }));
 
     showTooltip = (e: React.MouseEvent<HTMLSpanElement>): void => {
         const { position } = this.props.tooltip;

@@ -5,22 +5,34 @@ import * as React from 'react';
 import * as styles from './item.scss';
 
 interface Props extends React.HTMLProps<HTMLDivElement> {
-    /** Data to be displayed in the card */
+    /**
+     * Data to be displayed in the card
+     */
     readonly CSL: CSL.Data;
-    /** The index of the card in the list (corrected to start at 1) */
+    /**
+     * The index of the card in the list (corrected to start at 1)
+     */
     readonly index: number;
-    /** Describes whether or not the index badge should be displayed on hover */
+    /**
+     * Describes whether or not the index badge should be displayed on hover
+     */
     readonly indexOnHover: boolean;
-    /** Describes whether or not the card is currently selected */
+    /**
+     * Describes whether or not the card is currently selected
+     */
     readonly isSelected: boolean;
 }
 
 @observer
 export default class Item extends React.Component<Props> {
-    /** Controls the visibility state of the index badge, if applicable */
+    /**
+     * Controls the visibility state of the index badge, if applicable
+     */
     isShowingIndex = observable(false);
 
-    /** Controls the delay period between hovering and displaying the index badge */
+    /**
+     * Controls the delay period between hovering and displaying the index badge
+     */
     timer: NodeJS.Timer;
 
     @action

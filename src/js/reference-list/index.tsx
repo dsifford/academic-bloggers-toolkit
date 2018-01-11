@@ -69,7 +69,7 @@ export default class ReferenceList extends React.Component<Props> {
             throw e;
         });
 
-        /** React to list toggles */
+        // React to list toggles
         reaction(
             () => [
                 this.ui.cited.isOpen,
@@ -80,7 +80,7 @@ export default class ReferenceList extends React.Component<Props> {
             { fireImmediately: false, delay: 200 },
         );
 
-        /** React to list pin/unpin */
+        // React to list pin/unpin
         reaction(
             () => this.ui.pinned,
             () => {
@@ -91,7 +91,7 @@ export default class ReferenceList extends React.Component<Props> {
             },
         );
 
-        /** React to cited list changes */
+        // React to cited list changes
         reaction(
             () => this.props.store.citations.citedIDs.length,
             this.handleScroll,

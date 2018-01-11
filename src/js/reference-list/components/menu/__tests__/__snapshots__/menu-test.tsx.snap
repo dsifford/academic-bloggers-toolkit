@@ -1,0 +1,114 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Menu /> should match snapshots 1`] = `
+<div
+  className="menuContainer"
+>
+  <div
+    className="subpanel"
+  >
+    <Button
+      flat={true}
+      icon="media-code"
+      id="OPEN_IMPORT_DIALOG"
+      label="Import references"
+      onClick={[Function]}
+      tooltip={
+        Object {
+          "position": "bottom",
+          "text": "Import references",
+        }
+      }
+      type="button"
+    />
+    <Button
+      flat={true}
+      icon="image-rotate"
+      id="REFRESH_PROCESSOR"
+      label="Refresh reference list"
+      onClick={[Function]}
+      tooltip={
+        Object {
+          "position": "bottom",
+          "text": "Refresh reference list",
+        }
+      }
+      type="button"
+    />
+    <Button
+      flat={true}
+      icon="trash"
+      id="DESTROY_PROCESSOR"
+      label="Delete all references"
+      onClick={[Function]}
+      tooltip={
+        Object {
+          "position": "bottom",
+          "text": "Delete all references",
+        }
+      }
+      type="button"
+    />
+    <Button
+      disabled={false}
+      flat={true}
+      icon="list-view"
+      id="INSERT_STATIC_BIBLIOGRAPHY"
+      label="Insert static publication list"
+      onClick={[Function]}
+      tooltip={
+        Object {
+          "position": "bottom",
+          "text": "Insert static publication list",
+        }
+      }
+      type="button"
+    />
+    <Button
+      flat={true}
+      href="https://github.com/dsifford/academic-bloggers-toolkit/wiki"
+      icon="editor-help"
+      label="Usage instructions"
+      role="link"
+      tooltip={
+        Object {
+          "position": "bottom",
+          "text": "Usage instructions",
+        }
+      }
+      type="button"
+    />
+  </div>
+  <label
+    className="styleLabel"
+    htmlFor="citation-style-input"
+  >
+    Citation Style
+  </label>
+  <StyleInput
+    currentStyle={
+      Object {
+        "kind": "predefined",
+        "label": "American Medical Association",
+        "value": "american-medical-association",
+      }
+    }
+    onSelected={[Function]}
+    styles={
+      Array [
+        Object {
+          "kind": "predefined",
+          "label": "American Medical Association",
+          "value": "american-medical-association",
+        },
+        Object {
+          "kind": "custom",
+          "label": "Test Custom Style",
+          "value": "test-custom-style",
+        },
+        Array [],
+      ]
+    }
+  />
+</div>
+`;

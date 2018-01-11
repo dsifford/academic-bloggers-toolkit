@@ -6,9 +6,13 @@ import Button from 'components/button';
 import * as styles from './result-list.scss';
 
 interface Props {
-    /** List of results returned from pubmed search */
+    /**
+     * List of results returned from pubmed search
+     */
     results: CSL.Data[];
-    /** Callback to be performed when a result is chosen */
+    /**
+     * Callback to be performed when a result is chosen
+     */
     onSelect(pmid: string): void;
 }
 
@@ -16,7 +20,9 @@ interface Props {
 export default class ResultList extends React.Component<Props> {
     static readonly labels = top.ABT.i18n.dialogs.pubmed;
 
-    /** Required so that result list can be scrolled to top after each new search */
+    /**
+     * Required so that result list can be scrolled to top after each new search
+     */
     element: HTMLElement;
 
     bindRefs = (c: HTMLDivElement): void => {

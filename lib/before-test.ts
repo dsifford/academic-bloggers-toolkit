@@ -2,7 +2,6 @@ require('ts-node/register');
 import { configure } from 'enzyme';
 import * as Adapter from 'enzyme-adapter-react-16';
 import { i18n, state, wpInfo } from './fixtures';
-const styles = require('../src/vendor/citation-styles.json');
 
 configure({ adapter: new Adapter() });
 
@@ -26,7 +25,21 @@ Object.defineProperties(window, {
             state,
             i18n,
             wp: wpInfo,
-            styles,
+            styles: {
+                renamed: {},
+                styles: [
+                    {
+                        kind: 'predefined',
+                        label: 'American Medical Association',
+                        value: 'american-medical-association',
+                    },
+                    {
+                        kind: 'custom',
+                        label: 'Test Custom Style',
+                        value: 'test-custom-style',
+                    },
+                ],
+            },
             options: {
                 citation_style: {
                     kind: 'predefined',

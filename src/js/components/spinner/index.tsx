@@ -2,15 +2,25 @@ import * as React from 'react';
 import * as styles from './spinner.scss';
 
 interface Props {
-    /* Set background color of container */
+    /**
+     * Set background color of container
+     */
     bgColor?: string;
-    /* If not in a containing element, this is minimum height */
+    /**
+     * If not in a containing element, this is minimum height
+     */
     height?: string | number | (() => string | number);
-    /* Add this for a background overlay */
+    /**
+     * Add this for a background overlay
+     */
     overlay?: boolean;
-    /* The length and width in pixels of the spinner */
+    /**
+     * The length and width in pixels of the spinner
+     */
     size: string;
-    /* Additional style properties for the containing div */
+    /**
+     * Additional style properties for the containing div
+     */
     style?: React.CSSProperties;
 }
 

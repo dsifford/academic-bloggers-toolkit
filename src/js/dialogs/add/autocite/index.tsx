@@ -6,13 +6,21 @@ import Button from 'components/button';
 import * as styles from './autocite.scss';
 
 interface Props {
-    /** Describes the type of autocite needed */
+    /**
+     * Describes the type of autocite needed
+     */
     kind: 'webpage' | 'book' | 'chapter';
-    /** Validation pattern for input field */
+    /**
+     * Validation pattern for input field
+     */
     pattern?: string;
-    /** Placeholder text for input field */
+    /**
+     * Placeholder text for input field
+     */
     placeholder: string;
-    /** Function to call when autocite is submitted */
+    /**
+     * Function to call when autocite is submitted
+     */
     getter(query: string): void;
 }
 
@@ -20,10 +28,14 @@ interface Props {
 export default class AutoCite extends React.Component<Props> {
     static readonly labels = top.ABT.i18n.dialogs.add.manual_input;
 
-    /** Ref to the input field (needed for validation) */
+    /**
+     * Ref to the input field (needed for validation)
+     */
     input: HTMLInputElement;
 
-    /** Controls the value of the input field */
+    /**
+     * Controls the value of the input field
+     */
     @observable query = '';
 
     @action

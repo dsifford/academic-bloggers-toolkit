@@ -10,7 +10,9 @@ import ToggleSwitch from 'components/toggle-switch';
 
 interface Props {
     store: Store;
-    /** Function to call when Search Pubmed button is clicked */
+    /**
+     * Function to call when Search Pubmed button is clicked
+     */
     onSearchPubmedClick(): void;
 }
 

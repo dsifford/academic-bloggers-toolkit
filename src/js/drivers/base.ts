@@ -13,7 +13,10 @@ export interface RelativeCitationPositions {
  * Base class from which all editor drivers must be derived
  */
 export default abstract class EditorDriver extends Editor {
-    /** Retrieve an array of every HTMLElement ID for all citations currently existing in the editor. */
+    /**
+     * Retrieve an array of every HTMLElement ID for all citations currently
+     * existing in the editor.
+     */
     abstract get citationIds(): string[];
 
     /**
@@ -28,7 +31,9 @@ export default abstract class EditorDriver extends Editor {
      */
     abstract get relativeCitationPositions(): RelativeCitationPositions;
 
-    /** Retrive the currently selected content in the editor as a raw HTML string. */
+    /**
+     * Retrive the currently selected content in the editor as a raw HTML string.
+     */
     abstract get selection(): string;
 
     /**

@@ -6,9 +6,13 @@ import ActionBar from 'components/action-bar';
 import Button from 'components/button';
 
 interface Props {
-    /** Page currently on */
+    /**
+     * Page currently on
+     */
     page: IObservableValue<number>;
-    /** Total number of pages */
+    /**
+     * Total number of pages
+     */
     totalPages: number;
 }
 

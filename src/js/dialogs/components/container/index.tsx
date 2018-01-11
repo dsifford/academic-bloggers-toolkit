@@ -7,15 +7,25 @@ import * as React from 'react';
 import * as styles from './container.scss';
 
 interface Props {
-    /** Content to display in dialog */
+    /**
+     * Content to display in dialog
+     */
     children: React.ReactElement<any>;
-    /** Opacity of background overlay */
+    /**
+     * Opacity of background overlay
+     */
     overlayOpacity?: number;
-    /** Title for dialog */
+    /**
+     * Title for dialog
+     */
     title: string;
-    /** Width of dialog */
+    /**
+     * Width of dialog
+     */
     width?: number;
-    /** Callback to be called when dialog is closed */
+    /**
+     * Callback to be called when dialog is closed
+     */
     onClose(): void;
 }
 
@@ -32,7 +42,9 @@ export default class Container extends React.Component<Props> {
         width: 600,
     };
 
-    /** Controls paused state of `FocusTrap`. Needed if nesting `FocusTrap`s */
+    /**
+     * Controls paused state of `FocusTrap`. Needed if nesting `FocusTrap`s
+     */
     @observable focusTrapPaused = false;
 
     @action
@@ -85,7 +97,6 @@ export default class Container extends React.Component<Props> {
                 onKeyDown={this.handleKeyEvent}
             >
                 <FocusTrap paused={this.focusTrapPaused}>
-                    {/* <FocusTrap paused={this.focusTrapPaused.get()}> */}
                     <div
                         style={{ width, position: 'relative' }}
                         role="dialog"

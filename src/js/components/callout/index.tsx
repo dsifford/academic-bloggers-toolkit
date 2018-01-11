@@ -5,13 +5,22 @@ import Button from 'components/button';
 import * as styles from './callout.scss';
 
 interface Props extends React.HTMLProps<HTMLDivElement> {
-    /** Text to render in the callout */
+    /**
+     * Text to render in the callout
+     */
     children: string;
-    /** Describes the purpose of the callout */
+    /**
+     * Describes the purpose of the callout
+     */
     intent?: 'danger' | 'warning';
-    /** Heading for callout */
+    /**
+     * Heading for callout
+     */
     title?: string;
-    /** Function to call when callout is dismissed. If unset, callout is not dismissable */
+    /**
+     * Function to call when callout is dismissed. If unset, callout is not
+     * dismissable
+     */
     onDismiss?(): void;
 }
 
