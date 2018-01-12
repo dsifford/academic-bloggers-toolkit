@@ -1,0 +1,470 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Demo /> Snapshots should render correct heading level 1`] = `
+<div
+  className="demo"
+>
+  <h3
+    aria-controls="bibliography-content"
+    className="demoHeading"
+    onClick={[Function]}
+    role="button"
+    style={
+      Object {
+        "fontSize": "1.8em",
+        "lineHeight": "1.8em",
+      }
+    }
+  >
+    Bibliography
+  </h3>
+  <div
+    aria-hidden={false}
+    id="bibliography-content"
+    style={
+      Object {
+        "display": "initial",
+      }
+    }
+  >
+    <span
+      className="demoNumber"
+    >
+      1.
+    </span>
+    <span>
+      Sifford D P. Academic Blogger’s Toolkit:
+       
+      <a
+        href="https://wordpress.org/plugins/academic-bloggers-toolkit/"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        https://wordpress.org/plugins/academic-bloggers-toolkit/
+      </a>
+      .
+      <i>
+         J WordPress
+      </i>
+      . 2015;12(5):12-24. [
+      <a
+        href="https://dx.doi.org/#1"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        Source
+      </a>
+      ]
+    </span>
+  </div>
+</div>
+`;
+
+exports[`<Demo /> Snapshots should render correct heading level 2`] = `
+"Snapshot Diff:
+- First value
++ Second value
+
+@@ -6,12 +6,12 @@
+      className=\\"demoHeading\\"
+      onClick={[Function anonymous]}
+      role=\\"button\\"
+      style={
+        Object {
+-         \\"fontSize\\": \\"2.5em\\",
+-         \\"lineHeight\\": \\"2.5em\\",
++         \\"fontSize\\": \\"1.8em\\",
++         \\"lineHeight\\": \\"1.8em\\",
+        }
+      }
+    >
+      Bibliography
+    </h3>"
+`;
+
+exports[`<Demo /> Snapshots should render correct heading level 3`] = `
+"Snapshot Diff:
+- First value
++ Second value
+
+@@ -6,12 +6,12 @@
+      className=\\"demoHeading\\"
+      onClick={[Function anonymous]}
+      role=\\"button\\"
+      style={
+        Object {
+-         \\"fontSize\\": \\"2.2em\\",
+-         \\"lineHeight\\": \\"2.2em\\",
++         \\"fontSize\\": \\"1.8em\\",
++         \\"lineHeight\\": \\"1.8em\\",
+        }
+      }
+    >
+      Bibliography
+    </h3>"
+`;
+
+exports[`<Demo /> Snapshots should render correct heading level 4`] = `
+"Snapshot Diff:
+Compared values have no visual difference."
+`;
+
+exports[`<Demo /> Snapshots should render correct heading level 5`] = `
+"Snapshot Diff:
+- First value
++ Second value
+
+@@ -6,12 +6,12 @@
+      className=\\"demoHeading\\"
+      onClick={[Function anonymous]}
+      role=\\"button\\"
+      style={
+        Object {
+-         \\"fontSize\\": \\"1.4em\\",
+-         \\"lineHeight\\": \\"1.4em\\",
++         \\"fontSize\\": \\"1.8em\\",
++         \\"lineHeight\\": \\"1.8em\\",
+        }
+      }
+    >
+      Bibliography
+    </h3>"
+`;
+
+exports[`<Demo /> Snapshots should render correct heading level 6`] = `
+"Snapshot Diff:
+- First value
++ Second value
+
+@@ -6,12 +6,12 @@
+      className=\\"demoHeading\\"
+      onClick={[Function anonymous]}
+      role=\\"button\\"
+      style={
+        Object {
+-         \\"fontSize\\": \\"1.2em\\",
+-         \\"lineHeight\\": \\"1.2em\\",
++         \\"fontSize\\": \\"1.8em\\",
++         \\"lineHeight\\": \\"1.8em\\",
+        }
+      }
+    >
+      Bibliography
+    </h3>"
+`;
+
+exports[`<Demo /> Snapshots should render correct heading level 7`] = `
+"Snapshot Diff:
+- First value
++ Second value
+
+@@ -6,12 +6,12 @@
+      className=\\"demoHeading\\"
+      onClick={[Function anonymous]}
+      role=\\"button\\"
+      style={
+        Object {
+-         \\"fontSize\\": \\"1.0em\\",
+-         \\"lineHeight\\": \\"1.0em\\",
++         \\"fontSize\\": \\"1.8em\\",
++         \\"lineHeight\\": \\"1.8em\\",
+        }
+      }
+    >
+      Bibliography
+    </h3>"
+`;
+
+exports[`<Demo /> Snapshots should render correct link format 1`] = `
+<div
+  className="demo"
+>
+  <h3
+    aria-controls="bibliography-content"
+    className="demoHeading"
+    onClick={[Function]}
+    role="button"
+    style={
+      Object {
+        "fontSize": "1.8em",
+        "lineHeight": "1.8em",
+      }
+    }
+  >
+    Bibliography
+  </h3>
+  <div
+    aria-hidden={false}
+    id="bibliography-content"
+    style={
+      Object {
+        "display": "initial",
+      }
+    }
+  >
+    <span
+      className="demoNumber"
+    >
+      1.
+    </span>
+    <span>
+      Sifford D P. Academic Blogger’s Toolkit:
+       
+      <a
+        href="https://wordpress.org/plugins/academic-bloggers-toolkit/"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        https://wordpress.org/plugins/academic-bloggers-toolkit/
+      </a>
+      .
+      <i>
+         J WordPress
+      </i>
+      . 2015;12(5):12-24. [
+      <a
+        href="https://dx.doi.org/#1"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        Source
+      </a>
+      ]
+    </span>
+  </div>
+</div>
+`;
+
+exports[`<Demo /> Snapshots should render correct link format 2`] = `
+"Snapshot Diff:
+- First value
++ Second value
+
+@@ -28,21 +28,30 @@
+        className=\\"demoNumber\\"
+      >
+        1.
+      </span>
+      <span>
++       Sifford D P. Academic Blogger’s Toolkit:
++        
+        <a
+-         href=\\"https://dx.doi.org/#2\\"
++         href=\\"https://wordpress.org/plugins/academic-bloggers-toolkit/\\"
+          rel=\\"noopener noreferrer\\"
+          target=\\"_blank\\"
+        >
+-         Sifford D P. Academic Blogger’s Toolkit:
+-          
+-         https://wordpress.org/plugins/academic-bloggers-toolkit/.
++         https://wordpress.org/plugins/academic-bloggers-toolkit/
++       </a>
++       .
+        <i>
+           J WordPress
+        </i>
+-         . 2015;12(5):12-24.
++       . 2015;12(5):12-24. [
++       <a
++         href=\\"https://dx.doi.org/#1\\"
++         rel=\\"noopener noreferrer\\"
++         target=\\"_blank\\"
++       >
++         Source
+        </a>
++       ]
+      </span>
+    </div>
+  </div>"
+`;
+
+exports[`<Demo /> Snapshots should render correct link format 3`] = `
+"Snapshot Diff:
+- First value
++ Second value
+
+@@ -28,21 +28,30 @@
+        className=\\"demoNumber\\"
+      >
+        1.
+      </span>
+      <span>
+-       Sifford D P. Academic Blogger’s Toolkit: 
++       Sifford D P. Academic Blogger’s Toolkit:
++        
+        <a
+          href=\\"https://wordpress.org/plugins/academic-bloggers-toolkit/\\"
+          rel=\\"noopener noreferrer\\"
+          target=\\"_blank\\"
+        >
+          https://wordpress.org/plugins/academic-bloggers-toolkit/
+        </a>
+-       . 
++       .
+        <i>
+-         J WordPress
++          J WordPress
+        </i>
+-       . 2015;12(5):12-24.
++       . 2015;12(5):12-24. [
++       <a
++         href=\\"https://dx.doi.org/#1\\"
++         rel=\\"noopener noreferrer\\"
++         target=\\"_blank\\"
++       >
++         Source
++       </a>
++       ]
+      </span>
+    </div>
+  </div>"
+`;
+
+exports[`<Demo /> Snapshots should render correct link format 4`] = `
+"Snapshot Diff:
+- First value
++ Second value
+
+@@ -30,14 +30,28 @@
+        1.
+      </span>
+      <span>
+        Sifford D P. Academic Blogger’s Toolkit:
+         
++       <a
++         href=\\"https://wordpress.org/plugins/academic-bloggers-toolkit/\\"
++         rel=\\"noopener noreferrer\\"
++         target=\\"_blank\\"
++       >
+          https://wordpress.org/plugins/academic-bloggers-toolkit/
+-       . 
++       </a>
++       .
+        <i>
+-         J WordPress
++          J WordPress
+        </i>
+-       . 2015;12(5):12-24.
++       . 2015;12(5):12-24. [
++       <a
++         href=\\"https://dx.doi.org/#1\\"
++         rel=\\"noopener noreferrer\\"
++         target=\\"_blank\\"
++       >
++         Source
++       </a>
++       ]
+      </span>
+    </div>
+  </div>"
+`;
+
+exports[`<Demo /> Snapshots should render headings 1`] = `
+<div
+  className="demo"
+>
+  <h3
+    aria-controls="bibliography-content"
+    className="demoHeading"
+    onClick={[Function]}
+    role="button"
+    style={
+      Object {
+        "fontSize": "1.8em",
+        "lineHeight": "1.8em",
+      }
+    }
+  >
+    Bibliography
+  </h3>
+  <div
+    aria-hidden={false}
+    id="bibliography-content"
+    style={
+      Object {
+        "display": "initial",
+      }
+    }
+  >
+    <span
+      className="demoNumber"
+    >
+      1.
+    </span>
+    <span>
+      Sifford D P. Academic Blogger’s Toolkit:
+       
+      <a
+        href="https://wordpress.org/plugins/academic-bloggers-toolkit/"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        https://wordpress.org/plugins/academic-bloggers-toolkit/
+      </a>
+      .
+      <i>
+         J WordPress
+      </i>
+      . 2015;12(5):12-24. [
+      <a
+        href="https://dx.doi.org/#1"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        Source
+      </a>
+      ]
+    </span>
+  </div>
+</div>
+`;
+
+exports[`<Demo /> Snapshots should render headings 2`] = `
+"Snapshot Diff:
+- First value
++ Second value
+
+@@ -11,11 +11,11 @@
+          \\"fontSize\\": \\"1.8em\\",
+          \\"lineHeight\\": \\"1.8em\\",
+        }
+      }
+    >
+-     Testing
++     Bibliography
+    </h3>
+    <div
+      aria-hidden={false}
+      id=\\"bibliography-content\\"
+      style={"
+`;
+
+exports[`<Demo /> Snapshots should render headings 3`] = `
+"Snapshot Diff:
+- First value
++ Second value
+
+@@ -1,8 +1,22 @@
+  <div
+    className=\\"demo\\"
+  >
++   <h3
++     aria-controls=\\"bibliography-content\\"
++     className=\\"demoHeading\\"
++     onClick={[Function anonymous]}
++     role=\\"button\\"
++     style={
++       Object {
++         \\"fontSize\\": \\"1.8em\\",
++         \\"lineHeight\\": \\"1.8em\\",
++       }
++     }
++   >
++     Bibliography
++   </h3>
+    <div
+      aria-hidden={false}
+      id=\\"bibliography-content\\"
+      style={
+        Object {"
+`;

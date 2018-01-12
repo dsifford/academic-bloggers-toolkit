@@ -1,0 +1,71 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<StyleForm /> should match snapshots 1`] = `
+<React.Fragment>
+  <devtool
+    position={
+      Object {
+        "left": 50,
+        "top": 40,
+      }
+    }
+  />
+  <RadioGroup
+    items={
+      Array [
+        Object {
+          "label": "Predefined",
+          "value": "predefined",
+        },
+        Object {
+          "label": "Custom",
+          "value": "custom",
+        },
+      ]
+    }
+    label="Citation Style Type"
+    name="style_kind"
+    onChange={[Function]}
+    style={
+      Object {
+        "margin": "10px 0",
+      }
+    }
+    value="predefined"
+  />
+  <input
+    name="style_value"
+    type="hidden"
+    value="american-medical-association"
+  />
+  <input
+    name="style_label"
+    type="hidden"
+    value="American Medical Association"
+  />
+  <StyleInput
+    currentStyle={
+      Store {
+        "kind": "predefined",
+        "label": "American Medical Association",
+        "value": "american-medical-association",
+      }
+    }
+    onSelected={[Function]}
+    styles={
+      Array [
+        Object {
+          "kind": "predefined",
+          "label": "American Medical Association",
+          "value": "american-medical-association",
+        },
+        Object {
+          "kind": "custom",
+          "label": "Test Custom Style",
+          "value": "test-custom-style",
+        },
+      ]
+    }
+  />
+</React.Fragment>
+`;
