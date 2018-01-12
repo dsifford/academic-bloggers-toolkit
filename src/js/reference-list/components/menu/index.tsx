@@ -43,11 +43,9 @@ export default class Menu extends React.Component<Props> {
     // FIXME: The styles should probably be passed in as a prop
     static readonly styles: ABT.CitationStyle[] = [
         ...top.ABT.styles.styles,
-        ...[
-            top.ABT.options.citation_style.kind === 'custom'
-                ? top.ABT.options.citation_style
-                : ([] as any),
-        ],
+        ...(top.ABT.options.citation_style.kind === 'custom'
+            ? [top.ABT.options.citation_style]
+            : []),
     ];
     static getSuggestionValue = ({ label }: ABT.CitationStyle): string => label;
 
@@ -127,13 +125,6 @@ export default class Menu extends React.Component<Props> {
                         }}
                     />
                 </div>
-                <label
-                    htmlFor="citation-style-input"
-                    className={Styles.styleLabel}
-                >
-                    {/* TODO: i18n */}
-                    Citation Style
-                </label>
                 <StyleInput
                     styles={Menu.styles}
                     currentStyle={this.props.data.citationStyle}

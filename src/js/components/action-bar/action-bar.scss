@@ -6,7 +6,8 @@
     padding: 10px;
     align-items: center;
     background: $light-gray;
-    box-shadow: map-get($shadows, 'top-border');
+    box-shadow: map-get($shadows, 'top-border'),
+        map-get($shadows, 'bottom-border');
     border-radius: 0 0 2px 2px;
     margin: 0;
     justify-content: space-between;

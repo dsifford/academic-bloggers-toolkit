@@ -323,7 +323,7 @@ export default class ReferenceList extends React.Component<Props> {
                 this.processor.citeproc.opt.xclass,
             );
             this.editor.setBibliography(
-                this.props.store.bibOptions,
+                this.props.store.displayOptions,
                 this.processor.makeBibliography(),
             );
             this.clearSelection();
@@ -480,7 +480,7 @@ export default class ReferenceList extends React.Component<Props> {
                 itemsFollowing
             );
             this.editor.composeCitations(clusters, this.props.store.citations.citationByIndex, this.processor.citeproc.opt.xclass);
-            this.editor.setBibliography(this.props.store.bibOptions, this.processor.makeBibliography());
+            this.editor.setBibliography(this.props.store.displayOptions, this.processor.makeBibliography());
         } catch (e) {
             Rollbar.error(e.message, e);
             this.editor.alert(stripIndents`
@@ -522,7 +522,7 @@ export default class ReferenceList extends React.Component<Props> {
             );
             this.clearSelection();
             this.editor.setBibliography(
-                this.props.store.bibOptions,
+                this.props.store.displayOptions,
                 bibliography,
                 true,
             );

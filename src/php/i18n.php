@@ -159,6 +159,7 @@ function generate_translations() {
 			),
 		],
 		'tinymce_unavailable' => __( "TinyMCE editor doesn't appear to be available in this scope", 'academic-bloggers-toolkit' ),
+		'invalid_predefined_style' => __( 'Invalid predefined style type', 'academic-bloggers-toolkit' ),
 	];
 
 	$reference_list = [
@@ -238,6 +239,24 @@ function generate_translations() {
 		],
 	];
 
+	$options_page = [
+		'citation_style_type' => __( 'Citation Style Type', 'academic-bloggers-toolkit' ),
+		'predefined' => __( 'Predefined', 'academic-bloggers-toolkit' ),
+		'custom' => __( 'Custom', 'academic-bloggers-toolkit' ),
+		'heading' => __( 'Heading', 'academic-bloggers-toolkit' ),
+		'heading_level' => __( 'Heading Level', 'academic-bloggers-toolkit' ),
+		'fixed' => __( 'Fixed', 'academic-bloggers-toolkit' ),
+		'toggle' => __( 'Toggle', 'academic-bloggers-toolkit' ),
+		'bibliography_style' => __( 'Bibliography Style', 'academic-bloggers-toolkit' ),
+		'link_format' => [
+			'title' => __( 'Link Format', 'academic-bloggers-toolkit' ),
+			'always' => __( 'Make URLs clickable and always add trailing source link.', 'academic-bloggers-toolkit' ),
+			'always_full_surround' => __( 'Make entire reference a clickable link to the source URL.', 'academic-bloggers-toolkit' ),
+			'urls' => __( 'Make URLs clickable only.', 'academic-bloggers-toolkit' ),
+			'never' => __( 'Never add clickable links.', 'academic-bloggers-toolkit' ),
+		],
+	];
+
 	require_once __DIR__ . '/fieldmaps.php';
 
 	return (object) [
@@ -247,5 +266,6 @@ function generate_translations() {
 		'fieldmaps' => fieldmaps(),
 		'misc' => $misc,
 		'reference_list' => $reference_list,
+		'options_page' => $options_page,
 	];
 }

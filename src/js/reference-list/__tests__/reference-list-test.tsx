@@ -90,11 +90,11 @@ class MockEditor extends EditorDriver {
 }
 
 const blankState: ABT.Globals['state'] = {
-    bibOptions: {
-        heading: '',
-        headingLevel: 'h3',
+    displayOptions: {
+        bib_heading: '',
+        bib_heading_level: 'h3',
         links: 'always',
-        style: 'fixed',
+        bibliography: 'fixed',
     },
     cache: {
         style: {

@@ -450,12 +450,6 @@ exports[`<ReferenceList /> snapshots menu toggled open 1`] = `
   <Menu
     data={
       Store {
-        "bibOptions": Object {
-          "heading": "",
-          "headingLevel": "h3",
-          "links": "always",
-          "style": "fixed",
-        },
         "citationStyle": Store {
           "kind": "predefined",
           "label": "American Medical Association",
@@ -464,6 +458,12 @@ exports[`<ReferenceList /> snapshots menu toggled open 1`] = `
         "citations": CitationStore {
           "CSL": Object {},
           "byIndex": Array [],
+        },
+        "displayOptions": Object {
+          "bib_heading": "",
+          "bib_heading_level": "h3",
+          "bibliography": "fixed",
+          "links": "always",
         },
         "locale": "en_US",
       }

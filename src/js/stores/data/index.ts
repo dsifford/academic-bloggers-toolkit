@@ -4,7 +4,7 @@ import CitationStore from './citation-store';
 import StyleStore from './style-store';
 
 export default class Store {
-    readonly bibOptions: ABT.BibOptions;
+    readonly displayOptions: ABT.DisplayOptions;
     /**
      * The user's locale provided by WordPress.
      */
@@ -16,12 +16,12 @@ export default class Store {
         const {
             cache: { style, locale },
             citationByIndex,
-            bibOptions,
+            displayOptions,
             CSL,
         } = savedState;
         this.citations = new CitationStore(citationByIndex, CSL);
         this.citationStyle = new StyleStore(style);
-        this.bibOptions = bibOptions;
+        this.displayOptions = displayOptions;
         this.locale = locale;
     }
 

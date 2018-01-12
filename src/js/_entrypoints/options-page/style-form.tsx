@@ -73,7 +73,7 @@ export default class StyleForm extends React.Component {
             const error = xml.querySelector('parsererror');
             const label = xml.querySelector('info title');
             if (error || !label || !label.textContent) {
-                throw new Error('Invalid file type');
+                throw new Error(top.ABT.i18n.errors.filetype_error);
             }
             this.store.style = {
                 ...this.store.style,
@@ -92,6 +92,7 @@ export default class StyleForm extends React.Component {
     };
 
     render(): JSX.Element {
+        const labels = top.ABT.i18n.options_page;
         return (
             <>
                 <DevTools position={{ left: 50, top: 40 }} />
@@ -100,18 +101,15 @@ export default class StyleForm extends React.Component {
                         margin: '10px 0',
                     }}
                     value={this.store.kind}
-                    // TODO: i18n here
-                    label="Citation Style Type"
+                    label={labels.citation_style_type}
                     name="style_kind"
                     items={[
                         {
-                            // TODO: i18n here
-                            label: 'Predefined',
+                            label: labels.predefined,
                             value: 'predefined',
                         },
                         {
-                            // TODO: i18n here
-                            label: 'Custom',
+                            label: labels.custom,
                             value: 'custom',
                         },
                     ]}

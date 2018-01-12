@@ -9,7 +9,7 @@
     display: flex;
     justify-content: space-around;
     padding: 4px 0 8px;
-    box-shadow: 0 1px 0 rgba(16, 22, 26, 0.15);
+    box-shadow: map-get($shadows, 'bottom-border');
 }
 
 .style-label {

@@ -7,7 +7,7 @@
     justify-content: space-between;
     cursor: pointer;
     background: $light-gray;
-    box-shadow: map-get($shadows, depth-1), map-get($shadows, 'top-border');
+    box-shadow: map-get($shadows, 'depth-1'), map-get($shadows, 'top-border');
     padding: 10px;
     transition: map-get($transitions, 'buttons');
     align-items: baseline;

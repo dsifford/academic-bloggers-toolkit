@@ -110,7 +110,6 @@ export default class PubmedDialog extends React.Component<DialogProps> {
                         children={this.errorMessage.get()}
                         style={{ margin: 10 }}
                     />
-                    {/* FIXME: Needs a lower shadow */}
                     <ActionBar>
                         <input
                             type="text"

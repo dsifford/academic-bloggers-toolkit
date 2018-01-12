@@ -198,12 +198,7 @@ class Backend {
 			];
 		}
 
-		$state['bibOptions'] = [
-			'heading' => $opts['display_options']['bib_heading'],
-			'headingLevel' => $opts['display_options']['bib_heading_level'],
-			'links' => $opts['display_options']['links'],
-			'style' => $opts['display_options']['bibliography'],
-		];
+		$state['displayOptions'] = $opts['display_options'];
 
 		// Begin legacy checks.
 		if ( array_key_exists( 'processorState', $state ) ) {

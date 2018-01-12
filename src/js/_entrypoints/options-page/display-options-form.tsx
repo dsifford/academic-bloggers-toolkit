@@ -53,10 +53,11 @@ export default class DisplayOptionsForm extends React.Component {
     };
 
     render(): JSX.Element {
+        const labels = top.ABT.i18n.options_page;
         return (
             <>
                 <label className={styles.label}>
-                    Heading
+                    {labels.heading}
                     <input
                         type="text"
                         name="bib_heading"
@@ -66,8 +67,7 @@ export default class DisplayOptionsForm extends React.Component {
                     />
                 </label>
                 <RadioGroup
-                    // TODO: i18n here
-                    label={`Heading Level`}
+                    label={labels.heading_level}
                     name="bib_heading_level"
                     value={this.store.bib_heading_level}
                     items={['1', '2', '3', '4', '5', '6'].map(level => ({
@@ -78,17 +78,16 @@ export default class DisplayOptionsForm extends React.Component {
                     onChange={this.handleHeadingLevelChange}
                 />
                 <RadioGroup
-                    // TODO: i18n here
-                    label={`Bibliography Style`}
+                    label={labels.bibliography_style}
                     name="bibliography"
                     value={this.store.bibliography}
                     items={[
                         {
-                            label: 'Fixed',
+                            label: labels.fixed,
                             value: 'fixed',
                         },
                         {
-                            label: 'Toggle',
+                            label: labels.toggle,
                             value: 'toggle',
                             disabled: this.store.bib_heading === '',
                         },
@@ -96,26 +95,24 @@ export default class DisplayOptionsForm extends React.Component {
                     onChange={this.handleBibliographyStyleChange}
                 />
                 <RadioGroup
-                    // TODO: i18n here
-                    label={`Link Format`}
+                    label={labels.link_format.title}
                     name="links"
                     value={this.store.links}
                     items={[
-                        // TODO: i18n here
                         {
-                            label: 'whenever possible (subtle)',
+                            label: labels.link_format.always,
                             value: 'always',
                         },
                         {
-                            label: 'whenever possible (full surround)',
+                            label: labels.link_format.always_full_surround,
                             value: 'always-full-surround',
                         },
                         {
-                            label: 'when the citation has a visible URL',
+                            label: labels.link_format.urls,
                             value: 'urls',
                         },
                         {
-                            label: 'never',
+                            label: labels.link_format.never,
                             value: 'never',
                         },
                     ]}

@@ -28,14 +28,18 @@ export const wpInfo: ABT.Globals['wp'] = {
 };
 
 export const state: ABT.Globals['state'] = {
-    bibOptions: {
-        heading: 'Bibliography',
-        style: 'fixed',
+    displayOptions: {
+        bib_heading: 'Bibliography',
+        bibliography: 'fixed',
         links: 'always',
-        headingLevel: 'h3',
+        bib_heading_level: 'h3',
     },
     cache: {
-        style: 'american-medical-association',
+        style: {
+            kind: 'predefined',
+            value: 'american-medical-association',
+            label: 'American Medical Association',
+        },
         locale: 'en-US',
     },
     citationByIndex: [
@@ -254,6 +258,24 @@ const blankFields = [
 );
 
 export const i18n: ABT.Globals['i18n'] = {
+    options_page: {
+        citation_style_type: 'Citation Style Type',
+        predefined: 'Predefined',
+        custom: 'Custom',
+        heading: 'Heading',
+        heading_level: 'Heading Level',
+        fixed: 'Fixed',
+        toggle: 'Toggle',
+        bibliography_style: 'Bibliography Style',
+        link_format: {
+            title: 'Link Format',
+            always: 'Make URLs clickable and always add trailing source link.',
+            always_full_surround:
+                'Make entire reference a clickable link to the source URL.',
+            urls: 'Make URLs clickable only.',
+            never: 'Never add clickable links.',
+        },
+    },
     citation_types: [
         {
             label: 'Bill',
@@ -408,6 +430,7 @@ export const i18n: ABT.Globals['i18n'] = {
         },
         tinymce_unavailable:
             "TinyMCE editor doesn't appear to be available in this scope",
+        invalid_predefined_style: 'Invalid predefined style type',
     },
     fieldmaps: {
         ...blankFields,

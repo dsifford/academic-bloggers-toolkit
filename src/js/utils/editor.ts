@@ -50,10 +50,10 @@ export default abstract class Editor {
 
     static createBibliographyElement(
         {
-            heading = '',
-            headingLevel = 'h3',
-            style = 'fixed',
-        }: Partial<ABT.BibOptions>,
+            bib_heading = '',
+            bib_heading_level = 'h3',
+            bibliography = 'fixed',
+        }: Partial<ABT.DisplayOptions>,
         items: ABT.Bibliography,
         classNames: string[] = [],
     ): HTMLDivElement {
@@ -79,9 +79,9 @@ export default abstract class Editor {
             }
         }
 
-        if (heading) {
+        if (bib_heading) {
             let headingElement;
-            if (style === 'toggle') {
+            if (bibliography === 'toggle') {
                 headingElement = document.createElement('button');
                 headingElement.classList.add(
                     `${Editor.bibliographyId}__heading`,
@@ -92,14 +92,17 @@ export default abstract class Editor {
                     'aria-controls',
                     `${this.bibliographyId}__container`,
                 );
-                headingElement.setAttribute('data-heading-level', headingLevel);
+                headingElement.setAttribute(
+                    'data-heading-level',
+                    bib_heading_level,
+                );
             } else {
-                headingElement = document.createElement(headingLevel);
+                headingElement = document.createElement(bib_heading_level);
                 headingElement.classList.add(
                     `${Editor.bibliographyId}__heading`,
                 );
             }
-            headingElement.textContent = heading;
+            headingElement.textContent = bib_heading;
             bib.appendChild(headingElement);
         }
 

@@ -19,20 +19,11 @@ declare namespace ABT {
         | 'recipient'
         | 'collection-editor';
 
-    type FieldMappings = { [k in CSL.ItemType]: FieldMap };
-
     type Contributor = CSL.Person & { type: CSL.PersonFieldKey };
 
-    // FIXME: This should ideally just match `display_options` in the database
-    interface BibOptions {
-        /** Heading options */
-        heading: string;
-        /** HTML Heading element preferred for heading */
-        headingLevel: HeadingLevel;
-        /** Format for embedded links in references */
-        links: LinkStyle;
-        /** Should the heading be toggleable? */
-        style: 'fixed' | 'toggle';
+    interface ContributorField {
+        label: string;
+        type: ContributorType;
     }
 
     interface Field extends React.HTMLProps<HTMLInputElement> {
@@ -40,26 +31,22 @@ declare namespace ABT {
         label: string;
     }
 
-    interface ContributorField {
+    type FieldMappings = {
+        [k in CSL.ItemType]: {
+            title: string;
+            fields: Field[];
+            people: ContributorField[];
+        }
+    };
+
+    interface CitationStyle {
+        kind: StyleKind;
         label: string;
-        type: ContributorType;
-    }
-
-    interface FieldMap {
-        title: string;
-        fields: Field[];
-        people: ContributorField[];
-    }
-
-    interface StyleJSON {
-        renamed: {
-            [oldStyleId: string]: string;
-        };
-        styles: CitationStyle[];
+        value: string;
     }
 
     interface EditorState {
-        bibOptions: BibOptions;
+        displayOptions: DisplayOptions;
         cache: {
             style: CitationStyle;
             locale: string;
@@ -70,12 +57,6 @@ declare namespace ABT {
         };
     }
 
-    interface CitationStyle {
-        kind: StyleKind;
-        label: string;
-        value: string;
-    }
-
     interface DisplayOptions {
         bib_heading: string;
         bib_heading_level: HeadingLevel;
@@ -84,10 +65,10 @@ declare namespace ABT {
     }
 
     interface Options {
-        VERSION: string;
         citation_style: CitationStyle;
         custom_css: string;
         display_options: DisplayOptions;
+        VERSION: string;
     }
 
     interface Globals {
@@ -95,7 +76,12 @@ declare namespace ABT {
         i18n: ABT.i18n;
         options: Options;
         state: ABT.EditorState;
-        styles: StyleJSON;
+        styles: {
+            renamed: {
+                [oldStyleId: string]: string;
+            };
+            styles: CitationStyle[];
+        };
         wp: WP_info;
     }
 
@@ -129,6 +115,7 @@ declare namespace ABT {
                 report_instructions: 'Please report this error, including the steps taken to trigger it, here: \nhttps://github.com/dsifford/academic-bloggers-toolkit/issues'; // tslint:disable-line
             };
             tinymce_unavailable: "TinyMCE editor doesn't appear to be available in this scope";
+            invalid_predefined_style: 'Invalid predefined style type';
         };
         fieldmaps: FieldMappings;
         misc: {
@@ -211,7 +198,21 @@ declare namespace ABT {
             };
         };
         options_page: {
-            style_form: {};
+            citation_style_type: 'Citation Style Type';
+            predefined: 'Predefined';
+            custom: 'Custom';
+            heading: 'Heading';
+            heading_level: 'Heading Level';
+            fixed: 'Fixed';
+            toggle: 'Toggle';
+            bibliography_style: 'Bibliography Style';
+            link_format: {
+                title: 'Link Format';
+                always: 'Make URLs clickable and always add trailing source link.';
+                always_full_surround: 'Make entire reference a clickable link to the source URL.';
+                urls: 'Make URLs clickable only.';
+                never: 'Never add clickable links.';
+            };
         };
     }
 }

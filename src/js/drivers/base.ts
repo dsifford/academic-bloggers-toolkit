@@ -87,7 +87,7 @@ export default abstract class EditorDriver extends Editor {
      * default to false)
      */
     abstract setBibliography(
-        options: ABT.BibOptions,
+        options: ABT.DisplayOptions,
         bibliography: ABT.Bibliography | boolean,
         staticBib?: boolean,
     ): void;

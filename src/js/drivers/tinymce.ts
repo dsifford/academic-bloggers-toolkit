@@ -287,7 +287,7 @@ export default class TinyMCEDriver extends EditorDriver {
     }
 
     setBibliography(
-        options: ABT.BibOptions,
+        options: ABT.DisplayOptions,
         bibliography: ABT.Bibliography | boolean,
         staticBib: boolean = false,
     ): void {
@@ -363,7 +363,7 @@ export default class TinyMCEDriver extends EditorDriver {
     }
 
     private setStandardBibliography(
-        options: ABT.BibOptions,
+        options: ABT.DisplayOptions,
         bibliography: ABT.Bibliography | boolean,
     ): void {
         if (typeof bibliography === 'boolean' || bibliography.length === 0) {

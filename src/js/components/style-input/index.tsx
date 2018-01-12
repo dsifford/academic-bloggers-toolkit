@@ -15,8 +15,8 @@ interface State {
 }
 
 export default class StyleInput extends React.Component<Props, State> {
-    // TODO: i18n here
-    static readonly INVALID_MESSAGE = 'Invalid predefined style type';
+    static readonly INVALID_MESSAGE = top.ABT.i18n.errors
+        .invalid_predefined_style;
 
     static getSuggestionValue = ({ label }: ABT.CitationStyle): string => label;
 

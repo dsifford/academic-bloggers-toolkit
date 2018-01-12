@@ -127,7 +127,7 @@ interface EditParams {
      */
     setAttributes?(attrs: { [k: string]: any }): void;
     /**
-     * FIXME: update when documentation is added
+     * TODO: update when documentation is added
      */
     setFocus?(): void;
 }

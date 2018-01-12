@@ -46,7 +46,7 @@ export class Processor {
             ? bib
             : formatBibliography(
                   bib,
-                  this.store.bibOptions.links,
+                  this.store.displayOptions.links,
                   this.store.citations.CSL,
               );
     }
@@ -94,7 +94,7 @@ export class Processor {
             ? bib
             : formatBibliography(
                   bib,
-                  this.store.bibOptions.links,
+                  this.store.displayOptions.links,
                   this.store.citations.CSL,
               );
     }

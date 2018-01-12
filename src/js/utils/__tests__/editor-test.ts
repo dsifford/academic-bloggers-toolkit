@@ -7,7 +7,7 @@ describe('Editor abstract class', () => {
         it('should create bibliographies with headings of varying levels', () => {
             let bib = TestEditor.createBibliographyElement(
                 {
-                    heading: 'Hello World',
+                    bib_heading: 'Hello World',
                 },
                 [
                     { id: '1', html: '<div>Item 1</div>' },
@@ -19,8 +19,8 @@ describe('Editor abstract class', () => {
             expect(bib.outerHTML).toMatchSnapshot();
             bib = TestEditor.createBibliographyElement(
                 {
-                    heading: 'Hello World',
-                    headingLevel: 'h1',
+                    bib_heading: 'Hello World',
+                    bib_heading_level: 'h1',
                 },
                 [
                     { id: '1', html: '<div>Item 1</div>' },
@@ -34,9 +34,9 @@ describe('Editor abstract class', () => {
         it('should create bibliographies with toggle headings', () => {
             const bib = TestEditor.createBibliographyElement(
                 {
-                    heading: 'Hello World',
-                    headingLevel: 'h5',
-                    style: 'toggle',
+                    bib_heading: 'Hello World',
+                    bib_heading_level: 'h5',
+                    bibliography: 'toggle',
                 },
                 [
                     { id: '1', html: '<div>Item 1</div>' },

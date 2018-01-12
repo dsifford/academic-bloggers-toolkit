@@ -79,12 +79,6 @@ exports[`<Menu /> should match snapshots 1`] = `
       type="button"
     />
   </div>
-  <label
-    className="styleLabel"
-    htmlFor="citation-style-input"
-  >
-    Citation Style
-  </label>
   <StyleInput
     currentStyle={
       Object {
@@ -106,7 +100,6 @@ exports[`<Menu /> should match snapshots 1`] = `
           "label": "Test Custom Style",
           "value": "test-custom-style",
         },
-        Array [],
       ]
     }
   />
