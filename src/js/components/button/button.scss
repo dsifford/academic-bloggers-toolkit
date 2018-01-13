@@ -23,6 +23,10 @@
     text-transform: uppercase;
     vertical-align: middle;
     white-space: nowrap;
+    &:disabled {
+        pointer-events: none !important;
+        color: $disabled !important;
+    }
     &:hover,
     &:active {
         box-shadow: map-get($shadows, 'depth-2');
@@ -30,10 +34,6 @@
     &:active:hover {
         box-shadow: map-get($shadows, 'depth-3');
         background: $border;
-    }
-    &:disabled {
-        pointer-events: none !important;
-        color: $disabled !important;
     }
 }
 
@@ -53,13 +53,13 @@
     &.btn--flat {
         color: $blue;
     }
-    &:active:hover {
-        background: darken($blue, 3%);
-    }
     &:disabled {
         opacity: 0.6;
         box-shadow: none;
         color: white !important;
+    }
+    &:active:hover {
+        background: darken($blue, 3%);
     }
 }
 
@@ -67,17 +67,17 @@
 .btn--flat.btn--primary {
     background: rgba(0, 0, 0, 0);
     box-shadow: none !important;
-    &:hover {
-        background: rgba(158, 158, 158, 0.2);
-        &:active {
-            background: $border;
-        }
-    }
     &:active {
         background: lighten($border, 5%);
     }
     &:disabled {
         color: $disabled !important;
+    }
+    &:hover {
+        background: rgba(158, 158, 158, 0.2);
+        &:active {
+            background: $border;
+        }
     }
 }
 

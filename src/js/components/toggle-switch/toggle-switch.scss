@@ -1,41 +1,6 @@
 @import 'variables';
 
 .toggle {
-    input {
-        opacity: 0 !important;
-        pointer-events: none;
-        position: absolute;
-        z-index: 1;
-        &:checked + span {
-            background: #6f9eb1;
-        }
-        &:checked + span:after {
-            left: 20px;
-            background: #0085ba;
-        }
-        &:disabled + span {
-            background: #d5d5d5;
-            pointer-events: none;
-        }
-        &:disabled + span:after {
-            background: #bcbdbc;
-        }
-        &:disabled:checked + span {
-            background: #6f9eb1;
-            opacity: 0.7;
-        }
-        &:disabled:checked + span:after {
-            background: #0085ba;
-            opacity: 0.7;
-        }
-        &:focus + span {
-            outline: $outline;
-            outline-width: 1.1px;
-            outline-style: solid;
-            outline-offset: 5px;
-            transition: none;
-        }
-    }
     span {
         position: relative;
         display: block;
@@ -62,6 +27,41 @@
         &:active:after {
             -webkit-transform: scale(1.15, 0.85);
             transform: scale(1.15, 0.85);
+        }
+    }
+    input {
+        opacity: 0 !important;
+        pointer-events: none;
+        position: absolute;
+        z-index: 1;
+        &:checked + span {
+            background: #6f9eb1;
+        }
+        &:checked + span:after {
+            left: 20px;
+            background: #0085ba;
+        }
+        &:disabled + span {
+            background: #d5d5d5;
+            pointer-events: none;
+        }
+        &:disabled + span:after {
+            background: #bcbdbc;
+        }
+        &:focus + span {
+            outline: $outline;
+            outline-width: 1.1px;
+            outline-style: solid;
+            outline-offset: 5px;
+            transition: none;
+        }
+        &:disabled:checked + span {
+            background: #6f9eb1;
+            opacity: 0.7;
+        }
+        &:disabled:checked + span:after {
+            background: #0085ba;
+            opacity: 0.7;
         }
     }
 }

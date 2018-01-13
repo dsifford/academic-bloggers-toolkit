@@ -23,6 +23,10 @@
         color: rgba(92, 112, 128, 0.5);
     }
 
+    &::-ms-clear {
+        display: none;
+    }
+
     &:focus {
         box-shadow: 0 0 0 1px #137cbd, 0 0 0 3px rgba(19, 124, 189, 0.3),
             inset 0 1px 1px rgba(16, 22, 26, 0.2);
@@ -48,10 +52,6 @@
 
     &.fill {
         width: 100%;
-    }
-
-    &::-ms-clear {
-        display: none;
     }
 }
 

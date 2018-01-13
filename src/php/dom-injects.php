@@ -25,9 +25,11 @@ function inject_author_meta() {
 		$author_ids = array_merge( $author_ids, $coauthor_ids );
 	}
 
-	$authors = get_users( [
-		'include' => $author_ids,
-	] );
+	$authors = get_users(
+		[
+			'include' => $author_ids,
+		]
+	);
 
 	foreach ( $authors as $author ) {
 		$parsed = $author->first_name . '|' . $author->last_name;

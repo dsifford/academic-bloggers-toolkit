@@ -10,5 +10,7 @@
   "tslint.exclude": ["**/src/**/__tests__/*"],
   "scss.validate": false,
   "css.validate": false,
-  "stylelint.enable": true
+  "stylelint.enable": true,
+  "phpcs.standard": "WordPress",
+  "phpcbf.standard": "WordPress"
 }

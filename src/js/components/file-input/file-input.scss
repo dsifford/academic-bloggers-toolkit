@@ -3,57 +3,6 @@ $button-height: 24px;
 $button-margin: 3px;
 $button-width: 70px;
 
-.file-input {
-    display: inline-block;
-    position: relative;
-    cursor: pointer;
-    height: $height;
-
-    input {
-        opacity: 0;
-        margin: 0;
-        min-width: 200px;
-
-        &:disabled + .file-upload-input,
-        &.disabled + .file-upload-input {
-            box-shadow: none;
-            background: rgba(206, 217, 224, 0.5);
-            cursor: not-allowed;
-            color: rgba(92, 112, 128, 0.5);
-            resize: none;
-
-            &::after {
-                outline: none;
-                box-shadow: none;
-                background-color: rgba(206, 217, 224, 0.5);
-                background-image: none;
-                cursor: not-allowed;
-                color: rgba(92, 112, 128, 0.5);
-            }
-        }
-    }
-
-    &.fill {
-        width: 100%;
-    }
-
-    &.large {
-        height: $height + 10;
-        .file-upload-input {
-            height: $height + 10;
-            line-height: $height + 10;
-            font-size: 16px;
-            &:after {
-                min-width: $height;
-                min-height: $height;
-                line-height: $height;
-                margin: $button-margin + 2;
-                width: $button-width + 15;
-            }
-        }
-    }
-}
-
 .file-upload-input {
     outline: none;
     border: none;
@@ -116,5 +65,56 @@ $button-width: 70px;
             inset 0 1px 2px rgba(16, 22, 26, 0.2);
         background-color: #d8e1e8;
         background-image: none;
+    }
+}
+
+.file-input {
+    display: inline-block;
+    position: relative;
+    cursor: pointer;
+    height: $height;
+
+    &.fill {
+        width: 100%;
+    }
+
+    &.large {
+        height: $height + 10;
+        .file-upload-input {
+            height: $height + 10;
+            line-height: $height + 10;
+            font-size: 16px;
+            &:after {
+                min-width: $height;
+                min-height: $height;
+                line-height: $height;
+                margin: $button-margin + 2;
+                width: $button-width + 15;
+            }
+        }
+    }
+
+    input {
+        opacity: 0;
+        margin: 0;
+        min-width: 200px;
+
+        &:disabled + .file-upload-input,
+        &.disabled + .file-upload-input {
+            box-shadow: none;
+            background: rgba(206, 217, 224, 0.5);
+            cursor: not-allowed;
+            color: rgba(92, 112, 128, 0.5);
+            resize: none;
+
+            &::after {
+                outline: none;
+                box-shadow: none;
+                background-color: rgba(206, 217, 224, 0.5);
+                background-image: none;
+                cursor: not-allowed;
+                color: rgba(92, 112, 128, 0.5);
+            }
+        }
     }
 }

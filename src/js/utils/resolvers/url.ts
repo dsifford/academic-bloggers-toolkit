@@ -192,6 +192,10 @@ export async function getFromURL(url: string): Promise<AutociteResponse> {
     };
 }
 
+/**
+ * Parses a date into the format `YYYY/MM/DD`.
+ * @param input raw input string from API response.
+ */
 function parseDateString(input: string): string {
     if (isNaN(Date.parse(input))) {
         return '';

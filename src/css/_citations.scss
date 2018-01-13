@@ -36,6 +36,10 @@
     }
 
     .csl-entry {
+        .csl-left-margin {
+            padding: 0 8px 0 0;
+            font-weight: 600;
+        }
         &.hanging-indent {
             padding-left: 25px;
             text-indent: -25px;
@@ -62,10 +66,6 @@
                 @include word-wrap;
                 min-width: 100%;
             }
-        }
-        .csl-left-margin {
-            padding: 0 8px 0 0;
-            font-weight: 600;
         }
     }
 }

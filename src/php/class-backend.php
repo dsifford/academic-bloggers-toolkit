@@ -18,7 +18,7 @@ class Backend {
 	/**
 	 * Instantiates the class and calls hooks on load.
 	 */
-	static function init() {
+	public static function init() {
 		if ( is_null( self::$instance ) ) {
 			self::$instance = new \ABT\Backend();
 		}
@@ -35,9 +35,9 @@ class Backend {
 		}
 	}
 
-	function load_post() {
-		$post_type = get_current_screen()->post_type;
-		$disabled_post_types = apply_filters( 'abt_disabled_post_types', [ 'acf', 'um_form' ] );
+	public function load_post() {
+		$post_type            = get_current_screen()->post_type;
+		$disabled_post_types  = apply_filters( 'abt_disabled_post_types', [ 'acf', 'um_form' ] );
 		$is_invalid_post_type = in_array(
 			$post_type,
 			array_merge(
@@ -73,10 +73,10 @@ class Backend {
 				__( "Rich editing must be enabled to use the Academic Blogger's Toolkit plugin", 'academic-bloggers-toolkit' )
 			),
 			[
-				'div' => [
+				'div'    => [
 					'class' => [],
 				],
-				'p' => [],
+				'p'      => [],
 				'strong' => [],
 			]
 		);
@@ -125,7 +125,7 @@ class Backend {
 	 */
 	public function add_metaboxes( $post_type ) {
 		$disabled_post_types = apply_filters( 'abt_disabled_post_types', [ 'acf', 'um_form' ] );
-		$all_types = get_post_types();
+		$all_types           = get_post_types();
 		add_meta_box(
 			'abt-reflist',
 			__( 'Reference List', 'academic-bloggers-toolkit' ),
@@ -184,17 +184,17 @@ class Backend {
 		global $post;
 
 		$translations = i18n\generate_translations();
-		$state = json_decode( get_post_meta( $post->ID, '_abt-reflist-state', true ), true );
-		$opts = get_option( ABT_OPTIONS_KEY );
+		$state        = json_decode( get_post_meta( $post->ID, '_abt-reflist-state', true ), true );
+		$opts         = get_option( ABT_OPTIONS_KEY );
 
 		if ( empty( $state ) ) {
 			$state = [
-				'cache' => [
-					'style' => $opts['citation_style'],
+				'cache'           => [
+					'style'  => $opts['citation_style'],
 					'locale' => get_locale(),
 				],
 				'citationByIndex' => [],
-				'CSL' => (object) [],
+				'CSL'             => (object) [],
 			];
 		}
 
@@ -215,14 +215,15 @@ class Backend {
 			$state['cache']['style'] = $opts['citation_style'];
 		}
 		// End legacy checks.
-
-		wp_localize_script( 'abt-reference-list', 'ABT', [
-			'i18n' => $translations,
-			'options' => $opts,
-			'state' => $state,
-			'styles' => get_citation_styles(),
-			'wp' => $this->localize_wordpress_constants(),
-		] );
+		wp_localize_script(
+			'abt-reference-list', 'ABT', [
+				'i18n'    => $translations,
+				'options' => $opts,
+				'state'   => $state,
+				'styles'  => get_citation_styles(),
+				'wp'      => $this->localize_wordpress_constants(),
+			]
+		);
 
 		wp_dequeue_script( 'autosave' );
 		wp_enqueue_style( 'abt-reference-list' );
@@ -235,21 +236,21 @@ class Backend {
 	 */
 	private function localize_wordpress_constants() {
 		return [
-			'abt_url' => ABT_ROOT_URI,
-			'home_url' => home_url(),
-			'plugins_url' => plugins_url(),
+			'abt_url'       => ABT_ROOT_URI,
+			'home_url'      => home_url(),
+			'plugins_url'   => plugins_url(),
 			'wp_upload_dir' => wp_get_upload_dir(),
-			'info' => [
-				'site' => [
+			'info'          => [
+				'site'     => [
 					'language' => get_bloginfo( 'language' ),
-					'name' => get_bloginfo( 'name' ),
-					'plugins' => get_option( 'active_plugins' ),
-					'theme' => get_template(),
-					'url' => get_bloginfo( 'url' ),
+					'name'     => get_bloginfo( 'name' ),
+					'plugins'  => get_option( 'active_plugins' ),
+					'theme'    => get_template(),
+					'url'      => get_bloginfo( 'url' ),
 				],
 				'versions' => [
-					'abt' => ABT_VERSION,
-					'php' => PHP_VERSION,
+					'abt'       => ABT_VERSION,
+					'php'       => PHP_VERSION,
 					'wordpress' => get_bloginfo( 'version' ),
 				],
 			],

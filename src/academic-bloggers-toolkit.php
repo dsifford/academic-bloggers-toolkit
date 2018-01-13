@@ -67,7 +67,7 @@ function refactor_options() {
 	$new_options = [];
 
 	$new_options['citation_style'] = [
-		'kind' => isset( $options['citation_style']['kind'] ) ? $options['citation_style']['kind'] : 'predefined',
+		'kind'  => isset( $options['citation_style']['kind'] ) ? $options['citation_style']['kind'] : 'predefined',
 		'label' => isset( $options['citation_style']['label'] ) ? $options['citation_style']['label'] : 'American Medical Association',
 		'value' => isset( $options['citation_style']['id'] ) ? $options['citation_style']['id'] : 'american-medical-association',
 	];
@@ -75,9 +75,9 @@ function refactor_options() {
 	$new_options['custom_css'] = ! empty( $options['custom_css'] ) ? $options['custom_css'] : '';
 
 	$new_options['display_options'] = [
-		'bibliography' => ! empty( $options['display_options']['bibliography'] ) ? $options['display_options']['bibliography'] : 'fixed',
-		'links' => ! empty( $options['display_options']['links'] ) ? $options['display_options']['links'] : 'always',
-		'bib_heading' => ! empty( $options['display_options']['bib_heading'] ) ? $options['display_options']['bib_heading'] : '',
+		'bibliography'      => ! empty( $options['display_options']['bibliography'] ) ? $options['display_options']['bibliography'] : 'fixed',
+		'links'             => ! empty( $options['display_options']['links'] ) ? $options['display_options']['links'] : 'always',
+		'bib_heading'       => ! empty( $options['display_options']['bib_heading'] ) ? $options['display_options']['bib_heading'] : '',
 		'bib_heading_level' => ! empty( $options['display_options']['bib_heading_level'] ) ? $options['display_options']['bib_heading_level'] : 'h3',
 	];
 
@@ -94,7 +94,7 @@ add_action( 'admin_init', 'ABT\refactor_options' );
  * @param string[] $links array of links.
  */
 function add_options_link( $links ) {
-	$url = admin_url( 'options-general.php?page=abt-options' );
+	$url  = admin_url( 'options-general.php?page=abt-options' );
 	$text = __( 'Plugin Settings', 'academic-bloggers-toolkit' );
 	return array_merge( $links, [ "<a href='$url'>$text</a>" ] );
 }
@@ -124,7 +124,7 @@ add_filter( 'plugin_row_meta', 'ABT\add_donate_link', 10, 2 );
  * Enqueues frontend JS and CSS.
  */
 function frontend_enqueues() {
-	$options = get_option( ABT_OPTIONS_KEY );
+	$options    = get_option( ABT_OPTIONS_KEY );
 	$custom_css = wp_kses( $options['custom_css'], [ "\'", '\"' ] );
 
 	wp_enqueue_style( 'abt-frontend-styles', ABT_ROOT_URI . 'css/frontend.css', [], ABT_VERSION );

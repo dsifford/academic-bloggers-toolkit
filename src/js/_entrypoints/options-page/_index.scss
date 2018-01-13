@@ -27,7 +27,7 @@
 .demo__heading--toggle {
     cursor: pointer;
     &:before {
-        font-family: 'dashicons';
+        font-family: dashicons, sans-serif;
         content: '\f140';
     }
     &.demo__heading--toggle--closed {

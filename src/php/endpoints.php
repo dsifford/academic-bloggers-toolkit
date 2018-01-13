@@ -14,15 +14,15 @@ function get_website_meta() {
 	}
 
 	$site_url = esc_url_raw( wp_unslash( $_POST['site_url'] ) );
-	$raw = wp_remote_retrieve_body( wp_remote_get( $site_url ) );
-	$html = new \DOMDocument();
+	$raw      = wp_remote_retrieve_body( wp_remote_get( $site_url ) );
+	$html     = new \DOMDocument();
 	$html->loadHTML( $raw );
 	$xpath = new \DOMXPath( $html );
 
 	$payload = [
-		'article' => [],
-		'authors' => [],
-		'og' => [],
+		'article'  => [],
+		'authors'  => [],
+		'og'       => [],
 		'sailthru' => [],
 	];
 
@@ -34,7 +34,7 @@ function get_website_meta() {
 		$a = explode( ' ', $node->getAttribute( 'content' ), 2 );
 		$a = [
 			'firstname' => $a[0],
-			'lastname' => $a[1],
+			'lastname'  => $a[1],
 		];
 		if ( ! is_int( array_search( $a, $payload['authors'], true ) ) ) {
 			$payload['authors'][] = $a;
@@ -51,9 +51,9 @@ function get_website_meta() {
 	 */
 	$opengraph = $xpath->query( '//meta[ starts-with( @property, "og:" ) ]' );
 	foreach ( $opengraph as $node ) {
-		$expl = explode( ':', $node->getAttribute( 'property' ), 2 );
-		$key = str_replace( ':', '_', $expl[1] );
-		$value = $node->getAttribute( 'content' );
+		$expl                  = explode( ':', $node->getAttribute( 'property' ), 2 );
+		$key                   = str_replace( ':', '_', $expl[1] );
+		$value                 = $node->getAttribute( 'content' );
 		$payload['og'][ $key ] = $value;
 	}
 
@@ -62,9 +62,9 @@ function get_website_meta() {
 	 */
 	$article = $xpath->query( '//meta[ starts-with( @property, "article:" ) ]' );
 	foreach ( $article as $node ) {
-		$expl = explode( ':', $node->getAttribute( 'property' ), 2 );
-		$key = $expl[1];
-		$value = $node->getAttribute( 'content' );
+		$expl                       = explode( ':', $node->getAttribute( 'property' ), 2 );
+		$key                        = $expl[1];
+		$value                      = $node->getAttribute( 'content' );
 		$payload['article'][ $key ] = $value;
 	}
 
@@ -73,8 +73,8 @@ function get_website_meta() {
 	 */
 	$sailthru = $xpath->query( '//meta[ starts-with( @name, "sailthru" ) ]' );
 	foreach ( $sailthru as $node ) {
-		$expl = explode( '.', $node->getAttribute( 'name' ), 2 );
-		$key = $expl[1];
+		$expl  = explode( '.', $node->getAttribute( 'name' ), 2 );
+		$key   = $expl[1];
 		$value = $node->getAttribute( 'content' );
 
 		if ( 'author' === $key ) {
@@ -84,7 +84,7 @@ function get_website_meta() {
 			$a = explode( ' ', $value, 2 );
 			$a = [
 				'firstname' => $a[0],
-				'lastname' => $a[1],
+				'lastname'  => $a[1],
 			];
 			if ( ! is_int( array_search( $a, $payload['authors'], true ) ) ) {
 				$payload['authors'][] = $a;
@@ -123,7 +123,7 @@ function get_website_meta() {
 		// @codingStandardsIgnoreEnd
 		$a = [
 			'firstname' => $a[0],
-			'lastname' => $a[1],
+			'lastname'  => $a[1],
 		];
 		if ( ! is_int( array_search( $a, $payload['authors'], true ) ) ) {
 			$payload['authors'][] = $a;
@@ -143,14 +143,14 @@ function get_website_meta() {
 	 */
 	$abt = $xpath->query( '//meta[ starts-with( @property, "abt:" ) ]' );
 	foreach ( $abt as $node ) {
-		$expl = explode( ':', $node->getAttribute( 'property' ), 2 );
-		$key = $expl[1];
+		$expl  = explode( ':', $node->getAttribute( 'property' ), 2 );
+		$key   = $expl[1];
 		$value = $node->getAttribute( 'content' );
 		if ( 'author' === $key ) {
 			$a = explode( '|', $value, 2 );
 			$a = [
 				'firstname' => $a[0],
-				'lastname' => $a[1],
+				'lastname'  => $a[1],
 			];
 			if ( ! is_int( array_search( $a, $payload['authors'], true ) ) ) {
 				$payload['authors'][] = $a;

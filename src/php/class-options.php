@@ -28,7 +28,7 @@ class Options {
 	public function __construct() {
 		$this->abt_globals = [
 			'styles' => get_citation_styles(),
-			'i18n' => i18n\generate_translations(),
+			'i18n'   => i18n\generate_translations(),
 		];
 		add_action( 'admin_menu', [ $this, 'add_options_page' ] );
 		add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_scripts' ] );
@@ -44,17 +44,21 @@ class Options {
 		wp_enqueue_script( 'abt-noop', ABT_ROOT_URI . 'vendor/noop.js', [], false, true );
 
 		// Enqueue code editor and settings for manipulating CSS.
-		$settings = wp_enqueue_code_editor( [
-			'type' => 'text/css',
-			'codemirror' => [
-				'lineWrapping' => false,
-			],
-		] );
+		$settings = wp_enqueue_code_editor(
+			[
+				'type'       => 'text/css',
+				'codemirror' => [
+					'lineWrapping' => false,
+				],
+			]
+		);
 
-		$this->abt_globals = array_replace_recursive($this->abt_globals, [
-			'css_editor_settings' => $settings,
-			'options' => get_option( ABT_OPTIONS_KEY ),
-		]);
+		$this->abt_globals = array_replace_recursive(
+			$this->abt_globals, [
+				'css_editor_settings' => $settings,
+				'options'             => get_option( ABT_OPTIONS_KEY ),
+			]
+		);
 
 		wp_localize_script( 'abt-options-page', 'ABT', $this->abt_globals );
 	}
@@ -80,14 +84,14 @@ class Options {
 			wp_die( esc_html__( 'You do not have sufficient permissions to access this page.', 'academic-bloggers-toolkit' ) );
 		}
 
-		$form_nonce = 'abt-options-nonce';
+		$form_nonce   = 'abt-options-nonce';
 		$form_actions = (object) [
-			'custom_css' => 'abt-form-update-custom-css',
-			'citation_style' => 'abt-form-update-citation-style',
+			'custom_css'      => 'abt-form-update-custom-css',
+			'citation_style'  => 'abt-form-update-citation-style',
 			'display_options' => 'abt-form-update-display-options',
 		];
-		$options = [
-			'citation_style' => [],
+		$options      = [
+			'citation_style'  => [],
 			'display_options' => [],
 		];
 
@@ -103,14 +107,14 @@ class Options {
 					$options['custom_css'] = $post['custom_css'];
 					break;
 				case wp_verify_nonce( $nonce, $form_actions->citation_style ):
-					$options['citation_style']['kind'] = $post['style_kind'];
+					$options['citation_style']['kind']  = $post['style_kind'];
 					$options['citation_style']['label'] = $post['style_label'];
 					$options['citation_style']['value'] = $post['style_value'];
 					break;
 				case wp_verify_nonce( $nonce, $form_actions->display_options ):
-					$options['display_options']['bibliography'] = $post['bibliography'];
-					$options['display_options']['links'] = $post['links'];
-					$options['display_options']['bib_heading'] = sanitize_text_field( $post['bib_heading'] );
+					$options['display_options']['bibliography']      = $post['bibliography'];
+					$options['display_options']['links']             = $post['links'];
+					$options['display_options']['bib_heading']       = sanitize_text_field( $post['bib_heading'] );
 					$options['display_options']['bib_heading_level'] = $post['bib_heading_level'];
 			}
 		}
@@ -118,9 +122,11 @@ class Options {
 		$options = array_replace_recursive( get_option( ABT_OPTIONS_KEY ), $options );
 		update_option( 'abt_options', $options );
 
-		$this->abt_globals = array_replace_recursive($this->abt_globals, [
-			'options' => $options,
-		]);
+		$this->abt_globals = array_replace_recursive(
+			$this->abt_globals, [
+				'options' => $options,
+			]
+		);
 
 		wp_localize_script( 'abt-noop', 'ABT', $this->abt_globals );
 
