@@ -146,7 +146,6 @@ export class Processor {
      * required by the CSL.Engine
      *
      * @param locale The locale string from this.locales (handled in constructor)
-     * @return Promise that resolves to a Citeproc.SystemObj
      */
     private async generateSys(locale: string): Promise<Citeproc.SystemObj> {
         // "primes the pump" since citeproc currently runs synchronously
