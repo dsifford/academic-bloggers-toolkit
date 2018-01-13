@@ -31,15 +31,15 @@ msgstr ""
 msgid "Reference List"
 msgstr ""
 
-#: php/class-options.php:67, php/class-options.php:132
+#: php/class-options.php:71, php/class-options.php:138
 msgid "Academic Blogger's Toolkit Options"
 msgstr ""
 
-#: php/class-options.php:68
+#: php/class-options.php:72
 msgid "Academic Blogger's Toolkit"
 msgstr ""
 
-#: php/class-options.php:80
+#: php/class-options.php:84
 msgid "You do not have sufficient permissions to access this page."
 msgstr ""
 

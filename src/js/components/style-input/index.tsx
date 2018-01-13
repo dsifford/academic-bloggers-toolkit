@@ -97,15 +97,10 @@ export default class StyleInput extends React.Component<Props, State> {
 
     private getSuggestions = (value: string): ABT.CitationStyle[] => {
         const inputValue = value.trim().toLowerCase();
-        const inputLength = inputValue.length;
-
-        // TODO: Binary search algorithm here before filter
-        return inputLength === 0
+        return inputValue.length === 0
             ? []
-            : this.props.styles.filter(
-                  style =>
-                      style.label.toLowerCase().slice(0, inputLength) ===
-                      inputValue,
+            : this.props.styles.filter(style =>
+                  style.label.toLowerCase().startsWith(inputValue),
               );
     };
 }

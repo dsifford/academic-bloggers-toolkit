@@ -80,14 +80,13 @@ export default class ResultList extends React.Component<Props> {
                         />
                         <div className={styles.row3}>
                             <div>
-                                {/* FIXME: This should probably be extracted to a component/function */}
                                 {result.author!
                                     .slice(0, 3)
-                                    .map(
-                                        el =>
-                                            `${el.family}, ${el.given!
-                                                .charAt(0)
-                                                .toUpperCase()}`,
+                                    .map(author =>
+                                        [
+                                            author.family,
+                                            author.given ? author.given[0] : '',
+                                        ].join(', '),
                                     )
                                     .join(', ')}
                             </div>
