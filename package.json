@@ -76,7 +76,7 @@
     "prettier": "^1.10.2",
     "proxy-polyfill": "^0.1.7",
     "react-test-renderer": "^16.2.0",
-    "rollbar": "^2.3.6",
+    "rollbar": "^2.3.7",
     "rollbar-sourcemap-webpack-plugin": "^2.2.0",
     "sass-loader": "^6.0.6",
     "snapshot-diff": "^0.2.2",
@@ -133,6 +133,7 @@
     "collectCoverageFrom": [
       "src/**/*.{ts,tsx}",
       "!**/{vendor,__tests__,__mocks__}/**",
+      "!src/js/_entrypoints/*/index.{ts,tsx}",
       "!src/js/dialogs/index.tsx",
       "!src/js/utils/{devtools,logger,polyfill,render}.{ts,tsx}",
       "!src/js/drivers/*",

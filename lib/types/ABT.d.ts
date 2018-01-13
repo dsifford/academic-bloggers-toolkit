@@ -208,10 +208,10 @@ declare namespace ABT {
             bibliography_style: 'Bibliography Style';
             link_format: {
                 title: 'Link Format';
-                always: 'Make URLs clickable and always add trailing source link.';
-                always_full_surround: 'Make entire reference a clickable link to the source URL.';
-                urls: 'Make URLs clickable only.';
-                never: 'Never add clickable links.';
+                always: 'Make URLs clickable and always add trailing source link';
+                always_full_surround: 'Make entire reference a clickable link to the source URL';
+                urls: 'Make URLs clickable only';
+                never: 'Never add clickable links';
             };
         };
     }

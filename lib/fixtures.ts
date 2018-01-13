@@ -269,11 +269,11 @@ export const i18n: ABT.Globals['i18n'] = {
         bibliography_style: 'Bibliography Style',
         link_format: {
             title: 'Link Format',
-            always: 'Make URLs clickable and always add trailing source link.',
+            always: 'Make URLs clickable and always add trailing source link',
             always_full_surround:
-                'Make entire reference a clickable link to the source URL.',
-            urls: 'Make URLs clickable only.',
-            never: 'Never add clickable links.',
+                'Make entire reference a clickable link to the source URL',
+            urls: 'Make URLs clickable only',
+            never: 'Never add clickable links',
         },
     },
     citation_types: [

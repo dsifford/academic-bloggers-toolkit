@@ -5,7 +5,7 @@ import * as AutoSuggest from 'react-autosuggest';
 
 import Store from 'stores/data/style-store';
 import DevTools from 'utils/devtools';
-import readFile from 'utils/read-file';
+import parseCSL from 'utils/parse-csl';
 
 import Callout from 'components/callout';
 import FileInput from 'components/file-input';
@@ -17,7 +17,10 @@ type Suggestion = AutoSuggest.SuggestionSelectedEventData<ABT.CitationStyle>;
 
 @observer
 export default class StyleForm extends React.Component {
+    readonly savedStyle: ABT.CitationStyle = top.ABT.options.citation_style;
+
     @observable errorMessage = '';
+
     store: Store;
 
     constructor(props: {}) {
@@ -33,29 +36,22 @@ export default class StyleForm extends React.Component {
     };
 
     handleTypeChange = (e: InputEvent): void => {
-        const savedStyle = top.ABT.options.citation_style;
         const kind = e.currentTarget.value as ABT.StyleKind;
-        const isCustom = kind === 'custom';
-        let label: string;
-        let value: string;
-        if (isCustom) {
-            label = savedStyle.kind === 'custom' ? savedStyle.label : '';
-            value = savedStyle.kind === 'custom' ? savedStyle.value : '';
-        } else {
-            label = savedStyle.kind === 'predefined' ? savedStyle.label : '';
-            value = savedStyle.kind === 'predefined' ? savedStyle.value : '';
-        }
-        this.store.style = {
-            kind,
-            label,
-            value,
-        };
+        this.store.style =
+            kind === this.savedStyle.kind
+                ? {
+                      ...this.savedStyle,
+                  }
+                : {
+                      kind,
+                      label: '',
+                      value: '',
+                  };
     };
 
     handlePredefinedStyleChange = (_e: any, data: Suggestion): void => {
         this.store.style = {
             ...data.suggestion,
-            kind: 'predefined',
         };
     };
 
@@ -65,21 +61,7 @@ export default class StyleForm extends React.Component {
             return;
         }
         try {
-            const content = await readFile(input.files[0], 'Text');
-            const xml = new DOMParser().parseFromString(
-                content,
-                'application/xml',
-            );
-            const error = xml.querySelector('parsererror');
-            const label = xml.querySelector('info title');
-            if (error || !label || !label.textContent) {
-                throw new Error(top.ABT.i18n.errors.filetype_error);
-            }
-            this.store.style = {
-                ...this.store.style,
-                value: content,
-                label: label.textContent,
-            };
+            this.store.style = await parseCSL(input.files[0]);
         } catch (err) {
             this.store.style = {
                 ...this.store.style,

@@ -77,19 +77,19 @@ exports[`<DisplayOptionsForm /> should match snapshots 1`] = `
     items={
       Array [
         Object {
-          "label": "Make URLs clickable and always add trailing source link.",
+          "label": "Make URLs clickable and always add trailing source link",
           "value": "always",
         },
         Object {
-          "label": "Make entire reference a clickable link to the source URL.",
+          "label": "Make entire reference a clickable link to the source URL",
           "value": "always-full-surround",
         },
         Object {
-          "label": "Make URLs clickable only.",
+          "label": "Make URLs clickable only",
           "value": "urls",
         },
         Object {
-          "label": "Never add clickable links.",
+          "label": "Never add clickable links",
           "value": "never",
         },
       ]

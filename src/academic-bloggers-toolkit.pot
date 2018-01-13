@@ -688,19 +688,19 @@ msgid "Link Format"
 msgstr ""
 
 #: php/i18n.php:253
-msgid "Make URLs clickable and always add trailing source link."
+msgid "Make URLs clickable and always add trailing source link"
 msgstr ""
 
 #: php/i18n.php:254
-msgid "Make entire reference a clickable link to the source URL."
+msgid "Make entire reference a clickable link to the source URL"
 msgstr ""
 
 #: php/i18n.php:255
-msgid "Make URLs clickable only."
+msgid "Make URLs clickable only"
 msgstr ""
 
 #: php/i18n.php:256
-msgid "Never add clickable links."
+msgid "Never add clickable links"
 msgstr ""
 
 #: php/views/options-page.php:3

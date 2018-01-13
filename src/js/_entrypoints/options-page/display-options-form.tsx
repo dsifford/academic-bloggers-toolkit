@@ -1,7 +1,7 @@
 import { observer } from 'mobx-react';
 import * as React from 'react';
 
-import DisplayOptionsStore from 'stores/ui/display-options-form';
+import DisplayOptionsStore from 'stores/data/display-options-store';
 
 import RadioGroup from 'components/radio-group';
 import Demo from './demo';

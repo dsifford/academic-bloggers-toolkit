@@ -40,7 +40,6 @@ interface Props {
 @observer
 export default class Menu extends React.Component<Props> {
     static readonly labels = top.ABT.i18n.reference_list.menu;
-    // FIXME: The styles should probably be passed in as a prop
     static readonly styles: ABT.CitationStyle[] = [
         ...top.ABT.styles.styles,
         ...(top.ABT.options.citation_style.kind === 'custom'

@@ -459,7 +459,7 @@ exports[`<ReferenceList /> snapshots menu toggled open 1`] = `
           "CSL": Object {},
           "byIndex": Array [],
         },
-        "displayOptions": Object {
+        "displayOptions": Store {
           "bib_heading": "",
           "bib_heading_level": "h3",
           "bibliography": "fixed",

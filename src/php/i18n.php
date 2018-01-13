@@ -250,10 +250,10 @@ function generate_translations() {
 		'bibliography_style' => __( 'Bibliography Style', 'academic-bloggers-toolkit' ),
 		'link_format' => [
 			'title' => __( 'Link Format', 'academic-bloggers-toolkit' ),
-			'always' => __( 'Make URLs clickable and always add trailing source link.', 'academic-bloggers-toolkit' ),
-			'always_full_surround' => __( 'Make entire reference a clickable link to the source URL.', 'academic-bloggers-toolkit' ),
-			'urls' => __( 'Make URLs clickable only.', 'academic-bloggers-toolkit' ),
-			'never' => __( 'Never add clickable links.', 'academic-bloggers-toolkit' ),
+			'always' => __( 'Make URLs clickable and always add trailing source link', 'academic-bloggers-toolkit' ),
+			'always_full_surround' => __( 'Make entire reference a clickable link to the source URL', 'academic-bloggers-toolkit' ),
+			'urls' => __( 'Make URLs clickable only', 'academic-bloggers-toolkit' ),
+			'never' => __( 'Never add clickable links', 'academic-bloggers-toolkit' ),
 		],
 	];
 

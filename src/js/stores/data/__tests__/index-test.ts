@@ -209,18 +209,4 @@ describe('Store', () => {
         expect(store.citations.CSL.keys().length).toBe(0);
         expect(store.citations.citationByIndex.length).toBe(0);
     });
-    // it('should set citationStyle', () => {
-    //     expect(store.style).toBe('american-medical-association');
-    //     const style = {
-    //         kind: 'predefined',
-    //         value: 'apa-5th-edition',
-    //         label: 'American Psychological Association 5th edition',
-    //     }
-    //     store.setStyle({
-    //         kind: 'predefined',
-    //         value: 'apa-5th-edition',
-    //         label: 'American Psychological Association 5th edition',
-    //     });
-    //     expect(store.style).toEqual(style);
-    // });
 });
