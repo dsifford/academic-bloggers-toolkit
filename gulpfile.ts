@@ -20,8 +20,8 @@ const IS_PRODUCTION = process.env.NODE_ENV === 'production';
 
 type Callback = () => void;
 
-// prettier-ignore
-const reload = (cb: Callback): void => { browserSync.reload(); cb(); }
+const reload = (cb: Callback): void =>
+    [browserSync.reload, cb].forEach(f => f());
 const clean = async (): Promise<any> => exec(`rm -rf ${__dirname}/dist/*`);
 export { clean, reload };
 
@@ -30,25 +30,18 @@ export { clean, reload };
  * Append link to changelog for current version in readme.txt
  */
 export function bump(): NodeJS.ReadWriteStream {
-    const re = `== Changelog ==\n(?!\n= ${VERSION})`;
-    const repl =
-        '== Changelog ==\n\n' +
-        `= ${VERSION} =\n\n` +
-        '[Click here](https://headwayapp.co/academic-bloggers-toolkit-changelog) to view changes.\n';
-
     const srcFiles = gulp
         .src(['src/academic-bloggers-toolkit.php', 'src/readme.txt'], {
             base: './src',
         })
-        .pipe(replace(/Version: [\d.]+/, `Version: ${VERSION}`))
+        .pipe(replace(/Version: .+/, `Version: ${VERSION}`))
         .pipe(replace(/Stable tag: .+/, `Stable tag: ${VERSION}`))
         .pipe(
             replace(
-                /define\('ABT_VERSION', '.+?'\);/,
-                `define('ABT_VERSION', '${VERSION}');`,
+                /define\( 'ABT_VERSION', '.+?' \);/,
+                `define( 'ABT_VERSION', '${VERSION}' );`,
             ),
         )
-        .pipe(replace(new RegExp(re), repl))
         .pipe(gulp.dest('./src'));
 
     const repoFiles = gulp
