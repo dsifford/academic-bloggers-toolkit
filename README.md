@@ -47,14 +47,15 @@ Translations for this plugin can be completed and submitted [here](https://poedi
 <!-- TRANSLATION_STATUS_START -->
 Language | Contributors | % Complete
 -------- | ------------ | ----------
-Spanish `es` | Jose Miguel Villatoro | ![Progress](http://progressed.io/bar/94)
-Spanish (AR) `es-ar` | Jose Miguel Villatoro, Lucas | ![Progress](http://progressed.io/bar/94)
-Chinese (simplified) `zh-CN` | fishfree | ![Progress](http://progressed.io/bar/93)
-Polish `pl` | Krzysztof Ruchniewicz | ![Progress](http://progressed.io/bar/89)
-German `de` | Jan-Luca Bauß, Mathias Micheel | ![Progress](http://progressed.io/bar/88)
-Portuguese `pt` | Alexandre Rodrigues | ![Progress](http://progressed.io/bar/55)
-Indonesian `id` | Alam | ![Progress](http://progressed.io/bar/35)
-Arabic `ar` | Ezz El Dean | ![Progress](http://progressed.io/bar/18)
+French `fr` | Houssen Moshinaly | ![Progress](http://progressed.io/bar/92)
+Spanish `es` | Jose Miguel Villatoro | ![Progress](http://progressed.io/bar/87)
+Spanish (AR) `es-ar` | Jose Miguel Villatoro, Lucas | ![Progress](http://progressed.io/bar/87)
+Chinese (simplified) `zh-CN` | fishfree | ![Progress](http://progressed.io/bar/85)
+Polish `pl` | Krzysztof Ruchniewicz | ![Progress](http://progressed.io/bar/82)
+German `de` | Jan-Luca Bauß, Mathias Micheel | ![Progress](http://progressed.io/bar/81)
+Portuguese `pt` | Alexandre Rodrigues | ![Progress](http://progressed.io/bar/50)
+Indonesian `id` | Alam | ![Progress](http://progressed.io/bar/32)
+Arabic `ar` | Ezz El Dean | ![Progress](http://progressed.io/bar/17)
 Danish `da` | Dan Bilbo Christensen | ![Progress](http://progressed.io/bar/0)
 Tamil `ta` | Albert Albs | ![Progress](http://progressed.io/bar/0)
 Thai `th` | Jose Miguel Villatoro, Tammakit Intharaksa, wiennat | ![Progress](http://progressed.io/bar/0)

@@ -70,7 +70,21 @@ const LANGS: ReadonlyMap<string, string[]> = new Map([
     ['da', ['da_DK']],
     ['de', ['de_DE', 'de_CH']],
     ['es-ar', ['es_AR']],
-    ['es', ['es_CL', 'es_CO', 'es_CR', 'es_GT', 'es_MX', 'es_PE', 'es_PR', 'es_ES', 'es_VE']],
+    [
+        'es',
+        [
+            'es_CL',
+            'es_CO',
+            'es_CR',
+            'es_GT',
+            'es_MX',
+            'es_PE',
+            'es_PR',
+            'es_ES',
+            'es_VE',
+        ],
+    ],
+    ['fr', ['fr_FR', 'fr_BE', 'fr_CA']],
     ['id', ['id_ID']],
     ['pl', ['pl_PL']],
     ['pt', ['pt_BR', 'pt_PT']],
@@ -82,9 +96,10 @@ const LANGS: ReadonlyMap<string, string[]> = new Map([
 
 async function getTranslations(): Promise<void> {
     await exec(`rm -f ${ROOT_DIR}/src/languages/*`);
-    const languages = (await sendRequest<Langs>('/languages/list', {})).result.languages.filter(
-        l => l.percentage > 0 && l.code !== 'en-us',
-    );
+    const languages = (await sendRequest<Langs>(
+        '/languages/list',
+        {},
+    )).result.languages.filter(l => l.percentage > 0 && l.code !== 'en-us');
 
     for (const lang of languages) {
         const url = (await sendRequest<{ url: string }>('/projects/export', {
@@ -99,7 +114,9 @@ async function getTranslations(): Promise<void> {
         const fileBaseName = `${ROOT_DIR}/src/languages/academic-bloggers-toolkit-`;
         await exec(`curl ${url} --output ${fileBaseName}${firstMatch}.mo`);
         for (const code of codes) {
-            await exec(`cp ${fileBaseName}${firstMatch}.mo ${fileBaseName}${code}.mo`);
+            await exec(
+                `cp ${fileBaseName}${firstMatch}.mo ${fileBaseName}${code}.mo`,
+            );
         }
     }
 }
@@ -127,7 +144,10 @@ async function updateTranslationStatus(): Promise<void> {
     }
 
     const [contributors, languages] = await Promise.all([
-        (await sendRequest<Contributors>('/contributors/list', {})).result.contributors.filter(
+        (await sendRequest<Contributors>(
+            '/contributors/list',
+            {},
+        )).result.contributors.filter(
             c => c.permissions[0].type === 'contributor',
         ),
         (await sendRequest<Langs>('/languages/list', {})).result.languages
@@ -145,7 +165,9 @@ async function updateTranslationStatus(): Promise<void> {
     for (const contrib of contributors) {
         for (const l of contrib.permissions[0].languages) {
             let lang = languages.get(l);
-            if (!lang) continue;
+            if (!lang) {
+                continue;
+            }
             lang = {
                 ...lang,
                 contributors: [...lang.contributors, contrib.name],
@@ -155,11 +177,17 @@ async function updateTranslationStatus(): Promise<void> {
     }
 
     // descending order, ascending alphabetical if equal
-    const sortedLangs = Array.from(languages).sort(([, v1]: any, [, v2]: any) => {
-        if (v1.percentage < v2.percentage) return 1;
-        if (v1.percentage > v2.percentage) return -1;
-        return v1.code < v2.code ? -1 : 1;
-    });
+    const sortedLangs = Array.from(languages).sort(
+        ([, v1]: any, [, v2]: any) => {
+            if (v1.percentage < v2.percentage) {
+                return 1;
+            }
+            if (v1.percentage > v2.percentage) {
+                return -1;
+            }
+            return v1.code < v2.code ? -1 : 1;
+        },
+    );
 
     const readme = await readFile(`${ROOT_DIR}/README.md`, 'utf-8');
 
@@ -171,7 +199,9 @@ async function updateTranslationStatus(): Promise<void> {
                 return oneLine`
                     ${lang[1].name} \`${lang[0]}\` |
                     ${[...lang[1].contributors].sort().join(', ')} |
-                    ![Progress](http://progressed.io/bar/${Math.round(lang[1].percentage)})
+                    ![Progress](http://progressed.io/bar/${Math.round(
+                        lang[1].percentage,
+                    )})
                 `;
             })
             .join('\n')}
@@ -209,9 +239,11 @@ async function sendRequest<T>(endpoint: string, data: object): Promise<API<T>> {
         };
         const req = request(options, res => {
             const payload: Buffer[] = [];
-            res.on('data', (chunk: Buffer) => payload.push(chunk)).on('end', () => {
-                resolve(JSON.parse(Buffer.concat(payload).toString()));
-            });
+            res
+                .on('data', (chunk: Buffer) => payload.push(chunk))
+                .on('end', () => {
+                    resolve(JSON.parse(Buffer.concat(payload).toString()));
+                });
             res.on('error', err => reject(err));
         });
         req.on('error', err => reject(err));

@@ -4,7 +4,7 @@ Donate link: https://donorbox.org/academic-bloggers-toolkit
 Tags: academia, academic, bibliographies, bibliography, bibtex, citation, citations, cite, citing, CSL, curriculum vitae, cv, doi, endnote, footnote, footnotes, journal, mendeley, papers, pmid, pmcid, publications, publish, pubmed, reference, reference list, reference manager, references, referencing, ris, scholar, scholarly, zotero
 Requires at least: 4.2.2
 Tested up to: 4.9
-Stable tag: 4.13.0-beta.1
+Stable tag: 4.13.0
 License: GPL3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 

@@ -18143,6 +18143,12 @@
     },
     {
       "kind": "predefined",
+      "label":
+        "Hochschule Pforzheim - Fakultät für Wirtschaft und Recht (German)",
+      "value": "hochschule-pforzheim-fakultat-fur-wirtschaft-und-recht"
+    },
+    {
+      "kind": "predefined",
       "label": "Homeopathy",
       "value": "vancouver-superscript"
     },
@@ -32243,7 +32249,7 @@
     {
       "kind": "predefined",
       "label": "Molecular Oncology",
-      "value": "elsevier-harvard"
+      "value": "molecular-oncology"
     },
     {
       "kind": "predefined",
@@ -32776,6 +32782,13 @@
       "kind": "predefined",
       "label": "National Science Foundation (grant proposals)",
       "value": "national-science-foundation-grant-proposals"
+    },
+    {
+      "kind": "predefined",
+      "label":
+        "National University of Singapore - Department of Geography - Harvard",
+      "value":
+        "national-university-of-singapore-department-of-geography-harvard"
     },
     {
       "kind": "predefined",
@@ -43929,6 +43942,16 @@
       "kind": "predefined",
       "label": "Universiteit Utrecht - Onderzoeksgids Geschiedenis (Dutch)",
       "value": "universiteit-utrecht-onderzoeksgids-geschiedenis"
+    },
+    {
+      "kind": "predefined",
+      "label": "Universitetet i Oslo - Rettsvitenskap (Norwegian - Bokmål)",
+      "value": "universitetet-i-oslo-rettsvitenskap"
+    },
+    {
+      "kind": "predefined",
+      "label": "Universiti Kebangsaan Malaysia (Malay)",
+      "value": "universiti-kebangsaan-malaysia"
     },
     {
       "kind": "predefined",
