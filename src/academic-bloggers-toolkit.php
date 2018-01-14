@@ -1,20 +1,22 @@
 <?php
 /**
- *  Plugin Name: Academic Blogger's Toolkit
- *  Plugin URI: https://wordpress.org/plugins/academic-bloggers-toolkit/
- *  Description: A plugin extending the functionality of WordPress for academic blogging
- *  Version: 4.13.0-beta.1-beta-0
- *  Author: Derek P Sifford
- *  Author URI: https://github.com/dsifford
- *  Text Domain: academic-bloggers-toolkit
- *  License: GPL3 or later.
+ * Plugin Name: Academic Blogger's Toolkit
+ * Plugin URI: https://github.com/dsifford/academic-bloggers-toolkit/
+ * Description: A plugin extending the functionality of WordPress for academic blogging
+ * Version: 4.13.0
+ * Author: Derek P Sifford
+ * Author URI: https://github.com/dsifford
+ * License: GPL3 or later.
+ * License URI: https://www.gnu.org/licenses/gpl-3.0.html
+ * Text Domain: academic-bloggers-toolkit
+ * Domain Path: /languages
  */
 
 namespace ABT;
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'ABT_VERSION', '4.12.0' );
+define( 'ABT_VERSION', '4.13.0' );
 define( 'ABT_ROOT_URI', plugin_dir_url( __FILE__ ) );
 define( 'ABT_ROOT_PATH', plugin_dir_path( __FILE__ ) );
 define( 'ABT_OPTIONS_KEY', 'abt_options' );
