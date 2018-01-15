@@ -160,7 +160,7 @@ class Backend {
 		if (
 			isset( $_POST['abt-reflist-state'], $_POST['abt_nonce'] )
 			&& wp_verify_nonce( sanitize_key( $_POST['abt_nonce'] ), basename( __FILE__ ) ) ) {
-				$reflist_state = wp_unslash( $_POST['abt-reflist-state'] );
+				$reflist_state = $_POST['abt-reflist-state'];
 				update_post_meta( $post_id, '_abt-reflist-state', $reflist_state );
 		}
 		// @codingStandardsIgnoreEnd
