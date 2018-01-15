@@ -20,20 +20,25 @@ describe('<MetaFields />', () => {
         expect(
             toJSON(component, {
                 noKey: true,
-                map: json => ({ ...json, props: { ...json.props, meta: '__SKIPPED__' } }),
+                map: json => ({
+                    ...json,
+                    props: { ...json.props, meta: '__SKIPPED__' },
+                }),
             }),
         ).toMatchSnapshot();
     });
     it('should update fields', () => {
         const { instance } = setup();
         expect(instance.props.meta.fields.title).toBe('');
-        instance.updateField({ currentTarget: { id: 'title', value: 'testing' } } as any);
+        instance.updateField({
+            currentTarget: { dataset: { field: 'title' }, value: 'testing' },
+        } as any);
         expect(instance.props.meta.fields.title).toBe('testing');
     });
     it('should throw errors when field ID is not set properly', () => {
         const { instance } = setup();
-        expect(() => instance.updateField({ currentTarget: {} } as any)).toThrowError(
-            ReferenceError,
-        );
+        expect(() =>
+            instance.updateField({ currentTarget: { dataset: {} } } as any),
+        ).toThrowError(ReferenceError);
     });
 });

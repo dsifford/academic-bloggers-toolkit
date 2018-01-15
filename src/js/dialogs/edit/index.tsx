@@ -35,11 +35,13 @@ export default class EditDialog extends React.Component<Props> {
         const citationType = this.store.citationType;
         return (
             <form onSubmit={this.handleSubmit}>
-                <ContributorList
-                    citationType={citationType}
-                    people={this.store.people}
-                />
-                <MetaFields meta={this.store} />
+                <div style={{ padding: 10 }}>
+                    <ContributorList
+                        citationType={citationType}
+                        people={this.store.people}
+                    />
+                    <MetaFields meta={this.store} />
+                </div>
                 <ActionBar align="right">
                     <Button
                         flat

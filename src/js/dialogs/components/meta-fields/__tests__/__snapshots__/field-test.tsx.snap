@@ -12,6 +12,7 @@ exports[`<Field /> should match snapshots 1`] = `
   </label>
   <input
     className="input"
+    data-field="title"
     id="field-title"
     onChange={[MockFunction]}
     type="text"
@@ -25,9 +26,9 @@ exports[`<Field /> should match snapshots 2`] = `
 - First value
 + Second value
 
-@@ -10,8 +10,8 @@
-    <input
+@@ -11,8 +11,8 @@
       className=\\"input\\"
+      data-field=\\"title\\"
       id=\\"field-title\\"
       onChange={[Function mockConstructor]}
       type=\\"text\\"

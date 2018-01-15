@@ -46,7 +46,6 @@ rules:
     no-banned-terms: true
     no-delete-expression: true
     no-document-write: true
-    no-duplicate-case: true
     no-for-in: true
     no-function-constructor-with-string-args: true
     no-function-expression: true
@@ -54,7 +53,6 @@ rules:
     no-regex-spaces: true
     no-reserved-keywords: true
     # no-single-line-block-comment: true FIXME: reenable once jsx false positives fixed
-    no-stateless-class: true
     no-string-based-set-immediate: true
     no-string-based-set-interval: true
     no-string-based-set-timeout: true
@@ -64,7 +62,6 @@ rules:
     no-unnecessary-local-variable: true
     no-unnecessary-override: true
     no-useless-files: true
-    no-var-self: true
     possible-timing-attack: true
     prefer-type-cast: true
     promise-must-complete: true

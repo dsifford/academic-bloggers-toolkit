@@ -322,6 +322,7 @@ exports[`<ManualInput /> should match baseline snapshot 1`] = `
             </label>
             <input
               className="input"
+              data-field="title"
               id="__SKIPPED__"
               onChange={[Function]}
               required={true}
@@ -352,6 +353,7 @@ exports[`<ManualInput /> should match baseline snapshot 1`] = `
             </label>
             <input
               className="input"
+              data-field="container-title"
               id="__SKIPPED__"
               onChange={[Function]}
               required={true}
@@ -382,6 +384,7 @@ exports[`<ManualInput /> should match baseline snapshot 1`] = `
             </label>
             <input
               className="input"
+              data-field="URL"
               id="__SKIPPED__"
               onChange={[Function]}
               required={true}
@@ -413,6 +416,7 @@ exports[`<ManualInput /> should match baseline snapshot 1`] = `
             </label>
             <input
               className="input"
+              data-field="issued"
               id="__SKIPPED__"
               onChange={[Function]}
               pattern="[0-2][0-9]{3}(?:(\\\\/(?:0[1-9]|1[0-2]))(\\\\/(?:[0-2][0-9]|3[0-1]))?)?"
@@ -445,6 +449,7 @@ exports[`<ManualInput /> should match baseline snapshot 1`] = `
             </label>
             <input
               className="input"
+              data-field="accessed"
               id="__SKIPPED__"
               onChange={[Function]}
               pattern="[0-2][0-9]{3}(?:(\\\\/(?:0[1-9]|1[0-2]))(\\\\/(?:[0-2][0-9]|3[0-1]))?)?"
@@ -621,9 +626,9 @@ exports[`<ManualInput /> should not render autocite for anything but websites or
               </label>
               <input
                 className=\\"input\\"
+                data-field=\\"title\\"
                 id=\\"__SKIPPED__\\"
-                onChange={[Function res]}
-@@ -173,9 +247,133 @@
+@@ -174,9 +248,137 @@
                 type=\\"text\\"
                 value=\\"\\"
               />
@@ -651,6 +656,7 @@ exports[`<ManualInput /> should not render autocite for anything but websites or
 +             </label>
 +             <input
 +               className=\\"input\\"
++               data-field=\\"container-title\\"
 +               id=\\"__SKIPPED__\\"
 +               onChange={[Function res]}
 +               required={true}
@@ -681,6 +687,7 @@ exports[`<ManualInput /> should not render autocite for anything but websites or
 +             </label>
 +             <input
 +               className=\\"input\\"
++               data-field=\\"URL\\"
 +               id=\\"__SKIPPED__\\"
 +               onChange={[Function res]}
 +               required={true}
@@ -712,6 +719,7 @@ exports[`<ManualInput /> should not render autocite for anything but websites or
 +             </label>
 +             <input
 +               className=\\"input\\"
++               data-field=\\"issued\\"
 +               id=\\"__SKIPPED__\\"
 +               onChange={[Function res]}
 +               pattern=\\"[0-2][0-9]{3}(?:(\\\\\\\\/(?:0[1-9]|1[0-2]))(\\\\\\\\/(?:[0-2][0-9]|3[0-1]))?)?\\"
@@ -744,6 +752,7 @@ exports[`<ManualInput /> should not render autocite for anything but websites or
 +             </label>
 +             <input
 +               className=\\"input\\"
++               data-field=\\"accessed\\"
 +               id=\\"__SKIPPED__\\"
 +               onChange={[Function res]}
 +               pattern=\\"[0-2][0-9]{3}(?:(\\\\\\\\/(?:0[1-9]|1[0-2]))(\\\\\\\\/(?:[0-2][0-9]|3[0-1]))?)?\\"
@@ -875,9 +884,9 @@ exports[`<ManualInput /> should render autocite fields for books 1`] = `
               </label>
               <input
                 className=\\"input\\"
+                data-field=\\"title\\"
                 id=\\"__SKIPPED__\\"
-                onChange={[Function res]}
-@@ -252,182 +250,56 @@
+@@ -253,191 +251,61 @@
             </div>
           </Field>
           <Field
@@ -906,6 +915,8 @@ exports[`<ManualInput /> should render autocite fields for books 1`] = `
               </label>
               <input
                 className=\\"input\\"
+-               data-field=\\"collection-title\\"
++               data-field=\\"container-title\\"
                 id=\\"__SKIPPED__\\"
                 onChange={[Function res]}
 +               required={true}
@@ -937,6 +948,7 @@ exports[`<ManualInput /> should render autocite fields for books 1`] = `
 -             </label>
 -             <input
 -               className=\\"input\\"
+-               data-field=\\"collection-number\\"
 -               id=\\"__SKIPPED__\\"
 -               onChange={[Function res]}
 -               pattern=\\"[0-9]+\\"
@@ -969,6 +981,7 @@ exports[`<ManualInput /> should render autocite fields for books 1`] = `
 -             </label>
 -             <input
 -               className=\\"input\\"
+-               data-field=\\"number-of-pages\\"
 -               id=\\"__SKIPPED__\\"
 -               onChange={[Function res]}
 -               pattern=\\"[0-9]+\\"
@@ -1001,6 +1014,7 @@ exports[`<ManualInput /> should render autocite fields for books 1`] = `
 -             </label>
 -             <input
 -               className=\\"input\\"
+-               data-field=\\"volume\\"
 -               id=\\"__SKIPPED__\\"
 -               onChange={[Function res]}
 -               pattern=\\"[0-9]+\\"
@@ -1033,6 +1047,7 @@ exports[`<ManualInput /> should render autocite fields for books 1`] = `
 -             </label>
 -             <input
 -               className=\\"input\\"
+-               data-field=\\"edition\\"
 -               id=\\"__SKIPPED__\\"
 -               onChange={[Function res]}
 -               pattern=\\"[0-9]+\\"
@@ -1068,9 +1083,14 @@ exports[`<ManualInput /> should render autocite fields for books 1`] = `
               </label>
               <input
                 className=\\"input\\"
+-               data-field=\\"publisher\\"
++               data-field=\\"URL\\"
                 id=\\"__SKIPPED__\\"
                 onChange={[Function res]}
-@@ -438,41 +310,12 @@
+                required={true}
+                type=\\"text\\"
+                value=\\"\\"
+@@ -445,42 +313,12 @@
             </div>
           </Field>
           <Field
@@ -1094,6 +1114,7 @@ exports[`<ManualInput /> should render autocite fields for books 1`] = `
 -             </label>
 -             <input
 -               className=\\"input\\"
+-               data-field=\\"publisher-place\\"
 -               id=\\"__SKIPPED__\\"
 -               onChange={[Function res]}
 -               type=\\"text\\"
@@ -1112,9 +1133,9 @@ exports[`<ManualInput /> should render autocite fields for books 1`] = `
               }
             }
             meta=\\"__SKIPPED__\\"
-@@ -490,11 +333,10 @@
-              <input
+@@ -499,11 +337,10 @@
                 className=\\"input\\"
+                data-field=\\"issued\\"
                 id=\\"__SKIPPED__\\"
                 onChange={[Function res]}
                 pattern=\\"[0-2][0-9]{3}(?:(\\\\\\\\/(?:0[1-9]|1[0-2]))(\\\\\\\\/(?:[0-2][0-9]|3[0-1]))?)?\\"

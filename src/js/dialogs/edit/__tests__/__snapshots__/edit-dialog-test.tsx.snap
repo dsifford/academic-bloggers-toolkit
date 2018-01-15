@@ -4,11 +4,19 @@ exports[`<EditDialog /> should match baseline snapshot 1`] = `
 <form
   onSubmit={[Function]}
 >
-  <ContributorList
-    citationType="article-journal"
-    people={Array []}
-  />
-  <MetaFields />
+  <div
+    style={
+      Object {
+        "padding": 10,
+      }
+    }
+  >
+    <ContributorList
+      citationType="article-journal"
+      people={Array []}
+    />
+    <MetaFields />
+  </div>
   <ActionBar
     align="right"
   >

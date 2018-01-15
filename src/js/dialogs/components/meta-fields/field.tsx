@@ -30,6 +30,7 @@ export default class Field extends React.Component<Props> {
                     className={styles.input}
                     onChange={onChange}
                     id={id}
+                    data-field={value}
                     value={meta.fields[value]}
                     {...attrs}
                 />
