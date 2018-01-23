@@ -201,6 +201,13 @@ function parseDateString(input: string): string {
         return '';
     }
     const date = new Date(input);
-    const [month, day, year] = date.toLocaleDateString('en-US').split('/');
+    const [month, day, year] = date
+        .toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit',
+            timeZone: 'UTC',
+        })
+        .split('/');
     return `${year}/${month}/${day}`;
 }
