@@ -14,5 +14,5 @@
     "baseUrl": "./src/js",
     "experimentalDecorators": true
   },
-  "include": ["src/js/**/*", "lib/types/*", "lib/*", "webpack.config.ts", "gulpfile.ts"]
+  "include": ["src/js/**/*", "lib/types/*", "lib/*", "webpack.config.ts"]
 }

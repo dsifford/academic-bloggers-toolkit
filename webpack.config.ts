@@ -3,23 +3,35 @@ import { execSync } from 'child_process';
 import { resolve } from 'path';
 import * as webpack from 'webpack';
 
+import * as BroswerSyncPlugin from 'browser-sync-webpack-plugin';
+import * as CopyWebpackPlugin from 'copy-webpack-plugin';
 import * as ExtractTextPlugin from 'extract-text-webpack-plugin';
 import * as RollbarSourceMapPlugin from 'rollbar-sourcemap-webpack-plugin';
 import * as UglifyJsPlugin from 'uglifyjs-webpack-plugin';
 
-const ENTRYPOINT_DIR = './src/js/_entrypoints';
+const ENTRYPOINT_DIR = 'js/_entrypoints';
 const IS_PRODUCTION = process.env.NODE_ENV === 'production';
 const IS_DEPLOYING = process.env.IS_DEPLOYING === 'true';
-const VERSION = IS_PRODUCTION
+const VERSION = process.env.npm_package_version;
+const COMMIT_HASH = IS_PRODUCTION
     ? execSync('git rev-parse HEAD', { encoding: 'utf8' })
     : '';
+
+if (!VERSION) {
+    // tslint:disable-next-line:no-console
+    console.error('Webpack must be ran using npm scripts.');
+    process.exit(0);
+}
+
+// Clean out dist directory
+execSync(`rm -rf ${__dirname}/dist/*`);
 
 const plugins = new Set<webpack.Plugin>([
     new webpack.NoEmitOnErrorsPlugin(),
     new webpack.EnvironmentPlugin({
         NODE_ENV: 'development',
         ROLLBAR_CLIENT_TOKEN: '',
-        COMMIT_HASH: VERSION,
+        COMMIT_HASH,
     }),
     new ExtractTextPlugin({
         filename: (getPath: (format: string) => string): string => {
@@ -31,7 +43,37 @@ const plugins = new Set<webpack.Plugin>([
         },
         ignoreOrder: true,
     }),
+    new CopyWebpackPlugin([
+        {
+            from: '**/*.{php,mo}',
+            ignore: ['academic-bloggers-toolkit.php'],
+        },
+        {
+            from: 'vendor/*',
+        },
+        {
+            from: resolve(__dirname, 'LICENSE'),
+        },
+        {
+            from: '@(readme.txt|academic-bloggers-toolkit.php)',
+            transform(content): string {
+                return content.toString().replace(/{{VERSION}}/g, VERSION!);
+            },
+        },
+    ]),
 ]);
+
+if (!IS_PRODUCTION) {
+    plugins.add(
+        new BroswerSyncPlugin({
+            proxy: 'localhost:8080',
+            open: false,
+            reloadDebounce: 2000,
+            port: 3005,
+            notify: false,
+        }),
+    );
+}
 
 if (IS_PRODUCTION) {
     plugins
@@ -44,7 +86,7 @@ if (IS_DEPLOYING) {
     plugins.add(
         new RollbarSourceMapPlugin({
             accessToken: process.env.ROLLBAR_API_TOKEN,
-            version: VERSION,
+            version: COMMIT_HASH,
             publicPath:
                 'http://dynamichost/wp-content/plugins/academic-bloggers-toolkit',
         }),
@@ -54,9 +96,10 @@ if (IS_DEPLOYING) {
 export default <webpack.Configuration>{
     watch: !IS_PRODUCTION,
     watchOptions: {
-        ignored: /(node_modules|gulpfile|dist|lib|webpack.config)/,
+        ignored: /(node_modules|dist|lib|webpack.config)/,
     },
     devtool: 'source-map',
+    context: resolve(__dirname, 'src'),
     entry: {
         'js/frontend': `${ENTRYPOINT_DIR}/frontend`,
         'js/options-page': `${ENTRYPOINT_DIR}/options-page`,
@@ -66,8 +109,8 @@ export default <webpack.Configuration>{
             'whatwg-fetch',
             `${ENTRYPOINT_DIR}/reference-list`,
         ],
-        'js/drivers/tinymce': './src/js/drivers/tinymce',
-        'workers/locale-worker': './src/workers/locale-worker',
+        'js/drivers/tinymce': 'js/drivers/tinymce',
+        'workers/locale-worker': 'workers/locale-worker',
     },
     output: {
         path: resolve(__dirname, 'dist'),
@@ -127,7 +170,7 @@ export default <webpack.Configuration>{
                                 'node_modules/.cache/awesome-typescript-loader',
                             ),
                             babelCore: '@babel/core',
-                            reportFiles: ['src/**/*.{ts,tsx}'],
+                            reportFiles: ['**/*.{ts,tsx}'],
                         },
                     },
                 ],

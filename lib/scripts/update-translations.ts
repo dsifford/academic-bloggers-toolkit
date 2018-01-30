@@ -6,17 +6,24 @@ import { request } from 'https';
 import * as path from 'path';
 import { stringify } from 'querystring';
 import { promisify } from 'util';
+import * as wpPot from 'wp-pot';
 
 const exec = promisify(cp_exec);
 const readFile = promisify(fsreadfile);
 const writeFile = promisify(fswritefile);
 
 const TOKEN = process.env.PO_EDITOR_TOKEN;
+const VERSION = process.env.npm_package_version;
 const PROJECT_ID = 68585;
 const ROOT_DIR = path.resolve(__dirname, '../../');
 
 if (!TOKEN) {
     console.error('API token not found in environment');
+    process.exit(1);
+}
+
+if (!VERSION) {
+    console.error('Script must be ran using npm scripts');
     process.exit(1);
 }
 
@@ -216,6 +223,21 @@ async function updateTranslationStatus(): Promise<void> {
 }
 
 (async (): Promise<void> => {
+    wpPot({
+        src: path.resolve(ROOT_DIR, 'src/**/*.php'),
+        destFile: path.resolve(
+            ROOT_DIR,
+            'src',
+            'academic-bloggers-toolkit.pot',
+        ),
+        domain: 'academic-bloggers-toolkit',
+        package: `Academic Blogger's Toolkit ${VERSION}`,
+        bugReport:
+            'https://github.com/dsifford/academic-bloggers-toolkit/issues',
+        lastTranslator: 'Derek P Sifford <dereksifford@gmail.com>',
+        team: 'Derek P Sifford <dereksifford@gmail.com>',
+        headers: false,
+    });
     await updateTerms();
     await getTranslations();
     await updateTranslationStatus();

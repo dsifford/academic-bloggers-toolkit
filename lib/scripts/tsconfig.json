@@ -10,5 +10,6 @@
     "noFallthroughCasesInSwitch": true,
     "noImplicitAny": true,
     "experimentalDecorators": true
-  }
+  },
+  "include": ["**/*.tsx?", "../types/*.d.ts"]
 }
