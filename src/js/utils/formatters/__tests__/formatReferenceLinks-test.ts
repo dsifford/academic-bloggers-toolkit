@@ -46,7 +46,7 @@ describe('formatReferenceLinks()', () => {
                     value: PMID,
                 }),
             ).toBe(
-                'Colmers IN, Paterson QS, Lin M, Thoma B, Chan TM. The quality checklists for medical education blogs and podcasts. <i>The Winnower</i>. 2015. doi: <a href="https://dx.doi.org/10.15200/winn.144720.08769" target="_blank" rel="noopener noreferrer">10.15200/winn.144720.08769</a> <span class="abt-url">[<a href="https://www.ncbi.nlm.nih.gov/pubmed/12345" target="_blank" rel="noopener noreferrer">PubMed</a>]</span>',
+                'Colmers IN, Paterson QS, Lin M, Thoma B, Chan TM. The quality checklists for medical education blogs and podcasts. <i>The Winnower</i>. 2015. doi:<a href="https://dx.doi.org/10.15200/winn.144720.08769" target="_blank" rel="noopener noreferrer">10.15200/winn.144720.08769</a>. <span class="abt-url">[<a href="https://www.ncbi.nlm.nih.gov/pubmed/12345" target="_blank" rel="noopener noreferrer">PubMed</a>]</span>',
             );
             expect(
                 formatReferenceLinks(testRefs[3], 'always', {
@@ -96,7 +96,7 @@ describe('formatReferenceLinks()', () => {
                     value: DOI,
                 }),
             ).toBe(
-                'Colmers IN, Paterson QS, Lin M, Thoma B, Chan TM. The quality checklists for medical education blogs and podcasts. <i>The Winnower</i>. 2015. doi: <a href="https://dx.doi.org/10.15200/winn.144720.08769" target="_blank" rel="noopener noreferrer">10.15200/winn.144720.08769</a>',
+                'Colmers IN, Paterson QS, Lin M, Thoma B, Chan TM. The quality checklists for medical education blogs and podcasts. <i>The Winnower</i>. 2015. doi:<a href="https://dx.doi.org/10.15200/winn.144720.08769" target="_blank" rel="noopener noreferrer">10.15200/winn.144720.08769</a>.',
             );
             expect(
                 formatReferenceLinks(testRefs[3], 'always', {
@@ -146,7 +146,7 @@ describe('formatReferenceLinks()', () => {
                     value: PMCID,
                 }),
             ).toBe(
-                'Colmers IN, Paterson QS, Lin M, Thoma B, Chan TM. The quality checklists for medical education blogs and podcasts. <i>The Winnower</i>. 2015. doi: <a href="https://dx.doi.org/10.15200/winn.144720.08769" target="_blank" rel="noopener noreferrer">10.15200/winn.144720.08769</a> <span class="abt-url">[<a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC12345" target="_blank" rel="noopener noreferrer">PMC</a>]</span>',
+                'Colmers IN, Paterson QS, Lin M, Thoma B, Chan TM. The quality checklists for medical education blogs and podcasts. <i>The Winnower</i>. 2015. doi:<a href="https://dx.doi.org/10.15200/winn.144720.08769" target="_blank" rel="noopener noreferrer">10.15200/winn.144720.08769</a>. <span class="abt-url">[<a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC12345" target="_blank" rel="noopener noreferrer">PMC</a>]</span>',
             );
             expect(
                 formatReferenceLinks(testRefs[3], 'always', {
@@ -196,7 +196,7 @@ describe('formatReferenceLinks()', () => {
                     value: URL,
                 }),
             ).toBe(
-                'Colmers IN, Paterson QS, Lin M, Thoma B, Chan TM. The quality checklists for medical education blogs and podcasts. <i>The Winnower</i>. 2015. doi: <a href="https://dx.doi.org/10.15200/winn.144720.08769" target="_blank" rel="noopener noreferrer">10.15200/winn.144720.08769</a> <span class="abt-url">[<a href="https://www.google.com" target="_blank" rel="noopener noreferrer">Source</a>]</span>',
+                'Colmers IN, Paterson QS, Lin M, Thoma B, Chan TM. The quality checklists for medical education blogs and podcasts. <i>The Winnower</i>. 2015. doi:<a href="https://dx.doi.org/10.15200/winn.144720.08769" target="_blank" rel="noopener noreferrer">10.15200/winn.144720.08769</a>. <span class="abt-url">[<a href="https://www.google.com" target="_blank" rel="noopener noreferrer">Source</a>]</span>',
             );
             expect(
                 formatReferenceLinks(testRefs[3], 'always', {
@@ -231,7 +231,7 @@ describe('formatReferenceLinks()', () => {
                 'Chan T, Helman A, Davis T, Purdy E. MEdIC Series | The Case the FOAM Faux Pas – Expert Review and Curated Commentary. Academic Life in Emergency Medicine. <a href="http://aliem.com/MEdIC-Series-The-Case-the-FOAM-Faux-Pas-Expert-Review-and-Curated-Commentary" target="_blank" rel="noopener noreferrer">http://aliem.com/MEdIC-Series-The-Case-the-FOAM-Faux-Pas-Expert-Review-and-Curated-Commentary</a>. Published 2015.',
             );
             expect(formatReferenceLinks(testRefs[2], 'always')).toBe(
-                'Colmers IN, Paterson QS, Lin M, Thoma B, Chan TM. The quality checklists for medical education blogs and podcasts. <i>The Winnower</i>. 2015. doi: <a href="https://dx.doi.org/10.15200/winn.144720.08769" target="_blank" rel="noopener noreferrer">10.15200/winn.144720.08769</a>',
+                'Colmers IN, Paterson QS, Lin M, Thoma B, Chan TM. The quality checklists for medical education blogs and podcasts. <i>The Winnower</i>. 2015. doi:<a href="https://dx.doi.org/10.15200/winn.144720.08769" target="_blank" rel="noopener noreferrer">10.15200/winn.144720.08769</a>.',
             );
             expect(formatReferenceLinks(testRefs[3], 'always')).toBe(
                 'Mathieu S. Trial of Early, Goal-Directed Resuscitation for Septic Shock. The Bottom Line. <a href="http://www.wessexics.com/The_Bottom_Line/Review/index.php?id=3665078336903245716" target="_blank" rel="noopener noreferrer">http://www.wessexics.com/The_Bottom_Line/Review/index.php?id=3665078336903245716</a>. Published 2015.',
@@ -459,7 +459,7 @@ describe('formatReferenceLinks()', () => {
             expect(
                 formatReferenceLinks(testRefs[2], 'always-full-surround'),
             ).toBe(
-                'Colmers IN, Paterson QS, Lin M, Thoma B, Chan TM. The quality checklists for medical education blogs and podcasts. <i>The Winnower</i>. 2015. doi: <a href="https://dx.doi.org/10.15200/winn.144720.08769" target="_blank" rel="noopener noreferrer">10.15200/winn.144720.08769</a>',
+                'Colmers IN, Paterson QS, Lin M, Thoma B, Chan TM. The quality checklists for medical education blogs and podcasts. <i>The Winnower</i>. 2015. doi:<a href="https://dx.doi.org/10.15200/winn.144720.08769" target="_blank" rel="noopener noreferrer">10.15200/winn.144720.08769</a>.',
             );
             expect(
                 formatReferenceLinks(testRefs[3], 'always-full-surround'),
@@ -502,7 +502,7 @@ describe('formatReferenceLinks()', () => {
                     value: PMID,
                 }),
             ).toBe(
-                'Colmers IN, Paterson QS, Lin M, Thoma B, Chan TM. The quality checklists for medical education blogs and podcasts. <i>The Winnower</i>. 2015. doi: <a href="https://dx.doi.org/10.15200/winn.144720.08769" target="_blank" rel="noopener noreferrer">10.15200/winn.144720.08769</a>',
+                'Colmers IN, Paterson QS, Lin M, Thoma B, Chan TM. The quality checklists for medical education blogs and podcasts. <i>The Winnower</i>. 2015. doi:<a href="https://dx.doi.org/10.15200/winn.144720.08769" target="_blank" rel="noopener noreferrer">10.15200/winn.144720.08769</a>.',
             );
             expect(
                 formatReferenceLinks(testRefs[3], 'urls', {
@@ -552,7 +552,7 @@ describe('formatReferenceLinks()', () => {
                     value: DOI,
                 }),
             ).toBe(
-                'Colmers IN, Paterson QS, Lin M, Thoma B, Chan TM. The quality checklists for medical education blogs and podcasts. <i>The Winnower</i>. 2015. doi: <a href="https://dx.doi.org/10.15200/winn.144720.08769" target="_blank" rel="noopener noreferrer">10.15200/winn.144720.08769</a>',
+                'Colmers IN, Paterson QS, Lin M, Thoma B, Chan TM. The quality checklists for medical education blogs and podcasts. <i>The Winnower</i>. 2015. doi:<a href="https://dx.doi.org/10.15200/winn.144720.08769" target="_blank" rel="noopener noreferrer">10.15200/winn.144720.08769</a>.',
             );
             expect(
                 formatReferenceLinks(testRefs[3], 'urls', {
@@ -602,7 +602,7 @@ describe('formatReferenceLinks()', () => {
                     value: PMCID,
                 }),
             ).toBe(
-                'Colmers IN, Paterson QS, Lin M, Thoma B, Chan TM. The quality checklists for medical education blogs and podcasts. <i>The Winnower</i>. 2015. doi: <a href="https://dx.doi.org/10.15200/winn.144720.08769" target="_blank" rel="noopener noreferrer">10.15200/winn.144720.08769</a>',
+                'Colmers IN, Paterson QS, Lin M, Thoma B, Chan TM. The quality checklists for medical education blogs and podcasts. <i>The Winnower</i>. 2015. doi:<a href="https://dx.doi.org/10.15200/winn.144720.08769" target="_blank" rel="noopener noreferrer">10.15200/winn.144720.08769</a>.',
             );
             expect(
                 formatReferenceLinks(testRefs[3], 'urls', {
@@ -652,7 +652,7 @@ describe('formatReferenceLinks()', () => {
                     value: URL,
                 }),
             ).toBe(
-                'Colmers IN, Paterson QS, Lin M, Thoma B, Chan TM. The quality checklists for medical education blogs and podcasts. <i>The Winnower</i>. 2015. doi: <a href="https://dx.doi.org/10.15200/winn.144720.08769" target="_blank" rel="noopener noreferrer">10.15200/winn.144720.08769</a>',
+                'Colmers IN, Paterson QS, Lin M, Thoma B, Chan TM. The quality checklists for medical education blogs and podcasts. <i>The Winnower</i>. 2015. doi:<a href="https://dx.doi.org/10.15200/winn.144720.08769" target="_blank" rel="noopener noreferrer">10.15200/winn.144720.08769</a>.',
             );
             expect(
                 formatReferenceLinks(testRefs[3], 'urls', {
@@ -687,7 +687,7 @@ describe('formatReferenceLinks()', () => {
                 'Chan T, Helman A, Davis T, Purdy E. MEdIC Series | The Case the FOAM Faux Pas – Expert Review and Curated Commentary. Academic Life in Emergency Medicine. <a href="http://aliem.com/MEdIC-Series-The-Case-the-FOAM-Faux-Pas-Expert-Review-and-Curated-Commentary" target="_blank" rel="noopener noreferrer">http://aliem.com/MEdIC-Series-The-Case-the-FOAM-Faux-Pas-Expert-Review-and-Curated-Commentary</a>. Published 2015.',
             );
             expect(formatReferenceLinks(testRefs[2], 'urls')).toBe(
-                'Colmers IN, Paterson QS, Lin M, Thoma B, Chan TM. The quality checklists for medical education blogs and podcasts. <i>The Winnower</i>. 2015. doi: <a href="https://dx.doi.org/10.15200/winn.144720.08769" target="_blank" rel="noopener noreferrer">10.15200/winn.144720.08769</a>',
+                'Colmers IN, Paterson QS, Lin M, Thoma B, Chan TM. The quality checklists for medical education blogs and podcasts. <i>The Winnower</i>. 2015. doi:<a href="https://dx.doi.org/10.15200/winn.144720.08769" target="_blank" rel="noopener noreferrer">10.15200/winn.144720.08769</a>.',
             );
             expect(formatReferenceLinks(testRefs[3], 'urls')).toBe(
                 'Mathieu S. Trial of Early, Goal-Directed Resuscitation for Septic Shock. The Bottom Line. <a href="http://www.wessexics.com/The_Bottom_Line/Review/index.php?id=3665078336903245716" target="_blank" rel="noopener noreferrer">http://www.wessexics.com/The_Bottom_Line/Review/index.php?id=3665078336903245716</a>. Published 2015.',

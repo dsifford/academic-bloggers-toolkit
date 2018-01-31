@@ -25,7 +25,7 @@ export function formatReferenceLinks(
     }
 
     const url: RegExp = /((?:https?:\/\/(?:www\.)?)|(?:www\.))([^;\s<]+[0-9a-zA-Z\/])/g;
-    const doi: RegExp = /doi:(\S+)\./g;
+    const doi: RegExp = /10\.[0-9]{4,}(?:\.[a-z0-9.]+)?\/\S+[^. ]/gi;
     const matches: Set<string> = new Set();
 
     const linkedHtml = decode(html)
@@ -34,9 +34,9 @@ export function formatReferenceLinks(
             matches.add(u);
             return `<a href="${u}" target="_blank" rel="noopener noreferrer">${u}</a>`;
         })
-        .replace(doi, (_match, p1) => {
+        .replace(doi, match => {
             matches.add('DOI');
-            return `doi: <a href="https://dx.doi.org/${p1}" target="_blank" rel="noopener noreferrer">${p1}</a>`;
+            return `<a href="https://dx.doi.org/${match}" target="_blank" rel="noopener noreferrer">${match}</a>`;
         });
 
     if (!id) {
