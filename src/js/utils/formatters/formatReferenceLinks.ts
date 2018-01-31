@@ -36,7 +36,7 @@ export function formatReferenceLinks(
         })
         .replace(doi, match => {
             matches.add('DOI');
-            return `<a href="https://dx.doi.org/${match}" target="_blank" rel="noopener noreferrer">${match}</a>`;
+            return `<a href="https://doi.org/${match}" target="_blank" rel="noopener noreferrer">${match}</a>`;
         });
 
     if (!id) {
@@ -77,7 +77,7 @@ class LinkStyle {
                 return oneLineTrim`
                     ${html}${' '}
                     <span class="abt-url">
-                        [<a href="https://dx.doi.org/${
+                        [<a href="https://doi.org/${
                             id.value
                         }" target="_blank" rel="noopener noreferrer">Source</a>]
                     </span>
@@ -123,7 +123,7 @@ class LinkStyle {
             }
             case 'DOI': {
                 return oneLineTrim`
-                    <a href="https://dx.doi.org/${
+                    <a href="https://doi.org/${
                         id.value
                     }" target="_blank" rel="noopener noreferrer">
                         ${html}

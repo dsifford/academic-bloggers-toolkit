@@ -82,7 +82,7 @@ export default class Demo extends React.Component<Props, State> {
                             </a>.
                             <i> J WordPress</i>. 2015;12(5):12-24. [
                             <a
-                                href="https://dx.doi.org/#1"
+                                href="https://doi.org/#1"
                                 target="_blank"
                                 rel="noopener noreferrer"
                             >
@@ -93,7 +93,7 @@ export default class Demo extends React.Component<Props, State> {
                     {links === 'always-full-surround' && (
                         <span>
                             <a
-                                href="https://dx.doi.org/#2"
+                                href="https://doi.org/#2"
                                 target="_blank"
                                 rel="noopener noreferrer"
                             >

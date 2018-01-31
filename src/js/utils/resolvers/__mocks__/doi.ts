@@ -44,7 +44,7 @@ const data: { [k: string]: any } = {
         'short-title': [],
         issued: { 'date-parts': [[2017, 8]] },
         'references-count': 43,
-        URL: 'http://dx.doi.org/10.1097/TA.0000000000001549',
+        URL: 'http://doi.org/10.1097/TA.0000000000001549',
         relation: {},
         ISSN: ['2163-0755'],
         subject: ['Surgery', 'Critical Care and Intensive Care Medicine'],
@@ -112,7 +112,7 @@ const data: { [k: string]: any } = {
         'short-title': [],
         issued: { 'date-parts': [[2017, 8]] },
         'references-count': 34,
-        URL: 'http://dx.doi.org/10.1097/TA.0000000000001546',
+        URL: 'http://doi.org/10.1097/TA.0000000000001546',
         relation: {},
         ISSN: ['2163-0755'],
         subject: ['Surgery', 'Critical Care and Intensive Care Medicine'],
@@ -139,7 +139,8 @@ const data: { [k: string]: any } = {
         page: '11-18',
         source: 'Crossref',
         'is-referenced-by-count': 0,
-        title: 'Multicenter retrospective study of noncompressible torso hemorrhage',
+        title:
+            'Multicenter retrospective study of noncompressible torso hemorrhage',
         prefix: '10.1097',
         volume: '83',
         author: [
@@ -152,7 +153,12 @@ const data: { [k: string]: any } = {
             { given: 'Stacia M.', family: 'DeSantis', affiliation: [] },
             { given: 'Joseph J.', family: 'DuBose', affiliation: [] },
             { given: 'Jeffrey S.', family: 'Tomasek', affiliation: [] },
-            { suffix: 'Jr.', given: 'Gerald R.', family: 'Fortuna', affiliation: [] },
+            {
+                suffix: 'Jr.',
+                given: 'Gerald R.',
+                family: 'Fortuna',
+                affiliation: [],
+            },
             { given: 'Valerie G.', family: 'Sams', affiliation: [] },
             { given: 'S. Rob', family: 'Todd', affiliation: [] },
             { given: 'Jeanette M.', family: 'Podbielski', affiliation: [] },
@@ -174,7 +180,7 @@ const data: { [k: string]: any } = {
         'short-title': [],
         issued: { 'date-parts': [[2017, 7]] },
         'references-count': 34,
-        URL: 'http://dx.doi.org/10.1097/TA.0000000000001530',
+        URL: 'http://doi.org/10.1097/TA.0000000000001530',
         relation: {},
         ISSN: ['2163-0755'],
         'container-title-short': 'Journal of Trauma and Acute Care Surgery',
@@ -183,7 +189,9 @@ const data: { [k: string]: any } = {
 
 type DOIPayload = [CSL.Data[], string[]];
 
-export async function getFromDOI(doiList: string[]): Promise<[CSL.Data[], string[]]> {
+export async function getFromDOI(
+    doiList: string[],
+): Promise<[CSL.Data[], string[]]> {
     return new Promise<DOIPayload>((resolve, reject): void => {
         let payload: DOIPayload;
         try {

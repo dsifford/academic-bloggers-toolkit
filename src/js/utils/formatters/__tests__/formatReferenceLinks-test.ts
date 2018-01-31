@@ -46,7 +46,7 @@ describe('formatReferenceLinks()', () => {
                     value: PMID,
                 }),
             ).toBe(
-                'Colmers IN, Paterson QS, Lin M, Thoma B, Chan TM. The quality checklists for medical education blogs and podcasts. <i>The Winnower</i>. 2015. doi:<a href="https://dx.doi.org/10.15200/winn.144720.08769" target="_blank" rel="noopener noreferrer">10.15200/winn.144720.08769</a>. <span class="abt-url">[<a href="https://www.ncbi.nlm.nih.gov/pubmed/12345" target="_blank" rel="noopener noreferrer">PubMed</a>]</span>',
+                'Colmers IN, Paterson QS, Lin M, Thoma B, Chan TM. The quality checklists for medical education blogs and podcasts. <i>The Winnower</i>. 2015. doi:<a href="https://doi.org/10.15200/winn.144720.08769" target="_blank" rel="noopener noreferrer">10.15200/winn.144720.08769</a>. <span class="abt-url">[<a href="https://www.ncbi.nlm.nih.gov/pubmed/12345" target="_blank" rel="noopener noreferrer">PubMed</a>]</span>',
             );
             expect(
                 formatReferenceLinks(testRefs[3], 'always', {
@@ -80,7 +80,7 @@ describe('formatReferenceLinks()', () => {
                     value: DOI,
                 }),
             ).toBe(
-                'Body R. The ProMISe Study: EGDT RIP? St. Emlyn’s website. <a href="http://stemlynsblog.org/the-promise-study-egdt-rip/" target="_blank" rel="noopener noreferrer">http://stemlynsblog.org/the-promise-study-egdt-rip/</a>; <a href="http://blogs.nejm.org/now/index.php/the-final-nail-in-early-goal-directed-therapys-coffin/2015/03/24/" target="_blank" rel="noopener noreferrer">http://blogs.nejm.org/now/index.php/the-final-nail-in-early-goal-directed-therapys-coffin/2015/03/24/</a>. Published 2015. <span class="abt-url">[<a href="https://dx.doi.org/10.1097/TA.0000000000001031" target="_blank" rel="noopener noreferrer">Source</a>]</span>',
+                'Body R. The ProMISe Study: EGDT RIP? St. Emlyn’s website. <a href="http://stemlynsblog.org/the-promise-study-egdt-rip/" target="_blank" rel="noopener noreferrer">http://stemlynsblog.org/the-promise-study-egdt-rip/</a>; <a href="http://blogs.nejm.org/now/index.php/the-final-nail-in-early-goal-directed-therapys-coffin/2015/03/24/" target="_blank" rel="noopener noreferrer">http://blogs.nejm.org/now/index.php/the-final-nail-in-early-goal-directed-therapys-coffin/2015/03/24/</a>. Published 2015. <span class="abt-url">[<a href="https://doi.org/10.1097/TA.0000000000001031" target="_blank" rel="noopener noreferrer">Source</a>]</span>',
             );
             expect(
                 formatReferenceLinks(testRefs[1], 'always', {
@@ -88,7 +88,7 @@ describe('formatReferenceLinks()', () => {
                     value: DOI,
                 }),
             ).toBe(
-                'Chan T, Helman A, Davis T, Purdy E. MEdIC Series | The Case the FOAM Faux Pas – Expert Review and Curated Commentary. Academic Life in Emergency Medicine. <a href="http://aliem.com/MEdIC-Series-The-Case-the-FOAM-Faux-Pas-Expert-Review-and-Curated-Commentary" target="_blank" rel="noopener noreferrer">http://aliem.com/MEdIC-Series-The-Case-the-FOAM-Faux-Pas-Expert-Review-and-Curated-Commentary</a>. Published 2015. <span class="abt-url">[<a href="https://dx.doi.org/10.1097/TA.0000000000001031" target="_blank" rel="noopener noreferrer">Source</a>]</span>',
+                'Chan T, Helman A, Davis T, Purdy E. MEdIC Series | The Case the FOAM Faux Pas – Expert Review and Curated Commentary. Academic Life in Emergency Medicine. <a href="http://aliem.com/MEdIC-Series-The-Case-the-FOAM-Faux-Pas-Expert-Review-and-Curated-Commentary" target="_blank" rel="noopener noreferrer">http://aliem.com/MEdIC-Series-The-Case-the-FOAM-Faux-Pas-Expert-Review-and-Curated-Commentary</a>. Published 2015. <span class="abt-url">[<a href="https://doi.org/10.1097/TA.0000000000001031" target="_blank" rel="noopener noreferrer">Source</a>]</span>',
             );
             expect(
                 formatReferenceLinks(testRefs[2], 'always', {
@@ -96,7 +96,7 @@ describe('formatReferenceLinks()', () => {
                     value: DOI,
                 }),
             ).toBe(
-                'Colmers IN, Paterson QS, Lin M, Thoma B, Chan TM. The quality checklists for medical education blogs and podcasts. <i>The Winnower</i>. 2015. doi:<a href="https://dx.doi.org/10.15200/winn.144720.08769" target="_blank" rel="noopener noreferrer">10.15200/winn.144720.08769</a>.',
+                'Colmers IN, Paterson QS, Lin M, Thoma B, Chan TM. The quality checklists for medical education blogs and podcasts. <i>The Winnower</i>. 2015. doi:<a href="https://doi.org/10.15200/winn.144720.08769" target="_blank" rel="noopener noreferrer">10.15200/winn.144720.08769</a>.',
             );
             expect(
                 formatReferenceLinks(testRefs[3], 'always', {
@@ -104,7 +104,7 @@ describe('formatReferenceLinks()', () => {
                     value: DOI,
                 }),
             ).toBe(
-                'Mathieu S. Trial of Early, Goal-Directed Resuscitation for Septic Shock. The Bottom Line. <a href="http://www.wessexics.com/The_Bottom_Line/Review/index.php?id=3665078336903245716" target="_blank" rel="noopener noreferrer">http://www.wessexics.com/The_Bottom_Line/Review/index.php?id=3665078336903245716</a>. Published 2015. <span class="abt-url">[<a href="https://dx.doi.org/10.1097/TA.0000000000001031" target="_blank" rel="noopener noreferrer">Source</a>]</span>',
+                'Mathieu S. Trial of Early, Goal-Directed Resuscitation for Septic Shock. The Bottom Line. <a href="http://www.wessexics.com/The_Bottom_Line/Review/index.php?id=3665078336903245716" target="_blank" rel="noopener noreferrer">http://www.wessexics.com/The_Bottom_Line/Review/index.php?id=3665078336903245716</a>. Published 2015. <span class="abt-url">[<a href="https://doi.org/10.1097/TA.0000000000001031" target="_blank" rel="noopener noreferrer">Source</a>]</span>',
             );
             expect(
                 formatReferenceLinks(testRefs[4], 'always', {
@@ -112,7 +112,7 @@ describe('formatReferenceLinks()', () => {
                     value: DOI,
                 }),
             ).toBe(
-                'Cameron P. Pundit-Based Medicine. Emergency Physicians International. <span class="abt-url">[<a href="https://dx.doi.org/10.1097/TA.0000000000001031" target="_blank" rel="noopener noreferrer">Source</a>]</span>',
+                'Cameron P. Pundit-Based Medicine. Emergency Physicians International. <span class="abt-url">[<a href="https://doi.org/10.1097/TA.0000000000001031" target="_blank" rel="noopener noreferrer">Source</a>]</span>',
             );
             expect(
                 formatReferenceLinks(testRefs[5], 'always', {
@@ -120,7 +120,7 @@ describe('formatReferenceLinks()', () => {
                     value: DOI,
                 }),
             ).toBe(
-                `Dunning J. Unskilled and unaware of it. <i>Journal of Personality and Social Psychology</i>. 1999;77(6):1121-1134. <a href="http://psych.colorado.edu/~vanboven/teaching/p7536_heurbias/p7536_readings/kruger_dunning.pdf" target="_blank" rel="noopener noreferrer">http://psych.colorado.edu/~vanboven/teaching/p7536_heurbias/p7536_readings/kruger_dunning.pdf</a>. <span class="abt-url">[<a href="https://dx.doi.org/10.1097/TA.0000000000001031" target="_blank" rel="noopener noreferrer">Source</a>]</span>`,
+                `Dunning J. Unskilled and unaware of it. <i>Journal of Personality and Social Psychology</i>. 1999;77(6):1121-1134. <a href="http://psych.colorado.edu/~vanboven/teaching/p7536_heurbias/p7536_readings/kruger_dunning.pdf" target="_blank" rel="noopener noreferrer">http://psych.colorado.edu/~vanboven/teaching/p7536_heurbias/p7536_readings/kruger_dunning.pdf</a>. <span class="abt-url">[<a href="https://doi.org/10.1097/TA.0000000000001031" target="_blank" rel="noopener noreferrer">Source</a>]</span>`,
             );
         });
         it('should handle PMCIDs', () => {
@@ -146,7 +146,7 @@ describe('formatReferenceLinks()', () => {
                     value: PMCID,
                 }),
             ).toBe(
-                'Colmers IN, Paterson QS, Lin M, Thoma B, Chan TM. The quality checklists for medical education blogs and podcasts. <i>The Winnower</i>. 2015. doi:<a href="https://dx.doi.org/10.15200/winn.144720.08769" target="_blank" rel="noopener noreferrer">10.15200/winn.144720.08769</a>. <span class="abt-url">[<a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC12345" target="_blank" rel="noopener noreferrer">PMC</a>]</span>',
+                'Colmers IN, Paterson QS, Lin M, Thoma B, Chan TM. The quality checklists for medical education blogs and podcasts. <i>The Winnower</i>. 2015. doi:<a href="https://doi.org/10.15200/winn.144720.08769" target="_blank" rel="noopener noreferrer">10.15200/winn.144720.08769</a>. <span class="abt-url">[<a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC12345" target="_blank" rel="noopener noreferrer">PMC</a>]</span>',
             );
             expect(
                 formatReferenceLinks(testRefs[3], 'always', {
@@ -196,7 +196,7 @@ describe('formatReferenceLinks()', () => {
                     value: URL,
                 }),
             ).toBe(
-                'Colmers IN, Paterson QS, Lin M, Thoma B, Chan TM. The quality checklists for medical education blogs and podcasts. <i>The Winnower</i>. 2015. doi:<a href="https://dx.doi.org/10.15200/winn.144720.08769" target="_blank" rel="noopener noreferrer">10.15200/winn.144720.08769</a>. <span class="abt-url">[<a href="https://www.google.com" target="_blank" rel="noopener noreferrer">Source</a>]</span>',
+                'Colmers IN, Paterson QS, Lin M, Thoma B, Chan TM. The quality checklists for medical education blogs and podcasts. <i>The Winnower</i>. 2015. doi:<a href="https://doi.org/10.15200/winn.144720.08769" target="_blank" rel="noopener noreferrer">10.15200/winn.144720.08769</a>. <span class="abt-url">[<a href="https://www.google.com" target="_blank" rel="noopener noreferrer">Source</a>]</span>',
             );
             expect(
                 formatReferenceLinks(testRefs[3], 'always', {
@@ -231,7 +231,7 @@ describe('formatReferenceLinks()', () => {
                 'Chan T, Helman A, Davis T, Purdy E. MEdIC Series | The Case the FOAM Faux Pas – Expert Review and Curated Commentary. Academic Life in Emergency Medicine. <a href="http://aliem.com/MEdIC-Series-The-Case-the-FOAM-Faux-Pas-Expert-Review-and-Curated-Commentary" target="_blank" rel="noopener noreferrer">http://aliem.com/MEdIC-Series-The-Case-the-FOAM-Faux-Pas-Expert-Review-and-Curated-Commentary</a>. Published 2015.',
             );
             expect(formatReferenceLinks(testRefs[2], 'always')).toBe(
-                'Colmers IN, Paterson QS, Lin M, Thoma B, Chan TM. The quality checklists for medical education blogs and podcasts. <i>The Winnower</i>. 2015. doi:<a href="https://dx.doi.org/10.15200/winn.144720.08769" target="_blank" rel="noopener noreferrer">10.15200/winn.144720.08769</a>.',
+                'Colmers IN, Paterson QS, Lin M, Thoma B, Chan TM. The quality checklists for medical education blogs and podcasts. <i>The Winnower</i>. 2015. doi:<a href="https://doi.org/10.15200/winn.144720.08769" target="_blank" rel="noopener noreferrer">10.15200/winn.144720.08769</a>.',
             );
             expect(formatReferenceLinks(testRefs[3], 'always')).toBe(
                 'Mathieu S. Trial of Early, Goal-Directed Resuscitation for Septic Shock. The Bottom Line. <a href="http://www.wessexics.com/The_Bottom_Line/Review/index.php?id=3665078336903245716" target="_blank" rel="noopener noreferrer">http://www.wessexics.com/The_Bottom_Line/Review/index.php?id=3665078336903245716</a>. Published 2015.',
@@ -302,7 +302,7 @@ describe('formatReferenceLinks()', () => {
                     value: DOI,
                 }),
             ).toBe(
-                '<a href="https://dx.doi.org/10.1097/TA.0000000000001031" target="_blank" rel="noopener noreferrer">Body R. The ProMISe Study: EGDT RIP? St. Emlyn’s website. http://stemlynsblog.org/the-promise-study-egdt-rip/; http://blogs.nejm.org/now/index.php/the-final-nail-in-early-goal-directed-therapys-coffin/2015/03/24/. Published 2015.</a>',
+                '<a href="https://doi.org/10.1097/TA.0000000000001031" target="_blank" rel="noopener noreferrer">Body R. The ProMISe Study: EGDT RIP? St. Emlyn’s website. http://stemlynsblog.org/the-promise-study-egdt-rip/; http://blogs.nejm.org/now/index.php/the-final-nail-in-early-goal-directed-therapys-coffin/2015/03/24/. Published 2015.</a>',
             );
             expect(
                 formatReferenceLinks(testRefs[1], 'always-full-surround', {
@@ -310,7 +310,7 @@ describe('formatReferenceLinks()', () => {
                     value: DOI,
                 }),
             ).toBe(
-                '<a href="https://dx.doi.org/10.1097/TA.0000000000001031" target="_blank" rel="noopener noreferrer">Chan T, Helman A, Davis T, Purdy E. MEdIC Series | The Case the FOAM Faux Pas – Expert Review and Curated Commentary. Academic Life in Emergency Medicine. www.aliem.com/MEdIC-Series-The-Case-the-FOAM-Faux-Pas-Expert-Review-and-Curated-Commentary. Published 2015.</a>',
+                '<a href="https://doi.org/10.1097/TA.0000000000001031" target="_blank" rel="noopener noreferrer">Chan T, Helman A, Davis T, Purdy E. MEdIC Series | The Case the FOAM Faux Pas – Expert Review and Curated Commentary. Academic Life in Emergency Medicine. www.aliem.com/MEdIC-Series-The-Case-the-FOAM-Faux-Pas-Expert-Review-and-Curated-Commentary. Published 2015.</a>',
             );
             expect(
                 formatReferenceLinks(testRefs[2], 'always-full-surround', {
@@ -318,7 +318,7 @@ describe('formatReferenceLinks()', () => {
                     value: DOI,
                 }),
             ).toBe(
-                '<a href="https://dx.doi.org/10.1097/TA.0000000000001031" target="_blank" rel="noopener noreferrer">Colmers IN, Paterson QS, Lin M, Thoma B, Chan TM. The quality checklists for medical education blogs and podcasts. <i>The Winnower</i>. 2015. doi:10.15200/winn.144720.08769.</a>',
+                '<a href="https://doi.org/10.1097/TA.0000000000001031" target="_blank" rel="noopener noreferrer">Colmers IN, Paterson QS, Lin M, Thoma B, Chan TM. The quality checklists for medical education blogs and podcasts. <i>The Winnower</i>. 2015. doi:10.15200/winn.144720.08769.</a>',
             );
             expect(
                 formatReferenceLinks(testRefs[3], 'always-full-surround', {
@@ -326,7 +326,7 @@ describe('formatReferenceLinks()', () => {
                     value: DOI,
                 }),
             ).toBe(
-                '<a href="https://dx.doi.org/10.1097/TA.0000000000001031" target="_blank" rel="noopener noreferrer">Mathieu S. Trial of Early, Goal-Directed Resuscitation for Septic Shock. The Bottom Line. http://www.wessexics.com/The_Bottom_Line/Review/index.php?id=3665078336903245716. Published 2015.</a>',
+                '<a href="https://doi.org/10.1097/TA.0000000000001031" target="_blank" rel="noopener noreferrer">Mathieu S. Trial of Early, Goal-Directed Resuscitation for Septic Shock. The Bottom Line. http://www.wessexics.com/The_Bottom_Line/Review/index.php?id=3665078336903245716. Published 2015.</a>',
             );
             expect(
                 formatReferenceLinks(testRefs[4], 'always-full-surround', {
@@ -334,7 +334,7 @@ describe('formatReferenceLinks()', () => {
                     value: DOI,
                 }),
             ).toBe(
-                '<a href="https://dx.doi.org/10.1097/TA.0000000000001031" target="_blank" rel="noopener noreferrer">Cameron P. Pundit-Based Medicine. Emergency Physicians International.</a>',
+                '<a href="https://doi.org/10.1097/TA.0000000000001031" target="_blank" rel="noopener noreferrer">Cameron P. Pundit-Based Medicine. Emergency Physicians International.</a>',
             );
             expect(
                 formatReferenceLinks(testRefs[5], 'always-full-surround', {
@@ -342,7 +342,7 @@ describe('formatReferenceLinks()', () => {
                     value: DOI,
                 }),
             ).toBe(
-                `<a href="https://dx.doi.org/10.1097/TA.0000000000001031" target="_blank" rel="noopener noreferrer">Dunning J. Unskilled and unaware of it. <i>Journal of Personality and Social Psychology</i>. 1999;77(6):1121-1134. http://psych.colorado.edu/~vanboven/teaching/p7536_heurbias/p7536_readings/kruger_dunning.pdf.</a>`,
+                `<a href="https://doi.org/10.1097/TA.0000000000001031" target="_blank" rel="noopener noreferrer">Dunning J. Unskilled and unaware of it. <i>Journal of Personality and Social Psychology</i>. 1999;77(6):1121-1134. http://psych.colorado.edu/~vanboven/teaching/p7536_heurbias/p7536_readings/kruger_dunning.pdf.</a>`,
             );
         });
         it('should handle PMCIDs', () => {
@@ -459,7 +459,7 @@ describe('formatReferenceLinks()', () => {
             expect(
                 formatReferenceLinks(testRefs[2], 'always-full-surround'),
             ).toBe(
-                'Colmers IN, Paterson QS, Lin M, Thoma B, Chan TM. The quality checklists for medical education blogs and podcasts. <i>The Winnower</i>. 2015. doi:<a href="https://dx.doi.org/10.15200/winn.144720.08769" target="_blank" rel="noopener noreferrer">10.15200/winn.144720.08769</a>.',
+                'Colmers IN, Paterson QS, Lin M, Thoma B, Chan TM. The quality checklists for medical education blogs and podcasts. <i>The Winnower</i>. 2015. doi:<a href="https://doi.org/10.15200/winn.144720.08769" target="_blank" rel="noopener noreferrer">10.15200/winn.144720.08769</a>.',
             );
             expect(
                 formatReferenceLinks(testRefs[3], 'always-full-surround'),
@@ -502,7 +502,7 @@ describe('formatReferenceLinks()', () => {
                     value: PMID,
                 }),
             ).toBe(
-                'Colmers IN, Paterson QS, Lin M, Thoma B, Chan TM. The quality checklists for medical education blogs and podcasts. <i>The Winnower</i>. 2015. doi:<a href="https://dx.doi.org/10.15200/winn.144720.08769" target="_blank" rel="noopener noreferrer">10.15200/winn.144720.08769</a>.',
+                'Colmers IN, Paterson QS, Lin M, Thoma B, Chan TM. The quality checklists for medical education blogs and podcasts. <i>The Winnower</i>. 2015. doi:<a href="https://doi.org/10.15200/winn.144720.08769" target="_blank" rel="noopener noreferrer">10.15200/winn.144720.08769</a>.',
             );
             expect(
                 formatReferenceLinks(testRefs[3], 'urls', {
@@ -552,7 +552,7 @@ describe('formatReferenceLinks()', () => {
                     value: DOI,
                 }),
             ).toBe(
-                'Colmers IN, Paterson QS, Lin M, Thoma B, Chan TM. The quality checklists for medical education blogs and podcasts. <i>The Winnower</i>. 2015. doi:<a href="https://dx.doi.org/10.15200/winn.144720.08769" target="_blank" rel="noopener noreferrer">10.15200/winn.144720.08769</a>.',
+                'Colmers IN, Paterson QS, Lin M, Thoma B, Chan TM. The quality checklists for medical education blogs and podcasts. <i>The Winnower</i>. 2015. doi:<a href="https://doi.org/10.15200/winn.144720.08769" target="_blank" rel="noopener noreferrer">10.15200/winn.144720.08769</a>.',
             );
             expect(
                 formatReferenceLinks(testRefs[3], 'urls', {
@@ -602,7 +602,7 @@ describe('formatReferenceLinks()', () => {
                     value: PMCID,
                 }),
             ).toBe(
-                'Colmers IN, Paterson QS, Lin M, Thoma B, Chan TM. The quality checklists for medical education blogs and podcasts. <i>The Winnower</i>. 2015. doi:<a href="https://dx.doi.org/10.15200/winn.144720.08769" target="_blank" rel="noopener noreferrer">10.15200/winn.144720.08769</a>.',
+                'Colmers IN, Paterson QS, Lin M, Thoma B, Chan TM. The quality checklists for medical education blogs and podcasts. <i>The Winnower</i>. 2015. doi:<a href="https://doi.org/10.15200/winn.144720.08769" target="_blank" rel="noopener noreferrer">10.15200/winn.144720.08769</a>.',
             );
             expect(
                 formatReferenceLinks(testRefs[3], 'urls', {
@@ -652,7 +652,7 @@ describe('formatReferenceLinks()', () => {
                     value: URL,
                 }),
             ).toBe(
-                'Colmers IN, Paterson QS, Lin M, Thoma B, Chan TM. The quality checklists for medical education blogs and podcasts. <i>The Winnower</i>. 2015. doi:<a href="https://dx.doi.org/10.15200/winn.144720.08769" target="_blank" rel="noopener noreferrer">10.15200/winn.144720.08769</a>.',
+                'Colmers IN, Paterson QS, Lin M, Thoma B, Chan TM. The quality checklists for medical education blogs and podcasts. <i>The Winnower</i>. 2015. doi:<a href="https://doi.org/10.15200/winn.144720.08769" target="_blank" rel="noopener noreferrer">10.15200/winn.144720.08769</a>.',
             );
             expect(
                 formatReferenceLinks(testRefs[3], 'urls', {
@@ -687,7 +687,7 @@ describe('formatReferenceLinks()', () => {
                 'Chan T, Helman A, Davis T, Purdy E. MEdIC Series | The Case the FOAM Faux Pas – Expert Review and Curated Commentary. Academic Life in Emergency Medicine. <a href="http://aliem.com/MEdIC-Series-The-Case-the-FOAM-Faux-Pas-Expert-Review-and-Curated-Commentary" target="_blank" rel="noopener noreferrer">http://aliem.com/MEdIC-Series-The-Case-the-FOAM-Faux-Pas-Expert-Review-and-Curated-Commentary</a>. Published 2015.',
             );
             expect(formatReferenceLinks(testRefs[2], 'urls')).toBe(
-                'Colmers IN, Paterson QS, Lin M, Thoma B, Chan TM. The quality checklists for medical education blogs and podcasts. <i>The Winnower</i>. 2015. doi:<a href="https://dx.doi.org/10.15200/winn.144720.08769" target="_blank" rel="noopener noreferrer">10.15200/winn.144720.08769</a>.',
+                'Colmers IN, Paterson QS, Lin M, Thoma B, Chan TM. The quality checklists for medical education blogs and podcasts. <i>The Winnower</i>. 2015. doi:<a href="https://doi.org/10.15200/winn.144720.08769" target="_blank" rel="noopener noreferrer">10.15200/winn.144720.08769</a>.',
             );
             expect(formatReferenceLinks(testRefs[3], 'urls')).toBe(
                 'Mathieu S. Trial of Early, Goal-Directed Resuscitation for Septic Shock. The Bottom Line. <a href="http://www.wessexics.com/The_Bottom_Line/Review/index.php?id=3665078336903245716" target="_blank" rel="noopener noreferrer">http://www.wessexics.com/The_Bottom_Line/Review/index.php?id=3665078336903245716</a>. Published 2015.',

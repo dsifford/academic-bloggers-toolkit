@@ -21,7 +21,6 @@ rules:
     no-angle-bracket-type-assertion: false
     no-default-export: false
     no-implicit-dependencies: false
-    no-inferred-empty-object-type: true
     no-object-literal-type-assertion: false
     no-submodule-imports: false
     no-unnecessary-type-assertion: true

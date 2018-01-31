@@ -139,7 +139,10 @@ export async function getFromURL(url: string): Promise<AutociteResponse> {
     const headers = new Headers({
         'Content-Type': 'application/x-www-form-urlencoded',
     });
-    const body = new URLSearchParams(
+    // FIXME: This is a bug in typescript. URLSearchParams are currently
+    // not accepted in the typescript definitions for `fetch` even though
+    // they should be.
+    const body: any = new URLSearchParams(
         `action=get_website_meta&site_url=${encodeURIComponent(url)}`,
     );
     const req = await fetch(top.ajaxurl, {

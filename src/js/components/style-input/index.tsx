@@ -84,12 +84,12 @@ export default class StyleInput extends React.Component<Props, State> {
             <AutoSuggest
                 ref={this.bindRefs}
                 theme={styles}
-                suggestions={this.state.suggestions}
+                suggestions={this.state.suggestions as any}
                 onSuggestionsFetchRequested={this.handleSuggestionsFetch}
                 onSuggestionsClearRequested={this.handleSuggestionsClear}
-                onSuggestionSelected={this.props.onSelected}
-                getSuggestionValue={StyleInput.getSuggestionValue}
-                renderSuggestion={StyleInput.getSuggestionValue}
+                onSuggestionSelected={this.props.onSelected as any}
+                getSuggestionValue={StyleInput.getSuggestionValue as any}
+                renderSuggestion={StyleInput.getSuggestionValue as any}
                 inputProps={inputProps}
             />
         );

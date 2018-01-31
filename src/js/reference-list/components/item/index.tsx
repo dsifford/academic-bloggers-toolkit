@@ -108,7 +108,8 @@ function parseDate(date?: CSL.Date | any): string {
     if (
         date['date-parts'] &&
         date['date-parts'][0].length !== 0 &&
-        date['date-parts'][0][0] !== undefined
+        date['date-parts'][0][0] !== undefined &&
+        date['date-parts'][0][0] !== null
     ) {
         return `${date['date-parts'][0][0]}`;
     }

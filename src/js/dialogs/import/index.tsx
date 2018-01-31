@@ -30,8 +30,6 @@ export default class ImportDialog extends React.Component<DialogProps> {
         value: '',
     };
 
-    inputField: HTMLInputElement;
-
     /**
      * Array of `CSL.Data` obtained from the file import
      */

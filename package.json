@@ -43,7 +43,7 @@
     "@types/he": "^0.5.29",
     "@types/jest": "^22.1.1",
     "@types/node": "^9.4.0",
-    "@types/react": "^16.0.35",
+    "@types/react": "^16.0.36",
     "@types/react-autosuggest": "^9.3.2",
     "@types/react-dom": "^16.0.3",
     "@types/react-test-renderer": "^16.0.0",
@@ -53,7 +53,7 @@
     "babel-loader": "^8.0.0-beta.0",
     "browser-sync": "^2.23.6",
     "browser-sync-webpack-plugin": "^1.2.0",
-    "bundlesize": "^0.15.3",
+    "bundlesize": "^0.16.0",
     "classnames": "^2.2.5",
     "copy-webpack-plugin": "^4.3.1",
     "css-loader": "^0.28.9",
@@ -106,7 +106,7 @@
     "react-autosuggest": "^9.3.2",
     "react-dom": "^16.2.0",
     "string-hash": "^1.1.3",
-    "typescript": "^2.6.2"
+    "typescript": "^2.7.1"
   },
   "bundlesize": [
     {

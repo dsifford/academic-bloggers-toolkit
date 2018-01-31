@@ -22,7 +22,7 @@ export default class AddDialog extends React.Component<DialogProps> {
      * Reference to the identifier input field in `IdentifierInput`.
      * Used for focus/refocus.
      */
-    identifierInputField: HTMLInputElement | null;
+    identifierInputField: HTMLInputElement | null = null;
 
     store = new Store('webpage');
 

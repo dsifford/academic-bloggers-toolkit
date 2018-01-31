@@ -48,7 +48,7 @@ exports[`<Demo /> Snapshots should render correct heading level 1`] = `
       </i>
       . 2015;12(5):12-24. [
       <a
-        href="https://dx.doi.org/#1"
+        href="https://doi.org/#1"
         rel="noopener noreferrer"
         target="_blank"
       >
@@ -223,7 +223,7 @@ exports[`<Demo /> Snapshots should render correct link format 1`] = `
       </i>
       . 2015;12(5):12-24. [
       <a
-        href="https://dx.doi.org/#1"
+        href="https://doi.org/#1"
         rel="noopener noreferrer"
         target="_blank"
       >
@@ -249,7 +249,7 @@ exports[`<Demo /> Snapshots should render correct link format 2`] = `
 +       Sifford D P. Academic Blogger’s Toolkit:
 +        
         <a
--         href=\\"https://dx.doi.org/#2\\"
+-         href=\\"https://doi.org/#2\\"
 +         href=\\"https://wordpress.org/plugins/academic-bloggers-toolkit/\\"
           rel=\\"noopener noreferrer\\"
           target=\\"_blank\\"
@@ -266,7 +266,7 @@ exports[`<Demo /> Snapshots should render correct link format 2`] = `
 -         . 2015;12(5):12-24.
 +       . 2015;12(5):12-24. [
 +       <a
-+         href=\\"https://dx.doi.org/#1\\"
++         href=\\"https://doi.org/#1\\"
 +         rel=\\"noopener noreferrer\\"
 +         target=\\"_blank\\"
 +       >
@@ -308,7 +308,7 @@ exports[`<Demo /> Snapshots should render correct link format 3`] = `
 -       . 2015;12(5):12-24.
 +       . 2015;12(5):12-24. [
 +       <a
-+         href=\\"https://dx.doi.org/#1\\"
++         href=\\"https://doi.org/#1\\"
 +         rel=\\"noopener noreferrer\\"
 +         target=\\"_blank\\"
 +       >
@@ -347,7 +347,7 @@ exports[`<Demo /> Snapshots should render correct link format 4`] = `
 -       . 2015;12(5):12-24.
 +       . 2015;12(5):12-24. [
 +       <a
-+         href=\\"https://dx.doi.org/#1\\"
++         href=\\"https://doi.org/#1\\"
 +         rel=\\"noopener noreferrer\\"
 +         target=\\"_blank\\"
 +       >
@@ -407,7 +407,7 @@ exports[`<Demo /> Snapshots should render headings 1`] = `
       </i>
       . 2015;12(5):12-24. [
       <a
-        href="https://dx.doi.org/#1"
+        href="https://doi.org/#1"
         rel="noopener noreferrer"
         target="_blank"
       >
