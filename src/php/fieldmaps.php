@@ -8,7 +8,6 @@ function fieldmaps() {
 	$patterns = (object) [
 		'non_whitespace' => '\S*',
 		'numeric'        => '[0-9]+',
-		'numeric_range'  => '[0-9]+(?:-[0-9]+)?',
 		'date'           => '[0-2][0-9]{3}(?:(\/(?:0[1-9]|1[0-2]))(\/(?:[0-2][0-9]|3[0-1]))?)?',
 	];
 
@@ -25,10 +24,8 @@ function fieldmaps() {
 				'label' => __( 'Bill Number', 'academic-bloggers-toolkit' ),
 			],
 			[
-				'value'   => 'page',
-				'label'   => __( 'Code Pages', 'academic-bloggers-toolkit' ),
-				'pattern' => $patterns->numeric_range,
-				'title'   => __( 'Number or Range of Numbers (100-200)', 'academic-bloggers-toolkit' ),
+				'value' => 'page',
+				'label' => __( 'Code Pages', 'academic-bloggers-toolkit' ),
 			],
 			[
 				'value'   => 'volume',
@@ -205,8 +202,6 @@ function fieldmaps() {
 				'value'    => 'page',
 				'label'    => __( 'Pages', 'academic-bloggers-toolkit' ),
 				'required' => true,
-				'pattern'  => $patterns->numeric_range,
-				'title'    => __( 'Number or Range of Numbers (100-200)', 'academic-bloggers-toolkit' ),
 			],
 			[
 				'value' => 'ISBN',
@@ -443,8 +438,6 @@ function fieldmaps() {
 				'value'    => 'page',
 				'label'    => __( 'Pages', 'academic-bloggers-toolkit' ),
 				'required' => true,
-				'pattern'  => $patterns->numeric_range,
-				'title'    => __( 'Number or Range of Numbers (100-200)', 'academic-bloggers-toolkit' ),
 			],
 			[
 				'value'    => 'issued',
@@ -612,10 +605,8 @@ function fieldmaps() {
 				'pattern' => $patterns->numeric,
 			],
 			[
-				'value'   => 'page',
-				'label'   => __( 'Pages', 'academic-bloggers-toolkit' ),
-				'pattern' => $patterns->numeric_range,
-				'title'   => __( 'Number or Range of Numbers (100-200)', 'academic-bloggers-toolkit' ),
+				'value' => 'page',
+				'label' => __( 'Pages', 'academic-bloggers-toolkit' ),
 			],
 			[
 				'value' => 'DOI',
@@ -668,8 +659,6 @@ function fieldmaps() {
 				'value'    => 'page',
 				'label'    => __( 'Pages', 'academic-bloggers-toolkit' ),
 				'required' => true,
-				'pattern'  => $patterns->numeric_range,
-				'title'    => __( 'Number or Range of Numbers (100-200)', 'academic-bloggers-toolkit' ),
 			],
 			[
 				'value' => 'issue',
@@ -730,8 +719,6 @@ function fieldmaps() {
 				'value'    => 'page',
 				'label'    => __( 'Pages', 'academic-bloggers-toolkit' ),
 				'required' => true,
-				'pattern'  => $patterns->numeric_range,
-				'title'    => __( 'Number or Range of Numbers (100-200)', 'academic-bloggers-toolkit' ),
 			],
 			[
 				'value' => 'issue',
@@ -786,10 +773,8 @@ function fieldmaps() {
 				'required' => true,
 			],
 			[
-				'value'   => 'page',
-				'label'   => __( 'Pages', 'academic-bloggers-toolkit' ),
-				'pattern' => $patterns->numeric_range,
-				'title'   => __( 'Number or Range of Numbers (100-200)', 'academic-bloggers-toolkit' ),
+				'value' => 'page',
+				'label' => __( 'Pages', 'academic-bloggers-toolkit' ),
 			],
 			[
 				'value'    => 'publisher',
@@ -849,8 +834,6 @@ function fieldmaps() {
 				'value'    => 'page',
 				'label'    => __( 'Pages', 'academic-bloggers-toolkit' ),
 				'required' => true,
-				'pattern'  => $patterns->numeric_range,
-				'title'    => __( 'Number or Range of Numbers (100-200)', 'academic-bloggers-toolkit' ),
 			],
 			[
 				'value' => 'URL',
@@ -908,8 +891,6 @@ function fieldmaps() {
 				'value'    => 'page',
 				'label'    => __( 'Pages', 'academic-bloggers-toolkit' ),
 				'required' => true,
-				'pattern'  => $patterns->numeric_range,
-				'title'    => __( 'Number or Range of Numbers (100-200)', 'academic-bloggers-toolkit' ),
 			],
 			[
 				'value'    => 'issued',
