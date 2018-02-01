@@ -1471,6 +1471,11 @@
     },
     {
       "kind": "predefined",
+      "label": "Advanced Healthcare Materials",
+      "value": "advanced-healthcare-materials"
+    },
+    {
+      "kind": "predefined",
       "label": "Advanced Materials",
       "value": "advanced-materials"
     },
@@ -7072,6 +7077,11 @@
     },
     {
       "kind": "predefined",
+      "label": "Bulletin of the American Schools of Oriental Research",
+      "value": "bulletin-of-the-american-schools-of-oriental-research"
+    },
+    {
+      "kind": "predefined",
       "label": "Bulletin of the Chemical Society of Japan",
       "value": "the-chemical-society-of-japan"
     },
@@ -7218,8 +7228,18 @@
     },
     {
       "kind": "predefined",
+      "label": "Cambridge University Press (note)",
+      "value": "cambridge-university-press-note"
+    },
+    {
+      "kind": "predefined",
       "label": "Cambridge University Press (numeric)",
       "value": "cambridge-university-press-numeric"
+    },
+    {
+      "kind": "predefined",
+      "label": "Cambridge University Press - Law (note)",
+      "value": "cambridge-university-press-law-note"
     },
     {
       "kind": "predefined",
@@ -17917,6 +17937,11 @@
     },
     {
       "kind": "predefined",
+      "label": "Henoch",
+      "value": "henoch"
+    },
+    {
+      "kind": "predefined",
       "label": "Hepatic Oncology",
       "value": "future-science-group"
     },
@@ -18064,6 +18089,11 @@
       "kind": "predefined",
       "label": "Historia Mathematica",
       "value": "elsevier-harvard"
+    },
+    {
+      "kind": "predefined",
+      "label": "Historical Social Research",
+      "value": "historical-social-research"
     },
     {
       "kind": "predefined",
@@ -29862,6 +29892,11 @@
       "kind": "predefined",
       "label": "L'Endocrinologo (Italian)",
       "value": "springer-basic-brackets"
+    },
+    {
+      "kind": "predefined",
+      "label": "L'homme &#8211; Revue française d'anthropologie",
+      "value": "l-homme"
     },
     {
       "kind": "predefined",
@@ -41707,6 +41742,11 @@
     },
     {
       "kind": "predefined",
+      "label": "The Canadian Journal of Chemical Engineering",
+      "value": "the-canadian-journal-of-chemical-engineering"
+    },
+    {
+      "kind": "predefined",
       "label": "The Canadian Journal of Hospital Pharmacy",
       "value": "vancouver"
     },
@@ -43716,6 +43756,11 @@
       "kind": "predefined",
       "label": "Turkish Studies",
       "value": "chicago-note-bibliography"
+    },
+    {
+      "kind": "predefined",
+      "label": "Twentieth-Century Music",
+      "value": "twentieth-century-music"
     },
     {
       "kind": "predefined",
