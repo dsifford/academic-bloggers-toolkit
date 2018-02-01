@@ -51,7 +51,7 @@ export default class ReferenceList extends React.Component<Props> {
     /**
      * The editor instance
      */
-    editor: EditorDriver;
+    editor!: EditorDriver;
 
     /**
      * The CSLProcessor instance

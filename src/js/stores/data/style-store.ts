@@ -3,9 +3,9 @@ import { computed, observable } from 'mobx';
 import domReady from 'utils/dom-ready';
 
 export default class Store implements ABT.CitationStyle {
-    @observable kind: 'predefined' | 'custom';
-    @observable value: string;
-    @observable label: string;
+    @observable kind!: 'predefined' | 'custom';
+    @observable value!: string;
+    @observable label!: string;
     constructor(style: ABT.CitationStyle) {
         this.style = style;
     }

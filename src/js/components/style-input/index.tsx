@@ -22,7 +22,7 @@ export default class StyleInput extends React.Component<Props, State> {
 
     readonly styleMap: Map<string, ABT.CitationStyle>;
 
-    input: HTMLInputElement;
+    input!: HTMLInputElement;
 
     constructor(props: Props) {
         super(props);

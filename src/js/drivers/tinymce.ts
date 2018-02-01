@@ -14,7 +14,7 @@ export default class TinyMCEDriver extends EditorDriver {
     /**
      * The TinyMCE editor instance
      */
-    private editor: TinyMCE.Editor;
+    private editor!: TinyMCE.Editor;
 
     /**
      * `MutationObserver` which watches and reacts to removals of individual

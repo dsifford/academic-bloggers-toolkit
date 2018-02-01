@@ -11,7 +11,7 @@ export class Processor {
     /**
      * CSL.Engine instance created by this class
      */
-    citeproc: Citeproc.Processor;
+    citeproc!: Citeproc.Processor;
 
     private locales: LocaleCache;
     private store: Store;

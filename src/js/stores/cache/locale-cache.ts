@@ -37,7 +37,7 @@ export default class LocaleStore {
      * Worker used to fetch locale XML off thread and save it into the cache.
      * After all locales are fetched, this worker destroys itself
      */
-    private worker: Worker;
+    private worker!: Worker;
 
     constructor() {
         const cache = localStorage.getItem(LocaleStore.CACHE_KEY);

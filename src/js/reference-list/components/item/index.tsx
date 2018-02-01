@@ -33,7 +33,7 @@ export default class Item extends React.Component<Props> {
     /**
      * Controls the delay period between hovering and displaying the index badge
      */
-    timer: NodeJS.Timer;
+    timer!: NodeJS.Timer;
 
     @action
     hideIndex = (): void => {

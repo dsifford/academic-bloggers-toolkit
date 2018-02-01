@@ -31,7 +31,7 @@ export default class AutoCite extends React.Component<Props> {
     /**
      * Ref to the input field (needed for validation)
      */
-    input: HTMLInputElement;
+    input!: HTMLInputElement;
 
     /**
      * Controls the value of the input field

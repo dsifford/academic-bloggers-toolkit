@@ -23,7 +23,7 @@ export default class ResultList extends React.Component<Props> {
     /**
      * Required so that result list can be scrolled to top after each new search
      */
-    element: HTMLElement;
+    element!: HTMLElement;
 
     bindRefs = (c: HTMLDivElement): void => {
         this.element = c;

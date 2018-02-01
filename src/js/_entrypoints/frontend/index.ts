@@ -90,7 +90,7 @@ export class Frontend {
     static isTouchDevice: boolean = true === 'ontouchstart' in window ||
         (window.DocumentTouch && document instanceof DocumentTouch);
     bibliography: Element | null;
-    itemContainer: Element;
+    itemContainer!: Element;
 
     constructor() {
         this.bibliography = document.querySelector(
