@@ -74,7 +74,7 @@
     "rollbar": "^2.3.7",
     "rollbar-sourcemap-webpack-plugin": "^2.2.0",
     "sass-loader": "^6.0.6",
-    "snapshot-diff": "^0.2.2",
+    "snapshot-diff": "^0.3.0",
     "style-loader": "^0.20.1",
     "stylelint": "^8.4.0",
     "stylelint-config-recommended-scss": "^3.0.0",
