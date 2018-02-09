@@ -813,7 +813,7 @@ exports[`<ManualInput /> should render autocite fields for books 1`] = `
     <AutoCite
       getter={[Function anonymous]}
 -     kind=\\"book\\"
--     pattern=\\"(?:[dxX]-?){10}|(?:[dxX]-?){13}\\"
+-     pattern=\\"(?:[\\\\\\\\dxX]-?){10}|(?:[\\\\\\\\dxX]-?){13}\\"
 -     placeholder=\\"ISBN\\"
 +     kind=\\"webpage\\"
 +     placeholder=\\"URL\\"
@@ -828,7 +828,7 @@ exports[`<ManualInput /> should render autocite fields for books 1`] = `
           id=\\"__SKIPPED__\\"
           onChange={[Function res]}
           onKeyDown={[Function anonymous]}
--         pattern=\\"(?:[dxX]-?){10}|(?:[dxX]-?){13}\\"
+-         pattern=\\"(?:[\\\\\\\\dxX]-?){10}|(?:[\\\\\\\\dxX]-?){13}\\"
 -         placeholder=\\"ISBN\\"
 -         type=\\"text\\"
 +         placeholder=\\"URL\\"
