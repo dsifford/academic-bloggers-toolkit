@@ -76,7 +76,7 @@
     "sass-loader": "^6.0.6",
     "snapshot-diff": "^0.3.0",
     "style-loader": "^0.20.1",
-    "stylelint": "^8.4.0",
+    "stylelint": "^9.0.0",
     "stylelint-config-recommended-scss": "^3.0.0",
     "stylelint-scss": "^2.3.0",
     "torus-cli": "^0.29.0",
