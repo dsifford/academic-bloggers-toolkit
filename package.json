@@ -81,7 +81,7 @@
     "stylelint-scss": "^2.3.0",
     "torus-cli": "^0.29.0",
     "ts-jest": "^22.0.3",
-    "ts-node": "^4.1.0",
+    "ts-node": "^5.0.0",
     "tslint": "^5.9.1",
     "tslint-config-prettier": "^1.7.0",
     "tslint-microsoft-contrib": "^5.0.2",
