@@ -27,7 +27,6 @@ if (!VERSION) {
 execSync(`rm -rf ${__dirname}/dist/*`);
 
 const plugins = new Set<webpack.Plugin>([
-    new webpack.NoEmitOnErrorsPlugin(),
     new webpack.EnvironmentPlugin({
         NODE_ENV: 'development',
         ROLLBAR_CLIENT_TOKEN: '',
@@ -77,7 +76,6 @@ if (!IS_PRODUCTION) {
 
 if (IS_PRODUCTION) {
     plugins
-        .add(new webpack.optimize.ModuleConcatenationPlugin())
         .add(new webpack.optimize.OccurrenceOrderPlugin(true))
         .add(new UglifyJsPlugin({ sourceMap: true }));
 }
@@ -94,6 +92,7 @@ if (IS_DEPLOYING) {
 }
 
 export default <webpack.Configuration>{
+    mode: IS_PRODUCTION ? 'production' : 'development',
     watch: !IS_PRODUCTION,
     watchOptions: {
         ignored: /(node_modules|dist|lib|webpack.config)/,
