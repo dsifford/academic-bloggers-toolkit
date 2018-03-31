@@ -102,7 +102,7 @@
     "style-loader": "^0.20.2",
     "stylelint": "^9.1.1",
     "stylelint-config-recommended-scss": "^3.1.0",
-    "stylelint-scss": "^2.4.0",
+    "stylelint-scss": "^3.0.0",
     "torus-cli": "^0.29.0",
     "ts-jest": "^22.4.0",
     "ts-node": "^5.0.0",
