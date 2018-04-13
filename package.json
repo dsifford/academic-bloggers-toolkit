@@ -97,7 +97,7 @@
     "react-test-renderer": "^16.2.0",
     "rollbar": "^2.3.9",
     "rollbar-sourcemap-webpack-plugin": "^2.2.0",
-    "sass-loader": "^6.0.6",
+    "sass-loader": "^7.0.0",
     "snapshot-diff": "^0.3.0",
     "style-loader": "^0.20.2",
     "stylelint": "^9.1.1",
