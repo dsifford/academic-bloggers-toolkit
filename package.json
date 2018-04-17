@@ -105,7 +105,7 @@
     "stylelint-scss": "^2.4.0",
     "torus-cli": "^0.29.0",
     "ts-jest": "^22.4.0",
-    "ts-node": "^5.0.0",
+    "ts-node": "^6.0.0",
     "tslint": "^5.9.1",
     "tslint-config-prettier": "^1.9.0",
     "tslint-microsoft-contrib": "^5.0.3",
