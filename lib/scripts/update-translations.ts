@@ -12,7 +12,7 @@ const exec = promisify(cp_exec);
 const readFile = promisify(fsreadfile);
 const writeFile = promisify(fswritefile);
 
-const TOKEN = process.env.PO_EDITOR_TOKEN;
+const TOKEN = process.env.POEDITOR_TOKEN;
 const VERSION = process.env.npm_package_version;
 const PROJECT_ID = 68585;
 const ROOT_DIR = path.resolve(__dirname, '../../');
