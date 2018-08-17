@@ -90,7 +90,7 @@
     "identity-obj-proxy": "^3.0.0",
     "jest": "^22.4.2",
     "lint-staged": "^7.0.0",
-    "mobx-react-devtools": "^4.2.15",
+    "mobx-react-devtools": "^6.0.3",
     "node-sass": "^4.7.2",
     "prettier": "^1.11.0",
     "proxy-polyfill": "^0.1.7",
