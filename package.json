@@ -110,7 +110,7 @@
     "tslint-microsoft-contrib": "^5.0.3",
     "tslint-react": "^3.5.1",
     "uglify-es": "^3.3.10",
-    "uglifyjs-webpack-plugin": "^1.2.2",
+    "uglifyjs-webpack-plugin": "^2.0.0",
     "webpack": "^4.0.1",
     "webpack-cli": "^2.0.9",
     "whatwg-fetch": "^2.0.3",
