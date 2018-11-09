@@ -1,8 +1,8 @@
 import { observer } from 'mobx-react';
-import * as React from 'react';
+import React from 'react';
 
 import Store from 'stores/ui/add-dialog';
-import * as styles from './meta-fields.scss';
+import styles from './meta-fields.scss';
 
 interface Props {
     /**

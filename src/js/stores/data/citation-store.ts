@@ -1,10 +1,10 @@
 import { action, computed, observable, toJS } from 'mobx';
-import * as hash from 'string-hash';
+import hash from 'string-hash';
 
 import { localeMapper } from 'utils/constants';
 
 export default class CitationStore {
-    CSL = observable.map<CSL.Data>();
+    CSL = observable.map<string, CSL.Data>();
     private byIndex = observable<Citeproc.Citation>([]);
 
     constructor(byIndex: Citeproc.CitationByIndex, CSL: Citeproc.RefHash) {
@@ -17,7 +17,7 @@ export default class CitationStore {
      */
     @computed
     get uncited(): CSL.Data[] {
-        return this.CSL.keys()
+        return [...this.CSL.keys()]
             .reduce(
                 (data, currentId) => {
                     if (!this.citedIDs.includes(currentId)) {
@@ -133,8 +133,8 @@ export default class CitationStore {
      */
     get lookup(): { ids: string[]; titles: string[] } {
         return {
-            ids: this.CSL.keys(),
-            titles: this.CSL.values().map(v => v.title!),
+            ids: [...this.CSL.keys()],
+            titles: [...this.CSL.values()].map(v => v.title!),
         };
     }
 

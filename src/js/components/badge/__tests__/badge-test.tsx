@@ -1,6 +1,6 @@
 import { shallow } from 'enzyme';
 import toJSON from 'enzyme-to-json';
-import * as React from 'react';
+import React from 'react';
 
 import Badge from '..';
 
@@ -22,7 +22,9 @@ describe('<Badge />', () => {
         component = shallow(<Badge count={50} color="#ff00ff" />);
         expect(toJSON(component)).toMatchSnapshot();
 
-        component = shallow(<Badge count={98} color="rgba(150, 150, 150, 0.9)" />);
+        component = shallow(
+            <Badge count={98} color="rgba(150, 150, 150, 0.9)" />,
+        );
         expect(toJSON(component)).toMatchSnapshot();
     });
     test('count >= 99', () => {

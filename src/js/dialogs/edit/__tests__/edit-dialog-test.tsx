@@ -1,6 +1,6 @@
 import { shallow, ShallowWrapper } from 'enzyme';
 import toJSON, { OutputMapper } from 'enzyme-to-json';
-import * as React from 'react';
+import React from 'react';
 import EditDialog from '..';
 
 const defaultData: CSL.Data = {
@@ -26,7 +26,8 @@ const mapper: OutputMapper = json => {
     return json;
 };
 
-const J = (component: ShallowWrapper) => toJSON(component, { noKey: true, map: mapper });
+const J = (component: ShallowWrapper) =>
+    toJSON(component, { noKey: true, map: mapper });
 
 describe('<EditDialog />', () => {
     const BASELINE = J(setup().component);

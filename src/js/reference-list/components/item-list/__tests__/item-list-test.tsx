@@ -1,7 +1,7 @@
 import { shallow } from 'enzyme';
 import toJSON from 'enzyme-to-json';
 import { observable } from 'mobx';
-import * as React from 'react';
+import React from 'react';
 
 import UIStore from 'stores/ui/reference-list';
 import ItemList from '..';
@@ -37,7 +37,13 @@ const setup = (numItems = 3, selectedNum: string[] = []) => {
     ui.selected.replace(selectedNum);
     CSLMap.replace(CSL);
     const component = shallow(
-        <ItemList items={items} id="cited" ui={ui} CSL={CSLMap} onEditReference={onEditReference}>
+        <ItemList
+            items={items}
+            id="cited"
+            ui={ui}
+            CSL={CSLMap}
+            onEditReference={onEditReference}
+        >
             Hello World
         </ItemList>,
     );
@@ -102,6 +108,16 @@ describe('<ItemList />', () => {
         expect(ui.selected.slice()).toEqual(['3', '5', '7', '9']);
 
         items.simulate('click', { currentTarget: { id: '1' }, shiftKey: true });
-        expect(ui.selected.slice().sort()).toEqual(['1', '2', '3', '4', '5', '6', '7', '8', '9']);
+        expect(ui.selected.slice().sort()).toEqual([
+            '1',
+            '2',
+            '3',
+            '4',
+            '5',
+            '6',
+            '7',
+            '8',
+            '9',
+        ]);
     });
 });

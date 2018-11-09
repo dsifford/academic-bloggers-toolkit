@@ -1,5 +1,5 @@
 import { observer } from 'mobx-react';
-import * as React from 'react';
+import React from 'react';
 
 import { DialogProps } from 'dialogs';
 import ManualDataStore from 'stores/data/manual-data-store';

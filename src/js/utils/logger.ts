@@ -1,11 +1,12 @@
-import * as rollbar from 'rollbar/dist/rollbar.umd';
+import rollbar from 'rollbar/dist/rollbar.umd';
 
 const config = {
     accessToken: process.env.ROLLBAR_CLIENT_TOKEN,
     enabled: process.env.NODE_ENV === 'production',
     captureUncaught: false,
     payload: {
-        environment: process.env.NODE_ENV === 'production' ? 'production' : 'test',
+        environment:
+            process.env.NODE_ENV === 'production' ? 'production' : 'test',
         client: {
             javascript: {
                 source_map_enabled: true,
@@ -20,7 +21,10 @@ const config = {
             for (const [i, frame] of trace.frames.entries()) {
                 const filename = frame.filename;
                 if (filename) {
-                    const name = filename.replace(window.location.hostname, 'dynamichost');
+                    const name = filename.replace(
+                        window.location.hostname,
+                        'dynamichost',
+                    );
                     trace.frames[i].filename = name;
                 }
             }

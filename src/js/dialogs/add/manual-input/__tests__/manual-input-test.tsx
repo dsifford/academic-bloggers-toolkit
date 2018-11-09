@@ -2,7 +2,7 @@ jest.mock('utils/resolvers/url');
 jest.mock('utils/resolvers/isbn');
 import { mount, ReactWrapper, ShallowWrapper, shallow } from 'enzyme';
 import toJSON, { OutputMapper } from 'enzyme-to-json';
-import * as React from 'react';
+import React from 'react';
 
 import Store from 'stores/ui/add-dialog';
 import ManualInput from '..';

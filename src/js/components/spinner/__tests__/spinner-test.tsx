@@ -1,6 +1,6 @@
 import { shallow } from 'enzyme';
 import toJSON from 'enzyme-to-json';
-import * as React from 'react';
+import React from 'react';
 
 import Spinner from '..';
 
@@ -9,7 +9,9 @@ describe('<Spinner />', () => {
         let component = shallow(<Spinner size="50px" />);
         expect(toJSON(component)).toMatchSnapshot();
 
-        component = shallow(<Spinner size="100px" bgColor="magenta" height={100} overlay />);
+        component = shallow(
+            <Spinner size="100px" bgColor="magenta" height={100} overlay />,
+        );
         expect(toJSON(component)).toMatchSnapshot();
 
         const heightFn = () => '100px';

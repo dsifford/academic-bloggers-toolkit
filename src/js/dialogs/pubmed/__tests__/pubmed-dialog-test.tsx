@@ -3,7 +3,7 @@ jest.mock('../paginate');
 jest.mock('utils/resolvers/');
 
 import { mount } from 'enzyme';
-import * as React from 'react';
+import React from 'react';
 import { pubmedQuery } from 'utils/resolvers';
 import PubmedDialog, { placeholderGenerator } from '..';
 
@@ -69,7 +69,9 @@ describe('<PubmedWindow />', () => {
                 preventDefault: jest.fn(),
             };
             await instance.sendQuery(mockEvent);
-            expect((component as any).instance().results.slice()).toEqual([{ title: 'testing' }]);
+            expect((component as any).instance().results.slice()).toEqual([
+                { title: 'testing' },
+            ]);
             expect(mockEvent.preventDefault).toHaveBeenCalled();
         });
         test('query that returns 0-length result', async () => {
@@ -81,7 +83,9 @@ describe('<PubmedWindow />', () => {
             await instance.sendQuery(mockEvent);
             expect((component as any).instance().results.slice()).toEqual([]);
             expect(mockEvent.preventDefault).toHaveBeenCalled();
-            expect(instance.errorMessage.get()).toEqual('Your search returned 0 results');
+            expect(instance.errorMessage.get()).toEqual(
+                'Your search returned 0 results',
+            );
         });
         test('query that throws an error', async () => {
             mocks.pmq.mockReturnValue(Promise.reject(new Error('Hello world')));

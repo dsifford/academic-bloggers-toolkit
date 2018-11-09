@@ -114,7 +114,7 @@ class Backend {
 		if ( ! empty( $mce_css ) ) {
 			$mce_css .= ',';
 		}
-		$mce_css .= ABT_ROOT_URI . 'css/tinymce.css';
+		$mce_css .= ABT_ROOT_URI . 'js/drivers/tinymce.css';
 		return $mce_css;
 	}
 
@@ -171,7 +171,7 @@ class Backend {
 	 */
 	public function register_scripts() {
 		wp_register_style( 'abt-fonts', '//fonts.googleapis.com/css?family=Roboto:300,400,500,700&subset=cyrillic,cyrillic-ext,greek,greek-ext,latin-ext,vietnamese', [], null );
-		wp_register_style( 'abt-reference-list', ABT_ROOT_URI . 'css/reference-list.css', [ 'dashicons', 'abt-fonts' ], ABT_VERSION );
+		wp_register_style( 'abt-reference-list', ABT_ROOT_URI . 'js/reference-list.css', [ 'dashicons', 'abt-fonts' ], ABT_VERSION );
 
 		wp_register_script( 'abt-reference-list', ABT_ROOT_URI . 'js/reference-list.js', [], ABT_VERSION );
 		wp_register_script( 'abt-changelog', '//cdn.headwayapp.co/widget.js', [], null, true );

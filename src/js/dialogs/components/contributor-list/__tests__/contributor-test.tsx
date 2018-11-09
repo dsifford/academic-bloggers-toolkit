@@ -1,6 +1,6 @@
 import { shallow } from 'enzyme';
 import toJSON from 'enzyme-to-json';
-import * as React from 'react';
+import React from 'react';
 
 import Contributor from '../contributor';
 
@@ -61,8 +61,8 @@ describe('<Contributor />', () => {
             currentTarget: { dataset: { field: 'family' } },
             value: 'testing',
         });
-        expect(() => instance.update({ currentTarget: { dataset: {} } } as any)).toThrowError(
-            ReferenceError,
-        );
+        expect(() =>
+            instance.update({ currentTarget: { dataset: {} } } as any),
+        ).toThrowError(ReferenceError);
     });
 });

@@ -1,7 +1,7 @@
 import { mount } from 'enzyme';
 import toJSON from 'enzyme-to-json';
-import * as React from 'react';
-import * as diff from 'snapshot-diff';
+import React from 'react';
+import diff from 'snapshot-diff';
 
 import Button from '..';
 
@@ -33,7 +33,11 @@ describe('<Button />', () => {
             expect(diff(defaultJSON, toJSON(component))).toMatchSnapshot();
         });
         test('with all variants', () => {
-            const { component } = setup({ flat: true, focusable: true, primary: true });
+            const { component } = setup({
+                flat: true,
+                focusable: true,
+                primary: true,
+            });
             expect(diff(defaultJSON, toJSON(component))).toMatchSnapshot();
         });
         test('with tooltip', () => {
@@ -89,6 +93,9 @@ describe('<Button />', () => {
         const { component } = setup({ href: 'https://google.com' });
         const button = component.find('button');
         button.simulate('click');
-        expect(window.open).toHaveBeenCalledWith('https://google.com', '_blank');
+        expect(window.open).toHaveBeenCalledWith(
+            'https://google.com',
+            '_blank',
+        );
     });
 });

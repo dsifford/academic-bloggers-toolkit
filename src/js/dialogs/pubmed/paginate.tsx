@@ -1,6 +1,6 @@
 import { action, IObservableValue } from 'mobx';
 import { observer } from 'mobx-react';
-import * as React from 'react';
+import React, { Component, MouseEvent } from 'react';
 
 import ActionBar from 'components/action-bar';
 import Button from 'components/button';
@@ -17,11 +17,11 @@ interface Props {
 }
 
 @observer
-export default class Paginate extends React.Component<Props> {
+export default class Paginate extends Component<Props> {
     static readonly labels = top.ABT.i18n.dialogs.pubmed;
 
     @action
-    handleClick = (e: React.MouseEvent<HTMLInputElement>): void => {
+    handleClick = (e: MouseEvent<HTMLButtonElement>): void => {
         switch (e.currentTarget.id) {
             case 'next':
                 return this.props.page.set(this.props.page.get() + 1);

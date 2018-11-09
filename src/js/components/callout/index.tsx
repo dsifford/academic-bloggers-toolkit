@@ -1,8 +1,8 @@
-import * as React from 'react';
+import React from 'react';
 
 import Button from 'components/button';
 
-import * as styles from './callout.scss';
+import styles from './callout.scss';
 
 interface Props extends React.HTMLProps<HTMLDivElement> {
     /**
@@ -39,14 +39,8 @@ export default class Callout extends React.PureComponent<Props> {
     };
 
     render(): JSX.Element | null {
-        // prettier-ignore
-        const {
-            title,
-            children,
-            intent,
-            onDismiss,
-            ...props,
-        } = this.props as Props & DefaultProps;
+        const { title, children, intent, onDismiss, ...props } = this
+            .props as Props & DefaultProps;
         if (!children) {
             return null;
         }

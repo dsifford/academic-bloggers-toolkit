@@ -2,14 +2,15 @@ import { parse as parseBibtex } from 'astrocite-bibtex';
 import { parse as parseRis } from 'astrocite-ris';
 import { action, observable, toJS } from 'mobx';
 import { observer } from 'mobx-react';
-import * as React from 'react';
+import React from 'react';
+
+import { DialogProps } from 'dialogs';
+import readFile from 'utils/read-file';
 
 import ActionBar from 'components/action-bar';
 import Button from 'components/button';
 import Callout from 'components/callout';
 import FileInput from 'components/file-input';
-
-import { DialogProps } from 'dialogs';
 
 @observer
 export default class ImportDialog extends React.Component<DialogProps> {
@@ -39,22 +40,17 @@ export default class ImportDialog extends React.Component<DialogProps> {
     handleFileUpload = async (
         e: React.FormEvent<HTMLInputElement>,
     ): Promise<void> => {
-        return new Promise<void>((resolve): void => {
-            const reader = new FileReader();
-            if (!e.currentTarget.files || e.currentTarget.files.length === 0) {
-                return resolve();
-            }
-            const file = e.currentTarget.files[0];
-            const fileExtension = file.name.toLowerCase().match(/\.(\w+$)/)
-                ? file.name.toLowerCase().match(/\.(\w+$)/)![1]
-                : '';
-            reader.addEventListener('load', () => {
-                this.parseFile(reader, fileExtension);
-                resolve();
-            });
-            reader.readAsText(file);
-            this.setFile({ name: file.name, value: e.currentTarget.value });
-        });
+        const { files } = e.currentTarget;
+        if (!files || !files.length) {
+            return;
+        }
+        const file = files[0];
+        const ext = file.name
+            .substring(file.name.lastIndexOf('.'))
+            .toLowerCase();
+        this.setFile({ name: file.name, value: e.currentTarget.value });
+        const content = await readFile(file, 'Text');
+        this.parseFile(content, ext);
     };
 
     @action
@@ -73,21 +69,21 @@ export default class ImportDialog extends React.Component<DialogProps> {
         this.payload.replace(payload);
     };
 
-    handleSubmit = (e: React.MouseEvent<HTMLInputElement>): void => {
+    handleSubmit = (e: React.MouseEvent<HTMLButtonElement>): void => {
         e.preventDefault();
         this.props.onSubmit(toJS(this.payload));
     };
 
-    parseFile = (reader: FileReader, fileExtension: string): void => {
+    parseFile = (content: string, fileExtension: string): void => {
         let payload: CSL.Data[];
         try {
             switch (fileExtension) {
-                case 'ris':
-                    payload = parseRis(reader.result);
+                case '.ris':
+                    payload = parseRis(content);
                     break;
-                case 'bib':
-                case 'bibtex':
-                    payload = parseBibtex(reader.result);
+                case '.bib':
+                case '.bibtex':
+                    payload = parseBibtex(content);
                     break;
                 default:
                     throw new Error('Invalid FileType');

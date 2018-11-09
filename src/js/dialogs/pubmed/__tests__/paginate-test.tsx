@@ -1,11 +1,14 @@
 import { shallow } from 'enzyme';
 import { observable } from 'mobx';
-import * as React from 'react';
+import React from 'react';
 import Paginate from '../paginate';
 
 const setup = (page: number, resultLength: number) => {
     const component = shallow(
-        <Paginate page={observable(page)} totalPages={Math.ceil(resultLength / 5)} />,
+        <Paginate
+            page={observable(page)}
+            totalPages={Math.ceil(resultLength / 5)}
+        />,
     );
     return {
         component,

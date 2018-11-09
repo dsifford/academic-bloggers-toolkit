@@ -1,11 +1,11 @@
-import * as classNames from 'classnames';
-import * as React from 'react';
+import classNames from 'classnames';
+import React from 'react';
 
 import Tooltip, {
     TooltipParentProp,
     TooltipParentState,
 } from 'components/tooltip';
-import * as styles from './button.scss';
+import styles from './button.scss';
 
 interface Props extends React.HTMLProps<HTMLButtonElement> {
     /**

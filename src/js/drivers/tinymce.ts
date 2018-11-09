@@ -20,30 +20,24 @@ export default class TinyMCEDriver extends EditorDriver {
      * `MutationObserver` which watches and reacts to removals of individual
      * citation nodes.
      */
-    private editorCitationObserver = new MutationObserver((mutations): void => {
-        for (const mutation of mutations) {
-            for (const removedNode of Array.from(mutation.removedNodes)) {
-                if (removedNode.nodeName !== 'SPAN') {
-                    continue;
-                }
-                const classList = removedNode.attributes.getNamedItem('class');
-
-                if (!classList) {
-                    continue;
-                }
-
-                if (
-                    classList.value
-                        .split(' ')
-                        .includes(EditorDriver.citationClass)
-                ) {
-                    dispatchEvent(
-                        new CustomEvent(EditorDriver.events.CITATION_DELETED),
-                    );
+    private editorCitationObserver = new MutationObserver(
+        (mutations): void => {
+            for (const mutation of mutations) {
+                for (const node of mutation.removedNodes) {
+                    if (
+                        node instanceof Element &&
+                        node.classList.contains(EditorDriver.citationClass)
+                    ) {
+                        dispatchEvent(
+                            new CustomEvent(
+                                EditorDriver.events.CITATION_DELETED,
+                            ),
+                        );
+                    }
                 }
             }
-        }
-    });
+        },
+    );
 
     /**
      * Small helper that caches the most previous selection content and
@@ -117,7 +111,9 @@ export default class TinyMCEDriver extends EditorDriver {
         const bm = this.selectionCache.fresh
             ? this.selectionCache.bookmark
             : this.editor.selection.getBookmark(1);
-        const { rng: { startContainer } } = bm;
+        const {
+            rng: { startContainer },
+        } = bm;
         const citationNodes = [
             ...doc.querySelectorAll(`
                 *:not(.mce-offscreen-selection) >
@@ -221,42 +217,46 @@ export default class TinyMCEDriver extends EditorDriver {
     }
 
     async init(): Promise<void> {
-        return new Promise<void>((resolve, reject): void => {
-            let attempts = 0;
-            let interval = setInterval(() => {
-                if (top.tinyMCE === undefined) {
-                    attempts += 1;
-                    if (attempts === 10) {
+        return new Promise<void>(
+            (resolve, reject): void => {
+                let attempts = 0;
+                let interval = setInterval(() => {
+                    if (top.tinyMCE === undefined) {
+                        attempts += 1;
+                        if (attempts === 10) {
+                            clearInterval(interval);
+                            return reject(
+                                new Error(
+                                    top.ABT.i18n.errors.tinymce_unavailable,
+                                ),
+                            );
+                        }
+                    } else {
                         clearInterval(interval);
-                        return reject(
-                            new Error(top.ABT.i18n.errors.tinymce_unavailable),
-                        );
-                    }
-                } else {
-                    clearInterval(interval);
-                    if (
-                        top.tinyMCE.editors &&
-                        top.tinyMCE.editors.content &&
-                        top.tinyMCE.editors.content.initialized
-                    ) {
-                        this.editor = top.tinyMCE.editors.content;
-                        this.bindEvents();
-                        return resolve();
-                    }
-                    interval = setInterval(() => {
                         if (
+                            top.tinyMCE.editors &&
                             top.tinyMCE.editors.content &&
                             top.tinyMCE.editors.content.initialized
                         ) {
-                            clearInterval(interval);
                             this.editor = top.tinyMCE.editors.content;
                             this.bindEvents();
                             return resolve();
                         }
-                    }, 200);
-                }
-            }, 500);
-        });
+                        interval = setInterval(() => {
+                            if (
+                                top.tinyMCE.editors.content &&
+                                top.tinyMCE.editors.content.initialized
+                            ) {
+                                clearInterval(interval);
+                                this.editor = top.tinyMCE.editors.content;
+                                this.bindEvents();
+                                return resolve();
+                            }
+                        }, 200);
+                    }
+                }, 500);
+            },
+        );
     }
 
     removeItems(itemIds: string[]): void {

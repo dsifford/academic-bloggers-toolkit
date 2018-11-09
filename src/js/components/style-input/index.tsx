@@ -1,7 +1,7 @@
-import * as React from 'react';
-import * as AutoSuggest from 'react-autosuggest';
+import React from 'react';
+import AutoSuggest from 'react-autosuggest';
 
-import * as styles from './style-input.scss';
+import styles from './style-input.scss';
 
 interface Props {
     currentStyle: ABT.CitationStyle;
@@ -15,8 +15,8 @@ interface State {
 }
 
 export default class StyleInput extends React.Component<Props, State> {
-    static readonly INVALID_MESSAGE = top.ABT.i18n.errors
-        .invalid_predefined_style;
+    static readonly INVALID_MESSAGE =
+        top.ABT.i18n.errors.invalid_predefined_style;
 
     static getSuggestionValue = ({ label }: ABT.CitationStyle): string => label;
 

@@ -1,5 +1,5 @@
-import * as React from 'react';
-import * as styles from './badge.scss';
+import React from 'react';
+import styles from './badge.scss';
 
 interface Props {
     /**

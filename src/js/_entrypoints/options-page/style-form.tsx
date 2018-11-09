@@ -1,7 +1,7 @@
 import { action, observable } from 'mobx';
 import { observer } from 'mobx-react';
-import * as React from 'react';
-import * as AutoSuggest from 'react-autosuggest';
+import React from 'react';
+import AutoSuggest from 'react-autosuggest';
 
 import Store from 'stores/data/style-store';
 import DevTools from 'utils/devtools';

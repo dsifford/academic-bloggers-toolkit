@@ -1,0 +1,1 @@
+import '../frontend.scss?global';

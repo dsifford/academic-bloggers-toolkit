@@ -1,5 +1,5 @@
-import * as React from 'react';
-import * as styles from './spinner.scss';
+import React from 'react';
+import styles from './spinner.scss';
 
 interface Props {
     /**

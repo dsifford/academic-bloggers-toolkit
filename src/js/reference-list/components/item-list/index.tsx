@@ -1,18 +1,18 @@
 import { action, ObservableMap } from 'mobx';
 import { observer } from 'mobx-react';
-import * as React from 'react';
+import React from 'react';
 
 import Badge from 'components/badge';
 import UIStore from 'stores/ui/reference-list';
 import Item from '../item';
 
-import * as styles from './item-list.scss';
+import styles from './item-list.scss';
 
 interface Props {
     readonly children: string;
     readonly id: 'cited' | 'uncited';
     readonly items?: CSL.Data[];
-    CSL: ObservableMap<CSL.Data>;
+    CSL: ObservableMap<string, CSL.Data>;
     ui: UIStore;
     onEditReference(referenceId: string): void;
 }
@@ -116,11 +116,10 @@ export default class ItemList extends React.Component<Props> {
         const thisIndex = items.findIndex(i => i.id === id);
         const idsToBeSelected = [
             ...items
-                .filter(
-                    (_, i) =>
-                        lastIndex < thisIndex
-                            ? lastIndex < i && i < thisIndex
-                            : thisIndex < i && i < lastIndex,
+                .filter((_, i) =>
+                    lastIndex < thisIndex
+                        ? lastIndex < i && i < thisIndex
+                        : thisIndex < i && i < lastIndex,
                 )
                 .map(item => item.id),
             id,

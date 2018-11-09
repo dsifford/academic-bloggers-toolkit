@@ -1,6 +1,6 @@
 jest.mock('utils/parse-csl');
 
-import * as React from 'react';
+import React from 'react';
 import toJSON from 'enzyme-to-json';
 import { shallow } from 'enzyme';
 

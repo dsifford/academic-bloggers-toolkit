@@ -1,27 +1,21 @@
-import { TsConfigPathsPlugin } from 'awesome-typescript-loader';
+// tslint:disable:no-var-requires
+import { CheckerPlugin, TsConfigPathsPlugin } from 'awesome-typescript-loader';
 import { execSync } from 'child_process';
 import { resolve } from 'path';
-import * as webpack from 'webpack';
+import webpack from 'webpack';
 
-import * as BroswerSyncPlugin from 'browser-sync-webpack-plugin';
-import * as CopyWebpackPlugin from 'copy-webpack-plugin';
-import * as ExtractTextPlugin from 'extract-text-webpack-plugin';
-import * as RollbarSourceMapPlugin from 'rollbar-sourcemap-webpack-plugin';
-import * as UglifyJsPlugin from 'uglifyjs-webpack-plugin';
+import CopyWebpackPlugin from 'copy-webpack-plugin';
+import MiniCssExtractPlugin from 'mini-css-extract-plugin';
+const RollbarSourceMapPlugin = require('rollbar-sourcemap-webpack-plugin');
+const BrowserSyncPlugin = require('browser-sync-webpack-plugin');
 
 const ENTRYPOINT_DIR = 'js/_entrypoints';
 const IS_PRODUCTION = process.env.NODE_ENV === 'production';
 const IS_DEPLOYING = process.env.IS_DEPLOYING === 'true';
-const VERSION = process.env.npm_package_version;
+const VERSION = require('./package.json').version;
 const COMMIT_HASH = IS_PRODUCTION
     ? execSync('git rev-parse HEAD', { encoding: 'utf8' })
     : '';
-
-if (!VERSION) {
-    // tslint:disable-next-line:no-console
-    console.error('Webpack must be ran using npm scripts.');
-    process.exit(0);
-}
 
 // Clean out dist directory
 execSync(`rm -rf ${__dirname}/dist/*`);
@@ -32,16 +26,7 @@ const plugins = new Set<webpack.Plugin>([
         ROLLBAR_CLIENT_TOKEN: '',
         COMMIT_HASH,
     }),
-    new ExtractTextPlugin({
-        filename: (getPath: (format: string) => string): string => {
-            return getPath('[name]')
-                .split('/')
-                .reverse()
-                .filter(n => n !== 'index')
-                .map(n => `css/${n}` + '.css')[0];
-        },
-        ignoreOrder: true,
-    }),
+    new MiniCssExtractPlugin(),
     new CopyWebpackPlugin([
         {
             from: '**/*.{php,mo}',
@@ -56,28 +41,29 @@ const plugins = new Set<webpack.Plugin>([
         {
             from: '@(readme.txt|academic-bloggers-toolkit.php)',
             transform(content): string {
-                return content.toString().replace(/{{VERSION}}/g, VERSION!);
+                return content.toString().replace(/{{VERSION}}/g, VERSION);
             },
         },
     ]),
+    new CheckerPlugin(),
 ]);
 
 if (!IS_PRODUCTION) {
     plugins.add(
-        new BroswerSyncPlugin({
-            proxy: 'localhost:8080',
-            open: false,
-            reloadDebounce: 2000,
-            port: 3005,
-            notify: false,
-        }),
-    );
-}
+        new BrowserSyncPlugin(
+            {
+                proxy: 'localhost:8080',
+                open: false,
+                reloadDebounce: 2000,
+                port: 3005,
+                notify: false,
+            },
 
-if (IS_PRODUCTION) {
-    plugins
-        .add(new webpack.optimize.OccurrenceOrderPlugin(true))
-        .add(new UglifyJsPlugin({ sourceMap: true }));
+            {
+                injectCss: true,
+            },
+        ),
+    );
 }
 
 if (IS_DEPLOYING) {
@@ -91,15 +77,18 @@ if (IS_DEPLOYING) {
     );
 }
 
-export default <webpack.Configuration>{
+const config: webpack.Configuration = {
     mode: IS_PRODUCTION ? 'production' : 'development',
     watch: !IS_PRODUCTION,
+    devtool: IS_PRODUCTION ? 'source-map' : 'cheap-module-eval-source-map',
     watchOptions: {
         ignored: /(node_modules|dist|lib|webpack.config)/,
     },
-    devtool: 'source-map',
     context: resolve(__dirname, 'src'),
     entry: {
+        /**
+         * JS Entrypoints
+         */
         'js/frontend': `${ENTRYPOINT_DIR}/frontend`,
         'js/options-page': `${ENTRYPOINT_DIR}/options-page`,
         'js/reference-list': [
@@ -110,27 +99,31 @@ export default <webpack.Configuration>{
         ],
         'js/drivers/tinymce': 'js/drivers/tinymce',
         'workers/locale-worker': 'workers/locale-worker',
+
+        /**
+         * Stylesheet entrypoints
+         */
+        'css/frontend': 'css/_entrypoints/frontend',
     },
     output: {
-        path: resolve(__dirname, 'dist'),
         filename: '[name].js',
+        path: resolve(__dirname, 'dist'),
     },
     resolve: {
         alias: {
             css: resolve(__dirname, 'src/css'),
         },
-        extensions: ['*', '.webpack.js', '.web.js', '.ts', '.tsx', '.js'],
         modules: [resolve(__dirname, 'src'), 'node_modules'],
+        extensions: ['*', '.ts', '.tsx', '.js', '.scss'],
         plugins: [new TsConfigPathsPlugin()],
     },
     plugins: [...plugins],
-    stats: {
-        children: IS_PRODUCTION,
-    },
+    stats: IS_PRODUCTION ? 'verbose' : 'minimal',
     module: {
         rules: [
             {
                 test: /\.ts$/,
+                sideEffects: false,
                 include: resolve(__dirname, 'src/workers'),
                 use: [
                     {
@@ -147,15 +140,17 @@ export default <webpack.Configuration>{
                                 __dirname,
                                 'src/workers/tsconfig.json',
                             ),
-                            instance: 'at-worker-loader',
+                            instance: 'workers',
                         },
                     },
                 ],
             },
             {
                 test: /\.tsx?$/,
+                sideEffects: false,
                 exclude: [
-                    /(?:__tests__|node_modules)/,
+                    /__tests__/,
+                    /node_modules/,
                     resolve(__dirname, 'src/workers'),
                 ],
                 use: [
@@ -169,53 +164,86 @@ export default <webpack.Configuration>{
                                 'node_modules/.cache/awesome-typescript-loader',
                             ),
                             babelCore: '@babel/core',
-                            reportFiles: ['**/*.{ts,tsx}'],
+                            reportFiles: [
+                                '**/*.{ts,tsx}',
+                                '!(src/**/__tests__/**|src/workers/**)',
+                            ],
                         },
                     },
                 ],
             },
             {
                 test: /\.scss$/,
-                use: ExtractTextPlugin.extract({
-                    use: [
-                        {
-                            loader: 'css-loader',
-                            options: {
-                                importLoaders: 1,
-                                modules: true,
-                                minimize: IS_PRODUCTION,
-                                sourceMap: !IS_PRODUCTION,
-                                camelCase: 'only',
-                                localIdentName:
-                                    '[name]__[local]___[hash:base64:5]',
+                oneOf: [
+                    {
+                        resourceQuery: /global/,
+                        use: [
+                            MiniCssExtractPlugin.loader,
+                            {
+                                loader: 'css-loader',
+                                options: {
+                                    importLoaders: 1,
+                                    modules: false,
+                                    minimize: IS_PRODUCTION,
+                                    sourceMap: !IS_PRODUCTION,
+                                },
                             },
-                        },
-                        {
-                            loader: 'sass-loader',
-                            options: {
-                                sourceMap: !IS_PRODUCTION,
-                                includePaths: [resolve(__dirname, 'src/css')],
+                            {
+                                loader: 'sass-loader',
+                                options: {
+                                    sourceMap: !IS_PRODUCTION,
+                                    outputStyle: IS_PRODUCTION
+                                        ? 'compressed'
+                                        : 'expanded',
+                                    includePaths: ['src/css'],
+                                },
                             },
-                        },
-                    ],
-                    allChunks: true,
-                }),
+                        ],
+                    },
+                    {
+                        use: [
+                            MiniCssExtractPlugin.loader,
+                            {
+                                loader: 'css-loader',
+                                options: {
+                                    importLoaders: 1,
+                                    modules: true,
+                                    minimize: IS_PRODUCTION,
+                                    sourceMap: !IS_PRODUCTION,
+                                    camelCase: 'only',
+                                    localIdentName:
+                                        '[name]__[local]___[hash:base64:5]',
+                                },
+                            },
+                            {
+                                loader: 'sass-loader',
+                                options: {
+                                    sourceMap: !IS_PRODUCTION,
+                                    outputStyle: IS_PRODUCTION
+                                        ? 'compressed'
+                                        : 'expanded',
+                                    includePaths: ['src/css'],
+                                },
+                            },
+                        ],
+                    },
+                ],
             },
             {
                 test: /\.css$/,
-                use: ExtractTextPlugin.extract({
-                    use: [
-                        {
-                            loader: 'css-loader',
-                            options: {
-                                minimize: IS_PRODUCTION,
-                                sourceMap: !IS_PRODUCTION,
-                            },
+                use: [
+                    MiniCssExtractPlugin.loader,
+                    {
+                        loader: 'css-loader',
+                        options: {
+                            minimize: IS_PRODUCTION,
+                            sourceMap: !IS_PRODUCTION,
                         },
-                    ],
-                    allChunks: true,
-                }),
+                    },
+                ],
             },
         ],
     },
 };
+
+export default config;

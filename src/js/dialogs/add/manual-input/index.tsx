@@ -1,6 +1,6 @@
 import { action, runInAction } from 'mobx';
 import { observer } from 'mobx-react';
-import * as React from 'react';
+import React from 'react';
 
 import Store from 'stores/ui/add-dialog';
 import { getFromISBN } from 'utils/resolvers/isbn';
@@ -11,7 +11,7 @@ import AutoCite from 'dialogs/add/autocite';
 import ContributorList from 'dialogs/components/contributor-list';
 import MetaFields from 'dialogs/components/meta-fields';
 
-import * as styles from './manual-input.scss';
+import styles from './manual-input.scss';
 
 interface Props {
     store: Store;
@@ -107,23 +107,21 @@ export default class ManualInput extends React.Component<Props> {
                         ))}
                     </select>
                 </div>
-                {renderAutocite &&
-                    itemType === 'webpage' && (
-                        <AutoCite
-                            getter={this.handleAutocite}
-                            kind={itemType as 'webpage'}
-                            placeholder={ManualInput.labels.URL}
-                        />
-                    )}
-                {renderAutocite &&
-                    ['book', 'chapter'].includes(itemType) && (
-                        <AutoCite
-                            getter={this.handleAutocite}
-                            kind={itemType as 'book' | 'chapter'}
-                            placeholder={ManualInput.labels.ISBN}
-                            pattern="(?:[\dxX]-?){10}|(?:[\dxX]-?){13}"
-                        />
-                    )}
+                {renderAutocite && itemType === 'webpage' && (
+                    <AutoCite
+                        getter={this.handleAutocite}
+                        kind={itemType as 'webpage'}
+                        placeholder={ManualInput.labels.URL}
+                    />
+                )}
+                {renderAutocite && ['book', 'chapter'].includes(itemType) && (
+                    <AutoCite
+                        getter={this.handleAutocite}
+                        kind={itemType as 'book' | 'chapter'}
+                        placeholder={ManualInput.labels.ISBN}
+                        pattern="(?:[\dxX]-?){10}|(?:[\dxX]-?){13}"
+                    />
+                )}
                 <div
                     onWheel={this.handleWheel}
                     className={

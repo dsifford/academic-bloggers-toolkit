@@ -1,6 +1,6 @@
 import { parseDate } from 'astrocite-core';
 import { computed, observable, toJS } from 'mobx';
-import * as nanoid from 'nanoid';
+import nanoid from 'nanoid';
 
 import { AutociteResponse } from 'utils/resolvers';
 
@@ -74,7 +74,10 @@ export default class ManualData {
         });
         this.people.intercept(change => {
             if (change.type === 'splice') {
-                change.added = change.added.map(person => ({ ...BLANK_PERSON, ...person }));
+                change.added = change.added.map(person => ({
+                    ...BLANK_PERSON,
+                    ...person,
+                }));
             }
             return change;
         });
@@ -97,7 +100,9 @@ export default class ManualData {
             (csl, [key, value]) => {
                 return {
                     ...csl,
-                    [key]: DATE_FIELD_KEYS.includes(key) ? parseDate(value) : value,
+                    [key]: DATE_FIELD_KEYS.includes(key)
+                        ? parseDate(value)
+                        : value,
                 };
             },
             {
@@ -121,12 +126,18 @@ export default class ManualData {
             }
             if (isDateField(key, value)) {
                 const dateParts = value['date-parts'];
-                this.standardFields.set(key, dateParts ? dateParts[0].join('/') : value.literal);
+                this.standardFields.set(
+                    key,
+                    dateParts ? dateParts[0].join('/') : value.literal,
+                );
                 continue;
             }
             if (isPersonField(key, value)) {
                 for (const person of value) {
-                    const p: ABT.Contributor = { ...person, type: <CSL.PersonFieldKey>key };
+                    const p: ABT.Contributor = {
+                        ...person,
+                        type: <CSL.PersonFieldKey>key,
+                    };
                     this.people.push(p);
                 }
                 continue;
@@ -154,7 +165,10 @@ export default class ManualData {
         }
     };
 
-    updateField = (key: CSL.DateFieldKey | CSL.StandardFieldKey, value: string): void => {
+    updateField = (
+        key: CSL.DateFieldKey | CSL.StandardFieldKey,
+        value: string,
+    ): void => {
         if (value === '') {
             this.standardFields.delete(key);
             return;

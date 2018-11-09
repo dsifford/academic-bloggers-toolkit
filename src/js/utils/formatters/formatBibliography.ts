@@ -12,7 +12,7 @@ import { formatReferenceLinks } from './formatReferenceLinks';
 export function formatBibliography(
     rawBib: Citeproc.Bibliography,
     links: ABT.LinkStyle,
-    CSL: ObservableMap<CSL.Data>,
+    CSL: ObservableMap<string, CSL.Data>,
 ): ABT.Bibliography {
     const [bibmeta, bibHTML] = rawBib;
     const temp = document.createElement('div');

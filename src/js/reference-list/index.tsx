@@ -2,7 +2,7 @@ import { stripIndents } from 'common-tags';
 import { decode } from 'he';
 import { action, observable, reaction } from 'mobx';
 import { observer } from 'mobx-react';
-import * as React from 'react';
+import React from 'react';
 
 import { getRemoteData } from 'core/api';
 import { Processor } from 'core/processor';
@@ -19,14 +19,16 @@ import Dialog, { DialogType } from 'dialogs';
 import ItemList from 'reference-list/components/item-list';
 import Menu, { MenuAction } from 'reference-list/components/menu';
 
-import * as styles from './reference-list.scss';
+import styles from './reference-list.scss';
 
-const Storage = observer(({ data }: { data: string }): JSX.Element => (
-    <input type="hidden" name="abt-reflist-state" value={data} />
-));
+const Storage = observer(
+    ({ data }: { data: string }): JSX.Element => (
+        <input type="hidden" name="abt-reflist-state" value={data} />
+    ),
+);
 
 interface Props {
-    editor: Promise<typeof EditorDriver & EditorDriverConstructor>;
+    editor: typeof EditorDriver & EditorDriverConstructor;
     store: Store;
     loading?: boolean;
 }
@@ -51,7 +53,7 @@ export default class ReferenceList extends React.Component<Props> {
     /**
      * The editor instance
      */
-    editor!: EditorDriver;
+    editor: EditorDriver = new this.props.editor();
 
     /**
      * The CSLProcessor instance
@@ -84,9 +86,9 @@ export default class ReferenceList extends React.Component<Props> {
         reaction(
             () => this.ui.pinned,
             () => {
-                document.getElementById('abt-reflist')!.classList.toggle(
-                    'fixed',
-                );
+                document
+                    .getElementById('abt-reflist')!
+                    .classList.toggle('fixed');
                 this.handleScroll();
             },
         );
@@ -160,7 +162,6 @@ export default class ReferenceList extends React.Component<Props> {
     }
 
     init = async (): Promise<void> => {
-        this.editor = await this.props.editor.then(driver => new driver());
         await this.editor.init();
         await this.initProcessor();
         this.toggleLoading(false);

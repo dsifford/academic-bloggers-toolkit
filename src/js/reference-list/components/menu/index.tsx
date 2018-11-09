@@ -1,5 +1,5 @@
 import { observer } from 'mobx-react';
-import * as React from 'react';
+import React from 'react';
 import { SuggestionSelectedEventData } from 'react-autosuggest';
 
 import UIStore from 'stores/ui/reference-list';
@@ -8,7 +8,7 @@ import { MenuActionType } from 'utils/constants';
 import Button from 'components/button';
 import StyleInput from 'components/style-input';
 
-import * as Styles from './menu.scss';
+import Styles from './menu.scss';
 
 export type MenuAction = StyleTypeChange | MenuButtonClick;
 

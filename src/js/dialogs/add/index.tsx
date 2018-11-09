@@ -1,6 +1,6 @@
 import { action } from 'mobx';
 import { observer } from 'mobx-react';
-import * as React from 'react';
+import React from 'react';
 
 import { DialogDefaultProps, DialogProps, DialogType } from 'dialogs';
 import Store from 'stores/ui/add-dialog';

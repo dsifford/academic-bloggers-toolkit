@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import AsyncLoad from 'utils/async-load';
 
 export default function devtool(props: any): any {

@@ -1,12 +1,17 @@
 import { mount } from 'enzyme';
 import toJSON from 'enzyme-to-json';
-import * as React from 'react';
+import React from 'react';
 import AutoCite from '..';
 
 const setup = ({ kind = 'webpage' } = {}, pattern?: any) => {
     const getter = jest.fn();
     const component = mount(
-        <AutoCite kind={kind as any} placeholder="Test" pattern={pattern} getter={getter} />,
+        <AutoCite
+            kind={kind as any}
+            placeholder="Test"
+            pattern={pattern}
+            getter={getter}
+        />,
     );
     return {
         component,
@@ -58,9 +63,21 @@ describe('<AutoCite />', () => {
         const stopPropagation = jest.fn();
         const preventDefault = jest.fn();
 
-        input.simulate('keyDown', { key: 'Enter', stopPropagation, preventDefault });
-        input.simulate('keyDown', { key: 'Return', stopPropagation, preventDefault });
-        input.simulate('keyDown', { key: 'a', stopPropagation, preventDefault });
+        input.simulate('keyDown', {
+            key: 'Enter',
+            stopPropagation,
+            preventDefault,
+        });
+        input.simulate('keyDown', {
+            key: 'Return',
+            stopPropagation,
+            preventDefault,
+        });
+        input.simulate('keyDown', {
+            key: 'a',
+            stopPropagation,
+            preventDefault,
+        });
 
         expect(stopPropagation).toHaveBeenCalledTimes(2);
         expect(preventDefault).toHaveBeenCalledTimes(2);

@@ -3,7 +3,7 @@ jest.mock('core/processor');
 
 import { shallow } from 'enzyme';
 import toJSON from 'enzyme-to-json';
-import * as React from 'react';
+import React from 'react';
 
 import { getRemoteData } from 'core/api';
 import Store from 'stores/data';

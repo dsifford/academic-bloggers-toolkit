@@ -1,25 +1,36 @@
-version: '3'
+version: '3.7'
 services:
-    wordpress:
-        image: visiblevc/wordpress:0.17.0-php7.2
-        ports:
-            - 8080:80
-        volumes:
-            - ./dist:/app/wp-content/plugins/academic-bloggers-toolkit
-        environment:
-            DB_NAME: wordpress
-            DB_PASS: root
-            WP_DEBUG: 'true'
-            WP_VERSION: nightly
-            PLUGINS: >-
-                co-authors-plus,
-                query-monitor,
-                gutenberg,
-            # relative-url,
-            # piglatin,
-    db:
-        image: mariadb:10
-        ports:
-            - 3306:3306
-        environment:
-            MYSQL_ROOT_PASSWORD: root
+  wordpress:
+    image: visiblevc/wordpress:0.21.0-php7.2
+    cap_add:
+      - SYS_ADMIN
+    devices:
+      - /dev/fuse
+    environment:
+      DB_PASS: root
+      WP_DEBUG: 'true'
+      WP_DEBUG_DISPLAY: 'true'
+      WP_VERSION: nightly
+      PLUGINS: >-
+        gutenberg
+        query-monitor
+        wordpress-seo
+    ports:
+      - 8080:80
+    volumes:
+      - ./dist:/app/wp-content/plugins/academic-bloggers-toolkit
+  db:
+    image: mariadb:10
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+    volumes:
+      - data:/var/lib/mysql
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    volumes:
+      - data:/var/lib/mysql
+    ports:
+      - 22222:80
+
+volumes:
+  data:

@@ -1,13 +1,18 @@
 import { shallow } from 'enzyme';
 import toJSON from 'enzyme-to-json';
-import * as React from 'react';
-import * as diff from 'snapshot-diff';
+import React from 'react';
+import diff from 'snapshot-diff';
 
 import Tooltip from '..';
 
 const setup = ({ active = true, transform = '' } = {}) => {
     const component = shallow(
-        <Tooltip id="test" text="Hello World" transform={transform} active={active} />,
+        <Tooltip
+            id="test"
+            text="Hello World"
+            transform={transform}
+            active={active}
+        />,
     );
     return {
         component,
@@ -47,7 +52,9 @@ describe('<Tooltip />', () => {
             );
         });
         test('right', () => {
-            expect(getTransform('right')).toBe('translateX(100px) translateX(5px)');
+            expect(getTransform('right')).toBe(
+                'translateX(100px) translateX(5px)',
+            );
         });
         test('bottom', () => {
             expect(getTransform('bottom')).toBe(
@@ -55,7 +62,9 @@ describe('<Tooltip />', () => {
             );
         });
         test('left', () => {
-            expect(getTransform('left')).toBe('translateX(-100%) translateX(-5px)');
+            expect(getTransform('left')).toBe(
+                'translateX(-100%) translateX(-5px)',
+            );
         });
     });
 });

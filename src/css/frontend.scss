@@ -6,6 +6,7 @@
     .abt-bibligraphy__container {
         display: block;
     }
+
     .abt-bibligraphy__container--hidden {
         display: none;
     }
@@ -61,16 +62,20 @@
         background-color: white;
         z-index: 20;
         visibility: hidden;
+
         p {
             margin: 0 !important;
         }
     }
+
     .abt-tooltip_bottom {
         animation: fadeInUp 0.2s;
     }
+
     .abt-tooltip_top {
         animation: fadeInDown 0.2s;
     }
+
     .abt-tooltip_active {
         visibility: visible !important;
     }
@@ -82,10 +87,12 @@
         border-style: solid;
         pointer-events: none;
     }
+
     .abt-tooltip__callout_up {
         border-color: transparent transparent white;
         top: -15px;
     }
+
     .abt-tooltip__callout_down {
         border-color: white transparent transparent;
         bottom: -15px;
@@ -115,10 +122,12 @@
         text-indent: -9999px;
         transform: rotate(45deg);
         transition: 0.3s;
+
         &:hover {
             transform: rotate(-135deg);
             transition: 0.3s;
         }
+
         &:before {
             content: '';
             left: 50%;
@@ -130,6 +139,7 @@
             height: 2px;
             width: 14px;
         }
+
         &:after {
             @extend .abt-tooltip__close-button:before;
             height: 14px;
@@ -142,6 +152,7 @@
             opacity: 0;
             transform: translate3d(0, 10px, 0);
         }
+
         to {
             opacity: 1;
             transform: none;
@@ -153,6 +164,7 @@
             opacity: 0;
             transform: translate3d(0, -10px, 0);
         }
+
         to {
             opacity: 1;
             transform: none;

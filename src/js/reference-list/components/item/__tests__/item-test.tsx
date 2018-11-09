@@ -1,8 +1,8 @@
 jest.useFakeTimers();
 import { shallow } from 'enzyme';
 import toJSON from 'enzyme-to-json';
-import * as React from 'react';
-import * as diff from 'snapshot-diff';
+import React from 'react';
+import diff from 'snapshot-diff';
 import Item from '..';
 
 const testData: { [id: string]: any } = {
@@ -149,7 +149,11 @@ const testData: { [id: string]: any } = {
     },
 };
 
-const setup = (data: CSL.Data, selected: boolean = false, indexOnHover: boolean = true) => {
+const setup = (
+    data: CSL.Data,
+    selected: boolean = false,
+    indexOnHover: boolean = true,
+) => {
     const spy = jest.fn();
     const component = shallow(
         <Item

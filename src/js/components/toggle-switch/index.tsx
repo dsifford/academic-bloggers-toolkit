@@ -1,11 +1,11 @@
 import { observer } from 'mobx-react';
-import * as React from 'react';
+import React from 'react';
 
 import Tooltip, {
     TooltipParentProp,
     TooltipParentState,
 } from 'components/tooltip';
-import * as styles from './toggle-switch.scss';
+import styles from './toggle-switch.scss';
 
 interface Props extends React.HTMLProps<HTMLInputElement> {
     /**

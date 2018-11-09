@@ -1,13 +1,15 @@
 import { shallow, ShallowWrapper } from 'enzyme';
 import toJSON, { OutputMapper } from 'enzyme-to-json';
-import * as React from 'react';
+import React from 'react';
 
 import AddDialog from '..';
 
 const setup = () => {
     const toggleFocusTrap = jest.fn();
     const onSubmit = jest.fn();
-    const component = shallow(<AddDialog onSubmit={onSubmit} toggleFocusTrap={toggleFocusTrap} />);
+    const component = shallow(
+        <AddDialog onSubmit={onSubmit} toggleFocusTrap={toggleFocusTrap} />,
+    );
     return {
         component,
         instance: component.instance() as AddDialog,
@@ -23,7 +25,8 @@ const mapper: OutputMapper = json => {
     return json;
 };
 
-const J = (component: ShallowWrapper) => toJSON(component, { noKey: true, map: mapper });
+const J = (component: ShallowWrapper) =>
+    toJSON(component, { noKey: true, map: mapper });
 
 describe('<AddDialog />', () => {
     const BASELINE = J(setup().component);

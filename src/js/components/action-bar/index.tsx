@@ -1,7 +1,7 @@
-import * as classNames from 'classnames';
-import * as React from 'react';
+import classNames from 'classnames';
+import React from 'react';
 
-import * as styles from './action-bar.scss';
+import styles from './action-bar.scss';
 
 interface Props {
     children: React.ReactNode;
@@ -9,7 +9,6 @@ interface Props {
 }
 
 export default class ActionBar extends React.PureComponent<Props> {
-    static Separator = (): JSX.Element => <span className={styles.separator} />;
     render(): JSX.Element {
         const { align, ...props } = this.props;
         const className = classNames(styles.actionBar, {
@@ -17,4 +16,5 @@ export default class ActionBar extends React.PureComponent<Props> {
         });
         return <div className={className} {...props} />;
     }
+    static Separator = (): JSX.Element => <span className={styles.separator} />;
 }

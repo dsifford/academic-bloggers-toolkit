@@ -1,6 +1,6 @@
-import * as Csl from 'citeproc';
+import Csl from 'citeproc';
 import { toJS } from 'mobx';
-import * as nanoid from 'nanoid';
+import nanoid from 'nanoid';
 
 import CSLCache from 'stores/cache/csl-cache';
 import LocaleCache from 'stores/cache/locale-cache';
@@ -70,11 +70,11 @@ export class Processor {
                 : await this.styles.fetch(this.store.citationStyle.value);
         const sys = await this.generateSys(this.store.locale);
         this.citeproc = new Csl.Engine(sys, style);
-        return <Array<
-            [number, string, string]
-        >>this.citeproc
-            .rebuildProcessorState(this.store.citations.citationByIndex)
-            .map(([a, , c], i) => [i, c, a]);
+        return <Array<[number, string, string]>>(
+            this.citeproc
+                .rebuildProcessorState(this.store.citations.citationByIndex)
+                .map(([a, , c], i) => [i, c, a])
+        );
     }
 
     /**

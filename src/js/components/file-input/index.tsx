@@ -1,7 +1,7 @@
-import * as classNames from 'classnames';
-import * as React from 'react';
+import classNames from 'classnames';
+import React from 'react';
 
-import * as styles from './file-input.scss';
+import styles from './file-input.scss';
 
 export interface Props extends React.AllHTMLAttributes<HTMLLabelElement> {
     /**

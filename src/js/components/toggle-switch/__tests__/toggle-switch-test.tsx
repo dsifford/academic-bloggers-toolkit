@@ -1,6 +1,6 @@
 import { shallow } from 'enzyme';
 import toJSON from 'enzyme-to-json';
-import * as React from 'react';
+import React from 'react';
 
 import ToggleSwitch from '..';
 
@@ -35,8 +35,12 @@ describe('<ToggleSwitch />', () => {
             />,
         );
         const toggle = component.find('span');
-        const getBoundingClientRect = jest.fn().mockReturnValue({ top: 100, left: 100 });
-        toggle.simulate('mouseOver', { currentTarget: { getBoundingClientRect } });
+        const getBoundingClientRect = jest
+            .fn()
+            .mockReturnValue({ top: 100, left: 100 });
+        toggle.simulate('mouseOver', {
+            currentTarget: { getBoundingClientRect },
+        });
         toggle.simulate('mouseOut');
         expect(getBoundingClientRect).toHaveBeenCalled();
     });

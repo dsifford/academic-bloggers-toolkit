@@ -1,14 +1,7 @@
-.git
 node_modules
-.coveralls.yml
 dist
-coverage
-junk
 tmp
 npm-debug.log
-typings/*
-!typings/ABT.d.ts
 NOTES.md
 TODO.md
 .env
-lib/scripts/get-translation-status.ts

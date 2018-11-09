@@ -1,10 +1,10 @@
 // tslint:disable:max-classes-per-file
-import * as FocusTrap from 'focus-trap-react';
+import FocusTrap from 'focus-trap-react';
 import { action, observable } from 'mobx';
 import { observer } from 'mobx-react';
-import * as React from 'react';
+import React from 'react';
 
-import * as styles from './container.scss';
+import styles from './container.scss';
 
 interface Props {
     /**

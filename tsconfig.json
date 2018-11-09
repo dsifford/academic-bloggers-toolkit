@@ -1,18 +1,21 @@
 {
   "compilerOptions": {
-    "target": "es6",
-    "module": "commonjs",
-    "lib": ["dom", "dom.iterable", "esnext"],
+    "allowSyntheticDefaultImports": true,
+    "baseUrl": "./src/js",
+    "experimentalDecorators": true,
+    "esModuleInterop": true,
     "jsx": "preserve",
-    "sourceMap": true,
-    "strict": true,
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "module": "esnext",
+    "moduleResolution": "node",
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitReturns": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "noImplicitReturns": true,
-    "noFallthroughCasesInSwitch": true,
-    "noImplicitAny": true,
-    "baseUrl": "./src/js",
-    "experimentalDecorators": true
+    "sourceMap": true,
+    "strict": true,
+    "target": "esnext",
+    "plugins": [{ "name": "typescript-tslint-plugin" }]
   },
-  "include": ["src/js/**/*", "lib/types/*", "lib/*", "webpack.config.ts"]
+  "include": ["src/**/*", "lib/**/*", "webpack.config.ts"]
 }

@@ -1,6 +1,6 @@
 import { shallow } from 'enzyme';
 import toJSON from 'enzyme-to-json';
-import * as React from 'react';
+import React from 'react';
 
 import Store from 'stores/ui/add-dialog';
 import IdentifierInput from '..';
@@ -8,7 +8,9 @@ import IdentifierInput from '..';
 const setup = () => {
     const store = new Store('webpage');
     const fieldRef = jest.fn();
-    const component = shallow(<IdentifierInput store={store} fieldRef={fieldRef} />);
+    const component = shallow(
+        <IdentifierInput store={store} fieldRef={fieldRef} />,
+    );
     return {
         component,
     };

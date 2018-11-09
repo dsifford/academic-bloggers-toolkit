@@ -1,11 +1,11 @@
 import { action } from 'mobx';
 import { observer } from 'mobx-react';
-import * as React from 'react';
+import React from 'react';
 
 import ManualDataStore from 'stores/data/manual-data-store';
 import Field from './field';
 
-import * as styles from './meta-fields.scss';
+import styles from './meta-fields.scss';
 
 interface Props {
     meta: ManualDataStore;

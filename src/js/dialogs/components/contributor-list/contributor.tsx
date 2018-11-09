@@ -1,9 +1,9 @@
 import { action, observable } from 'mobx';
 import { observer } from 'mobx-react';
-import * as React from 'react';
+import React from 'react';
 
 import Button from 'components/button';
-import * as styles from './contributor-list.scss';
+import styles from './contributor-list.scss';
 
 interface Props {
     contributorTypes: ABT.ContributorField[];

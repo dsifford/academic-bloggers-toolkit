@@ -1,9 +1,9 @@
 import { decode } from 'he';
 import { observer } from 'mobx-react';
-import * as React from 'react';
+import React, { Component, MouseEvent, WheelEvent } from 'react';
 
 import Button from 'components/button';
-import * as styles from './result-list.scss';
+import styles from './result-list.scss';
 
 interface Props {
     /**
@@ -17,7 +17,7 @@ interface Props {
 }
 
 @observer
-export default class ResultList extends React.Component<Props> {
+export default class ResultList extends Component<Props> {
     static readonly labels = top.ABT.i18n.dialogs.pubmed;
 
     /**
@@ -33,11 +33,11 @@ export default class ResultList extends React.Component<Props> {
         this.element.scrollTop = 0;
     }
 
-    handleClick = (e: React.MouseEvent<HTMLInputElement>): void => {
+    handleClick = (e: MouseEvent<HTMLButtonElement>): void => {
         this.props.onSelect(e.currentTarget.id);
     };
 
-    handleWheel = (e: React.WheelEvent<HTMLDivElement>): void => {
+    handleWheel = (e: WheelEvent<HTMLDivElement>): void => {
         const isScrollingDown = e.deltaY > 0;
         const isScrollingUp = !isScrollingDown;
         const isScrollable =
@@ -80,8 +80,8 @@ export default class ResultList extends React.Component<Props> {
                         />
                         <div className={styles.row3}>
                             <div>
-                                {result.author!
-                                    .slice(0, 3)
+                                {result
+                                    .author!.slice(0, 3)
                                     .map(author =>
                                         [
                                             author.family,

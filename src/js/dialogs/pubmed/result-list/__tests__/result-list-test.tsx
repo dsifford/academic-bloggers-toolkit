@@ -1,6 +1,6 @@
 import { mount, shallow } from 'enzyme';
 import toJSON from 'enzyme-to-json';
-import * as React from 'react';
+import React from 'react';
 import ResultList from '..';
 
 const generateData = (n: number): any => {

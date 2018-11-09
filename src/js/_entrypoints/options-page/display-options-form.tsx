@@ -1,12 +1,12 @@
 import { observer } from 'mobx-react';
-import * as React from 'react';
+import React from 'react';
 
 import DisplayOptionsStore from 'stores/data/display-options-store';
 
 import RadioGroup from 'components/radio-group';
 import Demo from './demo';
 
-import * as styles from './_index.scss';
+import styles from './_index.scss';
 
 type InputEvent = React.FormEvent<HTMLInputElement>;
 
@@ -35,13 +35,13 @@ export default class DisplayOptionsForm extends React.Component {
     };
 
     handleHeadingChange = (e: InputEvent): void => {
-        const bib_heading = e.currentTarget.value;
+        const bibHeading = e.currentTarget.value;
         const bibliography =
-            bib_heading === '' ? 'fixed' : this.store.bibliography;
+            bibHeading === '' ? 'fixed' : this.store.bibliography;
         this.store.options = {
             ...this.store.options,
             bibliography,
-            bib_heading,
+            bib_heading: bibHeading,
         };
     };
 

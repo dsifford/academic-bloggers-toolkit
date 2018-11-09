@@ -1,14 +1,14 @@
 # TODO: Add build stages
 language: node_js
 node_js:
-    - "node"
+  - 'node'
 branches:
-    only:
-        - master
-        - /^greenkeeper-.*$/
+  only:
+    - master
+    - /^greenkeeper-.*$/
 cache:
-    directories:
-        - "node_modules"
+  directories:
+    - 'node_modules'
 script: npm run test-ci
 after_success:
-    - bash <(curl -s https://codecov.io/bash)
+  - bash <(curl -s https://codecov.io/bash)

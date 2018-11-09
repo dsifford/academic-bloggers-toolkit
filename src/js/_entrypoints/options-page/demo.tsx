@@ -1,7 +1,7 @@
-import * as classNames from 'classnames';
-import * as React from 'react';
+import classNames from 'classnames';
+import React from 'react';
 
-import * as styles from './_index.scss';
+import styles from './_index.scss';
 
 interface Props {
     options: ABT.DisplayOptions;
@@ -79,15 +79,16 @@ export default class Demo extends React.Component<Props, State> {
                                 rel="noopener noreferrer"
                             >
                                 https://wordpress.org/plugins/academic-bloggers-toolkit/
-                            </a>.
-                            <i> J WordPress</i>. 2015;12(5):12-24. [
+                            </a>
+                            .<i> J WordPress</i>. 2015;12(5):12-24. [
                             <a
                                 href="https://doi.org/#1"
                                 target="_blank"
                                 rel="noopener noreferrer"
                             >
                                 Source
-                            </a>]
+                            </a>
+                            ]
                         </span>
                     )}
                     {links === 'always-full-surround' && (
@@ -112,7 +113,8 @@ export default class Demo extends React.Component<Props, State> {
                                 rel="noopener noreferrer"
                             >
                                 https://wordpress.org/plugins/academic-bloggers-toolkit/
-                            </a>. <i>J WordPress</i>. 2015;12(5):12-24.
+                            </a>
+                            . <i>J WordPress</i>. 2015;12(5):12-24.
                         </span>
                     )}
                     {links === 'never' && (

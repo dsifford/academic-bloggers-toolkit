@@ -1,8 +1,8 @@
 import { action, observable, runInAction } from 'mobx';
 import { observer } from 'mobx-react';
-import * as React from 'react';
+import React from 'react';
 
-import * as styles from './item.scss';
+import styles from './item.scss';
 
 interface Props extends React.HTMLProps<HTMLDivElement> {
     /**
@@ -28,7 +28,7 @@ export default class Item extends React.Component<Props> {
     /**
      * Controls the visibility state of the index badge, if applicable
      */
-    isShowingIndex = observable(false);
+    isShowingIndex = observable.box(false);
 
     /**
      * Controls the delay period between hovering and displaying the index badge

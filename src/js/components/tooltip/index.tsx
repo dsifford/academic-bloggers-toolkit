@@ -1,6 +1,6 @@
 import { oneLine } from 'common-tags';
-import * as React from 'react';
-import * as styles from './tooltip.scss';
+import React from 'react';
+import styles from './tooltip.scss';
 
 /**
  * Where to display the tooltip in relation to the element being described

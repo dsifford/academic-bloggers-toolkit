@@ -1,5 +1,5 @@
-import { useStrict } from 'mobx';
-import * as React from 'react';
+import { configure } from 'mobx';
+import React from 'react';
 import domReady from 'utils/dom-ready';
 import { renderMany } from 'utils/render';
 
@@ -8,7 +8,7 @@ import StyleForm from './style-form';
 
 import './_index.scss';
 
-useStrict(true);
+configure({ enforceActions: 'observed' });
 
 renderMany([
     [<StyleForm />, 'style-form-root'],

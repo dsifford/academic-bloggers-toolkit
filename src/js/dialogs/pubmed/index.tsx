@@ -1,6 +1,6 @@
 import { action, computed, observable, runInAction } from 'mobx';
 import { observer } from 'mobx-react';
-import * as React from 'react';
+import React from 'react';
 
 import { pubmedQuery } from 'utils/resolvers';
 
@@ -23,22 +23,22 @@ export default class PubmedDialog extends React.Component<DialogProps> {
     /**
      * Error message to be displayed in the callout, if applicable
      */
-    errorMessage = observable('');
+    errorMessage = observable.box('');
 
     /**
      * Controls the loading state of the dialog
      */
-    isLoading = observable(false);
+    isLoading = observable.box(false);
 
     /**
      * Current page of results
      */
-    page = observable(0);
+    page = observable.box(0);
 
     /**
      * Controls the state of the input field
      */
-    query = observable('');
+    query = observable.box('');
 
     /**
      * Array of results returned from the pubmed search
