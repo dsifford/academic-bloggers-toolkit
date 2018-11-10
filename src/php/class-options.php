@@ -14,7 +14,7 @@ class Options {
 
 	private $abt_globals;
 
-	static function init() {
+	public static function init() {
 		if ( is_null( self::$instance ) ) {
 			self::$instance = new \ABT\Options();
 		}
@@ -38,7 +38,7 @@ class Options {
 		if ( 'settings_page_abt-options' !== $hook ) {
 			return;
 		}
-		wp_enqueue_style( 'abt-options-page', ABT_ROOT_URI . '/css/options-page.css', [], ABT_VERSION );
+		wp_enqueue_style( 'abt-options-page', ABT_ROOT_URI . '/js/options-page.css', [], ABT_VERSION );
 		wp_enqueue_script( 'abt-options-page', ABT_ROOT_URI . '/js/options-page.js', [], ABT_VERSION );
 		wp_enqueue_script( 'codepen', '//assets.codepen.io/assets/embed/ei.js', [], null, true );
 		wp_enqueue_script( 'abt-noop', ABT_ROOT_URI . 'vendor/noop.js', [], false, true );
@@ -54,7 +54,8 @@ class Options {
 		);
 
 		$this->abt_globals = array_replace_recursive(
-			$this->abt_globals, [
+			$this->abt_globals,
+			[
 				'css_editor_settings' => $settings,
 				'options'             => get_option( ABT_OPTIONS_KEY ),
 			]
@@ -123,7 +124,8 @@ class Options {
 		update_option( 'abt_options', $options );
 
 		$this->abt_globals = array_replace_recursive(
-			$this->abt_globals, [
+			$this->abt_globals,
+			[
 				'options' => $options,
 			]
 		);

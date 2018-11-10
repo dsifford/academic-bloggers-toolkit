@@ -40,7 +40,6 @@ interface IRollbar {
     critical(msg: string, e?: any): void;
 }
 
-// declare const ABT_Custom_CSL: BackendGlobals.ABT_Custom_CSL;
 declare const DocumentTouch: any;
 declare const Rollbar: IRollbar;
 

@@ -22,32 +22,6 @@
     "update-styles": "manifold run ts-node ./lib/scripts/update-styles.ts",
     "zip": "npm run build && ./lib/scripts/zip.sh"
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged",
-      "pre-push": "npm test && npm run lint"
-    }
-  },
-  "lint-staged": {
-    "*.{ts,tsx,js,jsx,scss,json,css}": [
-      "prettier --write",
-      "git add"
-    ]
-  },
-  "bundlesize": [
-    {
-      "path": "./dist/js/frontend.js",
-      "maxSize": "15KB"
-    },
-    {
-      "path": "./dist/js/options-page.js",
-      "maxSize": "85KB"
-    },
-    {
-      "path": "./dist/js/reference-list.js",
-      "maxSize": "250KB"
-    }
-  ],
   "dependencies": {
     "@babel/runtime": "^7.1.5",
     "astrocite": "^0.10.0",
@@ -79,7 +53,7 @@
     "@types/he": "^1.1.0",
     "@types/jest": "^23.3.9",
     "@types/mini-css-extract-plugin": "^0.2.0",
-    "@types/node": "^10.12.4",
+    "@types/node": "^10.12.5",
     "@types/react": "^16.7.1",
     "@types/react-autosuggest": "^9.3.6",
     "@types/react-dom": "^16.0.9",
@@ -127,6 +101,32 @@
     "whatwg-fetch": "^3.0.0",
     "wp-pot": "^1.6.4"
   },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged",
+      "pre-push": "npm test && npm run lint"
+    }
+  },
+  "lint-staged": {
+    "*.{ts,tsx,js,jsx,scss,json,css}": [
+      "prettier --write",
+      "git add"
+    ]
+  },
+  "bundlesize": [
+    {
+      "path": "./dist/js/frontend.js",
+      "maxSize": "15KB"
+    },
+    {
+      "path": "./dist/js/options-page.js",
+      "maxSize": "85KB"
+    },
+    {
+      "path": "./dist/js/reference-list.js",
+      "maxSize": "250KB"
+    }
+  ],
   "jest": {
     "collectCoverageFrom": [
       "src/**/*.{ts,tsx}",

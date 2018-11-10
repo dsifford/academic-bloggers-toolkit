@@ -9,7 +9,7 @@ import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 const RollbarSourceMapPlugin = require('rollbar-sourcemap-webpack-plugin');
 const BrowserSyncPlugin = require('browser-sync-webpack-plugin');
 
-const ENTRYPOINT_DIR = 'js/_entrypoints';
+const ENTRYPOINT_DIR = 'js/_legacy/_entrypoints';
 const IS_PRODUCTION = process.env.NODE_ENV === 'production';
 const IS_DEPLOYING = process.env.IS_DEPLOYING === 'true';
 const VERSION = require('./package.json').version;
@@ -97,7 +97,7 @@ const config: webpack.Configuration = {
             'whatwg-fetch',
             `${ENTRYPOINT_DIR}/reference-list`,
         ],
-        'js/drivers/tinymce': 'js/drivers/tinymce',
+        'js/drivers/tinymce': 'js/_legacy/drivers/tinymce',
         'workers/locale-worker': 'workers/locale-worker',
 
         /**

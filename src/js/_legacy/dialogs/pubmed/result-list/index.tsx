@@ -1,0 +1,121 @@
+import { decode } from 'he';
+import { observer } from 'mobx-react';
+import React, { Component, MouseEvent, WheelEvent } from 'react';
+
+import Button from '_legacy/components/button';
+import styles from './result-list.scss';
+
+interface Props {
+    /**
+     * List of results returned from pubmed search
+     */
+    results: CSL.Data[];
+    /**
+     * Callback to be performed when a result is chosen
+     */
+    onSelect(pmid: string): void;
+}
+
+@observer
+export default class ResultList extends Component<Props> {
+    static readonly labels = top.ABT.i18n.dialogs.pubmed;
+
+    /**
+     * Required so that result list can be scrolled to top after each new search
+     */
+    element!: HTMLElement;
+
+    bindRefs = (c: HTMLDivElement): void => {
+        this.element = c;
+    };
+
+    componentDidUpdate(): void {
+        this.element.scrollTop = 0;
+    }
+
+    handleClick = (e: MouseEvent<HTMLButtonElement>): void => {
+        this.props.onSelect(e.currentTarget.id);
+    };
+
+    handleWheel = (e: WheelEvent<HTMLDivElement>): void => {
+        const isScrollingDown = e.deltaY > 0;
+        const isScrollingUp = !isScrollingDown;
+        const isScrollable =
+            e.currentTarget.scrollHeight > e.currentTarget.clientHeight;
+        const atBottom =
+            e.currentTarget.scrollHeight <=
+            e.currentTarget.clientHeight + Math.ceil(e.currentTarget.scrollTop);
+        const atTop = e.currentTarget.scrollTop === 0;
+
+        if (isScrollable && !atBottom && isScrollingDown) {
+            e.cancelable = false;
+        }
+
+        if (isScrollable && !atTop && isScrollingUp) {
+            e.cancelable = false;
+        }
+    };
+
+    render(): JSX.Element {
+        return (
+            <div
+                className={styles.main}
+                ref={this.bindRefs}
+                onWheel={this.handleWheel}
+            >
+                {this.props.results.map(result => (
+                    <div key={result.PMID} className={styles.result}>
+                        <div className={styles.row1}>
+                            <span className={styles.source}>
+                                {result.journalAbbreviation}
+                            </span>
+                            <span>{result.issued!['date-parts']![0][0]}</span>
+                        </div>
+                        {/* tslint:disable-next-line:react-no-dangerous-html */}
+                        <div
+                            dangerouslySetInnerHTML={{
+                                __html: decode(result.title!),
+                            }}
+                            className={styles.row2}
+                        />
+                        <div className={styles.row3}>
+                            <div>
+                                {result
+                                    .author!.slice(0, 3)
+                                    .map(author =>
+                                        [
+                                            author.family,
+                                            author.given ? author.given[0] : '',
+                                        ].join(', '),
+                                    )
+                                    .join(', ')}
+                            </div>
+                            <div className={styles.buttonGroup}>
+                                <Button
+                                    flat
+                                    focusable
+                                    href={`https://www.ncbi.nlm.nih.gov/pubmed/${
+                                        result.PMID
+                                    }`}
+                                    label={ResultList.labels.view_reference}
+                                >
+                                    {ResultList.labels.view_reference}
+                                </Button>
+                                <Button
+                                    flat
+                                    primary
+                                    focusable
+                                    id={result.PMID}
+                                    label={ResultList.labels.add_reference}
+                                    onClick={this.handleClick}
+                                >
+                                    {ResultList.labels.add_reference}
+                                </Button>
+                            </div>
+                        </div>
+                    </div>
+                ))}
+            </div>
+        );
+    }
+}
