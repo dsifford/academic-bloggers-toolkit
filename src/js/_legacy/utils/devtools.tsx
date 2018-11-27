@@ -1,3 +1,4 @@
+// TODO: deprecate this file
 import AsyncLoad from '_legacy/utils/async-load';
 import React from 'react';
 

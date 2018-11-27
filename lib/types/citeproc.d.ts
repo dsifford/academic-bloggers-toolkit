@@ -3,6 +3,7 @@ declare module 'citeproc' {
     export = CSL;
 }
 
+// tslint:disable-next-line:no-namespace
 declare namespace Citeproc {
     /**
      * 0: `Bibmeta`
@@ -36,7 +37,7 @@ declare namespace Citeproc {
      *
      * 1: 0-based index of the location of the `HTMLElement` in the document
      */
-    type Locator = [string, number][];
+    type Locator = Array<[string, number]>;
 
     interface CitationResultMeta {
         /**
@@ -128,6 +129,7 @@ declare namespace Citeproc {
         properties?: {
             /** 0-based index of the citation group in the document */
             noteIndex?: number;
+            index?: number;
         };
     }
 
@@ -199,7 +201,9 @@ declare namespace Citeproc {
          *
          * @param citationByIndex The new state that should be matched
          */
-        rebuildProcessorState(citationByIndex: Citation[]): RebuildProcessorStateData[];
+        rebuildProcessorState(
+            citationByIndex: Citation[],
+        ): RebuildProcessorStateData[];
     }
 
     interface EngineConstructor {

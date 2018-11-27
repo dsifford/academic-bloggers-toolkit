@@ -1,0 +1,11 @@
+:global(.components-panel__body.is-opened).container {
+    padding: 8px;
+}
+
+:global(.components-icon-button).more-icon {
+    padding: 8px 4px;
+
+    svg {
+        transform: rotate(90deg);
+    }
+}

@@ -86,6 +86,9 @@ export default class Container extends React.Component<Props> {
             background: `rgba(0, 0, 0, ${overlayOpacity})`,
         };
         const uniqueId = `dialog-label-${title.replace(/\s/g, '_')}`;
+        if (typeof ChildElement.type === 'string') {
+            throw new Error('need component class');
+        }
         return (
             // Disabled because the div is a background overlay.
             // The "dialog" role is instead given to the first child.

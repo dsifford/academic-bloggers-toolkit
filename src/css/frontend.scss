@@ -146,28 +146,28 @@
             width: 2px;
         }
     }
+}
 
-    @keyframes fadeInUp {
-        from {
-            opacity: 0;
-            transform: translate3d(0, 10px, 0);
-        }
-
-        to {
-            opacity: 1;
-            transform: none;
-        }
+@keyframes :global(fadeInUp) {
+    from {
+        opacity: 0;
+        transform: translate3d(0, 10px, 0);
     }
 
-    @keyframes fadeInDown {
-        from {
-            opacity: 0;
-            transform: translate3d(0, -10px, 0);
-        }
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
 
-        to {
-            opacity: 1;
-            transform: none;
-        }
+@keyframes :global(fadeInDown) {
+    from {
+        opacity: 0;
+        transform: translate3d(0, -10px, 0);
+    }
+
+    to {
+        opacity: 1;
+        transform: none;
     }
 }

@@ -1,4 +1,6 @@
-import { action, computed, toJS } from 'mobx';
+import { action, toJS } from 'mobx';
+
+import pick from 'utils/pick';
 
 import CitationStore from './citation-store';
 import DisplayOptionsStore from './display-options-store';
@@ -26,12 +28,13 @@ export default class Store {
         this.locale = locale;
     }
 
-    @computed
-    get persistent(): string {
+    persistent(): string {
         return JSON.stringify({
             CSL: toJS(this.citations.CSL),
             cache: this.cache,
-            citationByIndex: this.citations.citationByIndex,
+            citationByIndex: this.citations.citationByIndex.map(c =>
+                pick(c, 'citationID', 'citationItems', 'properties'),
+            ),
         });
     }
 

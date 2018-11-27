@@ -1,3 +1,4 @@
+// TODO: deprecate this file
 import React from 'react';
 
 interface Props {

@@ -1,0 +1,9 @@
+.toolbar {
+    $margin: 16px;
+    margin: -$margin;
+    margin-top: $margin;
+    padding: $margin;
+
+    // FIXME: make variable
+    border-top: 1px solid #e2e4e7;
+}

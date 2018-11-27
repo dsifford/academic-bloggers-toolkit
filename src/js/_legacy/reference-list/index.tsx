@@ -346,7 +346,7 @@ export default class ReferenceList extends React.Component<Props> {
             return (
                 <div className={styles.loading}>
                     <Spinner size="40px" height="52px" bgColor="#f5f5f5" />
-                    <Storage data={this.props.store.persistent} />
+                    <Storage data={this.props.store.persistent()} />
                 </div>
             );
         }
@@ -359,7 +359,7 @@ export default class ReferenceList extends React.Component<Props> {
                     currentDialog={this.ui.currentDialog}
                     onSubmit={this.handleDialogSubmit}
                 />
-                <Storage data={this.props.store.persistent} />
+                <Storage data={this.props.store.persistent()} />
                 <div className={styles.panel}>
                     <Button
                         flat

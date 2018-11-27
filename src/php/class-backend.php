@@ -4,6 +4,8 @@ namespace ABT;
 
 defined( 'ABSPATH' ) || exit;
 
+use function ABT\Utils\enqueue_script;
+
 require_once __DIR__ . '/i18n.php';
 
 /**
@@ -51,7 +53,6 @@ class Backend {
 			return;
 		}
 		add_action( 'add_meta_boxes', [ $this, 'add_metaboxes' ] );
-		add_action( 'admin_enqueue_scripts', [ $this, 'register_scripts' ] );
 		add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_scripts' ] );
 		add_action( 'admin_head', [ $this, 'init_tinymce' ] );
 		add_action( 'admin_notices', [ $this, 'user_alert' ] );
@@ -86,6 +87,9 @@ class Backend {
 	 * Instantiates the TinyMCE plugin.
 	 */
 	public function init_tinymce() {
+		if ( function_exists( 'is_gutenberg_page' ) && is_gutenberg_page() ) {
+			return;
+		}
 		if ( 'true' === get_user_option( 'rich_editing' ) ) {
 			add_filter( 'mce_external_plugins', [ $this, 'register_tinymce_plugins' ] );
 		}
@@ -99,7 +103,7 @@ class Backend {
 	 * @return string[] Array of TinyMCE plugins with plugins added
 	 */
 	public function register_tinymce_plugins( $plugin_array ) {
-		$plugin_array['noneditable'] = ABT_ROOT_URI . 'vendor/noneditable.js';
+		$plugin_array['noneditable'] = ABT_ROOT_URI . '/vendor/noneditable.js';
 		return $plugin_array;
 	}
 
@@ -114,7 +118,7 @@ class Backend {
 		if ( ! empty( $mce_css ) ) {
 			$mce_css .= ',';
 		}
-		$mce_css .= ABT_ROOT_URI . 'js/drivers/tinymce.css';
+		$mce_css .= ABT_ROOT_URI . '/bundle/drivers/tinymce.css';
 		return $mce_css;
 	}
 
@@ -124,8 +128,10 @@ class Backend {
 	 * @param string $post_type The post type.
 	 */
 	public function add_metaboxes( $post_type ) {
-		$disabled_post_types = apply_filters( 'abt_disabled_post_types', [ 'acf', 'um_form' ] );
-		$all_types           = get_post_types();
+		if ( function_exists( 'is_gutenberg_page' ) && is_gutenberg_page() ) {
+			return;
+		}
+		$all_types = get_post_types();
 		add_meta_box(
 			'abt-reflist',
 			__( 'Reference List', 'academic-bloggers-toolkit' ),
@@ -150,6 +156,9 @@ class Backend {
 	 * @param string $post_id The post ID.
 	 */
 	public function save_meta( $post_id ) {
+		if ( function_exists( 'is_gutenberg_page' ) && is_gutenberg_page() ) {
+			return;
+		}
 		if ( wp_is_post_autosave( $post_id ) || wp_is_post_revision( $post_id ) ) {
 			return;
 		}
@@ -167,20 +176,12 @@ class Backend {
 	}
 
 	/**
-	 * Registers all styles and scripts.
-	 */
-	public function register_scripts() {
-		wp_register_style( 'abt-fonts', '//fonts.googleapis.com/css?family=Roboto:300,400,500,700&subset=cyrillic,cyrillic-ext,greek,greek-ext,latin-ext,vietnamese', [], null );
-		wp_register_style( 'abt-reference-list', ABT_ROOT_URI . 'js/reference-list.css', [ 'dashicons', 'abt-fonts' ], ABT_VERSION );
-
-		wp_register_script( 'abt-reference-list', ABT_ROOT_URI . 'js/reference-list.js', [], ABT_VERSION );
-		wp_register_script( 'abt-changelog', '//cdn.headwayapp.co/widget.js', [], null, true );
-	}
-
-	/**
 	 * Registers and enqueues all required scripts.
 	 */
 	public function enqueue_scripts() {
+		if ( function_exists( 'is_gutenberg_page' ) && is_gutenberg_page() ) {
+			return;
+		}
 		global $post;
 
 		$translations = i18n\generate_translations();
@@ -215,8 +216,12 @@ class Backend {
 			$state['cache']['style'] = $opts['citation_style'];
 		}
 		// End legacy checks.
+		wp_dequeue_script( 'autosave' );
+		enqueue_script( 'reference-list', [ 'styles' => [ 'abt-fonts', 'dashicons' ] ] );
 		wp_localize_script(
-			'abt-reference-list', 'ABT', [
+			'abt-reference-list-script',
+			'ABT',
+			[
 				'i18n'    => $translations,
 				'options' => $opts,
 				'state'   => $state,
@@ -224,11 +229,6 @@ class Backend {
 				'wp'      => $this->localize_wordpress_constants(),
 			]
 		);
-
-		wp_dequeue_script( 'autosave' );
-		wp_enqueue_style( 'abt-reference-list' );
-		wp_enqueue_script( 'abt-reference-list' );
-		wp_enqueue_script( 'abt-changelog' );
 	}
 
 	/**

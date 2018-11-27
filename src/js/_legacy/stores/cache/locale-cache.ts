@@ -48,7 +48,7 @@ export default class LocaleStore {
             }
         }
         this.worker = new Worker(
-            `${top.ABT.wp.abt_url}/workers/locale-worker.js`,
+            `${top.ABT.wp.abt_url}/bundle/workers/locale-worker.js`,
         );
         this.worker.addEventListener('message', this.receiveMessage);
         this.worker.postMessage('');

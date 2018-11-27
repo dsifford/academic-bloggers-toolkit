@@ -19,17 +19,17 @@ namespace ABT;
 defined( 'ABSPATH' ) || exit;
 
 define( 'ABT_VERSION', '{{VERSION}}' );
-define( 'ABT_ROOT_URI', plugin_dir_url( __FILE__ ) );
-define( 'ABT_ROOT_PATH', plugin_dir_path( __FILE__ ) );
+define( 'ABT_ROOT_URI', plugins_url( '', __FILE__ ) );
+define( 'ABT_ROOT_PATH', dirname( __FILE__ ) );
 define( 'ABT_OPTIONS_KEY', 'abt_options' );
 
 /**
  * Load plugin translations.
  */
 function textdomain() {
-	load_plugin_textdomain( 'academic-bloggers-toolkit', false, dirname( plugin_basename( __FILE__ ) ) . '/languages' );
+	load_plugin_textdomain( 'academic-bloggers-toolkit', false, basename( ABT_ROOT_PATH ) . '/languages' );
 }
-add_action( 'plugins_loaded', 'ABT\textdomain' );
+add_action( 'plugins_loaded', __NAMESPACE__ . '\textdomain' );
 
 /**
  * Adds .csl files to the accepted mime types for WordPress.
@@ -42,7 +42,7 @@ function enable_csl_mime( $mimes ) {
 	$mimes['csl'] = 'text/xml';
 	return $mimes;
 }
-add_filter( 'upload_mimes', 'ABT\enable_csl_mime' );
+add_filter( 'upload_mimes', __NAMESPACE__ . '\enable_csl_mime' );
 
 
 /**
@@ -89,7 +89,7 @@ function refactor_options() {
 
 	update_option( ABT_OPTIONS_KEY, $new_options );
 }
-add_action( 'admin_init', 'ABT\refactor_options' );
+add_action( 'admin_init', __NAMESPACE__ . '\refactor_options' );
 
 
 /**
@@ -102,7 +102,7 @@ function add_options_link( $links ) {
 	$text = __( 'Plugin Settings', 'academic-bloggers-toolkit' );
 	return array_merge( $links, [ "<a href='$url'>$text</a>" ] );
 }
-add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), 'ABT\add_options_link' );
+add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), __NAMESPACE__ . '\add_options_link' );
 
 
 /**
@@ -121,7 +121,7 @@ function add_donate_link( $links, $file ) {
 	}
 	return $links;
 }
-add_filter( 'plugin_row_meta', 'ABT\add_donate_link', 10, 2 );
+add_filter( 'plugin_row_meta', __NAMESPACE__ . '\add_donate_link', 10, 2 );
 
 
 /**
@@ -131,30 +131,55 @@ function frontend_enqueues() {
 	$options    = get_option( ABT_OPTIONS_KEY );
 	$custom_css = wp_kses( $options['custom_css'], [ "\'", '\"' ] );
 
-	wp_enqueue_style( 'abt-frontend-styles', ABT_ROOT_URI . 'css/frontend.css', [], ABT_VERSION );
+	wp_enqueue_style( 'abt-frontend-styles', ABT_ROOT_URI . '/bundle/frontend.css', [], ABT_VERSION );
 	if ( isset( $custom_css ) && ! empty( $custom_css ) ) {
 		wp_add_inline_style( 'abt-frontend-styles', $custom_css );
 	}
 
 	if ( is_singular() ) {
-		wp_enqueue_script( 'abt-frontend-script', ABT_ROOT_URI . 'js/frontend.js', [], ABT_VERSION, true );
+		wp_enqueue_script( 'abt-frontend-script', ABT_ROOT_URI . '/bundle/frontend.js', [], ABT_VERSION, true );
 	}
 }
-add_action( 'wp_enqueue_scripts', 'ABT\frontend_enqueues' );
+add_action( 'wp_enqueue_scripts', __NAMESPACE__ . '\frontend_enqueues' );
+
+/**
+ * Registers 3rd party or vendored scripts/styles
+ */
+function register_third_party_scripts() {
+	wp_register_style(
+		'abt-fonts',
+		add_query_arg(
+			[
+				'family' => 'Roboto:300,400,500,700',
+				'subset' => 'cyrillic,cyrillic-ext,greek,greek-ext,latin-ext,vietnamese',
+			],
+			'//fonts.googleapis.com/css'
+		),
+		[],
+		ABT_VERSION
+	);
+
+	wp_register_script( 'abt-codepen', '//assets.codepen.io/assets/embed/ei.js', [], ABT_VERSION, true );
+}
+add_action( 'admin_enqueue_scripts', __NAMESPACE__ . '\register_third_party_scripts', 5 );
+add_action( 'wp_enqueue_scripts', __NAMESPACE__ . '\register_third_party_scripts', 5 );
 
 /**
  * Grabs the citation styles from the vendor array, decodes the JSON to an
  * associative array and return it.
  */
 function get_citation_styles() {
-	// @codingStandardsIgnoreStart
-	// Ignoring the `file_get_contents` warning here because it's a misfire.
-	// the warning is meant for flagging remote calls. This is a local file.
-	$json = json_decode( file_get_contents( ABT_ROOT_PATH . '/vendor/citation-styles.json' ), true );
-	// @codingStandardsIgnoreEnd
-	return $json;
+	return json_decode(
+		// Ignoring the `file_get_contents` warning here because it's a misfire.
+		// the warning is meant for flagging remote calls. This is a local file.
+		// phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents
+		file_get_contents( ABT_ROOT_PATH . '/vendor/citation-styles.json' ),
+		true
+	);
 }
 
+require_once __DIR__ . '/php/utils.php';
+require_once __DIR__ . '/php/admin.php';
 require_once __DIR__ . '/php/dom-injects.php';
 require_once __DIR__ . '/php/class-backend.php';
 require_once __DIR__ . '/php/class-options.php';

@@ -4,6 +4,8 @@ namespace ABT;
 
 defined( 'ABSPATH' ) || exit;
 
+use function ABT\Utils\enqueue_script;
+
 require_once __DIR__ . '/i18n.php';
 
 class Options {
@@ -38,10 +40,8 @@ class Options {
 		if ( 'settings_page_abt-options' !== $hook ) {
 			return;
 		}
-		wp_enqueue_style( 'abt-options-page', ABT_ROOT_URI . '/js/options-page.css', [], ABT_VERSION );
-		wp_enqueue_script( 'abt-options-page', ABT_ROOT_URI . '/js/options-page.js', [], ABT_VERSION );
-		wp_enqueue_script( 'codepen', '//assets.codepen.io/assets/embed/ei.js', [], null, true );
-		wp_enqueue_script( 'abt-noop', ABT_ROOT_URI . 'vendor/noop.js', [], false, true );
+		enqueue_script( 'options-page' );
+		wp_enqueue_script( 'abt-codepen' );
 
 		// Enqueue code editor and settings for manipulating CSS.
 		$settings = wp_enqueue_code_editor(
@@ -60,8 +60,6 @@ class Options {
 				'options'             => get_option( ABT_OPTIONS_KEY ),
 			]
 		);
-
-		wp_localize_script( 'abt-options-page', 'ABT', $this->abt_globals );
 	}
 
 	/**
@@ -130,7 +128,7 @@ class Options {
 			]
 		);
 
-		wp_localize_script( 'abt-noop', 'ABT', $this->abt_globals );
+		wp_localize_script( 'abt-options-page-script', 'ABT', $this->abt_globals );
 
 		// Convert associative array to object because it's just easier to work with.
 		$options = json_decode( wp_json_encode( $options ) );

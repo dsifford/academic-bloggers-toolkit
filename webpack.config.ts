@@ -1,7 +1,7 @@
-// tslint:disable:no-var-requires
+// tslint:disable:no-var-requires no-console
 import { CheckerPlugin, TsConfigPathsPlugin } from 'awesome-typescript-loader';
 import { execSync } from 'child_process';
-import { resolve } from 'path';
+import path from 'path';
 import webpack from 'webpack';
 
 import CopyWebpackPlugin from 'copy-webpack-plugin';
@@ -9,7 +9,6 @@ import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 const RollbarSourceMapPlugin = require('rollbar-sourcemap-webpack-plugin');
 const BrowserSyncPlugin = require('browser-sync-webpack-plugin');
 
-const ENTRYPOINT_DIR = 'js/_legacy/_entrypoints';
 const IS_PRODUCTION = process.env.NODE_ENV === 'production';
 const IS_DEPLOYING = process.env.IS_DEPLOYING === 'true';
 const VERSION = require('./package.json').version;
@@ -36,7 +35,7 @@ const plugins = new Set<webpack.Plugin>([
             from: 'vendor/*',
         },
         {
-            from: resolve(__dirname, 'LICENSE'),
+            from: path.resolve(__dirname, 'LICENSE'),
         },
         {
             from: '@(readme.txt|academic-bloggers-toolkit.php)',
@@ -84,36 +83,47 @@ const config: webpack.Configuration = {
     watchOptions: {
         ignored: /(node_modules|dist|lib|webpack.config)/,
     },
-    context: resolve(__dirname, 'src'),
+    context: path.resolve(__dirname, 'src'),
+    externals: {
+        '@wordpress/blocks': 'wp.blocks',
+        '@wordpress/components': 'wp.components',
+        '@wordpress/compose': 'wp.compose',
+        '@wordpress/data': 'wp.data',
+        '@wordpress/edit-post': 'wp.editPost',
+        '@wordpress/editor': 'wp.editor',
+        '@wordpress/element': 'wp.element',
+        '@wordpress/plugins': 'wp.plugins',
+        '@wordpress/rich-text': 'wp.richText',
+    },
     entry: {
         /**
          * JS Entrypoints
          */
-        'js/frontend': `${ENTRYPOINT_DIR}/frontend`,
-        'js/options-page': `${ENTRYPOINT_DIR}/options-page`,
-        'js/reference-list': [
+        'bundle/frontend': 'js/_legacy/_entrypoints/frontend',
+        'bundle/options-page': 'js/_legacy/_entrypoints/options-page',
+        'bundle/reference-list': [
             'custom-event-polyfill',
             'proxy-polyfill',
             'whatwg-fetch',
-            `${ENTRYPOINT_DIR}/reference-list`,
+            'js/_legacy/_entrypoints/reference-list',
         ],
-        'js/drivers/tinymce': 'js/_legacy/drivers/tinymce',
-        'workers/locale-worker': 'workers/locale-worker',
+        'bundle/drivers/tinymce': 'js/_legacy/drivers/tinymce',
+        'bundle/workers/locale-worker': 'workers/locale-worker',
 
         /**
-         * Stylesheet entrypoints
+         * New hotness
          */
-        'css/frontend': 'css/_entrypoints/frontend',
+        'bundle/editor': 'js/editor',
     },
     output: {
         filename: '[name].js',
-        path: resolve(__dirname, 'dist'),
+        path: path.resolve(__dirname, 'dist'),
     },
     resolve: {
         alias: {
-            css: resolve(__dirname, 'src/css'),
+            css: path.resolve(__dirname, 'src/css'),
         },
-        modules: [resolve(__dirname, 'src'), 'node_modules'],
+        modules: [path.resolve(__dirname, 'src'), 'node_modules'],
         extensions: ['*', '.ts', '.tsx', '.js', '.scss'],
         plugins: [new TsConfigPathsPlugin()],
     },
@@ -124,19 +134,19 @@ const config: webpack.Configuration = {
             {
                 test: /\.ts$/,
                 sideEffects: false,
-                include: resolve(__dirname, 'src/workers'),
+                include: path.resolve(__dirname, 'src/workers'),
                 use: [
                     {
                         loader: 'awesome-typescript-loader',
                         options: {
                             useBabel: true,
                             useCache: !IS_PRODUCTION,
-                            cacheDirectory: resolve(
+                            cacheDirectory: path.resolve(
                                 __dirname,
                                 'node_modules/.cache/awesome-typescript-loader',
                             ),
                             babelCore: '@babel/core',
-                            configFileName: resolve(
+                            configFileName: path.resolve(
                                 __dirname,
                                 'src/workers/tsconfig.json',
                             ),
@@ -151,7 +161,7 @@ const config: webpack.Configuration = {
                 exclude: [
                     /__tests__/,
                     /node_modules/,
-                    resolve(__dirname, 'src/workers'),
+                    path.resolve(__dirname, 'src/workers'),
                 ],
                 use: [
                     {
@@ -159,7 +169,7 @@ const config: webpack.Configuration = {
                         options: {
                             useBabel: true,
                             useCache: !IS_PRODUCTION,
-                            cacheDirectory: resolve(
+                            cacheDirectory: path.resolve(
                                 __dirname,
                                 'node_modules/.cache/awesome-typescript-loader',
                             ),
