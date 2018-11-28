@@ -1,6 +1,6 @@
 import { action, toJS } from 'mobx';
 
-import pick from 'utils/pick';
+import { pick } from 'lodash';
 
 import CitationStore from './citation-store';
 import DisplayOptionsStore from './display-options-store';

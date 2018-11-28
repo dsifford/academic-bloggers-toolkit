@@ -94,6 +94,7 @@ const config: webpack.Configuration = {
         '@wordpress/element': 'wp.element',
         '@wordpress/plugins': 'wp.plugins',
         '@wordpress/rich-text': 'wp.richText',
+        lodash: '_',
     },
     entry: {
         /**
@@ -139,6 +140,7 @@ const config: webpack.Configuration = {
                     {
                         loader: 'awesome-typescript-loader',
                         options: {
+                            silent: process.argv.indexOf('--json') !== -1,
                             useBabel: true,
                             useCache: !IS_PRODUCTION,
                             cacheDirectory: path.resolve(
@@ -167,6 +169,7 @@ const config: webpack.Configuration = {
                     {
                         loader: 'awesome-typescript-loader',
                         options: {
+                            silent: process.argv.indexOf('--json') !== -1,
                             useBabel: true,
                             useCache: !IS_PRODUCTION,
                             cacheDirectory: path.resolve(
