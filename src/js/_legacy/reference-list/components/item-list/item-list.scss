@@ -1,4 +1,4 @@
-@import 'colors';
+@import '_colors';
 @import 'variables';
 
 .heading {
@@ -11,9 +11,11 @@
     padding: 10px;
     transition: map-get($transitions, 'buttons');
     align-items: baseline;
+
     &:hover {
         background: darken($light-gray, 3%);
     }
+
     &:active {
         background: darken($light-gray, 8%);
     }

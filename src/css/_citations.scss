@@ -1,10 +1,11 @@
 @import 'variables';
-@import 'colors';
+@import '_colors';
 
 :global {
     .abt-citation {
         @include noselect;
         cursor: pointer;
+
         sup,
         sub {
             font-size: 75%;
@@ -12,9 +13,11 @@
             position: relative;
             vertical-align: baseline;
         }
+
         sup {
             top: -0.5em;
         }
+
         sub {
             bottom: -0.25em;
         }
@@ -23,9 +26,11 @@
     .abt-footnote {
         margin-bottom: 1em;
     }
+
     .abt-footnote__heading {
         font-weight: 600;
     }
+
     .abt-footnote__number {
         margin-right: 0.5em;
         font-weight: 600;
@@ -40,28 +45,35 @@
             padding: 0 8px 0 0;
             font-weight: 600;
         }
+
         &.hanging-indent {
             padding-left: 25px;
             text-indent: -25px;
+
             .csl-right-inline {
                 padding-left: 25px;
                 text-indent: -25px;
             }
         }
+
         &.flush {
             display: table-row;
+
             .csl-left-margin {
                 display: table-cell;
                 text-align: right;
             }
+
             .csl-right-inline {
                 @include word-wrap;
                 display: table-cell;
             }
         }
+
         &.margin {
             display: flex;
             justify-content: flex-end;
+
             .csl-right-inline {
                 @include word-wrap;
                 min-width: 100%;

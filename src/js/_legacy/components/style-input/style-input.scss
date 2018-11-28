@@ -1,5 +1,5 @@
 @import 'variables';
-@import 'colors';
+@import '_colors';
 
 @import 'shared/forms';
 
@@ -11,6 +11,7 @@
     box-shadow: map-get($shadows, 'depth-4');
     max-height: 150px;
     overflow-y: auto;
+
     > ul {
         margin: 0;
     }

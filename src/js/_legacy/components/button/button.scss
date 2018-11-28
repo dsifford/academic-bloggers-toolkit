@@ -1,4 +1,4 @@
-@import 'colors';
+@import '_colors';
 @import 'variables';
 
 .btn {
@@ -23,14 +23,17 @@
     text-transform: uppercase;
     vertical-align: middle;
     white-space: nowrap;
+
     &:disabled {
         pointer-events: none !important;
         color: $disabled !important;
     }
+
     &:hover,
     &:active {
         box-shadow: map-get($shadows, 'depth-2');
     }
+
     &:active:hover {
         box-shadow: map-get($shadows, 'depth-3');
         background: $border;
@@ -41,6 +44,7 @@
     &:focus {
         outline: $outline;
         outline-offset: 2px;
+
         &:active {
             outline: 0;
         }
@@ -50,14 +54,17 @@
 .btn--primary {
     background: $blue;
     color: white;
+
     &.btn--flat {
         color: $blue;
     }
+
     &:disabled {
         opacity: 0.6;
         box-shadow: none;
         color: white !important;
     }
+
     &:active:hover {
         background: darken($blue, 3%);
     }
@@ -67,14 +74,18 @@
 .btn--flat.btn--primary {
     background: rgba(0, 0, 0, 0);
     box-shadow: none !important;
+
     &:active {
         background: lighten($border, 5%);
     }
+
     &:disabled {
         color: $disabled !important;
     }
+
     &:hover {
         background: rgba(158, 158, 158, 0.2);
+
         &:active {
             background: $border;
         }
@@ -84,6 +95,7 @@
 .btn--icon {
     margin: auto 0;
     padding: 0;
+
     &:hover {
         color: $dark-gray;
     }
@@ -94,17 +106,21 @@
     width: initial;
     height: initial;
 }
+
 .btn :global(.dashicons-migrate) {
     transform: rotateY(180deg);
     padding-left: 5px;
 }
+
 .btn :global(.dashicons-minus) {
     font-weight: 900;
 }
+
 .btn :global(.dashicons-menu),
 .btn :global(.dashicons-no-alt) {
     font-size: 25px;
 }
+
 .btn :global(.dashicons-plus) {
     padding-top: 2px;
 }

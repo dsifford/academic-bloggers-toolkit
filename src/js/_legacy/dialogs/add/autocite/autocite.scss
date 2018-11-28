@@ -1,4 +1,4 @@
-@import 'colors';
+@import '_colors';
 @import 'variables';
 
 .autocite {
@@ -8,6 +8,7 @@
     background: $light-gray;
     box-shadow: map-get($shadows, 'depth-1'), map-get($shadows, 'top-border');
 }
+
 .input {
     margin: 0 10px;
     flex: auto;
