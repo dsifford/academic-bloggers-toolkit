@@ -1,13 +1,7 @@
-import * as actions from 'store/actions';
-import reducer from 'store/reducers';
-import * as selectors from 'store/selectors';
-
-import {
-    BibFormat,
-    HeadingLevel,
-    LinkFormat,
-    StyleKind,
-} from 'store/constants';
+import * as actions from './actions';
+import { BibFormat, HeadingLevel, LinkFormat, StyleKind } from './constants';
+import reducer from './reducers';
+import * as selectors from './selectors';
 
 interface DisplayOptions {
     bib_heading: string;

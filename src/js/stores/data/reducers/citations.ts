@@ -1,11 +1,11 @@
 import { Reducer } from 'redux';
 
-import { State } from 'store';
-import { Actions } from 'store/constants';
+import { State } from '../';
+import { Actions } from '../constants';
 
 type Data = State['citations'];
 
-const citations: Reducer<Data> = (state = [], action): Data => {
+const citations: Reducer<Data> = (state = [], action) => {
     switch (action.type) {
         case Actions.ADD_REFERENCE:
             return [...state, action.data];

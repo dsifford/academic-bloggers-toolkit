@@ -1,7 +1,7 @@
 import { Reducer } from 'redux';
 
-import { State as Main } from 'store';
-import { Actions, StyleKind } from 'store/constants';
+import { State as Main } from '../';
+import { Actions, StyleKind } from '../constants';
 
 type State = Main['style'];
 
@@ -11,7 +11,7 @@ const INITIAL: State = {
     value: 'american-medical-association',
 };
 
-const style: Reducer<State> = (state = INITIAL, action): State => {
+const style: Reducer<State> = (state = INITIAL, action) => {
     switch (action.type) {
         case Actions.SET_STYLE:
             return action.style;

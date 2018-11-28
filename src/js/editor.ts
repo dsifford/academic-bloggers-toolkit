@@ -4,9 +4,10 @@ import { registerFormatType } from '@wordpress/rich-text';
 
 import * as citationFormat from 'gutenberg/formats/citation';
 import Sidebar from 'gutenberg/sidebar';
-import store from 'store';
+import { dataStore, sidebarStore } from 'stores';
 
-registerStore('abt/data', store);
+registerStore('abt/data', dataStore);
+registerStore('abt/sidebar', sidebarStore);
 
 registerPlugin('academic-bloggers-toolkit', {
     icon: 'welcome-learn-more',

@@ -1,7 +1,7 @@
 import { Reducer } from 'redux';
 
-import { State as Main } from 'store';
-import { Actions, BibFormat, HeadingLevel, LinkFormat } from 'store/constants';
+import { State as Main } from '../';
+import { Actions, BibFormat, HeadingLevel, LinkFormat } from '../constants';
 
 type State = Main['displayOptions'];
 
@@ -12,7 +12,7 @@ const INITIAL: State = {
     links: LinkFormat.ALWAYS,
 };
 
-const displayOptions: Reducer<State> = (state = INITIAL, action): State => {
+const displayOptions: Reducer<State> = (state = INITIAL, action) => {
     switch (action.type) {
         case Actions.SET_DISPLAY_OPTIONS:
             return action.displayOptions;

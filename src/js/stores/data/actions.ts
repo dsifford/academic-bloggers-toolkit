@@ -1,5 +1,5 @@
-import { State } from 'store';
-import { Actions } from 'store/constants';
+import { State } from './';
+import { Actions } from './constants';
 
 export function addReference(data: CSL.Data) {
     return {
