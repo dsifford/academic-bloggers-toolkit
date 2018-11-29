@@ -1,3 +1,4 @@
+import { Bibliography } from 'citeproc';
 import { ObservableMap } from 'mobx';
 import { formatReferenceLinks } from './formatReferenceLinks';
 
@@ -10,7 +11,7 @@ import { formatReferenceLinks } from './formatReferenceLinks';
  * @param rawBib - Raw output from citeproc.makeBibliography()
  */
 export function formatBibliography(
-    rawBib: Citeproc.Bibliography,
+    rawBib: Bibliography,
     links: ABT.LinkStyle,
     CSL: ObservableMap<string, CSL.Data>,
 ): ABT.Bibliography {

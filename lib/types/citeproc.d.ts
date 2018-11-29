@@ -1,10 +1,6 @@
 declare module 'citeproc' {
-    const CSL: Citeproc.EngineConstructor;
-    export = CSL;
-}
-
-// tslint:disable-next-line:no-namespace
-declare namespace Citeproc {
+    // const CSL: Citeproc.EngineConstructor;
+    // export = CSL;
     /**
      * 0: `Bibmeta`
      *
@@ -13,12 +9,7 @@ declare namespace Citeproc {
     type Bibliography = [Bibmeta, string[]];
 
     /**
-     * Array of `Citation` ordered ascending by use in the document.
-     */
-    type CitationByIndex = Citation[];
-
-    /**
-     * Enum describing the "where", "what", and "id" details for a given citation after being
+     * Tuple describing the "where", "what", and "id" details for a given citation after being
      * processed.
      *
      * 0: The index of the citation's `HTMLElement` within the document
@@ -134,38 +125,45 @@ declare namespace Citeproc {
     }
 
     interface CitationRegistry {
-        /** Retrieve citation(s) by a HTMLSpanElement ID */
-        citationById: {
-            [id: string]: Citation;
-        };
-        /** Retrieve citation(s) by the index of its parent HTMLSpanElement in the document */
-        citationByIndex: CitationByIndex;
-        /** Retrieve citation by the unique citation ID */
-        citationsByItemId: {
-            [itemId: string]: Citation[];
-        };
-    }
-
-    /** An object whose keys are reference IDs and whose values are CSL.Data */
-    interface RefHash {
-        [referenceId: string]: CSL.Data;
+        /**
+         * Retrieve citation(s) by a HTMLSpanElement ID
+         */
+        citationById: Record<string, Citation>;
+        /**
+         * Array of `Citation` ordered ascending by use in the document
+         */
+        citationByIndex: Citation[];
+        /**
+         * Retrieve citation by the unique citation ID
+         */
+        citationsByItemId: Record<string, Citation[]>;
     }
 
     interface Registry {
         debug: boolean;
         citationreg: CitationRegistry;
-        refhash: RefHash;
+        refhash: Record<string, CSL.Data>;
         getSortedIds(): string[];
     }
 
-    interface SystemObj {
+    interface Sys {
         retrieveLocale(lang: string): string;
         retrieveItem(id: string | number): CSL.Data;
     }
 
-    interface Processor {
+    interface Processor {}
+
+    export class Engine {
+        // TODO: I think style should actually be serialized xml here
+        constructor(
+            sys: Sys,
+            style: string,
+            lang?: string,
+            forceLang?: boolean,
+        );
+
         registry: Registry;
-        sys: SystemObj;
+        sys: Sys;
         opt: {
             xclass: CitationKind;
         };
@@ -183,6 +181,8 @@ declare namespace Citeproc {
         updateUncitedItems(idList: string[]): void;
         /**
          * Returns a single bibliography object based on the current state of the processor registry.
+         *
+         * NOTE: This will return `false` if the current citation style doesn't support bibliographies (e.g. "Mercatus Center").
          */
         makeBibliography(): Bibliography | boolean;
         /**
@@ -199,16 +199,14 @@ declare namespace Citeproc {
         /**
          * Rebuilds the state of the processor to match a given `CitationByIndex` object.
          *
-         * @param citationByIndex The new state that should be matched
+         * @param citationByIndex The new state that should be matched.
+         * @param mode Citatation mode. (default: 'html')
+         * @param uncitedItemIds An array of uncited item IDs.
          */
         rebuildProcessorState(
             citationByIndex: Citation[],
+            mode?: 'html' | 'text' | 'rtf',
+            uncitedItemIds?: string[],
         ): RebuildProcessorStateData[];
-    }
-
-    interface EngineConstructor {
-        Engine: {
-            new (sys: SystemObj, style?: string): Processor;
-        };
     }
 }

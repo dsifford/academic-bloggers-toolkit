@@ -1,3 +1,5 @@
+import { Citation, CitationKind, CitationResult, Locator } from 'citeproc';
+
 import Editor from '_legacy/utils/editor';
 
 export interface EditorDriverConstructor {
@@ -5,8 +7,8 @@ export interface EditorDriverConstructor {
 }
 
 export interface RelativeCitationPositions {
-    itemsPreceding: Citeproc.Locator;
-    itemsFollowing: Citeproc.Locator;
+    itemsPreceding: Locator;
+    itemsFollowing: Locator;
 }
 
 /**
@@ -23,7 +25,7 @@ export default abstract class EditorDriver extends Editor {
      * Retrieve a `Citeproc.CitationByIndex` object describing the order and
      * contents of all citations existing in the document.
      */
-    abstract get citationsByIndex(): Citeproc.CitationByIndex;
+    abstract get citationsByIndex(): Citation[];
 
     /**
      * Returns a `Citeproc.RelativeCitationPositions` describing citations
@@ -53,9 +55,9 @@ export default abstract class EditorDriver extends Editor {
      * @param kind One of `note` or `in-text`
      */
     abstract composeCitations(
-        clusters: Citeproc.CitationResult[],
-        citationByIndex: Citeproc.CitationByIndex,
-        kind: Citeproc.CitationKind,
+        clusters: CitationResult[],
+        citationByIndex: Citation[],
+        kind: CitationKind,
     ): void;
 
     /**

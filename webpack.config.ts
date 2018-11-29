@@ -94,6 +94,7 @@ const config: webpack.Configuration = {
         '@wordpress/element': 'wp.element',
         '@wordpress/plugins': 'wp.plugins',
         '@wordpress/rich-text': 'wp.richText',
+        citeproc: 'CSL',
         lodash: '_',
     },
     entry: {
@@ -115,6 +116,11 @@ const config: webpack.Configuration = {
          * New hotness
          */
         'bundle/editor': 'js/editor',
+
+        /**
+         * Vendors
+         */
+        'vendor/citeproc': 'citeproc',
     },
     output: {
         filename: '[name].js',

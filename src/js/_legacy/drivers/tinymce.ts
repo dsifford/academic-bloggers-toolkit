@@ -1,3 +1,5 @@
+import { Citation, CitationKind, CitationResult, Locator } from 'citeproc';
+
 import EditorDriver, { RelativeCitationPositions } from './base';
 
 import 'css/editors/tinymce.scss';
@@ -67,7 +69,7 @@ export default class TinyMCEDriver extends EditorDriver {
         return [...citations].map(c => c.id);
     }
 
-    get citationsByIndex(): Citeproc.CitationByIndex {
+    get citationsByIndex(): Citation[] {
         const doc = this.editor.getDoc();
         const nodes = [
             ...doc.querySelectorAll(`
@@ -102,7 +104,7 @@ export default class TinyMCEDriver extends EditorDriver {
                     },
                 ];
             },
-            <Citeproc.CitationByIndex>[],
+            <Citation[]>[],
         );
     }
 
@@ -153,8 +155,8 @@ export default class TinyMCEDriver extends EditorDriver {
                 return prev;
             },
             {
-                itemsPreceding: <Citeproc.Locator>[],
-                itemsFollowing: <Citeproc.Locator>[],
+                itemsPreceding: <Locator>[],
+                itemsFollowing: <Locator>[],
             },
         );
     }
@@ -170,9 +172,9 @@ export default class TinyMCEDriver extends EditorDriver {
     }
 
     composeCitations(
-        clusters: Citeproc.CitationResult[],
-        citationByIndex: Citeproc.CitationByIndex,
-        kind: Citeproc.CitationKind,
+        clusters: CitationResult[],
+        citationByIndex: Citation[],
+        kind: CitationKind,
     ): void {
         this.editor.focus();
         const doc = this.editor.getDoc();

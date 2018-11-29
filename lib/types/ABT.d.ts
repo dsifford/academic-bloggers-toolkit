@@ -51,7 +51,7 @@ declare namespace ABT {
             style: CitationStyle;
             locale: string;
         };
-        citationByIndex: Citeproc.CitationByIndex;
+        citationByIndex: import('citeproc').Citation[];
         CSL: {
             [id: string]: CSL.Data;
         };

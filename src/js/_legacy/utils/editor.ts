@@ -1,11 +1,12 @@
 // tslint:disable no-stateless-class
+import { CitationKind } from 'citeproc';
 
 interface InlineElementOptions {
     classNames?: string[];
     footnote?: string;
     id: string;
     innerHTML: string;
-    kind: Citeproc.CitationKind;
+    kind: CitationKind;
     reflist: string;
 }
 

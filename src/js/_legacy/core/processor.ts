@@ -1,4 +1,4 @@
-import Csl from 'citeproc';
+import { Citation, CitationResult, Engine, Locator, Sys } from 'citeproc';
 import { toJS } from 'mobx';
 import nanoid from 'nanoid';
 
@@ -11,7 +11,7 @@ export class Processor {
     /**
      * CSL.Engine instance created by this class
      */
-    citeproc!: Citeproc.Processor;
+    citeproc!: Engine;
 
     private locales: LocaleCache;
     private store: Store;
@@ -39,7 +39,7 @@ export class Processor {
                 ? this.store.citationStyle.value
                 : await this.styles.fetch(this.store.citationStyle.value);
         const sys = { ...this.citeproc.sys };
-        const citeproc: Citeproc.Processor = new Csl.Engine(sys, style);
+        const citeproc = new Engine(sys, style);
         citeproc.updateItems(toJS(data.map(d => d.id)));
         const bib = citeproc.makeBibliography();
         return typeof bib === 'boolean'
@@ -63,13 +63,13 @@ export class Processor {
      * @return Promise that resolves to either an object containing the style XML
      * and the `sys` object, or an Error depending on the responses from the network
      */
-    async init(): Promise<Citeproc.CitationResult[]> {
+    async init(): Promise<CitationResult[]> {
         const style =
             this.store.citationStyle.kind === 'custom'
                 ? this.store.citationStyle.value
                 : await this.styles.fetch(this.store.citationStyle.value);
         const sys = await this.generateSys(this.store.locale);
-        this.citeproc = new Csl.Engine(sys, style);
+        this.citeproc = new Engine(sys, style);
         return <Array<[number, string, string]>>(
             this.citeproc
                 .rebuildProcessorState(this.store.citations.citationByIndex)
@@ -104,7 +104,7 @@ export class Processor {
      *
      * @param csl CSL.Data[].
      */
-    prepareInlineCitationData(csl: CSL.Data[]): Citeproc.Citation {
+    prepareInlineCitationData(csl: CSL.Data[]): Citation {
         // prettier-ignore
         const citationItems = Array.from(
             new Set(
@@ -126,10 +126,10 @@ export class Processor {
      * @param  after    - Citations after the current citation
      */
     processCitationCluster(
-        citation: Citeproc.Citation,
-        before: Citeproc.Locator,
-        after: Citeproc.Locator,
-    ): Citeproc.CitationResult[] {
+        citation: Citation,
+        before: Locator,
+        after: Locator,
+    ): CitationResult[] {
         const [, citations] = this.citeproc.processCitationCluster(
             citation,
             before,
@@ -147,7 +147,7 @@ export class Processor {
      *
      * @param locale The locale string from this.locales (handled in constructor)
      */
-    private async generateSys(locale: string): Promise<Citeproc.SystemObj> {
+    private async generateSys(locale: string): Promise<Sys> {
         // "primes the pump" since citeproc currently runs synchronously
         await this.locales.fetch(locale);
         return {

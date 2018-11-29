@@ -1,3 +1,4 @@
+import { Citation } from 'citeproc';
 import { action, computed, observable, toJS } from 'mobx';
 import hash from 'string-hash';
 
@@ -5,9 +6,9 @@ import { localeMapper } from '_legacy/utils/constants';
 
 export default class CitationStore {
     CSL = observable.map<string, CSL.Data>();
-    private byIndex = observable<Citeproc.Citation>([]);
+    private byIndex = observable<Citation>([]);
 
-    constructor(byIndex: Citeproc.CitationByIndex, CSL: Citeproc.RefHash) {
+    constructor(byIndex: Citation[], CSL: Record<string, CSL.Data>) {
         this.byIndex.replace(byIndex);
         this.CSL.replace(this.cleanCSL(CSL));
     }
@@ -75,7 +76,7 @@ export default class CitationStore {
     }
 
     @action
-    init(byIndex: Citeproc.CitationByIndex): void {
+    init(byIndex: Citation[]): void {
         this.byIndex.replace(JSON.parse(JSON.stringify(byIndex)));
     }
 
@@ -122,7 +123,7 @@ export default class CitationStore {
                     }
                     return [...prev, curr];
                 },
-                <Citeproc.Citation[]>[],
+                <Citation[]>[],
             );
         this.init(byIndex);
         return Array.from(toRemove);
@@ -141,11 +142,11 @@ export default class CitationStore {
     /**
      * Returns a JS object of byIndex
      */
-    get citationByIndex(): Citeproc.CitationByIndex {
+    get citationByIndex(): Citation[] {
         return toJS(this.byIndex);
     }
 
-    private cleanCSL(csl: Citeproc.RefHash): Array<[string, CSL.Data]> {
+    private cleanCSL(csl: Record<string, CSL.Data>): Array<[string, CSL.Data]> {
         return Object.entries(csl).reduce(
             (arr, [key, value]): Array<[string, CSL.Data]> => {
                 const item = {

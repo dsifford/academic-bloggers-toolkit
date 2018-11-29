@@ -1,3 +1,4 @@
+import { Citation } from 'citeproc';
 import { stripIndents } from 'common-tags';
 import { decode } from 'he';
 import { action, observable, reaction } from 'mobx';
@@ -633,7 +634,7 @@ export default class ReferenceList extends React.Component<Props> {
                     },
                 ];
             },
-            [] as Citeproc.CitationByIndex,
+            [] as Citation[],
         );
         this.props.store.citations.init(citationsByIndex);
         this.initProcessor();
