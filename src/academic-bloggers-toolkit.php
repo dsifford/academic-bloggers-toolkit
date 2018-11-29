@@ -159,7 +159,8 @@ function register_third_party_scripts() {
 		ABT_VERSION
 	);
 
-	wp_register_script( 'abt-codepen', '//assets.codepen.io/assets/embed/ei.js', [], ABT_VERSION, true );
+	wp_register_script( 'codepen', '//assets.codepen.io/assets/embed/ei.js', [], ABT_VERSION, true );
+	wp_register_script( 'citeproc', '//cdn.jsdelivr.net/gh/Juris-M/citeproc-js@1/citeproc.min.js', [], ABT_VERSION, true );
 }
 add_action( 'admin_enqueue_scripts', __NAMESPACE__ . '\register_third_party_scripts', 5 );
 add_action( 'wp_enqueue_scripts', __NAMESPACE__ . '\register_third_party_scripts', 5 );

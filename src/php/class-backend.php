@@ -217,7 +217,16 @@ class Backend {
 		}
 		// End legacy checks.
 		wp_dequeue_script( 'autosave' );
-		enqueue_script( 'reference-list', [ 'styles' => [ 'abt-fonts', 'dashicons' ] ] );
+		enqueue_script(
+			'reference-list',
+			[
+				'scripts' => [ 'citeproc' ],
+				'styles'  => [
+					'abt-fonts',
+					'dashicons',
+				],
+			]
+		);
 		wp_localize_script(
 			'abt-reference-list-script',
 			'ABT',

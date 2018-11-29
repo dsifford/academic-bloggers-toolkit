@@ -41,7 +41,7 @@ class Options {
 			return;
 		}
 		enqueue_script( 'options-page' );
-		wp_enqueue_script( 'abt-codepen' );
+		wp_enqueue_script( 'codepen' );
 
 		// Enqueue code editor and settings for manipulating CSS.
 		$settings = wp_enqueue_code_editor(

@@ -18,11 +18,11 @@ function enqueue_scripts() {
 			'editor',
 			[
 				'scripts' => [
+					'citeproc',
 					'wp-components',
 					'wp-edit-post',
 					'wp-element',
 					'wp-plugins',
-
 				],
 			]
 		);
