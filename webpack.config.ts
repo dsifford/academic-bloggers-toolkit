@@ -95,7 +95,7 @@ const config: webpack.Configuration = {
         '@wordpress/plugins': 'wp.plugins',
         '@wordpress/rich-text': 'wp.richText',
         citeproc: 'CSL',
-        lodash: '_',
+        lodash: 'lodash',
     },
     entry: {
         /**

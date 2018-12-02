@@ -43,7 +43,6 @@ class Citation extends Component<Props> {
                 innerHTML: `<sup>hello</sup>`,
             }),
         });
-        console.log(newValue);
         onChange(insert(value, newValue));
     };
 }

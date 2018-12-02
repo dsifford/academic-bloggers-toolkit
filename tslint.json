@@ -5,24 +5,27 @@
     "exclude": ["src/**/__tests__/*", "src/**/__mocks__/*"]
   },
   "rules": {
+    "cyclomatic-complexity": {
+      "options": [10],
+      "severity": "warning"
+    },
     "file-name-casing": {
       "options": ["kebab-case"],
       "severity": "error"
     },
-    "no-console": {
-      "severity": "warning"
-    },
-    "cyclomatic-complexity": {
-      "options": [10],
-      "severity": "warning"
+    "member-access": {
+      "options": ["no-public"]
     },
     "member-ordering": {
       "options": {
         "order": "instance-sandwich"
       }
     },
-    "member-access": {
-      "options": ["no-public"]
+    "no-console": {
+      "severity": "warning"
+    },
+    "no-this-assignment": {
+      "options": { "allow-destructuring": true }
     },
     "no-unused-expression": {
       "options": ["allow-fast-null-checks"]

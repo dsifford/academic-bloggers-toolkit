@@ -18,11 +18,13 @@ function enqueue_scripts() {
 			'editor',
 			[
 				'scripts' => [
+					'lodash',
 					'citeproc',
 					'wp-components',
 					'wp-edit-post',
 					'wp-element',
 					'wp-plugins',
+					'wp-polyfill',
 				],
 			]
 		);

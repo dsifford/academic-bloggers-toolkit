@@ -220,7 +220,7 @@ class Backend {
 		enqueue_script(
 			'reference-list',
 			[
-				'scripts' => [ 'citeproc' ],
+				'scripts' => [ 'citeproc', 'lodash' ],
 				'styles'  => [
 					'abt-fonts',
 					'dashicons',

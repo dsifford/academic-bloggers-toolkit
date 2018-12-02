@@ -45,7 +45,7 @@ declare module 'citeproc' {
     /**
      * 0: A string containing a unique ID which should be used for the span element's ID.
      *
-     * 1: The index of the HTMLSpanElement within the document.
+     * 1: The citation's "noteIndex" (relevant only if it's a "full-note" or "footnote" style citation)
      *
      * 2: An HTML string of the inline citation.
      */
@@ -154,19 +154,17 @@ declare module 'citeproc' {
     interface Processor {}
 
     export class Engine {
-        // TODO: I think style should actually be serialized xml here
+        registry: Registry;
+        sys: Sys;
+        opt: {
+            xclass: CitationKind;
+        };
         constructor(
             sys: Sys,
             style: string,
             lang?: string,
             forceLang?: boolean,
         );
-
-        registry: Registry;
-        sys: Sys;
-        opt: {
-            xclass: CitationKind;
-        };
         /**
          * Prunes all citations from the processor not listed in `idList`.
          *
@@ -198,6 +196,10 @@ declare module 'citeproc' {
         ): [CitationResultMeta, CitationResult[]];
         /**
          * Rebuilds the state of the processor to match a given `CitationByIndex` object.
+         *
+         * Returns a list of [citationID,noteIndex,string] tuples in document order.
+         * Set citation.properties.noteIndex to 0 for in-text citations.
+         * It is not necessary to run updateItems() before this function.
          *
          * @param citationByIndex The new state that should be matched.
          * @param mode Citatation mode. (default: 'html')
