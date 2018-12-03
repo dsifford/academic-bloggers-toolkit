@@ -67,7 +67,8 @@ export default class ResultList extends Component<Props> {
                     <div key={result.PMID} className={styles.result}>
                         <div className={styles.row1}>
                             <span className={styles.source}>
-                                {result.journalAbbreviation}
+                                {result.journalAbbreviation ||
+                                    result['container-title-short']}
                             </span>
                             <span>{result.issued!['date-parts']![0][0]}</span>
                         </div>

@@ -83,6 +83,7 @@ export default class Item extends React.Component<Props> {
                         className={styles.source}
                         children={
                             CSL.journalAbbreviation ||
+                            CSL['container-title-short'] ||
                             CSL['container-title'] ||
                             CSL.publisher ||
                             ''

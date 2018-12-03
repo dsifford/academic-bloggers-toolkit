@@ -1,6 +1,6 @@
 import { Citation, CitationResult, Engine, Locator, Sys } from 'citeproc';
 import { toJS } from 'mobx';
-import nanoid from 'nanoid';
+import uuid from 'uuid/v4';
 
 import CSLCache from '_legacy/stores/cache/csl-cache';
 import LocaleCache from '_legacy/stores/cache/locale-cache';
@@ -112,7 +112,7 @@ export class Processor {
             )
         ).map(id => ({ id }));
         return {
-            citationID: nanoid(),
+            citationID: uuid(),
             citationItems,
         };
     }

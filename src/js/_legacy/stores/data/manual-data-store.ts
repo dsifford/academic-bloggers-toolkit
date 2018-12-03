@@ -1,6 +1,6 @@
 import { parseDate } from 'astrocite-core';
 import { computed, observable, toJS } from 'mobx';
-import nanoid from 'nanoid';
+import uuid from 'uuid/v4';
 
 import { AutociteResponse } from 'utils/resolvers';
 
@@ -63,7 +63,7 @@ export default class ManualData {
 
     constructor(citationType: CSL.ItemType, id?: string) {
         this.citationType = citationType;
-        this.id = id || nanoid();
+        this.id = id || uuid();
         this.fields = <any>new Proxy(this.standardFields, {
             get: (target, prop): string => {
                 if (typeof prop !== 'string') {

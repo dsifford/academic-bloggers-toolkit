@@ -9,6 +9,7 @@
       "options": [10],
       "severity": "warning"
     },
+    "deprecation": true,
     "file-name-casing": {
       "options": ["kebab-case"],
       "severity": "error"

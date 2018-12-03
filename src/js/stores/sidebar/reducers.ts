@@ -1,5 +1,4 @@
-import { combineReducers } from '@wordpress/data';
-import { Reducer } from 'redux';
+import { combineReducers, Reducer } from '@wordpress/data';
 
 import { State } from '.';
 import { Actions } from './constants';

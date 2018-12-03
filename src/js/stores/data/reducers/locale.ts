@@ -1,4 +1,4 @@
-import { Reducer } from 'redux';
+import { Reducer } from '@wordpress/data';
 
 import { Actions } from '../constants';
 

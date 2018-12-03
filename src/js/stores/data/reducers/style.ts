@@ -1,4 +1,4 @@
-import { Reducer } from 'redux';
+import { Reducer } from '@wordpress/data';
 
 import { State as Main } from '../';
 import { Actions, StyleKind } from '../constants';
