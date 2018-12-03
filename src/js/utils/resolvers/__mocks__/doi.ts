@@ -189,7 +189,7 @@ const data: { [k: string]: any } = {
 
 type DOIPayload = [CSL.Data[], string[]];
 
-export async function getFromDOI(
+export async function deprecatedGetFromDOI(
     doiList: string[],
 ): Promise<[CSL.Data[], string[]]> {
     return new Promise<DOIPayload>(

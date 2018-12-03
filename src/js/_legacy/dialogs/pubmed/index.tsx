@@ -2,7 +2,7 @@ import { action, computed, observable, runInAction } from 'mobx';
 import { observer } from 'mobx-react';
 import React from 'react';
 
-import { pubmedQuery } from '_legacy/utils/resolvers';
+import { pubmedQuery } from 'utils/resolvers';
 
 import ActionBar from '_legacy/components/action-bar';
 import Button from '_legacy/components/button';

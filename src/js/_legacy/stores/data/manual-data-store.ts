@@ -2,7 +2,7 @@ import { parseDate } from 'astrocite-core';
 import { computed, observable, toJS } from 'mobx';
 import nanoid from 'nanoid';
 
-import { AutociteResponse } from '_legacy/utils/resolvers';
+import { AutociteResponse } from 'utils/resolvers';
 
 type FieldProxy = { [k in CSL.StandardFieldKey | CSL.DateFieldKey]: string } & {
     [k: string]: string;

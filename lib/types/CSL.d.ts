@@ -3,6 +3,7 @@
  * instances, this library will narrow them to be exclusively type string so that the implementer
  * will be certain as to what they are getting.
  */
+// tslint:disable-next-line:no-namespace
 declare namespace CSL {
     type Year = string | number;
     type Month = string | number;

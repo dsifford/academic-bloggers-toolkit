@@ -1,4 +1,4 @@
-import { getFromDOI, getFromPubmed } from '_legacy/utils/resolvers';
+import { getFromDOI, getFromPubmed } from 'utils/resolvers';
 
 export async function getRemoteData(
     identifierList: string,

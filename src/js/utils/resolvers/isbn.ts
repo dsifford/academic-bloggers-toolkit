@@ -1,6 +1,6 @@
 import { parseName } from 'astrocite-core';
 
-import { AutociteResponse } from '_legacy/utils/resolvers';
+import { AutociteResponse } from './';
 
 interface Item {
     volumeInfo: {

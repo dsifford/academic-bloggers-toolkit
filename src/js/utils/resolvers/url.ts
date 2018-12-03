@@ -3,7 +3,7 @@
 // complexity and that feature is instrumental to this function.
 // Without it, the function would _more_ complex.
 
-import { AutociteResponse } from '_legacy/utils/resolvers';
+import { AutociteResponse } from './';
 
 interface WebpageResponse {
     authors: Array<{
@@ -139,10 +139,7 @@ export async function getFromURL(url: string): Promise<AutociteResponse> {
     const headers = new Headers({
         'Content-Type': 'application/x-www-form-urlencoded',
     });
-    // FIXME: This is a bug in typescript. URLSearchParams are currently
-    // not accepted in the typescript definitions for `fetch` even though
-    // they should be.
-    const body: any = new URLSearchParams(
+    const body = new URLSearchParams(
         `action=get_website_meta&site_url=${encodeURIComponent(url)}`,
     );
     const req = await fetch(top.ajaxurl, {

@@ -3,8 +3,8 @@ import { observer } from 'mobx-react';
 import React from 'react';
 
 import Store from '_legacy/stores/ui/add-dialog';
-import { getFromISBN } from '_legacy/utils/resolvers/isbn';
-import { getFromURL } from '_legacy/utils/resolvers/url';
+import { getFromISBN } from 'utils/resolvers/isbn';
+import { getFromURL } from 'utils/resolvers/url';
 
 import Callout from '_legacy/components/callout';
 import AutoCite from '_legacy/dialogs/add/autocite';

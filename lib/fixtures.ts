@@ -99,7 +99,10 @@ export const state: ABT.Globals['state'] = {
                     },
                 },
             ],
-            properties: {},
+            properties: {
+                index: 0,
+                noteIndex: 0,
+            },
         },
         {
             citationID: 'otherHtmlSpanId',
@@ -131,7 +134,10 @@ export const state: ABT.Globals['state'] = {
                     },
                 },
             ],
-            properties: {},
+            properties: {
+                index: 1,
+                noteIndex: 0,
+            },
         },
     ],
     CSL: {
