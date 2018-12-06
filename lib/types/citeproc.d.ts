@@ -117,10 +117,18 @@ declare module 'citeproc' {
             id: string;
             item?: CSL.Data;
         }>;
+        // FIXME: this is not optional
         properties?: {
-            /** 0-based index of the citation group in the document */
+            /**
+             * 0-based index of the citation group in the document
+             */
+            index: number;
+            /**
+             * Indicates the footnote number in which the citation is located
+             * within the document. Citations within the main text of the
+             * document have a noteIndex of 0.
+             */
             noteIndex?: number;
-            index?: number;
         };
     }
 
@@ -150,8 +158,6 @@ declare module 'citeproc' {
         retrieveLocale(lang: string): string;
         retrieveItem(id: string | number): CSL.Data;
     }
-
-    interface Processor {}
 
     export class Engine {
         registry: Registry;

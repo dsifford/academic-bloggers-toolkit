@@ -46,6 +46,14 @@ declare const Rollbar: IRollbar;
 interface Window {
     _babelPolyfill: boolean;
     ABT: ABT.Globals;
+    ABT_EDITOR: {
+        citations: CSL.Data[];
+        style: {
+            kind: import('stores/data/constants').StyleKind;
+            value: string;
+            label: string;
+        };
+    };
     DocumentTouch?: any;
     Rollbar: IRollbar;
     ajaxurl: string;

@@ -2,7 +2,14 @@
 // Definitions by: Derek P Sifford <dereksifford@gmail.com>
 
 declare module '@wordpress/components' {
-    import { ComponentType, HTMLProps, ReactElement, ReactNode } from 'react';
+    import {
+        Component,
+        ComponentType,
+        Context,
+        HTMLProps,
+        ReactElement,
+        ReactNode,
+    } from 'react';
 
     // FIXME: fix this in ts syntax
     type DropdownRenderProp = (
@@ -59,6 +66,28 @@ declare module '@wordpress/components' {
          * Whether the button is focused.
          */
         focus?: boolean;
+    }
+
+    interface CheckboxControlProps {
+        /**
+         * A heading for the input field, that appears above the checkbox. If
+         * the prop is not passed no heading will be rendered.
+         */
+        heading?: string;
+        /**
+         * A label for the input field, that appears at the side of the checkbox.
+         * If no prop is passed an empty label is rendered.
+         */
+        label?: string;
+        /**
+         * If this property is added, a help text will be generated using help
+         * property as the content.
+         */
+        help?: string;
+        checked?: boolean;
+        className?: string;
+        instanceId?: string;
+        onChange(isChecked: boolean): void;
     }
 
     interface DropdownProps {
@@ -330,6 +359,7 @@ declare module '@wordpress/components' {
 
     export const Button: ComponentType<ButtonProps>;
     export const ButtonGroup: ComponentType;
+    export const CheckboxControl: ComponentType<CheckboxControlProps>;
     export const Dropdown: ComponentType<DropdownProps>;
     export const DropdownMenu: ComponentType<DropdownMenuProps>;
     export const IconButton: ComponentType<IconButtonProps>;
@@ -340,5 +370,10 @@ declare module '@wordpress/components' {
     export const Panel: ComponentType<PanelProps>;
     export const PanelBody: ComponentType<PanelBodyProps>;
     export const PanelRow: ComponentType<PanelRowProps>;
+    export const Spinner: ComponentType;
     export const TextControl: ComponentType<TextControlProps>;
+
+    export class Disabled extends Component {
+        static Consumer: Context<boolean>['Consumer'];
+    }
 }
