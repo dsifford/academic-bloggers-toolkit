@@ -4,38 +4,48 @@
 
 declare module '@wordpress/data' {
     import { ComponentType } from 'react';
-    import { combineReducers, Reducer, Store } from 'redux';
+    import { AnyAction, combineReducers, Reducer, Store } from 'redux';
 
-    interface StoreRegObj<S> {
-        reducer: Reducer<S>;
+    export { AnyAction as Action, combineReducers, Reducer } from 'redux';
+
+    export interface Controls {
+        [k: string]: (action: AnyAction) => Promise<any>;
+    }
+
+    interface StoreRegObj<T> {
+        reducer: Reducer<T>;
         actions: {
-            [k: string]: (...args: any) => { type: string; [k: string]: any };
+            [k: string]: (...args: any) => AnyAction | IterableIterator<any>;
         };
+        controls?: Controls;
         selectors?: {
-            [k: string]: (state: S, ...args: any) => any;
+            [k: string]: (state: T, ...args: any) => any;
         };
         resolvers?: {
-            [k: string]: <T>(state: S, ...args: any) => IterableIterator<T>;
+            [k: string]: (...args: any) => IterableIterator<T>;
         };
     }
 
     type Selector<T> = (key: string) => T;
     type Dispatcher<T> = (key: string) => T;
 
-    export { combineReducers } from 'redux';
-    export function dispatch<T>(key: string): T;
-    export function registerStore<S = {}>(
-        namespace: string,
-        options: StoreRegObj<S>,
-    ): Store<S>;
-    export function select<T>(key: string): T;
-    export function subscribe(func: () => void): () => void;
-
+    export function dispatch<T>(
+        key: string,
+    ): Record<string, (...args: any[]) => T>;
     export function withDispatch<P, DP, T = any>(
         mapDispatchToProps: (dispatch: Dispatcher<T>, ownProps: P) => DP,
     ): (component: ComponentType<P & DP>) => ComponentType<P>;
 
+    export function select<T>(
+        key: string,
+    ): Record<string, (...args: any[]) => T>;
     export function withSelect<P, DP, T = any>(
         mapDispatchToProps: (dispatch: Selector<T>, ownProps: P) => DP,
     ): (component: ComponentType<P & DP>) => ComponentType<P>;
+
+    export function registerStore<S = {}>(
+        namespace: string,
+        options: StoreRegObj<S>,
+    ): Store<S>;
+    export function subscribe(func: () => void): () => void;
 }

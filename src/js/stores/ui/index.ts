@@ -3,7 +3,9 @@ import reducer from './reducers';
 import * as selectors from './selectors';
 
 export interface State {
-    selected: string[];
+    sidebar: {
+        selectedItems: string[];
+    };
 }
 
 export default {

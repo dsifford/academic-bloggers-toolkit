@@ -1,2 +1,2 @@
 export { default as dataStore } from './data';
-export { default as sidebarStore } from './sidebar';
+export { default as uiStore } from './ui';
