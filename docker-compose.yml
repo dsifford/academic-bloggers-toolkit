@@ -10,9 +10,8 @@ services:
       DB_PASS: root
       WP_DEBUG: 'true'
       WP_DEBUG_DISPLAY: 'true'
-      WP_VERSION: nightly
       PLUGINS: >-
-        gutenberg
+        classic-editor
         query-monitor
     ports:
       - 8080:80

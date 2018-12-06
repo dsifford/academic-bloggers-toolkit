@@ -38,26 +38,28 @@ class Backend {
 	}
 
 	public function load_post() {
-		$post_type            = get_current_screen()->post_type;
-		$disabled_post_types  = apply_filters( 'abt_disabled_post_types', [ 'acf', 'um_form' ] );
-		$is_invalid_post_type = in_array(
-			$post_type,
-			array_merge(
-				[ 'attachment' ],
-				is_array( $disabled_post_types ) ? $disabled_post_types : []
-			),
-			true
-		);
+		if ( class_exists( '\Classic_Editor' ) ) {
+			$post_type            = get_current_screen()->post_type;
+			$disabled_post_types  = apply_filters( 'abt_disabled_post_types', [ 'acf', 'um_form' ] );
+			$is_invalid_post_type = in_array(
+				$post_type,
+				array_merge(
+					[ 'attachment' ],
+					is_array( $disabled_post_types ) ? $disabled_post_types : []
+				),
+				true
+			);
 
-		if ( $is_invalid_post_type ) {
-			return;
+			if ( $is_invalid_post_type ) {
+				return;
+			}
+			add_action( 'add_meta_boxes', [ $this, 'add_metaboxes' ] );
+			add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_scripts' ] );
+			add_action( 'admin_head', [ $this, 'init_tinymce' ] );
+			add_action( 'admin_notices', [ $this, 'user_alert' ] );
+			add_action( 'save_post', [ $this, 'save_meta' ] );
+			add_filter( 'mce_css', [ $this, 'load_tinymce_css' ] );
 		}
-		add_action( 'add_meta_boxes', [ $this, 'add_metaboxes' ] );
-		add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_scripts' ] );
-		add_action( 'admin_head', [ $this, 'init_tinymce' ] );
-		add_action( 'admin_notices', [ $this, 'user_alert' ] );
-		add_action( 'save_post', [ $this, 'save_meta' ] );
-		add_filter( 'mce_css', [ $this, 'load_tinymce_css' ] );
 	}
 
 	/**
@@ -87,9 +89,6 @@ class Backend {
 	 * Instantiates the TinyMCE plugin.
 	 */
 	public function init_tinymce() {
-		if ( function_exists( 'is_gutenberg_page' ) && is_gutenberg_page() ) {
-			return;
-		}
 		if ( 'true' === get_user_option( 'rich_editing' ) ) {
 			add_filter( 'mce_external_plugins', [ $this, 'register_tinymce_plugins' ] );
 		}
@@ -128,9 +127,6 @@ class Backend {
 	 * @param string $post_type The post type.
 	 */
 	public function add_metaboxes( $post_type ) {
-		if ( function_exists( 'is_gutenberg_page' ) && is_gutenberg_page() ) {
-			return;
-		}
 		$all_types = get_post_types();
 		add_meta_box(
 			'abt-reflist',
@@ -156,9 +152,6 @@ class Backend {
 	 * @param string $post_id The post ID.
 	 */
 	public function save_meta( $post_id ) {
-		if ( function_exists( 'is_gutenberg_page' ) && is_gutenberg_page() ) {
-			return;
-		}
 		if ( wp_is_post_autosave( $post_id ) || wp_is_post_revision( $post_id ) ) {
 			return;
 		}
@@ -179,9 +172,6 @@ class Backend {
 	 * Registers and enqueues all required scripts.
 	 */
 	public function enqueue_scripts() {
-		if ( function_exists( 'is_gutenberg_page' ) && is_gutenberg_page() ) {
-			return;
-		}
 		global $post;
 
 		$translations = i18n\generate_translations();
@@ -266,4 +256,4 @@ class Backend {
 		];
 	}
 }
-\ABT\Backend::init();
+Backend::init();

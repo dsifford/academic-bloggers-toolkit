@@ -14,7 +14,7 @@ use function ABT\Utils\enqueue_script;
  */
 function enqueue_scripts() {
 	global $post;
-	if ( function_exists( 'is_gutenberg_page' ) && is_gutenberg_page() ) {
+	if ( function_exists( 'get_current_screen' ) && get_current_screen()->is_block_editor() ) {
 		enqueue_script(
 			'editor',
 			[
