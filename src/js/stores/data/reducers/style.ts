@@ -1,19 +1,15 @@
 import { Reducer } from '@wordpress/data';
 
 import { State as Main } from '../';
-import { Actions, StyleKind } from '../constants';
+import { Actions } from '../constants';
 
 type State = Main['style'];
 
-const INITIAL: State = {
-    kind: StyleKind.PREDEFINED,
-    label: 'American Medical Association',
-    value: 'american-medical-association',
-};
+const INITIAL_STATE = { ...window.ABT_EDITOR.style };
 
-const style: Reducer<State> = (state = INITIAL, action) => {
+const style: Reducer<State> = (state = INITIAL_STATE, action) => {
     switch (action.type) {
-        case Actions.SET_STYLE:
+        case Actions.RECEIVE_STYLE:
             return action.style;
         default:
             return state;
