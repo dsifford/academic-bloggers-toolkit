@@ -1,4 +1,3 @@
-import { parse } from '@wordpress/blocks';
 import { compose } from '@wordpress/compose';
 import { withDispatch, withSelect } from '@wordpress/data';
 import { Component } from '@wordpress/element';
@@ -7,27 +6,30 @@ import {
     FormatEditProps as OwnProps,
     insert,
 } from '@wordpress/rich-text';
-import { ToolbarButton } from 'gutenberg/sidebar/toolbar';
+import uuid from 'uuid/v4';
 
+import { ToolbarButton } from 'gutenberg/sidebar/toolbar';
 import { createCitationHtml } from './utils';
 
-interface ProvidedDispatchProps {
-    resetBlocks: (serialized: string) => void;
+interface DispatchProps {
+    parseCitations: () => void;
 }
 
-interface ProvidedSelectProps {
-    getEditedPostContent: () => string;
+interface SelectProps {
+    selectedItems: string[];
 }
 
-type Props = OwnProps & ProvidedDispatchProps & ProvidedSelectProps;
+type Props = OwnProps & DispatchProps & SelectProps;
 
 class Citation extends Component<Props> {
     render() {
+        const { selectedItems } = this.props;
         return (
             <>
                 <ToolbarButton
                     icon="exit"
                     label="Insert citation"
+                    disabled={selectedItems.length === 0}
                     onClick={this.insertCitation}
                 />
             </>
@@ -35,27 +37,26 @@ class Citation extends Component<Props> {
     }
 
     private insertCitation = (): void => {
-        const { onChange, value } = this.props;
+        const { onChange, parseCitations, selectedItems, value } = this.props;
         const newValue = create({
             html: createCitationHtml({
-                id: `${Date.now()}`,
-                items: ['25236231', 'asdfa-3g43gfjhf'],
-                innerHTML: `<sup>hello</sup>`,
+                id: uuid(),
+                items: selectedItems,
             }),
         });
         onChange(insert(value, newValue));
+        // TODO: Clear selected items here.
+        parseCitations();
     };
 }
 
 export default compose([
-    withDispatch<OwnProps, ProvidedDispatchProps>(dispatch => ({
-        resetBlocks(serialized) {
-            dispatch('core/editor').resetBlocks(parse(serialized));
+    withDispatch<OwnProps, DispatchProps>(dispatch => ({
+        parseCitations() {
+            dispatch('abt/data').parseCitations();
         },
     })),
-    withSelect<OwnProps, ProvidedSelectProps>(select => ({
-        getEditedPostContent() {
-            return select('core/editor').getEditedPostContent();
-        },
+    withSelect<OwnProps, SelectProps>(select => ({
+        selectedItems: select('abt/ui').getSelectedItems(),
     })),
 ])(Citation);
