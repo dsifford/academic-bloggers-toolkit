@@ -11,7 +11,13 @@ export default class Processor {
 
     private sys: Engine['sys'] = {
         retrieveItem(id: string): CSL.Data {
-            return _.cloneDeep(select<CSL.Data>('abt/data').getItemById(id));
+            const item = select('abt/data').getItemById(id);
+            if (!item) {
+                throw new Error(
+                    `CSL Data could not be found for item ID "${id}"`,
+                );
+            }
+            return _.cloneDeep(item);
         },
         retrieveLocale(lang: string) {
             const locale = localeCache.getItem(lang);

@@ -1,6 +1,5 @@
 import { parse } from '@wordpress/blocks';
 import { dispatch, select } from '@wordpress/data';
-import { Citation } from 'citeproc';
 
 import { styleCache } from 'utils/cache';
 import Processor from 'utils/processor';
@@ -54,13 +53,13 @@ export function* setStyle(style: State['style']) {
 }
 
 export function* parseCitations() {
-    const style = select<State['style']>('abt/data').getStyle();
+    const style = select('abt/data').getStyle();
     if (style.kind === StyleKind.CUSTOM) {
         throw new Error('Custom styles not implemented yet.');
     }
     const processor = new Processor(styleCache.getItem(style.value)!);
     const citations = processor.parseCitations(
-        select<Citation[]>('abt/data').getCitationsByIndex(),
+        select('abt/data').getCitationsByIndex(),
     );
     const doc = document.createElement('div');
     doc.innerHTML = select<string>('core/editor').getEditedPostContent();

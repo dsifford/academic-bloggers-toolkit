@@ -38,7 +38,7 @@ export default class MetaFields extends React.Component<Props> {
             <>
                 <h2 className={styles.heading}>{title}</h2>
                 <div className={styles.table}>
-                    {fields.map(field => (
+                    {fields.map((field: any) => (
                         <Field
                             key={key++}
                             onChange={this.updateField}

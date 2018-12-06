@@ -249,19 +249,17 @@ const blankFields = [
     'thesis',
     'treaty',
     'webpage',
-].reduce(
-    (obj, item) => {
-        return {
-            ...obj,
-            [item]: {
-                title: '',
-                fields: [],
-                people: [],
-            },
-        };
-    },
-    <ABT.FieldMappings>{},
-);
+].reduce<any>((obj, item) => {
+    return {
+        ...obj,
+        [item]: {
+            title: '',
+            fields: [],
+            people: [],
+        },
+    };
+    // tslint:disable-next-line:no-object-literal-type-assertion
+}, {});
 
 export const i18n: ABT.Globals['i18n'] = {
     options_page: {

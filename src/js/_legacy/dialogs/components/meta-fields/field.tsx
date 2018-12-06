@@ -8,7 +8,10 @@ interface Props {
     /**
      * Field descriptor
      */
-    field: ABT.Field;
+    field: {
+        value: string;
+        label: string;
+    };
     meta: Store['data'];
     /**
      * onChange handler for input element

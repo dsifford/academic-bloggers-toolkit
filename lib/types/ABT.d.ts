@@ -26,19 +26,6 @@ declare namespace ABT {
         type: ContributorType;
     }
 
-    interface Field extends React.HTMLProps<HTMLInputElement> {
-        value: string;
-        label: string;
-    }
-
-    type FieldMappings = {
-        [k in CSL.ItemType]: {
-            title: string;
-            fields: Field[];
-            people: ContributorField[];
-        }
-    };
-
     interface CitationStyle {
         kind: StyleKind;
         label: string;
@@ -117,7 +104,7 @@ declare namespace ABT {
             tinymce_unavailable: "TinyMCE editor doesn't appear to be available in this scope";
             invalid_predefined_style: 'Invalid predefined style type';
         };
-        fieldmaps: FieldMappings;
+        fieldmaps: any;
         misc: {
             footnotes: 'Footnotes';
             source: 'Source';

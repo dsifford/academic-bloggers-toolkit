@@ -26,26 +26,24 @@ declare module '@wordpress/data' {
         };
     }
 
-    type Selector<T> = (key: string) => T;
-    type Dispatcher<T> = (key: string) => T;
+    // prettier-ignore
+    export function dispatch<T>(key: string): Record<string, (...args: any[]) => T>;
 
-    export function dispatch<T>(
-        key: string,
-    ): Record<string, (...args: any[]) => T>;
-    export function withDispatch<P, DP, T = any>(
-        mapDispatchToProps: (dispatch: Dispatcher<T>, ownProps: P) => DP,
+    // prettier-ignore
+    export function select<T>(key: string): Record<string, (...args: any[]) => T>;
+
+    export function withDispatch<P, DP>(
+        mapDispatchToProps: (disp: typeof dispatch, ownProps: P) => DP,
     ): (component: ComponentType<P & DP>) => ComponentType<P>;
 
-    export function select<T>(
-        key: string,
-    ): Record<string, (...args: any[]) => T>;
-    export function withSelect<P, DP, T = any>(
-        mapDispatchToProps: (dispatch: Selector<T>, ownProps: P) => DP,
+    export function withSelect<P, DP>(
+        mapDispatchToProps: (sel: typeof select, ownProps: P) => DP,
     ): (component: ComponentType<P & DP>) => ComponentType<P>;
 
     export function registerStore<S = {}>(
         namespace: string,
         options: StoreRegObj<S>,
     ): Store<S>;
+
     export function subscribe(func: () => void): () => void;
 }
