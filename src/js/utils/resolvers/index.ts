@@ -1,4 +1,5 @@
 import * as DOI from './doi';
+import * as Pubmed from './pubmed';
 
 type StringFields = { [k in CSL.StandardFieldKey | CSL.DateFieldKey]?: string };
 type PersonFields = ABT.Contributor[];
@@ -13,4 +14,4 @@ export { getFromPubmed, pubmedQuery } from './pubmed';
 export { getFromISBN } from './isbn';
 export { getFromURL } from './url';
 
-export { DOI };
+export { DOI, Pubmed };

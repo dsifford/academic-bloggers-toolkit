@@ -1,11 +1,39 @@
 import { EUtilsError, toCSL } from 'astrocite-eutils';
 import { oneLineTrim } from 'common-tags';
 
+import { ResponseError } from 'utils/error';
+
+export async function get(
+    id: string,
+    db: 'pubmed' | 'pmc',
+): Promise<CSL.Data | ResponseError> {
+    const endpoint = new URL(
+        'https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi',
+    );
+    endpoint.search = new URLSearchParams({
+        id,
+        db,
+        tool: 'academic-bloggers-toolkit',
+        email: 'dereksifford@gmail.com',
+        version: '2.0',
+        retmode: 'json',
+    }).toString();
+    const response = await fetch(endpoint.href);
+    if (!response.ok) {
+        return new ResponseError(id, response);
+    }
+    const data = toCSL(await response.json())[0];
+    return data instanceof Error
+        ? new ResponseError(id, response)
+        : <CSL.Data>data;
+}
+
 /**
  * Sends a string of text to PubMed and resolves PubMed.DataPMID[] for the query.
  * @param query - A search string (the same you would type into
  *   the search box on pubmed)
  * @return Promise that resolves to an array of PubMed Response
+ * @deprecated
  */
 export async function pubmedQuery(query: string): Promise<CSL.Data[]> {
     const req = await fetch(
@@ -43,6 +71,9 @@ export async function pubmedQuery(query: string): Promise<CSL.Data[]> {
     }
 }
 
+/**
+ * @deprecated
+ */
 export async function getFromPubmed(
     kind: 'PMID' | 'PMCID',
     idList: string,
@@ -71,6 +102,9 @@ interface ResolvedData {
     invalid: EUtilsError[];
 }
 
+/**
+ * @deprecated
+ */
 async function resolvePubmedData(
     kind: 'PMID' | 'PMCID',
     idList: string,

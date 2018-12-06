@@ -1,4 +1,4 @@
-import { Component } from '@wordpress/element';
+import { Component, createRef } from '@wordpress/element';
 import { FormEvent } from 'react';
 
 import styles from './identifier-form.scss';
@@ -27,6 +27,15 @@ class IdentifierForm extends Component<{}, State> {
         kind: IdentifierKind.DOI,
         pattern: PATTERNS.doi,
     };
+    private inputRef = createRef<HTMLInputElement>();
+    componentDidMount() {
+        // Necessary due to WordPress modal stealing focus
+        setTimeout(() => {
+            if (this.inputRef.current) {
+                this.inputRef.current.focus();
+            }
+        }, 100);
+    }
     render() {
         const { kind, pattern } = this.state;
         return (
@@ -42,6 +51,7 @@ class IdentifierForm extends Component<{}, State> {
                     <option value={IdentifierKind.PMCID}>PMCID</option>
                 </select>
                 <input
+                    ref={this.inputRef}
                     required
                     name="identifier"
                     type="text"
