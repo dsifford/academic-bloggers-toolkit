@@ -40,11 +40,7 @@ interface IRollbar {
     critical(msg: string, e?: any): void;
 }
 
-declare const DocumentTouch: any;
-declare const Rollbar: IRollbar;
-
 interface Window {
-    _babelPolyfill: boolean;
     ABT: ABT.Globals;
     ABT_EDITOR: {
         citations: CSL.Data[];
@@ -57,5 +53,4 @@ interface Window {
     DocumentTouch?: any;
     Rollbar: IRollbar;
     ajaxurl: string;
-    tinyMCE: TinyMCE.MCE;
 }

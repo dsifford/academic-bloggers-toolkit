@@ -1,3 +1,4 @@
+import { Dashicon } from '@wordpress/dashicons';
 import classNames from 'classnames';
 import React from 'react';
 
@@ -19,7 +20,7 @@ interface Props extends React.HTMLProps<HTMLButtonElement> {
     /**
      * Dashicon to use for button
      */
-    icon?: wp.Dashicon;
+    icon?: Dashicon;
     /**
      * Descriptive aria-label for the button
      */

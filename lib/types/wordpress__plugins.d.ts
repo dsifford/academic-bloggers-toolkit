@@ -2,13 +2,14 @@
 // Definitions by: Derek P Sifford <dereksifford@gmail.com>
 
 declare module '@wordpress/plugins' {
+    import { Dashicon } from '@wordpress/dashicons';
     import { ComponentType } from 'react';
 
     interface PluginSettings {
         /**
          * The Dashicon icon slug string, or an SVG WP element, to be rendered when the sidebar is pinned to toolbar.
          */
-        icon: string | ComponentType;
+        icon: Dashicon | ComponentType;
         /**
          * A component containing the UI elements to be rendered.
          */

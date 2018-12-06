@@ -1,5 +1,4 @@
-// tslint:disable no-namespace
-declare namespace TinyMCE {
+declare module 'tinymce' {
     interface Editor {
         id: string;
         initialized: boolean;
@@ -7,13 +6,7 @@ declare namespace TinyMCE {
             createRng(): Range;
         };
         selection: {
-            getBookmark(type: 1, normalized?: boolean): { rng: Range };
-            /** Don't use */
-            getBookmark(type: 2, normalized?: boolean): { start: number[]; end?: number[] };
-            /** Don't use */
-            getBookmark(type: 3, normalized?: boolean): { start: string; end: string };
-            /** Don't use */
-            getBookmark(type?: number, normalized?: boolean): { id: string };
+            getBookmark(type?: 1, normalized?: boolean): { rng: Range };
             getContent(args: { format: 'html' | 'text' }): string;
             setContent(content: string, args?: { format: string }): string;
             setCursorLocation(node?: Node, offset?: number): void;
@@ -25,7 +18,9 @@ declare namespace TinyMCE {
             /** Clears the undo history */
             clear(): void;
         };
-        windowManager: WindowManager;
+        windowManager: {
+            alert(message: string, callback?: () => void, scope?: object): void;
+        };
         addShortcut(keys: string, title: string, func: () => void): void;
         focus(): void;
         getBody(): HTMLBodyElement;
@@ -39,13 +34,9 @@ declare namespace TinyMCE {
         setProgressState(state: boolean): void;
     }
 
-    interface MCE {
+    interface TinyMCE {
         EditorManager: Editor;
         editors: Editor[] & { [editorId: string]: Editor };
         on(eventName: string, callback: () => void): void;
-    }
-
-    interface WindowManager {
-        alert(message: string, callback?: () => void, scope?: object): void;
     }
 }

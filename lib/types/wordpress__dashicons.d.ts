@@ -1,17 +1,7 @@
-// tslint:disable:no-namespace
-// Type definitions for WordPress's "wp" namespace
+// Type definitions for @wordpress/dashicons
+// Definitions by: Derek P Sifford <dereksifford@gmail.com>
 
-/*~ If your library has properties exposed on a global variable,
- *~ place them here.
- *~ You should also place types (interfaces and type alias) here.
- */
-declare namespace wp {
-    const codeEditor:
-        | {
-              initialize(elementId: string, options: object): void;
-          }
-        | undefined;
-
+declare module '@wordpress/dashicons' {
     type Dashicon =
         | 'admin-appearance'
         | 'admin-collapse'
@@ -27,36 +17,41 @@ declare namespace wp {
         | 'admin-plugins'
         | 'admin-post'
         | 'admin-settings'
+        | 'admin-site'
         | 'admin-site-alt'
         | 'admin-site-alt2'
         | 'admin-site-alt3'
-        | 'admin-site'
         | 'admin-tools'
         | 'admin-users'
         | 'album'
         | 'align-center'
+        | 'align-full-width'
         | 'align-left'
         | 'align-none'
+        | 'align-pull-left'
+        | 'align-pull-right'
         | 'align-right'
+        | 'align-wide'
         | 'analytics'
         | 'archive'
+        | 'arrow-down'
         | 'arrow-down-alt'
         | 'arrow-down-alt2'
-        | 'arrow-down'
+        | 'arrow-left'
         | 'arrow-left-alt'
         | 'arrow-left-alt2'
-        | 'arrow-left'
+        | 'arrow-right'
         | 'arrow-right-alt'
         | 'arrow-right-alt2'
-        | 'arrow-right'
+        | 'arrow-up'
         | 'arrow-up-alt'
         | 'arrow-up-alt2'
-        | 'arrow-up'
         | 'art'
         | 'awards'
         | 'backup'
-        | 'book-alt'
+        | 'block-default'
         | 'book'
+        | 'book-alt'
         | 'buddicons-activity'
         | 'buddicons-buddypress-logo'
         | 'buddicons-community'
@@ -70,8 +65,9 @@ declare namespace wp {
         | 'buddipress-bbpress-logo'
         | 'building'
         | 'businessman'
-        | 'calendar-alt'
+        | 'button'
         | 'calendar'
+        | 'calendar-alt'
         | 'camera'
         | 'carrot'
         | 'cart'
@@ -83,6 +79,9 @@ declare namespace wp {
         | 'clipboard'
         | 'clock'
         | 'cloud'
+        | 'cloud-saved'
+        | 'cloud-upload'
+        | 'columns'
         | 'controls-back'
         | 'controls-forward'
         | 'controls-pause'
@@ -92,6 +91,7 @@ declare namespace wp {
         | 'controls-skipforward'
         | 'controls-volumeoff'
         | 'controls-volumeon'
+        | 'cover-image'
         | 'dashboard'
         | 'desktop'
         | 'dismiss'
@@ -128,13 +128,20 @@ declare namespace wp {
         | 'editor-underline'
         | 'editor-unlink'
         | 'editor-video'
+        | 'ellipsis'
+        | 'email'
         | 'email-alt'
         | 'email-alt2'
-        | 'email'
+        | 'embed-audio'
+        | 'embed-generic'
+        | 'embed-photo'
+        | 'embed-post'
+        | 'embed-video'
         | 'excerpt-view'
+        | 'exit'
         | 'external'
-        | 'facebook-alt'
         | 'facebook'
+        | 'facebook-alt'
         | 'feedback'
         | 'filter'
         | 'flag'
@@ -151,28 +158,34 @@ declare namespace wp {
         | 'grid-view'
         | 'groups'
         | 'hammer'
+        | 'heading'
         | 'heart'
         | 'hidden'
-        | 'id-alt'
+        | 'html'
         | 'id'
+        | 'id-alt'
         | 'image-crop'
         | 'image-filter'
         | 'image-flip-horizontal'
         | 'image-flip-vertical'
+        | 'image-rotate'
         | 'image-rotate-left'
         | 'image-rotate-right'
-        | 'image-rotate'
         | 'images-alt'
         | 'images-alt2'
         | 'index-card'
         | 'info'
+        | 'info-outline'
+        | 'insert'
+        | 'insert-after'
+        | 'insert-before'
         | 'laptop'
         | 'layout'
         | 'leftright'
         | 'lightbulb'
         | 'list-view'
-        | 'location-alt'
         | 'location'
+        | 'location-alt'
         | 'lock'
         | 'marker'
         | 'media-archive'
@@ -185,8 +198,8 @@ declare namespace wp {
         | 'media-text'
         | 'media-video'
         | 'megaphone'
-        | 'menu-alt'
         | 'menu'
+        | 'menu-alt'
         | 'microphone'
         | 'migrate'
         | 'minus'
@@ -194,17 +207,17 @@ declare namespace wp {
         | 'move'
         | 'nametag'
         | 'networking'
-        | 'no-alt'
         | 'no'
+        | 'no-alt'
         | 'palmtree'
         | 'paperclip'
         | 'performance'
         | 'phone'
         | 'playlist-audio'
         | 'playlist-video'
+        | 'plus'
         | 'plus-alt'
         | 'plus-light'
-        | 'plus'
         | 'portfolio'
         | 'post-status'
         | 'pressthis'
@@ -212,14 +225,16 @@ declare namespace wp {
         | 'randomize'
         | 'redo'
         | 'rss'
+        | 'saved'
         | 'schedule'
         | 'screenoptions'
         | 'search'
+        | 'share'
         | 'share-alt'
         | 'share-alt2'
-        | 'share'
-        | 'shield-alt'
         | 'shield'
+        | 'shield-alt'
+        | 'shortcode'
         | 'slides'
         | 'smartphone'
         | 'smiley'
@@ -230,6 +245,12 @@ declare namespace wp {
         | 'star-half'
         | 'sticky'
         | 'store'
+        | 'table-col-after'
+        | 'table-col-before'
+        | 'table-col-delete'
+        | 'table-row-after'
+        | 'table-row-before'
+        | 'table-row-delete'
         | 'tablet'
         | 'tag'
         | 'tagcloud'
@@ -237,14 +258,14 @@ declare namespace wp {
         | 'text'
         | 'thumbs-down'
         | 'thumbs-up'
-        | 'tickets-alt'
         | 'tickets'
+        | 'tickets-alt'
         | 'translation'
         | 'trash'
         | 'twitter'
         | 'undo'
-        | 'universal-access-alt'
         | 'universal-access'
+        | 'universal-access-alt'
         | 'unlock'
         | 'update'
         | 'upload'
@@ -260,39 +281,7 @@ declare namespace wp {
         | 'welcome-view-site'
         | 'welcome-widgets-menus'
         | 'welcome-write-blog'
-        | 'wordpress-alt'
         | 'wordpress'
+        | 'wordpress-alt'
         | 'yes';
-    // //~ We can write 'myLib.timeout = 50;'
-    // let timeout: number;
-
-    // //~ We can access 'myLib.version', but not change it
-    // const version: string;
-
-    // //~ There's some class we can create via 'let c = new myLib.Cat(42)'
-    // //~ Or reference e.g. 'function f(c: myLib.Cat) { ... }
-    // class Cat {
-    //     constructor(n: number);
-
-    //     //~ We can read 'c.age' from a 'Cat' instance
-    //     readonly age: number;
-
-    //     //~ We can invoke 'c.purr()' from a 'Cat' instance
-    //     purr(): void;
-    // }
-
-    // //~ We can declare a variable as
-    // //~   'var s: myLib.CatSettings = { weight: 5, name: "Maru" };'
-    // interface CatSettings {
-    //     weight: number;
-    //     name: string;
-    //     tailLength?: number;
-    // }
-
-    // //~ We can write 'const v: myLib.VetID = 42;'
-    // //~  or 'const v: myLib.VetID = "bob";'
-    // type VetID = string | number;
-
-    // //~ We can invoke 'myLib.checkCat(c)' or 'myLib.checkCat(c, v);'
-    // function checkCat(c: Cat, s?: VetID);
 }

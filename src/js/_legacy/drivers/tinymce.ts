@@ -1,4 +1,5 @@
 import { Citation, CitationKind, CitationResult, Locator } from 'citeproc';
+import { Editor, TinyMCE } from 'tinymce';
 
 import EditorDriver, { RelativeCitationPositions } from './base';
 
@@ -12,11 +13,13 @@ interface SelectionCache {
     selection: string;
 }
 
+declare const tinyMCE: TinyMCE;
+
 export default class TinyMCEDriver extends EditorDriver {
     /**
      * The TinyMCE editor instance
      */
-    private editor!: TinyMCE.Editor;
+    private editor!: Editor;
 
     /**
      * `MutationObserver` which watches and reacts to removals of individual
@@ -223,7 +226,7 @@ export default class TinyMCEDriver extends EditorDriver {
             (resolve, reject): void => {
                 let attempts = 0;
                 let interval = setInterval(() => {
-                    if (top.tinyMCE === undefined) {
+                    if (tinyMCE === undefined) {
                         attempts += 1;
                         if (attempts === 10) {
                             clearInterval(interval);
@@ -236,21 +239,21 @@ export default class TinyMCEDriver extends EditorDriver {
                     } else {
                         clearInterval(interval);
                         if (
-                            top.tinyMCE.editors &&
-                            top.tinyMCE.editors.content &&
-                            top.tinyMCE.editors.content.initialized
+                            tinyMCE.editors &&
+                            tinyMCE.editors.content &&
+                            tinyMCE.editors.content.initialized
                         ) {
-                            this.editor = top.tinyMCE.editors.content;
+                            this.editor = tinyMCE.editors.content;
                             this.bindEvents();
                             return resolve();
                         }
                         interval = setInterval(() => {
                             if (
-                                top.tinyMCE.editors.content &&
-                                top.tinyMCE.editors.content.initialized
+                                tinyMCE.editors.content &&
+                                tinyMCE.editors.content.initialized
                             ) {
                                 clearInterval(interval);
-                                this.editor = top.tinyMCE.editors.content;
+                                this.editor = tinyMCE.editors.content;
                                 this.bindEvents();
                                 return resolve();
                             }

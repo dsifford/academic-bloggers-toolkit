@@ -2,6 +2,7 @@
 // Definitions by: Derek P Sifford <dereksifford@gmail.com>
 
 declare module '@wordpress/edit-post' {
+    import { Dashicon } from '@wordpress/dashicons';
     import { Component, ComponentType } from 'react';
 
     interface PSMMIProps {
@@ -28,7 +29,7 @@ declare module '@wordpress/edit-post' {
         /**
          * The Dashicon icon slug string, or an SVG WP element, to be rendered when the sidebar is pinned to toolbar.
          */
-        icon?: string | ComponentType;
+        icon?: Dashicon | ComponentType;
     }
     export class PluginSidebar extends Component<PSProps> {}
 }

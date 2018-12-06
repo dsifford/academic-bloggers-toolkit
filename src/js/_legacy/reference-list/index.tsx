@@ -68,7 +68,7 @@ export default class ReferenceList extends React.Component<Props> {
         this.ui = new UIStore(props.loading);
         this.processor = new Processor(props.store);
         this.init().catch(e => {
-            Rollbar.error(e.message, e);
+            window.Rollbar.error(e.message, e);
             throw e;
         });
 
@@ -179,7 +179,7 @@ export default class ReferenceList extends React.Component<Props> {
                     this.editor.alert(err);
                 }
             } catch (e) {
-                Rollbar.error(e.message, e);
+                window.Rollbar.error(e.message, e);
                 this.editor.alert(stripIndents`
                 ${ReferenceList.errors.unexpected.message}
 
@@ -330,7 +330,7 @@ export default class ReferenceList extends React.Component<Props> {
             );
             this.clearSelection();
         } catch (e) {
-            Rollbar.error(e.message, e);
+            window.Rollbar.error(e.message, e);
             this.editor.alert(stripIndents`
                 ${ReferenceList.errors.unexpected.message}
 
@@ -484,7 +484,7 @@ export default class ReferenceList extends React.Component<Props> {
             this.editor.composeCitations(clusters, this.props.store.citations.citationByIndex, this.processor.citeproc.opt.xclass);
             this.editor.setBibliography(this.props.store.displayOptions, this.processor.makeBibliography());
         } catch (e) {
-            Rollbar.error(e.message, e);
+            window.Rollbar.error(e.message, e);
             this.editor.alert(stripIndents`
                 ${ReferenceList.errors.unexpected.message}
 
@@ -529,7 +529,7 @@ export default class ReferenceList extends React.Component<Props> {
                 true,
             );
         } catch (e) {
-            Rollbar.error(e.message, e);
+            window.Rollbar.error(e.message, e);
             this.editor.alert(stripIndents`
                 ${ReferenceList.errors.unexpected.message}
 

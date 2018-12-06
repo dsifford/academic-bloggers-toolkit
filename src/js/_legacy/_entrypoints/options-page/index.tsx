@@ -9,6 +9,16 @@ import StyleForm from './style-form';
 
 import './_index.scss';
 
+declare global {
+    interface Window {
+        wp: {
+            codeEditor?: {
+                initialize(elementId: string, options: object): void;
+            };
+        };
+    }
+}
+
 configure({ enforceActions: 'observed' });
 
 // disabling below since this is a false positive
@@ -23,8 +33,11 @@ renderMany([
     if (typeof window.ABT.css_editor_settings === 'boolean') {
         return;
     }
-    if (!wp.codeEditor) {
+    if (!window.wp.codeEditor) {
         throw new Error('wp.codeEditor must be included in this scope');
     }
-    wp.codeEditor.initialize('custom_css', window.ABT.css_editor_settings);
+    window.wp.codeEditor.initialize(
+        'custom_css',
+        window.ABT.css_editor_settings,
+    );
 })();

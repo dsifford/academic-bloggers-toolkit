@@ -89,7 +89,7 @@ export function createTooltip(e: MouseEvent): void {
 export class Frontend {
     static isTouchDevice: boolean =
         true === 'ontouchstart' in window ||
-        (window.DocumentTouch && document instanceof DocumentTouch);
+        (window.DocumentTouch && document instanceof window.DocumentTouch);
     bibliography: Element | null;
     itemContainer!: Element;
 
