@@ -14,7 +14,7 @@ use function ABT\Utils\enqueue_script;
  */
 function enqueue_scripts() {
 	global $post;
-	if ( function_exists( 'get_current_screen' ) && get_current_screen()->is_block_editor() ) {
+	if ( function_exists( 'get_current_screen' ) && get_current_screen()->is_block_editor() && user_can_richedit() ) {
 		enqueue_script(
 			'editor',
 			[

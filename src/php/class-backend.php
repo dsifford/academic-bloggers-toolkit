@@ -32,8 +32,23 @@ class Backend {
 	 */
 	public function __construct() {
 		if ( is_admin() ) {
-			add_action( 'load-post.php', [ $this, 'load_post' ] );
-			add_action( 'load-post-new.php', [ $this, 'load_post' ] );
+			add_action( 'load-post.php', [ $this, 'check_classic_state' ] );
+			add_action( 'load-post-new.php', [ $this, 'check_classic_option' ] );
+		}
+	}
+
+	public function check_classic_state() {
+		if ( class_exists( '\Classic_Editor' ) ) {
+			$post_id = intval( $_GET['post'] ); // phpcs:ignore
+			if ( 'classic-editor' === get_post_meta( $post_id, 'classic-editor-remember', true ) ) {
+				$this->load_post();
+			}
+		}
+	}
+
+	public function check_classic_option() {
+		if ( class_exists( '\Classic_Editor' ) && get_option( 'classic-editor-replace' ) === 'classic' ) {
+			$this->load_post();
 		}
 	}
 
