@@ -2,14 +2,14 @@ import _ from 'lodash';
 
 import styles from './sidebar-item.scss';
 
-interface IProps {
+interface Props {
     item: CSL.Data;
     isSelected?: boolean;
     children?: never;
     onClick(itemId: string): void;
 }
 
-const SidebarItem = ({ item, isSelected, onClick }: IProps) => {
+const SidebarItem = ({ item, isSelected, onClick }: Props) => {
     const publication =
         item.journalAbbreviation ||
         item['container-title-short'] ||

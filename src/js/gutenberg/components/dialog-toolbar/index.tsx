@@ -2,11 +2,11 @@ import { ReactNode } from 'react';
 
 import styles from './style.scss';
 
-interface IProps {
+interface Props {
     children: ReactNode;
 }
 
-const DialogToolbar = ({ children }: IProps): JSX.Element => (
+const DialogToolbar = ({ children }: Props): JSX.Element => (
     <div className={styles.toolbar}>{children}</div>
 );
 

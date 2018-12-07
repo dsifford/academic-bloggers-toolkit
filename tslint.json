@@ -86,7 +86,6 @@
     "react-a11y-titles": true,
     "react-anchor-blank-noopener": true,
     "react-iframe-missing-sandbox": true,
-    "react-no-dangerous-html": true,
-    "react-unused-props-and-state": true
+    "react-no-dangerous-html": true
   }
 }
