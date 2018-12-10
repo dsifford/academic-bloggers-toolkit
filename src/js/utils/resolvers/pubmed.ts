@@ -7,6 +7,7 @@ export async function get(
     id: string,
     db: 'pubmed' | 'pmc',
 ): Promise<CSL.Data | ResponseError> {
+    // FIXME: use @wordpress/url here instead
     const endpoint = new URL(
         'https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi',
     );

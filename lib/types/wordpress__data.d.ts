@@ -32,13 +32,13 @@ declare module '@wordpress/data' {
     // prettier-ignore
     export function select<T>(key: string): Record<string, (...args: any[]) => T>;
 
-    export function withDispatch<P, DP>(
+    export function withDispatch<DP, P = {}>(
         mapDispatchToProps: (disp: typeof dispatch, ownProps: P) => DP,
     ): (component: ComponentType<P & DP>) => ComponentType<P>;
 
-    export function withSelect<P, DP>(
-        mapDispatchToProps: (sel: typeof select, ownProps: P) => DP,
-    ): (component: ComponentType<P & DP>) => ComponentType<P>;
+    export function withSelect<SP, P = {}>(
+        mapDispatchToProps: (sel: typeof select, ownProps: P) => SP,
+    ): (component: ComponentType<P & SP>) => ComponentType<P>;
 
     export function registerStore<S = {}>(
         namespace: string,

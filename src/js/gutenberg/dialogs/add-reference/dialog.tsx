@@ -1,14 +1,14 @@
 import { Button, ButtonGroup, Modal } from '@wordpress/components';
 import { Component } from '@wordpress/element';
-import { FormEvent, MouseEvent } from 'react';
-
 import DialogToolbar from 'gutenberg/components/dialog-toolbar';
+import { FormEvent, MouseEvent } from 'react';
+import { IdentifierKind } from 'utils/constants';
 import { ResponseError } from 'utils/error';
 import { DOI, Pubmed } from 'utils/resolvers';
-import IdentifierForm, { IdentifierKind } from './identifier-form';
-import ManualForm from './manual-form';
 
 import styles from './dialog.scss';
+import IdentifierForm from './identifier-form';
+import ManualForm from './manual-form';
 
 const FORM_ID = 'add-reference-form';
 
@@ -130,6 +130,7 @@ class Dialog extends Component<Props, State> {
         }
         this.setState({ isBusy: false });
         if (response instanceof ResponseError) {
+            // FIXME: add notification here
             console.log(response);
             return;
         }

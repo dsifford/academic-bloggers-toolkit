@@ -25,11 +25,20 @@
     "no-console": {
       "severity": "warning"
     },
+    "no-empty": [true, "allow-empty-catch"],
     "no-this-assignment": {
       "options": { "allow-destructuring": true }
     },
     "no-unused-expression": {
       "options": ["allow-fast-null-checks"]
+    },
+    "ordered-imports": {
+      "options": {
+        "import-sources-order": "case-insensitive",
+        "module-source-path": "full",
+        "named-imports-order": "case-insensitive",
+        "grouped-imports": true
+      }
     },
     "variable-name": {
       "options": [
@@ -70,7 +79,6 @@
     "no-unnecessary-override": true,
     "no-useless-files": true,
     "possible-timing-attack": true,
-    "prefer-type-cast": true,
     "promise-function-async": true,
     "promise-must-complete": true,
     "react-a11y-anchors": true,

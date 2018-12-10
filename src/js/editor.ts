@@ -1,8 +1,10 @@
+import { registerBlockType } from '@wordpress/blocks';
 import { registerStore } from '@wordpress/data';
 import { registerPlugin } from '@wordpress/plugins';
 import { registerFormatType } from '@wordpress/rich-text';
 
-import * as citationFormat from 'gutenberg/formats/citation';
+import bibliographyBlock from 'gutenberg/blocks/bibliography';
+import citationFormat from 'gutenberg/formats/citation';
 import Sidebar from 'gutenberg/sidebar';
 import { dataStore, uiStore } from 'stores';
 
@@ -14,4 +16,6 @@ registerPlugin('academic-bloggers-toolkit', {
     render: Sidebar,
 });
 
-registerFormatType(citationFormat.name, citationFormat.config);
+registerFormatType('abt/citation', citationFormat);
+
+registerBlockType('abt/bibliography', bibliographyBlock);

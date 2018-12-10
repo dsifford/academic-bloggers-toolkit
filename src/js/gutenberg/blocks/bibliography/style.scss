@@ -1,0 +1,17 @@
+.heading {
+    margin: 0;
+}
+
+.heading-input {
+    color: inherit;
+    font-size: inherit;
+    margin: inherit;
+    padding: inherit;
+    border: 0;
+    width: 100%;
+    max-width: 100%;
+
+    &:focus {
+        outline: 0;
+    }
+}

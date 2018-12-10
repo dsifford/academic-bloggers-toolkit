@@ -353,6 +353,21 @@ declare module '@wordpress/components' {
         onChange: (value: string) => void;
     }
 
+    interface ToolbarProps {
+        controls: Array<{
+            icon?: string;
+            title?: string;
+            subscript?: string;
+            isActive?: boolean;
+            isDisabled?: boolean;
+            onClick?(): void;
+        }>;
+        icon?: string;
+        label?: string;
+        className?: string;
+        isCollapsed?: boolean;
+    }
+
     export function createSlotFill(
         name: string,
     ): { Fill: ComponentType; Slot: ComponentType };
@@ -372,6 +387,7 @@ declare module '@wordpress/components' {
     export const PanelRow: ComponentType<PanelRowProps>;
     export const Spinner: ComponentType;
     export const TextControl: ComponentType<TextControlProps>;
+    export const Toolbar: ComponentType<ToolbarProps>;
 
     export class Disabled extends Component {
         static Consumer: Context<boolean>['Consumer'];

@@ -3,12 +3,14 @@
 // tslint:disable:no-reserved-keywords
 
 declare module '@wordpress/blocks' {
-    import { ReactNode } from 'react';
+    import { ComponentType, ReactNode } from 'react';
 
     type AttrType = 'string' | 'number';
 
     type BlockAttribute<T> = T extends 'attribute'
         ? { type: AttrType; source: T; selector: string; attribute: string }
+        : T extends 'property'
+        ? { type: AttrType; source: T; selector: string; property: string }
         : T extends 'text'
         ? { type: AttrType; source: T; selector: string }
         : T extends 'html'
@@ -28,15 +30,18 @@ declare module '@wordpress/blocks' {
                   };
               }>;
           }
-        : { type: AttrType };
+        : {
+              type: AttrType;
+              default?: string | number;
+          };
 
-    type BlockEditRender = (props: BlockEditProps) => ReactNode;
+    type BlockEditRender = ComponentType<BlockEditProps>;
 
-    type BlockSaveRender = (props: BlockSaveProps) => ReactNode;
+    type BlockSaveRender = ComponentType<BlockSaveProps>;
 
     interface BlockAttributes {
         [k: string]: BlockAttribute<
-            'attribute' | 'text' | 'html' | 'meta' | 'query' | ''
+            'attribute' | 'html' | 'meta' | 'property' | 'text' | 'query' | ''
         >;
     }
 
@@ -107,7 +112,7 @@ declare module '@wordpress/blocks' {
 
     interface BlockSaveProps {
         attributes: {
-            [k: string]: string | number | boolean;
+            [k: string]: any;
         };
     }
 
@@ -120,7 +125,7 @@ declare module '@wordpress/blocks' {
          */
         align?: boolean;
         /**
-         * Enable wide alignment.
+         * Enable wide alignment (depends on `align`).
          *
          * @defaultValue true
          */
@@ -201,5 +206,5 @@ declare module '@wordpress/blocks' {
     }
 
     export function parse(serializedBlocks: string): ParsedBlock[];
-    export function registerBlockType(name: string, config: any): void;
+    export function registerBlockType(name: string, config: BlockConfig): void;
 }

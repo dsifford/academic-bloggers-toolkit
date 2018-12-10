@@ -11,6 +11,12 @@ const INITIAL_STATE: State = {
 
 const sidebar: Reducer<State> = (state = INITIAL_STATE, action) => {
     switch (action.type) {
+        case Actions.CLEAR_SELECTED_ITEMS: {
+            return {
+                ...state,
+                selectedItems: [],
+            };
+        }
         case Actions.TOGGLE_ITEM_SELECTED: {
             return {
                 ...state,

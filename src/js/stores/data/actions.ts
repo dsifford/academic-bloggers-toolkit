@@ -2,7 +2,9 @@ import { parse } from '@wordpress/blocks';
 import { dispatch, select } from '@wordpress/data';
 
 import { styleCache } from 'utils/cache';
+import { mergeItems } from 'utils/editor';
 import Processor from 'utils/processor';
+
 import { State } from './';
 import { Actions, StyleKind } from './constants';
 import { fetchLocale, fetchStyle } from './controls';
@@ -64,8 +66,18 @@ export function* parseCitations() {
     const doc = document.createElement('div');
     doc.innerHTML = select<string>('core/editor').getEditedPostContent();
     for (const [id, , html] of citations) {
-        const node = doc.querySelector(`[data-id="${id}"]`);
+        const node = doc.querySelector<HTMLElement>(
+            `.abt-citation[data-id="${id}"]`,
+        );
         if (node) {
+            // handle deprecation
+            if (node.dataset.reflist) {
+                node.dataset.items = mergeItems(
+                    JSON.parse(node.dataset.reflist),
+                    node.dataset.items,
+                );
+                delete node.dataset.reflist;
+            }
             node.innerHTML = html;
         }
     }

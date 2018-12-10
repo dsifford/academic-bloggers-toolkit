@@ -1,15 +1,13 @@
+import { compose } from '@wordpress/compose';
+import { withDispatch, withSelect } from '@wordpress/data';
 import { Component, createRef } from '@wordpress/element';
 import { FormEvent } from 'react';
+
+import { IdentifierKind } from 'utils/constants';
 
 import styles from './identifier-form.scss';
 
 type PatternObj = { readonly [k in IdentifierKind]: string };
-
-export const enum IdentifierKind {
-    DOI = 'doi',
-    PMID = 'pmid',
-    PMCID = 'pmcid',
-}
 
 const PATTERNS: PatternObj = {
     doi: '10.[^ ]+',
@@ -17,16 +15,16 @@ const PATTERNS: PatternObj = {
     pmcid: 'PMC[0-9]+',
 };
 
-interface State {
+interface DispatchProps {
+    setIdentifierKind(kind: IdentifierKind): void;
+}
+
+interface SelectProps {
     kind: IdentifierKind;
     pattern: string;
 }
 
-class IdentifierForm extends Component<{}, State> {
-    state: State = {
-        kind: IdentifierKind.DOI,
-        pattern: PATTERNS.doi,
-    };
+class IdentifierForm extends Component<DispatchProps & SelectProps> {
     private inputRef = createRef<HTMLInputElement>();
     componentDidMount() {
         // Necessary due to WordPress modal stealing focus
@@ -37,7 +35,7 @@ class IdentifierForm extends Component<{}, State> {
         }, 100);
     }
     render() {
-        const { kind, pattern } = this.state;
+        const { kind, pattern } = this.props;
         return (
             <div className={styles.form}>
                 <select
@@ -63,8 +61,19 @@ class IdentifierForm extends Component<{}, State> {
 
     private handleChange = (e: FormEvent<HTMLSelectElement>): void => {
         const kind = e.currentTarget.value as IdentifierKind;
-        this.setState({ kind, pattern: PATTERNS[kind] });
+        this.props.setIdentifierKind(kind);
     };
 }
 
-export default IdentifierForm;
+export default compose([
+    withDispatch<DispatchProps>(dispatch => ({
+        setIdentifierKind: dispatch('abt/ui').setIdentifierKind,
+    })),
+    withSelect<SelectProps>(select => {
+        const kind = select('abt/ui').getIdentifierKind();
+        return {
+            kind,
+            pattern: PATTERNS[kind],
+        };
+    }),
+])(IdentifierForm);

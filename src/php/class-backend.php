@@ -40,14 +40,14 @@ class Backend {
 	public function check_classic_state() {
 		if ( class_exists( '\Classic_Editor' ) ) {
 			$post_id = intval( $_GET['post'] ); // phpcs:ignore
-			if ( 'classic-editor' === get_post_meta( $post_id, 'classic-editor-remember', true ) ) {
+			if ( 'block-editor' !== get_post_meta( $post_id, 'classic-editor-remember', true ) ) {
 				$this->load_post();
 			}
 		}
 	}
 
 	public function check_classic_option() {
-		if ( class_exists( '\Classic_Editor' ) && get_option( 'classic-editor-replace' ) === 'classic' ) {
+		if ( class_exists( '\Classic_Editor' ) && get_option( 'classic-editor-replace' ) !== 'block' ) {
 			$this->load_post();
 		}
 	}

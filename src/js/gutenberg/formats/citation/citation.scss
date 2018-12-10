@@ -1,0 +1,14 @@
+:global {
+    .abt-citation {
+        cursor: pointer !important;
+    }
+
+    .editor-rich-text__tinymce:focus .abt-citation[data-mce-selected] > * {
+        padding: 0 2px;
+        margin: 0 -2px;
+        border-radius: 2px;
+        box-shadow: 0 0 0 1px #e8eaeb;
+        background: #e8eaeb;
+        color: #191e23;
+    }
+}

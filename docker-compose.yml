@@ -13,6 +13,11 @@ services:
       PLUGINS: >-
         classic-editor
         query-monitor
+      THEMES: >-
+        twentynineteen
+      EXTRA_PHP: |
+        define('SCRIPT_DEBUG', true);
+
     ports:
       - 8080:80
     volumes:

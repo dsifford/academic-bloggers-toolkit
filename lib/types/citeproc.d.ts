@@ -79,17 +79,15 @@ declare module 'citeproc' {
          * Array of Array of CSL Citation IDs. As far as I know, the inner array should only ever
          * contain one string, which would equal the single ID for that individual citation entry.
          */
-        entry_ids: string[][];
+        entry_ids: Array<[string]>;
         /**
          * An integer representing the spacing between entries in the bibliography.
          */
         entryspacing: number;
         /**
-         * Should the bibliography have hanging indents?
-         * NOTE: There is currently a bug in Citeproc-js where this value is actually a number.
-         * This should not create an issue though.
+         * The number of em-spaces to apply in hanging indents within the bibliography.
          */
-        hangingindent?: boolean;
+        hangingindent?: number;
         /**
          * An integer representing the spacing between the lines within each bibliography entry.
          * i.e. padding above and below each line
@@ -105,7 +103,7 @@ declare module 'citeproc' {
          * @see http://docs.citationstyles.org/en/stable/specification.html#bibliography-specific-options
          * @see https://github.com/citation-style-language/styles/issues/804#issuecomment-31467854
          */
-        'second-field-align': 'flush' | 'margin' | boolean;
+        'second-field-align': 'flush' | 'margin' | false;
     }
 
     interface Citation {

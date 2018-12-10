@@ -203,7 +203,6 @@ const config: webpack.Configuration = {
                                 options: {
                                     importLoaders: 1,
                                     modules: false,
-                                    minimize: IS_PRODUCTION,
                                     sourceMap: !IS_PRODUCTION,
                                 },
                             },
@@ -227,7 +226,6 @@ const config: webpack.Configuration = {
                                 options: {
                                     importLoaders: 1,
                                     modules: true,
-                                    minimize: IS_PRODUCTION,
                                     sourceMap: !IS_PRODUCTION,
                                     camelCase: 'only',
                                     localIdentName:

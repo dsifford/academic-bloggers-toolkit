@@ -2,7 +2,7 @@
 // Definitions by: Derek P Sifford <dereksifford@gmail.com>
 
 declare module '@wordpress/editor' {
-    import { Component, ComponentType, HTMLProps } from 'react';
+    import { Component, ComponentType, CSSProperties, HTMLProps } from 'react';
 
     interface NavigatableToolbarProps {
         /**
@@ -13,23 +13,40 @@ declare module '@wordpress/editor' {
 
     interface RichTextProps {
         value: string;
-        tagName: string;
-        placeholder: string;
-        multiline: boolean | string;
-        formattingControls: any[];
-        isSelected: boolean;
-        keepPlaceholderOnFocus: boolean;
+        tagName?: string;
+        placeholder?: string;
+        multiline?: boolean | string;
+        formattingControls?: string[];
+        isSelected?: boolean;
+        keepPlaceholderOnFocus?: boolean;
         // TODO:
-        autocompleters: any[];
-        onChange(value: string): () => void;
+        autocompleters?: any[];
         // TODO:
-        onReplace(blocks: any[]): () => void;
-        onMerge(forward: boolean): () => void;
-        onRemove(forward: boolean): () => void;
+        style?: CSSProperties;
+        wrapperClassName?: string;
+        className?: string;
+        inlineToolbar?: boolean;
+        onChange(value: string): void;
+        onTagNameChange?(tagName: string): void;
+        onReplace?(blocks: any[]): void;
+        onMerge?(forward: boolean): void;
+        onRemove?(forward: boolean): void;
     }
 
-    export const NavigableToolbar: ComponentType<HTMLProps<HTMLElement>>;
-    export class RichText extends Component {
+    export class RichText extends Component<RichTextProps> {
         static Content(): string;
+        static isEmpty(value: string): boolean;
     }
+
+    export const InspectorControls: ComponentType;
+    export const NavigableToolbar: ComponentType<HTMLProps<HTMLElement>>;
+
+    export namespace AlignmentToolbar {
+        interface Props {
+            isCollapsed?: boolean;
+            value: 'left' | 'right' | 'center';
+            onChange(nextAlign: 'left' | 'right' | 'center'): void;
+        }
+    }
+    export const AlignmentToolbar: ComponentType<AlignmentToolbar.Props>;
 }

@@ -1,11 +1,7 @@
-import { FormatConfig } from '@wordpress/rich-text';
-
 import Citation from './citation';
 
-export const name = 'abt/citation';
-
-export const config: FormatConfig = {
-    tagName: 'span',
+export default {
+    tagName: 'span' as 'span',
     className: 'abt-citation',
     title: 'Citation',
     attributes: {
