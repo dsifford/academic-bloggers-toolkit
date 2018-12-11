@@ -6,6 +6,7 @@ import Tooltip, {
     TooltipParentProp,
     TooltipParentState,
 } from '_legacy/components/tooltip';
+
 import styles from './button.scss';
 
 interface Props extends React.HTMLProps<HTMLButtonElement> {

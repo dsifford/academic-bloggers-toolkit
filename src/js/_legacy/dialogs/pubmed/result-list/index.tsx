@@ -3,6 +3,7 @@ import { observer } from 'mobx-react';
 import React, { Component, MouseEvent, WheelEvent } from 'react';
 
 import Button from '_legacy/components/button';
+
 import styles from './result-list.scss';
 
 interface Props {

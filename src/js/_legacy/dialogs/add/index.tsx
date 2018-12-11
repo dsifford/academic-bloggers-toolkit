@@ -8,6 +8,7 @@ import Store from '_legacy/stores/ui/add-dialog';
 import Spinner from '_legacy/components/spinner';
 import Container from '_legacy/dialogs/components/container';
 import PubmedDialog from '_legacy/dialogs/pubmed';
+
 import ButtonRow from './button-row';
 import IdentifierInput from './identifier-input';
 import ManualInput from './manual-input';

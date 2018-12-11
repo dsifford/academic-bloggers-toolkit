@@ -1,9 +1,9 @@
 import { Citation, CitationKind, CitationResult, Locator } from 'citeproc';
 import { Editor, TinyMCE } from 'tinymce';
 
-import EditorDriver, { RelativeCitationPositions } from './base';
-
 import 'css/editors/tinymce.scss';
+
+import EditorDriver, { RelativeCitationPositions } from './base';
 
 interface SelectionCache {
     bookmark: {

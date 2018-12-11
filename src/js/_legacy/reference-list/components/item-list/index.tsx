@@ -4,6 +4,7 @@ import React from 'react';
 
 import Badge from '_legacy/components/badge';
 import UIStore from '_legacy/stores/ui/reference-list';
+
 import Item from '../item';
 
 import styles from './item-list.scss';

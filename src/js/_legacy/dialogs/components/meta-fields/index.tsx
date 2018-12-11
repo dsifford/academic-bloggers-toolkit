@@ -3,8 +3,8 @@ import { observer } from 'mobx-react';
 import React from 'react';
 
 import ManualDataStore from '_legacy/stores/data/manual-data-store';
-import Field from './field';
 
+import Field from './field';
 import styles from './meta-fields.scss';
 
 interface Props {

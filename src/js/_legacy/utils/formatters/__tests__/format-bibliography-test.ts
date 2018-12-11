@@ -1,5 +1,5 @@
 import { observable, ObservableMap } from 'mobx';
-import { formatBibliography } from '../formatBibliography';
+import { formatBibliography } from '../format-bibliography';
 
 describe('formatBibliography()', () => {
     // tslint:disable

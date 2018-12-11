@@ -4,9 +4,9 @@ import React from 'react';
 import DisplayOptionsStore from '_legacy/stores/data/display-options-store';
 
 import RadioGroup from '_legacy/components/radio-group';
-import Demo from './demo';
 
 import styles from './_index.scss';
+import Demo from './demo';
 
 type InputEvent = React.FormEvent<HTMLInputElement>;
 

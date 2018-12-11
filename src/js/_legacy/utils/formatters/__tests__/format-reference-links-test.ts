@@ -1,4 +1,4 @@
-import { formatReferenceLinks } from '../formatReferenceLinks';
+import { formatReferenceLinks } from '../format-reference-links';
 
 // tslint:disable
 describe('formatReferenceLinks()', () => {

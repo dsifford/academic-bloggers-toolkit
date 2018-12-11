@@ -1,5 +1,6 @@
 import { oneLine } from 'common-tags';
 import React from 'react';
+
 import styles from './tooltip.scss';
 
 /**
@@ -37,6 +38,19 @@ interface Props {
 }
 
 export default class Tooltip extends React.PureComponent<Props> {
+    render(): JSX.Element {
+        const { active, id, text, transform } = this.props;
+        return (
+            <div
+                id={id}
+                role="tooltip"
+                className={active ? styles.tooltipActive : styles.tooltip}
+                style={{ transform }}
+            >
+                {text}
+            </div>
+        );
+    }
     /**
      * Helper method used to generate transforms for components using this class
      */
@@ -64,17 +78,4 @@ export default class Tooltip extends React.PureComponent<Props> {
                     translateX(-5px)`;
         }
     };
-    render(): JSX.Element {
-        const { active, id, text, transform } = this.props;
-        return (
-            <div
-                id={id}
-                role="tooltip"
-                className={active ? styles.tooltipActive : styles.tooltip}
-                style={{ transform }}
-            >
-                {text}
-            </div>
-        );
-    }
 }

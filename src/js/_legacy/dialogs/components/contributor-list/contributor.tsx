@@ -3,6 +3,7 @@ import { observer } from 'mobx-react';
 import React from 'react';
 
 import Button from '_legacy/components/button';
+
 import styles from './contributor-list.scss';
 
 interface Props {

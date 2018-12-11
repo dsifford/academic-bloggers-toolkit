@@ -8,8 +8,8 @@ import ActionBar from '_legacy/components/action-bar';
 import Button from '_legacy/components/button';
 import Callout from '_legacy/components/callout';
 import Spinner from '_legacy/components/spinner';
-
 import { DialogProps } from '_legacy/dialogs';
+
 import Paginate from './paginate';
 import ResultList from './result-list';
 

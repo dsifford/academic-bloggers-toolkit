@@ -3,6 +3,7 @@ import { observer } from 'mobx-react';
 import React, { Component, MouseEvent } from 'react';
 
 import Button from '_legacy/components/button';
+
 import Contributor from './contributor';
 import styles from './contributor-list.scss';
 

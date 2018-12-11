@@ -1,6 +1,7 @@
 import { Bibliography } from 'citeproc';
 import { ObservableMap } from 'mobx';
-import { formatReferenceLinks } from './formatReferenceLinks';
+
+import { formatReferenceLinks } from './format-reference-links';
 
 /**
  * Wrapper function for citeproc.makeBibliography that takes the output and

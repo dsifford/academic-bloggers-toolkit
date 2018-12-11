@@ -5,6 +5,7 @@ import Tooltip, {
     TooltipParentProp,
     TooltipParentState,
 } from '_legacy/components/tooltip';
+
 import styles from './toggle-switch.scss';
 
 interface Props extends React.HTMLProps<HTMLInputElement> {

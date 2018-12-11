@@ -8,8 +8,8 @@ import {
 
 import AddReferenceDialog from '../dialogs/add-reference';
 import ImportDialog from '../dialogs/import';
-import ToolbarMenu from './toolbar-menu';
 
+import ToolbarMenu from './toolbar-menu';
 import styles from './toolbar.scss';
 
 const { Slot, Fill } = createSlotFill('abt-toolbar-buttons');

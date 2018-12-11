@@ -2,6 +2,7 @@ import { observer } from 'mobx-react';
 import React from 'react';
 
 import Store from '_legacy/stores/ui/add-dialog';
+
 import styles from './meta-fields.scss';
 
 interface Props {

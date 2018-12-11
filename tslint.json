@@ -57,6 +57,7 @@
     "no-implicit-dependencies": false,
     "no-submodule-imports": false,
     "object-literal-sort-keys": false,
+    "unified-signatures": false,
 
     "no-suspicious-comment": {
       "severity": "warning"
