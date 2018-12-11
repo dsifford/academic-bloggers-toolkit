@@ -35,8 +35,9 @@ function enqueue_scripts() {
 			'abt_state',
 			wp_json_encode(
 				[
-					'citations' => [],
-					'style'     => get_option( ABT_OPTIONS_KEY )['citation_style'],
+					'bibliography' => [ (object) [], [] ],
+					'citations'    => [],
+					'style'        => get_option( ABT_OPTIONS_KEY )['citation_style'],
 				]
 			),
 			true

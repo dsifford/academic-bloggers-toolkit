@@ -1,7 +1,7 @@
 import { IdentifierKind } from 'utils/constants';
 
 import * as actions from './actions';
-import reducer from './reducers';
+import reducer from './reducer';
 import * as selectors from './selectors';
 
 export interface State {

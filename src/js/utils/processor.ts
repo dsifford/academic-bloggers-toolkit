@@ -1,6 +1,5 @@
 import { select } from '@wordpress/data';
 import { Citation, Engine } from 'citeproc';
-import _ from 'lodash';
 
 import { localeCache } from 'utils/cache';
 
@@ -17,7 +16,7 @@ export default class Processor {
                     `CSL Data could not be found for item ID "${id}"`,
                 );
             }
-            return _.cloneDeep(item);
+            return item;
         },
         retrieveLocale(lang: string) {
             const locale = localeCache.getItem(lang);
@@ -47,5 +46,9 @@ export default class Processor {
 
     parseCitations(citations: Citation[]) {
         return this.engine.rebuildProcessorState(citations);
+    }
+
+    makeBibliography() {
+        return this.engine.makeBibliography();
     }
 }

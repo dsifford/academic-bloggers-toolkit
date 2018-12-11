@@ -43,6 +43,7 @@ interface IRollbar {
 interface Window {
     ABT: ABT.Globals;
     ABT_EDITOR: {
+        bibliography: import('citeproc').Bibliography;
         citations: CSL.Data[];
         style: {
             kind: import('stores/data/constants').StyleKind;

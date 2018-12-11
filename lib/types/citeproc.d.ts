@@ -67,14 +67,14 @@ declare module 'citeproc' {
          */
         bibend: string;
         /**
+         * Array of error messages, or an empty array if no errors occurred.
+         */
+        bibliography_errors: string[];
+        /**
          * An HTML string to be appended to the front of the finished bibliography string.
          * @ignore (unused by ABT)
          */
         bibstart: string;
-        /**
-         * Array of error messages, or an empty array if no errors occurred.
-         */
-        bibliography_errors: string[];
         /**
          * Array of Array of CSL Citation IDs. As far as I know, the inner array should only ever
          * contain one string, which would equal the single ID for that individual citation entry.
@@ -186,7 +186,7 @@ declare module 'citeproc' {
          *
          * NOTE: This will return `false` if the current citation style doesn't support bibliographies (e.g. "Mercatus Center").
          */
-        makeBibliography(): Bibliography | boolean;
+        makeBibliography(): Bibliography | false;
         /**
          * Adds a citation to the registry and regenerates the document's citations.
          * @param citation The new citation to be added
