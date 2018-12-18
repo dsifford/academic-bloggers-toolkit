@@ -1,3 +1,9 @@
+export const enum IdentifierKind {
+    DOI = 'doi',
+    PMID = 'pmid',
+    PMCID = 'pmcid',
+}
+
 export const CSL_DATA_KEYS: ReadonlyArray<keyof CSL.Data> = [
     'DOI',
     'ISBN',
@@ -77,9 +83,3 @@ export const CSL_DATA_KEYS: ReadonlyArray<keyof CSL.Data> = [
     'volume',
     'year-suffix',
 ];
-
-export const enum IdentifierKind {
-    DOI = 'doi',
-    PMID = 'pmid',
-    PMCID = 'pmcid',
-}

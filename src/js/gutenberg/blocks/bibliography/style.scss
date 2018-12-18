@@ -15,3 +15,25 @@
         outline: 0;
     }
 }
+
+:global {
+    .abt-bibliography__body {
+        font-size: 0.8em;
+        list-style-type: none;
+        display: table;
+    }
+
+    .csl-entry {
+        display: table-row;
+    }
+
+    .csl-left-margin,
+    .csl-right-inline {
+        display: table-cell;
+    }
+
+    .csl-left-margin {
+        padding-right: 10px;
+        text-align: right;
+    }
+}

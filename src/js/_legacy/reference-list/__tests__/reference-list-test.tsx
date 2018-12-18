@@ -11,7 +11,6 @@ import { DialogType } from '_legacy/dialogs';
 import EditorDriver from '_legacy/drivers/base';
 import ReferenceList from '..';
 
-// FIXME: write proper mocks for these
 const mocks = {
     getRemoteData: getRemoteData as jest.Mock<any>,
     editorMock: jest.fn(),

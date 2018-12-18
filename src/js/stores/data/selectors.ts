@@ -1,8 +1,8 @@
-import { select } from '@wordpress/data';
 import { Citation } from 'citeproc';
 import _ from 'lodash';
 
 import clone from 'utils/clone';
+import { getEditorDOM } from 'utils/editor';
 
 import { State } from './';
 
@@ -12,9 +12,12 @@ interface SerializedMeta {
     };
 }
 
+export function getBibliography(state: State): State['bibliography'] {
+    return clone(state.bibliography);
+}
+
 export function getCitationsByIndex(state: State): Citation[] {
-    const doc = document.createElement('div');
-    doc.innerHTML = select<string>('core/editor').getEditedPostContent();
+    const doc = getEditorDOM();
     const citations = [...doc.querySelectorAll<HTMLElement>('.abt-citation')];
     return citations.map((el, index) => {
         const citationID = el.dataset.id!;
@@ -39,8 +42,7 @@ export function getCitationsByIndex(state: State): Citation[] {
 }
 
 export function getCitedItems(state: State): CSL.Data[] {
-    const doc = document.createElement('div');
-    doc.innerHTML = select<string>('core/editor').getEditedPostContent();
+    const doc = getEditorDOM();
     return [...doc.querySelectorAll<HTMLElement>('.abt-citation')]
         .flatMap(
             item =>

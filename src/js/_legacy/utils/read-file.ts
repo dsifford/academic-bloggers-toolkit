@@ -1,5 +1,8 @@
 type F = File | Blob;
 
+/**
+ * @deprecated
+ */
 async function readFile(file: F, kind: 'ArrayBuffer'): Promise<ArrayBuffer>;
 async function readFile(file: F, kind: 'DataURL' | 'Text'): Promise<string>;
 async function readFile(file: F, kind: string): Promise<string | ArrayBuffer> {

@@ -4,7 +4,9 @@ import uuid from 'uuid/v4';
 
 import { AutociteResponse } from 'utils/resolvers';
 
-type FieldProxy = { [k in CSL.StandardFieldKey | CSL.DateFieldKey]: string } & {
+type FieldProxy = {
+    [k in CSL.StringFieldKey | CSL.NumberFieldKey | CSL.DateFieldKey]: string
+} & {
     [k: string]: string;
 };
 
@@ -40,15 +42,15 @@ const PERSON_FIELD_KEYS: ReadonlyArray<string> = [
     'translator',
 ];
 
-function isDateField(k: string, _value: CSL.Value): _value is CSL.Date {
+function isDateField(k: string, _value: any): _value is CSL.Date {
     return DATE_FIELD_KEYS.includes(k);
 }
 
-function isPersonField(k: string, _value: CSL.Value): _value is CSL.Person[] {
+function isPersonField(k: string, _value: any): _value is CSL.Person[] {
     return PERSON_FIELD_KEYS.includes(k);
 }
 
-function isTypeField(k: string, _value: CSL.Value): _value is CSL.ItemType {
+function isTypeField(k: string, _value: any): _value is CSL.ItemType {
     return k === 'type';
 }
 
@@ -85,7 +87,7 @@ export default class ManualData {
 
     @computed
     get CSL(): CSL.Data {
-        const fields: CSL.PersonFields = {};
+        const fields: { [k in CSL.PersonFieldKey]?: CSL.Person[] } = {};
         const contributors = this.people.reduce((csl, item) => {
             const { type, ...contributor } = item;
             const field = csl[type] || [];
@@ -114,7 +116,7 @@ export default class ManualData {
     set CSL(data: CSL.Data) {
         this.standardFields.clear();
         this.people.clear();
-        for (const [key, value] of Object.entries<CSL.Value>(<any>data)) {
+        for (const [key, value] of Object.entries(data)) {
             if (key === 'id') {
                 continue;
             }
@@ -165,7 +167,7 @@ export default class ManualData {
     };
 
     updateField = (
-        key: CSL.DateFieldKey | CSL.StandardFieldKey,
+        key: CSL.DateFieldKey | CSL.StringFieldKey | CSL.NumberFieldKey,
         value: string,
     ): void => {
         if (value === '') {

@@ -27,6 +27,8 @@ export function addReferenceDialog(
 
 const SIDEBAR_INITIAL_STATE: State['sidebar'] = {
     selectedItems: [],
+    sortMode: 'title',
+    sortOrder: 'asc',
 };
 
 export function sidebar(
@@ -38,6 +40,18 @@ export function sidebar(
             return {
                 ...state,
                 selectedItems: [],
+            };
+        }
+        case Actions.SET_SIDEBAR_SORT_MODE: {
+            return {
+                ...state,
+                sortMode: action.mode,
+            };
+        }
+        case Actions.SET_SIDEBAR_SORT_ORDER: {
+            return {
+                ...state,
+                sortOrder: action.order,
             };
         }
         case Actions.TOGGLE_ITEM_SELECTED: {

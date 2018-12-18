@@ -4,7 +4,6 @@ import React from 'react';
 import AutoSuggest from 'react-autosuggest';
 
 import Store from '_legacy/stores/data/style-store';
-import DevTools from '_legacy/utils/devtools';
 import parseCSL from '_legacy/utils/parse-csl';
 
 import Callout from '_legacy/components/callout';
@@ -77,7 +76,6 @@ export default class StyleForm extends React.Component {
         const labels = top.ABT.i18n.options_page;
         return (
             <>
-                <DevTools position={{ left: 50, top: 40 }} />
                 <RadioGroup
                     style={{
                         margin: '10px 0',

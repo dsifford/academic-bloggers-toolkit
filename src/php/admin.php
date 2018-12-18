@@ -10,11 +10,28 @@ namespace ABT\Admin;
 use function ABT\Utils\enqueue_script;
 
 /**
+ * Checks if current page has the block editor loaded.
+ */
+function is_block_editor(): bool {
+	return (
+		(
+			function_exists( 'get_current_screen' )
+			&& get_current_screen()->is_block_editor()
+			&& user_can_richedit()
+		)
+		||
+		(
+			function_exists( 'is_gutenberg_page' ) && is_gutenberg_page()
+		)
+	);
+}
+
+/**
  * Enqueue admin scripts.
  */
 function enqueue_scripts() {
 	global $post;
-	if ( function_exists( 'get_current_screen' ) && get_current_screen()->is_block_editor() && user_can_richedit() ) {
+	if ( is_block_editor() ) {
 		enqueue_script(
 			'editor',
 			[

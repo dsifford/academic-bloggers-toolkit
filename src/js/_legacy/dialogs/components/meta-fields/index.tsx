@@ -18,7 +18,8 @@ export default class MetaFields extends React.Component<Props> {
     @action
     updateField = (e: React.FormEvent<HTMLInputElement>): void => {
         const key = e.currentTarget.dataset.field as
-            | CSL.StandardFieldKey
+            | CSL.StringFieldKey
+            | CSL.NumberFieldKey
             | CSL.DateFieldKey
             | undefined;
         if (!key) {

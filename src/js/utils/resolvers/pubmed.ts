@@ -1,3 +1,4 @@
+import { addQueryArgs } from '@wordpress/url';
 import { EUtilsError, toCSL } from 'astrocite-eutils';
 import { oneLineTrim } from 'common-tags';
 
@@ -7,19 +8,19 @@ export async function get(
     id: string,
     db: 'pubmed' | 'pmc',
 ): Promise<CSL.Data | ResponseError> {
-    // FIXME: use @wordpress/url here instead
-    const endpoint = new URL(
-        'https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi',
+    const response = await fetch(
+        addQueryArgs(
+            'https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi',
+            {
+                id,
+                db,
+                tool: 'academic-bloggers-toolkit',
+                email: 'dereksifford@gmail.com',
+                version: '2.0',
+                retmode: 'json',
+            },
+        ),
     );
-    endpoint.search = new URLSearchParams({
-        id,
-        db,
-        tool: 'academic-bloggers-toolkit',
-        email: 'dereksifford@gmail.com',
-        version: '2.0',
-        retmode: 'json',
-    }).toString();
-    const response = await fetch(endpoint.href);
     if (!response.ok) {
         return new ResponseError(id, response);
     }
@@ -111,7 +112,6 @@ async function resolvePubmedData(
     idList: string,
 ): Promise<ResolvedData> {
     if (idList.length === 0) {
-        // FIXME: Find a better way of doing this
         // tslint:disable-next-line:no-string-throw
         throw 'No ids to resolve';
     }

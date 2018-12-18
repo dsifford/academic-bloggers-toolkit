@@ -15,6 +15,7 @@
     "sourceMap": true,
     "strict": true,
     "target": "esnext",
+    "resolveJsonModule": true,
     "plugins": [{ "name": "typescript-tslint-plugin" }]
   },
   "include": ["src/**/*", "lib/**/*", "webpack.config.ts"]

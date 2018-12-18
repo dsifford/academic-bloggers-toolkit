@@ -51,6 +51,5 @@ export async function deprecatedGetFromDOI(
         payload.data.add(res);
     }
 
-    // FIXME: Change this to something more maintainable
     return [[...payload.data], [...payload.invalid]];
 }

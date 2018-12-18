@@ -1,37 +1,41 @@
-import { dispatch } from '@wordpress/data';
-import { Component } from '@wordpress/element';
+import { compose } from '@wordpress/compose';
+import { withDispatch } from '@wordpress/data';
 
 import SidebarItem from './sidebar-item';
-
 import styles from './sidebar-item-list.scss';
 
-interface Props {
+interface DispatchProps {
+    toggleItemSelected(id: string): void;
+}
+
+interface OwnProps {
     items: ReadonlyArray<CSL.Data>;
     selectedItems: ReadonlyArray<string>;
 }
 
-export default class SidebarItemList extends Component<Props> {
-    render() {
-        const { items, selectedItems } = this.props;
-        return (
-            <div
-                className={styles.list}
-                role="listbox"
-                aria-multiselectable={true}
-            >
-                {items.map(item => (
-                    <SidebarItem
-                        key={item.id}
-                        isSelected={selectedItems.includes(item.id)}
-                        item={item}
-                        onClick={this.handleClick}
-                    />
-                ))}
-            </div>
-        );
-    }
+type Props = DispatchProps & OwnProps;
 
-    private handleClick = (id: string) => {
-        dispatch('abt/ui').toggleItemSelected(id);
-    };
-}
+const SidebarItemList = ({
+    items,
+    selectedItems,
+    toggleItemSelected,
+}: Props) => (
+    <div className={styles.list} role="listbox" aria-multiselectable={true}>
+        {items.map(item => (
+            <SidebarItem
+                key={item.id}
+                isSelected={selectedItems.includes(item.id)}
+                item={item}
+                onClick={id => toggleItemSelected(id)}
+            />
+        ))}
+    </div>
+);
+
+export default compose([
+    withDispatch<DispatchProps>(dispatch => ({
+        toggleItemSelected(id: string) {
+            dispatch('abt/ui').toggleItemSelected(id);
+        },
+    })),
+])(SidebarItemList);

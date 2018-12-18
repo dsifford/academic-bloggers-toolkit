@@ -1,0 +1,10 @@
+.container {
+    display: grid;
+    gap: 10px;
+}
+
+.field {
+    display: grid;
+    grid-template-columns: 100px 1fr;
+    align-items: center;
+}

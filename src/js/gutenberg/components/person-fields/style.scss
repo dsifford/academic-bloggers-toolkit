@@ -1,0 +1,27 @@
+.people {
+    display: grid;
+    gap: 5px;
+}
+
+.buttons {
+    display: grid;
+    justify-content: center;
+    align-items: center;
+    grid-template-columns: auto auto;
+    gap: 5px;
+}
+
+.person {
+    display: grid;
+    grid-template-columns: auto 1fr 1fr auto;
+    align-items: center;
+
+    &.person-literal {
+        grid-template-columns: auto 1fr auto;
+    }
+
+    button > svg {
+        height: 15px;
+        width: 15px;
+    }
+}

@@ -21,4 +21,20 @@
     > button {
         justify-self: flex-end;
     }
+
+    :global(.components-toggle-control .components-base-control__field) {
+        margin: 0;
+
+        :global(.components-toggle-control__label) {
+            margin: 0;
+        }
+    }
+}
+
+.form {
+    max-width: calc(100vw - 32px);
+
+    &.manual-form {
+        width: 550px;
+    }
 }

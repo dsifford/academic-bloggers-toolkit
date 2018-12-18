@@ -1,10 +1,9 @@
 // tslint:disable no-console
-
 import * as fs from 'fs';
 import { request } from 'https';
 import * as path from 'path';
 
-const oldData = require('../../src/vendor/citation-styles.json');
+import oldData from '../../src/vendor/citation-styles.json';
 
 interface FileEntry {
     name: string;
@@ -27,7 +26,7 @@ interface StyleResponse {
 }
 
 interface CitationStyle {
-    kind: 'predefined';
+    kind: string;
     label: string;
     value: string;
 }
@@ -72,29 +71,32 @@ async function getData(): Promise<StyleResponse> {
             }
         }
     `;
-    return new Promise<StyleResponse>((resolve, reject): void => {
-        const options = {
-            hostname: 'api.github.com',
-            path: '/graphql',
-            method: 'POST',
-            headers: {
-                Authorization: `bearer ${process.env.GITHUB_ACCESS_TOKEN}`,
-                'User-Agent': 'dsifford/academic-bloggers-toolkit',
-            },
-        };
-        const req = request(options, res => {
-            const payload: Buffer[] = [];
-            res
-                .on('data', (chunk: Buffer) => payload.push(chunk))
-                .on('end', () => {
-                    resolve(JSON.parse(Buffer.concat(payload).toString()));
-                });
-            res.on('error', err => reject(err));
-        });
-        req.on('error', err => reject(err));
-        req.write(JSON.stringify({ query }));
-        req.end();
-    });
+    return new Promise<StyleResponse>(
+        (resolve, reject): void => {
+            const options = {
+                hostname: 'api.github.com',
+                path: '/graphql',
+                method: 'POST',
+                headers: {
+                    Authorization: `bearer ${process.env.GITHUB_ACCESS_TOKEN}`,
+                    'User-Agent': 'dsifford/academic-bloggers-toolkit',
+                },
+            };
+            const req = request(options, res => {
+                const payload: Buffer[] = [];
+                res.on('data', (chunk: Buffer) => payload.push(chunk)).on(
+                    'end',
+                    () => {
+                        resolve(JSON.parse(Buffer.concat(payload).toString()));
+                    },
+                );
+                res.on('error', err => reject(err));
+            });
+            req.on('error', err => reject(err));
+            req.write(JSON.stringify({ query }));
+            req.end();
+        },
+    );
 }
 
 function parseStyleObj(obj: StyleResponse): StyleData {
@@ -119,9 +121,9 @@ function parseStyleObj(obj: StyleResponse): StyleData {
             <FileEntry[]>[],
         )
         .map(style => {
-            const label = style.object.text.match(
-                /<title>(.+)<\/title>/,
-            )![1].replace(/&amp;/g, '&');
+            const label = style.object.text
+                .match(/<title>(.+)<\/title>/)![1]
+                .replace(/&amp;/g, '&');
             if (!label) {
                 throw new Error(`Can't locate label for ${style.name}`);
             }

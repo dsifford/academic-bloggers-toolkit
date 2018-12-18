@@ -26,21 +26,24 @@ export function citations(
     action: Action,
 ): State['citations'] {
     switch (action.type) {
-        case Actions.ADD_REFERENCE: {
-            const { id: oldId, ...data }: CSL.Data = action.data;
-            const id =
-                data.DOI ||
-                data.ISBN ||
-                data.PMCID ||
-                data.PMID ||
-                `${hash(JSON.stringify(data))}`;
-            if (state.findIndex(item => item.id === id) >= 0) {
-                return state;
-            }
-            return [...state, { ...data, id }];
+        case Actions.ADD_REFERENCES: {
+            const newItems = (<CSL.Data[]>action.data)
+                .map(({ id, ...data }) => ({
+                    ...data,
+                    id:
+                        data.DOI ||
+                        data.ISBN ||
+                        data.PMCID ||
+                        data.PMID ||
+                        `${hash(JSON.stringify(data))}`,
+                }))
+                .filter(
+                    ({ id }) => state.findIndex(item => item.id === id) === -1,
+                );
+            return newItems.length > 0 ? [...state, ...newItems] : state;
         }
-        case Actions.DELETE_REFERENCE: {
-            return state.filter(item => item.id !== action.id);
+        case Actions.REMOVE_REFERENCES: {
+            return state.filter(item => !action.itemIds.includes(item.id));
         }
         default:
             return state;

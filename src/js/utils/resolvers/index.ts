@@ -1,7 +1,9 @@
 import * as DOI from './doi';
 import * as Pubmed from './pubmed';
 
-type StringFields = { [k in CSL.StandardFieldKey | CSL.DateFieldKey]?: string };
+type StringFields = {
+    [k in CSL.StringFieldKey | CSL.NumberFieldKey | CSL.DateFieldKey]?: string
+};
 type PersonFields = ABT.Contributor[];
 
 export interface AutociteResponse {

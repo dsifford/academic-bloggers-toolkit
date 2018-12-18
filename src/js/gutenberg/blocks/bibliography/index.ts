@@ -3,7 +3,14 @@ import { BlockConfig } from '@wordpress/blocks';
 import BibliographyEdit from './edit';
 import BibliographySave from './save';
 
-const config: BlockConfig = {
+export interface Attributes {
+    content: string;
+    heading: string;
+    headingAlign: 'left' | 'right' | 'center';
+    headingLevel: number;
+}
+
+const config: BlockConfig<Attributes> = {
     title: 'Bibliography',
     category: 'widgets',
     description: 'Display a list of your cited references.',
@@ -13,13 +20,10 @@ const config: BlockConfig = {
         content: {
             type: 'string',
             source: 'html',
-            selector: '.abt-bibliography',
+            selector: '.abt-bibliography__body',
         },
         heading: {
             type: 'string',
-            // FIXME: convert this to a text selector once save is finished
-            // source: 'text',
-            // selector: '.abt-bibliography__heading',
             default: '',
         },
         headingLevel: {
@@ -32,7 +36,7 @@ const config: BlockConfig = {
     },
     supports: {
         html: false,
-        // inserter: false,
+        inserter: false,
         multiple: false,
         reusable: false,
     },

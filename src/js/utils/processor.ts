@@ -35,12 +35,16 @@ export default class Processor {
             if (instance.style !== style) {
                 instance.style = style;
                 instance.engine = new Engine(instance.sys, instance.style);
+                // FIXME: types for this or implement a better way manually
+                (instance as any).engine.opt.development_extensions.wrap_url_and_doi = true;
             }
             return instance;
         } else {
             Processor.instance = this;
             this.style = style;
             this.engine = new Engine(this.sys, this.style);
+            // FIXME: types for this or implement a better way manually
+            (this as any).engine.opt.development_extensions.wrap_url_and_doi = true;
         }
     }
 

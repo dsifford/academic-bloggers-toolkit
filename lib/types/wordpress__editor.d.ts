@@ -19,9 +19,8 @@ declare module '@wordpress/editor' {
         formattingControls?: string[];
         isSelected?: boolean;
         keepPlaceholderOnFocus?: boolean;
-        // TODO:
+        // TODO: Add types for this
         autocompleters?: any[];
-        // TODO:
         style?: CSSProperties;
         wrapperClassName?: string;
         className?: string;
@@ -38,6 +37,7 @@ declare module '@wordpress/editor' {
         static isEmpty(value: string): boolean;
     }
 
+    export const BlockControls: ComponentType;
     export const InspectorControls: ComponentType;
     export const NavigableToolbar: ComponentType<HTMLProps<HTMLElement>>;
 

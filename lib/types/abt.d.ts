@@ -38,7 +38,7 @@ declare namespace ABT {
             style: CitationStyle;
             locale: string;
         };
-        citationByIndex: import('citeproc').Citation[];
+        citationByIndex: Array<import('citeproc').Citation>;
         CSL: {
             [id: string]: CSL.Data;
         };
@@ -60,7 +60,7 @@ declare namespace ABT {
 
     interface Globals {
         css_editor_settings: object | boolean;
-        i18n: ABT.i18n;
+        i18n: ABT.I18n;
         options: Options;
         state: ABT.EditorState;
         styles: {
@@ -72,7 +72,7 @@ declare namespace ABT {
         wp: WP_info;
     }
 
-    interface i18n {
+    interface I18n {
         citation_types: Array<{
             label: string;
             value: string;

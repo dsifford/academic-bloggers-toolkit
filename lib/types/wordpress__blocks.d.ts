@@ -5,7 +5,8 @@
 declare module '@wordpress/blocks' {
     import { ComponentType, ReactNode } from 'react';
 
-    type AttrType = 'string' | 'number';
+    type AttrType = 'string' | 'number' | 'boolean';
+    type Primitive = string | number | boolean;
 
     type BlockAttribute<T> = T extends 'attribute'
         ? { type: AttrType; source: T; selector: string; attribute: string }
@@ -32,20 +33,20 @@ declare module '@wordpress/blocks' {
           }
         : {
               type: AttrType;
-              default?: string | number;
+              default?: Primitive;
           };
 
-    type BlockEditRender = ComponentType<BlockEditProps>;
+    type BlockEditRender<T> = ComponentType<BlockEditProps<T>>;
 
-    type BlockSaveRender = ComponentType<BlockSaveProps>;
+    type BlockSaveRender<T> = ComponentType<BlockSaveProps<T>>;
 
-    interface BlockAttributes {
-        [k: string]: BlockAttribute<
+    type BlockAttributes<T> = {
+        [k in keyof T]: BlockAttribute<
             'attribute' | 'html' | 'meta' | 'property' | 'text' | 'query' | ''
-        >;
-    }
+        >
+    };
 
-    interface BlockConfig {
+    interface BlockConfig<T = {}> {
         /**
          * This is the display title for your block, which can be translated
          * with our translation functions.
@@ -81,11 +82,11 @@ declare module '@wordpress/blocks' {
         /**
          * Block attributes.
          */
-        attributes?: BlockAttributes;
+        attributes?: BlockAttributes<T>;
         /**
          * Block transforms.
          */
-        transforms?: never; // TODO
+        transforms?: never; // TODO: Add types for this
         /**
          * Setting `parent` lets a block require that it is only available when
          * nested within the specified blocks.
@@ -95,25 +96,24 @@ declare module '@wordpress/blocks' {
          * Optional block extended support features.
          */
         supports?: BlockSupports;
+        /**
+         * Sets attributes on the topmost parent element of the current block.
+         */
+        getEditWrapperProps?: (attrs: T) => Record<string, Primitive>;
 
-        // FIXME:
-        getEditWrapperProps?: (attrs: any) => any;
+        edit: BlockEditRender<T>;
 
-        edit: BlockEditRender;
-
-        save: BlockSaveRender;
+        save: BlockSaveRender<T>;
     }
 
-    interface BlockEditProps extends BlockSaveProps {
+    interface BlockEditProps<T = {}> extends BlockSaveProps<T> {
         className: string;
         isSelected: boolean;
-        setAttributes(attrs: { [k: string]: string | number | boolean }): void;
+        setAttributes(attrs: Partial<T>): void;
     }
 
-    interface BlockSaveProps {
-        attributes: {
-            [k: string]: any;
-        };
+    interface BlockSaveProps<T = {}> {
+        attributes: T;
     }
 
     interface BlockSupports {
@@ -182,13 +182,11 @@ declare module '@wordpress/blocks' {
         reusable?: boolean;
     }
 
-    interface ParsedBlock {
+    interface Block {
         /**
          * Attributes for the block.
          */
-        attributes: {
-            [k: string]: any;
-        };
+        attributes: Record<string, Primitive>;
         /**
          * Unique ID registered to the block.
          */
@@ -196,7 +194,7 @@ declare module '@wordpress/blocks' {
         /**
          * Array of inner blocks, if the block has any.
          */
-        innerBlocks: ParsedBlock[];
+        innerBlocks: Block[];
         isValid: boolean;
         name: string;
         /**
@@ -205,6 +203,14 @@ declare module '@wordpress/blocks' {
         originalContent: string;
     }
 
-    export function parse(serializedBlocks: string): ParsedBlock[];
-    export function registerBlockType(name: string, config: BlockConfig): void;
+    export function createBlock(
+        name: string,
+        attributes?: Record<string, any>,
+        innerBlocks?: Block[],
+    ): Block;
+    export function parse(serializedBlocks: string): Block[];
+    export function registerBlockType<T>(
+        name: string,
+        config: BlockConfig<T>,
+    ): void;
 }

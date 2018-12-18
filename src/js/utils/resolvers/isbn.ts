@@ -57,7 +57,7 @@ export async function getFromISBN(
               const fields = parseName(person);
               return {
                   ...fields,
-                  type: <CSL.PersonFieldKey>'author',
+                  type: 'author' as 'author',
                   given: fields.given || '',
                   family: fields.family || '',
               };

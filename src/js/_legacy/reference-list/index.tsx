@@ -12,7 +12,6 @@ import Store from '_legacy/stores/data';
 import { AddDialogPayload } from '_legacy/stores/ui/add-dialog';
 import UIStore from '_legacy/stores/ui/reference-list';
 import { MenuActionType } from '_legacy/utils/constants';
-import DevTools from '_legacy/utils/devtools';
 
 import Button from '_legacy/components/button';
 import Spinner from '_legacy/components/spinner';
@@ -354,7 +353,6 @@ export default class ReferenceList extends React.Component<Props> {
 
         return (
             <>
-                <DevTools position={{ left: 50, top: 40 }} />
                 <Dialog
                     data={this.dialogProps.get()}
                     currentDialog={this.ui.currentDialog}

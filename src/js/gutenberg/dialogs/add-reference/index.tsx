@@ -1,14 +1,19 @@
 import { IconButton, KeyboardShortcuts } from '@wordpress/components';
-import { dispatch } from '@wordpress/data';
+import { compose } from '@wordpress/compose';
+import { withDispatch } from '@wordpress/data';
 import { Component } from '@wordpress/element';
 
 import Dialog from './dialog';
+
+interface DispatchProps {
+    addReference(data: CSL.Data): void;
+}
 
 interface State {
     isOpen: boolean;
 }
 
-class AddReferenceDialog extends Component<{}, State> {
+class AddReferenceDialog extends Component<DispatchProps, State> {
     state: State = {
         isOpen: false,
     };
@@ -21,6 +26,7 @@ class AddReferenceDialog extends Component<{}, State> {
                     bindGlobal
                     shortcuts={{ 'ctrl+alt+r': this.toggleDialog }}
                 />
+                {/* TODO: use `displayShortcut` from @wordpress/keycodes */}
                 <IconButton
                     icon="insert"
                     label="Add reference"
@@ -40,9 +46,15 @@ class AddReferenceDialog extends Component<{}, State> {
     };
 
     private handleSubmit = (data: CSL.Data): void => {
-        dispatch('abt/data').addReference(data);
+        this.props.addReference(data);
         this.setState({ isOpen: false });
     };
 }
 
-export default AddReferenceDialog;
+export default compose([
+    withDispatch<DispatchProps>(dispatch => ({
+        addReference(data: CSL.Data) {
+            dispatch('abt/data').addReference(data);
+        },
+    })),
+])(AddReferenceDialog);

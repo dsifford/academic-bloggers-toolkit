@@ -2,15 +2,18 @@ import { BlockEditProps } from '@wordpress/blocks';
 import { PanelBody, Toolbar } from '@wordpress/components';
 import { AlignmentToolbar, InspectorControls } from '@wordpress/editor';
 import { Component } from '@wordpress/element';
-import classnames from 'classnames';
+import classNames from 'classnames';
 
+import { Attributes } from './';
 import styles from './style.scss';
 
-class BibliographyEdit extends Component<BlockEditProps> {
+type HeadingType = 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
+
+class BibliographyEdit extends Component<BlockEditProps<Attributes>> {
     render() {
         const { attributes, isSelected, setAttributes } = this.props;
         const { content, heading, headingAlign, headingLevel } = attributes;
-        const Tag: any = `h${headingLevel}`;
+        const Tag = `h${headingLevel}` as HeadingType;
         return (
             <>
                 <InspectorControls>
@@ -35,10 +38,10 @@ class BibliographyEdit extends Component<BlockEditProps> {
                         />
                     </PanelBody>
                 </InspectorControls>
-                <section>
+                <section className="abt-bibliography">
                     {(isSelected || heading !== '') && (
                         <Tag
-                            className={classnames(
+                            className={classNames(
                                 'abt-bibliography__heading',
                                 styles.heading,
                             )}
@@ -59,8 +62,13 @@ class BibliographyEdit extends Component<BlockEditProps> {
                             {!isSelected && heading}
                         </Tag>
                     )}
-                    {content}
-                    TODO: ...
+                    {/* tslint:disable-next-line:react-no-dangerous-html */}
+                    <ol
+                        className="abt-bibliography__body"
+                        dangerouslySetInnerHTML={{
+                            __html: content,
+                        }}
+                    />
                 </section>
             </>
         );

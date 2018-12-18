@@ -1,7 +1,16 @@
-import { Button, ButtonGroup, Modal } from '@wordpress/components';
+import {
+    Button,
+    Modal,
+    ToggleControl,
+    withNotices,
+} from '@wordpress/components';
+import { compose } from '@wordpress/compose';
 import { Component } from '@wordpress/element';
+import classNames from 'classnames';
+import { FormEvent } from 'react';
+
 import DialogToolbar from 'gutenberg/components/dialog-toolbar';
-import { FormEvent, MouseEvent } from 'react';
+import { SidebarNotice } from 'gutenberg/sidebar/toolbar';
 import { IdentifierKind } from 'utils/constants';
 import { ResponseError } from 'utils/error';
 import { DOI, Pubmed } from 'utils/resolvers';
@@ -12,102 +21,83 @@ import ManualForm from './manual-form';
 
 const FORM_ID = 'add-reference-form';
 
-enum FormKind {
-    IDENTIFIER,
-    MANUAL,
-}
-
-interface Props {
+interface Props extends withNotices.Props {
     onClose: () => void;
     onSubmit: (data: CSL.Data) => void;
     isOpen: boolean;
 }
 
 interface State {
-    kind: FormKind;
+    isAddingManually: boolean;
     isBusy: boolean;
 }
 
 class Dialog extends Component<Props, State> {
     state: State = {
-        kind: FormKind.IDENTIFIER,
+        isAddingManually: false,
         isBusy: false,
     };
 
     render() {
-        const { isOpen, onClose } = this.props;
-        if (!isOpen) {
-            return null;
-        }
-        const { kind, isBusy } = this.state;
+        const { isOpen, noticeUI, onClose } = this.props;
+        const { isAddingManually, isBusy } = this.state;
         return (
-            <Modal
-                className={styles.modal}
-                title="Add Reference"
-                onRequestClose={onClose}
-            >
-                <form onSubmit={this.handleSubmit} id={FORM_ID}>
-                    {kind === FormKind.IDENTIFIER && <IdentifierForm />}
-                    {kind === FormKind.MANUAL && <ManualForm />}
-                </form>
-                <DialogToolbar>
-                    <div className={styles.toolbar}>
-                        <ButtonGroup>
-                            <Button
-                                isSmall
-                                isBusy={isBusy}
-                                disabled={isBusy}
-                                isPrimary={kind === FormKind.IDENTIFIER}
-                                value={FormKind.IDENTIFIER}
-                                type="button"
-                                onClick={this.handleChangeKind}
-                            >
-                                Add with Identifier
-                            </Button>
-                            <Button
-                                isSmall
-                                isBusy={isBusy}
-                                disabled={isBusy}
-                                isPrimary={kind === FormKind.MANUAL}
-                                value={FormKind.MANUAL}
-                                type="button"
-                                onClick={this.handleChangeKind}
-                            >
-                                Add Manually
-                            </Button>
-                        </ButtonGroup>
-                        <Button
-                            isPrimary
-                            isLarge
-                            isBusy={isBusy}
-                            disabled={isBusy}
-                            type="submit"
-                            form={FORM_ID}
+            <>
+                <SidebarNotice>{noticeUI}</SidebarNotice>
+                {isOpen && (
+                    <Modal
+                        className={styles.modal}
+                        title="Add Reference"
+                        onRequestClose={onClose}
+                    >
+                        <form
+                            id={FORM_ID}
+                            className={classNames(styles.form, {
+                                [styles.manualForm]: isAddingManually,
+                            })}
+                            onSubmit={this.handleSubmit}
                         >
-                            Add Reference
-                        </Button>
-                    </div>
-                </DialogToolbar>
-            </Modal>
+                            {!isAddingManually && <IdentifierForm />}
+                            {isAddingManually && <ManualForm />}
+                        </form>
+                        <DialogToolbar>
+                            <div className={styles.toolbar}>
+                                <ToggleControl
+                                    label="Add manually"
+                                    checked={isAddingManually}
+                                    onChange={this.handleToggleManually}
+                                />
+                                <Button
+                                    isPrimary
+                                    isLarge
+                                    isBusy={isBusy}
+                                    disabled={isBusy}
+                                    type="submit"
+                                    form={FORM_ID}
+                                >
+                                    Add Reference
+                                </Button>
+                            </div>
+                        </DialogToolbar>
+                    </Modal>
+                )}
+            </>
         );
     }
 
-    private handleChangeKind = (e: MouseEvent<HTMLButtonElement>): void => {
-        const kind: FormKind = parseInt(e.currentTarget.value, 10);
-        this.setState(this.state.kind !== kind ? { kind } : null);
-    };
+    private handleToggleManually = (isAddingManually: boolean) =>
+        this.setState(this.state.isBusy ? null : { isAddingManually });
 
     private handleSubmit = async (
         e: FormEvent<HTMLFormElement>,
     ): Promise<void> => {
         e.preventDefault();
-        const { kind } = this.state;
         this.setState({ isBusy: true });
+        const { isAddingManually } = this.state;
         const form = new FormData(e.currentTarget);
-        if (kind === FormKind.IDENTIFIER) {
-            return this.handleIdentifierSubmit(form);
-        }
-        return this.handleManualSubmit(form);
+        return isAddingManually
+            ? this.handleManualSubmit(form)
+            : this.handleIdentifierSubmit(form);
     };
 
     private async handleIdentifierSubmit(form: FormData): Promise<void> {
@@ -124,14 +114,20 @@ class Dialog extends Component<Props, State> {
             case IdentifierKind.PMID:
                 response = await Pubmed.get(identifier, 'pubmed');
                 break;
-            // TODO:
             default:
-                throw new Error(`Invalid indentifier type: ${identifier}`);
+                this.props.noticeOperations.createErrorNotice(
+                    `Invalid indentifier type: ${identifier}`,
+                );
+                this.setState({ isBusy: false });
+                this.props.onClose();
+                return;
         }
         this.setState({ isBusy: false });
         if (response instanceof ResponseError) {
-            // FIXME: add notification here
-            console.log(response);
+            this.props.noticeOperations.createErrorNotice(
+                `Unable to retrieve data for identifier: ${response.resource}`,
+            );
+            this.props.onClose();
             return;
         }
         return this.props.onSubmit(response);
@@ -139,8 +135,8 @@ class Dialog extends Component<Props, State> {
 
     private handleManualSubmit(form: FormData): void {
         console.log([...form.entries()]);
-        return;
+        this.setState({ isBusy: false });
     }
 }
 
-export default Dialog;
+export default compose([withNotices])(Dialog);

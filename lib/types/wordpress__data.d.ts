@@ -33,7 +33,11 @@ declare module '@wordpress/data' {
     export function select<T>(key: string): Record<string, (...args: any[]) => T>;
 
     export function withDispatch<DP, P = {}>(
-        mapDispatchToProps: (disp: typeof dispatch, ownProps: P) => DP,
+        mapDispatchToProps: (
+            disp: typeof dispatch,
+            ownProps: P,
+            registry: { select: typeof select },
+        ) => DP,
     ): (component: ComponentType<P & DP>) => ComponentType<P>;
 
     export function withSelect<SP, P = {}>(

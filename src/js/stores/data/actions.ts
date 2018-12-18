@@ -1,43 +1,63 @@
-import { parse } from '@wordpress/blocks';
+import { Block, createBlock, parse } from '@wordpress/blocks';
 import { dispatch, select } from '@wordpress/data';
-import { Bibliography } from 'citeproc';
+import { Bibliography, RebuildProcessorStateData } from 'citeproc';
 
 import { styleCache } from 'utils/cache';
-import { mergeItems } from 'utils/editor';
+import {
+    getEditorDOM,
+    mergeItems,
+    parseBibliographyHTML,
+    removeItems,
+} from 'utils/editor';
 import Processor from 'utils/processor';
 
-import { State } from './';
+// import { State } from './';
 import { Actions, StyleKind } from './constants';
-import { fetchLocale, fetchStyle } from './controls';
+// import { fetchLocale, fetchStyle } from './controls';
 
-// Publicly exposed actions
 export function* addReference(data: CSL.Data) {
-    yield { type: Actions.ADD_REFERENCE, data };
+    yield addReferences([data]);
+}
+
+export function* addReferences(data: CSL.Data[]) {
+    yield {
+        type: Actions.ADD_REFERENCES,
+        data,
+    };
     yield dispatch('core/editor').editPost(
         select('abt/data').getSerializedState(),
     );
     yield dispatch('core/editor').savePost();
 }
 
-export function deleteReference(id: string) {
-    return {
-        type: Actions.DELETE_REFERENCE,
-        id,
-    };
+export function* removeAllCitations() {
+    const doc = getEditorDOM();
+    for (const el of doc.querySelectorAll('.abt-citation')) {
+        if (el.parentNode) {
+            el.parentNode.removeChild(el);
+        }
+    }
+    yield dispatch('core/editor').resetBlocks(parse(doc.innerHTML));
 }
 
-export function setBibliography(bibliography: Bibliography) {
-    return {
-        type: Actions.SET_BIBLIOGRAPHY,
-        bibliography,
-    };
+export function* removeReference(id: string) {
+    yield removeReferences([id]);
 }
 
-export function setLocale(locale: string) {
-    return {
-        type: Actions.SET_LOCALE,
-        locale,
+export function* removeReferences(itemIds: string[]) {
+    const doc = getEditorDOM();
+    const toDelete = removeItems(doc, itemIds);
+    yield {
+        type: Actions.REMOVE_REFERENCES,
+        itemIds: toDelete,
     };
+    if (toDelete.length !== itemIds.length) {
+        yield dispatch('core/editor').resetBlocks(parse(doc.innerHTML));
+    }
+    yield dispatch('core/editor').editPost(
+        select('abt/data').getSerializedState(),
+    );
+    yield dispatch('core/editor').savePost();
 }
 
 export function* parseCitations() {
@@ -53,9 +73,45 @@ export function* parseCitations() {
     if (bibliography) {
         yield setBibliography(bibliography);
     }
-    // TODO: Consider moving from here to the next dispatch into a utility helper method.
-    const doc = document.createElement('div');
-    doc.innerHTML = select<string>('core/editor').getEditedPostContent();
+    yield updateEditorCitations(citations);
+}
+
+// function receiveStyle(style: State['style']) {
+//     return {
+//         type: Actions.RECEIVE_STYLE,
+//         style,
+//     };
+// }
+
+function* setBibliography(bibliography: Bibliography) {
+    const blocksList = select<Block[]>('core/editor').getBlocks();
+    const bibliographyBlock = blocksList.find(
+        block => block.name === 'abt/bibliography',
+    );
+    const content = parseBibliographyHTML(bibliography);
+    if (content && bibliographyBlock) {
+        yield dispatch('core/editor').updateBlockAttributes(
+            bibliographyBlock.clientId,
+            { content },
+        );
+    } else if (content && !bibliographyBlock) {
+        yield dispatch('core/editor').insertBlock(
+            createBlock('abt/bibliography', { content }),
+            blocksList.length,
+            undefined,
+            true,
+        );
+    } else if (!content && bibliographyBlock) {
+        yield dispatch('core/editor').removeBlock(bibliographyBlock.clientId);
+    }
+    return {
+        type: Actions.SET_BIBLIOGRAPHY,
+        bibliography,
+    };
+}
+
+function* updateEditorCitations(citations: RebuildProcessorStateData[]) {
+    const doc = getEditorDOM();
     for (const [id, , html] of citations) {
         const node = doc.querySelector<HTMLElement>(
             `.abt-citation[data-id="${id}"]`,
@@ -75,15 +131,16 @@ export function* parseCitations() {
     yield dispatch('core/editor').resetBlocks(parse(doc.innerHTML));
 }
 
-export function* setStyle(style: State['style']) {
+/*
+TODO: Implement this
+export function* updateStyle(style: State['style']) {
     let csl: string = '';
     if (style.kind === StyleKind.PREDEFINED) {
         csl = yield fetchStyle(style.value);
-        // TODO: still need to figure out how to do this with predefined.
+        // still need to figure out how to do this with predefined.
         yield fetchLocale(csl);
     }
     yield receiveStyle(style);
-    // TODO:
     // --> run a one-off command here to generate a processor, reparse the citations and bib, and exit
     // --> it should prob be its own internal action that can be shared because it will likely be
     // --> used when we insert citations as well.
@@ -93,11 +150,4 @@ export function* setStyle(style: State['style']) {
         style,
     };
 }
-
-// Below are all internal actions not exposed globally. (Generally async "controls").
-function receiveStyle(style: State['style']) {
-    return {
-        type: Actions.RECEIVE_STYLE,
-        style,
-    };
-}
+*/

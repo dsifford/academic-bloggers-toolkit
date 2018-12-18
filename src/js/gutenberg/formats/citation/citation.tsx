@@ -13,7 +13,7 @@ import {
 import './citation.scss';
 
 interface DispatchProps {
-    parseCitations: () => void;
+    clearSelectedItems: () => void;
 }
 
 interface SelectProps {
@@ -39,8 +39,8 @@ class Citation extends Component<FormatProps & DispatchProps & SelectProps> {
 
     private insertCitation = (): void => {
         const {
+            clearSelectedItems,
             onChange,
-            parseCitations,
             selectedItems,
             selectedElement,
             value,
@@ -67,7 +67,7 @@ class Citation extends Component<FormatProps & DispatchProps & SelectProps> {
                 }
             }
             onChange(value);
-            return parseCitations();
+            return clearSelectedItems();
         }
 
         const formats = getNeighboringFormats(Citation.formatName, value);
@@ -87,14 +87,13 @@ class Citation extends Component<FormatProps & DispatchProps & SelectProps> {
             onChange(insert(value, newValue));
         }
 
-        parseCitations();
+        clearSelectedItems();
     };
 }
 
 export default compose([
     withDispatch<DispatchProps, FormatProps>(dispatch => ({
-        parseCitations() {
-            dispatch('abt/data').parseCitations();
+        clearSelectedItems() {
             dispatch('abt/ui').clearSelectedItems();
         },
     })),

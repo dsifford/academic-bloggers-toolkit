@@ -1,7 +1,7 @@
 version: '3.7'
 services:
   wordpress:
-    image: visiblevc/wordpress:0.21.0-php7.2
+    image: visiblevc/wordpress:0.22.0-php7.3
     cap_add:
       - SYS_ADMIN
     devices:
@@ -12,9 +12,8 @@ services:
       WP_DEBUG_DISPLAY: 'true'
       PLUGINS: >-
         classic-editor
+        gutenberg
         query-monitor
-      THEMES: >-
-        twentynineteen
       EXTRA_PHP: |
         define('SCRIPT_DEBUG', true);
 
@@ -22,6 +21,7 @@ services:
       - 8080:80
     volumes:
       - ./dist:/app/wp-content/plugins/academic-bloggers-toolkit
+      - ./lib/scripts/init_wp.sh:/docker-entrypoint-initwp.d/init_wp.sh
   db:
     image: mariadb:10
     environment:

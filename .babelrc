@@ -1,15 +1,12 @@
 {
   "plugins": [
     "@babel/plugin-syntax-dynamic-import",
-    "@babel/plugin-transform-runtime"
-  ],
-  "presets": [
-    "@babel/preset-react",
     [
-      "@babel/preset-env",
+      "@wordpress/babel-plugin-makepot",
       {
-        "modules": false
+        "output": "src/languages/academic-bloggers-toolkit.pot"
       }
     ]
-  ]
+  ],
+  "presets": ["@wordpress/default", "@babel/preset-react" ]
 }

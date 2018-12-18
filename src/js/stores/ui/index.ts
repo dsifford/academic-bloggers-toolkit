@@ -7,6 +7,8 @@ import * as selectors from './selectors';
 export interface State {
     sidebar: {
         selectedItems: string[];
+        sortMode: 'date' | 'publication' | 'title';
+        sortOrder: 'asc' | 'desc';
     };
     addReferenceDialog: {
         identifierKind: IdentifierKind;

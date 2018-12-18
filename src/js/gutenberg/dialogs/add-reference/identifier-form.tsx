@@ -10,7 +10,7 @@ import styles from './identifier-form.scss';
 type PatternObj = { readonly [k in IdentifierKind]: string };
 
 const PATTERNS: PatternObj = {
-    doi: '10.[^ ]+',
+    doi: '10\\.[^ ]+',
     pmid: '[0-9]+',
     pmcid: 'PMC[0-9]+',
 };
@@ -48,6 +48,7 @@ class IdentifierForm extends Component<DispatchProps & SelectProps> {
                     <option value={IdentifierKind.PMID}>PMID</option>
                     <option value={IdentifierKind.PMCID}>PMCID</option>
                 </select>
+                {/* TODO: consider using `FormTokenField` here */}
                 <input
                     ref={this.inputRef}
                     required
@@ -67,7 +68,9 @@ class IdentifierForm extends Component<DispatchProps & SelectProps> {
 
 export default compose([
     withDispatch<DispatchProps>(dispatch => ({
-        setIdentifierKind: dispatch('abt/ui').setIdentifierKind,
+        setIdentifierKind(kind: IdentifierKind) {
+            dispatch('abt/ui').setIdentifierKind(kind);
+        },
     })),
     withSelect<SelectProps>(select => {
         const kind = select('abt/ui').getIdentifierKind();

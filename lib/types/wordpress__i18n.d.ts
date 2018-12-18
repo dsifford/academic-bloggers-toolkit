@@ -1,28 +1,5 @@
-declare module 'browser-sync-webpack-plugin';
-declare module 'rollbar-sourcemap-webpack-plugin';
-declare module 'rollbar/dist/rollbar.umd';
-declare module 'wp-pot';
-
-declare module '*.scss' {
-    const content: {
-        [identifier: string]: any;
-    };
-    export = content;
-}
-
-// prettier-ignore
-declare module '@wordpress/data' {
-    export function dispatch(key: 'abt/data'): typeof import('stores/data/actions');
-    export function dispatch(key: 'abt/ui'): typeof import('stores/ui/actions');
-
-    export function select<T extends typeof import('stores/data/selectors'), U extends keyof T>(key: 'abt/data'): {
-        [k in U]: (...args: any[]) => T[k] extends (...args: any[]) => infer V ? V : never;
-    };
-
-    export function select<T extends typeof import('stores/ui/selectors'), U extends keyof T>(key: 'abt/ui'): {
-        [k in U]: (...args: any[]) => T[k] extends (...args: any[]) => infer V ? V : never;
-    };
-}
+// Type definitions for @wordpress/i18n
+// Definitions by: Derek P Sifford <dereksifford@gmail.com>
 
 declare module '@wordpress/i18n' {
     /**
@@ -34,10 +11,7 @@ declare module '@wordpress/i18n' {
      * @param data   Locale data configuration.
      * @param domain Domain for which configuration applies.
      */
-    export function setLocaleData(
-        data: any,
-        domain: 'academic-bloggers-toolkit',
-    ): void;
+    export function setLocaleData(data: any, domain?: string): void;
 
     /**
      * Retrieve the translation of text.
@@ -47,10 +21,7 @@ declare module '@wordpress/i18n' {
      * @param  text   Text to translate.
      * @param  domain Domain to retrieve the translated text.
      */
-    export function __(
-        text: string,
-        domain: 'academic-bloggers-toolkit',
-    ): string;
+    export function __(text: string, domain?: string): string;
 
     /**
      * Retrieve translated string with gettext context.
@@ -61,11 +32,7 @@ declare module '@wordpress/i18n' {
      * @param  context Context information for the translators.
      * @param  domain  Domain to retrieve the translated text.
      */
-    export function _x(
-        text: string,
-        context: string,
-        domain: 'academic-bloggers-toolkit',
-    ): string;
+    export function _x(text: string, context: string, domain?: string): string;
 
     /**
      * Translates and retrieves the singular or plural form based on the supplied
@@ -83,7 +50,7 @@ declare module '@wordpress/i18n' {
         single: string,
         plural: string,
         n: number,
-        domain: 'academic-bloggers-toolkit',
+        domain?: string,
     ): string;
 
     /**
@@ -104,7 +71,7 @@ declare module '@wordpress/i18n' {
         plural: string,
         n: number,
         context: string,
-        domain: 'academic-bloggers-toolkit',
+        domain?: string,
     ): string;
 
     /**
