@@ -45,6 +45,16 @@ export function citations(
         case Actions.REMOVE_REFERENCES: {
             return state.filter(item => !action.itemIds.includes(item.id));
         }
+        case Actions.UPDATE_REFERENCE: {
+            const index = state.findIndex(({ id }) => id === action.data.id);
+            return index === -1
+                ? [...state, action.data]
+                : [
+                      ...state.slice(0, index),
+                      action.data,
+                      ...state.slice(index + 1),
+                  ];
+        }
         default:
             return state;
     }

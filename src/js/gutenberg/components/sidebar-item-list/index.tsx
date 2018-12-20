@@ -9,6 +9,7 @@ import styles from './style.scss';
 
 interface DispatchProps {
     toggleItemSelected(id: string): void;
+    updateReference(data: CSL.Data): void;
 }
 
 interface OwnProps {
@@ -27,15 +28,24 @@ class SidebarItemList extends Component<Props, State> {
         editReferenceId: '',
     };
     render() {
-        const { items, selectedItems, toggleItemSelected } = this.props;
+        const {
+            items,
+            selectedItems,
+            toggleItemSelected,
+            updateReference,
+        } = this.props;
         const { editReferenceId } = this.state;
+        const onClose = () => this.setState({ editReferenceId: '' });
         return (
             <>
                 <EditReferenceDialog
                     isOpen={!!editReferenceId}
                     itemId={editReferenceId}
-                    onClose={() => this.setState({ editReferenceId: '' })}
-                    onSubmit={data => console.log(data)}
+                    onClose={onClose}
+                    onSubmit={data => {
+                        updateReference(data);
+                        onClose();
+                    }}
                 />
                 <div
                     className={styles.list}
@@ -63,6 +73,9 @@ export default compose([
     withDispatch<DispatchProps, OwnProps>(dispatch => ({
         toggleItemSelected(id: string) {
             dispatch('abt/ui').toggleItemSelected(id);
+        },
+        updateReference(data: CSL.Data) {
+            dispatch('abt/data').updateReference(data);
         },
     })),
 ])(SidebarItemList) as ComponentType<OwnProps>;

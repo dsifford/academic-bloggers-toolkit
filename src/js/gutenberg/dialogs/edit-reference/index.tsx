@@ -30,7 +30,7 @@ const Dialog = ({ onSubmit, data }: Dialog.Props & SelectProps) => (
         <DialogToolbar>
             <div className={styles.toolbar}>
                 <Button isPrimary isLarge type="submit" form={FORM_ID}>
-                    Add Reference
+                    Update Reference
                 </Button>
             </div>
         </DialogToolbar>

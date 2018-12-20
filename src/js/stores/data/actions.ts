@@ -30,16 +30,6 @@ export function* addReferences(data: CSL.Data[]) {
     yield dispatch('core/editor').savePost();
 }
 
-export function* removeAllCitations() {
-    const doc = getEditorDOM();
-    for (const el of doc.querySelectorAll('.abt-citation')) {
-        if (el.parentNode) {
-            el.parentNode.removeChild(el);
-        }
-    }
-    yield dispatch('core/editor').resetBlocks(parse(doc.innerHTML));
-}
-
 export function* removeReference(id: string) {
     yield removeReferences([id]);
 }
@@ -58,6 +48,28 @@ export function* removeReferences(itemIds: string[]) {
         select('abt/data').getSerializedState(),
     );
     yield dispatch('core/editor').savePost();
+}
+
+export function* updateReference(data: CSL.Data) {
+    yield {
+        type: Actions.UPDATE_REFERENCE,
+        data,
+    };
+    yield parseCitations();
+    yield dispatch('core/editor').editPost(
+        select('abt/data').getSerializedState(),
+    );
+    yield dispatch('core/editor').savePost();
+}
+
+export function* removeAllCitations() {
+    const doc = getEditorDOM();
+    for (const el of doc.querySelectorAll('.abt-citation')) {
+        if (el.parentNode) {
+            el.parentNode.removeChild(el);
+        }
+    }
+    yield dispatch('core/editor').resetBlocks(parse(doc.innerHTML));
 }
 
 export function* parseCitations() {
