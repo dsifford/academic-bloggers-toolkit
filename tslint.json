@@ -2,7 +2,7 @@
   "extends": ["tslint:latest", "tslint-react", "tslint-config-prettier"],
   "rulesDirectory": ["node_modules/tslint-microsoft-contrib"],
   "linterOptions": {
-    "exclude": ["src/**/__tests__/*", "src/**/__mocks__/*"]
+    "exclude": ["src/**/__tests__/*", "src/**/__mocks__/*", "**/*.json"]
   },
   "rules": {
     "cyclomatic-complexity": {
