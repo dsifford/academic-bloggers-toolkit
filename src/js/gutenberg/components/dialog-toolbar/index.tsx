@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import { ReactNode } from '@wordpress/element';
 
 import styles from './style.scss';
 

@@ -8,9 +8,9 @@ import {
 } from '@wordpress/components';
 import { compose } from '@wordpress/compose';
 import { withDispatch } from '@wordpress/data';
-import { Component } from '@wordpress/element';
-import { FormEvent, ReactNode } from 'react';
+import { Component, FormEvent, ReactNode } from '@wordpress/element';
 
+import RemoveIcon from 'gutenberg/components/icons/remove';
 import AddReferenceDialog from 'gutenberg/dialogs/add-reference';
 import { readReferencesFile } from 'utils/file';
 
@@ -22,16 +22,6 @@ const { Slot: ToolbarButtonSlot, Fill: ToolbarButtonFill } = createSlotFill(
 );
 const { Slot: SidebarNoticeSlot, Fill: SidebarNoticeFill } = createSlotFill(
     'abt-sidebar-notices',
-);
-
-const RemoveIcon = () => (
-    <svg viewBox="0 0 20 20" width={20} height={20}>
-        <path
-            d={`M10 1c-5 0-9 4-9 9s4 9 9 9 9-4
-            9-9-4-9-9-9zm0 16c-3.9 0-7-3.1-7-7s3.1-7
-            7-7 7 3.1 7 7-3.1 7-7 7zM6 9v2h8V9H6z`}
-        />
-    </svg>
 );
 
 export const SidebarNotice = ({ children }: { children: ReactNode }) => (

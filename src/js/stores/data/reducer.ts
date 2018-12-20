@@ -1,7 +1,7 @@
 import { Action, combineReducers } from '@wordpress/data';
 import hash from 'string-hash';
 
-import clone from 'utils/clone';
+import { clone } from 'utils/data';
 
 import { State } from './';
 import { Actions } from './constants';

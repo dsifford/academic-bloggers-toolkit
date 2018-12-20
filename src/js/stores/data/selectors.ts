@@ -1,7 +1,7 @@
 import { Citation } from 'citeproc';
 import _ from 'lodash';
 
-import clone from 'utils/clone';
+import { clone } from 'utils/data';
 import { getEditorDOM } from 'utils/editor';
 
 import { State } from './';

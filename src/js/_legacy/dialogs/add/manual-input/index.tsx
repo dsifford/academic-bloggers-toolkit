@@ -3,8 +3,8 @@ import { observer } from 'mobx-react';
 import React from 'react';
 
 import Store from '_legacy/stores/ui/add-dialog';
-import { getFromISBN } from 'utils/resolvers/isbn';
-import { getFromURL } from 'utils/resolvers/url';
+import { deprecatedGetFromISBN } from 'utils/resolvers/isbn';
+import { deprecatedGetFromURL } from 'utils/resolvers/url';
 
 import Callout from '_legacy/components/callout';
 import AutoCite from '_legacy/dialogs/add/autocite';
@@ -46,8 +46,8 @@ export default class ManualInput extends React.Component<Props> {
         try {
             const data =
                 citationType === 'webpage'
-                    ? await getFromURL(query)
-                    : await getFromISBN(query, citationType as
+                    ? await deprecatedGetFromURL(query)
+                    : await deprecatedGetFromISBN(query, citationType as
                           | 'book'
                           | 'chapter');
             runInAction(() => this.props.store.data.merge(data));

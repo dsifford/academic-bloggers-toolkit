@@ -1,4 +1,4 @@
-import { getFromDOI, getFromPubmed } from 'utils/resolvers';
+import { deprecatedGetFromDOI, deprecatedGetFromPubmed } from 'utils/resolvers';
 
 export async function getRemoteData(
     identifierList: string,
@@ -27,13 +27,19 @@ export async function getRemoteData(
     });
 
     if (pmidList.length > 0) {
-        promises = [...promises, getFromPubmed('PMID', pmidList.join(','))];
+        promises = [
+            ...promises,
+            deprecatedGetFromPubmed('PMID', pmidList.join(',')),
+        ];
     }
     if (pmcidList.length > 0) {
-        promises = [...promises, getFromPubmed('PMCID', pmcidList.join(','))];
+        promises = [
+            ...promises,
+            deprecatedGetFromPubmed('PMCID', pmcidList.join(',')),
+        ];
     }
     if (doiList.length > 0) {
-        promises = [...promises, getFromDOI(doiList)];
+        promises = [...promises, deprecatedGetFromDOI(doiList)];
     }
 
     if (promises.length === 0) {

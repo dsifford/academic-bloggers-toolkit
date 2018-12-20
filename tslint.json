@@ -36,8 +36,7 @@
       "options": {
         "import-sources-order": "case-insensitive",
         "module-source-path": "full",
-        "named-imports-order": "case-insensitive",
-        "grouped-imports": true
+        "named-imports-order": "case-insensitive"
       }
     },
     "variable-name": {
@@ -55,6 +54,7 @@
     "no-angle-bracket-type-assertion": false,
     "no-default-export": false,
     "no-implicit-dependencies": false,
+    "no-namespace": false,
     "no-submodule-imports": false,
     "object-literal-sort-keys": false,
     "unified-signatures": false,

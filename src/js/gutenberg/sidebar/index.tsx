@@ -54,7 +54,6 @@ class Sidebar extends Component<Props, State> {
                 >
                     Academic Blogger's Toolkit
                 </PluginSidebarMoreMenuItem>
-                {/* TODO: consider TabPanel component here */}
                 <PluginSidebar name="abt-reference-list" title="Reference List">
                     <Toolbar selectedItems={selectedItems} />
                     <PanelBody
@@ -105,22 +104,23 @@ export default compose([
         let uncitedItems = _.sortBy(getUncitedItems(), item => {
             switch (getSidebarSortMode()) {
                 case 'date':
-                    const date = _.get(item.issued, '[date-parts][0]', []);
-                    if (date.length === 0) {
-                        return 0;
-                    }
-                    return new Date(date[0], date[1], date[2]).toJSON();
+                    const [year, month = 0, day = 1]: number[] = _.get(
+                        item.issued,
+                        '[date-parts][0]',
+                        [0],
+                    );
+                    return new Date(year, month, day).toJSON();
                 case 'publication':
                     return (
                         item.journalAbbreviation ||
                         item['container-title-short'] ||
                         item['container-title'] ||
                         item.publisher ||
-                        'zzzzzzzzzzz'
+                        'zzz'
                     );
                 case 'title':
                 default:
-                    return item.title || 'zzzzzzzzzzz';
+                    return item.title || 'zzz';
             }
         });
         if (getSidebarSortOrder() === 'desc') {

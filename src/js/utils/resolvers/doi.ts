@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-import { CSL_DATA_KEYS } from 'utils/constants';
+import { CSL_KEYS } from 'utils/constants';
 import { ResponseError } from 'utils/error';
 
 export async function get(doi: string): Promise<CSL.Data | ResponseError> {
@@ -12,7 +12,7 @@ export async function get(doi: string): Promise<CSL.Data | ResponseError> {
     if (!response.ok) {
         return new ResponseError(doi, response);
     }
-    return _.pick(await response.json(), CSL_DATA_KEYS);
+    return _.pick(await response.json(), CSL_KEYS);
 }
 
 /**

@@ -13,9 +13,10 @@ function get_website_meta() {
 		exit;
 	}
 
-	$site_url = esc_url_raw( wp_unslash( $_POST['site_url'] ) );
-	$raw      = wp_remote_retrieve_body( wp_remote_get( $site_url ) );
-	$html     = new \DOMDocument();
+	$url  = esc_url_raw( wp_unslash( $_POST['url'] ) );
+	$raw  = wp_remote_retrieve_body( wp_safe_remote_get( $url ) );
+	$html = new \DOMDocument();
+	libxml_use_internal_errors( true );
 	$html->loadHTML( $raw );
 	$xpath = new \DOMXPath( $html );
 
@@ -33,8 +34,8 @@ function get_website_meta() {
 	foreach ( $authors as $node ) {
 		$a = explode( ' ', $node->getAttribute( 'content' ), 2 );
 		$a = [
-			'firstname' => $a[0],
-			'lastname'  => $a[1],
+			'given'  => $a[0],
+			'family' => $a[1],
 		];
 		if ( ! is_int( array_search( $a, $payload['authors'], true ) ) ) {
 			$payload['authors'][] = $a;
@@ -83,8 +84,8 @@ function get_website_meta() {
 			}
 			$a = explode( ' ', $value, 2 );
 			$a = [
-				'firstname' => $a[0],
-				'lastname'  => $a[1],
+				'given'  => $a[0],
+				'family' => $a[1],
 			];
 			if ( ! is_int( array_search( $a, $payload['authors'], true ) ) ) {
 				$payload['authors'][] = $a;
@@ -122,8 +123,8 @@ function get_website_meta() {
 		$a = explode( ' ', $author->textContent, 2 );
 		// @codingStandardsIgnoreEnd
 		$a = [
-			'firstname' => $a[0],
-			'lastname'  => $a[1],
+			'given'  => $a[0],
+			'family' => $a[1],
 		];
 		if ( ! is_int( array_search( $a, $payload['authors'], true ) ) ) {
 			$payload['authors'][] = $a;
@@ -149,8 +150,8 @@ function get_website_meta() {
 		if ( 'author' === $key ) {
 			$a = explode( '|', $value, 2 );
 			$a = [
-				'firstname' => $a[0],
-				'lastname'  => $a[1],
+				'given'  => $a[0],
+				'family' => $a[1],
 			];
 			if ( ! is_int( array_search( $a, $payload['authors'], true ) ) ) {
 				$payload['authors'][] = $a;

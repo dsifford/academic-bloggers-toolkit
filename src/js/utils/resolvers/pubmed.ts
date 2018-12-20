@@ -37,7 +37,9 @@ export async function get(
  * @return Promise that resolves to an array of PubMed Response
  * @deprecated
  */
-export async function pubmedQuery(query: string): Promise<CSL.Data[]> {
+export async function deprecatedPubmedQuery(
+    query: string,
+): Promise<CSL.Data[]> {
     const req = await fetch(
         oneLineTrim`
             https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi
@@ -76,7 +78,7 @@ export async function pubmedQuery(query: string): Promise<CSL.Data[]> {
 /**
  * @deprecated
  */
-export async function getFromPubmed(
+export async function deprecatedGetFromPubmed(
     kind: 'PMID' | 'PMCID',
     idList: string,
 ): Promise<[CSL.Data[], string[]]> {

@@ -52,7 +52,7 @@ class BibliographyEdit extends Component<BlockEditProps<Attributes>> {
                                     style={{ textAlign: headingAlign }}
                                     className={styles.headingInput}
                                     value={heading}
-                                    onInput={(e: any) =>
+                                    onChange={e =>
                                         setAttributes({
                                             heading: e.currentTarget.value,
                                         })

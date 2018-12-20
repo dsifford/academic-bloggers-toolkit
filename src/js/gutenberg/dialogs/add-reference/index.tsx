@@ -2,6 +2,7 @@ import { IconButton, KeyboardShortcuts } from '@wordpress/components';
 import { compose } from '@wordpress/compose';
 import { withDispatch } from '@wordpress/data';
 import { Component } from '@wordpress/element';
+import { displayShortcut } from '@wordpress/keycodes';
 
 import Dialog from './dialog';
 
@@ -26,8 +27,8 @@ class AddReferenceDialog extends Component<DispatchProps, State> {
                     bindGlobal
                     shortcuts={{ 'ctrl+alt+r': this.toggleDialog }}
                 />
-                {/* TODO: use `displayShortcut` from @wordpress/keycodes */}
                 <IconButton
+                    shortcut={displayShortcut.primaryAlt('r')}
                     icon="insert"
                     label="Add reference"
                     onClick={this.toggleDialog}

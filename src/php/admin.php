@@ -38,12 +38,20 @@ function enqueue_scripts() {
 				'scripts' => [
 					'lodash',
 					'citeproc',
+					'wp-api-fetch',
+					'wp-blocks',
 					'wp-components',
+					'wp-compose',
 					'wp-data',
 					'wp-edit-post',
+					'wp-editor',
 					'wp-element',
+					'wp-i18n',
+					'wp-keycodes',
 					'wp-plugins',
 					'wp-polyfill',
+					'wp-rich-text',
+					'wp-url',
 				],
 			]
 		);
