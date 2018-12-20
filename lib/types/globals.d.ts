@@ -44,7 +44,7 @@ interface Window {
     ABT: ABT.Globals;
     ABT_EDITOR: {
         bibliography: import('citeproc').Bibliography;
-        citations: CSL.Data[];
+        references: CSL.Data[];
         style: {
             kind: import('stores/data/constants').StyleKind;
             value: string;

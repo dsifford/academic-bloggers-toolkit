@@ -13,7 +13,7 @@ interface Style {
 }
 
 export interface State {
-    citations: CSL.Data[];
+    references: CSL.Data[];
     bibliography: Bibliography;
     style: Style;
 }

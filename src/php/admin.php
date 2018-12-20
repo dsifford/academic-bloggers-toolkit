@@ -61,7 +61,7 @@ function enqueue_scripts() {
 			wp_json_encode(
 				[
 					'bibliography' => [ (object) [], [] ],
-					'citations'    => [],
+					'references'   => [],
 					'style'        => get_option( ABT_OPTIONS_KEY )['citation_style'],
 				]
 			),

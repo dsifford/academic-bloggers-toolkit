@@ -21,10 +21,10 @@ export function bibliography(
     }
 }
 
-export function citations(
-    state = INITIAL_STATE.citations,
+export function references(
+    state = INITIAL_STATE.references,
     action: Action,
-): State['citations'] {
+): State['references'] {
     switch (action.type) {
         case Actions.ADD_REFERENCES: {
             const newItems = (<CSL.Data[]>action.data)
@@ -74,6 +74,6 @@ export function style(
 
 export default combineReducers({
     bibliography,
-    citations,
+    references,
     style,
 });

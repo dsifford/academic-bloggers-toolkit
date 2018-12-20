@@ -69,12 +69,12 @@ export function getItems(state: State, kind?: 'cited' | 'uncited'): CSL.Data[] {
         case 'uncited':
             return getUncitedItems(state);
         default:
-            return clone(state.citations);
+            return clone(state.references);
     }
 }
 
 export function getItemById(state: State, id: string): CSL.Data | void {
-    const found = state.citations.find(item => item.id === id);
+    const found = state.references.find(item => item.id === id);
     if (found) {
         return clone(found);
     }
@@ -95,7 +95,7 @@ export function getStyle(state: State): State['style'] {
 export function getUncitedItems(state: State): CSL.Data[] {
     return clone(
         _.differenceWith(
-            [...state.citations],
+            [...state.references],
             getCitedItems(state),
             (left, right) => left.id === right.id,
         ),
