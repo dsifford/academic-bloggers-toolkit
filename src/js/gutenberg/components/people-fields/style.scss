@@ -9,6 +9,10 @@
     align-items: center;
     grid-template-columns: auto auto;
     gap: 5px;
+
+    button > svg {
+        margin-right: 5px;
+    }
 }
 
 .person {

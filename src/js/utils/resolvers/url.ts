@@ -1,14 +1,13 @@
-// tslint:disable cyclomatic-complexity
-// Disabling rule in this instance because `||` short-circuit evaluation is counted toward the
-// complexity and that feature is instrumental to this function.
-// Without it, the function would _more_ complex.
+import { addQueryArgs } from '@wordpress/url';
+
+import { ResponseError } from 'utils/error';
 
 import { AutociteResponse } from './';
 
 interface WebpageResponse {
     authors: Array<{
-        firstname: string;
-        lastname: string;
+        given: string;
+        family: string;
     }>;
     article: {
         /**
@@ -130,17 +129,82 @@ interface WebpageResponse {
     url?: string;
 }
 
+// tslint:disable cyclomatic-complexity
+// Disabling rule in this instance because `||` short-circuit evaluation is counted toward the
+// complexity and that feature is instrumental to this function.
+// Without it, the function would _more_ complex.
+
+export async function get(URL: string): Promise<CSL.Data | ResponseError> {
+    const response = await fetch(
+        addQueryArgs(top.ajaxurl, {
+            action: 'get_website_meta',
+            url: URL,
+        }),
+        {
+            method: 'POST',
+            headers: {
+                'Content-type': 'application/x-www-form-urlencoded',
+            },
+            body: `action=get_website_meta&url=${encodeURIComponent(URL)}`,
+            credentials: 'same-origin',
+        },
+    );
+    if (!response.ok) {
+        return new ResponseError(URL, response);
+    }
+    const json: WebpageResponse = await response.json();
+
+    return {
+        id: Date.now().toString(),
+        type: 'webpage',
+        title: json.og.title || json.sailthru.title || json.title,
+        URL,
+        'container-title': json.og.site_name,
+        author: json.authors,
+        ...parseDateString('accessed', new Date().toISOString()),
+        ...parseDateString(
+            'issued',
+            json.issued ||
+                json.og.pubdate ||
+                json.article.published_time ||
+                json.sailthru.date,
+        ),
+    };
+}
+
+function parseDateString<T extends CSL.DateFieldKey>(
+    key: T,
+    input?: string,
+): { [k in T]: CSL.Date } | {} {
+    if (!input || isNaN(Date.parse(input))) {
+        return {};
+    }
+    const date = new Date(input);
+    return {
+        [key]: {
+            raw: [
+                date.getUTCFullYear(),
+                date.getUTCMonth() + 1,
+                date.getUTCDate(),
+            ].join('/'),
+        },
+    };
+}
+
 /**
  * Communicates with AJAX to the WordPress server to retrieve metadata for a given web URL.
  * @param url - The URL of interest
  * @return URL Meta returned from the server
+ * @deprecated
  */
-export async function getFromURL(url: string): Promise<AutociteResponse> {
+export async function deprecatedGetFromURL(
+    url: string,
+): Promise<AutociteResponse> {
     const headers = new Headers({
         'Content-Type': 'application/x-www-form-urlencoded',
     });
     const body = new URLSearchParams(
-        `action=get_website_meta&site_url=${encodeURIComponent(url)}`,
+        `action=get_website_meta&url=${encodeURIComponent(url)}`,
     );
     const req = await fetch(top.ajaxurl, {
         method: 'POST',
@@ -175,16 +239,15 @@ export async function getFromURL(url: string): Promise<AutociteResponse> {
         '';
 
     const people: ABT.Contributor[] = res.authors.map(person => ({
-        given: person.firstname,
-        family: person.lastname,
+        ...person,
         type: <CSL.PersonFieldKey>'author',
     }));
 
     return {
         fields: {
-            accessed: parseDateString(new Date().toISOString()),
+            accessed: deprecatedParseDateString(new Date().toISOString()),
             title,
-            issued: parseDateString(issued),
+            issued: deprecatedParseDateString(issued),
             'container-title': res.og.site_name || '',
             URL: url,
         },
@@ -195,8 +258,9 @@ export async function getFromURL(url: string): Promise<AutociteResponse> {
 /**
  * Parses a date into the format `YYYY/MM/DD`.
  * @param input raw input string from API response.
+ * @deprecated
  */
-function parseDateString(input: string): string {
+function deprecatedParseDateString(input: string): string {
     if (isNaN(Date.parse(input))) {
         return '';
     }
