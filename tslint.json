@@ -11,8 +11,7 @@
     },
     "deprecation": true,
     "file-name-casing": {
-      "options": ["kebab-case"],
-      "severity": "error"
+      "options": ["kebab-case"]
     },
     "member-access": {
       "options": ["no-public"]
