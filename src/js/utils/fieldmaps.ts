@@ -1,74 +1,77 @@
+import { HTMLProps } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
 
-export interface Field {
-    readonly value: string;
+interface BaseField<T = string> {
+    readonly key: T;
     readonly label: string;
-    readonly required?: true;
-    readonly pattern?: string;
-    readonly title?: string;
 }
 
-interface CSLFields {
-    readonly [k: string]: {
-        readonly title: string;
-        readonly fields: Field[];
-        readonly people: Array<{
-            readonly type: string;
-            readonly label: string;
-        }>;
-    };
+export interface InputField extends BaseField<keyof CSL.Data> {
+    readonly inputProps?: Readonly<HTMLProps<HTMLInputElement>>;
 }
 
-const CSL_FIELDS: CSLFields = {
+export type PersonField = BaseField<CSL.PersonFieldKey>;
+
+export interface FieldMapping {
+    readonly title: string;
+    readonly fields: InputField[];
+    readonly people: PersonField[];
+}
+
+const CSL_FIELDS: Readonly<Record<string, FieldMapping>> = {
     bill: {
         title: __('Bill', 'academic-bloggers-toolkit'),
         fields: [
             {
-                value: 'title',
+                key: 'title',
                 label: __('Title', 'academic-bloggers-toolkit'),
-                required: true,
+                inputProps: {
+                    required: true,
+                },
             },
             {
-                value: 'number',
+                key: 'number',
                 label: __('Bill Number', 'academic-bloggers-toolkit'),
             },
             {
-                value: 'page',
+                key: 'page',
                 label: __('Code Pages', 'academic-bloggers-toolkit'),
             },
             {
-                value: 'volume',
+                key: 'volume',
                 label: __('Code Volume', 'academic-bloggers-toolkit'),
-                pattern: '[0-9]+',
-                title: 'One or more numbers, no spaces',
             },
             {
-                value: 'section',
+                key: 'section',
                 label: __('Section', 'academic-bloggers-toolkit'),
             },
             {
-                value: 'publisher',
+                key: 'publisher',
                 label: __('Legislative Body', 'academic-bloggers-toolkit'),
             },
             {
-                value: 'issued',
+                key: 'issued',
                 label: __('Date', 'academic-bloggers-toolkit'),
-                required: true,
-                pattern:
-                    '[0-2][0-9]{3}(?:(\\/(?:0[1-9]|1[0-2]))(\\/(?:[0-2][0-9]|3[0-1]))?)?',
-                title: 'YYYY/MM/DD or YYYY/MM or YYYY',
+                inputProps: {
+                    required: true,
+                    pattern:
+                        '[0-2][0-9]{3}(?:(\\/(?:0[1-9]|1[0-2]))(\\/(?:[0-2][0-9]|3[0-1]))?)?',
+                    title: 'YYYY/MM/DD or YYYY/MM or YYYY',
+                },
             },
             {
-                value: 'accessed',
+                key: 'accessed',
                 label: __('Date Accessed', 'academic-bloggers-toolkit'),
-                pattern:
-                    '[0-2][0-9]{3}(?:(\\/(?:0[1-9]|1[0-2]))(\\/(?:[0-2][0-9]|3[0-1]))?)?',
-                title: 'YYYY/MM/DD or YYYY/MM or YYYY',
+                inputProps: {
+                    pattern:
+                        '[0-2][0-9]{3}(?:(\\/(?:0[1-9]|1[0-2]))(\\/(?:[0-2][0-9]|3[0-1]))?)?',
+                    title: 'YYYY/MM/DD or YYYY/MM or YYYY',
+                },
             },
         ],
         people: [
             {
-                type: 'author',
+                key: 'author',
                 label: __('Sponsor', 'academic-bloggers-toolkit'),
             },
         ],
@@ -77,78 +80,78 @@ const CSL_FIELDS: CSLFields = {
         title: __('Book', 'academic-bloggers-toolkit'),
         fields: [
             {
-                value: 'title',
+                key: 'title',
                 label: __('Title', 'academic-bloggers-toolkit'),
-                required: true,
+                inputProps: {
+                    required: true,
+                },
             },
             {
-                value: 'collection-title',
+                key: 'collection-title',
                 label: __('Series Title', 'academic-bloggers-toolkit'),
             },
             {
-                value: 'collection-number',
+                key: 'collection-number',
                 label: __('Series Number', 'academic-bloggers-toolkit'),
-                pattern: '[0-9]+',
-                title: 'One or more numbers, no spaces',
             },
             {
-                value: 'number-of-pages',
+                key: 'number-of-pages',
                 label: __('# of Pages', 'academic-bloggers-toolkit'),
-                pattern: '[0-9]+',
-                title: 'One or more numbers, no spaces',
             },
             {
-                value: 'volume',
+                key: 'volume',
                 label: __('Volume', 'academic-bloggers-toolkit'),
-                pattern: '[0-9]+',
-                title: 'One or more numbers, no spaces',
             },
             {
-                value: 'edition',
+                key: 'edition',
                 label: __('Edition', 'academic-bloggers-toolkit'),
-                pattern: '[0-9]+',
-                title: 'One or more numbers, no spaces',
             },
             {
-                value: 'publisher',
+                key: 'publisher',
                 label: __('Publisher', 'academic-bloggers-toolkit'),
-                required: true,
+                inputProps: {
+                    required: true,
+                },
             },
             {
-                value: 'publisher-place',
+                key: 'publisher-place',
                 label: __('Publisher Location', 'academic-bloggers-toolkit'),
             },
             {
-                value: 'issued',
+                key: 'issued',
                 label: __('Date', 'academic-bloggers-toolkit'),
-                required: true,
-                pattern:
-                    '[0-2][0-9]{3}(?:(\\/(?:0[1-9]|1[0-2]))(\\/(?:[0-2][0-9]|3[0-1]))?)?',
-                title: 'YYYY/MM/DD or YYYY/MM or YYYY',
+                inputProps: {
+                    required: true,
+                    pattern:
+                        '[0-2][0-9]{3}(?:(\\/(?:0[1-9]|1[0-2]))(\\/(?:[0-2][0-9]|3[0-1]))?)?',
+                    title: 'YYYY/MM/DD or YYYY/MM or YYYY',
+                },
             },
             {
-                value: 'accessed',
+                key: 'accessed',
                 label: __('Date Accessed', 'academic-bloggers-toolkit'),
-                pattern:
-                    '[0-2][0-9]{3}(?:(\\/(?:0[1-9]|1[0-2]))(\\/(?:[0-2][0-9]|3[0-1]))?)?',
-                title: 'YYYY/MM/DD or YYYY/MM or YYYY',
+                inputProps: {
+                    pattern:
+                        '[0-2][0-9]{3}(?:(\\/(?:0[1-9]|1[0-2]))(\\/(?:[0-2][0-9]|3[0-1]))?)?',
+                    title: 'YYYY/MM/DD or YYYY/MM or YYYY',
+                },
             },
         ],
         people: [
             {
-                type: 'author',
+                key: 'author',
                 label: __('Author', 'academic-bloggers-toolkit'),
             },
             {
-                type: 'editor',
+                key: 'editor',
                 label: __('Editor', 'academic-bloggers-toolkit'),
             },
             {
-                type: 'collection-editor',
+                key: 'collection-editor',
                 label: __('Series Editor', 'academic-bloggers-toolkit'),
             },
             {
-                type: 'translator',
+                key: 'translator',
                 label: __('Translator', 'academic-bloggers-toolkit'),
             },
         ],
@@ -157,102 +160,104 @@ const CSL_FIELDS: CSLFields = {
         title: __('Book Chapter', 'academic-bloggers-toolkit'),
         fields: [
             {
-                value: 'title',
+                key: 'title',
                 label: __('Chapter Title', 'academic-bloggers-toolkit'),
-                required: true,
+                inputProps: {
+                    required: true,
+                },
             },
             {
-                value: 'container-title',
+                key: 'container-title',
                 label: __('Book Title', 'academic-bloggers-toolkit'),
-                required: true,
+                inputProps: {
+                    required: true,
+                },
             },
             {
-                value: 'chapter-number',
+                key: 'chapter-number',
                 label: __('Chapter Number', 'academic-bloggers-toolkit'),
-                pattern: '[0-9]+',
-                title: 'One or more numbers, no spaces',
             },
             {
-                value: 'collection-title',
+                key: 'collection-title',
                 label: __('Series', 'academic-bloggers-toolkit'),
             },
             {
-                value: 'collection-number',
+                key: 'collection-number',
                 label: __('Series Number', 'academic-bloggers-toolkit'),
-                pattern: '[0-9]+',
-                title: 'One or more numbers, no spaces',
             },
             {
-                value: 'volume',
+                key: 'volume',
                 label: __('Volume', 'academic-bloggers-toolkit'),
-                pattern: '[0-9]+',
-                title: 'One or more numbers, no spaces',
             },
             {
-                value: 'number-of-volumes',
+                key: 'number-of-volumes',
                 label: __('# of Volumes', 'academic-bloggers-toolkit'),
-                pattern: '[0-9]+',
-                title: 'One or more numbers, no spaces',
             },
             {
-                value: 'edition',
+                key: 'edition',
                 label: __('Edition', 'academic-bloggers-toolkit'),
-                pattern: '[0-9]+',
-                title: 'One or more numbers, no spaces',
             },
             {
-                value: 'publisher',
+                key: 'publisher',
                 label: __('Publisher', 'academic-bloggers-toolkit'),
-                required: true,
+                inputProps: {
+                    required: true,
+                },
             },
             {
-                value: 'publisher-place',
+                key: 'publisher-place',
                 label: __('Publisher Location', 'academic-bloggers-toolkit'),
             },
             {
-                value: 'page',
+                key: 'page',
                 label: __('Pages', 'academic-bloggers-toolkit'),
-                required: true,
+                inputProps: {
+                    required: true,
+                },
             },
             {
-                value: 'ISBN',
+                key: 'ISBN',
                 label: __('ISBN', 'academic-bloggers-toolkit'),
             },
             {
-                value: 'issued',
+                key: 'issued',
                 label: __('Date', 'academic-bloggers-toolkit'),
-                required: true,
-                pattern:
-                    '[0-2][0-9]{3}(?:(\\/(?:0[1-9]|1[0-2]))(\\/(?:[0-2][0-9]|3[0-1]))?)?',
-                title: 'YYYY/MM/DD or YYYY/MM or YYYY',
+                inputProps: {
+                    required: true,
+                    pattern:
+                        '[0-2][0-9]{3}(?:(\\/(?:0[1-9]|1[0-2]))(\\/(?:[0-2][0-9]|3[0-1]))?)?',
+                    title: 'YYYY/MM/DD or YYYY/MM or YYYY',
+                },
             },
             {
-                value: 'accessed',
+                key: 'accessed',
                 label: __('Date Accessed', 'academic-bloggers-toolkit'),
-                pattern:
-                    '[0-2][0-9]{3}(?:(\\/(?:0[1-9]|1[0-2]))(\\/(?:[0-2][0-9]|3[0-1]))?)?',
-                title: 'YYYY/MM/DD or YYYY/MM or YYYY',
+                inputProps: {
+                    pattern:
+                        '[0-2][0-9]{3}(?:(\\/(?:0[1-9]|1[0-2]))(\\/(?:[0-2][0-9]|3[0-1]))?)?',
+                    title: 'YYYY/MM/DD or YYYY/MM or YYYY',
+                },
             },
         ],
         people: [
             {
-                type: 'author',
+                key: 'author',
                 label: __('Section Author', 'academic-bloggers-toolkit'),
             },
             {
-                type: 'container-author',
+                key: 'container-author',
                 label: __('Book Author', 'academic-bloggers-toolkit'),
             },
             {
-                type: 'editor',
+                key: 'editor',
                 label: __('Editor', 'academic-bloggers-toolkit'),
             },
             {
-                type: 'collection-editor',
+                key: 'collection-editor',
                 label: __('Series Editor', 'academic-bloggers-toolkit'),
             },
             {
-                type: 'translator',
+                key: 'translator',
                 label: __('Translator', 'academic-bloggers-toolkit'),
             },
         ],
@@ -261,52 +266,58 @@ const CSL_FIELDS: CSLFields = {
         title: __('Broadcast', 'academic-bloggers-toolkit'),
         fields: [
             {
-                value: 'title',
+                key: 'title',
                 label: __('Title', 'academic-bloggers-toolkit'),
             },
             {
-                value: 'container-title',
+                key: 'container-title',
                 label: __('Program Title', 'academic-bloggers-toolkit'),
-                required: true,
+                inputProps: {
+                    required: true,
+                },
             },
             {
-                value: 'number',
+                key: 'number',
                 label: __('Episode Number', 'academic-bloggers-toolkit'),
-                pattern: '[0-9]+',
-                title: 'One or more numbers, no spaces',
             },
             {
-                value: 'medium',
+                key: 'medium',
                 label: __('Format', 'academic-bloggers-toolkit'),
             },
             {
-                value: 'publisher',
+                key: 'publisher',
                 label: __('Network', 'academic-bloggers-toolkit'),
-                required: true,
+                inputProps: {
+                    required: true,
+                },
             },
             {
-                value: 'issued',
+                key: 'issued',
                 label: __('Date', 'academic-bloggers-toolkit'),
-                required: true,
-                pattern:
-                    '[0-2][0-9]{3}(?:(\\/(?:0[1-9]|1[0-2]))(\\/(?:[0-2][0-9]|3[0-1]))?)?',
-                title: 'YYYY/MM/DD or YYYY/MM or YYYY',
+                inputProps: {
+                    required: true,
+                    pattern:
+                        '[0-2][0-9]{3}(?:(\\/(?:0[1-9]|1[0-2]))(\\/(?:[0-2][0-9]|3[0-1]))?)?',
+                    title: 'YYYY/MM/DD or YYYY/MM or YYYY',
+                },
             },
             {
-                value: 'accessed',
+                key: 'accessed',
                 label: __('Date Accessed', 'academic-bloggers-toolkit'),
-                pattern:
-                    '[0-2][0-9]{3}(?:(\\/(?:0[1-9]|1[0-2]))(\\/(?:[0-2][0-9]|3[0-1]))?)?',
-                title: 'YYYY/MM/DD or YYYY/MM or YYYY',
+                inputProps: {
+                    pattern:
+                        '[0-2][0-9]{3}(?:(\\/(?:0[1-9]|1[0-2]))(\\/(?:[0-2][0-9]|3[0-1]))?)?',
+                    title: 'YYYY/MM/DD or YYYY/MM or YYYY',
+                },
             },
         ],
         people: [
             {
-                type: 'author',
+                key: 'author',
                 label: __('Producer', 'academic-bloggers-toolkit'),
             },
             {
-                type: 'director',
+                key: 'director',
                 label: __('Director', 'academic-bloggers-toolkit'),
             },
         ],
@@ -315,44 +326,52 @@ const CSL_FIELDS: CSLFields = {
         title: __('Conference Proceeding', 'academic-bloggers-toolkit'),
         fields: [
             {
-                value: 'title',
+                key: 'title',
                 label: __('Title', 'academic-bloggers-toolkit'),
-                required: true,
+                inputProps: {
+                    required: true,
+                },
             },
             {
-                value: 'event',
+                key: 'event',
                 label: __('Conference Name', 'academic-bloggers-toolkit'),
-                required: true,
+                inputProps: {
+                    required: true,
+                },
             },
             {
-                value: 'publisher-place',
+                key: 'publisher-place',
                 label: __('Conference Location', 'academic-bloggers-toolkit'),
-                required: true,
+                inputProps: {
+                    required: true,
+                },
             },
             {
-                value: 'issued',
+                key: 'issued',
                 label: __('Date', 'academic-bloggers-toolkit'),
-                required: true,
-                pattern:
-                    '[0-2][0-9]{3}(?:(\\/(?:0[1-9]|1[0-2]))(\\/(?:[0-2][0-9]|3[0-1]))?)?',
-                title: 'YYYY/MM/DD or YYYY/MM or YYYY',
+                inputProps: {
+                    required: true,
+                    pattern:
+                        '[0-2][0-9]{3}(?:(\\/(?:0[1-9]|1[0-2]))(\\/(?:[0-2][0-9]|3[0-1]))?)?',
+                    title: 'YYYY/MM/DD or YYYY/MM or YYYY',
+                },
             },
         ],
         people: [
             {
-                type: 'author',
+                key: 'author',
                 label: __('Author', 'academic-bloggers-toolkit'),
             },
             {
-                type: 'editor',
+                key: 'editor',
                 label: __('Editor', 'academic-bloggers-toolkit'),
             },
             {
-                type: 'collection-editor',
+                key: 'collection-editor',
                 label: __('Series Editor', 'academic-bloggers-toolkit'),
             },
             {
-                type: 'translator',
+                key: 'translator',
                 label: __('Translator', 'academic-bloggers-toolkit'),
             },
         ],
@@ -361,87 +380,89 @@ const CSL_FIELDS: CSLFields = {
         title: __('Encyclopedia Entry', 'academic-bloggers-toolkit'),
         fields: [
             {
-                value: 'title',
+                key: 'title',
                 label: __('Title', 'academic-bloggers-toolkit'),
-                required: true,
+                inputProps: {
+                    required: true,
+                },
             },
             {
-                value: 'container-title',
+                key: 'container-title',
                 label: __('Encyclopedia Title', 'academic-bloggers-toolkit'),
-                required: true,
+                inputProps: {
+                    required: true,
+                },
             },
             {
-                value: 'collection-title',
+                key: 'collection-title',
                 label: __('Series', 'academic-bloggers-toolkit'),
             },
             {
-                value: 'collection-number',
+                key: 'collection-number',
                 label: __('Series Number', 'academic-bloggers-toolkit'),
-                pattern: '[0-9]+',
-                title: 'One or more numbers, no spaces',
             },
             {
-                value: 'volume',
+                key: 'volume',
                 label: __('Volume', 'academic-bloggers-toolkit'),
-                pattern: '[0-9]+',
-                title: 'One or more numbers, no spaces',
             },
             {
-                value: 'number-of-volumes',
+                key: 'number-of-volumes',
                 label: __('# of Volumes', 'academic-bloggers-toolkit'),
-                pattern: '[0-9]+',
-                title: 'One or more numbers, no spaces',
             },
             {
-                value: 'edition',
+                key: 'edition',
                 label: __('Edition', 'academic-bloggers-toolkit'),
-                pattern: '[0-9]+',
-                title: 'One or more numbers, no spaces',
             },
             {
-                value: 'publisher',
+                key: 'publisher',
                 label: __('Publisher', 'academic-bloggers-toolkit'),
             },
             {
-                value: 'publisher-place',
+                key: 'publisher-place',
                 label: __('Publisher Location', 'academic-bloggers-toolkit'),
             },
             {
-                value: 'page',
+                key: 'page',
                 label: __('Pages', 'academic-bloggers-toolkit'),
-                required: true,
+                inputProps: {
+                    required: true,
+                },
             },
             {
-                value: 'issued',
+                key: 'issued',
                 label: __('Date', 'academic-bloggers-toolkit'),
-                required: true,
-                pattern:
-                    '[0-2][0-9]{3}(?:(\\/(?:0[1-9]|1[0-2]))(\\/(?:[0-2][0-9]|3[0-1]))?)?',
-                title: 'YYYY/MM/DD or YYYY/MM or YYYY',
+                inputProps: {
+                    required: true,
+                    pattern:
+                        '[0-2][0-9]{3}(?:(\\/(?:0[1-9]|1[0-2]))(\\/(?:[0-2][0-9]|3[0-1]))?)?',
+                    title: 'YYYY/MM/DD or YYYY/MM or YYYY',
+                },
             },
             {
-                value: 'accessed',
+                key: 'accessed',
                 label: __('Date Accessed', 'academic-bloggers-toolkit'),
-                pattern:
-                    '[0-2][0-9]{3}(?:(\\/(?:0[1-9]|1[0-2]))(\\/(?:[0-2][0-9]|3[0-1]))?)?',
-                title: 'YYYY/MM/DD or YYYY/MM or YYYY',
+                inputProps: {
+                    pattern:
+                        '[0-2][0-9]{3}(?:(\\/(?:0[1-9]|1[0-2]))(\\/(?:[0-2][0-9]|3[0-1]))?)?',
+                    title: 'YYYY/MM/DD or YYYY/MM or YYYY',
+                },
             },
         ],
         people: [
             {
-                type: 'author',
+                key: 'author',
                 label: __('Author', 'academic-bloggers-toolkit'),
             },
             {
-                type: 'editor',
+                key: 'editor',
                 label: __('Editor', 'academic-bloggers-toolkit'),
             },
             {
-                type: 'collection-editor',
+                key: 'collection-editor',
                 label: __('Series Editor', 'academic-bloggers-toolkit'),
             },
             {
-                type: 'translator',
+                key: 'translator',
                 label: __('Translator', 'academic-bloggers-toolkit'),
             },
         ],
@@ -450,53 +471,59 @@ const CSL_FIELDS: CSLFields = {
         title: __('Film', 'academic-bloggers-toolkit'),
         fields: [
             {
-                value: 'title',
+                key: 'title',
                 label: __('Title', 'academic-bloggers-toolkit'),
-                required: true,
+                inputProps: {
+                    required: true,
+                },
             },
             {
-                value: 'publisher',
+                key: 'publisher',
                 label: __('Distributor', 'academic-bloggers-toolkit'),
             },
             {
-                value: 'genre',
+                key: 'genre',
                 label: __('Genre', 'academic-bloggers-toolkit'),
             },
             {
-                value: 'language',
+                key: 'language',
                 label: __('Language', 'academic-bloggers-toolkit'),
             },
             {
-                value: 'medium',
+                key: 'medium',
                 label: __('Format', 'academic-bloggers-toolkit'),
             },
             {
-                value: 'issued',
+                key: 'issued',
                 label: __('Date', 'academic-bloggers-toolkit'),
-                required: true,
-                pattern:
-                    '[0-2][0-9]{3}(?:(\\/(?:0[1-9]|1[0-2]))(\\/(?:[0-2][0-9]|3[0-1]))?)?',
-                title: 'YYYY/MM/DD or YYYY/MM or YYYY',
+                inputProps: {
+                    required: true,
+                    pattern:
+                        '[0-2][0-9]{3}(?:(\\/(?:0[1-9]|1[0-2]))(\\/(?:[0-2][0-9]|3[0-1]))?)?',
+                    title: 'YYYY/MM/DD or YYYY/MM or YYYY',
+                },
             },
             {
-                value: 'accessed',
+                key: 'accessed',
                 label: __('Date Accessed', 'academic-bloggers-toolkit'),
-                pattern:
-                    '[0-2][0-9]{3}(?:(\\/(?:0[1-9]|1[0-2]))(\\/(?:[0-2][0-9]|3[0-1]))?)?',
-                title: 'YYYY/MM/DD or YYYY/MM or YYYY',
+                inputProps: {
+                    pattern:
+                        '[0-2][0-9]{3}(?:(\\/(?:0[1-9]|1[0-2]))(\\/(?:[0-2][0-9]|3[0-1]))?)?',
+                    title: 'YYYY/MM/DD or YYYY/MM or YYYY',
+                },
             },
         ],
         people: [
             {
-                type: 'author',
+                key: 'author',
                 label: __('Scriptwriter', 'academic-bloggers-toolkit'),
             },
             {
-                type: 'director',
+                key: 'director',
                 label: __('Director', 'academic-bloggers-toolkit'),
             },
             {
-                type: 'editor',
+                key: 'editor',
                 label: __('Producer', 'academic-bloggers-toolkit'),
             },
         ],
@@ -505,58 +532,61 @@ const CSL_FIELDS: CSLFields = {
         title: __('Journal Article', 'academic-bloggers-toolkit'),
         fields: [
             {
-                value: 'title',
+                key: 'title',
                 label: __('Title', 'academic-bloggers-toolkit'),
-                required: true,
+                inputProps: {
+                    required: true,
+                },
             },
             {
-                value: 'container-title',
+                key: 'container-title',
                 label: __('Journal', 'academic-bloggers-toolkit'),
-                required: true,
+                inputProps: {
+                    required: true,
+                },
             },
             {
-                value: 'journalAbbreviation',
+                key: 'journalAbbreviation',
                 label: __('Journal Abbreviation', 'academic-bloggers-toolkit'),
             },
             {
-                value: 'volume',
+                key: 'volume',
                 label: __('Volume', 'academic-bloggers-toolkit'),
-                pattern: '[0-9]+',
-                title: 'One or more numbers, no spaces',
             },
             {
-                value: 'issue',
+                key: 'issue',
                 label: __('Issue', 'academic-bloggers-toolkit'),
-                pattern: '[0-9]+',
             },
             {
-                value: 'page',
+                key: 'page',
                 label: __('Pages', 'academic-bloggers-toolkit'),
             },
             {
-                value: 'DOI',
+                key: 'DOI',
                 label: __('DOI', 'academic-bloggers-toolkit'),
             },
             {
-                value: 'URL',
+                key: 'URL',
                 label: __('URL', 'academic-bloggers-toolkit'),
             },
             {
-                value: 'issued',
+                key: 'issued',
                 label: __('Date', 'academic-bloggers-toolkit'),
-                required: true,
-                pattern:
-                    '[0-2][0-9]{3}(?:(\\/(?:0[1-9]|1[0-2]))(\\/(?:[0-2][0-9]|3[0-1]))?)?',
-                title: 'YYYY/MM/DD or YYYY/MM or YYYY',
+                inputProps: {
+                    required: true,
+                    pattern:
+                        '[0-2][0-9]{3}(?:(\\/(?:0[1-9]|1[0-2]))(\\/(?:[0-2][0-9]|3[0-1]))?)?',
+                    title: 'YYYY/MM/DD or YYYY/MM or YYYY',
+                },
             },
         ],
         people: [
             {
-                type: 'author',
+                key: 'author',
                 label: __('Author', 'academic-bloggers-toolkit'),
             },
             {
-                type: 'editor',
+                key: 'editor',
                 label: __('Editor', 'academic-bloggers-toolkit'),
             },
         ],
@@ -565,40 +595,50 @@ const CSL_FIELDS: CSLFields = {
         title: __('Legal Case', 'academic-bloggers-toolkit'),
         fields: [
             {
-                value: 'title',
+                key: 'title',
                 label: __('Case Name', 'academic-bloggers-toolkit'),
-                required: true,
+                inputProps: {
+                    required: true,
+                },
             },
             {
-                value: 'authority',
+                key: 'authority',
                 label: __('Court', 'academic-bloggers-toolkit'),
-                required: true,
+                inputProps: {
+                    required: true,
+                },
             },
             {
-                value: 'number',
+                key: 'number',
                 label: __('Docket Number', 'academic-bloggers-toolkit'),
-                pattern: '\\S*',
-                title: 'Any combination of non-whitespace characters',
+                inputProps: {
+                    pattern: '\\S*',
+                    title: 'Any combination of non-whitespace characters',
+                },
             },
             {
-                value: 'issued',
+                key: 'issued',
                 label: __('Date', 'academic-bloggers-toolkit'),
-                required: true,
-                pattern:
-                    '[0-2][0-9]{3}(?:(\\/(?:0[1-9]|1[0-2]))(\\/(?:[0-2][0-9]|3[0-1]))?)?',
-                title: 'YYYY/MM/DD or YYYY/MM or YYYY',
+                inputProps: {
+                    required: true,
+                    pattern:
+                        '[0-2][0-9]{3}(?:(\\/(?:0[1-9]|1[0-2]))(\\/(?:[0-2][0-9]|3[0-1]))?)?',
+                    title: 'YYYY/MM/DD or YYYY/MM or YYYY',
+                },
             },
             {
-                value: 'accessed',
+                key: 'accessed',
                 label: __('Date Accessed', 'academic-bloggers-toolkit'),
-                pattern:
-                    '[0-2][0-9]{3}(?:(\\/(?:0[1-9]|1[0-2]))(\\/(?:[0-2][0-9]|3[0-1]))?)?',
-                title: 'YYYY/MM/DD or YYYY/MM or YYYY',
+                inputProps: {
+                    pattern:
+                        '[0-2][0-9]{3}(?:(\\/(?:0[1-9]|1[0-2]))(\\/(?:[0-2][0-9]|3[0-1]))?)?',
+                    title: 'YYYY/MM/DD or YYYY/MM or YYYY',
+                },
             },
         ],
         people: [
             {
-                type: 'author',
+                key: 'author',
                 label: __('Author', 'academic-bloggers-toolkit'),
             },
         ],
@@ -607,61 +647,69 @@ const CSL_FIELDS: CSLFields = {
         title: __('Magazine Article', 'academic-bloggers-toolkit'),
         fields: [
             {
-                value: 'title',
+                key: 'title',
                 label: __('Title', 'academic-bloggers-toolkit'),
-                required: true,
+                inputProps: {
+                    required: true,
+                },
             },
             {
-                value: 'container-title',
+                key: 'container-title',
                 label: __('Magazine', 'academic-bloggers-toolkit'),
-                required: true,
+                inputProps: {
+                    required: true,
+                },
             },
             {
-                value: 'volume',
+                key: 'volume',
                 label: __('Volume', 'academic-bloggers-toolkit'),
-                pattern: '[0-9]+',
-                title: 'One or more numbers, no spaces',
             },
             {
-                value: 'page',
+                key: 'page',
                 label: __('Pages', 'academic-bloggers-toolkit'),
-                required: true,
+                inputProps: {
+                    required: true,
+                },
             },
             {
-                value: 'issue',
+                key: 'issue',
                 label: __('Issue', 'academic-bloggers-toolkit'),
             },
             {
-                value: 'ISSN',
+                key: 'ISSN',
                 label: __('ISSN', 'academic-bloggers-toolkit'),
             },
             {
-                value: 'URL',
+                key: 'URL',
                 label: __('URL', 'academic-bloggers-toolkit'),
             },
             {
-                value: 'issued',
+                key: 'issued',
                 label: __('Date', 'academic-bloggers-toolkit'),
-                required: true,
-                pattern:
-                    '[0-2][0-9]{3}(?:(\\/(?:0[1-9]|1[0-2]))(\\/(?:[0-2][0-9]|3[0-1]))?)?',
-                title: 'YYYY/MM/DD or YYYY/MM or YYYY',
+                inputProps: {
+                    required: true,
+                    pattern:
+                        '[0-2][0-9]{3}(?:(\\/(?:0[1-9]|1[0-2]))(\\/(?:[0-2][0-9]|3[0-1]))?)?',
+                    title: 'YYYY/MM/DD or YYYY/MM or YYYY',
+                },
             },
             {
-                value: 'accessed',
+                key: 'accessed',
                 label: __('Date Accessed', 'academic-bloggers-toolkit'),
-                pattern:
-                    '[0-2][0-9]{3}(?:(\\/(?:0[1-9]|1[0-2]))(\\/(?:[0-2][0-9]|3[0-1]))?)?',
-                title: 'YYYY/MM/DD or YYYY/MM or YYYY',
+                inputProps: {
+                    pattern:
+                        '[0-2][0-9]{3}(?:(\\/(?:0[1-9]|1[0-2]))(\\/(?:[0-2][0-9]|3[0-1]))?)?',
+                    title: 'YYYY/MM/DD or YYYY/MM or YYYY',
+                },
             },
         ],
         people: [
             {
-                type: 'author',
+                key: 'author',
                 label: __('Author', 'academic-bloggers-toolkit'),
             },
             {
-                type: 'editor',
+                key: 'editor',
                 label: __('Editor', 'academic-bloggers-toolkit'),
             },
         ],
@@ -670,55 +718,65 @@ const CSL_FIELDS: CSLFields = {
         title: __('Newspaper Article', 'academic-bloggers-toolkit'),
         fields: [
             {
-                value: 'title',
+                key: 'title',
                 label: __('Title', 'academic-bloggers-toolkit'),
-                required: true,
+                inputProps: {
+                    required: true,
+                },
             },
             {
-                value: 'container-title',
+                key: 'container-title',
                 label: __('Publication', 'academic-bloggers-toolkit'),
-                required: true,
+                inputProps: {
+                    required: true,
+                },
             },
             {
-                value: 'section',
+                key: 'section',
                 label: __('Section', 'academic-bloggers-toolkit'),
             },
             {
-                value: 'page',
+                key: 'page',
                 label: __('Pages', 'academic-bloggers-toolkit'),
-                required: true,
+                inputProps: {
+                    required: true,
+                },
             },
             {
-                value: 'issue',
+                key: 'issue',
                 label: __('Issue', 'academic-bloggers-toolkit'),
             },
             {
-                value: 'URL',
+                key: 'URL',
                 label: __('URL', 'academic-bloggers-toolkit'),
             },
             {
-                value: 'issued',
+                key: 'issued',
                 label: __('Date', 'academic-bloggers-toolkit'),
-                required: true,
-                pattern:
-                    '[0-2][0-9]{3}(?:(\\/(?:0[1-9]|1[0-2]))(\\/(?:[0-2][0-9]|3[0-1]))?)?',
-                title: 'YYYY/MM/DD or YYYY/MM or YYYY',
+                inputProps: {
+                    required: true,
+                    pattern:
+                        '[0-2][0-9]{3}(?:(\\/(?:0[1-9]|1[0-2]))(\\/(?:[0-2][0-9]|3[0-1]))?)?',
+                    title: 'YYYY/MM/DD or YYYY/MM or YYYY',
+                },
             },
             {
-                value: 'accessed',
+                key: 'accessed',
                 label: __('Date Accessed', 'academic-bloggers-toolkit'),
-                pattern:
-                    '[0-2][0-9]{3}(?:(\\/(?:0[1-9]|1[0-2]))(\\/(?:[0-2][0-9]|3[0-1]))?)?',
-                title: 'YYYY/MM/DD or YYYY/MM or YYYY',
+                inputProps: {
+                    pattern:
+                        '[0-2][0-9]{3}(?:(\\/(?:0[1-9]|1[0-2]))(\\/(?:[0-2][0-9]|3[0-1]))?)?',
+                    title: 'YYYY/MM/DD or YYYY/MM or YYYY',
+                },
             },
         ],
         people: [
             {
-                type: 'author',
+                key: 'author',
                 label: __('Author', 'academic-bloggers-toolkit'),
             },
             {
-                type: 'editor',
+                key: 'editor',
                 label: __('Editor', 'academic-bloggers-toolkit'),
             },
         ],
@@ -727,48 +785,60 @@ const CSL_FIELDS: CSLFields = {
         title: __('Patent', 'academic-bloggers-toolkit'),
         fields: [
             {
-                value: 'title',
+                key: 'title',
                 label: __('Title', 'academic-bloggers-toolkit'),
-                required: true,
+                inputProps: {
+                    required: true,
+                },
             },
             {
-                value: 'number',
+                key: 'number',
                 label: __('Number', 'academic-bloggers-toolkit'),
-                required: true,
+                inputProps: {
+                    required: true,
+                },
             },
             {
-                value: 'jurisdiction',
+                key: 'jurisdiction',
                 label: __('Jurisdiction', 'academic-bloggers-toolkit'),
-                required: true,
+                inputProps: {
+                    required: true,
+                },
             },
             {
-                value: 'page',
+                key: 'page',
                 label: __('Pages', 'academic-bloggers-toolkit'),
             },
             {
-                value: 'publisher',
+                key: 'publisher',
                 label: __('Issuer', 'academic-bloggers-toolkit'),
-                required: true,
+                inputProps: {
+                    required: true,
+                },
             },
             {
-                value: 'issued',
+                key: 'issued',
                 label: __('Date', 'academic-bloggers-toolkit'),
-                required: true,
-                pattern:
-                    '[0-2][0-9]{3}(?:(\\/(?:0[1-9]|1[0-2]))(\\/(?:[0-2][0-9]|3[0-1]))?)?',
-                title: 'YYYY/MM/DD or YYYY/MM or YYYY',
+                inputProps: {
+                    required: true,
+                    pattern:
+                        '[0-2][0-9]{3}(?:(\\/(?:0[1-9]|1[0-2]))(\\/(?:[0-2][0-9]|3[0-1]))?)?',
+                    title: 'YYYY/MM/DD or YYYY/MM or YYYY',
+                },
             },
             {
-                value: 'accessed',
+                key: 'accessed',
                 label: __('Date Accessed', 'academic-bloggers-toolkit'),
-                pattern:
-                    '[0-2][0-9]{3}(?:(\\/(?:0[1-9]|1[0-2]))(\\/(?:[0-2][0-9]|3[0-1]))?)?',
-                title: 'YYYY/MM/DD or YYYY/MM or YYYY',
+                inputProps: {
+                    pattern:
+                        '[0-2][0-9]{3}(?:(\\/(?:0[1-9]|1[0-2]))(\\/(?:[0-2][0-9]|3[0-1]))?)?',
+                    title: 'YYYY/MM/DD or YYYY/MM or YYYY',
+                },
             },
         ],
         people: [
             {
-                type: 'author',
+                key: 'author',
                 label: __('Inventor', 'academic-bloggers-toolkit'),
             },
         ],
@@ -777,35 +847,41 @@ const CSL_FIELDS: CSLFields = {
         title: __('Presentation', 'academic-bloggers-toolkit'),
         fields: [
             {
-                value: 'title',
+                key: 'title',
                 label: __('Title', 'academic-bloggers-toolkit'),
-                required: true,
+                inputProps: {
+                    required: true,
+                },
             },
             {
-                value: 'event',
+                key: 'event',
                 label: __('Event Name', 'academic-bloggers-toolkit'),
-                required: true,
+                inputProps: {
+                    required: true,
+                },
             },
             {
-                value: 'event-place',
+                key: 'event-place',
                 label: __('Event Location', 'academic-bloggers-toolkit'),
             },
             {
-                value: 'language',
+                key: 'language',
                 label: __('Language', 'academic-bloggers-toolkit'),
             },
             {
-                value: 'issued',
+                key: 'issued',
                 label: __('Date', 'academic-bloggers-toolkit'),
-                required: true,
-                pattern:
-                    '[0-2][0-9]{3}(?:(\\/(?:0[1-9]|1[0-2]))(\\/(?:[0-2][0-9]|3[0-1]))?)?',
-                title: 'YYYY/MM/DD or YYYY/MM or YYYY',
+                inputProps: {
+                    required: true,
+                    pattern:
+                        '[0-2][0-9]{3}(?:(\\/(?:0[1-9]|1[0-2]))(\\/(?:[0-2][0-9]|3[0-1]))?)?',
+                    title: 'YYYY/MM/DD or YYYY/MM or YYYY',
+                },
             },
         ],
         people: [
             {
-                type: 'author',
+                key: 'author',
                 label: __('Presenter', 'academic-bloggers-toolkit'),
             },
         ],
@@ -814,65 +890,73 @@ const CSL_FIELDS: CSLFields = {
         title: __('Report', 'academic-bloggers-toolkit'),
         fields: [
             {
-                value: 'title',
+                key: 'title',
                 label: __('Title', 'academic-bloggers-toolkit'),
-                required: true,
+                inputProps: {
+                    required: true,
+                },
             },
             {
-                value: 'number',
+                key: 'number',
                 label: __('Number', 'academic-bloggers-toolkit'),
-                pattern: '[0-9]+',
-                title: 'One or more numbers, no spaces',
             },
             {
-                value: 'collection-title',
+                key: 'collection-title',
                 label: __('Series', 'academic-bloggers-toolkit'),
             },
             {
-                value: 'container-title',
+                key: 'container-title',
                 label: __('Publication', 'academic-bloggers-toolkit'),
             },
             {
-                value: 'publisher',
+                key: 'publisher',
                 label: __('Publisher', 'academic-bloggers-toolkit'),
-                required: true,
+                inputProps: {
+                    required: true,
+                },
             },
             {
-                value: 'page',
+                key: 'page',
                 label: __('Pages', 'academic-bloggers-toolkit'),
-                required: true,
+                inputProps: {
+                    required: true,
+                },
             },
             {
-                value: 'URL',
+                key: 'URL',
                 label: __('URL', 'academic-bloggers-toolkit'),
             },
             {
-                value: 'issued',
+                key: 'issued',
                 label: __('Date', 'academic-bloggers-toolkit'),
-                required: true,
-                pattern:
-                    '[0-2][0-9]{3}(?:(\\/(?:0[1-9]|1[0-2]))(\\/(?:[0-2][0-9]|3[0-1]))?)?',
-                title: 'YYYY/MM/DD or YYYY/MM or YYYY',
+                inputProps: {
+                    required: true,
+                    pattern:
+                        '[0-2][0-9]{3}(?:(\\/(?:0[1-9]|1[0-2]))(\\/(?:[0-2][0-9]|3[0-1]))?)?',
+                    title: 'YYYY/MM/DD or YYYY/MM or YYYY',
+                },
             },
             {
-                value: 'accessed',
+                key: 'accessed',
                 label: __('Date Accessed', 'academic-bloggers-toolkit'),
-                pattern:
-                    '[0-2][0-9]{3}(?:(\\/(?:0[1-9]|1[0-2]))(\\/(?:[0-2][0-9]|3[0-1]))?)?',
-                title: 'YYYY/MM/DD or YYYY/MM or YYYY',
+                inputProps: {
+                    pattern:
+                        '[0-2][0-9]{3}(?:(\\/(?:0[1-9]|1[0-2]))(\\/(?:[0-2][0-9]|3[0-1]))?)?',
+                    title: 'YYYY/MM/DD or YYYY/MM or YYYY',
+                },
             },
         ],
         people: [
             {
-                type: 'author',
+                key: 'author',
                 label: __('Author', 'academic-bloggers-toolkit'),
             },
             {
-                type: 'collection-editor',
+                key: 'collection-editor',
                 label: __('Series Editor', 'academic-bloggers-toolkit'),
             },
             {
-                type: 'translator',
+                key: 'translator',
                 label: __('Translator', 'academic-bloggers-toolkit'),
             },
         ],
@@ -881,44 +965,50 @@ const CSL_FIELDS: CSLFields = {
         title: __('Statute', 'academic-bloggers-toolkit'),
         fields: [
             {
-                value: 'title',
+                key: 'title',
                 label: __('Title', 'academic-bloggers-toolkit'),
-                required: true,
+                inputProps: {
+                    required: true,
+                },
             },
             {
-                value: 'number',
+                key: 'number',
                 label: __('Statute Number', 'academic-bloggers-toolkit'),
-                pattern: '[0-9]+',
-                title: 'One or more numbers, no spaces',
             },
             {
-                value: 'section',
+                key: 'section',
                 label: __('Section', 'academic-bloggers-toolkit'),
             },
             {
-                value: 'page',
+                key: 'page',
                 label: __('Pages', 'academic-bloggers-toolkit'),
-                required: true,
+                inputProps: {
+                    required: true,
+                },
             },
             {
-                value: 'issued',
+                key: 'issued',
                 label: __('Date', 'academic-bloggers-toolkit'),
-                required: true,
-                pattern:
-                    '[0-2][0-9]{3}(?:(\\/(?:0[1-9]|1[0-2]))(\\/(?:[0-2][0-9]|3[0-1]))?)?',
-                title: 'YYYY/MM/DD or YYYY/MM or YYYY',
+                inputProps: {
+                    required: true,
+                    pattern:
+                        '[0-2][0-9]{3}(?:(\\/(?:0[1-9]|1[0-2]))(\\/(?:[0-2][0-9]|3[0-1]))?)?',
+                    title: 'YYYY/MM/DD or YYYY/MM or YYYY',
+                },
             },
             {
-                value: 'accessed',
+                key: 'accessed',
                 label: __('Date Accessed', 'academic-bloggers-toolkit'),
-                pattern:
-                    '[0-2][0-9]{3}(?:(\\/(?:0[1-9]|1[0-2]))(\\/(?:[0-2][0-9]|3[0-1]))?)?',
-                title: 'YYYY/MM/DD or YYYY/MM or YYYY',
+                inputProps: {
+                    pattern:
+                        '[0-2][0-9]{3}(?:(\\/(?:0[1-9]|1[0-2]))(\\/(?:[0-2][0-9]|3[0-1]))?)?',
+                    title: 'YYYY/MM/DD or YYYY/MM or YYYY',
+                },
             },
         ],
         people: [
             {
-                type: 'author',
+                key: 'author',
                 label: __('Author', 'academic-bloggers-toolkit'),
             },
         ],
@@ -927,44 +1017,50 @@ const CSL_FIELDS: CSLFields = {
         title: __('Thesis', 'academic-bloggers-toolkit'),
         fields: [
             {
-                value: 'title',
+                key: 'title',
                 label: __('Title', 'academic-bloggers-toolkit'),
-                required: true,
+                inputProps: {
+                    required: true,
+                },
             },
             {
-                value: 'number-of-pages',
+                key: 'number-of-pages',
                 label: __('# of Pages', 'academic-bloggers-toolkit'),
-                pattern: '[0-9]+',
-                title: 'One or more numbers, no spaces',
             },
             {
-                value: 'publisher',
+                key: 'publisher',
                 label: __('University', 'academic-bloggers-toolkit'),
-                required: true,
+                inputProps: {
+                    required: true,
+                },
             },
             {
-                value: 'publisher-place',
+                key: 'publisher-place',
                 label: __('Location', 'academic-bloggers-toolkit'),
             },
             {
-                value: 'issued',
+                key: 'issued',
                 label: __('Date', 'academic-bloggers-toolkit'),
-                required: true,
-                pattern:
-                    '[0-2][0-9]{3}(?:(\\/(?:0[1-9]|1[0-2]))(\\/(?:[0-2][0-9]|3[0-1]))?)?',
-                title: 'YYYY/MM/DD or YYYY/MM or YYYY',
+                inputProps: {
+                    required: true,
+                    pattern:
+                        '[0-2][0-9]{3}(?:(\\/(?:0[1-9]|1[0-2]))(\\/(?:[0-2][0-9]|3[0-1]))?)?',
+                    title: 'YYYY/MM/DD or YYYY/MM or YYYY',
+                },
             },
             {
-                value: 'accessed',
+                key: 'accessed',
                 label: __('Date Accessed', 'academic-bloggers-toolkit'),
-                pattern:
-                    '[0-2][0-9]{3}(?:(\\/(?:0[1-9]|1[0-2]))(\\/(?:[0-2][0-9]|3[0-1]))?)?',
-                title: 'YYYY/MM/DD or YYYY/MM or YYYY',
+                inputProps: {
+                    pattern:
+                        '[0-2][0-9]{3}(?:(\\/(?:0[1-9]|1[0-2]))(\\/(?:[0-2][0-9]|3[0-1]))?)?',
+                    title: 'YYYY/MM/DD or YYYY/MM or YYYY',
+                },
             },
         ],
         people: [
             {
-                type: 'author',
+                key: 'author',
                 label: __('Author', 'academic-bloggers-toolkit'),
             },
         ],
@@ -973,38 +1069,48 @@ const CSL_FIELDS: CSLFields = {
         title: __('Web Page', 'academic-bloggers-toolkit'),
         fields: [
             {
-                value: 'title',
+                key: 'title',
                 label: __('Content Title', 'academic-bloggers-toolkit'),
-                required: true,
+                inputProps: {
+                    required: true,
+                },
             },
             {
-                value: 'container-title',
+                key: 'container-title',
                 label: __('Website Title', 'academic-bloggers-toolkit'),
-                required: true,
+                inputProps: {
+                    required: true,
+                },
             },
             {
-                value: 'URL',
+                key: 'URL',
                 label: __('URL', 'academic-bloggers-toolkit'),
-                required: true,
+                inputProps: {
+                    required: true,
+                },
             },
             {
-                value: 'issued',
+                key: 'issued',
                 label: __('Date', 'academic-bloggers-toolkit'),
-                pattern:
-                    '[0-2][0-9]{3}(?:(\\/(?:0[1-9]|1[0-2]))(\\/(?:[0-2][0-9]|3[0-1]))?)?',
-                title: 'YYYY/MM/DD or YYYY/MM or YYYY',
+                inputProps: {
+                    pattern:
+                        '[0-2][0-9]{3}(?:(\\/(?:0[1-9]|1[0-2]))(\\/(?:[0-2][0-9]|3[0-1]))?)?',
+                    title: 'YYYY/MM/DD or YYYY/MM or YYYY',
+                },
             },
             {
-                value: 'accessed',
+                key: 'accessed',
                 label: __('Date Accessed', 'academic-bloggers-toolkit'),
-                pattern:
-                    '[0-2][0-9]{3}(?:(\\/(?:0[1-9]|1[0-2]))(\\/(?:[0-2][0-9]|3[0-1]))?)?',
-                title: 'YYYY/MM/DD or YYYY/MM or YYYY',
+                inputProps: {
+                    pattern:
+                        '[0-2][0-9]{3}(?:(\\/(?:0[1-9]|1[0-2]))(\\/(?:[0-2][0-9]|3[0-1]))?)?',
+                    title: 'YYYY/MM/DD or YYYY/MM or YYYY',
+                },
             },
         ],
         people: [
             {
-                type: 'author',
+                key: 'author',
                 label: __('Author', 'academic-bloggers-toolkit'),
             },
         ],

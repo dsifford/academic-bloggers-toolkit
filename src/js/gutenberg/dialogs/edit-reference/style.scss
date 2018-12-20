@@ -1,0 +1,18 @@
+.toolbar {
+    display: grid;
+    grid-template-columns: auto auto;
+    gap: 16px;
+    align-items: center;
+
+    > button {
+        justify-self: flex-end;
+    }
+
+    :global(.components-toggle-control .components-base-control__field) {
+        margin: 0;
+
+        :global(.components-toggle-control__label) {
+            margin: 0;
+        }
+    }
+}

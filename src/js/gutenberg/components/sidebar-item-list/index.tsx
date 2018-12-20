@@ -1,8 +1,11 @@
 import { compose } from '@wordpress/compose';
 import { withDispatch } from '@wordpress/data';
+import { Component, ComponentType } from '@wordpress/element';
 
-import SidebarItem from './sidebar-item';
-import styles from './sidebar-item-list.scss';
+import SidebarItem from 'gutenberg/components/sidebar-item';
+import EditReferenceDialog from 'gutenberg/dialogs/edit-reference';
+
+import styles from './style.scss';
 
 interface DispatchProps {
     toggleItemSelected(id: string): void;
@@ -15,27 +18,51 @@ interface OwnProps {
 
 type Props = DispatchProps & OwnProps;
 
-const SidebarItemList = ({
-    items,
-    selectedItems,
-    toggleItemSelected,
-}: Props) => (
-    <div className={styles.list} role="listbox" aria-multiselectable={true}>
-        {items.map(item => (
-            <SidebarItem
-                key={item.id}
-                isSelected={selectedItems.includes(item.id)}
-                item={item}
-                onClick={id => toggleItemSelected(id)}
-            />
-        ))}
-    </div>
-);
+interface State {
+    editReferenceId: string;
+}
+
+class SidebarItemList extends Component<Props, State> {
+    state: State = {
+        editReferenceId: '',
+    };
+    render() {
+        const { items, selectedItems, toggleItemSelected } = this.props;
+        const { editReferenceId } = this.state;
+        return (
+            <>
+                <EditReferenceDialog
+                    isOpen={!!editReferenceId}
+                    itemId={editReferenceId}
+                    onClose={() => this.setState({ editReferenceId: '' })}
+                    onSubmit={data => console.log(data)}
+                />
+                <div
+                    className={styles.list}
+                    role="listbox"
+                    aria-multiselectable={true}
+                >
+                    {items.map(item => (
+                        <SidebarItem
+                            key={item.id}
+                            isSelected={selectedItems.includes(item.id)}
+                            item={item}
+                            onClick={id => toggleItemSelected(id)}
+                            onDoubleClick={id =>
+                                this.setState({ editReferenceId: id })
+                            }
+                        />
+                    ))}
+                </div>
+            </>
+        );
+    }
+}
 
 export default compose([
-    withDispatch<DispatchProps>(dispatch => ({
+    withDispatch<DispatchProps, OwnProps>(dispatch => ({
         toggleItemSelected(id: string) {
             dispatch('abt/ui').toggleItemSelected(id);
         },
     })),
-])(SidebarItemList);
+])(SidebarItemList) as ComponentType<OwnProps>;
