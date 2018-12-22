@@ -81,6 +81,14 @@ declare module '@wordpress/components' {
     }
     export const CheckboxControl: ComponentType<CheckboxControl.Props>;
 
+    export namespace Dashicon {
+        interface Props {
+            icon: string;
+            size?: number;
+        }
+    }
+    export const Dashicon: ComponentType<Dashicon.Props>;
+
     export class Disabled extends Component {
         static Consumer: Context<boolean>['Consumer'];
     }

@@ -33,7 +33,14 @@ declare module '@wordpress/editor' {
     }
 
     export class RichText extends Component<RichTextProps> {
-        static Content(): string;
+        static Content<T extends keyof HTMLElementTagNameMap>(
+            props: {
+                value: string | string[];
+                children?: never;
+                tagName?: T;
+                multiline?: true | 'p' | 'li';
+            } & HTMLProps<T>,
+        ): JSX.Element;
         static isEmpty(value: string): boolean;
     }
 
@@ -44,7 +51,7 @@ declare module '@wordpress/editor' {
     export namespace AlignmentToolbar {
         interface Props {
             isCollapsed?: boolean;
-            value: 'left' | 'right' | 'center';
+            value?: 'left' | 'right' | 'center';
             onChange(nextAlign: 'left' | 'right' | 'center'): void;
         }
     }

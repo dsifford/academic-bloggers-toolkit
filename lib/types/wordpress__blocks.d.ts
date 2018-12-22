@@ -8,6 +8,7 @@ declare module '@wordpress/blocks' {
     type AttrType = 'string' | 'number' | 'boolean';
     type Primitive = string | number | boolean;
 
+    // FIXME: make this a discriminated union, you animal.
     type BlockAttribute<T> = T extends 'attribute'
         ? { type: AttrType; source: T; selector: string; attribute: string }
         : T extends 'property'
@@ -86,7 +87,10 @@ declare module '@wordpress/blocks' {
         /**
          * Block transforms.
          */
-        transforms?: never; // TODO: Add types for this
+        transforms?: {
+            from?: Transform<T>[];
+            to?: Transform[];
+        };
         /**
          * Setting `parent` lets a block require that it is only available when
          * nested within the specified blocks.
@@ -182,11 +186,83 @@ declare module '@wordpress/blocks' {
         reusable?: boolean;
     }
 
-    interface Block {
+    // Transforms ----------
+
+    type Schema = {
+        [k in keyof HTMLElementTagNameMap | '#text']?: {
+            attributes?: string[];
+            require?: Array<keyof HTMLElementTagNameMap>;
+            classes?: Array<string | RegExp>;
+            children?: Schema;
+        }
+    };
+
+    interface BlockTransform<T> {
+        type: 'block';
+        blocks: string[];
+        priority?: number;
+        isMatch?(attributes: T): boolean;
+        transform(attributes: T): Block<Partial<T>>;
+    }
+
+    interface EnterTransform<T> {
+        type: 'enter';
+        regExp: RegExp;
+        priority?: number;
+        transform(): Block<Partial<T>>;
+    }
+
+    interface FilesTransform<T> {
+        type: 'files';
+        priority?: number;
+        isMatch?(files: FileList): boolean;
+        transform(
+            files: FileList,
+            onChange?: (id: string, attrs: T) => void,
+        ): Block<Partial<T>>;
+    }
+
+    interface PrefixTransform<T> {
+        type: 'prefix';
+        prefix: string;
+        transform(content: string): Block<Partial<T>>;
+    }
+
+    interface RawTransform<T> {
+        type: 'raw';
+        /**
+         * Comma-separated list of selectors, no spaces.
+         *
+         * @example 'p,div,h1,.css-class,#id'
+         */
+        selector?: string;
+        schema?: Schema;
+        priority?: number;
+        isMatch?(node: Node): boolean;
+        transform?(node: Node): Block<Partial<T>> | void;
+    }
+
+    interface ShortcodeTransform<T> {
+        type: 'shortcode';
+        tag: string;
+        attributes?: any; // fix this if I ever need it.
+    }
+
+    type Transform<T = Record<string, any>> =
+        | BlockTransform<T>
+        | EnterTransform<T>
+        | FilesTransform<T>
+        | PrefixTransform<T>
+        | RawTransform<T>
+        | ShortcodeTransform<T>;
+
+    // End transforms ------
+
+    interface Block<T = Record<string, any>> {
         /**
          * Attributes for the block.
          */
-        attributes: Record<string, Primitive>;
+        attributes: T;
         /**
          * Unique ID registered to the block.
          */
@@ -203,11 +279,11 @@ declare module '@wordpress/blocks' {
         originalContent: string;
     }
 
-    export function createBlock(
+    export function createBlock<T = Record<string, any>>(
         name: string,
-        attributes?: Record<string, any>,
+        attributes?: T,
         innerBlocks?: Block[],
-    ): Block;
+    ): Block<T>;
     export function parse(serializedBlocks: string): Block[];
     export function registerBlockType<T>(
         name: string,
