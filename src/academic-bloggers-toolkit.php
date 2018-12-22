@@ -128,6 +128,7 @@ add_filter( 'plugin_row_meta', __NAMESPACE__ . '\add_donate_link', 10, 2 );
  * Enqueues frontend JS and CSS.
  */
 function frontend_enqueues() {
+	global $post;
 	$options    = get_option( ABT_OPTIONS_KEY );
 	$custom_css = wp_kses( $options['custom_css'], [ "\'", '\"' ] );
 
@@ -137,7 +138,13 @@ function frontend_enqueues() {
 	}
 
 	if ( is_singular() ) {
-		wp_enqueue_script( 'abt-frontend-script', ABT_ROOT_URI . '/bundle/frontend.js', [], ABT_VERSION, true );
+		if ( has_blocks( $post ) ) {
+			// TODO...
+			return;
+		} else {
+			// legacy.
+			wp_enqueue_script( 'abt-frontend-script', ABT_ROOT_URI . '/bundle/frontend.js', [], ABT_VERSION, true );
+		}
 	}
 }
 add_action( 'wp_enqueue_scripts', __NAMESPACE__ . '\frontend_enqueues' );

@@ -2,7 +2,6 @@ import { Block, createBlock, parse } from '@wordpress/blocks';
 import { dispatch, select } from '@wordpress/data';
 import { Bibliography, RebuildProcessorStateData } from 'citeproc';
 
-import { styleCache } from 'utils/cache';
 import {
     getEditorDOM,
     mergeItems,
@@ -11,9 +10,8 @@ import {
 } from 'utils/editor';
 import Processor from 'utils/processor';
 
-// import { State } from './';
 import { Actions, StyleKind } from './constants';
-// import { fetchLocale, fetchStyle } from './controls';
+import { fetchLocale, fetchStyle } from './controls';
 
 export function* addReference(data: CSL.Data) {
     yield addReferences([data]);
@@ -74,10 +72,14 @@ export function* removeAllCitations() {
 
 export function* parseCitations() {
     const style = select('abt/data').getStyle();
+    let styleXml: string;
     if (style.kind === StyleKind.CUSTOM) {
         throw new Error('Custom styles not implemented yet.');
+    } else {
+        styleXml = yield fetchStyle(style.value);
+        yield fetchLocale(styleXml);
     }
-    const processor = new Processor(styleCache.getItem(style.value)!);
+    const processor = new Processor(styleXml);
     const citations = processor.parseCitations(
         select('abt/data').getCitationsByIndex(),
     );

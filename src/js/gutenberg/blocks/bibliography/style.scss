@@ -1,26 +1,35 @@
 .heading {
+    display: flex;
     margin: 0;
-}
-
-.heading-input {
-    color: inherit;
-    font-size: inherit;
-    margin: inherit;
-    padding: inherit;
-    border: 0;
     width: 100%;
-    max-width: 100%;
+    overflow: hidden;
 
-    &:focus {
-        outline: 0;
+    input {
+        color: inherit;
+        font-size: inherit;
+        margin: inherit;
+        padding: inherit;
+        border: 0;
+        max-width: 100%;
+
+        &:focus {
+            outline: 0;
+        }
     }
 }
 
 :global {
-    .abt-bibliography__body {
-        font-size: 0.8em;
-        list-style-type: none;
-        display: table;
+    .abt-bibliography {
+        summary {
+            display: flex;
+            align-items: center;
+        }
+
+        &__body {
+            font-size: 0.8em;
+            list-style-type: none;
+            display: table;
+        }
     }
 
     .csl-entry {

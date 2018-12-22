@@ -20,7 +20,11 @@ export function getCitationsByIndex(state: State): Citation[] {
     const doc = getEditorDOM();
     const citations = [...doc.querySelectorAll<HTMLElement>('.abt-citation')];
     return citations.map((el, index) => {
-        const citationID = el.dataset.id!;
+        if (!el.dataset.id) {
+            el.dataset.id = el.id;
+            delete el.id;
+        }
+        const citationID = el.dataset.id;
         const citationItems = (<string[]>(
             JSON.parse(el.dataset.items || el.dataset.reflist || '[]')
         )).reduce(
