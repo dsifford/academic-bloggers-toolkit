@@ -1,17 +1,16 @@
-// tslint:disable:no-var-requires no-console
-import { CheckerPlugin, TsConfigPathsPlugin } from 'awesome-typescript-loader';
 import { execSync } from 'child_process';
 import path from 'path';
-import webpack from 'webpack';
 
+import { CheckerPlugin, TsConfigPathsPlugin } from 'awesome-typescript-loader';
+import BrowserSyncPlugin from 'browser-sync-webpack-plugin';
 import CopyWebpackPlugin from 'copy-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
-const RollbarSourceMapPlugin = require('rollbar-sourcemap-webpack-plugin');
-const BrowserSyncPlugin = require('browser-sync-webpack-plugin');
+import RollbarSourceMapPlugin from 'rollbar-sourcemap-webpack-plugin';
+import webpack from 'webpack';
+import { version as VERSION } from './package.json';
 
 const IS_PRODUCTION = process.env.NODE_ENV === 'production';
 const IS_DEPLOYING = process.env.IS_DEPLOYING === 'true';
-const VERSION = require('./package.json').version;
 const COMMIT_HASH = IS_PRODUCTION
     ? execSync('git rev-parse HEAD', { encoding: 'utf8' })
     : '';
@@ -81,7 +80,7 @@ const config: webpack.Configuration = {
     watch: !IS_PRODUCTION,
     devtool: IS_PRODUCTION ? 'source-map' : 'cheap-module-eval-source-map',
     watchOptions: {
-        ignored: /(node_modules|dist|lib|webpack.config)/,
+        ignored: /(node_modules|dist|lib|types|__tests__|webpack.config)/,
     },
     context: path.resolve(__dirname, 'src'),
     externals: {
@@ -120,11 +119,6 @@ const config: webpack.Configuration = {
          * New hotness
          */
         'bundle/editor': 'js/editor',
-
-        /**
-         * Vendors
-         */
-        'vendor/citeproc': 'citeproc',
     },
     output: {
         filename: '[name].js',

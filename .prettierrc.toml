@@ -4,21 +4,23 @@ tabWidth = 4
 trailingComma = 'all'
 
 [[overrides]]
-  files = '*.js'
-  [overrides.options]
-    trailingComma = 'es5'
+    files = '*.js'
+    [overrides.options]
+        trailingComma = 'es5'
 
 [[overrides]]
-  files = '.?*.yml'
-  [overrides.options]
-    tabWidth = 2
+    files = '**/{.,}*.{yml,yaml}'
+    [overrides.options]
+        tabWidth = 2
 
 [[overrides]]
-  files = '*.{json,yml}'
-  [overrides.options]
-    tabWidth = 2
+    files = '**/{.,}*.json'
+    [overrides.options]
+        parser = 'json-stringify'
+        tabWidth = 2
 
 [[overrides]]
-  files = '.babelrc'
-  [overrides.options]
-    tabWidth = 2
+    files = '.babelrc'
+    [overrides.options]
+        parser = 'json-stringify'
+        tabWidth = 2

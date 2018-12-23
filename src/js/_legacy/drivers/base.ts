@@ -2,9 +2,7 @@ import { Citation, CitationKind, CitationResult, Locator } from 'citeproc';
 
 import Editor from '_legacy/utils/editor';
 
-export interface EditorDriverConstructor {
-    new (): EditorDriver;
-}
+export type EditorDriverConstructor = new () => EditorDriver;
 
 export interface RelativeCitationPositions {
     itemsPreceding: Locator;

@@ -1,17 +1,22 @@
 // Type definitions for @wordpress/edit-post
-// Definitions by: Derek P Sifford <dereksifford@gmail.com>
+// Project: https://github.com/WordPress/gutenberg/tree/master/packages/edit-post
+// Definitions by: Derek P Sifford <https://github.com/dsifford>
 
-declare module '@wordpress/edit-post' {
-    import { Dashicon } from '@wordpress/dashicons';
-    import { Component, ComponentType } from 'react';
+import { Dashicon } from '@wordpress/dashicons';
+import { ComponentType } from 'react';
 
-    interface PSMMIProps {
+export namespace PluginSidebarMoreMenuItem {
+    interface Props {
         target: string;
         icon?: string | ComponentType;
     }
-    export class PluginSidebarMoreMenuItem extends Component<PSMMIProps> {}
+}
+export const PluginSidebarMoreMenuItem: ComponentType<
+    PluginSidebarMoreMenuItem.Props
+>;
 
-    interface PSProps {
+export namespace PluginSidebar {
+    interface Props {
         /**
          * A string identifying the sidebar. Must be unique for every sidebar registered within the scope of your plugin.
          */
@@ -31,5 +36,5 @@ declare module '@wordpress/edit-post' {
          */
         icon?: Dashicon | ComponentType;
     }
-    export class PluginSidebar extends Component<PSProps> {}
 }
+export const PluginSidebar: ComponentType<PluginSidebar.Props>;

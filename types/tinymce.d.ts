@@ -1,5 +1,9 @@
+// Internal, arguably useless type definitions for tinymce
+// Project: https://github.com/tinymce/tinymce
+// Definitions by: Derek P Sifford <https://github.com/dsifford>
+
 declare module 'tinymce' {
-    interface Editor {
+    export interface Editor {
         id: string;
         initialized: boolean;
         dom: {
@@ -11,11 +15,15 @@ declare module 'tinymce' {
             setContent(content: string, args?: { format: string }): string;
             setCursorLocation(node?: Node, offset?: number): void;
             moveToBookmark(bookmark: object): boolean;
-            /** Is the the current selection completely empty? */
+            /**
+             * Is the the current selection completely empty?
+             */
             isCollapsed(): boolean;
         };
         undoManager: {
-            /** Clears the undo history */
+            /**
+             * Clears the undo history
+             */
             clear(): void;
         };
         windowManager: {
@@ -30,11 +38,14 @@ declare module 'tinymce' {
         on(eventName: string, callback: (e: any) => void): void;
         once(eventName: string, callback: (e: any) => void): void;
         setContent(content: string, args?: object): string;
-        /** true = loading; false = not loading */
+        /**
+         * true = loading
+         * false = not loading
+         */
         setProgressState(state: boolean): void;
     }
 
-    interface TinyMCE {
+    export interface TinyMCE {
         EditorManager: Editor;
         editors: Editor[] & { [editorId: string]: Editor };
         on(eventName: string, callback: () => void): void;

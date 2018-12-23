@@ -1,12 +1,14 @@
+// Type definitions for citeproc-js
+// Project: https://github.com/Juris-M/citeproc-js
+// Definitions by: Derek P Sifford <https://github.com/dsifford>
+
 declare module 'citeproc' {
-    // const CSL: Citeproc.EngineConstructor;
-    // export = CSL;
     /**
      * 0: `Bibmeta`
      *
      * 1: Array of raw formatted reference HTML.
      */
-    type Bibliography = [Bibmeta, string[]];
+    export type Bibliography = [Bibmeta, string[]];
 
     /**
      * Tuple describing the "where", "what", and "id" details for a given citation after being
@@ -18,7 +20,7 @@ declare module 'citeproc' {
      *
      * 2: A string containing a unique ID which should be used for the citations `HTMLElement` ID
      */
-    type CitationResult = [number, string, string];
+    export type CitationResult = [number, string, string];
 
     /**
      * Enum describing either the citations occuring before or after a given citation in the
@@ -28,9 +30,9 @@ declare module 'citeproc' {
      *
      * 1: 0-based index of the location of the `HTMLElement` in the document
      */
-    type Locator = Array<[string, number]>;
+    export type Locator = Array<[string, number]>;
 
-    interface CitationResultMeta {
+    export interface CitationResultMeta {
         /**
          * Did the result of the operation result in a change in the structure of the bibliography?
          * @ignore This is highly inaccurate and buggy. Do not use.
@@ -49,7 +51,7 @@ declare module 'citeproc' {
      *
      * 2: An HTML string of the inline citation.
      */
-    type RebuildProcessorStateData = [string, number, string];
+    export type RebuildProcessorStateData = [string, number, string];
 
     /**
      * Where...
@@ -58,9 +60,9 @@ declare module 'citeproc' {
      *
      * `note` = footnote type.
      */
-    type CitationKind = 'in-text' | 'note';
+    export type CitationKind = 'in-text' | 'note';
 
-    interface Bibmeta {
+    export interface Bibmeta {
         /**
          * An HTML string to be appended to the end of the finished bibliography string.
          * @ignore (unused by ABT)
@@ -106,7 +108,7 @@ declare module 'citeproc' {
         'second-field-align': 'flush' | 'margin' | false;
     }
 
-    interface Citation {
+    export interface Citation {
         /** ID of the HTMLSpanElement of the single citation element */
         citationID: string;
         /** Describes all citations that exist within the singe citation element */
@@ -152,7 +154,7 @@ declare module 'citeproc' {
         getSortedIds(): string[];
     }
 
-    interface Sys {
+    export interface Sys {
         retrieveLocale(lang: string): string;
         retrieveItem(id: string | number): CSL.Data;
     }

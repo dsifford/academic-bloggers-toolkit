@@ -13,7 +13,7 @@ interface SelectionCache {
     selection: string;
 }
 
-declare const tinyMCE: TinyMCE;
+declare const tinyMCE: TinyMCE | undefined;
 
 export default class TinyMCEDriver extends EditorDriver {
     /**

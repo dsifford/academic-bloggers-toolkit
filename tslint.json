@@ -1,20 +1,36 @@
 {
-  "extends": ["tslint:latest", "tslint-react", "tslint-config-prettier"],
-  "rulesDirectory": ["node_modules/tslint-microsoft-contrib"],
+  "extends": [
+    "tslint:latest",
+    "tslint-react",
+    "tslint-config-prettier"
+  ],
+  "rulesDirectory": [
+    "node_modules/tslint-microsoft-contrib"
+  ],
   "linterOptions": {
-    "exclude": ["src/**/__tests__/*", "src/**/__mocks__/*", "**/*.json"]
+    "exclude": [
+      "src/**/__tests__/*",
+      "src/**/__mocks__/*",
+      "**/*.json"
+    ]
   },
   "rules": {
     "cyclomatic-complexity": {
-      "options": [10],
+      "options": [
+        10
+      ],
       "severity": "warning"
     },
     "deprecation": true,
     "file-name-casing": {
-      "options": ["kebab-case"]
+      "options": [
+        "kebab-case"
+      ]
     },
     "member-access": {
-      "options": ["no-public"]
+      "options": [
+        "no-public"
+      ]
     },
     "member-ordering": {
       "options": {
@@ -24,13 +40,26 @@
     "no-console": {
       "severity": "warning"
     },
-    "no-empty": [true, "allow-empty-catch"],
+    "no-empty": [
+      true,
+      "allow-empty-catch"
+    ],
     "no-this-assignment": {
-      "options": { "allow-destructuring": true }
+      "options": {
+        "allow-destructuring": true
+      }
     },
     "no-unused-expression": {
-      "options": ["allow-fast-null-checks"]
+      "options": [
+        "allow-fast-null-checks"
+      ]
     },
+    "object-literal-sort-keys": false,
+    // "object-literal-sort-keys": [
+    //   true,
+    //   "match-declaration-order",
+    //   "shorthand-first"
+    // ],
     "ordered-imports": {
       "options": {
         "import-sources-order": "case-insensitive",
@@ -55,9 +84,7 @@
     "no-implicit-dependencies": false,
     "no-namespace": false,
     "no-submodule-imports": false,
-    "object-literal-sort-keys": false,
     "unified-signatures": false,
-
     "no-suspicious-comment": {
       "severity": "warning"
     },
@@ -70,9 +97,6 @@
     "no-function-expression": true,
     "no-invalid-regexp": true,
     "no-regex-spaces": true,
-    "no-string-based-set-immediate": true,
-    "no-string-based-set-interval": true,
-    "no-string-based-set-timeout": true,
     "no-typeof-undefined": true,
     "no-unnecessary-bind": true,
     "no-unnecessary-field-initialization": true,

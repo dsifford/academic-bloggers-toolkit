@@ -5,18 +5,40 @@
     "experimentalDecorators": true,
     "esModuleInterop": true,
     "jsx": "preserve",
-    "lib": ["dom", "dom.iterable", "esnext"],
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
     "module": "esnext",
     "moduleResolution": "node",
     "noFallthroughCasesInSwitch": true,
     "noImplicitReturns": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
+    "resolveJsonModule": true,
     "sourceMap": true,
     "strict": true,
     "target": "esnext",
-    "resolveJsonModule": true,
-    "plugins": [{ "name": "typescript-tslint-plugin" }]
+    "typeRoots": [
+      "node_modules/@types",
+      "types"
+    ],
+    "paths": {
+      "@wordpress/*": [
+        "../../types/wordpress__*"
+      ]
+    },
+    "plugins": [
+      {
+        "name": "typescript-tslint-plugin"
+      }
+    ]
   },
-  "include": ["src/**/*", "lib/**/*", "webpack.config.ts"]
+  "include": [
+    "src/**/*",
+    "lib/**/*",
+    "types/*.d.ts",
+    "webpack.config.ts"
+  ]
 }
