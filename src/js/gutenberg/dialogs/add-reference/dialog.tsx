@@ -1,34 +1,40 @@
 import { Button, ToggleControl } from '@wordpress/components';
 import { compose } from '@wordpress/compose';
+import { withDispatch } from '@wordpress/data';
 import { Component, ComponentType } from '@wordpress/element';
 
-import asDialog, { DialogProps } from 'gutenberg/components/as-dialog';
+import asDialog from 'gutenberg/components/as-dialog';
 import DialogToolbar from 'gutenberg/components/dialog-toolbar';
 import IdentifierReferenceForm from 'gutenberg/components/reference-form-identifier';
 import ManualReferenceForm from 'gutenberg/components/reference-form-manual';
 
 import styles from './style.scss';
 
-interface Props {
-    onClose: () => void;
-    onSubmit: (data: CSL.Data) => void;
-    isOpen: boolean;
+namespace Dialog {
+    export interface DispatchProps {
+        createErrorNotice(message: string): void;
+    }
+
+    export interface OwnProps extends asDialog.Props {
+        onSubmit(data: CSL.Data): void;
+    }
+
+    export type Props = DispatchProps & OwnProps;
+
+    export interface State {
+        isAddingManually: boolean;
+        isBusy: boolean;
+    }
 }
 
-interface State {
-    isAddingManually: boolean;
-    isBusy: boolean;
-}
-
-const FORM_ID = 'add-reference-form';
-
-class Dialog extends Component<Props & DialogProps, State> {
-    state: State = {
+class Dialog extends Component<Dialog.Props, Dialog.State> {
+    state: Dialog.State = {
         isAddingManually: false,
         isBusy: false,
     };
 
     render() {
+        const FORM_ID = 'add-reference-form';
         const { onClose, onSubmit, createErrorNotice } = this.props;
         const { isAddingManually, isBusy } = this.state;
         return (
@@ -80,4 +86,11 @@ class Dialog extends Component<Props & DialogProps, State> {
         this.setState(this.state.isBusy ? null : { isAddingManually });
 }
 
-export default compose([asDialog])(Dialog) as ComponentType<Props>;
+export default compose([
+    asDialog,
+    withDispatch<Dialog.DispatchProps>(dispatch => ({
+        createErrorNotice(message) {
+            dispatch('core/notices').createErrorNotice(message);
+        },
+    })),
+])(Dialog) as ComponentType<Dialog.OwnProps>;

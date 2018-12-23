@@ -1,54 +1,32 @@
-import { Modal, withNotices } from '@wordpress/components';
-import { compose } from '@wordpress/compose';
-import { Component, ComponentType } from '@wordpress/element';
-
-import { SidebarNotice } from 'gutenberg/sidebar/toolbar';
+import { Modal } from '@wordpress/components';
+import { ComponentType } from '@wordpress/element';
 
 import styles from './style.scss';
 
-interface Props {
-    isOpen: boolean;
-    onClose(): void;
-    createErrorNotice(message: string): void;
+namespace asDialog {
+    export interface Props {
+        isOpen: boolean;
+        onClose(): void;
+    }
 }
-export { Props as DialogProps };
 
-function asDialog<P extends Props, PP extends withNotices.Props>(
+function asDialog<P extends asDialog.Props>(
     Wrapped: ComponentType<P>,
-): ComponentType<P & PP> {
-    return ({
-        isOpen,
-        noticeUI,
-        noticeOperations,
-        noticeList,
-        onClose,
-        ...rest
-    }: P & PP) => {
-        const props = {
-            onClose,
-            isOpen,
-            createErrorNotice: noticeOperations.createErrorNotice,
-            ...rest,
-        };
+): ComponentType<P> {
+    return props => {
+        if (!props.isOpen) {
+            return null;
+        }
         return (
-            <>
-                <SidebarNotice>{noticeUI}</SidebarNotice>
-                {isOpen && (
-                    <Modal
-                        className={styles.modal}
-                        title="Add Reference"
-                        onRequestClose={onClose}
-                    >
-                        <Wrapped {...props as any} />
-                    </Modal>
-                )}
-            </>
+            <Modal
+                className={styles.modal}
+                title="Add Reference"
+                onRequestClose={props.onClose}
+            >
+                <Wrapped {...props} />
+            </Modal>
         );
     };
 }
 
-export default compose([withNotices, asDialog]) as DialogHOC;
-
-type DialogHOC = <P extends Props>(
-    c: ComponentType<P> | Component<P>,
-) => ComponentType<Pick<P, Exclude<keyof P, 'createErrorNotice'>>>;
+export default asDialog;

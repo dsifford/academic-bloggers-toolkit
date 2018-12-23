@@ -4,11 +4,10 @@ import {
     IconButton,
     PanelBody,
     PanelRow,
-    withNotices,
 } from '@wordpress/components';
 import { compose } from '@wordpress/compose';
 import { withDispatch } from '@wordpress/data';
-import { Component, FormEvent, ReactNode } from '@wordpress/element';
+import { Component, FormEvent } from '@wordpress/element';
 
 import RemoveIcon from 'gutenberg/components/icons/remove';
 import AddReferenceDialog from 'gutenberg/dialogs/add-reference';
@@ -20,13 +19,6 @@ import styles from './toolbar.scss';
 const { Slot: ToolbarButtonSlot, Fill: ToolbarButtonFill } = createSlotFill(
     'abt-toolbar-buttons',
 );
-const { Slot: SidebarNoticeSlot, Fill: SidebarNoticeFill } = createSlotFill(
-    'abt-sidebar-notices',
-);
-
-export const SidebarNotice = ({ children }: { children: ReactNode }) => (
-    <SidebarNoticeFill>{children}</SidebarNoticeFill>
-);
 
 export const ToolbarButton = (props: IconButton.Props) => (
     <ToolbarButtonFill>
@@ -34,23 +26,23 @@ export const ToolbarButton = (props: IconButton.Props) => (
     </ToolbarButtonFill>
 );
 
-interface DispatchProps {
-    addItems(data: CSL.Data[]): void;
-    removeSelectedItems(): void;
+namespace Toolbar {
+    export interface DispatchProps {
+        addItems(data: CSL.Data[]): void;
+        removeSelectedItems(): void;
+        createErrorNotice(message: string): void;
+    }
+    export interface OwnProps {
+        selectedItems: ReadonlyArray<string>;
+    }
+    export type Props = DispatchProps & OwnProps;
 }
 
-type Props = DispatchProps &
-    withNotices.Props & {
-        selectedItems: ReadonlyArray<string>;
-    };
-
-class Toolbar extends Component<Props> {
+class Toolbar extends Component<Toolbar.Props> {
     render(): JSX.Element {
-        const { removeSelectedItems, selectedItems, noticeUI } = this.props;
+        const { removeSelectedItems, selectedItems } = this.props;
         return (
             <PanelBody opened={true} className={styles.container}>
-                {noticeUI}
-                <SidebarNoticeSlot />
                 <PanelRow>
                     <ToolbarButtonSlot />
                     <AddReferenceDialog />
@@ -87,7 +79,7 @@ class Toolbar extends Component<Props> {
             const data: CSL.Data[] = await readReferencesFile(files[0]);
             this.props.addItems(data);
         } catch (e) {
-            this.props.noticeOperations.createErrorNotice(
+            this.props.createErrorNotice(
                 'Invalid import file type. File must be a valid BibTeX or RIS file.',
             );
         }
@@ -96,14 +88,20 @@ class Toolbar extends Component<Props> {
 }
 
 export default compose([
-    withDispatch<DispatchProps, Props>((dispatch, ownProps) => ({
-        addItems(data: CSL.Data[]) {
-            dispatch('abt/data').addReferences(data);
-        },
-        removeSelectedItems() {
-            dispatch('abt/data').removeReferences([...ownProps.selectedItems]);
-            dispatch('abt/ui').clearSelectedItems();
-        },
-    })),
-    withNotices,
+    withDispatch<Toolbar.DispatchProps, Toolbar.Props>(
+        (dispatch, ownProps) => ({
+            addItems(data) {
+                dispatch('abt/data').addReferences(data);
+            },
+            createErrorNotice(message) {
+                dispatch('core/notices').createErrorNotice(message);
+            },
+            removeSelectedItems() {
+                dispatch('abt/data').removeReferences([
+                    ...ownProps.selectedItems,
+                ]);
+                dispatch('abt/ui').clearSelectedItems();
+            },
+        }),
+    ),
 ])(Toolbar);
