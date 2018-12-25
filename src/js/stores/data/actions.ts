@@ -128,7 +128,7 @@ function* updateEditorCitations(citations: RebuildProcessorStateData[]) {
     const doc = getEditorDOM();
     for (const [id, , html] of citations) {
         const node = doc.querySelector<HTMLElement>(
-            `.abt-citation[data-id="${id}"]`,
+            `.abt-citation[id="${id}"]`,
         );
         if (node) {
             // handle deprecation

@@ -1,4 +1,4 @@
-import { getNames, getYear } from 'utils/data';
+import { date, person } from 'utils/data';
 
 import styles from './style.scss';
 
@@ -27,11 +27,13 @@ const SidebarItem = ({ item, isSelected, onDoubleClick, onClick }: Props) => {
         >
             <strong>{item.title}</strong>
             {item.author && item.author.length > 0 && (
-                <div className={styles.authors}>{getNames(item.author, 3)}</div>
+                <div className={styles.authors}>
+                    {person.getNames(item.author, 3)}
+                </div>
             )}
             <div>
                 {publication && <i>{publication}</i>},{' '}
-                <span>{getYear(item.issued)}</span>
+                <span>{date.getYear(item.issued)}</span>
             </div>
         </div>
     );

@@ -18,31 +18,28 @@
     }
 }
 
-:global {
-    .abt-bibliography {
-        summary {
-            display: flex;
-            align-items: center;
+.summary {
+    display: flex;
+    align-items: center;
+}
+
+.body {
+    font-size: 0.8em;
+    display: table;
+
+    :global {
+        .csl-entry {
+            display: block;
         }
 
-        &__body {
-            font-size: 0.8em;
-            list-style-type: none;
-            display: table;
+        .csl-left-margin,
+        .csl-right-inline {
+            display: table-cell;
         }
-    }
 
-    .csl-entry {
-        display: table-row;
-    }
-
-    .csl-left-margin,
-    .csl-right-inline {
-        display: table-cell;
-    }
-
-    .csl-left-margin {
-        padding-right: 10px;
-        text-align: right;
+        .csl-left-margin {
+            padding-right: 10px;
+            text-align: right;
+        }
     }
 }

@@ -54,7 +54,7 @@ class Citation extends Component<FormatProps & DispatchProps & SelectProps> {
                     if (
                         item.type === Citation.formatName &&
                         item.attributes &&
-                        item.attributes.id === selectedElement.dataset.id
+                        item.attributes.id === selectedElement.id
                     ) {
                         item.attributes = {
                             ...item.attributes,

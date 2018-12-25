@@ -2,7 +2,7 @@ import { Citation } from 'citeproc';
 import _ from 'lodash';
 
 import { clone } from 'utils/data';
-import { getEditorDOM } from 'utils/editor';
+import { editorCitation, getEditorDOM } from 'utils/editor';
 
 import { State } from './';
 
@@ -20,14 +20,8 @@ export function getCitationsByIndex(state: State): Citation[] {
     const doc = getEditorDOM();
     const citations = [...doc.querySelectorAll<HTMLElement>('.abt-citation')];
     return citations.map((el, index) => {
-        if (!el.dataset.id) {
-            el.dataset.id = el.id;
-            delete el.id;
-        }
-        const citationID = el.dataset.id;
-        const citationItems = (<string[]>(
-            JSON.parse(el.dataset.items || el.dataset.reflist || '[]')
-        )).reduce(
+        const citationID = el.id;
+        const citationItems = editorCitation.getItems(el).reduce(
             (arr, id) => {
                 const item = getItemById(state, id);
                 return item !== undefined ? [...arr, { id, item }] : arr;
@@ -47,23 +41,12 @@ export function getCitationsByIndex(state: State): Citation[] {
 
 export function getCitedItems(state: State): CSL.Data[] {
     const doc = getEditorDOM();
-    return [...doc.querySelectorAll<HTMLElement>('.abt-citation')]
-        .flatMap(
-            item =>
-                <string[]>(
-                    JSON.parse(
-                        item.dataset.items || item.dataset.reflist || '[]',
-                    )
-                ),
-        )
-        .filter((val, i, arr) => arr.indexOf(val) === i)
-        .reduce(
-            (arr, id) => {
-                const found = getItemById(state, id);
-                return found ? [...arr, { ...found }] : arr;
-            },
-            <CSL.Data[]>[],
-        );
+    return _([...doc.querySelectorAll<HTMLElement>('.abt-citation')])
+        .flatMap(editorCitation.getItems)
+        .uniq()
+        .map(_.partial(getItemById, state))
+        .compact()
+        .value();
 }
 
 export function getItems(state: State, kind?: 'cited' | 'uncited'): CSL.Data[] {
@@ -77,11 +60,8 @@ export function getItems(state: State, kind?: 'cited' | 'uncited'): CSL.Data[] {
     }
 }
 
-export function getItemById(state: State, id: string): CSL.Data | void {
-    const found = state.references.find(item => item.id === id);
-    if (found) {
-        return clone(found);
-    }
+export function getItemById(state: State, id: string): CSL.Data | undefined {
+    return clone(state.references.find(item => item.id === id));
 }
 
 export function getSerializedState(state: State): SerializedMeta {

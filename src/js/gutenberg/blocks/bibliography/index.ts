@@ -17,7 +17,6 @@ const config: BlockConfig<Attributes> = {
     category: 'widgets',
     description: 'Display a list of your cited references.',
     icon: 'welcome-learn-more',
-    keywords: ['reference', 'citation', 'sources'],
     attributes: {
         content: {
             type: 'string',
@@ -88,7 +87,7 @@ const config: BlockConfig<Attributes> = {
                             return;
                         }
                     }
-                    setTimeout(dispatch('abt/data').parseCitations, 1000);
+                    setTimeout(dispatch('abt/data').parseCitations, 500);
                     return createBlock('abt/bibliography', attributes);
                 },
             },

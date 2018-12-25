@@ -63,9 +63,14 @@ class BibliographyEdit extends Component<BlockEditProps<Attributes>> {
                 <section className="abt-bibliography">
                     {isToggleable && (
                         <details>
-                            <summary>{this.maybeRenderHeading()}</summary>
+                            <summary className={styles.summary}>
+                                {this.maybeRenderHeading()}
+                            </summary>
                             <RichText.Content<'ol'>
-                                className="abt-bibliography__body"
+                                className={classNames(
+                                    'abt-bibliography__body',
+                                    styles.body,
+                                )}
                                 multiline="li"
                                 tagName="ol"
                                 value={content}
@@ -76,7 +81,10 @@ class BibliographyEdit extends Component<BlockEditProps<Attributes>> {
                         <>
                             {this.maybeRenderHeading()}
                             <RichText.Content<'ol'>
-                                className="abt-bibliography__body"
+                                className={classNames(
+                                    'abt-bibliography__body',
+                                    styles.body,
+                                )}
                                 multiline="li"
                                 tagName="ol"
                                 value={content}

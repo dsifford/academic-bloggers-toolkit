@@ -1,12 +1,13 @@
 import { select } from '@wordpress/data';
 import { Format, Value } from '@wordpress/rich-text';
 import { Bibliography } from 'citeproc';
+import _ from 'lodash';
 import uuid from 'uuid/v4';
 
 export function createCitationHtml(items: string[]): string {
     const citation = document.createElement('span');
     citation.className = 'abt-citation';
-    citation.dataset.id = uuid();
+    citation.id = uuid();
     citation.dataset.items = JSON.stringify(items);
     citation.contentEditable = 'false';
     return citation.outerHTML;
@@ -55,25 +56,36 @@ export function removeItems(doc: HTMLElement, itemIds: string[]): string[] {
     return toDelete;
 }
 
-export function parseBibliographyHTML(bibliography: Bibliography): string {
+export function parseBibliographyHTML([meta, htmlList]: Bibliography): string {
     const container = document.createElement('div');
-    return bibliography[1]
-        .map(html => {
+    const idList = _.flatten(meta.entry_ids);
+    return _.zip(idList, htmlList)
+        .map(([id, html = '']) => {
             container.innerHTML = html;
             const child = container.firstElementChild;
-            const li = document.createElement('li');
-            if (child) {
-                li.innerHTML = child.innerHTML;
-                [...child.attributes]
-                    .map(attr => attr.name)
-                    .forEach(name =>
-                        li.setAttribute(name, child.getAttribute(name)!),
-                    );
-                return li.outerHTML;
+            if (!child || !id) {
+                return;
             }
-            return '';
+            const li = document.createElement('li');
+            li.id = id;
+            li.innerHTML = child.innerHTML;
+            [...child.attributes].forEach(({ name, value }) =>
+                li.setAttribute(name, value),
+            );
+            return li.outerHTML;
         })
-        .join('\n');
+        .join('');
+}
+
+// TODO: WIP
+export function editorCitation(el: HTMLElement) {
+    return {
+        getItems: () => editorCitation.getItems(el),
+    };
+}
+export namespace editorCitation {
+    export const getItems = (el: HTMLElement): string[] =>
+        JSON.parse(el.dataset.items || el.dataset.reflist || '[]');
 }
 
 //

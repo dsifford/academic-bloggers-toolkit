@@ -23,13 +23,9 @@ type BlockAttribute<T> = T extends 'attribute'
           type: 'array';
           source: T;
           selector: string;
-          query: Array<{
-              [k: string]: {
-                  type: AttrType;
-                  source: 'attribute';
-                  selector: string;
-              };
-          }>;
+          default?: any[];
+          // FIXME:
+          query: any;
       }
     : {
           type: AttrType;
