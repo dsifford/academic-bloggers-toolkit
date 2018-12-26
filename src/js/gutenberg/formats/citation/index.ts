@@ -5,6 +5,7 @@ export default {
     className: 'abt-citation',
     title: 'Citation',
     attributes: {
+        editable: 'contenteditable',
         id: 'id',
         items: 'data-items',
     },

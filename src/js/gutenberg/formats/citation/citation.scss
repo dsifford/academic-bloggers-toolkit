@@ -11,4 +11,10 @@
         background: #e8eaeb;
         color: #191e23;
     }
+
+    .wp-block:not([data-type='core/freeform'])
+        .mce-content-body
+        *[contentEditable='false'][data-mce-selected] {
+        outline: unset;
+    }
 }
