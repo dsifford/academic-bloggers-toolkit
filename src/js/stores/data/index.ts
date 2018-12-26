@@ -1,5 +1,3 @@
-import { Bibliography } from 'citeproc';
-
 import * as actions from './actions';
 import { StyleKind } from './constants';
 import controls from './controls';
@@ -14,7 +12,6 @@ interface Style {
 
 export interface State {
     references: CSL.Data[];
-    bibliography: Bibliography;
     style: Style;
 }
 

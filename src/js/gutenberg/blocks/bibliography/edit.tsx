@@ -19,11 +19,11 @@ class BibliographyEdit extends Component<BlockEditProps<Attributes>> {
     render() {
         const {
             attributes: {
-                content,
                 heading,
                 headingAlign,
                 headingLevel,
                 isToggleable,
+                items,
             },
             setAttributes,
         } = this.props;
@@ -66,29 +66,43 @@ class BibliographyEdit extends Component<BlockEditProps<Attributes>> {
                             <summary className={styles.summary}>
                                 {this.maybeRenderHeading()}
                             </summary>
-                            <RichText.Content<'ol'>
+                            <ol
                                 className={classNames(
                                     'abt-bibliography__body',
                                     styles.body,
                                 )}
-                                multiline="li"
-                                tagName="ol"
-                                value={content}
-                            />
+                            >
+                                {items.map(({ content, id }) => (
+                                    <RichText.Content<'li'>
+                                        key={id}
+                                        tagName="li"
+                                        style={{ display: 'block' }}
+                                        id={id}
+                                        value={content}
+                                    />
+                                ))}
+                            </ol>
                         </details>
                     )}
                     {!isToggleable && (
                         <>
                             {this.maybeRenderHeading()}
-                            <RichText.Content<'ol'>
+                            <ol
                                 className={classNames(
                                     'abt-bibliography__body',
                                     styles.body,
                                 )}
-                                multiline="li"
-                                tagName="ol"
-                                value={content}
-                            />
+                            >
+                                {items.map(({ content, id }) => (
+                                    <RichText.Content<'li'>
+                                        key={id}
+                                        tagName="li"
+                                        style={{ display: 'block' }}
+                                        id={id}
+                                        value={content}
+                                    />
+                                ))}
+                            </ol>
                         </>
                     )}
                 </section>

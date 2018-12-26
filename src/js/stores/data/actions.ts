@@ -1,13 +1,9 @@
 import { Block, createBlock, parse } from '@wordpress/blocks';
 import { dispatch, select } from '@wordpress/data';
-import { Bibliography, RebuildProcessorStateData } from 'citeproc';
+import { RebuildProcessorStateData } from 'citeproc';
 
-import {
-    getEditorDOM,
-    mergeItems,
-    parseBibliographyHTML,
-    removeItems,
-} from 'utils/editor';
+import { BibItem } from 'gutenberg/blocks';
+import { getEditorDOM, removeItems } from 'utils/editor';
 import Processor from 'utils/processor';
 
 import { Actions, StyleKind } from './constants';
@@ -83,8 +79,8 @@ export function* parseCitations() {
     const citations = processor.parseCitations(
         select('abt/data').getCitationsByIndex(),
     );
-    const bibliography = processor.makeBibliography();
-    if (bibliography) {
+    const { bibliography } = processor;
+    if (bibliography.length > 0) {
         yield setBibliography(bibliography);
     }
     yield updateEditorCitations(citations);
@@ -97,31 +93,26 @@ export function* parseCitations() {
 //     };
 // }
 
-function* setBibliography(bibliography: Bibliography) {
+function* setBibliography(items: BibItem[]) {
     const blocksList = select<Block[]>('core/editor').getBlocks();
     const bibliographyBlock = blocksList.find(
         block => block.name === 'abt/bibliography',
     );
-    const content = parseBibliographyHTML(bibliography);
-    if (content && bibliographyBlock) {
+    if (items.length > 0 && bibliographyBlock) {
         yield dispatch('core/editor').updateBlockAttributes(
             bibliographyBlock.clientId,
-            { content },
+            { items },
         );
-    } else if (content && !bibliographyBlock) {
+    } else if (items.length > 0 && !bibliographyBlock) {
         yield dispatch('core/editor').insertBlock(
-            createBlock('abt/bibliography', { content }),
+            createBlock('abt/bibliography', { items }),
             blocksList.length,
             undefined,
             true,
         );
-    } else if (!content && bibliographyBlock) {
+    } else if (items.length === 0 && bibliographyBlock) {
         yield dispatch('core/editor').removeBlock(bibliographyBlock.clientId);
     }
-    return {
-        type: Actions.SET_BIBLIOGRAPHY,
-        bibliography,
-    };
 }
 
 function* updateEditorCitations(citations: RebuildProcessorStateData[]) {
@@ -131,14 +122,6 @@ function* updateEditorCitations(citations: RebuildProcessorStateData[]) {
             `.abt-citation[id="${id}"]`,
         );
         if (node) {
-            // handle deprecation
-            if (node.dataset.reflist) {
-                node.dataset.items = mergeItems(
-                    JSON.parse(node.dataset.reflist),
-                    node.dataset.items,
-                );
-                delete node.dataset.reflist;
-            }
             node.innerHTML = html;
         }
     }

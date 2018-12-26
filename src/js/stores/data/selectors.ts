@@ -12,10 +12,6 @@ interface SerializedMeta {
     };
 }
 
-export function getBibliography(state: State): State['bibliography'] {
-    return clone(state.bibliography);
-}
-
 export function getCitationsByIndex(state: State): Citation[] {
     const doc = getEditorDOM();
     const citations = [...doc.querySelectorAll<HTMLElement>('.abt-citation')];

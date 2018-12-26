@@ -1,6 +1,5 @@
 import { select } from '@wordpress/data';
 import { Format, Value } from '@wordpress/rich-text';
-import { Bibliography } from 'citeproc';
 import _ from 'lodash';
 import uuid from 'uuid/v4';
 
@@ -28,6 +27,7 @@ export function getNeighboringFormats(type: string, val: Value): Format[] {
     return formats;
 }
 
+// TODO: move this to utils/formats
 export function mergeItems(items: string[], dataItems?: string): string {
     let existingItems: string[] = [];
     try {
@@ -56,27 +56,6 @@ export function removeItems(doc: HTMLElement, itemIds: string[]): string[] {
     return toDelete;
 }
 
-export function parseBibliographyHTML([meta, htmlList]: Bibliography): string {
-    const container = document.createElement('div');
-    const idList = _.flatten(meta.entry_ids);
-    return _.zip(idList, htmlList)
-        .map(([id, html = '']) => {
-            container.innerHTML = html;
-            const child = container.firstElementChild;
-            if (!child || !id) {
-                return;
-            }
-            const li = document.createElement('li');
-            li.id = id;
-            li.innerHTML = child.innerHTML;
-            [...child.attributes].forEach(({ name, value }) =>
-                li.setAttribute(name, value),
-            );
-            return li.outerHTML;
-        })
-        .join('');
-}
-
 // TODO: WIP
 export function editorCitation(el: HTMLElement) {
     return {
@@ -84,6 +63,7 @@ export function editorCitation(el: HTMLElement) {
     };
 }
 export namespace editorCitation {
+    // TODO: Consider removing dataset.reflist check
     export const getItems = (el: HTMLElement): string[] =>
         JSON.parse(el.dataset.items || el.dataset.reflist || '[]');
 }
@@ -100,17 +80,19 @@ function getNeighbors(
     neighbors: Format[] = [],
 ): Format[] {
     const dirval = dir === 'left' ? -1 : 1;
-    if (!val.formats[idx]) {
-        return neighbors;
+    if (val.formats && val.formats[idx]) {
+        const format = val.formats[idx]!.find(item => item.type === type);
+        return format
+            ? getNeighbors(
+                  dir,
+                  idx + dirval,
+                  val,
+                  type,
+                  neighbors.includes(format)
+                      ? neighbors
+                      : [...neighbors, format],
+              )
+            : neighbors;
     }
-    const format = val.formats[idx].find(item => item.type === type);
-    return format
-        ? getNeighbors(
-              dir,
-              idx + dirval,
-              val,
-              type,
-              neighbors.includes(format) ? neighbors : [...neighbors, format],
-          )
-        : neighbors;
+    return neighbors;
 }

@@ -1,11 +1,12 @@
 import { BlockConfig, createBlock } from '@wordpress/blocks';
-import { dispatch } from '@wordpress/data';
+// import { dispatch } from '@wordpress/data';
 
+import { BibItem } from '../';
 import BibliographyEdit from './edit';
 import BibliographySave from './save';
 
 export interface Attributes {
-    content: string;
+    items: BibItem[];
     heading: string;
     headingLevel: number;
     isToggleable: boolean;
@@ -18,11 +19,22 @@ const config: BlockConfig<Attributes> = {
     description: 'Display a list of your cited references.',
     icon: 'welcome-learn-more',
     attributes: {
-        content: {
-            type: 'string',
-            source: 'html',
-            selector: '.abt-bibliography__body',
-            multiline: 'li',
+        items: {
+            type: 'array',
+            default: [],
+            source: 'query',
+            selector: 'li',
+            query: {
+                id: {
+                    source: 'attribute',
+                    type: 'string',
+                    attribute: 'id',
+                },
+                content: {
+                    source: 'html',
+                    type: 'string',
+                },
+            },
         },
         heading: {
             type: 'string',
@@ -55,8 +67,17 @@ const config: BlockConfig<Attributes> = {
                     const heading = node.querySelector<HTMLElement>(
                         '.abt-bibliography__heading',
                     );
+                    const body = node.querySelector<HTMLElement>(
+                        '.abt-bibliography__container',
+                    );
+                    if (!body || body.children.length === 0) {
+                        return;
+                    }
                     let attributes: Partial<Attributes> = {
-                        content: '',
+                        items: [...body.children].map(item => ({
+                            id: item.id,
+                            content: item.innerHTML,
+                        })),
                     };
                     if (heading && heading.textContent) {
                         const re = /^H([1-6])$/i;
@@ -87,7 +108,7 @@ const config: BlockConfig<Attributes> = {
                             return;
                         }
                     }
-                    setTimeout(dispatch('abt/data').parseCitations, 500);
+                    // setTimeout(dispatch('abt/data').parseCitations, 500);
                     return createBlock('abt/bibliography', attributes);
                 },
             },

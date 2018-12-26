@@ -8,19 +8,6 @@ import { Actions } from './constants';
 
 const INITIAL_STATE = clone(window.ABT_EDITOR);
 
-export function bibliography(
-    state = INITIAL_STATE.bibliography,
-    action: Action,
-): State['bibliography'] {
-    switch (action.type) {
-        case Actions.SET_BIBLIOGRAPHY: {
-            return { ...action.bibliography };
-        }
-        default:
-            return state;
-    }
-}
-
 export function references(
     state = INITIAL_STATE.references,
     action: Action,
@@ -73,7 +60,6 @@ export function style(
 }
 
 export default combineReducers({
-    bibliography,
     references,
     style,
 });

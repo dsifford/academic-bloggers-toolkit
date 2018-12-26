@@ -1,5 +1,6 @@
 import { select } from '@wordpress/data';
-import { Citation, Engine } from 'citeproc';
+import { Bibliography, Citation, Engine } from 'citeproc';
+import _ from 'lodash';
 
 import { localeCache } from 'utils/cache';
 
@@ -52,7 +53,20 @@ export default class Processor {
         return this.engine.rebuildProcessorState(citations);
     }
 
-    makeBibliography() {
-        return this.engine.makeBibliography();
+    get bibliography() {
+        let data: Bibliography | false;
+        try {
+            data = this.engine.makeBibliography();
+            if (!data) {
+                return [];
+            }
+        } catch {
+            return [];
+        }
+        const [meta, html] = data;
+        return _.zipWith(_.flatten(meta.entry_ids), html, (id, content) => ({
+            id,
+            content,
+        }));
     }
 }

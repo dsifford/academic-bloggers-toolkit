@@ -4,43 +4,94 @@
 
 import { ComponentType, ReactNode } from 'react';
 
-type AttrType = 'string' | 'number' | 'boolean';
-type Primitive = string | number | boolean;
-
-// FIXME: make this a discriminated union, you animal.
-type BlockAttribute<T> = T extends 'attribute'
-    ? { type: AttrType; source: T; selector: string; attribute: string }
-    : T extends 'property'
-    ? { type: AttrType; source: T; selector: string; property: string }
-    : T extends 'text'
-    ? { type: AttrType; source: T; selector: string }
-    : T extends 'html'
-    ? { type: AttrType; source: T; selector: string; multiline?: string }
-    : T extends 'meta'
-    ? { type: AttrType; source: T; meta: string }
-    : T extends 'query'
-    ? {
-          type: 'array';
-          source: T;
-          selector: string;
-          default?: any[];
-          // FIXME:
-          query: any;
-      }
-    : {
-          type: AttrType;
-          default?: Primitive;
-      };
-
 type BlockEditRender<T> = ComponentType<BlockEditProps<T>>;
-
 type BlockSaveRender<T> = ComponentType<BlockSaveProps<T>>;
 
+// ========= BEGIN ATTRIBUTES
+
+type AttrType = 'array' | 'boolean' | 'number' | 'string';
+
+type AttributeAttr = {
+    source: 'attribute';
+    attribute: string;
+    selector?: string;
+} & (
+    | {
+          type: 'boolean';
+          default?: boolean;
+      }
+    | {
+          type: 'number';
+          default?: number;
+      }
+    | {
+          type: 'string';
+          default?: string;
+      });
+
+interface GenericAttr {
+    source?: never;
+    type: AttrType;
+    default?: any;
+}
+
+interface HTMLAttr {
+    source: 'html';
+    type: 'string';
+    multiline?: 'li' | 'p';
+    selector?: string;
+    default?: string;
+}
+
+interface MetaAttr {
+    source: 'meta';
+    type: 'string';
+    meta: string;
+    default?: string;
+}
+
+interface PropertyAttr {
+    source: 'property';
+    type: 'string';
+    selector: string;
+    property: string;
+    default?: string;
+}
+
+interface TextAttr {
+    source: 'text';
+    type: 'string';
+    selector?: string;
+    default?: string;
+}
+
+interface QueryAttr<T> {
+    source: 'query';
+    type: 'array';
+    selector: string;
+    query: {
+        [k in keyof T]:
+            | BlockAttribute<T[k] extends (infer U)[] ? U : T[k]>
+            | GenericAttr
+    };
+    default?: any[];
+}
+
+type BlockAttribute<T> =
+    | AttributeAttr
+    | HTMLAttr
+    | MetaAttr
+    | PropertyAttr
+    | TextAttr
+    | QueryAttr<T>;
+
 type BlockAttributes<T> = {
-    [k in keyof T]: BlockAttribute<
-        'attribute' | 'html' | 'meta' | 'property' | 'text' | 'query' | ''
-    >
+    [k in keyof T]:
+        | BlockAttribute<T[k] extends (infer U)[] ? U : T[k]>
+        | GenericAttr
 };
+
+// ========= END ATTRIBUTES
 
 interface BlockConfig<T = {}> {
     /**
@@ -98,7 +149,9 @@ interface BlockConfig<T = {}> {
     /**
      * Sets attributes on the topmost parent element of the current block.
      */
-    getEditWrapperProps?: (attrs: T) => Record<string, Primitive>;
+    getEditWrapperProps?: (
+        attrs: T,
+    ) => Record<string, string | number | boolean>;
 
     edit: BlockEditRender<T>;
 

@@ -26,15 +26,15 @@ interface FormatConfig {
     edit?: ComponentType<FormatProps>;
 }
 
-interface Format {
+export interface Format {
     type: string;
     attributes?: Record<string, string>;
-    unregisteredAttributes?: {};
+    unregisteredAttributes?: Record<string, string>;
     object?: true;
 }
 
-interface Value {
-    formats: Format[][];
+export interface Value {
+    formats: Array<Format[] | undefined>;
     text: string;
     start?: number;
     end?: number;
