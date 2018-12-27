@@ -2,12 +2,15 @@ import { select } from '@wordpress/data';
 import _ from 'lodash';
 import uuid from 'uuid/v4';
 
+const OBJECT_REPLACEMENT_CHARACTER = '\ufffc';
+
 export function createCitationHtml(items: string[]): string {
     const citation = document.createElement('span');
     citation.className = 'abt-citation';
     citation.id = uuid();
     citation.dataset.items = JSON.stringify(items);
     citation.contentEditable = 'false';
+    citation.innerText = OBJECT_REPLACEMENT_CHARACTER;
     return citation.outerHTML;
 }
 

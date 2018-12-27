@@ -6,7 +6,7 @@ import { BibItem } from 'gutenberg/blocks';
 import { getEditorDOM, removeItems } from 'utils/editor';
 import Processor from 'utils/processor';
 
-import { Actions, StyleKind } from './constants';
+import { Actions } from './constants';
 import { fetchLocale, fetchStyle } from './controls';
 
 export function* addReference(data: CSL.Data) {
@@ -45,15 +45,21 @@ export function* removeReferences(itemIds: string[]) {
 }
 
 export function* updateReference(data: CSL.Data) {
+    const itemIsCited =
+        select('abt/data')
+            .getCitedItems()
+            .findIndex(item => item.id === data.id) >= 0;
     yield {
         type: Actions.UPDATE_REFERENCE,
         data,
     };
-    yield parseCitations();
-    yield dispatch('core/editor').editPost(
-        select('abt/data').getSerializedState(),
-    );
-    yield dispatch('core/editor').savePost();
+    if (itemIsCited) {
+        yield parseCitations();
+        yield dispatch('core/editor').editPost(
+            select('abt/data').getSerializedState(),
+        );
+        yield dispatch('core/editor').savePost();
+    }
 }
 
 export function* removeAllCitations() {
@@ -67,22 +73,13 @@ export function* removeAllCitations() {
 }
 
 export function* parseCitations() {
-    const style = select('abt/data').getStyle();
-    let styleXml: string;
-    if (style.kind === StyleKind.CUSTOM) {
-        throw new Error('Custom styles not implemented yet.');
-    } else {
-        styleXml = yield fetchStyle(style.value);
-        yield fetchLocale(styleXml);
-    }
+    const styleXml: string = yield fetchStyle();
+    yield fetchLocale(styleXml);
     const processor = new Processor(styleXml);
     const citations = processor.parseCitations(
         select('abt/data').getCitationsByIndex(),
     );
-    const { bibliography } = processor;
-    if (bibliography.length > 0) {
-        yield setBibliography(bibliography);
-    }
+    yield setBibliography(processor.bibliography);
     yield updateEditorCitations(citations);
 }
 
