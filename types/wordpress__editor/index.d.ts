@@ -45,6 +45,7 @@ export class RichText extends Component<RichTextProps> {
 }
 
 export const BlockControls: ComponentType;
+export const BlockFormatControls: ComponentType;
 export const InspectorControls: ComponentType;
 export const NavigableToolbar: ComponentType<HTMLProps<HTMLElement>>;
 

@@ -50,14 +50,6 @@ interface MetaAttr {
     default?: string;
 }
 
-interface PropertyAttr {
-    source: 'property';
-    type: 'string';
-    selector: string;
-    property: string;
-    default?: string;
-}
-
 interface TextAttr {
     source: 'text';
     type: 'string';
@@ -81,7 +73,6 @@ type BlockAttribute<T> =
     | AttributeAttr
     | HTMLAttr
     | MetaAttr
-    | PropertyAttr
     | TextAttr
     | QueryAttr<T>;
 

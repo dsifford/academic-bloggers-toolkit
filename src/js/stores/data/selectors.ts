@@ -56,6 +56,40 @@ export function getItems(state: State, kind?: 'cited' | 'uncited'): CSL.Data[] {
     }
 }
 
+export function getSortedItems(
+    state: State,
+    mode: 'date' | 'publication' | 'title' = 'title',
+    order: 'asc' | 'desc' = 'asc',
+    kind?: 'cited' | 'uncited',
+): CSL.Data[] {
+    return _.orderBy(
+        getItems(state, kind),
+        item => {
+            switch (mode) {
+                case 'date':
+                    const [year, month = 0, day = 1]: number[] = _.get(
+                        item.issued,
+                        '[date-parts][0]',
+                        [-5000],
+                    );
+                    return new Date(year, month, day).toJSON();
+                case 'publication':
+                    return (
+                        item.journalAbbreviation ||
+                        item['container-title-short'] ||
+                        item['container-title'] ||
+                        item.publisher ||
+                        '~'
+                    );
+                case 'title':
+                default:
+                    return item.title || '~';
+            }
+        },
+        order,
+    );
+}
+
 export function getItemById(state: State, id: string): CSL.Data | undefined {
     return clone(state.references.find(item => item.id === id));
 }

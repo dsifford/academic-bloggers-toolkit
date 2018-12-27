@@ -2,36 +2,43 @@ import { PanelBody } from '@wordpress/components';
 import { compose } from '@wordpress/compose';
 import { withDispatch, withSelect } from '@wordpress/data';
 import { PluginSidebar, PluginSidebarMoreMenuItem } from '@wordpress/edit-post';
-import { Component } from '@wordpress/element';
+import { Component, ComponentType } from '@wordpress/element';
 import _ from 'lodash';
 
 import CountIcon from 'gutenberg/components/count-icon';
 import SidebarItemList from 'gutenberg/components/sidebar-item-list';
+import EditReferenceDialog from 'gutenberg/dialogs/edit-reference';
 
-import Toolbar from './toolbar';
+import SidebarToolbar from './toolbar';
 
-interface DispatchProps {
-    parseCitations(): void;
+namespace Sidebar {
+    export interface DispatchProps {
+        parseCitations(): void;
+        toggleItemSelected(id: string): void;
+        updateReference(data: CSL.Data): void;
+    }
+
+    export interface SelectProps {
+        citedItems: ReadonlyArray<CSL.Data>;
+        isTyping: boolean;
+        selectedItems: ReadonlyArray<string>;
+        uncitedItems: ReadonlyArray<CSL.Data>;
+    }
+
+    export type Props = DispatchProps & SelectProps;
+
+    export interface State {
+        editReferenceId: string;
+        needsUpdate: boolean;
+    }
 }
 
-interface SelectProps {
-    citedItems: ReadonlyArray<CSL.Data>;
-    selectedItems: ReadonlyArray<string>;
-    uncitedItems: ReadonlyArray<CSL.Data>;
-    isTyping: boolean;
-}
-
-type Props = DispatchProps & SelectProps;
-
-interface State {
-    needsUpdate: boolean;
-}
-
-class Sidebar extends Component<Props, State> {
+class Sidebar extends Component<Sidebar.Props, Sidebar.State> {
     state = {
+        editReferenceId: '',
         needsUpdate: false,
     };
-    componentDidUpdate(prevProps: Props) {
+    componentDidUpdate(prevProps: Sidebar.Props) {
         const { citedItems, isTyping, parseCitations } = this.props;
         const citedItemsDidChange =
             prevProps.citedItems.length !== citedItems.length;
@@ -45,9 +52,25 @@ class Sidebar extends Component<Props, State> {
         }
     }
     render() {
-        const { citedItems, selectedItems, uncitedItems } = this.props;
+        const {
+            citedItems,
+            selectedItems,
+            toggleItemSelected,
+            uncitedItems,
+            updateReference,
+        } = this.props;
+        const { editReferenceId } = this.state;
         return (
             <>
+                <EditReferenceDialog
+                    isOpen={!!editReferenceId}
+                    itemId={editReferenceId}
+                    onClose={this.setEditReferenceId}
+                    onSubmit={data => {
+                        updateReference(data);
+                        this.setEditReferenceId();
+                    }}
+                />
                 <PluginSidebarMoreMenuItem
                     target="abt-reference-list"
                     icon="welcome-learn-more"
@@ -55,7 +78,7 @@ class Sidebar extends Component<Props, State> {
                     Academic Blogger's Toolkit
                 </PluginSidebarMoreMenuItem>
                 <PluginSidebar name="abt-reference-list" title="Reference List">
-                    <Toolbar selectedItems={selectedItems} />
+                    <SidebarToolbar selectedItems={selectedItems} />
                     <PanelBody
                         title="Cited Items"
                         icon={<CountIcon count={citedItems.length} />}
@@ -65,6 +88,8 @@ class Sidebar extends Component<Props, State> {
                         <SidebarItemList
                             items={citedItems}
                             selectedItems={selectedItems}
+                            onItemClick={toggleItemSelected}
+                            onItemDoubleClick={this.setEditReferenceId}
                         />
                     </PanelBody>
                     <PanelBody
@@ -78,6 +103,8 @@ class Sidebar extends Component<Props, State> {
                         <SidebarItemList
                             items={uncitedItems}
                             selectedItems={selectedItems}
+                            onItemClick={toggleItemSelected}
+                            onItemDoubleClick={this.setEditReferenceId}
                         />
                     </PanelBody>
                     {/* <PanelBody
@@ -91,51 +118,39 @@ class Sidebar extends Component<Props, State> {
             </>
         );
     }
+
+    private setEditReferenceId = (id: string = '') =>
+        this.setState({ editReferenceId: id });
 }
 
 export default compose([
-    withSelect<SelectProps>(select => {
-        const { getCitedItems, getUncitedItems } = select('abt/data');
+    withSelect<Sidebar.SelectProps>(select => {
+        const { getCitedItems, getSortedItems } = select('abt/data');
         const {
             getSelectedItems,
             getSidebarSortMode,
             getSidebarSortOrder,
         } = select('abt/ui');
-        let uncitedItems = _.sortBy(getUncitedItems(), item => {
-            switch (getSidebarSortMode()) {
-                case 'date':
-                    const [year, month = 0, day = 1]: number[] = _.get(
-                        item.issued,
-                        '[date-parts][0]',
-                        [0],
-                    );
-                    return new Date(year, month, day).toJSON();
-                case 'publication':
-                    return (
-                        item.journalAbbreviation ||
-                        item['container-title-short'] ||
-                        item['container-title'] ||
-                        item.publisher ||
-                        'zzz'
-                    );
-                case 'title':
-                default:
-                    return item.title || 'zzz';
-            }
-        });
-        if (getSidebarSortOrder() === 'desc') {
-            uncitedItems = [...uncitedItems.reverse()];
-        }
         return {
-            uncitedItems,
             citedItems: getCitedItems(),
-            selectedItems: getSelectedItems(),
             isTyping: select<boolean>('core/editor').isTyping(),
+            selectedItems: getSelectedItems(),
+            uncitedItems: getSortedItems(
+                getSidebarSortMode(),
+                getSidebarSortOrder(),
+                'uncited',
+            ),
         };
     }),
-    withDispatch<DispatchProps>(dispatch => ({
+    withDispatch<Sidebar.DispatchProps>(dispatch => ({
         parseCitations() {
             dispatch('abt/data').parseCitations();
         },
+        toggleItemSelected(id) {
+            dispatch('abt/ui').toggleItemSelected(id);
+        },
+        updateReference(data) {
+            dispatch('abt/data').updateReference(data);
+        },
     })),
-])(Sidebar);
+])(Sidebar) as ComponentType;
