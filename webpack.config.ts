@@ -191,56 +191,34 @@ const config: webpack.Configuration = {
             },
             {
                 test: /\.scss$/,
-                oneOf: [
+                use: [
+                    MiniCssExtractPlugin.loader,
                     {
-                        resourceQuery: /global/,
-                        use: [
-                            MiniCssExtractPlugin.loader,
-                            {
-                                loader: 'css-loader',
-                                options: {
-                                    importLoaders: 1,
-                                    modules: false,
-                                    sourceMap: !IS_PRODUCTION,
-                                },
-                            },
-                            {
-                                loader: 'sass-loader',
-                                options: {
-                                    sourceMap: !IS_PRODUCTION,
-                                    outputStyle: IS_PRODUCTION
-                                        ? 'compressed'
-                                        : 'expanded',
-                                    includePaths: ['src/css'],
-                                },
-                            },
-                        ],
+                        loader: 'css-loader',
+                        options: {
+                            importLoaders: 2,
+                            modules: true,
+                            camelCase: 'only',
+                            localIdentName: '[name]__[local]___[hash:base64:5]',
+                        },
                     },
                     {
-                        use: [
-                            MiniCssExtractPlugin.loader,
-                            {
-                                loader: 'css-loader',
-                                options: {
-                                    importLoaders: 1,
-                                    modules: true,
-                                    sourceMap: !IS_PRODUCTION,
-                                    camelCase: 'only',
-                                    localIdentName:
-                                        '[name]__[local]___[hash:base64:5]',
-                                },
-                            },
-                            {
-                                loader: 'sass-loader',
-                                options: {
-                                    sourceMap: !IS_PRODUCTION,
-                                    outputStyle: IS_PRODUCTION
-                                        ? 'compressed'
-                                        : 'expanded',
-                                    includePaths: ['src/css'],
-                                },
-                            },
-                        ],
+                        loader: 'postcss-loader',
+                        options: {
+                            ident: 'postcss',
+                            plugins: [
+                                require('postcss-preset-env')(),
+                                ...(IS_PRODUCTION
+                                    ? [require('cssnano')()]
+                                    : []),
+                            ],
+                        },
+                    },
+                    {
+                        loader: 'sass-loader',
+                        options: {
+                            includePaths: ['src/css'],
+                        },
                     },
                 ],
             },
@@ -250,10 +228,6 @@ const config: webpack.Configuration = {
                     MiniCssExtractPlugin.loader,
                     {
                         loader: 'css-loader',
-                        options: {
-                            minimize: IS_PRODUCTION,
-                            sourceMap: !IS_PRODUCTION,
-                        },
                     },
                 ],
             },
