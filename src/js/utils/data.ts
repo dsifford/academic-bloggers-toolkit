@@ -7,6 +7,12 @@ export function clone<T>(data: T): T {
     return JSON.parse(JSON.stringify(data));
 }
 
+export function swapWith<T>(arr: T[], a: number, b: number): T[] {
+    const list = [...arr];
+    const item = list.splice(a, 1);
+    return [...list.slice(0, b), ...item, ...list.slice(b)];
+}
+
 export namespace date {
     export function getYear(d?: CSL.Date): number | string {
         if (!d) {

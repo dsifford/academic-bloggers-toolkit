@@ -1,0 +1,47 @@
+.body {
+    font-size: 0.8em;
+}
+
+.item {
+    margin-left: 1em;
+
+    > div:not([class]) {
+        display: inline;
+        display: contents;
+    }
+}
+
+.button-list {
+    $icon-size: 15px;
+    $padding: 6px;
+
+    display: grid;
+    opacity: 0;
+
+    button {
+        padding: $padding;
+        overflow: visible;
+
+        &:disabled {
+            cursor: not-allowed;
+        }
+
+        svg {
+            width: $icon-size;
+            height: $icon-size;
+        }
+    }
+}
+
+.row {
+    display: grid;
+    grid-template-columns: 100% min-content;
+    gap: 20px;
+    align-items: center;
+
+    &:hover {
+        .button-list {
+            opacity: 1;
+        }
+    }
+}

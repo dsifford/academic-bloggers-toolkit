@@ -437,6 +437,15 @@ export namespace PanelRow {
 }
 export const PanelRow: ComponentType<PanelRow.Props>;
 
+export namespace Placeholder {
+    interface Props extends HTMLProps<HTMLDivElement> {
+        icon?: ReactNode;
+        label?: string;
+        instructions?: string;
+    }
+}
+export const Placeholder: ComponentType<Placeholder.Props>;
+
 export namespace SelectControl {
     interface CommonProps {
         label?: string;
