@@ -4,7 +4,7 @@ import controls from './controls';
 import reducer from './reducer';
 import * as selectors from './selectors';
 
-interface Style {
+export interface Style {
     kind: StyleKind;
     value: string;
     label: string;

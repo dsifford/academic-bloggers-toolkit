@@ -1,4 +1,5 @@
 import {
+    createSlotFill,
     Dropdown,
     ExternalLink,
     IconButton,
@@ -9,24 +10,38 @@ import {
 } from '@wordpress/components';
 import { compose } from '@wordpress/compose';
 import { withDispatch, withSelect } from '@wordpress/data';
+import { ComponentType } from '@wordpress/element';
 import { __, _x } from '@wordpress/i18n';
 
 import styles from './toolbar-menu.scss';
 
-interface DispatchProps {
-    refreshCitations(): void;
-    removeAllCitations(): void;
-    setSortMode(mode: 'date' | 'publication' | 'title'): void;
-    setSortOrder(order: 'asc' | 'desc'): void;
+const { Slot: ToolbarMenuItemSlot, Fill: ToolbarMenuItemFill } = createSlotFill(
+    'abt-toolbar-menu-item',
+);
+
+const Separator = () => <hr className={styles.separator} />;
+
+export const ToolbarMenuItem = (props: MenuItem.Props) => (
+    <ToolbarMenuItemFill>
+        <MenuItem {...props} />
+    </ToolbarMenuItemFill>
+);
+
+namespace ToolbarMenu {
+    export interface DispatchProps {
+        refreshCitations(): void;
+        removeAllCitations(): void;
+        setSortMode(mode: 'date' | 'publication' | 'title'): void;
+        setSortOrder(order: 'asc' | 'desc'): void;
+    }
+
+    export interface SelectProps {
+        sortMode: 'date' | 'publication' | 'title';
+        sortOrder: 'asc' | 'desc';
+    }
+
+    export type Props = DispatchProps & SelectProps;
 }
-
-interface SelectProps {
-    sortMode: 'date' | 'publication' | 'title';
-    sortOrder: 'asc' | 'desc';
-}
-
-type Props = DispatchProps & SelectProps;
-
 const ToolbarMenu = ({
     refreshCitations,
     removeAllCitations,
@@ -34,7 +49,7 @@ const ToolbarMenu = ({
     setSortOrder,
     sortMode,
     sortOrder,
-}: Props) => (
+}: ToolbarMenu.Props) => (
     <Dropdown
         contentClassName={styles.dropdown}
         renderToggle={({ onToggle }) => (
@@ -51,24 +66,21 @@ const ToolbarMenu = ({
         )}
         renderContent={({ onClose }) => (
             <NavigableMenu className={styles.menu}>
-                <MenuItem
-                    icon="trash"
-                    onClick={() => {
-                        removeAllCitations();
-                        onClose();
-                    }}
-                >
-                    {__('Remove all citations', 'academic-bloggers-toolkit')}
-                </MenuItem>
-                <MenuItem
-                    icon="update"
-                    onClick={() => {
-                        refreshCitations();
-                        onClose();
-                    }}
-                >
-                    {__('Refresh all citations', 'academic-bloggers-toolkit')}
-                </MenuItem>
+                <section role="list" onClick={() => onClose()}>
+                    <MenuItem icon="trash" onClick={removeAllCitations}>
+                        {__(
+                            'Remove all citations',
+                            'academic-bloggers-toolkit',
+                        )}
+                    </MenuItem>
+                    <MenuItem icon="update" onClick={refreshCitations}>
+                        {__(
+                            'Refresh all citations',
+                            'academic-bloggers-toolkit',
+                        )}
+                    </MenuItem>
+                    <ToolbarMenuItemSlot />
+                </section>
                 <Separator />
                 <MenuGroup
                     label={_x(
@@ -154,31 +166,31 @@ const ToolbarMenu = ({
     />
 );
 
-const Separator = () => <hr className={styles.separator} />;
-
 export default compose([
-    withDispatch<DispatchProps, SelectProps>((dispatch, ownProps) => {
-        return {
-            refreshCitations() {
-                dispatch('abt/data').parseCitations();
-            },
-            removeAllCitations() {
-                dispatch('abt/data').removeAllCitations();
-            },
-            setSortMode(mode) {
-                if (mode !== ownProps.sortMode) {
-                    dispatch('abt/ui').setSidebarSortMode(mode);
-                }
-            },
-            setSortOrder(order) {
-                if (order !== ownProps.sortOrder) {
-                    dispatch('abt/ui').setSidebarSortOrder(order);
-                }
-            },
-        };
-    }),
-    withSelect<SelectProps>(select => ({
+    withDispatch<ToolbarMenu.DispatchProps, ToolbarMenu.SelectProps>(
+        (dispatch, ownProps) => {
+            return {
+                refreshCitations() {
+                    dispatch('abt/data').parseCitations();
+                },
+                removeAllCitations() {
+                    dispatch('abt/data').removeAllCitations();
+                },
+                setSortMode(mode) {
+                    if (mode !== ownProps.sortMode) {
+                        dispatch('abt/ui').setSidebarSortMode(mode);
+                    }
+                },
+                setSortOrder(order) {
+                    if (order !== ownProps.sortOrder) {
+                        dispatch('abt/ui').setSidebarSortOrder(order);
+                    }
+                },
+            };
+        },
+    ),
+    withSelect<ToolbarMenu.SelectProps>(select => ({
         sortMode: select('abt/ui').getSidebarSortMode(),
         sortOrder: select('abt/ui').getSidebarSortOrder(),
     })),
-])(ToolbarMenu);
+])(ToolbarMenu) as ComponentType;

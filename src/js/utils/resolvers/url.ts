@@ -1,5 +1,3 @@
-import { addQueryArgs } from '@wordpress/url';
-
 import { ResponseError } from 'utils/error';
 
 import { AutociteResponse } from './';
@@ -135,20 +133,14 @@ interface WebpageResponse {
 // Without it, the function would _more_ complex.
 
 export async function get(URL: string): Promise<CSL.Data | ResponseError> {
-    const response = await fetch(
-        addQueryArgs(top.ajaxurl, {
-            action: 'get_website_meta',
-            url: URL,
-        }),
-        {
-            method: 'POST',
-            headers: {
-                'Content-type': 'application/x-www-form-urlencoded',
-            },
-            body: `action=get_website_meta&url=${encodeURIComponent(URL)}`,
-            credentials: 'same-origin',
+    const response = await fetch(top.ajaxurl, {
+        method: 'POST',
+        headers: {
+            'Content-type': 'application/x-www-form-urlencoded',
         },
-    );
+        body: `action=get_website_meta&url=${encodeURIComponent(URL)}`,
+        credentials: 'same-origin',
+    });
     if (!response.ok) {
         return new ResponseError(URL, response);
     }

@@ -94,10 +94,13 @@ export function getItemById(state: State, id: string): CSL.Data | undefined {
     return clone(state.references.find(item => item.id === id));
 }
 
-export function getSerializedState(state: State): SerializedMeta {
+export function getSerializedState({
+    references,
+    style,
+}: State): SerializedMeta {
     return {
         meta: {
-            abt_state: JSON.stringify(state),
+            abt_state: JSON.stringify({ references, style }),
         },
     };
 }

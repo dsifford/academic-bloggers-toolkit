@@ -66,7 +66,7 @@ class Sidebar extends Component<Sidebar.Props, Sidebar.State> {
                 <EditReferenceDialog
                     isOpen={!!editReferenceId}
                     itemId={editReferenceId}
-                    onClose={this.setEditReferenceId}
+                    onClose={() => this.setEditReferenceId()}
                     onSubmit={data => {
                         updateReference(data);
                         this.setEditReferenceId();

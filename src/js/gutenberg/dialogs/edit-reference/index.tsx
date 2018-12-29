@@ -12,20 +12,18 @@ import styles from './style.scss';
 
 const FORM_ID = 'edit-reference-form';
 
-interface SelectProps {
-    data?: CSL.Data;
-}
-
 namespace Dialog {
-    export interface Props {
+    export interface SelectProps {
+        data?: CSL.Data;
+    }
+    export interface OwnProps extends asDialog.Props {
         itemId?: string;
-        isOpen: boolean;
-        onClose(): void;
         onSubmit(data: CSL.Data): void;
     }
+    export type Props = OwnProps & SelectProps;
 }
 
-const Dialog = ({ onSubmit, data }: Dialog.Props & SelectProps) => (
+const Dialog = ({ onSubmit, data }: Dialog.Props) => (
     <>
         <ManualReferenceForm id={FORM_ID} onSubmit={onSubmit} data={data} />
         <DialogToolbar>
@@ -40,9 +38,9 @@ const Dialog = ({ onSubmit, data }: Dialog.Props & SelectProps) => (
 
 export default compose([
     asDialog,
-    withSelect<SelectProps, Dialog.Props>((select, ownProps) => {
+    withSelect<Dialog.SelectProps, Dialog.OwnProps>((select, ownProps) => {
         return {
             data: select('abt/data').getItemById(ownProps.itemId) || undefined,
         };
     }),
-])(Dialog) as ComponentType<Dialog.Props>;
+])(Dialog) as ComponentType<Dialog.OwnProps>;
