@@ -1,6 +1,12 @@
 .form {
     width: 550px;
     max-width: calc(100vw - 32px);
+
+    :global .components-notice {
+        margin: 0 {
+            bottom: 10px;
+        }
+    }
 }
 
 .field {

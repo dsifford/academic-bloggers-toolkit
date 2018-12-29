@@ -2,6 +2,7 @@ import { Button } from '@wordpress/components';
 import { compose } from '@wordpress/compose';
 import { withSelect } from '@wordpress/data';
 import { ComponentType } from '@wordpress/element';
+import { __ } from '@wordpress/i18n';
 
 import asDialog from 'gutenberg/components/as-dialog';
 import DialogToolbar from 'gutenberg/components/dialog-toolbar';
@@ -30,7 +31,7 @@ const Dialog = ({ onSubmit, data }: Dialog.Props & SelectProps) => (
         <DialogToolbar>
             <div className={styles.toolbar}>
                 <Button isPrimary isLarge type="submit" form={FORM_ID}>
-                    Update Reference
+                    {__('Update Reference', 'academic-bloggers-toolkit')}
                 </Button>
             </div>
         </DialogToolbar>

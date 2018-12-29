@@ -2,6 +2,7 @@ import { Button, ToggleControl } from '@wordpress/components';
 import { compose } from '@wordpress/compose';
 import { withDispatch } from '@wordpress/data';
 import { Component, ComponentType } from '@wordpress/element';
+import { __ } from '@wordpress/i18n';
 
 import asDialog from 'gutenberg/components/as-dialog';
 import DialogToolbar from 'gutenberg/components/dialog-toolbar';
@@ -62,7 +63,10 @@ class Dialog extends Component<Dialog.Props, Dialog.State> {
                 <DialogToolbar>
                     <div className={styles.toolbar}>
                         <ToggleControl
-                            label="Add manually"
+                            label={__(
+                                'Add manually',
+                                'academic-bloggers-toolkit',
+                            )}
                             checked={isAddingManually}
                             onChange={this.handleToggleManually}
                         />
@@ -74,7 +78,7 @@ class Dialog extends Component<Dialog.Props, Dialog.State> {
                             type="submit"
                             form={FORM_ID}
                         >
-                            Add Reference
+                            {__('Add Reference', 'academic-bloggers-toolkit')}
                         </Button>
                     </div>
                 </DialogToolbar>

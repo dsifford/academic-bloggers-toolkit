@@ -374,6 +374,37 @@ export namespace NavigableMenu {
 }
 export const NavigableMenu: ComponentType<NavigableMenu.Props>;
 
+export namespace Notice {
+    interface Props {
+        /**
+         * An array of action objects.
+         *
+         * Each member object should contain a label and either a url link
+         * string or onClick callback function.
+         */
+        actions?: Array<
+            | {
+                  label: ReactNode;
+                  onClick(): void;
+              }
+            | { label: string; url: string }
+        >;
+        status?: 'error' | 'success' | 'warning';
+        /**
+         * Whether the notice should be dismissible or not.
+         *
+         * @defaultValue true
+         */
+        isDismissable?: boolean;
+
+        /**
+         * Function called when dismissing the notice.
+         */
+        onRemove?(): void;
+    }
+}
+export const Notice: ComponentType<Notice.Props>;
+
 export namespace Panel {
     interface Props {
         /**

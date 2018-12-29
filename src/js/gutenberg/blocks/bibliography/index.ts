@@ -1,5 +1,5 @@
 import { BlockConfig, createBlock } from '@wordpress/blocks';
-// import { dispatch } from '@wordpress/data';
+import { __ } from '@wordpress/i18n';
 
 import { BibItem } from '../';
 import BibliographyEdit from './edit';
@@ -14,9 +14,12 @@ export interface Attributes {
 }
 
 const config: BlockConfig<Attributes> = {
-    title: 'Bibliography',
+    title: __('Bibliography', 'academic-bloggers-toolkit'),
     category: 'widgets',
-    description: 'Display a list of your cited references.',
+    description: __(
+        'Display a list of your cited references.',
+        'academic-bloggers-toolkit',
+    ),
     icon: 'welcome-learn-more',
     attributes: {
         items: {
@@ -108,7 +111,6 @@ const config: BlockConfig<Attributes> = {
                             return;
                         }
                     }
-                    // setTimeout(dispatch('abt/data').parseCitations, 500);
                     return createBlock('abt/bibliography', attributes);
                 },
             },

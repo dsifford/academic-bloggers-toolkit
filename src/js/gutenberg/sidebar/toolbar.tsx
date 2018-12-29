@@ -8,6 +8,7 @@ import {
 import { compose } from '@wordpress/compose';
 import { withDispatch } from '@wordpress/data';
 import { Component, FormEvent } from '@wordpress/element';
+import { __ } from '@wordpress/i18n';
 
 import RemoveIcon from 'gutenberg/components/icons/remove';
 import AddReferenceDialog from 'gutenberg/dialogs/add-reference';
@@ -48,13 +49,19 @@ class Toolbar extends Component<Toolbar.Props> {
                     <AddReferenceDialog />
                     <IconButton
                         icon={<RemoveIcon />}
-                        label="Remove selected References"
+                        label={__(
+                            'Remove selected References',
+                            'academic-bloggers-toolkit',
+                        )}
                         disabled={selectedItems.length === 0}
                         onClick={() => removeSelectedItems()}
                     />
                     <FormFileUpload
                         icon="welcome-add-page"
-                        label="Import references"
+                        label={__(
+                            'Import references',
+                            'academic-bloggers-toolkit',
+                        )}
                         accept={[
                             '.ris',
                             '.bib',
@@ -80,7 +87,10 @@ class Toolbar extends Component<Toolbar.Props> {
             this.props.addItems(data);
         } catch (e) {
             this.props.createErrorNotice(
-                'Invalid import file type. File must be a valid BibTeX or RIS file.',
+                __(
+                    'Invalid import file type. File must be a valid BibTeX or RIS file.',
+                    'academic-bloggers-toolkit',
+                ),
             );
         }
         target.value = '';

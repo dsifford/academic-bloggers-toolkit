@@ -9,6 +9,7 @@ import {
 } from '@wordpress/components';
 import { compose } from '@wordpress/compose';
 import { withDispatch, withSelect } from '@wordpress/data';
+import { __, _x } from '@wordpress/i18n';
 
 import styles from './toolbar-menu.scss';
 
@@ -39,7 +40,11 @@ const ToolbarMenu = ({
         renderToggle={({ onToggle }) => (
             <IconButton
                 icon="ellipsis"
-                label="More options"
+                label={_x(
+                    'More options',
+                    'Button label telling users that clicking shows additional options',
+                    'academic-bloggers-toolkit',
+                )}
                 className={styles.moreIcon}
                 onClick={onToggle}
             />
@@ -53,7 +58,7 @@ const ToolbarMenu = ({
                         onClose();
                     }}
                 >
-                    Remove all citations
+                    {__('Remove all citations', 'academic-bloggers-toolkit')}
                 </MenuItem>
                 <MenuItem
                     icon="update"
@@ -62,26 +67,42 @@ const ToolbarMenu = ({
                         onClose();
                     }}
                 >
-                    Refresh all citations
+                    {__('Refresh all citations', 'academic-bloggers-toolkit')}
                 </MenuItem>
                 <Separator />
                 <MenuGroup
-                    label="Sort uncited by"
+                    label={_x(
+                        'Sort uncited by',
+                        'Form label',
+                        'academic-bloggers-toolkit',
+                    )}
                     className={styles.sortChoices}
                 >
                     <MenuItemsChoice
                         value={sortMode}
                         choices={[
                             {
-                                label: 'Date',
+                                label: _x(
+                                    'Date',
+                                    'Button label for sorting by date',
+                                    'academic-bloggers-toolkit',
+                                ),
                                 value: 'date',
                             },
                             {
-                                label: 'Publication',
+                                label: _x(
+                                    'Publication',
+                                    'Button label for sorting by publication',
+                                    'academic-bloggers-toolkit',
+                                ),
                                 value: 'publication',
                             },
                             {
-                                label: 'Title',
+                                label: _x(
+                                    'Title',
+                                    'Button label for sorting by title',
+                                    'academic-bloggers-toolkit',
+                                ),
                                 value: 'title',
                             },
                         ]}
@@ -93,7 +114,14 @@ const ToolbarMenu = ({
                         }
                     />
                 </MenuGroup>
-                <MenuGroup label="Sort order" className={styles.sortChoices}>
+                <MenuGroup
+                    label={_x(
+                        'Sort order',
+                        'Form label',
+                        'academic-bloggers-toolkit',
+                    )}
+                    className={styles.sortChoices}
+                >
                     <MenuItemsChoice
                         value={sortOrder}
                         choices={[
@@ -114,7 +142,11 @@ const ToolbarMenu = ({
                 <Separator />
                 <MenuItem icon="editor-help">
                     <ExternalLink href="https://github.com/dsifford/academic-bloggers-toolkit/wiki">
-                        Usage instructions
+                        {_x(
+                            'Usage instructions',
+                            'Link that goes to usage instructions',
+                            'academic-bloggers-toolkit',
+                        )}
                     </ExternalLink>
                 </MenuItem>
             </NavigableMenu>

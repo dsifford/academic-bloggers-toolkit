@@ -1,6 +1,7 @@
 import { compose } from '@wordpress/compose';
 import { withDispatch, withSelect } from '@wordpress/data';
 import { Component } from '@wordpress/element';
+import { __ } from '@wordpress/i18n';
 import { create, FormatProps, insert } from '@wordpress/rich-text';
 
 import { ToolbarButton } from 'gutenberg/sidebar/toolbar';
@@ -35,7 +36,7 @@ class Citation extends Component<Citation.Props> {
             <>
                 <ToolbarButton
                     icon="exit"
-                    label="Insert citation"
+                    label={__('Insert citation', 'academic-bloggers-toolkit')}
                     disabled={selectedItems.length === 0}
                     onClick={this.insertCitation}
                 />

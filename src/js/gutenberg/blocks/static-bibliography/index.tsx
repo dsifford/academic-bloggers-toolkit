@@ -1,4 +1,5 @@
 import { BlockConfig, createBlock } from '@wordpress/blocks';
+import { __ } from '@wordpress/i18n';
 import uuid from 'uuid/v4';
 
 import { BibItem, stripListItem } from '../';
@@ -11,11 +12,18 @@ export interface Attributes {
 }
 
 const config: BlockConfig<Attributes> = {
-    title: 'Static Bibliography',
+    title: __('Static Bibliography', 'academic-bloggers-toolkit'),
     category: 'widgets',
-    description: 'Display a static list of references.',
+    description: __(
+        'Display a static list of references.',
+        'academic-bloggers-toolkit',
+    ),
     icon: 'welcome-learn-more',
-    keywords: ['reference', 'citation', 'sources'],
+    keywords: [
+        __('reference', 'academic-bloggers-toolkit'),
+        __('citation', 'academic-bloggers-toolkit'),
+        __('sources', 'academic-bloggers-toolkit'),
+    ],
     attributes: {
         items: {
             type: 'array',

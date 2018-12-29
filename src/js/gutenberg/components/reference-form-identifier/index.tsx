@@ -1,6 +1,7 @@
 import { compose } from '@wordpress/compose';
 import { withDispatch, withSelect } from '@wordpress/data';
 import { Component, createRef, FormEvent } from '@wordpress/element';
+import { __, sprintf } from '@wordpress/i18n';
 
 import { IdentifierKind } from 'utils/constants';
 import { ResponseError } from 'utils/error';
@@ -59,9 +60,15 @@ class IdentifierForm extends Component<Props, State> {
         return (
             <form id={id} className={styles.form} onSubmit={this.handleSubmit}>
                 <select required value={kind} onChange={this.handleKindChange}>
-                    <option value={IdentifierKind.DOI}>DOI</option>
-                    <option value={IdentifierKind.PMID}>PMID</option>
-                    <option value={IdentifierKind.PMCID}>PMCID</option>
+                    <option value={IdentifierKind.DOI}>
+                        {__('DOI', 'academic-bloggers-toolkit')}
+                    </option>
+                    <option value={IdentifierKind.PMID}>
+                        {__('PMID', 'academic-bloggers-toolkit')}
+                    </option>
+                    <option value={IdentifierKind.PMCID}>
+                        {__('PMCID', 'academic-bloggers-toolkit')}
+                    </option>
                 </select>
                 {/* TODO: consider using `FormTokenField` here */}
                 <input
@@ -103,7 +110,15 @@ class IdentifierForm extends Component<Props, State> {
                 response = await Pubmed.get(value, 'pubmed');
                 break;
             default:
-                this.props.onError(`Invalid indentifier type: ${value}`);
+                this.props.onError(
+                    sprintf(
+                        __(
+                            'Invalid indentifier type: %s',
+                            'academic-bloggers-toolkit',
+                        ),
+                        value,
+                    ),
+                );
                 this.props.setBusy(false);
                 this.props.onClose();
                 return;
@@ -111,7 +126,13 @@ class IdentifierForm extends Component<Props, State> {
         this.props.setBusy(false);
         if (response instanceof ResponseError) {
             this.props.onError(
-                `Unable to retrieve data for identifier: ${response.resource}`,
+                sprintf(
+                    __(
+                        'Unable to retrieve data for identifier: %s',
+                        'academic-bloggers-toolkit',
+                    ),
+                    response.resource,
+                ),
             );
             this.props.onClose();
             return;

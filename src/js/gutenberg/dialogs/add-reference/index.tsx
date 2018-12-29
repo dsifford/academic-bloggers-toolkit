@@ -2,6 +2,7 @@ import { IconButton, KeyboardShortcuts } from '@wordpress/components';
 import { compose } from '@wordpress/compose';
 import { withDispatch } from '@wordpress/data';
 import { Component } from '@wordpress/element';
+import { __ } from '@wordpress/i18n';
 import { displayShortcut } from '@wordpress/keycodes';
 
 import Dialog from './dialog';
@@ -30,7 +31,7 @@ class AddReferenceDialog extends Component<DispatchProps, State> {
                 <IconButton
                     shortcut={displayShortcut.primaryAlt('r')}
                     icon="insert"
-                    label="Add reference"
+                    label={__('Add reference', 'academic-bloggers-toolkit')}
                     onClick={this.toggleDialog}
                 />
                 <Dialog

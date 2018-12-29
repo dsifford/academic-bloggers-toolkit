@@ -3,6 +3,7 @@ import { compose } from '@wordpress/compose';
 import { withDispatch, withSelect } from '@wordpress/data';
 import { PluginSidebar, PluginSidebarMoreMenuItem } from '@wordpress/edit-post';
 import { Component, ComponentType } from '@wordpress/element';
+import { __ } from '@wordpress/i18n';
 import _ from 'lodash';
 
 import CountIcon from 'gutenberg/components/count-icon';
@@ -75,12 +76,18 @@ class Sidebar extends Component<Sidebar.Props, Sidebar.State> {
                     target="abt-reference-list"
                     icon="welcome-learn-more"
                 >
-                    Academic Blogger's Toolkit
+                    {__(
+                        "Academic Blogger's Toolkit",
+                        'academic-bloggers-toolkit',
+                    )}
                 </PluginSidebarMoreMenuItem>
-                <PluginSidebar name="abt-reference-list" title="Reference List">
+                <PluginSidebar
+                    name="abt-reference-list"
+                    title={__('Reference List', 'academic-bloggers-toolkit')}
+                >
                     <SidebarToolbar selectedItems={selectedItems} />
                     <PanelBody
-                        title="Cited Items"
+                        title={__('Cited Items', 'academic-bloggers-toolkit')}
                         icon={<CountIcon count={citedItems.length} />}
                         initialOpen={citedItems.length > 0}
                         opened={citedItems.length === 0 ? false : undefined}
@@ -93,7 +100,7 @@ class Sidebar extends Component<Sidebar.Props, Sidebar.State> {
                         />
                     </PanelBody>
                     <PanelBody
-                        title="Uncited Items"
+                        title={__('Uncited Items', 'academic-bloggers-toolkit')}
                         icon={<CountIcon count={uncitedItems.length} />}
                         initialOpen={
                             uncitedItems.length > 0 && citedItems.length === 0

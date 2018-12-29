@@ -13,6 +13,7 @@ import {
     RichText,
 } from '@wordpress/editor';
 import { Component, ComponentType } from '@wordpress/element';
+import { __ } from '@wordpress/i18n';
 import classNames from 'classnames';
 
 import CountIcon from 'gutenberg/components/count-icon';
@@ -45,12 +46,17 @@ class Edit extends Component<Edit.Props> {
             <>
                 <InspectorControls>
                     <PanelBody>
-                        Double click on one or more items in the list below to
-                        insert them into the end of the list.
+                        {__(
+                            'Double click on one or more items in the list below to insert them into the end of the list.',
+                            'academic-bloggers-toolkit',
+                        )}
                         <PanelBody
                             icon={<CountIcon count={references.length} />}
                             initialOpen={false}
-                            title="Available References"
+                            title={__(
+                                'Available References',
+                                'academic-bloggers-toolkit',
+                            )}
                         >
                             <SidebarItemList
                                 items={references}
@@ -64,7 +70,10 @@ class Edit extends Component<Edit.Props> {
                         controls={[
                             {
                                 icon: 'editor-ul',
-                                title: 'Convert to unordered list',
+                                title: __(
+                                    'Convert to unordered list',
+                                    'academic-bloggers-toolkit',
+                                ),
                                 isActive: orderedList === false,
                                 onClick() {
                                     if (orderedList) {
@@ -74,7 +83,10 @@ class Edit extends Component<Edit.Props> {
                             },
                             {
                                 icon: 'editor-ol',
-                                title: 'Convert to ordered list',
+                                title: __(
+                                    'Convert to ordered list',
+                                    'academic-bloggers-toolkit',
+                                ),
                                 isActive: orderedList === true,
                                 onClick() {
                                     if (!orderedList) {
@@ -89,11 +101,15 @@ class Edit extends Component<Edit.Props> {
                     {items.length === 0 && (
                         <Placeholder
                             icon="welcome-learn-more"
-                            label="No references added yet"
+                            label={__(
+                                'No references added yet',
+                                'academic-bloggers-toolkit',
+                            )}
                         >
-                            Add references to this list by double clicking one
-                            or more items listed in the "Avaliable References"
-                            section of the block settings panel.
+                            {__(
+                                'Add references to this list by double clicking one or more items listed in the "Avaliable References" section of the block settings panel.',
+                                'academic-bloggers-toolkit',
+                            )}
                         </Placeholder>
                     )}
                     {items.length > 0 && (
@@ -232,12 +248,18 @@ const LiveItem = ({
             <IconButton
                 icon="arrow-up-alt2"
                 disabled={!onMoveUp}
+                label={__('Move item up', 'academic-bloggers-toolkit')}
                 onClick={() => onMoveUp && onMoveUp()}
             />
-            <IconButton icon="trash" onClick={() => onRemove()} />
+            <IconButton
+                icon="trash"
+                label={__('Remove item', 'academic-bloggers-toolkit')}
+                onClick={() => onRemove()}
+            />
             <IconButton
                 icon="arrow-down-alt2"
                 disabled={!onMoveDown}
+                label={__('Move item down', 'academic-bloggers-toolkit')}
                 onClick={() => onMoveDown && onMoveDown()}
             />
         </div>

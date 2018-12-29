@@ -1,4 +1,5 @@
 import { IconButton } from '@wordpress/components';
+import { __ } from '@wordpress/i18n';
 import classNames from 'classnames';
 
 import RemoveIcon from 'gutenberg/components/icons/remove';
@@ -17,7 +18,7 @@ const PeopleFields = ({ fields }: PeopleFields.Props) => (
     <PeopleContext.Consumer>
         {({ add, people, remove }) => (
             <>
-                <h2>Contributors</h2>
+                <h2>{__('Contributors', 'academic-bloggers-toolkit')}</h2>
                 <div className={styles.people}>
                     {people.map((person, i) => (
                         <Person
@@ -34,10 +35,13 @@ const PeopleFields = ({ fields }: PeopleFields.Props) => (
                             disabled={people.length === 0}
                             onClick={remove}
                         >
-                            Remove contributor
+                            {__(
+                                'Remove contributor',
+                                'academic-bloggers-toolkit',
+                            )}
                         </IconButton>
                         <IconButton icon="insert" onClick={add}>
-                            Add contributor
+                            {__('Add contributor', 'academic-bloggers-toolkit')}
                         </IconButton>
                     </div>
                 </div>
@@ -86,7 +90,10 @@ const Person = ({ data, fields, index, isLiteral }: Person.Props) => (
                             data-lpignore="true"
                             autoComplete="off"
                             type="text"
-                            placeholder="Last name"
+                            placeholder={__(
+                                'Last name',
+                                'academic-bloggers-toolkit',
+                            )}
                             value={data.family}
                             onChange={e =>
                                 update(index, {
@@ -100,7 +107,10 @@ const Person = ({ data, fields, index, isLiteral }: Person.Props) => (
                             data-lpignore="true"
                             autoComplete="off"
                             type="text"
-                            placeholder="First name"
+                            placeholder={__(
+                                'First name',
+                                'academic-bloggers-toolkit',
+                            )}
                             value={data.given}
                             onChange={e =>
                                 update(index, {
@@ -117,7 +127,10 @@ const Person = ({ data, fields, index, isLiteral }: Person.Props) => (
                         type="text"
                         data-lpignore="true"
                         autoComplete="off"
-                        placeholder="Literal name"
+                        placeholder={__(
+                            'Literal name',
+                            'academic-bloggers-toolkit',
+                        )}
                         value={data.literal}
                         onChange={e =>
                             update(index, {
@@ -131,7 +144,15 @@ const Person = ({ data, fields, index, isLiteral }: Person.Props) => (
                     type="button"
                     icon={isLiteral ? 'admin-users' : 'groups'}
                     label={
-                        isLiteral ? 'Toggle single name' : 'Toggle group name'
+                        isLiteral
+                            ? __(
+                                  'Toggle single name',
+                                  'academic-bloggers-toolkit',
+                              )
+                            : __(
+                                  'Toggle group name',
+                                  'academic-bloggers-toolkit',
+                              )
                     }
                     onClick={() =>
                         update(index, {

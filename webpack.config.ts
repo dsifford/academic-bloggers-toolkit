@@ -80,7 +80,7 @@ const config: webpack.Configuration = {
     watch: !IS_PRODUCTION,
     devtool: IS_PRODUCTION ? 'source-map' : 'cheap-module-eval-source-map',
     watchOptions: {
-        ignored: /(node_modules|dist|lib|types|__tests__|webpack.config)/,
+        ignored: /(node_modules|__tests__)/,
     },
     context: path.resolve(__dirname, 'src'),
     externals: {

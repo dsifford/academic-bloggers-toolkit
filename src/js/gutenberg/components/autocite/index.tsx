@@ -1,5 +1,6 @@
 import { IconButton } from '@wordpress/components';
 import { Component, createRef, HTMLProps } from '@wordpress/element';
+import { __, _x, sprintf } from '@wordpress/i18n';
 import classNames from 'classnames';
 
 import { ResponseError } from 'utils/error';
@@ -14,22 +15,25 @@ interface Props {
     kind: 'book' | 'chapter' | 'webpage';
     inputProps?: HTMLProps<HTMLInputElement>;
     className?: string;
+    onError(message: string): void;
     onSubmit(data: CSL.Data): void;
 }
 
 interface State {
+    isBusy: boolean;
     query: string;
 }
 
 export default class Autocite extends Component<Props, State> {
-    state: State = {
+    state = {
+        isBusy: false,
         query: '',
     };
 
     private inputRef = createRef<HTMLInputElement>();
 
     render() {
-        const { query } = this.state;
+        const { isBusy, query } = this.state;
         const { inputProps, className } = this.props;
         const isInvalid = this.inputRef.current
             ? !this.inputRef.current.validity.valid
@@ -44,7 +48,11 @@ export default class Autocite extends Component<Props, State> {
                     role="search"
                     className={classNames(styles.autocite, className)}
                 >
-                    Autocite
+                    {_x(
+                        'Autocite',
+                        'Not a real word, but should be something short that conveys that citation data will be generated automatically',
+                        'academic-bloggers-toolkit',
+                    )}
                 </label>
                 <input
                     id="autocite"
@@ -58,21 +66,32 @@ export default class Autocite extends Component<Props, State> {
                     onChange={e =>
                         this.setState({ query: e.currentTarget.value })
                     }
+                    onKeyDown={e => {
+                        if (e.key !== 'Enter') {
+                            return;
+                        }
+                        e.preventDefault();
+                        return isInvalid ? void 0 : this.handleQuery();
+                    }}
                 />
                 <IconButton
+                    isLarge
+                    isBusy={isBusy}
+                    isPrimary={isBusy}
                     icon="search"
                     disabled={isInvalid}
                     onClick={this.handleQuery}
                 >
-                    Search
+                    {__('Search', 'academic-bloggers-toolkit')}
                 </IconButton>
             </div>
         );
     }
 
     private handleQuery = async () => {
+        this.setState({ isBusy: true });
         const { query } = this.state;
-        const { kind, onSubmit } = this.props;
+        const { kind, onError, onSubmit } = this.props;
         let response: CSL.Data | ResponseError;
         switch (kind) {
             case 'book':
@@ -83,15 +102,23 @@ export default class Autocite extends Component<Props, State> {
                 response = await URL.get(query);
                 break;
             default:
-                console.error(`Invalid indentifier type: ${kind}`);
+                this.setState({ isBusy: false });
                 return;
         }
         if (response instanceof ResponseError) {
-            console.error(
-                `Unable to retrieve data for identifier: ${response.resource}`,
+            onError(
+                sprintf(
+                    __(
+                        'Unable to retrieve data for identifier: %s',
+                        'academic-bloggers-toolkit',
+                    ),
+                    response.resource,
+                ),
             );
+            this.setState({ isBusy: false });
             return;
         }
+        this.setState({ isBusy: false, query: '' });
         return onSubmit(response);
     };
 }

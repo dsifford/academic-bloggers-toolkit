@@ -17,19 +17,17 @@ const SidebarItemList = ({
     onItemDoubleClick,
     selectedItems = [],
 }: SidebarItemList.Props) => (
-    <>
-        <div className={styles.list} role="listbox" aria-multiselectable={true}>
-            {items.map(item => (
-                <SidebarItem
-                    key={item.id}
-                    isSelected={selectedItems.includes(item.id)}
-                    item={item}
-                    onClick={onItemClick}
-                    onDoubleClick={onItemDoubleClick}
-                />
-            ))}
-        </div>
-    </>
+    <div className={styles.list} role="listbox" aria-multiselectable={true}>
+        {items.map(item => (
+            <SidebarItem
+                key={item.id}
+                isSelected={selectedItems.includes(item.id)}
+                item={item}
+                onClick={onItemClick}
+                onDoubleClick={onItemDoubleClick}
+            />
+        ))}
+    </div>
 );
 
 export default SidebarItemList;

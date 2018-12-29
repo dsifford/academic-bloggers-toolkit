@@ -37,6 +37,10 @@ export async function get(
     }
     const json: ISBNResponse = await response.json();
 
+    if (json.totalItems === 0) {
+        return new ResponseError(ISBN, response);
+    }
+
     // TODO: move this all to astrocite
     const {
         id,

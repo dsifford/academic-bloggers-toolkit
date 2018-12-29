@@ -1,3 +1,5 @@
+import { _x } from '@wordpress/i18n';
+
 import { date, person } from 'utils/data';
 
 import styles from './style.scss';
@@ -23,7 +25,11 @@ const SidebarItem = ({
         item['container-title-short'] ||
         item['container-title'] ||
         item.publisher ||
-        'n.p.';
+        _x(
+            'n.p.',
+            'Abbreviation for "no publisher"',
+            'academic-bloggers-toolkit',
+        );
     return (
         <div
             className={styles.item}

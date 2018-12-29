@@ -43,7 +43,6 @@ export function editorCitation(el: HTMLElement) {
     };
 }
 export namespace editorCitation {
-    // TODO: Consider removing dataset.reflist check
     export const getItems = (el: HTMLElement): string[] =>
-        JSON.parse(el.dataset.items || el.dataset.reflist || '[]');
+        JSON.parse(el.dataset.items || '[]');
 }

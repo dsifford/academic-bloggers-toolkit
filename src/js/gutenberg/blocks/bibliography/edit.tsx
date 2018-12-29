@@ -6,6 +6,7 @@ import {
     RichText,
 } from '@wordpress/editor';
 import { Component } from '@wordpress/element';
+import { __ } from '@wordpress/i18n';
 import classNames from 'classnames';
 
 import TextareaAutosize from 'gutenberg/components/textarea-autosize';
@@ -30,19 +31,34 @@ class BibliographyEdit extends Component<BlockEditProps<Attributes>> {
         return (
             <>
                 <InspectorControls>
-                    <PanelBody title="Bibliography Settings">
-                        <p>Heading Level</p>
+                    <PanelBody
+                        title={__(
+                            'Bibliography Settings',
+                            'academic-bloggers-toolkit',
+                        )}
+                    >
+                        <p>
+                            {__('Heading Level', 'academic-bloggers-toolkit')}
+                        </p>
                         <Toolbar
                             controls={[...Array(6).keys()].map(level => ({
                                 icon: 'heading',
-                                title: `Heading ${level + 1}`,
+                                title: `${__(
+                                    'Heading',
+                                    'academic-bloggers-toolkit',
+                                )} ${level + 1}`,
                                 isActive: level + 1 === headingLevel,
                                 onClick: () =>
                                     setAttributes({ headingLevel: level + 1 }),
                                 subscript: `${level + 1}`,
                             }))}
                         />
-                        <p>Heading Alignment</p>
+                        <p>
+                            {__(
+                                'Heading Alignment',
+                                'academic-bloggers-toolkit',
+                            )}
+                        </p>
                         <AlignmentToolbar
                             value={headingAlign}
                             onChange={align =>
@@ -50,9 +66,15 @@ class BibliographyEdit extends Component<BlockEditProps<Attributes>> {
                             }
                         />
                         <ToggleControl
-                            label="Enable toggle"
+                            label={__(
+                                'Enable toggle',
+                                'academic-bloggers-toolkit',
+                            )}
                             checked={isToggleable}
-                            help="Toggle mode can only be enabled if the bibliography has a heading."
+                            help={__(
+                                'Toggle mode can only be enabled if the bibliography has a heading.',
+                                'academic-bloggers-toolkit',
+                            )}
                             onChange={toggleable =>
                                 heading &&
                                 setAttributes({ isToggleable: toggleable })
@@ -132,11 +154,14 @@ class BibliographyEdit extends Component<BlockEditProps<Attributes>> {
             >
                 {isSelected && (
                     <TextareaAutosize
-                        placeholder="Write heading..."
+                        placeholder={__(
+                            'Write heading...',
+                            'academic-bloggers-toolkit',
+                        )}
                         value={heading}
-                        onChange={e => {
+                        onChange={({ currentTarget: { value } }) => {
                             setAttributes({
-                                heading: e.currentTarget.value,
+                                heading: value,
                             });
                         }}
                         onBlur={() =>

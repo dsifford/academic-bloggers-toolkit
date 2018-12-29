@@ -1,4 +1,6 @@
+import { Notice } from '@wordpress/components';
 import { Component, FormEvent } from '@wordpress/element';
+import { __ } from '@wordpress/i18n';
 
 import Autocite from 'gutenberg/components/autocite';
 import DataFields from 'gutenberg/components/data-fields';
@@ -17,18 +19,21 @@ interface Props {
 }
 
 interface State {
-    data: Partial<CSL.Data>;
+    error: string;
+    data: CSL.Data;
     people: Array<{ kind: CSL.PersonFieldKey } & CSL.Person>;
 }
 
 class ReferenceFormManual extends Component<Props, State> {
     state: State = {
+        error: '',
         data: {
-            type: 'webpage' as 'webpage',
+            id: '',
+            type: 'webpage' as CSL.ItemType,
         },
         people: [
             {
-                kind: 'author' as 'author',
+                kind: 'author' as CSL.PersonFieldKey,
                 family: '',
                 given: '',
             },
@@ -43,29 +48,35 @@ class ReferenceFormManual extends Component<Props, State> {
     }
 
     render() {
-        const { type } = this.state.data;
+        const { data, error, people } = this.state;
         const { id } = this.props;
         return (
             <PeopleContext.Provider
                 value={{
-                    people: this.state.people,
+                    people,
                     add: this.addPerson,
                     remove: this.removePerson,
                     update: this.updatePerson,
                 }}
             >
-                <DataContext.Provider
-                    value={{ data: this.state.data, update: this.updateData }}
-                >
+                <DataContext.Provider value={{ data, update: this.updateData }}>
                     <form
                         id={id}
                         className={styles.form}
                         onSubmit={this.handleSubmit}
                     >
+                        {error && (
+                            <Notice
+                                status="error"
+                                onRemove={() => this.setState({ error: '' })}
+                            >
+                                {error}
+                            </Notice>
+                        )}
                         <label className={styles.field}>
-                            Citation type
+                            {__('Citation type', 'academic-bloggers-toolkit')}
                             <select
-                                value={type}
+                                value={data.type}
                                 onChange={this.handleTypeChange}
                             >
                                 {[...Object.entries(fields)].map(
@@ -78,8 +89,8 @@ class ReferenceFormManual extends Component<Props, State> {
                             </select>
                         </label>
                         {this.maybeRenderAutocite()}
-                        <PeopleFields fields={fields[type!].people} />
-                        <DataFields fieldmap={fields[type!]} />
+                        <PeopleFields fields={fields[data.type!].people} />
+                        <DataFields fieldmap={fields[data.type!]} />
                     </form>
                 </DataContext.Provider>
             </PeopleContext.Provider>
@@ -99,9 +110,13 @@ class ReferenceFormManual extends Component<Props, State> {
                     <Autocite
                         kind={type}
                         onSubmit={this.consumeData}
+                        onError={error => this.setState({ error })}
                         inputProps={{
                             pattern: '(?:[\\dxX]-?){10}|(?:[\\dxX]-?){13}',
-                            placeholder: 'ISBN',
+                            placeholder: __(
+                                'ISBN',
+                                'academic-bloggers-toolkit',
+                            ),
                         }}
                     />
                 );
@@ -110,7 +125,11 @@ class ReferenceFormManual extends Component<Props, State> {
                     <Autocite
                         kind={type}
                         onSubmit={this.consumeData}
-                        inputProps={{ type: 'url', placeholder: 'URL' }}
+                        onError={error => this.setState({ error })}
+                        inputProps={{
+                            type: 'url',
+                            placeholder: __('URL', 'academic-bloggers-toolkit'),
+                        }}
                     />
                 );
             default:
@@ -119,7 +138,10 @@ class ReferenceFormManual extends Component<Props, State> {
     };
 
     private consumeData = (input: CSL.Data) => {
-        let data: State['data'] = {};
+        let data: State['data'] = {
+            id: '',
+            type: 'article',
+        };
         let people: State['people'] = [];
         for (const [key, value] of Object.entries<any>(input)) {
             if (CSL_PERSON_KEYS.includes(key as CSL.PersonFieldKey)) {
@@ -173,13 +195,15 @@ class ReferenceFormManual extends Component<Props, State> {
             ],
         }));
 
-    private handleTypeChange = (e: FormEvent<HTMLSelectElement>) =>
+    private handleTypeChange = ({
+        currentTarget: { value },
+    }: FormEvent<HTMLSelectElement>) =>
         this.setState({
-            data: { type: e.currentTarget.value as CSL.ItemType },
+            data: { id: '', type: value as CSL.ItemType },
         });
 
-    private handleSubmit = (e: FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
+    private handleSubmit = ({ preventDefault }: FormEvent<HTMLFormElement>) => {
+        preventDefault();
         let { data } = this.state;
         for (const person of this.state.people) {
             const { kind, ...rest } = person;
