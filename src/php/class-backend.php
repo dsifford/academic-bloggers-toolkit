@@ -4,6 +4,7 @@ namespace ABT;
 
 defined( 'ABSPATH' ) || exit;
 
+use function ABT\Admin\get_citation_styles;
 use function ABT\Utils\enqueue_script;
 
 require_once __DIR__ . '/i18n.php';

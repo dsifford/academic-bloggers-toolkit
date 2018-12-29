@@ -172,20 +172,6 @@ function register_third_party_scripts() {
 add_action( 'admin_enqueue_scripts', __NAMESPACE__ . '\register_third_party_scripts', 5 );
 add_action( 'wp_enqueue_scripts', __NAMESPACE__ . '\register_third_party_scripts', 5 );
 
-/**
- * Grabs the citation styles from the vendor array, decodes the JSON to an
- * associative array and return it.
- */
-function get_citation_styles() {
-	return json_decode(
-		// Ignoring the `file_get_contents` warning here because it's a misfire.
-		// the warning is meant for flagging remote calls. This is a local file.
-		// phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents
-		file_get_contents( ABT_ROOT_PATH . '/vendor/citation-styles.json' ),
-		true
-	);
-}
-
 require_once __DIR__ . '/php/utils.php';
 require_once __DIR__ . '/php/admin.php';
 require_once __DIR__ . '/php/dom-injects.php';

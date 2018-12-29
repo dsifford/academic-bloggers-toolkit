@@ -10,6 +10,17 @@ namespace ABT\Admin;
 use function ABT\Utils\enqueue_script;
 
 /**
+ * Parses and returns /vendor/citation-styles.json
+ */
+function get_citation_styles() {
+	return json_decode(
+		file_get_contents( // phpcs:ignore
+			ABT_ROOT_PATH . '/vendor/citation-styles.json'
+		)
+	);
+}
+
+/**
  * Enqueue admin scripts.
  */
 function enqueue_scripts() {
