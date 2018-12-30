@@ -5,6 +5,7 @@ import styles from './style.scss';
 
 namespace asDialog {
     export interface Props {
+        title: string;
         isOpen: boolean;
         onClose(): void;
     }
@@ -20,7 +21,7 @@ function asDialog<P extends asDialog.Props>(
         return (
             <Modal
                 className={styles.modal}
-                title="Add Reference"
+                title={props.title}
                 onRequestClose={props.onClose}
             >
                 <Wrapped {...props} />

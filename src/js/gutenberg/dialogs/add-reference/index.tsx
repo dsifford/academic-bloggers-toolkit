@@ -35,6 +35,7 @@ class AddReferenceDialog extends Component<DispatchProps, State> {
                     onClick={this.toggleDialog}
                 />
                 <Dialog
+                    title={__('Add reference', 'academic-bloggers-toolkit')}
                     isOpen={isOpen}
                     onClose={this.toggleDialog}
                     onSubmit={this.handleSubmit}

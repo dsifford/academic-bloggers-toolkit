@@ -64,6 +64,7 @@ class Sidebar extends Component<Sidebar.Props, Sidebar.State> {
         return (
             <>
                 <EditReferenceDialog
+                    title={__('Edit reference', 'academic-bloggers-toolkit')}
                     isOpen={!!editReferenceId}
                     itemId={editReferenceId}
                     onClose={() => this.setEditReferenceId()}
