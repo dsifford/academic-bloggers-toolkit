@@ -1,5 +1,5 @@
 import { Block, createBlock, parse } from '@wordpress/blocks';
-import { dispatch, select } from '@wordpress/data';
+import { dispatch, select, subscribe } from '@wordpress/data';
 import { RebuildProcessorStateData } from 'citeproc';
 
 import { getEditorDOM, removeItems } from 'utils/editor';
@@ -18,10 +18,7 @@ export function* addReferences(data: CSL.Data[]) {
         type: Actions.ADD_REFERENCES,
         data,
     };
-    yield dispatch('core/editor').editPost(
-        select('abt/data').getSerializedState(),
-    );
-    yield dispatch('core/editor').savePost();
+    yield save();
 }
 
 export function* removeReference(id: string) {
@@ -38,10 +35,7 @@ export function* removeReferences(itemIds: string[]) {
     if (toDelete.length !== itemIds.length) {
         yield dispatch('core/editor').resetBlocks(parse(doc.innerHTML));
     }
-    yield dispatch('core/editor').editPost(
-        select('abt/data').getSerializedState(),
-    );
-    yield dispatch('core/editor').savePost();
+    yield save();
 }
 
 export function* updateReference(data: CSL.Data) {
@@ -55,11 +49,8 @@ export function* updateReference(data: CSL.Data) {
     };
     if (itemIsCited) {
         yield parseCitations();
-        yield dispatch('core/editor').editPost(
-            select('abt/data').getSerializedState(),
-        );
-        yield dispatch('core/editor').savePost();
     }
+    yield save();
 }
 
 export function* removeAllCitations() {
@@ -89,9 +80,22 @@ export function* setStyle(style: Style) {
         style,
     };
     yield parseCitations();
+    yield save();
+}
+
+function* save() {
     yield dispatch('core/editor').editPost(
         select('abt/data').getSerializedState(),
     );
+    const unsubscribe = subscribe(() => {
+        const notice = select<Array<{ id: string }>>('core/notices')
+            .getNotices()
+            .find(({ id }) => id === 'SAVE_POST_NOTICE_ID');
+        if (notice) {
+            dispatch('core/notices').removeNotice('SAVE_POST_NOTICE_ID');
+            unsubscribe();
+        }
+    });
     yield dispatch('core/editor').savePost();
 }
 
