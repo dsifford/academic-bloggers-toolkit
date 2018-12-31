@@ -89,10 +89,7 @@ class BibliographyEdit extends Component<BlockEditProps<Attributes>> {
                                 {this.maybeRenderHeading()}
                             </summary>
                             <ol
-                                className={classNames(
-                                    'abt-bibliography__body',
-                                    styles.body,
-                                )}
+                                className="abt-bibliography__body"
                                 {...containerAttrs}
                             >
                                 {items.map(({ content, id }) => (
@@ -111,10 +108,7 @@ class BibliographyEdit extends Component<BlockEditProps<Attributes>> {
                         <>
                             {this.maybeRenderHeading()}
                             <ol
-                                className={classNames(
-                                    'abt-bibliography__body',
-                                    styles.body,
-                                )}
+                                className="abt-bibliography__body"
                                 {...containerAttrs}
                             >
                                 {items.map(({ content, id }) => (

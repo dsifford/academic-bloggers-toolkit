@@ -22,24 +22,3 @@
     display: flex;
     align-items: center;
 }
-
-.body {
-    font-size: 0.8em;
-    display: table;
-
-    :global {
-        .csl-entry {
-            display: block;
-        }
-
-        .csl-left-margin,
-        .csl-right-inline {
-            display: table-cell;
-        }
-
-        .csl-left-margin {
-            padding-right: 10px;
-            text-align: right;
-        }
-    }
-}

@@ -113,12 +113,7 @@ class Edit extends Component<Edit.Props> {
                         </Placeholder>
                     )}
                     {items.length > 0 && (
-                        <ListTag
-                            className={classNames(
-                                'abt-bibliography__body',
-                                styles.body,
-                            )}
-                        >
+                        <ListTag className="abt-bibliography__body">
                             {items.map(({ content, id }, i) =>
                                 isSelected ? (
                                     <LiveItem

@@ -9,6 +9,8 @@ import citationFormat from 'gutenberg/formats/citation';
 import Sidebar from 'gutenberg/sidebar';
 import { dataStore, uiStore } from 'stores';
 
+import 'css/bibliography.scss?global';
+
 registerStore('abt/data', dataStore);
 registerStore('abt/ui', uiStore);
 
