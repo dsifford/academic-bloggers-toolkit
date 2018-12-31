@@ -1,5 +1,5 @@
-@import 'variables';
-@import 'shared/forms';
+@import '_legacy/variables';
+@import '_legacy/forms';
 
 .input {
     @include input-text;
@@ -9,6 +9,7 @@
     display: flex;
     align-items: center;
     font-weight: bold;
+
     .input {
         margin-left: 15px;
     }
@@ -26,10 +27,12 @@
 
 .demo__heading--toggle {
     cursor: pointer;
+
     &:before {
         font-family: dashicons, sans-serif;
         content: '\f140';
     }
+
     &.demo__heading--toggle--closed {
         &:before {
             content: '\f139';
@@ -47,6 +50,7 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
+
         a.button-primary {
             font-size: 16px;
             height: 40px;
@@ -58,10 +62,12 @@
         .postbox {
             margin: 0;
         }
+
         .abt-submit-row {
             margin-bottom: 20px;
             text-align: right;
         }
+
         input[type='submit'].button-primary {
             margin-top: 8px;
         }
@@ -76,6 +82,7 @@
         width: calc(50% - 10px);
         display: flex;
         flex-flow: column nowrap;
+
         label {
             text-align: center;
             margin-bottom: 10px;
@@ -85,11 +92,13 @@
     .custom-css__container {
         display: flex;
         flex-wrap: wrap;
+
         .custom-css__selectors {
             flex: auto;
             width: 400px;
             margin: 12px;
         }
+
         .CodeMirror {
             flex: auto;
             width: 400px;
@@ -97,11 +106,14 @@
             border: 1px solid #e5e5e5;
             height: auto;
         }
+
         dt {
             font-weight: bold;
         }
+
         dd {
             line-height: 2em;
+
             code {
                 white-space: nowrap;
             }

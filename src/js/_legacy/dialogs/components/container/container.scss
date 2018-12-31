@@ -1,4 +1,4 @@
-@import 'variables';
+@import '_legacy/variables';
 
 .header {
     height: 40px;
@@ -21,12 +21,15 @@
     background: transparent;
     color: #555d66;
     width: 40px;
+
     &:hover {
         color: black;
     }
+
     &:focus {
         outline: $outline;
     }
+
     :global .dashicons-no-alt {
         font-size: 25px;
         width: 25px;

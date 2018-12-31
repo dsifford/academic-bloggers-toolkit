@@ -1,7 +1,7 @@
 import { Citation, CitationKind, CitationResult, Locator } from 'citeproc';
 import { Editor, TinyMCE } from 'tinymce';
 
-import 'css/editors/tinymce.scss';
+import './tinymce.scss';
 
 import EditorDriver, { RelativeCitationPositions } from './base';
 

@@ -1,6 +1,6 @@
-@import '_colors';
-@import '_variables';
-@import '_citations';
+@import '_legacy/citations';
+@import '_legacy/colors';
+@import '_legacy/variables';
 
 :global {
     .abt-bibligraphy__container {

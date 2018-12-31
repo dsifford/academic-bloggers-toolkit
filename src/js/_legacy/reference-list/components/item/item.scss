@@ -1,4 +1,4 @@
-@import '_colors';
+@import '_legacy/colors';
 
 .item {
     position: relative;
@@ -66,9 +66,11 @@
         transform: translateY(-50%) translateX(100%);
         opacity: 0;
     }
+
     50% {
         transform: translateY(-50%) translateX(1%);
     }
+
     100% {
         transform: translateY(-50%) translateX(0);
         opacity: 1;

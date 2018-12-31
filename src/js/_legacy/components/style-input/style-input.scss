@@ -1,7 +1,7 @@
-@import 'variables';
-@import '_colors';
+@import '_legacy/variables';
+@import '_legacy/colors';
 
-@import 'shared/forms';
+@import '_legacy/forms';
 
 .input {
     @include input-text;
