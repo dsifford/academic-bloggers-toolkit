@@ -12,6 +12,7 @@ import { __ } from '@wordpress/i18n';
 
 import RemoveIcon from 'gutenberg/components/icons/remove';
 import AddReferenceDialog from 'gutenberg/dialogs/add-reference';
+import StyleDialog from 'gutenberg/dialogs/update-style';
 import { readReferencesFile } from 'utils/file';
 
 import ToolbarMenu from './toolbar-menu';
@@ -43,37 +44,40 @@ class Toolbar extends Component<Toolbar.Props> {
     render(): JSX.Element {
         const { removeSelectedItems, selectedItems } = this.props;
         return (
-            <PanelBody opened={true} className={styles.container}>
-                <PanelRow>
-                    <ToolbarButtonSlot />
-                    <AddReferenceDialog />
-                    <IconButton
-                        icon={<RemoveIcon />}
-                        label={__(
-                            'Remove selected References',
-                            'academic-bloggers-toolkit',
-                        )}
-                        disabled={selectedItems.length === 0}
-                        onClick={() => removeSelectedItems()}
-                    />
-                    <FormFileUpload
-                        icon="welcome-add-page"
-                        label={__(
-                            'Import references',
-                            'academic-bloggers-toolkit',
-                        )}
-                        accept={[
-                            '.ris',
-                            '.bib',
-                            '.bibtex',
-                            'application/xresearch-info-systems',
-                            'application/x-bibtex',
-                        ].join()}
-                        onChange={this.handleFileUpload}
-                    />
-                    <ToolbarMenu />
-                </PanelRow>
-            </PanelBody>
+            <>
+                <StyleDialog />
+                <PanelBody opened={true} className={styles.container}>
+                    <PanelRow>
+                        <ToolbarButtonSlot />
+                        <AddReferenceDialog />
+                        <IconButton
+                            icon={<RemoveIcon />}
+                            label={__(
+                                'Remove selected References',
+                                'academic-bloggers-toolkit',
+                            )}
+                            disabled={selectedItems.length === 0}
+                            onClick={() => removeSelectedItems()}
+                        />
+                        <FormFileUpload
+                            icon="welcome-add-page"
+                            label={__(
+                                'Import references',
+                                'academic-bloggers-toolkit',
+                            )}
+                            accept={[
+                                '.ris',
+                                '.bib',
+                                '.bibtex',
+                                'application/xresearch-info-systems',
+                                'application/x-bibtex',
+                            ].join()}
+                            onChange={this.handleFileUpload}
+                        />
+                        <ToolbarMenu />
+                    </PanelRow>
+                </PanelBody>
+            </>
         );
     }
     private handleFileUpload = async (e: FormEvent<HTMLInputElement>) => {

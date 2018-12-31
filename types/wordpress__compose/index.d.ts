@@ -3,7 +3,7 @@
 // Definitions by: Derek P Sifford <https://github.com/dsifford>
 
 import { flowRight } from 'lodash';
-import { ComponentClass, FunctionComponent } from 'react';
+import { ComponentClass, FC } from 'react';
 
 // export {
 //     default as createHigherOrderComponent,
@@ -16,10 +16,20 @@ import { ComponentClass, FunctionComponent } from 'react';
 // export { default as withSafeTimeout } from './with-safe-timeout';
 // export { default as withState } from './with-state';
 
-export function withState<P = {}, S = {}>(
+export namespace withState {
+    type SetStateFunc<S, K extends keyof S, P> = (
+        prevState: Readonly<S>,
+        props: Readonly<P>,
+    ) => Pick<S, K> | S | null;
+    export type Props<S, OP = {}> = S & {
+        setState<K extends keyof S>(
+            state: SetStateFunc<S, K, OP> | ReturnType<SetStateFunc<S, K, OP>>,
+        ): void;
+    };
+}
+
+export function withState<S = {}, OP = {}>(
     initialState: S,
-): (
-    component: FunctionComponent<P & S & { setState: (state: S) => void }>,
-) => ComponentClass<P, S>;
+): (component: FC<OP & withState.Props<S, OP>>) => ComponentClass<OP, S>;
 
 export { flowRight as compose };

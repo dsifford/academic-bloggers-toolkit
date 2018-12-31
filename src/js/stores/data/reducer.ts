@@ -6,10 +6,32 @@ import { clone } from 'utils/data';
 import { State } from './';
 import { Actions } from './constants';
 
-const INITIAL_STATE = clone(window.ABT_EDITOR);
+const INITIAL_CITATION_STYLES: State['citationStyles'] = {
+    renamed: {},
+    styles: [],
+};
+
+const INITIAL_REFERENCES: State['references'] = clone(
+    window.ABT_EDITOR.references,
+);
+
+const INITIAL_STYLE: State['style'] = clone(window.ABT_EDITOR.style);
+
+export function citationStyles(
+    state = INITIAL_CITATION_STYLES,
+    action: Action,
+): State['citationStyles'] {
+    switch (action.type) {
+        case Actions.SET_CITATION_STYLES: {
+            return clone(action.styles);
+        }
+        default:
+            return state;
+    }
+}
 
 export function references(
-    state = INITIAL_STATE.references,
+    state = INITIAL_REFERENCES,
     action: Action,
 ): State['references'] {
     switch (action.type) {
@@ -47,12 +69,9 @@ export function references(
     }
 }
 
-export function style(
-    state = INITIAL_STATE.style,
-    action: Action,
-): State['style'] {
+export function style(state = INITIAL_STYLE, action: Action): State['style'] {
     switch (action.type) {
-        case Actions.RECEIVE_STYLE:
+        case Actions.SET_STYLE:
             return action.style;
         default:
             return state;
@@ -60,6 +79,7 @@ export function style(
 }
 
 export default combineReducers({
+    citationStyles,
     references,
     style,
 });

@@ -1,8 +1,15 @@
 <?php
+/**
+ * AJAX Endpoints.
+ *
+ * @package ABT
+ */
 
 namespace ABT\Endpoints;
 
 defined( 'ABSPATH' ) || exit;
+
+use function ABT\Admin\get_citation_styles;
 
 /**
  * AJAX Method for getting metadata from other websites for citations.
@@ -169,4 +176,13 @@ function get_website_meta() {
 
 	wp_send_json( $payload );
 }
-add_action( 'wp_ajax_get_website_meta', 'ABT\Endpoints\get_website_meta' );
+add_action( 'wp_ajax_get_website_meta', __NAMESPACE__ . '\get_website_meta' );
+
+
+/**
+ * Fetch and return citation style JSON.
+ */
+function get_style_json() {
+	wp_send_json( get_citation_styles() );
+}
+add_action( 'wp_ajax_get_style_json', __NAMESPACE__ . '\get_style_json' );

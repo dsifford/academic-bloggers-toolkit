@@ -1,11 +1,20 @@
 import { Action, select } from '@wordpress/data';
+
 import { localeCache, styleCache } from 'utils/cache';
 
+import { StyleJSON } from './';
 import { StyleKind } from './constants';
 
 const enum CtrlActions {
+    FETCH_CITATION_STYLES = 'FETCH_CITATION_STYLES',
     FETCH_LOCALE = 'FETCH_LOCALE',
     FETCH_STYLE = 'FETCH_STYLE',
+}
+
+export function fetchCitationStyles() {
+    return {
+        type: CtrlActions.FETCH_CITATION_STYLES,
+    };
 }
 
 export function fetchLocale(style: string) {
@@ -28,6 +37,17 @@ export function fetchStyle() {
 }
 
 const controls = {
+    async FETCH_CITATION_STYLES(): Promise<StyleJSON> {
+        const response = await fetch(top.ajaxurl, {
+            method: 'POST',
+            headers: {
+                'Content-type': 'application/x-www-form-urlencoded',
+            },
+            body: `action=get_style_json`,
+            credentials: 'same-origin',
+        });
+        return response.json();
+    },
     async FETCH_LOCALE({ style }: Action): Promise<string> {
         return localeCache.fetchItem(style);
     },

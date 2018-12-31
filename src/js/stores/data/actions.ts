@@ -6,6 +6,7 @@ import { BibItem } from 'gutenberg/blocks';
 import { getEditorDOM, removeItems } from 'utils/editor';
 import Processor from 'utils/processor';
 
+import { Style } from './';
 import { Actions } from './constants';
 import { fetchLocale, fetchStyle } from './controls';
 
@@ -83,12 +84,17 @@ export function* parseCitations() {
     yield updateEditorCitations(citations);
 }
 
-// function receiveStyle(style: State['style']) {
-//     return {
-//         type: Actions.RECEIVE_STYLE,
-//         style,
-//     };
-// }
+export function* setStyle(style: Style) {
+    yield {
+        type: Actions.SET_STYLE,
+        style,
+    };
+    yield parseCitations();
+    yield dispatch('core/editor').editPost(
+        select('abt/data').getSerializedState(),
+    );
+    yield dispatch('core/editor').savePost();
+}
 
 function* setBibliography(items: BibItem[]) {
     const blocksList = select<Block[]>('core/editor').getBlocks();
@@ -124,24 +130,3 @@ function* updateEditorCitations(citations: RebuildProcessorStateData[]) {
     }
     yield dispatch('core/editor').resetBlocks(parse(doc.innerHTML));
 }
-
-/*
-TODO: Implement this
-export function* updateStyle(style: State['style']) {
-    let csl: string = '';
-    if (style.kind === StyleKind.PREDEFINED) {
-        csl = yield fetchStyle(style.value);
-        // still need to figure out how to do this with predefined.
-        yield fetchLocale(csl);
-    }
-    yield receiveStyle(style);
-    // --> run a one-off command here to generate a processor, reparse the citations and bib, and exit
-    // --> it should prob be its own internal action that can be shared because it will likely be
-    // --> used when we insert citations as well.
-
-    return {
-        ...(csl ? { csl } : {}),
-        style,
-    };
-}
-*/
