@@ -163,6 +163,116 @@ declare module 'citeproc' {
         registry: Registry;
         sys: Sys;
         opt: {
+            development_extensions: {
+                /**
+                 * @defaultValue true
+                 */
+                allow_field_hack_date_override: boolean;
+                /**
+                 * @defaultValue false
+                 */
+                allow_force_lowercase: boolean;
+                /**
+                 * @defaultValue false
+                 */
+                apply_citation_wrapper: boolean;
+                /**
+                 * @defaultValue true
+                 */
+                clean_up_csl_flaws: boolean;
+                /**
+                 * @defaultValue false
+                 */
+                clobber_locator_if_no_statute_section: boolean;
+                /**
+                 * @defaultValue false
+                 */
+                csl_reverse_lookup_support: boolean;
+                /**
+                 * @defaultValue false
+                 */
+                expect_and_symbol_form: boolean;
+                /**
+                 * @defaultValue true
+                 */
+                field_hack: boolean;
+                /**
+                 * @defaultValue true
+                 */
+                flip_parentheses_to_braces: boolean;
+                /**
+                 * @defaultValue false
+                 */
+                force_jurisdiction: boolean;
+                /**
+                 * @defaultValue false
+                 */
+                handle_parallel_articles: boolean;
+                /**
+                 * @defaultValue true
+                 */
+                jurisdiction_subfield: boolean;
+                /**
+                 * @defaultValue true
+                 */
+                locator_date_and_revision: boolean;
+                /**
+                 * @defaultValue true
+                 */
+                locator_label_parse: boolean;
+                /**
+                 * @defaultValue true
+                 */
+                locator_parsing_for_plurals: boolean;
+                /**
+                 * @defaultValue false
+                 */
+                main_title_from_short_title: boolean;
+                /**
+                 * @defaultValue false
+                 */
+                normalize_lang_keys_to_lowercase: boolean;
+                /**
+                 * @defaultValue true
+                 */
+                parse_names: boolean;
+                /**
+                 * @defaultValue true
+                 */
+                raw_date_parsing: boolean;
+                /**
+                 * @defaultValue false
+                 */
+                require_explicit_legal_case_title_short: boolean;
+                /**
+                 * @defaultValue false
+                 */
+                rtl_support: boolean;
+                /**
+                 * @defaultValue false
+                 */
+                spoof_institutional_affiliations: boolean;
+                /**
+                 * @defaultValue false
+                 */
+                static_statute_locator: boolean;
+                /**
+                 * @defaultValue false
+                 */
+                strict_text_case_locales: boolean;
+                /**
+                 * @defaultValue false
+                 */
+                thin_non_breaking_space_html_hack: boolean;
+                /**
+                 * @defaultValue false
+                 */
+                uppercase_subtitles: boolean;
+                /**
+                 * @defaultValue false
+                 */
+                wrap_url_and_doi: boolean;
+            };
             xclass: CitationKind;
         };
         constructor(

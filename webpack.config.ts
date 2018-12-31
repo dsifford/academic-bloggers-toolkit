@@ -75,6 +75,17 @@ if (IS_DEPLOYING) {
     );
 }
 
+const AWESOME_TS_LOADER_BASE_CONFIG = {
+    silent: process.argv.indexOf('--json') !== -1,
+    useBabel: true,
+    useCache: !IS_PRODUCTION,
+    cacheDirectory: path.resolve(
+        __dirname,
+        'node_modules/.cache/awesome-typescript-loader',
+    ),
+    babelCore: '@babel/core',
+};
+
 const config: webpack.Configuration = {
     mode: IS_PRODUCTION ? 'production' : 'development',
     watch: !IS_PRODUCTION,
@@ -144,14 +155,7 @@ const config: webpack.Configuration = {
                     {
                         loader: 'awesome-typescript-loader',
                         options: {
-                            silent: process.argv.indexOf('--json') !== -1,
-                            useBabel: true,
-                            useCache: !IS_PRODUCTION,
-                            cacheDirectory: path.resolve(
-                                __dirname,
-                                'node_modules/.cache/awesome-typescript-loader',
-                            ),
-                            babelCore: '@babel/core',
+                            ...AWESOME_TS_LOADER_BASE_CONFIG,
                             configFileName: path.resolve(
                                 __dirname,
                                 'src/workers/tsconfig.json',
@@ -173,14 +177,7 @@ const config: webpack.Configuration = {
                     {
                         loader: 'awesome-typescript-loader',
                         options: {
-                            silent: process.argv.indexOf('--json') !== -1,
-                            useBabel: true,
-                            useCache: !IS_PRODUCTION,
-                            cacheDirectory: path.resolve(
-                                __dirname,
-                                'node_modules/.cache/awesome-typescript-loader',
-                            ),
-                            babelCore: '@babel/core',
+                            ...AWESOME_TS_LOADER_BASE_CONFIG,
                             reportFiles: [
                                 '**/*.{ts,tsx}',
                                 '!(src/**/__tests__/**|src/workers/**)',
@@ -191,43 +188,61 @@ const config: webpack.Configuration = {
             },
             {
                 test: /\.scss$/,
-                use: [
-                    MiniCssExtractPlugin.loader,
+                rules: [
                     {
-                        loader: 'css-loader',
-                        options: {
-                            importLoaders: 2,
-                            modules: true,
-                            camelCase: 'only',
-                            localIdentName: '[name]__[local]___[hash:base64:5]',
-                        },
+                        use: [MiniCssExtractPlugin.loader],
                     },
                     {
-                        loader: 'postcss-loader',
-                        options: {
-                            ident: 'postcss',
-                            plugins: [
-                                require('postcss-preset-env')(),
-                                ...(IS_PRODUCTION
-                                    ? [require('cssnano')()]
-                                    : []),
-                            ],
-                        },
+                        oneOf: [
+                            {
+                                resourceQuery: /global/,
+                                use: [
+                                    {
+                                        loader: 'css-loader',
+                                        options: {
+                                            importLoaders: 2,
+                                            modules: false,
+                                        },
+                                    },
+                                ],
+                            },
+                            {
+                                use: [
+                                    {
+                                        loader: 'css-loader',
+                                        options: {
+                                            importLoaders: 2,
+                                            modules: true,
+                                            camelCase: 'only',
+                                            localIdentName:
+                                                '[name]__[local]___[hash:base64:5]',
+                                        },
+                                    },
+                                ],
+                            },
+                        ],
                     },
                     {
-                        loader: 'sass-loader',
-                        options: {
-                            includePaths: ['src/css'],
-                        },
-                    },
-                ],
-            },
-            {
-                test: /\.css$/,
-                use: [
-                    MiniCssExtractPlugin.loader,
-                    {
-                        loader: 'css-loader',
+                        use: [
+                            {
+                                loader: 'postcss-loader',
+                                options: {
+                                    ident: 'postcss',
+                                    plugins: [
+                                        require('postcss-preset-env')(),
+                                        ...(IS_PRODUCTION
+                                            ? [require('cssnano')()]
+                                            : []),
+                                    ],
+                                },
+                            },
+                            {
+                                loader: 'sass-loader',
+                                options: {
+                                    includePaths: ['src/css'],
+                                },
+                            },
+                        ],
                     },
                 ],
             },

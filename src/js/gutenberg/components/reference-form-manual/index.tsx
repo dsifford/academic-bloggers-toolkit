@@ -202,8 +202,8 @@ class ReferenceFormManual extends Component<Props, State> {
             data: { id: '', type: value as CSL.ItemType },
         });
 
-    private handleSubmit = ({ preventDefault }: FormEvent<HTMLFormElement>) => {
-        preventDefault();
+    private handleSubmit = (e: FormEvent) => {
+        e.preventDefault();
         let { data } = this.state;
         for (const person of this.state.people) {
             const { kind, ...rest } = person;

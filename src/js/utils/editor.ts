@@ -60,7 +60,6 @@ export function removeItems(doc: HTMLElement, itemIds: string[]): string[] {
     return toDelete;
 }
 
-// TODO: WIP
 export function editorCitation(el: HTMLElement) {
     return {
         getItems: () => editorCitation.getItems(el),

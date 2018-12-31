@@ -19,7 +19,6 @@ interface RichTextProps {
     formattingControls?: string[];
     isSelected?: boolean;
     keepPlaceholderOnFocus?: boolean;
-    // TODO: Add types for this
     autocompleters?: any[];
     style?: CSSProperties;
     wrapperClassName?: string;
