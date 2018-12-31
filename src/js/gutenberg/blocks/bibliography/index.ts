@@ -1,16 +1,22 @@
 import { BlockConfig, createBlock } from '@wordpress/blocks';
 import { __ } from '@wordpress/i18n';
 
-import { BibItem } from '../';
+import { Bibliography } from 'utils/processor';
+
 import BibliographyEdit from './edit';
 import BibliographySave from './save';
 
 export interface Attributes {
-    items: BibItem[];
+    items: Bibliography['items'];
     heading: string;
     headingLevel: number;
     isToggleable: boolean;
     headingAlign?: 'left' | 'right' | 'center';
+    entryspacing?: string;
+    hangingindent?: string;
+    linespacing?: string;
+    maxoffset?: string;
+    secondFieldAlign?: 'flush' | 'margin';
 }
 
 const config: BlockConfig<Attributes> = {
@@ -22,6 +28,37 @@ const config: BlockConfig<Attributes> = {
     ),
     icon: 'welcome-learn-more',
     attributes: {
+        entryspacing: {
+            type: 'string',
+            source: 'attribute',
+            attribute: 'data-entryspacing',
+            selector: '.abt-bibliography__body',
+        },
+        hangingindent: {
+            type: 'string',
+            source: 'attribute',
+            attribute: 'data-hangingindent',
+            selector: '.abt-bibliography__body',
+        },
+        linespacing: {
+            type: 'string',
+            source: 'attribute',
+            attribute: 'data-linespacing',
+            selector: '.abt-bibliography__body',
+        },
+        maxoffset: {
+            type: 'string',
+            source: 'attribute',
+            attribute: 'data-maxoffset',
+            selector: '.abt-bibliography__body',
+        },
+        secondFieldAlign: {
+            type: 'string',
+            source: 'attribute',
+            attribute: 'data-second-field-align',
+            selector: '.abt-bibliography__body',
+        },
+
         items: {
             type: 'array',
             default: [],

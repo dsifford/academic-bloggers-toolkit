@@ -1,8 +1,3 @@
-export interface BibItem {
-    content: string;
-    id: string;
-}
-
 export function stripListItem(item: string): string;
 export function stripListItem(item: Element): string;
 export function stripListItem(item: Element | string): string {

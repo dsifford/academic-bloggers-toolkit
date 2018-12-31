@@ -206,7 +206,7 @@ class Edit extends Component<Edit.Props> {
                 },
             },
         ]);
-        const newItem = processor.bibliography[0];
+        const newItem = processor.bibliography.items[0];
         if (newItem) {
             setAttributes({
                 items: [

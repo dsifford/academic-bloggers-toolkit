@@ -2,6 +2,8 @@ import { BlockSaveProps } from '@wordpress/blocks';
 import { RichText } from '@wordpress/editor';
 import { Component } from '@wordpress/element';
 
+import { parseDataAttrs } from 'utils/editor';
+
 import { Attributes } from './';
 
 type HeadingType = 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
@@ -15,6 +17,7 @@ class BibliographySave extends Component<BlockSaveProps<Attributes>> {
             items,
             headingAlign: textAlign,
         } = this.props.attributes;
+        const containerAttrs = parseDataAttrs(this.props.attributes);
         const Tag = `h${headingLevel}` as HeadingType;
         const headingProps = textAlign ? { style: { textAlign } } : {};
         if (heading && isToggleable) {
@@ -29,7 +32,10 @@ class BibliographySave extends Component<BlockSaveProps<Attributes>> {
                                 {heading}
                             </Tag>
                         </summary>
-                        <ol className="abt-bibliography__body">
+                        <ol
+                            className="abt-bibliography__body"
+                            {...containerAttrs}
+                        >
                             {items.map(({ content, id }) => (
                                 <RichText.Content<'li'>
                                     key={id}
@@ -52,7 +58,7 @@ class BibliographySave extends Component<BlockSaveProps<Attributes>> {
                     >
                         {heading}
                     </Tag>
-                    <ol className="abt-bibliography__body">
+                    <ol className="abt-bibliography__body" {...containerAttrs}>
                         {items.map(({ content, id }) => (
                             <RichText.Content<'li'>
                                 key={id}
@@ -68,7 +74,7 @@ class BibliographySave extends Component<BlockSaveProps<Attributes>> {
         }
         return (
             <section className="abt-bibliography">
-                <ol className="abt-bibliography__body">
+                <ol className="abt-bibliography__body" {...containerAttrs}>
                     {items.map(({ content, id }) => (
                         <RichText.Content<'li'>
                             key={id}

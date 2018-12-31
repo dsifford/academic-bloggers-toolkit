@@ -2,9 +2,8 @@ import { Block, createBlock, parse } from '@wordpress/blocks';
 import { dispatch, select } from '@wordpress/data';
 import { RebuildProcessorStateData } from 'citeproc';
 
-import { BibItem } from 'gutenberg/blocks';
 import { getEditorDOM, removeItems } from 'utils/editor';
-import Processor from 'utils/processor';
+import Processor, { Bibliography } from 'utils/processor';
 
 import { Style } from './';
 import { Actions } from './constants';
@@ -96,7 +95,7 @@ export function* setStyle(style: Style) {
     yield dispatch('core/editor').savePost();
 }
 
-function* setBibliography(items: BibItem[]) {
+function* setBibliography({ items, meta }: Bibliography) {
     const blocksList = select<Block[]>('core/editor').getBlocks();
     const bibliographyBlock = blocksList.find(
         block => block.name === 'abt/bibliography',
@@ -104,11 +103,14 @@ function* setBibliography(items: BibItem[]) {
     if (items.length > 0 && bibliographyBlock) {
         yield dispatch('core/editor').updateBlockAttributes(
             bibliographyBlock.clientId,
-            { items },
+            { ...meta, items },
         );
     } else if (items.length > 0 && !bibliographyBlock) {
         yield dispatch('core/editor').insertBlock(
-            createBlock('abt/bibliography', { items }),
+            createBlock('abt/bibliography', {
+                ...meta,
+                items,
+            }),
             blocksList.length,
             undefined,
             true,

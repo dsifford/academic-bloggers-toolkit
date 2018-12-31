@@ -109,6 +109,10 @@ export function getStyle(state: State): State['style'] {
     return clone(state.style);
 }
 
+export function getCitationStyles(state: State) {
+    return state.citationStyles;
+}
+
 export function getUncitedItems(state: State): CSL.Data[] {
     return clone(
         _.differenceWith(

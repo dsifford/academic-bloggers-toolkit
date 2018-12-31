@@ -10,6 +10,7 @@ import { __ } from '@wordpress/i18n';
 import classNames from 'classnames';
 
 import TextareaAutosize from 'gutenberg/components/textarea-autosize';
+import { parseDataAttrs } from 'utils/editor';
 
 import { Attributes } from './';
 import styles from './style.scss';
@@ -18,16 +19,15 @@ type HeadingType = 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
 
 class BibliographyEdit extends Component<BlockEditProps<Attributes>> {
     render() {
+        const { attributes, setAttributes } = this.props;
         const {
-            attributes: {
-                heading,
-                headingAlign,
-                headingLevel,
-                isToggleable,
-                items,
-            },
-            setAttributes,
-        } = this.props;
+            heading,
+            headingAlign,
+            headingLevel,
+            isToggleable,
+            items,
+        } = attributes;
+        const containerAttrs = parseDataAttrs(attributes);
         return (
             <>
                 <InspectorControls>
@@ -93,6 +93,7 @@ class BibliographyEdit extends Component<BlockEditProps<Attributes>> {
                                     'abt-bibliography__body',
                                     styles.body,
                                 )}
+                                {...containerAttrs}
                             >
                                 {items.map(({ content, id }) => (
                                     <RichText.Content<'li'>
@@ -114,6 +115,7 @@ class BibliographyEdit extends Component<BlockEditProps<Attributes>> {
                                     'abt-bibliography__body',
                                     styles.body,
                                 )}
+                                {...containerAttrs}
                             >
                                 {items.map(({ content, id }) => (
                                     <RichText.Content<'li'>

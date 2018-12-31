@@ -1,8 +1,25 @@
 import { select } from '@wordpress/data';
-import { Bibliography, Citation, Engine } from 'citeproc';
+import { Bibliography as RawBib, Bibmeta, Citation, Engine } from 'citeproc';
 import _ from 'lodash';
 
 import { localeCache } from 'utils/cache';
+
+interface BibItem {
+    content: string;
+    id: string;
+}
+
+export interface Bibliography {
+    items: BibItem[];
+    meta: Partial<
+        Pick<
+            Bibmeta,
+            'entryspacing' | 'hangingindent' | 'linespacing' | 'maxoffset'
+        > & {
+            secondFieldAlign: Bibmeta['second-field-align'];
+        }
+    >;
+}
 
 export default class Processor {
     private static instance: Processor | null = null;
@@ -53,20 +70,42 @@ export default class Processor {
         return this.engine.rebuildProcessorState(citations);
     }
 
-    get bibliography() {
-        let data: Bibliography | false;
+    get bibliography(): Bibliography {
+        let data: RawBib | false;
         try {
             data = this.engine.makeBibliography();
             if (!data) {
-                return [];
+                return { items: [], meta: {} };
             }
         } catch {
-            return [];
+            return { items: [], meta: {} };
         }
         const [meta, html] = data;
-        return _.zipWith(_.flatten(meta.entry_ids), html, (id, content) => ({
-            id,
-            content,
-        }));
+        const {
+            entryspacing,
+            hangingindent,
+            linespacing,
+            maxoffset,
+            ['second-field-align']: secondFieldAlign,
+        } = meta;
+        return {
+            meta: {
+                entryspacing,
+                hangingindent,
+                linespacing,
+                maxoffset,
+                secondFieldAlign: secondFieldAlign
+                    ? secondFieldAlign
+                    : undefined,
+            },
+            items: _.zipWith(
+                _.flatten(meta.entry_ids),
+                html,
+                (id, content) => ({
+                    id,
+                    content,
+                }),
+            ),
+        };
     }
 }

@@ -2,12 +2,14 @@ import { BlockConfig, createBlock } from '@wordpress/blocks';
 import { __ } from '@wordpress/i18n';
 import uuid from 'uuid/v4';
 
-import { BibItem, stripListItem } from '../';
+import { Bibliography } from 'utils/processor';
+
+import { stripListItem } from '../';
 import edit from './edit';
 import save from './save';
 
 export interface Attributes {
-    items: BibItem[];
+    items: Bibliography['items'];
     orderedList: boolean;
 }
 

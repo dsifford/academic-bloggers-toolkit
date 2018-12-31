@@ -2,6 +2,8 @@ import { select } from '@wordpress/data';
 import _ from 'lodash';
 import uuid from 'uuid/v4';
 
+import { Bibliography } from 'utils/processor';
+
 const OBJECT_REPLACEMENT_CHARACTER = '\ufffc';
 
 export function createCitationHtml(items: string[]): string {
@@ -18,6 +20,28 @@ export function getEditorDOM(): HTMLDivElement {
     const doc = document.createElement('div');
     doc.innerHTML = select<string>('core/editor').getEditedPostContent();
     return doc;
+}
+
+export function parseDataAttrs({
+    entryspacing,
+    hangingindent,
+    maxoffset,
+    linespacing,
+    secondFieldAlign,
+}: { [k in keyof Bibliography['meta']]?: string }) {
+    return {
+        ...(entryspacing
+            ? { 'data-entryspacing': `${entryspacing}` }
+            : undefined),
+        ...(hangingindent
+            ? { 'data-hangingindent': `${hangingindent}` }
+            : undefined),
+        ...(maxoffset ? { 'data-maxoffset': `${maxoffset}` } : undefined),
+        ...(linespacing ? { 'data-linespacing': `${linespacing}` } : undefined),
+        ...(secondFieldAlign
+            ? { 'data-second-field-align': secondFieldAlign }
+            : undefined),
+    };
 }
 
 export function removeItems(doc: HTMLElement, itemIds: string[]): string[] {
