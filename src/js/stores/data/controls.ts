@@ -25,14 +25,13 @@ export function fetchLocale(style: string) {
 }
 
 export function fetchStyle() {
-    const { value: id, kind } = select('abt/data').getStyle();
+    const { value, kind } = select('abt/data').getStyle();
     if (kind === StyleKind.CUSTOM) {
-        // TODO: implement this
-        throw new Error('Custom styles not implemented yet.');
+        return value;
     }
     return {
         type: CtrlActions.FETCH_STYLE,
-        id,
+        id: value,
     };
 }
 
