@@ -96,20 +96,22 @@ export default class ManualData {
                 [type]: [...field, contributor],
             };
         }, fields);
-        const data: CSL.Data = [...this.standardFields.entries()].reduce(
-            (csl, [key, value]) => {
-                return {
-                    ...csl,
-                    [key]: DATE_FIELD_KEYS.includes(key)
-                        ? parseDate(value)
-                        : value,
-                };
-            },
-            {
-                type: this.citationType,
-                id: this.id,
-            },
-        );
+        const data: CSL.Data = [...this.standardFields.entries()]
+            .filter(([_, value]) => !!value)
+            .reduce(
+                (csl, [key, value]) => {
+                    return {
+                        ...csl,
+                        [key]: DATE_FIELD_KEYS.includes(key)
+                            ? parseDate(value)
+                            : value,
+                    };
+                },
+                {
+                    type: this.citationType,
+                    id: this.id,
+                },
+            );
         return toJS({ ...data, ...contributors });
     }
 
