@@ -40,5 +40,8 @@
     "lib/**/*",
     "types/*.d.ts",
     "webpack.config.ts"
+  ],
+  "exclude": [
+    "src/js/_legacy/workers/**"
   ]
 }

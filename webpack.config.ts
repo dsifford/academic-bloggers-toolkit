@@ -124,7 +124,7 @@ const config: webpack.Configuration = {
             'js/_legacy/_entrypoints/reference-list',
         ],
         'bundle/drivers/tinymce': 'js/_legacy/drivers/tinymce',
-        'bundle/workers/locale-worker': 'workers/locale-worker',
+        'bundle/workers/locale-worker': 'js/_legacy/workers/locale-worker',
 
         /**
          * New hotness
@@ -148,41 +148,45 @@ const config: webpack.Configuration = {
     module: {
         rules: [
             {
-                test: /\.ts$/,
-                sideEffects: false,
-                include: path.resolve(__dirname, 'src/workers'),
-                use: [
-                    {
-                        loader: 'awesome-typescript-loader',
-                        options: {
-                            ...AWESOME_TS_LOADER_BASE_CONFIG,
-                            configFileName: path.resolve(
-                                __dirname,
-                                'src/workers/tsconfig.json',
-                            ),
-                            instance: 'workers',
-                        },
-                    },
-                ],
-            },
-            {
                 test: /\.tsx?$/,
                 sideEffects: false,
-                exclude: [
-                    /__tests__/,
-                    /node_modules/,
-                    path.resolve(__dirname, 'src/workers'),
-                ],
-                use: [
+                rules: [
                     {
-                        loader: 'awesome-typescript-loader',
-                        options: {
-                            ...AWESOME_TS_LOADER_BASE_CONFIG,
-                            reportFiles: [
-                                '**/*.{ts,tsx}',
-                                '!(src/**/__tests__/**|src/workers/**)',
-                            ],
-                        },
+                        oneOf: [
+                            {
+                                include: path.resolve(
+                                    __dirname,
+                                    'src/js/_legacy/workers',
+                                ),
+                                use: [
+                                    {
+                                        loader: 'awesome-typescript-loader',
+                                        options: {
+                                            ...AWESOME_TS_LOADER_BASE_CONFIG,
+                                            configFileName: path.resolve(
+                                                __dirname,
+                                                'src/js/_legacy/workers/tsconfig.json',
+                                            ),
+                                            instance: 'workers',
+                                        },
+                                    },
+                                ],
+                            },
+                            {
+                                use: [
+                                    {
+                                        loader: 'awesome-typescript-loader',
+                                        options: {
+                                            ...AWESOME_TS_LOADER_BASE_CONFIG,
+                                            reportFiles: [
+                                                '**/*.{ts,tsx}',
+                                                '!**/__tests__/**',
+                                            ],
+                                        },
+                                    },
+                                ],
+                            },
+                        ],
                     },
                 ],
             },
