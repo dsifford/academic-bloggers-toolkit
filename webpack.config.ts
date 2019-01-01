@@ -77,13 +77,12 @@ if (IS_DEPLOYING) {
 
 const AWESOME_TS_LOADER_BASE_CONFIG = {
     silent: process.argv.indexOf('--json') !== -1,
-    useBabel: true,
     useCache: !IS_PRODUCTION,
     cacheDirectory: path.resolve(
         __dirname,
         'node_modules/.cache/awesome-typescript-loader',
     ),
-    babelCore: '@babel/core',
+    reportFiles: ['**/*.{ts,tsx}', '!**/__tests__/**'],
 };
 
 const config: webpack.Configuration = {
@@ -152,6 +151,9 @@ const config: webpack.Configuration = {
                 sideEffects: false,
                 rules: [
                     {
+                        loader: 'babel-loader',
+                    },
+                    {
                         oneOf: [
                             {
                                 include: path.resolve(
@@ -178,10 +180,6 @@ const config: webpack.Configuration = {
                                         loader: 'awesome-typescript-loader',
                                         options: {
                                             ...AWESOME_TS_LOADER_BASE_CONFIG,
-                                            reportFiles: [
-                                                '**/*.{ts,tsx}',
-                                                '!**/__tests__/**',
-                                            ],
                                         },
                                     },
                                 ],

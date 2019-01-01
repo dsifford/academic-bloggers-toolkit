@@ -1,4 +1,5 @@
 {
+  "extends": "../../../.babelrc",
   "plugins": [
     [
       "@babel/plugin-transform-react-jsx",
