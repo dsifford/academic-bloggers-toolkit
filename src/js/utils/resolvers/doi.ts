@@ -12,7 +12,10 @@ export async function get(doi: string): Promise<CSL.Data | ResponseError> {
     if (!response.ok) {
         return new ResponseError(doi, response);
     }
-    return _.pick(await response.json(), CSL_KEYS);
+    return _.pick(
+        await response.json(),
+        CSL_KEYS.filter(k => k !== 'abstract'),
+    );
 }
 
 /**

@@ -11,6 +11,27 @@ namespace DateField {
     }
 }
 
+function raw2parts(date: string): CSL.Date {
+    const [year, month, day] = date.split('/');
+    const parts: any = [
+        ...(year !== undefined ? [year] : []),
+        ...(month !== undefined ? [month] : []),
+        ...(day !== undefined ? [day] : []),
+    ];
+    return {
+        'date-parts': [parts],
+    };
+}
+
+function date2raw(date?: CSL.Date): string {
+    if (date && date.raw) {
+        return date.raw;
+    } else if (date && date['date-parts']) {
+        return date['date-parts'][0].join('/');
+    }
+    return '';
+}
+
 const DateField = ({ field: { key, label, inputProps } }: DateField.Props) => (
     <DataContext.Consumer>
         {({ data, update }) => (
@@ -22,8 +43,12 @@ const DateField = ({ field: { key, label, inputProps } }: DateField.Props) => (
                     data-lpignore="true"
                     key={key}
                     type="text"
-                    value={_.get(data, [key, 'raw'], '')}
-                    onChange={e => update(key, { raw: e.currentTarget.value })}
+                    value={date2raw(data[key] as CSL.Date)}
+                    onChange={e =>
+                        update(key, raw2parts(e.currentTarget.value))
+                    }
+                    // value={_.get(data, [key, 'raw'], '')}
+                    // onChange={e => update(key, { raw: e.currentTarget.value })}
                 />
             </label>
         )}
