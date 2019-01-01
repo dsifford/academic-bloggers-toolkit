@@ -8,7 +8,7 @@ import { ToolbarButton } from 'gutenberg/sidebar/toolbar';
 import { createCitationHtml } from 'utils/editor';
 import { getNeighbors, iterate, mergeItems } from 'utils/formats';
 
-import './citation.scss';
+import './citation.scss?global';
 
 namespace Citation {
     export interface DispatchProps {

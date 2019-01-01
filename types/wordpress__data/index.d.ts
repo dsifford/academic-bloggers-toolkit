@@ -19,7 +19,7 @@ interface StoreRegObj<T> {
         [k: string]: (state: T, ...args: any) => any;
     };
     resolvers?: {
-        [k: string]: (...args: any) => IterableIterator<any>;
+        [k: string]: (...args: any) => IterableIterator<any> | any;
     };
 }
 

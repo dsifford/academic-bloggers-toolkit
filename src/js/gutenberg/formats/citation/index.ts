@@ -7,6 +7,7 @@ export default {
     title: __('Citation', 'academic-bloggers-toolkit'),
     attributes: {
         editable: 'contenteditable',
+        hasChildren: 'data-has-children',
         id: 'id',
         items: 'data-items',
     },

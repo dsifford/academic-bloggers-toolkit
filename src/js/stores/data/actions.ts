@@ -132,6 +132,9 @@ function* updateEditorCitations(citations: RebuildProcessorStateData[]) {
         );
         if (node) {
             node.innerHTML = html;
+            if (node.childElementCount > 0) {
+                node.dataset.hasChildren = 'true';
+            }
         }
     }
     yield dispatch('core/editor').resetBlocks(parse(doc.innerHTML));
