@@ -4,18 +4,20 @@ import hash from 'string-hash';
 import { clone } from 'utils/data';
 
 import { State } from './';
-import { Actions } from './constants';
+import { Actions, StyleKind } from './constants';
 
 const INITIAL_CITATION_STYLES: State['citationStyles'] = {
     renamed: {},
     styles: [],
 };
 
-const INITIAL_REFERENCES: State['references'] = clone(
-    window.ABT_EDITOR.references,
-);
+const INITIAL_REFERENCES: State['references'] = [];
 
-const INITIAL_STYLE: State['style'] = clone(window.ABT_EDITOR.style);
+const INITIAL_STYLE: State['style'] = {
+    kind: StyleKind.PREDEFINED,
+    value: 'american-medical-association',
+    label: 'American Medical Association',
+};
 
 export function citationStyles(
     state = INITIAL_CITATION_STYLES,
@@ -53,6 +55,9 @@ export function references(
         }
         case Actions.REMOVE_REFERENCES: {
             return state.filter(item => !action.itemIds.includes(item.id));
+        }
+        case Actions.SET_REFERENCES: {
+            return action.references;
         }
         case Actions.UPDATE_REFERENCE: {
             const index = state.findIndex(({ id }) => id === action.data.id);

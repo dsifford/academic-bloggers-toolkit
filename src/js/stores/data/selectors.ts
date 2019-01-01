@@ -1,3 +1,4 @@
+import { select } from '@wordpress/data';
 import { Citation } from 'citeproc';
 import _ from 'lodash';
 
@@ -10,6 +11,18 @@ interface SerializedMeta {
     meta: {
         abt_state: string;
     };
+}
+
+export function getCitationStyles(state: State): State['citationStyles'] {
+    return clone(state.citationStyles);
+}
+
+export function getReferences(state: State): State['references'] {
+    return clone(state.references);
+}
+
+export function getStyle(state: State): State['style'] {
+    return clone(state.style);
 }
 
 export function getCitationsByIndex(state: State): Citation[] {
@@ -52,7 +65,7 @@ export function getItems(state: State, kind?: 'cited' | 'uncited'): CSL.Data[] {
         case 'uncited':
             return getUncitedItems(state);
         default:
-            return clone(state.references);
+            return select('abt/data').getReferences();
     }
 }
 
@@ -90,8 +103,10 @@ export function getSortedItems(
     );
 }
 
-export function getItemById(state: State, id: string): CSL.Data | undefined {
-    return clone(state.references.find(item => item.id === id));
+export function getItemById(_state: State, id: string): CSL.Data | undefined {
+    return select('abt/data')
+        .getReferences()
+        .find(item => item.id === id);
 }
 
 export function getSerializedState({
@@ -105,20 +120,10 @@ export function getSerializedState({
     };
 }
 
-export function getStyle(state: State): State['style'] {
-    return clone(state.style);
-}
-
-export function getCitationStyles(state: State) {
-    return state.citationStyles;
-}
-
 export function getUncitedItems(state: State): CSL.Data[] {
-    return clone(
-        _.differenceWith(
-            [...state.references],
-            getCitedItems(state),
-            (left, right) => left.id === right.id,
-        ),
+    return _.differenceWith(
+        select('abt/data').getReferences(),
+        getCitedItems(state),
+        (left, right) => left.id === right.id,
     );
 }

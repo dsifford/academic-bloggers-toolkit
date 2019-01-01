@@ -44,3 +44,31 @@ function enqueue_script( string $relpath, array $deps = [] ): void {
 		throw new InvalidArgumentException( "No scripts could be located using relpath '$relpath'" );
 	}
 }
+
+/**
+ * Parses and returns /vendor/citation-styles.json
+ */
+function get_citation_styles() {
+	return json_decode(
+		file_get_contents( // phpcs:ignore
+			ABT_ROOT_PATH . '/vendor/citation-styles.json'
+		)
+	);
+}
+
+/**
+ * Checks if current page has the block editor loaded.
+ */
+function is_block_editor(): bool {
+	return (
+		(
+			function_exists( 'get_current_screen' )
+			&& get_current_screen()->is_block_editor()
+			&& user_can_richedit()
+		)
+		||
+		(
+			function_exists( 'is_gutenberg_page' ) && is_gutenberg_page()
+		)
+	);
+}

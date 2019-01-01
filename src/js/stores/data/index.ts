@@ -16,9 +16,12 @@ export interface StyleJSON {
     styles: Style[];
 }
 
-export interface State {
+export interface SavedState {
     references: CSL.Data[];
     style: Style;
+}
+
+export interface State extends SavedState {
     citationStyles: StyleJSON;
 }
 
