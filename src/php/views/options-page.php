@@ -1,4 +1,15 @@
-<!-- Feedback Box -->
+<?php
+/**
+ * Options Page View
+ *
+ * @package ABT
+ *
+ * phpcs:disable Squiz.PHP.CommentedOutCode.Found
+ * vim: set fdm=marker fdl=0:
+ */
+
+?>
+<?php /* Feedback Box {{{ */ ?>
 <div class="postbox">
 	<h2><?php esc_html_e( 'Please send your feedback!', 'academic-bloggers-toolkit' ); ?></h2>
 	<div class="inside">
@@ -15,13 +26,12 @@
 				],
 			]
 		)
-	?>
+		?>
 	</div>
 </div>
-
-<!-- Plugin Requirements -->
-<div class="postbox">
-	<h2><?php esc_html_e( 'Plugin Requirements Check', 'academic-bloggers-toolkit' ); ?></h2>
+<?php /* }}} */ ?>
+<?php /* Plugin Requirements {{{ */ ?>
+<div class="postbox"> <h2><?php esc_html_e( 'Plugin Requirements Check', 'academic-bloggers-toolkit' ); ?></h2>
 	<div class="inside">
 		<table class="widefat">
 			<tr>
@@ -51,7 +61,7 @@
 								'code' => [],
 							]
 						);
-					?>
+						?>
 					</strong>
 				</th>
 				<td>
@@ -98,7 +108,7 @@
 								'code' => [],
 							]
 						);
-					?>
+						?>
 					</strong>
 				</th>
 				<td>
@@ -152,12 +162,12 @@
 						'code' => [],
 					]
 				);
-			?>
+				?>
 		</p>
 	</div>
 </div>
-
-<!-- Default Citation Style -->
+<?php /* }}} */ ?>
+<?php /* Default Citation Style {{{ */ ?>
 <form method="post">
 	<?php wp_nonce_field( $form_actions->citation_style, $form_nonce ); ?>
 	<div class="postbox">
@@ -173,8 +183,8 @@
 		/>
 	</div>
 </form>
-
-<!-- Display Options -->
+<?php /* }}} */ ?>
+<?php /* Display Options {{{ */ ?>
 <form method="post">
 	<?php wp_nonce_field( $form_actions->display_options, $form_nonce ); ?>
 	<div class="postbox">
@@ -190,8 +200,8 @@
 		/>
 	</div>
 </form>
-
-<!-- Override CSS -->
+<?php /* }}} */ ?>
+<?php /* CSS Overrides {{{ */ ?>
 <form method="post">
 	<?php wp_nonce_field( $form_actions->custom_css, $form_nonce ); ?>
 	<div class="postbox">
@@ -254,8 +264,8 @@
 		/>
 	</div>
 </form>
-
-<!-- How to -->
+<?php /* }}} */ ?>
+<?php /* How to... {{{ */ ?>
 <div class="postbox">
 	<h2><?php esc_html_e( 'How do I', 'academic-bloggers-toolkit' ); ?>...</h2>
 	<div class="inside">
@@ -305,3 +315,4 @@
 		</div>
 	</div>
 </div>
+<?php /* }}} */ ?>

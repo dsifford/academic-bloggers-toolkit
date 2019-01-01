@@ -7,6 +7,8 @@
 
 namespace ABT\Admin;
 
+defined( 'ABSPATH' ) || exit;
+
 use function ABT\Utils\{
 	enqueue_script,
 	get_citation_styles,

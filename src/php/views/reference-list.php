@@ -1,3 +1,11 @@
+<?php
+/**
+ * Legacy reference list view.
+ *
+ * @package ABT
+ */
+
+?>
 <div id='abt-reflist__root'>
 	<div id="abt_preload_container"></div>
 </div>
