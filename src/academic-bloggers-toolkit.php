@@ -125,31 +125,6 @@ add_filter( 'plugin_row_meta', __NAMESPACE__ . '\add_donate_link', 10, 2 );
 
 
 /**
- * Enqueues frontend JS and CSS.
- */
-function frontend_enqueues() {
-	global $post;
-	$options    = get_option( ABT_OPTIONS_KEY );
-	$custom_css = wp_kses( $options['custom_css'], [ "\'", '\"' ] );
-
-	wp_enqueue_style( 'abt-frontend-styles', ABT_ROOT_URI . '/bundle/frontend.css', [], ABT_VERSION );
-	if ( isset( $custom_css ) && ! empty( $custom_css ) ) {
-		wp_add_inline_style( 'abt-frontend-styles', $custom_css );
-	}
-
-	if ( is_singular() ) {
-		if ( has_blocks( $post ) ) {
-			// TODO...
-			return;
-		} else {
-			// legacy.
-			wp_enqueue_script( 'abt-frontend-script', ABT_ROOT_URI . '/bundle/frontend.js', [], ABT_VERSION, true );
-		}
-	}
-}
-add_action( 'wp_enqueue_scripts', __NAMESPACE__ . '\frontend_enqueues' );
-
-/**
  * Registers 3rd party or vendored scripts/styles
  */
 function register_third_party_scripts() {
@@ -175,6 +150,7 @@ add_action( 'wp_enqueue_scripts', __NAMESPACE__ . '\register_third_party_scripts
 require_once __DIR__ . '/php/utils.php';
 require_once __DIR__ . '/php/admin.php';
 require_once __DIR__ . '/php/dom-injects.php';
+require_once __DIR__ . '/php/frontend.php';
 require_once __DIR__ . '/php/class-backend.php';
 require_once __DIR__ . '/php/class-options.php';
 require_once __DIR__ . '/php/endpoints.php';

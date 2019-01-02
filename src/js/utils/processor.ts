@@ -4,14 +4,13 @@ import _ from 'lodash';
 
 import { localeCache } from 'utils/cache';
 
-interface BibItem {
-    content: string;
-    id: string;
-}
+namespace Processor {
+    export interface BibItem {
+        content: string;
+        id: string;
+    }
 
-export interface Bibliography {
-    items: BibItem[];
-    meta: Partial<
+    export type BibMeta = Partial<
         Pick<
             Bibmeta,
             'entryspacing' | 'hangingindent' | 'linespacing' | 'maxoffset'
@@ -19,9 +18,28 @@ export interface Bibliography {
             secondFieldAlign: Bibmeta['second-field-align'];
         }
     >;
-}
 
-export default class Processor {
+    export interface Bibliography {
+        items: BibItem[];
+        meta: BibMeta;
+    }
+
+    export interface CitationMeta {
+        /**
+         * ID of the citation HTMLElement.
+         */
+        id: string;
+        /**
+         * Parsed citation HTML to set as the citation HTMLElement innerHTML.
+         */
+        html: string;
+        /**
+         * A JSON stringified list of the sorted item ids in the citation.
+         */
+        sortedItems: string;
+    }
+}
+class Processor {
     private static instance: Processor | null = null;
     private style!: string;
     private engine!: Engine;
@@ -64,11 +82,24 @@ export default class Processor {
         }
     }
 
-    parseCitations(citations: Citation[]) {
-        return this.engine.rebuildProcessorState(citations);
+    parseCitations(citations: Citation[]): Processor.CitationMeta[] {
+        return this.engine
+            .rebuildProcessorState(citations)
+            .map(([id, , html]) => {
+                const sortedItems = JSON.stringify(
+                    this.registry.citationById[id].sortedItems.map(
+                        ([ref]) => ref.id,
+                    ),
+                );
+                return {
+                    id,
+                    html,
+                    sortedItems,
+                };
+            });
     }
 
-    get bibliography(): Bibliography {
+    get bibliography(): Processor.Bibliography {
         let data: RawBib | false;
         try {
             data = this.engine.makeBibliography();
@@ -106,4 +137,10 @@ export default class Processor {
             ),
         };
     }
+
+    private get registry() {
+        return this.engine.registry.citationreg;
+    }
 }
+
+export default Processor;

@@ -1,0 +1,91 @@
+$tooltip-bg: #fff !default;
+
+.abt-citation {
+    cursor: pointer;
+}
+
+.tooltip-inner {
+    z-index: 20;
+    max-width: 350px;
+    padding: 8px 10px;
+    font-size: 12px;
+    line-height: 1.5;
+    border-radius: 3px;
+    background: $tooltip-bg;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.tooltip-arrow {
+    border: solid $tooltip-bg;
+}
+
+.tooltip {
+    $arrow-size: 5px;
+
+    .tooltip-arrow {
+        width: 0;
+        height: 0;
+        position: absolute;
+        margin: $arrow-size;
+    }
+
+    &[x-placement^='top'] {
+        margin-bottom: $arrow-size;
+
+        .tooltip-arrow {
+            border-width: $arrow-size $arrow-size 0 $arrow-size;
+            border-left-color: transparent;
+            border-right-color: transparent;
+            border-bottom-color: transparent;
+            bottom: -$arrow-size;
+            left: calc(50% - $arrow-size);
+            margin-top: 0;
+            margin-bottom: 0;
+        }
+    }
+
+    &[x-placement^='right'] {
+        margin-left: $arrow-size;
+
+        .tooltip-arrow {
+            border-width: $arrow-size $arrow-size $arrow-size 0;
+            border-left-color: transparent;
+            border-top-color: transparent;
+            border-bottom-color: transparent;
+            left: -$arrow-size;
+            top: calc(50% - $arrow-size);
+            margin-left: 0;
+            margin-right: 0;
+        }
+    }
+
+    &[x-placement^='bottom'] {
+        margin-top: $arrow-size;
+
+        .tooltip-arrow {
+            border-width: 0 $arrow-size $arrow-size $arrow-size;
+            border-left-color: transparent;
+            border-right-color: transparent;
+            border-top-color: transparent;
+            top: -$arrow-size;
+            left: calc(50% - $arrow-size);
+            margin-top: 0;
+            margin-bottom: 0;
+        }
+    }
+
+    &[x-placement^='left'] {
+        margin-right: $arrow-size;
+
+        .tooltip-arrow {
+            border-width: $arrow-size 0 $arrow-size $arrow-size;
+            border-top-color: transparent;
+            border-right-color: transparent;
+            border-bottom-color: transparent;
+            right: -$arrow-size;
+            top: calc(50% - $arrow-size);
+            margin-left: 0;
+            margin-right: 0;
+        }
+    }
+}

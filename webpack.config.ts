@@ -98,6 +98,7 @@ const config: webpack.Configuration = {
         '@wordpress/blocks': 'wp.blocks',
         '@wordpress/components': 'wp.components',
         '@wordpress/compose': 'wp.compose',
+        '@wordpress/dom-ready': 'wp.domReady',
         '@wordpress/data': 'wp.data',
         '@wordpress/edit-post': 'wp.editPost',
         '@wordpress/editor': 'wp.editor',
@@ -114,7 +115,7 @@ const config: webpack.Configuration = {
         /**
          * JS Entrypoints
          */
-        'bundle/frontend': 'js/_legacy/_entrypoints/frontend',
+        'bundle/frontend-legacy': 'js/_legacy/_entrypoints/frontend',
         'bundle/options-page': 'js/_legacy/_entrypoints/options-page',
         'bundle/reference-list': [
             'custom-event-polyfill',
@@ -129,6 +130,7 @@ const config: webpack.Configuration = {
          * New hotness
          */
         'bundle/editor': 'js/editor',
+        'bundle/frontend': 'js/frontend',
     },
     output: {
         filename: '[name].js',
