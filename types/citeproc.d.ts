@@ -108,6 +108,17 @@ declare module 'citeproc' {
         'second-field-align': 'flush' | 'margin' | false;
     }
 
+    // I have literally no idea what any of this is for...
+    interface SortedItemMeta {
+        'first-reference-note-number': number;
+        id: string;
+        item: CSL.Data;
+        'near-note': boolean;
+        position: number;
+        section_form_override: string;
+        sortkeys: string[];
+    }
+
     export interface Citation {
         /** ID of the HTMLSpanElement of the single citation element */
         citationID: string;
@@ -132,19 +143,23 @@ declare module 'citeproc' {
         };
     }
 
+    interface StatefulCitation extends Citation {
+        sortedItems: Array<[CSL.Data, SortedItemMeta]>;
+    }
+
     interface CitationRegistry {
         /**
          * Retrieve citation(s) by a HTMLSpanElement ID
          */
-        citationById: Record<string, Citation>;
+        citationById: Record<string, StatefulCitation>;
         /**
          * Array of `Citation` ordered ascending by use in the document
          */
-        citationByIndex: Citation[];
+        citationByIndex: StatefulCitation[];
         /**
          * Retrieve citation by the unique citation ID
          */
-        citationsByItemId: Record<string, Citation[]>;
+        citationsByItemId: Record<string, StatefulCitation[]>;
     }
 
     interface Registry {

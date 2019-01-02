@@ -2,7 +2,7 @@ import { select } from '@wordpress/data';
 import _ from 'lodash';
 import uuid from 'uuid/v4';
 
-import { Bibliography } from 'utils/processor';
+import Processor from 'utils/processor';
 
 const OBJECT_REPLACEMENT_CHARACTER = '\ufffc';
 
@@ -28,7 +28,7 @@ export function parseDataAttrs({
     maxoffset,
     linespacing,
     secondFieldAlign,
-}: { [k in keyof Bibliography['meta']]?: string }) {
+}: { [k in keyof Processor.BibMeta]?: string }) {
     return {
         ...(entryspacing
             ? { 'data-entryspacing': `${entryspacing}` }

@@ -1,13 +1,13 @@
 import { BlockConfig, createBlock } from '@wordpress/blocks';
 import { __ } from '@wordpress/i18n';
 
-import { Bibliography } from 'utils/processor';
+import Processor from 'utils/processor';
 
 import BibliographyEdit from './edit';
 import BibliographySave from './save';
 
 export interface Attributes {
-    items: Bibliography['items'];
+    items: Processor.BibItem[];
     heading: string;
     headingLevel: number;
     isToggleable: boolean;

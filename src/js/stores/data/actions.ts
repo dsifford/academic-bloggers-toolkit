@@ -1,9 +1,8 @@
 import { Block, createBlock, parse } from '@wordpress/blocks';
 import { dispatch, select, subscribe } from '@wordpress/data';
-import { RebuildProcessorStateData } from 'citeproc';
 
 import { getEditorDOM, removeItems } from 'utils/editor';
-import Processor, { Bibliography } from 'utils/processor';
+import Processor from 'utils/processor';
 
 import { Style } from './';
 import { Actions } from './constants';
@@ -99,7 +98,7 @@ function* save() {
     yield dispatch('core/editor').savePost();
 }
 
-function* setBibliography({ items, meta }: Bibliography) {
+function* setBibliography({ items, meta }: Processor.Bibliography) {
     const blocksList = select<Block[]>('core/editor').getBlocks();
     const bibliographyBlock = blocksList.find(
         block => block.name === 'abt/bibliography',
@@ -124,14 +123,15 @@ function* setBibliography({ items, meta }: Bibliography) {
     }
 }
 
-function* updateEditorCitations(citations: RebuildProcessorStateData[]) {
+function* updateEditorCitations(citations: Processor.CitationMeta[]) {
     const doc = getEditorDOM();
-    for (const [id, , html] of citations) {
+    for (const { html, id, sortedItems } of citations) {
         const node = doc.querySelector<HTMLElement>(
             `.abt-citation[id="${id}"]`,
         );
         if (node) {
             node.innerHTML = html;
+            node.dataset.items = sortedItems;
             if (node.childElementCount > 0) {
                 node.dataset.hasChildren = 'true';
             }
