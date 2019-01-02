@@ -35,7 +35,7 @@ function enqueue_script( string $relpath, array $deps = [] ): void {
 			"$handle-script",
 			ABT_ROOT_URI . $script_suffix,
 			$deps['scripts'] ?? [],
-			filemtime( ABT_ROOT_PATH . $style_suffix ),
+			filemtime( ABT_ROOT_PATH . $script_suffix ),
 			true
 		);
 		$count++;

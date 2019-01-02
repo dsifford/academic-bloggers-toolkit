@@ -9,7 +9,7 @@ namespace ABT\Endpoints;
 
 defined( 'ABSPATH' ) || exit;
 
-use function ABT\Admin\get_citation_styles;
+use function ABT\Utils\get_citation_styles;
 
 /**
  * AJAX Method for getting metadata from other websites for citations.
