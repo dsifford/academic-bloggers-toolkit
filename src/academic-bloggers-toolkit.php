@@ -26,34 +26,18 @@ define( 'ABT_OPTIONS_KEY', 'abt_options' );
 /**
  * Load plugin translations.
  */
-function textdomain() {
+function textdomain(): void {
 	load_plugin_textdomain( 'academic-bloggers-toolkit', false, basename( ABT_ROOT_PATH ) . '/languages' );
 }
 add_action( 'plugins_loaded', __NAMESPACE__ . '\textdomain' );
 
 /**
- * Adds .csl files to the accepted mime types for WordPress.
- *
- * @param string[] $mimes Existing mime types.
- *
- * @return string[] Existing mime types + csl
- */
-function enable_csl_mime( $mimes ) {
-	$mimes['csl'] = 'text/xml';
-	return $mimes;
-}
-add_filter( 'upload_mimes', __NAMESPACE__ . '\enable_csl_mime' );
-
-
-/**
  * Cleans up options during uninstall.
  */
-function uninstall() {
+function uninstall(): void {
 	delete_option( ABT_OPTIONS_KEY );
 }
-if ( function_exists( 'register_uninstall_hook' ) ) {
-	register_uninstall_hook( __FILE__, 'ABT\uninstall' );
-}
+register_uninstall_hook( __FILE__, 'ABT\uninstall' );
 
 /**
  * Refactors the defined plugin options.
@@ -99,13 +83,12 @@ add_action( 'admin_init', __NAMESPACE__ . '\refactor_options' );
  *
  * @param string[] $links array of links.
  */
-function add_options_link( $links ) {
+function add_options_link( array $links ): array {
 	$url  = admin_url( 'options-general.php?page=abt-options' );
 	$text = __( 'Plugin Settings', 'academic-bloggers-toolkit' );
 	return array_merge( $links, [ "<a href='$url'>$text</a>" ] );
 }
 add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), __NAMESPACE__ . '\add_options_link' );
-
 
 /**
  * Adds donation link to the plugin meta.
@@ -113,7 +96,7 @@ add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), __NAMESPACE__ 
  * @param mixed[] $links The array having default links for the plugin.
  * @param string  $file  The name of the plugin file.
  */
-function add_donate_link( $links, $file ) {
+function add_donate_link( array $links, string $file ): array {
 	if ( plugin_basename( __FILE__ ) === $file ) {
 		$links[] = sprintf(
 			'&hearts; <a href="%s">%s</a>',
@@ -125,13 +108,12 @@ function add_donate_link( $links, $file ) {
 }
 add_filter( 'plugin_row_meta', __NAMESPACE__ . '\add_donate_link', 10, 2 );
 
-
 /**
  * Registers 3rd party or vendored scripts/styles
  */
-function register_third_party_scripts() {
+function register_third_party_scripts(): void {
 	wp_register_style(
-		'abt-fonts',
+		'abt-legacy-fonts',
 		add_query_arg(
 			[
 				'family' => 'Roboto:300,400,500,700',

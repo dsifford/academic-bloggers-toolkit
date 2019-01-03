@@ -230,7 +230,7 @@ class Backend {
 			[
 				'scripts' => [ 'citeproc', 'lodash' ],
 				'styles'  => [
-					'abt-fonts',
+					'abt-legacy-fonts',
 					'dashicons',
 				],
 			]

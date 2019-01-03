@@ -18,7 +18,7 @@ use function ABT\Utils\{
 /**
  * Enqueue admin scripts.
  */
-function enqueue_scripts() {
+function enqueue_scripts(): void {
 	global $post;
 	if ( is_block_editor() ) {
 		enqueue_script(
@@ -52,7 +52,7 @@ add_action( 'admin_enqueue_scripts', __NAMESPACE__ . '\enqueue_scripts' );
 /**
  * Register post meta to store editor state.
  */
-function register_metadata() {
+function register_metadata(): void {
 	register_meta(
 		'post',
 		'abt_state',
