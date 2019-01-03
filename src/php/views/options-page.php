@@ -5,7 +5,6 @@
  * @package ABT
  *
  * phpcs:disable Squiz.PHP.CommentedOutCode.Found
- * vim: set fdm=marker fdl=0:
  */
 
 ?>
@@ -184,87 +183,6 @@
 	</div>
 </form>
 <?php /* }}} */ ?>
-<?php /* Display Options {{{ */ ?>
-<form method="post">
-	<?php wp_nonce_field( $form_actions->display_options, $form_nonce ); ?>
-	<div class="postbox">
-		<h2><?php esc_html_e( 'Display Options', 'academic-bloggers-toolkit' ); ?></h2>
-		<div id="display-options-form-root" class="inside"></div>
-	</div>
-	<div class="abt-submit-row">
-		<input
-			type="submit"
-			value="<?php esc_attr_e( 'Update', 'academic-bloggers-toolkit' ); ?>"
-			aria-label="Update display options"
-			class="button-primary"
-		/>
-	</div>
-</form>
-<?php /* }}} */ ?>
-<?php /* CSS Overrides {{{ */ ?>
-<form method="post">
-	<?php wp_nonce_field( $form_actions->custom_css, $form_nonce ); ?>
-	<div class="postbox">
-		<h2><?php esc_html_e( 'Override CSS', 'academic-bloggers-toolkit' ); ?></h2>
-		<div class="inside" style="margin: 0; padding: 0;">
-			<div class="custom-css__container">
-				<textarea name="custom_css" id="custom_css" ><?php echo $options->custom_css; // WPCS: XSS ok. ?></textarea>
-				<div class="custom-css__selectors">
-					<h3><?php esc_html_e( 'CSS Selectors used by this plugin', 'academic-bloggers-toolkit' ); ?></h3>
-					<dl>
-						<dt><?php esc_html_e( 'Inline Citations', 'academic-bloggers-toolkit' ); ?></dt>
-						<dd>
-						<?php foreach ( [ '.abt-citation' ] as $selector ) : ?>
-							<code><?php echo esc_html( $selector ); ?></code>
-						<?php endforeach; ?>
-						</dd>
-					</dl>
-					<dl>
-						<dt><?php esc_html_e( 'Citation Tooltips', 'academic-bloggers-toolkit' ); ?></dt>
-						<dd>
-						<?php foreach ( [ '.abt-tooltip', '.abt_tooltip__callout', '.abt-tooltip__close-button' ] as $selector ) : ?>
-							<code><?php echo esc_html( $selector ); ?></code>
-						<?php endforeach; ?>
-						</dd>
-					</dl>
-					<dl>
-						<dt><?php esc_html_e( 'Bibliography', 'academic-bloggers-toolkit' ); ?></dt>
-						<dd>
-						<?php foreach ( [ '.abt-bibliography', '.abt-bibliography__heading', '.abt-bibliography__container > div' ] as $selector ) : ?>
-							<code><?php echo esc_html( $selector ); ?></code>
-						<?php endforeach; ?>
-						</dd>
-					</dl>
-					<dl>
-						<dt><?php esc_html_e( 'Static Publication Lists', 'academic-bloggers-toolkit' ); ?></dt>
-						<dd>
-						<?php foreach ( [ '.abt-static-bib', '.abt-static-bib > div' ] as $selector ) : ?>
-							<code><?php echo esc_html( $selector ); ?></code>
-						<?php endforeach; ?>
-						</dd>
-					</dl>
-					<dl>
-						<dt><?php esc_html_e( 'Footnotes', 'academic-bloggers-toolkit' ); ?></dt>
-						<dd>
-						<?php foreach ( [ '#abt-footnote', '.abt-footnote__heading', '.abt-footnote__item', '.abt-footnote-number' ] as $selector ) : ?>
-							<code><?php echo esc_html( $selector ); ?></code>
-						<?php endforeach; ?>
-						</dd>
-					</dl>
-				</div>
-			</div>
-		</div>
-	</div>
-	<div class="abt-submit-row">
-		<input
-			type="submit"
-			value="<?php esc_attr_e( 'Update', 'academic-bloggers-toolkit' ); ?>"
-			aria-label="Update custom CSS"
-			class="button-primary"
-		/>
-	</div>
-</form>
-<?php /* }}} */ ?>
 <?php /* How to... {{{ */ ?>
 <div class="postbox">
 	<h2><?php esc_html_e( 'How do I', 'academic-bloggers-toolkit' ); ?>...</h2>
@@ -316,3 +234,4 @@
 	</div>
 </div>
 <?php /* }}} */ ?>
+<?php /* vim: set fdm=marker fdl=0: */ ?>

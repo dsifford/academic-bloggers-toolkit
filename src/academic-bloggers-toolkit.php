@@ -55,42 +55,44 @@ if ( function_exists( 'register_uninstall_hook' ) ) {
 	register_uninstall_hook( __FILE__, 'ABT\uninstall' );
 }
 
-
 /**
  * Refactors the defined plugin options.
  *
- * Current schema configuration can be found here:
- * http://www.jsoneditoronline.org/?id=8f65b4f64daaf41e5ed94c4a006ba264
+ * @link https://app.quicktype.io?share=E2qRt1Cg3TR6qmHbXDcY
  */
-function refactor_options() {
+function refactor_options(): void {
 	$options = get_option( ABT_OPTIONS_KEY );
 	if ( version_compare( ABT_VERSION, $options['VERSION'], '<=' ) ) {
 		return;
 	}
 
-	$new_options = [];
+	// Move custom css to customizer if it exists.
+	if ( ! empty( $options['custom_css'] ) ) {
+		wp_update_custom_css_post(
+			wp_get_custom_css_post() . PHP_EOL .
+			wp_kses( $options['custom_css'], [ "\'", '\"' ] )
+		);
+	}
 
-	$new_options['citation_style'] = [
-		'kind'  => isset( $options['citation_style']['kind'] ) ? $options['citation_style']['kind'] : 'predefined',
-		'label' => isset( $options['citation_style']['label'] ) ? $options['citation_style']['label'] : 'American Medical Association',
-		'value' => isset( $options['citation_style']['id'] ) ? $options['citation_style']['id'] : 'american-medical-association',
+	$new_options = [
+		'VERSION'         => ABT_VERSION,
+		'citation_style'  => [
+			'kind'  => $options['citation_style']['kind'] ?? 'predefined',
+			'label' => $options['citation_style']['label'] ?? 'American Medical Association',
+			'value' => $options['citation_style']['value'] ?? 'american-medical-association',
+		],
+		// @deprecated 5.0.0
+		'display_options' => [
+			'bib_heading'       => $options['display_options']['bib_heading'] ?? '',
+			'bib_heading_level' => $options['display_options']['bib_heading_level'] ?? 'h3',
+			'bibliography'      => $options['display_options']['bibliography'] ?? 'fixed',
+			'links'             => $options['display_options']['links'] ?? 'always',
+		],
 	];
-
-	$new_options['custom_css'] = ! empty( $options['custom_css'] ) ? $options['custom_css'] : '';
-
-	$new_options['display_options'] = [
-		'bibliography'      => ! empty( $options['display_options']['bibliography'] ) ? $options['display_options']['bibliography'] : 'fixed',
-		'links'             => ! empty( $options['display_options']['links'] ) ? $options['display_options']['links'] : 'always',
-		'bib_heading'       => ! empty( $options['display_options']['bib_heading'] ) ? $options['display_options']['bib_heading'] : '',
-		'bib_heading_level' => ! empty( $options['display_options']['bib_heading_level'] ) ? $options['display_options']['bib_heading_level'] : 'h3',
-	];
-
-	$new_options['VERSION'] = ABT_VERSION;
 
 	update_option( ABT_OPTIONS_KEY, $new_options );
 }
 add_action( 'admin_init', __NAMESPACE__ . '\refactor_options' );
-
 
 /**
  * Adds link on the plugin page to the options page.
