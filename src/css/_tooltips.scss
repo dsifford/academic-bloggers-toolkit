@@ -39,7 +39,7 @@ $tooltip-bg: #fff !default;
             border-right-color: transparent;
             border-bottom-color: transparent;
             bottom: -$arrow-size;
-            left: calc(50% - $arrow-size);
+            left: calc(50% - #{$arrow-size});
             margin-top: 0;
             margin-bottom: 0;
         }
@@ -54,7 +54,7 @@ $tooltip-bg: #fff !default;
             border-top-color: transparent;
             border-bottom-color: transparent;
             left: -$arrow-size;
-            top: calc(50% - $arrow-size);
+            top: calc(50% - #{$arrow-size});
             margin-left: 0;
             margin-right: 0;
         }
@@ -69,7 +69,7 @@ $tooltip-bg: #fff !default;
             border-right-color: transparent;
             border-top-color: transparent;
             top: -$arrow-size;
-            left: calc(50% - $arrow-size);
+            left: calc(50% - #{$arrow-size});
             margin-top: 0;
             margin-bottom: 0;
         }
@@ -84,7 +84,7 @@ $tooltip-bg: #fff !default;
             border-right-color: transparent;
             border-bottom-color: transparent;
             right: -$arrow-size;
-            top: calc(50% - $arrow-size);
+            top: calc(50% - #{$arrow-size});
             margin-left: 0;
             margin-right: 0;
         }

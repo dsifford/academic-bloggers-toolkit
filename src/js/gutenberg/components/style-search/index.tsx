@@ -102,11 +102,15 @@ class StyleSearch extends Component<StyleSearch.Props, StyleSearch.State> {
             keys: [
                 {
                     name: 'label',
-                    weight: 0.7,
+                    weight: 0.4,
                 },
                 {
                     name: 'value',
-                    weight: 0.3,
+                    weight: 0.2,
+                },
+                {
+                    name: 'shortTitle',
+                    weight: 0.4,
                 },
             ],
         });

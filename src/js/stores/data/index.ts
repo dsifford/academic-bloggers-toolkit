@@ -9,6 +9,7 @@ export interface Style {
     kind: StyleKind;
     value: string;
     label: string;
+    shortTitle?: string;
 }
 
 export interface StyleJSON {
