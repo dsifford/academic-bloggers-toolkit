@@ -1,8 +1,7 @@
 #!/usr/bin/env bash
 
 VERSION="${npm_package_version?This script must be called using npm}"
-SCRIPTDIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-ROOTDIR=$(cd "$SCRIPTDIR" && cd ../../ && pwd || exit)
+ROOTDIR=$PWD
 SVNROOT=$(cd "$ROOTDIR" && cd ../SVN && pwd || exit)
 
 # Make sure svn repo is up to date

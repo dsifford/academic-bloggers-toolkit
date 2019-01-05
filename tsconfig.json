@@ -37,7 +37,6 @@
   },
   "include": [
     "src/**/*",
-    "lib/**/*",
     "types/*.d.ts",
     "webpack.config.ts"
   ],

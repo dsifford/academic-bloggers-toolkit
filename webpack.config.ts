@@ -5,6 +5,7 @@ import { CheckerPlugin, TsConfigPathsPlugin } from 'awesome-typescript-loader';
 import BrowserSyncPlugin from 'browser-sync-webpack-plugin';
 import CopyWebpackPlugin from 'copy-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
+import rimraf from 'rimraf';
 import RollbarSourceMapPlugin from 'rollbar-sourcemap-webpack-plugin';
 import webpack from 'webpack';
 import { version as VERSION } from './package.json';
@@ -16,7 +17,7 @@ const COMMIT_HASH = IS_PRODUCTION
     : '';
 
 // Clean out dist directory
-execSync(`rm -rf ${__dirname}/dist/*`);
+rimraf.sync(path.join(__dirname, 'dist', '*'));
 
 const plugins = new Set<webpack.Plugin>([
     new webpack.EnvironmentPlugin({

@@ -21,7 +21,7 @@ services:
       - 8080:80
     volumes:
       - ./dist:/app/wp-content/plugins/academic-bloggers-toolkit
-      - ./lib/scripts/init_wp.sh:/docker-entrypoint-initwp.d/init_wp.sh
+      - ./scripts/init-wp.sh:/docker-entrypoint-initwp.d/init-wp.sh
   db:
     image: mariadb:10
     environment:
