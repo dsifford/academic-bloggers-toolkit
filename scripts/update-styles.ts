@@ -1,6 +1,6 @@
 import { spawnSync } from 'child_process';
-import path from 'path';
 import fs from 'fs';
+import path from 'path';
 import { promisify } from 'util';
 
 import camaro from 'camaro';
@@ -76,6 +76,7 @@ const VENDOR_PATH = path.join(__dirname, '..', 'src', 'vendor');
             }
             return obj;
         },
+        // tslint:disable-next-line
         {} as Record<string, string>,
     );
 
