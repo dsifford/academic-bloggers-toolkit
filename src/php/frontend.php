@@ -37,14 +37,11 @@ function add_inline_json_script( string $id, $data ): void {
  * @param WP_Post $post The post.
  */
 function collect_bibliography( $post ): void {
-	if ( is_singular() ) {
-		preg_match(
-			'/<!-- (?P<tag>wp:abt\/bibliography) -->(?P<content>.+?)<!-- \/(?P=tag) -->/s',
-			$post->post_content,
-			$matches
-		);
-		if ( $matches['content'] ) {
-			add_inline_json_script( 'abt-bibliography-json', $matches['content'] );
+	if ( is_singular() && has_block( 'abt/bibliography', $post ) ) {
+		$blocks    = parse_blocks( $post->post_content );
+		$bib_index = array_search( 'abt/bibliography', array_column( $blocks, 'blockName' ), true );
+		if ( is_int( $bib_index ) ) {
+			add_inline_json_script( 'abt-bibliography-json', $blocks[ $bib_index ]['innerHTML'] );
 		}
 	}
 }
