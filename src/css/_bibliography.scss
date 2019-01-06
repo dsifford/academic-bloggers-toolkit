@@ -20,6 +20,9 @@
 
 .abt-bibliography__body {
     display: grid;
+    padding: 0;
+    padding-left: 1rem;
+    padding-inline-start: 1rem;
     font-size: 0.8em;
 
     li {
