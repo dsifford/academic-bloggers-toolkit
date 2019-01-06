@@ -72,6 +72,14 @@ class StyleSearch extends Component<StyleSearch.Props, StyleSearch.State> {
 
     private ref = createRef<{ input: HTMLInputElement }>();
 
+    componentDidMount() {
+        setTimeout(() => {
+            if (this.ref.current) {
+                this.ref.current.input.focus();
+            }
+        }, 100);
+    }
+
     render() {
         return (
             <AutoSuggest<Style>

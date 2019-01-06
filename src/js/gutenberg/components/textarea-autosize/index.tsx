@@ -6,6 +6,7 @@ import {
     FocusEvent,
     FocusEventHandler,
     HTMLProps,
+    RefObject,
 } from '@wordpress/element';
 import classNames from 'classnames';
 
@@ -18,6 +19,7 @@ interface State {
 interface Props extends HTMLProps<HTMLTextAreaElement> {
     onChange: ChangeEventHandler<HTMLTextAreaElement>;
     onBlur: FocusEventHandler<HTMLTextAreaElement>;
+    inputRef?: RefObject<HTMLTextAreaElement>;
 }
 
 export default class Textarea extends Component<Props, State> {
@@ -26,7 +28,7 @@ export default class Textarea extends Component<Props, State> {
         onChange: () => void 0,
     };
 
-    private ref = createRef<HTMLTextAreaElement>();
+    private ref = this.props.inputRef || createRef<HTMLTextAreaElement>();
 
     componentDidMount() {
         const { current: textarea } = this.ref;

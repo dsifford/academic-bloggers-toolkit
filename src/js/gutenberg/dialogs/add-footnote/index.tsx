@@ -1,6 +1,11 @@
 import { Button } from '@wordpress/components';
 import { compose } from '@wordpress/compose';
-import { Component, ComponentType, FormEvent } from '@wordpress/element';
+import {
+    Component,
+    ComponentType,
+    createRef,
+    FormEvent,
+} from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
 
 import asDialog from 'gutenberg/components/as-dialog';
@@ -24,10 +29,22 @@ class Dialog extends Component<Dialog.Props, Dialog.State> {
     state = {
         value: '',
     };
+
+    private inputRef = createRef<HTMLTextAreaElement>();
+
+    componentDidMount() {
+        setTimeout(() => {
+            if (this.inputRef.current) {
+                this.inputRef.current.focus();
+            }
+        }, 100);
+    }
+
     render() {
         return (
             <form onSubmit={this.handleSubmit}>
                 <TextareaAutosize
+                    inputRef={this.inputRef}
                     value={this.state.value}
                     onKeyDown={e => {
                         if (e.key === 'Enter') {
