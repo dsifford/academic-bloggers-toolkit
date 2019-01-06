@@ -2,11 +2,13 @@ import { PanelBody } from '@wordpress/components';
 import { compose } from '@wordpress/compose';
 import { withDispatch, withSelect } from '@wordpress/data';
 import { PluginSidebar, PluginSidebarMoreMenuItem } from '@wordpress/edit-post';
+import { RichText } from '@wordpress/editor';
 import { Component, ComponentType } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
 import _ from 'lodash';
 
 import CountIcon from 'gutenberg/components/count-icon';
+import ReferenceItem from 'gutenberg/components/reference-item';
 import SidebarItemList from 'gutenberg/components/sidebar-item-list';
 import EditReferenceDialog from 'gutenberg/dialogs/edit-reference';
 
@@ -101,6 +103,7 @@ class Sidebar extends Component<Sidebar.Props, Sidebar.State> {
                     >
                         <SidebarItemList
                             items={citedItems}
+                            renderItem={ReferenceItem}
                             selectedItems={selectedItems}
                             onItemClick={toggleItemSelected}
                             onItemDoubleClick={this.setEditReferenceId}
@@ -116,6 +119,7 @@ class Sidebar extends Component<Sidebar.Props, Sidebar.State> {
                     >
                         <SidebarItemList
                             items={uncitedItems}
+                            renderItem={ReferenceItem}
                             selectedItems={selectedItems}
                             onItemClick={toggleItemSelected}
                             onItemDoubleClick={this.setEditReferenceId}
@@ -127,7 +131,18 @@ class Sidebar extends Component<Sidebar.Props, Sidebar.State> {
                         initialOpen={false}
                         opened={footnotes.length === 0 ? false : undefined}
                     >
-                        <SidebarItemList />
+                        <SidebarItemList
+                            items={footnotes}
+                            renderItem={({ content }) => (
+                                <RichText.Content
+                                    tagName="div"
+                                    style={{ fontWeight: 'bold' }}
+                                    value={content || ''}
+                                />
+                            )}
+                            selectedItems={selectedItems}
+                            onItemClick={toggleItemSelected}
+                        />
                     </PanelBody>
                 </PluginSidebar>
             </>

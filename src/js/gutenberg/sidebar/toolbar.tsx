@@ -53,7 +53,7 @@ class Toolbar extends Component<Toolbar.Props> {
                         <IconButton
                             icon={<RemoveIcon />}
                             label={__(
-                                'Remove selected References',
+                                'Remove selected items',
                                 'academic-bloggers-toolkit',
                             )}
                             disabled={selectedItems.length === 0}
@@ -112,6 +112,9 @@ export default compose([
             },
             removeSelectedItems() {
                 dispatch('abt/data').removeReferences([
+                    ...ownProps.selectedItems,
+                ]);
+                dispatch('abt/data').removeFootnotes([
                     ...ownProps.selectedItems,
                 ]);
                 dispatch('abt/ui').clearSelectedItems();

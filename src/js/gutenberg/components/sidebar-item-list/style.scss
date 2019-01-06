@@ -1,3 +1,18 @@
 .list {
     margin: -5px -16px -16px;
 }
+
+.item {
+    display: grid;
+    gap: 2px;
+    cursor: pointer;
+    padding: 8px 16px;
+
+    &[aria-selected='true'] {
+        border-left: 3px solid #11a0d2;
+    }
+
+    &:hover {
+        background: #f8f9f9;
+    }
+}

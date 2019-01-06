@@ -21,6 +21,25 @@ export function* addReferences(data: CSL.Data[]) {
     yield save();
 }
 
+export function* removeFootnote(id: string) {
+    yield removeFootnotes([id]);
+}
+
+export function* removeFootnotes(itemIds: string[]) {
+    const doc = getEditorDOM();
+    let removedItems = 0;
+    for (const footnote of doc.querySelectorAll('.abt-footnote')) {
+        if (itemIds.includes(`${footnote.id}-ref`) && footnote.parentNode) {
+            footnote.parentNode.removeChild(footnote);
+            removedItems++;
+        }
+    }
+    if (removedItems > 0) {
+        yield dispatch('core/editor').resetBlocks(parse(doc.innerHTML));
+        yield save();
+    }
+}
+
 export function* removeReference(id: string) {
     yield removeReferences([id]);
 }
