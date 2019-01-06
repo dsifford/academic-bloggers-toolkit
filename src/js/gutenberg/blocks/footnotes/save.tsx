@@ -1,6 +1,7 @@
 import { BlockSaveProps } from '@wordpress/blocks';
 import { RichText } from '@wordpress/editor';
 import { Component } from '@wordpress/element';
+import { __ } from '@wordpress/i18n';
 
 import { Attributes } from './';
 
@@ -8,7 +9,11 @@ class FootnotesSave extends Component<BlockSaveProps<Attributes>> {
     render() {
         const { items } = this.props.attributes;
         return (
-            <section className="abt-footnotes">
+            <section
+                className="abt-footnotes"
+                role="region"
+                aria-label={__('Footnotes', 'academic-bloggers-toolkit')}
+            >
                 <hr />
                 <ol>
                     {items.map(({ content, id }) => (

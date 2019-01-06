@@ -1,6 +1,7 @@
 import { BlockSaveProps } from '@wordpress/blocks';
 import { RichText } from '@wordpress/editor';
 import { Component } from '@wordpress/element';
+import { __ } from '@wordpress/i18n';
 
 import { parseDataAttrs } from 'utils/editor';
 
@@ -22,7 +23,11 @@ class BibliographySave extends Component<BlockSaveProps<Attributes>> {
         const headingProps = textAlign ? { style: { textAlign } } : {};
         if (heading && isToggleable) {
             return (
-                <section className="abt-bibliography">
+                <section
+                    className="abt-bibliography"
+                    role="region"
+                    aria-label={__('Bibliography', 'academic-bloggers-toolkit')}
+                >
                     <details>
                         <summary>
                             <Tag
@@ -40,7 +45,6 @@ class BibliographySave extends Component<BlockSaveProps<Attributes>> {
                                 <RichText.Content<'li'>
                                     key={id}
                                     tagName="li"
-                                    style={{ display: 'block' }}
                                     id={id}
                                     value={content}
                                 />
@@ -51,7 +55,11 @@ class BibliographySave extends Component<BlockSaveProps<Attributes>> {
             );
         } else if (heading) {
             return (
-                <section className="abt-bibliography">
+                <section
+                    className="abt-bibliography"
+                    role="region"
+                    aria-label={__('Bibliography', 'academic-bloggers-toolkit')}
+                >
                     <Tag
                         {...headingProps}
                         className="abt-bibliography__heading"
@@ -63,7 +71,6 @@ class BibliographySave extends Component<BlockSaveProps<Attributes>> {
                             <RichText.Content<'li'>
                                 key={id}
                                 tagName="li"
-                                style={{ display: 'block' }}
                                 id={id}
                                 value={content}
                             />
@@ -73,13 +80,16 @@ class BibliographySave extends Component<BlockSaveProps<Attributes>> {
             );
         }
         return (
-            <section className="abt-bibliography">
+            <section
+                className="abt-bibliography"
+                role="region"
+                aria-label={__('Bibliography', 'academic-bloggers-toolkit')}
+            >
                 <ol className="abt-bibliography__body" {...containerAttrs}>
                     {items.map(({ content, id }) => (
                         <RichText.Content<'li'>
                             key={id}
                             tagName="li"
-                            style={{ display: 'block' }}
                             id={id}
                             value={content}
                         />

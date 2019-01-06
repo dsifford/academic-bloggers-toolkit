@@ -29,7 +29,7 @@ export const ToolbarMenuItem = (props: MenuItem.Props) => (
 
 namespace ToolbarMenu {
     export interface DispatchProps {
-        refreshCitations(): void;
+        refreshItems(): void;
         removeAllCitations(): void;
         setSortMode(mode: 'date' | 'publication' | 'title'): void;
         setSortOrder(order: 'asc' | 'desc'): void;
@@ -43,7 +43,7 @@ namespace ToolbarMenu {
     export type Props = DispatchProps & SelectProps;
 }
 const ToolbarMenu = ({
-    refreshCitations,
+    refreshItems,
     removeAllCitations,
     setSortMode,
     setSortOrder,
@@ -73,11 +73,8 @@ const ToolbarMenu = ({
                             'academic-bloggers-toolkit',
                         )}
                     </MenuItem>
-                    <MenuItem icon="update" onClick={refreshCitations}>
-                        {__(
-                            'Refresh all citations',
-                            'academic-bloggers-toolkit',
-                        )}
+                    <MenuItem icon="update" onClick={refreshItems}>
+                        {__('Refresh all items', 'academic-bloggers-toolkit')}
                     </MenuItem>
                     <ToolbarMenuItemSlot />
                 </section>
@@ -170,8 +167,9 @@ export default compose([
     withDispatch<ToolbarMenu.DispatchProps, ToolbarMenu.SelectProps>(
         (dispatch, ownProps) => {
             return {
-                refreshCitations() {
+                refreshItems() {
                     dispatch('abt/data').parseCitations();
+                    dispatch('abt/data').parseFootnotes();
                 },
                 removeAllCitations() {
                     dispatch('abt/data').removeAllCitations();

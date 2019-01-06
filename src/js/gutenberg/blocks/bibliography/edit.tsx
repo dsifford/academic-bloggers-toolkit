@@ -82,7 +82,11 @@ class BibliographyEdit extends Component<BlockEditProps<Attributes>> {
                         />
                     </PanelBody>
                 </InspectorControls>
-                <section className="abt-bibliography">
+                <section
+                    className="abt-bibliography"
+                    role="region"
+                    aria-label={__('Bibliography', 'academic-bloggers-toolkit')}
+                >
                     {isToggleable && (
                         <details>
                             <summary className={styles.summary}>
@@ -96,7 +100,6 @@ class BibliographyEdit extends Component<BlockEditProps<Attributes>> {
                                     <RichText.Content<'li'>
                                         key={id}
                                         tagName="li"
-                                        style={{ display: 'block' }}
                                         id={id}
                                         value={content}
                                     />
@@ -115,7 +118,6 @@ class BibliographyEdit extends Component<BlockEditProps<Attributes>> {
                                     <RichText.Content<'li'>
                                         key={id}
                                         tagName="li"
-                                        style={{ display: 'block' }}
                                         id={id}
                                         value={content}
                                     />

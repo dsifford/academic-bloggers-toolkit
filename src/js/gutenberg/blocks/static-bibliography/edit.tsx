@@ -99,7 +99,11 @@ class Edit extends Component<Edit.Props> {
                         ]}
                     />
                 </BlockFormatControls>
-                <section className="abt-static-bib">
+                <section
+                    className="abt-static-bib"
+                    role="region"
+                    aria-label={__('References', 'academic-bloggers-toolkit')}
+                >
                     {items.length === 0 && (
                         <Placeholder
                             icon="welcome-learn-more"
