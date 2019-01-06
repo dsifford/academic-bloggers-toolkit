@@ -1,3 +1,4 @@
+import wpApiFetch from '@wordpress/api-fetch';
 import { Action, select } from '@wordpress/data';
 
 import { localeCache, styleCache } from 'utils/cache';
@@ -6,9 +7,17 @@ import { StyleJSON } from './';
 import { StyleKind } from './constants';
 
 const enum CtrlActions {
+    API_FETCH = 'API_FETCH',
     FETCH_CITATION_STYLES = 'FETCH_CITATION_STYLES',
     FETCH_LOCALE = 'FETCH_LOCALE',
     FETCH_STYLE = 'FETCH_STYLE',
+}
+
+export function apiFetch(path: string) {
+    return {
+        type: CtrlActions.API_FETCH,
+        path,
+    };
 }
 
 export function fetchCitationStyles() {
@@ -36,6 +45,9 @@ export function fetchStyle() {
 }
 
 const controls = {
+    async API_FETCH({ path }: Action): Promise<any> {
+        return wpApiFetch({ path });
+    },
     async FETCH_CITATION_STYLES(): Promise<StyleJSON> {
         const response = await fetch(top.ajaxurl, {
             method: 'POST',

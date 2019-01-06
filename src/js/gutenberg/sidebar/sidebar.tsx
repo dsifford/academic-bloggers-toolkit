@@ -11,6 +11,7 @@ import CountIcon from 'gutenberg/components/count-icon';
 import ReferenceItem from 'gutenberg/components/reference-item';
 import SidebarItemList from 'gutenberg/components/sidebar-item-list';
 import EditReferenceDialog from 'gutenberg/dialogs/edit-reference';
+import { Style } from 'stores/data';
 
 import SidebarToolbar from './toolbar';
 
@@ -26,6 +27,7 @@ namespace Sidebar {
         footnotes: ReadonlyArray<{ id: string; content: string }>;
         isTyping: boolean;
         selectedItems: ReadonlyArray<string>;
+        style: Readonly<Style>;
         uncitedItems: ReadonlyArray<CSL.Data>;
     }
 
@@ -155,9 +157,12 @@ class Sidebar extends Component<Sidebar.Props, Sidebar.State> {
 
 export default compose([
     withSelect<Sidebar.SelectProps>(select => {
-        const { getCitedItems, getFootnotes, getSortedItems } = select(
-            'abt/data',
-        );
+        const {
+            getCitedItems,
+            getFootnotes,
+            getSortedItems,
+            getStyle,
+        } = select('abt/data');
         const {
             getSelectedItems,
             getSidebarSortMode,
@@ -168,6 +173,7 @@ export default compose([
             footnotes: getFootnotes(),
             isTyping: select<boolean>('core/editor').isTyping(),
             selectedItems: getSelectedItems(),
+            style: getStyle(),
             uncitedItems: getSortedItems(
                 getSidebarSortMode(),
                 getSidebarSortOrder(),

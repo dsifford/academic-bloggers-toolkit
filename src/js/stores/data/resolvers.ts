@@ -1,8 +1,7 @@
 import { select } from '@wordpress/data';
 
-import { SavedState } from './';
 import { Actions } from './constants';
-import { fetchCitationStyles } from './controls';
+import { apiFetch, fetchCitationStyles } from './controls';
 
 export function* getCitationStyles() {
     const styles = yield fetchCitationStyles();
@@ -12,25 +11,24 @@ export function* getCitationStyles() {
     };
 }
 
-export function getReferences() {
-    const { references } = getSavedState();
+export function* getReferences() {
+    const { references } = yield getSavedState();
     return {
         type: Actions.SET_REFERENCES,
         references,
     };
 }
 
-export function getStyle() {
-    const { style } = getSavedState();
+export function* getStyle() {
+    const { style } = yield getSavedState();
     return {
         type: Actions.SET_STYLE,
         style,
     };
 }
 
-function getSavedState(): SavedState {
-    const { abt_state } = select<{ abt_state: string }>(
-        'core/editor',
-    ).getCurrentPostAttribute('meta');
-    return JSON.parse(abt_state);
+function* getSavedState(): IterableIterator<any> {
+    const id = select<number>('core/editor').getCurrentPostId();
+    const { meta } = yield apiFetch(`/wp/v2/posts/${id}`);
+    return JSON.parse(meta.abt_state);
 }
