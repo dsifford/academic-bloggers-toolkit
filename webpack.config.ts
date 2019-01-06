@@ -146,7 +146,7 @@ const config: webpack.Configuration = {
         plugins: [new TsConfigPathsPlugin()],
     },
     plugins: [...plugins],
-    stats: IS_PRODUCTION ? 'verbose' : 'minimal',
+    stats: IS_PRODUCTION ? 'normal' : 'minimal',
     module: {
         rules: [
             {

@@ -1,6 +1,6 @@
 {
   "name": "academic-bloggers-toolkit",
-  "version": "4.13.3",
+  "version": "5.0.0-beta.1",
   "description": "A plugin extending the functionality of WordPress for Academic Blogging",
   "license": "GPL-3.0",
   "repository": "dsifford/academic-bloggers-toolkit",
@@ -68,7 +68,7 @@
     "@types/enzyme": "^3.1.15",
     "@types/enzyme-adapter-react-16": "^1.0.3",
     "@types/he": "^1.1.0",
-    "@types/jest": "^23.3.11",
+    "@types/jest": "^23.3.12",
     "@types/lodash": "^4.14.119",
     "@types/mini-css-extract-plugin": "^0.2.0",
     "@types/node": "^10.12.18",
