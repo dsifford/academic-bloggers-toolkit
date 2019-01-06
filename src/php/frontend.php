@@ -12,6 +12,26 @@ defined( 'ABSPATH' ) || exit;
 use function ABT\Utils\enqueue_script;
 
 /**
+ * Safely adds JSON data into a page to be used by scripts.
+ *
+ * @param string $id A unique ID for the data.
+ * @param mixed  $data The data to be JSON encoded.
+ */
+function add_inline_json_script( string $id, $data ): void {
+	add_action(
+		'wp_footer',
+		function () use ( $id, $data ) {
+			?>
+				<script
+					id="<?php echo esc_attr( $id ); ?>"
+					type="application/json"
+					><?php echo wp_json_encode( $data ); ?></script>
+			<?php
+		}
+	);
+}
+
+/**
  * Save a reference to the full bibliography as a JS global for parsing tooltips in paged posts.
  *
  * @param WP_Post $post The post.
@@ -24,13 +44,7 @@ function collect_bibliography( $post ): void {
 			$matches
 		);
 		if ( $matches['content'] ) {
-			// Add inline script here.
-			wp_add_inline_script(
-				'abt-frontend-script',
-				'var ABT_FRONTEND = ABT_FRONTEND || {}; ' .
-				'ABT_FRONTEND.bibliography = ' . wp_json_encode( $matches['content'] ) . ';',
-				'before'
-			);
+			add_inline_json_script( 'abt-bibliography-json', $matches['content'] );
 		}
 	}
 }

@@ -1,8 +1,12 @@
 import { __ } from '@wordpress/i18n';
+import { FormatConfig } from '@wordpress/rich-text';
+
 import Citation from './citation';
 
-export default {
-    tagName: 'span' as 'span',
+export const name = 'abt/citation';
+
+export const config: FormatConfig = {
+    tagName: 'span',
     className: 'abt-citation',
     title: __('Citation', 'academic-bloggers-toolkit'),
     attributes: {
@@ -13,3 +17,5 @@ export default {
     },
     edit: Citation,
 };
+
+export default [name, config] as [string, typeof config];

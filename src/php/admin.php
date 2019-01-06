@@ -80,9 +80,8 @@ function init_editor_state( int $post_id ): void {
 
 	if ( ! array_key_exists( 'abt_state', $meta ) ) {
 		$state = (object) [
-			'bibliography' => [ (object) [], [] ],
-			'references'   => [],
-			'style'        => get_option( ABT_OPTIONS_KEY )['citation_style'],
+			'references' => [],
+			'style'      => get_option( ABT_OPTIONS_KEY )['citation_style'],
 		];
 
 		if ( array_key_exists( '_abt-reflist-state', $meta ) ) {

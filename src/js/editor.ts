@@ -4,22 +4,26 @@ import { registerPlugin } from '@wordpress/plugins';
 import { registerFormatType } from '@wordpress/rich-text';
 
 import bibliographyBlock from 'gutenberg/blocks/bibliography';
+import footnotesBlock from 'gutenberg/blocks/footnotes';
 import staticBibliographyBlock from 'gutenberg/blocks/static-bibliography';
+
 import citationFormat from 'gutenberg/formats/citation';
-import Sidebar from 'gutenberg/sidebar';
+import footnoteFormat from 'gutenberg/formats/footnote';
+
+import sidebarPlugin from 'gutenberg/sidebar';
 import { dataStore, uiStore } from 'stores';
 
 import 'css/_bibliography.scss?global';
+import 'css/_footnotes.scss?global';
 
-registerStore('abt/data', dataStore);
-registerStore('abt/ui', uiStore);
+registerStore(...dataStore);
+registerStore(...uiStore);
 
-registerPlugin('academic-bloggers-toolkit', {
-    icon: 'welcome-learn-more',
-    render: Sidebar,
-});
+registerPlugin(...sidebarPlugin);
 
-registerFormatType('abt/citation', citationFormat);
+registerFormatType(...citationFormat);
+registerFormatType(...footnoteFormat);
 
-registerBlockType('abt/bibliography', bibliographyBlock);
-registerBlockType('abt/static-bibliography', staticBibliographyBlock);
+registerBlockType(...bibliographyBlock);
+registerBlockType(...footnotesBlock);
+registerBlockType(...staticBibliographyBlock);

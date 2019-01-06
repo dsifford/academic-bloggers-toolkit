@@ -26,10 +26,14 @@ export interface State extends SavedState {
     citationStyles: StyleJSON;
 }
 
-export default {
+export const name = 'abt/data';
+
+export const config = {
     actions,
     controls,
     reducer,
     resolvers,
     selectors,
 };
+
+export default [name, config] as [string, typeof config];

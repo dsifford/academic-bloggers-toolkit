@@ -8,6 +8,8 @@ import { ToolbarButton } from 'gutenberg/sidebar/toolbar';
 import { createCitationHtml } from 'utils/editor';
 import { getNeighbors, iterate, mergeItems } from 'utils/formats';
 
+import { name as NAME } from './';
+
 import './citation.scss?global';
 
 namespace Citation {
@@ -23,8 +25,6 @@ namespace Citation {
 }
 
 class Citation extends Component<Citation.Props> {
-    static readonly formatName = 'abt/citation';
-
     constructor(props: Citation.Props) {
         super(props);
         this.mergeLegacyCitations();
@@ -56,7 +56,7 @@ class Citation extends Component<Citation.Props> {
         // If a citation format is currently selected, merge selected references
         // into that format.
         if (selectedElement) {
-            for (const { attributes } of iterate(value, Citation.formatName)) {
+            for (const { attributes } of iterate(value, NAME)) {
                 if (attributes && attributes.id === selectedElement.id) {
                     attributes.items = mergeItems(
                         selectedItems,
@@ -69,7 +69,7 @@ class Citation extends Component<Citation.Props> {
             // If no citations are currently selected, check to see if the cursor is
             // currently touching up against an existing format. If so, merge into
             // that citation format.
-            const formats = getNeighbors(Citation.formatName, value);
+            const formats = getNeighbors(NAME, value);
             if (formats.length > 0) {
                 for (const format of formats) {
                     format.attributes = format.attributes || {};
@@ -98,7 +98,7 @@ class Citation extends Component<Citation.Props> {
 
     private mergeLegacyCitations = () => {
         const { onChange, value } = this.props;
-        for (const format of iterate(value, Citation.formatName)) {
+        for (const format of iterate(value, NAME)) {
             format.attributes = {
                 ...format.attributes,
                 editable: 'false',
@@ -128,7 +128,7 @@ export default compose([
     withSelect<Citation.SelectProps>(select => {
         return {
             selectedItems: select('abt/ui').getSelectedItems(),
-            selectedElement: document.querySelector<HTMLDivElement>(
+            selectedElement: document.querySelector<HTMLSpanElement>(
                 '.abt-citation[data-mce-selected]',
             ),
         };

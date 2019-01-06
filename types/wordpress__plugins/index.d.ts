@@ -5,7 +5,7 @@
 import { Dashicon } from '@wordpress/dashicons';
 import { ComponentType } from 'react';
 
-interface PluginSettings {
+export interface PluginSettings {
     /**
      * The Dashicon icon slug string, or an SVG WP element, to be rendered when the sidebar is pinned to toolbar.
      */

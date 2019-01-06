@@ -19,7 +19,9 @@ export interface Attributes {
     secondFieldAlign?: 'flush' | 'margin';
 }
 
-const config: BlockConfig<Attributes> = {
+export const name = 'abt/bibliography';
+
+export const config: BlockConfig<Attributes> = {
     title: __('Bibliography', 'academic-bloggers-toolkit'),
     category: 'widgets',
     description: __(
@@ -157,4 +159,4 @@ const config: BlockConfig<Attributes> = {
     save: BibliographySave,
 };
 
-export default config;
+export default [name, config] as [string, typeof config];

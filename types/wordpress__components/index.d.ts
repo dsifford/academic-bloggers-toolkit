@@ -546,6 +546,17 @@ export namespace Toolbar {
 }
 export const Toolbar: ComponentType<Toolbar.Props>;
 
+export namespace ToolbarButton {
+    interface Props extends IconButton.Props {
+        containerClassName?: string;
+        isActive?: boolean;
+        isDisabled?: boolean;
+        subscript?: string;
+        title?: string;
+    }
+}
+export const ToolbarButton: ComponentType<ToolbarButton.Props>;
+
 export function createSlotFill(
     name: string,
 ): {

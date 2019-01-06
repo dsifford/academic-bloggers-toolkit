@@ -15,8 +15,12 @@ export interface State {
     };
 }
 
-export default {
+export const name = 'abt/ui';
+
+export const config = {
     actions,
     reducer,
     selectors,
 };
+
+export default [name, config] as [string, typeof config];

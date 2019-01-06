@@ -13,7 +13,9 @@ export interface Attributes {
     orderedList: boolean;
 }
 
-const config: BlockConfig<Attributes> = {
+export const name = 'abt/static-bibliography';
+
+export const config: BlockConfig<Attributes> = {
     title: __('Static Bibliography', 'academic-bloggers-toolkit'),
     category: 'widgets',
     description: __(
@@ -88,4 +90,4 @@ const config: BlockConfig<Attributes> = {
     save,
 };
 
-export default config;
+export default [name, config] as [string, typeof config];
