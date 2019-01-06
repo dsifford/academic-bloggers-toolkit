@@ -44,6 +44,7 @@
       true,
       "allow-empty-catch"
     ],
+    "no-object-literal-type-assertion": false,
     "no-this-assignment": {
       "options": {
         "allow-destructuring": true

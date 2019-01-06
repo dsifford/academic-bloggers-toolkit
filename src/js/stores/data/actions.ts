@@ -2,6 +2,7 @@ import { Block, createBlock, parse } from '@wordpress/blocks';
 import { dispatch, select, subscribe } from '@wordpress/data';
 
 import { getEditorDOM, removeItems } from 'utils/editor';
+import { generateFootnoteMarker } from 'utils/formats';
 import Processor from 'utils/processor';
 
 import { Style } from './';
@@ -73,6 +74,15 @@ export function* parseCitations() {
     yield updateEditorCitations(citations);
 }
 
+export function* parseFootnotes() {
+    const doc = getEditorDOM();
+    doc.querySelectorAll('.abt-footnote').forEach((footnote, i) => {
+        footnote.innerHTML = generateFootnoteMarker(i);
+    });
+    yield dispatch('core/editor').resetBlocks(parse(doc.innerHTML));
+    yield setFootnotes();
+}
+
 export function* setStyle(style: Style) {
     yield {
         type: Actions.SET_STYLE,
@@ -120,6 +130,38 @@ function* setBibliography({ items, meta }: Processor.Bibliography) {
         );
     } else if (items.length === 0 && bibliographyBlock) {
         yield dispatch('core/editor').removeBlock(bibliographyBlock.clientId);
+    }
+}
+
+function* setFootnotes() {
+    const items = select('abt/data').getFootnotes();
+    const blocksList = select<Block[]>('core/editor').getBlocks();
+    const footnoteBlockIndex = blocksList.findIndex(
+        ({ name }) => name === 'abt/footnotes',
+    );
+    const bibliographyBlockIndex = blocksList.findIndex(
+        ({ name }) => name === 'abt/bibliography',
+    );
+    if (items.length > 0 && footnoteBlockIndex >= 0) {
+        yield dispatch('core/editor').updateBlockAttributes(
+            blocksList[footnoteBlockIndex].clientId,
+            { items },
+        );
+    } else if (items.length > 0 && footnoteBlockIndex === -1) {
+        yield dispatch('core/editor').insertBlock(
+            createBlock('abt/footnotes', {
+                items,
+            }),
+            bibliographyBlockIndex > 0
+                ? bibliographyBlockIndex
+                : blocksList.length,
+            undefined,
+            true,
+        );
+    } else if (items.length === 0 && footnoteBlockIndex >= 0) {
+        yield dispatch('core/editor').removeBlock(
+            blocksList[footnoteBlockIndex].clientId,
+        );
     }
 }
 

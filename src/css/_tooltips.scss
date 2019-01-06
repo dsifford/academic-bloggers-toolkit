@@ -1,6 +1,8 @@
 $tooltip-bg: #fff !default;
 
-.abt-citation {
+.abt-citation,
+.abt-footnote {
+    display: inline-block;
     cursor: pointer;
 }
 

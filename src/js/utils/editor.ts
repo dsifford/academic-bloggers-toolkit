@@ -16,6 +16,16 @@ export function createCitationHtml(items: string[]): string {
     return citation.outerHTML;
 }
 
+export function createFootnoteHtml(note: string) {
+    const footnote = document.createElement('span');
+    footnote.className = 'abt-footnote';
+    footnote.id = uuid();
+    footnote.dataset.note = note;
+    footnote.contentEditable = 'false';
+    footnote.innerText = OBJECT_REPLACEMENT_CHARACTER;
+    return footnote.outerHTML;
+}
+
 export function getEditorDOM(): HTMLDivElement {
     const doc = document.createElement('div');
     doc.innerHTML = select<string>('core/editor').getEditedPostContent();

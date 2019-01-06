@@ -58,6 +58,27 @@ export function getCitedItems(state: State): CSL.Data[] {
         .value();
 }
 
+export function getFootnotes() {
+    const doc = getEditorDOM();
+    const container = document.createElement('div');
+    const marker = document.createElement('div');
+    const content = document.createElement('div');
+    marker.className = 'abt-footnotes-item__marker';
+    content.className = 'abt-footnotes-item__content';
+    container.appendChild(marker);
+    container.appendChild(content);
+    return [...doc.querySelectorAll<HTMLElement>('.abt-footnote')].map(
+        footnote => {
+            marker.innerHTML = footnote.innerHTML;
+            content.textContent = footnote.dataset.note || '';
+            return {
+                id: `${footnote.id}-ref`,
+                content: container.innerHTML,
+            };
+        },
+    );
+}
+
 export function getItems(state: State, kind?: 'cited' | 'uncited'): CSL.Data[] {
     switch (kind) {
         case 'cited':

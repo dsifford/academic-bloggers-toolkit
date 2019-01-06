@@ -14,13 +14,14 @@ import SidebarToolbar from './toolbar';
 
 namespace Sidebar {
     export interface DispatchProps {
-        parseCitations(): void;
+        parseEditorItems(): void;
         toggleItemSelected(id: string): void;
         updateReference(data: CSL.Data): void;
     }
 
     export interface SelectProps {
         citedItems: ReadonlyArray<CSL.Data>;
+        footnotes: ReadonlyArray<{ id: string; content: string }>;
         isTyping: boolean;
         selectedItems: ReadonlyArray<string>;
         uncitedItems: ReadonlyArray<CSL.Data>;
@@ -40,21 +41,26 @@ class Sidebar extends Component<Sidebar.Props, Sidebar.State> {
         needsUpdate: false,
     };
     componentDidUpdate(prevProps: Sidebar.Props) {
-        const { citedItems, isTyping, parseCitations } = this.props;
-        const citedItemsDidChange =
-            prevProps.citedItems.length !== citedItems.length;
-        if (isTyping) {
-            if (citedItemsDidChange) {
-                this.setState({ needsUpdate: true });
-            }
-        } else if (this.state.needsUpdate || citedItemsDidChange) {
-            parseCitations();
+        const {
+            citedItems,
+            footnotes,
+            isTyping,
+            parseEditorItems,
+        } = this.props;
+        const needsUpdate =
+            prevProps.citedItems.length !== citedItems.length ||
+            prevProps.footnotes.length !== footnotes.length;
+        if (isTyping && needsUpdate) {
+            this.setState({ needsUpdate });
+        } else if (this.state.needsUpdate || needsUpdate) {
+            parseEditorItems();
             this.setState({ needsUpdate: false });
         }
     }
     render() {
         const {
             citedItems,
+            footnotes,
             selectedItems,
             toggleItemSelected,
             uncitedItems,
@@ -115,13 +121,14 @@ class Sidebar extends Component<Sidebar.Props, Sidebar.State> {
                             onItemDoubleClick={this.setEditReferenceId}
                         />
                     </PanelBody>
-                    {/* <PanelBody
-                            title="Footnotes"
-                            icon="info"
-                            initialOpen={false}
-                        >
-                            <PanelRow>My Panel Inputs and Labels</PanelRow>
-                        </PanelBody> */}
+                    <PanelBody
+                        title={__('Footnotes', 'academic-bloggers-toolkit')}
+                        icon={<CountIcon count={footnotes.length} />}
+                        initialOpen={false}
+                        opened={footnotes.length === 0 ? false : undefined}
+                    >
+                        <SidebarItemList />
+                    </PanelBody>
                 </PluginSidebar>
             </>
         );
@@ -133,7 +140,9 @@ class Sidebar extends Component<Sidebar.Props, Sidebar.State> {
 
 export default compose([
     withSelect<Sidebar.SelectProps>(select => {
-        const { getCitedItems, getSortedItems } = select('abt/data');
+        const { getCitedItems, getFootnotes, getSortedItems } = select(
+            'abt/data',
+        );
         const {
             getSelectedItems,
             getSidebarSortMode,
@@ -141,6 +150,7 @@ export default compose([
         } = select('abt/ui');
         return {
             citedItems: getCitedItems(),
+            footnotes: getFootnotes(),
             isTyping: select<boolean>('core/editor').isTyping(),
             selectedItems: getSelectedItems(),
             uncitedItems: getSortedItems(
@@ -151,8 +161,9 @@ export default compose([
         };
     }),
     withDispatch<Sidebar.DispatchProps>(dispatch => ({
-        parseCitations() {
+        parseEditorItems() {
             dispatch('abt/data').parseCitations();
+            dispatch('abt/data').parseFootnotes();
         },
         toggleItemSelected(id) {
             dispatch('abt/ui').toggleItemSelected(id);
