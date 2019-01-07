@@ -107,8 +107,6 @@
     "proxy-polyfill": "^0.3.0",
     "react-test-renderer": "^16.7.0",
     "rimraf": "^2.6.3",
-    "rollbar": "^2.5.1",
-    "rollbar-sourcemap-webpack-plugin": "^2.5.0",
     "sass-loader": "^7.1.0",
     "snapshot-diff": "^0.4.2",
     "style-loader": "^0.23.1",

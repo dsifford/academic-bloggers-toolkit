@@ -16,12 +16,6 @@ const mocks = {
     editorMock: jest.fn(),
 };
 
-Object.defineProperty(window, 'Rollbar', {
-    value: {
-        error: jest.fn(),
-    },
-});
-
 document.body.innerHTML = `
     <div id="abt-reflist">
         <div id="cited"></div>
@@ -446,13 +440,6 @@ describe('<ReferenceList />', async () => {
             ]);
         });
         it('error handling', () => {
-            // instance.processor.processCitationCluster = jest.fn().mockImplementation(() => {
-            //     throw new Error('Some error occurred');
-            // });
-            // await instance.insertInlineCitation();
-            // expect(Rollbar.error).toHaveBeenCalled();
-            // expect(mocks.editorMock).not.toHaveBeenCalledWith('composeCitations');
-
             jest.resetAllMocks();
             instance.editor.setBibliography = jest
                 .fn()
@@ -644,7 +631,6 @@ describe('<ReferenceList />', async () => {
                     Promise.reject(new Error('Some error occurred')),
                 );
             await instance.initProcessor();
-            expect(Rollbar.error).toHaveBeenCalled();
         });
     });
 });

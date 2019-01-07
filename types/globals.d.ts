@@ -10,18 +10,7 @@ interface Window {
         };
     };
     DocumentTouch?: any;
-    Rollbar: IRollbar;
     ajaxurl: string;
-}
-
-// FIXME: Delete this and remove rollbar
-interface IRollbar {
-    log(msg: string, e?: any): void;
-    debug(msg: string, e?: any): void;
-    info(msg: string, e?: any): void;
-    warning(msg: string, e?: any): void;
-    error(msg: string, e?: any): void;
-    critical(msg: string, e?: any): void;
 }
 
 declare namespace ABT {

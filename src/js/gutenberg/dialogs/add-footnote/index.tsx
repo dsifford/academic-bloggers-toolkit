@@ -14,8 +14,6 @@ import TextareaAutosize from 'gutenberg/components/textarea-autosize';
 
 import styles from './style.scss';
 
-// TODO: need to add autofocus here
-
 namespace Dialog {
     export interface State {
         value: string;

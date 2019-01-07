@@ -1,4 +1,3 @@
-import { execSync } from 'child_process';
 import path from 'path';
 
 import { CheckerPlugin, TsConfigPathsPlugin } from 'awesome-typescript-loader';
@@ -6,15 +5,10 @@ import BrowserSyncPlugin from 'browser-sync-webpack-plugin';
 import CopyWebpackPlugin from 'copy-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import rimraf from 'rimraf';
-import RollbarSourceMapPlugin from 'rollbar-sourcemap-webpack-plugin';
 import webpack from 'webpack';
 import { version as VERSION } from './package.json';
 
 const IS_PRODUCTION = process.env.NODE_ENV === 'production';
-const IS_DEPLOYING = process.env.IS_DEPLOYING === 'true';
-const COMMIT_HASH = IS_PRODUCTION
-    ? execSync('git rev-parse HEAD', { encoding: 'utf8' })
-    : '';
 
 // Clean out dist directory
 rimraf.sync(path.join(__dirname, 'dist', '*'));
@@ -22,8 +16,6 @@ rimraf.sync(path.join(__dirname, 'dist', '*'));
 const plugins = new Set<webpack.Plugin>([
     new webpack.EnvironmentPlugin({
         NODE_ENV: 'development',
-        ROLLBAR_CLIENT_TOKEN: '',
-        COMMIT_HASH,
     }),
     new MiniCssExtractPlugin(),
     new CopyWebpackPlugin([
@@ -62,17 +54,6 @@ if (!IS_PRODUCTION) {
                 injectCss: true,
             },
         ),
-    );
-}
-
-if (IS_DEPLOYING) {
-    plugins.add(
-        new RollbarSourceMapPlugin({
-            accessToken: process.env.ROLLBAR_API_TOKEN,
-            version: COMMIT_HASH,
-            publicPath:
-                'http://dynamichost/wp-content/plugins/academic-bloggers-toolkit',
-        }),
     );
 }
 
