@@ -4,6 +4,12 @@ import './style.scss';
 
 type HeadingLevel = 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
 
+declare global {
+    interface Window {
+        DocumentTouch?: any;
+    }
+}
+
 // tslint:disable-next-line cyclomatic-complexity
 export function createTooltip(e: MouseEvent): void {
     const citation = <HTMLSpanElement>e.currentTarget;

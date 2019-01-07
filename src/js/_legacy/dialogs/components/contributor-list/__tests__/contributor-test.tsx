@@ -5,7 +5,7 @@ import React from 'react';
 import Contributor from '../contributor';
 
 const setup = (literal = false) => {
-    const contributorTypes: ABT.ContributorField[] = [
+    const contributorTypes: any = [
         { label: 'Author', type: 'author' },
         { label: 'Editor', type: 'editor' },
     ];

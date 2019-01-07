@@ -19,7 +19,8 @@ interface Props {
 
 @observer
 export default class ManualInput extends React.Component<Props> {
-    static readonly citationTypes = top.ABT.i18n.citation_types;
+    static readonly citationTypes: Array<{ value: string; label: string }> =
+        top.ABT.i18n.citation_types;
     static readonly labels = top.ABT.i18n.dialogs.add.manual_input;
 
     focusTypeSelect = (e: HTMLSelectElement | null): void =>

@@ -1,48 +1,15 @@
 interface Window {
     ABT: ABT.Globals;
-    ABT_EDITOR: {
-        bibliography: import('citeproc').Bibliography;
-        references: CSL.Data[];
-        style: {
-            kind: import('stores/data/constants').StyleKind;
-            value: string;
-            label: string;
-        };
-    };
-    DocumentTouch?: any;
     ajaxurl: string;
 }
 
 declare namespace ABT {
     type Bibliography = Array<{ id: string; html: string }>;
 
-    type HeadingLevel = 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
-
-    type StyleKind = 'custom' | 'predefined';
-
-    type LinkStyle = 'always' | 'always-full-surround' | 'urls' | 'never';
-
-    type ContributorType =
-        | 'author'
-        | 'container-author'
-        | 'editor'
-        | 'director'
-        | 'interviewer'
-        | 'illustrator'
-        | 'composer'
-        | 'translator'
-        | 'recipient'
-        | 'collection-editor';
-
     type Contributor = CSL.Person & { type: CSL.PersonFieldKey };
 
-    interface ContributorField {
-        label: string;
-        type: ContributorType;
-    }
-
     interface CitationStyle {
-        kind: StyleKind;
+        kind: 'predefined' | 'custom';
         label: string;
         value: string;
     }
@@ -59,192 +26,22 @@ declare namespace ABT {
 
     interface DisplayOptions {
         bib_heading: string;
-        bib_heading_level: HeadingLevel;
+        bib_heading_level: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
         bibliography: 'fixed' | 'toggle';
-        links: LinkStyle;
-    }
-
-    interface Options {
-        citation_style: CitationStyle;
-        custom_css: string;
-        display_options: DisplayOptions;
-        VERSION: string;
+        links: 'always' | 'always-full-surround' | 'urls' | 'never';
     }
 
     // FIXME: This has got to go
     interface Globals {
-        css_editor_settings: object | boolean;
-        i18n: ABT.I18n;
-        options: Options;
-        state: ABT.EditorState;
-        styles: {
-            renamed: {
-                [oldStyleId: string]: string;
-            };
-            styles: CitationStyle[];
+        i18n: any;
+        options: {
+            citation_style: CitationStyle;
+            display_options: DisplayOptions;
         };
+        state: ABT.EditorState;
+        styles: import('stores/data').StyleJSON;
         wp: {
             abt_url: string;
-            home_url: string;
-            plugins_url: string;
-            wp_upload_dir: {
-                /* /folder-of-wp-installation/wp-content/uploads */
-                basedir: string;
-                /* http(s)://siteurl.com/wp-content/uploads */
-                baseurl: string;
-                error: boolean;
-                /* /folder-of-wp-installation/wp-content/uploads/2016/08 */
-                path: string;
-                /* /2016/08 */
-                subdir: string;
-                /* http(s)://siteurl.com/wp-content/uploads/2016/08 */
-                url: string;
-            };
-            info: {
-                site: {
-                    language: string;
-                    name: string;
-                    plugins: string[];
-                    theme: string;
-                    url: string;
-                };
-                versions: {
-                    abt: string;
-                    php: string;
-                    wordpress: string;
-                };
-            };
-        };
-    }
-
-    interface I18n {
-        citation_types: Array<{
-            label: string;
-            value: string;
-        }>;
-        errors: {
-            missing_php_features: 'Your WordPress PHP installation is incomplete. You must have the following PHP extensions enabled to use this feature: "dom", "libxml"';
-            bad_request: 'Request not valid';
-            denied: 'Site denied request';
-            file_extension_error: 'Invalid file extension. Extension must be .ris, .bib, or .bibtex';
-            filetype_error: 'The selected file could not be processed';
-            identifiers_not_found: {
-                all: 'No identifiers could be found for your request';
-                some: 'The following identifiers could not be found';
-            };
-            network_error: 'Network Error';
-            no_results: 'Your search returned 0 results';
-            prefix: 'Error';
-            ris_leftovers: 'The following references were unable to be processed';
-            status_error: 'Request returned a non-200 status code';
-            warnings: {
-                warning: 'Warning';
-                reason: 'Reason';
-                no_bib: 'No bibliography format exists for your citation type';
-            };
-            unexpected: {
-                message: 'An unexpected error occurred';
-                report_instructions: 'Please report this error, including the steps taken to trigger it, here: \nhttps://github.com/dsifford/academic-bloggers-toolkit/issues'; // tslint:disable-line
-            };
-            tinymce_unavailable: "TinyMCE editor doesn't appear to be available in this scope";
-            invalid_predefined_style: 'Invalid predefined style type';
-        };
-        fieldmaps: any;
-        misc: {
-            footnotes: 'Footnotes';
-            source: 'Source';
-        };
-        reference_list: {
-            menu: {
-                style_labels: {
-                    custom: 'Custom Style';
-                    predefined: 'Pre-defined Styles';
-                };
-                toggle_label: 'Toggle menu';
-                tooltips: {
-                    destroy: 'Delete all references';
-                    help: 'Usage instructions';
-                    import: 'Import references';
-                    refresh: 'Refresh reference list';
-                    static_publist: 'Insert static publication list';
-                };
-            };
-            cited_items: 'Cited Items';
-            tooltips: {
-                add: 'Add reference';
-                insert: 'Insert selected references';
-                pin: 'Pin reference list';
-                remove: 'Remove selected references';
-            };
-            uncited_items: 'Uncited Items';
-        };
-        dialogs: {
-            close_label: 'Close dialog';
-            edit: {
-                title: 'Edit Reference';
-                confirm: 'Confirm';
-            };
-            import: {
-                import_button: 'Import';
-                title: 'Import References';
-                upload: 'Choose File';
-            };
-            pubmed: {
-                add_reference: 'Select';
-                next: 'Next';
-                previous: 'Previous';
-                search: 'Search';
-                title: 'Search PubMed';
-                view_reference: 'View';
-            };
-            add: {
-                button_row: {
-                    add_manually: 'Add Manually';
-                    add_reference: 'Add Reference';
-                    add_with_identifier: 'Add with Identifier';
-                    insert_inline: 'Insert citation inline';
-                    search_pubmed: 'Search PubMed';
-                };
-                identifier_input: {
-                    label: 'DOI/PMID/PMCID';
-                };
-                manual_input: {
-                    autocite: 'Autocite';
-                    citation_type: 'Citation Type';
-                    ISBN: 'ISBN';
-                    search: 'Search';
-                    URL: 'URL';
-                };
-                contributor_list: {
-                    add: 'Add contributor';
-                    contributors: 'Contributors';
-                };
-                contributor: {
-                    given: 'Given Name, M.I.';
-                    surname: 'Surname';
-                    literal: 'Literal Name';
-                    remove: 'Remove contributor';
-                    toggle_literal: 'Toggle literal name';
-                };
-                title: 'Add References';
-            };
-        };
-        options_page: {
-            citation_style_type: 'Citation Style Type';
-            predefined: 'Predefined';
-            custom: 'Custom';
-            heading: 'Heading';
-            heading_level: 'Heading Level';
-            fixed: 'Fixed';
-            toggle: 'Toggle';
-            bibliography_style: 'Bibliography Style';
-            link_format: {
-                title: 'Link Format';
-                always: 'Make URLs clickable and always add trailing source link';
-                always_full_surround: 'Make entire reference a clickable link to the source URL';
-                urls: 'Make URLs clickable only';
-                never: 'Never add clickable links';
-            };
         };
     }
 }

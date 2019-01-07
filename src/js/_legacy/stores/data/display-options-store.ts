@@ -4,10 +4,11 @@ import domReady from '_legacy/utils/dom-ready';
 
 export default class Store implements ABT.DisplayOptions {
     // tslint:disable:variable-name
-    @observable bib_heading_level: ABT.HeadingLevel = 'h3';
+    @observable bib_heading_level: ABT.DisplayOptions['bib_heading_level'] =
+        'h3';
     @observable bib_heading: string = '';
     @observable bibliography: 'fixed' | 'toggle' = 'fixed';
-    @observable links: ABT.LinkStyle = 'always';
+    @observable links: ABT.DisplayOptions['links'] = 'always';
     // tslint:enable:variable-name
 
     constructor(options: Partial<ABT.DisplayOptions>) {

@@ -35,7 +35,7 @@ export default class StyleForm extends React.Component {
     };
 
     handleTypeChange = (e: InputEvent): void => {
-        const kind = e.currentTarget.value as ABT.StyleKind;
+        const kind = e.currentTarget.value as 'custom' | 'predefined';
         this.store.style =
             kind === this.savedStyle.kind
                 ? {

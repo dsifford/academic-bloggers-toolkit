@@ -17,7 +17,7 @@ interface IDType {
  */
 export function formatReferenceLinks(
     html: string,
-    style: ABT.LinkStyle,
+    style: ABT.DisplayOptions['links'],
     id?: IDType,
 ): string {
     if (style === 'never') {

@@ -253,24 +253,7 @@ class Backend {
 	 */
 	private function localize_wordpress_constants() {
 		return [
-			'abt_url'       => ABT_ROOT_URI,
-			'home_url'      => home_url(),
-			'plugins_url'   => plugins_url(),
-			'wp_upload_dir' => wp_get_upload_dir(),
-			'info'          => [
-				'site'     => [
-					'language' => get_bloginfo( 'language' ),
-					'name'     => get_bloginfo( 'name' ),
-					'plugins'  => get_option( 'active_plugins' ),
-					'theme'    => get_template(),
-					'url'      => get_bloginfo( 'url' ),
-				],
-				'versions' => [
-					'abt'       => ABT_VERSION,
-					'php'       => PHP_VERSION,
-					'wordpress' => get_bloginfo( 'version' ),
-				],
-			],
+			'abt_url' => ABT_ROOT_URI,
 		];
 	}
 }

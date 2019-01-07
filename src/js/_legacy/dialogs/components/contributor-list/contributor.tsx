@@ -7,7 +7,10 @@ import Button from '_legacy/components/button';
 import styles from './contributor-list.scss';
 
 interface Props {
-    contributorTypes: ABT.ContributorField[];
+    contributorTypes: Array<{
+        label: string;
+        type: CSL.PersonFieldKey;
+    }>;
     index: number;
     contributor: ABT.Contributor;
     onRemove(e: React.MouseEvent<HTMLButtonElement>): void;

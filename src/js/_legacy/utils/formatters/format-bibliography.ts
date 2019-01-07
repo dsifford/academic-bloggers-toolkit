@@ -13,7 +13,7 @@ import { formatReferenceLinks } from './format-reference-links';
  */
 export function formatBibliography(
     rawBib: Bibliography,
-    links: ABT.LinkStyle,
+    links: ABT.DisplayOptions['links'],
     CSL: ObservableMap<string, CSL.Data>,
 ): ABT.Bibliography {
     const [bibmeta, bibHTML] = rawBib;
