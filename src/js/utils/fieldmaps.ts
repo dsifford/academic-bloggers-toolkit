@@ -118,6 +118,10 @@ const CSL_FIELDS: Readonly<Record<string, FieldMapping>> = {
                 label: __('Publisher Location', 'academic-bloggers-toolkit'),
             },
             {
+                key: 'URL',
+                label: __('URL', 'academic-bloggers-toolkit'),
+            },
+            {
                 key: 'issued',
                 label: __('Date', 'academic-bloggers-toolkit'),
                 inputProps: {
@@ -218,6 +222,10 @@ const CSL_FIELDS: Readonly<Record<string, FieldMapping>> = {
             {
                 key: 'ISBN',
                 label: __('ISBN', 'academic-bloggers-toolkit'),
+            },
+            {
+                key: 'URL',
+                label: __('URL', 'academic-bloggers-toolkit'),
             },
             {
                 key: 'issued',
@@ -817,6 +825,10 @@ const CSL_FIELDS: Readonly<Record<string, FieldMapping>> = {
                 },
             },
             {
+                key: 'URL',
+                label: __('URL', 'academic-bloggers-toolkit'),
+            },
+            {
                 key: 'issued',
                 label: __('Date', 'academic-bloggers-toolkit'),
                 inputProps: {
@@ -1037,6 +1049,10 @@ const CSL_FIELDS: Readonly<Record<string, FieldMapping>> = {
             {
                 key: 'publisher-place',
                 label: __('Location', 'academic-bloggers-toolkit'),
+            },
+            {
+                key: 'URL',
+                label: __('URL', 'academic-bloggers-toolkit'),
             },
             {
                 key: 'issued',
