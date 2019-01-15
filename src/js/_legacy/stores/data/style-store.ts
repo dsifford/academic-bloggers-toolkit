@@ -1,7 +1,5 @@
 import { computed, observable } from 'mobx';
 
-import domReady from '_legacy/utils/dom-ready';
-
 export default class Store implements ABT.CitationStyle {
     @observable kind!: 'predefined' | 'custom';
     @observable value!: string;
@@ -22,10 +20,5 @@ export default class Store implements ABT.CitationStyle {
         this.kind = kind;
         this.value = value;
         this.label = label;
-    }
-
-    async rehydrate(): Promise<void> {
-        await domReady();
-        this.style = top.ABT.options.citation_style;
     }
 }

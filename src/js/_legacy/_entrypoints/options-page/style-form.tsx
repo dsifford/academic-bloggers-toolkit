@@ -1,3 +1,4 @@
+import domReady from '@wordpress/dom-ready';
 import { action, observable } from 'mobx';
 import { observer } from 'mobx-react';
 import React from 'react';
@@ -25,7 +26,10 @@ export default class StyleForm extends React.Component {
     constructor(props: {}) {
         super(props);
         this.store = new Store(top.ABT.options.citation_style);
-        this.store.rehydrate();
+        domReady(() => {
+            // can't remember why this was needed, but keep it.
+            this.store.style = top.ABT.options.citation_style;
+        });
     }
 
     @action

@@ -1,7 +1,5 @@
 import { computed, observable } from 'mobx';
 
-import domReady from '_legacy/utils/dom-ready';
-
 export default class Store implements ABT.DisplayOptions {
     // tslint:disable:variable-name
     @observable bib_heading_level: ABT.DisplayOptions['bib_heading_level'] =
@@ -37,12 +35,5 @@ export default class Store implements ABT.DisplayOptions {
         this.bib_heading = bib_heading;
         this.bib_heading_level = bib_heading_level;
         this.links = links;
-    }
-
-    async rehydrate(): Promise<void> {
-        await domReady();
-        this.options = {
-            ...top.ABT.options.display_options,
-        };
     }
 }

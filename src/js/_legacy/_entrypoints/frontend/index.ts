@@ -1,4 +1,4 @@
-import domReady from '_legacy/utils/dom-ready';
+import domReady from '@wordpress/dom-ready';
 
 import './style.scss';
 
@@ -181,9 +181,4 @@ export class Frontend {
     }
 }
 
-(async (): Promise<void> => {
-    await domReady();
-    // Inevitable here due to imperative API
-    // tslint:disable-next-line:no-unused-expression
-    new Frontend();
-})();
+domReady(() => new Frontend());
