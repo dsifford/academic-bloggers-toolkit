@@ -21,9 +21,9 @@ import ReferenceItem from 'gutenberg/components/reference-item';
 import SidebarItemList from 'gutenberg/components/sidebar-item-list';
 import { localeCache, styleCache } from 'utils/cache';
 import { swapWith } from 'utils/data';
+import { stripListItem } from 'utils/editor';
 import Processor from 'utils/processor';
 
-import { stripListItem } from '../';
 import { Attributes } from './';
 import styles from './style.scss';
 

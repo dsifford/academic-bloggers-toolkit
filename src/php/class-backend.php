@@ -1,4 +1,9 @@
 <?php
+/**
+ * Legacy backend class
+ *
+ * @package ABT
+ */
 
 namespace ABT;
 
@@ -7,15 +12,20 @@ defined( 'ABSPATH' ) || exit;
 use function ABT\Utils\{
 	enqueue_script,
 	get_citation_styles,
+	get_handle,
 };
 
 require_once __DIR__ . '/i18n.php';
 
 /**
  * Main Backend Class.
+ *
+ * @deprecated
  */
 class Backend {
 	/**
+	 * The class singleton instance.
+	 *
 	 * @var \ABT\Backend
 	 */
 	private static $instance = null;
@@ -209,52 +219,35 @@ class Backend {
 
 		$state['displayOptions'] = $opts['display_options'];
 
-		// Begin legacy checks.
+		// Legacy checks.
 		if ( array_key_exists( 'processorState', $state ) ) {
 			$state['CSL'] = $state['processorState'];
 			unset( $state['processorState'] );
 		}
-
 		if ( array_key_exists( 'citations', $state ) ) {
 			$state['citationByIndex'] = $state['citations']['citationByIndex'];
 			unset( $state['citations'] );
 		}
-
 		if ( is_string( $state['cache']['style'] ) ) {
 			$state['cache']['style'] = $opts['citation_style'];
 		}
-		// End legacy checks.
+
 		wp_dequeue_script( 'autosave' );
-		enqueue_script(
-			'reference-list',
-			[
-				'scripts' => [ 'citeproc', 'lodash' ],
-				'styles'  => [
-					'abt-legacy-fonts',
-					'dashicons',
-				],
-			]
-		);
+		wp_enqueue_style( get_handle( 'legacy-editor', 'style' ) );
+		wp_enqueue_script( get_handle( 'legacy-editor', 'script' ) );
 		wp_localize_script(
-			'abt-reference-list-script',
+			get_handle( 'legacy-editor', 'script' ),
 			'ABT',
 			[
 				'i18n'    => $translations,
 				'options' => $opts,
 				'state'   => $state,
 				'styles'  => get_citation_styles(),
-				'wp'      => $this->localize_wordpress_constants(),
+				'wp'      => [
+					'abt_url' => ABT_ROOT_URI,
+				],
 			]
 		);
-	}
-
-	/**
-	 * Returns an array of a few select WordPress constants (for use in JS).
-	 */
-	private function localize_wordpress_constants() {
-		return [
-			'abt_url' => ABT_ROOT_URI,
-		];
 	}
 }
 Backend::init();

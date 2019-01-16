@@ -1,3 +1,6 @@
+type Omit<T, K> = Pick<T, Exclude<keyof T, K>>;
+type Maybe<T> = T | undefined;
+
 interface Window {
     ABT: ABT.Globals;
     ajaxurl: string;

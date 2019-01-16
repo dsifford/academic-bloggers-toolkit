@@ -5,8 +5,8 @@ namespace ABT;
 defined( 'ABSPATH' ) || exit;
 
 use function ABT\Utils\{
-	enqueue_script,
 	get_citation_styles,
+	get_handle,
 };
 
 require_once __DIR__ . '/i18n.php';
@@ -43,7 +43,8 @@ class Options {
 		if ( 'settings_page_abt-options' !== $hook ) {
 			return;
 		}
-		enqueue_script( 'options-page' );
+		wp_enqueue_style( get_handle( 'options-page', 'style' ) );
+		wp_enqueue_script( get_handle( 'options-page', 'script' ) );
 		wp_enqueue_script( 'codepen' );
 
 		$this->abt_globals = array_replace_recursive(
@@ -83,10 +84,9 @@ class Options {
 			'citation_style' => [],
 		];
 
-		// @codingStandardsIgnoreStart
 		// Ignoring the nonce verification here because it takes place below.
+		// phpcs:ignore
 		$post = wp_unslash( $_POST );
-		// @codingStandardsIgnoreEnd
 
 		if ( isset( $post[ $form_nonce ] ) ) {
 			$nonce = $post[ $form_nonce ];

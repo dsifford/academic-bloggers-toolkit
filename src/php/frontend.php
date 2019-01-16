@@ -9,7 +9,7 @@ namespace ABT\Frontend;
 
 defined( 'ABSPATH' ) || exit;
 
-use function ABT\Utils\enqueue_script;
+use function ABT\Utils\get_handle;
 
 /**
  * Safely adds JSON data into a page to be used by scripts.
@@ -52,47 +52,13 @@ add_action( 'the_post', __NAMESPACE__ . '\collect_bibliography' );
  */
 function enqueue_scripts() {
 	global $post;
-
-	if ( ! has_blocks( $post ) ) {
-		return;
+	if ( is_singular() ) {
+		$base_handle = has_blocks( $post ) ? 'frontend' : 'legacy-frontend';
+		wp_enqueue_style( get_handle( $base_handle, 'style' ) );
+		wp_enqueue_script( get_handle( $base_handle, 'script' ) );
+	} else {
+		wp_enqueue_style( get_handle( 'frontend', 'style' ) );
 	}
-
-	enqueue_script(
-		'frontend',
-		[
-			'scripts' => [
-				'wp-dom-ready',
-			],
-		]
-	);
 }
 add_action( 'wp_enqueue_scripts', __NAMESPACE__ . '\enqueue_scripts' );
 
-/**
- * Enqueues legacy frontend CSS and JS.
- */
-function enqueue_legacy_scripts() {
-	global $post;
-
-	if ( has_blocks( $post ) ) {
-		return;
-	}
-
-	wp_enqueue_style(
-		'abt-frontend-legacy-styles',
-		ABT_ROOT_URI . '/bundle/frontend-legacy.css',
-		[],
-		filemtime( ABT_ROOT_PATH . '/bundle/frontend-legacy.css' )
-	);
-
-	if ( is_singular() ) {
-		wp_enqueue_script(
-			'abt-frontend-legacy-script',
-			ABT_ROOT_URI . '/bundle/frontend-legacy.js',
-			[],
-			filemtime( ABT_ROOT_PATH . '/bundle/frontend-legacy.js' ),
-			true
-		);
-	}
-}
-add_action( 'wp_enqueue_scripts', __NAMESPACE__ . '\enqueue_legacy_scripts' );

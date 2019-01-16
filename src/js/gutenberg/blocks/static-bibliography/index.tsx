@@ -2,9 +2,9 @@ import { BlockConfig, createBlock } from '@wordpress/blocks';
 import { __ } from '@wordpress/i18n';
 import uuid from 'uuid/v4';
 
+import { stripListItem } from 'utils/editor';
 import Processor from 'utils/processor';
 
-import { stripListItem } from '../';
 import edit from './edit';
 import save from './save';
 

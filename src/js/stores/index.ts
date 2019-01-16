@@ -1,2 +1,7 @@
-export { default as dataStore } from './data';
-export { default as uiStore } from './ui';
+import { registerStore } from '@wordpress/data';
+
+import dataStore from './data';
+import uiStore from './ui';
+
+registerStore(...dataStore);
+registerStore(...uiStore);

@@ -23,6 +23,16 @@ define( 'ABT_ROOT_URI', plugins_url( '', __FILE__ ) );
 define( 'ABT_ROOT_PATH', dirname( __FILE__ ) );
 define( 'ABT_OPTIONS_KEY', 'abt_options' );
 
+require_once __DIR__ . '/php/utils.php';
+require_once __DIR__ . '/php/admin.php';
+require_once __DIR__ . '/php/dom-injects.php';
+require_once __DIR__ . '/php/frontend.php';
+require_once __DIR__ . '/php/class-backend.php';
+require_once __DIR__ . '/php/class-options.php';
+require_once __DIR__ . '/php/endpoints.php';
+
+use function ABT\Utils\register_script;
+
 /**
  * Load plugin translations.
  */
@@ -109,9 +119,122 @@ function add_donate_link( array $links, string $file ): array {
 add_filter( 'plugin_row_meta', __NAMESPACE__ . '\add_donate_link', 10, 2 );
 
 /**
- * Registers 3rd party or vendored scripts/styles
+ * Registers all scripts/styles used by this plugin.
  */
-function register_third_party_scripts(): void {
+function register_scripts(): void {
+	//
+	// Admin.
+	//
+	register_script(
+		'editor',
+		[
+			'scripts' => [
+				'lodash',
+				'wp-components',
+				'wp-compose',
+				'wp-data',
+				'wp-edit-post',
+				'wp-editor',
+				'wp-element',
+				'wp-i18n',
+				'wp-keycodes',
+				'wp-plugins',
+				'wp-polyfill',
+				'wp-url',
+			],
+		]
+	);
+	register_script(
+		'editor-blocks',
+		[
+			'scripts' => [
+				'citeproc',
+				'lodash',
+				'wp-blocks',
+				'wp-components',
+				'wp-compose',
+				'wp-data',
+				'wp-editor',
+				'wp-element',
+				'wp-i18n',
+				'wp-polyfill',
+			],
+		]
+	);
+	register_script(
+		'editor-formats',
+		[
+			'scripts' => [
+				'lodash',
+				'wp-components',
+				'wp-compose',
+				'wp-data',
+				'wp-editor',
+				'wp-element',
+				'wp-i18n',
+				'wp-keycodes',
+				'wp-polyfill',
+				'wp-rich-text',
+				'wp-rich-text',
+				'wp-url',
+			],
+		]
+	);
+	register_script(
+		'editor-stores',
+		[
+			'scripts' => [
+				'citeproc',
+				'lodash',
+				'wp-blocks',
+				'wp-data',
+				'wp-polyfill',
+			],
+		]
+	);
+
+	register_script( 'options-page' );
+
+	register_script(
+		'legacy-editor',
+		[
+			'scripts' => [
+				'citeproc',
+				'lodash',
+				'wp-dom-ready',
+			],
+			'styles'  => [
+				'abt-legacy-fonts',
+				'dashicons',
+			],
+		]
+	);
+
+	//
+	// Frontend.
+	//
+	register_script(
+		'frontend',
+		[
+			'scripts' => [
+				'wp-dom-ready',
+				'wp-polyfill',
+			],
+		]
+	);
+	register_script(
+		'legacy-frontend',
+		[
+			'scripts' => [
+				'wp-dom-ready',
+				'wp-polyfill',
+			],
+		]
+	);
+
+	//
+	// Third party.
+	//
 	wp_register_style(
 		'abt-legacy-fonts',
 		add_query_arg(
@@ -124,17 +247,21 @@ function register_third_party_scripts(): void {
 		[],
 		ABT_VERSION
 	);
-
-	wp_register_script( 'codepen', '//assets.codepen.io/assets/embed/ei.js', [], ABT_VERSION, true );
-	wp_register_script( 'citeproc', '//cdn.jsdelivr.net/gh/Juris-M/citeproc-js@1/citeproc.min.js', [], ABT_VERSION, true );
+	wp_register_script(
+		'codepen',
+		'//assets.codepen.io/assets/embed/ei.js',
+		[],
+		ABT_VERSION,
+		true
+	);
+	wp_register_script(
+		'citeproc',
+		'//cdn.jsdelivr.net/gh/Juris-M/citeproc-js@1/citeproc.min.js',
+		[],
+		ABT_VERSION,
+		true
+	);
 }
-add_action( 'admin_enqueue_scripts', __NAMESPACE__ . '\register_third_party_scripts', 5 );
-add_action( 'wp_enqueue_scripts', __NAMESPACE__ . '\register_third_party_scripts', 5 );
+add_action( 'admin_enqueue_scripts', __NAMESPACE__ . '\register_scripts', 5 );
+add_action( 'wp_enqueue_scripts', __NAMESPACE__ . '\register_scripts', 5 );
 
-require_once __DIR__ . '/php/utils.php';
-require_once __DIR__ . '/php/admin.php';
-require_once __DIR__ . '/php/dom-injects.php';
-require_once __DIR__ . '/php/frontend.php';
-require_once __DIR__ . '/php/class-backend.php';
-require_once __DIR__ . '/php/class-options.php';
-require_once __DIR__ . '/php/endpoints.php';

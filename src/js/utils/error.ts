@@ -1,4 +1,4 @@
-type ResponseData = Pick<Response, Exclude<keyof Response, keyof Body>>;
+type ResponseData = Omit<Response, keyof Body>;
 
 export class ResponseError extends Error {
     resource: string;
