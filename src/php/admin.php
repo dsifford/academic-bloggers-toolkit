@@ -41,11 +41,14 @@ add_action( 'admin_enqueue_scripts', __NAMESPACE__ . '\enqueue_scripts' );
 function register_metadata(): void {
 	register_meta(
 		'post',
-		'abt_state',
+		'_abt_state',
 		[
-			'show_in_rest' => true,
-			'single'       => true,
-			'type'         => 'string',
+			'show_in_rest'  => true,
+			'single'        => true,
+			'type'          => 'string',
+			'auth_callback' => function() {
+				return current_user_can( 'edit_posts' );
+			},
 		]
 	);
 }
@@ -64,7 +67,7 @@ add_action( 'init', __NAMESPACE__ . '\register_metadata' );
 function init_editor_state( int $post_id ): void {
 	$meta = get_post_meta( $post_id );
 
-	if ( ! array_key_exists( 'abt_state', $meta ) ) {
+	if ( ! array_key_exists( '_abt_state', $meta ) ) {
 		$state = (object) [
 			'references' => [],
 			'style'      => get_option( ABT_OPTIONS_KEY )['citation_style'],
@@ -80,7 +83,7 @@ function init_editor_state( int $post_id ): void {
 
 		add_post_meta(
 			$post_id,
-			'abt_state',
+			'_abt_state',
 			wp_slash( wp_json_encode( $state ) ),
 			true
 		);

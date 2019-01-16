@@ -29,11 +29,11 @@ export function getStyle() {
 }
 
 function getSavedState(): SavedState {
-    const meta = select<Maybe<{ abt_state?: string }>>(
+    const meta = select<Maybe<{ _abt_state?: string }>>(
         'core/editor',
     ).getCurrentPostAttribute('meta');
-    if (!meta || !meta.abt_state) {
+    if (!meta || !meta._abt_state) {
         throw new Error('Unable to retrieve registered post meta for ABT');
     }
-    return JSON.parse(meta.abt_state);
+    return JSON.parse(meta._abt_state);
 }

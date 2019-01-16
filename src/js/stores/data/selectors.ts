@@ -127,7 +127,7 @@ export function getItemById(_state: State, id: string): CSL.Data | undefined {
 export function getSerializedState({ references, style }: State) {
     return {
         meta: {
-            abt_state: JSON.stringify({ references, style }),
+            _abt_state: JSON.stringify({ references, style }),
         },
     };
 }
