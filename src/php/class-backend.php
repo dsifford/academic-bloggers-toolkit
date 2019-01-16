@@ -10,7 +10,7 @@ namespace ABT;
 defined( 'ABSPATH' ) || exit;
 
 use function ABT\Utils\{
-	enqueue_script,
+	create_admin_notice,
 	get_citation_styles,
 	get_handle,
 };
@@ -36,89 +36,86 @@ class Backend {
 	public static function init() {
 		if ( is_null( self::$instance ) ) {
 			self::$instance = new \ABT\Backend();
+			add_action( 'init', [ self::$instance, 'register' ] );
 		}
 		return self::$instance;
 	}
 
 	/**
-	 * Sets up all actions and filters for the backend class.
+	 * Registers hooks for this class.
 	 */
-	public function __construct() {
-		if ( is_admin() ) {
-			add_action( 'load-post.php', [ $this, 'check_classic_state' ] );
-			add_action( 'load-post-new.php', [ $this, 'check_classic_option' ] );
+	public function register() {
+		$has_rich_editing = (bool) get_user_option( 'rich_editing' );
+		if ( is_admin() && class_exists( '\Classic_Editor' ) ) {
+			if ( $has_rich_editing ) {
+				add_action( 'load-post.php', [ $this, 'check_classic_state' ] );
+				add_action( 'load-post-new.php', [ $this, 'check_classic_option' ] );
+			} else {
+				create_admin_notice(
+					__( "Rich editing must be enabled to use the Academic Blogger's Toolkit plugin.", 'academic-bloggers-toolkit' ),
+					'warning'
+				);
+			}
 		}
 	}
 
+	/**
+	 * Ensures that classic editor is enabled for existing posts.
+	 */
 	public function check_classic_state() {
-		if ( class_exists( '\Classic_Editor' ) ) {
-			$post_id = intval( $_GET['post'] ); // phpcs:ignore
-			if ( 'block-editor' !== get_post_meta( $post_id, 'classic-editor-remember', true ) ) {
+		$post_id          = filter_input( INPUT_GET, 'post', FILTER_VALIDATE_INT );
+		$saved_mode       = get_post_meta( $post_id, 'classic-editor-remember', true );
+		$is_swapping_mode = (
+			filter_input( INPUT_GET, 'classic-editor__forget' ) === '' &&
+			filter_input( INPUT_SERVER, 'HTTP_CACHE_CONTROL' ) !== 'max-age=0'
+		);
+		$is_classic       = (
+			( $saved_mode !== 'block-editor' && ! $is_swapping_mode ) ||
+			( $saved_mode === 'block-editor' && $is_swapping_mode )
+		);
+		if ( $is_classic ) {
+			if ( has_blocks( $post_id ) ) {
+				create_admin_notice(
+					__(
+						"Academic Blogger's Toolkit cannot be used in the Classic Editor once a post has been modified in the Block Editor.",
+						'academic-bloggers-toolkit'
+					),
+				);
+			} else {
 				$this->load_post();
 			}
 		}
 	}
 
+	/**
+	 * Ensures that classic editor is enabled for new posts.
+	 */
 	public function check_classic_option() {
-		if ( class_exists( '\Classic_Editor' ) && get_option( 'classic-editor-replace' ) !== 'block' ) {
+		if ( get_option( 'classic-editor-replace' ) !== 'block' ) {
 			$this->load_post();
 		}
 	}
 
+	/**
+	 * Registers hooks for classic editor.
+	 */
 	public function load_post() {
-		if ( class_exists( '\Classic_Editor' ) ) {
-			$post_type            = get_current_screen()->post_type;
-			$disabled_post_types  = apply_filters( 'abt_disabled_post_types', [ 'acf', 'um_form' ] );
-			$is_invalid_post_type = in_array(
-				$post_type,
-				array_merge(
-					[ 'attachment' ],
-					is_array( $disabled_post_types ) ? $disabled_post_types : []
-				),
-				true
-			);
-
-			if ( $is_invalid_post_type ) {
-				return;
-			}
+		$post_type           = get_current_screen()->post_type;
+		$disabled_post_types = apply_filters( 'abt_disabled_post_types', [ 'acf', 'um_form' ] );
+		$is_valid_post_type  = ! in_array(
+			$post_type,
+			array_merge(
+				[ 'attachment' ],
+				is_array( $disabled_post_types ) ? $disabled_post_types : []
+			),
+			true
+		);
+		if ( $is_valid_post_type ) {
 			add_action( 'add_meta_boxes', [ $this, 'add_metaboxes' ] );
 			add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_scripts' ] );
-			add_action( 'admin_head', [ $this, 'init_tinymce' ] );
-			add_action( 'admin_notices', [ $this, 'user_alert' ] );
 			add_action( 'save_post', [ $this, 'save_meta' ] );
-			add_filter( 'mce_css', [ $this, 'load_tinymce_css' ] );
-		}
-	}
-
-	/**
-	 * Alerts the user that the plugin will not work if he/she doesn't have 'Rich Editing' enabled.
-	 */
-	public function user_alert() {
-		if ( 'true' === get_user_option( 'rich_editing' ) ) {
-			return;
-		}
-		echo wp_kses(
-			sprintf(
-				'<div class="notice notice-warning is-dismissible"><p><strong>%1s</strong>: %2s</p></div>',
-				__( 'Notice', 'academic-bloggers-toolkit' ),
-				__( "Rich editing must be enabled to use the Academic Blogger's Toolkit plugin", 'academic-bloggers-toolkit' )
-			),
-			[
-				'div'    => [
-					'class' => [],
-				],
-				'p'      => [],
-				'strong' => [],
-			]
-		);
-	}
-
-	/**
-	 * Instantiates the TinyMCE plugin.
-	 */
-	public function init_tinymce() {
-		if ( 'true' === get_user_option( 'rich_editing' ) ) {
 			add_filter( 'mce_external_plugins', [ $this, 'register_tinymce_plugins' ] );
+			add_filter( 'mce_css', [ $this, 'load_tinymce_css' ] );
 		}
 	}
 
@@ -183,17 +180,12 @@ class Backend {
 		if ( wp_is_post_autosave( $post_id ) || wp_is_post_revision( $post_id ) ) {
 			return;
 		}
-
-		// @codingStandardsIgnoreStart
-		// Ignoring the next line because the WordPress Standards are still flagging
-		// this as unsanitized. They are wrong.
 		if (
 			isset( $_POST['abt-reflist-state'], $_POST['abt_nonce'] )
 			&& wp_verify_nonce( sanitize_key( $_POST['abt_nonce'] ), basename( __FILE__ ) ) ) {
-				$reflist_state = $_POST['abt-reflist-state'];
+				$reflist_state = $_POST['abt-reflist-state']; // phpcs:ignore
 				update_post_meta( $post_id, '_abt-reflist-state', $reflist_state );
 		}
-		// @codingStandardsIgnoreEnd
 	}
 
 	/**
