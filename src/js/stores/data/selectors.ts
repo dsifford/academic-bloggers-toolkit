@@ -7,12 +7,6 @@ import { editorCitation, getEditorDOM } from 'utils/editor';
 
 import { State } from './';
 
-interface SerializedMeta {
-    meta: {
-        abt_state: string;
-    };
-}
-
 export function getCitationStyles(state: State): State['citationStyles'] {
     return clone(state.citationStyles);
 }
@@ -130,10 +124,7 @@ export function getItemById(_state: State, id: string): CSL.Data | undefined {
         .find(item => item.id === id);
 }
 
-export function getSerializedState({
-    references,
-    style,
-}: State): SerializedMeta {
+export function getSerializedState({ references, style }: State) {
     return {
         meta: {
             abt_state: JSON.stringify({ references, style }),

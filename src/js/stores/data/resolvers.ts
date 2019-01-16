@@ -1,7 +1,8 @@
 import { select } from '@wordpress/data';
 
+import { SavedState } from './';
 import { Actions } from './constants';
-import { apiFetch, fetchCitationStyles } from './controls';
+import { fetchCitationStyles } from './controls';
 
 export function* getCitationStyles() {
     const styles = yield fetchCitationStyles();
@@ -11,24 +12,28 @@ export function* getCitationStyles() {
     };
 }
 
-export function* getReferences() {
-    const { references } = yield getSavedState();
+export function getReferences() {
+    const { references } = getSavedState();
     return {
         type: Actions.SET_REFERENCES,
         references,
     };
 }
 
-export function* getStyle() {
-    const { style } = yield getSavedState();
+export function getStyle() {
+    const { style } = getSavedState();
     return {
         type: Actions.SET_STYLE,
         style,
     };
 }
 
-function* getSavedState(): IterableIterator<any> {
-    const id = select<number>('core/editor').getCurrentPostId();
-    const { meta } = yield apiFetch(`/wp/v2/posts/${id}`);
+function getSavedState(): SavedState {
+    const meta = select<Maybe<{ abt_state?: string }>>(
+        'core/editor',
+    ).getCurrentPostAttribute('meta');
+    if (!meta || !meta.abt_state) {
+        throw new Error('Unable to retrieve registered post meta for ABT');
+    }
     return JSON.parse(meta.abt_state);
 }
