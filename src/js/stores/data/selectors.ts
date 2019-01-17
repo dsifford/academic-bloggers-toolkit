@@ -21,7 +21,9 @@ export function getStyle(state: State): State['style'] {
 
 export function getCitationsByIndex(state: State): Citation[] {
     const doc = getEditorDOM();
-    const citations = [...doc.querySelectorAll<HTMLElement>('.abt-citation')];
+    const citations = [
+        ...doc.querySelectorAll<HTMLElement>('.abt-citation[id]'),
+    ];
     return citations.map((el, index) => {
         const citationID = el.id;
         const citationItems = editorCitation.getItems(el).reduce(
