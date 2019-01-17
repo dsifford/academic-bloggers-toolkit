@@ -87,11 +87,11 @@ export default (_: never, argv: any): Configuration => {
         },
         entry: {
             /**
-             * JS Entrypoints
+             * Legacy
              */
-            'bundle/legacy-frontend': 'js/_legacy/_entrypoints/frontend',
+            'bundle/frontend-legacy': 'js/_legacy/_entrypoints/frontend',
             'bundle/options-page': 'js/_legacy/_entrypoints/options-page',
-            'bundle/legacy-editor': [
+            'bundle/editor-legacy': [
                 'custom-event-polyfill',
                 'proxy-polyfill',
                 'js/_legacy/_entrypoints/reference-list',

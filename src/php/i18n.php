@@ -24,26 +24,6 @@ function sort_by_label( $a, $b ) {
  * used in javascript.
  */
 function generate_translations() {
-	/*
-	Not currently used.
-	{ label: 'Book - Review', value: 'review-book' },
-	{ label: 'Dataset', value: 'dataset' },
-	{ label: 'Entry - Generic', value: 'entry' },
-	{ label: 'Entry - Dictionary', value: 'entry-dictionary' },
-	{ label: 'Figure', value: 'figure' },
-	{ label: 'Graphic', value: 'graphic' },
-	{ label: 'Interview', value: 'interview' },
-	{ label: 'Manuscript', value: 'manuscript' },
-	{ label: 'Map', value: 'map' },
-	{ label: 'Music - Musical Score', value: 'musical_score' },
-	{ label: 'Music - Song', value: 'song' },
-	{ label: 'Pamphlet', value: 'pamphlet' },
-	{ label: 'Personal Communication', value: 'personal_communication' },
-	{ label: 'Post', value: 'post' },
-	{ label: 'Review', value: 'review' },
-	{ label: 'Treaty', value: 'treaty' },
-	{ label: 'Website - Blog', value: 'post-weblog' },
-	*/
 	$citation_types = [
 		[
 			'label' => __( 'Bill', 'academic-bloggers-toolkit' ),

@@ -14,22 +14,19 @@
  * @package ABT
  */
 
+declare(strict_types=1);
+
 namespace ABT;
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'ABT_VERSION', '{{VERSION}}' );
-define( 'ABT_ROOT_URI', plugins_url( '', __FILE__ ) );
-define( 'ABT_ROOT_PATH', dirname( __FILE__ ) );
+define( 'ABT_NONCE', 'abt_nonce' );
 define( 'ABT_OPTIONS_KEY', 'abt_options' );
+define( 'ABT_ROOT_PATH', __DIR__ );
+define( 'ABT_ROOT_URI', plugins_url( '', __FILE__ ) );
+define( 'ABT_VERSION', '{{VERSION}}' );
 
 require_once __DIR__ . '/php/utils.php';
-require_once __DIR__ . '/php/admin.php';
-require_once __DIR__ . '/php/dom-injects.php';
-require_once __DIR__ . '/php/frontend.php';
-require_once __DIR__ . '/php/class-backend.php';
-require_once __DIR__ . '/php/class-options.php';
-require_once __DIR__ . '/php/endpoints.php';
 
 use function ABT\Utils\register_script;
 
@@ -193,15 +190,24 @@ function register_scripts(): void {
 		]
 	);
 
-	register_script( 'options-page' );
+	register_script(
+		'options-page',
+		[
+			'scripts' => [
+				'wp-dom-ready',
+				'wp-polyfill',
+			],
+		]
+	);
 
 	register_script(
-		'legacy-editor',
+		'editor-legacy',
 		[
 			'scripts' => [
 				'citeproc',
 				'lodash',
 				'wp-dom-ready',
+				'wp-polyfill',
 			],
 			'styles'  => [
 				'abt-legacy-fonts',
@@ -223,7 +229,7 @@ function register_scripts(): void {
 		]
 	);
 	register_script(
-		'legacy-frontend',
+		'frontend-legacy',
 		[
 			'scripts' => [
 				'wp-dom-ready',
@@ -264,4 +270,15 @@ function register_scripts(): void {
 }
 add_action( 'admin_enqueue_scripts', __NAMESPACE__ . '\register_scripts', 5 );
 add_action( 'wp_enqueue_scripts', __NAMESPACE__ . '\register_scripts', 5 );
+
+require_once __DIR__ . '/php/class-form-actions.php';
+require_once __DIR__ . '/php/endpoints.php';
+
+if ( is_admin() ) {
+	require_once __DIR__ . '/php/editor.php';
+	require_once __DIR__ . '/php/editor-legacy.php';
+	require_once __DIR__ . '/php/options.php';
+} else {
+	require_once __DIR__ . '/php/frontend.php';
+}
 

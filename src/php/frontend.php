@@ -5,38 +5,62 @@
  * @package ABT
  */
 
+declare(strict_types=1);
+
 namespace ABT\Frontend;
 
 defined( 'ABSPATH' ) || exit;
 
-use function ABT\Utils\get_handle;
+use function ABT\Utils\{
+	add_inline_json_script,
+	get_handle,
+};
+use WP_Post;
 
 /**
- * Safely adds JSON data into a page to be used by scripts.
- *
- * @param string $id A unique ID for the data.
- * @param mixed  $data The data to be JSON encoded.
+ * Injects post author metadata into the <head> of posts so that others using
+ * the plugin can easily extract author information.
  */
-function add_inline_json_script( string $id, $data ): void {
-	add_action(
-		'wp_footer',
-		function () use ( $id, $data ) {
+function inject_author_meta(): void {
+	global $post;
+	if ( ! $post || ! is_singular() ) {
+		return;
+	}
+
+	$author_ids = [ $post->post_author ];
+	if ( function_exists( 'get_coauthors' ) ) {
+		$coauthor_ids = array_map(
+			function( $coauthor ) {
+				return $coauthor->ID;
+			},
+			get_coauthors( $post->ID )
+		);
+		$author_ids   = array_merge( $author_ids, $coauthor_ids );
+	}
+
+	$authors = get_users(
+		[
+			'include' => $author_ids,
+		]
+	);
+
+	foreach ( $authors as $author ) {
+		if ( $author->first_name && $author->last_name ) {
+			$parsed = $author->first_name . '|' . $author->last_name;
 			?>
-				<script
-					id="<?php echo esc_attr( $id ); ?>"
-					type="application/json"
-					><?php echo wp_json_encode( $data ); ?></script>
+				<meta property="abt:author" content="<?php echo esc_attr( $parsed ); ?>" />
 			<?php
 		}
-	);
+	}
 }
+add_action( 'wp_head', __NAMESPACE__ . '\inject_author_meta' );
 
 /**
  * Save a reference to the full bibliography as a JS global for parsing tooltips in paged posts.
  *
  * @param WP_Post $post The post.
  */
-function collect_bibliography( $post ): void {
+function collect_bibliography( WP_Post $post ): void {
 	if ( is_singular() && has_block( 'abt/bibliography', $post ) ) {
 		$blocks    = parse_blocks( $post->post_content );
 		$bib_index = array_search( 'abt/bibliography', array_column( $blocks, 'blockName' ), true );
@@ -50,10 +74,10 @@ add_action( 'the_post', __NAMESPACE__ . '\collect_bibliography' );
 /**
  * Enqueues frontend CSS and JS.
  */
-function enqueue_scripts() {
+function enqueue_scripts(): void {
 	global $post;
 	if ( is_singular() ) {
-		$base_handle = has_blocks( $post ) ? 'frontend' : 'legacy-frontend';
+		$base_handle = has_blocks( $post ) ? 'frontend' : 'frontend-legacy';
 		wp_enqueue_style( get_handle( $base_handle, 'style' ) );
 		wp_enqueue_script( get_handle( $base_handle, 'script' ) );
 	} else {

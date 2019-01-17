@@ -5,7 +5,29 @@
  * @package ABT
  */
 
+declare(strict_types=1);
+
 namespace ABT\Utils;
+
+/**
+ * Safely adds JSON data into a page to be used by scripts.
+ *
+ * @param string $id A unique ID for the data.
+ * @param mixed  $data The data to be JSON encoded.
+ */
+function add_inline_json_script( string $id, $data ): void {
+	add_action(
+		'wp_footer',
+		function () use ( $id, $data ) {
+			?>
+				<script
+					id="<?php echo esc_attr( $id ); ?>"
+					type="application/json"
+					><?php echo wp_json_encode( $data ); ?></script>
+			<?php
+		}
+	);
+}
 
 /**
  * Create and queue an admin notice.

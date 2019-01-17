@@ -1,11 +1,13 @@
 <?php
 /**
- * Admin-related functionality
+ * Editor functionality.
  *
  * @package ABT
  */
 
-namespace ABT\Admin;
+declare(strict_types=1);
+
+namespace ABT\Editor;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -67,7 +69,7 @@ add_action( 'init', __NAMESPACE__ . '\register_metadata' );
 function init_editor_state( int $post_id ): void {
 	$meta = get_post_meta( $post_id );
 
-	if ( ! array_key_exists( '_abt_state', $meta ) ) {
+	if ( ! array_key_exists( '_abt_state', $meta ) || ! has_blocks( $post_id ) ) {
 		$state = (object) [
 			'references' => [],
 			'style'      => get_option( ABT_OPTIONS_KEY )['citation_style'],
