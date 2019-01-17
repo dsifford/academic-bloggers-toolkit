@@ -5,7 +5,7 @@ import { observer } from 'mobx-react';
 import React from 'react';
 
 import { DialogProps } from '_legacy/dialogs';
-import readFile from '_legacy/utils/read-file';
+import { readFile } from 'utils/file';
 
 import ActionBar from '_legacy/components/action-bar';
 import Button from '_legacy/components/button';
@@ -49,7 +49,7 @@ export default class ImportDialog extends React.Component<DialogProps> {
             .substring(file.name.lastIndexOf('.'))
             .toLowerCase();
         this.setFile({ name: file.name, value: e.currentTarget.value });
-        const content = await readFile(file, 'Text');
+        const content = await readFile(file);
         this.parseFile(content, ext);
     };
 

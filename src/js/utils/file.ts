@@ -1,6 +1,9 @@
 import { parse as parseBibtex } from 'astrocite-bibtex';
 import { parse as parseRis } from 'astrocite-ris';
 
+import { Style } from 'stores/data';
+import { StyleKind } from 'stores/data/constants';
+
 export async function readFile(file: File): Promise<string> {
     const reader = new FileReader();
     await new Promise(
@@ -34,4 +37,28 @@ export async function readReferencesFile(file: File): Promise<CSL.Data[]> {
         default:
             throw new Error(`Invalid file extension: ${extension}`);
     }
+}
+
+export async function parseCSL(file: File): Promise<Style> {
+    const content = await readFile(file);
+    const xml = new DOMParser().parseFromString(content, 'application/xml');
+    const error = xml.querySelector('parsererror');
+    const label = xml.querySelector('info title');
+    const shortTitle = xml.querySelector('info title-short');
+    if (error || !label || !label.textContent) {
+        throw new Error(`Error parsing CSL file: ${error}`);
+    }
+    // trim away unnecessary whitespace
+    const value = content
+        .replace(/(?:[\r\n]|<!--.*?-->)/g, '')
+        .replace(/(>)(\s+?)(<)/g, '$1$3');
+    return {
+        kind: StyleKind.CUSTOM,
+        value,
+        label: label.textContent,
+        shortTitle:
+            shortTitle && shortTitle.textContent
+                ? shortTitle.textContent
+                : undefined,
+    };
 }

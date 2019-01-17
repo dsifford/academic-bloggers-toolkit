@@ -1,14 +1,5 @@
 import { render as Render } from 'react-dom';
 
-type RenderParams = [any, string] | [any, string, () => void];
-
-export async function renderMany(items: RenderParams[]): Promise<void> {
-    const tasks = items.map(async item => render.apply(null, item));
-    await Promise.all(tasks).catch(e => {
-        throw e;
-    });
-}
-
 export default async function render(
     element: any,
     containerId: string,

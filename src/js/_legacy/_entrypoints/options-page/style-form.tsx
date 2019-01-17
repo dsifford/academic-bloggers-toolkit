@@ -5,7 +5,7 @@ import React from 'react';
 import AutoSuggest from 'react-autosuggest';
 
 import Store from '_legacy/stores/data/style-store';
-import parseCSL from '_legacy/utils/parse-csl';
+import { parseCSL } from 'utils/file';
 
 import Callout from '_legacy/components/callout';
 import FileInput from '_legacy/components/file-input';
