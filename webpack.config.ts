@@ -90,7 +90,6 @@ export default (_: never, argv: any): Configuration => {
              * Legacy
              */
             'bundle/frontend-legacy': 'js/_legacy/_entrypoints/frontend',
-            'bundle/options-page': 'js/_legacy/_entrypoints/options-page',
             'bundle/editor-legacy': [
                 'custom-event-polyfill',
                 'proxy-polyfill',
@@ -107,6 +106,7 @@ export default (_: never, argv: any): Configuration => {
             'bundle/editor-formats': 'js/gutenberg/formats',
             'bundle/editor-stores': 'js/stores',
             'bundle/frontend': 'js/frontend',
+            'bundle/options-page': 'js/options-page',
         },
         output: {
             filename: '[name].js',

@@ -1,6 +1,6 @@
 <?php
 /**
- * ABT form actions.
+ * Form actions.
  *
  * @package ABT
  */

@@ -53,35 +53,31 @@ register_uninstall_hook( __FILE__, 'ABT\uninstall' );
  */
 function refactor_options(): void {
 	$options = get_option( ABT_OPTIONS_KEY );
-	if ( version_compare( ABT_VERSION, $options['VERSION'], '<=' ) ) {
-		return;
+	if ( version_compare( ABT_VERSION, $options['VERSION'] ?? '0', '>' ) ) {
+		// Move custom css to customizer if it exists.
+		if ( ! empty( $options['custom_css'] ) ) {
+			wp_update_custom_css_post(
+				wp_get_custom_css_post() . PHP_EOL .
+				wp_kses( $options['custom_css'], [ "\'", '\"' ] )
+			);
+		}
+		$new_options = [
+			'VERSION'         => ABT_VERSION,
+			'citation_style'  => [
+				'kind'  => $options['citation_style']['kind'] ?? 'predefined',
+				'label' => $options['citation_style']['label'] ?? 'American Medical Association',
+				'value' => $options['citation_style']['value'] ?? 'american-medical-association',
+			],
+			// @deprecated 5.0.0
+			'display_options' => [
+				'bib_heading'       => $options['display_options']['bib_heading'] ?? '',
+				'bib_heading_level' => $options['display_options']['bib_heading_level'] ?? 'h3',
+				'bibliography'      => $options['display_options']['bibliography'] ?? 'fixed',
+				'links'             => $options['display_options']['links'] ?? 'always',
+			],
+		];
+		update_option( ABT_OPTIONS_KEY, $new_options );
 	}
-
-	// Move custom css to customizer if it exists.
-	if ( ! empty( $options['custom_css'] ) ) {
-		wp_update_custom_css_post(
-			wp_get_custom_css_post() . PHP_EOL .
-			wp_kses( $options['custom_css'], [ "\'", '\"' ] )
-		);
-	}
-
-	$new_options = [
-		'VERSION'         => ABT_VERSION,
-		'citation_style'  => [
-			'kind'  => $options['citation_style']['kind'] ?? 'predefined',
-			'label' => $options['citation_style']['label'] ?? 'American Medical Association',
-			'value' => $options['citation_style']['value'] ?? 'american-medical-association',
-		],
-		// @deprecated 5.0.0
-		'display_options' => [
-			'bib_heading'       => $options['display_options']['bib_heading'] ?? '',
-			'bib_heading_level' => $options['display_options']['bib_heading_level'] ?? 'h3',
-			'bibliography'      => $options['display_options']['bibliography'] ?? 'fixed',
-			'links'             => $options['display_options']['links'] ?? 'always',
-		],
-	];
-
-	update_option( ABT_OPTIONS_KEY, $new_options );
 }
 add_action( 'admin_init', __NAMESPACE__ . '\refactor_options' );
 
@@ -194,12 +190,13 @@ function register_scripts(): void {
 		'options-page',
 		[
 			'scripts' => [
-				'wp-dom-ready',
+				'wp-components',
+				'wp-element',
+				'wp-i18n',
 				'wp-polyfill',
 			],
-		]
+		],
 	);
-
 	register_script(
 		'editor-legacy',
 		[
@@ -207,6 +204,8 @@ function register_scripts(): void {
 				'citeproc',
 				'lodash',
 				'wp-dom-ready',
+				'wp-element',
+				'wp-i18n',
 				'wp-polyfill',
 			],
 			'styles'  => [

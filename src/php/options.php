@@ -65,16 +65,12 @@ function render_options_page(): void {
 	$options = get_option( ABT_OPTIONS_KEY );
 
 	if (
-		isset( $_POST[ ABT_NONCE ], $_POST['style_kind'], $_POST['style_label'], $_POST['style_value'] ) &&
+		isset( $_POST[ ABT_NONCE ], $_POST['citation_style'] ) &&
 		wp_verify_nonce( sanitize_key( $_POST[ ABT_NONCE ] ), Form_Actions::SET_CITATION_STYLE )
 	) {
-		$options['citation_style'] = [
-			'kind'  => sanitize_key( wp_unslash( $_POST['style_kind'] ) ),
-			'label' => sanitize_text_field( wp_unslash( $_POST['style_label'] ) ),
-			// Ignoring because this can be XML and it's sanitized elsewhere.
-			// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
-			'value' => wp_unslash( $_POST['style_value'] ),
-		];
+		// Ignoring because there's no need to sanitize this.
+		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+		$options['citation_style'] = json_decode( wp_unslash( $_POST['citation_style'] ), true );
 		update_option( ABT_OPTIONS_KEY, $options );
 	}
 
@@ -83,7 +79,6 @@ function render_options_page(): void {
 		'ABT',
 		[
 			'styles'  => get_citation_styles(),
-			'i18n'    => generate_translations(),
 			'options' => $options,
 		]
 	);
