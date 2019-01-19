@@ -58,7 +58,7 @@ function check_classic_state(): void {
 				__(
 					"Academic Blogger's Toolkit cannot be used in the Classic Editor once a post has been modified in the Block Editor.",
 					'academic-bloggers-toolkit'
-				),
+				)
 			);
 		} else {
 			load_post();
@@ -205,6 +205,7 @@ function enqueue_scripts(): void {
 	wp_dequeue_script( 'autosave' );
 	wp_enqueue_style( get_handle( 'editor-legacy', 'style' ) );
 	wp_enqueue_script( get_handle( 'editor-legacy', 'script' ) );
+	wp_set_script_translations( get_handle( 'editor-legacy', 'script' ), 'academic-bloggers-toolkit' );
 	wp_localize_script(
 		get_handle( 'editor-legacy', 'script' ),
 		'ABT',

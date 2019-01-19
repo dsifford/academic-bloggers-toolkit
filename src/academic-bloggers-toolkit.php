@@ -195,7 +195,7 @@ function register_scripts(): void {
 				'wp-i18n',
 				'wp-polyfill',
 			],
-		],
+		]
 	);
 	register_script(
 		'editor-legacy',

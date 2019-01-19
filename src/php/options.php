@@ -41,9 +41,10 @@ function enqueue_scripts( string $hook ): void {
 	if ( 'settings_page_abt-options' !== $hook ) {
 		return;
 	}
+	wp_enqueue_script( 'codepen' );
 	wp_enqueue_style( get_handle( 'options-page', 'style' ) );
 	wp_enqueue_script( get_handle( 'options-page', 'script' ) );
-	wp_enqueue_script( 'codepen' );
+	wp_set_script_translations( get_handle( 'options-page', 'script' ), 'academic-bloggers-toolkit' );
 }
 add_action( 'admin_enqueue_scripts', __NAMESPACE__ . '\enqueue_scripts' );
 
