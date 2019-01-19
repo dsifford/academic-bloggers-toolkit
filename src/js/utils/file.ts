@@ -1,3 +1,4 @@
+import { __ } from '@wordpress/i18n';
 import { parse as parseBibtex } from 'astrocite-bibtex';
 import { parse as parseRis } from 'astrocite-ris';
 
@@ -45,8 +46,18 @@ export async function parseCSL(file: File): Promise<Style> {
     const error = xml.querySelector('parsererror');
     const label = xml.querySelector('info title');
     const shortTitle = xml.querySelector('info title-short');
-    if (error || !label || !label.textContent) {
-        throw new Error(`Error parsing CSL file: ${error}`);
+    if (error) {
+        const message = error.querySelector('div');
+        throw new Error(
+            message && message.textContent
+                ? message.textContent
+                : __('Error parsing CSL file.', 'academic-bloggers-toolkit'),
+        );
+    }
+    if (!label || !label.textContent) {
+        throw new Error(
+            __('Error parsing CSL file.', 'academic-bloggers-toolkit'),
+        );
     }
     // trim away unnecessary whitespace
     const value = content
