@@ -6,3 +6,4 @@ NOTES.md
 TODO.md
 .env
 *.zip
+src/languages/*.pot

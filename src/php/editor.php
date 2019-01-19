@@ -32,6 +32,8 @@ function enqueue_scripts(): void {
 		wp_enqueue_script( get_handle( 'editor-formats', 'script' ) );
 		wp_enqueue_script( get_handle( 'editor', 'script' ) );
 
+		wp_set_script_translations( get_handle( 'editor', 'script' ), 'academic-bloggers-toolkit' );
+
 		init_editor_state( $post->ID );
 		wp_add_inline_script(
 			get_handle( 'editor-stores', 'script' ),
