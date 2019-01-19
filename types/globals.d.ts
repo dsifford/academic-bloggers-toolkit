@@ -11,16 +11,10 @@ declare namespace ABT {
 
     type Contributor = CSL.Person & { type: CSL.PersonFieldKey };
 
-    interface CitationStyle {
-        kind: 'predefined' | 'custom';
-        label: string;
-        value: string;
-    }
-
     interface EditorState {
         displayOptions: DisplayOptions;
         cache: {
-            style: CitationStyle;
+            style: import('stores/data').Style;
             locale: string;
         };
         citationByIndex: Array<import('citeproc').Citation>;
@@ -38,7 +32,7 @@ declare namespace ABT {
     interface Globals {
         i18n: any;
         options: {
-            citation_style: CitationStyle;
+            citation_style: import('stores/data').Style;
             display_options: DisplayOptions;
         };
         state: ABT.EditorState;

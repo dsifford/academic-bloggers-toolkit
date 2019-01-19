@@ -114,17 +114,14 @@ export default class ReferenceList extends React.Component<Props> {
             EditorDriver.events.ADD_REFERENCE,
             this.openDialog.bind(this, DialogType.ADD),
         );
-        addEventListener(
-            EditorDriver.events.TOGGLE_PINNED,
-            this.togglePinned.bind(this),
-        );
+        addEventListener(EditorDriver.events.TOGGLE_PINNED, this.togglePinned);
         addEventListener(
             EditorDriver.events.CITATION_DELETED,
             this.handleMenuSelection.bind(this, {
                 kind: MenuActionType.REFRESH_PROCESSOR,
             }),
         );
-        addEventListener(EditorDriver.events.UNDO, this.handleUndo.bind(this));
+        addEventListener(EditorDriver.events.UNDO, this.handleUndo);
         document.addEventListener('scroll', this.handleScroll);
     }
 

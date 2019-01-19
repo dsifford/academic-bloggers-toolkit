@@ -4,8 +4,8 @@ import { withSelect } from '@wordpress/data';
 import { ComponentType } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
 
-import asDialog from 'gutenberg/components/as-dialog';
-import DialogToolbar from 'gutenberg/components/dialog-toolbar';
+import asDialog from 'components/as-dialog';
+import DialogToolbar from 'components/dialog-toolbar';
 import ManualReferenceForm from 'gutenberg/components/reference-form-manual';
 
 import styles from './style.scss';

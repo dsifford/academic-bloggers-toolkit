@@ -16,7 +16,7 @@ import { Component, ComponentType } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
 import classNames from 'classnames';
 
-import CountIcon from 'gutenberg/components/count-icon';
+import CountIcon from 'components/count-icon';
 import ReferenceItem from 'gutenberg/components/reference-item';
 import SidebarItemList from 'gutenberg/components/sidebar-item-list';
 import { localeCache, styleCache } from 'utils/cache';

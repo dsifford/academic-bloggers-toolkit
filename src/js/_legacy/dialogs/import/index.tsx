@@ -7,9 +7,10 @@ import React from 'react';
 import { DialogProps } from '_legacy/dialogs';
 import { readFile } from 'utils/file';
 
+import AdminNotice from 'components/admin-notice';
+
 import ActionBar from '_legacy/components/action-bar';
 import Button from '_legacy/components/button';
-import Callout from '_legacy/components/callout';
 import FileInput from '_legacy/components/file-input';
 
 @observer
@@ -107,12 +108,15 @@ export default class ImportDialog extends React.Component<DialogProps> {
         return (
             <>
                 <div style={{ padding: 10 }}>
-                    <Callout
-                        title={`${ImportDialog.errors.prefix}`}
-                        onDismiss={this.setErrorMessage}
-                    >
-                        {this.errorMessage}
-                    </Callout>
+                    {this.errorMessage && (
+                        <AdminNotice
+                            kind="error"
+                            isDismissible
+                            onDismiss={this.setErrorMessage}
+                        >
+                            {this.errorMessage}
+                        </AdminNotice>
+                    )}
                     <FileInput
                         fill
                         large

@@ -9,7 +9,7 @@ import { Component } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
 import classNames from 'classnames';
 
-import TextareaAutosize from 'gutenberg/components/textarea-autosize';
+import TextareaAutosize from 'components/textarea-autosize';
 import { parseDataAttrs } from 'utils/editor';
 
 import { Attributes } from './';

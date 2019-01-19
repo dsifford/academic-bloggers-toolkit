@@ -477,6 +477,21 @@ export namespace Placeholder {
 }
 export const Placeholder: ComponentType<Placeholder.Props>;
 
+export namespace RadioControl {
+    interface Props<T> {
+        className?: string;
+        label?: string;
+        help?: string;
+        selected?: T;
+        options?: Array<{
+            label: string;
+            value: T;
+        }>;
+        onChange(option: T): void;
+    }
+}
+export class RadioControl<T> extends Component<RadioControl.Props<T>> {}
+
 export namespace SelectControl {
     interface CommonProps {
         label?: string;

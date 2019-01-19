@@ -2,14 +2,14 @@ import { action, runInAction } from 'mobx';
 import { observer } from 'mobx-react';
 import React from 'react';
 
-import Store from '_legacy/stores/ui/add-dialog';
+import AdminNotice from 'components/admin-notice';
 import { deprecatedGetFromISBN } from 'utils/resolvers/isbn';
 import { deprecatedGetFromURL } from 'utils/resolvers/url';
 
-import Callout from '_legacy/components/callout';
 import AutoCite from '_legacy/dialogs/add/autocite';
 import ContributorList from '_legacy/dialogs/components/contributor-list';
 import MetaFields from '_legacy/dialogs/components/meta-fields';
+import Store from '_legacy/stores/ui/add-dialog';
 
 import styles from './manual-input.scss';
 
@@ -27,8 +27,8 @@ export default class ManualInput extends React.Component<Props> {
         e ? e.focus() : void 0;
 
     @action
-    setErrorMessage = (data?: any): void => {
-        this.props.store.errorMessage = typeof data === 'string' ? data : '';
+    setErrorMessage = (message: string = ''): void => {
+        this.props.store.errorMessage = message;
     };
 
     @action
@@ -131,10 +131,15 @@ export default class ManualInput extends React.Component<Props> {
                             : styles.scrollBoundary
                     }
                 >
-                    <Callout
-                        children={this.props.store.errorMessage}
-                        onDismiss={this.setErrorMessage}
-                    />
+                    {store.errorMessage && (
+                        <AdminNotice
+                            kind="error"
+                            isDismissible
+                            onDismiss={() => this.setErrorMessage()}
+                        >
+                            {store.errorMessage}
+                        </AdminNotice>
+                    )}
                     {itemType !== 'article' && (
                         <ContributorList
                             people={store.data.people}

@@ -2,7 +2,7 @@ import { IconButton } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 import classNames from 'classnames';
 
-import RemoveIcon from 'gutenberg/components/icons/remove';
+import RemoveIcon from 'components/icons/remove';
 import { PeopleContext } from 'gutenberg/context';
 import { PersonField } from 'utils/fieldmaps';
 

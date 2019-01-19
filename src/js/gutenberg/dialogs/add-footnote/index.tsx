@@ -8,9 +8,9 @@ import {
 } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
 
-import asDialog from 'gutenberg/components/as-dialog';
-import DialogToolbar from 'gutenberg/components/dialog-toolbar';
-import TextareaAutosize from 'gutenberg/components/textarea-autosize';
+import asDialog from 'components/as-dialog';
+import DialogToolbar from 'components/dialog-toolbar';
+import TextareaAutosize from 'components/textarea-autosize';
 
 import styles from './style.scss';
 

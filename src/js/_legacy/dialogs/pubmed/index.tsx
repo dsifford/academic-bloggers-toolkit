@@ -4,9 +4,10 @@ import React from 'react';
 
 import { deprecatedPubmedQuery } from 'utils/resolvers';
 
+import AdminNotice from 'components/admin-notice';
+
 import ActionBar from '_legacy/components/action-bar';
 import Button from '_legacy/components/button';
-import Callout from '_legacy/components/callout';
 import Spinner from '_legacy/components/spinner';
 import { DialogProps } from '_legacy/dialogs';
 
@@ -23,22 +24,22 @@ export default class PubmedDialog extends React.Component<DialogProps> {
     /**
      * Error message to be displayed in the callout, if applicable
      */
-    errorMessage = observable.box('');
+    @observable errorMessage = '';
 
     /**
      * Controls the loading state of the dialog
      */
-    isLoading = observable.box(false);
+    @observable isLoading = false;
+
+    /**
+     * Controls the state of the input field
+     */
+    @observable query = '';
 
     /**
      * Current page of results
      */
     page = observable.box(0);
-
-    /**
-     * Controls the state of the input field
-     */
-    query = observable.box('');
 
     /**
      * Array of results returned from the pubmed search
@@ -55,27 +56,25 @@ export default class PubmedDialog extends React.Component<DialogProps> {
     }
 
     @action
-    setError = (msg: string | React.MouseEvent<HTMLDivElement> = ''): void => {
-        this.errorMessage.set(typeof msg === 'string' ? msg : '');
+    setError = (msg: string = ''): void => {
+        this.errorMessage = msg;
     };
 
     @action
     toggleLoading = (state?: boolean): void => {
-        return state === undefined
-            ? this.isLoading.set(!this.isLoading.get())
-            : this.isLoading.set(state);
+        this.isLoading = state === undefined ? !this.isLoading : state;
     };
 
     @action
     updateQuery = (e?: React.FormEvent<HTMLInputElement>): void => {
-        this.query.set(e ? e.currentTarget.value : '');
+        this.query = e ? e.currentTarget.value : '';
     };
 
     sendQuery = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
         e.preventDefault();
         this.toggleLoading(true);
         try {
-            const data = await deprecatedPubmedQuery(this.query.get());
+            const data = await deprecatedPubmedQuery(this.query);
             if (data.length === 0) {
                 this.setError(PubmedDialog.errors.no_results);
             } else {
@@ -92,7 +91,7 @@ export default class PubmedDialog extends React.Component<DialogProps> {
     };
 
     render(): JSX.Element {
-        if (this.isLoading.get()) {
+        if (this.isLoading) {
             return (
                 <Spinner
                     size="40px"
@@ -105,11 +104,15 @@ export default class PubmedDialog extends React.Component<DialogProps> {
         return (
             <>
                 <form id="query" onSubmit={this.sendQuery}>
-                    <Callout
-                        onDismiss={this.setError}
-                        children={this.errorMessage.get()}
-                        style={{ margin: 10 }}
-                    />
+                    {this.errorMessage && (
+                        <AdminNotice
+                            kind="error"
+                            isDismissible
+                            onDismiss={() => this.setError()}
+                        >
+                            {this.errorMessage}
+                        </AdminNotice>
+                    )}
                     <ActionBar>
                         <input
                             type="text"
@@ -123,11 +126,11 @@ export default class PubmedDialog extends React.Component<DialogProps> {
                             autoFocus={true}
                             required
                             placeholder={placeholder}
-                            value={this.query.get()}
+                            value={this.query}
                         />
                         <Button
                             flat
-                            disabled={!this.query.get()}
+                            disabled={!this.query}
                             type="submit"
                             label={PubmedDialog.labels.search}
                         >

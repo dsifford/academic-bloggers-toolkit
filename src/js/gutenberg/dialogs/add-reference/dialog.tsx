@@ -4,8 +4,8 @@ import { withDispatch } from '@wordpress/data';
 import { Component, ComponentType } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
 
-import asDialog from 'gutenberg/components/as-dialog';
-import DialogToolbar from 'gutenberg/components/dialog-toolbar';
+import asDialog from 'components/as-dialog';
+import DialogToolbar from 'components/dialog-toolbar';
 import IdentifierReferenceForm from 'gutenberg/components/reference-form-identifier';
 import ManualReferenceForm from 'gutenberg/components/reference-form-manual';
 

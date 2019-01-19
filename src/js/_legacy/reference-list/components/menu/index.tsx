@@ -1,14 +1,15 @@
 import { observer } from 'mobx-react';
 import React from 'react';
-import { SuggestionSelectedEventData } from 'react-autosuggest';
 
 import UIStore from '_legacy/stores/ui/reference-list';
 import { MenuActionType } from '_legacy/utils/constants';
 
 import Button from '_legacy/components/button';
-import StyleInput from '_legacy/components/style-input';
 
-import Styles from './menu.scss';
+import StyleSearch from 'components/style-search';
+import { Style } from 'stores/data';
+
+import styles from './menu.scss';
 
 export type MenuAction = StyleTypeChange | MenuButtonClick;
 
@@ -20,18 +21,16 @@ type MenuButtonKind =
 
 interface StyleTypeChange {
     kind: MenuActionType.CHANGE_STYLE;
-    data: ABT.CitationStyle;
+    data: Style;
 }
 
 interface MenuButtonClick {
     kind: MenuButtonKind;
 }
 
-type SSED = SuggestionSelectedEventData<ABT.CitationStyle>;
-
 interface Props {
     data: {
-        citationStyle: ABT.CitationStyle;
+        citationStyle: Style;
     };
     ui: UIStore;
     onSubmit(action: MenuAction): void;
@@ -40,13 +39,6 @@ interface Props {
 @observer
 export default class Menu extends React.Component<Props> {
     static readonly labels = top.ABT.i18n.reference_list.menu;
-    static readonly styles: ABT.CitationStyle[] = [
-        ...top.ABT.styles.styles,
-        ...(top.ABT.options.citation_style.kind === 'custom'
-            ? [top.ABT.options.citation_style]
-            : []),
-    ];
-    // static getSuggestionValue = ({ label }: ABT.CitationStyle): string => label;
 
     handleClick = (e: React.MouseEvent<HTMLButtonElement>): void => {
         const menuAction: MenuAction = {
@@ -55,18 +47,18 @@ export default class Menu extends React.Component<Props> {
         this.props.onSubmit(menuAction);
     };
 
-    handleStyleChange = (_e: any, { suggestion }: SSED): void => {
+    handleStyleChange = (style: Style): void => {
         const data: MenuAction = {
             kind: MenuActionType.CHANGE_STYLE,
-            data: suggestion,
+            data: style,
         };
         this.props.onSubmit(data);
     };
 
     render(): JSX.Element {
         return (
-            <div className={Styles.menuContainer}>
-                <div className={Styles.subpanel}>
+            <div className={styles.menuContainer}>
+                <div className={styles.subpanel}>
                     <Button
                         flat
                         id={MenuActionType.OPEN_IMPORT_DIALOG}
@@ -124,10 +116,10 @@ export default class Menu extends React.Component<Props> {
                         }}
                     />
                 </div>
-                <StyleInput
-                    styles={Menu.styles}
-                    currentStyle={this.props.data.citationStyle}
-                    onSelected={this.handleStyleChange}
+                <StyleSearch
+                    styleJSON={top.ABT.styles}
+                    value={this.props.data.citationStyle}
+                    onChange={this.handleStyleChange}
                 />
             </div>
         );

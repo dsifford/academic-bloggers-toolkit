@@ -64,22 +64,9 @@ export default class FileInput extends React.Component<Props, {}> {
 
         return (
             <label {...htmlProps} className={rootClasses}>
-                <input
-                    {...inputProps}
-                    onChange={this.handleInputChange}
-                    type="file"
-                    disabled={disabled}
-                />
+                <input {...inputProps} type="file" disabled={disabled} />
                 <span className={styles.fileUploadInput}>{text}</span>
             </label>
         );
     }
-
-    private handleInputChange = (
-        e: React.FormEvent<HTMLInputElement>,
-    ): void => {
-        if (this.props.inputProps.onChange) {
-            this.props.inputProps.onChange(e);
-        }
-    };
 }

@@ -4,8 +4,8 @@ import { withSelect } from '@wordpress/data';
 import { Component, ComponentType, FormEvent } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
 
-import asDialog from 'gutenberg/components/as-dialog';
-import DialogToolbar from 'gutenberg/components/dialog-toolbar';
+import asDialog from 'components/as-dialog';
+import DialogToolbar from 'components/dialog-toolbar';
 import StyleSearch from 'gutenberg/components/style-search';
 import { Style } from 'stores/data';
 
@@ -31,6 +31,7 @@ class Dialog extends Component<Dialog.Props, Dialog.State> {
         return (
             <form onSubmit={this.handleSubmit}>
                 <StyleSearch
+                    autofocus
                     value={this.state.value}
                     onChange={value => this.setState({ value })}
                 />

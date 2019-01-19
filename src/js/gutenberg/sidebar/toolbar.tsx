@@ -10,7 +10,7 @@ import { withDispatch } from '@wordpress/data';
 import { Component, FormEvent } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
 
-import RemoveIcon from 'gutenberg/components/icons/remove';
+import RemoveIcon from 'components/icons/remove';
 import AddReferenceDialog from 'gutenberg/dialogs/add-reference';
 import StyleDialog from 'gutenberg/dialogs/update-style';
 import { readReferencesFile } from 'utils/file';

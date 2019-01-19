@@ -7,7 +7,7 @@ import { Component, ComponentType } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
 import _ from 'lodash';
 
-import CountIcon from 'gutenberg/components/count-icon';
+import CountIcon from 'components/count-icon';
 import ReferenceItem from 'gutenberg/components/reference-item';
 import SidebarItemList from 'gutenberg/components/sidebar-item-list';
 import EditReferenceDialog from 'gutenberg/dialogs/edit-reference';
