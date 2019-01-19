@@ -33,6 +33,11 @@ function enqueue_scripts(): void {
 		wp_enqueue_script( get_handle( 'editor', 'script' ) );
 
 		init_editor_state( $post->ID );
+		wp_add_inline_script(
+			get_handle( 'editor-stores', 'script' ),
+			'var ABT = ABT || {};' .
+			'ABT.options = ' . wp_json_encode( get_option( ABT_OPTIONS_KEY ) ) . ';'
+		);
 	}
 }
 add_action( 'admin_enqueue_scripts', __NAMESPACE__ . '\enqueue_scripts' );

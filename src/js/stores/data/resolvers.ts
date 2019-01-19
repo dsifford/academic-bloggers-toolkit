@@ -1,8 +1,14 @@
 import { select } from '@wordpress/data';
 
-import { SavedState } from './';
+import { SavedState, Style } from './';
 import { Actions } from './constants';
 import { fetchCitationStyles } from './controls';
+
+declare const ABT: Maybe<{
+    options: {
+        style: Style;
+    };
+}>;
 
 export function* getCitationStyles() {
     const styles = yield fetchCitationStyles();
@@ -33,7 +39,13 @@ function getSavedState(): SavedState {
         'core/editor',
     ).getCurrentPostAttribute('meta');
     if (!meta || !meta._abt_state) {
-        throw new Error('Unable to retrieve registered post meta for ABT');
+        if (!ABT) {
+            throw new Error('Could not resolve default citation style.');
+        }
+        return {
+            references: [],
+            style: ABT.options.style,
+        };
     }
     return JSON.parse(meta._abt_state);
 }
