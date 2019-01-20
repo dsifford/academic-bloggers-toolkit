@@ -1,3 +1,5 @@
+import { fetchAjax } from 'utils/ajax';
+import { firstTruthyValue } from 'utils/data';
 import { ResponseError } from 'utils/error';
 
 import { AutociteResponse } from './';
@@ -127,44 +129,33 @@ interface WebpageResponse {
     url?: string;
 }
 
-// tslint:disable cyclomatic-complexity
-// Disabling rule in this instance because `||` short-circuit evaluation is counted toward the
-// complexity and that feature is instrumental to this function.
-// Without it, the function would _more_ complex.
-
-export async function get(URL: string): Promise<CSL.Data | ResponseError> {
-    const response = await fetch(top.ajaxurl, {
-        method: 'POST',
-        headers: {
-            'Content-type': 'application/x-www-form-urlencoded',
-        },
-        body: `action=get_website_meta&url=${encodeURIComponent(URL)}`,
-        credentials: 'same-origin',
-    });
+export async function get(url: string): Promise<CSL.Data | ResponseError> {
+    const response = await fetchAjax('get_website_meta', { url });
     if (!response.ok) {
-        return new ResponseError(URL, response);
+        return new ResponseError(url, response);
     }
     const json: WebpageResponse = await response.json();
-
     return {
         id: Date.now().toString(),
         type: 'webpage',
-        title: json.og.title || json.sailthru.title || json.title,
-        URL,
+        title: firstTruthyValue(json, ['og.title', 'sailthru.title', 'title']),
+        URL: url,
         'container-title': json.og.site_name,
         author: json.authors,
-        ...parseDateString('accessed', new Date().toISOString()),
-        ...parseDateString(
+        ...parseDateField('accessed', new Date().toISOString()),
+        ...parseDateField(
             'issued',
-            json.issued ||
-                json.og.pubdate ||
-                json.article.published_time ||
-                json.sailthru.date,
+            firstTruthyValue(json, [
+                'issued',
+                'og.pubdate',
+                'article.published_time',
+                'sailthru.date',
+            ]),
         ),
     };
 }
 
-function parseDateString<T extends CSL.DateFieldKey>(
+function parseDateField<T extends CSL.DateFieldKey>(
     key: T,
     input?: string,
 ): { [k in T]: CSL.Date } | {} {
@@ -192,45 +183,17 @@ function parseDateString<T extends CSL.DateFieldKey>(
 export async function deprecatedGetFromURL(
     url: string,
 ): Promise<AutociteResponse> {
-    const headers = new Headers({
-        'Content-Type': 'application/x-www-form-urlencoded',
-    });
-    const body = new URLSearchParams(
-        `action=get_website_meta&url=${encodeURIComponent(url)}`,
-    );
-    const req = await fetch(top.ajaxurl, {
-        method: 'POST',
-        headers,
-        body,
-        credentials: 'same-origin',
-    });
-
-    if (!req.ok) {
+    const response = await fetchAjax('get_website_meta', { url });
+    if (!response.ok) {
         throw new Error(
-            req.status === 501
+            response.status === 501
                 ? top.ABT.i18n.errors.missing_php_features
-                : req.statusText,
+                : response.statusText,
         );
     }
+    const json: WebpageResponse = await response.json();
 
-    const res: WebpageResponse = await req.json();
-
-    // prettier-ignore
-    const title =
-        res.og.title ||
-        res.sailthru.title ||
-        res.title ||
-        '';
-
-    // prettier-ignore
-    const issued =
-        res.issued ||
-        res.og.pubdate ||
-        res.article.published_time ||
-        res.sailthru.date ||
-        '';
-
-    const people: ABT.Contributor[] = res.authors.map(person => ({
+    const people: ABT.Contributor[] = json.authors.map(person => ({
         ...person,
         type: <CSL.PersonFieldKey>'author',
     }));
@@ -238,9 +201,20 @@ export async function deprecatedGetFromURL(
     return {
         fields: {
             accessed: deprecatedParseDateString(new Date().toISOString()),
-            title,
-            issued: deprecatedParseDateString(issued),
-            'container-title': res.og.site_name || '',
+            title: firstTruthyValue(json, [
+                'og.title',
+                'sailthru.title',
+                'title',
+            ]),
+            issued: deprecatedParseDateString(
+                firstTruthyValue(json, [
+                    'issued',
+                    'og.pubdate',
+                    'article.published_time',
+                    'sailthru.date',
+                ]),
+            ),
+            'container-title': firstTruthyValue(json, ['og.site_name']),
             URL: url,
         },
         people,
@@ -252,7 +226,7 @@ export async function deprecatedGetFromURL(
  * @param input raw input string from API response.
  * @deprecated
  */
-function deprecatedParseDateString(input: string): string {
+function deprecatedParseDateString(input: string = ''): string {
     if (isNaN(Date.parse(input))) {
         return '';
     }

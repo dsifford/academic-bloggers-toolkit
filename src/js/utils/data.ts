@@ -1,5 +1,21 @@
 import _ from 'lodash';
 
+type Widen<T> = T extends string ? string : T extends number ? number : T;
+
+export function firstTruthyValue<T extends Record<string, any>, U>(
+    obj: T,
+    paths: string[],
+    fallback?: Widen<U>,
+): Widen<U> | undefined {
+    for (const path of paths) {
+        const val = _.get(obj, path);
+        if (val) {
+            return val;
+        }
+    }
+    return fallback;
+}
+
 export function clone<T>(data: T): T {
     if (data === undefined) {
         return data;

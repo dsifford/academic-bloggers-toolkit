@@ -1,5 +1,6 @@
 import { Action, select } from '@wordpress/data';
 
+import { fetchAjax } from 'utils/ajax';
 import { localeCache, styleCache } from 'utils/cache';
 
 import { StyleJSON } from './';
@@ -37,14 +38,7 @@ export function fetchStyle() {
 
 const controls = {
     async FETCH_CITATION_STYLES(): Promise<StyleJSON> {
-        const response = await fetch(top.ajaxurl, {
-            method: 'POST',
-            headers: {
-                'Content-type': 'application/x-www-form-urlencoded',
-            },
-            body: `action=get_style_json`,
-            credentials: 'same-origin',
-        });
+        const response = await fetchAjax('get_style_json');
         return response.json();
     },
     async FETCH_LOCALE({ style }: Action): Promise<string> {

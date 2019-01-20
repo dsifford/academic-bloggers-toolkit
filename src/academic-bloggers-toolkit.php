@@ -112,6 +112,20 @@ function add_donate_link( array $links, string $file ): array {
 add_filter( 'plugin_row_meta', __NAMESPACE__ . '\add_donate_link', 10, 2 );
 
 /**
+ * Adds an ajax nonce to pages that require it.
+ */
+function ajax_nonce(): void {
+	?>
+		<script type="text/javascript">
+			var _abt_nonce = <?php echo wp_json_encode( wp_create_nonce( 'abt-ajax' ) ); ?>
+		</script>
+	<?php
+}
+add_action( 'load-post-new.php', __NAMESPACE__ . '\ajax_nonce' );
+add_action( 'load-post.php', __NAMESPACE__ . '\ajax_nonce' );
+add_action( 'load-settings_page_abt-options', __NAMESPACE__ . '\ajax_nonce' );
+
+/**
  * Registers all scripts/styles used by this plugin.
  */
 function register_scripts(): void {

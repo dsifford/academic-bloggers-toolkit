@@ -2,7 +2,7 @@ import { select } from '@wordpress/data';
 import { Citation } from 'citeproc';
 import _ from 'lodash';
 
-import { clone } from 'utils/data';
+import { clone, firstTruthyValue } from 'utils/data';
 import { editorCitation, getEditorDOM } from 'utils/editor';
 
 import { State } from './';
@@ -104,12 +104,15 @@ export function getSortedItems(
                     );
                     return new Date(year, month, day).toJSON();
                 case 'publication':
-                    return (
-                        item.journalAbbreviation ||
-                        item['container-title-short'] ||
-                        item['container-title'] ||
-                        item.publisher ||
-                        '~'
+                    return firstTruthyValue(
+                        item,
+                        [
+                            'journalAbbreviation',
+                            'container-title-short',
+                            'container-title',
+                            'publisher',
+                        ],
+                        '~',
                     );
                 case 'title':
                 default:
