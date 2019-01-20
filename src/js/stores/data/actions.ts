@@ -145,7 +145,7 @@ function* setBibliography({ items, meta }: Processor.Bibliography) {
             }),
             blocksList.length,
             undefined,
-            true,
+            false,
         );
     } else if (items.length === 0 && bibliographyBlock) {
         yield dispatch('core/editor').removeBlock(bibliographyBlock.clientId);
@@ -175,7 +175,7 @@ function* setFootnotes() {
                 ? bibliographyBlockIndex
                 : blocksList.length,
             undefined,
-            true,
+            false,
         );
     } else if (items.length === 0 && footnoteBlockIndex >= 0) {
         yield dispatch('core/editor').removeBlock(
