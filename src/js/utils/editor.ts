@@ -1,3 +1,4 @@
+import { Block, serialize } from '@wordpress/blocks';
 import { select } from '@wordpress/data';
 import _ from 'lodash';
 import uuid from 'uuid/v4';
@@ -5,6 +6,8 @@ import uuid from 'uuid/v4';
 import Processor from 'utils/processor';
 
 const OBJECT_REPLACEMENT_CHARACTER = '\ufffc';
+
+const INVALID_BLOCK_TYPES = ['core/freeform', 'core/html'];
 
 export function createCitationHtml(items: string[]): string {
     const citation = document.createElement('span');
@@ -26,9 +29,19 @@ export function createFootnoteHtml(note: string) {
     return footnote.outerHTML;
 }
 
-export function getEditorDOM(): HTMLDivElement {
+export function getEditorDOM(excludeInvalid: boolean = false): HTMLDivElement {
     const doc = document.createElement('div');
-    doc.innerHTML = select<string>('core/editor').getEditedPostContent();
+    if (excludeInvalid) {
+        const filteredBlocks = select<Block[]>('core/editor')
+            .getBlocksForSerialization()
+            .filter(
+                block =>
+                    !INVALID_BLOCK_TYPES.includes(block.name) && block.isValid,
+            );
+        doc.innerHTML = serialize(filteredBlocks);
+    } else {
+        doc.innerHTML = select<string>('core/editor').getEditedPostContent();
+    }
     return doc;
 }
 
@@ -110,5 +123,5 @@ export function editorCitation(el: HTMLElement) {
 }
 export namespace editorCitation {
     export const getItems = (el: HTMLElement): string[] =>
-        JSON.parse(el.dataset.items || '[]');
+        JSON.parse(el.dataset.items || el.dataset.reflist || '[]');
 }

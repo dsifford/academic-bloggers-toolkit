@@ -20,7 +20,7 @@ export function getStyle(state: State): State['style'] {
 }
 
 export function getCitationsByIndex(state: State): Citation[] {
-    const doc = getEditorDOM();
+    const doc = getEditorDOM(true);
     const citations = [
         ...doc.querySelectorAll<HTMLElement>('.abt-citation[id]'),
     ];
@@ -45,8 +45,8 @@ export function getCitationsByIndex(state: State): Citation[] {
 }
 
 export function getCitedItems(state: State): CSL.Data[] {
-    const doc = getEditorDOM();
-    return _([...doc.querySelectorAll<HTMLElement>('.abt-citation')])
+    const doc = getEditorDOM(true);
+    return _([...doc.querySelectorAll<HTMLElement>('.abt-citation[id]')])
         .flatMap(editorCitation.getItems)
         .uniq()
         .map(_.partial(getItemById, state))
