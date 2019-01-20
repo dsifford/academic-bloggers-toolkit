@@ -23,7 +23,7 @@
     "update-styles": "cd ./scripts && ts-node update-styles.ts",
     "wp": "docker-compose exec wordpress wp",
     "zip": "npm run build && ./scripts/zip.sh",
-    "zip:dev": "npm run build:dev && ./script/zip.sh"
+    "zip:dev": "npm run build:dev && ./scripts/zip.sh"
   },
   "dependencies": {
     "@babel/runtime": "^7.2.0",
