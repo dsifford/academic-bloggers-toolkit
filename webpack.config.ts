@@ -61,7 +61,6 @@ export default (_: never, argv: any): Configuration => {
     };
 
     return {
-        watch: !IS_PRODUCTION,
         devtool: IS_PRODUCTION ? 'source-map' : 'cheap-module-eval-source-map',
         watchOptions: {
             ignored: /(node_modules|__tests__)/,

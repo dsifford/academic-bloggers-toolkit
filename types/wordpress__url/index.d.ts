@@ -3,7 +3,7 @@
 // Definitions by: Derek P Sifford <https://github.com/dsifford>
 
 export function addQueryArgs(
-    url: string,
+    url: string | undefined,
     args: Record<string, string | number>,
 ): string;
 export function filterURLForDisplay(url: string): string;

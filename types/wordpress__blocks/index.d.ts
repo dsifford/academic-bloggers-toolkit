@@ -63,7 +63,7 @@ interface QueryAttr<T> {
     selector: string;
     query: {
         [k in keyof T]:
-            | BlockAttribute<T[k] extends (infer U)[] ? U : T[k]>
+            | BlockAttribute<T[k] extends Array<infer U> ? U : T[k]>
             | GenericAttr
     };
     default?: any[];
@@ -78,7 +78,7 @@ type BlockAttribute<T> =
 
 type BlockAttributes<T> = {
     [k in keyof T]:
-        | BlockAttribute<T[k] extends (infer U)[] ? U : T[k]>
+        | BlockAttribute<T[k] extends Array<infer U> ? U : T[k]>
         | GenericAttr
 };
 
@@ -297,7 +297,7 @@ type Transform<T = Record<string, any>> =
 
 // End transforms ------
 
-interface Block<T = Record<string, any>> {
+export interface Block<T = Record<string, any>> {
     /**
      * Attributes for the block.
      */
@@ -330,3 +330,5 @@ export function registerBlockType<T>(
     name: string,
     config: BlockConfig<T>,
 ): void;
+
+export function serialize(blocks: Block | Block[]): string;
