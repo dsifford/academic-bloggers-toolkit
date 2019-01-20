@@ -12,6 +12,7 @@ namespace ABT\Editor;
 defined( 'ABSPATH' ) || exit;
 
 use function ABT\Utils\{
+	add_json_script,
 	get_citation_styles,
 	get_handle,
 	is_block_editor,
@@ -34,12 +35,8 @@ function enqueue_scripts(): void {
 
 		wp_set_script_translations( get_handle( 'editor', 'script' ), 'academic-bloggers-toolkit' );
 
-		init_editor_state( $post->ID );
-		wp_add_inline_script(
-			get_handle( 'editor-stores', 'script' ),
-			'var ABT = ABT || {};' .
-			'ABT.options = ' . wp_json_encode( get_option( ABT_OPTIONS_KEY ) ) . ';'
-		);
+		$state = init_editor_state( $post->ID );
+		add_json_script( 'abt-editor-state', $state );
 	}
 }
 add_action( 'admin_enqueue_scripts', __NAMESPACE__ . '\enqueue_scripts' );
@@ -72,8 +69,9 @@ add_action( 'init', __NAMESPACE__ . '\register_metadata' );
  * If state exists, decode it from json and return the value.
  *
  * @param int $post_id The post id.
+ * @return mixed The editor state.
  */
-function init_editor_state( int $post_id ): void {
+function init_editor_state( int $post_id ) {
 	$meta = get_post_meta( $post_id );
 
 	if ( ! array_key_exists( '_abt_state', $meta ) || ! has_blocks( $post_id ) ) {
@@ -96,5 +94,9 @@ function init_editor_state( int $post_id ): void {
 			wp_slash( wp_json_encode( $state ) ),
 			true
 		);
+	} else {
+		$state = json_decode( $meta['_abt_state'][0] );
 	}
+
+	return $state;
 }

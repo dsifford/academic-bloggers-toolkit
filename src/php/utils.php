@@ -14,10 +14,16 @@ namespace ABT\Utils;
  *
  * @param string $id A unique ID for the data.
  * @param mixed  $data The data to be JSON encoded.
+ * @throws \RuntimeException If the provided action is already done and over with.
  */
-function add_inline_json_script( string $id, $data ): void {
+function add_json_script( string $id, $data ): void {
+	$prefix = is_admin() ? 'admin_' : 'wp_';
+	$action = $prefix . 'footer';
+	if ( did_action( $action ) ) {
+		throw new \RuntimeException( 'Action already fired for JSON data with ID ' . $id );
+	}
 	add_action(
-		'wp_footer',
+		$action,
 		function () use ( $id, $data ) {
 			?>
 				<script

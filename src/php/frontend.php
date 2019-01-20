@@ -12,7 +12,7 @@ namespace ABT\Frontend;
 defined( 'ABSPATH' ) || exit;
 
 use function ABT\Utils\{
-	add_inline_json_script,
+	add_json_script,
 	get_handle,
 };
 use WP_Post;
@@ -65,7 +65,7 @@ function collect_bibliography( WP_Post $post ): void {
 		$blocks    = parse_blocks( $post->post_content );
 		$bib_index = array_search( 'abt/bibliography', array_column( $blocks, 'blockName' ), true );
 		if ( is_int( $bib_index ) ) {
-			add_inline_json_script( 'abt-bibliography-json', $blocks[ $bib_index ]['innerHTML'] );
+			add_json_script( 'abt-bibliography-json', $blocks[ $bib_index ]['innerHTML'] );
 		}
 	}
 }

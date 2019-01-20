@@ -2,6 +2,8 @@
 import domReady from '@wordpress/dom-ready';
 import Tooltip from 'tooltip.js';
 
+import { getJSONScriptData } from 'utils/dom';
+
 import 'css/frontend.scss?global';
 
 const TOOLTIP_TEMPLATE = `
@@ -12,14 +14,14 @@ const TOOLTIP_TEMPLATE = `
 `;
 
 function getBibliographyMap() {
-    const bibJson = document.querySelector(
-        'script[type="application/json"]#abt-bibliography-json',
-    );
-    if (!bibJson) {
+    let bibHTML: string;
+    try {
+        bibHTML = getJSONScriptData<string>('abt-bibliography-json');
+    } catch {
         return;
     }
     const bib = document.createElement('div');
-    bib.innerHTML = JSON.parse(bibJson.innerHTML);
+    bib.innerHTML = bibHTML;
     return [...bib.querySelectorAll('li')].reduce(
         (obj, item) => {
             return {

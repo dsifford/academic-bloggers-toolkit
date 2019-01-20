@@ -1,14 +1,9 @@
-import { select } from '@wordpress/data';
-
-import { SavedState, Style } from './';
+import { getJSONScriptData } from 'utils/dom';
+import { SavedState } from './';
 import { Actions } from './constants';
 import { fetchCitationStyles } from './controls';
 
-declare const ABT: Maybe<{
-    options: {
-        style: Style;
-    };
-}>;
+const JSON_STATE_ID = 'abt-editor-state';
 
 export function* getCitationStyles() {
     const styles = yield fetchCitationStyles();
@@ -19,7 +14,7 @@ export function* getCitationStyles() {
 }
 
 export function getReferences() {
-    const { references } = getSavedState();
+    const { references } = getJSONScriptData<SavedState>(JSON_STATE_ID);
     return {
         type: Actions.SET_REFERENCES,
         references,
@@ -27,25 +22,9 @@ export function getReferences() {
 }
 
 export function getStyle() {
-    const { style } = getSavedState();
+    const { style } = getJSONScriptData<SavedState>(JSON_STATE_ID);
     return {
         type: Actions.SET_STYLE,
         style,
     };
-}
-
-function getSavedState(): SavedState {
-    const meta = select<Maybe<{ _abt_state?: string }>>(
-        'core/editor',
-    ).getCurrentPostAttribute('meta');
-    if (!meta || !meta._abt_state) {
-        if (!ABT) {
-            throw new Error('Could not resolve default citation style.');
-        }
-        return {
-            references: [],
-            style: ABT.options.style,
-        };
-    }
-    return JSON.parse(meta._abt_state);
 }
