@@ -126,11 +126,17 @@ export default compose([
         },
     })),
     withSelect<Citation.SelectProps>(select => {
+        const referenceIds = select('abt/data')
+            .getReferences()
+            .map(({ id }) => id);
+        const selectedItems = select('abt/ui')
+            .getSelectedItems()
+            .filter(id => referenceIds.includes(id));
         return {
-            selectedItems: select('abt/ui').getSelectedItems(),
             selectedElement: document.querySelector<HTMLSpanElement>(
                 '.abt-citation[data-mce-selected]',
             ),
+            selectedItems,
         };
     }),
 ])(Citation);
