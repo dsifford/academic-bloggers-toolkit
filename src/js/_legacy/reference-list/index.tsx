@@ -465,7 +465,7 @@ export default class ReferenceList extends React.Component<Props> {
 
         try {
             const { itemsPreceding, itemsFollowing } = this.editor.relativeCitationPositions;
-            const citation = this.processor.prepareInlineCitationData(data);
+            const citation = this.processor.prepareInlineCitationData(data, itemsPreceding.length);
             const clusters = this.processor.processCitationCluster(
                 citation,
                 itemsPreceding,

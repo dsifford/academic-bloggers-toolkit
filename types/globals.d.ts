@@ -28,7 +28,7 @@ declare namespace ABT {
         links: 'always' | 'always-full-surround' | 'urls' | 'never';
     }
 
-    // FIXME: This has got to go
+    // TODO: This has got to go
     interface Globals {
         i18n: any;
         options: {

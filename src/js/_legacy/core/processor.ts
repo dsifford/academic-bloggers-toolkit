@@ -104,7 +104,7 @@ export class Processor {
      *
      * @param csl CSL.Data[].
      */
-    prepareInlineCitationData(csl: CSL.Data[]): Citation {
+    prepareInlineCitationData(csl: CSL.Data[], index: number): Citation {
         // prettier-ignore
         const citationItems = Array.from(
             new Set(
@@ -114,6 +114,10 @@ export class Processor {
         return {
             citationID: uuid(),
             citationItems,
+            properties: {
+                index,
+                noteIndex: 0,
+            },
         };
     }
 

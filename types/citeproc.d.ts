@@ -128,8 +128,7 @@ declare module 'citeproc' {
             id: string;
             item?: CSL.Data;
         }>;
-        // FIXME: this is not optional
-        properties?: {
+        properties: {
             /**
              * 0-based index of the citation group in the document
              */
