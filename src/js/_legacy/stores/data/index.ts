@@ -15,7 +15,7 @@ export default class Store {
     citationStyle: StyleStore;
     displayOptions: DisplayOptionsStore;
 
-    constructor(savedState: ABT.Globals['state']) {
+    constructor(savedState: ABT.LegacyEditorState) {
         const {
             cache: { style, locale },
             citationByIndex,
