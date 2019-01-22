@@ -5,15 +5,21 @@ import { __ } from '@wordpress/i18n';
 import { parseCSL } from 'utils/file';
 
 import AdminNotice from 'components/admin-notice';
+import FileInput from 'components/file-input';
 import { StyleSearch } from 'components/style-search';
-import { Style } from 'stores/data';
+import { Style, StyleJSON } from 'stores/data';
 import { StyleKind } from 'stores/data/constants';
 
 import styles from './style-form.scss';
 
-import FileInput from '_legacy/components/file-input';
+declare const ABT: {
+    options: {
+        citation_style: Style;
+    };
+    styles: StyleJSON;
+};
 
-const SAVED_STYLE = window.ABT.options.citation_style;
+const SAVED_STYLE = ABT.options.citation_style;
 
 export namespace StyleForm {
     export interface State {
@@ -69,7 +75,7 @@ export default class StyleForm extends Component<{}, StyleForm.State> {
                 />
                 {style.kind === 'predefined' && (
                     <StyleSearch
-                        styleJSON={window.ABT.styles}
+                        styleJSON={ABT.styles}
                         value={style}
                         onChange={s => this.setState({ style: s })}
                     />

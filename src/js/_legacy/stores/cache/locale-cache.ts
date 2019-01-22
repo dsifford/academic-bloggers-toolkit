@@ -13,6 +13,13 @@ interface LocaleCache {
     time: number;
 }
 
+declare const ABT: {
+    state: ABT.LegacyEditorState;
+    wp: {
+        abt_url: string;
+    };
+};
+
 export default class LocaleStore {
     /**
      * The key of the storage item for the locales in `localStorage`
@@ -25,7 +32,7 @@ export default class LocaleStore {
      * citeproc demands a synchronous way of retrieving locales.
      */
     private readonly fallback: string =
-        localeMapper[top.ABT.state.cache.locale] || 'en-US';
+        localeMapper[ABT.state.cache.locale] || 'en-US';
 
     /**
      * Map that holds all cached locales. Key is locale ID, value is raw locale XML as a string.
@@ -48,7 +55,7 @@ export default class LocaleStore {
             }
         }
         this.worker = new Worker(
-            `${top.ABT.wp.abt_url}/bundle/workers/locale-worker.js`,
+            `${ABT.wp.abt_url}/bundle/workers/locale-worker.js`,
         );
         this.worker.addEventListener('message', this.receiveMessage);
         this.worker.postMessage('');

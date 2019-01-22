@@ -43,7 +43,7 @@ export default class Store {
         this.citations = new CitationStore([], {});
     }
 
-    private get cache(): ABT.EditorState['cache'] {
+    private get cache(): ABT.LegacyEditorState['cache'] {
         return {
             locale: this.locale,
             style: this.citationStyle,

@@ -8,10 +8,10 @@ import { DialogProps } from '_legacy/dialogs';
 import { readFile } from 'utils/file';
 
 import AdminNotice from 'components/admin-notice';
+import FileInput from 'components/file-input';
 
 import ActionBar from '_legacy/components/action-bar';
 import Button from '_legacy/components/button';
-import FileInput from '_legacy/components/file-input';
 
 @observer
 export default class ImportDialog extends React.Component<DialogProps> {

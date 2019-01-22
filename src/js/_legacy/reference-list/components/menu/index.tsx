@@ -7,9 +7,13 @@ import { MenuActionType } from '_legacy/utils/constants';
 import Button from '_legacy/components/button';
 
 import StyleSearch from 'components/style-search';
-import { Style } from 'stores/data';
+import { Style, StyleJSON } from 'stores/data';
 
 import styles from './menu.scss';
+
+declare const ABT: {
+    styles: StyleJSON;
+};
 
 export type MenuAction = StyleTypeChange | MenuButtonClick;
 
@@ -117,7 +121,7 @@ export default class Menu extends React.Component<Props> {
                     />
                 </div>
                 <StyleSearch
-                    styleJSON={top.ABT.styles}
+                    styleJSON={ABT.styles}
                     value={this.props.data.citationStyle}
                     onChange={this.handleStyleChange}
                 />

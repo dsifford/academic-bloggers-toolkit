@@ -10,7 +10,11 @@ import './reference-list.scss';
 
 configure({ enforceActions: 'observed' });
 
-const store: Store = new Store(window.ABT.state);
+declare const ABT: {
+    state: ABT.LegacyEditorState;
+};
+
+const store: Store = new Store(ABT.state);
 
 render(
     <ReferenceList store={store} editor={TinyMCEDriver} />,
