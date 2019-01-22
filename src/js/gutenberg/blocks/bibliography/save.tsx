@@ -3,7 +3,7 @@ import { RichText } from '@wordpress/editor';
 import { Component } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
 
-import { parseDataAttrs } from 'utils/editor';
+import { parseBibAttributes } from 'utils/editor';
 
 import { Attributes } from './';
 
@@ -18,7 +18,7 @@ class BibliographySave extends Component<BlockSaveProps<Attributes>> {
             items,
             headingAlign: textAlign,
         } = this.props.attributes;
-        const containerAttrs = parseDataAttrs(this.props.attributes);
+        const containerAttrs = parseBibAttributes(this.props.attributes);
         const Tag = `h${headingLevel}` as HeadingType;
         const headingProps = textAlign ? { style: { textAlign } } : {};
         if (heading && isToggleable) {

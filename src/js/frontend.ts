@@ -3,6 +3,7 @@ import domReady from '@wordpress/dom-ready';
 import Tooltip from 'tooltip.js';
 
 import { getJSONScriptData } from 'utils/dom';
+import { CitationElement, FootnoteElement } from 'utils/element';
 
 import 'css/frontend.scss?global';
 
@@ -33,27 +34,19 @@ function getBibliographyMap() {
     );
 }
 
-function getItems(bib: Record<string, string>, items: string = '[]'): string {
-    try {
-        return JSON.parse(items)
-            .map((id: string) => bib[id] || '')
-            .join('');
-    } catch {
-        return '';
-    }
-}
-
 const getCitations = () =>
-    document.querySelectorAll<HTMLSpanElement>('.abt-citation');
+    document.querySelectorAll<HTMLSpanElement>(CitationElement.selector);
 
 const getFootnotes = () =>
-    document.querySelectorAll<HTMLSpanElement>('.abt-footnote');
+    document.querySelectorAll<HTMLSpanElement>(FootnoteElement.selector);
 
 domReady(() => {
     const bibliography = getBibliographyMap();
     if (bibliography) {
         for (const citation of getCitations()) {
-            const content = getItems(bibliography, citation.dataset.items);
+            const content = CitationElement.getItems(citation)
+                .map(id => bibliography[id])
+                .join('');
             if (content) {
                 const child = citation.firstElementChild;
                 new Tooltip(child instanceof HTMLElement ? child : citation, {

@@ -13,7 +13,7 @@ export async function fetchAjax(
         },
         body: addQueryArgs(undefined, {
             /**
-             * FIXME: remove this when gutenberg 2.3.3 merges
+             * TODO: remove this when gutenberg 2.3.3 merges
              * @see: https://github.com/WordPress/gutenberg/pull/12803
              */
             _: '',

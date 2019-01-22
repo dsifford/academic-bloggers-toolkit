@@ -3,7 +3,7 @@ import { Citation } from 'citeproc';
 import _ from 'lodash';
 
 import { clone, firstTruthyValue } from 'utils/data';
-import { editorCitation, getEditorDOM } from 'utils/editor';
+import { CitationElement, FootnoteElement, getEditorDOM } from 'utils/editor';
 
 import { State } from './';
 
@@ -22,11 +22,11 @@ export function getStyle(state: State): State['style'] {
 export function getCitationsByIndex(state: State): Citation[] {
     const doc = getEditorDOM(true);
     const citations = [
-        ...doc.querySelectorAll<HTMLElement>('.abt-citation[id]'),
+        ...doc.querySelectorAll<HTMLElement>(CitationElement.selector),
     ];
     return citations.map((el, index) => {
         const citationID = el.id;
-        const citationItems = editorCitation.getItems(el).reduce(
+        const citationItems = CitationElement.getItems(el).reduce(
             (arr, id) => {
                 const item = getItemById(state, id);
                 return item !== undefined ? [...arr, { id, item }] : arr;
@@ -46,8 +46,8 @@ export function getCitationsByIndex(state: State): Citation[] {
 
 export function getCitedItems(state: State): CSL.Data[] {
     const doc = getEditorDOM(true);
-    return _([...doc.querySelectorAll<HTMLElement>('.abt-citation[id]')])
-        .flatMap(editorCitation.getItems)
+    return _([...doc.querySelectorAll<HTMLElement>(CitationElement.selector)])
+        .flatMap(CitationElement.getItems)
         .uniq()
         .map(_.partial(getItemById, state))
         .compact()
@@ -63,7 +63,7 @@ export function getFootnotes() {
     content.className = 'abt-footnotes-item__content';
     container.appendChild(marker);
     container.appendChild(content);
-    return [...doc.querySelectorAll<HTMLElement>('.abt-footnote')].map(
+    return [...doc.querySelectorAll<HTMLElement>(FootnoteElement.selector)].map(
         footnote => {
             marker.innerHTML = footnote.innerHTML;
             content.textContent = footnote.dataset.note || '';

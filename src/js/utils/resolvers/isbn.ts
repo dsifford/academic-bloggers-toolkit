@@ -55,7 +55,7 @@ export async function get(
         'number-of-pages': pageCount,
         [isChapter ? 'container-title' : 'title']: title,
         author: Array.isArray(authors)
-            ? // FIXME: fix this in astrocite
+            ? // TODO: fix this in astrocite
               (authors.map(parseName) as CSL.Person[])
             : [],
     };

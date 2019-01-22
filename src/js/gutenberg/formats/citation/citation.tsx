@@ -5,7 +5,8 @@ import { __ } from '@wordpress/i18n';
 import { create, FormatProps, insert } from '@wordpress/rich-text';
 
 import { ToolbarButton } from 'gutenberg/sidebar/toolbar';
-import { createCitationHtml } from 'utils/editor';
+import { createSelector } from 'utils/dom';
+import { CitationElement } from 'utils/element';
 import { getNeighbors, iterate, mergeItems } from 'utils/formats';
 
 import { name as NAME } from './';
@@ -25,8 +26,7 @@ namespace Citation {
 }
 
 class Citation extends Component<Citation.Props> {
-    constructor(props: Citation.Props) {
-        super(props);
+    componentDidMount() {
         this.mergeLegacyCitations();
     }
 
@@ -86,7 +86,7 @@ class Citation extends Component<Citation.Props> {
             // Otherwise just insert a new citation format.
             else {
                 const newValue = create({
-                    html: createCitationHtml(selectedItems),
+                    html: CitationElement.create(selectedItems),
                     removeNode: node =>
                         !node.textContent || node.textContent.trim() === '',
                 });
@@ -118,6 +118,11 @@ class Citation extends Component<Citation.Props> {
     };
 }
 
+const selectedCitationSelector = createSelector({
+    classNames: [CitationElement.className],
+    attributes: { 'data-mce-selected': true },
+});
+
 export default compose([
     withDispatch<Citation.DispatchProps>(dispatch => ({
         parseCitations() {
@@ -127,14 +132,14 @@ export default compose([
     })),
     withSelect<Citation.SelectProps>(select => {
         const referenceIds = select('abt/data')
-            .getReferences()
+            .getItems()
             .map(({ id }) => id);
         const selectedItems = select('abt/ui')
             .getSelectedItems()
             .filter(id => referenceIds.includes(id));
         return {
             selectedElement: document.querySelector<HTMLSpanElement>(
-                '.abt-citation[data-mce-selected]',
+                selectedCitationSelector,
             ),
             selectedItems,
         };

@@ -12,6 +12,7 @@ export const CSL_DATE_KEYS: ReadonlyArray<CSL.DateFieldKey> = [
     'original-date',
     'submitted',
 ];
+
 export const CSL_NUMBER_KEYS: ReadonlyArray<CSL.NumberFieldKey> = [
     'chapter-number',
     'collection-number',
@@ -22,6 +23,7 @@ export const CSL_NUMBER_KEYS: ReadonlyArray<CSL.NumberFieldKey> = [
     'number-of-volumes',
     'volume',
 ];
+
 export const CSL_PERSON_KEYS: ReadonlyArray<CSL.PersonFieldKey> = [
     'author',
     'collection-editor',
@@ -37,6 +39,7 @@ export const CSL_PERSON_KEYS: ReadonlyArray<CSL.PersonFieldKey> = [
     'reviewed-author',
     'translator',
 ];
+
 export const CSL_STRING_KEYS: ReadonlyArray<CSL.StringFieldKey> = [
     'abstract',
     'annote',
@@ -96,3 +99,5 @@ export const CSL_KEYS: ReadonlyArray<keyof CSL.Data> = [
     ...CSL_PERSON_KEYS,
     ...CSL_STRING_KEYS,
 ];
+
+// vim: set fdm=indent fdl=0:

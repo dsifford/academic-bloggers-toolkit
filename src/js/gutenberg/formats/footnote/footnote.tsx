@@ -7,7 +7,8 @@ import { create, FormatProps, insert } from '@wordpress/rich-text';
 import _ from 'lodash';
 
 import AddFootnoteDialog from 'gutenberg/dialogs/add-footnote';
-import { createFootnoteHtml } from 'utils/editor';
+import { createSelector } from 'utils/dom';
+import { FootnoteElement } from 'utils/element';
 
 import { name as NAME } from './';
 import './footnote.scss?global';
@@ -93,7 +94,7 @@ class Footnote extends Component<Footnote.Props, Footnote.State> {
     private insertFootnote = (note: string): void => {
         const { onChange, parseFootnotes, value } = this.props;
         const footnote = create({
-            html: createFootnoteHtml(note),
+            html: FootnoteElement.create(note),
             removeNode: node =>
                 !node.textContent || node.textContent.trim() === '',
         });
@@ -101,6 +102,11 @@ class Footnote extends Component<Footnote.Props, Footnote.State> {
         parseFootnotes();
     };
 }
+
+const selectedFootnoteSelector = createSelector({
+    classNames: [FootnoteElement.className],
+    attributes: { 'data-mce-selected': true },
+});
 
 export default compose([
     withDispatch<Footnote.DispatchProps>(dispatch => ({
@@ -110,7 +116,7 @@ export default compose([
     })),
     withSelect<Footnote.SelectProps>(() => ({
         selectedElement: document.querySelector<HTMLSpanElement>(
-            '.abt-footnote[data-mce-selected]',
+            selectedFootnoteSelector,
         ),
     })),
 ])(Footnote);

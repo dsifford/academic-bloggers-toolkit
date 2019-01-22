@@ -25,7 +25,7 @@ export async function get(
         return new ResponseError(id, response);
     }
     const data = toCSL(await response.json())[0];
-    // FIXME: Fix in astrocite
+    // TODO: Fix in astrocite
     return data instanceof Error
         ? new ResponseError(id, response)
         : <CSL.Data>{

@@ -38,16 +38,6 @@ export function getNeighbors(type: string, val: Value): Format[] {
     return formats;
 }
 
-export function generateFootnoteMarker(index: number): string {
-    const markers = ['*', '†', '‡', '§', '¶', '#'];
-    let marker = '';
-    while (index >= 0) {
-        marker += markers[index % 6];
-        index -= 6;
-    }
-    return `<sup>${marker}</sup>`;
-}
-
 //
 // Internal Helpers
 //

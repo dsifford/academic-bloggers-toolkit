@@ -1,13 +1,14 @@
 import { __ } from '@wordpress/i18n';
 import { FormatConfig } from '@wordpress/rich-text';
 
+import { CitationElement } from 'utils/element';
 import Citation from './citation';
 
 export const name = 'abt/citation';
 
 export const config: FormatConfig = {
     tagName: 'span',
-    className: 'abt-citation',
+    className: CitationElement.className,
     title: __('Citation', 'academic-bloggers-toolkit'),
     attributes: {
         editable: 'contenteditable',

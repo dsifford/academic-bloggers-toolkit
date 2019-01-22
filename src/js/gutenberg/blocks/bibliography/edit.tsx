@@ -10,7 +10,7 @@ import { __ } from '@wordpress/i18n';
 import classNames from 'classnames';
 
 import TextareaAutosize from 'components/textarea-autosize';
-import { parseDataAttrs } from 'utils/editor';
+import { parseBibAttributes } from 'utils/editor';
 
 import { Attributes } from './';
 import styles from './style.scss';
@@ -27,7 +27,7 @@ class BibliographyEdit extends Component<BlockEditProps<Attributes>> {
             isToggleable,
             items,
         } = attributes;
-        const containerAttrs = parseDataAttrs(attributes);
+        const containerAttrs = parseBibAttributes(attributes);
         return (
             <>
                 <InspectorControls>

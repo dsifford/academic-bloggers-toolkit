@@ -1,8 +1,9 @@
 import { Block, createBlock, parse } from '@wordpress/blocks';
 import { dispatch, select, subscribe } from '@wordpress/data';
 
-import { getEditorDOM, removeItems } from 'utils/editor';
-import { generateFootnoteMarker } from 'utils/formats';
+import { createSelector } from 'utils/dom';
+import { getEditorDOM } from 'utils/editor';
+import { CitationElement, FootnoteElement } from 'utils/element';
 import Processor from 'utils/processor';
 
 import { Style } from './';
@@ -28,7 +29,7 @@ export function* removeFootnote(id: string) {
 export function* removeFootnotes(itemIds: string[]) {
     const doc = getEditorDOM();
     let removedItems = 0;
-    for (const footnote of doc.querySelectorAll('.abt-footnote')) {
+    for (const footnote of doc.querySelectorAll(FootnoteElement.selector)) {
         if (itemIds.includes(`${footnote.id}-ref`) && footnote.parentNode) {
             footnote.parentNode.removeChild(footnote);
             removedItems++;
@@ -46,15 +47,27 @@ export function* removeReference(id: string) {
 
 export function* removeReferences(itemIds: string[]) {
     const doc = getEditorDOM();
-    const toDelete = removeItems(doc, itemIds);
-    yield {
-        type: Actions.REMOVE_REFERENCES,
-        itemIds: toDelete,
-    };
-    if (toDelete.length !== itemIds.length) {
-        yield dispatch('core/editor').resetBlocks(parse(doc.innerHTML));
+    const toDelete = [
+        ...doc.querySelectorAll<HTMLSpanElement>(CitationElement.selector),
+    ].reduce((idsToDelete, citation) => {
+        const existingIds = CitationElement.getItems(citation);
+        const filteredItemIds = existingIds.filter(id => !itemIds.includes(id));
+        if (filteredItemIds.length === 0 && citation.parentNode) {
+            citation.parentNode.removeChild(citation);
+        } else {
+            citation.dataset.items = JSON.stringify(filteredItemIds);
+        }
+        return idsToDelete.filter(id => !existingIds.includes(id));
+    }, [...itemIds]);
+
+    yield dispatch('core/editor').resetBlocks(parse(doc.innerHTML));
+    if (toDelete.length > 0) {
+        yield {
+            type: Actions.REMOVE_REFERENCES,
+            itemIds: toDelete,
+        };
+        yield save();
     }
-    yield save();
 }
 
 export function* updateReference(data: CSL.Data) {
@@ -74,7 +87,7 @@ export function* updateReference(data: CSL.Data) {
 
 export function* removeAllCitations() {
     const doc = getEditorDOM();
-    for (const el of doc.querySelectorAll('.abt-citation')) {
+    for (const el of doc.querySelectorAll(CitationElement.selector)) {
         if (el.parentNode) {
             el.parentNode.removeChild(el);
         }
@@ -95,8 +108,8 @@ export function* parseCitations() {
 
 export function* parseFootnotes() {
     const doc = getEditorDOM();
-    doc.querySelectorAll('.abt-footnote').forEach((footnote, i) => {
-        footnote.innerHTML = generateFootnoteMarker(i);
+    doc.querySelectorAll(FootnoteElement.selector).forEach((footnote, i) => {
+        footnote.innerHTML = FootnoteElement.createMarker(i);
     });
     yield dispatch('core/editor').resetBlocks(parse(doc.innerHTML));
     yield setFootnotes();
@@ -188,7 +201,12 @@ function* updateEditorCitations(citations: Processor.CitationMeta[]) {
     const doc = getEditorDOM();
     for (const { html, id, sortedItems } of citations) {
         const node = doc.querySelector<HTMLElement>(
-            `.abt-citation[id="${id}"]`,
+            createSelector(
+                ...CitationElement.legacyClassNames.map(cls => ({
+                    classNames: [cls],
+                    attributes: { id },
+                })),
+            ),
         );
         if (node) {
             node.innerHTML = html;
