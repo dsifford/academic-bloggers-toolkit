@@ -1,31 +1,27 @@
 import { Action, combineReducers } from '@wordpress/data';
 import hash from 'string-hash';
 
-import { clone } from 'utils/data';
+import { firstTruthyValue } from 'utils/data';
+import { getJSONScriptData } from 'utils/dom';
 
-import { State } from './';
-import { Actions, StyleKind } from './constants';
+import { SavedState, State } from './';
+import { Actions } from './constants';
 
-const INITIAL_CITATION_STYLES: State['citationStyles'] = {
-    renamed: {},
-    styles: [],
-};
-
-const INITIAL_REFERENCES: State['references'] = [];
-
-const INITIAL_STYLE: State['style'] = {
-    kind: StyleKind.PREDEFINED,
-    value: 'american-medical-association',
-    label: 'American Medical Association',
+const INITIAL_STATE: State = {
+    citationStyles: {
+        renamed: {},
+        styles: [],
+    },
+    ...getJSONScriptData<SavedState>('abt-editor-state'),
 };
 
 export function citationStyles(
-    state = INITIAL_CITATION_STYLES,
+    state = INITIAL_STATE.citationStyles,
     action: Action,
 ): State['citationStyles'] {
     switch (action.type) {
         case Actions.SET_CITATION_STYLES: {
-            return clone(action.styles);
+            return action.styles;
         }
         default:
             return state;
@@ -33,7 +29,7 @@ export function citationStyles(
 }
 
 export function references(
-    state = INITIAL_REFERENCES,
+    state = INITIAL_STATE.references,
     action: Action,
 ): State['references'] {
     switch (action.type) {
@@ -41,12 +37,11 @@ export function references(
             const newItems = (<CSL.Data[]>action.data)
                 .map(({ id, ...data }) => ({
                     ...data,
-                    id:
-                        data.DOI ||
-                        data.ISBN ||
-                        data.PMCID ||
-                        data.PMID ||
-                        `${hash(JSON.stringify(data))}`,
+                    id: firstTruthyValue(
+                        data,
+                        ['DOI', 'ISBN', 'PMCID', 'PMID'],
+                        hash(JSON.stringify(data)).toString(),
+                    ),
                 }))
                 .filter(
                     ({ id }) => state.findIndex(item => item.id === id) === -1,
@@ -54,10 +49,7 @@ export function references(
             return newItems.length > 0 ? [...state, ...newItems] : state;
         }
         case Actions.REMOVE_REFERENCES: {
-            return state.filter(item => !action.itemIds.includes(item.id));
-        }
-        case Actions.SET_REFERENCES: {
-            return action.references;
+            return state.filter(({ id }) => !action.itemIds.includes(id));
         }
         case Actions.UPDATE_REFERENCE: {
             const index = state.findIndex(({ id }) => id === action.data.id);
@@ -74,7 +66,10 @@ export function references(
     }
 }
 
-export function style(state = INITIAL_STYLE, action: Action): State['style'] {
+export function style(
+    state = INITIAL_STATE.style,
+    action: Action,
+): State['style'] {
     switch (action.type) {
         case Actions.SET_STYLE:
             return action.style;
