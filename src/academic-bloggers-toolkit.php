@@ -28,7 +28,7 @@ define( 'ABT_VERSION', '{{VERSION}}' );
 
 use function ABT\Utils\{
 	get_dependencies,
-	register_script,
+	register_script
 };
 
 require_once __DIR__ . '/php/utils.php';

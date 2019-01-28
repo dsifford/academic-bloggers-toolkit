@@ -16,7 +16,7 @@ use function ABT\i18n\generate_translations;
 use function ABT\Utils\{
 	create_admin_notice,
 	get_citation_styles,
-	get_handle,
+	get_handle
 };
 
 /**

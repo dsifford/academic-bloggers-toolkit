@@ -15,7 +15,7 @@ use ABT\Form_Actions;
 use function ABT\i18n\generate_translations;
 use function ABT\Utils\{
 	get_citation_styles,
-	get_handle,
+	get_handle
 };
 
 /**

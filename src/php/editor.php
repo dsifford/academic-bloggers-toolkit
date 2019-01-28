@@ -15,7 +15,7 @@ use function ABT\Utils\{
 	add_json_script,
 	get_citation_styles,
 	get_handle,
-	is_block_editor,
+	is_block_editor
 };
 
 /**

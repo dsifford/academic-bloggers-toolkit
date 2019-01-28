@@ -13,7 +13,7 @@ defined( 'ABSPATH' ) || exit;
 
 use function ABT\Utils\{
 	add_json_script,
-	get_handle,
+	get_handle
 };
 use WP_Post;
 
