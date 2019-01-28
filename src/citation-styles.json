@@ -218,6 +218,8 @@
     "frontiers-in-vascular-physiology": "frontiers",
     "frontiers-in-virology": "frontiers",
     "frontiers-in-womens-cancer": "frontiers",
+    "future-science": "future-science-group",
+    "future-science-journals": "future-science-group",
     "genetic-vaccines-and-therapy": "biomed-central",
     "geological-society-of-america": "the-geological-society-of-america",
     "giornale-italiano-di-health-technology-assessment": "springer-vancouver-brackets",
@@ -17030,11 +17032,6 @@
     {
       "kind": "predefined",
       "value": "future-science-group",
-      "label": "Future Science journals"
-    },
-    {
-      "kind": "predefined",
-      "value": "future-science-group",
       "label": "Future Virology"
     },
     {
@@ -17242,6 +17239,11 @@
       "value": "springer-vancouver-brackets",
       "label": "General Thoracic and Cardiovascular Surgery",
       "shortTitle": "Gen Thorac Cardiovasc Surg"
+    },
+    {
+      "kind": "predefined",
+      "value": "generic-style-rules-for-linguistics",
+      "label": "Generic Style Rules for Linguistics"
     },
     {
       "kind": "predefined",
@@ -18036,6 +18038,11 @@
       "kind": "predefined",
       "value": "elsevier-vancouver",
       "label": "Gynécologie Obstétrique Fertilité & Sénologie"
+    },
+    {
+      "kind": "predefined",
+      "value": "geographie-et-cultures",
+      "label": "Géographie et cultures (French)"
     },
     {
       "kind": "predefined",
@@ -33802,6 +33809,11 @@
     },
     {
       "kind": "predefined",
+      "value": "muscle-and-nerve",
+      "label": "Muscle & Nerve"
+    },
+    {
+      "kind": "predefined",
       "value": "elsevier-harvard",
       "label": "Musculoskeletal Science and Practice"
     },
@@ -34388,6 +34400,12 @@
       "kind": "predefined",
       "value": "elsevier-vancouver",
       "label": "NDT and E International"
+    },
+    {
+      "kind": "predefined",
+      "value": "necmettin-erbakan-universitesi-fen-ve-muhendislik-bilimleri-dergisi",
+      "label": "Necmettin Erbakan Üniversitesi Fen ve Mühendislik Bilimleri Dergisi (Turkish)",
+      "shortTitle": "NEU Fen Muh Bil Derg"
     },
     {
       "kind": "predefined",
@@ -38093,6 +38111,11 @@
     },
     {
       "kind": "predefined",
+      "value": "processing-and-application-of-ceramics",
+      "label": "Processing and Application of Ceramics"
+    },
+    {
+      "kind": "predefined",
       "value": "apa",
       "label": "Production & Manufacturing Research"
     },
@@ -39591,7 +39614,7 @@
     },
     {
       "kind": "predefined",
-      "value": "resuscitation",
+      "value": "elsevier-vancouver",
       "label": "Resuscitation"
     },
     {
@@ -40735,6 +40758,11 @@
     },
     {
       "kind": "predefined",
+      "value": "scientia-iranica",
+      "label": "Scientia Iranica"
+    },
+    {
+      "kind": "predefined",
       "value": "multidisciplinary-digital-publishing-institute",
       "label": "Scientia Pharmaceutica"
     },
@@ -40811,6 +40839,12 @@
       "kind": "predefined",
       "value": "seed-science-research",
       "label": "Seed Science Research"
+    },
+    {
+      "kind": "predefined",
+      "value": "seismological-research-letters",
+      "label": "Seismological Research Letters",
+      "shortTitle": "SRL"
     },
     {
       "kind": "predefined",
@@ -42243,6 +42277,11 @@
       "value": "strategic-design-research-journal",
       "label": "Strategic Design Research Journal",
       "shortTitle": "SDRJ"
+    },
+    {
+      "kind": "predefined",
+      "value": "strategic-entrepreneurship-journal",
+      "label": "Strategic Entrepreneurship Journal"
     },
     {
       "kind": "predefined",
@@ -43857,7 +43896,7 @@
     },
     {
       "kind": "predefined",
-      "value": "vancouver",
+      "value": "elsevier-vancouver",
       "label": "The Journal of Pediatrics"
     },
     {

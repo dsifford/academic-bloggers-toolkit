@@ -89,7 +89,7 @@ const OUTPUT_PATH = path.join(__dirname, '..', 'src');
 
     await writeFile(
         path.join(OUTPUT_PATH, 'citation-styles.json'),
-        JSON.stringify(newStyles),
+        JSON.stringify(newStyles, null, 4),
     );
 
     rimraf.sync(TEMP_DIR);
