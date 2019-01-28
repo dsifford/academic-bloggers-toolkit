@@ -110,7 +110,7 @@ function load_post(): void {
 		add_filter(
 			'mce_external_plugins',
 			function( array $plugins ): array {
-				$plugins['noneditable'] = ABT_ROOT_URI . '/vendor/noneditable.js';
+				$plugins['noneditable'] = '//cdn.jsdelivr.net/npm/tinymce/plugins/noneditable/plugin.min.js';
 				return $plugins;
 			}
 		);
@@ -205,7 +205,6 @@ function enqueue_scripts(): void {
 	wp_dequeue_script( 'autosave' );
 	wp_enqueue_style( get_handle( 'editor-legacy', 'style' ) );
 	wp_enqueue_script( get_handle( 'editor-legacy', 'script' ) );
-	wp_set_script_translations( get_handle( 'editor-legacy', 'script' ), 'academic-bloggers-toolkit' );
 	wp_localize_script(
 		get_handle( 'editor-legacy', 'script' ),
 		'ABT',

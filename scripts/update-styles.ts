@@ -6,9 +6,9 @@ import { promisify } from 'util';
 import camaro from 'camaro';
 import rimraf from 'rimraf';
 
+import oldStyles from '../src/citation-styles.json';
 import { Style, StyleJSON } from '../src/js/stores/data';
 import { StyleKind } from '../src/js/stores/data/constants';
-import oldStyles from '../src/vendor/citation-styles.json';
 
 const mkdir = promisify(fs.mkdir);
 const readfile = promisify(fs.readFile);
@@ -23,7 +23,7 @@ const CACHE_DIR = path.join(
     'academic-bloggers-toolkit',
 );
 const TEMP_DIR = path.join(CACHE_DIR, 'tmp');
-const VENDOR_PATH = path.join(__dirname, '..', 'src', 'vendor');
+const OUTPUT_PATH = path.join(__dirname, '..', 'src');
 
 (async () => {
     await mkdir(TEMP_DIR, { recursive: true });
@@ -88,7 +88,7 @@ const VENDOR_PATH = path.join(__dirname, '..', 'src', 'vendor');
     logNewStyles(oldStyles as any, newStyles);
 
     await writeFile(
-        path.join(VENDOR_PATH, 'citation-styles.json'),
+        path.join(OUTPUT_PATH, 'citation-styles.json'),
         JSON.stringify(newStyles),
     );
 

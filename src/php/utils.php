@@ -58,13 +58,25 @@ function create_admin_notice( string $message, string $kind = 'info' ): void {
 }
 
 /**
- * Parses and returns ./vendor/citation-styles.json
+ * Parses and returns ./citation-styles.json
  */
 function get_citation_styles() {
 	return json_decode(
 		file_get_contents( // phpcs:ignore
-			ABT_ROOT_PATH . '/vendor/citation-styles.json'
+			ABT_ROOT_PATH . '/citation-styles.json'
 		)
+	);
+}
+
+/**
+ * Parses and returns ./dependencies.json
+ */
+function get_dependencies() {
+	return json_decode(
+		file_get_contents( // phpcs:ignore
+			ABT_ROOT_PATH . '/dependencies.json'
+		),
+		true
 	);
 }
 
@@ -141,12 +153,20 @@ function register_script( string $relpath, array $deps = [] ): void {
 		);
 	}
 	if ( file_exists( ABT_ROOT_PATH . $script_suffix ) ) {
+		$handle = get_handle( $relpath, 'script' );
 		wp_register_script(
-			get_handle( $relpath, 'script' ),
+			$handle,
 			ABT_ROOT_URI . $script_suffix,
 			$deps['scripts'] ?? [],
 			filemtime( ABT_ROOT_PATH . $script_suffix ),
 			true
 		);
+		if ( in_array( 'wp-i18n', $deps['scripts'] ?? [], true ) ) {
+			wp_set_script_translations(
+				$handle,
+				'academic-bloggers-toolkit',
+				basename( ABT_ROOT_PATH ) . '/languages'
+			);
+		}
 	}
 }

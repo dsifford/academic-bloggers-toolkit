@@ -26,9 +26,22 @@ define( 'ABT_ROOT_PATH', __DIR__ );
 define( 'ABT_ROOT_URI', plugins_url( '', __FILE__ ) );
 define( 'ABT_VERSION', '{{VERSION}}' );
 
-require_once __DIR__ . '/php/utils.php';
+use function ABT\Utils\{
+	get_dependencies,
+	register_script,
+};
 
-use function ABT\Utils\register_script;
+require_once __DIR__ . '/php/utils.php';
+require_once __DIR__ . '/php/class-form-actions.php';
+require_once __DIR__ . '/php/endpoints.php';
+
+if ( is_admin() ) {
+	require_once __DIR__ . '/php/editor.php';
+	require_once __DIR__ . '/php/editor-legacy.php';
+	require_once __DIR__ . '/php/options.php';
+} else {
+	require_once __DIR__ . '/php/frontend.php';
+}
 
 /**
  * Load plugin translations.
@@ -44,7 +57,7 @@ add_action( 'plugins_loaded', __NAMESPACE__ . '\textdomain' );
 function uninstall(): void {
 	delete_option( ABT_OPTIONS_KEY );
 }
-register_uninstall_hook( __FILE__, 'ABT\uninstall' );
+register_uninstall_hook( __FILE__, __NAMESPACE__ . '\uninstall' );
 
 /**
  * Refactors the defined plugin options.
@@ -112,115 +125,23 @@ function add_donate_link( array $links, string $file ): array {
 add_filter( 'plugin_row_meta', __NAMESPACE__ . '\add_donate_link', 10, 2 );
 
 /**
- * Adds an ajax nonce to pages that require it.
- */
-function ajax_nonce(): void { ?>
-		<script type="text/javascript">
-		window._abt_nonce = <?php echo wp_json_encode( wp_create_nonce( 'abt-ajax' ) ); ?>
-		</script>
-	<?php
-}
-add_action( 'admin_head-post-new.php', __NAMESPACE__ . '\ajax_nonce' );
-add_action( 'admin_head-post.php', __NAMESPACE__ . '\ajax_nonce' );
-add_action( 'admin_head-settings_page_abt-options', __NAMESPACE__ . '\ajax_nonce' );
-
-/**
  * Registers all scripts/styles used by this plugin.
  */
 function register_scripts(): void {
-	//
-	// Admin.
-	//
-	register_script(
-		'editor',
-		[
-			'scripts' => [
-				'lodash',
-				'wp-components',
-				'wp-compose',
-				'wp-data',
-				'wp-edit-post',
-				'wp-editor',
-				'wp-element',
-				'wp-i18n',
-				'wp-keycodes',
-				'wp-plugins',
-				'wp-polyfill',
-				'wp-url',
-			],
-		]
-	);
-	register_script(
-		'editor-blocks',
-		[
-			'scripts' => [
-				'citeproc',
-				'lodash',
-				'wp-blocks',
-				'wp-components',
-				'wp-compose',
-				'wp-data',
-				'wp-editor',
-				'wp-element',
-				'wp-i18n',
-				'wp-polyfill',
-			],
-		]
-	);
-	register_script(
-		'editor-formats',
-		[
-			'scripts' => [
-				'lodash',
-				'wp-components',
-				'wp-compose',
-				'wp-data',
-				'wp-editor',
-				'wp-element',
-				'wp-i18n',
-				'wp-keycodes',
-				'wp-polyfill',
-				'wp-rich-text',
-				'wp-rich-text',
-				'wp-url',
-			],
-		]
-	);
-	register_script(
-		'editor-stores',
-		[
-			'scripts' => [
-				'citeproc',
-				'lodash',
-				'wp-blocks',
-				'wp-data',
-				'wp-polyfill',
-			],
-		]
-	);
+	$deps = get_dependencies();
 
-	register_script(
-		'options-page',
-		[
-			'scripts' => [
-				'wp-components',
-				'wp-element',
-				'wp-i18n',
-				'wp-polyfill',
-			],
-		]
-	);
+	//
+	// Editor.
+	//
+	register_script( 'editor', [ 'scripts' => $deps['editor'] ] );
+	register_script( 'editor-blocks', [ 'scripts' => $deps['editor-blocks'] ] );
+	register_script( 'editor-formats', [ 'scripts' => $deps['editor-formats'] ] );
+	register_script( 'editor-formats', [ 'scripts' => $deps['editor-formats'] ] );
+	register_script( 'editor-stores', [ 'scripts' => $deps['editor-stores'] ] );
 	register_script(
 		'editor-legacy',
 		[
-			'scripts' => [
-				'citeproc',
-				'lodash',
-				'wp-dom-ready',
-				'wp-element',
-				'wp-i18n',
-				'wp-polyfill',
-			],
+			'scripts' => $deps['editor-legacy'],
 			'styles'  => [
 				'abt-legacy-fonts',
 				'dashicons',
@@ -229,26 +150,15 @@ function register_scripts(): void {
 	);
 
 	//
+	// Options Page.
+	//
+	register_script( 'options-page', [ 'scripts' => $deps['options-page'] ] );
+
+	//
 	// Frontend.
 	//
-	register_script(
-		'frontend',
-		[
-			'scripts' => [
-				'wp-dom-ready',
-				'wp-polyfill',
-			],
-		]
-	);
-	register_script(
-		'frontend-legacy',
-		[
-			'scripts' => [
-				'wp-dom-ready',
-				'wp-polyfill',
-			],
-		]
-	);
+	register_script( 'frontend', [ 'scripts' => $deps['frontend'] ] );
+	register_script( 'frontend-legacy', [ 'scripts' => $deps['frontend-legacy'] ] );
 
 	//
 	// Third party.
@@ -273,24 +183,26 @@ function register_scripts(): void {
 		true
 	);
 	wp_register_script(
-		'citeproc',
-		'//cdn.jsdelivr.net/gh/Juris-M/citeproc-js@1/citeproc.min.js',
+		'CSL',
+		'//cdn.jsdelivr.net/gh/Juris-M/citeproc-js@{{CITEPROC_VERSION}}/citeproc.min.js',
 		[],
 		ABT_VERSION,
 		true
 	);
 }
-add_action( 'admin_enqueue_scripts', __NAMESPACE__ . '\register_scripts', 5 );
-add_action( 'wp_enqueue_scripts', __NAMESPACE__ . '\register_scripts', 5 );
+add_action( 'wp_loaded', __NAMESPACE__ . '\register_scripts' );
 
-require_once __DIR__ . '/php/class-form-actions.php';
-require_once __DIR__ . '/php/endpoints.php';
-
-if ( is_admin() ) {
-	require_once __DIR__ . '/php/editor.php';
-	require_once __DIR__ . '/php/editor-legacy.php';
-	require_once __DIR__ . '/php/options.php';
-} else {
-	require_once __DIR__ . '/php/frontend.php';
+/**
+ * Adds an ajax nonce to pages that require it.
+ */
+function ajax_nonce(): void {
+	?>
+	<script type="text/javascript">
+		window._abt_nonce = <?php echo wp_json_encode( wp_create_nonce( 'abt-ajax' ) ); ?>
+	</script>
+	<?php
 }
+add_action( 'admin_head-post-new.php', __NAMESPACE__ . '\ajax_nonce' );
+add_action( 'admin_head-post.php', __NAMESPACE__ . '\ajax_nonce' );
+add_action( 'admin_head-settings_page_abt-options', __NAMESPACE__ . '\ajax_nonce' );
 

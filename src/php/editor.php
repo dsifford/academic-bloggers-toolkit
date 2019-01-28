@@ -23,23 +23,19 @@ use function ABT\Utils\{
  */
 function enqueue_scripts(): void {
 	global $post;
-	if ( is_block_editor() ) {
-		wp_enqueue_style( get_handle( 'editor-blocks', 'style' ) );
-		wp_enqueue_style( get_handle( 'editor-formats', 'style' ) );
-		wp_enqueue_style( get_handle( 'editor', 'style' ) );
+	wp_enqueue_style( get_handle( 'editor-blocks', 'style' ) );
+	wp_enqueue_style( get_handle( 'editor-formats', 'style' ) );
+	wp_enqueue_style( get_handle( 'editor', 'style' ) );
 
-		wp_enqueue_script( get_handle( 'editor-stores', 'script' ) );
-		wp_enqueue_script( get_handle( 'editor-blocks', 'script' ) );
-		wp_enqueue_script( get_handle( 'editor-formats', 'script' ) );
-		wp_enqueue_script( get_handle( 'editor', 'script' ) );
+	wp_enqueue_script( get_handle( 'editor-stores', 'script' ) );
+	wp_enqueue_script( get_handle( 'editor-blocks', 'script' ) );
+	wp_enqueue_script( get_handle( 'editor-formats', 'script' ) );
+	wp_enqueue_script( get_handle( 'editor', 'script' ) );
 
-		wp_set_script_translations( get_handle( 'editor', 'script' ), 'academic-bloggers-toolkit' );
-
-		$state = init_editor_state( $post->ID );
-		add_json_script( 'abt-editor-state', $state );
-	}
+	$state = init_editor_state( $post->ID );
+	add_json_script( 'abt-editor-state', $state );
 }
-add_action( 'admin_enqueue_scripts', __NAMESPACE__ . '\enqueue_scripts' );
+add_action( 'enqueue_block_editor_assets', __NAMESPACE__ . '\enqueue_scripts' );
 
 /**
  * Register post meta to store editor state.

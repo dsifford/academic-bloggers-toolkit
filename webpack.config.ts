@@ -5,11 +5,18 @@ import BrowserSyncPlugin from 'browser-sync-webpack-plugin';
 import CopyWebpackPlugin from 'copy-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import rimraf from 'rimraf';
-import { Configuration, Plugin } from 'webpack';
+import { coerce } from 'semver';
+import { Configuration, Plugin, ProgressPlugin } from 'webpack';
 
-import { version as VERSION } from './package.json';
+import { dependencies, version as VERSION } from './package.json';
 
-export default (_: never, argv: any): Configuration => {
+// citeproc's npm major semver number is incorrectly 1 higher than github's.
+const CITEPROC_VERSION = (() => {
+    const { major, minor, patch } = coerce(dependencies.citeproc)!;
+    return `${major - 1}.${minor}.${patch}`;
+})();
+
+export default (_: any, argv: any): Configuration => {
     const IS_PRODUCTION = argv.mode === 'production';
 
     // Clean out dist directory
@@ -19,26 +26,34 @@ export default (_: never, argv: any): Configuration => {
         new MiniCssExtractPlugin(),
         new CopyWebpackPlugin([
             {
-                from: '**/*.{php,mo}',
+                from: '**/*.{php,mo,pot}',
                 ignore: ['academic-bloggers-toolkit.php'],
             },
             {
-                from: 'vendor/*',
+                from: '**/*.json',
+                transform(content) {
+                    return JSON.stringify(JSON.parse(content));
+                },
             },
             {
                 from: path.resolve(__dirname, 'LICENSE'),
             },
             {
                 from: '@(readme.txt|academic-bloggers-toolkit.php)',
-                transform(content): string {
-                    return content.toString().replace(/{{VERSION}}/g, VERSION);
+                transform(content) {
+                    return content
+                        .toString()
+                        .replace(/{{VERSION}}/g, VERSION)
+                        .replace(/{{CITEPROC_VERSION}}/g, CITEPROC_VERSION);
                 },
             },
         ]),
         new CheckerPlugin(),
     ]);
 
-    if (!IS_PRODUCTION) {
+    if (IS_PRODUCTION) {
+        plugins.add(new ProgressPlugin());
+    } else {
         plugins.add(
             new BrowserSyncPlugin({
                 proxy: 'localhost:8080',
