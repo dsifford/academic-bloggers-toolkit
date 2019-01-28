@@ -1,0 +1,22 @@
+@import '_legacy/colors';
+@import '_legacy/variables';
+
+.heading {
+    @include noselect;
+    display: flex;
+    justify-content: space-between;
+    cursor: pointer;
+    background: $light-gray;
+    box-shadow: map-get($shadows, 'depth-1'), map-get($shadows, 'top-border');
+    padding: 10px;
+    transition: map-get($transitions, 'buttons');
+    align-items: baseline;
+
+    &:hover {
+        background: darken($light-gray, 3%);
+    }
+
+    &:active {
+        background: darken($light-gray, 8%);
+    }
+}

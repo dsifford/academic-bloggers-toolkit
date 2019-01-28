@@ -1,0 +1,24 @@
+.heading {
+    display: flex;
+    margin: 10px 0;
+    width: 100%;
+    overflow: hidden;
+
+    input {
+        color: inherit;
+        font-size: inherit;
+        margin: inherit;
+        padding: inherit;
+        border: 0;
+        max-width: 100%;
+
+        &:focus {
+            outline: 0;
+        }
+    }
+}
+
+.summary {
+    display: flex;
+    align-items: center;
+}

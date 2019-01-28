@@ -1,0 +1,130 @@
+@import '_legacy/colors';
+@import '_legacy/variables';
+
+.btn {
+    @include noselect;
+    background: white;
+    box-sizing: border-box;
+    color: $dark-gray;
+    background-image: none;
+    border: none;
+    border-radius: 3px;
+    box-shadow: map-get($shadows, 'depth-1');
+    cursor: pointer;
+    display: inline-block;
+    font-size: 13px;
+    font-weight: 500;
+    min-width: 30px;
+    min-height: 30px;
+    outline: 0;
+    padding: 12px 16px;
+    text-align: center;
+    text-decoration: none;
+    text-transform: uppercase;
+    vertical-align: middle;
+    white-space: nowrap;
+
+    &:disabled {
+        pointer-events: none !important;
+        color: $disabled !important;
+    }
+
+    &:hover,
+    &:active {
+        box-shadow: map-get($shadows, 'depth-2');
+    }
+
+    &:active:hover {
+        box-shadow: map-get($shadows, 'depth-3');
+        background: $border;
+    }
+}
+
+.btn--focusable {
+    &:focus {
+        outline: $outline;
+        outline-offset: 2px;
+
+        &:active {
+            outline: 0;
+        }
+    }
+}
+
+.btn--primary {
+    background: $blue;
+    color: white;
+
+    &.btn--flat {
+        color: $blue;
+    }
+
+    &:disabled {
+        opacity: 0.6;
+        box-shadow: none;
+        color: white !important;
+    }
+
+    &:active:hover {
+        background: darken($blue, 3%);
+    }
+}
+
+.btn--flat,
+.btn--flat.btn--primary {
+    background: rgba(0, 0, 0, 0);
+    box-shadow: none !important;
+
+    &:active {
+        background: lighten($border, 5%);
+    }
+
+    &:disabled {
+        color: $disabled !important;
+    }
+
+    &:hover {
+        background: rgba(158, 158, 158, 0.2);
+
+        &:active {
+            background: $border;
+        }
+    }
+}
+
+.btn--icon {
+    margin: auto 0;
+    padding: 0;
+
+    &:hover {
+        color: $dark-gray;
+    }
+}
+
+.btn :global(.dashicons) {
+    line-height: initial;
+    width: initial;
+    height: initial;
+}
+
+.btn :global(.dashicons-migrate) {
+    transform: rotateY(180deg);
+    padding-left: 5px;
+}
+
+.btn :global(.dashicons-minus) {
+    font-weight: 900;
+}
+
+.btn :global(.dashicons-menu),
+.btn :global(.dashicons-no-alt) {
+    font-size: 25px;
+}
+
+.btn :global(.dashicons-plus) {
+    padding-top: 2px;
+}
+
+.btn :global(.dashicons-image-rotate) {
+    transform: rotateY(180deg);
+}

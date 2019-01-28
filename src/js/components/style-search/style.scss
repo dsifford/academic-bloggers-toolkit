@@ -1,0 +1,36 @@
+.input {
+    width: 100%;
+
+    &-open {
+        border-bottom-left-radius: 0 !important;
+        border-bottom-right-radius: 0 !important;
+    }
+}
+
+.suggestions-container-open {
+    margin: -1px -1px 0 1px;
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
+    border: 1px solid #8d96a0;
+    border-top: 0;
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.suggestions-list {
+    display: grid;
+    margin: 0;
+}
+
+.suggestion {
+    cursor: pointer;
+    margin: 0;
+    padding: 5px 8px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+
+    &-highlighted {
+        font-weight: bold;
+    }
+}

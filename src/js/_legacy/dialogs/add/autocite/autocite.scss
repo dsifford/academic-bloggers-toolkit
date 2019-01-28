@@ -1,0 +1,17 @@
+@import '_legacy/colors';
+@import '_legacy/variables';
+
+.autocite {
+    display: flex;
+    padding: 10px;
+    align-items: center;
+    background: $light-gray;
+    box-shadow: map-get($shadows, 'depth-1'), map-get($shadows, 'top-border');
+}
+
+.input {
+    margin: 0 10px;
+    flex: auto;
+    height: 28px;
+    font-size: 14px;
+}

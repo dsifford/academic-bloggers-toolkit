@@ -1,0 +1,13 @@
+.modal {
+    :global .components-modal__header .components-modal__header-heading {
+        font: {
+            size: 1rem;
+            weight: 600;
+        }
+    }
+
+    :global .components-modal__content {
+        display: grid;
+        grid-template-rows: auto 1fr auto;
+    }
+}

@@ -1,0 +1,72 @@
+{
+  "editor": [
+    "lodash",
+    "wp-components",
+    "wp-compose",
+    "wp-data",
+    "wp-edit-post",
+    "wp-editor",
+    "wp-element",
+    "wp-i18n",
+    "wp-keycodes",
+    "wp-plugins",
+    "wp-polyfill",
+    "wp-url"
+  ],
+  "editor-blocks": [
+    "CSL",
+    "lodash",
+    "wp-blocks",
+    "wp-components",
+    "wp-compose",
+    "wp-data",
+    "wp-editor",
+    "wp-element",
+    "wp-i18n",
+    "wp-polyfill"
+  ],
+  "editor-formats": [
+    "lodash",
+    "wp-components",
+    "wp-compose",
+    "wp-data",
+    "wp-editor",
+    "wp-element",
+    "wp-i18n",
+    "wp-keycodes",
+    "wp-polyfill",
+    "wp-rich-text",
+    "wp-url"
+  ],
+  "editor-legacy": [
+    "CSL",
+    "lodash",
+    "wp-element",
+    "wp-i18n",
+    "wp-polyfill",
+    "wp-url"
+  ],
+  "editor-stores": [
+    "CSL",
+    "lodash",
+    "wp-blocks",
+    "wp-data",
+    "wp-polyfill",
+    "wp-url"
+  ],
+  "frontend": [
+    "wp-dom-ready",
+    "wp-polyfill"
+  ],
+  "frontend-legacy": [
+    "wp-dom-ready",
+    "wp-polyfill"
+  ],
+  "options-page": [
+    "lodash",
+    "wp-components",
+    "wp-element",
+    "wp-i18n",
+    "wp-polyfill"
+  ]
+}

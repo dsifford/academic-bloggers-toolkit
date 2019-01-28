@@ -1,14 +1,13 @@
-// tslint:disable cyclomatic-complexity
-// Disabling rule in this instance because `||` short-circuit evaluation is counted toward the
-// complexity and that feature is instrumental to this function.
-// Without it, the function would _more_ complex.
+import { fetchAjax } from 'utils/ajax';
+import { firstTruthyValue } from 'utils/data';
+import { ResponseError } from 'utils/error';
 
-import { AutociteResponse } from 'utils/resolvers';
+import { AutociteResponse } from './';
 
 interface WebpageResponse {
     authors: Array<{
-        firstname: string;
-        lastname: string;
+        given: string;
+        family: string;
     }>;
     article: {
         /**
@@ -130,65 +129,92 @@ interface WebpageResponse {
     url?: string;
 }
 
+export async function get(url: string): Promise<CSL.Data | ResponseError> {
+    const response = await fetchAjax('get_website_meta', { url });
+    if (!response.ok) {
+        return new ResponseError(url, response);
+    }
+    const json: WebpageResponse = await response.json();
+    return {
+        id: Date.now().toString(),
+        type: 'webpage',
+        title: firstTruthyValue(json, ['og.title', 'sailthru.title', 'title']),
+        URL: url,
+        'container-title': json.og.site_name,
+        author: json.authors,
+        ...parseDateField('accessed', new Date().toISOString()),
+        ...parseDateField(
+            'issued',
+            firstTruthyValue(json, [
+                'issued',
+                'og.pubdate',
+                'article.published_time',
+                'sailthru.date',
+            ]),
+        ),
+    };
+}
+
+function parseDateField<T extends CSL.DateFieldKey>(
+    key: T,
+    input?: string,
+): { [k in T]: CSL.Date } | {} {
+    if (!input || isNaN(Date.parse(input))) {
+        return {};
+    }
+    const date = new Date(input);
+    return {
+        [key]: {
+            raw: [
+                date.getUTCFullYear(),
+                date.getUTCMonth() + 1,
+                date.getUTCDate(),
+            ].join('/'),
+        },
+    };
+}
+
 /**
  * Communicates with AJAX to the WordPress server to retrieve metadata for a given web URL.
  * @param url - The URL of interest
  * @return URL Meta returned from the server
+ * @deprecated
  */
-export async function getFromURL(url: string): Promise<AutociteResponse> {
-    const headers = new Headers({
-        'Content-Type': 'application/x-www-form-urlencoded',
-    });
-    // FIXME: This is a bug in typescript. URLSearchParams are currently
-    // not accepted in the typescript definitions for `fetch` even though
-    // they should be.
-    const body: any = new URLSearchParams(
-        `action=get_website_meta&site_url=${encodeURIComponent(url)}`,
-    );
-    const req = await fetch(top.ajaxurl, {
-        method: 'POST',
-        headers,
-        body,
-        credentials: 'same-origin',
-    });
-
-    if (!req.ok) {
+export async function deprecatedGetFromURL(
+    url: string,
+): Promise<AutociteResponse> {
+    const response = await fetchAjax('get_website_meta', { url });
+    if (!response.ok) {
         throw new Error(
-            req.status === 501
+            response.status === 501
                 ? top.ABT.i18n.errors.missing_php_features
-                : req.statusText,
+                : response.statusText,
         );
     }
+    const json: WebpageResponse = await response.json();
 
-    const res: WebpageResponse = await req.json();
-
-    // prettier-ignore
-    const title =
-        res.og.title ||
-        res.sailthru.title ||
-        res.title ||
-        '';
-
-    // prettier-ignore
-    const issued =
-        res.issued ||
-        res.og.pubdate ||
-        res.article.published_time ||
-        res.sailthru.date ||
-        '';
-
-    const people: ABT.Contributor[] = res.authors.map(person => ({
-        given: person.firstname,
-        family: person.lastname,
+    const people: ABT.Contributor[] = json.authors.map(person => ({
+        ...person,
         type: <CSL.PersonFieldKey>'author',
     }));
 
     return {
         fields: {
-            accessed: parseDateString(new Date().toISOString()),
-            title,
-            issued: parseDateString(issued),
-            'container-title': res.og.site_name || '',
+            accessed: deprecatedParseDateString(new Date().toISOString()),
+            title: firstTruthyValue(json, [
+                'og.title',
+                'sailthru.title',
+                'title',
+            ]),
+            issued: deprecatedParseDateString(
+                firstTruthyValue(json, [
+                    'issued',
+                    'og.pubdate',
+                    'article.published_time',
+                    'sailthru.date',
+                ]),
+            ),
+            'container-title': firstTruthyValue(json, ['og.site_name']),
             URL: url,
         },
         people,
@@ -198,8 +224,9 @@ export async function getFromURL(url: string): Promise<AutociteResponse> {
 /**
  * Parses a date into the format `YYYY/MM/DD`.
  * @param input raw input string from API response.
+ * @deprecated
  */
-function parseDateString(input: string): string {
+function deprecatedParseDateString(input: string = ''): string {
     if (isNaN(Date.parse(input))) {
         return '';
     }

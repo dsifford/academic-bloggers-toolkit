@@ -1,174 +1,76 @@
-// tslint:disable no-stateless-class
+import { Block, serialize } from '@wordpress/blocks';
+import { select } from '@wordpress/data';
+import _ from 'lodash';
 
-interface InlineElementOptions {
-    classNames?: string[];
-    footnote?: string;
-    id: string;
-    innerHTML: string;
-    kind: Citeproc.CitationKind;
-    reflist: string;
+import Processor from 'utils/processor';
+
+const INVALID_BLOCK_TYPES = ['core/freeform', 'core/html'];
+
+export function getEditorDOM(excludeInvalid: boolean = false): HTMLDivElement {
+    const doc = document.createElement('div');
+    if (excludeInvalid) {
+        const filteredBlocks = select<Block[]>('core/editor')
+            .getBlocksForSerialization()
+            .filter(
+                block =>
+                    !INVALID_BLOCK_TYPES.includes(block.name) && block.isValid,
+            );
+        doc.innerHTML = serialize(filteredBlocks);
+    } else {
+        doc.innerHTML = select<string>('core/editor').getEditedPostContent();
+    }
+    return doc;
 }
 
-enum EditorEvents {
-    /**
-     * Bind and emit this if the editor supports keyboard shortcuts. Keyboard
-     * shortcut for this should be cmd/ctrl+alt+r
-     */
-    ADD_REFERENCE = 'ADD_REFERENCE',
-    /**
-     * Emit this any time the editor becomes available again after being
-     * unavailable (excluding the initial initialization).
-     */
-    AVAILABLE = 'EDITOR_AVAILABLE',
-    /**
-     * Emit this when user manually deletes one or more inline citations using
-     * the keyboard.
-     */
-    CITATION_DELETED = 'CITATION_DELETED',
-    /**
-     * Bind and emit to this if the editor supports keyboard shortcuts.
-     * Keyboard shortcut for this should be cmd/ctrl+alt+p
-     */
-    TOGGLE_PINNED = 'TOGGLE_PINNED',
-    /**
-     * Emit this any time the editor goes unavailable or becomes hidden.
-     */
-    UNAVAILABLE = 'EDITOR_UNAVAILABLE',
-    /**
-     * Emit this any time the user performs an "undo" in the editor.
-     */
-    UNDO = 'UNDO',
+export function parseBibAttributes({
+    entryspacing,
+    hangingindent,
+    maxoffset,
+    linespacing,
+    secondFieldAlign,
+}: { [k in keyof Processor.BibMeta]?: string }) {
+    return {
+        ...(entryspacing
+            ? { 'data-entryspacing': `${entryspacing}` }
+            : undefined),
+        ...(hangingindent
+            ? { 'data-hangingindent': `${hangingindent}` }
+            : undefined),
+        ...(maxoffset ? { 'data-maxoffset': `${maxoffset}` } : undefined),
+        ...(linespacing ? { 'data-linespacing': `${linespacing}` } : undefined),
+        ...(secondFieldAlign
+            ? { 'data-second-field-align': secondFieldAlign }
+            : undefined),
+    };
 }
 
-export default abstract class Editor {
-    static readonly events = EditorEvents;
-
-    static readonly bibliographyId = 'abt-bibliography';
-    static readonly citationClass = 'abt-citation';
-    static readonly footnoteId = 'abt-footnote';
-    static readonly staticBibClass = 'abt-static-bib';
-
-    static createBibliographyElement(
-        {
-            bib_heading = '',
-            bib_heading_level = 'h3',
-            bibliography = 'fixed',
-        }: Partial<ABT.DisplayOptions>,
-        items: ABT.Bibliography,
-        classNames: string[] = [],
-    ): HTMLDivElement {
-        const bib = document.createElement('div');
-        bib.id = Editor.bibliographyId;
-        bib.setAttribute(
-            'data-reflist',
-            JSON.stringify(items.map(({ id }) => id)),
-        );
-        bib.classList.add(Editor.bibliographyId, ...classNames);
-
-        if (bib.classList.contains(Editor.staticBibClass)) {
-            bib.classList.remove(Editor.bibliographyId);
-            bib.removeAttribute('id');
-            // Occurs only when attempting to insert a static list when the
-            // user's selected citation type doesn't define a bibliography.
-            if (items.length === 0) {
-                const { warnings } = top.ABT.i18n.errors;
-                bib.innerHTML = `<strong>${warnings.warning}:</strong> ${
-                    warnings.no_bib
-                }.`;
-                return bib;
-            }
-        }
-
-        if (bib_heading) {
-            let headingElement;
-            if (bibliography === 'toggle') {
-                headingElement = document.createElement('button');
-                headingElement.classList.add(
-                    `${Editor.bibliographyId}__heading`,
-                    `${Editor.bibliographyId}__heading_toggle`,
-                );
-                headingElement.setAttribute('aria-expanded', 'false');
-                headingElement.setAttribute(
-                    'aria-controls',
-                    `${this.bibliographyId}__container`,
-                );
-                headingElement.setAttribute(
-                    'data-heading-level',
-                    bib_heading_level,
-                );
-            } else {
-                headingElement = document.createElement(bib_heading_level);
-                headingElement.classList.add(
-                    `${Editor.bibliographyId}__heading`,
-                );
-            }
-            headingElement.textContent = bib_heading;
-            bib.appendChild(headingElement);
-        }
-
+export function stripListItem(item: Element | string): string {
+    if (typeof item === 'string') {
         const container = document.createElement('div');
-        container.id = `${this.bibliographyId}__container`;
-        container.classList.add(`${this.bibliographyId}__container`);
-        bib.appendChild(container);
-
-        for (const itemMeta of items) {
-            const item = document.createElement('div');
-            item.id = itemMeta.id;
-            item.innerHTML = itemMeta.html;
-            container.appendChild(item);
+        container.innerHTML = item;
+        const child = container.querySelector('.csl-entry');
+        if (child) {
+            item = child;
+        } else {
+            throw new Error(
+                'Outer HTML of item must be a div with className "csl-entry"',
+            );
         }
-
-        return bib;
     }
-
-    static createFootnoteSection(
-        footnotes: string[],
-        classNames: string[] = [],
-    ): HTMLDivElement {
-        const note = document.createElement('div');
-        note.id = Editor.footnoteId;
-        note.classList.add(Editor.footnoteId, ...classNames);
-
-        const heading = document.createElement('div');
-        heading.classList.add(`${Editor.footnoteId}__heading`);
-        heading.textContent = top.ABT.i18n.misc.footnotes;
-
-        note.appendChild(heading);
-
-        for (const [index, footnote] of Array.from(footnotes.entries())) {
-            const item = document.createElement('div');
-            item.classList.add(`${Editor.footnoteId}__item`);
-
-            const itemNumber = document.createElement('span');
-            itemNumber.classList.add(`${Editor.footnoteId}__number`);
-            itemNumber.textContent = `[${index + 1}]`;
-
-            const itemContent = document.createElement('span');
-            itemContent.classList.add(`${Editor.footnoteId}__content`);
-            itemContent.innerHTML = footnote;
-
-            item.appendChild(itemNumber);
-            item.appendChild(itemContent);
-
-            note.appendChild(item);
+    const content = item;
+    let toRemove: Element[] = [];
+    for (const el of item.children) {
+        if (el.classList.contains('csl-indent')) {
+            break;
         }
-
-        return note;
-    }
-
-    static createInlineElement({
-        classNames = [],
-        ...options
-    }: InlineElementOptions): HTMLSpanElement {
-        const { id, innerHTML, reflist } = options;
-        const element = document.createElement('span');
-        element.id = id;
-        element.classList.add(Editor.citationClass, ...classNames);
-        element.innerHTML = innerHTML;
-        element.setAttribute('data-reflist', reflist);
-        if (options.kind === 'note') {
-            element.setAttribute('data-footnote', options.footnote!);
+        if (el.classList.contains('csl-left-margin')) {
+            toRemove = [...toRemove, el];
+            continue;
         }
-        return element;
+        if (el.classList.contains('csl-right-inline')) {
+            el.outerHTML = el.innerHTML;
+        }
     }
+    toRemove.forEach(el => content.removeChild(el));
+    return content.innerHTML.trim();
 }

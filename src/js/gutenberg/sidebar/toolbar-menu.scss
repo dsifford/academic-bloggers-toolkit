@@ -1,0 +1,32 @@
+:global(.components-icon-button).more-icon {
+    padding: 8px 4px;
+
+    svg {
+        transform: rotate(90deg);
+    }
+}
+
+.dropdown {
+    // fixes issue with core
+    z-index: 1000000 !important;
+}
+
+.menu {
+    // matches WordPress core
+    padding: 7px;
+}
+
+.separator {
+    border: 0.5px solid #e2e4e7;
+    margin: 8px -7px;
+}
+
+.sort-choices {
+    :global(.components-menu-item__button) {
+        padding-left: 2rem;
+
+        &:global(.has-icon) {
+            padding-left: 0.5rem;
+        }
+    }
+}

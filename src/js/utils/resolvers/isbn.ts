@@ -1,27 +1,82 @@
+import { addQueryArgs } from '@wordpress/url';
 import { parseName } from 'astrocite-core';
 
-import { AutociteResponse } from 'utils/resolvers';
+import { ResponseError } from 'utils/error';
 
-interface Item {
-    volumeInfo: {
-        authors?: string[];
-        pageCount?: number;
-        /**
-         * "2016-07-31"
-         */
-        publishedDate?: string;
-        publisher?: string;
-        title?: string;
-    };
-}
+import { AutociteResponse } from './';
 
-interface APIResponse {
-    items: Item[];
+interface ISBNResponse {
+    items: Array<{
+        id: string;
+        volumeInfo: {
+            authors?: string[];
+            pageCount?: number;
+            /**
+             * "2016-07-31"
+             */
+            publishedDate?: string;
+            publisher?: string;
+            title?: string;
+        };
+    }>;
     kind: string;
     totalItems: number;
 }
 
-export async function getFromISBN(
+export async function get(
+    ISBN: string,
+    isChapter: boolean = false,
+): Promise<CSL.Data | ResponseError> {
+    const response = await fetch(
+        addQueryArgs('https://www.googleapis.com/books/v1/volumes', {
+            q: `isbn:${ISBN.replace(/-/g, '')}`,
+        }),
+    );
+    if (!response.ok) {
+        return new ResponseError(ISBN, response);
+    }
+    const json: ISBNResponse = await response.json();
+
+    if (json.totalItems === 0) {
+        return new ResponseError(ISBN, response);
+    }
+
+    // TODO: move this all to astrocite
+    const {
+        id,
+        volumeInfo: { authors, pageCount, publishedDate, publisher, title },
+    } = json.items[0];
+
+    let data: CSL.Data = {
+        id,
+        type: isChapter ? 'chapter' : 'book',
+        ISBN,
+        publisher,
+        'number-of-pages': pageCount,
+        [isChapter ? 'container-title' : 'title']: title,
+        author: Array.isArray(authors)
+            ? // TODO: fix this in astrocite
+              (authors.map(parseName) as CSL.Person[])
+            : [],
+    };
+
+    if (publishedDate) {
+        const [year, month, day] = publishedDate.split('-');
+        data = {
+            ...data,
+            issued: {
+                'date-parts': [[year, month, day]],
+            },
+        };
+    }
+
+    return data;
+}
+
+/**
+ * @deprecated
+ */
+export async function deprecatedGetFromISBN(
     ISBN: string,
     kind: 'book' | 'chapter',
 ): Promise<AutociteResponse> {
@@ -38,7 +93,7 @@ export async function getFromISBN(
             }`,
         );
     }
-    const res: APIResponse = await req.json();
+    const res: ISBNResponse = await req.json();
 
     if (res.totalItems === 0) {
         throw new Error(`${top.ABT.i18n.errors.no_results}`);
@@ -57,7 +112,7 @@ export async function getFromISBN(
               const fields = parseName(person);
               return {
                   ...fields,
-                  type: <CSL.PersonFieldKey>'author',
+                  type: 'author' as 'author',
                   given: fields.given || '',
                   family: fields.family || '',
               };

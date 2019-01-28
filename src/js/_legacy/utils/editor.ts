@@ -1,0 +1,175 @@
+// tslint:disable no-stateless-class
+import { CitationKind } from 'citeproc';
+
+interface InlineElementOptions {
+    classNames?: string[];
+    footnote?: string;
+    id: string;
+    innerHTML: string;
+    kind: CitationKind;
+    reflist: string;
+}
+
+enum EditorEvents {
+    /**
+     * Bind and emit this if the editor supports keyboard shortcuts. Keyboard
+     * shortcut for this should be cmd/ctrl+alt+r
+     */
+    ADD_REFERENCE = 'ADD_REFERENCE',
+    /**
+     * Emit this any time the editor becomes available again after being
+     * unavailable (excluding the initial initialization).
+     */
+    AVAILABLE = 'EDITOR_AVAILABLE',
+    /**
+     * Emit this when user manually deletes one or more inline citations using
+     * the keyboard.
+     */
+    CITATION_DELETED = 'CITATION_DELETED',
+    /**
+     * Bind and emit to this if the editor supports keyboard shortcuts.
+     * Keyboard shortcut for this should be cmd/ctrl+alt+p
+     */
+    TOGGLE_PINNED = 'TOGGLE_PINNED',
+    /**
+     * Emit this any time the editor goes unavailable or becomes hidden.
+     */
+    UNAVAILABLE = 'EDITOR_UNAVAILABLE',
+    /**
+     * Emit this any time the user performs an "undo" in the editor.
+     */
+    UNDO = 'UNDO',
+}
+
+export default abstract class Editor {
+    static readonly events = EditorEvents;
+
+    static readonly bibliographyId = 'abt-bibliography';
+    static readonly citationClass = 'abt-citation';
+    static readonly footnoteId = 'abt-footnote';
+    static readonly staticBibClass = 'abt-static-bib';
+
+    static createBibliographyElement(
+        {
+            bib_heading = '',
+            bib_heading_level = 'h3',
+            bibliography = 'fixed',
+        }: Partial<ABT.DisplayOptions>,
+        items: ABT.Bibliography,
+        classNames: string[] = [],
+    ): HTMLDivElement {
+        const bib = document.createElement('div');
+        bib.id = Editor.bibliographyId;
+        bib.setAttribute(
+            'data-reflist',
+            JSON.stringify(items.map(({ id }) => id)),
+        );
+        bib.classList.add(Editor.bibliographyId, ...classNames);
+
+        if (bib.classList.contains(Editor.staticBibClass)) {
+            bib.classList.remove(Editor.bibliographyId);
+            bib.removeAttribute('id');
+            // Occurs only when attempting to insert a static list when the
+            // user's selected citation type doesn't define a bibliography.
+            if (items.length === 0) {
+                const { warnings } = top.ABT.i18n.errors;
+                bib.innerHTML = `<strong>${warnings.warning}:</strong> ${
+                    warnings.no_bib
+                }.`;
+                return bib;
+            }
+        }
+
+        if (bib_heading) {
+            let headingElement;
+            if (bibliography === 'toggle') {
+                headingElement = document.createElement('button');
+                headingElement.classList.add(
+                    `${Editor.bibliographyId}__heading`,
+                    `${Editor.bibliographyId}__heading_toggle`,
+                );
+                headingElement.setAttribute('aria-expanded', 'false');
+                headingElement.setAttribute(
+                    'aria-controls',
+                    `${this.bibliographyId}__container`,
+                );
+                headingElement.setAttribute(
+                    'data-heading-level',
+                    bib_heading_level,
+                );
+            } else {
+                headingElement = document.createElement(bib_heading_level);
+                headingElement.classList.add(
+                    `${Editor.bibliographyId}__heading`,
+                );
+            }
+            headingElement.textContent = bib_heading;
+            bib.appendChild(headingElement);
+        }
+
+        const container = document.createElement('div');
+        container.id = `${this.bibliographyId}__container`;
+        container.classList.add(`${this.bibliographyId}__container`);
+        bib.appendChild(container);
+
+        for (const itemMeta of items) {
+            const item = document.createElement('div');
+            item.id = itemMeta.id;
+            item.innerHTML = itemMeta.html;
+            container.appendChild(item);
+        }
+
+        return bib;
+    }
+
+    static createFootnoteSection(
+        footnotes: string[],
+        classNames: string[] = [],
+    ): HTMLDivElement {
+        const note = document.createElement('div');
+        note.id = Editor.footnoteId;
+        note.classList.add(Editor.footnoteId, ...classNames);
+
+        const heading = document.createElement('div');
+        heading.classList.add(`${Editor.footnoteId}__heading`);
+        heading.textContent = top.ABT.i18n.misc.footnotes;
+
+        note.appendChild(heading);
+
+        for (const [index, footnote] of Array.from(footnotes.entries())) {
+            const item = document.createElement('div');
+            item.classList.add(`${Editor.footnoteId}__item`);
+
+            const itemNumber = document.createElement('span');
+            itemNumber.classList.add(`${Editor.footnoteId}__number`);
+            itemNumber.textContent = `[${index + 1}]`;
+
+            const itemContent = document.createElement('span');
+            itemContent.classList.add(`${Editor.footnoteId}__content`);
+            itemContent.innerHTML = footnote;
+
+            item.appendChild(itemNumber);
+            item.appendChild(itemContent);
+
+            note.appendChild(item);
+        }
+
+        return note;
+    }
+
+    static createInlineElement({
+        classNames = [],
+        ...options
+    }: InlineElementOptions): HTMLSpanElement {
+        const { id, innerHTML, reflist } = options;
+        const element = document.createElement('span');
+        element.id = id;
+        element.classList.add(Editor.citationClass, ...classNames);
+        element.innerHTML = innerHTML;
+        element.setAttribute('data-reflist', reflist);
+        if (options.kind === 'note') {
+            element.setAttribute('data-footnote', options.footnote!);
+        }
+        return element;
+    }
+}

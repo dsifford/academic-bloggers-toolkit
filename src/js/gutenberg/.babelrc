@@ -1,0 +1,12 @@
+{
+  "extends": "../../../.babelrc",
+  "plugins": [
+    [
+      "@babel/plugin-transform-react-jsx",
+      {
+        "pragma": "wp.element.createElement",
+        "pragmaFrag": "wp.element.Fragment"
+      }
+    ]
+  ]
+}

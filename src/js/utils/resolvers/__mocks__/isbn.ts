@@ -1,4 +1,4 @@
-import { AutociteResponse } from 'utils/resolvers';
+import { AutociteResponse } from '../';
 
 export async function getFromISBN(
     ISBN: string,

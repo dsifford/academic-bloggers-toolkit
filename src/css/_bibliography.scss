@@ -1,0 +1,57 @@
+.csl-entry {
+    a {
+        word-break: break-all;
+
+        @at-root .wp-admin & {
+            pointer-events: none;
+        }
+    }
+}
+
+.csl-left-margin {
+    display: table-cell;
+    padding-right: 0.5em;
+    text-align: right;
+}
+
+.csl-right-inline {
+    display: table-cell;
+}
+
+.abt-bibliography__body {
+    display: grid;
+    padding: 0;
+    padding-left: 1rem;
+    padding-inline-start: 1rem;
+    font-size: 0.8em;
+
+    li {
+        display: block;
+        display: contents;
+    }
+
+    &[data-hangingindent] .csl-entry {
+        padding-left: 1.5em;
+        text-indent: -1.5em;
+    }
+
+    &[data-hangingindent='false'] .csl-entry {
+        padding-left: inherit;
+        text-indent: inherit;
+    }
+
+    @for $i from 1 through 3 {
+        &[data-entryspacing='#{$i}'] {
+            gap: $i * 1em;
+        }
+
+        &[data-hangingindent='#{$i}'] .csl-entry {
+            padding-left: $i - 0.5em;
+            text-indent: -($i - 0.5em);
+        }
+
+        &[data-linespacing='#{$i}'] {
+            line-height: $i + 0.3;
+        }
+    }
+}

@@ -1,0 +1,17 @@
+:global(.components-panel__body.is-opened).container {
+    padding: 8px;
+
+    // Sticky header stuff (only works on mobile)
+    z-index: 1;
+    background: white;
+    position: sticky;
+    top: 0;
+
+    :global(.components-with-notices-ui) {
+        margin: -10px;
+    }
+
+    :global(.components-notice) {
+        margin: 0;
+    }
+}

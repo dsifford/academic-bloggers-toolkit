@@ -14,96 +14,97 @@
  * @package ABT
  */
 
+declare(strict_types=1);
+
 namespace ABT;
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'ABT_VERSION', '{{VERSION}}' );
-define( 'ABT_ROOT_URI', plugin_dir_url( __FILE__ ) );
-define( 'ABT_ROOT_PATH', plugin_dir_path( __FILE__ ) );
+define( 'ABT_NONCE', 'abt_nonce' );
 define( 'ABT_OPTIONS_KEY', 'abt_options' );
+define( 'ABT_ROOT_PATH', __DIR__ );
+define( 'ABT_ROOT_URI', plugins_url( '', __FILE__ ) );
+define( 'ABT_VERSION', '{{VERSION}}' );
+
+use function ABT\Utils\{
+	get_dependencies,
+	register_script,
+};
+
+require_once __DIR__ . '/php/utils.php';
+require_once __DIR__ . '/php/class-form-actions.php';
+require_once __DIR__ . '/php/endpoints.php';
+
+if ( is_admin() ) {
+	require_once __DIR__ . '/php/editor.php';
+	require_once __DIR__ . '/php/editor-legacy.php';
+	require_once __DIR__ . '/php/options.php';
+} else {
+	require_once __DIR__ . '/php/frontend.php';
+}
 
 /**
  * Load plugin translations.
  */
-function textdomain() {
-	load_plugin_textdomain( 'academic-bloggers-toolkit', false, dirname( plugin_basename( __FILE__ ) ) . '/languages' );
+function textdomain(): void {
+	load_plugin_textdomain( 'academic-bloggers-toolkit', false, basename( ABT_ROOT_PATH ) . '/languages' );
 }
-add_action( 'plugins_loaded', 'ABT\textdomain' );
-
-/**
- * Adds .csl files to the accepted mime types for WordPress.
- *
- * @param string[] $mimes Existing mime types.
- *
- * @return string[] Existing mime types + csl
- */
-function enable_csl_mime( $mimes ) {
-	$mimes['csl'] = 'text/xml';
-	return $mimes;
-}
-add_filter( 'upload_mimes', 'ABT\enable_csl_mime' );
-
+add_action( 'plugins_loaded', __NAMESPACE__ . '\textdomain' );
 
 /**
  * Cleans up options during uninstall.
  */
-function uninstall() {
+function uninstall(): void {
 	delete_option( ABT_OPTIONS_KEY );
 }
-if ( function_exists( 'register_uninstall_hook' ) ) {
-	register_uninstall_hook( __FILE__, 'ABT\uninstall' );
-}
-
+register_uninstall_hook( __FILE__, __NAMESPACE__ . '\uninstall' );
 
 /**
  * Refactors the defined plugin options.
  *
- * Current schema configuration can be found here:
- * http://www.jsoneditoronline.org/?id=8f65b4f64daaf41e5ed94c4a006ba264
+ * @link https://app.quicktype.io?share=E2qRt1Cg3TR6qmHbXDcY
  */
-function refactor_options() {
+function refactor_options(): void {
 	$options = get_option( ABT_OPTIONS_KEY );
-	if ( version_compare( ABT_VERSION, $options['VERSION'], '<=' ) ) {
-		return;
+	if ( version_compare( ABT_VERSION, $options['VERSION'] ?? '0', '>' ) ) {
+		// Move custom css to customizer if it exists.
+		if ( ! empty( $options['custom_css'] ) ) {
+			wp_update_custom_css_post(
+				wp_get_custom_css_post() . PHP_EOL .
+				wp_kses( $options['custom_css'], [ "\'", '\"' ] )
+			);
+		}
+		$new_options = [
+			'VERSION'         => ABT_VERSION,
+			'citation_style'  => [
+				'kind'  => $options['citation_style']['kind'] ?? 'predefined',
+				'label' => $options['citation_style']['label'] ?? 'American Medical Association',
+				'value' => $options['citation_style']['value'] ?? 'american-medical-association',
+			],
+			// @deprecated 5.0.0
+			'display_options' => [
+				'bib_heading'       => $options['display_options']['bib_heading'] ?? '',
+				'bib_heading_level' => $options['display_options']['bib_heading_level'] ?? 'h3',
+				'bibliography'      => $options['display_options']['bibliography'] ?? 'fixed',
+				'links'             => $options['display_options']['links'] ?? 'always',
+			],
+		];
+		update_option( ABT_OPTIONS_KEY, $new_options );
 	}
-
-	$new_options = [];
-
-	$new_options['citation_style'] = [
-		'kind'  => isset( $options['citation_style']['kind'] ) ? $options['citation_style']['kind'] : 'predefined',
-		'label' => isset( $options['citation_style']['label'] ) ? $options['citation_style']['label'] : 'American Medical Association',
-		'value' => isset( $options['citation_style']['id'] ) ? $options['citation_style']['id'] : 'american-medical-association',
-	];
-
-	$new_options['custom_css'] = ! empty( $options['custom_css'] ) ? $options['custom_css'] : '';
-
-	$new_options['display_options'] = [
-		'bibliography'      => ! empty( $options['display_options']['bibliography'] ) ? $options['display_options']['bibliography'] : 'fixed',
-		'links'             => ! empty( $options['display_options']['links'] ) ? $options['display_options']['links'] : 'always',
-		'bib_heading'       => ! empty( $options['display_options']['bib_heading'] ) ? $options['display_options']['bib_heading'] : '',
-		'bib_heading_level' => ! empty( $options['display_options']['bib_heading_level'] ) ? $options['display_options']['bib_heading_level'] : 'h3',
-	];
-
-	$new_options['VERSION'] = ABT_VERSION;
-
-	update_option( ABT_OPTIONS_KEY, $new_options );
 }
-add_action( 'admin_init', 'ABT\refactor_options' );
-
+add_action( 'admin_init', __NAMESPACE__ . '\refactor_options' );
 
 /**
  * Adds link on the plugin page to the options page.
  *
  * @param string[] $links array of links.
  */
-function add_options_link( $links ) {
+function add_options_link( array $links ): array {
 	$url  = admin_url( 'options-general.php?page=abt-options' );
 	$text = __( 'Plugin Settings', 'academic-bloggers-toolkit' );
 	return array_merge( $links, [ "<a href='$url'>$text</a>" ] );
 }
-add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), 'ABT\add_options_link' );
-
+add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), __NAMESPACE__ . '\add_options_link' );
 
 /**
  * Adds donation link to the plugin meta.
@@ -111,7 +112,7 @@ add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), 'ABT\add_optio
  * @param mixed[] $links The array having default links for the plugin.
  * @param string  $file  The name of the plugin file.
  */
-function add_donate_link( $links, $file ) {
+function add_donate_link( array $links, string $file ): array {
 	if ( plugin_basename( __FILE__ ) === $file ) {
 		$links[] = sprintf(
 			'&hearts; <a href="%s">%s</a>',
@@ -121,41 +122,87 @@ function add_donate_link( $links, $file ) {
 	}
 	return $links;
 }
-add_filter( 'plugin_row_meta', 'ABT\add_donate_link', 10, 2 );
-
-
-/**
- * Enqueues frontend JS and CSS.
- */
-function frontend_enqueues() {
-	$options    = get_option( ABT_OPTIONS_KEY );
-	$custom_css = wp_kses( $options['custom_css'], [ "\'", '\"' ] );
-
-	wp_enqueue_style( 'abt-frontend-styles', ABT_ROOT_URI . 'css/frontend.css', [], ABT_VERSION );
-	if ( isset( $custom_css ) && ! empty( $custom_css ) ) {
-		wp_add_inline_style( 'abt-frontend-styles', $custom_css );
-	}
-
-	if ( is_singular() ) {
-		wp_enqueue_script( 'abt-frontend-script', ABT_ROOT_URI . 'js/frontend.js', [], ABT_VERSION, true );
-	}
-}
-add_action( 'wp_enqueue_scripts', 'ABT\frontend_enqueues' );
+add_filter( 'plugin_row_meta', __NAMESPACE__ . '\add_donate_link', 10, 2 );
 
 /**
- * Grabs the citation styles from the vendor array, decodes the JSON to an
- * associative array and return it.
+ * Registers all scripts/styles used by this plugin.
  */
-function get_citation_styles() {
-	// @codingStandardsIgnoreStart
-	// Ignoring the `file_get_contents` warning here because it's a misfire.
-	// the warning is meant for flagging remote calls. This is a local file.
-	$json = json_decode( file_get_contents( ABT_ROOT_PATH . '/vendor/citation-styles.json' ), true );
-	// @codingStandardsIgnoreEnd
-	return $json;
-}
+function register_scripts(): void {
+	$deps = get_dependencies();
 
-require_once __DIR__ . '/php/dom-injects.php';
-require_once __DIR__ . '/php/class-backend.php';
-require_once __DIR__ . '/php/class-options.php';
-require_once __DIR__ . '/php/endpoints.php';
+	//
+	// Editor.
+	//
+	register_script( 'editor', [ 'scripts' => $deps['editor'] ] );
+	register_script( 'editor-blocks', [ 'scripts' => $deps['editor-blocks'] ] );
+	register_script( 'editor-formats', [ 'scripts' => $deps['editor-formats'] ] );
+	register_script( 'editor-formats', [ 'scripts' => $deps['editor-formats'] ] );
+	register_script( 'editor-stores', [ 'scripts' => $deps['editor-stores'] ] );
+	register_script(
+		'editor-legacy',
+		[
+			'scripts' => $deps['editor-legacy'],
+			'styles'  => [
+				'abt-legacy-fonts',
+				'dashicons',
+			],
+		]
+	);
+
+	//
+	// Options Page.
+	//
+	register_script( 'options-page', [ 'scripts' => $deps['options-page'] ] );
+
+	//
+	// Frontend.
+	//
+	register_script( 'frontend', [ 'scripts' => $deps['frontend'] ] );
+	register_script( 'frontend-legacy', [ 'scripts' => $deps['frontend-legacy'] ] );
+
+	//
+	// Third party.
+	//
+	wp_register_style(
+		'abt-legacy-fonts',
+		add_query_arg(
+			[
+				'family' => 'Roboto:300,400,500,700',
+				'subset' => 'cyrillic,cyrillic-ext,greek,greek-ext,latin-ext,vietnamese',
+			],
+			'//fonts.googleapis.com/css'
+		),
+		[],
+		ABT_VERSION
+	);
+	wp_register_script(
+		'codepen',
+		'//assets.codepen.io/assets/embed/ei.js',
+		[],
+		ABT_VERSION,
+		true
+	);
+	wp_register_script(
+		'CSL',
+		'//cdn.jsdelivr.net/gh/Juris-M/citeproc-js@{{CITEPROC_VERSION}}/citeproc.min.js',
+		[],
+		ABT_VERSION,
+		true
+	);
+}
+add_action( 'wp_loaded', __NAMESPACE__ . '\register_scripts' );
+
+/**
+ * Adds an ajax nonce to pages that require it.
+ */
+function ajax_nonce(): void {
+	?>
+	<script type="text/javascript">
+		window._abt_nonce = <?php echo wp_json_encode( wp_create_nonce( 'abt-ajax' ) ); ?>
+	</script>
+	<?php
+}
+add_action( 'admin_head-post-new.php', __NAMESPACE__ . '\ajax_nonce' );
+add_action( 'admin_head-post.php', __NAMESPACE__ . '\ajax_nonce' );
+add_action( 'admin_head-settings_page_abt-options', __NAMESPACE__ . '\ajax_nonce' );
+

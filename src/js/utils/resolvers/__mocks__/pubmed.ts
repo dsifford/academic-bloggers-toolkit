@@ -1,7 +1,17 @@
 import { EUtilsError, toCSL } from 'astrocite-eutils';
 
 const data: any = {
-    uids: ['11111', '22222', '33333', '44444', '55555', '66666', '77777', '88888', '99999'],
+    uids: [
+        '11111',
+        '22222',
+        '33333',
+        '44444',
+        '55555',
+        '66666',
+        '77777',
+        '88888',
+        '99999',
+    ],
     '11111': {
         uid: '11111',
         pubdate: '1976',
@@ -200,8 +210,10 @@ const data: any = {
             },
         ],
         lastauthor: 'Brade W',
-        title: "[Treatment of bronchitis with cefaclor (Panoral) (author's transl)].",
-        sorttitle: 'treatment of bronchitis with cefaclor panoral author s transl',
+        title:
+            "[Treatment of bronchitis with cefaclor (Panoral) (author's transl)].",
+        sorttitle:
+            'treatment of bronchitis with cefaclor panoral author s transl',
         volume: '121',
         issue: '7',
         pages: '247-50',
@@ -860,29 +872,35 @@ export async function getFromPubmed(
     _kind: 'PMID' | 'PMCID',
     idlist: string,
 ): Promise<[CSL.Data[], string[]]> {
-    return new Promise<[CSL.Data[], string[]]>((resolve): void => {
-        const uids = idlist.split(',').map(id => (id.startsWith('PMC') ? id.slice(3) : id));
-        const result = {
-            uids,
-            ...uids.reduce(
-                (prev, id) => {
-                    return { ...prev, [id]: data[id] };
+    return new Promise<[CSL.Data[], string[]]>(
+        (resolve): void => {
+            const uids = idlist
+                .split(',')
+                .map(id => (id.startsWith('PMC') ? id.slice(3) : id));
+            const result = {
+                uids,
+                ...uids.reduce(
+                    (prev, id) => {
+                        return { ...prev, [id]: data[id] };
+                    },
+                    <any>{},
+                ),
+            };
+            const response = {
+                header: {
+                    type: 'esummary',
+                    version: '0.3',
                 },
-                <any>{},
-            ),
-        };
-        const response = {
-            header: {
-                type: 'esummary',
-                version: '0.3',
-            },
-            result,
-        };
-        const payload = toCSL(response);
-        const csl = <CSL.Data[]>payload.filter(d => d instanceof Error === false);
-        const errs: string[] = (<EUtilsError[]>payload)
-            .filter(d => d instanceof Error)
-            .map((d: EUtilsError) => d.message);
-        resolve([csl, errs]);
-    });
+                result,
+            };
+            const payload = toCSL(response);
+            const csl = <CSL.Data[]>(
+                payload.filter(d => d instanceof Error === false)
+            );
+            const errs: string[] = (<EUtilsError[]>payload)
+                .filter(d => d instanceof Error)
+                .map((d: EUtilsError) => d.message);
+            resolve([csl, errs]);
+        },
+    );
 }

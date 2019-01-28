@@ -1,18 +1,46 @@
 {
   "compilerOptions": {
-    "target": "es6",
-    "module": "commonjs",
-    "lib": ["dom", "dom.iterable", "esnext"],
+    "allowSyntheticDefaultImports": true,
+    "baseUrl": "./src/js",
+    "experimentalDecorators": true,
+    "esModuleInterop": true,
     "jsx": "preserve",
-    "sourceMap": true,
-    "strict": true,
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "es2018"
+    ],
+    "module": "esnext",
+    "moduleResolution": "node",
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitReturns": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "noImplicitReturns": true,
-    "noFallthroughCasesInSwitch": true,
-    "noImplicitAny": true,
-    "baseUrl": "./src/js",
-    "experimentalDecorators": true
+    "resolveJsonModule": true,
+    "sourceMap": true,
+    "strict": true,
+    "target": "es2018",
+    "typeRoots": [
+      "node_modules/@types",
+      "types"
+    ],
+    "paths": {
+      "@wordpress/*": [
+        "../../types/wordpress__*"
+      ]
+    },
+    "plugins": [
+      {
+        "name": "typescript-tslint-plugin"
+      }
+    ]
   },
-  "include": ["src/js/**/*", "lib/types/*", "lib/*", "webpack.config.ts"]
+  "include": [
+    "src/**/*",
+    "types/*.d.ts",
+    "webpack.config.ts"
+  ],
+  "exclude": [
+    "src/js/_legacy/workers/**"
+  ]
 }

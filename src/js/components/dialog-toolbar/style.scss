@@ -1,0 +1,10 @@
+.toolbar {
+    $margin: 16px;
+    position: sticky;
+    bottom: 0;
+    background: white;
+    margin: -$margin;
+    margin-top: $margin;
+    padding: 10px $margin;
+    border-top: 1px solid #e2e4e7;
+}

@@ -1,8 +1,31 @@
 <?php
+/**
+ * AJAX Endpoints.
+ *
+ * @package ABT
+ */
+
+// phpcs:disable WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
 
 namespace ABT\Endpoints;
 
 defined( 'ABSPATH' ) || exit;
+
+use function ABT\Utils\get_citation_styles;
+
+/**
+ * Fetch and return citation style JSON.
+ */
+function get_style_json() {
+	check_ajax_referer( 'abt-ajax' );
+	$styles        = get_citation_styles();
+	$current_style = get_option( ABT_OPTIONS_KEY )['citation_style'];
+	if ( 'custom' === $current_style['kind'] ) {
+		$styles->styles[] = $current_style;
+	}
+	wp_send_json( $styles );
+}
+add_action( 'wp_ajax_get_style_json', __NAMESPACE__ . '\get_style_json' );
 
 /**
  * AJAX Method for getting metadata from other websites for citations.
@@ -12,10 +35,16 @@ function get_website_meta() {
 		wp_send_json_error( [], 501 );
 		exit;
 	}
+	check_ajax_referer( 'abt-ajax' );
 
-	$site_url = esc_url_raw( wp_unslash( $_POST['site_url'] ) );
-	$raw      = wp_remote_retrieve_body( wp_remote_get( $site_url ) );
-	$html     = new \DOMDocument();
+	if ( ! isset( $_POST['url'] ) ) {
+		wp_send_json_error( [], 400 );
+	}
+
+	$url  = esc_url_raw( wp_unslash( $_POST['url'] ) );
+	$raw  = wp_remote_retrieve_body( wp_safe_remote_get( $url ) );
+	$html = new \DOMDocument();
+	libxml_use_internal_errors( true );
 	$html->loadHTML( $raw );
 	$xpath = new \DOMXPath( $html );
 
@@ -31,19 +60,19 @@ function get_website_meta() {
 	 */
 	$authors = $xpath->query( '//meta[ @name="author" ]' );
 	foreach ( $authors as $node ) {
-		$a = explode( ' ', $node->getAttribute( 'content' ), 2 );
+		$a = explode( ' ', sanitize_text_field( $node->getAttribute( 'content' ) ), 2 );
 		$a = [
-			'firstname' => $a[0],
-			'lastname'  => $a[1],
+			'given'  => $a[0],
+			'family' => $a[1],
 		];
 		if ( ! is_int( array_search( $a, $payload['authors'], true ) ) ) {
 			$payload['authors'][] = $a;
 		}
 	}
 
-	$issued = $xpath->query( '//meta[ @name="pubdate" ]' );
-	foreach ( $issued as $node ) {
-		$payload['issued'] = $node->getAttribute( 'content' );
+	$issued = $xpath->query( '//meta[ @name="pubdate" ]' )->item( 0 );
+	if ( $issued ) {
+		$payload['issued'] = sanitize_text_field( $issued->getAttribute( 'content' ) );
 	}
 
 	/**
@@ -52,8 +81,8 @@ function get_website_meta() {
 	$opengraph = $xpath->query( '//meta[ starts-with( @property, "og:" ) ]' );
 	foreach ( $opengraph as $node ) {
 		$expl                  = explode( ':', $node->getAttribute( 'property' ), 2 );
-		$key                   = str_replace( ':', '_', $expl[1] );
-		$value                 = $node->getAttribute( 'content' );
+		$key                   = sanitize_key( str_replace( ':', '_', $expl[1] ) );
+		$value                 = sanitize_text_field( $node->getAttribute( 'content' ) );
 		$payload['og'][ $key ] = $value;
 	}
 
@@ -63,8 +92,8 @@ function get_website_meta() {
 	$article = $xpath->query( '//meta[ starts-with( @property, "article:" ) ]' );
 	foreach ( $article as $node ) {
 		$expl                       = explode( ':', $node->getAttribute( 'property' ), 2 );
-		$key                        = $expl[1];
-		$value                      = $node->getAttribute( 'content' );
+		$key                        = sanitize_key( $expl[1] );
+		$value                      = sanitize_text_field( $node->getAttribute( 'content' ) );
 		$payload['article'][ $key ] = $value;
 	}
 
@@ -74,8 +103,8 @@ function get_website_meta() {
 	$sailthru = $xpath->query( '//meta[ starts-with( @name, "sailthru" ) ]' );
 	foreach ( $sailthru as $node ) {
 		$expl  = explode( '.', $node->getAttribute( 'name' ), 2 );
-		$key   = $expl[1];
-		$value = $node->getAttribute( 'content' );
+		$key   = sanitize_key( $expl[1] );
+		$value = sanitize_text_field( $node->getAttribute( 'content' ) );
 
 		if ( 'author' === $key ) {
 			if ( strlen( $value ) > 50 ) {
@@ -83,8 +112,8 @@ function get_website_meta() {
 			}
 			$a = explode( ' ', $value, 2 );
 			$a = [
-				'firstname' => $a[0],
-				'lastname'  => $a[1],
+				'given'  => $a[0],
+				'family' => $a[1],
 			];
 			if ( ! is_int( array_search( $a, $payload['authors'], true ) ) ) {
 				$payload['authors'][] = $a;
@@ -98,44 +127,33 @@ function get_website_meta() {
 	/**
 	 * Itemprop Tags.
 	 */
-	$issued = $xpath->query( '//*[ @itemprop="datePublished" ]' );
-	foreach ( $issued as $iss ) {
-		$i = $iss->getAttribute( 'datetime' );
-		if ( ! empty( $i ) ) {
-			$payload['issued'] = $i;
-			continue;
-		}
-		$i = $iss->getAttribute( 'content' );
-		if ( ! empty( $i ) ) {
-			$payload['issued'] = $i;
-			continue;
+	$issued = $xpath->query( '//*[ @itemprop="datePublished" ]' )->item( 0 );
+	if ( $issued ) {
+		if ( $issued->hasAttribute( 'datetime' ) ) {
+			$payload['issued'] = esc_attr( $issued->getAttribute( 'datetime' ) );
+		} elseif ( $issued->hasAttribute( 'content' ) ) {
+			$payload['issued'] = esc_attr( $issued->getAttribute( 'content' ) );
 		}
 	}
 
 	$authors = $xpath->query( '//*[ @itemprop="author" ][ not( ancestor::*[ @itemtype="http://schema.org/Comment" ] ) ]' );
 	foreach ( $authors as $author ) {
-		// @codingStandardsIgnoreStart
-		// snake_case is out of my control here.
-		if ( 'meta' === $author->nodeName ) {
+		if ( $author->nodeName === 'meta' ) {
 			continue;
 		}
-		$a = explode( ' ', $author->textContent, 2 );
-		// @codingStandardsIgnoreEnd
+		$a = explode( ' ', sanitize_text_field( $author->textContent ), 2 );
 		$a = [
-			'firstname' => $a[0],
-			'lastname'  => $a[1],
+			'given'  => $a[0],
+			'family' => $a[1],
 		];
 		if ( ! is_int( array_search( $a, $payload['authors'], true ) ) ) {
 			$payload['authors'][] = $a;
 		}
 	}
 
-	$title = $xpath->query( '//*[ @itemprop="headline" ]' );
-	foreach ( $title as $t ) {
-		// @codingStandardsIgnoreStart
-		// snake_case is out of my control here.
-		$payload['title'] = $t->textContent;
-		// @codingStandardsIgnoreEnd
+	$title = $xpath->query( '//*[ @itemprop="headline" ]' )->item( 0 );
+	if ( $title ) {
+		$payload['title'] = sanitize_text_field( $title->textContent );
 	}
 
 	/**
@@ -144,28 +162,28 @@ function get_website_meta() {
 	$abt = $xpath->query( '//meta[ starts-with( @property, "abt:" ) ]' );
 	foreach ( $abt as $node ) {
 		$expl  = explode( ':', $node->getAttribute( 'property' ), 2 );
-		$key   = $expl[1];
-		$value = $node->getAttribute( 'content' );
+		$key   = sanitize_key( $expl[1] );
+		$value = sanitize_text_field( $node->getAttribute( 'content' ) );
 		if ( 'author' === $key ) {
 			$a = explode( '|', $value, 2 );
 			$a = [
-				'firstname' => $a[0],
-				'lastname'  => $a[1],
+				'given'  => $a[0],
+				'family' => $a[1],
 			];
 			if ( ! is_int( array_search( $a, $payload['authors'], true ) ) ) {
 				$payload['authors'][] = $a;
 			}
 		}
-		$payload['abt'][ $key ] = $value;
 	}
 
 	// Last ditch effort to get a title of the site.
 	if ( ! $payload['title'] ) {
-		$title = trim( preg_replace( '/\s+/', ' ', $raw ) );
-		preg_match( '/\<title\>( .* )\<\/title\>/i', $title, $title );
-		$payload['title'] = $title[1];
+		$title = $xpath->query( '/html/head/title' )->item( 0 );
+		if ( $title ) {
+			$payload['title'] = sanitize_text_field( $title->textContent );
+		}
 	}
 
 	wp_send_json( $payload );
 }
-add_action( 'wp_ajax_get_website_meta', 'ABT\Endpoints\get_website_meta' );
+add_action( 'wp_ajax_get_website_meta', __NAMESPACE__ . '\get_website_meta' );

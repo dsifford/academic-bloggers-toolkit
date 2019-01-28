@@ -1,0 +1,38 @@
+.options-page__title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    a.button-primary {
+        font-size: 16px;
+        height: 40px;
+        line-height: 38px;
+    }
+}
+
+form {
+    .postbox {
+        margin: 0;
+    }
+
+    .abt-submit-row {
+        margin-bottom: 20px;
+        text-align: right;
+    }
+
+    input[type='submit'].button-primary {
+        margin-top: 8px;
+    }
+}
+
+.how-to__container {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.how-to__item {
+    flex: auto;
+    min-width: 300px;
+    width: 500px;
+    padding: 0 5px;
+}

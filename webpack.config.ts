@@ -1,221 +1,246 @@
-import { TsConfigPathsPlugin } from 'awesome-typescript-loader';
-import { execSync } from 'child_process';
-import { resolve } from 'path';
-import * as webpack from 'webpack';
+import path from 'path';
 
-import * as BroswerSyncPlugin from 'browser-sync-webpack-plugin';
-import * as CopyWebpackPlugin from 'copy-webpack-plugin';
-import * as ExtractTextPlugin from 'extract-text-webpack-plugin';
-import * as RollbarSourceMapPlugin from 'rollbar-sourcemap-webpack-plugin';
-import * as UglifyJsPlugin from 'uglifyjs-webpack-plugin';
+import { CheckerPlugin, TsConfigPathsPlugin } from 'awesome-typescript-loader';
+import BrowserSyncPlugin from 'browser-sync-webpack-plugin';
+import CopyWebpackPlugin from 'copy-webpack-plugin';
+import MiniCssExtractPlugin from 'mini-css-extract-plugin';
+import rimraf from 'rimraf';
+import { coerce } from 'semver';
+import { Configuration, Plugin, ProgressPlugin } from 'webpack';
 
-const ENTRYPOINT_DIR = 'js/_entrypoints';
-const IS_PRODUCTION = process.env.NODE_ENV === 'production';
-const IS_DEPLOYING = process.env.IS_DEPLOYING === 'true';
-const VERSION = process.env.npm_package_version;
-const COMMIT_HASH = IS_PRODUCTION
-    ? execSync('git rev-parse HEAD', { encoding: 'utf8' })
-    : '';
+import { dependencies, version as VERSION } from './package.json';
 
-if (!VERSION) {
-    // tslint:disable-next-line:no-console
-    console.error('Webpack must be ran using npm scripts.');
-    process.exit(0);
-}
+// citeproc's npm major semver number is incorrectly 1 higher than github's.
+const CITEPROC_VERSION = (() => {
+    const { major, minor, patch } = coerce(dependencies.citeproc)!;
+    return `${major - 1}.${minor}.${patch}`;
+})();
 
-// Clean out dist directory
-execSync(`rm -rf ${__dirname}/dist/*`);
+export default (_: any, argv: any): Configuration => {
+    const IS_PRODUCTION = argv.mode === 'production';
 
-const plugins = new Set<webpack.Plugin>([
-    new webpack.EnvironmentPlugin({
-        NODE_ENV: 'development',
-        ROLLBAR_CLIENT_TOKEN: '',
-        COMMIT_HASH,
-    }),
-    new ExtractTextPlugin({
-        filename: (getPath: (format: string) => string): string => {
-            return getPath('[name]')
-                .split('/')
-                .reverse()
-                .filter(n => n !== 'index')
-                .map(n => `css/${n}` + '.css')[0];
-        },
-        ignoreOrder: true,
-    }),
-    new CopyWebpackPlugin([
-        {
-            from: '**/*.{php,mo}',
-            ignore: ['academic-bloggers-toolkit.php'],
-        },
-        {
-            from: 'vendor/*',
-        },
-        {
-            from: resolve(__dirname, 'LICENSE'),
-        },
-        {
-            from: '@(readme.txt|academic-bloggers-toolkit.php)',
-            transform(content): string {
-                return content.toString().replace(/{{VERSION}}/g, VERSION!);
-            },
-        },
-    ]),
-]);
+    // Clean out dist directory
+    rimraf.sync(path.join(__dirname, 'dist', '*'));
 
-if (!IS_PRODUCTION) {
-    plugins.add(
-        new BroswerSyncPlugin({
-            proxy: 'localhost:8080',
-            open: false,
-            reloadDebounce: 2000,
-            port: 3005,
-            notify: false,
-        }),
-    );
-}
-
-if (IS_PRODUCTION) {
-    plugins
-        .add(new webpack.optimize.OccurrenceOrderPlugin(true))
-        .add(new UglifyJsPlugin({ sourceMap: true }));
-}
-
-if (IS_DEPLOYING) {
-    plugins.add(
-        new RollbarSourceMapPlugin({
-            accessToken: process.env.ROLLBAR_API_TOKEN,
-            version: COMMIT_HASH,
-            publicPath:
-                'http://dynamichost/wp-content/plugins/academic-bloggers-toolkit',
-        }),
-    );
-}
-
-export default <webpack.Configuration>{
-    mode: IS_PRODUCTION ? 'production' : 'development',
-    watch: !IS_PRODUCTION,
-    watchOptions: {
-        ignored: /(node_modules|dist|lib|webpack.config)/,
-    },
-    devtool: 'source-map',
-    context: resolve(__dirname, 'src'),
-    entry: {
-        'js/frontend': `${ENTRYPOINT_DIR}/frontend`,
-        'js/options-page': `${ENTRYPOINT_DIR}/options-page`,
-        'js/reference-list': [
-            'custom-event-polyfill',
-            'proxy-polyfill',
-            'whatwg-fetch',
-            `${ENTRYPOINT_DIR}/reference-list`,
-        ],
-        'js/drivers/tinymce': 'js/drivers/tinymce',
-        'workers/locale-worker': 'workers/locale-worker',
-    },
-    output: {
-        path: resolve(__dirname, 'dist'),
-        filename: '[name].js',
-    },
-    resolve: {
-        alias: {
-            css: resolve(__dirname, 'src/css'),
-        },
-        extensions: ['*', '.webpack.js', '.web.js', '.ts', '.tsx', '.js'],
-        modules: [resolve(__dirname, 'src'), 'node_modules'],
-        plugins: [new TsConfigPathsPlugin()],
-    },
-    plugins: [...plugins],
-    stats: {
-        children: IS_PRODUCTION,
-    },
-    module: {
-        rules: [
+    const plugins = new Set<Plugin>([
+        new MiniCssExtractPlugin(),
+        new CopyWebpackPlugin([
             {
-                test: /\.ts$/,
-                include: resolve(__dirname, 'src/workers'),
-                use: [
-                    {
-                        loader: 'awesome-typescript-loader',
-                        options: {
-                            useBabel: true,
-                            useCache: !IS_PRODUCTION,
-                            cacheDirectory: resolve(
-                                __dirname,
-                                'node_modules/.cache/awesome-typescript-loader',
-                            ),
-                            babelCore: '@babel/core',
-                            configFileName: resolve(
-                                __dirname,
-                                'src/workers/tsconfig.json',
-                            ),
-                            instance: 'at-worker-loader',
-                        },
-                    },
-                ],
+                from: '**/*.{php,mo,pot}',
+                ignore: ['academic-bloggers-toolkit.php'],
             },
             {
-                test: /\.tsx?$/,
-                exclude: [
-                    /(?:__tests__|node_modules)/,
-                    resolve(__dirname, 'src/workers'),
-                ],
-                use: [
-                    {
-                        loader: 'awesome-typescript-loader',
-                        options: {
-                            useBabel: true,
-                            useCache: !IS_PRODUCTION,
-                            cacheDirectory: resolve(
-                                __dirname,
-                                'node_modules/.cache/awesome-typescript-loader',
-                            ),
-                            babelCore: '@babel/core',
-                            reportFiles: ['**/*.{ts,tsx}'],
-                        },
-                    },
-                ],
+                from: '**/*.json',
+                transform(content) {
+                    return JSON.stringify(JSON.parse(content));
+                },
             },
             {
-                test: /\.scss$/,
-                use: ExtractTextPlugin.extract({
-                    use: [
+                from: path.resolve(__dirname, 'LICENSE'),
+            },
+            {
+                from: '@(readme.txt|academic-bloggers-toolkit.php)',
+                transform(content) {
+                    return content
+                        .toString()
+                        .replace(/{{VERSION}}/g, VERSION)
+                        .replace(/{{CITEPROC_VERSION}}/g, CITEPROC_VERSION);
+                },
+            },
+        ]),
+        new CheckerPlugin(),
+    ]);
+
+    if (IS_PRODUCTION) {
+        plugins.add(new ProgressPlugin());
+    } else {
+        plugins.add(
+            new BrowserSyncPlugin({
+                proxy: 'localhost:8080',
+                open: false,
+                reloadDebounce: 2000,
+                port: 3005,
+                notify: false,
+            }),
+        );
+    }
+
+    const TS_BASE_CONFIG = {
+        silent: argv.json,
+        useCache: !IS_PRODUCTION,
+        cacheDirectory: path.resolve(
+            __dirname,
+            'node_modules/.cache/awesome-typescript-loader',
+        ),
+        reportFiles: ['**/*.{ts,tsx}', '!**/__tests__/**'],
+    };
+
+    return {
+        devtool: IS_PRODUCTION ? 'source-map' : 'cheap-module-eval-source-map',
+        watchOptions: {
+            ignored: /(node_modules|__tests__)/,
+        },
+        context: path.resolve(__dirname, 'src'),
+        externals: {
+            '@wordpress/api-fetch': 'wp.apiFetch',
+            '@wordpress/blocks': 'wp.blocks',
+            '@wordpress/components': 'wp.components',
+            '@wordpress/compose': 'wp.compose',
+            '@wordpress/dom-ready': 'wp.domReady',
+            '@wordpress/data': 'wp.data',
+            '@wordpress/edit-post': 'wp.editPost',
+            '@wordpress/editor': 'wp.editor',
+            '@wordpress/element': 'wp.element',
+            '@wordpress/i18n': 'wp.i18n',
+            '@wordpress/keycodes': 'wp.keycodes',
+            '@wordpress/plugins': 'wp.plugins',
+            '@wordpress/rich-text': 'wp.richText',
+            '@wordpress/url': 'wp.url',
+            citeproc: 'CSL',
+            lodash: 'lodash',
+        },
+        entry: {
+            /**
+             * Legacy
+             */
+            'bundle/frontend-legacy': 'js/_legacy/_entrypoints/frontend',
+            'bundle/editor-legacy': [
+                'custom-event-polyfill',
+                'proxy-polyfill',
+                'js/_legacy/_entrypoints/reference-list',
+            ],
+            'bundle/drivers/tinymce': 'js/_legacy/drivers/tinymce',
+            'bundle/workers/locale-worker': 'js/_legacy/workers/locale-worker',
+
+            /**
+             * New hotness
+             */
+            'bundle/editor': 'js/gutenberg',
+            'bundle/editor-blocks': 'js/gutenberg/blocks',
+            'bundle/editor-formats': 'js/gutenberg/formats',
+            'bundle/editor-stores': 'js/stores',
+            'bundle/frontend': 'js/frontend',
+            'bundle/options-page': 'js/options-page',
+        },
+        output: {
+            filename: '[name].js',
+            path: path.resolve(__dirname, 'dist'),
+        },
+        resolve: {
+            alias: {
+                css: path.resolve(__dirname, 'src/css'),
+            },
+            modules: [path.resolve(__dirname, 'src'), 'node_modules'],
+            extensions: ['*', '.ts', '.tsx', '.js', '.scss'],
+            plugins: [new TsConfigPathsPlugin()],
+        },
+        plugins: [...plugins],
+        stats: IS_PRODUCTION ? 'normal' : 'minimal',
+        module: {
+            rules: [
+                {
+                    test: /\.tsx?$/,
+                    sideEffects: false,
+                    rules: [
                         {
-                            loader: 'css-loader',
-                            options: {
-                                importLoaders: 1,
-                                modules: true,
-                                minimize: IS_PRODUCTION,
-                                sourceMap: !IS_PRODUCTION,
-                                camelCase: 'only',
-                                localIdentName:
-                                    '[name]__[local]___[hash:base64:5]',
-                            },
+                            loader: 'babel-loader',
                         },
                         {
-                            loader: 'sass-loader',
-                            options: {
-                                sourceMap: !IS_PRODUCTION,
-                                includePaths: [resolve(__dirname, 'src/css')],
-                            },
+                            oneOf: [
+                                {
+                                    include: path.resolve(
+                                        __dirname,
+                                        'src/js/_legacy/workers',
+                                    ),
+                                    use: [
+                                        {
+                                            loader: 'awesome-typescript-loader',
+                                            options: {
+                                                ...TS_BASE_CONFIG,
+                                                configFileName: path.resolve(
+                                                    __dirname,
+                                                    'src/js/_legacy/workers/tsconfig.json',
+                                                ),
+                                                instance: 'workers',
+                                            },
+                                        },
+                                    ],
+                                },
+                                {
+                                    use: [
+                                        {
+                                            loader: 'awesome-typescript-loader',
+                                            options: {
+                                                ...TS_BASE_CONFIG,
+                                            },
+                                        },
+                                    ],
+                                },
+                            ],
                         },
                     ],
-                    allChunks: true,
-                }),
-            },
-            {
-                test: /\.css$/,
-                use: ExtractTextPlugin.extract({
-                    use: [
+                },
+                {
+                    test: /\.scss$/,
+                    rules: [
                         {
-                            loader: 'css-loader',
-                            options: {
-                                minimize: IS_PRODUCTION,
-                                sourceMap: !IS_PRODUCTION,
-                            },
+                            use: [MiniCssExtractPlugin.loader],
+                        },
+                        {
+                            oneOf: [
+                                {
+                                    resourceQuery: /global/,
+                                    use: [
+                                        {
+                                            loader: 'css-loader',
+                                            options: {
+                                                importLoaders: 2,
+                                                modules: false,
+                                            },
+                                        },
+                                    ],
+                                },
+                                {
+                                    use: [
+                                        {
+                                            loader: 'css-loader',
+                                            options: {
+                                                importLoaders: 2,
+                                                modules: true,
+                                                camelCase: 'only',
+                                                localIdentName:
+                                                    '[name]__[local]___[hash:base64:5]',
+                                            },
+                                        },
+                                    ],
+                                },
+                            ],
+                        },
+                        {
+                            use: [
+                                {
+                                    loader: 'postcss-loader',
+                                    options: {
+                                        ident: 'postcss',
+                                        plugins: [
+                                            require('postcss-preset-env')(),
+                                            ...(IS_PRODUCTION
+                                                ? [require('cssnano')()]
+                                                : []),
+                                        ],
+                                    },
+                                },
+                                {
+                                    loader: 'sass-loader',
+                                    options: {
+                                        includePaths: ['src/css'],
+                                    },
+                                },
+                            ],
                         },
                     ],
-                    allChunks: true,
-                }),
-            },
-        ],
-    },
+                },
+            ],
+        },
+    };
 };

@@ -1,0 +1,28 @@
+.abt-footnotes {
+    font-size: 0.8em;
+
+    ol {
+        display: table;
+        padding: 0;
+        padding-left: 1rem;
+        padding-inline-start: 1rem;
+    }
+}
+
+.abt-footnotes-item {
+    display: table-row;
+
+    > div:not([class]) {
+        display: contents;
+    }
+
+    &__marker {
+        display: table-cell;
+        padding-right: 0.5em;
+        text-align: right;
+    }
+
+    &__content {
+        display: table-cell;
+    }
+}

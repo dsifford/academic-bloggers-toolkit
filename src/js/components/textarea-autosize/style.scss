@@ -1,0 +1,10 @@
+.textarea,
+:global(.editor-block-list__block) textarea.textarea,
+:global(.editor-block-list__block) textarea.textarea:focus {
+    all: unset;
+    box-sizing: border-box;
+    resize: none;
+    overflow: hidden;
+    line-height: inherit;
+    width: 100%;
+}
