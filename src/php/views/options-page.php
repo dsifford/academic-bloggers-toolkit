@@ -66,7 +66,7 @@ use ABT\Form_Actions;
 												sprintf(
 													/* translators: %s: version number */
 													__( 'PHP version should be at least %s', 'academic-bloggers-toolkit' ),
-													'7.2',
+													'7.2'
 												);
 												esc_html_e( 'PHP version should be at least 7.2', 'academic-bloggers-toolkit' );
 											?>
