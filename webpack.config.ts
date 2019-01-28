@@ -30,7 +30,7 @@ export default (_: any, argv: any): Configuration => {
                 ignore: ['academic-bloggers-toolkit.php'],
             },
             {
-                from: '**/*.json',
+                from: '*.json',
                 transform(content) {
                     return JSON.stringify(JSON.parse(content));
                 },
