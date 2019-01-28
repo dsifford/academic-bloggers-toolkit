@@ -140,7 +140,7 @@ export default class ReferenceList extends React.Component<Props> {
         );
         removeEventListener(
             EditorDriver.events.TOGGLE_PINNED,
-            this.togglePinned.bind(this),
+            this.togglePinned,
         );
         removeEventListener(
             EditorDriver.events.CITATION_DELETED,
@@ -148,10 +148,7 @@ export default class ReferenceList extends React.Component<Props> {
                 kind: MenuActionType.REFRESH_PROCESSOR,
             }),
         );
-        removeEventListener(
-            EditorDriver.events.UNDO,
-            this.handleUndo.bind(this),
-        );
+        removeEventListener(EditorDriver.events.UNDO, this.handleUndo);
         document.removeEventListener('scroll', this.handleScroll);
     }
 

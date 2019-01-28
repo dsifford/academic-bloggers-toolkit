@@ -21,7 +21,9 @@
       ],
       "severity": "warning"
     },
-    "deprecation": true,
+    "deprecation": {
+      "severity": "warning"
+    },
     "file-name-casing": {
       "options": [
         "kebab-case"
@@ -56,11 +58,6 @@
       ]
     },
     "object-literal-sort-keys": false,
-    // "object-literal-sort-keys": [
-    //   true,
-    //   "match-declaration-order",
-    //   "shorthand-first"
-    // ],
     "ordered-imports": {
       "options": {
         "import-sources-order": "case-insensitive",
