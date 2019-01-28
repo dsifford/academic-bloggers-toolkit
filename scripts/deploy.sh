@@ -6,13 +6,13 @@ SVNROOT=$(cd "$ROOTDIR" && cd ../SVN && pwd || exit)
 
 # Make sure svn repo is up to date
 cd "$SVNROOT" || exit
-svn up
+svn update
 
 # Delete entire trunk directory
 rm -rf trunk/*
 
 # Create tag directory
-mkdir -p "tags/$VERSION"
+mkdir -p tags/"$VERSION"
 
 # Copy dist over to tag and trunk directory
 cp -r "$ROOTDIR"/dist/* "$SVNROOT"/trunk/
@@ -25,4 +25,4 @@ svn stat | grep -Po '^!.+' | awk '{print $2}' | xargs svn rm
 svn stat | grep -Po '^\?.+' | awk '{print $2}' | xargs svn add
 
 # Commit the changes
-svn ci -m "Release $VERSION"
+svn commit -m "Release $VERSION"

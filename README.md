@@ -39,9 +39,7 @@ An **open source** WordPress plugin providing an all-in-one solution for effecti
 
 ## Translations
 
-<p align="center"><a href="https://poeditor.com/join/project/PGYLKWQM5h"><strong>Click Here to Translate this Plugin</strong></a></p>
-
-Translations for this plugin can be completed and submitted [here](https://poeditor.com/join/project/PGYLKWQM5h). After submission of a translation, I'll try to update the plugin with your translations within 7 days.
+<p align="center"><a href="https://translate.wordpress.org/projects/wp-plugins/academic-bloggers-toolkit"><strong>Click Here to Translate this Plugin</strong></a></p>
 
 ### Translation Status
 
@@ -68,4 +66,4 @@ Translations for this plugin can be completed and submitted [here](https://poedi
 
 ## Contributing
 
-If you'd like to contribute to this project, please read the [contributor guide](https://github.com/dsifford/academic-bloggers-toolkit/blob/master/CONTRIBUTING.md).
+If you'd like to contribute to this project, please read the [contributor guide](./.github/CONTRIBUTING.md).
