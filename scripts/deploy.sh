@@ -25,10 +25,10 @@ cp -r "$ROOTDIR"/dist/* "$SVNROOT"/trunk/
 cp -r "$ROOTDIR"/dist/* "$SVNROOT"/tags/"$VERSION"/
 
 # Remove deleted files
-svn stat | grep -Po '^!.+' | awk '{print $2}' | xargs svn rm
+svn stat | grep -Po '^!.+' | awk '{print $2}' | xargs --no-run-if-empty svn rm
 
 # Add new files
-svn stat | grep -Po '^\?.+' | awk '{print $2}' | xargs svn add
+svn stat | grep -Po '^\?.+' | awk '{print $2}' | xargs --no-run-if-empty svn add
 
 # Commit the changes
 svn commit \
