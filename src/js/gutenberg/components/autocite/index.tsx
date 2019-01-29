@@ -59,7 +59,6 @@ export default class Autocite extends Component<Props, State> {
                     type="search"
                     autoComplete="off"
                     data-lpignore="true"
-                    required
                     ref={this.inputRef}
                     {...inputProps}
                     value={query}

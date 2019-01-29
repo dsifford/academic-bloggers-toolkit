@@ -167,8 +167,8 @@ function parseDateField<T extends CSL.DateFieldKey>(
         [key]: {
             raw: [
                 date.getUTCFullYear(),
-                date.getUTCMonth() + 1,
-                date.getUTCDate(),
+                `0${date.getUTCMonth() + 1}`.slice(-2),
+                `0${date.getUTCDate()}`.slice(-2),
             ].join('/'),
         },
     };
