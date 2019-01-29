@@ -43,32 +43,15 @@ If you're a developer and would like to contribute, you can do so via this plugi
 
 == Changelog ==
 
-= 5.0.0 =
+<!-- BEGIN_CHANGELOG -->
 
-This release is a complete rewrite of the codebase for the new Block Editor. In this release, there are vast improvements to both performance and reliability as well as a handful of other nice changes that I hope you'll all enjoy.
-
-### BREAKING CHANGES
-
-* PHP 7.2 is required to use this plugin.
-* "Full Note" style citations are no longer supported.
-
-### Major Changes
-
-* 100% backwards compatibility with old editor citations.
-* Full rewrite of the codebase for the block editor.
-* Add integrated footnotes.
-
-### Minor Changes
-
-* Add static publication list block
-* Update citation styles.
+= 5.0.1 =
 
 ### Patches
 
-* Use minified citeproc from jsdelivr CDN.
-* Fix sorting of citation items in tooltips.
-* Add URL field to a few more manual types. closes #535
-* Switch to protected meta for editor state.
-* Improve checks for loading legacy code vs new code.
-* Fix error message parsing in csl file parser.
+* PHP 7.0 compatibility.
+* Fix issue with date parsing when autociting a website.
 
+<!-- END_CHANGELOG -->
+
+[See the previous changelogs here](https://github.com/dsifford/academic-bloggers-toolkit/blob/master/CHANGELOG.md).

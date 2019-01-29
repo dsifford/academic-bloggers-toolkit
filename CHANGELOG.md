@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## 5.0.1 
+
+### Patches 
+
+- PHP 7.0 compatibility: 85a282b54bbe35e3723d55a831aa411db4cc19de
+- Fix issue with date parsing when autociting a website: 589459f2253de9046af301382e7bbfa0ff5db3f5
+
 ## 5.0.0
 
 This release is a complete rewrite of the codebase for the new Block Editor. In this release, there are vast improvements to both performance and reliability as well as a handful of other nice changes that I hope you'll all enjoy.
