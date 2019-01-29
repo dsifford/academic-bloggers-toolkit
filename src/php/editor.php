@@ -21,7 +21,7 @@ use function ABT\Utils\{
 /**
  * Enqueue admin scripts.
  */
-function enqueue_scripts(): void {
+function enqueue_scripts() {
 	global $post;
 	wp_enqueue_style( get_handle( 'editor-blocks', 'style' ) );
 	wp_enqueue_style( get_handle( 'editor-formats', 'style' ) );
@@ -40,7 +40,7 @@ add_action( 'enqueue_block_editor_assets', __NAMESPACE__ . '\enqueue_scripts' );
 /**
  * Register post meta to store editor state.
  */
-function register_metadata(): void {
+function register_metadata() {
 	register_meta(
 		'post',
 		'_abt_state',

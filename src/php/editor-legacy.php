@@ -22,7 +22,7 @@ use function ABT\Utils\{
 /**
  * Registers load hooks.
  */
-function register(): void {
+function register() {
 	$has_rich_editing = (bool) get_user_option( 'rich_editing' );
 	if ( class_exists( '\Classic_Editor' ) ) {
 		if ( $has_rich_editing ) {
@@ -41,7 +41,7 @@ add_action( 'init', __NAMESPACE__ . '\register' );
 /**
  * Ensures that classic editor is enabled for existing posts.
  */
-function check_classic_state(): void {
+function check_classic_state() {
 	$post_id          = filter_input( INPUT_GET, 'post', FILTER_VALIDATE_INT );
 	$saved_mode       = get_post_meta( $post_id, 'classic-editor-remember', true );
 	$is_swapping_mode = (
@@ -69,7 +69,7 @@ function check_classic_state(): void {
 /**
  * Ensures that classic editor is enabled for new posts.
  */
-function check_classic_option(): void {
+function check_classic_option() {
 	if ( get_option( 'classic-editor-replace' ) !== 'block' ) {
 		load_post();
 	}
@@ -78,7 +78,7 @@ function check_classic_option(): void {
 /**
  * Registers hooks for classic editor.
  */
-function load_post(): void {
+function load_post() {
 	$post_type           = get_current_screen()->post_type;
 	$disabled_post_types = apply_filters( 'abt_disabled_post_types', [ 'acf', 'um_form' ] );
 	$is_valid_post_type  = ! in_array(
@@ -122,7 +122,7 @@ function load_post(): void {
  *
  * @param string $post_type The post type.
  */
-function add_metaboxes( string $post_type ): void {
+function add_metaboxes( string $post_type ) {
 	add_meta_box(
 		'abt-reflist',
 		__( 'Reference List', 'academic-bloggers-toolkit' ),
@@ -152,7 +152,7 @@ function add_metaboxes( string $post_type ): void {
  *
  * @param int $post_id The post ID.
  */
-function save_meta( int $post_id ): void {
+function save_meta( int $post_id ) {
 	if (
 		! wp_is_post_autosave( $post_id ) &&
 		! wp_is_post_revision( $post_id ) &&
@@ -167,7 +167,7 @@ function save_meta( int $post_id ): void {
 /**
  * Enqueues legacy editor scripts.
  */
-function enqueue_scripts(): void {
+function enqueue_scripts() {
 	global $post;
 
 	require_once __DIR__ . '/i18n.php';

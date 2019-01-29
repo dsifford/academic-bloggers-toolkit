@@ -21,7 +21,7 @@ use function ABT\Utils\{
 /**
  * Registers the plugin options page.
  */
-function register_options_page(): void {
+function register_options_page() {
 	add_options_page(
 		__( "Academic Blogger's Toolkit Options", 'academic-bloggers-toolkit' ),
 		__( "Academic Blogger's Toolkit", 'academic-bloggers-toolkit' ),
@@ -37,7 +37,7 @@ add_action( 'admin_menu', __NAMESPACE__ . '\register_options_page' );
  *
  * @param string $hook The hook suffix of the page being loaded.
  */
-function enqueue_scripts( string $hook ): void {
+function enqueue_scripts( string $hook ) {
 	if ( 'settings_page_abt-options' !== $hook ) {
 		return;
 	}
@@ -50,7 +50,7 @@ add_action( 'admin_enqueue_scripts', __NAMESPACE__ . '\enqueue_scripts' );
 /**
  * Renders the options page.
  */
-function render_options_page(): void {
+function render_options_page() {
 	if ( ! current_user_can( 'manage_options' ) ) {
 		wp_die(
 			esc_html__(

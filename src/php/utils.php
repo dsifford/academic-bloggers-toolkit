@@ -16,7 +16,7 @@ namespace ABT\Utils;
  * @param mixed  $data The data to be JSON encoded.
  * @throws \RuntimeException If the provided action is already done and over with.
  */
-function add_json_script( string $id, $data ): void {
+function add_json_script( string $id, $data ) {
 	$prefix = is_admin() ? 'admin_' : 'wp_';
 	$action = $prefix . 'footer';
 	if ( did_action( $action ) ) {
@@ -42,7 +42,7 @@ function add_json_script( string $id, $data ): void {
  * @param string $kind    Optional. The notice kind. Accepts 'error', 'info',
  *                        'success', 'warning'. Default 'info'.
  */
-function create_admin_notice( string $message, string $kind = 'info' ): void {
+function create_admin_notice( string $message, string $kind = 'info' ) {
 	if ( is_admin() ) {
 		add_action(
 			'admin_notices',
@@ -140,7 +140,7 @@ function is_block_editor(): bool {
  *
  * @throws \InvalidArgumentException If the relative path refers to a non-existent file.
  */
-function register_script( string $relpath, array $deps = [] ): void {
+function register_script( string $relpath, array $deps = [] ) {
 	$style_suffix  = "/bundle/$relpath.css";
 	$script_suffix = "/bundle/$relpath.js";
 

@@ -21,7 +21,7 @@ use WP_Post;
  * Injects post author metadata into the <head> of posts so that others using
  * the plugin can easily extract author information.
  */
-function inject_author_meta(): void {
+function inject_author_meta() {
 	global $post;
 	if ( ! $post || ! is_singular() ) {
 		return;
@@ -60,7 +60,7 @@ add_action( 'wp_head', __NAMESPACE__ . '\inject_author_meta' );
  *
  * @param WP_Post $post The post.
  */
-function collect_bibliography( WP_Post $post ): void {
+function collect_bibliography( WP_Post $post ) {
 	if ( is_singular() && has_block( 'abt/bibliography', $post ) ) {
 		$blocks    = parse_blocks( $post->post_content );
 		$bib_index = array_search( 'abt/bibliography', array_column( $blocks, 'blockName' ), true );
@@ -74,7 +74,7 @@ add_action( 'the_post', __NAMESPACE__ . '\collect_bibliography' );
 /**
  * Enqueues frontend CSS and JS.
  */
-function enqueue_scripts(): void {
+function enqueue_scripts() {
 	global $post;
 	if ( is_singular() ) {
 		$base_handle = has_blocks( $post ) ? 'frontend' : 'frontend-legacy';

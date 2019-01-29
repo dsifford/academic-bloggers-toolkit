@@ -46,7 +46,7 @@ if ( is_admin() ) {
 /**
  * Load plugin translations.
  */
-function textdomain(): void {
+function textdomain() {
 	load_plugin_textdomain( 'academic-bloggers-toolkit', false, basename( ABT_ROOT_PATH ) . '/languages' );
 }
 add_action( 'plugins_loaded', __NAMESPACE__ . '\textdomain' );
@@ -54,7 +54,7 @@ add_action( 'plugins_loaded', __NAMESPACE__ . '\textdomain' );
 /**
  * Cleans up options during uninstall.
  */
-function uninstall(): void {
+function uninstall() {
 	delete_option( ABT_OPTIONS_KEY );
 }
 register_uninstall_hook( __FILE__, __NAMESPACE__ . '\uninstall' );
@@ -64,7 +64,7 @@ register_uninstall_hook( __FILE__, __NAMESPACE__ . '\uninstall' );
  *
  * @link https://app.quicktype.io?share=E2qRt1Cg3TR6qmHbXDcY
  */
-function refactor_options(): void {
+function refactor_options() {
 	$options = get_option( ABT_OPTIONS_KEY );
 	if ( version_compare( ABT_VERSION, $options['VERSION'] ?? '0', '>' ) ) {
 		// Move custom css to customizer if it exists.
@@ -127,7 +127,7 @@ add_filter( 'plugin_row_meta', __NAMESPACE__ . '\add_donate_link', 10, 2 );
 /**
  * Registers all scripts/styles used by this plugin.
  */
-function register_scripts(): void {
+function register_scripts() {
 	$deps = get_dependencies();
 
 	//
@@ -195,7 +195,7 @@ add_action( 'wp_loaded', __NAMESPACE__ . '\register_scripts' );
 /**
  * Adds an ajax nonce to pages that require it.
  */
-function ajax_nonce(): void {
+function ajax_nonce() {
 	?>
 	<script type="text/javascript">
 		window._abt_nonce = <?php echo wp_json_encode( wp_create_nonce( 'abt-ajax' ) ); ?>
