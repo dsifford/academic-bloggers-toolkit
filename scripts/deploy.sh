@@ -4,9 +4,15 @@ VERSION="${npm_package_version?This script must be called using npm}"
 ROOTDIR=$PWD
 SVNROOT=$(cd "$ROOTDIR" && cd ../SVN && pwd || exit)
 
+# shellcheck source=../.env
+. "$ROOTDIR"/.env
+
 # Make sure svn repo is up to date
 cd "$SVNROOT" || exit
-svn update
+
+svn update \
+	--username "${SVN_USER:?SVN_USER not defined in env}" \
+	--password "${SVN_PASS:?SVN_PASS not defined in env}"
 
 # Delete entire trunk directory
 rm -rf trunk/*
@@ -25,4 +31,7 @@ svn stat | grep -Po '^!.+' | awk '{print $2}' | xargs svn rm
 svn stat | grep -Po '^\?.+' | awk '{print $2}' | xargs svn add
 
 # Commit the changes
-svn commit -m "Release $VERSION"
+svn commit \
+	--username "$SVN_USER" \
+	--password "$SVN_PASS" \
+	-m "Release $VERSION"
