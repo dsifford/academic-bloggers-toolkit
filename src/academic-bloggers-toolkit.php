@@ -67,13 +67,6 @@ register_uninstall_hook( __FILE__, __NAMESPACE__ . '\uninstall' );
 function refactor_options() {
 	$options = get_option( ABT_OPTIONS_KEY );
 	if ( version_compare( ABT_VERSION, $options['VERSION'] ?? '0', '>' ) ) {
-		// Move custom css to customizer if it exists.
-		if ( ! empty( $options['custom_css'] ) ) {
-			wp_update_custom_css_post(
-				wp_get_custom_css_post() . PHP_EOL .
-				wp_kses( $options['custom_css'], [ "\'", '\"' ] )
-			);
-		}
 		$new_options = [
 			'VERSION'         => ABT_VERSION,
 			'citation_style'  => [
