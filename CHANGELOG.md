@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## 5.0.2
+
+### Patches 
+
+- Fix fatal PHP exception issue related to legacy custom CSS. #538 #539
+
 ## 5.0.1 
 
 ### Patches 

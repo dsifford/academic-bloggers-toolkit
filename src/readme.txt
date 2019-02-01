@@ -45,12 +45,11 @@ If you're a developer and would like to contribute, you can do so via this plugi
 
 <!-- BEGIN_CHANGELOG -->
 
-= 5.0.1 =
+= 5.0.2 =
 
 ### Patches
 
-* PHP 7.0 compatibility.
-* Fix issue with date parsing when autociting a website.
+* Fix fatal PHP exception issue related to legacy custom CSS.
 
 <!-- END_CHANGELOG -->
 
