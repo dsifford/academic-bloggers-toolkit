@@ -1,5 +1,5 @@
 import { Block, createBlock, parse } from '@wordpress/blocks';
-import { dispatch, select, subscribe } from '@wordpress/data';
+import { dispatch, select } from '@wordpress/data';
 
 import { createSelector } from 'utils/dom';
 import { getEditorDOM } from 'utils/editor';
@@ -8,7 +8,7 @@ import Processor from 'utils/processor';
 
 import { Style } from './';
 import { Actions } from './constants';
-import { fetchLocale, fetchStyle } from './controls';
+import { fetchLocale, fetchStyle, saveState } from './controls';
 
 export function* addReference(data: CSL.Data) {
     yield addReferences([data]);
@@ -36,7 +36,6 @@ export function* removeFootnotes(itemIds: string[]) {
         }
     }
     if (removedItems > 0) {
-        yield dispatch('core/editor').resetBlocks(parse(doc.innerHTML));
         yield save();
     }
 }
@@ -49,16 +48,21 @@ export function* removeReferences(itemIds: string[]) {
     const doc = getEditorDOM();
     const toDelete = [
         ...doc.querySelectorAll<HTMLSpanElement>(CitationElement.selector),
-    ].reduce((idsToDelete, citation) => {
-        const existingIds = CitationElement.getItems(citation);
-        const filteredItemIds = existingIds.filter(id => !itemIds.includes(id));
-        if (filteredItemIds.length === 0 && citation.parentNode) {
-            citation.parentNode.removeChild(citation);
-        } else {
-            citation.dataset.items = JSON.stringify(filteredItemIds);
-        }
-        return idsToDelete.filter(id => !existingIds.includes(id));
-    }, [...itemIds]);
+    ].reduce(
+        (idsToDelete, citation) => {
+            const existingIds = CitationElement.getItems(citation);
+            const filteredItemIds = existingIds.filter(
+                id => !itemIds.includes(id),
+            );
+            if (filteredItemIds.length === 0 && citation.parentNode) {
+                citation.parentNode.removeChild(citation);
+            } else {
+                citation.dataset.items = JSON.stringify(filteredItemIds);
+            }
+            return idsToDelete.filter(id => !existingIds.includes(id));
+        },
+        [...itemIds],
+    );
 
     yield dispatch('core/editor').resetBlocks(parse(doc.innerHTML));
     if (toDelete.length > 0) {
@@ -125,19 +129,8 @@ export function* setStyle(style: Style) {
 }
 
 function* save() {
-    yield dispatch('core/editor').editPost(
-        select('abt/data').getSerializedState(),
-    );
-    const unsubscribe = subscribe(() => {
-        const notice = select<Array<{ id: string }>>('core/notices')
-            .getNotices()
-            .find(({ id }) => id === 'SAVE_POST_NOTICE_ID');
-        if (notice) {
-            dispatch('core/notices').removeNotice('SAVE_POST_NOTICE_ID');
-            unsubscribe();
-        }
-    });
-    yield dispatch('core/editor').savePost();
+    yield saveState();
+    yield dispatch('core/editor').autosave();
 }
 
 function* setBibliography({ items, meta }: Processor.Bibliography) {

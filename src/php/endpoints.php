@@ -187,3 +187,27 @@ function get_website_meta() {
 	wp_send_json( $payload );
 }
 add_action( 'wp_ajax_get_website_meta', __NAMESPACE__ . '\get_website_meta' );
+
+/**
+ * Custom API to update _abt_state meta since current WordPress APIs are broken.
+ */
+function update_abt_state() {
+	check_ajax_referer( 'abt-ajax' );
+	if ( ! isset( $_POST['state'], $_POST['post_id'] ) ) {
+		wp_send_json_error( 'required fields not sent', 400 );
+	}
+	$post_id = intval( $_POST['post_id'] );
+	$state   = json_decode( wp_unslash( $_POST['state'] ) ); // phpcs:ignore
+	if ( is_null( $state ) ) {
+		wp_send_json_error( 'state is null', 400 );
+	}
+	$updated = update_post_meta(
+		$post_id,
+		'_abt_state',
+		wp_slash(
+			wp_json_encode( $state )
+		)
+	);
+	wp_send_json_success( $state );
+}
+add_action( 'wp_ajax_update_abt_state', __NAMESPACE__ . '\update_abt_state' );

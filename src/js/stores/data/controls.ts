@@ -10,6 +10,7 @@ const enum CtrlActions {
     FETCH_CITATION_STYLES = 'FETCH_CITATION_STYLES',
     FETCH_LOCALE = 'FETCH_LOCALE',
     FETCH_STYLE = 'FETCH_STYLE',
+    SAVE_STATE = 'SAVE_STATE',
 }
 
 export function fetchCitationStyles() {
@@ -36,6 +37,16 @@ export function fetchStyle() {
     };
 }
 
+export function saveState() {
+    const id = select('core/editor').getCurrentPostId();
+    const post = select('abt/data').getSerializedState();
+    return {
+        type: CtrlActions.SAVE_STATE,
+        id,
+        state: post.meta._abt_state,
+    };
+}
+
 const controls = {
     async FETCH_CITATION_STYLES(): Promise<StyleJSON> {
         const response = await fetchAjax('get_style_json');
@@ -46,6 +57,13 @@ const controls = {
     },
     async FETCH_STYLE({ id }: Action): Promise<string> {
         return styleCache.fetchItem(id);
+    },
+    async SAVE_STATE({ id, state }: any): Promise<any> {
+        const response = await fetchAjax('update_abt_state', {
+            post_id: id,
+            state,
+        });
+        return response.json();
     },
 };
 
