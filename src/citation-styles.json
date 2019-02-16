@@ -8326,6 +8326,12 @@
     },
     {
       "kind": "predefined",
+      "value": "chemical-engineering-progress",
+      "label": "Chemical Engineering Progress",
+      "shortTitle": "CEP"
+    },
+    {
+      "kind": "predefined",
       "value": "elsevier-harvard",
       "label": "Chemical Engineering Research and Design"
     },
@@ -12120,9 +12126,8 @@
     },
     {
       "kind": "predefined",
-      "value": "springer-basic-brackets",
-      "label": "Diabetologia",
-      "shortTitle": "Diabetologia"
+      "value": "diabetologia",
+      "label": "Diabetologia"
     },
     {
       "kind": "predefined",
@@ -25379,6 +25384,11 @@
       "kind": "predefined",
       "value": "apa",
       "label": "Journal of Development Studies"
+    },
+    {
+      "kind": "predefined",
+      "value": "american-medical-association-no-url",
+      "label": "Journal of Developmental and Behavioral Pediatrics"
     },
     {
       "kind": "predefined",
@@ -40204,6 +40214,11 @@
     },
     {
       "kind": "predefined",
+      "value": "revue-des-etudes-byzantines",
+      "label": "Revue des Études Byzantines"
+    },
+    {
+      "kind": "predefined",
       "value": "elsevier-vancouver",
       "label": "Revue du podologue"
     },
@@ -43777,6 +43792,11 @@
       "kind": "predefined",
       "value": "american-medical-association",
       "label": "The Journal of Hand Surgery"
+    },
+    {
+      "kind": "predefined",
+      "value": "the-journal-of-hand-surgery-european-volume",
+      "label": "The Journal of Hand Surgery (European Volume)"
     },
     {
       "kind": "predefined",

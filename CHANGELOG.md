@@ -1,5 +1,19 @@
 # CHANGELOG
 
+## 5.0.3
+
+### Patches
+
+- Fix bug preventing citations from being saved.
+- Fix bug resulting in errors being thrown when citing certain DOIs with certain citation styles. #543
+
+### Styles Added
+
+- Chemical Engineering Progress
+- Journal of Developmental and Behavioral Pediatrics
+- Revue des Études Byzantines
+- The Journal of Hand Surgery (European Volume)
+
 ## 5.0.2
 
 ### Patches 

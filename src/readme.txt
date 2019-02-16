@@ -3,7 +3,7 @@ Contributors: dsifford
 Donate link: https://donorbox.org/academic-bloggers-toolkit
 Tags: academia, academic, bibliographies, bibliography, bibtex, citation, citations, cite, citing, CSL, curriculum vitae, cv, doi, endnote, footnote, footnotes, journal, mendeley, papers, pmid, pmcid, publications, publish, pubmed, reference, reference list, reference manager, references, referencing, ris, scholar, scholarly, zotero
 Requires at least: 5.0
-Tested up to: 5.0
+Tested up to: 5.1
 Requires PHP: 7.0
 Stable tag: {{VERSION}}
 
@@ -45,11 +45,19 @@ If you're a developer and would like to contribute, you can do so via this plugi
 
 <!-- BEGIN_CHANGELOG -->
 
-= 5.0.2 =
+= 5.0.3 =
 
 ### Patches
 
-* Fix fatal PHP exception issue related to legacy custom CSS.
+* Fix bug preventing citations from being saved.
+* Fix bug resulting in errors being thrown when citing certain DOIs with certain citation styles.
+
+### New Styles Added
+
+* Chemical Engineering Progress.
+* Journal of Developmental and Behavioral Pediatrics.
+* Revue des Études Byzantines.
+* The Journal of Hand Surgery (European Volume).
 
 <!-- END_CHANGELOG -->
 
