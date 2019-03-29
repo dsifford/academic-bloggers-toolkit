@@ -1174,7 +1174,7 @@
     {
       "kind": "predefined",
       "value": "acta-universitatis-agriculturae-sueciae",
-      "label": "Acta Universitatis Agriculturae Sueciae (Swedish University of Agricultural Sciences) (Swedish)"
+      "label": "Acta Universitatis Agriculturae Sueciae (Swedish University of Agricultural Sciences)"
     },
     {
       "kind": "predefined",
@@ -2122,7 +2122,8 @@
     {
       "kind": "predefined",
       "value": "american-journal-of-botany",
-      "label": "American Journal of Botany"
+      "label": "American Journal of Botany",
+      "shortTitle": "AJB"
     },
     {
       "kind": "predefined",
@@ -2745,6 +2746,11 @@
       "value": "angiologia",
       "label": "Angiologia (Spanish)",
       "shortTitle": "ANGIO"
+    },
+    {
+      "kind": "predefined",
+      "value": "anglia",
+      "label": "Anglia"
     },
     {
       "kind": "predefined",
@@ -10399,6 +10405,12 @@
     },
     {
       "kind": "predefined",
+      "value": "contemporary-accounting-research",
+      "label": "Contemporary Accounting Research",
+      "shortTitle": "CAR"
+    },
+    {
+      "kind": "predefined",
       "value": "taylor-and-francis-chicago-author-date",
       "label": "Contemporary Arab Affairs"
     },
@@ -14384,6 +14396,12 @@
     },
     {
       "kind": "predefined",
+      "value": "estudios-de-fonetica-experimental",
+      "label": "Estudios de Fonética Experimental",
+      "shortTitle": "EFE"
+    },
+    {
+      "kind": "predefined",
       "value": "apa",
       "label": "Estudios de Historia Moderna y Contemporánea de México"
     },
@@ -16880,6 +16898,11 @@
       "kind": "predefined",
       "value": "elsevier-harvard",
       "label": "Frontiers of Architectural Research"
+    },
+    {
+      "kind": "predefined",
+      "value": "frontiers-of-biogeography",
+      "label": "Frontiers of Biogeography"
     },
     {
       "kind": "predefined",
@@ -20313,6 +20336,12 @@
     },
     {
       "kind": "predefined",
+      "value": "indian-journal-of-orthopaedics",
+      "label": "Indian Journal of Orthopaedics",
+      "shortTitle": "IJO"
+    },
+    {
+      "kind": "predefined",
       "value": "springer-basic-brackets",
       "label": "Indian Journal of Otolaryngology and Head & Neck Surgery",
       "shortTitle": "Indian J Otolaryngol Head Neck Surg"
@@ -21298,6 +21327,11 @@
       "value": "springer-socpsych-author-date",
       "label": "International Journal for Philosophy of Religion",
       "shortTitle": "Int J Philos Relig"
+    },
+    {
+      "kind": "predefined",
+      "value": "apa",
+      "label": "International Journal for Quality Research"
     },
     {
       "kind": "predefined",
@@ -22751,11 +22785,6 @@
     },
     {
       "kind": "predefined",
-      "value": "international-labour-organization",
-      "label": "International Labour Organization"
-    },
-    {
-      "kind": "predefined",
       "value": "international-microbiology",
       "label": "International Microbiology"
     },
@@ -23057,6 +23086,12 @@
       "kind": "predefined",
       "value": "ios-press-books",
       "label": "IOS Press (books)"
+    },
+    {
+      "kind": "predefined",
+      "value": "ipag-business-school-apa",
+      "label": "IPAG Business School - APA",
+      "shortTitle": "IPAG-APA"
     },
     {
       "kind": "predefined",
@@ -25388,7 +25423,7 @@
     {
       "kind": "predefined",
       "value": "american-medical-association-no-url",
-      "label": "Journal of Developmental and Behavioral Pediatrics"
+      "label": "Journal of Developmental & Behavioral Pediatrics"
     },
     {
       "kind": "predefined",
@@ -25779,6 +25814,11 @@
       "kind": "predefined",
       "value": "american-society-of-civil-engineers",
       "label": "Journal of Environmental Engineering"
+    },
+    {
+      "kind": "predefined",
+      "value": "apa",
+      "label": "Journal of Environmental Engineering and Landscape Management"
     },
     {
       "kind": "predefined",
@@ -36350,6 +36390,11 @@
     },
     {
       "kind": "predefined",
+      "value": "parasite",
+      "label": "Parasite"
+    },
+    {
+      "kind": "predefined",
       "value": "elsevier-harvard",
       "label": "Parasite Epidemiology and Control"
     },
@@ -40356,6 +40401,12 @@
     },
     {
       "kind": "predefined",
+      "value": "rivista-italiana-di-paleontologia-e-stratigrafia",
+      "label": "Rivista Italiana di Paleontologia e Stratigrafia",
+      "shortTitle": "RIPS"
+    },
+    {
+      "kind": "predefined",
       "value": "cold-spring-harbor-laboratory-press",
       "label": "RNA"
     },
@@ -42954,6 +43005,11 @@
     },
     {
       "kind": "predefined",
+      "value": "techniques-et-culture",
+      "label": "Techniques&Culture (French)"
+    },
+    {
+      "kind": "predefined",
       "value": "technische-universitat-dresden-betriebswirtschaftslehre-logistik-author-date",
       "label": "Technische Universität Dresden - Betriebswirtschaftslehre/Logistik (author-date)",
       "shortTitle": "TUD BWL/Logistik (author-date)"
@@ -43797,6 +43853,12 @@
       "kind": "predefined",
       "value": "the-journal-of-hand-surgery-european-volume",
       "label": "The Journal of Hand Surgery (European Volume)"
+    },
+    {
+      "kind": "predefined",
+      "value": "the-journal-of-hand-surgery-asian-pacific-volume",
+      "label": "The Journal of Hand Surgery Asian-Pacific Volume",
+      "shortTitle": "J Hand Surg Asian Pac Vol"
     },
     {
       "kind": "predefined",
@@ -47024,6 +47086,11 @@
       "value": "zastosowania-komputerow-w-elektrotechnice",
       "label": "Zastosowania Komputerów w Elektrotechnice",
       "shortTitle": "ZKwE"
+    },
+    {
+      "kind": "predefined",
+      "value": "zdfm-zeitschrift-fur-diversitatsforschung-und-management",
+      "label": "ZDfm – Zeitschrift für Diversitätsforschung und -management"
     },
     {
       "kind": "predefined",

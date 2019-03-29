@@ -5,22 +5,38 @@ import BrowserSyncPlugin from 'browser-sync-webpack-plugin';
 import CopyWebpackPlugin from 'copy-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import rimraf from 'rimraf';
-import { coerce } from 'semver';
+import { rollup } from 'rollup';
+import commonjs from 'rollup-plugin-commonjs';
+import resolve from 'rollup-plugin-node-resolve';
 import { Configuration, Plugin, ProgressPlugin } from 'webpack';
 
-import { dependencies, version as VERSION } from './package.json';
+import { version as VERSION } from './package.json';
 
-// citeproc's npm major semver number is incorrectly 1 higher than github's.
-const CITEPROC_VERSION = (() => {
-    const { major, minor, patch } = coerce(dependencies.citeproc)!;
-    return `${major - 1}.${minor}.${patch}`;
-})();
-
-export default (_: any, argv: any): Configuration => {
+export default async (_: any, argv: any): Promise<Configuration> => {
     const IS_PRODUCTION = argv.mode === 'production';
 
     // Clean out dist directory
     rimraf.sync(path.join(__dirname, 'dist', '*'));
+
+    await Promise.all([
+        rollup({
+            input: 'citeproc',
+            plugins: [
+                resolve(),
+                commonjs(),
+                IS_PRODUCTION &&
+                    (await import('rollup-plugin-terser')).terser(),
+            ],
+        }),
+    ]).then(([citeproc]) =>
+        Promise.all([
+            citeproc.write({
+                file: 'dist/vendor/citeproc.js',
+                format: 'iife',
+                name: 'CSL',
+            }),
+        ]),
+    );
 
     const plugins = new Set<Plugin>([
         new MiniCssExtractPlugin(),
@@ -41,10 +57,7 @@ export default (_: any, argv: any): Configuration => {
             {
                 from: '@(readme.txt|academic-bloggers-toolkit.php)',
                 transform(content) {
-                    return content
-                        .toString()
-                        .replace(/{{VERSION}}/g, VERSION)
-                        .replace(/{{CITEPROC_VERSION}}/g, CITEPROC_VERSION);
+                    return content.toString().replace(/{{VERSION}}/g, VERSION);
                 },
             },
         ]),

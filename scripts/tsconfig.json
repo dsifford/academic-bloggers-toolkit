@@ -1,9 +1,12 @@
 {
   "extends": "../tsconfig.json",
   "compilerOptions": {
+    "baseUrl": ".",
     "module": "commonjs"
   },
   "include": [
-    "./**/*.ts"
+    "*.ts",
+    "../src/**/*",
+    "../types/*.d.ts"
   ]
 }

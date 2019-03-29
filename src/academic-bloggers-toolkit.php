@@ -154,6 +154,17 @@ function register_scripts() {
 	register_script( 'frontend-legacy', [ 'scripts' => $deps['frontend-legacy'] ] );
 
 	//
+	// Vendor.
+	//
+	wp_register_script(
+		'CSL',
+		ABT_ROOT_URI . '/vendor/citeproc.js',
+		[],
+		filemtime( ABT_ROOT_PATH . '/vendor/citeproc.js' ),
+		true
+	);
+
+	//
 	// Third party.
 	//
 	wp_register_style(
@@ -171,13 +182,6 @@ function register_scripts() {
 	wp_register_script(
 		'codepen',
 		'//assets.codepen.io/assets/embed/ei.js',
-		[],
-		ABT_VERSION,
-		true
-	);
-	wp_register_script(
-		'CSL',
-		'//cdn.jsdelivr.net/gh/Juris-M/citeproc-js@{{CITEPROC_VERSION}}/citeproc.min.js',
 		[],
 		ABT_VERSION,
 		true

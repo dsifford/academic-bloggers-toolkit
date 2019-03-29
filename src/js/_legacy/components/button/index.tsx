@@ -30,6 +30,7 @@ interface Props extends React.HTMLProps<HTMLButtonElement> {
      * Primary button variant
      */
     primary?: boolean;
+    type?: 'button' | 'reset' | 'submit';
     /**
      * Information describing the tooltip if one is needed
      */
@@ -112,11 +113,6 @@ export default class Button extends React.PureComponent<Props, State> {
                     onMouseLeave={tooltip ? this.hideTooltip : undefined}
                     onClick={href ? this.openLink : onClick}
                 >
-                    {/* {icon ? (
-                        <span className={`dashicons dashicons-${icon}`} />
-                    ) : (
-                        label
-                    )} */}
                     {icon && <span className={`dashicons dashicons-${icon}`} />}
                     {this.props.children}
                 </button>
