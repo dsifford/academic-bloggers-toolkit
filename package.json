@@ -1,6 +1,6 @@
 {
   "private": true,
-  "version": "5.0.3",
+  "version": "5.0.4",
   "scripts": {
     "test": "jest --coverage",
     "test-ci": "jest --coverage --runInBand && npm run build",

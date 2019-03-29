@@ -6,8 +6,6 @@ import webpack from 'webpack';
 import oldDependencies from '../src/dependencies.json';
 import getConfig from '../webpack.config';
 
-const config = getConfig(undefined, { mode: 'production', json: true });
-
 interface Stats {
     entrypoints: Array<{ chunks: number[] }>;
     chunks: Array<{ modules: Module[] }>;
@@ -54,41 +52,51 @@ function itemSorter(a: Item, b: Item): number {
     return 0;
 }
 
-console.log('Checking to see if external dependencies have changed...');
-webpack(config, (_err, statistics) => {
-    const stats: Stats = statistics.toJson();
-    const dependencies = JSON.stringify(
-        [...Object.entries(stats.entrypoints)]
-            .filter(isInBundleRoot)
-            .map(([name, { chunks }]) => {
-                const { modules } = stats.chunks[chunks[0]];
-                return {
-                    name: path.basename(name),
-                    scripts: [
-                        'wp-polyfill',
-                        ...modules.filter(isExternalModule).map(parseHandle),
-                    ].sort(),
-                };
-            })
-            .sort(itemSorter)
-            .reduce(
-                (obj, { name, scripts }) => ({
-                    ...obj,
-                    [name]: scripts,
-                }),
-                {},
-            ),
-        null,
-        4,
-    );
-    if (dependencies !== JSON.stringify(oldDependencies, null, 4)) {
-        fs.writeFileSync(
-            path.join(__dirname, '../src/dependencies.json'),
-            dependencies,
+(async () => {
+    const config = await getConfig(undefined, {
+        mode: 'production',
+        json: true,
+    });
+
+    console.log('Checking to see if external dependencies have changed...');
+
+    webpack(config, (_err, statistics) => {
+        const stats: Stats = statistics.toJson();
+        const dependencies = JSON.stringify(
+            [...Object.entries(stats.entrypoints)]
+                .filter(isInBundleRoot)
+                .map(([name, { chunks }]) => {
+                    const { modules } = stats.chunks[chunks[0]];
+                    return {
+                        name: path.basename(name),
+                        scripts: [
+                            'wp-polyfill',
+                            ...modules
+                                .filter(isExternalModule)
+                                .map(parseHandle),
+                        ].sort(),
+                    };
+                })
+                .sort(itemSorter)
+                .reduce(
+                    (obj, { name, scripts }) => ({
+                        ...obj,
+                        [name]: scripts,
+                    }),
+                    {},
+                ),
+            null,
+            4,
         );
-        console.error(
-            'Dependencies have changed! Add the changes to your last commit before pushing.',
-        );
-        process.exit(1);
-    }
-});
+        if (dependencies !== JSON.stringify(oldDependencies, null, 4)) {
+            fs.writeFileSync(
+                path.join(__dirname, '../src/dependencies.json'),
+                dependencies,
+            );
+            console.error(
+                'Dependencies have changed! Add the changes to your last commit before pushing.',
+            );
+            process.exit(1);
+        }
+    });
+})();
