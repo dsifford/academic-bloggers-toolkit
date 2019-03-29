@@ -1,5 +1,30 @@
 # CHANGELOG
 
+## 5.0.4
+
+### Patches
+
+- Fix bug related to URL parsing in bibliographies. #549
+- Update dependencies.
+
+### Styles Added
+
+- Acta Universitatis Agriculturae Sueciae (Swedish University of Agricultural Sciences)
+- Anglia
+- Contemporary Accounting Research
+- Estudios de Fonética Experimental
+- Frontiers of Biogeography
+- Indian Journal of Orthopaedics
+- International Journal for Quality Research
+- IPAG Business School - APA
+- Journal of Developmental & Behavioral Pediatrics
+- Journal of Environmental Engineering and Landscape Management
+- Parasite
+- Rivista Italiana di Paleontologia e Stratigrafia
+- Techniques&Culture (French)
+- The Journal of Hand Surgery Asian-Pacific Volume
+- ZDfm - Zeitschrift für Diversitätsforschung und -management
+
 ## 5.0.3
 
 ### Patches
