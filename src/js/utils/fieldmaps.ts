@@ -818,8 +818,8 @@ const CSL_FIELDS: Readonly<Record<string, FieldMapping>> = {
                 label: __('Pages', 'academic-bloggers-toolkit'),
             },
             {
-                key: 'publisher',
-                label: __('Issuer', 'academic-bloggers-toolkit'),
+                key: 'authority',
+                label: __('Issuing Authority', 'academic-bloggers-toolkit'),
                 inputProps: {
                     required: true,
                 },
@@ -1134,4 +1134,4 @@ const CSL_FIELDS: Readonly<Record<string, FieldMapping>> = {
 };
 
 export default CSL_FIELDS;
-// vim: set fdl=1:
+// vim: set fdl=1 fdn=2:
