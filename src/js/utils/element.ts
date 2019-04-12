@@ -1,8 +1,7 @@
 import uuid from 'uuid/v4';
 
+import { ZERO_WIDTH_SPACE } from 'utils/constants';
 import { createSelector } from 'utils/dom';
-
-const OBJECT_REPLACEMENT_CHARACTER = '\ufffc';
 
 interface ABTElement {
     readonly className: string;
@@ -33,7 +32,6 @@ export abstract class CitationElement {
         citation.id = uuid();
         citation.dataset.items = JSON.stringify(items);
         citation.contentEditable = 'false';
-        citation.innerText = OBJECT_REPLACEMENT_CHARACTER;
         return citation.outerHTML;
     }
 
@@ -63,7 +61,6 @@ export abstract class FootnoteElement {
         footnote.id = uuid();
         footnote.dataset.note = note;
         footnote.contentEditable = 'false';
-        footnote.innerText = OBJECT_REPLACEMENT_CHARACTER;
         return footnote.outerHTML;
     }
 
@@ -74,7 +71,7 @@ export abstract class FootnoteElement {
                   index - markers.length,
                   marker + markers[index % markers.length],
               )
-            : `<sup>${marker}</sup>`;
+            : `<sup>${ZERO_WIDTH_SPACE}${marker}${ZERO_WIDTH_SPACE}</sup>`;
     }
 }
 

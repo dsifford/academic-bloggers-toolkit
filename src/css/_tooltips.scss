@@ -24,6 +24,7 @@ $tooltip-bg: #fff !default;
 .tooltip {
     $arrow-size: 5px;
     cursor: initial;
+    z-index: 1;
 
     .tooltip-arrow {
         width: 0;

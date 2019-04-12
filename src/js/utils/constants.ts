@@ -100,4 +100,6 @@ export const CSL_KEYS: ReadonlyArray<keyof CSL.Data> = [
     ...CSL_STRING_KEYS,
 ];
 
+export const ZERO_WIDTH_SPACE = '\u200b';
+
 // vim: set fdm=indent fdl=0:

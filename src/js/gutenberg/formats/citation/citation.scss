@@ -1,23 +1,6 @@
 .abt-citation {
-    cursor: pointer !important;
-}
-
-.editor-rich-text__tinymce:focus {
-    .abt-citation[data-mce-selected] {
-        &:not([data-has-children]),
-        &[data-has-children] > * {
-            padding: 0 2px;
-            margin: 0 -2px;
-            border-radius: 2px;
-            box-shadow: 0 0 0 1px #e8eaeb;
-            background: #e8eaeb;
-            color: #191e23;
-        }
+    &:not([data-has-children]),
+    &[data-has-children] > * {
+        cursor: pointer;
     }
-}
-
-.wp-block:not([data-type='core/freeform'])
-    .mce-content-body
-    *[contentEditable='false'][data-mce-selected] {
-    outline: unset;
 }

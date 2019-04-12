@@ -34,10 +34,12 @@ export interface Format {
 }
 
 export interface Value {
-    formats: Array<Format[] | undefined>;
-    text: string;
-    start?: number;
+    activeFormats?: Format[];
     end?: number;
+    formats: Array<Format[] | undefined>;
+    replacements: Array<Format[] | undefined>;
+    start?: number;
+    text: string;
 }
 
 interface CreateProps {
@@ -53,10 +55,6 @@ interface CreateProps {
      * Tags where lines can be found if nesting is possible
      */
     multilineWrapperTags?: string[];
-    /**
-     * Function to declare whether the given node should be removed
-     */
-    removeNode?: (node: HTMLElement) => boolean;
     /**
      * Function to declare whether the given node should be unwrapped
      */
@@ -96,6 +94,19 @@ export function insert(
 export function applyFormat(
     value: Value,
     formatToInsert: Value,
+    startIndex?: number,
+    endIndex?: number,
+): Value;
+
+export function remove(
+    value: Value,
+    startIndex?: number,
+    endIndex?: number,
+): Value;
+
+export function removeFormat(
+    value: Value,
+    formatType: string,
     startIndex?: number,
     endIndex?: number,
 ): Value;

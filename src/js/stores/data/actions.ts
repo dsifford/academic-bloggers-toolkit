@@ -1,6 +1,7 @@
 import { Block, createBlock, parse } from '@wordpress/blocks';
 import { dispatch, select } from '@wordpress/data';
 
+import { ZERO_WIDTH_SPACE } from 'utils/constants';
 import { createSelector } from 'utils/dom';
 import { getEditorDOM } from 'utils/editor';
 import { CitationElement, FootnoteElement } from 'utils/element';
@@ -204,8 +205,15 @@ function* updateEditorCitations(citations: Processor.CitationMeta[]) {
         if (node) {
             node.innerHTML = html;
             node.dataset.items = sortedItems;
-            if (node.childElementCount > 0) {
+            if (node.firstElementChild) {
                 node.dataset.hasChildren = 'true';
+                node.firstElementChild.innerHTML =
+                    ZERO_WIDTH_SPACE +
+                    node.firstElementChild.innerHTML +
+                    ZERO_WIDTH_SPACE;
+            } else {
+                delete node.dataset.hasChildren;
+                node.innerHTML = ZERO_WIDTH_SPACE + html + ZERO_WIDTH_SPACE;
             }
         }
     }
