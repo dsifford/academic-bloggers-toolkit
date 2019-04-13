@@ -909,6 +909,10 @@ const CSL_FIELDS: Readonly<Record<string, FieldMapping>> = {
                 },
             },
             {
+                key: 'genre',
+                label: __('Report Type', 'academic-bloggers-toolkit'),
+            },
+            {
                 key: 'number',
                 label: __('Number', 'academic-bloggers-toolkit'),
             },
