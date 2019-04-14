@@ -47,8 +47,6 @@ const DateField = ({ field: { key, label, inputProps } }: DateField.Props) => (
                     onChange={e =>
                         update(key, raw2parts(e.currentTarget.value))
                     }
-                    // value={_.get(data, [key, 'raw'], '')}
-                    // onChange={e => update(key, { raw: e.currentTarget.value })}
                 />
             </label>
         )}

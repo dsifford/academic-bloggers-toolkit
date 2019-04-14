@@ -1,5 +1,6 @@
 import { addQueryArgs } from '@wordpress/url';
 import { parseName } from 'astrocite-core';
+import { toCSL } from 'astrocite-googlebooks';
 
 import { ResponseError } from 'utils/error';
 
@@ -35,42 +36,11 @@ export async function get(
     if (!response.ok) {
         return new ResponseError(ISBN, response);
     }
-    const json: ISBNResponse = await response.json();
-
-    if (json.totalItems === 0) {
+    const data = toCSL(await response.json(), isChapter);
+    if (data.length === 0) {
         return new ResponseError(ISBN, response);
     }
-
-    // TODO: move this all to astrocite
-    const {
-        id,
-        volumeInfo: { authors, pageCount, publishedDate, publisher, title },
-    } = json.items[0];
-
-    let data: CSL.Data = {
-        id,
-        type: isChapter ? 'chapter' : 'book',
-        ISBN,
-        publisher,
-        'number-of-pages': pageCount,
-        [isChapter ? 'container-title' : 'title']: title,
-        author: Array.isArray(authors)
-            ? // TODO: fix this in astrocite
-              (authors.map(parseName) as CSL.Person[])
-            : [],
-    };
-
-    if (publishedDate) {
-        const [year, month, day] = publishedDate.split('-');
-        data = {
-            ...data,
-            issued: {
-                'date-parts': [[year, month, day]],
-            },
-        };
-    }
-
-    return data;
+    return data[0];
 }
 
 /**

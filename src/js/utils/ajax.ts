@@ -12,15 +12,10 @@ export async function fetchAjax(
             'Content-type': 'application/x-www-form-urlencoded',
         },
         body: addQueryArgs(undefined, {
-            /**
-             * TODO: remove this when gutenberg 2.3.3 merges
-             * @see: https://github.com/WordPress/gutenberg/pull/12803
-             */
-            _: '',
             _wpnonce: _abt_nonce,
             action,
             ...body,
-        }),
+        }).slice(1),
         credentials: 'same-origin',
     });
 }

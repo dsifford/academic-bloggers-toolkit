@@ -25,16 +25,7 @@ export async function get(
         return new ResponseError(id, response);
     }
     const data = toCSL(await response.json())[0];
-    // TODO: Fix in astrocite
-    return data instanceof Error
-        ? new ResponseError(id, response)
-        : <CSL.Data>{
-              ...data,
-              URL:
-                  db === 'pubmed'
-                      ? `https://www.ncbi.nlm.nih.gov/pubmed/${id}`
-                      : `https://www.ncbi.nlm.nih.gov/pmc/articles/${id}`,
-          };
+    return data instanceof Error ? new ResponseError(id, response) : data;
 }
 
 /**
