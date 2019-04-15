@@ -1,56 +1,82 @@
 # CHANGELOG
 
+## 5.0.5
+
+### IMPORTANT NOTE
+
+This will be the last update that supports the "classic" editor. All updates
+beyond this one will have support completely removed to make maintenance and
+releases easier for the new editor.
+
+Thank you for understanding.
+
+### Patches
+
+-   Fix code affected by breaking block editor changes.
+-   Fix incorrectly keyed patent fields.
+-   Add "report type" to manual report fields. #519
+-   Upgrade upstream dependencies.
+
+### Styles Added
+
+-   ArchéoSciences (French)
+-   Griffith College - Harvard
+-   Perspectives on Politics
+-   Sociétés Contemporaines
+-   Swiss Political Science Review
+-   Český finanční a účetní časopis (Czech)
+
 ## 5.0.4
 
 ### Patches
 
-- Fix bug related to URL parsing in bibliographies. #549
-- Update dependencies.
+-   Fix bug related to URL parsing in bibliographies. #549
+-   Update dependencies.
 
 ### Styles Added
 
-- Acta Universitatis Agriculturae Sueciae (Swedish University of Agricultural Sciences)
-- Anglia
-- Contemporary Accounting Research
-- Estudios de Fonética Experimental
-- Frontiers of Biogeography
-- Indian Journal of Orthopaedics
-- International Journal for Quality Research
-- IPAG Business School - APA
-- Journal of Developmental & Behavioral Pediatrics
-- Journal of Environmental Engineering and Landscape Management
-- Parasite
-- Rivista Italiana di Paleontologia e Stratigrafia
-- Techniques&Culture (French)
-- The Journal of Hand Surgery Asian-Pacific Volume
-- ZDfm - Zeitschrift für Diversitätsforschung und -management
+-   Acta Universitatis Agriculturae Sueciae (Swedish University of Agricultural Sciences)
+-   Anglia
+-   Contemporary Accounting Research
+-   Estudios de Fonética Experimental
+-   Frontiers of Biogeography
+-   Indian Journal of Orthopaedics
+-   International Journal for Quality Research
+-   IPAG Business School - APA
+-   Journal of Developmental & Behavioral Pediatrics
+-   Journal of Environmental Engineering and Landscape Management
+-   Parasite
+-   Rivista Italiana di Paleontologia e Stratigrafia
+-   Techniques&Culture (French)
+-   The Journal of Hand Surgery Asian-Pacific Volume
+-   ZDfm - Zeitschrift für Diversitätsforschung und -management
 
 ## 5.0.3
 
 ### Patches
 
-- Fix bug preventing citations from being saved.
-- Fix bug resulting in errors being thrown when citing certain DOIs with certain citation styles. #543
+-   Fix bug preventing citations from being saved.
+-   Fix bug resulting in errors being thrown when citing certain DOIs with certain citation styles. #543
 
 ### Styles Added
 
-- Chemical Engineering Progress
-- Journal of Developmental and Behavioral Pediatrics
-- Revue des Études Byzantines
-- The Journal of Hand Surgery (European Volume)
+-   Chemical Engineering Progress
+-   Journal of Developmental and Behavioral Pediatrics
+-   Revue des Études Byzantines
+-   The Journal of Hand Surgery (European Volume)
 
 ## 5.0.2
 
-### Patches 
+### Patches
 
-- Fix fatal PHP exception issue related to legacy custom CSS. #538 #539
+-   Fix fatal PHP exception issue related to legacy custom CSS. #538 #539
 
-## 5.0.1 
+## 5.0.1
 
-### Patches 
+### Patches
 
-- PHP 7.0 compatibility: 85a282b54bbe35e3723d55a831aa411db4cc19de
-- Fix issue with date parsing when autociting a website: 589459f2253de9046af301382e7bbfa0ff5db3f5
+-   PHP 7.0 compatibility: 85a282b54bbe35e3723d55a831aa411db4cc19de
+-   Fix issue with date parsing when autociting a website: 589459f2253de9046af301382e7bbfa0ff5db3f5
 
 ## 5.0.0
 
