@@ -1,3 +1,4 @@
+import { promises as fs } from 'fs';
 import path from 'path';
 
 import { CheckerPlugin, TsConfigPathsPlugin } from 'awesome-typescript-loader';
@@ -14,6 +15,7 @@ import { version as VERSION } from './package.json';
 
 export default async (_: any, argv: any): Promise<Configuration> => {
     const IS_PRODUCTION = argv.mode === 'production';
+    const CHANGELOG = await getMostRecentChangelogEntry();
 
     // Clean out dist directory
     rimraf.sync(path.join(__dirname, 'dist', '*'));
@@ -55,9 +57,18 @@ export default async (_: any, argv: any): Promise<Configuration> => {
                 from: path.resolve(__dirname, 'LICENSE'),
             },
             {
-                from: '@(readme.txt|academic-bloggers-toolkit.php)',
+                from: 'academic-bloggers-toolkit.php',
                 transform(content) {
                     return content.toString().replace(/{{VERSION}}/g, VERSION);
+                },
+            },
+            {
+                from: 'readme.txt',
+                transform(content) {
+                    return content
+                        .toString()
+                        .replace(/{{VERSION}}/g, VERSION)
+                        .replace(/{{CHANGELOG}}/g, CHANGELOG);
                 },
             },
         ]),
@@ -257,3 +268,18 @@ export default async (_: any, argv: any): Promise<Configuration> => {
         },
     };
 };
+
+async function getMostRecentChangelogEntry(): Promise<string> {
+    return fs
+        .readFile(path.join(__dirname, 'CHANGELOG.md'), { encoding: 'utf-8' })
+        .then(contents => {
+            const entry = /(^## .*?)\n^## /ms.exec(contents);
+            if (!entry || !entry[1]) {
+                throw new Error('Error parsing last changelog entry');
+            }
+            return entry[1];
+        })
+        .then(entry =>
+            entry.replace(/^## (\S+)/, '= $1 =').replace(/^-/gm, '*'),
+        );
+}
