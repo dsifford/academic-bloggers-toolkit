@@ -4365,6 +4365,11 @@
     },
     {
       "kind": "predefined",
+      "value": "archeosciences",
+      "label": "ArchéoSciences (French)"
+    },
+    {
+      "kind": "predefined",
       "value": "canadian-journal-of-soil-science",
       "label": "Arctic Science"
     },
@@ -17966,6 +17971,11 @@
       "kind": "predefined",
       "value": "apa",
       "label": "Greenhouse Gas Measurement and Management"
+    },
+    {
+      "kind": "predefined",
+      "value": "griffith-college-harvard",
+      "label": "Griffith College - Harvard"
     },
     {
       "kind": "predefined",
@@ -36802,6 +36812,11 @@
     },
     {
       "kind": "predefined",
+      "value": "american-political-science-association",
+      "label": "Perspectives on Politics"
+    },
+    {
+      "kind": "predefined",
       "value": "perspectives-on-sexual-and-reproductive-health",
       "label": "Perspectives on Sexual and Reproductive Health"
     },
@@ -41587,6 +41602,11 @@
     },
     {
       "kind": "predefined",
+      "value": "societes-contemporaines",
+      "label": "Sociétés Contemporaines"
+    },
+    {
+      "kind": "predefined",
       "value": "springer-basic-author-date",
       "label": "Soft Computing",
       "shortTitle": "Soft Comput"
@@ -42743,6 +42763,12 @@
       "kind": "predefined",
       "value": "vancouver-brackets",
       "label": "Swiss Medical Weekly"
+    },
+    {
+      "kind": "predefined",
+      "value": "swiss-political-science-review",
+      "label": "Swiss Political Science Review",
+      "shortTitle": "SPSR"
     },
     {
       "kind": "predefined",
@@ -47385,6 +47411,11 @@
       "value": "ceska-zemedelska-univerzita-v-praze-fakulta-agrobiologie-potravinovych-a-prirodnich-zdroju",
       "label": "Česká zemědělská univerzita v Praze - Fakulta agrobiologie, potravinových a přírodních zdrojů",
       "shortTitle": "FAPPZ ČZU"
+    },
+    {
+      "kind": "predefined",
+      "value": "iso690-author-date-cs",
+      "label": "Český finanční a účetní časopis (Czech)"
     },
     {
       "kind": "predefined",
