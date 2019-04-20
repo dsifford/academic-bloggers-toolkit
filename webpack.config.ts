@@ -50,7 +50,7 @@ export default async (_: any, argv: any): Promise<Configuration> => {
             {
                 from: '*.json',
                 transform(content) {
-                    return JSON.stringify(JSON.parse(content));
+                    return JSON.stringify(JSON.parse(content.toString()));
                 },
             },
             {
