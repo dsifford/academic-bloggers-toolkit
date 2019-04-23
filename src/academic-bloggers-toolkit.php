@@ -168,7 +168,6 @@ add_action( 'admin_head-post.php', __NAMESPACE__ . '\ajax_nonce' );
 add_action( 'admin_head-settings_page_abt-options', __NAMESPACE__ . '\ajax_nonce' );
 
 require_once __DIR__ . '/php/utils.php';
-require_once __DIR__ . '/php/class-form-actions.php';
 require_once __DIR__ . '/php/endpoints.php';
 
 if ( is_admin() ) {

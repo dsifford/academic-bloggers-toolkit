@@ -1,8 +1,8 @@
+import { RichText } from '@wordpress/block-editor';
 import { PanelBody } from '@wordpress/components';
 import { compose } from '@wordpress/compose';
 import { withDispatch, withSelect } from '@wordpress/data';
 import { PluginSidebar, PluginSidebarMoreMenuItem } from '@wordpress/edit-post';
-import { RichText } from '@wordpress/editor';
 import { Component, ComponentType } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
 import _ from 'lodash';
@@ -171,7 +171,7 @@ export default compose([
         return {
             citedItems: getCitedItems(),
             footnotes: getFootnotes(),
-            isTyping: select<boolean>('core/editor').isTyping(),
+            isTyping: select<boolean>('core/block-editor').isTyping(),
             selectedItems: getSelectedItems(),
             style: getStyle(),
             uncitedItems: getSortedItems(

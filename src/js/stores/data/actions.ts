@@ -65,7 +65,7 @@ export function* removeReferences(itemIds: string[]) {
         [...itemIds],
     );
 
-    yield dispatch('core/editor').resetBlocks(parse(doc.innerHTML));
+    yield dispatch('core/block-editor').resetBlocks(parse(doc.innerHTML));
     if (toDelete.length > 0) {
         yield {
             type: Actions.REMOVE_REFERENCES,
@@ -97,7 +97,7 @@ export function* removeAllCitations() {
             el.parentNode.removeChild(el);
         }
     }
-    yield dispatch('core/editor').resetBlocks(parse(doc.innerHTML));
+    yield dispatch('core/block-editor').resetBlocks(parse(doc.innerHTML));
 }
 
 export function* parseCitations() {
@@ -116,7 +116,7 @@ export function* parseFootnotes() {
     doc.querySelectorAll(FootnoteElement.selector).forEach((footnote, i) => {
         footnote.innerHTML = FootnoteElement.createMarker(i);
     });
-    yield dispatch('core/editor').resetBlocks(parse(doc.innerHTML));
+    yield dispatch('core/block-editor').resetBlocks(parse(doc.innerHTML));
     yield setFootnotes();
 }
 
@@ -135,17 +135,17 @@ function* save() {
 }
 
 function* setBibliography({ items, meta }: Processor.Bibliography) {
-    const blocksList = select<Block[]>('core/editor').getBlocks();
+    const blocksList = select<Block[]>('core/block-editor').getBlocks();
     const bibliographyBlock = blocksList.find(
         block => block.name === 'abt/bibliography',
     );
     if (items.length > 0 && bibliographyBlock) {
-        yield dispatch('core/editor').updateBlockAttributes(
+        yield dispatch('core/block-editor').updateBlockAttributes(
             bibliographyBlock.clientId,
             { ...meta, items },
         );
     } else if (items.length > 0 && !bibliographyBlock) {
-        yield dispatch('core/editor').insertBlock(
+        yield dispatch('core/block-editor').insertBlock(
             createBlock('abt/bibliography', {
                 ...meta,
                 items,
@@ -155,13 +155,15 @@ function* setBibliography({ items, meta }: Processor.Bibliography) {
             false,
         );
     } else if (items.length === 0 && bibliographyBlock) {
-        yield dispatch('core/editor').removeBlock(bibliographyBlock.clientId);
+        yield dispatch('core/block-editor').removeBlock(
+            bibliographyBlock.clientId,
+        );
     }
 }
 
 function* setFootnotes() {
     const items = select('abt/data').getFootnotes();
-    const blocksList = select<Block[]>('core/editor').getBlocks();
+    const blocksList = select<Block[]>('core/block-editor').getBlocks();
     const footnoteBlockIndex = blocksList.findIndex(
         ({ name }) => name === 'abt/footnotes',
     );
@@ -169,12 +171,12 @@ function* setFootnotes() {
         ({ name }) => name === 'abt/bibliography',
     );
     if (items.length > 0 && footnoteBlockIndex >= 0) {
-        yield dispatch('core/editor').updateBlockAttributes(
+        yield dispatch('core/block-editor').updateBlockAttributes(
             blocksList[footnoteBlockIndex].clientId,
             { items },
         );
     } else if (items.length > 0 && footnoteBlockIndex === -1) {
-        yield dispatch('core/editor').insertBlock(
+        yield dispatch('core/block-editor').insertBlock(
             createBlock('abt/footnotes', {
                 items,
             }),
@@ -185,7 +187,7 @@ function* setFootnotes() {
             false,
         );
     } else if (items.length === 0 && footnoteBlockIndex >= 0) {
-        yield dispatch('core/editor').removeBlock(
+        yield dispatch('core/block-editor').removeBlock(
             blocksList[footnoteBlockIndex].clientId,
         );
     }
@@ -217,5 +219,5 @@ function* updateEditorCitations(citations: Processor.CitationMeta[]) {
             }
         }
     }
-    yield dispatch('core/editor').resetBlocks(parse(doc.innerHTML));
+    yield dispatch('core/block-editor').resetBlocks(parse(doc.innerHTML));
 }

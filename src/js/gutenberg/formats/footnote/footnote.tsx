@@ -1,6 +1,6 @@
+import { RichTextToolbarButton } from '@wordpress/block-editor';
 import { compose } from '@wordpress/compose';
 import { withDispatch } from '@wordpress/data';
-import { RichTextToolbarButton } from '@wordpress/editor';
 import { Component } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
 import { create, FormatProps, insert, remove } from '@wordpress/rich-text';

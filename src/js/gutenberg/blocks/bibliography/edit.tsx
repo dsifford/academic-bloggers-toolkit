@@ -1,10 +1,10 @@
-import { BlockEditProps } from '@wordpress/blocks';
-import { PanelBody, ToggleControl, Toolbar } from '@wordpress/components';
 import {
     AlignmentToolbar,
     InspectorControls,
     RichText,
-} from '@wordpress/editor';
+} from '@wordpress/block-editor';
+import { BlockEditProps } from '@wordpress/blocks';
+import { PanelBody, ToggleControl, Toolbar } from '@wordpress/components';
 import { Component } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
 import classNames from 'classnames';

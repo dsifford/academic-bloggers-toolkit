@@ -1,3 +1,8 @@
+import {
+    BlockFormatControls,
+    InspectorControls,
+    RichText,
+} from '@wordpress/block-editor';
 import { BlockEditProps } from '@wordpress/blocks';
 import {
     IconButton,
@@ -7,11 +12,6 @@ import {
 } from '@wordpress/components';
 import { compose } from '@wordpress/compose';
 import { select as globalSelect, withSelect } from '@wordpress/data';
-import {
-    BlockFormatControls,
-    InspectorControls,
-    RichText,
-} from '@wordpress/editor';
 import { Component, ComponentType } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
 import classNames from 'classnames';

@@ -1,11 +1,11 @@
 {
   "editor": [
     "lodash",
+    "wp-block-editor",
     "wp-components",
     "wp-compose",
     "wp-data",
     "wp-edit-post",
-    "wp-editor",
     "wp-element",
     "wp-i18n",
     "wp-keycodes",
@@ -16,21 +16,21 @@
   "editor-blocks": [
     "CSL",
     "lodash",
+    "wp-block-editor",
     "wp-blocks",
     "wp-components",
     "wp-compose",
     "wp-data",
-    "wp-editor",
     "wp-element",
     "wp-i18n",
     "wp-polyfill"
   ],
   "editor-formats": [
     "lodash",
+    "wp-block-editor",
     "wp-components",
     "wp-compose",
     "wp-data",
-    "wp-editor",
     "wp-element",
     "wp-i18n",
     "wp-keycodes",

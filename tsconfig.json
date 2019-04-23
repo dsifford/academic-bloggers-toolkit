@@ -42,7 +42,6 @@
     "webpack.config.ts"
   ],
   "exclude": [
-    "src/js/_legacy/workers/**",
     "dist/**"
   ]
 }

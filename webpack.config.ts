@@ -110,11 +110,12 @@ export default async (_: any, argv: any): Promise<Configuration> => {
         context: path.resolve(__dirname, 'src'),
         externals: {
             '@wordpress/api-fetch': 'wp.apiFetch',
+            '@wordpress/block-editor': 'wp.blockEditor',
             '@wordpress/blocks': 'wp.blocks',
             '@wordpress/components': 'wp.components',
             '@wordpress/compose': 'wp.compose',
-            '@wordpress/dom-ready': 'wp.domReady',
             '@wordpress/data': 'wp.data',
+            '@wordpress/dom-ready': 'wp.domReady',
             '@wordpress/edit-post': 'wp.editPost',
             '@wordpress/editor': 'wp.editor',
             '@wordpress/element': 'wp.element',

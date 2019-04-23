@@ -1,4 +1,4 @@
-// Type definitions for @wordpress/editor
+// Type definitions for @wordpress/block-editor
 // Project: https://github.com/WordPress/gutenberg/tree/master/packages/editor
 // Definitions by: Derek P Sifford <https://github.com/dsifford>
 

@@ -5,6 +5,7 @@
 ### Minor Changes
 
 - Remove support for the classic editor.
+- Update deprecated block editor API usage.
 
 ## 5.0.5
 
