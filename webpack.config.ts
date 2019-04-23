@@ -128,21 +128,6 @@ export default async (_: any, argv: any): Promise<Configuration> => {
             lodash: 'lodash',
         },
         entry: {
-            /**
-             * Legacy
-             */
-            // 'bundle/frontend-legacy': 'js/_legacy/_entrypoints/frontend',
-            // 'bundle/editor-legacy': [
-            //     'custom-event-polyfill',
-            //     'proxy-polyfill',
-            //     'js/_legacy/_entrypoints/reference-list',
-            // ],
-            // 'bundle/drivers/tinymce': 'js/_legacy/drivers/tinymce',
-            // 'bundle/workers/locale-worker': 'js/_legacy/workers/locale-worker',
-
-            /**
-             * New hotness
-             */
             'bundle/editor': 'js/gutenberg',
             'bundle/editor-blocks': 'js/gutenberg/blocks',
             'bundle/editor-formats': 'js/gutenberg/formats',
