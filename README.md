@@ -10,8 +10,6 @@ An **open source** WordPress plugin providing an all-in-one solution for effecti
 
 ## Contents
 
-[![Join the chat at https://gitter.im/academic-bloggers-toolkit/Lobby](https://badges.gitter.im/academic-bloggers-toolkit/Lobby.svg)](https://gitter.im/academic-bloggers-toolkit/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-
 -   [Features](#features)
 -   [Translations](#translations)
 -   [Contributing](#contributing)
@@ -40,29 +38,6 @@ An **open source** WordPress plugin providing an all-in-one solution for effecti
 ## Translations
 
 <p align="center"><a href="https://translate.wordpress.org/projects/wp-plugins/academic-bloggers-toolkit"><strong>Click Here to Translate this Plugin</strong></a></p>
-
-### Translation Status
-
-<!-- TRANSLATION_STATUS_START -->
-
-| Language                     | Contributors                                        | % Complete                               |
-| ---------------------------- | --------------------------------------------------- | ---------------------------------------- |
-| French `fr`                  | Houssen Moshinaly                                   | ![Progress](http://progressed.io/bar/92) |
-| Spanish `es`                 | Jose Miguel Villatoro                               | ![Progress](http://progressed.io/bar/87) |
-| Spanish (AR) `es-ar`         | Jose Miguel Villatoro, Lucas                        | ![Progress](http://progressed.io/bar/87) |
-| Chinese (simplified) `zh-CN` | fishfree                                            | ![Progress](http://progressed.io/bar/85) |
-| Polish `pl`                  | Krzysztof Ruchniewicz                               | ![Progress](http://progressed.io/bar/82) |
-| German `de`                  | Jan-Luca Bauß, Mathias Micheel                      | ![Progress](http://progressed.io/bar/81) |
-| Portuguese `pt`              | Alexandre Rodrigues                                 | ![Progress](http://progressed.io/bar/50) |
-| Indonesian `id`              | Alam                                                | ![Progress](http://progressed.io/bar/32) |
-| Arabic `ar`                  | Ezz El Dean                                         | ![Progress](http://progressed.io/bar/17) |
-| Danish `da`                  | Dan Bilbo Christensen                               | ![Progress](http://progressed.io/bar/0)  |
-| Romanian `ro`                | Maria Estela Mihoc                                  | ![Progress](http://progressed.io/bar/0)  |
-| Tamil `ta`                   | Albert Albs                                         | ![Progress](http://progressed.io/bar/0)  |
-| Thai `th`                    | Jose Miguel Villatoro, Tammakit Intharaksa, wiennat | ![Progress](http://progressed.io/bar/0)  |
-| Urdu `ur`                    | Munir Abbasi                                        | ![Progress](http://progressed.io/bar/0)  |
-
-<!-- TRANSLATION_STATUS_END -->
 
 ## Contributing
 
