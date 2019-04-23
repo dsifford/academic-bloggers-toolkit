@@ -20,6 +20,12 @@ namespace ABT;
 
 defined( 'ABSPATH' ) || exit;
 
+define(
+	'ABT_ACTIONS',
+	[
+		'SET_CITATION_STYLE' => 'abt-form-set-citation-style',
+	]
+);
 define( 'ABT_NONCE', 'abt_nonce' );
 define( 'ABT_OPTIONS_KEY', 'abt_options' );
 define( 'ABT_ROOT_PATH', __DIR__ );
@@ -31,25 +37,13 @@ use function ABT\Utils\{
 	register_script
 };
 
-require_once __DIR__ . '/php/utils.php';
-require_once __DIR__ . '/php/class-form-actions.php';
-require_once __DIR__ . '/php/endpoints.php';
-
-if ( is_admin() ) {
-	require_once __DIR__ . '/php/editor.php';
-	require_once __DIR__ . '/php/editor-legacy.php';
-	require_once __DIR__ . '/php/options.php';
-} else {
-	require_once __DIR__ . '/php/frontend.php';
-}
-
 /**
  * Load plugin translations.
  */
-function textdomain() {
+function plugin_textdomain() {
 	load_plugin_textdomain( 'academic-bloggers-toolkit', false, basename( ABT_ROOT_PATH ) . '/languages' );
 }
-add_action( 'plugins_loaded', __NAMESPACE__ . '\textdomain' );
+add_action( 'plugins_loaded', __NAMESPACE__ . '\plugin_textdomain' );
 
 /**
  * Cleans up options during uninstall.
@@ -68,18 +62,11 @@ function refactor_options() {
 	$options = get_option( ABT_OPTIONS_KEY );
 	if ( version_compare( ABT_VERSION, $options['VERSION'] ?? '0', '>' ) ) {
 		$new_options = [
-			'VERSION'         => ABT_VERSION,
-			'citation_style'  => [
+			'VERSION'        => ABT_VERSION,
+			'citation_style' => [
 				'kind'  => $options['citation_style']['kind'] ?? 'predefined',
 				'label' => $options['citation_style']['label'] ?? 'American Medical Association',
 				'value' => $options['citation_style']['value'] ?? 'american-medical-association',
-			],
-			// @deprecated 5.0.0
-			'display_options' => [
-				'bib_heading'       => $options['display_options']['bib_heading'] ?? '',
-				'bib_heading_level' => $options['display_options']['bib_heading_level'] ?? 'h3',
-				'bibliography'      => $options['display_options']['bibliography'] ?? 'fixed',
-				'links'             => $options['display_options']['links'] ?? 'always',
 			],
 		];
 		update_option( ABT_OPTIONS_KEY, $new_options );
@@ -131,16 +118,6 @@ function register_scripts() {
 	register_script( 'editor-formats', [ 'scripts' => $deps['editor-formats'] ] );
 	register_script( 'editor-formats', [ 'scripts' => $deps['editor-formats'] ] );
 	register_script( 'editor-stores', [ 'scripts' => $deps['editor-stores'] ] );
-	register_script(
-		'editor-legacy',
-		[
-			'scripts' => $deps['editor-legacy'],
-			'styles'  => [
-				'abt-legacy-fonts',
-				'dashicons',
-			],
-		]
-	);
 
 	//
 	// Options Page.
@@ -151,7 +128,6 @@ function register_scripts() {
 	// Frontend.
 	//
 	register_script( 'frontend', [ 'scripts' => $deps['frontend'] ] );
-	register_script( 'frontend-legacy', [ 'scripts' => $deps['frontend-legacy'] ] );
 
 	//
 	// Vendor.
@@ -167,18 +143,6 @@ function register_scripts() {
 	//
 	// Third party.
 	//
-	wp_register_style(
-		'abt-legacy-fonts',
-		add_query_arg(
-			[
-				'family' => 'Roboto:300,400,500,700',
-				'subset' => 'cyrillic,cyrillic-ext,greek,greek-ext,latin-ext,vietnamese',
-			],
-			'//fonts.googleapis.com/css'
-		),
-		[],
-		ABT_VERSION
-	);
 	wp_register_script(
 		'codepen',
 		'//assets.codepen.io/assets/embed/ei.js',
@@ -195,11 +159,22 @@ add_action( 'wp_loaded', __NAMESPACE__ . '\register_scripts' );
 function ajax_nonce() {
 	?>
 	<script type="text/javascript">
-		window._abt_nonce = <?php echo wp_json_encode( wp_create_nonce( 'abt-ajax' ) ); ?>
+		window._abt_nonce = '<?php echo esc_html( wp_create_nonce( 'abt-ajax' ) ); ?>'
 	</script>
 	<?php
 }
 add_action( 'admin_head-post-new.php', __NAMESPACE__ . '\ajax_nonce' );
 add_action( 'admin_head-post.php', __NAMESPACE__ . '\ajax_nonce' );
 add_action( 'admin_head-settings_page_abt-options', __NAMESPACE__ . '\ajax_nonce' );
+
+require_once __DIR__ . '/php/utils.php';
+require_once __DIR__ . '/php/class-form-actions.php';
+require_once __DIR__ . '/php/endpoints.php';
+
+if ( is_admin() ) {
+	require_once __DIR__ . '/php/editor.php';
+	require_once __DIR__ . '/php/options.php';
+} else {
+	require_once __DIR__ . '/php/frontend.php';
+}
 

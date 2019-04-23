@@ -9,8 +9,6 @@
 
 defined( 'ABSPATH' ) || exit;
 
-use ABT\Form_Actions;
-
 ?>
 
 <div class="wrap">
@@ -196,7 +194,7 @@ use ABT\Form_Actions;
 					<?php /* }}} */ ?>
 					<?php /* Default Citation Style {{{ */ ?>
 					<form method="post">
-						<?php wp_nonce_field( Form_Actions::SET_CITATION_STYLE, ABT_NONCE ); ?>
+						<?php wp_nonce_field( ABT_ACTIONS['SET_CITATION_STYLE'], ABT_NONCE ); ?>
 						<div class="postbox">
 							<h2><?php esc_html_e( 'Default Citation Style', 'academic-bloggers-toolkit' ); ?></h2>
 							<div id="style-form-root" class="inside"></div>

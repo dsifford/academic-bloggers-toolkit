@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## UNRELEASED
+
+### Minor Changes
+
+- Remove support for the classic editor.
+
 ## 5.0.5
 
 ### IMPORTANT NOTE

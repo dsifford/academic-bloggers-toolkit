@@ -38,14 +38,6 @@
     "wp-rich-text",
     "wp-url"
   ],
-  "editor-legacy": [
-    "CSL",
-    "lodash",
-    "wp-element",
-    "wp-i18n",
-    "wp-polyfill",
-    "wp-url"
-  ],
   "editor-stores": [
     "CSL",
     "lodash",
@@ -55,10 +47,6 @@
     "wp-url"
   ],
   "frontend": [
-    "wp-dom-ready",
-    "wp-polyfill"
-  ],
-  "frontend-legacy": [
     "wp-dom-ready",
     "wp-polyfill"
   ],

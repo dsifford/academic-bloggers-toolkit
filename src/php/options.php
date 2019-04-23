@@ -11,8 +11,6 @@ namespace ABT\Options;
 
 defined( 'ABSPATH' ) || exit;
 
-use ABT\Form_Actions;
-use function ABT\i18n\generate_translations;
 use function ABT\Utils\{
 	get_citation_styles,
 	get_handle
@@ -60,13 +58,11 @@ function render_options_page() {
 		);
 	}
 
-	require_once __DIR__ . '/i18n.php';
-
 	$options = get_option( ABT_OPTIONS_KEY );
 
 	if (
 		isset( $_POST[ ABT_NONCE ], $_POST['citation_style'] ) &&
-		wp_verify_nonce( sanitize_key( $_POST[ ABT_NONCE ] ), Form_Actions::SET_CITATION_STYLE )
+		wp_verify_nonce( sanitize_key( $_POST[ ABT_NONCE ] ), ABT_ACTIONS['SET_CITATION_STYLE'] )
 	) {
 		// Ignoring because there's no need to sanitize this.
 		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized

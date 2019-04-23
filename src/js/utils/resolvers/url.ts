@@ -2,8 +2,6 @@ import { fetchAjax } from 'utils/ajax';
 import { firstTruthyValue } from 'utils/data';
 import { ResponseError } from 'utils/error';
 
-import { AutociteResponse } from './';
-
 interface WebpageResponse {
     authors: Array<{
         given: string;
@@ -172,72 +170,4 @@ function parseDateField<T extends CSL.DateFieldKey>(
             ].join('/'),
         },
     };
-}
-
-/**
- * Communicates with AJAX to the WordPress server to retrieve metadata for a given web URL.
- * @param url - The URL of interest
- * @return URL Meta returned from the server
- * @deprecated
- */
-export async function deprecatedGetFromURL(
-    url: string,
-): Promise<AutociteResponse> {
-    const response = await fetchAjax('get_website_meta', { url });
-    if (!response.ok) {
-        throw new Error(
-            response.status === 501
-                ? top.ABT.i18n.errors.missing_php_features
-                : response.statusText,
-        );
-    }
-    const json: WebpageResponse = await response.json();
-
-    const people: ABT.Contributor[] = json.authors.map(person => ({
-        ...person,
-        type: <CSL.PersonFieldKey>'author',
-    }));
-
-    return {
-        fields: {
-            accessed: deprecatedParseDateString(new Date().toISOString()),
-            title: firstTruthyValue(json, [
-                'og.title',
-                'sailthru.title',
-                'title',
-            ]),
-            issued: deprecatedParseDateString(
-                firstTruthyValue(json, [
-                    'issued',
-                    'og.pubdate',
-                    'article.published_time',
-                    'sailthru.date',
-                ]),
-            ),
-            'container-title': firstTruthyValue(json, ['og.site_name']),
-            URL: url,
-        },
-        people,
-    };
-}
-
-/**
- * Parses a date into the format `YYYY/MM/DD`.
- * @param input raw input string from API response.
- * @deprecated
- */
-function deprecatedParseDateString(input: string = ''): string {
-    if (isNaN(Date.parse(input))) {
-        return '';
-    }
-    const date = new Date(input);
-    const [month, day, year] = date
-        .toLocaleDateString('en-US', {
-            year: 'numeric',
-            month: '2-digit',
-            day: '2-digit',
-            timeZone: 'UTC',
-        })
-        .split('/');
-    return `${year}/${month}/${day}`;
 }

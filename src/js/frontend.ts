@@ -14,24 +14,33 @@ const TOOLTIP_TEMPLATE = `
     </div>
 `;
 
-function getBibliographyMap() {
-    let bibHTML: string;
+function getBibliographyItems() {
     try {
-        bibHTML = getJSONScriptData<string>('abt-bibliography-json');
+        // Block editor citations
+        const bib = document.createElement('div');
+        bib.innerHTML = getJSONScriptData<string>('abt-bibliography-json');
+        return [...bib.querySelectorAll('li')].reduce<Record<string, string>>(
+            (obj, item) => {
+                return {
+                    ...obj,
+                    [item.id]: item.innerHTML,
+                };
+            },
+            {},
+        );
     } catch {
-        return;
+        // Legacy citations
+        const bib =
+            document.querySelector<HTMLDivElement>(
+                '#abt-bibliography > .abt-bibliography__container',
+            ) || document.querySelector<HTMLDivElement>('#abt-bibliography');
+        return bib
+            ? [...bib.children].reduce<Record<string, string>>(
+                  (obj, item) => ({ ...obj, [item.id]: item.innerHTML }),
+                  {},
+              )
+            : undefined;
     }
-    const bib = document.createElement('div');
-    bib.innerHTML = bibHTML;
-    return [...bib.querySelectorAll('li')].reduce(
-        (obj, item) => {
-            return {
-                ...obj,
-                [item.id]: item.innerHTML,
-            };
-        },
-        {} as Record<string, string>,
-    );
 }
 
 const getCitations = () =>
@@ -41,7 +50,7 @@ const getFootnotes = () =>
     document.querySelectorAll<HTMLSpanElement>(FootnoteElement.selector);
 
 domReady(() => {
-    const bibliography = getBibliographyMap();
+    const bibliography = getBibliographyItems();
     if (bibliography) {
         for (const citation of getCitations()) {
             const content = CitationElement.getItems(citation)

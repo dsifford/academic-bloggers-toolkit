@@ -77,9 +77,8 @@ add_action( 'the_post', __NAMESPACE__ . '\collect_bibliography' );
 function enqueue_scripts() {
 	global $post;
 	if ( is_singular() ) {
-		$base_handle = has_blocks( $post ) ? 'frontend' : 'frontend-legacy';
-		wp_enqueue_style( get_handle( $base_handle, 'style' ) );
-		wp_enqueue_script( get_handle( $base_handle, 'script' ) );
+		wp_enqueue_style( get_handle( 'frontend', 'style' ) );
+		wp_enqueue_script( get_handle( 'frontend', 'script' ) );
 	} else {
 		wp_enqueue_style( get_handle( 'frontend', 'style' ) );
 	}

@@ -1,9 +1,7 @@
 node_modules
 dist
-tmp
 npm-debug.log
 NOTES.md
 TODO.md
 .env
-*.zip
 src/languages/*.pot

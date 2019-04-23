@@ -102,7 +102,7 @@
     "@types/jest": "^24.0.11",
     "@types/lodash": "^4.14.123",
     "@types/mini-css-extract-plugin": "^0.2.0",
-    "@types/node": "^11.13.6",
+    "@types/node": "^11.13.7",
     "@types/react": "^16.8.14",
     "@types/react-autosuggest": "^9.3.7",
     "@types/react-dom": "^16.8.4",
@@ -116,7 +116,7 @@
     "@wordpress/browserslist-config": "^2.3.0",
     "awesome-typescript-loader": "^5.2.1",
     "babel-loader": "^8.0.5",
-    "browser-sync": "^2.26.3",
+    "browser-sync": "^2.26.4",
     "browser-sync-webpack-plugin": "^2.2.2",
     "camaro": "^3.0.16",
     "copy-webpack-plugin": "^5.0.2",
@@ -149,13 +149,13 @@
     "stylelint": "^10.0.1",
     "stylelint-scss": "^3.6.0",
     "ts-jest": "^24.0.2",
-    "ts-node": "^8.0.3",
+    "ts-node": "^8.1.0",
     "tslint": "^5.16.0",
     "tslint-config-prettier": "^1.18.0",
     "tslint-microsoft-contrib": "^6.1.1",
     "tslint-react": "^4.0.0",
     "typescript-tslint-plugin": "^0.3.1",
     "webpack": "^4.30.0",
-    "webpack-cli": "^3.3.0"
+    "webpack-cli": "^3.3.1"
   }
 }

@@ -1,11 +1,12 @@
 import { promises as fs } from 'fs';
 import path from 'path';
+import { promisify } from 'util';
 
 import { CheckerPlugin, TsConfigPathsPlugin } from 'awesome-typescript-loader';
 import BrowserSyncPlugin from 'browser-sync-webpack-plugin';
 import CopyWebpackPlugin from 'copy-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
-import rimraf from 'rimraf';
+import rimrafLib from 'rimraf';
 import { rollup } from 'rollup';
 import commonjs from 'rollup-plugin-commonjs';
 import resolve from 'rollup-plugin-node-resolve';
@@ -13,12 +14,14 @@ import { Configuration, Plugin, ProgressPlugin } from 'webpack';
 
 import { version as VERSION } from './package.json';
 
+const rimraf = promisify(rimrafLib);
+
 export default async (_: any, argv: any): Promise<Configuration> => {
     const IS_PRODUCTION = argv.mode === 'production';
     const CHANGELOG = await getMostRecentChangelogEntry();
 
     // Clean out dist directory
-    rimraf.sync(path.join(__dirname, 'dist', '*'));
+    await rimraf(path.join(__dirname, 'dist', '*'));
 
     await Promise.all([
         rollup({
@@ -127,14 +130,14 @@ export default async (_: any, argv: any): Promise<Configuration> => {
             /**
              * Legacy
              */
-            'bundle/frontend-legacy': 'js/_legacy/_entrypoints/frontend',
-            'bundle/editor-legacy': [
-                'custom-event-polyfill',
-                'proxy-polyfill',
-                'js/_legacy/_entrypoints/reference-list',
-            ],
-            'bundle/drivers/tinymce': 'js/_legacy/drivers/tinymce',
-            'bundle/workers/locale-worker': 'js/_legacy/workers/locale-worker',
+            // 'bundle/frontend-legacy': 'js/_legacy/_entrypoints/frontend',
+            // 'bundle/editor-legacy': [
+            //     'custom-event-polyfill',
+            //     'proxy-polyfill',
+            //     'js/_legacy/_entrypoints/reference-list',
+            // ],
+            // 'bundle/drivers/tinymce': 'js/_legacy/drivers/tinymce',
+            // 'bundle/workers/locale-worker': 'js/_legacy/workers/locale-worker',
 
             /**
              * New hotness
