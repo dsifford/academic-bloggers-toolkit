@@ -1,11 +1,5 @@
 import { Button } from '@wordpress/components';
-import { compose } from '@wordpress/compose';
-import {
-    Component,
-    ComponentType,
-    createRef,
-    FormEvent,
-} from '@wordpress/element';
+import { useEffect, useRef, useState } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
 
 import asDialog from 'components/as-dialog';
@@ -14,61 +8,48 @@ import TextareaAutosize from 'components/textarea-autosize';
 
 import styles from './style.scss';
 
-namespace Dialog {
-    export interface State {
-        value: string;
-    }
-    export interface OwnProps extends asDialog.Props {
-        onSubmit(value: string): void;
-    }
-    export type Props = OwnProps;
+interface Props extends asDialog.Props {
+    onSubmit(value: string): void;
 }
-class Dialog extends Component<Dialog.Props, Dialog.State> {
-    state = {
-        value: '',
-    };
 
-    private inputRef = createRef<HTMLTextAreaElement>();
+function AddFootnoteDialog({ onSubmit }: Props) {
+    const [value, setValue] = useState('');
 
-    componentDidMount() {
-        setTimeout(() => {
-            if (this.inputRef.current) {
-                this.inputRef.current.focus();
-            }
-        }, 100);
-    }
+    const inputRef = useRef<HTMLTextAreaElement>(null);
 
-    render() {
-        return (
-            <form onSubmit={this.handleSubmit}>
-                <TextareaAutosize
-                    inputRef={this.inputRef}
-                    value={this.state.value}
-                    onKeyDown={e => {
-                        if (e.key === 'Enter') {
-                            e.preventDefault();
-                            this.props.onSubmit(this.state.value);
-                        }
-                    }}
-                    onChange={e =>
-                        this.setState({ value: e.currentTarget.value })
+    useEffect(() => {
+        if (inputRef.current) {
+            inputRef.current.focus();
+        }
+    }, []);
+
+    return (
+        <form
+            onSubmit={e => {
+                e.preventDefault();
+                onSubmit(value);
+            }}
+        >
+            <TextareaAutosize
+                inputRef={inputRef}
+                value={value}
+                onChange={e => setValue(e.currentTarget.value)}
+                onKeyDown={e => {
+                    if (e.key === 'Enter') {
+                        e.preventDefault();
+                        onSubmit(value);
                     }
-                />
-                <DialogToolbar>
-                    <div className={styles.toolbar}>
-                        <Button isPrimary isLarge type="submit">
-                            {__('Add footnote', 'academic-bloggers-toolkit')}
-                        </Button>
-                    </div>
-                </DialogToolbar>
-            </form>
-        );
-    }
-
-    private handleSubmit = (e: FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-        this.props.onSubmit(this.state.value);
-    };
+                }}
+            />
+            <DialogToolbar>
+                <div className={styles.toolbar}>
+                    <Button isPrimary isLarge type="submit">
+                        {__('Add footnote', 'academic-bloggers-toolkit')}
+                    </Button>
+                </div>
+            </DialogToolbar>
+        </form>
+    );
 }
 
-export default compose([asDialog])(Dialog) as ComponentType<Dialog.OwnProps>;
+export default asDialog(AddFootnoteDialog);

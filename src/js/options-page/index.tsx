@@ -1,5 +1,4 @@
-import React from 'react';
-import { render } from 'react-dom';
+import { render } from '@wordpress/element';
 
 import StyleForm from './style-form';
 

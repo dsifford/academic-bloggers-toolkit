@@ -5,7 +5,7 @@ import { createSelector } from 'utils/dom';
 
 interface ABTElement {
     readonly className: string;
-    readonly legacyClassNames: ReadonlyArray<string>;
+    readonly legacyClassNames: readonly string[];
     readonly selector: string;
     create(...args: any): string;
 }
@@ -13,7 +13,7 @@ interface ABTElement {
 @staticImplements<ABTElement>()
 export abstract class CitationElement {
     static readonly className = 'abt-citation';
-    static readonly legacyClassNames: ReadonlyArray<string> = [
+    static readonly legacyClassNames: readonly string[] = [
         CitationElement.className,
         'abt_cite',
     ];
@@ -43,7 +43,7 @@ export abstract class CitationElement {
 @staticImplements<ABTElement>()
 export abstract class FootnoteElement {
     static readonly className = 'abt-footnote';
-    static readonly legacyClassNames: ReadonlyArray<string> = [
+    static readonly legacyClassNames: readonly string[] = [
         FootnoteElement.className,
     ];
     static readonly selector = createSelector(

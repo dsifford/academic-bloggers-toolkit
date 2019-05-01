@@ -1,18 +1,18 @@
 import { Format, Value } from '@wordpress/rich-text';
 
 export function* iterate(
-    value: Value,
+    { formats = [] }: Value,
     formatType?: string,
 ): IterableIterator<Format> {
-    for (const formats of value.formats) {
-        if (!formats) {
+    for (const fmts of formats) {
+        if (!fmts) {
             continue;
         }
-        for (const format of formats) {
-            if (formatType && format.type !== formatType) {
+        for (const fmt of fmts) {
+            if (formatType && fmt.type !== formatType) {
                 continue;
             }
-            yield format;
+            yield fmt;
         }
     }
 }

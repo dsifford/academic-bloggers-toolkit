@@ -1,6 +1,6 @@
-import * as DOI from './doi';
-import * as ISBN from './isbn';
-import * as Pubmed from './pubmed';
-import * as URL from './url';
+import * as doi from './doi';
+import * as isbn from './isbn';
+import * as pubmed from './pubmed';
+import * as url from './url';
 
-export { DOI, ISBN, Pubmed, URL };
+export { doi, isbn, pubmed, url };

@@ -5,9 +5,10 @@ import {
 } from '@wordpress/block-editor';
 import { BlockEditProps } from '@wordpress/blocks';
 import { PanelBody, ToggleControl, Toolbar } from '@wordpress/components';
-import { Component } from '@wordpress/element';
-import { __ } from '@wordpress/i18n';
+import { useMemo } from '@wordpress/element';
+import { __, sprintf } from '@wordpress/i18n';
 import classNames from 'classnames';
+import { range } from 'lodash';
 
 import TextareaAutosize from 'components/textarea-autosize';
 import { parseBibAttributes } from 'utils/editor';
@@ -17,160 +18,137 @@ import styles from './style.scss';
 
 type HeadingType = 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
 
-class BibliographyEdit extends Component<BlockEditProps<Attributes>> {
-    render() {
-        const { attributes, setAttributes } = this.props;
-        const {
-            heading,
-            headingAlign,
-            headingLevel,
-            isToggleable,
-            items,
-        } = attributes;
-        const containerAttrs = parseBibAttributes(attributes);
-        return (
-            <>
-                <InspectorControls>
-                    <PanelBody
-                        title={__(
-                            'Bibliography Settings',
-                            'academic-bloggers-toolkit',
-                        )}
-                    >
-                        <p>
-                            {__('Heading Level', 'academic-bloggers-toolkit')}
-                        </p>
-                        <Toolbar
-                            controls={[...Array(6).keys()].map(level => ({
-                                icon: 'heading',
-                                title: `${__(
-                                    'Heading',
-                                    'academic-bloggers-toolkit',
-                                )} ${level + 1}`,
-                                isActive: level + 1 === headingLevel,
-                                onClick: () =>
-                                    setAttributes({ headingLevel: level + 1 }),
-                                subscript: `${level + 1}`,
-                            }))}
-                        />
-                        <p>
-                            {__(
-                                'Heading Alignment',
-                                'academic-bloggers-toolkit',
-                            )}
-                        </p>
-                        <AlignmentToolbar
-                            value={headingAlign}
-                            onChange={align =>
-                                setAttributes({ headingAlign: align })
-                            }
-                        />
-                        <ToggleControl
-                            label={__(
-                                'Enable toggle',
-                                'academic-bloggers-toolkit',
-                            )}
-                            checked={isToggleable}
-                            help={__(
-                                'Toggle mode can only be enabled if the bibliography has a heading.',
-                                'academic-bloggers-toolkit',
-                            )}
-                            onChange={toggleable =>
-                                heading &&
-                                setAttributes({ isToggleable: toggleable })
-                            }
-                        />
-                    </PanelBody>
-                </InspectorControls>
-                <section
-                    className="abt-bibliography"
-                    role="region"
-                    aria-label={__('Bibliography', 'academic-bloggers-toolkit')}
-                >
-                    {isToggleable && (
-                        <details>
-                            <summary className={styles.summary}>
-                                {this.maybeRenderHeading()}
-                            </summary>
-                            <ol
-                                className="abt-bibliography__body"
-                                {...containerAttrs}
-                            >
-                                {items.map(({ content, id }) => (
-                                    <RichText.Content<'li'>
-                                        key={id}
-                                        tagName="li"
-                                        id={id}
-                                        value={content}
-                                    />
-                                ))}
-                            </ol>
-                        </details>
-                    )}
-                    {!isToggleable && (
-                        <>
-                            {this.maybeRenderHeading()}
-                            <ol
-                                className="abt-bibliography__body"
-                                {...containerAttrs}
-                            >
-                                {items.map(({ content, id }) => (
-                                    <RichText.Content<'li'>
-                                        key={id}
-                                        tagName="li"
-                                        id={id}
-                                        value={content}
-                                    />
-                                ))}
-                            </ol>
-                        </>
-                    )}
-                </section>
-            </>
-        );
-    }
+type Props = BlockEditProps<Attributes>;
 
-    private maybeRenderHeading = () => {
-        const {
-            attributes: { heading, headingAlign, headingLevel, isToggleable },
-            isSelected,
-            setAttributes,
-        } = this.props;
-        if (!isSelected && !heading) {
-            return null;
-        }
-        const Tag = `h${headingLevel}` as HeadingType;
-        return (
-            <Tag
-                className={classNames(
-                    {
-                        'abt-bibliography__heading': !isToggleable,
-                    },
-                    styles.heading,
-                )}
-                style={{ textAlign: headingAlign }}
-            >
-                {isSelected && (
-                    <TextareaAutosize
-                        placeholder={__(
-                            'Write heading...',
-                            'academic-bloggers-toolkit',
-                        )}
-                        value={heading}
-                        onChange={({ currentTarget: { value } }) => {
-                            setAttributes({
-                                heading: value,
-                            });
-                        }}
-                        onBlur={() =>
-                            !heading && setAttributes({ isToggleable: false })
+export default function BibliographyEdit(props: Props) {
+    const { attributes, setAttributes } = props;
+    const { heading, headingAlign, headingLevel, isToggleable } = attributes;
+    return (
+        <>
+            <InspectorControls>
+                <PanelBody
+                    title={__(
+                        'Bibliography Settings',
+                        'academic-bloggers-toolkit',
+                    )}
+                >
+                    {__('Heading Level', 'academic-bloggers-toolkit')}
+                    <Toolbar
+                        controls={range(1, 7).map(level => ({
+                            icon: 'heading',
+                            title: sprintf(__('Heading %d'), level),
+                            isActive: level === headingLevel,
+                            onClick: () =>
+                                setAttributes({ headingLevel: level }),
+                            subscript: `${level}`,
+                        }))}
+                    />
+                    {__('Heading Alignment', 'academic-bloggers-toolkit')}
+                    <AlignmentToolbar
+                        value={headingAlign}
+                        onChange={align =>
+                            setAttributes({ headingAlign: align })
                         }
                     />
-                )}
-                {!isSelected && heading}
-            </Tag>
-        );
-    };
+                    <ToggleControl
+                        label={__('Enable toggle', 'academic-bloggers-toolkit')}
+                        checked={isToggleable}
+                        help={__(
+                            'Toggle mode can only be enabled if the bibliography has a heading.',
+                            'academic-bloggers-toolkit',
+                        )}
+                        onChange={toggleable =>
+                            heading &&
+                            setAttributes({ isToggleable: toggleable })
+                        }
+                    />
+                </PanelBody>
+            </InspectorControls>
+            <Bibliography {...props} />
+        </>
+    );
 }
 
-export default BibliographyEdit;
+function Bibliography(props: Props) {
+    const { attributes } = props;
+    const { isToggleable } = attributes;
+    return (
+        <section
+            className="abt-bibliography"
+            role="region"
+            aria-label={__('Bibliography', 'academic-bloggers-toolkit')}
+        >
+            {isToggleable && (
+                <details>
+                    <summary className={styles.summary}>
+                        <BibliographyHeading {...props} />
+                    </summary>
+                    <ItemList {...attributes} />
+                </details>
+            )}
+            {!isToggleable && (
+                <>
+                    <BibliographyHeading {...props} />
+                    <ItemList {...attributes} />
+                </>
+            )}
+        </section>
+    );
+}
+
+function BibliographyHeading({
+    attributes: { heading, headingAlign, headingLevel, isToggleable },
+    isSelected,
+    setAttributes,
+}: Props) {
+    if (!isSelected && !heading) {
+        return null;
+    }
+    const Tag = `h${headingLevel}` as HeadingType;
+    const className = useMemo(
+        () =>
+            classNames(
+                {
+                    'abt-bibliography__heading': !isToggleable,
+                },
+                styles.heading,
+            ),
+        [isToggleable],
+    );
+    return (
+        <Tag className={className} style={{ textAlign: headingAlign }}>
+            {isSelected && (
+                <TextareaAutosize
+                    placeholder={__(
+                        'Write heading...',
+                        'academic-bloggers-toolkit',
+                    )}
+                    value={heading}
+                    onChange={e =>
+                        setAttributes({ heading: e.currentTarget.value })
+                    }
+                    onBlur={() =>
+                        !heading && setAttributes({ isToggleable: false })
+                    }
+                />
+            )}
+            {!isSelected && heading}
+        </Tag>
+    );
+}
+
+function ItemList(atts: Props['attributes']) {
+    const containerAttrs = useMemo(() => parseBibAttributes(atts), [atts]);
+    return (
+        <ol className="abt-bibliography__body" {...containerAttrs}>
+            {atts.items.map(({ content, id }) => (
+                <RichText.Content
+                    key={id}
+                    tagName="li"
+                    id={id}
+                    value={content}
+                />
+            ))}
+        </ol>
+    );
+}

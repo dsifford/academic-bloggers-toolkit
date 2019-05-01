@@ -19,21 +19,20 @@ export abstract class CSLDate {
 }
 
 export abstract class CSLPerson {
-    static getNames(people: CSL.Person[], count?: number): string {
-        return (
-            people
-                .slice(0, count)
-                .map(({ family, given, literal }) => {
-                    if (literal) {
-                        return literal;
-                    }
-                    if (family) {
-                        return `${family} ${given ? given[0] : ''}`.trim();
-                    }
-                    return '';
-                })
-                .filter(Boolean)
-                .join(', ') + '.'
-        );
+    static getNames(people: CSL.Person[] = [], count?: number): string {
+        const names = people
+            .slice(0, count)
+            .map(({ family, given, literal }) => {
+                if (literal) {
+                    return literal;
+                }
+                if (family) {
+                    return `${family} ${given ? given[0] : ''}`.trim();
+                }
+                return '';
+            })
+            .filter(Boolean)
+            .join(', ');
+        return names ? `${names}.` : '';
     }
 }

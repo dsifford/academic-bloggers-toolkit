@@ -60,7 +60,6 @@ export const config: BlockConfig<Attributes> = {
             attribute: 'data-second-field-align',
             selector: '.abt-bibliography__body',
         },
-
         items: {
             type: 'array',
             default: [],

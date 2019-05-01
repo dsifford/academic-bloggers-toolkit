@@ -1,7 +1,6 @@
 import { Button } from '@wordpress/components';
 import { compose } from '@wordpress/compose';
 import { withSelect } from '@wordpress/data';
-import { ComponentType } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
 
 import asDialog from 'components/as-dialog';
@@ -36,11 +35,11 @@ const Dialog = ({ onSubmit, data }: Dialog.Props) => (
     </>
 );
 
-export default compose([
+export default compose(
     asDialog,
-    withSelect<Dialog.SelectProps, Dialog.OwnProps>((select, ownProps) => {
+    withSelect<Dialog.SelectProps, Dialog.OwnProps>((select, { itemId }) => {
         return {
-            data: select('abt/data').getItemById(ownProps.itemId) || undefined,
+            data: select('abt/data').getItemById(itemId) || undefined,
         };
     }),
-])(Dialog) as ComponentType<Dialog.OwnProps>;
+)(Dialog);

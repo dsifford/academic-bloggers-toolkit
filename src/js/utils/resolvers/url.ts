@@ -1,3 +1,5 @@
+import uuid from 'uuid/v4';
+
 import { fetchAjax } from 'utils/ajax';
 import { firstTruthyValue } from 'utils/data';
 import { ResponseError } from 'utils/error';
@@ -134,7 +136,7 @@ export async function get(url: string): Promise<CSL.Data | ResponseError> {
     }
     const json: WebpageResponse = await response.json();
     return {
-        id: Date.now().toString(),
+        id: uuid(),
         type: 'webpage',
         title: firstTruthyValue(json, ['og.title', 'sailthru.title', 'title']),
         URL: url,

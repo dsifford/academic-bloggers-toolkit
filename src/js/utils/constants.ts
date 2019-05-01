@@ -4,7 +4,7 @@ export const enum IdentifierKind {
     PMCID = 'pmcid',
 }
 
-export const CSL_DATE_KEYS: ReadonlyArray<CSL.DateFieldKey> = [
+export const CSL_DATE_KEYS: readonly CSL.DateFieldKey[] = [
     'accessed',
     'container',
     'event-date',
@@ -13,7 +13,7 @@ export const CSL_DATE_KEYS: ReadonlyArray<CSL.DateFieldKey> = [
     'submitted',
 ];
 
-export const CSL_NUMBER_KEYS: ReadonlyArray<CSL.NumberFieldKey> = [
+export const CSL_NUMBER_KEYS: readonly CSL.NumberFieldKey[] = [
     'chapter-number',
     'collection-number',
     'edition',
@@ -23,7 +23,7 @@ export const CSL_NUMBER_KEYS: ReadonlyArray<CSL.NumberFieldKey> = [
     'volume',
 ];
 
-export const CSL_PERSON_KEYS: ReadonlyArray<CSL.PersonFieldKey> = [
+export const CSL_PERSON_KEYS: readonly CSL.PersonFieldKey[] = [
     'author',
     'collection-editor',
     'composer',
@@ -39,7 +39,7 @@ export const CSL_PERSON_KEYS: ReadonlyArray<CSL.PersonFieldKey> = [
     'translator',
 ];
 
-export const CSL_STRING_KEYS: ReadonlyArray<CSL.StringFieldKey> = [
+export const CSL_STRING_KEYS: readonly CSL.StringFieldKey[] = [
     'DOI',
     'ISBN',
     'ISSN',

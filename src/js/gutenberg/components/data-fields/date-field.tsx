@@ -1,5 +1,3 @@
-import _ from 'lodash';
-
 import { DataContext } from 'gutenberg/context';
 import { InputField } from 'utils/fieldmaps';
 

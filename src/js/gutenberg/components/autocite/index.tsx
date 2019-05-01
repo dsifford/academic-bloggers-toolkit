@@ -1,123 +1,126 @@
 import { IconButton } from '@wordpress/components';
-import { Component, createRef, HTMLProps } from '@wordpress/element';
-import { __, _x, sprintf } from '@wordpress/i18n';
-import classNames from 'classnames';
+import { HTMLProps, useRef, useState } from '@wordpress/element';
+import { __, sprintf } from '@wordpress/i18n';
 
 import { ResponseError } from 'utils/error';
-import { ISBN, URL } from 'utils/resolvers';
+import { isbn, url } from 'utils/resolvers';
 
 import styles from './style.scss';
 
 interface Props {
     /**
-     * Describes the type of autocite needed
+     * Props to pass through to the input element.
      */
-    kind: 'book' | 'chapter' | 'webpage';
     inputProps?: HTMLProps<HTMLInputElement>;
-    className?: string;
+    /**
+     * The kind of autocite to be performed.
+     */
+    kind: CSL.ItemType;
+    /**
+     * Called with an error message if an error occurs.
+     */
     onError(message: string): void;
+    /**
+     * Called with resolved data after autociting.
+     */
     onSubmit(data: CSL.Data): void;
 }
 
-interface State {
-    isBusy: boolean;
-    query: string;
-}
+type HandlerProps = Pick<Props, 'kind' | 'onError' | 'onSubmit'>;
 
-export default class Autocite extends Component<Props, State> {
-    state = {
-        isBusy: false,
-        query: '',
+function Autocite({ inputProps, ...props }: Props) {
+    const [isBusy, setIsBusy] = useState(false);
+    const [query, setQuery] = useState('');
+
+    const inputRef = useRef<HTMLInputElement>(null);
+    const isInvalid = inputRef.current
+        ? !inputRef.current.validity.valid
+        : true;
+
+    const tryAutocite = async () => {
+        setIsBusy(true);
+        if (await handleQuery(query, props)) {
+            setQuery('');
+        }
+        setIsBusy(false);
     };
 
-    private inputRef = createRef<HTMLInputElement>();
-
-    render() {
-        const { isBusy, query } = this.state;
-        const { inputProps, className } = this.props;
-        const isInvalid = this.inputRef.current
-            ? !this.inputRef.current.validity.valid
-            : true;
-        return (
-            <div
-                role="search"
-                className={classNames(styles.autocite, className)}
-            >
-                <label
-                    htmlFor="autocite"
-                    role="search"
-                    className={classNames(styles.autocite, className)}
-                >
-                    {_x(
-                        'Autocite',
-                        'Not a real word, but should be something short that conveys that citation data will be generated automatically',
-                        'academic-bloggers-toolkit',
-                    )}
-                </label>
-                <input
-                    id="autocite"
-                    type="search"
-                    autoComplete="off"
-                    data-lpignore="true"
-                    ref={this.inputRef}
-                    {...inputProps}
-                    value={query}
-                    onChange={e =>
-                        this.setState({ query: e.currentTarget.value })
-                    }
-                    onKeyDown={e => {
-                        if (e.key !== 'Enter') {
-                            return;
-                        }
-                        e.preventDefault();
-                        return isInvalid ? void 0 : this.handleQuery();
-                    }}
-                />
-                <IconButton
-                    isLarge
-                    isBusy={isBusy}
-                    isPrimary={isBusy}
-                    icon="search"
-                    disabled={isInvalid}
-                    onClick={this.handleQuery}
-                >
-                    {__('Search', 'academic-bloggers-toolkit')}
-                </IconButton>
-            </div>
-        );
+    if (!['book', 'chapter', 'webpage'].includes(props.kind)) {
+        return null;
     }
 
-    private handleQuery = async () => {
-        this.setState({ isBusy: true });
-        const { query } = this.state;
-        const { kind, onError, onSubmit } = this.props;
-        let response: CSL.Data | ResponseError;
-        switch (kind) {
-            case 'book':
-            case 'chapter':
-                response = await ISBN.get(query, kind === 'chapter');
-                break;
-            case 'webpage':
-                response = await URL.get(query);
-                break;
-            default:
-                this.setState({ isBusy: false });
-                return;
-        }
-        if (response instanceof ResponseError) {
-            onError(
-                sprintf(
-                    __(
-                        'Unable to retrieve data for identifier: %s',
-                        'academic-bloggers-toolkit',
-                    ),
-                    response.resource,
-                ),
-            );
-            this.setState({ isBusy: false });
-            return;
-        }
-        this.setState({ isBusy: false, query: '' });
-        return onSubmit(response);
-    };
+    return (
+        <div role="search" className={styles.autocite}>
+            <label htmlFor="autocite" role="search" className={styles.autocite}>
+                {// translators: Not a real word, but should be something short that conveys that citation data will be generated automatically.
+                __('Autocite', 'academic-bloggers-toolkit')}
+            </label>
+            <input
+                id="autocite"
+                type="search"
+                autoComplete="off"
+                data-lpignore="true"
+                ref={inputRef}
+                {...inputProps}
+                value={query}
+                onChange={e => setQuery(e.currentTarget.value)}
+                onKeyDown={e => {
+                    if (e.key === 'Enter') {
+                        e.preventDefault();
+                        if (!isInvalid) {
+                            tryAutocite();
+                        }
+                    }
+                }}
+            />
+            <IconButton
+                isLarge
+                isBusy={isBusy}
+                isPrimary={isBusy}
+                icon="search"
+                disabled={isInvalid}
+                onClick={tryAutocite}
+            >
+                {__('Search', 'academic-bloggers-toolkit')}
+            </IconButton>
+        </div>
+    );
 }
+
+/**
+ * Attempts an autocite and returns whether or not a successful response (and
+ * thus data) was retrieved.
+ */
+async function handleQuery(
+    query: string,
+    { kind, onError, onSubmit }: HandlerProps,
+): Promise<boolean> {
+    let response: CSL.Data | ResponseError;
+    switch (kind) {
+        case 'book':
+        case 'chapter':
+            response = await isbn.get(query, kind === 'chapter');
+            break;
+        case 'webpage':
+            response = await url.get(query);
+            break;
+        default:
+            return false;
+    }
+    if (response instanceof ResponseError) {
+        onError(
+            sprintf(
+                __(
+                    'Unable to retrieve data for identifier: %s',
+                    'academic-bloggers-toolkit',
+                ),
+                response.resource,
+            ),
+        );
+        return false;
+    }
+    onSubmit(response);
+    return true;
+}
+
+export default Autocite;

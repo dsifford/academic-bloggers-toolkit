@@ -1,7 +1,6 @@
 import { RichTextToolbarButton } from '@wordpress/block-editor';
-import { compose } from '@wordpress/compose';
 import { withDispatch } from '@wordpress/data';
-import { Component } from '@wordpress/element';
+import { useState } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
 import { create, FormatProps, insert, remove } from '@wordpress/rich-text';
 import _ from 'lodash';
@@ -12,95 +11,85 @@ import { FootnoteElement } from 'utils/element';
 import { name as NAME } from './';
 import './footnote.scss?global';
 
-namespace Footnote {
-    export interface DispatchProps {
-        parseFootnotes(): void;
-    }
-    export type OwnProps = FormatProps;
-    export type Props = OwnProps & DispatchProps;
-    export interface State {
-        isOpen: boolean;
-    }
+interface DispatchProps {
+    parseFootnotes(): void;
 }
-class Footnote extends Component<Footnote.Props, Footnote.State> {
-    state: Footnote.State = {
-        isOpen: false,
-    };
+type OwnProps = FormatProps;
+type Props = OwnProps & DispatchProps;
 
-    render() {
-        const { isOpen } = this.state;
-        const {
-            isActive,
-            value: { activeFormats = [], start, end },
-        } = this.props;
-        const footnoteIsSelected = activeFormats.some(f => f.type === NAME);
-        return (
-            <>
-                <AddFootnoteDialog
-                    title={__('Add footnote', 'academic-bloggers-toolkit')}
-                    isOpen={isOpen}
-                    onClose={() => this.setState({ isOpen: false })}
-                    onSubmit={note => {
-                        this.setState({ isOpen: false });
-                        this.insertFootnote(note);
-                    }}
-                />
-                <RichTextToolbarButton
-                    icon="testimonial"
-                    title={
-                        !footnoteIsSelected
-                            ? __('Add Footnote', 'academic-bloggers-toolkit')
-                            : __('Remove Footnote', 'academic-bloggers-toolkit')
-                    }
-                    isActive={isActive || footnoteIsSelected}
-                    isDisabled={(!start || !end) && !footnoteIsSelected}
-                    onClick={this.handleClick}
-                />
-            </>
-        );
-    }
+function Footnote(props: Props) {
+    const [isOpen, setIsOpen] = useState(false);
 
-    private handleClick = () => {
-        const { onChange, parseFootnotes, value } = this.props;
-        const { activeFormats = [] } = value;
-        const activeFootnote = activeFormats.find(f => f.type === NAME);
-        if (activeFootnote) {
-            const activeId = _.get(activeFootnote, ['attributes', 'id']);
-            const indices = value.formats
-                .map((formats, idx) =>
-                    Array.isArray(formats) &&
-                    formats.some(
-                        f =>
-                            f.type === NAME &&
-                            _.get(f, ['attributes', 'id']) === activeId,
-                    )
-                        ? idx
-                        : undefined,
+    const {
+        isActive,
+        value: { activeFormats = [], start, end },
+    } = props;
+    const footnoteIsSelected = activeFormats.some(f => f.type === NAME);
+
+    return (
+        <>
+            <AddFootnoteDialog
+                title={__('Add footnote', 'academic-bloggers-toolkit')}
+                isOpen={isOpen}
+                onClose={() => setIsOpen(false)}
+                onSubmit={note => {
+                    setIsOpen(false);
+                    insertFootnote(note, props);
+                }}
+            />
+            <RichTextToolbarButton
+                icon="testimonial"
+                title={
+                    footnoteIsSelected
+                        ? __('Remove Footnote', 'academic-bloggers-toolkit')
+                        : __('Add Footnote', 'academic-bloggers-toolkit')
+                }
+                isActive={isActive || footnoteIsSelected}
+                isDisabled={(!start || !end) && !footnoteIsSelected}
+                onClick={() => handleClick(setIsOpen, props)}
+            />
+        </>
+    );
+}
+
+function handleClick(setIsOpen: (open: boolean) => void, props: Props) {
+    const { onChange, parseFootnotes, value } = props;
+    const { activeFormats = [] } = value;
+    const activeFootnote = activeFormats.find(f => f.type === NAME);
+
+    if (activeFootnote) {
+        const activeId = _.get(activeFootnote, ['attributes', 'id'], -1);
+        const indices = value.formats.reduce<number[]>(
+            (arr, formats = [], idx) =>
+                formats.some(
+                    f =>
+                        f.type === NAME &&
+                        _.get(f, ['attributes', 'id']) === activeId,
                 )
-                .filter(Boolean) as number[];
-            onChange(
-                remove(value, indices[0] - 1, indices[indices.length - 1] + 1),
-            );
-            parseFootnotes();
-        } else {
-            this.setState({ isOpen: true });
-        }
-    };
-
-    private insertFootnote = (note: string): void => {
-        const { onChange, parseFootnotes, value } = this.props;
-        const footnote = create({
-            html: FootnoteElement.create(note),
-        });
-        onChange(insert(value, footnote));
+                    ? [...arr, idx]
+                    : arr,
+            [],
+        );
+        onChange(remove(value, indices[0], indices[indices.length - 1] + 1));
         parseFootnotes();
-    };
+    } else {
+        setIsOpen(true);
+    }
 }
 
-export default compose([
-    withDispatch<Footnote.DispatchProps>(dispatch => ({
-        parseFootnotes() {
-            dispatch('abt/data').parseFootnotes();
-        },
-    })),
-])(Footnote);
+function insertFootnote(
+    note: string,
+    { onChange, parseFootnotes, value }: Props,
+) {
+    const footnote = create({
+        html: FootnoteElement.create(note),
+    });
+    onChange(insert(value, footnote));
+    parseFootnotes();
+}
+
+export default withDispatch<DispatchProps, OwnProps>(dispatch => ({
+    parseFootnotes() {
+        dispatch('abt/data').parseFootnotes();
+    },
+}))(Footnote);
