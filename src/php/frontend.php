@@ -11,10 +11,7 @@ namespace ABT\Frontend;
 
 defined( 'ABSPATH' ) || exit;
 
-use function ABT\Utils\{
-	add_json_script,
-	get_handle
-};
+use function ABT\Utils\add_json_script;
 use WP_Post;
 
 /**
@@ -75,12 +72,9 @@ add_action( 'the_post', __NAMESPACE__ . '\collect_bibliography' );
  * Enqueues frontend CSS and JS.
  */
 function enqueue_scripts() {
-	global $post;
+	wp_enqueue_style( 'abt-frontend' );
 	if ( is_singular() ) {
-		wp_enqueue_style( get_handle( 'frontend', 'style' ) );
-		wp_enqueue_script( get_handle( 'frontend', 'script' ) );
-	} else {
-		wp_enqueue_style( get_handle( 'frontend', 'style' ) );
+		wp_enqueue_script( 'abt-frontend' );
 	}
 }
 add_action( 'wp_enqueue_scripts', __NAMESPACE__ . '\enqueue_scripts' );

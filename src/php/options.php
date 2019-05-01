@@ -11,10 +11,7 @@ namespace ABT\Options;
 
 defined( 'ABSPATH' ) || exit;
 
-use function ABT\Utils\{
-	get_citation_styles,
-	get_handle
-};
+use function ABT\Utils\get_citation_styles;
 
 /**
  * Registers the plugin options page.
@@ -40,8 +37,8 @@ function enqueue_scripts( string $hook ) {
 		return;
 	}
 	wp_enqueue_script( 'codepen' );
-	wp_enqueue_style( get_handle( 'options-page', 'style' ) );
-	wp_enqueue_script( get_handle( 'options-page', 'script' ) );
+	wp_enqueue_style( 'abt-options-page' );
+	wp_enqueue_script( 'abt-options-page' );
 }
 add_action( 'admin_enqueue_scripts', __NAMESPACE__ . '\enqueue_scripts' );
 
@@ -71,7 +68,7 @@ function render_options_page() {
 	}
 
 	wp_localize_script(
-		get_handle( 'options-page', 'script' ),
+		'abt-options-page',
 		'ABT',
 		[
 			'styles'  => get_citation_styles(),

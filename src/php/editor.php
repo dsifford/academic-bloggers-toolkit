@@ -11,24 +11,15 @@ namespace ABT\Editor;
 
 defined( 'ABSPATH' ) || exit;
 
-use function ABT\Utils\{
-	add_json_script,
-	get_handle,
-};
+use function ABT\Utils\add_json_script;
 
 /**
  * Enqueue admin scripts.
  */
 function enqueue_scripts() {
 	global $post;
-	wp_enqueue_style( get_handle( 'editor-blocks', 'style' ) );
-	wp_enqueue_style( get_handle( 'editor-formats', 'style' ) );
-	wp_enqueue_style( get_handle( 'editor', 'style' ) );
-
-	wp_enqueue_script( get_handle( 'editor-stores', 'script' ) );
-	wp_enqueue_script( get_handle( 'editor-blocks', 'script' ) );
-	wp_enqueue_script( get_handle( 'editor-formats', 'script' ) );
-	wp_enqueue_script( get_handle( 'editor', 'script' ) );
+	wp_enqueue_style( 'abt-editor' );
+	wp_enqueue_script( 'abt-editor' );
 
 	$state = init_editor_state( $post->ID );
 	add_json_script( 'abt-editor-state', $state );
