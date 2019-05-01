@@ -33,7 +33,7 @@
     display: grid;
     grid-template-columns: 100% min-content;
     gap: 20px;
-    align-items: center;
+    align-items: flex-start;
 
     &:hover {
         .button-list {

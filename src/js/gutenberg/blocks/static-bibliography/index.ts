@@ -29,6 +29,7 @@ export const config: BlockConfig<Attributes> = {
         __('sources', 'academic-bloggers-toolkit'),
     ],
     attributes: {
+        // TODO: need csl attributes here prob (see blocks/bibliography/index.ts)
         items: {
             type: 'array',
             source: 'query',
