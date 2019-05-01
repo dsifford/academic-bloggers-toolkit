@@ -315,7 +315,7 @@ export interface Block<T = Record<string, any>> {
     /**
      * The parsed HTML content of the block.
      */
-    originalContent: string;
+    originalContent?: string;
 }
 
 export function createBlock<T = Record<string, any>>(

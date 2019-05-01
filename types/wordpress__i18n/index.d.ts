@@ -83,4 +83,4 @@ export function _nx(
  *
  * @see http://www.diveintojavascript.com/projects/javascript-sprintf
  */
-export function sprintf(format: string, ...args: string[]): string;
+export function sprintf(format: string, ...args: any[]): string;

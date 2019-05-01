@@ -27,13 +27,13 @@ export function dispatch<T>(key: string): Record<string, (...args: any[]) => T>;
 
 export function select<T>(key: string): Record<string, (...args: any[]) => T>;
 
-export function withDispatch<DP, P = {}>(
+export function withDispatch<DP, P = {}, IP = {}>(
     mapDispatchToProps: (
         disp: typeof dispatch,
-        ownProps: P,
+        ownProps: P & IP,
         registry: { select: typeof select },
     ) => DP,
-): (component: ComponentType<P & DP>) => ComponentType<P>;
+): (component: ComponentType<P & IP & DP>) => ComponentType<P>;
 
 export function withSelect<SP, P = {}>(
     mapSelectToProps: (sel: typeof select, ownProps: P) => SP,

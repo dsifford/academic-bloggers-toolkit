@@ -46,7 +46,9 @@
       true,
       "allow-empty-catch"
     ],
-    "no-object-literal-type-assertion": false,
+    "no-suspicious-comment": {
+      "severity": "warning"
+    },
     "no-this-assignment": {
       "options": {
         "allow-destructuring": true
@@ -73,6 +75,7 @@
         "ban-keywords"
       ]
     },
+    "await-promise": true,
     "interface-name": false,
     "jsx-boolean-value": false,
     "jsx-no-lambda": false,
@@ -83,20 +86,14 @@
     "no-namespace": false,
     "no-submodule-imports": false,
     "unified-signatures": false,
-    "no-suspicious-comment": {
-      "severity": "warning"
-    },
-    "await-promise": true,
     "no-banned-terms": true,
     "no-delete-expression": true,
     "no-document-write": true,
     "no-for-in": true,
-    "no-function-constructor-with-string-args": true,
     "no-function-expression": true,
     "no-invalid-regexp": true,
     "no-regex-spaces": true,
     "no-typeof-undefined": true,
-    "no-unnecessary-bind": true,
     "no-unnecessary-field-initialization": true,
     "no-unnecessary-override": true,
     "no-useless-files": true,
@@ -115,7 +112,6 @@
     "react-a11y-tabindex-no-positive": true,
     "react-a11y-titles": true,
     "react-anchor-blank-noopener": true,
-    "react-iframe-missing-sandbox": true,
-    "react-no-dangerous-html": true
+    "react-iframe-missing-sandbox": true
   }
 }
