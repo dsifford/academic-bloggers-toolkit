@@ -1,7 +1,6 @@
 import { Action, combineReducers } from '@wordpress/data';
 import hash from 'string-hash';
 
-import { firstTruthyValue } from 'utils/data';
 import { getJSONScriptData } from 'utils/dom';
 
 import { SavedState, State } from './';
@@ -37,11 +36,7 @@ export function references(
             const newItems = (<CSL.Data[]>action.data)
                 .map(({ id, ...data }) => ({
                     ...data,
-                    id: firstTruthyValue(
-                        data,
-                        ['DOI', 'ISBN', 'PMCID', 'PMID'],
-                        hash(JSON.stringify(data)).toString(),
-                    ),
+                    id: `${hash(JSON.stringify(data))}`,
                 }))
                 .filter(
                     ({ id }) => state.findIndex(item => item.id === id) === -1,
