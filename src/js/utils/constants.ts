@@ -4,7 +4,7 @@ export const enum IdentifierKind {
     PMCID = 'pmcid',
 }
 
-export const CSL_DATE_KEYS: readonly CSL.DateFieldKey[] = [
+const CSL_DATE_KEYS: readonly CSL.DateFieldKey[] = [
     'accessed',
     'container',
     'event-date',
@@ -12,8 +12,11 @@ export const CSL_DATE_KEYS: readonly CSL.DateFieldKey[] = [
     'original-date',
     'submitted',
 ];
+export function isCslDateKey(key: any): key is CSL.DateFieldKey {
+    return CSL_DATE_KEYS.includes(key);
+}
 
-export const CSL_NUMBER_KEYS: readonly CSL.NumberFieldKey[] = [
+const CSL_NUMBER_KEYS: readonly CSL.NumberFieldKey[] = [
     'chapter-number',
     'collection-number',
     'edition',
@@ -22,8 +25,11 @@ export const CSL_NUMBER_KEYS: readonly CSL.NumberFieldKey[] = [
     'number-of-volumes',
     'volume',
 ];
+export function isCslNumberKey(key: any): key is CSL.NumberFieldKey {
+    return CSL_NUMBER_KEYS.includes(key);
+}
 
-export const CSL_PERSON_KEYS: readonly CSL.PersonFieldKey[] = [
+const CSL_PERSON_KEYS: readonly CSL.PersonFieldKey[] = [
     'author',
     'collection-editor',
     'composer',
@@ -38,8 +44,11 @@ export const CSL_PERSON_KEYS: readonly CSL.PersonFieldKey[] = [
     'reviewed-author',
     'translator',
 ];
+export function isCslPersonKey(key: any): key is CSL.PersonFieldKey {
+    return CSL_PERSON_KEYS.includes(key);
+}
 
-export const CSL_STRING_KEYS: readonly CSL.StringFieldKey[] = [
+const CSL_STRING_KEYS: readonly CSL.StringFieldKey[] = [
     'DOI',
     'ISBN',
     'ISSN',
@@ -90,8 +99,11 @@ export const CSL_STRING_KEYS: readonly CSL.StringFieldKey[] = [
     'version',
     'year-suffix',
 ];
+export function isCslStringKey(key: any): key is CSL.StringFieldKey {
+    return CSL_STRING_KEYS.includes(key);
+}
 
-export const CSL_KEYS: ReadonlyArray<keyof CSL.Data> = [
+const CSL_KEYS: ReadonlyArray<keyof CSL.Data> = [
     'id',
     'type',
     ...CSL_DATE_KEYS,
@@ -99,6 +111,9 @@ export const CSL_KEYS: ReadonlyArray<keyof CSL.Data> = [
     ...CSL_PERSON_KEYS,
     ...CSL_STRING_KEYS,
 ];
+export function isCslKey(key: any): key is keyof CSL.Data {
+    return CSL_KEYS.includes(key);
+}
 
 export const ZERO_WIDTH_SPACE = '\u200b';
 

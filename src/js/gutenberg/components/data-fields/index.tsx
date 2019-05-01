@@ -1,8 +1,4 @@
-import {
-    CSL_DATE_KEYS,
-    CSL_NUMBER_KEYS,
-    CSL_STRING_KEYS,
-} from 'utils/constants';
+import { isCslDateKey, isCslNumberKey, isCslStringKey } from 'utils/constants';
 import { FieldMapping } from 'utils/fieldmaps';
 
 import DateField from './date-field';
@@ -19,13 +15,13 @@ const DataFields = ({ fieldmap: { title, fields } }: Props) => (
         <h2>{title}</h2>
         <div className={styles.container}>
             {fields.map(field => {
-                if (CSL_DATE_KEYS.includes(field.key as CSL.DateFieldKey)) {
+                if (isCslDateKey(field.key)) {
                     return <DateField key={field.key} field={field} />;
                 }
-                if (CSL_NUMBER_KEYS.includes(field.key as CSL.NumberFieldKey)) {
+                if (isCslNumberKey(field.key)) {
                     return <NumberField key={field.key} field={field} />;
                 }
-                if (CSL_STRING_KEYS.includes(field.key as CSL.StringFieldKey)) {
+                if (isCslStringKey(field.key)) {
                     return <StringField key={field.key} field={field} />;
                 }
                 return null;

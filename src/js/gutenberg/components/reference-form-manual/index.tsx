@@ -6,7 +6,7 @@ import Autocite from 'gutenberg/components/autocite';
 import DataFields from 'gutenberg/components/data-fields';
 import PeopleFields from 'gutenberg/components/people-fields';
 import { DataContext, PeopleContext } from 'gutenberg/context';
-import { CSL_PERSON_KEYS } from 'utils/constants';
+import { isCslPersonKey } from 'utils/constants';
 import fields from 'utils/fieldmaps';
 
 import styles from './style.scss';
@@ -144,7 +144,7 @@ class ReferenceFormManual extends Component<Props, State> {
         };
         let people: State['people'] = [];
         for (const [key, value] of Object.entries<any>(input)) {
-            if (CSL_PERSON_KEYS.includes(key as CSL.PersonFieldKey)) {
+            if (isCslPersonKey(key)) {
                 people = [
                     ...people,
                     ...value.map((person: CSL.Person) => ({
