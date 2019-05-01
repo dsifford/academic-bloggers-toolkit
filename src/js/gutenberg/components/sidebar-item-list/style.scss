@@ -7,6 +7,7 @@
     gap: 2px;
     cursor: pointer;
     padding: 8px 16px;
+    line-height: 1.6;
 
     &[aria-selected='true'] {
         border-left: 3px solid #11a0d2;

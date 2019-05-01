@@ -2,23 +2,25 @@ import { ReactNode } from '@wordpress/element';
 
 import styles from './style.scss';
 
-namespace SidebarItemList {
-    export interface Props<T> {
-        items: ReadonlyArray<T>;
-        selectedItems?: ReadonlyArray<string>;
-        renderItem(item: Partial<T>): ReactNode;
-        onItemClick?(id: string): void;
-        onItemDoubleClick?(id: string): void;
-    }
+interface HasID {
+    id: string;
 }
 
-function SidebarItemList<T extends { id: string }>({
+interface Props<T> {
+    items: readonly T[];
+    selectedItems?: readonly string[];
+    renderItem(item: T): ReactNode;
+    onItemClick?(id: string): void;
+    onItemDoubleClick?(id: string): void;
+}
+
+export default function SidebarItemList<T extends HasID>({
     items,
     onItemClick,
     onItemDoubleClick,
-    renderItem,
     selectedItems = [],
-}: SidebarItemList.Props<T>) {
+    renderItem,
+}: Props<T>) {
     return (
         <div className={styles.list} role="listbox" aria-multiselectable={true}>
             {items.map(item => (
@@ -38,5 +40,3 @@ function SidebarItemList<T extends { id: string }>({
         </div>
     );
 }
-
-export default SidebarItemList;
