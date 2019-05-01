@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import { get } from 'lodash';
 
 type Widen<T> = T extends string ? string : T extends number ? number : T;
 
@@ -9,22 +9,15 @@ export function clone<T>(data: T): T {
     return JSON.parse(JSON.stringify(data));
 }
 
-export function firstTruthyValue<T extends Record<string, any>, U>(
-    obj: T,
-    paths: string[],
-    fallback: Widen<U>,
-): Widen<U>;
-export function firstTruthyValue<T extends Record<string, any>, U>(
-    obj: T,
-    paths: string[],
-): U | undefined;
+export function firstTruthyValue<T extends Record<string, any>, U>(obj: T, paths: string[], fallback: Widen<U>): Widen<U>; // prettier-ignore
+export function firstTruthyValue<T extends Record<string, any>, U>(obj: T, paths: string[]): U | undefined; // prettier-ignore
 export function firstTruthyValue<T extends Record<string, any>, U>(
     obj: T,
     paths: string[],
     fallback?: Widen<U>,
 ) {
     for (const path of paths) {
-        const val = _.get(obj, path);
+        const val = get(obj, path);
         if (val) {
             return val;
         }

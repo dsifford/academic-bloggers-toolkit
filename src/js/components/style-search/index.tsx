@@ -1,7 +1,7 @@
 import { Component, createRef } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
 import Fuse from 'fuse.js';
-import _ from 'lodash';
+import { debounce } from 'lodash';
 import AutoSuggest, {
     InputProps,
     OnSuggestionSelected as OSS,
@@ -36,7 +36,7 @@ export class StyleSearch extends Component<
         suggestions: [],
     };
 
-    private search: SFR = _.debounce(
+    private search: SFR = debounce(
         ({ value }) => {
             this.setState({
                 suggestions: this.fuse.search(value).slice(0, 10),

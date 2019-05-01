@@ -1,5 +1,5 @@
 import { Citation } from 'citeproc';
-import _ from 'lodash';
+import lodash, { differenceWith, get, orderBy, partial } from 'lodash';
 
 import { clone, firstTruthyValue } from 'utils/data';
 import { getEditorDOM } from 'utils/editor';
@@ -42,10 +42,12 @@ export function getCitationsByIndex(state: State): Citation[] {
 
 export function getCitedItems(state: State): CSL.Data[] {
     const doc = getEditorDOM(true);
-    return _([...doc.querySelectorAll<HTMLElement>(CitationElement.selector)])
+    return lodash([
+        ...doc.querySelectorAll<HTMLElement>(CitationElement.selector),
+    ])
         .flatMap(CitationElement.getItems)
         .uniq()
-        .map(_.partial(getItemById, state))
+        .map(partial(getItemById, state))
         .compact()
         .value();
 }
@@ -88,12 +90,12 @@ export function getSortedItems(
     order: 'asc' | 'desc' = 'asc',
     kind?: 'cited' | 'uncited',
 ): CSL.Data[] {
-    return _.orderBy(
+    return orderBy(
         getItems(state, kind),
         item => {
             switch (mode) {
                 case 'date':
-                    const [year, month = 0, day = 1]: number[] = _.get(
+                    const [year, month = 0, day = 1]: number[] = get(
                         item.issued,
                         '[date-parts][0]',
                         [-5000],
@@ -132,7 +134,7 @@ export function getSerializedState({ references, style }: State) {
 }
 
 export function getUncitedItems(state: State): CSL.Data[] {
-    return _.differenceWith(
+    return differenceWith(
         state.references,
         getCitedItems(state),
         (left, right) => left.id === right.id,

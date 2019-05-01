@@ -3,7 +3,7 @@ import { withDispatch } from '@wordpress/data';
 import { useState } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
 import { create, FormatProps, insert, remove } from '@wordpress/rich-text';
-import _ from 'lodash';
+import { get } from 'lodash';
 
 import AddFootnoteDialog from 'gutenberg/dialogs/add-footnote';
 import { FootnoteElement } from 'utils/element';
@@ -58,13 +58,13 @@ function handleClick(setIsOpen: (open: boolean) => void, props: Props) {
     const activeFootnote = activeFormats.find(f => f.type === NAME);
 
     if (activeFootnote) {
-        const activeId = _.get(activeFootnote, ['attributes', 'id'], -1);
+        const activeId = get(activeFootnote, ['attributes', 'id'], -1);
         const indices = value.formats.reduce<number[]>(
             (arr, formats = [], idx) =>
                 formats.some(
                     f =>
                         f.type === NAME &&
-                        _.get(f, ['attributes', 'id']) === activeId,
+                        get(f, ['attributes', 'id']) === activeId,
                 )
                     ? [...arr, idx]
                     : arr,

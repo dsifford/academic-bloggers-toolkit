@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import { omit } from 'lodash';
 
 interface CacheJSON<T> {
     [k: string]: {
@@ -39,7 +39,7 @@ abstract class AbstractCache<T> {
         return this.cache[key] || null;
     }
     removeItem(key: string): void {
-        this.cache = _.omit(this.cache, key);
+        this.cache = omit(this.cache, key);
     }
     setItem(key: string, value: T): void {
         this.cache = {
@@ -118,7 +118,7 @@ abstract class AbstractCache<T> {
     }
 }
 
-export const localeCache = new class extends AbstractCache<string> {
+export const localeCache = new (class extends AbstractCache<string> {
     private parser = new DOMParser();
 
     async fetchItem(style: string): Promise<string> {
@@ -141,9 +141,9 @@ export const localeCache = new class extends AbstractCache<string> {
         this.setItem(localeId, locale);
         return locale;
     }
-}('locales');
+})('locales');
 
-export const styleCache = new class extends AbstractCache<string> {
+export const styleCache = new (class extends AbstractCache<string> {
     async fetchItem(styleId: string): Promise<string> {
         const cached = this.getItem(styleId);
         if (cached !== null) {
@@ -159,4 +159,4 @@ export const styleCache = new class extends AbstractCache<string> {
         this.setItem(styleId, style);
         return style;
     }
-}('styles');
+})('styles');

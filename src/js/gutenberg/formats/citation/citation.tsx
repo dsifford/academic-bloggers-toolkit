@@ -4,7 +4,7 @@ import { withDispatch, withSelect } from '@wordpress/data';
 import { useEffect } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
 import { create, FormatProps, insert } from '@wordpress/rich-text';
-import _ from 'lodash';
+import { get } from 'lodash';
 
 import { ToolbarButton } from 'gutenberg/sidebar/toolbar';
 import { ZERO_WIDTH_SPACE } from 'utils/constants';
@@ -55,7 +55,7 @@ function insertCitation({
     // If a citation format is currently selected, merge selected references
     // into that format.
     if (activeCitation) {
-        const selectedId = _.get(activeCitation, ['attributes', 'id']);
+        const selectedId = get(activeCitation, ['attributes', 'id']);
         for (const { attributes = {} } of iterate(value, NAME)) {
             if (attributes.id === selectedId) {
                 attributes.items = mergeItems(selectedItems, attributes.items);

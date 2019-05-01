@@ -1,6 +1,6 @@
 import { select } from '@wordpress/data';
 import { Bibliography as RawBib, Bibmeta, Citation, Engine } from 'citeproc';
-import _ from 'lodash';
+import { flatten, zipWith } from 'lodash';
 
 import { localeCache } from 'utils/cache';
 
@@ -127,14 +127,10 @@ class Processor {
                     ? secondFieldAlign
                     : undefined,
             },
-            items: _.zipWith(
-                _.flatten(meta.entry_ids),
-                html,
-                (id, content) => ({
-                    id,
-                    content,
-                }),
-            ),
+            items: zipWith(flatten(meta.entry_ids), html, (id, content) => ({
+                id,
+                content,
+            })),
         };
     }
 

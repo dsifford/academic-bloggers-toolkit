@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import { pickBy } from 'lodash';
 
 import { isCslKey, isCslNumberKey, isCslStringKey } from 'utils/constants';
 import { ResponseError } from 'utils/error';
@@ -12,7 +12,7 @@ export async function get(doi: string): Promise<CSL.Data | ResponseError> {
     if (!response.ok) {
         return new ResponseError(doi, response);
     }
-    return _.pickBy(await response.json(), (value, key) => {
+    return pickBy(await response.json(), (value, key) => {
         if (!isCslKey(key) || key === 'abstract') {
             return false;
         }

@@ -1,12 +1,12 @@
 import { _x } from '@wordpress/i18n';
-import _ from 'lodash';
+import { get } from 'lodash';
 
 export abstract class CSLDate {
     static getYear(date?: CSL.Date): string | number {
         if (date && date.raw) {
             return new Date(date.raw).getUTCFullYear();
         }
-        return _.get(
+        return get(
             date,
             '[date-parts][0][0]',
             _x(

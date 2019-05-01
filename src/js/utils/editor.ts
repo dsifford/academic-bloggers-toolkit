@@ -1,6 +1,5 @@
 import { Block, serialize } from '@wordpress/blocks';
 import { select } from '@wordpress/data';
-import _ from 'lodash';
 
 import Processor from 'utils/processor';
 
