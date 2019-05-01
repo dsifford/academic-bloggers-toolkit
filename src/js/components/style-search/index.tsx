@@ -1,159 +1,133 @@
-import { Component, createRef } from '@wordpress/element';
+import { Dashicon, Spinner } from '@wordpress/components';
+import { useEffect, useMemo, useRef, useState } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
 import Fuse from 'fuse.js';
 import { debounce } from 'lodash';
-import AutoSuggest, {
-    InputProps,
-    OnSuggestionSelected as OSS,
-    SuggestionsFetchRequested as SFR,
-} from 'react-autosuggest';
+import AutoSuggest from 'react-autosuggest';
 
 import { Style, StyleJSON } from 'stores/data';
 
 import styles from './style.scss';
 
-export namespace StyleSearch {
-    export interface State {
-        inputValue: string;
-        suggestions: Style[];
-    }
-    export interface SelectProps {
-        styleJSON: StyleJSON;
-    }
-    export interface OwnProps {
-        autofocus?: boolean;
-        value: Style;
-        onChange(style: Style): void;
-    }
-    export type Props = OwnProps & SelectProps;
+export interface SelectProps {
+    styleJSON: StyleJSON;
 }
-export class StyleSearch extends Component<
-    StyleSearch.Props,
-    StyleSearch.State
-> {
-    state: StyleSearch.State = {
-        inputValue: this.props.value.label,
-        suggestions: [],
-    };
 
-    private search: SFR = debounce(
-        ({ value }) => {
-            this.setState({
-                suggestions: this.fuse.search(value).slice(0, 10),
-            });
-        },
-        500,
-        {
-            leading: true,
-            trailing: true,
-        },
+export interface OwnProps {
+    autofocus?: boolean;
+    value: Style;
+    onChange(style: Style): void;
+}
+
+type Props = OwnProps & SelectProps;
+
+export default function StyleSearch(props: Props) {
+    const [inputValue, setInputValue] = useState(props.value.label);
+    const [suggestions, setSuggestions] = useState<Style[]>([]);
+    const [isLoading, setIsLoading] = useState(false);
+
+    const fuse = useMemo(
+        () =>
+            new Fuse(props.styleJSON.styles, {
+                shouldSort: true,
+                threshold: 0.3,
+                location: 0,
+                distance: 50,
+                maxPatternLength: 32,
+                minMatchCharLength: 2,
+                keys: [
+                    {
+                        name: 'label',
+                        weight: 0.4,
+                    },
+                    {
+                        name: 'value',
+                        weight: 0.2,
+                    },
+                    {
+                        name: 'shortTitle',
+                        weight: 0.4,
+                    },
+                ],
+            }),
+        [props.styleJSON.styles],
     );
 
-    private inputProps: InputProps<Style> = {
-        placeholder: __(
-            'Search for a citation style...',
-            'academic-bloggers-toolkit',
-        ),
-        required: true,
-        type: 'search',
-        value: '',
-        onChange: (_e, { method, newValue }) => {
-            switch (method) {
-                case 'escape':
-                    return this.setState({ inputValue: '' });
-                default:
-                    return this.setState({ inputValue: newValue });
-            }
-        },
-        onKeyDown: e => {
-            if (e.key === 'Enter') {
-                e.preventDefault();
-            }
-        },
-    };
+    const search = useMemo(
+        () =>
+            debounce((value: string) => {
+                setSuggestions(fuse.search(value, { limit: 25 }));
+                setIsLoading(false);
+            }, 500),
+        [props.styleJSON.styles],
+    );
 
-    private ref = createRef<{ input: HTMLInputElement }>();
+    const ref = useRef<{ input: HTMLInputElement }>(null);
 
-    componentDidMount() {
-        if (this.props.autofocus) {
-            setTimeout(() => {
-                if (this.ref.current) {
-                    this.ref.current.input.focus();
-                }
-            }, 100);
+    useEffect(() => {
+        if (props.autofocus && ref.current) {
+            ref.current.input.focus();
         }
-    }
+    }, []);
 
-    render() {
-        return (
-            <AutoSuggest<Style>
-                ref={this.ref as any}
-                suggestions={this.state.suggestions}
-                getSuggestionValue={this.getSuggestionValue}
-                onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
-                onSuggestionsClearRequested={this.onSuggestionsClearRequested}
-                onSuggestionSelected={this.onSuggestionSelected}
-                renderSuggestion={this.getSuggestionValue}
-                inputProps={{
-                    ...this.inputProps,
-                    value: this.state.inputValue,
-                }}
-                theme={styles}
-            />
-        );
-    }
-
-    private get fuse() {
-        return new Fuse(this.props.styleJSON.styles, {
-            shouldSort: true,
-            threshold: 0.3,
-            location: 0,
-            distance: 50,
-            maxPatternLength: 32,
-            minMatchCharLength: 2,
-            keys: [
-                {
-                    name: 'label',
-                    weight: 0.4,
-                },
-                {
-                    name: 'value',
-                    weight: 0.2,
-                },
-                {
-                    name: 'shortTitle',
-                    weight: 0.4,
-                },
-            ],
-        });
-    }
-
-    private getSuggestionValue = (suggestion: Style) => suggestion.label;
-
-    private onSuggestionSelected: OSS<Style> = (_e, { suggestion }) => {
-        this.setValidity();
-        this.props.onChange(suggestion);
-    };
-
-    private onSuggestionsClearRequested = () => {
-        this.setState({ suggestions: [] });
-    };
-
-    private onSuggestionsFetchRequested: SFR = params => {
-        if (params.reason === 'input-changed') {
-            this.setValidity(false);
-        }
-        this.search(params);
-    };
-
-    private setValidity = (valid = true) => {
-        if (this.ref.current) {
-            this.ref.current.input.setCustomValidity(
-                valid
+    const setValidity = (isValid: boolean) => {
+        if (ref.current) {
+            ref.current.input.setCustomValidity(
+                isValid
                     ? ''
                     : __('Invalid citation style', 'academic-bloggers-toolkit'),
             );
         }
     };
+
+    return (
+        <div>
+            <AutoSuggest
+                ref={ref as any}
+                theme={styles}
+                suggestions={suggestions}
+                inputProps={{
+                    placeholder: __(
+                        'Search for a citation style...',
+                        'academic-bloggers-toolkit',
+                    ),
+                    required: true,
+                    type: 'search',
+                    value: inputValue,
+                    onChange(_e, { newValue }) {
+                        setInputValue(newValue);
+                    },
+                    onKeyDown(e) {
+                        e.key === 'Enter' && e.preventDefault();
+                    },
+                }}
+                getSuggestionValue={({ label }) => label}
+                renderSuggestion={({ label }) => label}
+                onSuggestionsClearRequested={() => setSuggestions([])}
+                onSuggestionsFetchRequested={({ reason, value }) => {
+                    if (reason === 'input-changed') {
+                        setIsLoading(true);
+                        setValidity(false);
+                        search(value);
+                    }
+                }}
+                onSuggestionSelected={(_e, { suggestion }) => {
+                    setValidity(true);
+                    props.onChange(suggestion);
+                }}
+                renderInputComponent={(inputProps: any) => (
+                    <div className={styles.inputContainer}>
+                        <input {...inputProps} />
+                        <div className={styles.inputIcon}>
+                            {isLoading ? (
+                                <Spinner />
+                            ) : (
+                                <Dashicon icon="search" />
+                            )}
+                        </div>
+                    </div>
+                )}
+            />
+        </div>
+    );
 }
-export default StyleSearch;
