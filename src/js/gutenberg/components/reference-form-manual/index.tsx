@@ -1,5 +1,5 @@
 import { Notice } from '@wordpress/components';
-import { Component, FormEvent } from '@wordpress/element';
+import { useEffect, useState } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
 
 import Autocite from 'gutenberg/components/autocite';
@@ -8,6 +8,7 @@ import PeopleFields from 'gutenberg/components/people-fields';
 import { DataContext, PeopleContext } from 'gutenberg/context';
 import { isCslPersonKey } from 'utils/constants';
 import fields from 'utils/fieldmaps';
+import { typedKeys } from 'utils/types';
 
 import styles from './style.scss';
 
@@ -18,204 +19,161 @@ interface Props {
     onSubmit(data: CSL.Data): void;
 }
 
-interface State {
-    error: string;
-    data: CSL.Data;
-    people: Array<{ kind: CSL.PersonFieldKey } & CSL.Person>;
-}
+type Person = { kind: CSL.PersonFieldKey } & CSL.Person;
 
-class ReferenceFormManual extends Component<Props, State> {
-    state: State = {
-        error: '',
-        data: {
-            id: '',
-            type: 'webpage' as CSL.ItemType,
+function ReferenceFormManual(props: Props) {
+    const [errorMessage, setErrorMessage] = useState('');
+    const [data, setData] = useState<CSL.Data>({
+        id: '',
+        type: 'webpage',
+    });
+    const [people, setPeople] = useState<Person[]>([
+        {
+            kind: 'author',
+            family: '',
+            given: '',
         },
-        people: [
-            {
-                kind: 'author' as CSL.PersonFieldKey,
-                family: '',
-                given: '',
-            },
-        ],
-    };
+    ]);
 
-    componentDidMount() {
-        const { data } = this.props;
-        if (data) {
-            this.consumeData(data);
+    useEffect(() => {
+        if (props.data) {
+            const [d, p] = consumeData(props.data);
+            setData(d);
+            setPeople(p);
         }
-    }
+    }, [props.data]);
 
-    render() {
-        const { data, error, people } = this.state;
-        const { id } = this.props;
-        return (
-            <PeopleContext.Provider
+    const isBookType = ['book', 'chapter'].includes(data.type);
+    const isWebpageType = data.type === 'webpage';
+
+    return (
+        <PeopleContext.Provider
+            value={{
+                people,
+                add() {
+                    setPeople([
+                        ...people,
+                        { kind: 'author', family: '', given: '' },
+                    ]);
+                },
+                remove() {
+                    setPeople(people.slice(0, people.length - 1));
+                },
+                update(idx, person) {
+                    setPeople([
+                        ...people.slice(0, idx),
+                        person,
+                        ...people.slice(idx + 1),
+                    ]);
+                },
+            }}
+        >
+            <DataContext.Provider
                 value={{
-                    people,
-                    add: this.addPerson,
-                    remove: this.removePerson,
-                    update: this.updatePerson,
+                    data,
+                    update(key, val) {
+                        setData({ ...data, [key]: val });
+                    },
                 }}
             >
-                <DataContext.Provider value={{ data, update: this.updateData }}>
-                    <form
-                        id={id}
-                        className={styles.form}
-                        onSubmit={this.handleSubmit}
-                    >
-                        {error && (
-                            <Notice
-                                status="error"
-                                onRemove={() => this.setState({ error: '' })}
-                            >
-                                {error}
-                            </Notice>
-                        )}
-                        <label className={styles.field}>
-                            {__('Citation type', 'academic-bloggers-toolkit')}
-                            <select
-                                value={data.type}
-                                onChange={this.handleTypeChange}
-                            >
-                                {[...Object.entries(fields)].map(
-                                    ([value, { title: label }]) => (
-                                        <option key={value} value={value}>
-                                            {label}
-                                        </option>
-                                    ),
-                                )}
-                            </select>
-                        </label>
-                        {this.maybeRenderAutocite()}
-                        <PeopleFields fields={fields[data.type!].people} />
-                        <DataFields fieldmap={fields[data.type!]} />
-                    </form>
-                </DataContext.Provider>
-            </PeopleContext.Provider>
-        );
-    }
-
-    private maybeRenderAutocite = () => {
-        const { withAutocite } = this.props;
-        const { type } = this.state.data;
-        if (!withAutocite) {
-            return null;
-        }
-        switch (type) {
-            case 'book':
-            case 'chapter':
-                return (
-                    <Autocite
-                        kind={type}
-                        onSubmit={this.consumeData}
-                        onError={error => this.setState({ error })}
-                        inputProps={{
-                            pattern: '(?:[\\dxX]-?){10}|(?:[\\dxX]-?){13}',
-                            placeholder: __(
-                                'ISBN',
-                                'academic-bloggers-toolkit',
+                <form
+                    id={props.id}
+                    className={styles.form}
+                    onSubmit={e => {
+                        e.preventDefault();
+                        props.onSubmit(
+                            people.reduce<CSL.Data>(
+                                (obj, { kind, ...person }) => {
+                                    const existingField = obj[kind];
+                                    if (existingField) {
+                                        return {
+                                            ...obj,
+                                            [kind]: [...existingField, person],
+                                        };
+                                    }
+                                    return {
+                                        ...obj,
+                                        [kind]: [person],
+                                    };
+                                },
+                                data,
                             ),
-                        }}
-                    />
-                );
-            case 'webpage':
-                return (
-                    <Autocite
-                        kind={type}
-                        onSubmit={this.consumeData}
-                        onError={error => this.setState({ error })}
-                        inputProps={{
-                            type: 'url',
-                            placeholder: __('URL', 'academic-bloggers-toolkit'),
-                        }}
-                    />
-                );
-            default:
-                return null;
-        }
-    };
+                        );
+                    }}
+                >
+                    {errorMessage && (
+                        <Notice
+                            status="error"
+                            onRemove={() => setErrorMessage('')}
+                        >
+                            {errorMessage}
+                        </Notice>
+                    )}
+                    <label className={styles.field}>
+                        {__('Citation type', 'academic-bloggers-toolkit')}
+                        <select
+                            value={data.type}
+                            onChange={e =>
+                                setData({
+                                    id: '',
+                                    type: e.currentTarget.value as CSL.ItemType,
+                                })
+                            }
+                        >
+                            {[...Object.entries(fields)].map(
+                                ([value, { title: label }]) => (
+                                    <option key={value} value={value}>
+                                        {label}
+                                    </option>
+                                ),
+                            )}
+                        </select>
+                    </label>
+                    {props.withAutocite && (
+                        <Autocite
+                            kind={data.type}
+                            inputProps={{
+                                pattern: isBookType
+                                    ? '(?:[\\dxX]-?){10}|(?:[\\dxX]-?){13}'
+                                    : undefined,
+                                placeholder: isBookType
+                                    ? __('ISBN', 'academic-bloggers-toolkit')
+                                    : isWebpageType
+                                    ? __('URL', 'academic-bloggers-toolkit')
+                                    : undefined,
+                                type: isWebpageType ? 'url' : undefined,
+                            }}
+                            onError={setErrorMessage}
+                            onSubmit={consumeData}
+                        />
+                    )}
+                    <PeopleFields fields={fields[data.type!].people} />
+                    <DataFields fieldmap={fields[data.type!]} />
+                </form>
+            </DataContext.Provider>
+        </PeopleContext.Provider>
+    );
+}
 
-    private consumeData = (input: CSL.Data) => {
-        let data: State['data'] = {
+function consumeData(input: CSL.Data): [CSL.Data, Person[]] {
+    const keys = typedKeys(input);
+    const peopleFields: Person[] = keys
+        .filter(key => isCslPersonKey(key))
+        .map(key => {
+            const field = input[key] as CSL.Person[];
+            return field.map(person => ({
+                ...person,
+                kind: key as CSL.PersonFieldKey,
+            }));
+        })
+        .reduce((arr, values) => [...arr, ...values], []);
+    const dataFields = keys
+        .filter(key => !isCslPersonKey(key))
+        .reduce<CSL.Data>((obj, key) => ({ ...obj, [key]: input[key] }), {
             id: '',
             type: 'article',
-        };
-        let people: State['people'] = [];
-        for (const [key, value] of Object.entries<any>(input)) {
-            if (isCslPersonKey(key)) {
-                people = [
-                    ...people,
-                    ...value.map((person: CSL.Person) => ({
-                        ...person,
-                        kind: key,
-                    })),
-                ];
-            } else {
-                data = {
-                    ...data,
-                    [key]: value,
-                };
-            }
-        }
-        this.setState({ data, people });
-    };
-
-    private addPerson = () =>
-        this.setState(state => ({
-            ...state,
-            people: [
-                ...state.people,
-                { kind: 'author', family: '', given: '' },
-            ],
-        }));
-
-    private removePerson = () =>
-        this.setState(state => ({
-            ...state,
-            people: [...state.people.slice(0, state.people.length - 1)],
-        }));
-
-    private updateData = <T extends keyof CSL.Data>(
-        key: T,
-        value: CSL.Data[T],
-    ) => this.setState(state => ({ data: { ...state.data, [key]: value } }));
-
-    private updatePerson = (
-        index: number,
-        person: { kind: CSL.PersonFieldKey } & CSL.Person,
-    ) =>
-        this.setState(state => ({
-            ...state,
-            people: [
-                ...state.people.slice(0, index),
-                person,
-                ...state.people.slice(index + 1),
-            ],
-        }));
-
-    private handleTypeChange = ({
-        currentTarget: { value },
-    }: FormEvent<HTMLSelectElement>) =>
-        this.setState({
-            data: { id: '', type: value as CSL.ItemType },
         });
-
-    private handleSubmit = (e: FormEvent) => {
-        e.preventDefault();
-        let { data } = this.state;
-        for (const person of this.state.people) {
-            const { kind, ...rest } = person;
-            data = {
-                ...data,
-                [kind]: Array.isArray(data[kind])
-                    ? [...data[kind]!, rest]
-                    : [rest],
-            };
-        }
-        this.props.onSubmit(data as CSL.Data);
-    };
+    return [dataFields, peopleFields];
 }
 
 export default ReferenceFormManual;
