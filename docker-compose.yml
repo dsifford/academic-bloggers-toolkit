@@ -8,26 +8,28 @@ services:
       - /dev/fuse
     environment:
       DB_PASS: root
-      WP_DEBUG: 'true'
-      WP_DEBUG_DISPLAY: 'true'
+      EXTRA_PHP: |
+        define('SCRIPT_DEBUG', true);
       PLUGINS: >-
         classic-editor
         gutenberg
         query-monitor
-      EXTRA_PHP: |
-        define('SCRIPT_DEBUG', true);
-
+      WP_DEBUG: 'true'
+      WP_DEBUG_DISPLAY: 'true'
+      WP_VERSION: nightly
     ports:
       - 8080:80
     volumes:
       - ./dist:/app/wp-content/plugins/academic-bloggers-toolkit
-      - ./scripts/init-wp.sh:/docker-entrypoint-initwp.d/init-wp.sh
+      - ./scripts/init:/docker-entrypoint-initwp.d
+
   db:
     image: mariadb:10
     environment:
       MYSQL_ROOT_PASSWORD: root
     volumes:
       - data:/var/lib/mysql
+
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
     volumes:
