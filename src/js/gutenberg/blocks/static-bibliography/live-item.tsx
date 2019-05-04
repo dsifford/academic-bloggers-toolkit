@@ -23,16 +23,16 @@ export default function LiveItem({
     return (
         <div key={id} className={styles.row}>
             <RichText.Content
-                tagName="div"
-                data-id={id}
                 className={classNames('csl-entry', styles.item)}
+                data-id={id}
                 style={{ display: 'list-item' }}
+                tagName="div"
                 value={content}
             />
             <div className={styles.buttonList}>
                 <IconButton
-                    icon="arrow-up-alt2"
                     disabled={!onMoveUp}
+                    icon="arrow-up-alt2"
                     label={__('Move item up', 'academic-bloggers-toolkit')}
                     onClick={onMoveUp}
                 />
@@ -42,8 +42,8 @@ export default function LiveItem({
                     onClick={onRemove}
                 />
                 <IconButton
-                    icon="arrow-down-alt2"
                     disabled={!onMoveDown}
+                    icon="arrow-down-alt2"
                     label={__('Move item down', 'academic-bloggers-toolkit')}
                     onClick={onMoveDown}
                 />

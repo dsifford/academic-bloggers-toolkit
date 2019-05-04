@@ -22,8 +22,8 @@ function TextareaAutosize({ inputRef, className, ...props }: Props) {
     return (
         <textarea
             {...props}
-            className={classNames(styles.textarea, className)}
             ref={ref}
+            className={classNames(styles.textarea, className)}
             rows={1}
         />
     );

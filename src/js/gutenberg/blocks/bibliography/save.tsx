@@ -15,10 +15,11 @@ export default function BibliographySave(props: Props) {
     const { attributes } = props;
     const { isToggleable } = attributes;
     return (
+        // eslint-disable-next-line jsx-a11y/no-redundant-roles
         <section
+            aria-label={__('Bibliography', 'academic-bloggers-toolkit')}
             className="abt-bibliography"
             role="region"
-            aria-label={__('Bibliography', 'academic-bloggers-toolkit')}
         >
             {isToggleable && (
                 <details>
@@ -59,8 +60,8 @@ function ItemList(atts: Props['attributes']) {
             {atts.items.map(({ content, id }) => (
                 <RichText.Content
                     key={id}
-                    tagName="li"
                     id={id}
+                    tagName="li"
                     value={content}
                 />
             ))}

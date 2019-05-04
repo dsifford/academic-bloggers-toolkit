@@ -7,6 +7,7 @@ interface ABTElement {
     readonly className: string;
     readonly legacyClassNames: readonly string[];
     readonly selector: string;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     create(...args: any): string;
 }
 

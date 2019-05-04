@@ -21,9 +21,9 @@ export default function NumberField({
                     {label}
                     <input
                         {...inputProps}
+                        key={key}
                         autoComplete="off"
                         data-lpignore="true"
-                        key={key}
                         type="number"
                         value={data[key]}
                         onChange={e =>

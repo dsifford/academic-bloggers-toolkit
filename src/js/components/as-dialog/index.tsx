@@ -4,33 +4,30 @@ import classNames from 'classnames';
 
 import styles from './style.scss';
 
-namespace asDialog {
-    export interface Props {
-        title: string;
-        isOpen: boolean;
-        className?: string;
-        onClose(): void;
-    }
+export interface DialogProps {
+    className?: string;
+    isOpen: boolean;
+    title: string;
+    onClose(): void;
 }
 
-function asDialog<P extends asDialog.Props>(
+export default function asDialog<P extends DialogProps>(
     Wrapped: ComponentType<P>,
 ): ComponentType<P> {
-    return props => {
-        if (!props.isOpen) {
+    return function Dialog(props: P) {
+        const { className, isOpen, onClose, title } = props;
+        if (!isOpen) {
             return null;
         }
         return (
             <Modal
-                className={classNames(styles.modal, props.className)}
-                title={props.title}
-                onRequestClose={props.onClose}
+                className={classNames(styles.modal, className)}
                 shouldCloseOnEsc={false}
+                title={title}
+                onRequestClose={onClose}
             >
                 <Wrapped {...props} />
             </Modal>
         );
     };
 }
-
-export default asDialog;

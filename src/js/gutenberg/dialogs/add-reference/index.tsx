@@ -22,14 +22,14 @@ function AddReferenceDialog({ addReference }: Props) {
                 shortcuts={{ 'ctrl+alt+r': toggleDialog }}
             />
             <IconButton
-                shortcut={displayShortcut.primaryAlt('r')}
                 icon="insert"
                 label={__('Add reference', 'academic-bloggers-toolkit')}
+                shortcut={displayShortcut.primaryAlt('r')}
                 onClick={toggleDialog}
             />
             <Dialog
-                title={__('Add Reference', 'academic-bloggers-toolkit')}
                 isOpen={isOpen}
+                title={__('Add Reference', 'academic-bloggers-toolkit')}
                 onClose={toggleDialog}
                 onSubmit={data => {
                     addReference(data);

@@ -39,6 +39,7 @@ const OUTPUT_PATH = path.join(__dirname, '..', 'src');
         },
     );
 
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
     const renamedStyles = require(path.join(TEMP_DIR, 'renamed-styles.json'));
     const independent = await getFiles(TEMP_DIR, { extension: '.csl' });
     const dependent = await getFiles(TEMP_DIR, {
@@ -76,8 +77,7 @@ const OUTPUT_PATH = path.join(__dirname, '..', 'src');
             }
             return obj;
         },
-        // tslint:disable-next-line
-        {} as Record<string, string>,
+        {},
     );
 
     const newStyles: StyleJSON = {
@@ -85,7 +85,7 @@ const OUTPUT_PATH = path.join(__dirname, '..', 'src');
         styles,
     };
 
-    logNewStyles(oldStyles as any, newStyles);
+    logNewStyles(oldStyles as StyleJSON, newStyles);
 
     await writeFile(
         path.join(OUTPUT_PATH, 'citation-styles.json'),

@@ -9,6 +9,7 @@ export function clone<T>(data: T): T {
     return JSON.parse(JSON.stringify(data));
 }
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
 export function firstTruthyValue<T extends Record<string, any>, U>(obj: T, paths: string[], fallback: Widen<U>): Widen<U>; // prettier-ignore
 export function firstTruthyValue<T extends Record<string, any>, U>(obj: T, paths: string[]): U | undefined; // prettier-ignore
 export function firstTruthyValue<T extends Record<string, any>, U>(
@@ -24,6 +25,7 @@ export function firstTruthyValue<T extends Record<string, any>, U>(
     }
     return fallback;
 }
+/* eslint-enable @typescript-eslint/no-explicit-any */
 
 export function swapWith<T>(arr: T[], a: number, b: number): T[] {
     const list = [...arr];

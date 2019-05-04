@@ -21,9 +21,9 @@ export default function StringField({
                     {label}
                     <input
                         {...inputProps}
+                        key={key}
                         autoComplete="off"
                         data-lpignore="true"
-                        key={key}
                         type="text"
                         value={data[key]}
                         onChange={e => update(key, e.currentTarget.value)}

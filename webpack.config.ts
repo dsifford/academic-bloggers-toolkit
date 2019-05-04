@@ -16,6 +16,7 @@ import { version as VERSION } from './package.json';
 
 const rimraf = promisify(rimrafLib);
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export default async (_: any, argv: any): Promise<Configuration> => {
     const IS_PRODUCTION = argv.mode === 'production';
     const CHANGELOG = await getMostRecentChangelogEntry();
@@ -33,7 +34,7 @@ export default async (_: any, argv: any): Promise<Configuration> => {
                     (await import('rollup-plugin-terser')).terser(),
             ],
         }),
-    ]).then(([citeproc]) =>
+    ]).then(async ([citeproc]) =>
         Promise.all([
             citeproc.write({
                 file: 'dist/vendor/citeproc.js',

@@ -51,20 +51,9 @@ function ToolbarMenu({
     return (
         <Dropdown
             contentClassName={styles.dropdown}
-            renderToggle={({ onToggle }) => (
-                <IconButton
-                    icon="ellipsis"
-                    label={
-                        // translators: Button label telling users that clicking shows additional options.
-                        __('More options', 'academic-bloggers-toolkit')
-                    }
-                    className={styles.moreIcon}
-                    onClick={onToggle}
-                />
-            )}
             renderContent={({ onClose }) => (
                 <NavigableMenu className={styles.menu}>
-                    <section role="list" onClick={() => onClose()}>
+                    <section role="list" onClickCapture={onClose}>
                         <MenuItem icon="trash" onClick={removeAllCitations}>
                             {__(
                                 'Remove all citations',
@@ -81,14 +70,13 @@ function ToolbarMenu({
                     </section>
                     <Separator />
                     <MenuGroup
+                        className={styles.sortChoices}
                         label={
                             // translators: Form label.
                             __('Sort uncited by', 'academic-bloggers-toolkit')
                         }
-                        className={styles.sortChoices}
                     >
                         <MenuItemsChoice
-                            value={sortMode}
                             choices={[
                                 {
                                     label:
@@ -115,6 +103,7 @@ function ToolbarMenu({
                                     value: 'title',
                                 },
                             ]}
+                            value={sortMode}
                             onSelect={value =>
                                 setSortMode(value as
                                     | 'date'
@@ -124,14 +113,13 @@ function ToolbarMenu({
                         />
                     </MenuGroup>
                     <MenuGroup
+                        className={styles.sortChoices}
                         label={
                             // translators: Form label.
                             __('Sort order', 'academic-bloggers-toolkit')
                         }
-                        className={styles.sortChoices}
                     >
                         <MenuItemsChoice
-                            value={sortOrder}
                             choices={[
                                 {
                                     label: 'Ascending',
@@ -142,6 +130,7 @@ function ToolbarMenu({
                                     value: 'desc',
                                 },
                             ]}
+                            value={sortOrder}
                             onSelect={order =>
                                 setSortOrder(order as 'asc' | 'desc')
                             }
@@ -158,6 +147,17 @@ function ToolbarMenu({
                         </ExternalLink>
                     </MenuItem>
                 </NavigableMenu>
+            )}
+            renderToggle={({ onToggle }) => (
+                <IconButton
+                    className={styles.moreIcon}
+                    icon="ellipsis"
+                    label={
+                        // translators: Button label telling users that clicking shows additional options.
+                        __('More options', 'academic-bloggers-toolkit')
+                    }
+                    onClick={onToggle}
+                />
             )}
         />
     );

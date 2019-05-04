@@ -51,12 +51,12 @@ export default function BibliographyEdit(props: Props) {
                         }
                     />
                     <ToggleControl
-                        label={__('Enable toggle', 'academic-bloggers-toolkit')}
                         checked={isToggleable}
                         help={__(
                             'Toggle mode can only be enabled if the bibliography has a heading.',
                             'academic-bloggers-toolkit',
                         )}
+                        label={__('Enable toggle', 'academic-bloggers-toolkit')}
                         onChange={toggleable =>
                             heading &&
                             setAttributes({ isToggleable: toggleable })
@@ -74,9 +74,8 @@ function Bibliography(props: Props) {
     const { isToggleable } = attributes;
     return (
         <section
-            className="abt-bibliography"
-            role="region"
             aria-label={__('Bibliography', 'academic-bloggers-toolkit')}
+            className="abt-bibliography"
         >
             {isToggleable && (
                 <details>
@@ -124,11 +123,11 @@ function BibliographyHeading({
                         'academic-bloggers-toolkit',
                     )}
                     value={heading}
-                    onChange={e =>
-                        setAttributes({ heading: e.currentTarget.value })
-                    }
                     onBlur={() =>
                         !heading && setAttributes({ isToggleable: false })
+                    }
+                    onChange={e =>
+                        setAttributes({ heading: e.currentTarget.value })
                     }
                 />
             )}
@@ -144,8 +143,8 @@ function ItemList(atts: Props['attributes']) {
             {atts.items.map(({ content, id }) => (
                 <RichText.Content
                     key={id}
-                    tagName="li"
                     id={id}
+                    tagName="li"
                     value={content}
                 />
             ))}

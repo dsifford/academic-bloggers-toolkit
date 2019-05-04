@@ -27,7 +27,7 @@ export function getCitationsByIndex(state: State): Citation[] {
                 const item = getItemById(state, id);
                 return item !== undefined ? [...arr, { id, item }] : arr;
             },
-            <Citation['citationItems']>[],
+            [] as Citation['citationItems'],
         );
         return {
             citationID,
@@ -94,13 +94,14 @@ export function getSortedItems(
         getItems(state, kind),
         item => {
             switch (mode) {
-                case 'date':
+                case 'date': {
                     const [year, month = 0, day = 1]: number[] = get(
                         item.issued,
                         '[date-parts][0]',
                         [-5000],
                     );
                     return new Date(year, month, day).toJSON();
+                }
                 case 'publication':
                     return firstTruthyValue(
                         item,
@@ -128,6 +129,7 @@ export function getItemById(state: State, id: string): CSL.Data | undefined {
 export function getSerializedState({ references, style }: State) {
     return {
         meta: {
+            // eslint-disable-next-line @typescript-eslint/camelcase
             _abt_state: JSON.stringify({ references, style }),
         },
     };

@@ -4,7 +4,7 @@ import { withSelect } from '@wordpress/data';
 import { useState } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
 
-import asDialog from 'components/as-dialog';
+import asDialog, { DialogProps } from 'components/as-dialog';
 import DialogToolbar from 'components/dialog-toolbar';
 import StyleSearch from 'gutenberg/components/style-search';
 import { Style } from 'stores/data';
@@ -15,7 +15,7 @@ interface SelectProps {
     style: Style;
 }
 
-interface OwnProps extends asDialog.Props {
+interface OwnProps extends DialogProps {
     onSubmit(style: Style): void;
 }
 
@@ -37,7 +37,7 @@ function Dialog({ onSubmit, style }: Props) {
             />
             <DialogToolbar>
                 <div className={styles.toolbar}>
-                    <Button isPrimary isLarge type="submit">
+                    <Button isLarge isPrimary type="submit">
                         {__('Confirm', 'academic-bloggers-toolkit')}
                     </Button>
                 </div>

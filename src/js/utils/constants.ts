@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 export const enum IdentifierKind {
     DOI = 'doi',
     PMID = 'pmid',

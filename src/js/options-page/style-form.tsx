@@ -34,14 +34,6 @@ export default function StyleForm() {
             <RadioControl
                 className={styles.radioGroup}
                 label={__('Citation style type', 'academic-bloggers-toolkit')}
-                onChange={kind =>
-                    setStyle(
-                        kind === SAVED_STYLE.kind
-                            ? { ...SAVED_STYLE }
-                            : { kind, label: '', value: '' },
-                    )
-                }
-                selected={style.kind}
                 options={[
                     {
                         // translators: Label for radio group for choosing a "predefined" citation style.
@@ -54,6 +46,14 @@ export default function StyleForm() {
                         value: StyleKind.CUSTOM,
                     },
                 ]}
+                selected={style.kind}
+                onChange={kind =>
+                    setStyle(
+                        kind === SAVED_STYLE.kind
+                            ? { ...SAVED_STYLE }
+                            : { kind, label: '', value: '' },
+                    )
+                }
             />
             {style.kind === 'predefined' && (
                 <StyleSearch
@@ -66,8 +66,8 @@ export default function StyleForm() {
                 <>
                     {errorMessage && (
                         <AdminNotice
-                            kind="error"
                             isDismissible
+                            kind="error"
                             onDismiss={() => setErrorMessage('')}
                         >
                             <strong>
@@ -79,7 +79,6 @@ export default function StyleForm() {
                     <FileInput
                         fill
                         large
-                        text={style.label}
                         inputProps={{
                             required: true,
                             accept:
@@ -105,6 +104,7 @@ export default function StyleForm() {
                                 }
                             },
                         }}
+                        text={style.label}
                     />
                 </>
             )}

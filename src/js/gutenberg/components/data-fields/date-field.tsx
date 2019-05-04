@@ -22,9 +22,9 @@ export default function DateField({
                     {label}
                     <input
                         {...inputProps}
+                        key={key}
                         autoComplete="off"
                         data-lpignore="true"
-                        key={key}
                         type="text"
                         value={CSLDate.date2raw(data[key])}
                         onChange={e =>

@@ -47,25 +47,20 @@ function Toolbar({
     return (
         <>
             <StyleDialog />
-            <PanelBody opened={true} className={styles.container}>
+            <PanelBody className={styles.container} opened={true}>
                 <PanelRow>
                     <ToolbarButtonSlot />
                     <AddReferenceDialog />
                     <IconButton
+                        disabled={selectedItems.length === 0}
                         icon={<RemoveIcon />}
                         label={__(
                             'Remove selected items',
                             'academic-bloggers-toolkit',
                         )}
-                        disabled={selectedItems.length === 0}
                         onClick={() => removeSelectedItems()}
                     />
                     <FormFileUpload
-                        icon="welcome-add-page"
-                        label={__(
-                            'Import references',
-                            'academic-bloggers-toolkit',
-                        )}
                         accept={[
                             '.ris',
                             '.bib',
@@ -73,6 +68,11 @@ function Toolbar({
                             'application/xresearch-info-systems',
                             'application/x-bibtex',
                         ].join()}
+                        icon="welcome-add-page"
+                        label={__(
+                            'Import references',
+                            'academic-bloggers-toolkit',
+                        )}
                         onChange={async e => {
                             const inputEl = e.currentTarget;
                             const { files } = inputEl;

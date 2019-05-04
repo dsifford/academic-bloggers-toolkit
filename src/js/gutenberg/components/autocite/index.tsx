@@ -50,17 +50,17 @@ function Autocite({ inputProps, ...props }: Props) {
     }
 
     return (
-        <div role="search" className={styles.autocite}>
-            <label htmlFor="autocite" role="search" className={styles.autocite}>
+        <div className={styles.autocite} role="search">
+            <label className={styles.autocite} htmlFor="autocite">
                 {// translators: Not a real word, but should be something short that conveys that citation data will be generated automatically.
                 __('Autocite', 'academic-bloggers-toolkit')}
             </label>
             <input
-                id="autocite"
-                type="search"
+                ref={inputRef}
                 autoComplete="off"
                 data-lpignore="true"
-                ref={inputRef}
+                id="autocite"
+                type="search"
                 {...inputProps}
                 value={query}
                 onChange={e => setQuery(e.currentTarget.value)}
@@ -75,10 +75,10 @@ function Autocite({ inputProps, ...props }: Props) {
             />
             <IconButton
                 isLarge
+                disabled={isInvalid}
+                icon="search"
                 isBusy={isBusy}
                 isPrimary={isBusy}
-                icon="search"
-                disabled={isInvalid}
                 onClick={tryAutocite}
             >
                 {__('Search', 'academic-bloggers-toolkit')}

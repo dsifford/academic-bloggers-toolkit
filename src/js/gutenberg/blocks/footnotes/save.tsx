@@ -8,19 +8,20 @@ type Props = BlockSaveProps<Attributes>;
 
 export default function FootnotesSave({ attributes: { items } }: Props) {
     return (
+        // eslint-disable-next-line jsx-a11y/no-redundant-roles
         <section
+            aria-label={__('Footnotes', 'academic-bloggers-toolkit')}
             className="abt-footnotes"
             role="region"
-            aria-label={__('Footnotes', 'academic-bloggers-toolkit')}
         >
             <hr />
             <ol>
                 {items.map(({ content, id }) => (
                     <RichText.Content
                         key={id}
-                        tagName="li"
-                        id={id}
                         className="abt-footnotes-item"
+                        id={id}
+                        tagName="li"
                         value={content}
                     />
                 ))}

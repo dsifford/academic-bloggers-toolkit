@@ -1,4 +1,5 @@
 import { Format, Value } from '@wordpress/rich-text';
+import { get } from 'lodash';
 
 export function* iterate(
     { formats = [] }: Value,
@@ -21,7 +22,9 @@ export function mergeItems(items: string[], dataItems?: string): string {
     let existingItems: string[] = [];
     try {
         existingItems = JSON.parse(dataItems || '[]');
-    } catch {}
+    } catch {
+        // revert back to an empty array if an error occurs.
+    }
     return JSON.stringify(
         [...existingItems, ...items].filter(
             (item, index, arr) => arr.indexOf(item) === index,
@@ -50,17 +53,15 @@ function neighbors(
     located: Format[] = [],
 ): Format[] {
     const dirval = dir === 'left' ? -1 : 1;
-    if (val.formats && val.formats[idx]) {
-        const format = val.formats[idx]!.find(item => item.type === type);
-        return format
-            ? neighbors(
-                  dir,
-                  idx + dirval,
-                  val,
-                  type,
-                  located.includes(format) ? located : [...located, format],
-              )
-            : located;
-    }
-    return located;
+    const formats: Format[] = get(val, ['formats', idx], []);
+    const format = formats.find(item => item.type === type);
+    return format
+        ? neighbors(
+              dir,
+              idx + dirval,
+              val,
+              type,
+              located.includes(format) ? located : [...located, format],
+          )
+        : located;
 }

@@ -77,8 +77,8 @@ function ReferenceFormManual(props: Props) {
                 }}
             >
                 <form
-                    id={props.id}
                     className={styles.form}
+                    id={props.id}
                     onSubmit={e => {
                         e.preventDefault();
                         props.onSubmit(
@@ -113,7 +113,7 @@ function ReferenceFormManual(props: Props) {
                         {__('Citation type', 'academic-bloggers-toolkit')}
                         <select
                             value={data.type}
-                            onChange={e =>
+                            onBlur={e =>
                                 setData({
                                     id: '',
                                     type: e.currentTarget.value as CSL.ItemType,
@@ -131,7 +131,6 @@ function ReferenceFormManual(props: Props) {
                     </label>
                     {props.withAutocite && (
                         <Autocite
-                            kind={data.type}
                             inputProps={{
                                 pattern: isBookType
                                     ? '(?:[\\dxX]-?){10}|(?:[\\dxX]-?){13}'
@@ -143,12 +142,13 @@ function ReferenceFormManual(props: Props) {
                                     : undefined,
                                 type: isWebpageType ? 'url' : undefined,
                             }}
+                            kind={data.type}
                             onError={setErrorMessage}
                             onSubmit={consumeData}
                         />
                     )}
-                    <PeopleFields fields={fields[data.type!].people} />
-                    <DataFields fieldmap={fields[data.type!]} />
+                    <PeopleFields fields={fields[data.type].people} />
+                    <DataFields fieldmap={fields[data.type]} />
                 </form>
             </DataContext.Provider>
         </PeopleContext.Provider>

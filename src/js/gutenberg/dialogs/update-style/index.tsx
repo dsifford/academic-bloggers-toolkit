@@ -25,9 +25,9 @@ function StyleDialog({ setStyle }: Props) {
                 {__('Change citation style', 'academic-bloggers-toolkit')}
             </ToolbarMenuItem>
             <Dialog
-                title={__('Change citation style', 'academic-bloggers-toolkit')}
                 className={styles.dialog}
                 isOpen={isOpen}
+                title={__('Change citation style', 'academic-bloggers-toolkit')}
                 onClose={() => setIsOpen(false)}
                 onSubmit={style => {
                     setStyle(style);

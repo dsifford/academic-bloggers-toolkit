@@ -29,8 +29,8 @@ function Footnote(props: Props) {
     return (
         <>
             <AddFootnoteDialog
-                title={__('Add footnote', 'academic-bloggers-toolkit')}
                 isOpen={isOpen}
+                title={__('Add footnote', 'academic-bloggers-toolkit')}
                 onClose={() => setIsOpen(false)}
                 onSubmit={note => {
                     setIsOpen(false);
@@ -39,13 +39,13 @@ function Footnote(props: Props) {
             />
             <RichTextToolbarButton
                 icon="testimonial"
+                isActive={isActive || footnoteIsSelected}
+                isDisabled={(!start || !end) && !footnoteIsSelected}
                 title={
                     footnoteIsSelected
                         ? __('Remove Footnote', 'academic-bloggers-toolkit')
                         : __('Add Footnote', 'academic-bloggers-toolkit')
                 }
-                isActive={isActive || footnoteIsSelected}
-                isDisabled={(!start || !end) && !footnoteIsSelected}
                 onClick={() => handleClick(setIsOpen, props)}
             />
         </>

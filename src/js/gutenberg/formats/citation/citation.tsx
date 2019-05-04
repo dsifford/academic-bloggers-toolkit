@@ -34,9 +34,9 @@ function Citation(props: Props) {
     return (
         <>
             <ToolbarButton
+                disabled={selectedItems.length === 0}
                 icon="exit"
                 label={__('Insert citation', 'academic-bloggers-toolkit')}
-                disabled={selectedItems.length === 0}
                 onClick={() => insertCitation(props)}
             />
         </>

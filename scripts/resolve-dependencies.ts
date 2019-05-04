@@ -20,7 +20,7 @@ interface Item {
     scripts: string[];
 }
 
-function isInBundleRoot([name]: [string, any]) {
+function isInBundleRoot([name]: [string, unknown]) {
     return path.dirname(name) === 'bundle';
 }
 

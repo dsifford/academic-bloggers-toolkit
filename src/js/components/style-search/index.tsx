@@ -83,9 +83,9 @@ export default function StyleSearch(props: Props) {
     return (
         <div>
             <AutoSuggest
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
                 ref={ref as any}
-                theme={styles}
-                suggestions={suggestions}
+                getSuggestionValue={({ label }) => label}
                 inputProps={{
                     placeholder: __(
                         'Search for a citation style...',
@@ -101,20 +101,7 @@ export default function StyleSearch(props: Props) {
                         e.key === 'Enter' && e.preventDefault();
                     },
                 }}
-                getSuggestionValue={({ label }) => label}
-                renderSuggestion={({ label }) => label}
-                onSuggestionsClearRequested={() => setSuggestions([])}
-                onSuggestionsFetchRequested={({ reason, value }) => {
-                    if (reason === 'input-changed') {
-                        setIsLoading(true);
-                        setValidity(false);
-                        search(value);
-                    }
-                }}
-                onSuggestionSelected={(_e, { suggestion }) => {
-                    setValidity(true);
-                    props.onChange(suggestion);
-                }}
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
                 renderInputComponent={(inputProps: any) => (
                     <div className={styles.inputContainer}>
                         <input {...inputProps} />
@@ -127,6 +114,21 @@ export default function StyleSearch(props: Props) {
                         </div>
                     </div>
                 )}
+                renderSuggestion={({ label }) => label}
+                suggestions={suggestions}
+                theme={styles}
+                onSuggestionSelected={(_e, { suggestion }) => {
+                    setValidity(true);
+                    props.onChange(suggestion);
+                }}
+                onSuggestionsClearRequested={() => setSuggestions([])}
+                onSuggestionsFetchRequested={({ reason, value }) => {
+                    if (reason === 'input-changed') {
+                        setIsLoading(true);
+                        setValidity(false);
+                        search(value);
+                    }
+                }}
             />
         </div>
     );

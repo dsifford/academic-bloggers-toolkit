@@ -2,13 +2,13 @@ import { Button } from '@wordpress/components';
 import { useEffect, useRef, useState } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
 
-import asDialog from 'components/as-dialog';
+import asDialog, { DialogProps } from 'components/as-dialog';
 import DialogToolbar from 'components/dialog-toolbar';
 import TextareaAutosize from 'components/textarea-autosize';
 
 import styles from './style.scss';
 
-interface Props extends asDialog.Props {
+interface Props extends DialogProps {
     onSubmit(value: string): void;
 }
 
@@ -43,7 +43,7 @@ function AddFootnoteDialog({ onSubmit }: Props) {
             />
             <DialogToolbar>
                 <div className={styles.toolbar}>
-                    <Button isPrimary isLarge type="submit">
+                    <Button isLarge isPrimary type="submit">
                         {__('Add footnote', 'academic-bloggers-toolkit')}
                     </Button>
                 </div>

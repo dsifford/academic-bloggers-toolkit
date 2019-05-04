@@ -4,7 +4,7 @@ import { withDispatch } from '@wordpress/data';
 import { useState } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
 
-import asDialog from 'components/as-dialog';
+import asDialog, { DialogProps } from 'components/as-dialog';
 import DialogToolbar from 'components/dialog-toolbar';
 import IdentifierReferenceForm from 'gutenberg/components/reference-form-identifier';
 import ManualReferenceForm from 'gutenberg/components/reference-form-manual';
@@ -15,7 +15,7 @@ interface DispatchProps {
     createErrorNotice(message: string): void;
 }
 
-interface OwnProps extends asDialog.Props {
+interface OwnProps extends DialogProps {
     onSubmit(data: CSL.Data): void;
 }
 
@@ -32,10 +32,10 @@ function Dialog({ createErrorNotice, onClose, onSubmit }: Props) {
             {!isAddingManually && (
                 <IdentifierReferenceForm
                     id={FORM_ID}
-                    onSubmit={onSubmit}
+                    setBusy={busy => setIsBusy(busy)}
                     onClose={onClose}
                     onError={message => createErrorNotice(message)}
-                    setBusy={busy => setIsBusy(busy)}
+                    onSubmit={onSubmit}
                 />
             )}
             {isAddingManually && (
@@ -48,19 +48,19 @@ function Dialog({ createErrorNotice, onClose, onSubmit }: Props) {
             <DialogToolbar>
                 <div className={styles.toolbar}>
                     <ToggleControl
-                        label={__('Add manually', 'academic-bloggers-toolkit')}
                         checked={isAddingManually}
+                        label={__('Add manually', 'academic-bloggers-toolkit')}
                         onChange={isChecked =>
                             !isBusy && setIsAddingManually(isChecked)
                         }
                     />
                     <Button
-                        isPrimary
                         isLarge
-                        isBusy={isBusy}
+                        isPrimary
                         disabled={isBusy}
-                        type="submit"
                         form={FORM_ID}
+                        isBusy={isBusy}
+                        type="submit"
                     >
                         {__('Add Reference', 'academic-bloggers-toolkit')}
                     </Button>

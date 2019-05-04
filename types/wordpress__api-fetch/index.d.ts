@@ -32,7 +32,9 @@ type MiddleWare = (options: Options, next: Next) => void;
 declare function apiFetch<T = unknown>(
     options: Options & { parse: false },
 ): Response;
-declare function apiFetch<T = unknown>(options: Options): Promise<T>;
+declare function apiFetch<T = unknown>(
+    options: Options & { parse: true },
+): Promise<T>;
 
 declare namespace apiFetch {
     export function use(middleware: MiddleWare): void;

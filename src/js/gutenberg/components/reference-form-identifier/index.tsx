@@ -49,8 +49,8 @@ function IdentifierForm(props: Props) {
 
     return (
         <form
-            id={id}
             className={styles.form}
+            id={id}
             onSubmit={async e => {
                 e.preventDefault();
                 setBusy(true);
@@ -62,7 +62,7 @@ function IdentifierForm(props: Props) {
             <select
                 required
                 value={kind}
-                onChange={e => {
+                onBlur={e => {
                     setIdentifierKind(e.currentTarget.value as IdentifierKind);
                 }}
             >
@@ -80,8 +80,8 @@ function IdentifierForm(props: Props) {
                 // TODO: consider using `FormTokenField` here
                 ref={inputRef}
                 required
-                type="text"
                 pattern={pattern}
+                type="text"
                 value={value}
                 onChange={e => setValue(e.currentTarget.value)}
             />

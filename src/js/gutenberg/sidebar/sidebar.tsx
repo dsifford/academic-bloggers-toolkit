@@ -66,9 +66,9 @@ function Sidebar({
     return (
         <>
             <EditReferenceDialog
-                title={__('Edit reference', 'academic-bloggers-toolkit')}
                 isOpen={!!editReferenceId}
                 itemId={editReferenceId}
+                title={__('Edit reference', 'academic-bloggers-toolkit')}
                 onClose={() => setEditReferenceId('')}
                 onSubmit={data => {
                     updateReference(data);
@@ -76,8 +76,8 @@ function Sidebar({
                 }}
             />
             <PluginSidebarMoreMenuItem
-                target="abt-reference-list"
                 icon="welcome-learn-more"
+                target="abt-reference-list"
             >
                 {__("Academic Blogger's Toolkit", 'academic-bloggers-toolkit')}
             </PluginSidebarMoreMenuItem>
@@ -87,10 +87,10 @@ function Sidebar({
             >
                 <SidebarToolbar selectedItems={selectedItems} />
                 <PanelBody
-                    title={__('Cited Items', 'academic-bloggers-toolkit')}
                     icon={<CountIcon count={citedItems.length} />}
                     initialOpen={citedItems.length > 0}
                     opened={citedItems.length === 0 ? false : undefined}
+                    title={__('Cited Items', 'academic-bloggers-toolkit')}
                 >
                     <SidebarItemList
                         items={citedItems}
@@ -101,12 +101,12 @@ function Sidebar({
                     />
                 </PanelBody>
                 <PanelBody
-                    title={__('Uncited Items', 'academic-bloggers-toolkit')}
                     icon={<CountIcon count={uncitedItems.length} />}
                     initialOpen={
                         uncitedItems.length > 0 && citedItems.length === 0
                     }
                     opened={uncitedItems.length === 0 ? false : undefined}
+                    title={__('Uncited Items', 'academic-bloggers-toolkit')}
                 >
                     <SidebarItemList
                         items={uncitedItems}
@@ -117,17 +117,17 @@ function Sidebar({
                     />
                 </PanelBody>
                 <PanelBody
-                    title={__('Footnotes', 'academic-bloggers-toolkit')}
                     icon={<CountIcon count={footnotes.length} />}
                     initialOpen={false}
                     opened={footnotes.length === 0 ? false : undefined}
+                    title={__('Footnotes', 'academic-bloggers-toolkit')}
                 >
                     <SidebarItemList
                         items={footnotes}
                         renderItem={({ content = '' }) => (
                             <RichText.Content
-                                tagName="div"
                                 style={{ fontWeight: 'bold' }}
+                                tagName="div"
                                 value={content}
                             />
                         )}

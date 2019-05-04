@@ -52,8 +52,8 @@ function StaticBibEdit(props: Props) {
                     >
                         <SidebarItemList
                             items={references}
-                            onItemDoubleClick={id => addItem(id, props)}
                             renderItem={item => <ReferenceItem item={item} />}
+                            onItemDoubleClick={async id => addItem(id, props)}
                         />
                     </PanelBody>
                 </PanelBody>
@@ -86,10 +86,11 @@ function StaticBibEdit(props: Props) {
                     ]}
                 />
             </BlockFormatControls>
+            {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
             <section
+                aria-label={__('References', 'academic-bloggers-toolkit')}
                 className="abt-static-bib"
                 role="region"
-                aria-label={__('References', 'academic-bloggers-toolkit')}
             >
                 <ItemList {...props} />
             </section>
@@ -125,8 +126,8 @@ function ItemList({
                 {items.map(({ content, id }, i) => (
                     <LiveItem
                         key={id}
-                        id={id}
                         content={content}
+                        id={id}
                         onMoveDown={
                             i === items.length - 1
                                 ? undefined
@@ -161,9 +162,9 @@ function ItemList({
             {items.map(({ content, id }) => (
                 <RichText.Content
                     key={id}
+                    className={classNames('csl-entry', styles.item)}
                     data-id={id}
                     tagName="li"
-                    className={classNames('csl-entry', styles.item)}
                     value={content}
                 />
             ))}

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/camelcase */
 import { addQueryArgs } from '@wordpress/url';
 
 declare const _abt_nonce: string;

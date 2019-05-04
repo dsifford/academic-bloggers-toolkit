@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/camelcase */
 import { Action, select } from '@wordpress/data';
 
 import { fetchAjax } from 'utils/ajax';
@@ -58,7 +59,7 @@ const controls = {
     async FETCH_STYLE({ id }: Action): Promise<string> {
         return styleCache.fetchItem(id);
     },
-    async SAVE_STATE({ id, state }: any): Promise<any> {
+    async SAVE_STATE({ id, state }: Action) {
         const response = await fetchAjax('update_abt_state', {
             post_id: id,
             state,

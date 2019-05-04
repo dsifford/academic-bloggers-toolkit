@@ -9,18 +9,17 @@ type Props = BlockEditProps<Attributes>;
 export default function FootnotesEdit({ attributes: { items } }: Props) {
     return (
         <section
-            className="abt-footnotes"
-            role="region"
             aria-label={__('Footnotes', 'academic-bloggers-toolkit')}
+            className="abt-footnotes"
         >
             <hr />
             <ol>
                 {items.map(({ content, id }) => (
                     <RichText.Content
                         key={id}
-                        tagName="li"
-                        id={id}
                         className="abt-footnotes-item"
+                        id={id}
+                        tagName="li"
                         value={content}
                     />
                 ))}
