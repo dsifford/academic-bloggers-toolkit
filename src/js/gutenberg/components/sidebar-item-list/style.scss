@@ -16,4 +16,10 @@
     &:hover {
         background: #f8f9f9;
     }
+
+    &:focus {
+        color: #191e23;
+        outline-offset: -2px;
+        outline: 1px dotted #555d66;
+    }
 }

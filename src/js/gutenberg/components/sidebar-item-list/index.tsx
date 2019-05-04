@@ -16,23 +16,30 @@ interface Props<T> {
 
 export default function SidebarItemList<T extends HasID>({
     items,
-    onItemClick,
-    onItemDoubleClick,
+    onItemClick = () => void 0,
+    onItemDoubleClick = () => void 0,
     selectedItems = [],
     renderItem,
 }: Props<T>) {
     return (
-        <div className={styles.list} role="listbox" aria-multiselectable={true}>
+        <div aria-multiselectable={true} className={styles.list} role="listbox">
             {items.map(item => (
                 <div
                     key={item.id}
+                    aria-selected={selectedItems.includes(item.id)}
                     className={styles.item}
                     role="option"
-                    aria-selected={selectedItems.includes(item.id)}
-                    onClick={() => onItemClick && onItemClick(item.id)}
-                    onDoubleClick={() =>
-                        onItemDoubleClick && onItemDoubleClick(item.id)
-                    }
+                    tabIndex={0}
+                    onClick={() => onItemClick(item.id)}
+                    onDoubleClick={() => onItemDoubleClick(item.id)}
+                    onKeyDown={e => {
+                        switch (e.key) {
+                            case ' ':
+                                return onItemClick(item.id);
+                            case 'Enter':
+                                return onItemDoubleClick(item.id);
+                        }
+                    }}
                 >
                     {renderItem(item)}
                 </div>
