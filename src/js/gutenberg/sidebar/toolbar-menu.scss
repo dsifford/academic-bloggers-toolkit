@@ -24,9 +24,11 @@
 .sort-choices {
     :global(.components-menu-item__button) {
         padding-left: 2rem;
+        padding-inline: 2rem 0;
 
         &:global(.has-icon) {
             padding-left: 0.5rem;
+            padding-inline: 0.5rem 0;
         }
     }
 }

@@ -1,10 +1,6 @@
 .item {
     margin-left: 1em;
-
-    > div:not([class]) {
-        display: inline;
-        display: contents;
-    }
+    margin-inline: 1em 0;
 }
 
 .button-list {

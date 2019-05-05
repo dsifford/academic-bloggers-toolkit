@@ -11,6 +11,8 @@
 
     &[aria-selected='true'] {
         border-left: 3px solid #11a0d2;
+        border-inline-start: 3px solid #11a0d2;
+        border-inline-end: 0;
     }
 
     &:hover {

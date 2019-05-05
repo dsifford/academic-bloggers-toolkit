@@ -5,6 +5,7 @@
 .input {
     width: 100%;
     padding-left: 35px !important;
+    padding-inline: 35px 0 !important;
 
     &-open {
         border-bottom-left-radius: 0 !important;
@@ -14,9 +15,14 @@
 
 .input-icon > * {
     position: absolute;
+    margin: 0;
     top: calc(50% - 9px);
     left: 10px;
-    margin: 0;
+
+    @at-root [dir='rtl'] & {
+        left: 0;
+        right: 10px;
+    }
 }
 
 .suggestions-container-open {

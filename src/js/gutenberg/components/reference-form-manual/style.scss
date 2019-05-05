@@ -3,9 +3,8 @@
     max-width: calc(100vw - 32px);
 
     :global .components-notice {
-        margin: 0 {
-            bottom: 10px;
-        }
+        margin: 0;
+        margin-block-end: 10px;
     }
 }
 
