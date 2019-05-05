@@ -19,7 +19,6 @@
     "wp-block-editor",
     "wp-blocks",
     "wp-components",
-    "wp-compose",
     "wp-data",
     "wp-element",
     "wp-i18n",
@@ -28,6 +27,7 @@
   "editor-formats": [
     "lodash",
     "wp-block-editor",
+    "wp-blocks",
     "wp-components",
     "wp-compose",
     "wp-data",
@@ -46,10 +46,7 @@
     "wp-polyfill",
     "wp-url"
   ],
-  "frontend": [
-    "wp-dom-ready",
-    "wp-polyfill"
-  ],
+  "frontend": ["wp-dom-ready", "wp-polyfill"],
   "options-page": [
     "lodash",
     "wp-components",
