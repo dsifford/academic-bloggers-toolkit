@@ -30,12 +30,6 @@
       "pre-push": "npm run lint && npm run update-dependencies"
     }
   },
-  "lint-staged": {
-    "*.{ts,tsx,js,jsx,scss,json,css}": [
-      "prettier --write",
-      "git add"
-    ]
-  },
   "jest": {
     "collectCoverageFrom": [
       "src/**/*.{ts,tsx}",
@@ -54,6 +48,13 @@
     "preset": "ts-jest",
     "testURL": "http://localhost"
   },
+  "lint-staged": {
+    "*.{ts,tsx,js,jsx,scss,json,css}": [
+      "prettier --write",
+      "git add"
+    ]
+  },
+  "prettier": "@dsifford/prettier-config",
   "dependencies": {
     "@wordpress/block-editor": "^2.0.1",
     "@wordpress/blocks": "^6.2.4",
@@ -86,7 +87,9 @@
   "devDependencies": {
     "@babel/core": "^7.4.4",
     "@babel/plugin-transform-react-jsx": "^7.3.0",
-    "@dsifford/stylelint-config": "^0.2.1",
+    "@dsifford/eslint-config": "^0.3.0",
+    "@dsifford/prettier-config": "^0.3.0",
+    "@dsifford/stylelint-config": "^0.3.0",
     "@types/classnames": "^2.2.7",
     "@types/copy-webpack-plugin": "^5.0.0",
     "@types/dompurify": "0.0.32",
@@ -102,8 +105,6 @@
     "@types/string-hash": "^1.1.1",
     "@types/uuid": "^3.4.4",
     "@types/webpack": "^4.4.30",
-    "@typescript-eslint/eslint-plugin": "^1.7.0",
-    "@typescript-eslint/parser": "^1.7.0",
     "@wordpress/babel-plugin-makepot": "^3.0.0",
     "@wordpress/babel-preset-default": "^4.1.0",
     "@wordpress/browserslist-config": "^2.3.0",
@@ -117,9 +118,6 @@
     "css-loader": "^2.1.1",
     "cssnano": "^4.1.10",
     "eslint": "^5.16.0",
-    "eslint-config-prettier": "^4.2.0",
-    "eslint-plugin-jsx-a11y": "^6.2.1",
-    "eslint-plugin-react": "^7.13.0",
     "husky": "^2.2.0",
     "identity-obj-proxy": "^3.0.0",
     "jest": "^24.8.0",

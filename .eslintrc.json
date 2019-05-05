@@ -1,75 +1,27 @@
 {
-  "root": true,
-  "env": {
-    "browser": true,
-    "es6": true,
-    "node": true
-  },
-  "extends": [
-    "eslint:recommended",
-    "plugin:@typescript-eslint/recommended",
-    "plugin:react/recommended",
-    "plugin:jsx-a11y/recommended",
-    "prettier",
-    "prettier/@typescript-eslint"
-  ],
-  "parser": "@typescript-eslint/parser",
-  "parserOptions": {
-    "sourceType": "module",
-    "project": "./tsconfig.json"
-  },
-  "settings": {
-    "react": {
-      "version": "detect"
-    }
-  },
-  "rules": {
-    "no-redeclare": "off",
-    "@typescript-eslint/explicit-function-return-type": "off",
-    "@typescript-eslint/no-namespace": "off",
-    "@typescript-eslint/no-unused-vars": "off",
-    "@typescript-eslint/no-use-before-define": "off",
-    "jsx-a11y/no-onchange": "off",
-    "react/prop-types": "off",
-    "react/react-in-jsx-scope": "off",
-    "@typescript-eslint/promise-function-async": "error",
-    "@typescript-eslint/unified-signatures": "error",
-    "@typescript-eslint/array-type": [
-      "error",
-      "array-simple"
-    ],
-    "@typescript-eslint/explicit-member-accessibility": [
-      "error",
-      {
-        "accessibility": "no-public"
-      }
-    ],
-    "react/jsx-sort-props": [
-      "error",
-      {
-        "callbacksLast": true,
-        "shorthandFirst": true,
-        "reservedFirst": true
-      }
-    ]
-  },
-  "overrides": [
-    {
-      "files": [
-        "*.d.ts"
-      ],
-      "rules": {
-        "@typescript-eslint/no-explicit-any": "off",
-        "no-undef": "off"
-      }
+    "root": true,
+    "env": {
+        "browser": true,
+        "es6": true,
+        "node": true
     },
-    {
-      "files": [
-        "scripts/**"
-      ],
-      "rules": {
-        "no-console": "off"
-      }
-    }
-  ]
+    "extends": ["@dsifford/eslint-config"],
+    "parserOptions": {
+        "project": "./tsconfig.json"
+    },
+    "overrides": [
+        {
+            "files": ["*.d.ts"],
+            "rules": {
+                "@typescript-eslint/no-explicit-any": "off",
+                "no-undef": "off"
+            }
+        },
+        {
+            "files": ["scripts/**"],
+            "rules": {
+                "no-console": "off"
+            }
+        }
+    ]
 }
