@@ -6,11 +6,6 @@ import webpack from 'webpack';
 import oldDependencies from '../src/dependencies.json';
 import getConfig from '../webpack.config';
 
-interface Stats {
-    entrypoints: Array<{ chunks: number[] }>;
-    chunks: Array<{ modules: Module[] }>;
-}
-
 interface Module {
     name: string;
 }
@@ -60,13 +55,16 @@ function itemSorter(a: Item, b: Item): number {
 
     console.log('Checking to see if external dependencies have changed...');
 
-    webpack(config, (_err, statistics) => {
-        const stats: Stats = statistics.toJson();
+    webpack(config, (_err, stats) => {
+        const { chunks, entrypoints } = stats.toJson();
+        if (!chunks || !entrypoints) {
+            throw new Error('Could not resolve chunks and/or entrypoints.');
+        }
         const dependencies = JSON.stringify(
-            [...Object.entries(stats.entrypoints)]
+            [...Object.entries(entrypoints)]
                 .filter(isInBundleRoot)
-                .map(([name, { chunks }]) => {
-                    const { modules } = stats.chunks[chunks[0]];
+                .map(([name, group]) => {
+                    const { modules = [] } = chunks[group.chunks[0]];
                     return {
                         name: path.basename(name),
                         scripts: [
@@ -86,7 +84,7 @@ function itemSorter(a: Item, b: Item): number {
                     {},
                 ),
             null,
-            4,
+            2,
         );
         if (dependencies !== JSON.stringify(oldDependencies, null, 4)) {
             fs.writeFileSync(
