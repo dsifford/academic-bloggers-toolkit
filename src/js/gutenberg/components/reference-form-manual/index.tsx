@@ -113,7 +113,7 @@ function ReferenceFormManual(props: Props) {
                         {__('Citation type', 'academic-bloggers-toolkit')}
                         <select
                             value={data.type}
-                            onBlur={e =>
+                            onChange={e =>
                                 setData({
                                     id: '',
                                     type: e.currentTarget.value as CSL.ItemType,

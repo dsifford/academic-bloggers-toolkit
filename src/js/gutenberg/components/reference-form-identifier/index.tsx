@@ -62,7 +62,7 @@ function IdentifierForm(props: Props) {
             <select
                 required
                 value={kind}
-                onBlur={e => {
+                onChange={e => {
                     setIdentifierKind(e.currentTarget.value as IdentifierKind);
                 }}
             >

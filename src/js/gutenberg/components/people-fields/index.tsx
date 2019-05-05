@@ -72,7 +72,7 @@ function Person({ data, fields, index, isLiteral }: PersonProps) {
                 >
                     <select
                         value={data.kind}
-                        onBlur={e =>
+                        onChange={e =>
                             update(index, {
                                 ...data,
                                 kind: e.currentTarget
