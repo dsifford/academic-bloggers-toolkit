@@ -104,7 +104,7 @@
     "@types/rimraf": "^2.0.2",
     "@types/string-hash": "^1.1.1",
     "@types/uuid": "^3.4.4",
-    "@types/webpack": "^4.4.30",
+    "@types/webpack": "^4.4.31",
     "@wordpress/babel-plugin-makepot": "^3.0.0",
     "@wordpress/babel-preset-default": "^4.1.0",
     "@wordpress/browserslist-config": "^2.3.0",
