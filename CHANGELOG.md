@@ -6,6 +6,16 @@
 
 - Remove support for the classic editor.
 - Update deprecated block editor API usage.
+- Increase linespacing in the reference list to make it easier to read.
+- Improve UI of citation style search box.
+- Improve keyboard accessibility with sidebar.
+- Improve support for RTL languages.
+
+### Patches
+
+- Fix misc bugs in static bibliography block styles.
+- Misc widespread performance improvements.
+- Fix bug causing different citations to sometimes recieve the same ID. #558
 
 ## 5.0.5
 
