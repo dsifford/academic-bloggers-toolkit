@@ -88,7 +88,7 @@
     "@babel/core": "^7.4.4",
     "@babel/plugin-transform-react-jsx": "^7.3.0",
     "@dsifford/eslint-config": "^0.3.0",
-    "@dsifford/prettier-config": "^0.3.1",
+    "@dsifford/prettier-config": "^0.3.2",
     "@dsifford/stylelint-config": "^0.3.0",
     "@types/classnames": "^2.2.7",
     "@types/copy-webpack-plugin": "^5.0.0",

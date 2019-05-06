@@ -86,7 +86,7 @@ function itemSorter(a: Item, b: Item): number {
             null,
             2,
         );
-        if (dependencies !== JSON.stringify(oldDependencies, null, 4)) {
+        if (dependencies !== JSON.stringify(oldDependencies, null, 2)) {
             fs.writeFileSync(
                 path.join(__dirname, '../src/dependencies.json'),
                 dependencies,
