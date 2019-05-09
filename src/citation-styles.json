@@ -2232,7 +2232,7 @@
     },
     {
       "kind": "predefined",
-      "value": "vancouver",
+      "value": "american-medical-association",
       "label": "American Journal of Obstetrics & Gynecology"
     },
     {
@@ -5448,6 +5448,12 @@
       "kind": "predefined",
       "value": "vancouver",
       "label": "Bibliotek for Læger (Danish)"
+    },
+    {
+      "kind": "predefined",
+      "value": "bibliotheque-universitaire-de-medecine-vancouver",
+      "label": "Bibliothèque universitaire de médecine - Vancouver (French)",
+      "shortTitle": "BiUM Vancouver"
     },
     {
       "kind": "predefined",
@@ -8886,6 +8892,12 @@
       "kind": "predefined",
       "value": "taylor-and-francis-chicago-author-date",
       "label": "Civil Engineering and Environmental Systems"
+    },
+    {
+      "kind": "predefined",
+      "value": "civitas-revista-de-ciencias-sociais",
+      "label": "Civitas: Revista de Ciências Sociais",
+      "shortTitle": "Civitas"
     },
     {
       "kind": "predefined",
@@ -16298,6 +16310,11 @@
     },
     {
       "kind": "predefined",
+      "value": "foodborne-pathogens-and-disease",
+      "label": "Foodborne Pathogens and Disease"
+    },
+    {
+      "kind": "predefined",
       "value": "multidisciplinary-digital-publishing-institute",
       "label": "Foods"
     },
@@ -17096,8 +17113,8 @@
     },
     {
       "kind": "predefined",
-      "value": "vancouver-superscript",
-      "label": "Gaceta Sanitaria (Spanish)"
+      "value": "gaceta-sanitaria",
+      "label": "Gaceta Sanitaria"
     },
     {
       "kind": "predefined",
@@ -20554,6 +20571,12 @@
       "kind": "predefined",
       "value": "influenza-and-other-respiratory-viruses",
       "label": "Influenza and Other Respiratory Viruses"
+    },
+    {
+      "kind": "predefined",
+      "value": "infomin",
+      "label": "Infomin",
+      "shortTitle": "Infomin"
     },
     {
       "kind": "predefined",
@@ -30987,6 +31010,12 @@
     },
     {
       "kind": "predefined",
+      "value": "korean-journal-of-radiology",
+      "label": "Korean Journal of Radiology",
+      "shortTitle": "KJR"
+    },
+    {
+      "kind": "predefined",
       "value": "springer-socpsych-author-date",
       "label": "Korean Social Science Journal"
     },
@@ -31866,6 +31895,12 @@
       "kind": "predefined",
       "value": "springer-vancouver-brackets",
       "label": "Malaria Journal"
+    },
+    {
+      "kind": "predefined",
+      "value": "malaysian-orthopaedic-journal",
+      "label": "Malaysian Orthopaedic Journal",
+      "shortTitle": "MOJ"
     },
     {
       "kind": "predefined",
@@ -39338,7 +39373,7 @@
     },
     {
       "kind": "predefined",
-      "value": "reproduction-in-domestic-animals",
+      "value": "apa",
       "label": "Reproduction in Domestic Animals",
       "shortTitle": "Reprod. Domest. Anim."
     },
@@ -40004,6 +40039,12 @@
       "kind": "predefined",
       "value": "vancouver-superscript",
       "label": "Revista Cubana de Medicina Tropical (Spanish)"
+    },
+    {
+      "kind": "predefined",
+      "value": "revista-cubana-de-meteorologia",
+      "label": "Revista Cubana de Meteorologia",
+      "shortTitle": "Rev. Cub. Met."
     },
     {
       "kind": "predefined",
@@ -40825,6 +40866,11 @@
       "value": "scienceasia",
       "label": "ScienceAsia",
       "shortTitle": "SciAs"
+    },
+    {
+      "kind": "predefined",
+      "value": "sciences-po-ecole-doctorale-author-date",
+      "label": "Sciences Po - Ecole doctorale (author-date, French)"
     },
     {
       "kind": "predefined",
@@ -43060,6 +43106,12 @@
     },
     {
       "kind": "predefined",
+      "value": "technische-universitat-dresden-forstwissenschaft",
+      "label": "Technische Universität Dresden - Forstwissenschaft (author-date, German)",
+      "shortTitle": "TU Dresden - Forst"
+    },
+    {
+      "kind": "predefined",
       "value": "technische-universitat-dresden-medizin",
       "label": "Technische Universität Dresden - Medizin",
       "shortTitle": "TUD Medizin"
@@ -43166,6 +43218,12 @@
       "kind": "predefined",
       "value": "springer-socpsych-author-date",
       "label": "Textiles and Clothing Sustainability"
+    },
+    {
+      "kind": "predefined",
+      "value": "tgm-wien-diplomarbeit-onorm",
+      "label": "TGM Wien Diplomarbeit ÖNORM (German - Austria)",
+      "shortTitle": "TGM ÖNORM"
     },
     {
       "kind": "predefined",
