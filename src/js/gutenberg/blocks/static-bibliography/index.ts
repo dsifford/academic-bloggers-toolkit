@@ -1,4 +1,4 @@
-import { BlockConfig, createBlock } from '@wordpress/blocks';
+import { BlockConfiguration, createBlock } from '@wordpress/blocks';
 import { __ } from '@wordpress/i18n';
 import uuid from 'uuid/v4';
 
@@ -15,7 +15,7 @@ export interface Attributes {
 
 export const name = 'abt/static-bibliography';
 
-export const config: BlockConfig<Attributes> = {
+export const config: BlockConfiguration<Attributes> = {
     title: __('Static Bibliography', 'academic-bloggers-toolkit'),
     category: 'widgets',
     description: __(
@@ -78,9 +78,12 @@ export const config: BlockConfig<Attributes> = {
                                     : item.innerHTML,
                             };
                         });
-                        return createBlock('abt/static-bibliography', {
-                            items,
-                        });
+                        return createBlock<Attributes>(
+                            'abt/static-bibliography',
+                            {
+                                items,
+                            },
+                        );
                     }
                     return;
                 },

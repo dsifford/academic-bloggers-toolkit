@@ -3,7 +3,7 @@ import fs from 'fs';
 import path from 'path';
 import { promisify } from 'util';
 
-import camaro from 'camaro';
+import { transform } from 'camaro';
 import rimraf from 'rimraf';
 
 import oldStyles from '../src/citation-styles.json';
@@ -131,7 +131,7 @@ async function parseCSL(
     isIndependent: boolean,
 ): Promise<Style[]> {
     const xml = await readfile(filepath, { encoding: 'utf-8' });
-    const data = camaro<StyleQuery>(xml, {
+    const data: StyleQuery = transform(xml, {
         kind: '/style/@class',
         hasBibliography: 'boolean(/style/bibliography)',
         parent: '/style/info/link[@rel="independent-parent"]/@href',

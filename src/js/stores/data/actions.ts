@@ -1,4 +1,4 @@
-import { Block, createBlock, parse } from '@wordpress/blocks';
+import { BlockInstance, createBlock, parse } from '@wordpress/blocks';
 import { dispatch, select } from '@wordpress/data';
 
 import { ZERO_WIDTH_SPACE } from 'utils/constants';
@@ -135,7 +135,7 @@ function* save() {
 }
 
 function* setBibliography({ items, meta }: Processor.Bibliography) {
-    const blocksList = select<Block[]>('core/block-editor').getBlocks();
+    const blocksList = select('core/block-editor').getBlocks<BlockInstance[]>();
     const bibliographyBlock = blocksList.find(
         block => block.name === 'abt/bibliography',
     );
@@ -163,7 +163,7 @@ function* setBibliography({ items, meta }: Processor.Bibliography) {
 
 function* setFootnotes() {
     const items = select('abt/data').getFootnotes();
-    const blocksList = select<Block[]>('core/block-editor').getBlocks();
+    const blocksList = select('core/block-editor').getBlocks<BlockInstance[]>();
     const footnoteBlockIndex = blocksList.findIndex(
         ({ name }) => name === 'abt/footnotes',
     );

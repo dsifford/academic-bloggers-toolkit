@@ -1,4 +1,4 @@
-import { BlockConfig, createBlock } from '@wordpress/blocks';
+import { BlockConfiguration, createBlock } from '@wordpress/blocks';
 import { __ } from '@wordpress/i18n';
 
 import Processor from 'utils/processor';
@@ -21,7 +21,7 @@ export interface Attributes {
 
 export const name = 'abt/bibliography';
 
-export const config: BlockConfig<Attributes> = {
+export const config: BlockConfiguration<Attributes> = {
     title: __('Bibliography', 'academic-bloggers-toolkit'),
     category: 'widgets',
     description: __(

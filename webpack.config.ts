@@ -149,7 +149,7 @@ export default async (_: any, argv: any): Promise<Configuration> => {
             plugins: [new TsConfigPathsPlugin()],
         },
         plugins: [...plugins],
-        stats: IS_PRODUCTION ? 'normal' : 'minimal',
+        stats: IS_PRODUCTION ? 'errors-warnings' : 'minimal',
         module: {
             rules: [
                 {
@@ -220,10 +220,12 @@ export default async (_: any, argv: any): Promise<Configuration> => {
                                             loader: 'css-loader',
                                             options: {
                                                 importLoaders: 2,
-                                                modules: true,
-                                                camelCase: 'only',
-                                                localIdentName:
-                                                    '[name]__[local]___[hash:base64:5]',
+                                                modules: {
+                                                    localIdentName:
+                                                        '[name]__[local]___[hash:base64:5]',
+                                                },
+                                                localsConvention:
+                                                    'camelCaseOnly',
                                             },
                                         },
                                     ],

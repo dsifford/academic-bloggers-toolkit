@@ -101,19 +101,21 @@ export default function StyleSearch(props: Props) {
                         e.key === 'Enter' && e.preventDefault();
                     },
                 }}
-                // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                renderInputComponent={(inputProps: any) => (
-                    <div className={styles.inputContainer}>
-                        <input {...inputProps} />
-                        <div className={styles.inputIcon}>
-                            {isLoading ? (
-                                <Spinner />
-                            ) : (
-                                <Dashicon icon="search" />
-                            )}
+                renderInputComponent={
+                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                    (inputProps: any) => (
+                        <div className={styles.inputContainer}>
+                            <input {...inputProps} />
+                            <div className={styles.inputIcon}>
+                                {isLoading ? (
+                                    <Spinner />
+                                ) : (
+                                    <Dashicon icon="search" />
+                                )}
+                            </div>
                         </div>
-                    </div>
-                )}
+                    )
+                }
                 renderSuggestion={({ label }) => label}
                 suggestions={suggestions}
                 theme={styles}

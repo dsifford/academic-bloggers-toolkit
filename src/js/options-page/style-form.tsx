@@ -48,6 +48,7 @@ export default function StyleForm() {
                 ]}
                 selected={style.kind}
                 onChange={kind =>
+                    kind &&
                     setStyle(
                         kind === SAVED_STYLE.kind
                             ? { ...SAVED_STYLE }

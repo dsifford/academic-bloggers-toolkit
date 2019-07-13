@@ -1,7 +1,7 @@
 version: '3.7'
 services:
   wordpress:
-    image: visiblevc/wordpress:0.22.0-php7.3
+    image: visiblevc/wordpress:0.23.0-php7.3
     cap_add:
       - SYS_ADMIN
     devices:

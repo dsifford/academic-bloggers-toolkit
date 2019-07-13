@@ -1,4 +1,4 @@
-import { BlockConfig } from '@wordpress/blocks';
+import { BlockConfiguration } from '@wordpress/blocks';
 import { __ } from '@wordpress/i18n';
 
 import FootnotesEdit from './edit';
@@ -13,7 +13,7 @@ export interface Attributes {
 
 export const name = 'abt/footnotes';
 
-export const config: BlockConfig<Attributes> = {
+export const config: BlockConfiguration<Attributes> = {
     title: __('Footnotes', 'academic-bloggers-toolkit'),
     category: 'widgets',
     description: __('Display a list of footnotes', 'academic-bloggers-toolkit'),

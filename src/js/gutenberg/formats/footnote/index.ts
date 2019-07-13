@@ -1,12 +1,12 @@
 import { __ } from '@wordpress/i18n';
-import { FormatConfig } from '@wordpress/rich-text';
+import { FormatConfiguration } from '@wordpress/rich-text';
 
 import { FootnoteElement } from 'utils/element';
 import Footnote from './footnote';
 
 export const name = 'abt/footnote';
 
-export const config: FormatConfig = {
+export const config: FormatConfiguration = {
     tagName: 'span',
     className: FootnoteElement.className,
     title: __('Footnote', 'academic-bloggers-toolkit'),
