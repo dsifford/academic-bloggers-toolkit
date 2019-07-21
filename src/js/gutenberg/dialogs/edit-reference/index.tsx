@@ -41,7 +41,7 @@ export default compose(
     asDialog,
     withSelect<SelectProps, OwnProps>((select, { itemId }) => {
         return {
-            data: select('abt/data').getItemById(itemId) || undefined,
+            data: itemId ? select('abt/data').getItemById(itemId) : undefined,
         };
     }),
 )(EditDialog);

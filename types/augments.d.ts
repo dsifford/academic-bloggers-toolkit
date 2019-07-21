@@ -6,10 +6,10 @@ declare module '@wordpress/data' {
     export function dispatch(key: 'abt/ui'): typeof import('stores/ui/actions');
 
     export function select<T extends typeof import('stores/data/selectors'), U extends keyof T>(key: 'abt/data'): {
-        [k in U]: (...args: any[]) => T[k] extends (...args: any[]) => infer V ? V : never;
+        [k in U]: T[k] extends (firstArg: any, ...args: infer V) => infer W ? (...args: V) => W : never;
     };
 
     export function select<T extends typeof import('stores/ui/selectors'), U extends keyof T>(key: 'abt/ui'): {
-        [k in U]: (...args: any[]) => T[k] extends (...args: any[]) => infer V ? V : never;
+        [k in U]: T[k] extends (firstArg: any, ...args: infer V) => infer W ? (...args: V) => W : never;
     };
 }
