@@ -10,6 +10,7 @@ import rimrafLib from 'rimraf';
 import { rollup } from 'rollup';
 import commonjs from 'rollup-plugin-commonjs';
 import resolve from 'rollup-plugin-node-resolve';
+import { terser } from 'rollup-plugin-terser';
 import { Configuration, Plugin, ProgressPlugin } from 'webpack';
 
 import { version as VERSION } from './package.json';
@@ -27,12 +28,9 @@ export default async (_: any, argv: any): Promise<Configuration> => {
     await Promise.all([
         rollup({
             input: 'citeproc',
-            plugins: [
-                resolve(),
-                commonjs(),
-                IS_PRODUCTION &&
-                    (await import('rollup-plugin-terser')).terser(),
-            ],
+            plugins: IS_PRODUCTION
+                ? [resolve(), commonjs(), terser()]
+                : [resolve(), commonjs()],
         }),
     ]).then(async ([citeproc]) =>
         Promise.all([
