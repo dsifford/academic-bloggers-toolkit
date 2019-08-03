@@ -113,73 +113,43 @@ function register_scripts() {
 	//
 	// Editor.
 	//
-	register_script(
-		'editor-stores',
-		[
-			'scripts' => $deps['editor-stores'],
-		]
-	);
+	register_script( 'editor-stores' );
 	register_script(
 		'editor-blocks',
 		[
-			'scripts' => array_merge(
-				$deps['editor-blocks'],
-				[
-					'abt-editor-stores',
-				]
-			),
+			'abt-editor-stores',
 		]
 	);
 	register_script(
 		'editor-formats',
 		[
-			'scripts' => array_merge(
-				$deps['editor-formats'],
-				[
-					'abt-editor-stores',
-				]
-			),
+			'abt-editor-stores',
 		]
 	);
 	register_script(
 		'editor',
 		[
-			'scripts' => array_merge(
-				$deps['editor'],
-				[
-					'abt-editor-blocks',
-					'abt-editor-formats',
-					'abt-editor-stores',
-				]
-			),
+			'abt-editor-blocks',
+			'abt-editor-formats',
+			'abt-editor-stores',
 		]
 	);
 
 	//
 	// Options Page.
 	//
-	register_script(
-		'options-page',
-		[
-			'scripts' => $deps['options-page'],
-		]
-	);
+	register_script( 'options-page' );
 
 	//
 	// Frontend.
 	//
-	register_script(
-		'frontend',
-		[
-			'scripts' => $deps['frontend'],
-		]
-	);
+	register_script( 'frontend' );
 
 	//
 	// Vendor.
 	//
 	wp_register_script(
-		'CSL',
+		'citeproc',
 		ABT_ROOT_URI . '/vendor/citeproc.js',
 		[],
 		filemtime( ABT_ROOT_PATH . '/vendor/citeproc.js' ),

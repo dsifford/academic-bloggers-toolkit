@@ -2,6 +2,7 @@ import { promises as fs } from 'fs';
 import path from 'path';
 import { promisify } from 'util';
 
+import DependencyExtractionPlugin from '@wordpress/dependency-extraction-webpack-plugin';
 import { CheckerPlugin, TsConfigPathsPlugin } from 'awesome-typescript-loader';
 import BrowserSyncPlugin from 'browser-sync-webpack-plugin';
 import CopyWebpackPlugin from 'copy-webpack-plugin';
@@ -43,6 +44,15 @@ export default async (_: any, argv: any): Promise<Configuration> => {
     );
 
     const plugins = new Set<Plugin>([
+        new DependencyExtractionPlugin({
+            injectPolyfill: true,
+            requestToExternal(request) {
+                if (request === 'citeproc') {
+                    return 'CSL';
+                }
+                return;
+            },
+        }),
         new MiniCssExtractPlugin(),
         new CopyWebpackPlugin([
             {
@@ -107,25 +117,6 @@ export default async (_: any, argv: any): Promise<Configuration> => {
             ignored: /(node_modules|__tests__)/,
         },
         context: path.resolve(__dirname, 'src'),
-        externals: {
-            '@wordpress/api-fetch': 'wp.apiFetch',
-            '@wordpress/block-editor': 'wp.blockEditor',
-            '@wordpress/blocks': 'wp.blocks',
-            '@wordpress/components': 'wp.components',
-            '@wordpress/compose': 'wp.compose',
-            '@wordpress/data': 'wp.data',
-            '@wordpress/dom-ready': 'wp.domReady',
-            '@wordpress/edit-post': 'wp.editPost',
-            '@wordpress/editor': 'wp.editor',
-            '@wordpress/element': 'wp.element',
-            '@wordpress/i18n': 'wp.i18n',
-            '@wordpress/keycodes': 'wp.keycodes',
-            '@wordpress/plugins': 'wp.plugins',
-            '@wordpress/rich-text': 'wp.richText',
-            '@wordpress/url': 'wp.url',
-            citeproc: 'CSL',
-            lodash: 'lodash',
-        },
         entry: {
             'bundle/editor': 'js/gutenberg',
             'bundle/editor-blocks': 'js/gutenberg/blocks',
