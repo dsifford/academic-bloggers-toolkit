@@ -47,7 +47,9 @@ export default function BibliographyEdit(props: Props) {
                     <AlignmentToolbar
                         value={headingAlign}
                         onChange={align =>
-                            setAttributes({ headingAlign: align })
+                            setAttributes({
+                                headingAlign: align as typeof headingAlign,
+                            })
                         }
                     />
                     <ToggleControl

@@ -153,7 +153,7 @@ export default compose(
         return {
             citedItems: getCitedItems(),
             footnotes: getFootnotes(),
-            isTyping: select('core/block-editor').isTyping<boolean>(),
+            isTyping: select('core/block-editor').isTyping(),
             selectedItems: getSelectedItems(),
             uncitedItems: getSortedItems(
                 getSidebarSortMode(),

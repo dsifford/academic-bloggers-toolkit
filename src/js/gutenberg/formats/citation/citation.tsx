@@ -1,4 +1,4 @@
-import { BlockInstance, parse, serialize } from '@wordpress/blocks';
+import { parse, serialize } from '@wordpress/blocks';
 import { compose } from '@wordpress/compose';
 import { withDispatch, withSelect } from '@wordpress/data';
 import { useEffect } from '@wordpress/element';
@@ -99,9 +99,9 @@ const legacyCitationSelector = createSelector(
 export default compose(
     withDispatch<DispatchProps, OwnProps>((dispatch, _, { select }) => ({
         mergeLegacyCitations() {
-            const selectedBlock = select('core/block-editor').getSelectedBlock<
-                BlockInstance
-            >();
+            const selectedBlock = select(
+                'core/block-editor',
+            ).getSelectedBlock();
             if (!selectedBlock) {
                 return;
             }

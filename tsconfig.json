@@ -42,6 +42,6 @@
     "webpack.config.ts"
   ],
   "exclude": [
-    "dist"
+    "dist/**/*"
   ]
 }

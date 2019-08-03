@@ -1,4 +1,4 @@
-import { BlockInstance, serialize } from '@wordpress/blocks';
+import { serialize } from '@wordpress/blocks';
 import { select } from '@wordpress/data';
 
 import Processor from 'utils/processor';
@@ -9,14 +9,14 @@ export function getEditorDOM(excludeInvalid: boolean = false): HTMLDivElement {
     const doc = document.createElement('div');
     if (excludeInvalid) {
         const filteredBlocks = select('core/editor')
-            .getBlocksForSerialization<BlockInstance[]>()
+            .getBlocksForSerialization()
             .filter(
                 block =>
                     !INVALID_BLOCK_TYPES.includes(block.name) && block.isValid,
             );
         doc.innerHTML = serialize(filteredBlocks);
     } else {
-        doc.innerHTML = select('core/editor').getEditedPostContent<string>();
+        doc.innerHTML = select('core/editor').getEditedPostContent();
     }
     return doc;
 }
