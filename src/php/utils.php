@@ -47,18 +47,6 @@ function get_citation_styles() {
 }
 
 /**
- * Parses and returns ./dependencies.json
- */
-function get_dependencies() {
-	return json_decode(
-		file_get_contents( // phpcs:ignore
-			ABT_ROOT_PATH . '/dependencies.json'
-		),
-		true
-	);
-}
-
-/**
  * Utility function that registers a script and/or its associated style if it exists.
  *
  * @param string $relpath     Path of script/style relative to the bundle directory.

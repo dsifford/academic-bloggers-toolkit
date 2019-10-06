@@ -32,10 +32,7 @@ define( 'ABT_ROOT_PATH', __DIR__ );
 define( 'ABT_ROOT_URI', plugins_url( '', __FILE__ ) );
 define( 'ABT_VERSION', '{{VERSION}}' );
 
-use function ABT\Utils\{
-	get_dependencies,
-	register_script
-};
+use function ABT\Utils\register_script;
 
 /**
  * Load plugin translations.
@@ -108,8 +105,6 @@ add_filter( 'plugin_row_meta', __NAMESPACE__ . '\add_donate_link', 10, 2 );
  * Registers all scripts/styles used by this plugin.
  */
 function register_scripts() {
-	$deps = get_dependencies();
-
 	//
 	// Editor.
 	//
