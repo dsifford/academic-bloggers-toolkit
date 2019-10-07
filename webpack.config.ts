@@ -238,7 +238,9 @@ export default async (_: any, argv: any): Promise<Configuration> => {
                                 {
                                     loader: 'sass-loader',
                                     options: {
-                                        includePaths: ['src/css'],
+                                        sassOptions: {
+                                            includePaths: ['src/css'],
+                                        },
                                     },
                                 },
                             ],
