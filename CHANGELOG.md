@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## UNRELEASED
+
+### Patches 
+
+- Fix critical breaking API change in gutenberg API.
+
 ## 5.1.0
 
 ### Minor Changes

@@ -119,11 +119,11 @@ export default function StyleSearch(props: Props) {
                 renderSuggestion={({ label }) => label}
                 suggestions={suggestions}
                 theme={styles}
+                onSuggestionsClearRequested={() => setSuggestions([])}
                 onSuggestionSelected={(_e, { suggestion }) => {
                     setValidity(true);
                     props.onChange(suggestion);
                 }}
-                onSuggestionsClearRequested={() => setSuggestions([])}
                 onSuggestionsFetchRequested={({ reason, value }) => {
                     if (reason === 'input-changed') {
                         setIsLoading(true);

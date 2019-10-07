@@ -7,13 +7,11 @@ import { StyleKind } from 'stores/data/constants';
 
 export async function readFile(file: File): Promise<string> {
     const reader = new FileReader();
-    await new Promise(
-        (resolve, reject): void => {
-            reader.addEventListener('load', resolve);
-            reader.addEventListener('error', reject);
-            reader.readAsText(file);
-        },
-    );
+    await new Promise((resolve, reject): void => {
+        reader.addEventListener('load', resolve);
+        reader.addEventListener('error', reject);
+        reader.readAsText(file);
+    });
     if (typeof reader.result !== 'string') {
         throw new Error('Error reading file.');
     }
@@ -26,15 +24,11 @@ export async function readReferencesFile(file: File): Promise<CSL.Data[]> {
         .toLowerCase();
     const content = await readFile(file);
     switch (extension) {
-        case '.ris': {
-            const data: CSL.Data[] = parseRis(content);
-            return data;
-        }
+        case '.ris':
+            return parseRis(content);
         case '.bib':
-        case '.bibtex': {
-            const data: CSL.Data[] = parseBibtex(content);
-            return data;
-        }
+        case '.bibtex':
+            return parseBibtex(content);
         default:
             throw new Error(`Invalid file extension: ${extension}`);
     }
