@@ -49,32 +49,21 @@ function Dialog({ createErrorNotice, onClose, onSubmit }: Props) {
                 <div className={styles.toolbar}>
                     <ToggleControl
                         checked={isAddingManually}
-                        label={__('Manual entry', 'academic-bloggers-toolkit')}
+                        label={__('Add manually', 'academic-bloggers-toolkit')}
                         onChange={isChecked =>
                             !isBusy && setIsAddingManually(isChecked)
                         }
                     />
-                    <div className={styles.right}>
-                        <Button
-                            isLarge
-                            disabled={isBusy}
-                            form={FORM_ID}
-                            isBusy={isBusy}
-                            type="submit"
-                        >
-                            {__('Add', 'academic-bloggers-toolkit')}
-                        </Button>
-                        <Button
-                            isLarge
-                            isPrimary
-                            disabled={isBusy}
-                            form={FORM_ID}
-                            isBusy={isBusy}
-                            type="submit"
-                        >
-                            {__('Insert', 'academic-bloggers-toolkit')}
-                        </Button>
-                    </div>
+                    <Button
+                        isLarge
+                        isPrimary
+                        disabled={isBusy}
+                        form={FORM_ID}
+                        isBusy={isBusy}
+                        type="submit"
+                    >
+                        {__('Add Reference', 'academic-bloggers-toolkit')}
+                    </Button>
                 </div>
             </DialogToolbar>
         </>

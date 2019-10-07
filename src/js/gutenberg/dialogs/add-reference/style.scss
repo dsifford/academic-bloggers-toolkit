@@ -1,7 +1,8 @@
 .toolbar {
-    display: flex;
+    display: grid;
+    grid-template-columns: auto auto;
+    gap: 16px;
     align-items: center;
-    justify-content: space-between;
 
     > button {
         justify-self: flex-end;
@@ -14,10 +15,4 @@
             margin: 0;
         }
     }
-}
-
-.right {
-    display: grid;
-    grid-template-columns: auto auto;
-    gap: 10px;
 }
