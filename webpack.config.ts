@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 import { promises as fs } from 'fs';
 import path from 'path';
 import { promisify } from 'util';
@@ -18,7 +19,7 @@ import { version as VERSION } from './package.json';
 
 const rimraf = promisify(rimrafLib);
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+// eslint-disable-next-line
 export default async (_: any, argv: any): Promise<Configuration> => {
     const IS_PRODUCTION = argv.mode === 'production';
     const CHANGELOG = await getMostRecentChangelogEntry();
@@ -252,7 +253,7 @@ export default async (_: any, argv: any): Promise<Configuration> => {
     };
 };
 
-async function getMostRecentChangelogEntry(): Promise<string> {
+function getMostRecentChangelogEntry(): Promise<string> {
     return fs
         .readFile(path.join(__dirname, 'CHANGELOG.md'), { encoding: 'utf-8' })
         .then(contents => {

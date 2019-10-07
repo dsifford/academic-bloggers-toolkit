@@ -5,7 +5,7 @@ import { ResponseError } from 'utils/error';
 
 export async function get(
     ISBN: string,
-    isChapter: boolean = false,
+    isChapter = false,
 ): Promise<CSL.Data | ResponseError> {
     const response = await fetch(
         addQueryArgs('https://www.googleapis.com/books/v1/volumes', {

@@ -21,7 +21,7 @@ abstract class AbstractCache<T> {
         ? top.localStorage
         : this.createFallbackStorage();
 
-    constructor(key: string, daysTilExpiration: number = 30) {
+    constructor(key: string, daysTilExpiration = 30) {
         const ONE_DAY = 86400000;
         this.ITEM_KEY = key;
         this.EXPIRES = Date.now() + ONE_DAY * daysTilExpiration;

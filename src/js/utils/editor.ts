@@ -5,7 +5,7 @@ import Processor from 'utils/processor';
 
 const INVALID_BLOCK_TYPES = ['core/freeform', 'core/html'];
 
-export function getEditorDOM(excludeInvalid: boolean = false): HTMLDivElement {
+export function getEditorDOM(excludeInvalid = false): HTMLDivElement {
     const doc = document.createElement('div');
     if (excludeInvalid) {
         const filteredBlocks = select('core/editor')

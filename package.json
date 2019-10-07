@@ -86,7 +86,7 @@
   "devDependencies": {
     "@babel/core": "^7.6.2",
     "@babel/plugin-transform-react-jsx": "^7.3.0",
-    "@dsifford/eslint-config": "^0.5.4",
+    "@dsifford/eslint-config": "^0.6.0",
     "@dsifford/prettier-config": "^0.4.14",
     "@dsifford/stylelint-config": "^0.4.15",
     "@types/browser-sync-webpack-plugin": "^2.2.0",
