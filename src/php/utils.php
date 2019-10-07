@@ -51,30 +51,28 @@ function get_citation_styles() {
  *
  * @param string $relpath     Path of script/style relative to the bundle directory.
  * @param array  $extra_deps  Optional. Array of extra handles to add as dependencies. Default [].
- *
- * @throws \InvalidArgumentException If the relative path refers to a non-existent file.
  */
 function register_script( string $relpath, array $extra_deps = [] ) {
 	$handle        = 'abt-' . $relpath;
 	$script_suffix = "/bundle/$relpath.js";
 	$style_suffix  = "/bundle/$relpath.css";
-	$deps_path     = ABT_ROOT_PATH . "/bundle/$relpath.deps.json";
-	$script_deps   = array_merge(
-		file_exists( $deps_path )
-			? json_decode( file_get_contents( $deps_path ) )  // phpcs:ignore
-			: [],
-		$extra_deps,
-	);
+
+	$script_asset_path            = ABT_ROOT_PATH . "/bundle/$relpath.asset.php";
+	$script_asset                 = file_exists( $script_asset_path ) ? require $script_asset_path : [
+		'dependencies' => [],
+		'version'      => filemtime( ABT_ROOT_PATH . $script_suffix ),
+	];
+	$script_asset['dependencies'] = array_merge( $script_asset['dependencies'], $extra_deps );
 
 	if ( file_exists( ABT_ROOT_PATH . $script_suffix ) ) {
 		wp_register_script(
 			$handle,
 			ABT_ROOT_URI . $script_suffix,
-			$script_deps,
-			filemtime( ABT_ROOT_PATH . $script_suffix ),
+			$script_asset['dependencies'],
+			$script_asset['version'],
 			true
 		);
-		if ( in_array( 'wp-i18n', $script_deps, true ) ) {
+		if ( in_array( 'wp-i18n', $script_asset['dependencies'], true ) ) {
 			wp_set_script_translations(
 				$handle,
 				'academic-bloggers-toolkit',
@@ -84,16 +82,17 @@ function register_script( string $relpath, array $extra_deps = [] ) {
 	}
 	if ( file_exists( ABT_ROOT_PATH . $style_suffix ) ) {
 		$registered_styles = wp_styles()->registered;
-		$style_deps        = array_filter(
-			$script_deps,
-			function( $id ) use ( $registered_styles ) {
-					return array_key_exists( $id, $registered_styles );
-			}
-		);
 		wp_register_style(
 			$handle,
 			ABT_ROOT_URI . $style_suffix,
-			$style_deps,
+			array_values(
+				array_filter(
+					$script_asset['dependencies'],
+					function( $id ) use ( $registered_styles ) {
+							return array_key_exists( $id, $registered_styles );
+					}
+				)
+			),
 			filemtime( ABT_ROOT_PATH . $style_suffix )
 		);
 	}

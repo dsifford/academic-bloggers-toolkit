@@ -9,7 +9,7 @@ export function getEditorDOM(excludeInvalid: boolean = false): HTMLDivElement {
     const doc = document.createElement('div');
     if (excludeInvalid) {
         const filteredBlocks = select('core/editor')
-            .getBlocksForSerialization()
+            .getEditorBlocks()
             .filter(
                 block =>
                     !INVALID_BLOCK_TYPES.includes(block.name) && block.isValid,
