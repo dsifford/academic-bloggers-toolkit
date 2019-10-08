@@ -892,8 +892,18 @@
     },
     {
       "kind": "predefined",
+      "value": "acta-botanica-croatica",
+      "label": "Acta Botanica Croatica"
+    },
+    {
+      "kind": "predefined",
       "value": "taylor-and-francis-chicago-author-date",
       "label": "Acta Botanica Gallica"
+    },
+    {
+      "kind": "predefined",
+      "value": "acta-chiropterologica",
+      "label": "Acta Chiropterologica"
     },
     {
       "kind": "predefined",
@@ -988,6 +998,11 @@
       "kind": "predefined",
       "value": "elsevier-harvard",
       "label": "Acta Histochemica"
+    },
+    {
+      "kind": "predefined",
+      "value": "acta-ichthyologica-et-piscatoria",
+      "label": "Acta Ichthyologica et Piscatoria"
     },
     {
       "kind": "predefined",
@@ -1126,6 +1141,11 @@
     },
     {
       "kind": "predefined",
+      "value": "acta-physiologica",
+      "label": "Acta Physiologica"
+    },
+    {
+      "kind": "predefined",
       "value": "acta-polytechnica",
       "label": "Acta Polytechnica"
     },
@@ -1180,6 +1200,11 @@
       "kind": "predefined",
       "value": "springer-vancouver-brackets",
       "label": "Acta Veterinaria Scandinavica"
+    },
+    {
+      "kind": "predefined",
+      "value": "acta-zoologica-academiae-scientiarum-hungaricae",
+      "label": "Acta Zoologica Academiae Scientiarum Hungaricae"
     },
     {
       "kind": "predefined",
@@ -1636,6 +1661,12 @@
     },
     {
       "kind": "predefined",
+      "value": "african-journal-of-marine-science",
+      "label": "African Journal of Marine Science",
+      "shortTitle": "AJMS"
+    },
+    {
+      "kind": "predefined",
       "value": "elsevier-vancouver",
       "label": "African Journal of Urology"
     },
@@ -1697,6 +1728,11 @@
       "kind": "predefined",
       "value": "apa",
       "label": "Aging & Mental Health"
+    },
+    {
+      "kind": "predefined",
+      "value": "aging-and-disease",
+      "label": "Aging and Disease"
     },
     {
       "kind": "predefined",
@@ -4370,6 +4406,11 @@
     },
     {
       "kind": "predefined",
+      "value": "arctic",
+      "label": "Arctic"
+    },
+    {
+      "kind": "predefined",
       "value": "canadian-journal-of-soil-science",
       "label": "Arctic Science"
     },
@@ -4696,6 +4737,11 @@
     },
     {
       "kind": "predefined",
+      "value": "apa",
+      "label": "Asian Journal of Social Psychology"
+    },
+    {
+      "kind": "predefined",
       "value": "american-medical-association",
       "label": "Asian Journal of Surgery"
     },
@@ -5006,6 +5052,11 @@
     },
     {
       "kind": "predefined",
+      "value": "australian-archaeology",
+      "label": "Australian Archaeology"
+    },
+    {
+      "kind": "predefined",
       "value": "australian-critical-care",
       "label": "Australian Critical Care",
       "shortTitle": "AUCC"
@@ -5096,6 +5147,12 @@
       "value": "australian-veterinary-journal",
       "label": "Australian Veterinary Journal",
       "shortTitle": "AVJ"
+    },
+    {
+      "kind": "predefined",
+      "value": "austrian-journal-of-development-studies",
+      "label": "Austrian Journal of Development Studies (Journal für Entwicklungspolitik)",
+      "shortTitle": "JEP"
     },
     {
       "kind": "predefined",
@@ -6949,6 +7006,12 @@
     },
     {
       "kind": "predefined",
+      "value": "american-medical-association",
+      "label": "British Journal of Clinical Pharmacology",
+      "shortTitle": "BJCP"
+    },
+    {
+      "kind": "predefined",
       "value": "apa",
       "label": "British Journal of Clinical Psychology"
     },
@@ -7087,6 +7150,12 @@
     },
     {
       "kind": "predefined",
+      "value": "buletin-agrohorti",
+      "label": "Buletin Agrohorti",
+      "shortTitle": "Bulagron"
+    },
+    {
+      "kind": "predefined",
       "value": "bulletin-de-la-societe-entomologique-de-france",
       "label": "Bulletin de la Société Entomologique de France",
       "shortTitle": "bsef"
@@ -7129,6 +7198,11 @@
       "kind": "predefined",
       "value": "elsevier-with-titles",
       "label": "Bulletin of Faculty of Pharmacy, Cairo University"
+    },
+    {
+      "kind": "predefined",
+      "value": "bulletin-of-geosciences",
+      "label": "Bulletin of Geosciences"
     },
     {
       "kind": "predefined",
@@ -7214,13 +7288,14 @@
     },
     {
       "kind": "predefined",
-      "value": "bursa-uludag-universitesi-egitim-bilimleri-enstitusu",
-      "label": "Bursa Uludağ Üniversitesi - Eğitim Bilimleri Enstitüsü"
+      "value": "bursa-uludag-universitesi-fen-bilimleri-enstitusu",
+      "label": "Bursa Uludag Üniversitesi Fen Bilimleri Enstitüsü",
+      "shortTitle": "bursauludaguniversitesifenbilimlerienstitusu"
     },
     {
       "kind": "predefined",
-      "value": "bursa-uludag-universitesi-fen-bilimleri-enstitusu",
-      "label": "Bursa Uludağ Üniversitesi - Fen Bilimleri Enstitüsü"
+      "value": "bursa-uludag-universitesi-egitim-bilimleri-enstitusu",
+      "label": "Bursa Uludağ Üniversitesi - Eğitim Bilimleri Enstitüsü"
     },
     {
       "kind": "predefined",
@@ -8516,11 +8591,6 @@
     },
     {
       "kind": "predefined",
-      "value": "chicago-author-date-fr",
-      "label": "Chicago Manual of Style 16th edition (author-date, French)"
-    },
-    {
-      "kind": "predefined",
       "value": "chicago-author-date-de",
       "label": "Chicago Manual of Style 16th edition (author-date, German)"
     },
@@ -8534,6 +8604,11 @@
       "kind": "predefined",
       "value": "chicago-author-date",
       "label": "Chicago Manual of Style 17th edition (author-date)"
+    },
+    {
+      "kind": "predefined",
+      "value": "chicago-author-date-fr",
+      "label": "Chicago Manual of Style 17th edition (author-date), French"
     },
     {
       "kind": "predefined",
@@ -9219,6 +9294,12 @@
       "value": "clinical-journal-of-sport-medicine",
       "label": "Clinical Journal of Sport Medicine",
       "shortTitle": "CJSM"
+    },
+    {
+      "kind": "predefined",
+      "value": "clinical-journal-of-the-american-society-of-nephrology",
+      "label": "Clinical Journal of the American Society of Nephrology",
+      "shortTitle": "CJASN"
     },
     {
       "kind": "predefined",
@@ -12727,6 +12808,11 @@
     },
     {
       "kind": "predefined",
+      "value": "e3s-web-of-conferences",
+      "label": "E3S Web of Conferences"
+    },
+    {
+      "kind": "predefined",
       "value": "ear-and-hearing",
       "label": "Ear and Hearing"
     },
@@ -14356,6 +14442,11 @@
     },
     {
       "kind": "predefined",
+      "value": "ergo",
+      "label": "Ergo"
+    },
+    {
+      "kind": "predefined",
       "value": "taylor-and-francis-chicago-author-date",
       "label": "Ergonomics"
     },
@@ -15153,6 +15244,12 @@
       "kind": "predefined",
       "value": "apa",
       "label": "European Journal of Sustainable Development"
+    },
+    {
+      "kind": "predefined",
+      "value": "european-journal-of-taxonomy",
+      "label": "European Journal of Taxonomy",
+      "shortTitle": "EJT"
     },
     {
       "kind": "predefined",
@@ -16014,6 +16111,11 @@
       "value": "springer-basic-brackets",
       "label": "Fire Technology",
       "shortTitle": "Fire Technol"
+    },
+    {
+      "kind": "predefined",
+      "value": "first-break",
+      "label": "First Break"
     },
     {
       "kind": "predefined",
@@ -18483,6 +18585,11 @@
     },
     {
       "kind": "predefined",
+      "value": "helvetica-chimica-acta",
+      "label": "Helvetica Chimica Acta"
+    },
+    {
+      "kind": "predefined",
       "value": "elsevier-vancouver",
       "label": "Hematology/Oncology and Stem Cell Therapy"
     },
@@ -18713,6 +18820,11 @@
     },
     {
       "kind": "predefined",
+      "value": "hochschule-hannover-soziale-arbeit",
+      "label": "Hochschule Hannover - Soziale Arbeit (German)"
+    },
+    {
+      "kind": "predefined",
       "value": "hochschule-munchen-fakultat-fur-angewandte-sozialwissenschaften",
       "label": "Hochschule München - Fakultät für Angewandte Sozialwissenschaften (German)",
       "shortTitle": "MUAS"
@@ -18821,6 +18933,11 @@
     },
     {
       "kind": "predefined",
+      "value": "hpb",
+      "label": "HPB"
+    },
+    {
+      "kind": "predefined",
       "value": "vancouver-superscript",
       "label": "Huisarts en Wetenschap"
     },
@@ -18884,8 +19001,9 @@
     },
     {
       "kind": "predefined",
-      "value": "nucleic-acids-research",
-      "label": "Human Molecular Genetics"
+      "value": "database",
+      "label": "Human Molecular Genetics",
+      "shortTitle": "HMG"
     },
     {
       "kind": "predefined",
@@ -20171,7 +20289,7 @@
     },
     {
       "kind": "predefined",
-      "value": "immunological-reviews",
+      "value": "american-medical-association",
       "label": "Immunological Reviews"
     },
     {
@@ -20468,6 +20586,11 @@
       "kind": "predefined",
       "value": "apa",
       "label": "Industrial Marketing Management"
+    },
+    {
+      "kind": "predefined",
+      "value": "industrial-relations",
+      "label": "Industrial Relations"
     },
     {
       "kind": "predefined",
@@ -21762,6 +21885,11 @@
     },
     {
       "kind": "predefined",
+      "value": "international-journal-of-electrochemical-science",
+      "label": "International Journal of Electrochemical Science"
+    },
+    {
+      "kind": "predefined",
       "value": "international-journal-of-electronic-commerce",
       "label": "International Journal of Electronic Commerce"
     },
@@ -22457,6 +22585,12 @@
     },
     {
       "kind": "predefined",
+      "value": "international-journal-of-polymer-analysis-and-characterization",
+      "label": "International Journal of Polymer Analysis and Characterization",
+      "shortTitle": "IJPAC"
+    },
+    {
+      "kind": "predefined",
       "value": "international-journal-of-polymeric-materials-and-polymeric-biomaterials",
       "label": "International Journal of Polymeric Materials and Polymeric Biomaterials"
     },
@@ -22556,6 +22690,12 @@
       "kind": "predefined",
       "value": "taylor-and-francis-chicago-author-date",
       "label": "International Journal of Research & Method in Education"
+    },
+    {
+      "kind": "predefined",
+      "value": "international-journal-of-research-in-exercise-physiology",
+      "label": "International Journal of Research in Exercise Physiology",
+      "shortTitle": "IJREP"
     },
     {
       "kind": "predefined",
@@ -23330,6 +23470,16 @@
     },
     {
       "kind": "predefined",
+      "value": "italus-hortus",
+      "label": "Italus Hortus"
+    },
+    {
+      "kind": "predefined",
+      "value": "iubmb-life",
+      "label": "IUBMB Life"
+    },
+    {
+      "kind": "predefined",
       "value": "international-union-of-crystallography",
       "label": "IUCrJ"
     },
@@ -23516,7 +23666,7 @@
     },
     {
       "kind": "predefined",
-      "value": "elsevier-vancouver",
+      "value": "cell-numeric-superscript",
       "label": "Joule"
     },
     {
@@ -23919,6 +24069,12 @@
       "kind": "predefined",
       "value": "apa",
       "label": "Journal of Anxiety Disorders"
+    },
+    {
+      "kind": "predefined",
+      "value": "journal-of-aoac-international",
+      "label": "Journal of AOAC International",
+      "shortTitle": "AOAC"
     },
     {
       "kind": "predefined",
@@ -24396,6 +24552,12 @@
     },
     {
       "kind": "predefined",
+      "value": "journal-of-biosciences",
+      "label": "Journal of Biosciences",
+      "shortTitle": "JBSC"
+    },
+    {
+      "kind": "predefined",
       "value": "elsevier-harvard",
       "label": "Journal of Biotechnology"
     },
@@ -24471,7 +24633,7 @@
     },
     {
       "kind": "predefined",
-      "value": "springer-socpsych-author-date",
+      "value": "apa",
       "label": "Journal of Business and Psychology",
       "shortTitle": "J Bus Psychol"
     },
@@ -28608,6 +28770,12 @@
     },
     {
       "kind": "predefined",
+      "value": "journal-of-pediatric-gastroenterology-and-nutrition",
+      "label": "Journal of Pediatric Gastroenterology and Nutrition",
+      "shortTitle": "JPGN"
+    },
+    {
+      "kind": "predefined",
       "value": "apa",
       "label": "Journal of Pediatric Health Care"
     },
@@ -29879,6 +30047,12 @@
     },
     {
       "kind": "predefined",
+      "value": "journal-of-the-american-animal-hospital-association",
+      "label": "Journal of the American Animal Hospital Association",
+      "shortTitle": "JAAHA"
+    },
+    {
+      "kind": "predefined",
       "value": "journal-of-the-american-association-of-laboratory-animal-science",
       "label": "Journal of the American Association of Laboratory Animal Science",
       "shortTitle": "JAALAS"
@@ -30106,6 +30280,12 @@
     },
     {
       "kind": "predefined",
+      "value": "journal-of-the-european-academy-of-dermatology-and-venereology",
+      "label": "Journal of the European Academy of Dermatology and Venereology",
+      "shortTitle": "JEADV"
+    },
+    {
+      "kind": "predefined",
       "value": "elsevier-with-titles",
       "label": "Journal of the European Ceramic Society"
     },
@@ -30298,6 +30478,12 @@
     },
     {
       "kind": "predefined",
+      "value": "journal-of-the-royal-statistical-society",
+      "label": "Journal of the Royal Statistical Society",
+      "shortTitle": "JRSS"
+    },
+    {
+      "kind": "predefined",
       "value": "elsevier-vancouver",
       "label": "Journal of the Saudi Heart Association"
     },
@@ -30405,6 +30591,12 @@
       "kind": "predefined",
       "value": "apa",
       "label": "Journal of Threat Assessment and Management"
+    },
+    {
+      "kind": "predefined",
+      "value": "journal-of-threatened-taxa",
+      "label": "Journal of Threatened Taxa",
+      "shortTitle": "JoTT"
     },
     {
       "kind": "predefined",
@@ -30977,9 +31169,21 @@
     },
     {
       "kind": "predefined",
+      "value": "knee-surgery-and-related-research",
+      "label": "Knee Surgery & Related Research",
+      "shortTitle": "KSRR"
+    },
+    {
+      "kind": "predefined",
       "value": "knee-surgery-sports-traumatology-arthroscopy",
       "label": "Knee Surgery, Sports Traumatology, Arthroscopy",
       "shortTitle": "KSSTA"
+    },
+    {
+      "kind": "predefined",
+      "value": "knowledge-and-management-of-aquatic-ecosystems",
+      "label": "Knowledge & Management of Aquatic Ecosystems",
+      "shortTitle": "KMAE"
     },
     {
       "kind": "predefined",
@@ -31545,6 +31749,12 @@
     },
     {
       "kind": "predefined",
+      "value": "lien-social-et-politiques",
+      "label": "Lien social et Politiques (French)",
+      "shortTitle": "LSP"
+    },
+    {
+      "kind": "predefined",
       "value": "multidisciplinary-digital-publishing-institute",
       "label": "Life"
     },
@@ -32075,6 +32285,12 @@
       "value": "springer-basic-author-date",
       "label": "Marine Geophysical Research",
       "shortTitle": "Mar Geophys Res"
+    },
+    {
+      "kind": "predefined",
+      "value": "marine-mammal-science",
+      "label": "Marine Mammal Science",
+      "shortTitle": "MMS"
     },
     {
       "kind": "predefined",
@@ -33692,8 +33908,9 @@
     },
     {
       "kind": "predefined",
-      "value": "nature-publishing-group-vancouver",
-      "label": "Molecular Psychiatry"
+      "value": "molecular-psychiatry",
+      "label": "Molecular Psychiatry",
+      "shortTitle": "MP"
     },
     {
       "kind": "predefined",
@@ -34164,9 +34381,21 @@
     },
     {
       "kind": "predefined",
+      "value": "national-institute-of-organisation-dynamics-australia-harvard",
+      "label": "National Institute of Organisation Dynamics Australia - Harvard",
+      "shortTitle": "NIODA - Harvard"
+    },
+    {
+      "kind": "predefined",
       "value": "national-institute-of-technology-karnataka",
       "label": "National Institute of Technology Karnataka",
       "shortTitle": "NITK"
+    },
+    {
+      "kind": "predefined",
+      "value": "national-institute-of-technology-tiruchirappalli",
+      "label": "National Institute of Technology, Tiruchirappalli",
+      "shortTitle": "NIT Trichy, NITT"
     },
     {
       "kind": "predefined",
@@ -34213,6 +34442,11 @@
       "kind": "predefined",
       "value": "taylor-and-francis-chicago-author-date",
       "label": "Nationalities Papers"
+    },
+    {
+      "kind": "predefined",
+      "value": "nations-and-nationalism",
+      "label": "Nations and Nationalism"
     },
     {
       "kind": "predefined",
@@ -35748,6 +35982,11 @@
     },
     {
       "kind": "predefined",
+      "value": "cell-numeric-superscript",
+      "label": "One Earth"
+    },
+    {
+      "kind": "predefined",
       "value": "elsevier-with-titles",
       "label": "One Health"
     },
@@ -36125,6 +36364,12 @@
       "value": "american-chemical-society",
       "label": "Organometallics",
       "shortTitle": "Organometallics"
+    },
+    {
+      "kind": "predefined",
+      "value": "organon",
+      "label": "Organon",
+      "shortTitle": "Organon"
     },
     {
       "kind": "predefined",
@@ -36635,6 +36880,11 @@
     },
     {
       "kind": "predefined",
+      "value": "american-medical-association",
+      "label": "Pediatric Diabetes"
+    },
+    {
+      "kind": "predefined",
       "value": "springer-vancouver-brackets",
       "label": "Pediatric Drugs",
       "shortTitle": "Pediatr Drugs"
@@ -36674,6 +36924,11 @@
       "kind": "predefined",
       "value": "pediatric-practice-and-research",
       "label": "Pediatric Practice and Research"
+    },
+    {
+      "kind": "predefined",
+      "value": "pediatric-pulmonology",
+      "label": "Pediatric Pulmonology"
     },
     {
       "kind": "predefined",
@@ -37167,6 +37422,11 @@
     },
     {
       "kind": "predefined",
+      "value": "photosynthetica",
+      "label": "Photosynthetica"
+    },
+    {
+      "kind": "predefined",
       "value": "phycological-research",
       "label": "Phycological Research",
       "shortTitle": "Phycol. Res."
@@ -37432,6 +37692,11 @@
     },
     {
       "kind": "predefined",
+      "value": "phytotaxa",
+      "label": "Phytotaxa"
+    },
+    {
+      "kind": "predefined",
       "value": "thieme-german",
       "label": "PiD - Psychotherapie im Dialog"
     },
@@ -37538,6 +37803,11 @@
       "kind": "predefined",
       "value": "elsevier-harvard",
       "label": "Plant Gene"
+    },
+    {
+      "kind": "predefined",
+      "value": "plant-genetic-resources-characterization-and-utilization",
+      "label": "Plant Genetic Resources - Characterization and Utilization"
     },
     {
       "kind": "predefined",
@@ -38477,6 +38747,12 @@
     },
     {
       "kind": "predefined",
+      "value": "prehistoires-mediterraneennes",
+      "label": "Préhistoires méditerranéennes",
+      "shortTitle": "PréhMéd"
+    },
+    {
+      "kind": "predefined",
       "value": "american-political-science-association",
       "label": "PS: Political Science & Politics"
     },
@@ -38565,7 +38841,8 @@
     {
       "kind": "predefined",
       "value": "psychological-medicine",
-      "label": "Psychological Medicine"
+      "label": "Psychological Medicine",
+      "shortTitle": "PSM"
     },
     {
       "kind": "predefined",
@@ -39571,6 +39848,12 @@
     },
     {
       "kind": "predefined",
+      "value": "research-institute-for-nature-and-forest",
+      "label": "Research Institute for Nature and Forest (Instituut voor Natuur- en Bosonderzoek)",
+      "shortTitle": "INBO"
+    },
+    {
+      "kind": "predefined",
       "value": "springer-vancouver-brackets",
       "label": "Research Integrity and Peer Review"
     },
@@ -39749,6 +40032,11 @@
     },
     {
       "kind": "predefined",
+      "value": "rever-revista-de-estudos-da-religiao",
+      "label": "REVER - Revista de Estudos da Religião"
+    },
+    {
+      "kind": "predefined",
       "value": "springer-socpsych-author-date",
       "label": "Review Journal of Autism and Developmental Disorders"
     },
@@ -39833,6 +40121,12 @@
       "value": "springer-humanities-author-date",
       "label": "Review of Philosophy and Psychology",
       "shortTitle": "Rev.Phil.Psych."
+    },
+    {
+      "kind": "predefined",
+      "value": "review-of-political-economy",
+      "label": "Review of Political Economy",
+      "shortTitle": "RPE"
     },
     {
       "kind": "predefined",
@@ -40268,6 +40562,12 @@
     },
     {
       "kind": "predefined",
+      "value": "revue-dhistoire-des-sciences-humaines",
+      "label": "Revue d'histoire des sciences humaines (French)",
+      "shortTitle": "RHSH"
+    },
+    {
+      "kind": "predefined",
       "value": "elsevier-vancouver",
       "label": "Revue d'Oncologie Hématologie Pédiatrique"
     },
@@ -40358,6 +40658,12 @@
       "kind": "predefined",
       "value": "elsevier-vancouver",
       "label": "Revue francophone internationale de recherche infirmière"
+    },
+    {
+      "kind": "predefined",
+      "value": "revue-francaise-d-administration-publique",
+      "label": "Revue française d'administration publique (French)",
+      "shortTitle": "RFAP"
     },
     {
       "kind": "predefined",
@@ -40521,6 +40827,11 @@
       "kind": "predefined",
       "value": "rose-school",
       "label": "ROSE School"
+    },
+    {
+      "kind": "predefined",
+      "value": "royal-college-of-nursing-harvard",
+      "label": "Royal College of Nursing - Harvard"
     },
     {
       "kind": "predefined",
@@ -40828,6 +41139,12 @@
     },
     {
       "kind": "predefined",
+      "value": "science-china-chemistry",
+      "label": "Science China Chemistry",
+      "shortTitle": "SCC"
+    },
+    {
+      "kind": "predefined",
       "value": "science-china-earth-sciences",
       "label": "SCIENCE CHINA Earth Sciences"
     },
@@ -40961,6 +41278,11 @@
       "value": "sedimentology",
       "label": "Sedimentology",
       "shortTitle": "Sedimentology"
+    },
+    {
+      "kind": "predefined",
+      "value": "seed-science-and-technology",
+      "label": "Seed Science and Technology"
     },
     {
       "kind": "predefined",
@@ -41887,6 +42209,11 @@
     },
     {
       "kind": "predefined",
+      "value": "southeastern-geographer",
+      "label": "Southeastern Geographer"
+    },
+    {
+      "kind": "predefined",
       "value": "style-manual-australian-government",
       "label": "Southern Cross University - Harvard"
     },
@@ -41921,6 +42248,12 @@
       "kind": "predefined",
       "value": "soziologie",
       "label": "Soziologie (German)"
+    },
+    {
+      "kind": "predefined",
+      "value": "soziologiemagazin",
+      "label": "Soziologiemagazin (German)",
+      "shortTitle": "SozMag"
     },
     {
       "kind": "predefined",
@@ -42158,6 +42491,11 @@
       "kind": "predefined",
       "value": "springer-humanities-brackets",
       "label": "Springer - Humanities (numeric, brackets)"
+    },
+    {
+      "kind": "predefined",
+      "value": "springer-imis-series-migrationsgesellschaften",
+      "label": "Springer - IMIS Series Migrationsgesellschaften"
     },
     {
       "kind": "predefined",
@@ -42967,8 +43305,19 @@
     },
     {
       "kind": "predefined",
+      "value": "tatup-zeitschrift-fur-technikfolgenabschatzung-in-theorie-und-praxis",
+      "label": "TATuP - Zeitschrift für Technikfolgenabschätzung in Theorie und Praxis",
+      "shortTitle": "TATuP"
+    },
+    {
+      "kind": "predefined",
       "value": "taxon",
       "label": "Taxon"
+    },
+    {
+      "kind": "predefined",
+      "value": "taylor-and-francis-acs",
+      "label": "Taylor & Francis - American Chemical Society"
     },
     {
       "kind": "predefined",
@@ -43488,6 +43837,11 @@
       "kind": "predefined",
       "value": "vancouver",
       "label": "The Canadian Veterinary Journal"
+    },
+    {
+      "kind": "predefined",
+      "value": "the-cancer-journal",
+      "label": "The Cancer Journal"
     },
     {
       "kind": "predefined",
@@ -44021,6 +44375,12 @@
       "value": "the-journal-of-nuclear-medicine",
       "label": "The Journal of Nuclear Medicine",
       "shortTitle": "JNM"
+    },
+    {
+      "kind": "predefined",
+      "value": "the-journal-of-nutrition-health-and-aging",
+      "label": "The Journal of Nutrition, Health & Aging",
+      "shortTitle": "JNHA"
     },
     {
       "kind": "predefined",
@@ -44694,6 +45054,12 @@
     },
     {
       "kind": "predefined",
+      "value": "theranostics",
+      "label": "Theranostics",
+      "shortTitle": "THNO"
+    },
+    {
+      "kind": "predefined",
       "value": "elsevier-vancouver",
       "label": "Therapeutic Advances in Neurological Disorders"
     },
@@ -45359,6 +45725,12 @@
     },
     {
       "kind": "predefined",
+      "value": "trends-in-glycoscience-and-glycotechnology",
+      "label": "Trends in Glycoscience and Glycotechnology",
+      "shortTitle": "TIGG"
+    },
+    {
+      "kind": "predefined",
       "value": "trends-journals",
       "label": "Trends in Immunology"
     },
@@ -45622,6 +45994,12 @@
     },
     {
       "kind": "predefined",
+      "value": "universidad-de-leon-harvard",
+      "label": "Universidad de León (España) - Harvard",
+      "shortTitle": "ULE (España) - Harvard"
+    },
+    {
+      "kind": "predefined",
       "value": "universidad-evangelica-del-paraguay",
       "label": "Universidad Evangélica del Paraguay (Spanish)"
     },
@@ -45776,6 +46154,12 @@
     },
     {
       "kind": "predefined",
+      "value": "university-of-aleppo-faculty-of-medicine",
+      "label": "University of Aleppo - Faculty of Medicine",
+      "shortTitle": "UAFM"
+    },
+    {
+      "kind": "predefined",
       "value": "harvard-university-of-bath",
       "label": "University of Bath - Harvard"
     },
@@ -45872,8 +46256,13 @@
     },
     {
       "kind": "predefined",
-      "value": "harvard-university-of-sunderland",
+      "value": "harvard-cite-them-right",
       "label": "University of Sunderland - Harvard"
+    },
+    {
+      "kind": "predefined",
+      "value": "style-manual-australian-government",
+      "label": "University of Tasmania - Harvard"
     },
     {
       "kind": "predefined",
@@ -47157,6 +47546,11 @@
     },
     {
       "kind": "predefined",
+      "value": "yozgat-bozok-universitesi-fen-bilimleri-enstitusu",
+      "label": "Yozgat Bozok Üniversitesi - Fen Bilimleri Enstitüsü (Turkish)"
+    },
+    {
+      "kind": "predefined",
       "value": "vancouver-superscript",
       "label": "Zagazig University Medical Journal"
     },
@@ -47174,7 +47568,7 @@
     {
       "kind": "predefined",
       "value": "zdfm-zeitschrift-fur-diversitatsforschung-und-management",
-      "label": "ZDfm – Zeitschrift für Diversitätsforschung und -management"
+      "label": "ZDfm – Zeitschrift für Diversitätsforschung und -management (German - Austria)"
     },
     {
       "kind": "predefined",

@@ -131,7 +131,7 @@ async function parseCSL(
     isIndependent: boolean,
 ): Promise<Style[]> {
     const xml = await readfile(filepath, { encoding: 'utf-8' });
-    const data: StyleQuery = transform(xml, {
+    const data: StyleQuery = await transform(xml, {
         kind: '/style/@class',
         hasBibliography: 'boolean(/style/bibliography)',
         parent: '/style/info/link[@rel="independent-parent"]/@href',
