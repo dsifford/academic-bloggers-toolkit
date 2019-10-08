@@ -74,7 +74,10 @@ export default compose(
     asDialog,
     withDispatch<DispatchProps, OwnProps>(dispatch => ({
         createErrorNotice(message) {
-            dispatch('core/notices').createErrorNotice(message);
+            // FIXME: fix when https://github.com/DefinitelyTyped/DefinitelyTyped/pull/38970 merges
+            dispatch('core/notices').createErrorNotice(message, {
+                type: 'snackbar',
+            } as any);
         },
     })),
 )(Dialog);

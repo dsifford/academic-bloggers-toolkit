@@ -1,6 +1,10 @@
 # CHANGELOG
 
-## 5.1.1
+## 5.2.0
+
+### Minor
+
+- Use "snackbar" alerts for error messages.
 
 ### Patches 
 
