@@ -64,3 +64,8 @@
         }
     }
 }
+
+summary .abt-bibliography__heading {
+    display: inline-flex;
+    width: calc(100% - 1em);
+}

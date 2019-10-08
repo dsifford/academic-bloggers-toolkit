@@ -81,7 +81,7 @@ function Bibliography(props: Props) {
         >
             {isToggleable && (
                 <details>
-                    <summary className={styles.summary}>
+                    <summary>
                         <BibliographyHeading {...props} />
                     </summary>
                     <ItemList {...attributes} />

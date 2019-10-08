@@ -5,6 +5,7 @@
 ### Patches 
 
 - Fix critical breaking API change in gutenberg API that caused the post editor to crash.
+- Fix broken css for togglable bibliography headings.
 
 ### Styles Added
 
