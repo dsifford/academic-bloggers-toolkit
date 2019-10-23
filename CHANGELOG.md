@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## Unreleased
+## 5.2.1
 
 ### Patches
 
