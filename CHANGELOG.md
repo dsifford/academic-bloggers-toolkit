@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## Unreleased
+
+### Patches
+
+- Fix rendering of sidebar content for static bibliography block.
+- Misc performance improvements.
+
 ## 5.2.0
 
 ### Minor
