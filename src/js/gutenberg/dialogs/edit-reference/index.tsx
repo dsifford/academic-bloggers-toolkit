@@ -1,6 +1,5 @@
 import { Button } from '@wordpress/components';
-import { compose } from '@wordpress/compose';
-import { withSelect } from '@wordpress/data';
+import { useSelect } from '@wordpress/data';
 import { __ } from '@wordpress/i18n';
 
 import asDialog, { DialogProps } from 'components/as-dialog';
@@ -11,18 +10,17 @@ import styles from './style.scss';
 
 const FORM_ID = 'edit-reference-form';
 
-interface SelectProps {
-    data?: CSL.Data;
-}
-
-interface OwnProps extends DialogProps {
+interface Props extends DialogProps {
     itemId?: string;
     onSubmit(data: CSL.Data): void;
 }
 
-type Props = OwnProps & SelectProps;
+function EditDialog({ onSubmit, itemId }: Props) {
+    const data = useSelect(
+        select => select('abt/data').getItemById(itemId || ''),
+        [itemId],
+    );
 
-function EditDialog({ data, onSubmit }: Props) {
     return (
         <>
             <ManualReferenceForm data={data} id={FORM_ID} onSubmit={onSubmit} />
@@ -37,11 +35,4 @@ function EditDialog({ data, onSubmit }: Props) {
     );
 }
 
-export default compose(
-    asDialog,
-    withSelect<SelectProps, OwnProps>((select, { itemId }) => {
-        return {
-            data: itemId ? select('abt/data').getItemById(itemId) : undefined,
-        };
-    }),
-)(EditDialog);
+export default asDialog(EditDialog);

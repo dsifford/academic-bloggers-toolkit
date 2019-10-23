@@ -8,25 +8,10 @@ import {
     MenuItemsChoice,
     NavigableMenu,
 } from '@wordpress/components';
-import { compose } from '@wordpress/compose';
-import { withDispatch, withSelect } from '@wordpress/data';
+import { useDispatch, useSelect } from '@wordpress/data';
 import { __ } from '@wordpress/i18n';
 
 import styles from './toolbar-menu.scss';
-
-interface DispatchProps {
-    refreshItems(): void;
-    removeAllCitations(): void;
-    setSortMode(mode: 'date' | 'publication' | 'title'): void;
-    setSortOrder(order: 'asc' | 'desc'): void;
-}
-
-interface SelectProps {
-    sortMode: 'date' | 'publication' | 'title';
-    sortOrder: 'asc' | 'desc';
-}
-
-type Props = DispatchProps & SelectProps;
 
 const Separator = () => <hr className={styles.separator} />;
 
@@ -40,14 +25,34 @@ export const ToolbarMenuItem = (props: MenuItem.Props) => (
     </ToolbarMenuItemFill>
 );
 
-function ToolbarMenu({
-    refreshItems,
-    removeAllCitations,
-    setSortMode,
-    setSortOrder,
-    sortMode,
-    sortOrder,
-}: Props) {
+export default function ToolbarMenu() {
+    const { parseCitations, parseFootnotes, removeAllCitations } = useDispatch(
+        'abt/data',
+    );
+    const { setSidebarSortMode, setSidebarSortOrder } = useDispatch('abt/ui');
+
+    const { sortMode, sortOrder } = useSelect(select => ({
+        sortMode: select('abt/ui').getSidebarSortMode(),
+        sortOrder: select('abt/ui').getSidebarSortOrder(),
+    }));
+
+    const refreshItems = () => {
+        parseCitations();
+        parseFootnotes();
+    };
+
+    const setSortMode = (mode: 'date' | 'publication' | 'title') => {
+        if (mode !== sortMode) {
+            setSidebarSortMode(mode);
+        }
+    };
+
+    const setSortOrder = (order: 'asc' | 'desc') => {
+        if (order !== sortOrder) {
+            setSidebarSortOrder(order);
+        }
+    };
+
     return (
         <Dropdown
             contentClassName={styles.dropdown}
@@ -162,33 +167,3 @@ function ToolbarMenu({
         />
     );
 }
-
-export default compose(
-    withDispatch<DispatchProps, {}, SelectProps>(
-        (dispatch, { sortMode, sortOrder }) => {
-            return {
-                refreshItems() {
-                    dispatch('abt/data').parseCitations();
-                    dispatch('abt/data').parseFootnotes();
-                },
-                removeAllCitations() {
-                    dispatch('abt/data').removeAllCitations();
-                },
-                setSortMode(mode) {
-                    if (mode !== sortMode) {
-                        dispatch('abt/ui').setSidebarSortMode(mode);
-                    }
-                },
-                setSortOrder(order) {
-                    if (order !== sortOrder) {
-                        dispatch('abt/ui').setSidebarSortOrder(order);
-                    }
-                },
-            };
-        },
-    ),
-    withSelect<SelectProps, Props>(select => ({
-        sortMode: select('abt/ui').getSidebarSortMode(),
-        sortOrder: select('abt/ui').getSidebarSortOrder(),
-    })),
-)(ToolbarMenu);

@@ -1,6 +1,5 @@
 import { Button, ToggleControl } from '@wordpress/components';
-import { compose } from '@wordpress/compose';
-import { withDispatch } from '@wordpress/data';
+import { useDispatch } from '@wordpress/data';
 import { useState } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
 
@@ -11,17 +10,12 @@ import ManualReferenceForm from 'gutenberg/components/reference-form-manual';
 
 import styles from './style.scss';
 
-interface DispatchProps {
-    createErrorNotice(message: string): void;
-}
-
-interface OwnProps extends DialogProps {
+interface Props extends DialogProps {
     onSubmit(data: CSL.Data): void;
 }
 
-type Props = DispatchProps & OwnProps;
-
-function Dialog({ createErrorNotice, onClose, onSubmit }: Props) {
+function Dialog({ onClose, onSubmit }: Props) {
+    const { createErrorNotice } = useDispatch('core/notices');
     const [isAddingManually, setIsAddingManually] = useState(false);
     const [isBusy, setIsBusy] = useState(false);
 
@@ -34,7 +28,9 @@ function Dialog({ createErrorNotice, onClose, onSubmit }: Props) {
                     id={FORM_ID}
                     setBusy={busy => setIsBusy(busy)}
                     onClose={onClose}
-                    onError={message => createErrorNotice(message)}
+                    onError={message =>
+                        createErrorNotice(message, { type: 'snackbar' })
+                    }
                     onSubmit={onSubmit}
                 />
             )}
@@ -70,13 +66,4 @@ function Dialog({ createErrorNotice, onClose, onSubmit }: Props) {
     );
 }
 
-export default compose(
-    asDialog,
-    withDispatch<DispatchProps, OwnProps>(dispatch => ({
-        createErrorNotice(message) {
-            dispatch('core/notices').createErrorNotice(message, {
-                type: 'snackbar',
-            });
-        },
-    })),
-)(Dialog);
+export default asDialog(Dialog);

@@ -1,5 +1,4 @@
-import { compose } from '@wordpress/compose';
-import { withDispatch, withSelect } from '@wordpress/data';
+import { useDispatch, useSelect } from '@wordpress/data';
 import { useEffect, useRef, useState } from '@wordpress/element';
 import { __, sprintf } from '@wordpress/i18n';
 
@@ -9,16 +8,53 @@ import { doi, pubmed } from 'utils/resolvers';
 
 import styles from './style.scss';
 
-interface DispatchProps {
-    setIdentifierKind(kind: IdentifierKind): void;
+const PATTERNS: { readonly [k in IdentifierKind]: string } = {
+    doi: '10\\.[^ ]+',
+    pmid: '[0-9]+',
+    pmcid: 'PMC[0-9]+',
+};
+
+async function fetchData(
+    kind: IdentifierKind,
+    value: string,
+): Promise<CSL.Data> {
+    let response: CSL.Data | ResponseError;
+    switch (kind) {
+        case IdentifierKind.DOI:
+            response = await doi.get(value);
+            break;
+        case IdentifierKind.PMCID:
+            response = await pubmed.get(value, 'pmc');
+            break;
+        case IdentifierKind.PMID:
+            response = await pubmed.get(value, 'pubmed');
+            break;
+        default:
+            throw new Error(
+                sprintf(
+                    __(
+                        'Invalid indentifier type: %s',
+                        'academic-bloggers-toolkit',
+                    ),
+                    value,
+                ),
+            );
+    }
+    if (response instanceof ResponseError) {
+        throw new Error(
+            sprintf(
+                __(
+                    'Unable to retrieve data for identifier: %s',
+                    'academic-bloggers-toolkit',
+                ),
+                response.resource,
+            ),
+        );
+    }
+    return response;
 }
 
-interface SelectProps {
-    kind: IdentifierKind;
-    pattern: string;
-}
-
-interface OwnProps {
+interface Props {
     id: string;
     onClose(): void;
     onError(message: string): void;
@@ -26,15 +62,10 @@ interface OwnProps {
     setBusy(busy: boolean): void;
 }
 
-type Props = DispatchProps & SelectProps & OwnProps;
+export default function IdentifierForm(props: Props) {
+    const { setIdentifierKind } = useDispatch('abt/ui');
+    const kind = useSelect(select => select('abt/ui').getIdentifierKind());
 
-const PATTERNS: { readonly [k in IdentifierKind]: string } = {
-    doi: '10\\.[^ ]+',
-    pmid: '[0-9]+',
-    pmcid: 'PMC[0-9]+',
-};
-
-function IdentifierForm(props: Props) {
     const [value, setValue] = useState('');
 
     const inputRef = useRef<HTMLInputElement>(null);
@@ -45,7 +76,7 @@ function IdentifierForm(props: Props) {
         }
     }, []);
 
-    const { id, kind, onClose, pattern, setBusy, setIdentifierKind } = props;
+    const { id, onClose, setBusy, onSubmit, onError } = props;
 
     return (
         <form
@@ -54,7 +85,10 @@ function IdentifierForm(props: Props) {
             onSubmit={async e => {
                 e.preventDefault();
                 setBusy(true);
-                if (!(await fetchData(value, props))) {
+                try {
+                    onSubmit(await fetchData(kind, value));
+                } catch (err) {
+                    onError(err.message);
                     onClose();
                 }
             }}
@@ -80,7 +114,7 @@ function IdentifierForm(props: Props) {
                 // TODO: consider using `FormTokenField` here
                 ref={inputRef}
                 required
-                pattern={pattern}
+                pattern={PATTERNS[kind]}
                 type="text"
                 value={value}
                 onChange={e => setValue(e.currentTarget.value)}
@@ -88,61 +122,3 @@ function IdentifierForm(props: Props) {
         </form>
     );
 }
-
-async function fetchData(
-    value: string,
-    { kind, onError, onSubmit }: Props,
-): Promise<boolean> {
-    let response: CSL.Data | ResponseError;
-    switch (kind) {
-        case IdentifierKind.DOI:
-            response = await doi.get(value);
-            break;
-        case IdentifierKind.PMCID:
-            response = await pubmed.get(value, 'pmc');
-            break;
-        case IdentifierKind.PMID:
-            response = await pubmed.get(value, 'pubmed');
-            break;
-        default:
-            onError(
-                sprintf(
-                    __(
-                        'Invalid indentifier type: %s',
-                        'academic-bloggers-toolkit',
-                    ),
-                    value,
-                ),
-            );
-            return false;
-    }
-    if (response instanceof ResponseError) {
-        onError(
-            sprintf(
-                __(
-                    'Unable to retrieve data for identifier: %s',
-                    'academic-bloggers-toolkit',
-                ),
-                response.resource,
-            ),
-        );
-        return false;
-    }
-    onSubmit(response);
-    return true;
-}
-
-export default compose(
-    withDispatch<DispatchProps, OwnProps>(dispatch => ({
-        setIdentifierKind(kind: IdentifierKind) {
-            dispatch('abt/ui').setIdentifierKind(kind);
-        },
-    })),
-    withSelect<SelectProps, DispatchProps & OwnProps>(select => {
-        const kind = select('abt/ui').getIdentifierKind();
-        return {
-            kind,
-            pattern: PATTERNS[kind],
-        };
-    }),
-)(IdentifierForm);

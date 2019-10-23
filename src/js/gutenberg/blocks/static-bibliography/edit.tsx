@@ -5,7 +5,7 @@ import {
 } from '@wordpress/block-editor';
 import { BlockEditProps } from '@wordpress/blocks';
 import { PanelBody, Placeholder, Toolbar } from '@wordpress/components';
-import { select as globalSelect, withSelect } from '@wordpress/data';
+import { select as globalSelect, useSelect } from '@wordpress/data';
 import { __ } from '@wordpress/i18n';
 import classNames from 'classnames';
 
@@ -21,19 +21,19 @@ import { Attributes } from './';
 import LiveItem from './live-item';
 import styles from './style.scss';
 
-interface SelectProps {
-    readonly references: readonly CSL.Data[];
-}
+type Props = BlockEditProps<Attributes>;
 
-type OwnProps = BlockEditProps<Attributes>;
-type Props = OwnProps & SelectProps;
-
-function StaticBibEdit(props: Props) {
+export default function StaticBibEdit(props: Props) {
     const {
-        attributes: { orderedList },
-        references,
+        attributes: { orderedList, items },
         setAttributes,
     } = props;
+    const references = useSelect(select => {
+        const existingIds = items.map(item => item.id);
+        return select('abt/data')
+            .getSortedItems()
+            .filter(item => !existingIds.includes(item.id));
+    });
     return (
         <>
             <InspectorControls>
@@ -42,20 +42,22 @@ function StaticBibEdit(props: Props) {
                         'Double click on one or more items in the list below to insert them into the end of the list.',
                         'academic-bloggers-toolkit',
                     )}
-                    <PanelBody
-                        icon={<CountIcon count={references.length} />}
-                        initialOpen={false}
-                        title={__(
-                            'Available References',
-                            'academic-bloggers-toolkit',
-                        )}
-                    >
-                        <SidebarItemList
-                            items={references}
-                            renderItem={item => <ReferenceItem item={item} />}
-                            onItemDoubleClick={async id => addItem(id, props)}
-                        />
-                    </PanelBody>
+                </PanelBody>
+                <PanelBody
+                    icon={<CountIcon count={references.length} />}
+                    initialOpen={false}
+                    title={__(
+                        'Available References',
+                        'academic-bloggers-toolkit',
+                    )}
+                >
+                    <SidebarItemList
+                        items={references}
+                        renderItem={item => <ReferenceItem item={item} />}
+                        onItemDoubleClick={async id =>
+                            addItem(id, references, items, setAttributes)
+                        }
+                    />
                 </PanelBody>
             </InspectorControls>
             <BlockFormatControls>
@@ -174,7 +176,9 @@ function ItemList({
 
 async function addItem(
     id: string,
-    { attributes: { items }, references, setAttributes }: Props,
+    references: CSL.Data[],
+    items: Processor.BibItem[],
+    setAttributes: (attrs: Partial<Attributes>) => void,
 ) {
     const data = references.find(item => item.id === id);
     if (!data) {
@@ -213,14 +217,3 @@ async function addItem(
         });
     }
 }
-
-export default withSelect<SelectProps, OwnProps>(
-    (select, { attributes: { items } }) => {
-        const existingIds = items.map(item => item.id);
-        return {
-            references: select('abt/data')
-                .getSortedItems()
-                .filter(item => !existingIds.includes(item.id)),
-        };
-    },
-)(StaticBibEdit);

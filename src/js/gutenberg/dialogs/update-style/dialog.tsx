@@ -1,6 +1,5 @@
 import { Button } from '@wordpress/components';
-import { compose } from '@wordpress/compose';
-import { withSelect } from '@wordpress/data';
+import { useSelect } from '@wordpress/data';
 import { useState } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
 
@@ -11,17 +10,12 @@ import { Style } from 'stores/data';
 
 import styles from './style.scss';
 
-interface SelectProps {
-    style: Style;
-}
-
-interface OwnProps extends DialogProps {
+interface Props extends DialogProps {
     onSubmit(style: Style): void;
 }
 
-type Props = OwnProps & SelectProps;
-
-function Dialog({ onSubmit, style }: Props) {
+function Dialog({ onSubmit }: Props) {
+    const style = useSelect(select => select('abt/data').getStyle());
     const [value, setValue] = useState(style);
     return (
         <form
@@ -46,9 +40,4 @@ function Dialog({ onSubmit, style }: Props) {
     );
 }
 
-export default compose(
-    asDialog,
-    withSelect<SelectProps, OwnProps>(select => ({
-        style: select('abt/data').getStyle(),
-    })),
-)(Dialog);
+export default asDialog(Dialog);

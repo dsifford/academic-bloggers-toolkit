@@ -5,7 +5,8 @@ import {
     PanelBody,
     PanelRow,
 } from '@wordpress/components';
-import { withDispatch } from '@wordpress/data';
+import { useCallback } from '@wordpress/element';
+import { useDispatch } from '@wordpress/data';
 import { __ } from '@wordpress/i18n';
 
 import RemoveIcon from 'components/icons/remove';
@@ -16,17 +17,9 @@ import { readReferencesFile } from 'utils/file';
 import ToolbarMenu from './toolbar-menu';
 import styles from './toolbar.scss';
 
-interface DispatchProps {
-    addItems(data: CSL.Data[]): void;
-    removeSelectedItems(): void;
-    createErrorNotice(message: string): void;
-}
-
-interface OwnProps {
+interface Props {
     selectedItems: readonly string[];
 }
-
-type Props = DispatchProps & OwnProps;
 
 const { Slot: ToolbarButtonSlot, Fill: ToolbarButtonFill } = createSlotFill(
     'abt-toolbar-buttons',
@@ -38,12 +31,17 @@ export const ToolbarButton = (props: IconButton.Props) => (
     </ToolbarButtonFill>
 );
 
-function Toolbar({
-    addItems,
-    removeSelectedItems,
-    selectedItems,
-    ...props
-}: Props) {
+export default function Toolbar({ selectedItems }: Props) {
+    const { addReferences, removeFootnotes, removeReferences } = useDispatch(
+        'abt/data',
+    );
+    const { clearSelectedItems } = useDispatch('abt/ui');
+    const { createErrorNotice } = useDispatch('core/notices');
+    const removeSelectedItems = useCallback(() => {
+        removeReferences([...selectedItems]);
+        removeFootnotes([...selectedItems]);
+        clearSelectedItems();
+    }, [selectedItems]);
     return (
         <>
             <StyleDialog />
@@ -81,15 +79,16 @@ function Toolbar({
                             }
                             if (files && files[0]) {
                                 try {
-                                    addItems(
+                                    addReferences(
                                         await readReferencesFile(files[0]),
                                     );
                                 } catch {
-                                    props.createErrorNotice(
+                                    createErrorNotice(
                                         __(
                                             'Invalid import file type. File must be a valid BibTeX or RIS file.',
                                             'academic-bloggers-toolkit',
                                         ),
+                                        { type: 'snackbar' },
                                     );
                                 } finally {
                                     inputEl.value = '';
@@ -103,21 +102,3 @@ function Toolbar({
         </>
     );
 }
-
-export default withDispatch<DispatchProps, OwnProps>(
-    (dispatch, { selectedItems }) => ({
-        addItems(data) {
-            dispatch('abt/data').addReferences(data);
-        },
-        createErrorNotice(message) {
-            dispatch('core/notices').createErrorNotice(message, {
-                type: 'snackbar',
-            });
-        },
-        removeSelectedItems() {
-            dispatch('abt/data').removeReferences([...selectedItems]);
-            dispatch('abt/data').removeFootnotes([...selectedItems]);
-            dispatch('abt/ui').clearSelectedItems();
-        },
-    }),
-)(Toolbar);

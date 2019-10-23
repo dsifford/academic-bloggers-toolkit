@@ -1,20 +1,14 @@
-import { withDispatch } from '@wordpress/data';
+import { useDispatch } from '@wordpress/data';
 import { useState } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
 
 import { ToolbarMenuItem } from 'gutenberg/sidebar/toolbar-menu';
-import { Style } from 'stores/data';
 
 import Dialog from './dialog';
 import styles from './style.scss';
 
-interface DispatchProps {
-    setStyle(style: Style): void;
-}
-
-type Props = DispatchProps;
-
-function StyleDialog({ setStyle }: Props) {
+export default function StyleDialog() {
+    const { setStyle } = useDispatch('abt/data');
     const [isOpen, setIsOpen] = useState(false);
     return (
         <>
@@ -37,9 +31,3 @@ function StyleDialog({ setStyle }: Props) {
         </>
     );
 }
-
-export default withDispatch<DispatchProps>(dispatch => ({
-    setStyle(style) {
-        dispatch('abt/data').setStyle(style);
-    },
-}))(StyleDialog);

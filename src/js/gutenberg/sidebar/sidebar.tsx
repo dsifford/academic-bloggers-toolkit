@@ -1,7 +1,6 @@
 import { RichText } from '@wordpress/block-editor';
 import { PanelBody } from '@wordpress/components';
-import { compose } from '@wordpress/compose';
-import { withDispatch, withSelect } from '@wordpress/data';
+import { useDispatch, useSelect } from '@wordpress/data';
 import { PluginSidebar, PluginSidebarMoreMenuItem } from '@wordpress/edit-post';
 import { useEffect, useState } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
@@ -14,37 +13,40 @@ import usePrevious from 'hooks/use-previous';
 
 import SidebarToolbar from './toolbar';
 
-interface Footnote {
-    id: string;
-    content: string;
-}
+export default function Sidebar() {
+    const { parseCitations, parseFootnotes, updateReference } = useDispatch(
+        'abt/data',
+    );
+    const { toggleItemSelected } = useDispatch('abt/ui');
 
-interface DispatchProps {
-    parseEditorItems(): void;
-    toggleItemSelected(id: string): void;
-    updateReference(data: CSL.Data): void;
-}
+    const {
+        citedItems,
+        footnotes,
+        isTyping,
+        selectedItems,
+        uncitedItems,
+    } = useSelect(select => {
+        const { getCitedItems, getFootnotes, getSortedItems } = select(
+            'abt/data',
+        );
+        const {
+            getSelectedItems,
+            getSidebarSortMode,
+            getSidebarSortOrder,
+        } = select('abt/ui');
+        return {
+            citedItems: getCitedItems(),
+            footnotes: getFootnotes(),
+            isTyping: select('core/block-editor').isTyping(),
+            selectedItems: getSelectedItems(),
+            uncitedItems: getSortedItems(
+                getSidebarSortMode(),
+                getSidebarSortOrder(),
+                'uncited',
+            ),
+        };
+    });
 
-interface SelectProps {
-    citedItems: readonly CSL.Data[];
-    footnotes: readonly Footnote[];
-    isTyping: boolean;
-    selectedItems: readonly string[];
-    uncitedItems: readonly CSL.Data[];
-}
-
-type Props = DispatchProps & SelectProps;
-
-function Sidebar({
-    citedItems,
-    footnotes,
-    isTyping,
-    parseEditorItems,
-    selectedItems,
-    toggleItemSelected,
-    uncitedItems,
-    updateReference,
-}: Props) {
     const [editReferenceId, setEditReferenceId] = useState('');
     const [needsUpdate, setNeedsUpdate] = useState(false);
 
@@ -63,6 +65,11 @@ function Sidebar({
         }
     });
 
+    const parseEditorItems = () => {
+        parseCitations();
+        parseFootnotes();
+    };
+
     return (
         <>
             <EditReferenceDialog
@@ -70,7 +77,7 @@ function Sidebar({
                 itemId={editReferenceId}
                 title={__('Edit reference', 'academic-bloggers-toolkit')}
                 onClose={() => setEditReferenceId('')}
-                onSubmit={data => {
+                onSubmit={(data: CSL.Data) => {
                     updateReference(data);
                     setEditReferenceId('');
                 }}
@@ -139,39 +146,3 @@ function Sidebar({
         </>
     );
 }
-
-export default compose(
-    withSelect<SelectProps>(select => {
-        const { getCitedItems, getFootnotes, getSortedItems } = select(
-            'abt/data',
-        );
-        const {
-            getSelectedItems,
-            getSidebarSortMode,
-            getSidebarSortOrder,
-        } = select('abt/ui');
-        return {
-            citedItems: getCitedItems(),
-            footnotes: getFootnotes(),
-            isTyping: select('core/block-editor').isTyping(),
-            selectedItems: getSelectedItems(),
-            uncitedItems: getSortedItems(
-                getSidebarSortMode(),
-                getSidebarSortOrder(),
-                'uncited',
-            ),
-        };
-    }),
-    withDispatch<DispatchProps, SelectProps>(dispatch => ({
-        parseEditorItems() {
-            dispatch('abt/data').parseCitations();
-            dispatch('abt/data').parseFootnotes();
-        },
-        toggleItemSelected(id) {
-            dispatch('abt/ui').toggleItemSelected(id);
-        },
-        updateReference(data) {
-            dispatch('abt/data').updateReference(data);
-        },
-    })),
-)(Sidebar);
