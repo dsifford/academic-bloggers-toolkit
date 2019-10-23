@@ -110,10 +110,9 @@ export default withDispatch<DispatchProps, OwnProps>(
             dispatch('abt/data').addReferences(data);
         },
         createErrorNotice(message) {
-            // FIXME: fix when https://github.com/DefinitelyTyped/DefinitelyTyped/pull/38970 merges
             dispatch('core/notices').createErrorNotice(message, {
                 type: 'snackbar',
-            } as any);
+            });
         },
         removeSelectedItems() {
             dispatch('abt/data').removeReferences([...selectedItems]);
