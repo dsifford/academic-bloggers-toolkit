@@ -1,99 +1,107 @@
 # CHANGELOG
 
+## 5.2.2
+
+### Patches
+
+-   Bump minimum required WordPress version to 5.3.
+
+**Note:** If you updated to 5.2.1 already yesterday and are affected by the bug introduced, either install the `gutenberg` plugin temporarily until WordPress 5.3 is released, **OR** roll back to version 5.2.0.
+
 ## 5.2.1
 
 ### Patches
 
-- Fix rendering of sidebar content for static bibliography block.
-- Misc performance improvements.
+-   Fix rendering of sidebar content for static bibliography block.
+-   Misc performance improvements.
 
 ## 5.2.0
 
 ### Minor
 
-- Use "snackbar" alerts for error messages.
+-   Use "snackbar" alerts for error messages.
 
-### Patches 
+### Patches
 
-- Fix critical breaking API change in gutenberg API that caused the post editor to crash.
-- Fix broken css for togglable bibliography headings.
+-   Fix critical breaking API change in gutenberg API that caused the post editor to crash.
+-   Fix broken css for togglable bibliography headings.
 
 ### Styles Added
 
-- Acta Botanica Croatica
-- Acta Chiropterologica
-- Acta Ichthyologica et Piscatoria
-- Acta Physiologica
-- Acta Zoologica Academiae Scientiarum Hungaricae
-- African Journal of Marine Science
-- Aging and Disease
-- Arctic
-- Asian Journal of Social Psychology
-- Australian Archaeology
-- Austrian Journal of Development Studies (Journal für Entwicklungspolitik)
-- British Journal of Clinical Pharmacology
-- Buletin Agrohorti
-- Bulletin of Geosciences
-- Bursa Uludag Üniversitesi Fen Bilimleri Enstitüsü
-- Chicago Manual of Style 17th edition (author-date), French
-- Clinical Journal of the American Society of Nephrology
-- E3S Web of Conferences
-- Ergo
-- European Journal of Taxonomy
-- First Break
-- Helvetica Chimica Acta
-- Hochschule Hannover - Soziale Arbeit (German)
-- HPB
-- Industrial Relations
-- International Journal of Electrochemical Science
-- International Journal of Polymer Analysis and Characterization
-- International Journal of Research in Exercise Physiology
-- Italus Hortus
-- IUBMB Life
-- Journal of AOAC International
-- Journal of Biosciences
-- Journal of Pediatric Gastroenterology and Nutrition
-- Journal of the American Animal Hospital Association
-- Journal of the European Academy of Dermatology and Venereology
-- Journal of the Royal Statistical Society
-- Journal of Threatened Taxa
-- Knee Surgery & Related Research
-- Knowledge & Management of Aquatic Ecosystems
-- Lien social et Politiques (French)
-- Marine Mammal Science
-- National Institute of Organisation Dynamics Australia - Harvard
-- National Institute of Technology, Tiruchirappalli
-- Nations and Nationalism
-- One Earth
-- Organon
-- Pediatric Diabetes
-- Pediatric Pulmonology
-- Photosynthetica
-- Phytotaxa
-- Plant Genetic Resources - Characterization and Utilization
-- Préhistoires méditerranéennes
-- Research Institute for Nature and Forest (Instituut voor Natuur- en Bosonderzoek)
-- REVER - Revista de Estudos da Religião
-- Review of Political Economy
-- Revue d'histoire des sciences humaines (French)
-- Revue française d'administration publique (French)
-- Royal College of Nursing - Harvard
-- Science China Chemistry
-- Seed Science and Technology
-- Southeastern Geographer
-- Soziologiemagazin (German)
-- Springer - IMIS Series Migrationsgesellschaften
-- TATuP - Zeitschrift für Technikfolgenabschätzung in Theorie und Praxis
-- Taylor & Francis - American Chemical Society
-- The Cancer Journal
-- The Journal of Nutrition, Health & Aging
-- Theranostics
-- Trends in Glycoscience and Glycotechnology
-- Universidad de León (España) - Harvard
-- University of Aleppo - Faculty of Medicine
-- University of Tasmania - Harvard
-- Yozgat Bozok Üniversitesi - Fen Bilimleri Enstitüsü (Turkish)
-- ZDfm – Zeitschrift für Diversitätsforschung und -management (German - Austria)
+-   Acta Botanica Croatica
+-   Acta Chiropterologica
+-   Acta Ichthyologica et Piscatoria
+-   Acta Physiologica
+-   Acta Zoologica Academiae Scientiarum Hungaricae
+-   African Journal of Marine Science
+-   Aging and Disease
+-   Arctic
+-   Asian Journal of Social Psychology
+-   Australian Archaeology
+-   Austrian Journal of Development Studies (Journal für Entwicklungspolitik)
+-   British Journal of Clinical Pharmacology
+-   Buletin Agrohorti
+-   Bulletin of Geosciences
+-   Bursa Uludag Üniversitesi Fen Bilimleri Enstitüsü
+-   Chicago Manual of Style 17th edition (author-date), French
+-   Clinical Journal of the American Society of Nephrology
+-   E3S Web of Conferences
+-   Ergo
+-   European Journal of Taxonomy
+-   First Break
+-   Helvetica Chimica Acta
+-   Hochschule Hannover - Soziale Arbeit (German)
+-   HPB
+-   Industrial Relations
+-   International Journal of Electrochemical Science
+-   International Journal of Polymer Analysis and Characterization
+-   International Journal of Research in Exercise Physiology
+-   Italus Hortus
+-   IUBMB Life
+-   Journal of AOAC International
+-   Journal of Biosciences
+-   Journal of Pediatric Gastroenterology and Nutrition
+-   Journal of the American Animal Hospital Association
+-   Journal of the European Academy of Dermatology and Venereology
+-   Journal of the Royal Statistical Society
+-   Journal of Threatened Taxa
+-   Knee Surgery & Related Research
+-   Knowledge & Management of Aquatic Ecosystems
+-   Lien social et Politiques (French)
+-   Marine Mammal Science
+-   National Institute of Organisation Dynamics Australia - Harvard
+-   National Institute of Technology, Tiruchirappalli
+-   Nations and Nationalism
+-   One Earth
+-   Organon
+-   Pediatric Diabetes
+-   Pediatric Pulmonology
+-   Photosynthetica
+-   Phytotaxa
+-   Plant Genetic Resources - Characterization and Utilization
+-   Préhistoires méditerranéennes
+-   Research Institute for Nature and Forest (Instituut voor Natuur- en Bosonderzoek)
+-   REVER - Revista de Estudos da Religião
+-   Review of Political Economy
+-   Revue d'histoire des sciences humaines (French)
+-   Revue française d'administration publique (French)
+-   Royal College of Nursing - Harvard
+-   Science China Chemistry
+-   Seed Science and Technology
+-   Southeastern Geographer
+-   Soziologiemagazin (German)
+-   Springer - IMIS Series Migrationsgesellschaften
+-   TATuP - Zeitschrift für Technikfolgenabschätzung in Theorie und Praxis
+-   Taylor & Francis - American Chemical Society
+-   The Cancer Journal
+-   The Journal of Nutrition, Health & Aging
+-   Theranostics
+-   Trends in Glycoscience and Glycotechnology
+-   Universidad de León (España) - Harvard
+-   University of Aleppo - Faculty of Medicine
+-   University of Tasmania - Harvard
+-   Yozgat Bozok Üniversitesi - Fen Bilimleri Enstitüsü (Turkish)
+-   ZDfm – Zeitschrift für Diversitätsforschung und -management (German - Austria)
 
 ## 5.1.0
 
