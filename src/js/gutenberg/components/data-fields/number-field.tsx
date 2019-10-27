@@ -25,7 +25,7 @@ export default function NumberField({
                         autoComplete="off"
                         data-lpignore="true"
                         type="number"
-                        value={data[key]}
+                        value={data[key] || ''}
                         onChange={e =>
                             update(key, parseFloat(e.currentTarget.value))
                         }

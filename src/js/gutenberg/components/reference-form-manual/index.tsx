@@ -112,6 +112,7 @@ function ReferenceFormManual(props: Props) {
                     <label className={styles.field}>
                         {__('Citation type', 'academic-bloggers-toolkit')}
                         <select
+                            style={{ maxWidth: 'initial' }}
                             value={data.type}
                             onChange={e =>
                                 setData({

@@ -25,7 +25,7 @@ export default function StringField({
                         autoComplete="off"
                         data-lpignore="true"
                         type="text"
-                        value={data[key]}
+                        value={data[key] || ''}
                         onChange={e => update(key, e.currentTarget.value)}
                     />
                 </label>
