@@ -58,7 +58,7 @@ add_action( 'wp_head', __NAMESPACE__ . '\inject_author_meta' );
  * @param WP_Post $post The post.
  */
 function collect_bibliography( WP_Post $post ) {
-	if ( is_singular() && has_block( 'abt/bibliography', $post ) ) {
+	if ( is_singular() && has_block( 'abt/bibliography', $post ) && in_the_loop() ) {
 		$blocks    = parse_blocks( $post->post_content );
 		$bib_index = array_search( 'abt/bibliography', array_column( $blocks, 'blockName' ), true );
 		if ( is_int( $bib_index ) ) {
