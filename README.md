@@ -1,3 +1,6 @@
+> # Call for maintainers
+> I personally have not needed to use this plugin for a couple of years and am too busy to devote time to maintain it on my own. If you are interested in becoming a maintainer, please reach out via a new Github issue. Thank you!
+
 ![ABT Banner](http://i.imgur.com/UxBG7NB.png)
 [![Donate](https://img.shields.io/badge/%E2%9D%A4-donate-brightgreen.svg)](https://donorbox.org/academic-bloggers-toolkit)
 [![Maintainability](https://api.codeclimate.com/v1/badges/76a0035688f8197c0f9a/maintainability)](https://codeclimate.com/github/dsifford/academic-bloggers-toolkit/maintainability)
